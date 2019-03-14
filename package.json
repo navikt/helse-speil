@@ -1,0 +1,47 @@
+{
+   "name": "helse-speil",
+   "version": "1.0.0",
+   "main": "src/index.js",
+   "author": "Jan-Kåre Solbakken <jan-kare.solbakken@nav.no>",
+   "license": "MIT",
+   "scripts": {
+      "test:eslint": "eslint src/ --ext .js --ext .jsx",
+      "pretest": "npm run test:eslint",
+      "start": "NODE_ENV=development parcel src/index.html --open",
+      "build": "NODE_ENV=production parcel build src/index.html --public-url ./ --no-source-maps",
+      "clean": "rimraf dist"
+   },
+   "devDependencies": {
+      "autoprefixer": "^9.4.10",
+      "babel-eslint": "^10.0.1",
+      "babel-plugin-transform-class-properties": "^6.24.1",
+      "babel-plugin-transform-object-rest-spread": "^6.26.0",
+      "babel-preset-env": "^1.7.0",
+      "babel-preset-react": "^6.24.1",
+      "eslint": "^5.15.1",
+      "eslint-config-standard-jsx": "^6.0.2",
+      "eslint-plugin-react": "^7.12.4",
+      "node-sass": "^4.11.0",
+      "parcel-bundler": "^1.12.2",
+      "react-hot-loader": "^4.8.0",
+      "rimraf": "^2.6.3"
+   },
+   "postcss": {
+      "modules": false,
+      "plugins": {
+         "autoprefixer": {
+            "browsers": [
+               ">1%",
+               "last 4 versions",
+               "Firefox ESR",
+               "not ie < 9"
+            ],
+            "flexbox": "no-2009"
+         }
+      }
+   },
+   "dependencies": {
+      "react": "^16.0.0",
+      "react-dom": "^16.8.4"
+   }
+}
