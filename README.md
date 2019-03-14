@@ -1,5 +1,7 @@
 ## Speil
 
+[![Build Status](https://travis-ci.com/navikt/helse-speil.svg?branch=master)](https://travis-ci.com/navikt/helse-speil)
+
 Verktøy for innsyn i behandling av sykepenger. Utvikler seg kanskje til et nytt "ordentlig" saksbehandlerverktøy.
 
 ## Henvendelser
