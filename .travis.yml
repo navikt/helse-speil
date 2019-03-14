@@ -17,7 +17,7 @@ before_script:
 - npm test
 script:
 - npm run build
-- docker build . -t navikt/$DOCKER_IMG_NAME:$COMMIT_SHORT
+- docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 env:
   global:
   - APP_NAME=speil
