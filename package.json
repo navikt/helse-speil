@@ -6,7 +6,7 @@
    "repository": {
       "type": "git",
       "url": "https://github.com/navikt/helse-speil.git"
-    },
+   },
    "license": "MIT",
    "scripts": {
       "test:eslint": "eslint src/ --ext .js --ext .jsx",
@@ -16,13 +16,19 @@
       "build": "NODE_ENV=production parcel build src/index.html --public-url ./ --no-source-maps",
       "clean:dist": "rimraf dist"
    },
+   "dependencies": {
+      "prop-types": "^15.7.2",
+      "react": "^16.0.0",
+      "react-dom": "^16.8.4"
+   },
    "devDependencies": {
+      "@babel/core": "^7.3.4",
+      "@babel/plugin-proposal-class-properties": "^7.3.4",
+      "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+      "@babel/preset-env": "^7.3.4",
+      "@babel/preset-react": "^7.0.0",
       "autoprefixer": "^9.4.10",
       "babel-eslint": "^10.0.1",
-      "babel-plugin-transform-class-properties": "^6.24.1",
-      "babel-plugin-transform-object-rest-spread": "^6.26.0",
-      "babel-preset-env": "^1.7.0",
-      "babel-preset-react": "^6.24.1",
       "eslint": "^5.15.1",
       "eslint-config-standard-jsx": "^6.0.2",
       "eslint-plugin-react": "^7.12.4",
@@ -45,10 +51,5 @@
             "flexbox": "no-2009"
          }
       }
-   },
-   "dependencies": {
-      "prop-types": "^15.7.2",
-      "react": "^16.0.0",
-      "react-dom": "^16.8.4"
    }
 }
