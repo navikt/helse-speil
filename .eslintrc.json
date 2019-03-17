@@ -31,6 +31,9 @@
       "react/no-unused-prop-types": "error",
       "react/prop-types": "error",
       "react/react-in-jsx-scope": "error",
-      "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
+      "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+      "indent": "off",
+      "react/jsx-indent": "off",
+      "react/jsx-indent-props": "off"
    }
 }
