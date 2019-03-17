@@ -3,6 +3,10 @@
    "version": "1.0.0",
    "main": "src/index.js",
    "author": "Jan-Kåre Solbakken <jan-kare.solbakken@nav.no>",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/navikt/helse-speil.git"
+    },
    "license": "MIT",
    "scripts": {
       "test:eslint": "eslint src/ --ext .js --ext .jsx",
