@@ -38,7 +38,7 @@ export default class HeaderBar extends React.Component {
                <div className='imgitem'>
                   <img src={navAnsattSrc} className='header_img' />
                </div>
-               <div className='brukernavn'>
+               <div id='bruker' className='brukernavn'>
                   {this.props.displayname}
                </div>
             </div>
