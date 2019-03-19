@@ -3,7 +3,7 @@ import { render, fireEvent, cleanup, waitForElement } from "react-testing-librar
 import HeaderBar from "../src/components/HeaderBar/HeaderBar"
 import 'jest-dom/extend-expect'
 
-afterEach(cleanup);
+afterEach(cleanup)
 
 test("Default value is used for rukernavn if none provided", async () => {
    const { getByText, getByTestId, container, asFragment } = render(<HeaderBar />)

@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 import PropTypes from 'prop-types'
-import './HeaderBar.css';
-import navLogoSrc from './img/navlogo.svg';
-import rettskildeneSrc from './img/rettskildene.svg';
-import systemrutineSrc from './img/systemrutine.svg';
-import navAnsattSrc from './img/navansatt.svg';
+import './HeaderBar.css'
+import navLogoSrc from './img/navlogo.svg'
+import rettskildeneSrc from './img/rettskildene.svg'
+import systemrutineSrc from './img/systemrutine.svg'
+import navAnsattSrc from './img/navansatt.svg'
 
 export default class HeaderBar extends React.Component {
 
@@ -43,7 +43,7 @@ export default class HeaderBar extends React.Component {
                </div>
             </div>
          </header>
-      );
+      )
    }
 }
 

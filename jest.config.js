@@ -11,4 +11,4 @@ module.exports = {
       "\\.(gif|ttf|eot|svg)$": "<rootDir>/__mocks__/fileMock.js"
    },
    transformIgnorePatterns: ["<rootDir>/node_modules/"]
-};
+}

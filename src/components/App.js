@@ -1,6 +1,6 @@
-import React from 'react';
-import './App.css';
-import HeaderBar from './HeaderBar/HeaderBar';
+import React from 'react'
+import './App.css'
+import HeaderBar from './HeaderBar/HeaderBar'
 
 export default class App extends React.Component {
    render() {
@@ -9,6 +9,6 @@ export default class App extends React.Component {
             <HeaderBar displayname='S. Aksbehandler' />
             <div className='main'>main content</div>
          </div>
-      );
+      )
    }
 }
