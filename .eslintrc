@@ -34,6 +34,7 @@
       "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
       "indent": "off",
       "react/jsx-indent": "off",
-      "react/jsx-indent-props": "off"
+      "react/jsx-indent-props": "off",
+      "semi": [2, "never"]
    }
 }
