@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import HeaderBar from './HeaderBar/HeaderBar'
-import Applicant from './Applicant/Appplicant'
+import Applicant from './Applicant/Applicant'
 
 export default class App extends React.Component {
    render() {

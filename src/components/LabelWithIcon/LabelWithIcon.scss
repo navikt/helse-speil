@@ -1,0 +1,16 @@
+.labelWithIcon {
+   display: flex;
+   font-size: 1rem;
+
+   &__label {
+      position: relative;
+      top: 2px;
+   }
+
+   &__icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      fill: #fff;
+   }
+}

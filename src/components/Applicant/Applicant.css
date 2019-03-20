@@ -14,29 +14,8 @@
    display: flex;
 }
 
-.labelWithIcon {
-   display: flex;
-   font-size: 1rem;
-   position: relative;
-   top: 2px;
-}
-
-.label {
-   position: relative;
-   top: 2px;
-}
-
 .labels {
    display: flex;
    flex-direction: column;
    justify-content: left;
 }
-
-[class^="icon"] {
-   width: 20px;
-   height: 20px;
-   margin-right: 10px;
-   fill: #fff;
-   display: flex;
-   vertical-align: middle;
- }
