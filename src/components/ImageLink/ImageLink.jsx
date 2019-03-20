@@ -1,0 +1,19 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import './ImageLink.scss';
+
+const ImageLink = ({ href, ariaLabel, imgSrc }) => (
+   <div className="imageLink">
+      <a href={href} ariaLabel={ariaLabel}>
+         <img className="imageLink__image" src={imgSrc} />
+      </a>
+   </div>
+);
+
+ImageLink.propTypes = {
+   ariaLabel: PropTypes.string.isRequired,
+   imgSrc: PropTypes.string.isRequired,
+   href: PropTypes.string
+};
+
+export default ImageLink;

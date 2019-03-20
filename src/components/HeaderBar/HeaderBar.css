@@ -8,18 +8,8 @@
    justify-content: space-between;
 }
 
-.imgitem {
-   padding-left: 15px;
-   padding-right: 15px;
-}
-
 .item {
    padding-left: 20px;
-}
-
-.header_img {
-   height: 30px;
-   width: 45px;
 }
 
 .header_divider {
