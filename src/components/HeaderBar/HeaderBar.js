@@ -5,17 +5,14 @@ import rettskildeneSrc from './img/rettskildene.svg';
 import systemrutineSrc from './img/systemrutine.svg';
 import navAnsattSrc from './img/navansatt.svg';
 import './HeaderBar.css';
+import ImageLink from '../ImageLink/ImageLink';
 
 export default class HeaderBar extends React.Component {
    render() {
       return (
          <header className="topbar">
             <div className="leftElements">
-               <div className="imgitem">
-                  <a href="/">
-                     <img src={navLogoSrc} className="header_img" />
-                  </a>
-               </div>
+               <ImageLink ariaLabel="Test Img" imgSrc={navLogoSrc} href="/" />
                <div className="header_divider" />
                <div className="header_title item">
                   <h2>Sykepenger</h2>
@@ -23,20 +20,22 @@ export default class HeaderBar extends React.Component {
             </div>
 
             <div className="rightElements">
-               <div className="imgitem">
-                  <a href="https://www.nav.no">
-                     <img src={systemrutineSrc} className="header_img" />
-                  </a>
-               </div>
-               <div className="imgitem">
-                  <a href="https://www.nav.no">
-                     <img src={rettskildeneSrc} className="header_img" />
-                  </a>
-               </div>
+               <ImageLink
+                  ariaLabel="Systemrutine"
+                  imgSrc={systemrutineSrc}
+                  href="https://www.nav.no"
+               />
+               <ImageLink
+                  ariaLabel="Rettskildene"
+                  imgSrc={rettskildeneSrc}
+                  href="https://www.nav.no"
+               />
                <div className="header_divider" />
-               <div className="imgitem">
-                  <img src={navAnsattSrc} className="header_img" />
-               </div>
+               <ImageLink
+                  ariaLabel="Saksbehandler"
+                  imgSrc={navAnsattSrc}
+                  href="https://www.nav.no"
+               />
                <div id="bruker" className="brukernavn">
                   {this.props.displayname}
                </div>

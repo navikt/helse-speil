@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./LabelWithIcon.scss";
+import React from 'react';
+import PropTypes from 'prop-types';
+import './LabelWithIcon.scss';
 
 const LabelWithIcon = ({ label, iconSrc }) => (
    <div className="labelWithIcon">
