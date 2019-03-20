@@ -15,7 +15,7 @@
 
    "plugins": ["react"],
 
-   "extends": ["standard-jsx"],
+   "extends": ["prettier"],
 
    "rules": {
       "react/jsx-no-bind": [
