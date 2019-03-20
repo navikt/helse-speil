@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import "./HeaderBar.css";
-import navLogoSrc from "./img/navlogo.svg";
-import rettskildeneSrc from "./img/rettskildene.svg";
-import systemrutineSrc from "./img/systemrutine.svg";
-import navAnsattSrc from "./img/navansatt.svg";
+import React from 'react';
+import PropTypes from 'prop-types';
+import navLogoSrc from './img/navlogo.svg';
+import rettskildeneSrc from './img/rettskildene.svg';
+import systemrutineSrc from './img/systemrutine.svg';
+import navAnsattSrc from './img/navansatt.svg';
+import './HeaderBar.css';
 
 export default class HeaderBar extends React.Component {
    render() {
@@ -51,5 +51,5 @@ HeaderBar.propTypes = {
 };
 
 HeaderBar.defaultProps = {
-   displayname: "Ukjent Ukjentsen"
+   displayname: 'Ukjent Ukjentsen'
 };

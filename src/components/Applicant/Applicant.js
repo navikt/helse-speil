@@ -1,8 +1,8 @@
-import React from "react";
-import "./Applicant.css";
-import fnr from "./img/id.png";
-import phone from "./img/phone.png";
-import LabelWithIcon from "../LabelWithIcon/LabelWithIcon";
+import React from 'react';
+import fnr from './img/id.png';
+import phone from './img/phone.png';
+import LabelWithIcon from '../LabelWithIcon/LabelWithIcon';
+import './Applicant.css';
 
 export default class Applicant extends React.Component {
    render() {
