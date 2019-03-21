@@ -4,7 +4,7 @@ import './ImageLink.scss';
 
 const ImageLink = ({ href, ariaLabel, imgSrc }) => (
    <div className="imageLink">
-      <a href={href} ariaLabel={ariaLabel}>
+      <a href={href} aria-label={ariaLabel}>
          <img className="imageLink__image" src={imgSrc} />
       </a>
    </div>
