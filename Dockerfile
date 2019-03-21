@@ -1,4 +1,4 @@
 FROM nginx
 COPY dist/* /usr/share/nginx/html/
-COPY nginx/default.conf /etc/nginx/conf.d
+COPY nginx/*.conf /etc/nginx/conf.d/
 
