@@ -1,19 +1,16 @@
 import React from 'react'
 import HeaderBar from './HeaderBar/HeaderBar'
 import Applicant from './Applicant/Applicant'
-import UserContext from '../state/User'
 import './App.css'
 
-export default class App extends React.Component {
-   render() {
-      return (
-         <UserContext.Provider value={{ displayname: 'Ikke pålogget' }}>
-            <div>
-               <HeaderBar />
-               <Applicant />
-               <div className="main">main content</div>
-            </div>
-         </UserContext.Provider>
-      )
-   }
+const App = () =>  {
+   return (
+      <div>
+         <HeaderBar displayname="Ikke pålogget" />
+         <Applicant phone="98765432" fnr="12345678910"/>
+         <div className="main">main content</div>
+      </div>
+   )
 }
+
+export default App

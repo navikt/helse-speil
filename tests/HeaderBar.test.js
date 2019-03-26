@@ -18,9 +18,7 @@ test('Missing brukernavn is accepted', async () => {
 
 test('Provided value from context is used as brukernavn', async () => {
    const { getByText, getByTestId, container, asFragment } = render(
-      <UserContext.Provider value={{ displayname: 'Bruker Brukersen' }}>
-         <HeaderBar />
-      </UserContext.Provider>
+      <HeaderBar displayname="Bruker Brukersen" />
    )
    const brukerTextNode = await waitForElement(() =>
       container.querySelector('#bruker')
