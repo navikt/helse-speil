@@ -1,8 +1,7 @@
 import React from 'react'
 import { render, cleanup, waitForElement } from 'react-testing-library'
-import HeaderBar from '../src/components/HeaderBar/HeaderBar'
+import HeaderBar from '../../src/components/HeaderBar/HeaderBar'
 import 'jest-dom/extend-expect'
-import UserContext from '../src/state/User'
 
 afterEach(cleanup)
 
