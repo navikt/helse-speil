@@ -1,13 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, {useContext} from 'react'
 import navLogoSrc from './img/navlogo.svg'
 import rettskildeneSrc from './img/rettskildene.svg'
 import systemrutineSrc from './img/systemrutine.svg'
 import navAnsattSrc from './img/navansatt.svg'
-import './HeaderBar.css'
 import ImageLink from '../ImageLink/ImageLink'
+import AuthContext from '../../context/AuthContext'
+import './HeaderBar.css'
 
-const HeaderBar = (props) => {
+const HeaderBar = () => {
+   const authCtx = useContext(AuthContext)
+
    return (
       <header className="topbar">
          <div className="leftElements">
@@ -40,15 +42,11 @@ const HeaderBar = (props) => {
                href="https://www.nav.no"
             />
             <div id="bruker" className="brukernavn">
-               {props.displayname}
+               { authCtx.state ? authCtx.state.name : 'Ikke Pålogget' }
             </div>
          </div>
       </header>
    )
 }
-
-HeaderBar.propTypes = {
-   displayname: PropTypes.string
- }
 
 export default HeaderBar
