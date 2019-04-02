@@ -1,0 +1,34 @@
+version: 2
+jobs:
+   build:
+      working_directory: ~/speil
+      docker:
+         - image: circleci/node:11.13
+      steps:
+         - checkout
+         - run:
+              name: update-npm
+              command: 'sudo npm install -g npm@latest'
+         - restore_cache:
+              key: dependency-cache-{{ checksum "package.json" }}
+         - run:
+              name: install-npm-deps
+              command: npm install
+         - save_cache:
+              key: dependency-cache-{{ checksum "package.json" }}
+              paths:
+                 - ./node_modules
+         - run:
+              name: setup env vars
+              command: |
+                 export APP_NAME=speil
+                 export DOCKER_IMG_NAME=navikt/speil
+         - run:
+              name: build and push new version
+              command: |
+                 set -e
+                 if [ ! -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
+                   npm install
+                   npm run build
+                   docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
+                 fi
