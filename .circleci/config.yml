@@ -27,7 +27,8 @@ jobs:
                  export PATH=`pwd`/github-apps-support/bin:$PATH
                  echo $HELSECI_KEY > ./helseci.key
                  export GITHUB_APP_ID=19726
-                 export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./helseci.key $GITHUB_APP_ID`) >> $BASH_ENV
+                 export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./helseci.key $GITHUB_APP_ID`)
+                 echo "export GH_TOKEN=$GH_TOKEN" >> $BASH_ENV
                  echo -e "machine github.com\n  login $GH_TOKEN" > ~/.netrc
                  rm ./helseci.key
          - run:
