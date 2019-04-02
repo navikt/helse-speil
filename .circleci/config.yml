@@ -19,20 +19,13 @@ jobs:
               paths:
                  - ./node_modules
          - run:
-              name: setup environment
-              command: |
-                 export APP_NAME=speil
-                 export GITHUB_APP_ID=19726
-                 export DOCKER_IMG_NAME=navikt/speil
-                 export COMMIT_SHORT=$(git rev-parse --short HEAD)
-                 export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>')
-         - run:
-              name: apps-support
+              name: github creds
               command: |
                  git clone https://github.com/navikt/github-apps-support.git
                  export PATH=`pwd`/github-apps-support/bin:$PATH
                  echo $HELSECI_KEY > ./helseci.key
-                 export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./helseci.key $GITHUB_APP_ID`)
+                 export GITHUB_APP_ID=19726
+                 export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./helseci.key $GITHUB_APP_ID`) >> $BASH_ENV
                  echo -e "machine github.com\n  login $GH_TOKEN" > ~/.netrc
                  rm ./helseci.key
          - run:
@@ -40,7 +33,10 @@ jobs:
               command: |
                  set -e
                  if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
-                   npm install
+                   export DOCKER_IMG_NAME=navikt/speil
+                   export COMMIT_SHORT=$(git rev-parse --short HEAD)
+                   export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>') >> $BASH_ENV
+
                    npm run build
                    docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 
@@ -48,6 +44,7 @@ jobs:
                    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
                    git clone https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git
                    cd helse-iac
+                   export APP_NAME=speil
                    ./set-image.sh preprod/$APP_NAME/naiserator.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
                    git config user.name team-helse[bot]
                    git config user.email team-helse[bot]@users.noreply.github.com
