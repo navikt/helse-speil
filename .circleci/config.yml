@@ -26,13 +26,14 @@ jobs:
                  set -e
                  git clone https://github.com/navikt/github-apps-support.git
                  export PATH=`pwd`/github-apps-support/bin:$PATH
-                 echo $HELSECI_KEY > `pwd`/helseci.key
+                 echo $HELSECI_KEY > helseci.key
                  export GITHUB_APP_ID=19726
-                 export JWT="$(generate-jwt.sh `pwd`/helseci.key $GITHUB_APP_ID)"
-                 export GH_TOKEN="$(generate-installation-token.sh `echo $JWT`)"
+                 $(generate-jwt.sh helseci.key $GITHUB_APP_ID) > jwt.json
+                 export GH_TOKEN="$(generate-installation-token.sh `cat jwt.json`)"
                  echo "export GH_TOKEN=$GH_TOKEN" >> $BASH_ENV
                  echo -e "machine github.com\n  login $GH_TOKEN" > ~/.netrc
-                 rm `pwd`/helseci.key
+                 rm helseci.key
+                 rm jwt.json
          - run:
               name: build and push new version
               command: |
