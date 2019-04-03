@@ -23,11 +23,13 @@ jobs:
          - run:
               name: github creds
               command: |
+                 set -e
                  git clone https://github.com/navikt/github-apps-support.git
                  export PATH=`pwd`/github-apps-support/bin:$PATH
                  echo $HELSECI_KEY > `pwd`/helseci.key
                  export GITHUB_APP_ID=19726
-                 JWT="$(generate-jwt.sh `pwd`/helseci.key $GITHUB_APP_ID)"
+                 export JWT="$(generate-jwt.sh `pwd`/helseci.key $GITHUB_APP_ID)"
+                 echo $JWT | wc -c
                  export GH_TOKEN="$(generate-installation-token.sh $JWT)"
                  echo "export GH_TOKEN=$GH_TOKEN" >> $BASH_ENV
                  echo -e "machine github.com\n  login $GH_TOKEN" > ~/.netrc
@@ -39,7 +41,7 @@ jobs:
                  if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
                    export DOCKER_IMG_NAME=navikt/speil
                    export COMMIT_SHORT=$(git rev-parse --short HEAD)
-                   export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>') >> $BASH_ENV
+                   export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>')
 
                    npm run build
                    docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
