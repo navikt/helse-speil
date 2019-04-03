@@ -29,8 +29,7 @@ jobs:
                  echo $HELSECI_KEY > `pwd`/helseci.key
                  export GITHUB_APP_ID=19726
                  export JWT="$(generate-jwt.sh `pwd`/helseci.key $GITHUB_APP_ID)"
-                 echo $JWT | wc -c
-                 export GH_TOKEN="$(generate-installation-token.sh $JWT)"
+                 export GH_TOKEN="$(generate-installation-token.sh `echo $JWT`)"
                  echo "export GH_TOKEN=$GH_TOKEN" >> $BASH_ENV
                  echo -e "machine github.com\n  login $GH_TOKEN" > ~/.netrc
                  rm `pwd`/helseci.key
