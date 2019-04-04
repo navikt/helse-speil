@@ -32,7 +32,6 @@ jobs:
                  echo "export GH_TOKEN=$GH_TOKEN" >> $BASH_ENV
                  echo -e "machine github.com\n  login $GH_TOKEN" > ~/.netrc
                  rm helseci.key
-                 rm jwt.json
          - run:
               name: build and push new version
               command: |
