@@ -29,8 +29,7 @@ jobs:
                  echo $HELSECI_KEY | tr '_' '\n' > helseci.key
                  export GITHUB_APP_ID=19726
                  export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh helseci.key $GITHUB_APP_ID`)
-                 echo "export GH_TOKEN=$GH_TOKEN" >> $BASH_ENV
-                 echo -e "machine github.com\n  login $GH_TOKEN" > ~/.netrc
+                 echo -e "machine api.github.com login x-access-token password $GH_TOKEN" > ~/.netrc
                  rm helseci.key
          - run:
               name: build and push new version
@@ -39,21 +38,21 @@ jobs:
                  if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
                    export DOCKER_IMG_NAME=navikt/speil
                    export COMMIT_SHORT=$(git rev-parse --short HEAD)
-                   export ORIGINAL_COMMITTER=$(git log -1 --pretty=format:'%an <%ae>')
 
                    npm run build
                    docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 
                    echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
                    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
-                   git clone https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git
-                   cd helse-iac
-                   export APP_NAME=speil
-                   ./set-image.sh preprod/$APP_NAME/naiserator.yaml $DOCKER_IMG_NAME:$COMMIT_SHORT
-                   git config user.name team-helse[bot]
-                   git config user.email team-helse[bot]@users.noreply.github.com
-                   git add preprod/$APP_NAME/naiserator.yaml
-                   git commit -m "Bump $APP_NAME" -m "Caused by $TRAVIS_BUILD_WEB_URL" --author "$ORIGINAL_COMMITTER"
-                   git push https://x-access-token:$GH_TOKEN@github.com/navikt/helse-iac.git master
-                   cd ..
+
+                    PREPROD_NAISERATOR=$(docker run -v ${PWD}:/workdir mikefarah/yq yq r deploy/preprod.yaml -j)
+                    PREPROD_NAISERATOR=$(echo $PREPROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
+                    PREPROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PREPROD_NAISERATOR']')
+                    PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.environment = "dev-fss"')
+                    PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
+                    curl -i -n \
+                         -X POST \
+                         -d "$PREPROD_DEPLOYMENT" \
+                         -H "Accept: application/vnd.github.ant-man-preview+json" \
+                         https://api.github.com/repos/navikt/helse-speil/deployments
                  fi
