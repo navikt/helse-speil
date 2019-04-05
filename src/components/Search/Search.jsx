@@ -25,7 +25,8 @@ const Search = () => {
 }
 
 const keyTyped = (event) => {
-   if (event.charCode === 13) {
+   const isEnter = (event.charCode || event.keyCode) === 13
+   if (isEnter) {
       behandlingerFor(event.target.value)
          .then(response => {
             BehandlingerProvider.value = response

@@ -7,6 +7,7 @@ import 'reset-css'
 import Summary from './Summary/Summary'
 import AuthContext from '../context/AuthContext'
 import ApplicantContext from '../context/ApplicantContext'
+import SingleSelectionList from './SingleSelectionList/SingleSelectionList'
 
 import ResultatOk from '../../tests/testdata/ResultatOk' // MOCK data
 
@@ -27,9 +28,12 @@ const App = () => {
             <HeaderBar />
             <Search />
             <ApplicantContext.Provider value={{state: appliantState, setState: setAppliantState}}>
-               <Applicant />
-               <div className="main">main content</div>
-               <Summary result={ResultatOk} />
+            <Applicant />
+            <SingleSelectionList heading="&#x2696; VILKÅR" 
+               items={["Medlemskap", "Opptjening", "Inntekt", "Søknadsfrist", "Andre ytelser"]} />
+            <SingleSelectionList heading="&#x1f4b0; BEREGNING" 
+               items={["Grunnlag", "Antall dager", "Sykemeldingsgrad"]} />
+            <Summary result={ResultatOk} />
          </ApplicantContext.Provider>
       </AuthContext.Provider>
    )
