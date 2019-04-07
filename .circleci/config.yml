@@ -45,14 +45,17 @@ jobs:
                    echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
                    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
 
-                    PREPROD_NAISERATOR=$(docker run -v ${PWD}:/workdir mikefarah/yq yq r deploy/preprod.yaml -j)
-                    PREPROD_NAISERATOR=$(echo $PREPROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
-                    PREPROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PREPROD_NAISERATOR']')
-                    PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.environment = "dev-fss"')
-                    PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
-                    curl -i -n \
-                         -X POST \
-                         -d "$PREPROD_DEPLOYMENT" \
-                         -H "Accept: application/vnd.github.ant-man-preview+json" \
-                         https://api.github.com/repos/navikt/helse-speil/deployments
+                   docker create -v /nais --name naisyaml alpine:3.4 /bin/true
+                   docker cp deploy/preprod.yaml naisyaml:/nais
+                   
+                   PREPROD_NAISERATOR=$(docker run --volumes-from naisyaml mikefarah/yq yq r /nais/preprod.yaml -j)
+                   PREPROD_NAISERATOR=$(echo $PREPROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
+                   PREPROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PREPROD_NAISERATOR']')
+                   PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.environment = "dev-fss"')
+                   PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
+                   curl -i -n \
+                        -X POST \
+                        -d "$PREPROD_DEPLOYMENT" \
+                        -H "Accept: application/vnd.github.ant-man-preview+json" \
+                        https://api.github.com/repos/navikt/helse-speil/deployments
                  fi
