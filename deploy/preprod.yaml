@@ -8,7 +8,7 @@ metadata:
 spec:
   image: navikt/speil:5e89f02
   port: 80
-  team: teamhelse
+  team: tbd
   liveness:
     path: isAlive
     initialDelay: 20
