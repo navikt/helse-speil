@@ -4,7 +4,7 @@ metadata:
   name: speil
   namespace: default
   labels:
-    team: teamhelse
+    team: tbd
 spec:
   image: navikt/speil:5e89f02
   port: 80
