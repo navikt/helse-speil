@@ -34,4 +34,9 @@ spec:
     cpuThresholdPercentage: 90
   prometheus:
     enabled: false
-  secrets: false
+  secrets: true
+  env:
+    - name: REDIRECT_URL
+      value: https://speil.nais.preprod.local/callback
+    - name: API_BASE_URL
+      value: https://spade.nais.preprod.local
