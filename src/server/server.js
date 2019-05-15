@@ -76,8 +76,8 @@ app.use((_, res, next) => {
    res.header('X-Xss-Protection', '1; mode=block')
    res.header('X-Content-Type-Options', 'nosniff')
    res.header('Referrer-Policy', 'no-referrer')
-   res.header('Feature-Policy', 'geolocation "none"; microphone "none"; camera "none"')
-   res.header('Content-Security-Policy', 'default-src "none"; script-src "self"; style-src *; img-src "self"; font-src "none"; connect-src "self" https://*.nav.no; media-src "self"; object-src "none"; child-src "none"; frame-src "none"; worker-src "self"; frame-ancestors "none"; form-action "self"; reflected-xss block; base-uri "self"; referrer no-referrer')
+   res.header('Feature-Policy', 'geolocation \'none\'; microphone \'none\'; camera \'none\'')
+   res.header('Content-Security-Policy', 'default-src \'self\' *.adeo.no *.preprod.local')
    next()
 })
 
