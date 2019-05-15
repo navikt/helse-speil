@@ -116,7 +116,8 @@ app.get('/me', (req, res) => {
 })
 
  app.get('/error', (req, res) => {
-    console.log(req)
+    console.log(req.params) 
+    console.log(req.body)
     res.clearCookie('speil', { secure: true })
     res.clearCookie('spade', { httpOnly: true, domain: 'spade.nais.adeo.no', secure: true })
     res.send('innlogging mislyktes')
