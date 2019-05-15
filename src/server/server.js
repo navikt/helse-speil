@@ -62,6 +62,7 @@ passport.use(
         if (!profile.oid) {
            return done(new Error("No oid found"), null)
         }
+        console.log(`got user ${profile.oid}`)
         return done(null, profile, params)
       }
    )
@@ -115,6 +116,7 @@ app.get('/me', (req, res) => {
 })
 
  app.get('/error', (req, res) => {
+    console.log(req)
     res.clearCookie('speil', { secure: true })
     res.clearCookie('spade', { httpOnly: true, domain: 'spade.nais.adeo.no', secure: true })
     res.send('innlogging mislyktes')
