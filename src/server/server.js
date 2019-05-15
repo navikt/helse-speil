@@ -55,7 +55,8 @@ passport.use(
          passReqToCallback: config.oidc.passReqToCallback,
          scope: config.oidc.scope,
          useCookieInsteadOfSession: config.oidc.useCookieInsteadOfSession,
-         cookieEncryptionKeys: config.oidc.cookieEncryptionKeys
+         cookieEncryptionKeys: config.oidc.cookieEncryptionKeys,
+         loggingLevel: config.oidc.loggingLevel
       },
       (req, iss, sub, profile, jwtClaims, access_token, refresh_token, params, done) => {
         if (!profile.oid) {
