@@ -77,7 +77,6 @@ app.use((_, res, next) => {
    res.header('X-Content-Type-Options', 'nosniff')
    res.header('Referrer-Policy', 'no-referrer')
    res.header('Feature-Policy', 'geolocation \'none\'; microphone \'none\'; camera \'none\'')
-   res.header('Content-Security-Policy', 'default-src \'self\' *.adeo.no *.preprod.local')
    next()
 })
 
