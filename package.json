@@ -14,7 +14,7 @@
       "pretest": "npm run test:eslint",
       "start": "NODE_ENV=development parcel src/index.html --open",
       "start-express": "node src/server/server.js",
-      "build": "NODE_ENV=production npm run test && npm run clean:dist && parcel build src/index.html --public-url ./ --no-source-maps",
+      "build": "npm run test && npm run clean:dist && parcel build src/index.html --public-url ./ --no-source-maps",
       "clean:dist": "rimraf dist"
    },
    "dependencies": {
@@ -24,6 +24,7 @@
       "@fortawesome/free-solid-svg-icons": "^5.8.1",
       "@fortawesome/react-fontawesome": "^0.1.4",
       "cookie-parser": "^1.4.4",
+      "dotenv": "^8.0.0",
       "express": "^4.16.4",
       "express-session": "^1.16.1",
       "passport": "^0.4.0",

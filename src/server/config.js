@@ -1,20 +1,24 @@
+'use strict'
+
+require('dotenv').config()
+
 exports.oidc = {
-   clientID: process.env.CLIENT_ID,
-   tenantID: process.env.TENANT_ID,
-   clientIDSpade: process.env.CLIENT_ID_SPADE,
+   clientID: process.env.CLIENT_ID || "unknown",
+   tenantID: process.env.TENANT_ID || "unknown",
+   clientIDSpade: process.env.CLIENT_ID_SPADE || "unknown",
    identityMetadata: `https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0/.well-known/openid-configuration`,
    responseType: 'code id_token',
    responseMode: 'form_post',
-   redirectUrl: process.env.REDIRECT_URL,
+   redirectUrl: process.env.REDIRECT_URL || "http://localhost",
    allowHttpForRedirectUrl: true,
-   clientSecret: process.env.CLIENT_SECRET,
+   clientSecret: process.env.CLIENT_SECRET || "unknown",
    validateIssuer: true,
    issuer: `https://sts.windows.net/${process.env.TENANT_ID}/v2.0`,
    passReqToCallback: true,
    useCookieInsteadOfSession: true,
    cookieEncryptionKeys: [
-      { key: `${process.env.KEY_1}`, iv: `${process.env.IV_1}` },
-      { key: `${process.env.KEY_2}`, iv: `${process.env.IV_2}` }
+      { key: `${process.env.KEY_1 || "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}`, iv: `${process.env.IV_1 || "123456789101"}` },
+      { key: `${process.env.KEY_2 || "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"}`, iv: `${process.env.IV_2 || "123456789101"}` }
    ],
    scope: [
       'profile',

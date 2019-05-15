@@ -28,3 +28,4 @@ yarn-error.log*
 .npm/
 *.swo
 .cache/
+.env

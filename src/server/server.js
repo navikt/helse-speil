@@ -1,7 +1,9 @@
+'use strict'
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-var passport = require('passport')
+const passport = require('passport')
 const config = require('./config')
 
 const app = express()
@@ -57,7 +59,7 @@ passport.use(
       },
       (req, iss, sub, profile, jwtClaims, access_token, refresh_token, params, done) => {
         if (!profile.oid) {
-           return done(new Error("No oid found"), null);
+           return done(new Error("No oid found"), null)
         }
         return done(null, profile, params)
       }
@@ -68,15 +70,25 @@ app.use(passport.initialize())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.disable('x-powered-by')
+app.use('/static', express.static('dist'))
+app.use((_, res, next) => {
+   res.header('X-Frame-Options', 'DENY')
+   res.header('X-Xss-Protection', '1; mode=block')
+   res.header('X-Content-Type-Options', 'nosniff')
+   res.header('Referrer-Policy', 'no-referrer')
+   res.header('Feature-Policy', 'geolocation "none"; microphone "none"; camera "none"')
+   res.header('Content-Security-Policy', 'default-src "none"; script-src "self"; style-src *; img-src "self"; font-src "none"; connect-src "self" https://*.nav.no; media-src "self"; object-src "none"; child-src "none"; frame-src "none"; worker-src "self"; frame-ancestors "none"; form-action "self"; reflected-xss block; base-uri "self"; referrer no-referrer')
+   next()
+})
 
 app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
 
 app.get('/login', 
   passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false }),
-  (req, res) => {
-    res.redirect('/');
-});
+  (_, res) => {
+    res.redirect('/')
+})
 
 app.post('/callback',
   passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', "session": false }),
@@ -84,10 +96,10 @@ app.post('/callback',
     res.cookie('speil', `${req.authInfo.id_token}`, { secure: true })
     res.cookie('spade', `${req.authInfo.access_token}`, { httpOnly: true, domain: 'spade.nais.adeo.no', secure: true })
     res.redirect('/')
-  });
+  })
 
 app.get('/logout', (req, res) => {
-   req.session.destroy(err => {
+   req.session.destroy(_ => {
       req.logOut()
       res.redirect(config.destroySessionUrl)
    })
@@ -108,8 +120,8 @@ app.get('/me', (req, res) => {
     res.send('innlogging mislyktes')
  })
 
-app.get('/', (req, res) => {
-   res.send(`jeppsi pepsi`)
+app.get('/', (_, res) => {
+   res.redirect('/static')
 })
 
 app.listen(port, () => console.log(`Speil backend listening on port ${port}!`))
