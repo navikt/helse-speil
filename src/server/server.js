@@ -10,25 +10,13 @@ const app = express()
 const port = config.server.port
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
 
-let users = []
-
 passport.serializeUser((user, done) => {
    done(null, user.oid)
 })
 
 passport.deserializeUser((oid, done) => {
-   findByOid(oid, (err, user) => {
-      done(err, user)
-   })
+   done(null, oid)
 })
-
-const findByOid = (oid, fn) => {
-   const user = users.find(element => {
-      return element.oid === oid
-   })
-
-   return user ? fn(null, user) : fn(null, null)
-}
 
 const displayname = (token) => {
     try {
@@ -62,7 +50,6 @@ passport.use(
         if (!profile.oid) {
            return done(new Error("No oid found"), null)
         }
-        console.log(`got user ${profile.oid}`)
         return done(null, profile, params)
       }
    )
@@ -86,10 +73,8 @@ app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
 
 app.get('/login', 
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false }),
-  (_, res) => {
-    res.redirect('/')
-})
+  passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false })
+)
 
 app.post('/callback',
   passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', "session": false }),
