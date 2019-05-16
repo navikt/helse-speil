@@ -80,7 +80,7 @@ app.post('/callback',
   passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', "session": false }),
   (req, res) => { 
     res.cookie('speil', `${req.authInfo.id_token}`, { secure: true })
-    res.cookie('spade', `${req.authInfo.access_token}`, { httpOnly: true, domain: 'spade.nais.adeo.no', secure: true })
+    res.cookie('spade', `${req.authInfo.access_token}`, { httpOnly: true, domain: '*.nais.adeo.no', secure: true })
     res.redirect('/')
   })
 
@@ -101,10 +101,8 @@ app.get('/me', (req, res) => {
 })
 
  app.get('/error', (req, res) => {
-    console.log(req.params) 
-    console.log(req.body)
     res.clearCookie('speil', { secure: true })
-    res.clearCookie('spade', { httpOnly: true, domain: 'spade.nais.adeo.no', secure: true })
+    res.clearCookie('spade', { httpOnly: true, domain: '*.nais.adeo.no', secure: true })
     res.send('innlogging mislyktes')
  })
 
