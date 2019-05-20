@@ -73,18 +73,16 @@ app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
 
 app.get('/login', 
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false }, (err, user, info) => {
-   console.log(err)
-   console.log(user)
-   console.log(info)
-  })
+  passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false })
 )
 
 app.post('/callback',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', "session": false }),
+  passport.authenticate('azuread-openidconnect', { "session": false }),
   (req, res) => { 
+    console.log('callback')
+    console.log(req.body)
     res.cookie('speil', `${req.authInfo.id_token}`, { secure: true })
-    res.cookie('spade', `${req.authInfo.access_token}`, { httpOnly: true, domain: '*.nais.adeo.no', secure: true })
+    res.cookie('spade', `${req.authInfo.access_token}`, { httpOnly: true, secure: true })
     res.redirect('/')
   })
 
@@ -106,8 +104,7 @@ app.get('/me', (req, res) => {
 
  app.get('/error', (req, res) => {
     res.clearCookie('speil', { secure: true })
-    res.clearCookie('spade', { httpOnly: true, domain: '*.nais.adeo.no', secure: true })
-    console.log(res)
+    res.clearCookie('spade', { httpOnly: true, secure: true })
     res.send('innlogging mislyktes')
  })
 
