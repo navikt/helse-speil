@@ -35,6 +35,7 @@ spec:
   prometheus:
     enabled: false
   secrets: true
+  webproxy: true
   env:
     - name: REDIRECT_URL
       value: https://speil.nais.preprod.local/callback
