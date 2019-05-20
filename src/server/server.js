@@ -73,7 +73,11 @@ app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
 
 app.get('/login', 
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false })
+  passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false }, (err, user, info) => {
+   console.log(err)
+   console.log(user)
+   console.log(info)
+  })
 )
 
 app.post('/callback',
@@ -103,6 +107,7 @@ app.get('/me', (req, res) => {
  app.get('/error', (req, res) => {
     res.clearCookie('speil', { secure: true })
     res.clearCookie('spade', { httpOnly: true, domain: '*.nais.adeo.no', secure: true })
+    console.log(res)
     res.send('innlogging mislyktes')
  })
 
