@@ -47,6 +47,10 @@ passport.use(
          loggingLevel: config.oidc.loggingLevel
       },
       (req, iss, sub, profile, jwtClaims, access_token, refresh_token, params, done) => {
+        if (iss !== `https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`
+           && iss !== `https://sts.windows.net/${process.env.TENANT_ID}/v2.0`) {
+           return done(new Error("unknown issuer"), null)
+        }
         if (!profile.oid) {
            return done(new Error("No oid found"), null)
         }
@@ -72,13 +76,13 @@ app.use((_, res, next) => {
 app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
 
-app.get('/login', 
+app.get('/login',
   passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false })
 )
 
 app.post('/callback',
   passport.authenticate('azuread-openidconnect', { "session": false }),
-  (req, res) => { 
+  (req, res) => {
     console.log('callback')
     console.log(req.body)
     res.cookie('speil', `${req.authInfo.id_token}`, { secure: true })
@@ -99,7 +103,7 @@ app.get('/me', (req, res) => {
     } else {
        res.redirect('/login')
     }
-   
+
 })
 
  app.get('/error', (req, res) => {

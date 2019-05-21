@@ -12,7 +12,7 @@ exports.oidc = {
    redirectUrl: process.env.REDIRECT_URL || "http://localhost",
    allowHttpForRedirectUrl: true,
    clientSecret: process.env.CLIENT_SECRET || "unknown",
-   validateIssuer: true,
+   validateIssuer: false,
    issuer: `https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`,
    passReqToCallback: true,
    useCookieInsteadOfSession: true,
