@@ -13,7 +13,7 @@ exports.oidc = {
    allowHttpForRedirectUrl: true,
    clientSecret: process.env.CLIENT_SECRET || "unknown",
    validateIssuer: true,
-   issuer: `https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`,
+   issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`, `https://sts.windows.net/${process.env.TENANT_ID}/v2.0`],
    passReqToCallback: true,
    useCookieInsteadOfSession: true,
    cookieEncryptionKeys: [
