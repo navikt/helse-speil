@@ -10,6 +10,7 @@ const app = express()
 const port = config.server.port
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
 
+process.env.DEBUG = "global-tunnel"
 globalTunnel.initialize();
 
 passport.serializeUser((user, done) => {
