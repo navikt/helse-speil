@@ -14,5 +14,6 @@ exports.oidc = {
 }
 
 exports.server = {
-   port: 3000
+   port: 3000,
+   sessionSecret: process.env.SESSION_SECRET
 }
