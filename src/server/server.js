@@ -12,8 +12,6 @@ const port = config.server.port
 
 let azureClient = null
 
-console.log(process.env.TENANT_ID)
-
 Issuer.discover(config.oidc.identityMetadata)
   .then((azure) => {
     console.log(`Discovered issuer ${azure.issuer}`)
