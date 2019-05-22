@@ -41,3 +41,5 @@ spec:
       value: https://speil.nais.preprod.local/callback
     - name: API_BASE_URL
       value: https://spade.nais.preprod.local
+    - name: DEBUG
+      value: global-tunnel
