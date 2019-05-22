@@ -72,19 +72,23 @@ app.use((_, res, next) => {
 app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
 
-app.get('/login', 
+app.get('/login',
   passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false })
 )
 
 app.post('/callback',
-  passport.authenticate('azuread-openidconnect', { "session": false }),
-  (req, res) => { 
+  passport.authenticate('azuread-openidconnect', { "session": false, failWithError: true }),
+  (req, res) => {
     console.log('callback')
     console.log(req.body)
     res.cookie('speil', `${req.authInfo.id_token}`, { secure: true })
     res.cookie('spade', `${req.authInfo.access_token}`, { httpOnly: true, secure: true })
     res.redirect('/')
-  })
+  }, (err, req, res, next) => {
+        // handle error
+        if (req.xhr) { return res.json(err); }
+        console.log("i dont know what happened")
+    })
 
 app.get('/logout', (req, res) => {
    req.session.destroy(_ => {
@@ -99,7 +103,7 @@ app.get('/me', (req, res) => {
     } else {
        res.redirect('/login')
     }
-   
+
 })
 
  app.get('/error', (req, res) => {
