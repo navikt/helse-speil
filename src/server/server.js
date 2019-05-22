@@ -1,5 +1,5 @@
 'use strict'
-
+const globalTunnel = require('global-tunnel-ng');
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -9,6 +9,8 @@ const config = require('./config')
 const app = express()
 const port = config.server.port
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
+
+globalTunnel.initialize();
 
 passport.serializeUser((user, done) => {
    done(null, user.oid)
