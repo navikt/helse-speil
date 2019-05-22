@@ -29,7 +29,7 @@ exports.oidc = {
    nonceLifetime: null,
    nonceMaxAmount: 5,
    clockSkew: null,
-   logingLevel: "info"
+   loggingLevel: "info"
 }
 
 exports.destroySessionUrl = `https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=${process.env.REDIRECT_URL}`
