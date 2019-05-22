@@ -85,9 +85,9 @@ app.post('/callback',
     res.cookie('spade', `${req.authInfo.access_token}`, { httpOnly: true, secure: true })
     res.redirect('/')
   }, (err, req, res, next) => {
-        // handle error
-        if (req.xhr) { return res.json(err); }
         console.log("i dont know what happened")
+        console.log(err)
+        return res.json(err);
     })
 
 app.get('/logout', (req, res) => {
