@@ -44,8 +44,7 @@ passport.use(
          scope: config.oidc.scope,
          useCookieInsteadOfSession: config.oidc.useCookieInsteadOfSession,
          cookieEncryptionKeys: config.oidc.cookieEncryptionKeys,
-         loggingLevel: config.oidc.loggingLevel,
-         loggingNoPII: false
+         loggingLevel: config.oidc.loggingLevel
       },
       (req, iss, sub, profile, jwtClaims, access_token, refresh_token, params, done) => {
         if (!profile.oid) {
