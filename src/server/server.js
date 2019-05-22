@@ -1,24 +1,31 @@
 'use strict'
-const globalTunnel = require('global-tunnel-ng');
 const express = require('express')
+const expressSession = require('express-session')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const passport = require('passport')
 const config = require('./config')
+const { Issuer } = require('openid-client')
+const { generators } = require('openid-client')
 
 const app = express()
 const port = config.server.port
-const OIDCStrategy = require('passport-azure-ad').OIDCStrategy
 
-globalTunnel.initialize();
+let azureClient = null
 
-passport.serializeUser((user, done) => {
-   done(null, user.oid)
-})
-
-passport.deserializeUser((oid, done) => {
-   done(null, oid)
-})
+Issuer.discover(config.oidc.identityMetadata)
+  .then((azure) => {
+    console.log(`Discovered issuer ${azure.issuer}`)
+    azureClient = new azure.Client({
+      client_id: config.oidc.clientID,
+      client_secret: config.oidc.clientSecret,
+      redirect_uris: config.oidc.redirectUrl,
+      response_types: config.oidc.responseType,
+    })
+  })
+  .catch ((err) => {
+     console.log(err)
+     process.exit(1)
+  })
 
 const displayname = (token) => {
     try {
@@ -29,38 +36,10 @@ const displayname = (token) => {
     }
   }
 
-passport.use(
-   new OIDCStrategy(
-      {
-         identityMetadata: config.oidc.identityMetadata,
-         clientID: config.oidc.clientID,
-         responseType: config.oidc.responseType,
-         responseMode: config.oidc.responseMode,
-         redirectUrl: config.oidc.redirectUrl,
-         allowHttpForRedirectUrl: config.oidc.allowHttpForRedirectUrl,
-         clientSecret: config.oidc.clientSecret,
-         validateIssuer: config.oidc.validateIssuer,
-         isB2C: config.oidc.isB2C,
-         issuer: config.oidc.issuer,
-         passReqToCallback: config.oidc.passReqToCallback,
-         scope: config.oidc.scope,
-         useCookieInsteadOfSession: config.oidc.useCookieInsteadOfSession,
-         cookieEncryptionKeys: config.oidc.cookieEncryptionKeys,
-         loggingLevel: config.oidc.loggingLevel
-      },
-      (req, iss, sub, profile, jwtClaims, access_token, refresh_token, params, done) => {
-        if (!profile.oid) {
-           return done(new Error("No oid found"), null)
-        }
-        return done(null, profile, params)
-      }
-   )
-)
-
-app.use(passport.initialize())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.disable('x-powered-by')
+app.use(expressSession({ secret: config.server.sessionSecret }))
 app.use('/static', express.static('dist'))
 app.use((_, res, next) => {
    res.header('X-Frame-Options', 'DENY')
@@ -74,29 +53,33 @@ app.use((_, res, next) => {
 app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
 
-app.get('/login',
-  passport.authenticate('azuread-openidconnect', { failureRedirect: '/error', 'session': false })
-)
-
-app.post('/callback',
-  passport.authenticate('azuread-openidconnect', { "session": false, failWithError: true }),
-  (req, res) => {
-    console.log('callback')
-    console.log(req.body)
-    res.cookie('speil', `${req.authInfo.id_token}`, { secure: true })
-    res.cookie('spade', `${req.authInfo.access_token}`, { httpOnly: true, secure: true })
-    res.redirect('/')
-  }, (err, req, res, next) => {
-        console.log("i dont know what happened")
-        console.log(err)
-        return res.json(err);
+app.get('/login', (req, res) => {
+   req.session.nonce = generators.nonce()
+   const url = azureClient.authorizationUrl({
+      scope: config.oidc.scope,
+      redirect_uri: config.oidc.redirectUrl,
+      response_type: config.oidc.responseType,
+      response_mode: 'form_post',
+      nonce: req.session.nonce
     })
+    res.redirect(url)
+})
 
-app.get('/logout', (req, res) => {
-   req.session.destroy(_ => {
-      req.logOut()
-      res.redirect(config.destroySessionUrl)
-   })
+app.post('/callback', (req, res) => {
+   const params = azureClient.callbackParams(req)
+   const nonce = req.session.nonce
+   azureClient.callback(config.oidc.redirectUrl, params, { nonce })
+      .then((tokenSet) => {
+         res.cookie('speil', `${tokenSet['id_token']}`, { httpOnly: true })
+         res.cookie('spade', `${tokenSet['access_token']}`, { httpOnly: true })
+         res.redirect('/')
+      })
+      .catch((err) => {
+         console.log(err)
+         res.status(403)
+         res.send("authentication failed")
+      })
+   
 })
 
 app.get('/me', (req, res) => {
