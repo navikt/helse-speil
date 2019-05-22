@@ -45,10 +45,10 @@ app.use(expressSession({ secret: "changeme" }))
 app.use('/static', express.static('dist'))
 app.use((_, res, next) => {
    res.header('X-Frame-Options', 'DENY')
-   res.header('X-Xss-Protection', '1 mode=block')
+   res.header('X-Xss-Protection', '1; mode=block')
    res.header('X-Content-Type-Options', 'nosniff')
    res.header('Referrer-Policy', 'no-referrer')
-   res.header('Feature-Policy', 'geolocation \'none\' microphone \'none\' camera \'none\'')
+   res.header('Feature-Policy', 'geolocation \'none\'; microphone \'none\'; camera \'none\'')
    next()
 })
 
