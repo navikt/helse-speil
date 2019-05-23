@@ -49,6 +49,10 @@ Issuer.discover(config.oidc.identityMetadata)
 
       if (proxyAgent) {
           console.log(`setting proxy agent on azure client`)
+          azure[custom.http_options] = function (options) {
+              options.agent = proxyAgent;
+              return options
+          }
           azureClient[custom.http_options] = function (options) {
               options.agent = proxyAgent;
               return options
