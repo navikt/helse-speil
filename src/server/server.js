@@ -16,7 +16,10 @@ let azureClient = null
 let proxyAgent = null
 
 if (process.env["HTTP_PROXY"]) {
-    let hostPort = process.env["HTTP_PROXY"].split(":", 2)
+    let hostPort = process.env["HTTP_PROXY"]
+        .replace('https://', '')
+        .replace('http://', '')
+        .split(":", 2)
     proxyAgent = tunnel.httpsOverHttp({
         proxy: {
             host: hostPort[0],
