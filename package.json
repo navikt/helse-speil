@@ -30,7 +30,8 @@
       "openid-client": "^3.1.1",
       "react": "^16.8.4",
       "react-dom": "^16.8.4",
-      "reset-css": "^4.0.1"
+      "reset-css": "^4.0.1",
+      "tunnel": "0.0.6"
    },
    "devDependencies": {
       "@babel/core": "^7.3.4",

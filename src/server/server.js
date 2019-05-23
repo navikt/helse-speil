@@ -6,11 +6,30 @@ const cookieParser = require('cookie-parser')
 const config = require('./config')
 const { Issuer } = require('openid-client')
 const { generators } = require('openid-client')
+const { custom } = require('openid-client');
+const tunnel = require('tunnel');
 
 const app = express()
 const port = config.server.port
 
 let azureClient = null
+let proxyAgent = null
+
+if (process.env["HTTP_PROXY"]) {
+    proxyAgent = tunnel.httpsOverHttp({
+        proxy: {
+            host: process.env["HTTP_PROXY"].split(":", 2)[0],
+            port: process.env["HTTP_PROXY"].split(":", 2)[1]
+        }
+    })
+
+    console.log(`proxying requests via ${process.env["HTTP_PROXY"]}`)
+
+    Issuer[custom.http_options] = function (options) {
+        options.agent = proxyAgent;
+        return options
+    }
+}
 
 Issuer.discover(config.oidc.identityMetadata)
   .then((azure) => {
@@ -21,6 +40,14 @@ Issuer.discover(config.oidc.identityMetadata)
       redirect_uris: config.oidc.redirectUrl,
       response_types: config.oidc.responseType,
     })
+
+      if (proxyAgent) {
+          console.log(`setting proxy agent on azure client`)
+          azureClient[custom.http_options] = function (options) {
+              options.agent = proxyAgent;
+              return options
+          }
+      }
   })
   .catch ((err) => {
      console.log(err)
@@ -79,7 +106,7 @@ app.post('/callback', (req, res) => {
          res.status(403)
          res.send("authentication failed")
       })
-   
+
 })
 
 app.get('/me', (req, res) => {
