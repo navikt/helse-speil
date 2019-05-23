@@ -16,10 +16,11 @@ let azureClient = null
 let proxyAgent = null
 
 if (process.env["HTTP_PROXY"]) {
+    let hostPort = process.env["HTTP_PROXY"].split(":", 2)
     proxyAgent = tunnel.httpsOverHttp({
         proxy: {
-            host: process.env["HTTP_PROXY"].split(":", 2)[0],
-            port: process.env["HTTP_PROXY"].split(":", 2)[1]
+            host: hostPort[0],
+            port: hostPort[1]
         }
     })
 
@@ -29,6 +30,8 @@ if (process.env["HTTP_PROXY"]) {
         options.agent = proxyAgent;
         return options
     }
+} else {
+    console.log(`proxy is not active`)
 }
 
 Issuer.discover(config.oidc.identityMetadata)
