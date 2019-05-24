@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './ImageLink.scss'
+import './ImageLink.css'
 
 const ImageLink = ({ href, ariaLabel, imgSrc }) => (
    <div className="imageLink">
       <a href={href} aria-label={ariaLabel}>
-         <img className="imageLink__image" src={imgSrc} />
+         <img className="logo" src={imgSrc} />
       </a>
    </div>
 )
