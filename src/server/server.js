@@ -108,11 +108,12 @@ app.post('/callback', (req, res) => {
    azureClient.callback(config.oidc.redirectUrl, params, { nonce })
       .then((tokenSet) => {
          res.cookie('speil', `${tokenSet['id_token']}`, { httpOnly: true })
-         res.cookie('spade', `${tokenSet['access_token']}`, { httpOnly: true })
+         req.session.spadeToken = tokenSet['access_token']
          res.redirect('/')
       })
       .catch((err) => {
          console.log(err)
+         req.session.destroy()
          res.status(403)
          res.send("authentication failed")
       })
