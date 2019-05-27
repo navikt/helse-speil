@@ -1,6 +1,6 @@
 import { cleanup } from 'react-testing-library'
 import 'jest-dom/extend-expect'
-import behandlingerFor from '../../src/io/http'
+import { behandlingerFor } from '../../src/io/http'
 import fs from 'fs'
 
 beforeEach(() => {

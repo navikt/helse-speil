@@ -1,4 +1,5 @@
 'use strict'
+
 const express = require('express')
 const expressSession = require('express-session')
 const bodyParser = require('body-parser')
@@ -112,10 +113,9 @@ app.post('/callback', (req, res) => {
          res.redirect('/')
       })
       .catch((err) => {
-         console.log(err)
+         console.log(`error in oidc callback: ${err}`)
          req.session.destroy()
-         res.status(403)
-         res.send("authentication failed")
+         res.sendStatus(403)
       })
 
 })
@@ -124,9 +124,8 @@ app.get('/me', (req, res) => {
     if (req.cookies['speil']) {
        res.send(`${displayname(req.cookies['speil'])}`)
     } else {
-       res.redirect('/login')
+       res.sendStatus(401)
     }
-
 })
 
  app.get('/error', (req, res) => {

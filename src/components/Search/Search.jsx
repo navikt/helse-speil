@@ -1,7 +1,7 @@
 import React, { createContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import behandlingerFor from '../../io/http'
+import { behandlingerFor } from '../../io/http'
 import './Search.css'
 
 const BehandlingerProvider = createContext([]).Provider;

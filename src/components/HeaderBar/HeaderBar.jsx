@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 import navLogoSrc from './img/navlogo.svg'
 import rettskildeneSrc from './img/rettskildene.svg'
 import systemrutineSrc from './img/systemrutine.svg'
@@ -42,7 +42,7 @@ const HeaderBar = () => {
                href="https://www.nav.no"
             />
             <div id="bruker" className="brukernavn">
-               { authCtx.state ? authCtx.state.name : 'Ikke Pålogget' }
+               { (authCtx.state && authCtx.state.name)  ? authCtx.state.name : 'Ikke Pålogget' }
             </div>
          </div>
       </header>
