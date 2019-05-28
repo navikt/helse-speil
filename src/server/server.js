@@ -123,7 +123,7 @@ app.post('/callback', (req, res) => {
    const nonce = req.session.nonce
    azureClient.callback(config.oidc.redirectUrl, params, { nonce })
       .then((tokenSet) => {
-         res.cookie('speil', `${tokenSet['id_token']}`, { httpOnly: true })
+         res.cookie('speil', `${tokenSet['id_token']}`, { httpOnly: true, secure: true })
          req.session.spadeToken = tokenSet['access_token']
          res.redirect('/')
       })
