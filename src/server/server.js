@@ -6,9 +6,10 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const { Issuer } = require('openid-client')
 const { generators } = require('openid-client')
-const { custom } = require('openid-client');
-const tunnel = require('tunnel');
+const { custom } = require('openid-client')
+const tunnel = require('tunnel')
 const request = require('request')
+const prometheus = require('prom-client')
 
 const config = require('./config')
 const tokendecoder = require('./tokendecoder')
@@ -43,7 +44,7 @@ if (process.env["HTTP_PROXY"]) {
     console.log(`proxying requests via ${process.env["HTTP_PROXY"]}`)
 
     Issuer[custom.http_options] = function (options) {
-        options.agent = proxyAgent;
+        options.agent = proxyAgent
         return options
     }
 } else {
@@ -63,11 +64,11 @@ Issuer.discover(config.oidc.identityMetadata)
 
       if (proxyAgent) {
           azure[custom.http_options] = function (options) {
-              options.agent = proxyAgent;
+              options.agent = proxyAgent
               return options
           }
           azureClient[custom.http_options] = function (options) {
-              options.agent = proxyAgent;
+              options.agent = proxyAgent
               return options
           }
       }
@@ -80,7 +81,12 @@ Issuer.discover(config.oidc.identityMetadata)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.disable('x-powered-by')
-app.use(expressSession({ secret: config.server.sessionSecret }))
+app.use(expressSession({
+  secret: config.server.sessionSecret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 app.use('/static', express.static('dist'))
 app.use((_, res, next) => {
    res.header('X-Frame-Options', 'DENY')
@@ -91,8 +97,14 @@ app.use((_, res, next) => {
    next()
 })
 
+const collectDefaultMetrics = prometheus.collectDefaultMetrics
+collectDefaultMetrics({ timeout: 5000 })
 app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
+app.get('/metrics', (req, res) => {
+  res.set('Content-Type', prometheus.register.contentType)
+  res.end(prometheus.register.metrics())
+})
 
 app.get('/login', (req, res) => {
    req.session.nonce = generators.nonce()
