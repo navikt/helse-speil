@@ -25,11 +25,15 @@ const Search = () => {
 }
 
 const keyTyped = (event) => {
+   if (event.target.value.trim().length === 0) {
+      return
+   }
+
    const isEnter = (event.charCode || event.keyCode) === 13
    if (isEnter) {
       behandlingerFor(event.target.value)
          .then(response => {
-            BehandlingerProvider.value = response
+            BehandlingerProvider.value = response || null
             console.log(BehandlingerProvider.value)
          })
          .catch(err => {

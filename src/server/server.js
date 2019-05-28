@@ -4,18 +4,29 @@ const express = require('express')
 const expressSession = require('express-session')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const config = require('./config')
 const { Issuer } = require('openid-client')
 const { generators } = require('openid-client')
 const { custom } = require('openid-client');
 const tunnel = require('tunnel');
+const request = require('request')
+
+const config = require('./config')
+const tokendecoder = require('./tokendecoder')
 
 const app = express()
 const port = config.server.port
 
-let azureClient = null
-let proxyAgent = null
+const behandlingerFor = (aktorId, accessToken) => {
+  request.get(`http://spade/api/behandlinger/${aktorId}`, {
+    "auth": {
+      "bearer": accessToken
+    }
+  }, (error, response, body) => {
+    return error ? {status: response.statusCode, data: `${error}`} : {status: 200, data: body}
+  })
+}
 
+let proxyAgent = null
 if (process.env["HTTP_PROXY"]) {
     let hostPort = process.env["HTTP_PROXY"]
         .replace('https://', '')
@@ -38,6 +49,7 @@ if (process.env["HTTP_PROXY"]) {
     console.log(`proxy is not active`)
 }
 
+let azureClient = null
 Issuer.discover(config.oidc.identityMetadata)
   .then((azure) => {
     console.log(`Discovered issuer ${azure.issuer}`)
@@ -49,7 +61,6 @@ Issuer.discover(config.oidc.identityMetadata)
     })
 
       if (proxyAgent) {
-          console.log(`setting proxy agent on azure client`)
           azure[custom.http_options] = function (options) {
               options.agent = proxyAgent;
               return options
@@ -61,18 +72,9 @@ Issuer.discover(config.oidc.identityMetadata)
       }
   })
   .catch ((err) => {
-     console.log(err)
+     console.log(`Failed to discover OIDC provider properties: ${err}`)
      process.exit(1)
   })
-
-const displayname = (token) => {
-    try {
-      return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString())['name']
-    } catch (err) {
-      console.log(err)
-      return 'unknown user'
-    }
-  }
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -117,21 +119,25 @@ app.post('/callback', (req, res) => {
          req.session.destroy()
          res.sendStatus(403)
       })
-
+np
 })
 
 app.get('/me', (req, res) => {
-    if (req.cookies['speil']) {
-       res.send(`${displayname(req.cookies['speil'])}`)
-    } else {
-       res.sendStatus(401)
-    }
+  if (req.cookies['speil']) {
+     res.send(`${tokendecoder.username(req.cookies['speil'])}`)
+  } else {
+     res.sendStatus(401)
+  }
 })
 
- app.get('/error', (req, res) => {
-    res.clearCookie('speil', { secure: true })
-    res.clearCookie('spade', { httpOnly: true, secure: true })
-    res.send('innlogging mislyktes')
+ app.get('/behandlinger/:aktorId', (req, res) => {
+   const accessToken = req.session.spadeToken
+   if (!accessToken) {
+     res.sendStatus(403, 'must be logged in to do this')
+   } else {
+     const aktorId = req.params.aktorId
+     res.send(behandlingerFor(aktorId, accessToken))  
+   }
  })
 
 app.get('/', (_, res) => {
