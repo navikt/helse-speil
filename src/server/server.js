@@ -120,7 +120,6 @@ app.post('/callback', (req, res) => {
          req.session.destroy()
          res.sendStatus(403)
       })
-np
 })
 
 app.get('/me', (req, res) => {
