@@ -18,11 +18,12 @@ const port = config.server.port
 
 const behandlingerFor = (aktorId, accessToken) => {
   request.get(`http://spade/api/behandlinger/${aktorId}`, {
-    "auth": {
-      "bearer": accessToken
+    "headers": {
+      "Authorization": `Bearer ${accessToken}`
     }
   }, (error, response, body) => {
-    return error ? {status: response.statusCode, data: `${error}`} : {status: 200, data: body}
+    console.log(`got ${response.statusCode} fom spade`)
+    return error ? {"status": response.statusCode, "data": `${error}`} : {"status": 200, "data": body}
   })
 }
 
