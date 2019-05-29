@@ -83,8 +83,6 @@ app.use(cookieParser())
 app.disable('x-powered-by')
 app.use(expressSession({
   secret: config.server.sessionSecret,
-  resave: true,
-  saveUninitialized: true,
   cookie: { secure: true }
 }))
 app.use('/static', express.static('dist'))
