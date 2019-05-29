@@ -81,10 +81,7 @@ Issuer.discover(config.oidc.identityMetadata)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.disable('x-powered-by')
-app.use(expressSession({
-  secret: config.server.sessionSecret,
-  cookie: { secure: true }
-}))
+app.use(expressSession({ secret: config.server.sessionSecret }))
 app.use('/static', express.static('dist'))
 app.use((_, res, next) => {
    res.header('X-Frame-Options', 'DENY')
