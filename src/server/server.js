@@ -18,7 +18,7 @@ const app = express()
 const port = config.server.port
 
 const behandlingerFor = (aktorId, accessToken) => {
-  request.get(`http://spade/api/behandlinger/${aktorId}`, {
+  request.get(`http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`, {
     "headers": {
       "Authorization": `Bearer ${accessToken}`
     }
