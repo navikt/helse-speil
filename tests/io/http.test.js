@@ -21,10 +21,10 @@ test('behandlinger', async () => {
   global.fetch = jest.fn().mockImplementation(() => {
     return Promise.resolve({
       status: 200,
-      json: () => { return Promise.resolve({ prop: 'val' }) }
+      text: () => { return Promise.resolve('yup') }
     })
  })
   const response = await behandlingerFor(12345)
   expect(fetch).toHaveBeenCalledTimes(1)
-  expect(response).toEqual({ prop: 'val' })
+  expect(response).toEqual('yup')
 })

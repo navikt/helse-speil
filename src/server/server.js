@@ -28,7 +28,7 @@ const behandlingerFor = (aktorId, accessToken) => {
       console.log(`Error during lookup, got ${response.statusCode} ${error || 'unknown error'} fom spade`)
     }
 
-    return {"status": response.statusCode, "data": erred ? error : JSON.parse(body)}
+    return {"status": response.statusCode, "data": erred ? error : body}
   })
 }
 
@@ -147,7 +147,8 @@ app.get('/me', (req, res) => {
      res.sendStatus(403, 'must be logged in to do this')
    } else {
      const aktorId = req.params.aktorId
-     res.send(behandlingerFor(aktorId, accessToken))  
+     const behandlinger = behandlingerFor(aktorId, accessToken)
+     res.status(behandlinger.status).send(behandlinger.data)
    }
  })
 

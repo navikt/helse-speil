@@ -7,5 +7,5 @@ export const whoami = async () => {
 
 export const behandlingerFor = async (aktorId) => {
    const response = await fetch(`/behandlinger/${aktorId}`)
-   return response.status !== 200 ? null : await response.json()
+   return response.status !== 200 ? null : await response.text()
 }
