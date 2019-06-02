@@ -34,7 +34,6 @@ const keyTyped = (event) => {
       behandlingerFor(event.target.value)
          .then(response => {
             console.log(response)
-            BehandlingerProvider.value = response || null
          })
          .catch(err => {
             console.log(err)
