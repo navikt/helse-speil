@@ -33,8 +33,8 @@ const keyTyped = (event) => {
    if (isEnter) {
       behandlingerFor(event.target.value)
          .then(response => {
-            BehandlingerProvider.value = response || null
             console.log(response)
+            BehandlingerProvider.value = response || null
          })
          .catch(err => {
             console.log(err)

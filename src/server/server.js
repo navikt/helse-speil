@@ -28,7 +28,7 @@ const behandlingerFor = (aktorId, accessToken) => {
       console.log(`Error during lookup, got ${response.statusCode} ${error || 'unknown error'} fom spade`)
     }
 
-    return {"status": response.statusCode, "data": `${erred ? error : JSON.parse(body)}`}
+    return {"status": response.statusCode, "data": erred ? error : JSON.parse(body)}
   })
 }
 

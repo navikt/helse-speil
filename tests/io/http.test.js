@@ -1,25 +1,30 @@
-import { cleanup } from 'react-testing-library'
-import { whoami } from '../../src/io/http'
+import { whoami, behandlingerFor } from '../../src/io/http'
 import 'jest-dom/extend-expect'
 
-beforeEach(() => {
-    global.fetch = jest.fn().mockImplementationOnce(() => {
-        return new Promise((resolve, reject) => {
-          resolve({
-            ok: true,
-            status: 200,
-            text: () => {
-              new Promise((resolve, reject) => { resolve("da usah"), reject("oh noes") })
-            },
-          }),
-          reject("oops")
-        })
-    })
+afterEach(() => {
+  global.fetch = undefined
 })
 
-afterEach(cleanup)
-
 test('whoami', async () => {
-  const response = await whoami()
+   global.fetch = jest.fn().mockImplementation(() => {
+      return Promise.resolve({
+        status: 200,
+        text: () => { return Promise.resolve('da usah') }
+     })
+   })
+   const response = await whoami()
+   expect(fetch).toHaveBeenCalledTimes(1)
+   expect(response).toEqual('da usah')
+})
+
+test('behandlinger', async () => {
+  global.fetch = jest.fn().mockImplementation(() => {
+    return Promise.resolve({
+      status: 200,
+      json: () => { return Promise.resolve({ prop: 'val' }) }
+    })
+ })
+  const response = await behandlingerFor(12345)
   expect(fetch).toHaveBeenCalledTimes(1)
+  expect(response).toEqual({ prop: 'val' })
 })
