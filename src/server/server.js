@@ -17,7 +17,7 @@ const tokendecoder = require('./tokendecoder')
 const app = express()
 const port = config.server.port
 
-const behandlingerFor = (aktorId, accessToken) => {
+const behandlingerFor = (aktorId, accessToken, callback) => {
   request.get(`http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`, {
     "headers": {
       "Authorization": `Bearer ${accessToken}`
@@ -28,7 +28,7 @@ const behandlingerFor = (aktorId, accessToken) => {
       console.log(`Error during lookup, got ${response.statusCode} ${error || 'unknown error'} fom spade`)
     }
 
-    return {"status": response.statusCode, "data": erred ? error : body}
+    callback({"status": response.statusCode, "data": erred ? error : body})
   })
 }
 
@@ -144,11 +144,12 @@ app.get('/me', (req, res) => {
  app.get('/behandlinger/:aktorId', (req, res) => {
    const accessToken = req.session.spadeToken
    if (!accessToken) {
-     res.sendStatus(403, 'must be logged in to do this')
+     res.sendStatus(403)
    } else {
      const aktorId = req.params.aktorId
-     const behandlinger = behandlingerFor(aktorId, accessToken)
-     res.status(behandlinger.status).send(behandlinger.data)
+     behandlingerFor(aktorId, accessToken, (behandlinger) => {
+       res.status(behandlinger.status).send(behandlinger.data || '')
+     })
    }
  })
 
