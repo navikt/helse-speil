@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import HeaderBar from './HeaderBar/HeaderBar'
-import Search from './Search/Search'
-import MainContentWrapper from './MainContentWrapper/MainContentWrapper'
-import { whoami } from '../io/http'
+import HeaderBar from '../HeaderBar/HeaderBar'
+import Search from '../Search/Search'
+import MainContentWrapper from '../MainContentWrapper/MainContentWrapper'
+import { whoami } from '../../io/http'
+import AuthContext from '../../context/AuthContext'
 import './App.css'
 import 'reset-css'
-import AuthContext from '../context/AuthContext'
 
 const App = () => {
 
