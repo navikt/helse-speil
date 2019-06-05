@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import HeaderBar from '../HeaderBar/HeaderBar'
-import Search from '../Search/Search'
 import MainContentWrapper from '../MainContentWrapper/MainContentWrapper'
 import { whoami } from '../../io/http'
 import AuthContext from '../../context/AuthContext'
@@ -30,7 +29,6 @@ const App = () => {
    return (
       <AuthContext.Provider value={{state: authState, setState: setAuthState}}>
             <HeaderBar />
-            <Search />
             <MainContentWrapper />
       </AuthContext.Provider>
    )

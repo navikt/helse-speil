@@ -148,7 +148,7 @@ app.get('/me', (req, res) => {
    } else {
      const aktorId = req.params.aktorId
      behandlingerFor(aktorId, accessToken, (behandlinger) => {
-       res.status(behandlinger.status).send(behandlinger.data || '')
+       res.status(behandlinger.status).send(behandlinger.data || 'Fant ingen behandlinger')
      })
    }
  })
