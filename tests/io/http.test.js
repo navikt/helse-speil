@@ -9,7 +9,7 @@ test('whoami', async () => {
    global.fetch = jest.fn().mockImplementation(() => {
       return Promise.resolve({
         status: 200,
-        text: () => { return Promise.resolve('da usah') }
+        json: () => { return Promise.resolve('da usah') }
      })
    })
    const response = await whoami()
@@ -21,7 +21,7 @@ test('behandlinger', async () => {
   global.fetch = jest.fn().mockImplementation(() => {
     return Promise.resolve({
       status: 200,
-      text: () => { return Promise.resolve('yup') }
+      json: () => { return Promise.resolve('yup') }
     })
  })
   const response = await behandlingerFor(12345)

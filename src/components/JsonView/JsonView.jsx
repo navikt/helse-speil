@@ -8,7 +8,7 @@ const JsonView = () => {
 
    return (
             <div>
-                <pre>{ JSON.stringify(behandlingerCtx.state, null, " ") }</pre>
+                <pre>{ JSON.stringify(behandlingerCtx.state, null, 2) }</pre>
             </div>
    )
 }

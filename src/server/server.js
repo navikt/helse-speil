@@ -10,6 +10,7 @@ const { custom } = require('openid-client')
 const tunnel = require('tunnel')
 const request = require('request')
 const prometheus = require('prom-client')
+const fs = require('fs')
 
 const config = require('./config')
 const tokendecoder = require('./tokendecoder')
@@ -87,14 +88,20 @@ app.use(cookieParser())
 app.disable('x-powered-by')
 app.use(expressSession({ secret: config.server.sessionSecret }))
 app.use('/static', express.static('dist'))
-app.use((_, res, next) => {
+app.use((req, res, next) => {
    res.header('X-Frame-Options', 'DENY')
+   if (process.env.NODE_ENV === 'development') {
+      res.header('Access-Control-Allow-Origin', req.header('Origin'))
+   }
    res.header('X-Xss-Protection', '1; mode=block')
    res.header('X-Content-Type-Options', 'nosniff')
    res.header('Referrer-Policy', 'no-referrer')
    res.header('Feature-Policy', 'geolocation \'none\'; microphone \'none\'; camera \'none\'')
    next()
 })
+if (process.env.NODE_ENV === 'development') {
+   app.use('/mock-data', express.static('__mock-data__'))
+}
 
 const collectDefaultMetrics = prometheus.collectDefaultMetrics
 collectDefaultMetrics({ timeout: 5000 })
@@ -133,15 +140,27 @@ app.post('/callback', (req, res) => {
       })
 })
 
-app.get('/me', (req, res) => {
-  if (req.cookies['speil']) {
-     res.send(`${tokendecoder.username(req.cookies['speil'])}`)
-  } else {
-     res.sendStatus(401)
-  }
+app.get('/whoami', (req, res) => {
+   if (process.env.NODE_ENV === 'development') {
+      res.send({ name: `Sara Saksbehandler` });
+   } else if (req.cookies['speil']) {
+      res.send({ name: `${tokendecoder.username(req.cookies['speil'])}`})
+   } else {
+      res.sendStatus(401)
+   }
 })
 
  app.get('/behandlinger/:aktorId', (req, res) => {
+   if (process.env.NODE_ENV === 'development') {
+      fs.readFile('__mock-data__/behandlinger.json', (err, data) => {
+         if (err) {
+            console.log(err);
+            res.sendStatus(500);
+         }
+         res.send(data);
+       });
+       return
+   }
    const accessToken = req.session.spadeToken
    if (!accessToken) {
      res.sendStatus(403)
