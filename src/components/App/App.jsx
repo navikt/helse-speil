@@ -16,8 +16,8 @@ const App = () => {
       if (!authState.name) {
          try {
             whoami().then((data) => {
-               if (data) {
-                  setAuthState({name: data})
+               if (data && data.name) {
+                  setAuthState({name: data.name})
                } else {
                   window.location.assign('/login')
                }
