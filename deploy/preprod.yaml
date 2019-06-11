@@ -34,7 +34,7 @@ spec:
     cpuThresholdPercentage: 90
   prometheus:
     enabled: false
-  secrets: true
+  spec.vault.enabled: true
   webproxy: true
   env:
     - name: REDIRECT_URL
