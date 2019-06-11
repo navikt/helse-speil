@@ -19,3 +19,7 @@ input[type="text"] {
    color: #d7dae0;
 }
 
+input[type="text"]:focus {
+   outline: none;
+}
+
