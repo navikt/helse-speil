@@ -1,7 +1,6 @@
 .input-icon-wrap {
-   border: 1px solid #ddd;
+   border: 1px solid #d7dae0;
    display: flex;
-   flex-direction: row;
 }
 
 .input-with-icon {
@@ -13,5 +12,10 @@
 .input-with-icon {
    padding: 10px;
    font-size: 1em;
+}
+
+input[type="text"] {
+   background-color: #3e3832;
+   color: #d7dae0;
 }
 

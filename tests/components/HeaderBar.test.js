@@ -11,7 +11,7 @@ test('Missing brukernavn is replaced with a default', async () => {
       <HeaderBar />
    )
    const brukerTextNode = await waitForElement(() =>
-      container.querySelector('#bruker')
+      container.querySelector('#user')
    )
    expect(brukerTextNode).toHaveTextContent('Ikke Pålogget')
 })
@@ -23,7 +23,7 @@ test('Provided value from context is used as brukernavn', async () => {
       </AuthContext.Provider>
    )
    const brukerTextNode = await waitForElement(() =>
-      container.querySelector('#bruker')
+      container.querySelector('#user')
    )
    expect(brukerTextNode).toHaveTextContent('Bruker Brukersen')
 })
