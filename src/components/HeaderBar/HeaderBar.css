@@ -1,7 +1,6 @@
 .topbar {
    display: flex;
    height: 3em;
-   min-height: 100%;
    background-color: #3e3832;
    color: #d7dae0;
    align-items: center;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import HeaderBar from '../HeaderBar/HeaderBar'
 import MainContentWrapper from '../MainContentWrapper/MainContentWrapper'
 import { whoami } from '../../io/http'
@@ -31,8 +32,12 @@ const App = () => {
    return (
       <AuthContext.Provider value={{state: authState, setState: setAuthState}}>
          <BehandlingerContext.Provider value={{state: behandlinger, setBehandlinger: setBehandlinger}}>
-            <HeaderBar />
-            <MainContentWrapper />
+
+            <Router>
+               <HeaderBar />
+               <MainContentWrapper />
+            </Router>
+
          </BehandlingerContext.Provider>
       </AuthContext.Provider>
    )

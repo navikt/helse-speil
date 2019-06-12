@@ -1,0 +1,28 @@
+nav {
+    background-color: #78706A;
+    width: 4em;
+    min-height: 100%;
+    padding-top: 10em !important;
+    float: left;
+    overflow: auto;
+    list-style: none;
+}
+
+nav li a.active {
+    background-color: #3E3832;
+}
+nav li a {
+    background-repeat: no-repeat;
+    background-position-x: 12px;
+    background-position-y: 5px;
+    padding: 26px 34px;
+    display: inline-block;
+}
+
+#nav-link-sykdomsvilkår {
+    background-image: url('img/pluss.png');
+}
+
+#nav-link-inngangsvilkår {
+    background-image: url('img/inngangsvilkår.png');
+}
