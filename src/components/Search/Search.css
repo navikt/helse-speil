@@ -1,6 +1,7 @@
 .input-icon-wrap {
    border: 1px solid #d7dae0;
-   display: flex;
+   float: left;
+   width: 20em;
 }
 
 .input-with-icon {
