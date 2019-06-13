@@ -8,16 +8,15 @@ const { Issuer } = require('openid-client')
 const { generators } = require('openid-client')
 const { custom } = require('openid-client')
 const request = require('request')
-const prometheus = require('prom-client')
 const fs = require('fs')
 
 const config = require('./config')
 const tokendecoder = require('./tokendecoder')
+const proxy = require('./proxy')
+const metrics = require('./metrics')
 
 const app = express()
 const port = config.server.port
-
-const proxy = require('./proxy')
 
 const behandlingerFor = (aktorId, accessToken, callback) => {
   request.get(`http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`, {
@@ -87,14 +86,10 @@ if (process.env.NODE_ENV === 'development') {
    app.use('/mock-data', express.static('__mock-data__'))
 }
 
-const collectDefaultMetrics = prometheus.collectDefaultMetrics
-collectDefaultMetrics({ timeout: 5000 })
 app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
-app.get('/metrics', (req, res) => {
-  res.set('Content-Type', prometheus.register.contentType)
-  res.end(prometheus.register.metrics())
-})
+
+metrics.setup(app)
 
 app.get('/login', (req, res) => {
    req.session.nonce = generators.nonce()
