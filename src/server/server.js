@@ -14,6 +14,7 @@ const config = require('./config')
 const tokendecoder = require('./tokendecoder')
 const proxy = require('./proxy')
 const metrics = require('./metrics')
+const headers = require('./headers')
 
 const app = express()
 const port = config.server.port
@@ -64,32 +65,18 @@ Issuer.discover(config.oidc.identityMetadata)
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.disable('x-powered-by')
 app.use(expressSession({ secret: config.server.sessionSecret }))
 app.use('/static', express.static('dist'))
-app.use((req, res, next) => {
-   res.header('X-Frame-Options', 'DENY')
-   if (process.env.NODE_ENV === 'development') {
-      res.header('Access-Control-Allow-Origin', req.header('Origin'))
-   }
-   res.header('X-Xss-Protection', '1; mode=block')
-   res.header('X-Content-Type-Options', 'nosniff')
-   res.header('Referrer-Policy', 'no-referrer')
-   res.header('Feature-Policy', 'geolocation \'none\'; microphone \'none\'; camera \'none\'')
-   if (process.env.NODE_ENV === 'development') {
-     res.header("Access-Control-Allow-Origin", "http://localhost:1234")
-     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-   }
-   next()
-})
+
+headers.setup(app)
+metrics.setup(app)
+
 if (process.env.NODE_ENV === 'development') {
    app.use('/mock-data', express.static('__mock-data__'))
 }
 
 app.get('/isAlive', (req, res) => res.send('alive'))
 app.get('/isReady', (req, res) => res.send('ready'))
-
-metrics.setup(app)
 
 app.get('/login', (req, res) => {
    req.session.nonce = generators.nonce()
