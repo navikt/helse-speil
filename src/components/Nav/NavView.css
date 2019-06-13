@@ -13,16 +13,33 @@ nav li a.active {
 }
 nav li a {
     background-repeat: no-repeat;
-    background-position-x: 12px;
-    background-position-y: 5px;
-    padding: 26px 34px;
+    background-position: center center;
     display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 4em;
 }
 
 #nav-link-sykdomsvilkår {
-    background-image: url('img/pluss.png');
+    background-image: url('img/Helse_hvit.svg');
 }
 
 #nav-link-inngangsvilkår {
-    background-image: url('img/inngangsvilkår.png');
+    background-image: url('img/Oppgaver_hvit.svg');
+}
+
+#nav-link-sykepengegrunnlag {
+    background-image: url('img/Beregning_hvit.svg');
+}
+
+#nav-link-periode {
+    background-image: url('img/Kalender_hvit.svg');
+}
+
+#nav-link-utbetaling {
+    background-image: url('img/Utbetaling_hvit.svg');
+}
+
+#nav-link-oppsummering {
+    background-image: url('img/Vedtak_hvit.svg');
 }
