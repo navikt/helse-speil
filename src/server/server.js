@@ -7,7 +7,6 @@ const cookieParser = require('cookie-parser')
 const { Issuer } = require('openid-client')
 const { generators } = require('openid-client')
 const { custom } = require('openid-client')
-const tunnel = require('tunnel')
 const request = require('request')
 const prometheus = require('prom-client')
 const fs = require('fs')
@@ -18,6 +17,8 @@ const tokendecoder = require('./tokendecoder')
 const app = express()
 const port = config.server.port
 
+const proxy = require('./proxy')
+
 const behandlingerFor = (aktorId, accessToken, callback) => {
   request.get(`http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`, {
     "headers": {
@@ -27,34 +28,13 @@ const behandlingerFor = (aktorId, accessToken, callback) => {
     const erred = error || response.statusCode !== 200
     if (erred) {
       console.log(`Error during lookup, got ${response.statusCode} ${error || 'unknown error'} fom spade`)
-    }
+    } 
 
     callback({"status": response.statusCode, "data": erred ? error : body})
   })
 }
 
-let proxyAgent = null
-if (process.env["HTTP_PROXY"]) {
-    let hostPort = process.env["HTTP_PROXY"]
-        .replace('https://', '')
-        .replace('http://', '')
-        .split(":", 2)
-    proxyAgent = tunnel.httpsOverHttp({
-        proxy: {
-            host: hostPort[0],
-            port: hostPort[1]
-        }
-    })
-
-    console.log(`proxying requests via ${process.env["HTTP_PROXY"]}`)
-
-    Issuer[custom.http_options] = function (options) {
-        options.agent = proxyAgent
-        return options
-    }
-} else {
-    console.log(`proxy is not active`)
-}
+const proxyAgent = proxy.setup(Issuer, custom)
 
 let azureClient = null
 Issuer.discover(config.oidc.identityMetadata)
