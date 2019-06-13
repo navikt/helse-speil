@@ -97,6 +97,10 @@ app.use((req, res, next) => {
    res.header('X-Content-Type-Options', 'nosniff')
    res.header('Referrer-Policy', 'no-referrer')
    res.header('Feature-Policy', 'geolocation \'none\'; microphone \'none\'; camera \'none\'')
+   if (process.env.NODE_ENV === 'development') {
+     res.header("Access-Control-Allow-Origin", "http://localhost:1234")
+     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+   }
    next()
 })
 if (process.env.NODE_ENV === 'development') {
