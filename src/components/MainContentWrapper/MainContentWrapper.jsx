@@ -7,10 +7,10 @@ import Inngangsvilkår from '../JsonView/Inngangsvilkår';
 
 const MainContentWrapper = () => {
     return (
-        <div className="main-content">
+        <div className="page-content">
             <Nav />
 
-            <div>
+            <div className="main-content">
                 <Route path={'/'} exact component={JsonView} />
                 <Route
                     path={'/inngangsvilkår'}

@@ -1,25 +1,21 @@
 nav {
-    background-color: #78706A;
-    width: 4em;
+    background-color: #78706a;
+    min-width: 4em;
     min-height: 100%;
     padding-top: 10em !important;
-    float: left;
-    overflow: auto;
     list-style: none;
 }
 
 nav li a.active {
-    background-color: #EAECEB;
+    background-color: #eaeceb;
 }
 nav li a {
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 50%;
     display: inline-block;
-    box-sizing: border-box;
     width: 100%;
     height: 3.6em;
-
 }
 
 #nav-link-sykdomsvilkår:not(.active) {

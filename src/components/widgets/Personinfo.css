@@ -1,0 +1,21 @@
+.personalia-linje {
+    padding-left: 3em;
+    height: 2.5em;
+    display: flex;
+    align-items: center;
+}
+
+hr {
+    background-color: #92908d;
+    height: 1px;
+    margin: 0;
+}
+
+.behandling-hovedinfo {
+    display: inline-block;
+    padding: 2em 0em 0em 3em;
+}
+
+.arbeidsgivernavn {
+    margin-bottom: 0.5em !important;
+}
