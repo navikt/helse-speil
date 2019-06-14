@@ -1,9 +1,11 @@
-import React from 'react'
-import { render } from 'react-dom'
-import App from './components/App/App.jsx'
+import React from 'react';
+import { render } from 'react-dom';
+import App from './components/App/App.jsx';
 
-render(<App />, document.getElementById('root'))
+render(<App />, document.getElementById('root'));
 
+/* eslint-disable no-undef */
 if (module.hot) {
-   module.hot.accept()
+    module.hot.accept();
 }
+/* eslint-enable */

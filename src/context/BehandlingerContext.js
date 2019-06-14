@@ -1,5 +1,5 @@
-import { createContext } from 'react'
+import { createContext } from 'react';
 
-const BehandlingerContext = createContext()
+const BehandlingerContext = createContext();
 
-export default BehandlingerContext
+export default BehandlingerContext;

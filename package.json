@@ -1,65 +1,82 @@
 {
-   "name": "helse-speil",
-   "version": "1.0.0",
-   "main": "src/index.js",
-   "author": "Jan-Kåre Solbakken <jan-kare.solbakken@nav.no>",
-   "repository": {
-      "type": "git",
-      "url": "https://github.com/navikt/helse-speil.git"
-   },
-   "license": "MIT",
-   "scripts": {
-      "test:eslint": "eslint src/ --ext .js --ext .jsx",
-      "test": "jest",
-      "pretest": "npm run test:eslint",
-      "start": "NODE_ENV=development parcel src/index.html --open",
-      "start-express": "DEBUG=express:* node src/server/server.js --experimental-modules",
-      "dev-express": "DEBUG=express:* NODE_ENV=development nodemon src/server/server.js --experimental-modules",
-      "build": "npm run test && npm run clean:dist && parcel build src/index.html --public-url ./ --no-source-maps",
-      "clean:dist": "rimraf dist"
-   },
-   "dependencies": {
-      "@fortawesome/fontawesome": "^1.1.8",
-      "@fortawesome/fontawesome-free-solid": "^5.0.13",
-      "@fortawesome/fontawesome-svg-core": "^1.2.18",
-      "@fortawesome/free-solid-svg-icons": "^5.8.2",
-      "@fortawesome/react-fontawesome": "^0.1.4",
-      "cookie-parser": "^1.4.4",
-      "dotenv": "^8.0.0",
-      "express": "^4.17.0",
-      "express-session": "^1.16.1",
-      "openid-client": "^3.1.1",
-      "prom-client": "^11.3.0",
-      "react": "^16.8.6",
-      "react-dom": "^16.8.6",
-      "react-router-dom": "^5.0.1",
-      "request": "^2.88.0",
-      "reset-css": "^4.0.1",
-      "tunnel": "0.0.6"
-   },
-   "devDependencies": {
-      "@babel/core": "^7.4.5",
-      "@babel/plugin-proposal-class-properties": "^7.4.4",
-      "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-      "@babel/plugin-transform-runtime": "^7.4.4",
-      "@babel/polyfill": "^7.4.4",
-      "@babel/preset-env": "^7.4.5",
-      "@babel/preset-react": "^7.0.0",
-      "autoprefixer": "^9.5.1",
-      "babel-eslint": "^10.0.1",
-      "babel-jest": "^24.8.0",
-      "eslint": "^5.16.0",
-      "eslint-config-prettier": "^4.3.0",
-      "eslint-config-standard-jsx": "^6.0.2",
-      "eslint-plugin-react": "^7.13.0",
-      "jest": "^24.8.0",
-      "jest-dom": "^3.3.0",
-      "nodemon": "^1.19.1",
-      "parcel-bundler": "^1.12.3",
-      "prettier": "^1.17.1",
-      "react-hot-loader": "^4.8.8",
-      "react-test-renderer": "^16.8.6",
-      "react-testing-library": "^7.0.1",
-      "rimraf": "^2.6.3"
-   }
+    "name": "helse-speil",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "author": "Jan-Kåre Solbakken <jan-kare.solbakken@nav.no>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/navikt/helse-speil.git"
+    },
+    "license": "MIT",
+    "scripts": {
+        "test:eslint": "eslint src/ --ext .js --ext .jsx",
+        "test": "jest",
+        "pretest": "npm run test:eslint",
+        "start": "NODE_ENV=development parcel src/index.html --open",
+        "start-express": "DEBUG=express:* node src/server/server.js --experimental-modules",
+        "dev-express": "DEBUG=express:* NODE_ENV=development nodemon src/server/server.js --experimental-modules",
+        "build": "npm run test && npm run clean:dist && parcel build src/index.html --public-url ./ --no-source-maps",
+        "clean:dist": "rimraf dist"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,jsx,css,json,md}": [
+            "prettier --write",
+            "git add"
+        ],
+        "*.{js,jsx}": [
+            "eslint --fix",
+            "git add"
+        ]
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome": "^1.1.8",
+        "@fortawesome/fontawesome-free-solid": "^5.0.13",
+        "@fortawesome/fontawesome-svg-core": "^1.2.18",
+        "@fortawesome/free-solid-svg-icons": "^5.8.2",
+        "@fortawesome/react-fontawesome": "^0.1.4",
+        "cookie-parser": "^1.4.4",
+        "dotenv": "^8.0.0",
+        "express": "^4.17.0",
+        "express-session": "^1.16.1",
+        "openid-client": "^3.1.1",
+        "prom-client": "^11.3.0",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-router-dom": "^5.0.1",
+        "request": "^2.88.0",
+        "reset-css": "^4.0.1",
+        "tunnel": "0.0.6"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.4.5",
+        "@babel/plugin-proposal-class-properties": "^7.4.4",
+        "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+        "@babel/plugin-transform-runtime": "^7.4.4",
+        "@babel/polyfill": "^7.4.4",
+        "@babel/preset-env": "^7.4.5",
+        "@babel/preset-react": "^7.0.0",
+        "autoprefixer": "^9.5.1",
+        "babel-eslint": "^10.0.1",
+        "babel-jest": "^24.8.0",
+        "eslint": "^5.16.0",
+        "eslint-config-prettier": "^4.3.0",
+        "eslint-config-standard-jsx": "^6.0.2",
+        "eslint-plugin-react": "^7.13.0",
+        "husky": "^2.4.1",
+        "jest": "^24.8.0",
+        "jest-dom": "^3.3.0",
+        "lint-staged": "^8.2.1",
+        "nodemon": "^1.19.1",
+        "parcel-bundler": "^1.12.3",
+        "prettier": "^1.17.1",
+        "react-hot-loader": "^4.8.8",
+        "react-test-renderer": "^16.8.6",
+        "react-testing-library": "^7.0.1",
+        "rimraf": "^2.6.3"
+    }
 }
