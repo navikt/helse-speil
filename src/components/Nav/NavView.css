@@ -9,37 +9,57 @@ nav {
 }
 
 nav li a.active {
-    background-color: #3E3832;
+    background-color: #EAECEB;
 }
 nav li a {
     background-repeat: no-repeat;
     background-position: center center;
+    background-size: 50%;
     display: inline-block;
     box-sizing: border-box;
     width: 100%;
-    height: 4em;
+    height: 3.6em;
+
 }
 
-#nav-link-sykdomsvilkår {
+#nav-link-sykdomsvilkår:not(.active) {
     background-image: url('img/Helse_hvit.svg');
 }
+#nav-link-sykdomsvilkår.active {
+    background-image: url('img/Helse_sort.svg');
+}
 
-#nav-link-inngangsvilkår {
+#nav-link-inngangsvilkår:not(.active) {
     background-image: url('img/Oppgaver_hvit.svg');
 }
+#nav-link-inngangsvilkår.active {
+    background-image: url('img/Oppgaver_sort.svg');
+}
 
-#nav-link-sykepengegrunnlag {
+#nav-link-beregning:not(.active) {
     background-image: url('img/Beregning_hvit.svg');
 }
+#nav-link-beregning.active {
+    background-image: url('img/Beregning_sort.svg');
+}
 
-#nav-link-periode {
+#nav-link-periode:not(.active) {
     background-image: url('img/Kalender_hvit.svg');
 }
-
-#nav-link-utbetaling {
-    background-image: url('img/Utbetaling_hvit.svg');
+#nav-link-periode.active {
+    background-image: url('img/Kalender_sort.svg');
 }
 
-#nav-link-oppsummering {
+#nav-link-utbetaling:not(.active) {
+    background-image: url('img/Utbetaling_hvit.svg');
+}
+#nav-link-utbetaling.active {
+    background-image: url('img/Utbetaling_sort.svg');
+}
+
+#nav-link-oppsummering:not(.active) {
     background-image: url('img/Vedtak_hvit.svg');
+}
+#nav-link-oppsummering.active {
+    background-image: url('img/Vedtak_sort.svg');
 }
