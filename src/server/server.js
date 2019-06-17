@@ -137,6 +137,7 @@ app.get('/behandlinger/:aktorId', (req, res) => {
                 console.log(err);
                 res.sendStatus(500);
             }
+            res.header('Content-type', 'application/json; charset=utf-8');
             res.send(data);
         });
         return;
