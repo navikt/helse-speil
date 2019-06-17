@@ -12,9 +12,32 @@
          "version": "16.0"
       }
    },
-
+   "env": {
+      "browser": true
+   },
+   "overrides": [
+      {
+         "files": ["src/server/**/*.js"],
+         "env": {
+            "node": true,
+            "browser": false
+         },
+         "rules": {
+            "no-console": "off"
+         }
+      },
+      {
+         "files": ["**/*.test.js"],
+         "env": {
+            "mocha": true,
+            "node": true,
+            "jest": true,
+            "es6": true
+         }
+      }
+   ],
    "plugins": ["react"],
-   "extends": ["prettier"],
+   "extends": ["eslint:recommended", "prettier"],
    "rules": {
       "react/jsx-no-bind": [
          "error",

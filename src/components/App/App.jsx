@@ -1,46 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import HeaderBar from '../HeaderBar/HeaderBar'
-import MainContentWrapper from '../MainContentWrapper/MainContentWrapper'
-import { whoami } from '../../io/http'
-import AuthContext from '../../context/AuthContext'
-import BehandlingerContext from '../../context/BehandlingerContext'
-import './App.css'
-import 'reset-css'
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import HeaderBar from '../HeaderBar/HeaderBar';
+import MainContentWrapper from '../MainContentWrapper/MainContentWrapper';
+import { whoami } from '../../io/http';
+import AuthContext from '../../context/AuthContext';
+import BehandlingerContext from '../../context/BehandlingerContext';
+import './App.css';
+import 'reset-css';
 
 const App = () => {
+    const [authState, setAuthState] = useState({});
+    const [behandlinger, setBehandlinger] = useState({ behandlinger: [] });
 
-   const [authState, setAuthState] = useState({})
-   const [behandlinger, setBehandlinger] = useState({behandlinger: []})
+    useEffect(() => {
+        if (!authState.name) {
+            try {
+                whoami().then(data => {
+                    if (data && data.name) {
+                        setAuthState({ name: data.name });
+                    } else {
+                        window.location.assign('/login');
+                    }
+                });
+            } catch (err) {
+                console.log(err); // eslint-disable-line no-console
+            }
+        }
+    });
 
-   useEffect(() => {
-      if (!authState.name) {
-         try {
-            whoami().then((data) => {
-               if (data && data.name) {
-                  setAuthState({name: data.name})
-               } else {
-                  window.location.assign('/login')
-               }
-            })    
-         } catch (err) {
-            console.log(err)
-         }
-      }
-   })
+    return (
+        <AuthContext.Provider
+            value={{ state: authState, setState: setAuthState }}
+        >
+            <BehandlingerContext.Provider
+                value={{
+                    state: behandlinger,
+                    setBehandlinger: setBehandlinger
+                }}
+            >
+                <Router>
+                    <HeaderBar />
+                    <MainContentWrapper />
+                </Router>
+            </BehandlingerContext.Provider>
+        </AuthContext.Provider>
+    );
+};
 
-   return (
-      <AuthContext.Provider value={{state: authState, setState: setAuthState}}>
-         <BehandlingerContext.Provider value={{state: behandlinger, setBehandlinger: setBehandlinger}}>
-
-            <Router>
-               <HeaderBar />
-               <MainContentWrapper />
-            </Router>
-
-         </BehandlingerContext.Provider>
-      </AuthContext.Provider>
-   )
-}
-
-export default App
+export default App;
