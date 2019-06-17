@@ -18,6 +18,11 @@
                   "fom": "2019-02-22",
                   "tom": "2019-03-11",
                   "sykmeldingsgrad": 100
+               },
+               {
+                  "fom": "2019-03-12",
+                  "tom": "2019-03-16",
+                  "sykmeldingsgrad": 100
                }
             ]
          },
@@ -196,7 +201,7 @@
                "fastsattVerdi": "2020-02-04",
                "begrunnelse": "Â§ 8-12: ARBEIDSTAKER på 37 år gir maks 248 dager. 0 av disse er forbrukt",
                "grunnlag": {
-                  "førsteFravÃ¦rsdag": "2019-02-03",
+                  "førsteFraværsdag": "2019-02-03",
                   "førsteSykepengedag": "2019-02-22",
                   "personensAlder": 37,
                   "yrkesstatus": "ARBEIDSTAKER",
@@ -495,7 +500,7 @@
                                                    {
                                                       "resultat": "JA",
                                                       "begrunnelse": "Søker har jobbet minst 28 dager",
-                                                      "beskrivelse": "Har Søker vÃ¦rt i arbeid i minst fire uker?",
+                                                      "beskrivelse": "Har Søker vært i arbeid i minst fire uker?",
                                                       "identifikator": "Â§ 8-2 første ledd",
                                                       "operator": "INGEN",
                                                       "children": []
