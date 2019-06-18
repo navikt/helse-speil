@@ -5,9 +5,12 @@
     padding: 0.5rem;
 }
 
-.EnigBoks input {
-    flex-grow: 10;
+.EnigBoks__input {
+    flex: 1;
     min-width: 32rem;
+}
+
+.EnigBoks__input input {
     font-size: 1rem;
     background-color: #fff;
     color: #000;
