@@ -154,6 +154,8 @@ app.get('/behandlinger/:aktorId', (req, res) => {
     } else {
         const aktorId = req.params.aktorId;
         behandlingerFor(aktorId, accessToken, apiresponse => {
+            console.log(typeof apiresponse);
+            console.log(apiresponse);
             if (apiresponse.status !== 200) {
                 res.status(apiresponse.status).send(apiresponse.data);
             } else {
