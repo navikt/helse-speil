@@ -56,6 +56,12 @@ const inngangsvilkår = behandling => {
     };
 };
 
+const alle = behandling => {
+    return {
+        inngangsvilkår: inngangsvilkår(behandling)
+    };
+};
+
 const toDate = dateString => {
     return dateString ? new Date(dateString) : null;
 };
@@ -68,5 +74,6 @@ const newestTom = objs => {
 };
 
 module.exports = {
-    inngangsvilkår: inngangsvilkår
+    inngangsvilkår: inngangsvilkår,
+    alle: alle
 };

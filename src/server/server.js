@@ -16,6 +16,8 @@ const proxy = require('./proxy');
 const metrics = require('./metrics');
 const headers = require('./headers');
 
+const mapping = require('./mapping');
+
 const app = express();
 const port = config.server.port;
 
@@ -138,7 +140,11 @@ app.get('/behandlinger/:aktorId', (req, res) => {
                 res.sendStatus(500);
             }
             res.header('Content-type', 'application/json; charset=utf-8');
-            res.send(data);
+            res.send(
+                JSON.parse(data).behandlinger.map(behandling =>
+                    mapping.alle(behandling)
+                )
+            );
         });
         return;
     }
@@ -148,9 +154,17 @@ app.get('/behandlinger/:aktorId', (req, res) => {
     } else {
         const aktorId = req.params.aktorId;
         behandlingerFor(aktorId, accessToken, behandlinger => {
-            res.status(behandlinger.status).send(
-                behandlinger.data || 'Fant ingen behandlinger'
-            );
+            if (behandlinger.status !== 200) {
+                const mapped = behandlinger.data.map(behandling =>
+                    mapping.alle(behandling)
+                );
+                res.status(behandlinger.status).send(mapped);
+            } else {
+                res.send(
+                    mapping.inngangsvilkår(JSON.parse(behandlinger.data)) ||
+                        'Fant ingen behandlinger'
+                );
+            }
         });
     }
 });
@@ -159,4 +173,4 @@ app.get('/', (_, res) => {
     res.redirect('/static');
 });
 
-app.listen(port, () => console.log(`Speil backend listening on port ${port}!`));
+app.listen(port, () => console.log(`Speil backend listening on port ${port}`));
