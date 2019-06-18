@@ -158,7 +158,7 @@ app.get('/behandlinger/:aktorId', (req, res) => {
                 res.status(apiresponse.status).send(apiresponse.data);
             } else {
                 res.send(
-                    apiresponse.behandlinger.map(behandling =>
+                    JSON.parse(apiresponse).behandlinger.map(behandling =>
                         mapping.alle(behandling)
                     )
                 );
