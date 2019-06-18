@@ -161,8 +161,7 @@ app.get('/behandlinger/:aktorId', (req, res) => {
                 res.status(behandlinger.status).send(mapped);
             } else {
                 res.send(
-                    mapping.inngangsvilkår(JSON.parse(behandlinger.data)) ||
-                        'Fant ingen behandlinger'
+                    mapping.alle(behandlinger.data) || 'Fant ingen behandlinger'
                 );
             }
         });
