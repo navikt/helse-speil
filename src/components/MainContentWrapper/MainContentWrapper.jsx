@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import './MainContentWrapper.css';
 import JsonView from '../JsonView/JsonView';
 import Nav from '../Nav/NavView';
-import Inngangsvilkår from '../JsonView/Inngangsvilkår';
+import Inngangsvilkår from '../Inngangsvilkår/Inngangsvilkår';
 
 const MainContentWrapper = () => {
     return (
