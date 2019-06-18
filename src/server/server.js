@@ -153,15 +153,14 @@ app.get('/behandlinger/:aktorId', (req, res) => {
         res.sendStatus(403);
     } else {
         const aktorId = req.params.aktorId;
-        behandlingerFor(aktorId, accessToken, behandlinger => {
-            if (behandlinger.status !== 200) {
-                const mapped = behandlinger.data.map(behandling =>
-                    mapping.alle(behandling)
-                );
-                res.status(behandlinger.status).send(mapped);
+        behandlingerFor(aktorId, accessToken, apiresponse => {
+            if (apiresponse.status !== 200) {
+                res.status(apiresponse.status).send(apiresponse.data);
             } else {
                 res.send(
-                    mapping.alle(behandlinger.data) || 'Fant ingen behandlinger'
+                    apiresponse.behandlinger.map(behandling =>
+                        mapping.alle(behandling)
+                    )
                 );
             }
         });
