@@ -5,6 +5,7 @@ import Bolk from '../widgets/Bolk';
 import BehandlingerContext from '../../context/BehandlingerContext';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
+import { inngangsvilkårtekster as tekster } from '../../tekster';
 
 const Inngangsvilkår = () => {
     const behandlingerCtx = useContext(BehandlingerContext);
@@ -21,10 +22,10 @@ const Inngangsvilkår = () => {
 
             <Panel border>
                 <Undertittel className="panel-tittel">
-                    Beregning av sykepengegrunnlag og dagsats
+                    {tekster(`tittel`)}
                 </Undertittel>
 
-                <Bolk title="Inngangsvilkår oppfylt" />
+                <Bolk title={tekster('inngangsvilkår_oppfylt')} />
 
                 {medlemskapBolk(behandling.inngangsvilkår.medlemskap)}
             </Panel>
@@ -40,7 +41,7 @@ function medlemskapBolk(medlemskap) {
         };
     });
 
-    return <Bolk title="Medlemskap" items={items} />;
+    return <Bolk title={tekster('medlemskap')} items={items} />;
 }
 
 export default Inngangsvilkår;
