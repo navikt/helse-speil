@@ -10,15 +10,14 @@ const readTestdata = () => {
     return fs.readFileSync('__mock-data__/behandlinger.json').toString();
 };
 
-test('medlemsskap', async () => {
+test('medlemskap', async () => {
     const rawServerResponse = JSON.parse(readTestdata());
-    const medlemsskap = mapping.inngangsvilkår(
-        rawServerResponse.behandlinger[0]
-    ).medlemsskap;
+    const medlemskap = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
+        .medlemskap;
     const expected = {
         bostedsland: 'NOR'
     };
-    expect(medlemsskap).toEqual(expected);
+    expect(medlemskap).toEqual(expected);
 });
 
 test('opptjening', async () => {
@@ -26,9 +25,9 @@ test('opptjening', async () => {
     const opptjening = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
         .opptjening;
     const expected = {
-        førsteSykdomsdag: new Date(Date.parse('2019-02-03')),
-        antallDager: 398,
-        startdato: new Date('2018-01-01'),
+        førsteSykdomsdag: new Date(Date.parse('2019-05-09')),
+        antallDager: 768,
+        startdato: new Date('2017-04-01'),
         sluttdato: null
     };
     expect(opptjening).toEqual(expected);
@@ -39,7 +38,7 @@ test('inntekt', async () => {
     const mapped = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
         .inntekt;
     const expected = {
-        beløp: 300000
+        beløp: 416820
     };
     expect(mapped).toEqual(expected);
 });
@@ -49,8 +48,8 @@ test('søknadsfrist', async () => {
     const mapped = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
         .søknadsfrist;
     const expected = {
-        sendtNav: new Date('2019-03-14T09:17:55.459'),
-        sisteSykdomsdag: new Date('2019-03-16'),
+        sendtNav: new Date('2019-06-11T15:21:29.127Z'),
+        sisteSykdomsdag: new Date('2019-05-26'),
         antallMnd: 0
     };
     expect(mapped).toEqual(expected);
@@ -61,11 +60,11 @@ test('dagerIgjen', async () => {
     const mapped = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
         .dagerIgjen;
     const expected = {
-        førsteFraværsdag: new Date('2019-02-03'),
-        førsteSykepengedag: new Date('2019-02-22'),
-        alder: 37,
+        førsteFraværsdag: new Date('2019-05-09'),
+        førsteSykepengedag: new Date('2019-05-09'),
+        alder: 42,
         yrkesstatus: 'ARBEIDSTAKER',
-        maxDato: new Date('2020-02-04'),
+        maxDato: new Date('2020-04-20'),
         tidligerePerioder: []
     };
     expect(mapped).toEqual(expected);

@@ -1,7 +1,7 @@
 'use strict';
 
 const inngangsvilkår = behandling => {
-    const medlemsskap = {
+    const medlemskap = {
         bostedsland: behandling.faktagrunnlag.tps.bostedland
     };
 
@@ -16,7 +16,7 @@ const inngangsvilkår = behandling => {
                 .length != 0
                 ? toDate(
                       behandling.avklarteVerdier.opptjeningstid.grunnlag
-                          .arbeidsforhold[0].startdato
+                          .arbeidsforhold.grunnlag[0].startdato
                   )
                 : null,
         sluttdato:
@@ -24,7 +24,7 @@ const inngangsvilkår = behandling => {
                 .length != 0
                 ? toDate(
                       behandling.avklarteVerdier.opptjeningstid.grunnlag
-                          .arbeidsforhold[0].sluttdato
+                          .arbeidsforhold.grunnlag[0].sluttdato
                   )
                 : null
     };
@@ -56,7 +56,7 @@ const inngangsvilkår = behandling => {
     };
 
     return {
-        medlemsskap: medlemsskap,
+        medlemskap: medlemskap,
         opptjening: opptjening,
         inntekt: inntekt,
         søknadsfrist: søknadsfrist,

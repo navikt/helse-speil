@@ -2,520 +2,2139 @@
     "behandlinger": [
         {
             "originalSøknad": {
-                "aktorId": "1234567890123",
+                "id": "bbbb-cccc-dddd-eeee-ffff",
+                "type": "ARBEIDSTAKERE",
                 "status": "SENDT",
+                "aktorId": "12345678910112",
+                "sykmeldingId": "aaaa-bbbb-cccc-dddd-eeee",
                 "arbeidsgiver": {
-                    "navn": "S. Vindel & sønn",
+                    "navn": "S. VINDEL & SØNN",
                     "orgnummer": "999999999"
                 },
-                "soktUtenlandsopphold": false,
-                "fom": "2019-02-22",
-                "tom": "2019-03-11",
-                "startSyketilfelle": "2019-02-03",
-                "sendtNav": "2019-03-14T09:17:55.459",
+                "arbeidssituasjon": "ARBEIDSTAKER",
+                "korrigerer": null,
+                "korrigertAv": null,
+                "soktUtenlandsopphold": null,
+                "arbeidsgiverForskutterer": null,
+                "fom": "2019-05-09",
+                "tom": "2019-05-26",
+                "startSyketilfelle": "2019-05-09",
+                "arbeidGjenopptatt": null,
+                "sykmeldingSkrevet": "2019-06-09T14:26:52",
+                "opprettet": "2019-06-11T17:19:05.700",
+                "sendtNav": "2019-06-11T17:21:29.127",
+                "sendtArbeidsgiver": "2019-06-17T17:30:36.109",
+                "egenmeldinger": [
+                    {
+                        "fom": "2019-05-07",
+                        "tom": "2019-05-07"
+                    }
+                ],
+                "papirsykmeldinger": null,
+                "fravar": [],
+                "andreInntektskilder": [],
                 "soknadsperioder": [
                     {
-                        "fom": "2019-02-22",
-                        "tom": "2019-03-11",
-                        "sykmeldingsgrad": 100
-                    },
-                    {
-                        "fom": "2019-03-12",
-                        "tom": "2019-03-16",
-                        "sykmeldingsgrad": 100
+                        "fom": "2019-05-09",
+                        "tom": "2019-05-26",
+                        "sykmeldingsgrad": 100,
+                        "faktiskGrad": null,
+                        "avtaltTimer": null,
+                        "faktiskTimer": null,
+                        "sykmeldingstype": "AKTIVITET_IKKE_MULIG"
                     }
-                ]
+                ],
+                "sporsmal": [],
+                "avsendertype": null,
+                "ettersending": false,
+                "mottaker": "ARBEIDSGIVER_OG_NAV"
             },
             "faktagrunnlag": {
-                "tps": { "fodselsdato": "1981-07-12", "bostedland": "NOR" },
+                "tps": {
+                    "fodselsdato": "1996-12-24",
+                    "bostedland": "NOR",
+                    "statsborgerskap": "NOR",
+                    "status": "BOSA",
+                    "diskresjonskode": null
+                },
                 "beregningsperiode": [
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-11-01",
-                            "tom": "2018-11-30",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 2328.75,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-12-01",
-                            "tom": "2018-12-31",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2019-01-01",
-                            "tom": "2019-01-31",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 615.32,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-02",
+                        "beløp": 3519,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-02",
+                        "beløp": 2737.26,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-02",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-02",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 3586.5,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 34066.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 616,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     }
                 ],
                 "sammenligningsperiode": [
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-11-01",
-                            "tom": "2018-11-30",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2018-11",
+                        "beløp": 2380.5,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-12-01",
-                            "tom": "2018-12-31",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2018-11",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2019-01-01",
-                            "tom": "2019-01-31",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2018-11",
+                        "beløp": 1720,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-04-01",
-                            "tom": "2018-04-30",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2018-11",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-02-01",
-                            "tom": "2018-02-28",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2018-12",
+                        "beløp": 3837.15,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-04-01",
-                            "tom": "2018-04-30",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2018-12",
+                        "beløp": -23.92,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-05-01",
-                            "tom": "2018-05-31",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2018-12",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-06-01",
-                            "tom": "2018-06-30",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2018-12",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-07-01",
-                            "tom": "2018-07-31",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2019-01",
+                        "beløp": 1777.5,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-08-01",
-                            "tom": "2018-08-31",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2019-01",
+                        "beløp": 6873.08,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-10-01",
-                            "tom": "2018-10-31",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2019-01",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     },
                     {
-                        "arbeidsgiver": { "orgnr": "999999999" },
-                        "opptjeningsperiode": {
-                            "fom": "2018-09-01",
-                            "tom": "2018-09-30",
-                            "antattPeriode": false
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
                         },
-                        "beløp": 25000.0
+                        "utbetalingsperiode": "2019-01",
+                        "beløp": 480,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-01",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 2328.75,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 615.32,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-03",
+                        "beløp": 3160,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-05",
+                        "beløp": 3000,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-05",
+                        "beløp": 2815.47,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-05",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-05",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-05",
+                        "beløp": 26042.6,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-05",
+                        "beløp": -32658.5,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-05",
+                        "beløp": 3160,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-02",
+                        "beløp": 3519,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-02",
+                        "beløp": 2737.26,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-02",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-02",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 3586.5,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 34066.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 616,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2019-04",
+                        "beløp": 1720,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-06",
+                        "beløp": 266.52,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-06",
+                        "beløp": 1766.75,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-06",
+                        "beløp": 5957.61,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-06",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-06",
+                        "beløp": 3160,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-06",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-07",
+                        "beløp": 1038.75,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-07",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-07",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-08",
+                        "beløp": 3543,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-08",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-08",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-09",
+                        "beløp": 2133,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-09",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-09",
+                        "beløp": -73.61,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-09",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-10",
+                        "beløp": 3832.5,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-10",
+                        "beløp": 40,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
+                    },
+                    {
+                        "virksomhet": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "utbetalingsperiode": "2018-10",
+                        "beløp": 28308.38,
+                        "type": "Lønn",
+                        "ytelse": false,
+                        "kode": null
                     }
                 ],
-                "sykepengeliste": [],
-                "arbeidsforhold": [
-                    {
-                        "arbeidsgiver": {
-                            "navn": "S. Vindel & sønn",
-                            "orgnummer": "999999999"
+                "sykepengehistorikk": [],
+                "arbeidInntektYtelse": {
+                    "arbeidsforhold": [
+                        {
+                            "type": "Arbeidstaker",
+                            "arbeidsgiver": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "startdato": "2017-04-01",
+                            "sluttdato": null
+                        }
+                    ],
+                    "inntekter": [
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-04",
+                                "beløp": 3586.5
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
                         },
-                        "startdato": "2018-01-01",
-                        "sluttdato": null
-                    }
-                ]
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-04",
+                                "beløp": 34066.38
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-04",
+                                "beløp": 616
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-04",
+                                "beløp": 40
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-04",
+                                "beløp": 1720
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-05",
+                                "beløp": 1439.5
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-05",
+                                "beløp": 6964.56
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-05",
+                                "beløp": -39301.33
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-05",
+                                "beløp": 615.32
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-05",
+                                "beløp": 40
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-05",
+                                "beløp": 34066.38
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        },
+                        {
+                            "inntekt": {
+                                "virksomhet": {
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
+                                },
+                                "utbetalingsperiode": "2019-05",
+                                "beløp": 3160
+                            },
+                            "muligeArbeidsforhold": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ]
+                        }
+                    ],
+                    "ytelser": []
+                },
+                "ytelser": {
+                    "infotrygd": [],
+                    "arena": []
+                }
             },
             "avklarteVerdier": {
                 "medlemsskap": {
                     "type": "Avklart",
                     "fastsattVerdi": true,
-                    "begrunnelse": "(Søker er bosatt i Norge. ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
-                    "grunnlag": { "bostedsland": "NOR" },
+                    "begrunnelse": "Søker oppfyller krav om medlemskap",
+                    "grunnlag": {
+                        "fodselsdato": "1996-12-24",
+                        "bostedland": "NOR",
+                        "statsborgerskap": "NOR",
+                        "status": "BOSA",
+                        "diskresjonskode": null
+                    },
                     "fastsattAv": "SPA",
-                    "vurderingstidspunkt": "2019-03-14T09:17:57.61601"
+                    "vurderingstidspunkt": "2019-06-17T17:35:54.74551"
                 },
                 "alder": {
                     "type": "Avklart",
-                    "fastsattVerdi": 37,
-                    "begrunnelse": "Â§ 8-51",
-                    "grunnlag": { "fodselsdato": "1981-07-12" },
+                    "fastsattVerdi": 42,
+                    "begrunnelse": "§ 8-51",
+                    "grunnlag": {
+                        "fodselsdato": "1996-12-24"
+                    },
                     "fastsattAv": "SPA",
-                    "vurderingstidspunkt": "2019-03-14T09:17:57.616063"
+                    "vurderingstidspunkt": "2019-06-17T17:35:54.745534"
                 },
                 "maksdato": {
                     "type": "Avklart",
-                    "fastsattVerdi": "2020-02-04",
-                    "begrunnelse": "Â§ 8-12: ARBEIDSTAKER på 37 år gir maks 248 dager. 0 av disse er forbrukt",
+                    "fastsattVerdi": "2020-04-20",
+                    "begrunnelse": "§ 8-12: ARBEIDSTAKER på 37 år gir maks 248 dager. 0 av disse er forbrukt",
                     "grunnlag": {
-                        "førsteFraværsdag": "2019-02-03",
-                        "førsteSykepengedag": "2019-02-22",
-                        "personensAlder": 37,
+                        "førsteFraværsdag": "2019-05-09",
+                        "førsteSykepengedag": "2019-05-09",
+                        "personensAlder": 42,
                         "yrkesstatus": "ARBEIDSTAKER",
                         "tidligerePerioder": []
                     },
                     "fastsattAv": "SPA",
-                    "vurderingstidspunkt": "2019-03-14T09:17:57.616932"
+                    "vurderingstidspunkt": "2019-06-17T17:35:54.745872"
                 },
-                "sykepengeliste": [],
+                "sykepengehistorikk": [],
                 "arbeidsforhold": {
                     "type": "Avklart",
-                    "fastsattVerdi": true,
-                    "begrunnelse": "Søker har en arbeidsgiver med orgnummer 999999999",
+                    "fastsattVerdi": {
+                        "type": "Arbeidstaker",
+                        "arbeidsgiver": {
+                            "identifikator": "999999999",
+                            "type": "Organisasjon"
+                        },
+                        "startdato": "2017-04-01",
+                        "sluttdato": null
+                    },
+                    "begrunnelse": "Søker har et arbeidsforhold hos S. VINDEL & SØNN A/S",
                     "grunnlag": [
                         {
+                            "type": "Arbeidstaker",
                             "arbeidsgiver": {
-                                "navn": "S. Vindel & sønn",
-                                "orgnummer": "999999999"
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            "startdato": "2018-01-01",
+                            "startdato": "2017-04-01",
                             "sluttdato": null
                         }
                     ],
                     "fastsattAv": "SPA",
-                    "vurderingstidspunkt": "2019-03-14T09:17:57.616081"
+                    "vurderingstidspunkt": "2019-06-17T17:35:54.74561"
                 },
                 "opptjeningstid": {
                     "type": "Avklart",
-                    "fastsattVerdi": 398,
+                    "fastsattVerdi": 768,
                     "begrunnelse": "Søker er i et aktivt arbeidsforhold",
                     "grunnlag": {
-                        "førsteSykdomsdag": "2019-02-03",
-                        "arbeidsforhold": [
-                            {
+                        "førsteSykdomsdag": "2019-05-09",
+                        "arbeidsforhold": {
+                            "type": "Avklart",
+                            "fastsattVerdi": {
+                                "type": "Arbeidstaker",
                                 "arbeidsgiver": {
-                                    "navn": "S. Vindel & sønn",
-                                    "orgnummer": "999999999"
+                                    "identifikator": "999999999",
+                                    "type": "Organisasjon"
                                 },
-                                "startdato": "2018-01-01",
+                                "startdato": "2017-04-01",
                                 "sluttdato": null
-                            }
-                        ]
+                            },
+                            "begrunnelse": "Søker har et arbeidsforhold hos S. VINDEL & SØNN A/S",
+                            "grunnlag": [
+                                {
+                                    "type": "Arbeidstaker",
+                                    "arbeidsgiver": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "startdato": "2017-04-01",
+                                    "sluttdato": null
+                                }
+                            ],
+                            "fastsattAv": "SPA",
+                            "vurderingstidspunkt": "2019-06-17T17:35:54.74561"
+                        }
                     },
                     "fastsattAv": "SPA",
-                    "vurderingstidspunkt": "2019-03-14T09:17:57.616134"
+                    "vurderingstidspunkt": "2019-06-17T17:35:54.745658"
                 },
                 "sykepengegrunnlag": {
                     "type": "Avklart",
                     "fastsattVerdi": {
                         "sykepengegrunnlagNårTrygdenYter": {
                             "type": "Avklart",
-                            "fastsattVerdi": 300000,
-                            "begrunnelse": "Â§ 8-30 første ledd",
-                            "grunnlag": {
-                                "inntekter": [
-                                    {
-                                        "arbeidsgiver": {
-                                            "orgnr": "999999999"
-                                        },
-                                        "opptjeningsperiode": {
-                                            "fom": "2018-11-01",
-                                            "tom": "2018-11-30",
-                                            "antattPeriode": false
-                                        },
-                                        "beløp": 25000.0
+                            "fastsattVerdi": 416820,
+                            "begrunnelse": "§ 8-30 første ledd",
+                            "grunnlag": [
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
                                     },
-                                    {
-                                        "arbeidsgiver": {
-                                            "orgnr": "999999999"
-                                        },
-                                        "opptjeningsperiode": {
-                                            "fom": "2018-12-01",
-                                            "tom": "2018-12-31",
-                                            "antattPeriode": false
-                                        },
-                                        "beløp": 25000.0
+                                    "utbetalingsperiode": "2019-03",
+                                    "beløp": 2328.75,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
                                     },
-                                    {
-                                        "arbeidsgiver": {
-                                            "orgnr": "999999999"
-                                        },
-                                        "opptjeningsperiode": {
-                                            "fom": "2019-01-01",
-                                            "tom": "2019-01-31",
-                                            "antattPeriode": false
-                                        },
-                                        "beløp": 25000.0
-                                    }
-                                ],
-                                "begrunnelse": "Â§ 8-28 tredje ledd bokstav a) â De tre siste kalendermånedene før arbeidstakeren ble arbeidsufør (2019-02-03) legges til grunn."
-                            },
-                            "fastsattAv": "spa",
-                            "vurderingstidspunkt": "2019-03-14T09:17:57.616487"
+                                    "utbetalingsperiode": "2019-03",
+                                    "beløp": 28308.38,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-03",
+                                    "beløp": 40,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-03",
+                                    "beløp": 615.32,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-02",
+                                    "beløp": 3519,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-02",
+                                    "beløp": 2737.26,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-02",
+                                    "beløp": 28308.38,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-02",
+                                    "beløp": 40,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-04",
+                                    "beløp": 3586.5,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-04",
+                                    "beløp": 34066.38,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-04",
+                                    "beløp": 616,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-04",
+                                    "beløp": 40,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                }
+                            ],
+                            "fastsattAv": "SPA",
+                            "vurderingstidspunkt": "2019-06-17T17:35:54.745807"
                         },
                         "sykepengegrunnlagIArbeidsgiverperioden": {
                             "type": "Avklart",
-                            "fastsattVerdi": 25000,
-                            "begrunnelse": "Â§ 8-28 andre ledd",
-                            "grunnlag": {
-                                "inntekter": [
-                                    {
-                                        "arbeidsgiver": {
-                                            "orgnr": "999999999"
-                                        },
-                                        "opptjeningsperiode": {
-                                            "fom": "2018-11-01",
-                                            "tom": "2018-11-30",
-                                            "antattPeriode": false
-                                        },
-                                        "beløp": 25000.0
+                            "fastsattVerdi": 34735,
+                            "begrunnelse": "§ 8-28 andre ledd",
+                            "grunnlag": [
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
                                     },
-                                    {
-                                        "arbeidsgiver": {
-                                            "orgnr": "999999999"
-                                        },
-                                        "opptjeningsperiode": {
-                                            "fom": "2018-12-01",
-                                            "tom": "2018-12-31",
-                                            "antattPeriode": false
-                                        },
-                                        "beløp": 25000.0
+                                    "utbetalingsperiode": "2019-03",
+                                    "beløp": 2328.75,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
                                     },
-                                    {
-                                        "arbeidsgiver": {
-                                            "orgnr": "999999999"
-                                        },
-                                        "opptjeningsperiode": {
-                                            "fom": "2019-01-01",
-                                            "tom": "2019-01-31",
-                                            "antattPeriode": false
-                                        },
-                                        "beløp": 25000.0
-                                    }
-                                ],
-                                "begrunnelse": "Â§ 8-28 tredje ledd bokstav a) â De tre siste kalendermånedene før arbeidstakeren ble arbeidsufør (2019-02-03) legges til grunn."
-                            },
-                            "fastsattAv": "spa",
-                            "vurderingstidspunkt": "2019-03-14T09:17:57.616358"
+                                    "utbetalingsperiode": "2019-03",
+                                    "beløp": 28308.38,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-03",
+                                    "beløp": 40,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-03",
+                                    "beløp": 615.32,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-02",
+                                    "beløp": 3519,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-02",
+                                    "beløp": 2737.26,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-02",
+                                    "beløp": 28308.38,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-02",
+                                    "beløp": 40,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-04",
+                                    "beløp": 3586.5,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-04",
+                                    "beløp": 34066.38,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-04",
+                                    "beløp": 616,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                },
+                                {
+                                    "virksomhet": {
+                                        "identifikator": "999999999",
+                                        "type": "Organisasjon"
+                                    },
+                                    "utbetalingsperiode": "2019-04",
+                                    "beløp": 40,
+                                    "type": "Lønn",
+                                    "ytelse": false,
+                                    "kode": null
+                                }
+                            ],
+                            "fastsattAv": "SPA",
+                            "vurderingstidspunkt": "2019-06-17T17:35:54.745766"
                         }
                     },
                     "begrunnelse": "",
-                    "grunnlag": {
-                        "inntekter": [
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-11-01",
-                                    "tom": "2018-11-30",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                    "grunnlag": [
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-12-01",
-                                    "tom": "2018-12-31",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2018-11",
+                            "beløp": 2380.5,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2019-01-01",
-                                    "tom": "2019-01-31",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2018-11",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-04-01",
-                                    "tom": "2018-04-30",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2018-11",
+                            "beløp": 1720,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-02-01",
-                                    "tom": "2018-02-28",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2018-11",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-04-01",
-                                    "tom": "2018-04-30",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2018-12",
+                            "beløp": 3837.15,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-05-01",
-                                    "tom": "2018-05-31",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2018-12",
+                            "beløp": -23.92,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-06-01",
-                                    "tom": "2018-06-30",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2018-12",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-07-01",
-                                    "tom": "2018-07-31",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2018-12",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-08-01",
-                                    "tom": "2018-08-31",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2019-01",
+                            "beløp": 1777.5,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-10-01",
-                                    "tom": "2018-10-31",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
+                            "utbetalingsperiode": "2019-01",
+                            "beløp": 6873.08,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
                             },
-                            {
-                                "arbeidsgiver": { "orgnr": "999999999" },
-                                "opptjeningsperiode": {
-                                    "fom": "2018-09-01",
-                                    "tom": "2018-09-30",
-                                    "antattPeriode": false
-                                },
-                                "beløp": 25000.0
-                            }
-                        ],
-                        "begrunnelse": "Â§ 8-30 andre ledd â rapportert inntekt (se Â§ 8-29) til a-ordningen etter reglene i a-opplysningsloven de siste tolv kalendermånedene før arbeidsuførheten inntraff (2019-02-03) legges til grunn."
-                    },
+                            "utbetalingsperiode": "2019-01",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-01",
+                            "beløp": 480,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-01",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-03",
+                            "beløp": 2328.75,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-03",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-03",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-03",
+                            "beløp": 615.32,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-03",
+                            "beløp": 3160,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-05",
+                            "beløp": 3000,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-05",
+                            "beløp": 2815.47,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-05",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-05",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-05",
+                            "beløp": 26042.6,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-05",
+                            "beløp": -32658.5,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-05",
+                            "beløp": 3160,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-02",
+                            "beløp": 3519,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-02",
+                            "beløp": 2737.26,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-02",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-02",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-04",
+                            "beløp": 3586.5,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-04",
+                            "beløp": 34066.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-04",
+                            "beløp": 616,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-04",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2019-04",
+                            "beløp": 1720,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-06",
+                            "beløp": 266.52,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-06",
+                            "beløp": 1766.75,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-06",
+                            "beløp": 5957.61,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-06",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-06",
+                            "beløp": 3160,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-06",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-07",
+                            "beløp": 1038.75,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-07",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-07",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-08",
+                            "beløp": 3543,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-08",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-08",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-09",
+                            "beløp": 2133,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-09",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-09",
+                            "beløp": -73.61,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-09",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-10",
+                            "beløp": 3832.5,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-10",
+                            "beløp": 40,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        },
+                        {
+                            "virksomhet": {
+                                "identifikator": "999999999",
+                                "type": "Organisasjon"
+                            },
+                            "utbetalingsperiode": "2018-10",
+                            "beløp": 28308.38,
+                            "type": "Lønn",
+                            "ytelse": false,
+                            "kode": null
+                        }
+                    ],
                     "fastsattAv": "SPA",
-                    "vurderingstidspunkt": "2019-03-14T09:17:57.61681"
+                    "vurderingstidspunkt": "2019-06-17T17:35:54.745809"
                 }
             },
             "vilkårsprøving": {
                 "resultat": "JA",
-                "begrunnelse": "(((((((Søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG ((Ãrsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
-                "beskrivelse": "Oppfyller Søker krav om opptjeningstid? OG Oppfyller Søker krav om medlemskap? OG Har Søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist? OG  ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar. ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.",
-                "identifikator": "Â§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG Â§ 22-13 OG Â§ 8-3 ELLER Ufullstendig informasjonsgrunnlag ELLER Ufullstendig informasjonsgrunnlag",
+                "begrunnelse": "((((((((søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG ((Årsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (IKKE siste mulige sykepengedag er etter siste dag søknaden gjelder for)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
+                "beskrivelse": "Oppfyller søker krav om opptjeningstid? OG Oppfyller søker krav om medlemskap? OG Har søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist? OG  OG IKKE er maks antall sykepengedager brukt? ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar. ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.",
+                "identifikator": "§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG § 22-13 OG § 8-3 OG IKKE § 8-12 ELLER Ufullstendig informasjonsgrunnlag ELLER Ufullstendig informasjonsgrunnlag",
                 "operator": "ELLER",
                 "children": [
                     {
                         "resultat": "JA",
-                        "begrunnelse": "((((((Søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG ((Ãrsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
-                        "beskrivelse": "Oppfyller Søker krav om opptjeningstid? OG Oppfyller Søker krav om medlemskap? OG Har Søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist? OG  ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.",
-                        "identifikator": "Â§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG Â§ 22-13 OG Â§ 8-3 ELLER Ufullstendig informasjonsgrunnlag",
+                        "begrunnelse": "(((((((søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG ((Årsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (IKKE siste mulige sykepengedag er etter siste dag søknaden gjelder for)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
+                        "beskrivelse": "Oppfyller søker krav om opptjeningstid? OG Oppfyller søker krav om medlemskap? OG Har søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist? OG  OG IKKE er maks antall sykepengedager brukt? ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.",
+                        "identifikator": "§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG § 22-13 OG § 8-3 OG IKKE § 8-12 ELLER Ufullstendig informasjonsgrunnlag",
                         "operator": "ELLER",
                         "children": [
                             {
                                 "resultat": "JA",
-                                "begrunnelse": "(((((Søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG ((Ãrsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.))",
-                                "beskrivelse": "Oppfyller Søker krav om opptjeningstid? OG Oppfyller Søker krav om medlemskap? OG Har Søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist? OG ",
-                                "identifikator": "Â§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG Â§ 22-13 OG Â§ 8-3",
+                                "begrunnelse": "((((((søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG ((Årsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (IKKE siste mulige sykepengedag er etter siste dag søknaden gjelder for))",
+                                "beskrivelse": "Oppfyller søker krav om opptjeningstid? OG Oppfyller søker krav om medlemskap? OG Har søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist? OG  OG IKKE er maks antall sykepengedager brukt?",
+                                "identifikator": "§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG § 22-13 OG § 8-3 OG IKKE § 8-12",
                                 "operator": "OG",
                                 "children": [
                                     {
                                         "resultat": "JA",
-                                        "begrunnelse": "((((Søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.))",
-                                        "beskrivelse": "Oppfyller Søker krav om opptjeningstid? OG Oppfyller Søker krav om medlemskap? OG Har Søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist?",
-                                        "identifikator": "Â§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG Â§ 22-13",
+                                        "begrunnelse": "(((((søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG ((Årsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.))",
+                                        "beskrivelse": "Oppfyller søker krav om opptjeningstid? OG Oppfyller søker krav om medlemskap? OG Har søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist? OG ",
+                                        "identifikator": "§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG § 22-13 OG § 8-3",
                                         "operator": "OG",
                                         "children": [
                                             {
                                                 "resultat": "JA",
-                                                "begrunnelse": "(((Søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.))",
-                                                "beskrivelse": "Oppfyller Søker krav om opptjeningstid? OG Oppfyller Søker krav om medlemskap? OG Har Søker andre ytelser som ikke kan kombineres med sykepenger?",
-                                                "identifikator": "Â§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser",
+                                                "begrunnelse": "((((søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)) OG (søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.))",
+                                                "beskrivelse": "Oppfyller søker krav om opptjeningstid? OG Oppfyller søker krav om medlemskap? OG Har søker andre ytelser som ikke kan kombineres med sykepenger? OG Er kravet fremsatt innen frist?",
+                                                "identifikator": "§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser OG § 22-13",
                                                 "operator": "OG",
                                                 "children": [
                                                     {
                                                         "resultat": "JA",
-                                                        "begrunnelse": "((Søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt)",
-                                                        "beskrivelse": "Oppfyller Søker krav om opptjeningstid? OG Oppfyller Søker krav om medlemskap?",
-                                                        "identifikator": "Â§ 8-2 OG Kapittel 2. Medlemskap",
+                                                        "begrunnelse": "(((søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt) OG ((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.))",
+                                                        "beskrivelse": "Oppfyller søker krav om opptjeningstid? OG Oppfyller søker krav om medlemskap? OG Har søker andre ytelser som ikke kan kombineres med sykepenger?",
+                                                        "identifikator": "§ 8-2 OG Kapittel 2. Medlemskap OG Forenkling av andre ytelser",
                                                         "operator": "OG",
                                                         "children": [
                                                             {
                                                                 "resultat": "JA",
-                                                                "begrunnelse": "(Søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
-                                                                "beskrivelse": "Oppfyller Søker krav om opptjeningstid?",
-                                                                "identifikator": "Â§ 8-2",
+                                                                "begrunnelse": "((søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.) OG Medlemsskap er oppfylt)",
+                                                                "beskrivelse": "Oppfyller søker krav om opptjeningstid? OG Oppfyller søker krav om medlemskap?",
+                                                                "identifikator": "§ 8-2 OG Kapittel 2. Medlemskap",
+                                                                "operator": "OG",
+                                                                "children": [
+                                                                    {
+                                                                        "resultat": "JA",
+                                                                        "begrunnelse": "(søker har jobbet minst 28 dager ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
+                                                                        "beskrivelse": "Oppfyller søker krav om opptjeningstid?",
+                                                                        "identifikator": "§ 8-2",
+                                                                        "operator": "ELLER",
+                                                                        "children": [
+                                                                            {
+                                                                                "resultat": "JA",
+                                                                                "begrunnelse": "søker har jobbet minst 28 dager",
+                                                                                "beskrivelse": "Har søker vært i arbeid i minst fire uker?",
+                                                                                "identifikator": "§ 8-2 første ledd",
+                                                                                "operator": "INGEN",
+                                                                                "children": []
+                                                                            },
+                                                                            {
+                                                                                "resultat": "KANSKJE",
+                                                                                "begrunnelse": "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
+                                                                                "beskrivelse": "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
+                                                                                "identifikator": "Ufullstendig informasjonsgrunnlag",
+                                                                                "operator": "INGEN",
+                                                                                "children": []
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "resultat": "JA",
+                                                                        "begrunnelse": "Medlemsskap er oppfylt",
+                                                                        "beskrivelse": "Oppfyller søker krav om medlemskap?",
+                                                                        "identifikator": "Kapittel 2. Medlemskap",
+                                                                        "operator": "INGEN",
+                                                                        "children": []
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "resultat": "JA",
+                                                                "begrunnelse": "((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
+                                                                "beskrivelse": "Har søker andre ytelser som ikke kan kombineres med sykepenger?",
+                                                                "identifikator": "Forenkling av andre ytelser",
                                                                 "operator": "ELLER",
                                                                 "children": [
                                                                     {
                                                                         "resultat": "JA",
-                                                                        "begrunnelse": "Søker har jobbet minst 28 dager",
-                                                                        "beskrivelse": "Har Søker vært i arbeid i minst fire uker?",
-                                                                        "identifikator": "Â§ 8-2 første ledd",
-                                                                        "operator": "INGEN",
-                                                                        "children": []
+                                                                        "begrunnelse": "(IKKE har ingen andre ytelser)",
+                                                                        "beskrivelse": "IKKE Har søker andre ytelser?",
+                                                                        "identifikator": "IKKE ",
+                                                                        "operator": "IKKE",
+                                                                        "children": [
+                                                                            {
+                                                                                "resultat": "NEI",
+                                                                                "begrunnelse": "har ingen andre ytelser",
+                                                                                "beskrivelse": "Har søker andre ytelser?",
+                                                                                "identifikator": "",
+                                                                                "operator": "INGEN",
+                                                                                "children": []
+                                                                            }
+                                                                        ]
                                                                     },
                                                                     {
                                                                         "resultat": "KANSKJE",
@@ -526,40 +2145,23 @@
                                                                         "children": []
                                                                     }
                                                                 ]
-                                                            },
-                                                            {
-                                                                "resultat": "JA",
-                                                                "begrunnelse": "Medlemsskap er oppfylt",
-                                                                "beskrivelse": "Oppfyller Søker krav om medlemskap?",
-                                                                "identifikator": "Kapittel 2. Medlemskap",
-                                                                "operator": "INGEN",
-                                                                "children": []
                                                             }
                                                         ]
                                                     },
                                                     {
                                                         "resultat": "JA",
-                                                        "begrunnelse": "((IKKE har ingen andre ytelser) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
-                                                        "beskrivelse": "Har Søker andre ytelser som ikke kan kombineres med sykepenger?",
-                                                        "identifikator": "Forenkling av andre ytelser",
+                                                        "begrunnelse": "(søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
+                                                        "beskrivelse": "Er kravet fremsatt innen frist?",
+                                                        "identifikator": "§ 22-13",
                                                         "operator": "ELLER",
                                                         "children": [
                                                             {
                                                                 "resultat": "JA",
-                                                                "begrunnelse": "(IKKE har ingen andre ytelser)",
-                                                                "beskrivelse": "IKKE Har Søker andre ytelser?",
-                                                                "identifikator": "IKKE ",
-                                                                "operator": "IKKE",
-                                                                "children": [
-                                                                    {
-                                                                        "resultat": "NEI",
-                                                                        "begrunnelse": "har ingen andre ytelser",
-                                                                        "beskrivelse": "Har Søker andre ytelser?",
-                                                                        "identifikator": "",
-                                                                        "operator": "INGEN",
-                                                                        "children": []
-                                                                    }
-                                                                ]
+                                                                "begrunnelse": "søknaden er sendt opptil tre måneder etter første måned i søknadsperioden",
+                                                                "beskrivelse": "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
+                                                                "identifikator": "§ 22-13 tredje ledd",
+                                                                "operator": "INGEN",
+                                                                "children": []
                                                             },
                                                             {
                                                                 "resultat": "KANSKJE",
@@ -575,18 +2177,44 @@
                                             },
                                             {
                                                 "resultat": "JA",
-                                                "begrunnelse": "(søknaden er sendt opptil tre måneder etter første måned i søknadsperioden ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
-                                                "beskrivelse": "Er kravet fremsatt innen frist?",
-                                                "identifikator": "Â§ 22-13",
+                                                "begrunnelse": "((Årsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
+                                                "beskrivelse": "",
+                                                "identifikator": "§ 8-3",
                                                 "operator": "ELLER",
                                                 "children": [
                                                     {
                                                         "resultat": "JA",
-                                                        "begrunnelse": "søknaden er sendt opptil tre måneder etter første måned i søknadsperioden",
-                                                        "beskrivelse": "Er søknad sendt innen 3 måneder etter måneden for første dag i søknadsperioden",
-                                                        "identifikator": "Â§ 22-13 tredje ledd",
-                                                        "operator": "INGEN",
-                                                        "children": []
+                                                        "begrunnelse": "(Årsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år))",
+                                                        "beskrivelse": "Er årsinntekt minst halvparten av grunnbeløpet? OG IKKE Er søker for gammel til å motta sykepenger?",
+                                                        "identifikator": "§ 8-3 andre ledd OG IKKE § 8-3 første ledd",
+                                                        "operator": "OG",
+                                                        "children": [
+                                                            {
+                                                                "resultat": "JA",
+                                                                "begrunnelse": "Årsinntekten er minst 1/2 G",
+                                                                "beskrivelse": "Er årsinntekt minst halvparten av grunnbeløpet?",
+                                                                "identifikator": "§ 8-3 andre ledd",
+                                                                "operator": "INGEN",
+                                                                "children": []
+                                                            },
+                                                            {
+                                                                "resultat": "JA",
+                                                                "begrunnelse": "(IKKE Søker er yngre enn 67 år)",
+                                                                "beskrivelse": "IKKE Er søker for gammel til å motta sykepenger?",
+                                                                "identifikator": "IKKE § 8-3 første ledd",
+                                                                "operator": "IKKE",
+                                                                "children": [
+                                                                    {
+                                                                        "resultat": "NEI",
+                                                                        "begrunnelse": "Søker er yngre enn 67 år",
+                                                                        "beskrivelse": "Er søker for gammel til å motta sykepenger?",
+                                                                        "identifikator": "§ 8-3 første ledd",
+                                                                        "operator": "INGEN",
+                                                                        "children": []
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
                                                     },
                                                     {
                                                         "resultat": "KANSKJE",
@@ -602,50 +2230,16 @@
                                     },
                                     {
                                         "resultat": "JA",
-                                        "begrunnelse": "((Ãrsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år)) ELLER Vi har ikke nok informasjon til å kunne gi et entydig svar.)",
-                                        "beskrivelse": "",
-                                        "identifikator": "Â§ 8-3",
-                                        "operator": "ELLER",
+                                        "begrunnelse": "(IKKE siste mulige sykepengedag er etter siste dag søknaden gjelder for)",
+                                        "beskrivelse": "IKKE er maks antall sykepengedager brukt?",
+                                        "identifikator": "IKKE § 8-12",
+                                        "operator": "IKKE",
                                         "children": [
                                             {
-                                                "resultat": "JA",
-                                                "begrunnelse": "(Ãrsinntekten er minst 1/2 G OG (IKKE Søker er yngre enn 67 år))",
-                                                "beskrivelse": "Er årsinntekt minst halvparten av grunnbeløpet? OG IKKE Er Søker for gammel til å motta sykepenger?",
-                                                "identifikator": "Â§ 8-3 andre ledd OG IKKE Â§ 8-3 første ledd",
-                                                "operator": "OG",
-                                                "children": [
-                                                    {
-                                                        "resultat": "JA",
-                                                        "begrunnelse": "Ãrsinntekten er minst 1/2 G",
-                                                        "beskrivelse": "Er årsinntekt minst halvparten av grunnbeløpet?",
-                                                        "identifikator": "Â§ 8-3 andre ledd",
-                                                        "operator": "INGEN",
-                                                        "children": []
-                                                    },
-                                                    {
-                                                        "resultat": "JA",
-                                                        "begrunnelse": "(IKKE Søker er yngre enn 67 år)",
-                                                        "beskrivelse": "IKKE Er Søker for gammel til å motta sykepenger?",
-                                                        "identifikator": "IKKE Â§ 8-3 første ledd",
-                                                        "operator": "IKKE",
-                                                        "children": [
-                                                            {
-                                                                "resultat": "NEI",
-                                                                "begrunnelse": "Søker er yngre enn 67 år",
-                                                                "beskrivelse": "Er Søker for gammel til å motta sykepenger?",
-                                                                "identifikator": "Â§ 8-3 første ledd",
-                                                                "operator": "INGEN",
-                                                                "children": []
-                                                            }
-                                                        ]
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                "resultat": "KANSKJE",
-                                                "begrunnelse": "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
-                                                "beskrivelse": "Vi har ikke nok informasjon til å kunne gi et entydig svar.",
-                                                "identifikator": "Ufullstendig informasjonsgrunnlag",
+                                                "resultat": "NEI",
+                                                "begrunnelse": "siste mulige sykepengedag er etter siste dag søknaden gjelder for",
+                                                "beskrivelse": "er maks antall sykepengedager brukt?",
+                                                "identifikator": "§ 8-12",
                                                 "operator": "INGEN",
                                                 "children": []
                                             }
@@ -676,63 +2270,63 @@
             "beregning": {
                 "dagsatser": [
                     {
-                        "dato": "2019-02-22",
-                        "sats": 1154,
+                        "dato": "2019-05-09",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-02-25",
-                        "sats": 1154,
+                        "dato": "2019-05-10",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-02-26",
-                        "sats": 1154,
+                        "dato": "2019-05-13",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-02-27",
-                        "sats": 1154,
+                        "dato": "2019-05-14",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-02-28",
-                        "sats": 1154,
+                        "dato": "2019-05-15",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-03-01",
-                        "sats": 1154,
+                        "dato": "2019-05-16",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-03-04",
-                        "sats": 1154,
+                        "dato": "2019-05-17",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-03-05",
-                        "sats": 1154,
+                        "dato": "2019-05-20",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-03-06",
-                        "sats": 1154,
+                        "dato": "2019-05-21",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-03-07",
-                        "sats": 1154,
+                        "dato": "2019-05-22",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-03-08",
-                        "sats": 1154,
+                        "dato": "2019-05-23",
+                        "sats": 1603,
                         "skalUtbetales": true
                     },
                     {
-                        "dato": "2019-03-11",
-                        "sats": 1154,
+                        "dato": "2019-05-24",
+                        "sats": 1603,
                         "skalUtbetales": true
                     }
                 ],
@@ -740,366 +2334,381 @@
                     {
                         "dagsatser": [
                             {
-                                "dato": "2019-02-22",
-                                "sats": 1154,
+                                "dato": "2019-05-09",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-23",
-                                "sats": 1154,
+                                "dato": "2019-05-10",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-24",
-                                "sats": 1154,
+                                "dato": "2019-05-11",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-25",
-                                "sats": 1154,
+                                "dato": "2019-05-12",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-26",
-                                "sats": 1154,
+                                "dato": "2019-05-13",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-27",
-                                "sats": 1154,
+                                "dato": "2019-05-14",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-28",
-                                "sats": 1154,
+                                "dato": "2019-05-15",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-01",
-                                "sats": 1154,
+                                "dato": "2019-05-16",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-02",
-                                "sats": 1154,
+                                "dato": "2019-05-17",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-03",
-                                "sats": 1154,
+                                "dato": "2019-05-18",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-04",
-                                "sats": 1154,
+                                "dato": "2019-05-19",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-05",
-                                "sats": 1154,
+                                "dato": "2019-05-20",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-06",
-                                "sats": 1154,
+                                "dato": "2019-05-21",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-07",
-                                "sats": 1154,
+                                "dato": "2019-05-22",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-08",
-                                "sats": 1154,
+                                "dato": "2019-05-23",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-09",
-                                "sats": 1154,
+                                "dato": "2019-05-24",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-10",
-                                "sats": 1154,
+                                "dato": "2019-05-25",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-11",
-                                "sats": 1154,
+                                "dato": "2019-05-26",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             }
                         ],
                         "beskrivelse": "Når trygden yter sykepenger, utgjør sykepengegrunnlaget pr. dag 1/260 av sykepengegrunnlaget pr. år.",
-                        "identitet": "Â§ 8-10 tredje ledd"
+                        "identitet": "§ 8-10 tredje ledd"
                     },
                     {
                         "dagsatser": [
                             {
-                                "dato": "2019-02-22",
-                                "sats": 1154,
+                                "dato": "2019-05-09",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-25",
-                                "sats": 1154,
+                                "dato": "2019-05-10",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-26",
-                                "sats": 1154,
+                                "dato": "2019-05-13",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-27",
-                                "sats": 1154,
+                                "dato": "2019-05-14",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-28",
-                                "sats": 1154,
+                                "dato": "2019-05-15",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-01",
-                                "sats": 1154,
+                                "dato": "2019-05-16",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-04",
-                                "sats": 1154,
+                                "dato": "2019-05-17",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-05",
-                                "sats": 1154,
+                                "dato": "2019-05-20",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-06",
-                                "sats": 1154,
+                                "dato": "2019-05-21",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-07",
-                                "sats": 1154,
+                                "dato": "2019-05-22",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-08",
-                                "sats": 1154,
+                                "dato": "2019-05-23",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-11",
-                                "sats": 1154,
+                                "dato": "2019-05-24",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             }
                         ],
                         "beskrivelse": "Trygden yter sykepenger for alle dagene i uken unntatt lørdag og søndag.",
-                        "identitet": "Â§ 8-11"
+                        "identitet": "§ 8-11"
                     },
                     {
                         "dagsatser": [
                             {
-                                "dato": "2019-02-22",
-                                "sats": 1154,
+                                "dato": "2019-05-09",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-25",
-                                "sats": 1154,
+                                "dato": "2019-05-10",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-26",
-                                "sats": 1154,
+                                "dato": "2019-05-13",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-27",
-                                "sats": 1154,
+                                "dato": "2019-05-14",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-28",
-                                "sats": 1154,
+                                "dato": "2019-05-15",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-01",
-                                "sats": 1154,
+                                "dato": "2019-05-16",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-04",
-                                "sats": 1154,
+                                "dato": "2019-05-17",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-05",
-                                "sats": 1154,
+                                "dato": "2019-05-20",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-06",
-                                "sats": 1154,
+                                "dato": "2019-05-21",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-07",
-                                "sats": 1154,
+                                "dato": "2019-05-22",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-08",
-                                "sats": 1154,
+                                "dato": "2019-05-23",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-11",
-                                "sats": 1154,
+                                "dato": "2019-05-24",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             }
                         ],
-                        "beskrivelse": "Det ytes ikke sykepenger fra trygden under lovbestemt ferie etter lov 29. april 1988 nr. 21 om ferie Â§ 5 og permisjon, se også Â§ 8-3 tredje ledd.",
-                        "identitet": "Â§ 8-17 andre ledd"
+                        "beskrivelse": "Det ytes ikke sykepenger fra trygden under lovbestemt ferie etter lov 29. april 1988 nr. 21 om ferie § 5 og permisjon, se også § 8-3 tredje ledd.",
+                        "identitet": "§ 8-17 andre ledd"
                     },
                     {
                         "dagsatser": [
                             {
-                                "dato": "2019-02-22",
-                                "sats": 1154,
+                                "dato": "2019-05-09",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-25",
-                                "sats": 1154,
+                                "dato": "2019-05-10",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-26",
-                                "sats": 1154,
+                                "dato": "2019-05-13",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-27",
-                                "sats": 1154,
+                                "dato": "2019-05-14",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-28",
-                                "sats": 1154,
+                                "dato": "2019-05-15",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-01",
-                                "sats": 1154,
+                                "dato": "2019-05-16",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-04",
-                                "sats": 1154,
+                                "dato": "2019-05-17",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-05",
-                                "sats": 1154,
+                                "dato": "2019-05-20",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-06",
-                                "sats": 1154,
+                                "dato": "2019-05-21",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-07",
-                                "sats": 1154,
+                                "dato": "2019-05-22",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-08",
-                                "sats": 1154,
+                                "dato": "2019-05-23",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-11",
-                                "sats": 1154,
+                                "dato": "2019-05-24",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             }
                         ],
-                        "beskrivelse": "Det ytes ikke sykepenger fra trygden under lovbestemt ferie etter lov 29. april 1988 nr. 21 om ferie Â§ 5 og permisjon, se også Â§ 8-3 tredje ledd.",
-                        "identitet": "Â§ 8-17 andre ledd"
+                        "beskrivelse": "Det ytes ikke sykepenger fra trygden under lovbestemt ferie etter lov 29. april 1988 nr. 21 om ferie § 5 og permisjon, se også § 8-3 tredje ledd.",
+                        "identitet": "§ 8-17 andre ledd"
                     },
                     {
                         "dagsatser": [
                             {
-                                "dato": "2019-02-22",
-                                "sats": 1154,
+                                "dato": "2019-05-09",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-25",
-                                "sats": 1154,
+                                "dato": "2019-05-10",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-26",
-                                "sats": 1154,
+                                "dato": "2019-05-13",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-27",
-                                "sats": 1154,
+                                "dato": "2019-05-14",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-02-28",
-                                "sats": 1154,
+                                "dato": "2019-05-15",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-01",
-                                "sats": 1154,
+                                "dato": "2019-05-16",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-04",
-                                "sats": 1154,
+                                "dato": "2019-05-17",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-05",
-                                "sats": 1154,
+                                "dato": "2019-05-20",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-06",
-                                "sats": 1154,
+                                "dato": "2019-05-21",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-07",
-                                "sats": 1154,
+                                "dato": "2019-05-22",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-08",
-                                "sats": 1154,
+                                "dato": "2019-05-23",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             },
                             {
-                                "dato": "2019-03-11",
-                                "sats": 1154,
+                                "dato": "2019-05-24",
+                                "sats": 1603,
                                 "skalUtbetales": true
                             }
                         ],
                         "beskrivelse": "Sykepengenes størrelse skal beregnes på grunnlag av reduksjon i arbeidstiden og/eller inntektstap.",
-                        "identitet": "Â§ 8-13 andre ledd"
+                        "identitet": "§ 8-13 andre ledd"
                     }
                 ]
             },
-            "vedtak": { "resultat": "Burde antagelig gjøre noe med dette." }
+            "vedtak": {
+                "perioder": [
+                    {
+                        "fom": "2019-05-09",
+                        "tom": "2019-05-24",
+                        "dagsats": 1603,
+                        "grad": 100,
+                        "fordeling": [
+                            {
+                                "mottager": "999999999",
+                                "andel": 100
+                            }
+                        ]
+                    }
+                ]
+            }
         }
     ]
 }
