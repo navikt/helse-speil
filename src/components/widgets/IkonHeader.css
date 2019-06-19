@@ -1,0 +1,41 @@
+.IkonHeader {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+.IkonHeader__status {
+    display: flex;
+}
+
+.IkonHeader__status .typo-normal {
+    font-weight: 600;
+}
+
+.IkonHeader__status *:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.IkonHeader__list {
+    margin-left: 2.5rem;
+}
+
+.IkonHeader__item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.IkonHeader__item .typo-normal {
+    width: 50%;
+}
+
+.IkonHeader__item .typo-normal:last-child {
+    font-weight: 600;
+}
+
+.IkonHeader__line {
+    flex: 1;
+    height: 0;
+    border-top: 1px dotted #3e3832;
+    align-self: center;
+}
