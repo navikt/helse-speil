@@ -1,3 +1,7 @@
 .panel {
     margin: 1.5em;
 }
+
+.panel-tittel {
+    padding-bottom: 0.5rem;
+}
