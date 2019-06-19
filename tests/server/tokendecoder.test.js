@@ -15,6 +15,7 @@ test('nameExtractionFromValidToken', async () => {
 });
 
 test('nameExtractionFromInvalidToken', async () => {
+    console.log = jest.fn();
     const name = tokendecoder.username('bogusstuffhere');
     expect(name).toEqual('unknown user');
 });
