@@ -1,0 +1,9 @@
+.bolk {
+    display: flex;
+    align-items: start;
+}
+
+.vilkårskolonne {
+    min-width: 28rem;
+    margin-top: 0.35rem;
+}
