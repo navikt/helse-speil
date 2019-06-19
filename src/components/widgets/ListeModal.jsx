@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from 'nav-frontend-modal';
 import PropTypes from 'prop-types';
-import { Normaltekst } from 'nav-frontend-typografi';
 import './ListeModal.css';
 import Liste from './Liste';
 
@@ -14,9 +13,8 @@ const ListeModal = ({ isOpen, title, onClose, items }) => (
         contentLabel={title}
         onRequestClose={onClose}
     >
-        <Normaltekst>{title}</Normaltekst>
         {items && (
-            <Liste items={items} />
+            <Liste items={items} title={title} />
         )}
     </Modal>
 );

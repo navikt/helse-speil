@@ -2,10 +2,6 @@
     min-width: 24rem;
 }
 
-.ListeModal section > .typo-normal {
-    font-weight: 600;
+.ListeModal .Liste > .typo-normal {
     min-height: 2rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: flex-end;
 }
