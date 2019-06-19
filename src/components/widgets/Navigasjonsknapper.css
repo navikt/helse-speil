@@ -1,0 +1,7 @@
+.Navigasjonsknapper {
+    padding: 0.5rem;
+}
+
+.Navigasjonsknapper .knapp:not(:last-child) {
+    margin-right: 0.5rem;
+}
