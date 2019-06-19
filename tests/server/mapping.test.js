@@ -48,7 +48,7 @@ test('søknadsfrist', async () => {
     const mapped = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
         .søknadsfrist;
     const expected = {
-        sendtNav: new Date('2019-06-11T15:21:29.127Z'),
+        sendtNav: new Date('2019-06-11T17:21:29.127'),
         sisteSykdomsdag: new Date('2019-05-26'),
         antallMnd: 0
     };
