@@ -1,0 +1,25 @@
+.ListeModal {
+    min-width: 24rem;
+}
+
+.ListeModal section > .typo-normal {
+    font-weight: 600;
+    min-height: 2rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: flex-end;
+}
+
+.ListeModal__item {
+    display: flex;
+}
+
+.ListeModal__item .typo-normal {
+    width: 50%;
+    min-width: max-content;
+    word-break: keep-all;
+}
+
+.ListeModal__item .typo-normal:not(:last-child) {
+    margin-right: 1rem;
+}
