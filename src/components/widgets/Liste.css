@@ -1,0 +1,18 @@
+.Liste {
+    display: flex;
+    flex-direction: column;
+}
+
+.Liste__item {
+    display: flex;
+}
+
+.Liste__item .typo-normal {
+    width: 50%;
+    min-width: max-content;
+    word-break: keep-all;
+}
+
+.Liste__item .typo-normal:not(:last-child) {
+    margin-right: 1rem;
+}

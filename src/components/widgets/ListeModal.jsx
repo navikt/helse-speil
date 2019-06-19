@@ -3,6 +3,7 @@ import Modal from 'nav-frontend-modal';
 import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './ListeModal.css';
+import Liste from './Liste';
 
 Modal.setAppElement('#root');
 
@@ -14,15 +15,9 @@ const ListeModal = ({ isOpen, title, onClose, items }) => (
         onRequestClose={onClose}
     >
         <Normaltekst>{title}</Normaltekst>
-        {items.map((item, i) => (
-            <span
-                className="ListeModal__item"
-                key={`${item.label}${i}`}
-            >
-                <Normaltekst>{item.label}</Normaltekst>
-                <Normaltekst>{item.value}</Normaltekst>
-            </span>
-        ))}
+        {items && (
+            <Liste items={items} />
+        )}
     </Modal>
 );
 
