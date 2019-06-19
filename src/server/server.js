@@ -157,7 +157,11 @@ app.get('/behandlinger/:aktorId', (req, res) => {
             if (apiresponse.status !== 200) {
                 res.status(apiresponse.status).send(apiresponse.data);
             } else {
-                res.send(apiresponse.data);
+                res.send(
+                    JSON.parse(apiresponse.data).behandlinger.map(behandling =>
+                        mapping.alle(behandling)
+                    )
+                );
             }
         });
     }
