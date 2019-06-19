@@ -24,3 +24,7 @@
 .Liste__item .typo-normal:not(:last-child) {
     margin-right: 1rem;
 }
+
+.Liste__item .typo-normal:last-child {
+    font-weight: 600;
+}
