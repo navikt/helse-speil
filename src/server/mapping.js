@@ -1,5 +1,7 @@
 'use strict';
 
+const datecalc = require('./datecalc');
+
 const inngangsvilkår = behandling => {
     const medlemskap = {
         bostedsland: behandling.faktagrunnlag.tps.bostedland
@@ -35,10 +37,14 @@ const inngangsvilkår = behandling => {
                 .sykepengegrunnlagNårTrygdenYter.fastsattVerdi
     };
 
+    const sendtNav = toDate(behandling.originalSøknad.sendtNav);
+    const sisteSykdomsdag = newestTom(
+        behandling.originalSøknad.soknadsperioder
+    );
     const søknadsfrist = {
-        sendtNav: toDate(behandling.originalSøknad.sendtNav),
-        sisteSykdomsdag: newestTom(behandling.originalSøknad.soknadsperioder),
-        antallMnd: 0
+        sendtNav: sendtNav,
+        sisteSykdomsdag: sisteSykdomsdag,
+        innen3Mnd: datecalc.isWithin3Months(sisteSykdomsdag, sendtNav)
     };
 
     const dagerIgjen = {

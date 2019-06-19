@@ -50,7 +50,7 @@ test('søknadsfrist', async () => {
     const expected = {
         sendtNav: new Date('2019-06-11T17:21:29.127'),
         sisteSykdomsdag: new Date('2019-05-26'),
-        antallMnd: 0
+        innen3Mnd: true
     };
     expect(mapped).toEqual(expected);
 });
