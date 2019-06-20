@@ -4,6 +4,7 @@
 }
 
 .vilkårskolonne {
-    min-width: 28rem;
+    min-width: 24rem;
     margin-top: 0.35rem;
+    width: 50%;
 }
