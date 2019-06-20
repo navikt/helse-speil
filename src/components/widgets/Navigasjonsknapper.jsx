@@ -9,9 +9,7 @@ const Navigasjonsknapper = ({ history, previous, next }) => (
         {previous && (
             <Knapp onClick={() => history.push(previous)}>FORRIGE</Knapp>
         )}
-        {next && (
-            <Knapp onClick={() => history.push(next)}>NESTE</Knapp>
-        )}
+        {next && <Knapp onClick={() => history.push(next)}>NESTE</Knapp>}
     </div>
 );
 

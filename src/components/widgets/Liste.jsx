@@ -5,14 +5,9 @@ import './Liste.css';
 
 const Liste = ({ items, title }) => (
     <div className="Liste">
-        {title && (
-            <Normaltekst>{title}</Normaltekst>
-        )}
+        {title && <Normaltekst>{title}</Normaltekst>}
         {items.map((item, i) => (
-            <span
-                className="Liste__item"
-                key={`${item.label}${i}`}
-            >
+            <span className="Liste__item" key={`${item.label}${i}`}>
                 <Normaltekst>{item.label}</Normaltekst>
                 <Normaltekst>{item.value}</Normaltekst>
             </span>
@@ -21,10 +16,12 @@ const Liste = ({ items, title }) => (
 );
 
 Liste.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired
-    })).isRequired,
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired
+        })
+    ).isRequired,
     title: PropTypes.string
 };
 
