@@ -1,0 +1,20 @@
+.ErrorModal section {
+    display: flex;
+    flex-direction: column;
+    min-width: 24rem;
+    padding: 1rem;
+}
+
+.ErrorModal .typo-systemtittel {
+    margin-bottom: 1rem;
+}
+
+.ErrorModal__message {
+    font-style: italic;
+    margin: 1rem;
+}
+
+.ErrorModal .knapp {
+    margin-top: 2rem;
+    width: max-content;
+}
