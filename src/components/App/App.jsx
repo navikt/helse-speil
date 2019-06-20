@@ -7,26 +7,26 @@ import AuthContext from '../../context/AuthContext';
 import BehandlingerContext from '../../context/BehandlingerContext';
 import './App.css';
 import 'reset-css';
+import ErrorModal from '../widgets/modal/ErrorModal';
 
 const App = () => {
+    const [error, setError] = useState(undefined);
     const [authState, setAuthState] = useState({});
     const [behandlinger, setBehandlinger] = useState({ behandlinger: [] });
 
     useEffect(() => {
         if (!authState.name) {
-            try {
-                whoami().then(data => {
-                    if (data && data.name) {
-                        setAuthState({ name: data.name });
-                    } else {
-                        window.location.assign('/login');
-                    }
-                });
-            } catch (err) {
-                console.log(err); // eslint-disable-line no-console
-            }
+            whoami().then(data => {
+                if (data && data.name) {
+                    setAuthState({ name: data.name });
+                } else {
+                    window.location.assign('/login');
+                }
+            }).catch(err => {
+                setError(err.toString());
+            });
         }
-    });
+    }, [authState]);
 
     return (
         <AuthContext.Provider
@@ -42,6 +42,9 @@ const App = () => {
                     <HeaderBar />
                     <MainContentWrapper />
                 </Router>
+                {error && (
+                    <ErrorModal errorMessage={error} />
+                )}
             </BehandlingerContext.Provider>
         </AuthContext.Provider>
     );
