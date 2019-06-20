@@ -29,10 +29,12 @@ const IkonHeader = ({ title, items }) => (
 
 IkonHeader.propTypes = {
     title: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired
-    }))
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired
+        })
+    )
 };
 
 export default IkonHeader;
