@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from 'nav-frontend-modal';
 import PropTypes from 'prop-types';
 import './ListeModal.css';
-import Liste from './Liste';
+import Liste from '../Liste';
 
 Modal.setAppElement('#root');
 

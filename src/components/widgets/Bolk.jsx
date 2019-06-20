@@ -1,13 +1,13 @@
 import React from 'react';
-import './Bolk.css';
 import EnigBoks from './EnigBoks';
 import IkonHeader from './IkonHeader';
+import './Bolk.css';
 
-const Bolk = props => {
+const Bolk = ({ title, items }) => {
     return (
         <div className="bolk">
             <div className="vilkårskolonne">
-                <IkonHeader title={props.title} items={props.items} />
+                <IkonHeader title={title} items={items} />
             </div>
             <EnigBoks />
         </div>

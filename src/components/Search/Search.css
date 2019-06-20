@@ -1,26 +1,25 @@
 .input-icon-wrap {
-   border: 1px solid #d7dae0;
-   float: left;
-   width: 20em;
+    border: 1px solid #d7dae0;
+    float: left;
+    width: 20em;
 }
 
 .input-with-icon {
-   border: none;
-   flex: 1;
+    border: none;
+    flex: 1;
 }
 
 .input-icon,
 .input-with-icon {
-   padding: 10px;
-   font-size: 1em;
+    padding: 10px;
+    font-size: 1em;
 }
 
-input[type="text"] {
-   background-color: #3e3832;
-   color: #d7dae0;
+input[type='text'] {
+    background-color: #3e3832;
+    color: #d7dae0;
 }
 
-input[type="text"]:focus {
-   outline: none;
+input[type='text']:focus {
+    outline: none;
 }
-
