@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import BehandlingerContext from '../../context/BehandlingerContext';
+import BehandlingerContext from './BehandlingerContext';
 
 export const withBehandlingContext = (Component) => {
     return (props) => {
