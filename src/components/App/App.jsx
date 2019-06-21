@@ -16,15 +16,17 @@ const App = () => {
 
     useEffect(() => {
         if (!authState.name) {
-            whoami().then(data => {
-                if (data && data.name) {
-                    setAuthState({ name: data.name });
-                } else {
-                    window.location.assign('/login');
-                }
-            }).catch(err => {
-                setError(err.toString());
-            });
+            whoami()
+                .then(data => {
+                    if (data && data.name) {
+                        setAuthState({ name: data.name });
+                    } else {
+                        window.location.assign('/login');
+                    }
+                })
+                .catch(err => {
+                    setError(err.toString());
+                });
         }
     }, [authState]);
 
@@ -42,9 +44,7 @@ const App = () => {
                     <HeaderBar />
                     <MainContentWrapper />
                 </Router>
-                {error && (
-                    <ErrorModal errorMessage={error} />
-                )}
+                {error && <ErrorModal errorMessage={error} />}
             </BehandlingerContext.Provider>
         </AuthContext.Provider>
     );

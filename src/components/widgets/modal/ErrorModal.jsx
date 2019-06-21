@@ -17,9 +17,7 @@ const ErrorModal = ({ errorMessage }) => (
         <Systemtittel>Det har oppstått en feil</Systemtittel>
         <Normaltekst>{errorMessage}</Normaltekst>
         <Normaltekst>Prøv igjen senere.</Normaltekst>
-        <Knapp onClick={() => window.location.reload()}>
-            Last inn på nytt
-        </Knapp>
+        <Knapp onClick={() => window.location.reload()}>Last inn på nytt</Knapp>
     </Modal>
 );
 
