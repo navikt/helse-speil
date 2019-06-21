@@ -73,7 +73,11 @@ const inngangsvilkår = behandling => {
 const originalSøknad = behandling => ({
     arbeidsgiver: behandling.originalSøknad.arbeidsgiver,
     aktorId: behandling.originalSøknad.aktorId,
-    soknadsperioder: behandling.originalSøknad.soknadsperioder,
+    soknadsperioder: behandling.originalSøknad.soknadsperioder.map(periode => ({
+        ...periode,
+        fom: toDate(periode.fom),
+        tom: toDate(periode.tom)
+    })),
     fom: toDate(behandling.originalSøknad.fom),
     tom: toDate(behandling.originalSøknad.tom)
 });
