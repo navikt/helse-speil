@@ -18,6 +18,9 @@ const MainContentWrapper = () => {
                     exact
                     component={Inngangsvilkår}
                 />
+                <Route path={'/beregning'} exact component={Beregning} />
+                <Route path={'/periode'} exact component={Periode} />
+                <Route path={'/utbetaling'} exact component={Utbetaling} />
             </div>
         </div>
     );
