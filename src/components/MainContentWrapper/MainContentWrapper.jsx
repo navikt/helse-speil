@@ -5,6 +5,9 @@ import JsonView from '../JsonView/JsonView';
 import Nav from '../Nav/NavView';
 import Inngangsvilkår from '../Inngangsvilkår/Inngangsvilkår';
 import Personinfo from '../widgets/Personinfo';
+import Beregning from '../pages/Beregning/Beregning';
+import Periode from '../pages/Periode/Periode';
+import Utbetaling from '../pages/Utbetaling/Utbetaling';
 
 const MainContentWrapper = () => {
     return (
