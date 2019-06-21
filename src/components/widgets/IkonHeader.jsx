@@ -30,10 +30,12 @@ const IkonHeader = ({ title, items }) => (
 );
 
 IkonHeader.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired
-    })),
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired
+        })
+    ),
     title: PropTypes.string
 };
 

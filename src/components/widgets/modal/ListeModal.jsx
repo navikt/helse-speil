@@ -13,19 +13,19 @@ const ListeModal = ({ isOpen, title, onClose, items }) => (
         contentLabel={title}
         onRequestClose={onClose}
     >
-        {items && (
-            <Liste items={items} title={title} />
-        )}
+        {items && <Liste items={items} title={title} />}
     </Modal>
 );
 
 ListeModal.propTypes = {
     title: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired
-    })),
+    items: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired
+        })
+    ),
     isOpen: PropTypes.bool
 };
 
