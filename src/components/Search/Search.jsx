@@ -27,15 +27,15 @@ const Search = () => {
 
     return (
         <div className="input-icon-wrap">
-            <span className="input-icon">
-                <FontAwesomeIcon icon={faSearch} />
-            </span>
             <input
                 type="text"
                 className="input-with-icon"
                 placeholder="FNR eller aktør"
                 onKeyPress={keyTyped}
             />
+            <span className="input-icon">
+                <FontAwesomeIcon icon={faSearch} />
+            </span>
         </div>
     );
 };
