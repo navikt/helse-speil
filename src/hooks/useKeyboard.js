@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const Keys = {
@@ -7,13 +7,22 @@ export const Keys = {
 };
 
 export const useKeyboard = (actionMappings) => {
+    const [map, setMap] = useState({});
+
     const handleKeyDown = e => {
-        actionMappings.forEach(mapping => {
-            if (mapping.keyCode === e.keyCode) {
-                mapping.action();
-            }
-        });
+        if (map[e.keyCode]) {
+            map[e.keyCode]();
+        }
     };
+
+    useEffect(() => {
+        actionMappings.forEach(mapping => {
+            setMap(map => ({
+                ...map,
+                [mapping.keyCode]: mapping.action
+            }))
+        });
+    }, [actionMappings]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
