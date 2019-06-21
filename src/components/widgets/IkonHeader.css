@@ -1,7 +1,7 @@
 .IkonHeader {
     display: flex;
     flex-direction: column;
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0;
 }
 
 .IkonHeader__status {
@@ -14,6 +14,10 @@
 
 .IkonHeader__status *:not(:last-child) {
     margin-right: 1rem;
+}
+
+.IkonHeader__status g path:first-child {
+    fill: #38a161;
 }
 
 .IkonHeader__list {
