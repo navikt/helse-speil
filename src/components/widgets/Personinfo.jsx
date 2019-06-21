@@ -8,9 +8,9 @@ const Personinfo = () => {
     const behandlingerCtx = useContext(BehandlingerContext);
 
     if (
-        !behandlingerCtx.state
-        || !behandlingerCtx.state.behandlinger
-        || behandlingerCtx.state.behandlinger.length < 1
+        !behandlingerCtx.state ||
+        !behandlingerCtx.state.behandlinger ||
+        behandlingerCtx.state.behandlinger.length < 1
     ) {
         return '';
     }

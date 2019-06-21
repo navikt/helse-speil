@@ -29,7 +29,7 @@ const Navigasjonsknapper = ({ history, previous, next }) => {
             </Knapp>
         </div>
     );
-}
+};
 
 Navigasjonsknapper.propTypes = {
     history: PropTypes.shape({

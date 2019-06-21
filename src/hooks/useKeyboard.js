@@ -6,7 +6,7 @@ export const Keys = {
     RIGHT: 39
 };
 
-export const useKeyboard = (actionMappings) => {
+export const useKeyboard = actionMappings => {
     const [map, setMap] = useState({});
 
     const handleKeyDown = e => {
@@ -20,7 +20,7 @@ export const useKeyboard = (actionMappings) => {
             setMap(map => ({
                 ...map,
                 [mapping.keyCode]: mapping.action
-            }))
+            }));
         });
     }, [actionMappings]);
 
