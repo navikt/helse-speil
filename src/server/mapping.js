@@ -15,7 +15,7 @@ const inngangsvilkår = behandling => {
         // kun 1 arbeidsforhold i MVP
         startdato:
             behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .length != 0
+                .length !== 0
                 ? toDate(
                       behandling.avklarteVerdier.opptjeningstid.grunnlag
                           .arbeidsforhold.grunnlag[0].startdato
@@ -23,7 +23,7 @@ const inngangsvilkår = behandling => {
                 : null,
         sluttdato:
             behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .length != 0
+                .length !== 0
                 ? toDate(
                       behandling.avklarteVerdier.opptjeningstid.grunnlag
                           .arbeidsforhold.grunnlag[0].sluttdato
@@ -70,11 +70,20 @@ const inngangsvilkår = behandling => {
     };
 };
 
-const alle = behandling => {
-    return {
-        inngangsvilkår: inngangsvilkår(behandling)
-    };
-};
+const originalSøknad = behandling => ({
+    arbeidsgiver: behandling.originalSøknad.arbeidsgiver,
+    aktorId: behandling.originalSøknad.aktorId,
+    soknadsperioder: behandling.originalSøknad.soknadsperioder.map(periode => ({
+        sykmeldingsgrad: periode.sykmeldingsgrad
+    })),
+    fom: toDate(behandling.originalSøknad.fom),
+    tom: toDate(behandling.originalSøknad.tom)
+});
+
+const alle = behandling => ({
+    inngangsvilkår: inngangsvilkår(behandling),
+    originalSøknad: originalSøknad(behandling)
+});
 
 const toDate = dateString => {
     return dateString ? new Date(dateString) : null;
@@ -89,5 +98,6 @@ const newestTom = objs => {
 
 module.exports = {
     inngangsvilkår: inngangsvilkår,
+    originalSøknad: originalSøknad,
     alle: alle
 };

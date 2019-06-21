@@ -1,6 +1,6 @@
 .personalia-linje {
-    padding-left: 3em;
-    height: 2.5em;
+    padding-left: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
 }
@@ -13,9 +13,9 @@ hr {
 
 .behandling-hovedinfo {
     display: inline-block;
-    padding: 2em 0em 0em 3em;
+    padding: 2rem 0 0 2.5rem;
 }
 
-.arbeidsgivernavn {
-    margin-bottom: 0.5em !important;
+.behandling-hovedinfo .arbeidsgivernavn {
+    margin-bottom: 0.5rem;
 }

@@ -69,3 +69,21 @@ test('dagerIgjen', async () => {
     };
     expect(mapped).toEqual(expected);
 });
+
+test('originalSøknad', async () => {
+    const rawServerResponse = JSON.parse(readTestdata());
+    const mapped = mapping.originalSøknad(rawServerResponse.behandlinger[0]);
+    const expected = {
+        arbeidsgiver: {
+            navn: 'S. VINDEL & SØNN',
+            orgnummer: '999999999'
+        },
+        aktorId: '12345678910112',
+        soknadsperioder: [
+            { sykmeldingsgrad: 100 }
+        ],
+        fom: new Date('2019-05-09T00:00:00.000Z'),
+        tom: new Date('2019-05-26T00:00:00.000Z')
+    };
+    expect(mapped).toEqual(expected);
+});

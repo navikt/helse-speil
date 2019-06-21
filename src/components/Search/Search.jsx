@@ -17,7 +17,7 @@ const Search = () => {
         if (isEnter) {
             behandlingerFor(event.target.value)
                 .then(response => {
-                    behandlingerCtx.setBehandlinger(response);
+                    behandlingerCtx.setBehandlinger({ behandlinger: response });
                 })
                 .catch(err => {
                     console.log(err); // eslint-disable-line no-console
