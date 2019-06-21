@@ -6,6 +6,7 @@ import BehandlingerContext from '../../context/BehandlingerContext';
 import ItemMapper from '../../datamapping/inngangsvilkårMapper';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
+import { inngangsvilkårtekster as tekster } from '../../tekster';
 
 const Inngangsvilkår = () => {
     const behandlingerCtx = useContext(BehandlingerContext);
@@ -21,7 +22,7 @@ const Inngangsvilkår = () => {
             <Personinfo />
             <Panel border>
                 <Undertittel className="panel-tittel">
-                    Beregning av sykepengegrunnlag og dagsats
+                    {tekster(`tittel`)}
                 </Undertittel>
                 <Bolk title="Inngangsvilkår oppfylt" />
                 <Bolk
