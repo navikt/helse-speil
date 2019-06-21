@@ -74,9 +74,7 @@ const originalSøknad = behandling => ({
     arbeidsgiver: behandling.originalSøknad.arbeidsgiver,
     aktorId: behandling.originalSøknad.aktorId,
     soknadsperioder: behandling.originalSøknad.soknadsperioder.map(periode => ({
-        ...periode,
-        fom: toDate(periode.fom),
-        tom: toDate(periode.tom)
+        sykmeldingsgrad: periode.sykmeldingsgrad
     })),
     fom: toDate(behandling.originalSøknad.fom),
     tom: toDate(behandling.originalSøknad.tom)
