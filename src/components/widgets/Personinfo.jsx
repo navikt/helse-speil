@@ -1,21 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './Personinfo.css';
-import BehandlingerContext from '../../context/BehandlingerContext';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { toDate } from '../../datamapping/mappingUtils';
+import { withBehandlingContext } from '../../context/withBehandlingContext';
 
-const Personinfo = () => {
-    const behandlingerCtx = useContext(BehandlingerContext);
-
-    if (
-        !behandlingerCtx.state
-        || !behandlingerCtx.state.behandlinger
-        || behandlingerCtx.state.behandlinger.length < 1
-    ) {
-        return '';
-    }
-
-    const behandling = behandlingerCtx.state.behandlinger[0];
+const Personinfo = withBehandlingContext(({ behandling }) => {
     const { aktorId, arbeidsgiver, fom, tom } = behandling.originalSøknad;
     const sykmeldingsgrad =
         behandling.originalSøknad.soknadsperioder[0].sykmeldingsgrad;
@@ -45,6 +34,6 @@ const Personinfo = () => {
             </div>
         </>
     );
-};
+});
 
 export default Personinfo;
