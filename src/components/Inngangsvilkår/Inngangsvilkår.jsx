@@ -3,7 +3,7 @@ import './Inngangsvilkår.css';
 import Personinfo from '../widgets/Personinfo';
 import Bolk from '../widgets/Bolk';
 import BehandlingerContext from '../../context/BehandlingerContext';
-import ItemMapper from '../../utils/inngangsvilkårMapper';
+import ItemMapper from '../../datamapping/inngangsvilkårMapper';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 
@@ -23,25 +23,24 @@ const Inngangsvilkår = () => {
                 <Undertittel className="panel-tittel">
                     Beregning av sykepengegrunnlag og dagsats
                 </Undertittel>
-
                 <Bolk title="Inngangsvilkår oppfylt" />
                 <Bolk
                     title="Medlemskap"
-                    items={ItemMapper.map(behandling.inngangsvilkår.medlemskap)}
+                    items={ItemMapper.medlemskap(behandling.inngangsvilkår.medlemskap)}
                 />
                 <Bolk
                     title="Opptjening"
-                    items={ItemMapper.map(behandling.inngangsvilkår.opptjening)}
+                    items={ItemMapper.opptjening(behandling.inngangsvilkår.opptjening)}
                 />
                 <Bolk
                     title="Søknadsfrist"
-                    items={ItemMapper.map(
+                    items={ItemMapper.søknadsfrist(
                         behandling.inngangsvilkår.søknadsfrist
                     )}
                 />
                 <Bolk
                     title="Dager igjen"
-                    items={ItemMapper.map(behandling.inngangsvilkår.dagerIgjen)}
+                    items={ItemMapper.dagerIgjen(behandling.inngangsvilkår.dagerIgjen)}
                 />
             </Panel>
         </div>
