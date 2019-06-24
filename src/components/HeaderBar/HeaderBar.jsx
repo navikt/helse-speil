@@ -16,9 +16,7 @@ const HeaderBar = () => {
                     imgSrc={navLogoSrc.toString()}
                     href="/"
                 />
-                <div>
-                    <h2>Sykepenger</h2>
-                </div>
+                <h2>Sykepenger</h2>
             </div>
 
             <div className="header_divider" />

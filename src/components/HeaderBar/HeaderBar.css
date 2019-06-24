@@ -1,5 +1,6 @@
 .topbar {
     display: flex;
+    width: 100vw;
     height: 3em;
     background-color: #3e3832;
     color: #d7dae0;
@@ -12,7 +13,7 @@
 }
 
 .header_divider {
-    border-left: 1px solid #d7dae0;
+    border-left: 1px solid #78706a;
     margin: 10px;
     height: 30px;
 }
@@ -20,7 +21,8 @@
 .title {
     display: flex;
     line-height: 1.75rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    align-items: center;
 }
 
 .center {
@@ -29,9 +31,8 @@
     margin-bottom: 10px;
 }
 
-.center .user {
-    display: flex;
-    padding-right: 15px;
+.topbar .user {
+    margin-right: 1rem;
     line-height: 1.75rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
