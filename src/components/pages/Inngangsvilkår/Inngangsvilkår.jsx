@@ -5,7 +5,8 @@ import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import { inngangsvilkårtekster as tekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/withBehandlingContext';
-
+import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
+        
 const Inngangsvilkår = withBehandlingContext(({ behandling }) => (
     <Panel border>
         <Undertittel className="panel-tittel">
@@ -30,6 +31,7 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => (
             title="Dager igjen"
             items={ItemMapper.dagerIgjen(behandling.inngangsvilkår.dagerIgjen)}
         />
+        <Navigasjonsknapper next="/beregning" />
     </Panel>
 ));
 
