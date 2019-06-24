@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 export const Keys = {
     LEFT: 37,
-    RIGHT: 39
+    RIGHT: 39,
+    ENTER: 13
 };
 
 export const useKeyboard = actionMappings => {

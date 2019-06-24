@@ -1,21 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import BehandlingerContext from '../../context/BehandlingerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { behandlingerFor } from '../../io/http';
+import { Keys } from '../../hooks/useKeyboard';
 import './Search.css';
 
 const Search = () => {
+    const ref = useRef(undefined);
     const behandlingerCtx = useContext(BehandlingerContext);
 
     const keyTyped = event => {
-        if (event.target.value.trim().length === 0) {
-            return;
-        }
-
-        const isEnter = (event.charCode || event.keyCode) === 13;
+        const isEnter = (event.charCode || event.keyCode) === Keys.ENTER;
         if (isEnter) {
-            behandlingerFor(event.target.value)
+            search(event.target.value);
+        }
+    };
+
+    const search = value => {
+        if (value.trim().length !== 0) {
+            behandlingerFor(value)
                 .then(response => {
                     behandlingerCtx.setBehandlinger({ behandlinger: response });
                 })
@@ -26,16 +30,16 @@ const Search = () => {
     };
 
     return (
-        <div className="input-icon-wrap">
+        <div className="Search">
             <input
+                ref={ref}
                 type="text"
-                className="input-with-icon"
                 placeholder="FNR eller aktør"
                 onKeyPress={keyTyped}
             />
-            <span className="input-icon">
+            <button onClick={() => search(ref.current.value)}>
                 <FontAwesomeIcon icon={faSearch} />
-            </span>
+            </button>
         </div>
     );
 };
