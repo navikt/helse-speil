@@ -9,7 +9,7 @@ const Utbetaling = () => {
             <Undertittel className="panel-tittel">
                 Beregning av utbetaling
             </Undertittel>
-            <Navigasjonsknapper previous="/periode" />
+            <Navigasjonsknapper previous="/periode" next="/oppsummering" />
         </Panel>
     );
 };
