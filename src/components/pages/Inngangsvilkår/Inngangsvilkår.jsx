@@ -6,12 +6,10 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { inngangsvilkårtekster as tekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/withBehandlingContext';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
-        
+
 const Inngangsvilkår = withBehandlingContext(({ behandling }) => (
     <Panel border>
-        <Undertittel className="panel-tittel">
-            {tekster(`tittel`)}
-        </Undertittel>
+        <Undertittel className="panel-tittel">{tekster(`tittel`)}</Undertittel>
         <Bolk title="Inngangsvilkår oppfylt" />
         <Bolk
             title="Medlemskap"
