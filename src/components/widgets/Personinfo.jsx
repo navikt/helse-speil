@@ -1,8 +1,8 @@
 import React from 'react';
 import './Personinfo.css';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { toDate } from '../../datamapping/mappingUtils';
 import { withBehandlingContext } from '../../context/withBehandlingContext';
+import { toDate } from '../../utils/date';
 
 const Personinfo = withBehandlingContext(({ behandling }) => {
     const { aktorId, arbeidsgiver, fom, tom } = behandling.originalSøknad;
