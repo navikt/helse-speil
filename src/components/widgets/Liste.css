@@ -9,21 +9,3 @@
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
-
-.Liste__item {
-    display: flex;
-}
-
-.Liste__item .typo-normal {
-    width: 50%;
-    min-width: max-content;
-    word-break: keep-all;
-}
-
-.Liste__item .typo-normal:not(:last-child) {
-    margin-right: 1rem;
-}
-
-.Liste__item .typo-normal:last-child {
-    font-weight: 600;
-}
