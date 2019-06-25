@@ -21,7 +21,7 @@ const Nav = () => {
                 <NavLink id="nav-link-utbetaling" to="/utbetaling" />
             </li>
             <li>
-                <NavLink id="nav-link-oppsummering" to="/opppsummering" />
+                <NavLink id="nav-link-oppsummering" to="/oppsummering" />
             </li>
         </nav>
     );
