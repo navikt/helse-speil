@@ -18,25 +18,23 @@ export const extractDates = periods => {
     return periods.reduce((acc, data) => acc.concat(data.periods), []);
 };
 
+export const earliestDate = periods => {
+    return periods.reduce((acc, period) => {
+        return period.startDate < acc ? period.startDate : acc;
+    }, moment());
+};
+
+export const latestDate = periods => {
+    return periods.reduce((acc, period) => {
+        return period.endDate > acc ? period.endDate : acc;
+    }, moment('1900-01-01'));
+};
+
 /* Returnerer antall dager mellom to datoer
  */
 export const daysBetween = (earliestDate, latestDate) => {
     return Math.abs(earliestDate.diff(latestDate, 'days'));
 };
-
-export const earliestDate = periods =>
-    moment(
-        periods.reduce((acc, period) => {
-            return period.startDate < acc ? period.startDate : acc;
-        }, moment())
-    );
-
-export const latestDate = periods =>
-    moment(
-        periods.reduce((acc, period) => {
-            return period.endDate > acc ? period.endDate : acc;
-        }, moment('1900-01-01'))
-    );
 
 /* Returnerer en array med alle år hentet fra periodedata, med unntak av det første året.
  * Gitt datoene '2019-05-01', '2017-04-12' og '2013-12-12' returnerer denne
@@ -51,6 +49,9 @@ export const yearsBetween = periods => {
         .map((year, i) => year + i + 1);
 };
 
+/* Finds the horizontal position and width of a period based on the earliest and latest
+ * dates as well as the total width of the containing element.
+ */
 export const calculatePlacement = (
     period,
     startDate,
@@ -66,6 +67,9 @@ export const calculatePlacement = (
     };
 };
 
+/* Finds the horizontal position and width of a year pin/label based on the earliest and latest
+ * dates as well as the total width of the containing element.
+ */
 export const calculateYearPinPlacement = (
     year,
     startDate,
