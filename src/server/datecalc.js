@@ -18,6 +18,20 @@ const daysInMonth = (iMonth, iYear) => {
     return new Date(iYear, iMonth, 0).getDate();
 };
 
+const daysBetween = (firstDate, lastDate) => {
+    const first = new Date(firstDate);
+    const last = new Date(lastDate);
+    return Math.ceil(
+        Math.abs((first.getTime() - last.getTime()) / (24 * 60 * 60 * 1000))
+    );
+};
+
+const toDate = dateString => {
+    return dateString ? new Date(dateString) : null;
+};
+
 module.exports = {
-    isWithin3Months: isWithin3Months
+    isWithin3Months,
+    daysBetween,
+    toDate
 };

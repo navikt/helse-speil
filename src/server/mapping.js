@@ -1,6 +1,6 @@
 'use strict';
 
-const datecalc = require('./datecalc');
+const { isWithin3Months, toDate, daysBetween } = require('./datecalc');
 
 const inngangsvilkår = behandling => {
     const medlemskap = {
@@ -44,7 +44,7 @@ const inngangsvilkår = behandling => {
     const søknadsfrist = {
         sendtNav: sendtNav,
         sisteSykdomsdag: sisteSykdomsdag,
-        innen3Mnd: datecalc.isWithin3Months(sisteSykdomsdag, sendtNav)
+        innen3Mnd: isWithin3Months(sisteSykdomsdag, sendtNav)
     };
 
     const dagerIgjen = {
@@ -62,11 +62,60 @@ const inngangsvilkår = behandling => {
     };
 
     return {
-        medlemskap: medlemskap,
-        opptjening: opptjening,
-        inntekt: inntekt,
-        søknadsfrist: søknadsfrist,
-        dagerIgjen: dagerIgjen
+        medlemskap,
+        opptjening,
+        inntekt,
+        søknadsfrist,
+        dagerIgjen
+    };
+};
+
+const oppsummering = (behandling, periode = 0) => {
+    const arbeidsgiver = behandling.originalSøknad.arbeidsgiver;
+    const sykmeldtFraOgMed = toDate(behandling.originalSøknad.fom);
+    const sykmeldtTilOgMed = toDate(behandling.originalSøknad.tom);
+
+    const {
+        sykepengegrunnlagNårTrygdenYter,
+        sykepengegrunnlagIArbeidsgiverperioden
+    } = behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi;
+
+    const sykepengegrunnlag =
+        sykepengegrunnlagNårTrygdenYter.fastsattVerdi +
+        sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi;
+
+    const fordelinger = behandling.vedtak.perioder[periode].fordeling;
+
+    const arbeidsgiverFordeling = fordelinger.find(
+        fordeling => fordeling.mottager === arbeidsgiver.orgnummer
+    );
+
+    const antallDager = behandling.vedtak.perioder.reduce(
+        (acc, periode) =>
+            acc + daysBetween(toDate(periode.fom), toDate(periode.tom)),
+        0
+    );
+
+    return {
+        sykdomsvilkårErOppfylt: capitalize(behandling.vilkårsprøving.resultat),
+        inngangsvilkårErOppfylt: capitalize(behandling.vilkårsprøving.resultat),
+        arbeidsgiver: behandling.originalSøknad.arbeidsgiver,
+        refusjonTilArbeidsgiver: behandling.originalSøknad
+            .arbeidsgiverForskutterer
+            ? 'Ja'
+            : 'Nei',
+        betalerArbeidsgiverPeriode: sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi
+            ? 'Ja'
+            : 'Nei',
+        fordeling: arbeidsgiverFordeling ? arbeidsgiverFordeling.andel : '-',
+        sykepengegrunnlag,
+        månedsbeløp: sykepengegrunnlag / 12,
+        dagsats: behandling.vedtak.perioder[periode].dagsats,
+        antallDager,
+        sykmeldtFraOgMed,
+        sykmeldtTilOgMed,
+        sykmeldingsgrad: behandling.vedtak.perioder[periode].grad,
+        utbetaling: antallDager * behandling.vedtak.perioder[periode].dagsats
     };
 };
 
@@ -82,12 +131,9 @@ const originalSøknad = behandling => ({
 
 const alle = behandling => ({
     inngangsvilkår: inngangsvilkår(behandling),
+    oppsummering: oppsummering(behandling),
     originalSøknad: originalSøknad(behandling)
 });
-
-const toDate = dateString => {
-    return dateString ? new Date(dateString) : null;
-};
 
 const newestTom = objs => {
     return objs.reduce((max, d) => {
@@ -96,8 +142,12 @@ const newestTom = objs => {
     }, toDate(objs[0].tom));
 };
 
+const capitalize = string =>
+    string[0].toUpperCase() + string.toLowerCase().substring(1);
+
 module.exports = {
-    inngangsvilkår: inngangsvilkår,
-    originalSøknad: originalSøknad,
+    inngangsvilkår,
+    oppsummering,
+    originalSøknad,
     alle: alle
 };

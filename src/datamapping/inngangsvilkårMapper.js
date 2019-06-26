@@ -1,4 +1,6 @@
-import { capitalize, item, toDate } from './mappingUtils';
+import { item } from './mappingUtils';
+import { toDate } from '../utils/date';
+import { capitalize } from '../utils/locale';
 
 const medlemskap = behandling => [
     item('Bostedsland', behandling.bostedsland.toUpperCase())

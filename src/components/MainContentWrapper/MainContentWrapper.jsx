@@ -8,6 +8,7 @@ import Inngangsvilkår from '../pages/Inngangsvilkår/Inngangsvilkår';
 import Beregning from '../pages/Beregning/Beregning';
 import Periode from '../pages/Periode/Periode';
 import Utbetaling from '../pages/Utbetaling/Utbetaling';
+import Oppsummering from '../pages/Oppsummering/Oppsummering';
 
 const MainContentWrapper = () => {
     return (
@@ -24,6 +25,7 @@ const MainContentWrapper = () => {
                 <Route path={'/beregning'} exact component={Beregning} />
                 <Route path={'/periode'} exact component={Periode} />
                 <Route path={'/utbetaling'} exact component={Utbetaling} />
+                <Route path={'/oppsummering'} exact component={Oppsummering} />
             </div>
         </div>
     );
