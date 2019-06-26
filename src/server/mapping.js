@@ -2,6 +2,18 @@
 
 const { isWithin3Months, toDate, daysBetween } = require('./datecalc');
 
+const sykdomsvilkår = behandling => {
+    const mindreEnnÅtteUkerSammenhengende = {
+        førsteSykdomsdag: toDate(
+            behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag
+        )
+    };
+
+    return {
+        mindreEnnÅtteUkerSammenhengende
+    };
+};
+
 const inngangsvilkår = behandling => {
     const medlemskap = {
         bostedsland: behandling.faktagrunnlag.tps.bostedland
@@ -131,6 +143,7 @@ const originalSøknad = behandling => ({
 
 const alle = behandling => ({
     behandlingsId: behandling.behandlingsId,
+    sykdomsvilkår: sykdomsvilkår(behandling),
     inngangsvilkår: inngangsvilkår(behandling),
     oppsummering: oppsummering(behandling),
     originalSøknad: originalSøknad(behandling)
@@ -147,8 +160,9 @@ const capitalize = string =>
     string[0].toUpperCase() + string.toLowerCase().substring(1);
 
 module.exports = {
+    sykdomsvilkår,
     inngangsvilkår,
     oppsummering,
     originalSøknad,
-    alle: alle
+    alle
 };

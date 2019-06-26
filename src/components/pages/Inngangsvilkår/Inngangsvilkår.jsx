@@ -29,7 +29,7 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => (
             title="Dager igjen"
             items={ItemMapper.dagerIgjen(behandling.inngangsvilkår.dagerIgjen)}
         />
-        <Navigasjonsknapper next="/beregning" />
+        <Navigasjonsknapper previous="/" next="/beregning" />
     </Panel>
 ));
 
