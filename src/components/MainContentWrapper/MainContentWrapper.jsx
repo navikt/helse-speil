@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import './MainContentWrapper.css';
-import JsonView from '../JsonView/JsonView';
+import Sykdomsvilkår from '../pages/Sykdomsvilkår/Sykdomsvilkår';
 import Nav from '../Nav/NavView';
 import Personinfo from '../widgets/Personinfo';
 import Inngangsvilkår from '../pages/Inngangsvilkår/Inngangsvilkår';
@@ -16,7 +16,7 @@ const MainContentWrapper = () => {
             <Nav />
             <div className="main-content">
                 <Personinfo />
-                <Route path={'/'} exact component={JsonView} />
+                <Route path={'/'} exact component={Sykdomsvilkår} />
                 <Route
                     path={'/inngangsvilkår'}
                     exact
