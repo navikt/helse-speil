@@ -4,13 +4,14 @@ export const useElementWidth = ref => {
     const [width, setWidth] = useState(0);
 
     useEffect(() => {
-        if (ref.current) {
-            setWidth(ref.current.offsetWidth);
-            window.addEventListener('resize', () => {
+        const handleResize = () => {
+            if (ref.current) {
                 setWidth(ref.current.offsetWidth);
-            });
-        }
-        return () => window.removeEventListener('resize', () => {});
+            }
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, [ref.current]);
 
     return width;
