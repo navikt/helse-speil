@@ -1,0 +1,13 @@
+.PeriodeVisningWrapper {
+    max-width: calc(100% + 8rem);
+    margin: 0;
+    padding: 0;
+}
+
+.PeriodView {
+    width: 100%;
+    min-width: 800px;
+    overflow-x: scroll;
+    display: flex;
+    padding: 1rem;
+}

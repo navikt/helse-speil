@@ -1,0 +1,45 @@
+.PeriodView__rows {
+    padding-top: 1.5rem;
+    width: 100%;
+    min-height: 1rem;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+}
+
+.PeriodView__bar {
+    height: 1px;
+    background: #c6c2bf;
+    width: 100%;
+    border: none;
+}
+
+.Periods {
+    position: relative;
+    width: 100%;
+}
+
+.Period {
+    position: absolute;
+    min-width: 10px;
+    height: 10px;
+    background: #6ab889;
+    transform: translateY(-50%);
+    border-radius: 5px;
+}
+
+.Period:hover,
+.Period:focus {
+    background: white;
+    box-shadow: 0 0 0 2px #00a1ff;
+    outline: none;
+}
+
+.Period:active,
+.Period.selected {
+    background: #ffa733;
+    box-shadow: 0 0 0 2px #00a1ff;
+    outline: none;
+}
