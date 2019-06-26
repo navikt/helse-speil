@@ -1,10 +1,15 @@
-export const toDate = dateString =>
-    new Date(dateString).toLocaleDateString('nb-NO');
+/* eslint-disable no-console */
+import moment from 'moment';
+
+moment.suppressDeprecationWarnings = true;
+moment.locale = ('nb-NO');
+
+export const toDate = dateString => {
+    return moment(dateString, ['DD.MM.YYYY', 'YYYY-MM-DD']).format('DD.MM.YYYY');
+};
 
 export const daysBetween = (firstDate, lastDate) => {
-    const first = new Date(firstDate);
-    const last = new Date(lastDate);
-    return Math.ceil(
-        Math.abs((first.getTime() - last.getTime()) / (24 * 60 * 60 * 1000))
-    );
+    const first = moment(firstDate, ['DD.MM.YYYY', 'YYYY-MM-DD']);
+    const last = moment(lastDate, ['DD.MM.YYYY', 'YYYY-MM-DD']);
+    return Math.abs(first.diff(last, 'days'));
 };
