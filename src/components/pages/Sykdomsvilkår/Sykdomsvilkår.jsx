@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import BehandlingerContext from '../../context/BehandlingerContext';
-import './JsonView.css';
+import BehandlingerContext from '../../../context/BehandlingerContext';
+import './Sykdomsvilkår.css';
 
-const JsonView = () => {
+const Sykdomsvilkår = () => {
     const behandlingerCtx = useContext(BehandlingerContext);
 
     return (
@@ -12,4 +12,4 @@ const JsonView = () => {
     );
 };
 
-export default JsonView;
+export default Sykdomsvilkår;
