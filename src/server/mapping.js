@@ -130,6 +130,7 @@ const originalSøknad = behandling => ({
 });
 
 const alle = behandling => ({
+    behandlingsId: behandling.behandlingsId,
     inngangsvilkår: inngangsvilkår(behandling),
     oppsummering: oppsummering(behandling),
     originalSøknad: originalSøknad(behandling)
