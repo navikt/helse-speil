@@ -5,10 +5,11 @@ import { Panel } from 'nav-frontend-paneler';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import { withBehandlingContext } from '../../../context/withBehandlingContext';
 import './Utbetaling.css';
-import EnigBolk from '../../widgets/Bolk/EnigBolk';
+import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import ListeItem from '../../widgets/ListeItem';
 import { toMonetaryValue } from '../../../utils/locale';
+import EnigBoks from '../../widgets/EnigBoks';
 
 const Utbetaling = withBehandlingContext(({ behandling }) => {
     const {
@@ -23,11 +24,11 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
     return (
         <Panel className="Utbetaling" border>
             <Undertittel className="panel-tittel">Utbetaling</Undertittel>
-            <EnigBolk
+            <ListeItemBolk
                 label="Refusjon til arbeidsgiver"
                 value={refusjonTilArbeidsgiver ? 'Ja' : 'Nei'}
             />
-            <EnigBolk
+            <ListeItemBolk
                 label="Betaler arb.giverperiode"
                 value={betalerArbeidsgiverperiode ? 'Ja' : 'Nei'}
             />
@@ -47,7 +48,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
 
             <ListeSeparator type="dotted" />
 
-            <EnigBolk
+            <ListeItemBolk
                 label="Utbetaling"
                 value={toMonetaryValue(antallDager * dagsats)}
             />
@@ -55,7 +56,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             <ListeSeparator type="solid" />
 
             <Undertittel>Filter for MVP</Undertittel>
-            <EnigBolk
+            <ListeItemBolk
                 label="Arb.giver forskutterer"
                 value={
                     arbeidsgiverForskutterer ? (

@@ -1,23 +1,23 @@
-.EnigBolk {
+.ListeItemBolk {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
 }
 
-.EnigBolk .ListeItem {
+.ListeItemBolk .ListeItem {
     flex: 1;
     display: flex;
     align-items: center;
 }
 
-.EnigBolk > *:not(:first-child) {
+.ListeItemBolk > *:not(:first-child) {
     margin-left: 2rem;
 }
 
-.EnigBolk .ListeItem p svg {
+.ListeItemBolk .ListeItem p svg {
     vertical-align: middle;
 }
 
-.EnigBolk .EnigBoks .EnigBoks__input {
+.ListeItemBolk .EnigBoks .EnigBoks__input {
     min-width: 32rem;
 }
