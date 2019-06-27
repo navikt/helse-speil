@@ -6,7 +6,7 @@ import { withPeriods } from './withPeriods';
 import './PeriodView.css';
 
 const PeriodView = withPeriods(({ periods }) => (
-    <div className="PeriodeVisningWrapper">
+    <div className="PeriodViewWrapper">
         {periods && (
             <div className="PeriodView">
                 <Labels periods={periods} />

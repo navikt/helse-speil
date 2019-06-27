@@ -17,13 +17,14 @@ const PeriodRow = ({ dates, earliest, latest, width }) => {
     return (
         <div className="PeriodRow">
             <div className="Periods">
-                {mappedDates.map((dates, i) => (
+                {mappedDates.map((date, i) => (
                     <div
                         key={`periode-${i}`}
-                        className="Period"
+                        role="button"
+                        className={`Period ${date.status}`}
                         style={{
-                            left: dates.x,
-                            width: `${dates.width}px`
+                            left: date.x,
+                            width: `${date.width}px`
                         }}
                         tabIndex="0"
                     />
@@ -38,7 +39,8 @@ PeriodRow.propTypes = {
     dates: PropTypes.arrayOf(
         PropTypes.shape({
             startDate: PropTypes.object.isRequired,
-            endDate: PropTypes.object.isRequired
+            endDate: PropTypes.object.isRequired,
+            status: PropTypes.string.isRequired
         })
     ),
     earliest: PropTypes.object.isRequired,

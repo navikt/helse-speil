@@ -1,5 +1,5 @@
-.PeriodeVisningWrapper {
-    max-width: calc(100% + 8rem);
+.PeriodViewWrapper {
+    max-width: calc(100% - 4rem);
     margin: 0;
     padding: 0;
 }

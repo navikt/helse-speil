@@ -6,7 +6,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    margin-top: 0.3rem;
+    margin-top: 0.25rem;
+    margin-bottom: -0.25rem;
 }
 
 .YearLabels__label {
@@ -18,8 +19,13 @@
     transform: translateX(-50%);
 }
 
+.YearLabels__label p.typo-undertekst {
+    font-size: 12px;
+    color: #59514b;
+}
+
 .YearLabels__label-pin {
     width: 1px;
     height: 100%;
-    background: #00a1ff;
+    background: #66cbec;
 }

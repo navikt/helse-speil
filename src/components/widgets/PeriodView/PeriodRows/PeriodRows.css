@@ -30,16 +30,29 @@
     border-radius: 5px;
 }
 
+.Period.denied {
+    background: repeating-linear-gradient(
+        -75deg,
+        #c86151 0,
+        #c86151 6px,
+        #ffc6bd 6px,
+        #ffc6bd 10px
+    );
+}
+
 .Period:hover,
 .Period:focus {
     background: white;
-    box-shadow: 0 0 0 2px #00a1ff;
+    box-shadow: 0 0 0 2px #0067c5;
     outline: none;
 }
 
 .Period:active,
 .Period.selected {
     background: #ffa733;
-    box-shadow: 0 0 0 2px #00a1ff;
+    box-shadow: 0 0 0 2px #0067c5;
     outline: none;
+    height: 12px;
+    min-width: 12px;
+    border-radius: 12px;
 }

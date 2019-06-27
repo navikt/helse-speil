@@ -3,6 +3,16 @@ import { toMoments } from './calc';
 
 /* Foreløpig dummydata for testing */
 
+export const Status = {
+    ACCEPTED: 'accepted',
+    DENIED: 'denied'
+};
+
+const randomStatus = () =>
+    Math.floor(Math.random() * Math.floor(10)) < 8
+        ? Status.ACCEPTED
+        : Status.DENIED;
+
 export const withPeriods = Component => {
     return props => {
         const data = [
@@ -68,7 +78,13 @@ export const withPeriods = Component => {
             }
         ];
 
-        const periods = toMoments(data);
+        const periods = toMoments(data).map(entry => ({
+            ...entry,
+            periods: entry.periods.map(period => ({
+                ...period,
+                status: randomStatus()
+            }))
+        }));
 
         return <Component periods={periods} {...props} />;
     };
