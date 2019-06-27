@@ -1,5 +1,6 @@
-.Utbetaling {
+.Utbetaling.panel {
     width: max-content;
+    padding-right: 5.25rem;
 }
 
 .Utbetaling .EnigBoks {
@@ -12,4 +13,12 @@
 
 .Utbetaling > .ListeItem {
     width: 18rem;
+}
+
+.Utbetaling .typo-undertittel:not(:first-child) {
+    margin-top: 3rem;
+}
+
+.Utbetaling.panel .Navigasjonsknapper {
+    margin-top: 6rem;
 }
