@@ -1,7 +1,6 @@
 .EnigBolk {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -11,6 +10,14 @@
     align-items: center;
 }
 
+.EnigBolk > *:not(:first-child) {
+    margin-left: 2rem;
+}
+
 .EnigBolk .ListeItem p svg {
     vertical-align: middle;
+}
+
+.EnigBolk .EnigBoks .EnigBoks__input {
+    min-width: 32rem;
 }
