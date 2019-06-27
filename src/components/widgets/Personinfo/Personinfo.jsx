@@ -1,8 +1,14 @@
 import React from 'react';
 import './Personinfo.css';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { withBehandlingContext } from '../../context/withBehandlingContext';
-import { toDate } from '../../utils/date';
+import { withBehandlingContext } from '../../../context/withBehandlingContext';
+import { toDate } from '../../../utils/date';
+
+const Kjønn = {
+    MANN: 'mann',
+    KVINNE: 'kvinne',
+    NØYTRAL: 'kjønnsnøytral'
+};
 
 const Personinfo = withBehandlingContext(({ behandling }) => {
     const { aktorId, arbeidsgiver, fom, tom } = behandling.originalSøknad;
@@ -11,13 +17,24 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
 
     const søkernavn = 'Navn Navnesen';
     const telefonnummer = '123-99-124';
+    const kjønn = Kjønn.KVINNE;
 
     return (
         <>
             <div className="personalia-linje">
-                <Element>{søkernavn}</Element>&nbsp;
+                <figure
+                    id="personinfo-kjønn"
+                    aria-label={`Kjønn: ${kjønn}`}
+                    className={kjønn}
+                />
+                <Element>{søkernavn}</Element>
+                /
                 <Undertekst>
-                    / Aktør-ID: {aktorId} / Tlf: {telefonnummer}
+                    Aktør-ID: {aktorId}
+                </Undertekst>
+                /
+                <Undertekst>
+                    Tlf: {telefonnummer}
                 </Undertekst>
             </div>
             <hr />

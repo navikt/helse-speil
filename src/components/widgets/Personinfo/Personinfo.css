@@ -1,0 +1,47 @@
+.personalia-linje {
+    padding-left: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.personalia-linje > * {
+    margin-right: 0.5rem;
+    color: #3e3832;
+}
+
+.personalia-linje > p:not(.typo-element) {
+    margin-left: 0.5rem;
+}
+
+hr {
+    background-color: #92908d;
+    height: 1px;
+    margin: 0;
+}
+
+.behandling-hovedinfo {
+    display: inline-block;
+    padding: 2rem 0 0 2.5rem;
+}
+
+.behandling-hovedinfo .arbeidsgivernavn {
+    margin-bottom: 0.5rem;
+}
+
+#personinfo-kjønn {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+#personinfo-kjønn.kvinne {
+    background: url("img/Ikon_kvinne.svg");
+}
+
+#personinfo-kjønn.mann {
+    background: url("img/Ikon_mann.svg");
+}
+
+#personinfo-kjønn.kjønnsnøytral {
+    background: url("img/Ikon_nøytral.svg");
+}
