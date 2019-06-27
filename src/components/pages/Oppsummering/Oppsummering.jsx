@@ -41,9 +41,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
                 />
                 <ListeItem
                     label="Betaler arb.giverperiode"
-                    value={
-                        behandling.oppsummering.betalerArbeidsgiverPeriode
-                    }
+                    value={behandling.oppsummering.betalerArbeidsgiverPeriode}
                 />
                 <ListeItem
                     label="Fordeling"
@@ -67,10 +65,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
                 />
                 <ListeItem
                     label="Dagsats"
-                    value={toMonetaryValue(
-                        behandling.oppsummering.dagsats,
-                        2
-                    )}
+                    value={toMonetaryValue(behandling.oppsummering.dagsats, 2)}
                 />
                 <ListeSeparator type="dotted" />
                 <ListeItem

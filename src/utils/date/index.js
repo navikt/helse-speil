@@ -2,10 +2,12 @@
 import moment from 'moment';
 
 moment.suppressDeprecationWarnings = true;
-moment.locale = ('nb-NO');
+moment.locale = 'nb-NO';
 
 export const toDate = dateString => {
-    return moment(dateString, ['DD.MM.YYYY', 'YYYY-MM-DD']).format('DD.MM.YYYY');
+    return moment(dateString, ['DD.MM.YYYY', 'YYYY-MM-DD']).format(
+        'DD.MM.YYYY'
+    );
 };
 
 export const daysBetween = (firstDate, lastDate) => {
