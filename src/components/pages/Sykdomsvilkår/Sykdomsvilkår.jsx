@@ -1,6 +1,6 @@
 import React from 'react';
 import './Sykdomsvilkår.css';
-import Bolk from '../../widgets/Bolk';
+import Bolk from '../../widgets/Bolk/Bolk';
 import ItemMapper from '../../../datamapping/sykdomsvilkårMapper';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';

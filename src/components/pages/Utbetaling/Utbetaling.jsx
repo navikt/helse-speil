@@ -9,7 +9,6 @@ import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import ListeItem from '../../widgets/ListeItem';
 import { toMonetaryValue } from '../../../utils/locale';
-import EnigBoks from '../../widgets/EnigBoks';
 
 const Utbetaling = withBehandlingContext(({ behandling }) => {
     const {
