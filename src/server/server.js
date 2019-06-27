@@ -21,6 +21,8 @@ const mapping = require('./mapping');
 const app = express();
 const port = config.server.port;
 
+const storage = require('./storage');
+
 const behandlingerFor = (aktorId, accessToken, callback) => {
     request.get(
         `http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`,
