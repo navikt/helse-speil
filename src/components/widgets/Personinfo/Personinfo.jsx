@@ -37,7 +37,6 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
                     Tlf: {telefonnummer}
                 </Undertekst>
             </div>
-            <hr />
             <div className="behandling-hovedinfo">
                 <Undertekst className="arbeidsgivernavn">
                     {arbeidsgiver.navn}

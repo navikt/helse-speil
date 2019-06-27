@@ -11,3 +11,8 @@
     display: flex;
     padding: 1rem;
 }
+
+hr {
+    height: 1px;
+    margin: 0;
+}
