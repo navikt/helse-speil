@@ -9,7 +9,6 @@ import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
 
 const Periode = withBehandlingContext(({ behandling }) => {
-    console.log(behandling.periode);
     const {
         antallKalenderdager,
         arbeidsgiverperiodeKalenderdager,
