@@ -9,7 +9,7 @@ Input.propTypes = {
     inputRef: PropTypes.any
 };
 
-const EnigBoks = () => {
+const EnigBoks = ({ hasInputField }) => {
     const ref = useRef();
     const [checked, setChecked] = useState(false);
 
@@ -26,15 +26,25 @@ const EnigBoks = () => {
                 checked={checked}
                 onChange={e => setChecked(e.target.checked)}
             />
-            <Input
-                className="EnigBoks__input"
-                label="Årsak"
-                placeholder="Skriv inn årsak til uenighet"
-                inputRef={ref}
-                disabled={!checked}
-            />
+            {hasInputField && (
+                <Input
+                    className="EnigBoks__input"
+                    label="Årsak"
+                    placeholder="Skriv inn årsak til uenighet"
+                    inputRef={ref}
+                    disabled={!checked}
+                />
+            )}
         </div>
     );
+};
+
+EnigBoks.propTypes = {
+    hasInputField: PropTypes.bool
+};
+
+EnigBoks.defaultProps = {
+    hasInputField: true
 };
 
 export default EnigBoks;

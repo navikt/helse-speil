@@ -1,6 +1,6 @@
 import React from 'react';
-import EnigBoks from './EnigBoks';
-import IkonHeader from './IkonHeader';
+import EnigBoks from '../EnigBoks';
+import IkonHeader from '../IkonHeader';
 import './Bolk.css';
 
 const Bolk = ({ title, items }) => {

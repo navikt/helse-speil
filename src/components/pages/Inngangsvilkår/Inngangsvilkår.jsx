@@ -1,5 +1,5 @@
 import React from 'react';
-import Bolk from '../../widgets/Bolk';
+import Bolk from '../../widgets/Bolk/Bolk';
 import ItemMapper from '../../../datamapping/inngangsvilkårMapper';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';

@@ -1,0 +1,16 @@
+.EnigBolk {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.EnigBolk .ListeItem {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.EnigBolk .ListeItem p svg {
+    vertical-align: middle;
+}
