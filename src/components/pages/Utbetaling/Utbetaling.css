@@ -1,14 +1,6 @@
-.Utbetaling.panel {
-    width: max-content;
-    padding-right: 5.25rem;
-}
-
-.Utbetaling .EnigBoks {
-    width: unset;
-}
-
 .Utbetaling .EnigBolk .ListeItem {
-    width: 18rem;
+    min-width: 18rem;
+    max-width: 18rem;
 }
 
 .Utbetaling > .ListeItem {
