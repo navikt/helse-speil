@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import './MainContentWrapper.css';
 import Sykdomsvilkår from '../pages/Sykdomsvilkår/Sykdomsvilkår';
 import Nav from '../Nav/NavView';
-import Personinfo from '../widgets/Personinfo';
+import Personinfo from '../widgets/Personinfo/Personinfo';
 import Inngangsvilkår from '../pages/Inngangsvilkår/Inngangsvilkår';
 import Beregning from '../pages/Beregning/Beregning';
 import Periode from '../pages/Periode/Periode';
