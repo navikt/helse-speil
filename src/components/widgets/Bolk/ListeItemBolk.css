@@ -1,0 +1,23 @@
+.ListeItemBolk {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.ListeItemBolk .ListeItem {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.ListeItemBolk > *:not(:first-child) {
+    margin-left: 2rem;
+}
+
+.ListeItemBolk .ListeItem p svg {
+    vertical-align: middle;
+}
+
+.ListeItemBolk .EnigBoks .EnigBoks__input {
+    min-width: 32rem;
+}

@@ -1,6 +1,8 @@
 'use strict';
 
-const { isWithin3Months, toDate, daysBetween } = require('./datecalc');
+const selectors = require('./selectors');
+
+const { isWithin3Months, toDate } = require('./datecalc');
 
 const sykdomsvilkår = behandling => {
     const mindreEnnÅtteUkerSammenhengende = {
@@ -84,50 +86,35 @@ const inngangsvilkår = behandling => {
 
 const oppsummering = (behandling, periode = 0) => {
     const arbeidsgiver = behandling.originalSøknad.arbeidsgiver;
+    const fordelinger = behandling.vedtak.perioder[periode].fordeling;
     const sykmeldtFraOgMed = toDate(behandling.originalSøknad.fom);
     const sykmeldtTilOgMed = toDate(behandling.originalSøknad.tom);
-
-    const {
-        sykepengegrunnlagNårTrygdenYter,
-        sykepengegrunnlagIArbeidsgiverperioden
-    } = behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi;
-
-    const sykepengegrunnlag =
-        sykepengegrunnlagNårTrygdenYter.fastsattVerdi +
-        sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi;
-
-    const fordelinger = behandling.vedtak.perioder[periode].fordeling;
+    const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
 
     const arbeidsgiverFordeling = fordelinger.find(
         fordeling => fordeling.mottager === arbeidsgiver.orgnummer
     );
 
-    const antallDager = behandling.vedtak.perioder.reduce(
-        (acc, periode) =>
-            acc + daysBetween(toDate(periode.fom), toDate(periode.tom)),
-        0
-    );
+    const antallDager = selectors.antallDager(behandling);
+    const dagsats = selectors.dagsats(behandling);
 
     return {
         sykdomsvilkårErOppfylt: capitalize(behandling.vilkårsprøving.resultat),
         inngangsvilkårErOppfylt: capitalize(behandling.vilkårsprøving.resultat),
         arbeidsgiver: behandling.originalSøknad.arbeidsgiver,
-        refusjonTilArbeidsgiver: behandling.originalSøknad
-            .arbeidsgiverForskutterer
-            ? 'Ja'
-            : 'Nei',
-        betalerArbeidsgiverPeriode: sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi
-            ? 'Ja'
-            : 'Nei',
+        refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
+        betalerArbeidsgiverPeriode: selectors.betalerArbeidsgiverperiode(
+            behandling
+        ),
         fordeling: arbeidsgiverFordeling ? arbeidsgiverFordeling.andel : '-',
-        sykepengegrunnlag,
         månedsbeløp: sykepengegrunnlag / 12,
-        dagsats: behandling.vedtak.perioder[periode].dagsats,
-        antallDager,
+        sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
+        utbetaling: antallDager * dagsats,
+        sykepengegrunnlag,
         sykmeldtFraOgMed,
         sykmeldtTilOgMed,
-        sykmeldingsgrad: behandling.vedtak.perioder[periode].grad,
-        utbetaling: antallDager * behandling.vedtak.perioder[periode].dagsats
+        antallDager,
+        dagsats
     };
 };
 
@@ -141,12 +128,33 @@ const originalSøknad = behandling => ({
     tom: toDate(behandling.originalSøknad.tom)
 });
 
+const utbetaling = behandling => {
+    const antallDager = selectors.antallDager(behandling);
+    const dagsats = selectors.dagsats(behandling);
+
+    return {
+        refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
+        arbeidsgiverForskutterer: selectors.arbeidsgiverForskutterer(
+            behandling
+        ),
+        betalerArbeidsgiverperiode: selectors.betalerArbeidsgiverperiode(
+            behandling
+        ),
+        sykepengegrunnlag: selectors.sykepengegrunnlag(behandling),
+        sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
+        utbetaling: antallDager * dagsats,
+        antallDager,
+        dagsats
+    };
+};
+
 const alle = behandling => ({
     behandlingsId: behandling.behandlingsId,
     sykdomsvilkår: sykdomsvilkår(behandling),
     inngangsvilkår: inngangsvilkår(behandling),
     oppsummering: oppsummering(behandling),
-    originalSøknad: originalSøknad(behandling)
+    originalSøknad: originalSøknad(behandling),
+    utbetaling: utbetaling(behandling)
 });
 
 const newestTom = objs => {

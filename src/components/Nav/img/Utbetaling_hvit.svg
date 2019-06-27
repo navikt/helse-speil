@@ -5,8 +5,8 @@
     <desc>Created with Sketch.</desc>
     <g id="Utbetaling" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <circle id="Oval" stroke="#FFFFFF" stroke-width="1.5" cx="14" cy="14" r="13"></circle>
-        <text id="Kr" font-family="SourceSansPro-SemiBold, Source Sans Pro SemiBold" font-size="14" font-weight="500" line-spacing="22" fill="#FFFFFF">
-            <tspan x="8" y="17">Kr</tspan>
+        <text id="Kr" font-family="SourceSansPro-SemiBold, Source Sans Pro SemiBold, sans-serif" font-size="14" font-weight="500" line-spacing="22" fill="#FFFFFF">
+            <tspan x="7.5" y="19">Kr</tspan>
         </text>
     </g>
 </svg>
