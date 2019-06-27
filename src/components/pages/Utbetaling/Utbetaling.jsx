@@ -34,7 +34,10 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
 
             <ListeSeparator type="dotted" />
 
-            <ListeItem label="Sykepengegrunnlag" value={toMonetaryValue(sykepengegrunnlag)} />
+            <ListeItem
+                label="Sykepengegrunnlag"
+                value={toMonetaryValue(sykepengegrunnlag)}
+            />
             <ListeItem label="Dagsats" value={toMonetaryValue(dagsats)} />
 
             <ListeSeparator type="dotted" />
@@ -52,11 +55,16 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             <ListeSeparator type="solid" />
 
             <Undertittel>Filter for MVP</Undertittel>
-            <EnigBolk label="Arb.giver forskutterer" value={
-                arbeidsgiverForskutterer
-                    ? <Ikon kind="ok-sirkel-fyll" size={24} />
-                    : <Ikon kind="feil-sirkel-fyll" size={24} />
-            } />
+            <EnigBolk
+                label="Arb.giver forskutterer"
+                value={
+                    arbeidsgiverForskutterer ? (
+                        <Ikon kind="ok-sirkel-fyll" size={24} />
+                    ) : (
+                        <Ikon kind="feil-sirkel-fyll" size={24} />
+                    )
+                }
+            />
 
             <Navigasjonsknapper previous="/periode" next="/oppsummering" />
         </Panel>

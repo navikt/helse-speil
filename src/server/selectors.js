@@ -26,10 +26,13 @@ const sykmeldingsgrad = (behandling, periode = 0) =>
     behandling.vedtak.perioder[periode].grad;
 
 const betalerArbeidsgiverperiode = behandling =>
-    behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi.sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi;
+    behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
+        .sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi;
 
-const refusjonTilArbeidsgiver = behandling => behandling.originalSøknad.arbeidsgiverForskutterer;
-const arbeidsgiverForskutterer = behandling => behandling.originalSøknad.arbeidsgiverForskutterer;
+const refusjonTilArbeidsgiver = behandling =>
+    behandling.originalSøknad.arbeidsgiverForskutterer;
+const arbeidsgiverForskutterer = behandling =>
+    behandling.originalSøknad.arbeidsgiverForskutterer;
 
 module.exports = {
     arbeidsgiverForskutterer,
