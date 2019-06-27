@@ -1,5 +1,6 @@
 'use strict';
 
+const { antallKalenderdager, antallDager, sykmeldingsgrad } = require('./selectors');
 const { isWithin3Months, toDate, daysBetween } = require('./datecalc');
 
 const inngangsvilkår = behandling => {
@@ -129,11 +130,23 @@ const originalSøknad = behandling => ({
     tom: toDate(behandling.originalSøknad.tom)
 });
 
+const periode = behandling => ({
+    antallKalenderdager: antallKalenderdager(behandling),
+    arbeidsgiverperiodeKalenderdager: 16,
+    antallVirkedager: antallDager(behandling),
+    antallFeriedager: 0,
+    antallDager: antallDager(behandling),
+    sykmeldingsgrad: sykmeldingsgrad(behandling),
+    ingenFriskmelding: true,
+    ingenGradering: true
+});
+
 const alle = behandling => ({
     behandlingsId: behandling.behandlingsId,
     inngangsvilkår: inngangsvilkår(behandling),
     oppsummering: oppsummering(behandling),
-    originalSøknad: originalSøknad(behandling)
+    originalSøknad: originalSøknad(behandling),
+    periode: periode(behandling)
 });
 
 const newestTom = objs => {
