@@ -49,7 +49,7 @@ const bucketExists = async name => {
 
 const createBucket = async name => {
     return new Promise((resolve, reject) => {
-        s3.createBucket({ Bucket: name }, (err, data) => {
+        s3.createBucket({ Bucket: name, ACL: 'private' }, (err, data) => {
             if (err) reject(err);
             resolve(data);
         });
