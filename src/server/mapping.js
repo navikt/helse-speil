@@ -148,13 +148,25 @@ const utbetaling = behandling => {
     };
 };
 
+const periode = behandling => ({
+    antallKalenderdager: selectors.antallKalenderdager(behandling),
+    arbeidsgiverperiodeKalenderdager: 16,
+    antallVirkedager: selectors.antallDager(behandling),
+    antallFeriedager: 0,
+    antallDager: selectors.antallDager(behandling),
+    sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
+    ingenFriskmelding: true,
+    ingenGradering: true
+});
+
 const alle = behandling => ({
     behandlingsId: behandling.behandlingsId,
     sykdomsvilkår: sykdomsvilkår(behandling),
     inngangsvilkår: inngangsvilkår(behandling),
     oppsummering: oppsummering(behandling),
     originalSøknad: originalSøknad(behandling),
-    utbetaling: utbetaling(behandling)
+    utbetaling: utbetaling(behandling),
+    periode: periode(behandling)
 });
 
 const newestTom = objs => {

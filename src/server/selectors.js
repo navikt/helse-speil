@@ -34,6 +34,12 @@ const refusjonTilArbeidsgiver = behandling =>
 const arbeidsgiverForskutterer = behandling =>
     behandling.originalSøknad.arbeidsgiverForskutterer;
 
+const antallKalenderdager = behandling => {
+    const fom = toDate(behandling.originalSøknad.fom);
+    const tom = toDate(behandling.originalSøknad.tom);
+    return daysBetween(fom, tom);
+};
+
 module.exports = {
     arbeidsgiverForskutterer,
     antallDager,
@@ -41,5 +47,6 @@ module.exports = {
     dagsats,
     refusjonTilArbeidsgiver,
     sykepengegrunnlag,
+    antallKalenderdager,
     sykmeldingsgrad
 };

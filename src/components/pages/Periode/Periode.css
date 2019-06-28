@@ -1,0 +1,7 @@
+.Periode.panel {
+    width: max-content;
+}
+
+.Periode.panel .typo-undertittel:not(:first-child) {
+    margin-top: 3rem;
+}
