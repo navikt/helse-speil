@@ -8,7 +8,7 @@ import './Utbetaling.css';
 import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import ListeItem from '../../widgets/ListeItem';
-import { toMonetaryValue } from '../../../utils/locale';
+import { toKronerOgØre } from '../../../utils/locale';
 
 const Utbetaling = withBehandlingContext(({ behandling }) => {
     const {
@@ -36,9 +36,9 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
 
             <ListeItem
                 label="Sykepengegrunnlag"
-                value={toMonetaryValue(sykepengegrunnlag)}
+                value={toKronerOgØre(sykepengegrunnlag)}
             />
-            <ListeItem label="Dagsats" value={toMonetaryValue(dagsats)} />
+            <ListeItem label="Dagsats" value={toKronerOgØre(dagsats)} />
 
             <ListeSeparator type="dotted" />
 
@@ -49,7 +49,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
 
             <ListeItemBolk
                 label="Utbetaling"
-                value={toMonetaryValue(antallDager * dagsats)}
+                value={toKronerOgØre(antallDager * dagsats)}
             />
 
             <ListeSeparator type="solid" />
