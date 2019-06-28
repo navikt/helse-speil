@@ -40,13 +40,28 @@ const antallKalenderdager = behandling => {
     return daysBetween(fom, tom);
 };
 
+const antallFeriedager = behandling => {
+    if (behandling.originalSøknad.fravar.length === 0) {
+        return 0;
+    }
+    return behandling.originalSøknad.fravar.reduce(
+        (acc, fravar) => (
+            fravar.type.toLowerCase() === 'ferie'
+                ? acc + daysBetween(toDate(fravar.fom), toDate(fravar.tom))
+                : acc + 0
+        ),
+        0
+    );
+};
+
 module.exports = {
     arbeidsgiverForskutterer,
     antallDager,
+    antallFeriedager,
+    antallKalenderdager,
     betalerArbeidsgiverperiode,
     dagsats,
     refusjonTilArbeidsgiver,
     sykepengegrunnlag,
-    antallKalenderdager,
     sykmeldingsgrad
 };
