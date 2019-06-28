@@ -12,7 +12,7 @@ Object.keys(sider).forEach(side => (bokmål[side] = {}));
 
 bokmål.neste = 'Neste';
 
-bokmål.inngangsvilkår.tittel = 'Beregning av sykepengegrunnlag og dagsats';
+bokmål.inngangsvilkår.tittel = 'Inngangsvilkår';
 bokmål.inngangsvilkår.inngangsvilkår_oppfylt = 'Inngangsvilkår oppfylt';
 bokmål.inngangsvilkår.medlemskap = 'Medlemskap';
 
