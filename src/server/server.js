@@ -11,7 +11,7 @@ const request = require('request');
 const fs = require('fs');
 
 const config = require('./config');
-const tokendecoder = require('./tokendecoder');
+const authsupport = require('./authsupport');
 const proxy = require('./proxy');
 const metrics = require('./metrics');
 const headers = require('./headers');
@@ -20,8 +20,6 @@ const mapping = require('./mapping');
 
 const app = express();
 const port = config.server.port;
-
-const storage = require('./storage');
 
 const behandlingerFor = (aktorId, accessToken, callback) => {
     request.get(
@@ -80,7 +78,6 @@ Issuer.discover(config.oidc.identityMetadata)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressSession({ secret: config.server.sessionSecret }));
-app.use('/static', express.static('dist'));
 
 headers.setup(app);
 metrics.setup(app);
@@ -89,6 +86,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use('/mock-data', express.static('__mock-data__'));
 }
 
+// Unprotected routes
 app.get('/isAlive', (req, res) => res.send('alive'));
 app.get('/isReady', (req, res) => res.send('ready'));
 
@@ -124,13 +122,29 @@ app.post('/callback', (req, res) => {
         });
 });
 
+// Protected routes
+app.use('/*', (req, res, next) => {
+    if (
+        process.env.NODE_ENV === 'development' ||
+        authsupport.stillValid(req.session.spadeToken)
+    ) {
+        next();
+    } else {
+        console.log(
+            `no valid session found for ${req.headers['x-forwarded-for'] ||
+                req.connection.remoteAddress}`
+        );
+        res.redirect('/login');
+    }
+});
+
+app.use('/static', express.static('dist'));
+
 app.get('/whoami', (req, res) => {
     if (process.env.NODE_ENV === 'development') {
         res.send({ name: `Sara Saksbehandler` });
-    } else if (req.cookies['speil']) {
-        res.send({ name: `${tokendecoder.username(req.cookies['speil'])}` });
     } else {
-        res.sendStatus(401);
+        res.send({ name: `${authsupport.username(req.cookies['speil'])}` });
     }
 });
 
@@ -151,22 +165,18 @@ app.get('/behandlinger/:aktorId', (req, res) => {
         return;
     }
     const accessToken = req.session.spadeToken;
-    if (!accessToken) {
-        res.sendStatus(403);
-    } else {
-        const aktorId = req.params.aktorId;
-        behandlingerFor(aktorId, accessToken, apiresponse => {
-            if (apiresponse.status !== 200) {
-                res.status(apiresponse.status).send(apiresponse.data);
-            } else {
-                res.send(
-                    JSON.parse(apiresponse.data).behandlinger.map(behandling =>
-                        mapping.alle(behandling)
-                    )
-                );
-            }
-        });
-    }
+    const aktorId = req.params.aktorId;
+    behandlingerFor(aktorId, accessToken, apiresponse => {
+        if (apiresponse.status !== 200) {
+            res.status(apiresponse.status).send(apiresponse.data);
+        } else {
+            res.send(
+                JSON.parse(apiresponse.data).behandlinger.map(behandling =>
+                    mapping.alle(behandling)
+                )
+            );
+        }
+    });
 });
 
 app.get('/', (_, res) => {
