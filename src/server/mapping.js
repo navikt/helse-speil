@@ -3,7 +3,11 @@
 const selectors = require('./selectors');
 
 const { isWithin3Months, toDate } = require('./datecalc');
-const { antallKalenderdager, antallDager, sykmeldingsgrad } = require('./selectors');
+const {
+    antallKalenderdager,
+    antallDager,
+    sykmeldingsgrad
+} = require('./selectors');
 
 const sykdomsvilkår = behandling => {
     const mindreEnnÅtteUkerSammenhengende = {

@@ -50,4 +50,3 @@ module.exports = {
     sykmeldingsgrad,
     antallKalenderdager
 };
-
