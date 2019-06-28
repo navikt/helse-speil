@@ -3,14 +3,16 @@ import './Sykdomsvilkår.css';
 import Bolk from '../../widgets/Bolk/Bolk';
 import ItemMapper from '../../../datamapping/sykdomsvilkårMapper';
 import { Panel } from 'nav-frontend-paneler';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import { sykdomsvilkårtekster as tekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/withBehandlingContext';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 
 const Sykdomsvilkår = withBehandlingContext(({ behandling }) => (
-    <Panel border>
+    <Panel className="Sykdomsvilkår" border>
+        <Undertittel>Sykdomsvilkår</Undertittel>
+
         <Bolk title={tekster('sykdomsvilkår_oppfylt')} />
 
         <ListeSeparator type="dotted" />
