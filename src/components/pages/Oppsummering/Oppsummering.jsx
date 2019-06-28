@@ -49,14 +49,14 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             <ListeSeparator type="dotted" />
             <ListeItem
                 label="Sykepengegrunnlag"
-                value={toMonetaryValue(
+                value={toKronerOgØre(
                     behandling.oppsummering.sykepengegrunnlag,
                     2
                 )}
             />
             <ListeItem
                 label="Månedsbeløp"
-                value={toMonetaryValue(
+                value={toKronerOgØre(
                     behandling.oppsummering.månedsbeløp,
                     2
                 )}
@@ -64,7 +64,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             />
             <ListeItem
                 label="Dagsats"
-                value={toMonetaryValue(behandling.oppsummering.dagsats, 2)}
+                value={toKronerOgØre(behandling.oppsummering.dagsats, 2)}
             />
             <ListeSeparator type="dotted" />
             <ListeItem
@@ -89,7 +89,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             <ListeSeparator type="dotted" />
             <ListeItem
                 label="Utbetaling"
-                value={`${toMonetaryValue(
+                value={`${toKronerOgØre(
                     behandling.oppsummering.utbetaling,
                     2
                 )}`}
