@@ -5,5 +5,5 @@ test('kan slå opp "globale" tekster', () => {
 });
 
 test('kan slå opp tekster for sider', () => {
-    expect(inngangsvilkårtekster('tittel')).toContain('Beregning');
+    expect(inngangsvilkårtekster('tittel')).toContain('Inngangsvilkår');
 });
