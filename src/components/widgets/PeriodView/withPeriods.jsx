@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { toMoments } from './calc';
+import { toDate } from '../../../utils/date';
 
 /* Foreløpig dummydata for testing */
 
@@ -82,7 +84,13 @@ export const withPeriods = Component => {
             ...entry,
             periods: entry.periods.map(period => ({
                 ...period,
-                status: randomStatus()
+                status: randomStatus(),
+                action: () =>
+                    console.log(
+                        `Clicked ${entry.label} ${toDate(
+                            period.startDate
+                        )} - ${toDate(period.endDate)}`
+                    )
             }))
         }));
 
