@@ -6,8 +6,8 @@ import { withBehandlingContext } from '../../../context/withBehandlingContext';
 import ListeItem from '../../widgets/ListeItem';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
-import { toKronerOgØre } from '../../../utils/locale';
 import { toDate } from '../../../utils/date';
+import { toKronerOgØre } from '../../../utils/locale';
 
 const Oppsummering = withBehandlingContext(({ behandling }) => (
     <div className="Oppsummering">
@@ -35,7 +35,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             />
             <ListeItem
                 label="Refusjon til arbeidsgiver"
-                value={behandling.oppsummering.refusjonTilArbeidsgiver}
+                value={behandling.oppsummering.refusjonTilArbeidsgiver ? 'Ja' : 'Nei'}
                 bold
             />
             <ListeItem
@@ -49,22 +49,16 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             <ListeSeparator type="dotted" />
             <ListeItem
                 label="Sykepengegrunnlag"
-                value={toKronerOgØre(
-                    behandling.oppsummering.sykepengegrunnlag,
-                    2
-                )}
+                value={toKronerOgØre(behandling.oppsummering.sykepengegrunnlag)}
             />
             <ListeItem
                 label="Månedsbeløp"
-                value={toKronerOgØre(
-                    behandling.oppsummering.månedsbeløp,
-                    2
-                )}
+                value={toKronerOgØre(behandling.oppsummering.månedsbeløp)}
                 bold
             />
             <ListeItem
                 label="Dagsats"
-                value={toKronerOgØre(behandling.oppsummering.dagsats, 2)}
+                value={toKronerOgØre(behandling.oppsummering.dagsats)}
             />
             <ListeSeparator type="dotted" />
             <ListeItem
@@ -89,10 +83,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             <ListeSeparator type="dotted" />
             <ListeItem
                 label="Utbetaling"
-                value={`${toKronerOgØre(
-                    behandling.oppsummering.utbetaling,
-                    2
-                )}`}
+                value={`${toKronerOgØre(behandling.oppsummering.utbetaling)}`}
             />
             <ListeSeparator type="solid" />
             <Navigasjonsknapper previous="/utbetaling" />
