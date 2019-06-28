@@ -54,6 +54,17 @@ const antallFeriedager = behandling => {
     );
 };
 
+const utbetaling = behandling => {
+    return behandling.beregning.dagsatser.reduce(
+        (acc, dag) => (
+            dag.skalUtbetales
+                ? acc + dag.sats
+                : acc + 0
+        ),
+        0
+    );
+};
+
 module.exports = {
     arbeidsgiverForskutterer,
     antallDager,
@@ -63,5 +74,6 @@ module.exports = {
     dagsats,
     refusjonTilArbeidsgiver,
     sykepengegrunnlag,
-    sykmeldingsgrad
+    sykmeldingsgrad,
+    utbetaling
 };

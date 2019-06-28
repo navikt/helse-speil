@@ -142,7 +142,7 @@ const utbetaling = behandling => {
         ),
         sykepengegrunnlag: selectors.sykepengegrunnlag(behandling),
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
-        utbetaling: antallDager * dagsats,
+        utbetaling: selectors.utbetaling(behandling),
         antallDager,
         dagsats
     };
