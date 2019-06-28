@@ -14,7 +14,6 @@
     margin-left: 0.5rem;
 }
 
-
 .behandling-hovedinfo {
     display: inline-block;
     padding: 2rem 0 0 2.5rem;
@@ -30,13 +29,13 @@
 }
 
 #personinfo-kjønn.kvinne {
-    background: url("img/Ikon_kvinne.svg");
+    background: url('img/Ikon_kvinne.svg');
 }
 
 #personinfo-kjønn.mann {
-    background: url("img/Ikon_mann.svg");
+    background: url('img/Ikon_mann.svg');
 }
 
 #personinfo-kjønn.kjønnsnøytral {
-    background: url("img/Ikon_nøytral.svg");
+    background: url('img/Ikon_nøytral.svg');
 }

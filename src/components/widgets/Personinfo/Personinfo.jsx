@@ -27,15 +27,9 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
                     aria-label={`Kjønn: ${kjønn}`}
                     className={kjønn}
                 />
-                <Element>{søkernavn}</Element>
-                /
-                <Undertekst>
-                    Aktør-ID: {aktorId}
-                </Undertekst>
-                /
-                <Undertekst>
-                    Tlf: {telefonnummer}
-                </Undertekst>
+                <Element>{søkernavn}</Element>/
+                <Undertekst>Aktør-ID: {aktorId}</Undertekst>/
+                <Undertekst>Tlf: {telefonnummer}</Undertekst>
             </div>
             <div className="behandling-hovedinfo">
                 <Undertekst className="arbeidsgivernavn">
