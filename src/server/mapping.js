@@ -3,11 +3,6 @@
 const selectors = require('./selectors');
 
 const { isWithin3Months, toDate } = require('./datecalc');
-const {
-    antallKalenderdager,
-    antallDager,
-    sykmeldingsgrad
-} = require('./selectors');
 
 const sykdomsvilkår = behandling => {
     const mindreEnnÅtteUkerSammenhengende = {
@@ -154,12 +149,12 @@ const utbetaling = behandling => {
 };
 
 const periode = behandling => ({
-    antallKalenderdager: antallKalenderdager(behandling),
+    antallKalenderdager: selectors.antallKalenderdager(behandling),
     arbeidsgiverperiodeKalenderdager: 16,
-    antallVirkedager: antallDager(behandling),
+    antallVirkedager: selectors.antallDager(behandling),
     antallFeriedager: 0,
-    antallDager: antallDager(behandling),
-    sykmeldingsgrad: sykmeldingsgrad(behandling),
+    antallDager: selectors.antallDager(behandling),
+    sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
     ingenFriskmelding: true,
     ingenGradering: true
 });

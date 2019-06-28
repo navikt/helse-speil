@@ -47,6 +47,6 @@ module.exports = {
     dagsats,
     refusjonTilArbeidsgiver,
     sykepengegrunnlag,
-    sykmeldingsgrad,
-    antallKalenderdager
+    antallKalenderdager,
+    sykmeldingsgrad
 };

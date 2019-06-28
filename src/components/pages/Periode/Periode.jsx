@@ -19,7 +19,9 @@ const Periode = withBehandlingContext(({ behandling }) => {
     } = behandling.periode;
     return (
         <Panel className="Periode" border>
-            <Undertittel className="panel-tittel">Sykepengeperiode</Undertittel>
+            <Undertittel className="panel-tittel">
+                Sykepengeperiode
+            </Undertittel>
 
             <ListeItemBolk
                 label="Antall kalenderdager"
@@ -32,7 +34,10 @@ const Periode = withBehandlingContext(({ behandling }) => {
 
             <ListeSeparator type="dotted" />
 
-            <ListeItemBolk label="Antall virkedager" value={antallVirkedager} />
+            <ListeItemBolk
+                label="Antall virkedager"
+                value={antallVirkedager}
+            />
             <ListeItemBolk
                 label="Ferie"
                 value={antallFeriedager ? antallFeriedager : '-'}
@@ -40,7 +45,10 @@ const Periode = withBehandlingContext(({ behandling }) => {
 
             <ListeSeparator type="dotted" />
 
-            <ListeItemBolk label="Antall dager" value={antallDager} />
+            <ListeItemBolk
+                label="Antall dager"
+                value={antallDager}
+            />
 
             <ListeSeparator type="dotted" />
 
@@ -51,7 +59,9 @@ const Periode = withBehandlingContext(({ behandling }) => {
 
             <ListeSeparator />
 
-            <Undertittel>Filter for MVP</Undertittel>
+            <Undertittel>
+                Filter for MVP
+            </Undertittel>
 
             <ListeItemBolk
                 label="Ingen friskmelding"
