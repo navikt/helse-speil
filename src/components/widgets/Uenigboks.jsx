@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, Input } from 'nav-frontend-skjema';
+import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import './Uenigboks.css';
 
 // Override proptypes til Input for å kunne gi en ref som parameter til inputRef
@@ -9,22 +10,47 @@ Input.propTypes = {
     inputRef: PropTypes.any
 };
 
-const Uenigboks = () => {
+const Uenigboks = ({ id }) => {
     const ref = useRef();
-    const [checked, setChecked] = useState(false);
+    const innrapportering = useContext(InnrapporteringContext);
+
+    const uenighet = useMemo(
+        () => innrapportering.uenigheter.find(uenighet => uenighet.id === id),
+        [innrapportering.uenigheter]
+    );
+
+    const [checked, setChecked] = useState(uenighet !== undefined);
+    const [inputValue, setInputValue] = useState(uenighet && uenighet.value || '');
 
     useEffect(() => {
-        if (checked && ref.current) {
-            ref.current.focus();
+        if (checked && inputValue === '') {
+            ref.current && ref.current.focus();
         }
     }, [checked]);
+
+    useEffect(() => {
+        innrapportering.updateUenighet(id, inputValue);
+    }, [inputValue]);
+
+    const onCheckboxChange = e => {
+        setChecked(e.target.checked);
+        if (e.target.checked) {
+            innrapportering.addUenighet(id);
+        } else {
+            innrapportering.removeUenighet(id);
+        }
+    };
+
+    const onInputChange = e => {
+        setInputValue(e.target.value);
+    };
 
     return (
         <div className="Uenigboks">
             <Checkbox
                 label="Uenig"
                 checked={checked}
-                onChange={e => setChecked(e.target.checked)}
+                onChange={onCheckboxChange}
             />
             <Input
                 className="Uenigboks__input"
@@ -32,9 +58,15 @@ const Uenigboks = () => {
                 placeholder="Skriv inn årsak til uenighet"
                 inputRef={ref}
                 disabled={!checked}
+                onChange={onInputChange}
+                value={inputValue}
             />
         </div>
     );
 };
 
-export default Uenigboks;
+UenigBoks.propTypes = {
+    id: PropTypes.string.isRequired
+};
+
+export default UenigBoks;
