@@ -20,14 +20,14 @@ const Innrapportering = () => {
                 <>
                     {innrapportering.uenigheter.map((uenighet, i) => (
                         <Normaltekst key={`uenighet-${i}`}>
-                            {uenighet.id} - <span>{uenighet.value}</span>
+                            {uenighet.label} - <span>{uenighet.value}</span>
                         </Normaltekst>
                     ))}
                     <Knapp onClick={sendRapporter}>Send inn</Knapp>
                 </>
             )}
         </Panel>
-    )
+    );
 };
 
 export default Innrapportering;

@@ -3,7 +3,7 @@ import Ikon from 'nav-frontend-ikoner-assets';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Panel } from 'nav-frontend-paneler';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
-import { withBehandlingContext } from '../../../context/withBehandlingContext';
+import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import './Utbetaling.css';
 import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';

@@ -1,10 +1,14 @@
 import React from 'react';
 import { render, cleanup, waitForElement } from 'react-testing-library';
 import HeaderBar from '../../src/components/HeaderBar/HeaderBar';
-import AuthContext from '../../src/context/AuthContext';
+import { AuthContext } from '../../src/context/AuthContext';
 import 'jest-dom/extend-expect';
 
 afterEach(cleanup);
+
+jest.mock('../../src/components/widgets/modal/ErrorModal', () => {
+    return () => <div />;
+});
 
 test('Missing brukernavn is replaced with a default', async () => {
     const { container } = render(<HeaderBar />);

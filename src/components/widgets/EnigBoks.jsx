@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, Input } from 'nav-frontend-skjema';
+import './EnigBoks.css';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
-import './Uenigboks.css';
 
 // Override proptypes til Input for å kunne gi en ref som parameter til inputRef
 Input.propTypes = {
@@ -10,7 +10,12 @@ Input.propTypes = {
     inputRef: PropTypes.any
 };
 
-const Uenigboks = ({ id }) => {
+<<<<<<< HEAD
+const EnigBoks = ({ label }) => {
+    const id = label + window.location.pathname;
+=======
+const EnigBoks = ({ id }) => {
+>>>>>>> da118e1... Add store for reports on frontend
     const ref = useRef();
     const innrapportering = useContext(InnrapporteringContext);
 
@@ -20,7 +25,13 @@ const Uenigboks = ({ id }) => {
     );
 
     const [checked, setChecked] = useState(uenighet !== undefined);
+<<<<<<< HEAD
+    const [inputValue, setInputValue] = useState(
+        (uenighet && uenighet.value) || ''
+    );
+=======
     const [inputValue, setInputValue] = useState(uenighet && uenighet.value || '');
+>>>>>>> da118e1... Add store for reports on frontend
 
     useEffect(() => {
         if (checked && inputValue === '') {
@@ -35,7 +46,11 @@ const Uenigboks = ({ id }) => {
     const onCheckboxChange = e => {
         setChecked(e.target.checked);
         if (e.target.checked) {
+<<<<<<< HEAD
+            innrapportering.addUenighet(id, label);
+=======
             innrapportering.addUenighet(id);
+>>>>>>> da118e1... Add store for reports on frontend
         } else {
             innrapportering.removeUenighet(id);
         }
@@ -46,14 +61,14 @@ const Uenigboks = ({ id }) => {
     };
 
     return (
-        <div className="Uenigboks">
+        <div className="EnigBoks">
             <Checkbox
                 label="Uenig"
                 checked={checked}
                 onChange={onCheckboxChange}
             />
             <Input
-                className="Uenigboks__input"
+                className="EnigBoks__input"
                 label="Årsak"
                 placeholder="Skriv inn årsak til uenighet"
                 inputRef={ref}
@@ -65,8 +80,12 @@ const Uenigboks = ({ id }) => {
     );
 };
 
-Uenigboks.propTypes = {
+EnigBoks.propTypes = {
+<<<<<<< HEAD
+    label: PropTypes.string.isRequired
+=======
     id: PropTypes.string.isRequired
+>>>>>>> da118e1... Add store for reports on frontend
 };
 
-export default Uenigboks;
+export default EnigBoks;

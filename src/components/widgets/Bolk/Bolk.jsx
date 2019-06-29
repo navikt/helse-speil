@@ -9,7 +9,7 @@ const Bolk = ({ title, items }) => {
             <div className="vilkårskolonne">
                 <IkonHeader title={title} items={items} />
             </div>
-            <Uenigboks id={title} />
+            <Uenigboks label={title} />
         </div>
     );
 };

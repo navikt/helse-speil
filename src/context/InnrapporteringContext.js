@@ -9,14 +9,14 @@ export const InnrapporteringProvider = ({ children }) => {
     const [uenigheter, setUenigheter] = useState([]);
 
     const removeUenighet = id => {
-        setUenigheter(uenigheter => (
+        setUenigheter(uenigheter =>
             uenigheter.filter(uenighet => uenighet.id !== id)
-        ));
+        );
     };
 
-    const addUenighet = id => {
+    const addUenighet = (id, label) => {
         if (!uenigheter.find(uenighet => uenighet.id === id)) {
-            setUenigheter(uenigheter => [...uenigheter, { id }]);
+            setUenigheter(uenigheter => [...uenigheter, { id, label }]);
         }
     };
 

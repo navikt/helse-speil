@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import BehandlingerContext from '../../context/BehandlingerContext';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { behandlingerFor } from '../../io/http';
