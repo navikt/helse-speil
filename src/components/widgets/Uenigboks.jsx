@@ -10,7 +10,8 @@ Input.propTypes = {
     inputRef: PropTypes.any
 };
 
-const Uenigboks = ({ id }) => {
+const Uenigboks = ({ label }) => {
+    const id = label + window.location.pathname;
     const ref = useRef();
     const innrapportering = useContext(InnrapporteringContext);
 
@@ -20,7 +21,9 @@ const Uenigboks = ({ id }) => {
     );
 
     const [checked, setChecked] = useState(uenighet !== undefined);
-    const [inputValue, setInputValue] = useState(uenighet && uenighet.value || '');
+    const [inputValue, setInputValue] = useState(
+        (uenighet && uenighet.value) || ''
+    );
 
     useEffect(() => {
         if (checked && inputValue === '') {
@@ -35,7 +38,7 @@ const Uenigboks = ({ id }) => {
     const onCheckboxChange = e => {
         setChecked(e.target.checked);
         if (e.target.checked) {
-            innrapportering.addUenighet(id);
+            innrapportering.addUenighet(id, label);
         } else {
             innrapportering.removeUenighet(id);
         }
@@ -66,7 +69,7 @@ const Uenigboks = ({ id }) => {
 };
 
 Uenigboks.propTypes = {
-    id: PropTypes.string.isRequired
+    label: PropTypes.string.isRequired
 };
 
 export default Uenigboks;
