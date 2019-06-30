@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const { Issuer } = require('openid-client');
 const { generators } = require('openid-client');
 const { custom } = require('openid-client');
-const request = require('request');
+const api = require('./api');
 const fs = require('fs');
 
 const config = require('./config');
@@ -20,31 +20,6 @@ const mapping = require('./mapping');
 
 const app = express();
 const port = config.server.port;
-
-const behandlingerFor = (aktorId, accessToken, callback) => {
-    request.get(
-        `http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`,
-        {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        },
-        (error, response, body) => {
-            const erred = error || response.statusCode !== 200;
-            if (erred) {
-                console.log(
-                    `Error during lookup, got ${response.statusCode} ${error ||
-                        'unknown error'} fom spade`
-                );
-            }
-
-            callback({
-                status: response.statusCode,
-                data: erred ? error : body
-            });
-        }
-    );
-};
 
 const proxyAgent = proxy.setup(Issuer, custom);
 
@@ -166,7 +141,7 @@ app.get('/behandlinger/:aktorId', (req, res) => {
     }
     const accessToken = req.session.spadeToken;
     const aktorId = req.params.aktorId;
-    behandlingerFor(aktorId, accessToken, apiresponse => {
+    api.behandlingerFor(aktorId, accessToken, apiresponse => {
         if (apiresponse.status !== 200) {
             res.status(apiresponse.status).send(apiresponse.data);
         } else {
