@@ -107,9 +107,15 @@ app.use('/*', (req, res, next) => {
     } else {
         console.log(
             `no valid session found for ${req.headers['x-forwarded-for'] ||
-                req.connection.remoteAddress}`
+                req.connection.remoteAddress ||
+                'unknown remote ip'}`
         );
-        res.redirect('/login');
+        if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
+            res.redirect('/login');
+        } else {
+            // these are xhr's, let the client decide how to handle
+            res.sendStatus(401);
+        }
     }
 });
 
