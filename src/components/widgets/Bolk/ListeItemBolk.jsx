@@ -1,13 +1,13 @@
 import React from 'react';
 import Bolk from './Bolk';
 import ListeItem from '../ListeItem';
-import EnigBoks from '../EnigBoks';
+import UUenigboks from '../Uenigboks';
 import './ListeItemBolk.css';
 
 const ListeItemBolk = ({ label, value }) => (
     <span className="ListeItemBolk">
         <ListeItem label={label} value={value} />
-        <EnigBoks />
+        <UUenigboks />
     </span>
 );
 
