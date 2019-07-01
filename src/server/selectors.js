@@ -45,22 +45,17 @@ const antallFeriedager = behandling => {
         return 0;
     }
     return behandling.originalSøknad.fravar.reduce(
-        (acc, fravar) => (
+        (acc, fravar) =>
             fravar.type.toLowerCase() === 'ferie'
                 ? acc + daysBetween(toDate(fravar.fom), toDate(fravar.tom))
-                : acc + 0
-        ),
+                : acc + 0,
         0
     );
 };
 
 const utbetaling = behandling => {
     return behandling.beregning.dagsatser.reduce(
-        (acc, dag) => (
-            dag.skalUtbetales
-                ? acc + dag.sats
-                : acc + 0
-        ),
+        (acc, dag) => (dag.skalUtbetales ? acc + dag.sats : acc + 0),
         0
     );
 };

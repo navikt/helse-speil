@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import navLogoSrc from './img/navlogo.svg';
 import ImageLink from '../ImageLink/ImageLink';
-import AuthContext from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import Search from '../Search/Search';
 import './HeaderBar.css';
 
@@ -16,7 +16,7 @@ const HeaderBar = () => {
                     imgSrc={navLogoSrc.toString()}
                     href="/"
                 />
-                <h2>Sykepenger</h2>
+                <h1>Sykepenger</h1>
             </div>
 
             <div className="header_divider" />

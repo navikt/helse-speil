@@ -6,7 +6,7 @@ import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import { sykdomsvilkårtekster as tekster } from '../../../tekster';
-import { withBehandlingContext } from '../../../context/withBehandlingContext';
+import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 
 const Sykdomsvilkår = withBehandlingContext(({ behandling }) => (

@@ -1,5 +1,5 @@
 import React from 'react';
-import UUenigboks from '../Uenigboks';
+import Uenigboks from '../Uenigboks';
 import IkonHeader from '../IkonHeader';
 import './Bolk.css';
 
@@ -9,7 +9,7 @@ const Bolk = ({ title, items }) => {
             <div className="vilkårskolonne">
                 <IkonHeader title={title} items={items} />
             </div>
-            <UUenigboks />
+            <Uenigboks label={title} />
         </div>
     );
 };

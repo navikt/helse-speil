@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 import './MainContentWrapper.css';
 import Sykdomsvilkår from '../pages/Sykdomsvilkår/Sykdomsvilkår';
