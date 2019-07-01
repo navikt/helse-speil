@@ -3,21 +3,19 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import MainContentWrapper from '../MainContentWrapper/MainContentWrapper';
 import { BehandlingerProvider } from '../../context/BehandlingerContext';
+import { InnrapporteringProvider } from '../../context/InnrapporteringContext';
+import { withContextProviders } from '../../context/withContextProviders';
 import './App.css';
 import 'reset-css';
-import { InnrapporteringProvider } from '../../context/InnrapporteringContext';
 
-const App = () => {
-    return (
-        <BehandlingerProvider>
-            <InnrapporteringProvider>
-                <Router>
-                    <HeaderBar />
-                    <MainContentWrapper />
-                </Router>
-            </InnrapporteringProvider>
-        </BehandlingerProvider>
-    );
-};
+const App = withContextProviders(() => (
+    <Router>
+        <HeaderBar />
+        <MainContentWrapper />
+    </Router>
+), [
+    BehandlingerProvider,
+    InnrapporteringProvider
+]);
 
 export default App;
