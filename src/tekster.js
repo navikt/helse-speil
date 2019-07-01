@@ -11,6 +11,8 @@ const sider = {
 Object.keys(sider).forEach(side => (bokmål[side] = {}));
 
 bokmål.neste = 'Neste';
+bokmål['empty_state_message'] =
+    'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over';
 
 bokmål.inngangsvilkår.tittel = 'Inngangsvilkår';
 bokmål.inngangsvilkår.inngangsvilkår_oppfylt = 'Inngangsvilkår oppfylt';
