@@ -17,7 +17,6 @@ const MainContentWrapper = () => {
             <Nav />
             <div className="main-content">
                 <Personinfo />
-                <Tidslinje />
                 <Route path={'/'} exact component={Sykdomsvilkår} />
                 <Route
                     path={'/inngangsvilkår'}
