@@ -10,6 +10,20 @@ const setup = app => {
         res.header('X-Xss-Protection', '1; mode=block');
         res.header('X-Content-Type-Options', 'nosniff');
         res.header('Referrer-Policy', 'no-referrer');
+
+        res.header(
+            'Content-Security-Policy',
+            "default-src 'self' data:; connect-src 'self'"
+        );
+        res.header(
+            'X-WebKit-CSP',
+            "default-src 'self' data:; connect-src 'self'"
+        );
+        res.header(
+            'X-Content-Security-Policy',
+            "default-src 'self' data:; connect-src 'self'"
+        );
+
         res.header(
             'Feature-Policy',
             "geolocation 'none'; microphone 'none'; camera 'none'"
