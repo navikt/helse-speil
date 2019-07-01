@@ -1,10 +1,10 @@
-.PeriodViewWrapper {
+.Tidslinje__wrapper {
     max-width: calc(100% - 4rem);
     margin: 0;
     padding: 0;
 }
 
-.PeriodView {
+.Tidslinje {
     width: 100%;
     min-width: 800px;
     overflow-x: scroll;

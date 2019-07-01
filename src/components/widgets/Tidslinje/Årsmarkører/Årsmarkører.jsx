@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Undertekst } from 'nav-frontend-typografi';
 import { calculateYearPinPlacement } from '../calc';
 import moment from 'moment';
-import './YearLabels.css';
+import './Årsmarkører.css';
 
-const YearLabels = ({ years, startDate, endDate, width }) => {
+const Årsmarkører = ({ years, startDate, endDate, width }) => {
     const mappedYears = useMemo(
         () =>
             years.map(year => ({
@@ -21,28 +21,28 @@ const YearLabels = ({ years, startDate, endDate, width }) => {
     );
 
     return (
-        <div className="YearLabels">
+        <div className="Årsmarkører">
             {mappedYears.map(year => (
                 <div
-                    key={`year-${year.label}`}
-                    className="YearLabels__label"
+                    key={`år-${year.label}`}
+                    className="Årsmarkør"
                     style={{
                         left: `${year.x}px`
                     }}
                 >
                     <Undertekst>{year.label}</Undertekst>
-                    <div className="YearLabels__label-pin" />
+                    <div className="Årsmarkør__pin" />
                 </div>
             ))}
         </div>
     );
 };
 
-YearLabels.propTypes = {
+Årsmarkører.propTypes = {
     years: PropTypes.arrayOf(PropTypes.number).isRequired,
     startDate: PropTypes.object.isRequired,
     endDate: PropTypes.object.isRequired,
     width: PropTypes.number.isRequired
 };
 
-export default YearLabels;
+export default Årsmarkører;

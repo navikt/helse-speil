@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Keys } from '../../../../hooks/useKeyboard';
-import './Period.css';
+import './Periodestrek.css';
 
-const Period = ({ label, status, xPos, width, onClick }) => {
+const Periodestrek = ({ label, status, xPos, width, onClick }) => {
     const handleKeyPress = e => {
         if (e.keyCode === Keys.ENTER || e.keyCode === Keys.SPACE) {
             onClick();
@@ -26,7 +26,7 @@ const Period = ({ label, status, xPos, width, onClick }) => {
     );
 };
 
-Period.propTypes = {
+Periodestrek.propTypes = {
     label: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     xPos: PropTypes.number.isRequired,
@@ -34,8 +34,8 @@ Period.propTypes = {
     onClick: PropTypes.func
 };
 
-Period.defaultProps = {
+Periodestrek.defaultProps = {
     onClick: () => {}
 };
 
-export default Period;
+export default Periodestrek;

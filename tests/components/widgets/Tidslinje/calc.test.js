@@ -1,4 +1,4 @@
-import { daysBetween, extractDates, toMoments, yearsBetween } from '../../../../src/components/widgets/PeriodView/calc';
+import { daysBetween, extractDates, toMoments, yearsBetween } from '../../../../src/components/widgets/Tidslinje/calc';
 import moment from 'moment';
 
 moment.suppressDeprecationWarnings = true;

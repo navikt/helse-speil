@@ -9,6 +9,7 @@ import Beregning from '../pages/Beregning/Beregning';
 import Periode from '../pages/Periode/Periode';
 import Utbetaling from '../pages/Utbetaling/Utbetaling';
 import Oppsummering from '../pages/Oppsummering/Oppsummering';
+import Tidslinje from '../widgets/Tidslinje/Tidslinje';
 
 const MainContentWrapper = () => {
     return (
@@ -16,6 +17,7 @@ const MainContentWrapper = () => {
             <Nav />
             <div className="main-content">
                 <Personinfo />
+                <Tidslinje />
                 <Route path={'/'} exact component={Sykdomsvilkår} />
                 <Route
                     path={'/inngangsvilkår'}

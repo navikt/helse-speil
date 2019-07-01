@@ -1,12 +1,13 @@
-import YearLabels from '../YearLabels/YearLabels';
+
 import React, { useMemo, useRef } from 'react';
+import Tidslinjerad from './Tidslinjerad';
+import Årsmarkører from '../Årsmarkører/Årsmarkører';
 import { useElementWidth } from '../../../../hooks/useElementWidth';
 import { earliestDate, extractDates, latestDate, yearsBetween } from '../calc';
 import { periodType } from '../types';
-import PeriodRow from './PeriodRow';
-import './PeriodRows.css';
+import './Tidslinjerader.css';
 
-const PeriodRows = ({ periods }) => {
+const Tidslinjerader = ({ periods }) => {
     const ref = useRef();
     const width = useElementWidth(ref);
 
@@ -16,18 +17,18 @@ const PeriodRows = ({ periods }) => {
     }, [periods]);
 
     return (
-        <div className="PeriodView__rows" ref={ref}>
+        <div className="Tidslinjerader" ref={ref}>
             {ref.current && (
                 <>
-                    <YearLabels
+                    <Årsmarkører
                         years={years}
                         startDate={earliest}
                         endDate={latest}
                         width={width}
                     />
                     {periods.map((period, i) => (
-                        <PeriodRow
-                            key={`period-row-${i}`}
+                        <Tidslinjerad
+                            key={`perioderad-${i}`}
                             label={period.label}
                             dates={period.periods}
                             earliest={earliest}
@@ -41,6 +42,6 @@ const PeriodRows = ({ periods }) => {
     );
 };
 
-PeriodRows.propTypes = periodType;
+Tidslinjerader.propTypes = periodType;
 
-export default PeriodRows;
+export default Tidslinjerader;

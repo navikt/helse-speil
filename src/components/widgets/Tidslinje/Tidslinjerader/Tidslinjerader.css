@@ -1,4 +1,4 @@
-.PeriodView__rows {
+.Tidslinjerader {
     padding-top: 1.5rem;
     width: 100%;
     min-height: 1rem;
@@ -9,14 +9,14 @@
     position: relative;
 }
 
-.PeriodView__bar {
+.Tidslinje__bar {
     height: 1px;
     background: #c6c2bf;
     width: 100%;
     border: none;
 }
 
-.Periods {
+.Periodestreker {
     position: relative;
     width: 100%;
 }

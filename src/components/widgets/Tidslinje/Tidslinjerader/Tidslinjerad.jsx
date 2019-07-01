@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import Periodestrek from '../Periodestrek/Periodestrek';
 import { calculatePlacement } from '../calc';
 import { toDate } from '../../../../utils/date';
-import Period from '../Period/Period';
 
-const PeriodRow = ({ dates, label, earliest, latest, width }) => {
+const Tidslinjerad = ({ dates, label, earliest, latest, width }) => {
     const mappedDates = useMemo(
         () =>
             width === 0
@@ -19,10 +19,10 @@ const PeriodRow = ({ dates, label, earliest, latest, width }) => {
     );
 
     return (
-        <div className="PeriodRow">
-            <div className="Periods">
+        <div className="Perioderad">
+            <div className="Periodestreker">
                 {mappedDates.map((date, i) => (
-                    <Period
+                    <Periodestrek
                         key={`period-${label}-${i}`}
                         xPos={date.x}
                         status={date.status}
@@ -32,12 +32,12 @@ const PeriodRow = ({ dates, label, earliest, latest, width }) => {
                     />
                 ))}
             </div>
-            <hr className="PeriodView__bar" />
+            <hr className="Tidslinje__bar" />
         </div>
     );
 };
 
-PeriodRow.propTypes = {
+Tidslinjerad.propTypes = {
     dates: PropTypes.arrayOf(
         PropTypes.shape({
             startDate: PropTypes.object.isRequired,
@@ -51,4 +51,4 @@ PeriodRow.propTypes = {
     width: PropTypes.number.isRequired
 };
 
-export default PeriodRow;
+export default Tidslinjerad;

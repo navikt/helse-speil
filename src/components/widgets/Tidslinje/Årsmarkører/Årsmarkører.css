@@ -1,4 +1,4 @@
-.YearLabels {
+.Årsmarkører {
     position: absolute;
     color: #3e3832;
     display: flex;
@@ -10,7 +10,7 @@
     margin-bottom: -0.25rem;
 }
 
-.YearLabels__label {
+.Årsmarkør {
     position: absolute;
     height: 100%;
     display: flex;
@@ -19,12 +19,12 @@
     transform: translateX(-50%);
 }
 
-.YearLabels__label p.typo-undertekst {
+.Årsmarkør p.typo-undertekst {
     font-size: 12px;
     color: #59514b;
 }
 
-.YearLabels__label-pin {
+.Årsmarkør__pin {
     width: 1px;
     height: 100%;
     background: #66cbec;
