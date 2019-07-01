@@ -14,6 +14,9 @@ beforeAll(() => {
     console.log = jest.fn();
 });
 
+jest.mock('../../src/components/widgets/modal/ErrorModal', () => () => <div />);
+jest.mock('../../src/components/Search/Search', () => () => <div />);
+
 afterAll(() => {
     console.log = clgOrig;
 });

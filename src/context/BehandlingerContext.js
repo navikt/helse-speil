@@ -17,6 +17,7 @@ export const withBehandlingContext = Component => {
 };
 
 export const BehandlingerProvider = ({ children }) => {
+    const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useState([]);
 
     const fetchBehandlinger = value => {
@@ -25,6 +26,7 @@ export const BehandlingerProvider = ({ children }) => {
                 setBehandlinger({ behandlinger: response });
             })
             .catch(() => {
+                setError('Kunne ikke utføre søket');
             });
     };
 
@@ -33,7 +35,9 @@ export const BehandlingerProvider = ({ children }) => {
             value={{
                 state: behandlinger,
                 setBehandlinger: setBehandlinger,
-                fetchBehandlinger
+                fetchBehandlinger,
+                error,
+                clearError: () => setError(undefined)
             }}
         >
             {children}

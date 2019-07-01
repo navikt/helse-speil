@@ -1,4 +1,5 @@
 import React, { useContext, useRef } from 'react';
+import ErrorModal from '../widgets/modal/ErrorModal';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -33,6 +34,12 @@ const Search = () => {
             <button onClick={() => search(ref.current.value)}>
                 <FontAwesomeIcon icon={faSearch} />
             </button>
+            {behandlingerCtx.error && (
+                <ErrorModal
+                    errorMessage={behandlingerCtx.error}
+                    onClose={() => behandlingerCtx.clearError()}
+                />
+            )}
         </div>
     );
 };
