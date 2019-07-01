@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, Input } from 'nav-frontend-skjema';
-import './EnigBoks.css';
+import './Uenigboks.css';
 
 // Override proptypes til Input for å kunne gi en ref som parameter til inputRef
 Input.propTypes = {
@@ -9,7 +9,7 @@ Input.propTypes = {
     inputRef: PropTypes.any
 };
 
-const EnigBoks = () => {
+const Uenigboks = () => {
     const ref = useRef();
     const [checked, setChecked] = useState(false);
 
@@ -20,14 +20,14 @@ const EnigBoks = () => {
     }, [checked]);
 
     return (
-        <div className="EnigBoks">
+        <div className="Uenigboks">
             <Checkbox
                 label="Uenig"
                 checked={checked}
                 onChange={e => setChecked(e.target.checked)}
             />
             <Input
-                className="EnigBoks__input"
+                className="Uenigboks__input"
                 label="Årsak"
                 placeholder="Skriv inn årsak til uenighet"
                 inputRef={ref}
@@ -37,4 +37,4 @@ const EnigBoks = () => {
     );
 };
 
-export default EnigBoks;
+export default Uenigboks;

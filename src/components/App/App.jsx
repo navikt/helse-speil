@@ -7,7 +7,7 @@ import AuthContext from '../../context/AuthContext';
 import BehandlingerContext from '../../context/BehandlingerContext';
 import './App.css';
 import 'reset-css';
-import ErrorModal from '../widgets/modal/ErrorModal';
+import ErrorModal from '../widgets/Modal/ErrorModal';
 
 const App = () => {
     const [error, setError] = useState(undefined);

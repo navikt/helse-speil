@@ -1,4 +1,4 @@
-.EnigBoks {
+.Uenigboks {
     display: flex;
     align-content: stretch;
     align-items: center;
@@ -6,28 +6,28 @@
     width: 50%;
 }
 
-.EnigBoks__input {
+.Uenigboks__input {
     flex: 1;
 }
 
-.EnigBoks__input input {
+.Uenigboks__input input {
     font-size: 1rem;
     background-color: #fff;
     color: #000;
 }
 
-.EnigBoks .skjemaelement {
+.Uenigboks .skjemaelement {
     margin: 0;
 }
 
-.EnigBoks .skjemaelement__label {
+.Uenigboks .skjemaelement__label {
     margin: 0;
 }
 
-.EnigBoks .skjemaelement:last-child {
+.Uenigboks .skjemaelement:last-child {
     margin-left: 1rem;
 }
 
-.EnigBoks__input label {
+.Uenigboks__input label {
     display: none;
 }
