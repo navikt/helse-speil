@@ -9,7 +9,7 @@ import Beregning from '../pages/Beregning/Beregning';
 import Periode from '../pages/Periode/Periode';
 import Utbetaling from '../pages/Utbetaling/Utbetaling';
 import Oppsummering from '../pages/Oppsummering/Oppsummering';
-import { withBehandlingContext } from '../../context/withBehandlingContext';
+import { withBehandlingContext } from '../../context/BehandlingerContext';
 import EmptyStateView from '../EmptyStateView';
 
 const MainContentWrapper = withBehandlingContext(({ behandling }) => {

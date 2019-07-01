@@ -11,10 +11,6 @@ export const withBehandlingContext = Component => {
             behandlingerCtx.state.behandlinger &&
             behandlingerCtx.state.behandlinger[0];
 
-        if (!behandling) {
-            return '';
-        }
-
         return <Component behandling={behandling} {...props} />;
     };
 };
