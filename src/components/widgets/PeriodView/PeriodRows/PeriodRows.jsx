@@ -28,6 +28,7 @@ const PeriodRows = ({ periods }) => {
                     {periods.map((period, i) => (
                         <PeriodRow
                             key={`period-row-${i}`}
+                            label={period.label}
                             dates={period.periods}
                             earliest={earliest}
                             latest={latest}

@@ -35,7 +35,11 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             />
             <ListeItem
                 label="Refusjon til arbeidsgiver"
-                value={behandling.oppsummering.refusjonTilArbeidsgiver ? 'Ja' : 'Nei'}
+                value={
+                    behandling.oppsummering.refusjonTilArbeidsgiver
+                        ? 'Ja'
+                        : 'Nei'
+                }
                 bold
             />
             <ListeItem
