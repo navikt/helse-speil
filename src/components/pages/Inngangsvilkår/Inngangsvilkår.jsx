@@ -4,7 +4,7 @@ import ItemMapper from '../../../datamapping/inngangsvilkårMapper';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import { inngangsvilkårtekster as tekster } from '../../../tekster';
-import { withBehandlingContext } from '../../../context/withBehandlingContext';
+import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 
 const Inngangsvilkår = withBehandlingContext(({ behandling }) => (

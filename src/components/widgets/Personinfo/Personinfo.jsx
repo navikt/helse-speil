@@ -1,7 +1,7 @@
 import React from 'react';
 import './Personinfo.css';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { withBehandlingContext } from '../../../context/withBehandlingContext';
+import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { toDate } from '../../../utils/date';
 
 const Kjønn = {

@@ -5,7 +5,6 @@ import MainContentWrapper from '../MainContentWrapper/MainContentWrapper';
 import BehandlingerContext from '../../context/BehandlingerContext';
 import './App.css';
 import 'reset-css';
-import ErrorModal from '../widgets/Modal/ErrorModal';
 
 const App = () => {
     const [error, setError] = useState(undefined);

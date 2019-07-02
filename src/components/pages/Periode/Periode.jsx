@@ -4,7 +4,7 @@ import { Panel } from 'nav-frontend-paneler';
 import Ikon from 'nav-frontend-ikoner-assets';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import './Periode.css';
-import { withBehandlingContext } from '../../../context/withBehandlingContext';
+import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
 
@@ -17,10 +17,10 @@ const Periode = withBehandlingContext(({ behandling }) => {
         antallDager,
         sykmeldingsgrad
     } = behandling.periode;
+
     return (
         <Panel className="Periode" border>
             <Undertittel className="panel-tittel">Sykepengeperiode</Undertittel>
-
             <ListeItemBolk
                 label="Antall kalenderdager"
                 value={antallKalenderdager}
@@ -29,30 +29,21 @@ const Periode = withBehandlingContext(({ behandling }) => {
                 label="Arb.giverperiode, kalenderdager"
                 value={arbeidsgiverperiodeKalenderdager}
             />
-
             <ListeSeparator type="dotted" />
-
             <ListeItemBolk label="Antall virkedager" value={antallVirkedager} />
             <ListeItemBolk
                 label="Ferie"
                 value={antallFeriedager ? antallFeriedager : '-'}
             />
-
             <ListeSeparator type="dotted" />
-
             <ListeItemBolk label="Antall dager" value={antallDager} />
-
             <ListeSeparator type="dotted" />
-
             <ListeItemBolk
                 label="Sykmeldingsgrad"
                 value={`${sykmeldingsgrad}%`}
             />
-
             <ListeSeparator />
-
             <Undertittel>Filter for MVP</Undertittel>
-
             <ListeItemBolk
                 label="Ingen friskmelding"
                 value={<Ikon kind="ok-sirkel-fyll" size={24} />}
@@ -61,7 +52,6 @@ const Periode = withBehandlingContext(({ behandling }) => {
                 label="Ingen gradering"
                 value={<Ikon kind="ok-sirkel-fyll" size={24} />}
             />
-
             <Navigasjonsknapper previous="/beregning" next="/utbetaling" />
         </Panel>
     );

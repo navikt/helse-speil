@@ -1,13 +1,14 @@
 import React from 'react';
 import { Panel } from 'nav-frontend-paneler';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import './Oppsummering.css';
-import { withBehandlingContext } from '../../../context/withBehandlingContext';
+import { Undertittel } from 'nav-frontend-typografi';
+import { withBehandlingContext } from '../../../context/BehandlingerContext';
+import { toDate } from '../../../utils/date';
+import { toKronerOgØre } from '../../../utils/locale';
 import ListeItem from '../../widgets/ListeItem';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
-import { toDate } from '../../../utils/date';
-import { toKronerOgØre } from '../../../utils/locale';
+import Innrapportering from './Innrapportering';
+import './Oppsummering.css';
 
 const Oppsummering = withBehandlingContext(({ behandling }) => (
     <div className="Oppsummering">
@@ -93,11 +94,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             <Navigasjonsknapper previous="/utbetaling" />
         </Panel>
         <div className="Oppsummering__right-col">
-            <Panel border>
-                <Undertittel>Innrapportert</Undertittel>
-                <Normaltekst>Ingen uenigheter</Normaltekst>
-            </Panel>
-            <Panel border>...</Panel>
+            <Innrapportering />
         </div>
     </div>
 ));

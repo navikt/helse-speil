@@ -9,8 +9,14 @@ import Beregning from '../pages/Beregning/Beregning';
 import Periode from '../pages/Periode/Periode';
 import Utbetaling from '../pages/Utbetaling/Utbetaling';
 import Oppsummering from '../pages/Oppsummering/Oppsummering';
+import { withBehandlingContext } from '../../context/BehandlingerContext';
+import EmptyStateView from '../EmptyStateView';
 
-const MainContentWrapper = () => {
+const MainContentWrapper = withBehandlingContext(({ behandling }) => {
+    if (!behandling) {
+        return <EmptyStateView />;
+    }
+
     return (
         <div className="page-content">
             <Nav />
@@ -29,6 +35,6 @@ const MainContentWrapper = () => {
             </div>
         </div>
     );
-};
+});
 
 export default MainContentWrapper;
