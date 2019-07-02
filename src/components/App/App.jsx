@@ -1,28 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import MainContentWrapper from '../MainContentWrapper/MainContentWrapper';
-import BehandlingerContext from '../../context/BehandlingerContext';
+import { BehandlingerProvider } from '../../context/BehandlingerContext';
 import './App.css';
 import 'reset-css';
+import { InnrapporteringProvider } from '../../context/InnrapporteringContext';
 
 const App = () => {
-    const [error, setError] = useState(undefined);
-    const [behandlinger, setBehandlinger] = useState({ behandlinger: [] });
-
     return (
-        <BehandlingerContext.Provider
-            value={{
-                state: behandlinger,
-                setBehandlinger: setBehandlinger
-            }}
-        >
-            <Router>
-                <HeaderBar />
-                <MainContentWrapper />
-            </Router>
-            {error && <ErrorModal errorMessage={error} />}
-        </BehandlingerContext.Provider>
+        <BehandlingerProvider>
+            <InnrapporteringProvider>
+                <Router>
+                    <HeaderBar />
+                    <MainContentWrapper />
+                </Router>
+            </InnrapporteringProvider>
+        </BehandlingerProvider>
     );
 };
 
