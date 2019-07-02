@@ -21,11 +21,13 @@ export const InnrapporteringProvider = ({ children }) => {
     };
 
     const updateUenighet = (id, value) => {
-        setUenigheter(uenigheter =>
-            uenigheter.map(uenighet =>
-                uenighet.id === id ? { ...uenighet, value } : uenighet
-            )
-        );
+        setUenigheter(uenigheter => (
+            uenigheter.map(uenighet => (
+                uenighet.id === id
+                    ? { ...uenighet, value }
+                    : uenighet
+            ))
+        ));
     };
 
     return (

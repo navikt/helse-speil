@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox, Input } from 'nav-frontend-skjema';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import './Uenigboks.css';
+import { useFocusRef } from '../../hooks/useFocusRef';
 
 // Override proptypes til Input for å kunne gi en ref som parameter til inputRef
 Input.propTypes = {
@@ -12,7 +13,6 @@ Input.propTypes = {
 
 const Uenigboks = ({ label }) => {
     const id = label + window.location.pathname;
-    const ref = useRef();
     const innrapportering = useContext(InnrapporteringContext);
 
     const uenighet = useMemo(
@@ -21,15 +21,8 @@ const Uenigboks = ({ label }) => {
     );
 
     const [checked, setChecked] = useState(uenighet !== undefined);
-    const [inputValue, setInputValue] = useState(
-        (uenighet && uenighet.value) || ''
-    );
-
-    useEffect(() => {
-        if (checked && inputValue === '') {
-            ref.current && ref.current.focus();
-        }
-    }, [checked]);
+    const [inputValue, setInputValue] = useState(uenighet && uenighet.value || '');
+    const ref = useFocusRef(checked && inputValue === '');
 
     useEffect(() => {
         innrapportering.updateUenighet(id, inputValue);
@@ -42,10 +35,6 @@ const Uenigboks = ({ label }) => {
         } else {
             innrapportering.removeUenighet(id);
         }
-    };
-
-    const onInputChange = e => {
-        setInputValue(e.target.value);
     };
 
     return (
@@ -61,7 +50,7 @@ const Uenigboks = ({ label }) => {
                 placeholder="Skriv inn årsak til uenighet"
                 inputRef={ref}
                 disabled={!checked}
-                onChange={onInputChange}
+                onChange={e => setInputValue(e.target.value)}
                 value={inputValue}
             />
         </div>
