@@ -11,6 +11,7 @@ import Utbetaling from '../pages/Utbetaling/Utbetaling';
 import Oppsummering from '../pages/Oppsummering/Oppsummering';
 import { withBehandlingContext } from '../../context/BehandlingerContext';
 import EmptyStateView from '../EmptyStateView';
+import Informasjonspanel from '../saksbehandling/Informasjonspanel/Informasjonspanel';
 
 const MainContentWrapper = withBehandlingContext(({ behandling }) => {
     if (!behandling) {
@@ -22,6 +23,7 @@ const MainContentWrapper = withBehandlingContext(({ behandling }) => {
             <Nav />
             <div className="main-content">
                 <Personinfo />
+                <Informasjonspanel />
                 <Route path={'/'} exact component={Sykdomsvilkår} />
                 <Route
                     path={'/inngangsvilkår'}
