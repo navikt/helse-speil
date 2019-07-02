@@ -1,22 +1,8 @@
-import { whoami, behandlingerFor } from '../../src/io/http';
+import { behandlingerFor } from '../../src/io/http';
 import 'jest-dom/extend-expect';
 
 afterEach(() => {
     global.fetch = undefined;
-});
-
-test('whoami', async () => {
-    global.fetch = jest.fn().mockImplementation(() => {
-        return Promise.resolve({
-            status: 200,
-            json: () => {
-                return Promise.resolve('da usah');
-            }
-        });
-    });
-    const response = await whoami();
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(response).toEqual('da usah');
 });
 
 test('behandlinger', async () => {

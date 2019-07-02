@@ -84,8 +84,8 @@ app.post('/callback', (req, res) => {
         .callback(config.oidc.redirectUrl, params, { nonce })
         .then(tokenSet => {
             res.cookie('speil', `${tokenSet['id_token']}`, {
-                httpOnly: true,
-                secure: true
+                secure: process.env.NODE_ENV === 'development' ? false : true,
+                sameSite: true
             });
             req.session.spadeToken = tokenSet['access_token'];
             res.redirect('/');
@@ -120,14 +120,6 @@ app.use('/*', (req, res, next) => {
 });
 
 app.use('/static', express.static('dist'));
-
-app.get('/whoami', (req, res) => {
-    if (process.env.NODE_ENV === 'development') {
-        res.send({ name: `Sara Saksbehandler` });
-    } else {
-        res.send({ name: `${authsupport.username(req.cookies['speil'])}` });
-    }
-});
 
 app.get('/behandlinger/:aktorId', (req, res) => {
     if (process.env.NODE_ENV === 'development') {

@@ -2,32 +2,19 @@ import { cleanup } from 'react-testing-library';
 
 const authsupport = require('../../src/server/authsupport');
 
-afterEach(cleanup);
-
 const clgOrig = console.log;
 
+afterEach(cleanup);
+
+afterEach(cleanup);
+
 beforeAll(() => {
-    // make less noise in the log
+    // reduce noise in log
     console.log = jest.fn();
 });
 
 afterAll(() => {
     console.log = clgOrig;
-});
-
-test('name extraction from valid token', async () => {
-    const header = { alg: 'HS256', typ: 'JWT' };
-    const payload = { sub: '1234567890', name: 'John Doe', iat: 1516239022 };
-    const token = `${btoa(JSON.stringify(header))}.${btoa(
-        JSON.stringify(payload)
-    )}.signaturehere`;
-    const name = authsupport.username(token);
-    expect(name).toEqual('John Doe');
-});
-
-test('name extraction from invalid token', async () => {
-    const name = authsupport.username('bogusstuffhere');
-    expect(name).toEqual('unknown user');
 });
 
 test('valid token has expiry in the future', async () => {
