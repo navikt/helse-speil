@@ -20,17 +20,18 @@ afterAll(() => {
 
 test('name of logged in user is retrieved from cookie', async () => {
     const { container } = render(<HeaderBar />);
+    const name = 'Navn Med Æøå';
 
     Object.defineProperty(document, 'cookie', {
         get: jest.fn().mockImplementation(() => {
-            return `name=whateverelse; speil=${createJWT('John Doe')}`;
+            return `name=whateverelse; speil=${createJWT(name)}`;
         }),
         set: jest.fn().mockImplementation(() => {})
     });
     const brukerTextNode = await waitForElement(() =>
         container.querySelector('#user')
     );
-    expect(brukerTextNode).toHaveTextContent('John Doe');
+    expect(brukerTextNode).toHaveTextContent(name);
 });
 
 const createJWT = name => {

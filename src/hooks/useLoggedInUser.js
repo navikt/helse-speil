@@ -3,21 +3,25 @@
 import { useState, useEffect } from 'react';
 
 const useLoggedInUser = defaultName => {
-    const [user, setUser] = useState({ name: defaultName });
+    const [user, setUser] = useState({ name: extractName(defaultName) });
 
     useEffect(() => {
-        const nameFromCookie = document.cookie
-            .split(';')
-            .filter(item => item.trim().startsWith('speil='))
-            .map(extractName);
-
-        setUser({ name: nameFromCookie });
+        setUser({ name: extractName(defaultName) });
     }, [user]);
 
     return user;
 };
 
-const extractName = cookie => {
+const extractName = defaultName => {
+    return (
+        document.cookie
+            .split(';')
+            .filter(item => item.trim().startsWith('speil='))
+            .map(decode) || defaultName
+    );
+};
+
+const decode = cookie => {
     const jwt = cookie.split('=')[1];
     try {
         return JSON.parse(atob(jwt.split('.')[1]))['name'];
