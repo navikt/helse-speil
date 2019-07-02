@@ -13,15 +13,15 @@ const setup = app => {
 
         res.header(
             'Content-Security-Policy',
-            "default-src 'self' data:; connect-src 'self'"
+            "default-src 'self' data:; style-src 'self' data: 'unsafe-inline'; connect-src 'self'"
         );
         res.header(
             'X-WebKit-CSP',
-            "default-src 'self' data:; connect-src 'self'"
+            "default-src 'self' data:; style-src 'self' data: 'unsafe-inline'; connect-src 'self'"
         );
         res.header(
             'X-Content-Security-Policy',
-            "default-src 'self' data:; connect-src 'self'"
+            "default-src 'self' data:; style-src 'self' data: 'unsafe-inline'; connect-src 'self'"
         );
 
         res.header(
