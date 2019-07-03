@@ -7,14 +7,17 @@ import './Søylediagram.less';
 
 const sortedMonths = () => {
     const months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
-    const currentMonth = moment().month();
-    return [...months.slice(currentMonth), ...months.slice(0, currentMonth)];
+    const currentMonth = Math.abs(moment().month());
+    return [
+        ...months.slice(currentMonth + 1),
+        ...months.slice(0, currentMonth + 1)
+    ];
 };
 
 const calculateYearPinPosition = maxWidth => {
-    const currentMonth = moment().month();
+    const monthsOffset = Math.abs(moment().month() - 11);
     const ratio = maxWidth / 12.0;
-    return currentMonth * ratio;
+    return monthsOffset * ratio;
 };
 
 const months = sortedMonths();

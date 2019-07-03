@@ -1,15 +1,14 @@
 @barWidth: 7px;
 @barMargin: 13px;
 
-@marginTop: 2.5rem;
-@marginRight: 4rem;
+@marginTop: 3rem;
+@marginRight: 6.5rem;
 
 .Søylediagram {
     position: relative;
-    height: 6rem;
-    margin-top: @marginTop;
+    height: 7.5rem;
     margin-right: @marginRight;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
 
     .søyler {
         display: flex;
@@ -36,12 +35,12 @@
 
     .year {
         position: absolute;
-        height: calc(100% + calc(@marginTop - 0.5rem));
-        top: calc(-@marginTop + 0.5rem);
+        height: calc(100% + calc(@marginTop - 1rem));
+        top: calc(-@marginTop + 1rem);
         display: flex;
         flex-direction: column;
         align-items: center;
-        transform: translateX(calc(-50% + (@barWidth + (@barMargin / 2))));
+        transform: translateX(calc(-50% - @barMargin / 2));
 
         .typo-undertekst {
             font-size: 0.75rem;
