@@ -1,10 +1,10 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const bucket = 'speil';
+const bucketName = 'speil';
 
 let s3 = null;
-const init = (url, accessKeyId, secretAccessKey) => {
+const init = async (url, accessKeyId, secretAccessKey) => {
     AWS.config.update({
         endpoint: url,
         sslEnabled: false,
@@ -13,15 +13,16 @@ const init = (url, accessKeyId, secretAccessKey) => {
         s3ForcePathStyle: true
     });
     s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+    return createBucketIfNotExists(bucketName);
 };
 
-const save = async (id, json) => {
+const save = async (key, text) => {
     return s3
         .putObject({
-            Bucket: bucket,
-            Key: id,
-            ContentType: 'application/json',
-            Body: Buffer.from(json, 'utf-8')
+            Bucket: bucketName,
+            Key: key,
+            ContentType: 'text/plain',
+            Body: Buffer.from(text, 'utf-8')
         })
         .promise();
 };
@@ -29,37 +30,41 @@ const save = async (id, json) => {
 const load = async key => {
     return s3
         .getObject({
-            Bucket: bucket,
+            Bucket: bucketName,
             Key: key
         })
         .promise();
 };
 
-const bucketExists = async name => {
-    return new Promise((resolve, reject) => {
-        s3.listBuckets(function(err, data) {
-            if (err) reject(err);
-            const nrOfMatching = data
-                ? data.Buckets.filter(bucket => bucket.Name === name).length
-                : 0;
-            resolve(nrOfMatching === 1);
-        });
-    });
+const createBucketIfNotExists = async name => {
+    const exists = await bucketExists(bucketName);
+    if (!exists) {
+        console.log(`Creating bucket ${bucketName}`);
+        return s3.createBucket({ Bucket: name, ACL: 'private' }).promise();
+    } else {
+        console.log(`Bucket ${bucketName} already exists, will keep using it`);
+        return Promise.resolve({});
+    }
 };
 
-const createBucket = async name => {
+const bucketExists = async name => {
     return new Promise((resolve, reject) => {
-        s3.createBucket({ Bucket: name, ACL: 'private' }, (err, data) => {
-            if (err) reject(err);
-            resolve(data);
-        });
+        s3.listBuckets()
+            .promise()
+            .then(data => {
+                const nrOfMatching = data
+                    ? data.Buckets.filter(bucket => bucket.Name === name).length
+                    : 0;
+                resolve(nrOfMatching === 1);
+            })
+            .catch(err => {
+                reject(err);
+            });
     });
 };
 
 module.exports = {
     init: init,
     save: save,
-    load: load,
-    bucketExists: bucketExists,
-    createBucket: createBucket
+    load: load
 };
