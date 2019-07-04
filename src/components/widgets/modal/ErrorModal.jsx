@@ -7,7 +7,7 @@ import { Knapp } from 'nav-frontend-knapper';
 
 Modal.setAppElement('#root');
 
-const ErrorModal = ({ errorMessage }) => (
+const ErrorModal = ({ errorMessage, onClose }) => (
     <Modal
         className="ErrorModal"
         isOpen={true}
@@ -17,12 +17,27 @@ const ErrorModal = ({ errorMessage }) => (
         <Systemtittel>Det har oppstått en feil</Systemtittel>
         <Normaltekst>{errorMessage}</Normaltekst>
         <Normaltekst>Prøv igjen senere.</Normaltekst>
-        <Knapp onClick={() => window.location.reload()}>Last inn på nytt</Knapp>
+        <Knapp
+            onClick={() => {
+                if (onClose) {
+                    onClose();
+                } else {
+                    window.location.reload();
+                }
+            }}
+        >
+            {onClose ? 'Ok' : 'Last inn på nytt'}
+        </Knapp>
     </Modal>
 );
 
 ErrorModal.propTypes = {
-    errorMessage: PropTypes.string.isRequired
+    errorMessage: PropTypes.string.isRequired,
+    onClose: PropTypes.func
+};
+
+ErrorModal.defaultProps = {
+    onClose: undefined
 };
 
 export default ErrorModal;

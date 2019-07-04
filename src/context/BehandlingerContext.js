@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
+import { behandlingerFor } from '../io/http';
 
 export const BehandlingerContext = createContext();
 
@@ -16,13 +17,27 @@ export const withBehandlingContext = Component => {
 };
 
 export const BehandlingerProvider = ({ children }) => {
+    const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useState([]);
+
+    const fetchBehandlinger = value => {
+        behandlingerFor(value)
+            .then(response => {
+                setBehandlinger({ behandlinger: response });
+            })
+            .catch(() => {
+                setError('Kunne ikke utføre søket');
+            });
+    };
 
     return (
         <BehandlingerContext.Provider
             value={{
                 state: behandlinger,
-                setBehandlinger: setBehandlinger
+                setBehandlinger: setBehandlinger,
+                fetchBehandlinger,
+                error,
+                clearError: () => setError(undefined)
             }}
         >
             {children}
