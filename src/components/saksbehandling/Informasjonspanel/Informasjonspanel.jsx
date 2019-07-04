@@ -1,24 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Panel } from 'nav-frontend-paneler';
-import './Informasjonspanel.less';
 import { Undertekst, Undertittel } from 'nav-frontend-typografi';
 import { toKronerOgØre } from '../../../utils/locale';
 import Søylediagram from './SøyleDiagram/Søylediagram';
-
-const InformasjonspanelLabelValue = ({ label, value, endret }) => (
-    <span>
-        {label && <Undertekst>{label}</Undertekst>}
-        {value && <Undertekst>{value}</Undertekst>}
-        <Undertekst>{endret && 'Endret'}</Undertekst>
-    </span>
-);
-
-InformasjonspanelLabelValue.propTypes = {
-    label: PropTypes.string,
-    value: PropTypes.string,
-    endret: PropTypes.bool
-};
+import InformasjonspanelItem, { IconType } from './InformasjonspanelItem';
+import './Informasjonspanel.less';
 
 const withInformasjonsdata = Component => {
     return props => (
@@ -61,32 +47,32 @@ const Informasjonspanel = withInformasjonsdata(
                     <div className="Ikon__arbeidsgiver" />
                     <Undertittel>{arbeidsgiver}</Undertittel>
                 </div>
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Arbeidsforhold"
                     value={arbeidsforhold}
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Startdato"
                     value={startdato || '-'}
                     endret
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Sluttdato"
                     value={sluttdato || '-'}
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Lønnstype"
                     value={lønnstype || '-'}
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Yrkesbeskrivelse"
                     value={yrkesbeskrivelse || '-'}
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Arbeidstidsordning"
                     value={arbeidstidsordning || '-'}
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Stillingsprosent"
                     value={`${stillingsprosent}%`}
                     endret
@@ -94,19 +80,21 @@ const Informasjonspanel = withInformasjonsdata(
             </div>
             <div className="Informasjonspanel__mid">
                 <Undertittel>Mnd. inntekt siste 3 mnd</Undertittel>
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Beregnet mnd. inntekt"
                     value={`${toKronerOgØre(beregnetInntekt)} kr`}
+                    iconType={IconType.INNTEKSTMELDING}
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Gj.snitt mnd. inntekt"
                     value={`${toKronerOgØre(gjennomsnittligInntekt)} kr`}
+                    iconType={IconType.AAREGISTERET}
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Omregnet årsinntekt"
                     value={`${toKronerOgØre(omregnetÅrsinntekt)} kr`}
                 />
-                <InformasjonspanelLabelValue
+                <InformasjonspanelItem
                     label="Sammenligningsgrunnl."
                     value={`${toKronerOgØre(sammenligningsgrunnlag)} kr`}
                 />

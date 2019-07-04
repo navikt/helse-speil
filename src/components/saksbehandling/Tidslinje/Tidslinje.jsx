@@ -1,7 +1,7 @@
 import React from 'react';
 import { periodType } from './types';
 import Radnavn from './Radnavn/Radnavn';
-import Tidslinjerader from './Tidslinjerader/TidslinjeRader';
+import Tidslinjerader from './Tidslinjerader/Tidslinjerader';
 import { withPeriods } from './withPeriods';
 import './Tidslinje.css';
 

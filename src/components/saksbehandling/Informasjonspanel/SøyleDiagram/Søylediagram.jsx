@@ -1,45 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import { Undertekst } from 'nav-frontend-typografi';
 import { toKronerOgØre } from '../../../../utils/locale';
+import { useElementSize } from '../../../../hooks/useElementSize';
 import './Søylediagram.less';
+import {
+    calculateYearPinPosition,
+    incomeToHeight,
+    lastTwelveMonths
+} from './calc';
 
-const sortedMonths = () => {
-    const months = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
-    const currentMonth = Math.abs(moment().month());
-    return [
-        ...months.slice(currentMonth + 1),
-        ...months.slice(0, currentMonth + 1)
-    ];
-};
-
-const calculateYearPinPosition = maxWidth => {
-    const monthsOffset = Math.abs(moment().month() - 11);
-    const ratio = maxWidth / 12.0;
-    return monthsOffset * ratio;
-};
-
-const months = sortedMonths();
-
-const incomeToHeight = (income, maxIncome, maxHeight) => {
-    const ratio = maxHeight / maxIncome;
-    return ratio * income;
-};
-
-const useElementSize = ref => {
-    const [height, setHeight] = useState(0);
-    const [width, setWidth] = useState(0);
-
-    useEffect(() => {
-        if (ref.current) {
-            setHeight(ref.current.offsetHeight);
-            setWidth(ref.current.offsetWidth);
-        }
-    }, [ref.current]);
-
-    return [height, width];
-};
+const months = lastTwelveMonths();
 
 const withDiagramdata = Component => {
     const randomIncome = (low, high) => {
@@ -110,9 +80,5 @@ const Søylediagram = withDiagramdata(({ incomes }) => {
         </div>
     );
 });
-
-Søylediagram.propTypes = {
-    incomes: PropTypes.arrayOf(PropTypes.number).isRequired
-};
 
 export default Søylediagram;

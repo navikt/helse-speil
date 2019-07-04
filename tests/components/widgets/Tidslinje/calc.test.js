@@ -1,4 +1,9 @@
-import { daysBetween, extractDates, toMoments, yearsBetween } from '../../../../src/components/widgets/Tidslinje/calc';
+import {
+    daysBetween,
+    extractDates,
+    toMoments,
+    yearsBetween
+} from '../../../../src/components/saksbehandling/Tidslinje/calc';
 import moment from 'moment';
 
 moment.suppressDeprecationWarnings = true;
@@ -79,7 +84,9 @@ test('toMoments', () => {
 test('daysBetween', () => {
     expect(daysBetween(moment('2019-01-01'), moment('2019-01-10'))).toEqual(9);
     expect(daysBetween(moment('2010-01-20'), moment('2010-02-10'))).toEqual(21);
-    expect(daysBetween(moment('denne burde'), moment('ikke fungere'))).toEqual(NaN);
+    expect(daysBetween(moment('denne burde'), moment('ikke fungere'))).toEqual(
+        NaN
+    );
 });
 
 test('yearsBetween', () => {
