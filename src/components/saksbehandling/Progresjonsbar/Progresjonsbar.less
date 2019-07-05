@@ -1,0 +1,24 @@
+@maxWidth: 30rem;
+@borderRadius: 0.5rem;
+@borderThickness: 0.25rem;
+
+.Progresjonsbar__wrapper {
+  .Progresjonsbar {
+    background: #e7e9e9;
+    border-radius: @borderRadius;
+    min-width: 10rem;
+    max-width: @maxWidth;
+    min-height: @borderThickness * 2;
+
+    .Progresjonsbar__bar {
+      height: 0;
+      border: @borderThickness solid #66a4dc;
+      border-radius: @borderRadius;
+      max-width: @maxWidth - @borderThickness * 2;
+    }
+  }
+
+  .Progresjonsbar__counter {
+    color: #3e3832;
+  }
+}
