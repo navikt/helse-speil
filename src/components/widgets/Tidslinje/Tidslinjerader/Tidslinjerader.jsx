@@ -1,4 +1,3 @@
-
 import React, { useMemo, useRef } from 'react';
 import Tidslinjerad from './Tidslinjerad';
 import Årsmarkører from '../Årsmarkører/Årsmarkører';
