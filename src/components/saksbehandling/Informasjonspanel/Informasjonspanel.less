@@ -1,0 +1,68 @@
+@lineHeight: 1.5rem;
+
+.Informasjonspanel.panel {
+    max-width: 1233px;
+    padding: 0 0 2.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .Informasjonspanel__left,
+    .Informasjonspanel__mid,
+    .Informasjonspanel__right {
+        padding: 2.5rem;
+        flex: 1;
+
+        .typo-undertittel {
+            font-size: 18px;
+        }
+    }
+
+    .Informasjonspanel__left {
+        .InformasjonspanelItem__right {
+            width: 3rem;
+        }
+
+        > div {
+            display: flex;
+
+            .Ikon__arbeidsgiver {
+                width: 1.5rem;
+                height: 1.5rem;
+                background-image: url('img/Ikon_arbeidsgiver.svg');
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    .Informasjonspanel__mid {
+        .InformasjonspanelItem:nth-child(3) {
+            margin-bottom: @lineHeight * 3;
+        }
+
+        > .typo-undertekst:last-child {
+            position: absolute;
+            bottom: 3.75rem;
+            color: #ba3a26;
+            font-weight: bold;
+        }
+    }
+
+    .Informasjonspanel__right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        > .typo-undertekst:last-child {
+            position: absolute;
+            bottom: 3.75rem;
+            color: #0067c5;
+        }
+    }
+
+    .typo-undertittel {
+        font-size: 1rem;
+        line-height: @lineHeight;
+        margin-bottom: @lineHeight;
+    }
+}

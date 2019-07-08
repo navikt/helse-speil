@@ -1,0 +1,86 @@
+@barWidth: 7px;
+@barMargin: 13px;
+
+@marginTop: 3rem;
+@marginRight: 6rem;
+
+.Søylediagram {
+    position: relative;
+    height: 7.5rem;
+    margin-right: @marginRight;
+    margin-bottom: 1.25rem;
+
+    .søyler {
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .søyle {
+        background: #66a4dc;
+        width: @barWidth;
+        margin-right: @barMargin;
+    }
+
+    .months {
+        display: flex;
+
+        > .typo-undertekst {
+            display: flex;
+            justify-content: center;
+            color: #78706a;
+            width: @barWidth;
+            margin-right: @barMargin;
+        }
+    }
+
+    .year {
+        position: absolute;
+        height: calc(100% + calc(@marginTop - 1rem));
+        top: calc(-@marginTop + 1rem);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform: translateX(calc(-50% - @barMargin / 2));
+
+        .typo-undertekst {
+            font-size: 0.75rem;
+            color: #3e3832;
+        }
+
+        .pin {
+            width: 1px;
+            height: 100%;
+            background: #66cbec;
+        }
+    }
+
+    .min,
+    .max {
+        position: absolute;
+        right: -@marginRight;
+        width: calc(100% + @marginRight);
+        display: flex;
+        align-items: center;
+
+        .typo-undertekst {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-left: 0.25rem;
+        }
+
+        .pin {
+            width: 100%;
+            height: 1px;
+            background: #c6c2bf;
+        }
+    }
+
+    .max {
+        top: 0;
+        transform: translateY(-50%);
+    }
+
+    .min {
+        transform: translateY(50%);
+    }
+}
