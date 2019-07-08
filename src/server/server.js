@@ -14,6 +14,7 @@ const proxy = require('./proxy');
 const metrics = require('./metrics');
 const headers = require('./headers');
 const behandlinger = require('./behandlinger');
+const feedback = require('./feedback');
 
 const app = express();
 const port = config.server.port;
@@ -119,6 +120,15 @@ app.use('/*', (req, res, next) => {
 app.use('/static', express.static('dist'));
 
 behandlinger.setup(app);
+
+feedback
+    .setup(app, config.s3)
+    .then(() => {
+        console.log(`Feedback storage at ${config.s3.s3url}`);
+    })
+    .catch(err => {
+        console.log(`Failed to setup feedback storage: ${err}`);
+    });
 
 app.get('/', (_, res) => {
     res.redirect('/static');

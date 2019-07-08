@@ -10,7 +10,10 @@ exports.oidc = {
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
     clientSecret: process.env.CLIENT_SECRET || 'unknown',
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
-    scope: `profile openid email ${process.env.CLIENT_ID_SPADE}/user_impersonation`,
+    scope: `profile openid email ${process.env.CLIENT_ID_SPADE}/user_impersonation`
+};
+
+exports.s3 = {
     s3url: process.env.S3_URL,
     s3AccessKey: process.env.S3_ACCESS_KEY,
     s3SecretKey: process.env.S3_SECRET_KEY
