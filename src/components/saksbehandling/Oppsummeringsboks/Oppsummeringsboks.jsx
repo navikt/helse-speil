@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import OppsummeringsboksItem, {
+    ItemStatus,
     OppsummeringsboksItemProps
 } from './OppsummeringsboksItem';
 import './Oppsummeringsboks.less';
@@ -30,7 +31,7 @@ const withTestData = Component => {
                 },
                 {
                     label: 'Fastsatt inntekt',
-                    status: 'uløst'
+                    status: ItemStatus.ULØST
                 },
                 {
                     label: 'Sykepengegrunnlag'
