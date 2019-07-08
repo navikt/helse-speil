@@ -4,6 +4,7 @@ const express = require('express');
 const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const { Issuer } = require('openid-client');
 const { generators } = require('openid-client');
 const { custom } = require('openid-client');
@@ -51,6 +52,7 @@ Issuer.discover(config.oidc.identityMetadata)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressSession({ secret: config.server.sessionSecret }));
+app.use(compression());
 
 headers.setup(app);
 metrics.setup(app);
