@@ -4,9 +4,6 @@ const setup = app => {
     app.disable('x-powered-by');
     app.use((req, res, next) => {
         res.header('X-Frame-Options', 'DENY');
-        if (process.env.NODE_ENV === 'development') {
-            res.header('Access-Control-Allow-Origin', req.header('Origin'));
-        }
         res.header('X-Xss-Protection', '1; mode=block');
         res.header('X-Content-Type-Options', 'nosniff');
         res.header('Referrer-Policy', 'no-referrer');
