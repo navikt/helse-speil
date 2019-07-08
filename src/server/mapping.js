@@ -134,9 +134,6 @@ const utbetaling = behandling => {
 
     return {
         refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
-        arbeidsgiverForskutterer: selectors.arbeidsgiverForskutterer(
-            behandling
-        ),
         betalerArbeidsgiverperiode: selectors.betalerArbeidsgiverperiode(
             behandling
         ),
@@ -154,9 +151,7 @@ const periode = behandling => ({
     antallVirkedager: selectors.antallDager(behandling),
     antallFeriedager: selectors.antallFeriedager(behandling),
     antallDager: selectors.antallDager(behandling),
-    sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
-    ingenFriskmelding: true,
-    ingenGradering: true
+    sykmeldingsgrad: selectors.sykmeldingsgrad(behandling)
 });
 
 const alle = behandling => ({

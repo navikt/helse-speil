@@ -13,7 +13,6 @@ import { toKronerOgØre } from '../../../utils/locale';
 const Utbetaling = withBehandlingContext(({ behandling }) => {
     const {
         antallDager,
-        arbeidsgiverForskutterer,
         betalerArbeidsgiverperiode,
         dagsats,
         refusjonTilArbeidsgiver,
@@ -57,13 +56,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             <Undertittel>Filter for MVP</Undertittel>
             <ListeItemBolk
                 label="Arb.giver forskutterer"
-                value={
-                    arbeidsgiverForskutterer ? (
-                        <Ikon kind="ok-sirkel-fyll" size={24} />
-                    ) : (
-                        <Ikon kind="feil-sirkel-fyll" size={24} />
-                    )
-                }
+                value={<Ikon kind="ok-sirkel-fyll" size={24} />}
             />
 
             <Navigasjonsknapper previous="/periode" next="/oppsummering" />
