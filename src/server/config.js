@@ -14,7 +14,7 @@ exports.oidc = {
 };
 
 exports.s3 = {
-    s3url: process.env.S3_URL || 'http://s3.nais-rook/',
+    s3url: process.env.S3_URL || 'http://s3.nais-rook.svc.nais.local',
     s3AccessKey: process.env.S3_ACCESS_KEY,
     s3SecretKey: process.env.S3_SECRET_KEY
 };
