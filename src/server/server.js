@@ -7,16 +7,13 @@ const cookieParser = require('cookie-parser');
 const { Issuer } = require('openid-client');
 const { generators } = require('openid-client');
 const { custom } = require('openid-client');
-const api = require('./api');
-const fs = require('fs');
 
 const config = require('./config');
 const authsupport = require('./authsupport');
 const proxy = require('./proxy');
 const metrics = require('./metrics');
 const headers = require('./headers');
-
-const mapping = require('./mapping');
+const behandlinger = require('./behandlinger');
 
 const app = express();
 const port = config.server.port;
@@ -121,36 +118,7 @@ app.use('/*', (req, res, next) => {
 
 app.use('/static', express.static('dist'));
 
-app.get('/behandlinger/:aktorId', (req, res) => {
-    if (process.env.NODE_ENV === 'development') {
-        fs.readFile('__mock-data__/behandlinger.json', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);
-            }
-            res.header('Content-type', 'application/json; charset=utf-8');
-            res.send(
-                JSON.parse(data).behandlinger.map(behandling =>
-                    mapping.alle(behandling)
-                )
-            );
-        });
-        return;
-    }
-    const accessToken = req.session.spadeToken;
-    const aktorId = req.params.aktorId;
-    api.behandlingerFor(aktorId, accessToken, apiresponse => {
-        if (apiresponse.status !== 200) {
-            res.status(apiresponse.status).send(apiresponse.data);
-        } else {
-            res.send(
-                JSON.parse(apiresponse.data).behandlinger.map(behandling =>
-                    mapping.alle(behandling)
-                )
-            );
-        }
-    });
-});
+behandlinger.setup(app);
 
 app.get('/', (_, res) => {
     res.redirect('/static');
