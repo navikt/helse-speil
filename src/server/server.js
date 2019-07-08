@@ -55,10 +55,6 @@ app.use(expressSession({ secret: config.server.sessionSecret }));
 headers.setup(app);
 metrics.setup(app);
 
-if (process.env.NODE_ENV === 'development') {
-    app.use('/mock-data', express.static('__mock-data__'));
-}
-
 // Unprotected routes
 app.get('/isAlive', (req, res) => res.send('alive'));
 app.get('/isReady', (req, res) => res.send('ready'));

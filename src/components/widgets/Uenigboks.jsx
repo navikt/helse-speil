@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, Input } from 'nav-frontend-skjema';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
