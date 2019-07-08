@@ -154,9 +154,7 @@ const periode = behandling => ({
     antallVirkedager: selectors.antallDager(behandling),
     antallFeriedager: selectors.antallFeriedager(behandling),
     antallDager: selectors.antallDager(behandling),
-    sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
-    ingenFriskmelding: true,
-    ingenGradering: true
+    sykmeldingsgrad: selectors.sykmeldingsgrad(behandling)
 });
 
 const alle = behandling => ({
