@@ -10,7 +10,8 @@ const init = async (url, accessKeyId, secretAccessKey) => {
         sslEnabled: false,
         accessKeyId: accessKeyId,
         secretAccessKey: secretAccessKey,
-        s3ForcePathStyle: true
+        s3ForcePathStyle: true,
+        region: 'us-east-1'
     });
     s3 = new AWS.S3({ apiVersion: '2006-03-01' });
     return createBucketIfNotExists(bucketName);
