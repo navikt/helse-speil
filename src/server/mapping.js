@@ -134,9 +134,6 @@ const utbetaling = behandling => {
 
     return {
         refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
-        arbeidsgiverForskutterer: selectors.arbeidsgiverForskutterer(
-            behandling
-        ),
         betalerArbeidsgiverperiode: selectors.betalerArbeidsgiverperiode(
             behandling
         ),

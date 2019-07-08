@@ -31,8 +31,6 @@ const betalerArbeidsgiverperiode = behandling =>
 
 const refusjonTilArbeidsgiver = behandling =>
     behandling.originalSøknad.arbeidsgiverForskutterer;
-const arbeidsgiverForskutterer = behandling =>
-    behandling.originalSøknad.arbeidsgiverForskutterer;
 
 const antallKalenderdager = behandling => {
     const fom = toDate(behandling.originalSøknad.fom);
@@ -61,7 +59,6 @@ const utbetaling = behandling => {
 };
 
 module.exports = {
-    arbeidsgiverForskutterer,
     antallDager,
     antallFeriedager,
     antallKalenderdager,
