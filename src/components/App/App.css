@@ -11,3 +11,7 @@ html {
 .main {
     margin-top: 1em;
 }
+
+svg[kind='ok-sirkel-fyll'] g path:first-child {
+    fill: #38a161;
+}
