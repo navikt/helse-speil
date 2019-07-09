@@ -48,6 +48,8 @@
         "lodash.throttle": "^4.1.1",
         "moment": "^2.24.0",
         "nav-frontend-core": "^4.0.9",
+        "nav-frontend-etiketter": "^1.0.23",
+        "nav-frontend-etiketter-style": "^0.3.17",
         "nav-frontend-ikoner-assets": "^1.0.1",
         "nav-frontend-js-utils": "^1.0.7",
         "nav-frontend-knapper": "^1.0.30",

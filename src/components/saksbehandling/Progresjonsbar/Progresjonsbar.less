@@ -3,18 +3,20 @@
 @borderThickness: 0.25rem;
 
 .Progresjonsbar__wrapper {
+  position: relative;
+
   .Progresjonsbar {
     background: #e7e9e9;
     border-radius: @borderRadius;
     min-width: 10rem;
-    max-width: @maxWidth;
+    max-width: calc(100% - @borderThickness * 2);
     min-height: @borderThickness * 2;
 
     .Progresjonsbar__bar {
       height: 0;
       border: @borderThickness solid #66a4dc;
       border-radius: @borderRadius;
-      max-width: @maxWidth - @borderThickness * 2;
+      max-width: 100%;
     }
   }
 
