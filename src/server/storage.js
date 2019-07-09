@@ -2,6 +2,7 @@
 
 const AWS = require('aws-sdk');
 const bucketName = 'speil';
+const region = 'us-east-1';
 
 let s3 = null;
 const init = async (url, accessKeyId, secretAccessKey) => {
@@ -11,7 +12,7 @@ const init = async (url, accessKeyId, secretAccessKey) => {
         accessKeyId: accessKeyId,
         secretAccessKey: secretAccessKey,
         s3ForcePathStyle: true,
-        region: 'us-east-1'
+        region: region
     });
     s3 = new AWS.S3({ apiVersion: '2006-03-01' });
     return createBucketIfNotExists(bucketName);
@@ -38,12 +39,18 @@ const load = async key => {
 };
 
 const createBucketIfNotExists = async name => {
-    const exists = await bucketExists(bucketName);
+    const exists = await bucketExists(name);
     if (!exists) {
-        console.log(`Creating bucket ${bucketName}`);
-        return s3.createBucket({ Bucket: name, ACL: 'private' }).promise();
+        console.log(`Creating bucket ${name}`);
+        return s3
+            .createBucket({
+                Bucket: name,
+                ACL: 'private',
+                CreateBucketConfiguration: { LocationConstraint: region }
+            })
+            .promise();
     } else {
-        console.log(`Bucket ${bucketName} already exists, will keep using it`);
+        console.log(`Bucket ${name} already exists, will keep using it`);
         return Promise.resolve({});
     }
 };
