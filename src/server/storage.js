@@ -44,8 +44,7 @@ const createBucketIfNotExists = async name => {
         return s3
             .createBucket({
                 Bucket: name,
-                ACL: 'private',
-                CreateBucketConfiguration: { LocationConstraint: 'EU' }
+                ACL: 'private'
             })
             .promise();
     } else {
