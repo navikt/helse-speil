@@ -4,10 +4,15 @@ import './Icon.less';
 
 export const IconType = {
     AAREGISTERET: 'aaregisteret',
-    INNTEKSTMELDING: 'inntekstmelding'
+    INNTEKSTMELDING: 'inntekstmelding',
+    ARBEIDSGIVER_GRÅ: 'arbeidsgiver_grå',
+    SYKMELDER: 'sykmelder',
+    MENY: 'meny'
 };
 
-const Icon = ({ type }) => <svg className={`Icon Icon-${type}`} />;
+const Icon = ({ type }) => (
+    <svg tabIndex="-1" className={`Icon Icon-${type}`} />
+);
 
 Icon.propTypes = {
     type: PropTypes.oneOf(Object.values(IconType))
