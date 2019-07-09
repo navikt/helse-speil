@@ -2,11 +2,7 @@ import { Undertekst } from 'nav-frontend-typografi';
 import PropTypes from 'prop-types';
 import React from 'react';
 import './InformasjonspanelItem.less';
-
-export const IconType = {
-    AAREGISTERET: 'aaregisteret',
-    INNTEKSTMELDING: 'inntekstmelding'
-};
+import Icon, { IconType } from '../Icon/Icon';
 
 const InformasjonspanelItem = ({ label, value, endret, iconType }) => (
     <span className="InformasjonspanelItem">
@@ -14,13 +10,7 @@ const InformasjonspanelItem = ({ label, value, endret, iconType }) => (
         {value && <Undertekst>{value}</Undertekst>}
         <div className="InformasjonspanelItem__right">
             {endret && <Undertekst>Endret</Undertekst>}
-            {iconType && (
-                <div
-                    className={`icon-${iconType}`}
-                    aria-label={iconType}
-                    title={iconType}
-                />
-            )}
+            {iconType && <Icon type={iconType} />}
         </div>
     </span>
 );
