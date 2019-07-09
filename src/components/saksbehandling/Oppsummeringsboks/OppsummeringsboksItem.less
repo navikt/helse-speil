@@ -1,0 +1,69 @@
+@unresolvedFillColor: #ffe9cc;
+@unresolvedBorderColor: #ffa733;
+
+@resolvedFillColor: #cde7d8;
+@resolvedBorderColor: #38a161;
+
+.OppsummeringsboksItem {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.125rem 0;
+
+  .typo-normal:first-child {
+    color: #59514b;
+    margin-right: 5rem;
+  }
+
+  .typo-normal:nth-child(2) {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+
+  .status(@fillColor, @borderColor, @iconUrl) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 2rem;
+    margin: 0.5rem -3.5rem 0.5rem -0.5rem;
+    background: @fillColor;
+    border: 1px solid @borderColor;
+    border-radius: 2rem 0 0 2rem;
+    border-right: none;
+
+    .typo-normal {
+      font-weight: bold;
+      text-align: left;
+      flex: 1;
+    }
+
+    &::before {
+      content: url(@iconUrl);
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: 0 0.5rem 0 0.25rem;
+    }
+
+    &::after {
+      content: '';
+      background: @fillColor;
+      width: 1.5rem;
+      height: 1.5rem;
+
+      margin-right: -0.8rem;
+      transform: rotate(45deg);
+      border: 1px solid @borderColor;
+      border-bottom-right-radius: 0.25rem;
+      border-top-left-radius: 0.25rem;
+      z-index: -1;
+    }
+  }
+
+  &.uløst {
+    .status(@unresolvedFillColor, @unresolvedBorderColor, "../Icon/img/Ikon_viktig.svg");
+  }
+
+  &.løst {
+    .status(@resolvedFillColor, @resolvedBorderColor, "../Icon/img/Ikon_ok.svg");
+  }
+}

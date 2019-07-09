@@ -3,8 +3,9 @@ import { Panel } from 'nav-frontend-paneler';
 import { Undertekst, Undertittel } from 'nav-frontend-typografi';
 import { toKronerOgØre } from '../../../utils/locale';
 import Søylediagram from './SøyleDiagram/Søylediagram';
-import InformasjonspanelItem, { IconType } from './InformasjonspanelItem';
+import InformasjonspanelItem from './InformasjonspanelItem';
 import './Informasjonspanel.less';
+import { IconType } from '../Icon/Icon';
 
 const withInformasjonsdata = Component => {
     return props => (
