@@ -29,7 +29,7 @@ const Search = () => {
                 placeholder="FNR eller aktør"
                 onKeyPress={keyTyped}
             />
-            <button onClick={() => search(ref.current.value)}>Søk</button>
+            <button onClick={() => search(ref.current.value)}>&#x1F50D;</button>
             {behandlingerCtx.error && (
                 <ErrorModal
                     errorMessage={behandlingerCtx.error}
