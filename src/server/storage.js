@@ -2,7 +2,6 @@
 
 const AWS = require('aws-sdk');
 const bucketName = 'speil';
-const region = 'us-east-1';
 
 let s3 = null;
 const init = async (url, accessKeyId, secretAccessKey) => {
@@ -44,7 +43,10 @@ const createBucketIfNotExists = async name => {
         return s3
             .createBucket({
                 Bucket: name,
-                ACL: 'private'
+                ACL: 'private',
+                CreateBucketConfiguration: {
+                    LocationConstraint: 'EU'
+                }
             })
             .promise();
     } else {

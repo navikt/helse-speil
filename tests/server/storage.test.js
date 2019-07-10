@@ -12,12 +12,7 @@ beforeAll(done => {
     server.start(() => {
         setupServer();
         storage
-            .init(
-                `localhost:${port}`,
-                'anAccessKeyId',
-                'aSecretAccessKey',
-                true
-            )
+            .init(`localhost:${port}`, 'anAccessKeyId', 'aSecretAccessKey')
             .then(result => {
                 done();
             })
