@@ -3,8 +3,8 @@ import 'jest-dom/extend-expect';
 
 test('toDate', () => {
     expect(toDate('notadate')).toEqual('Invalid Date');
-    expect(toDate('12.4.2019')).toEqual('12/4/2019');
-    expect(toDate('2019-05-09T00:00:00.000Z')).toEqual('5/9/2019');
+    expect(toDate('12.4.2019')).toEqual('4.12.2019');
+    expect(toDate('2019-05-09T00:00:00.000Z')).toEqual('9.5.2019');
 });
 
 test('capitalize', () => {

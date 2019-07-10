@@ -80,9 +80,14 @@ const originalSøknad = behandling => ({
     tom: toDate(behandling.originalSøknad.tom)
 });
 
+const avklarteVerdier = behandling => ({
+    sykepengegrunnlag: behandling.avklarteVerdier.sykepengegrunnlag
+});
+
 const alle = behandling => ({
     inngangsvilkår: inngangsvilkår(behandling),
-    originalSøknad: originalSøknad(behandling)
+    originalSøknad: originalSøknad(behandling),
+    avklarteVerdier: avklarteVerdier(behandling)
 });
 
 const toDate = dateString => {
