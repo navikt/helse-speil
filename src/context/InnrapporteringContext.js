@@ -1,12 +1,13 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 
 export const InnrapporteringContext = createContext({
     uenigheter: []
 });
 
 export const InnrapporteringProvider = ({ children }) => {
-    const [uenigheter, setUenigheter] = useState([]);
+    const [uenigheter, setUenigheter] = useSessionStorage('uenigheter', []);
 
     const removeUenighet = id => {
         setUenigheter(uenigheter =>

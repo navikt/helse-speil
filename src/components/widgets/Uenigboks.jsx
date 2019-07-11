@@ -12,7 +12,7 @@ Input.propTypes = {
 };
 
 const Uenigboks = ({ label }) => {
-    const id = label + window.location.pathname;
+    const id = label + decodeURIComponent(window.location.pathname);
     const innrapportering = useContext(InnrapporteringContext);
 
     const uenighet = useMemo(
