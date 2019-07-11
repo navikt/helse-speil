@@ -15,7 +15,7 @@ const App = withContextProviders(
             <MainContentWrapper />
         </Router>
     ),
-    [BehandlingerProvider, InnrapporteringProvider]
+    [InnrapporteringProvider, BehandlingerProvider]
 );
 
 export default App;
