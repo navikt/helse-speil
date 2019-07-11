@@ -80,7 +80,7 @@ app.post('/callback', (req, res) => {
         .callback(config.oidc.redirectUrl, params, { nonce })
         .then(tokenSet => {
             res.cookie('speil', `${tokenSet['id_token']}`, {
-                secure: process.env.NODE_ENV === 'development' ? false : true,
+                secure: process.env.NODE_ENV !== 'development',
                 sameSite: true
             });
             req.session.spadeToken = tokenSet['access_token'];
