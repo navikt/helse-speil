@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 
