@@ -4,47 +4,21 @@ const express = require('express');
 const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const { Issuer } = require('openid-client');
 const { generators } = require('openid-client');
 const { custom } = require('openid-client');
-const request = require('request');
-const fs = require('fs');
 
 const config = require('./config');
-const tokendecoder = require('./tokendecoder');
+const authsupport = require('./authsupport');
 const proxy = require('./proxy');
 const metrics = require('./metrics');
 const headers = require('./headers');
-
-const mapping = require('./mapping');
+const behandlinger = require('./behandlinger');
+const feedback = require('./feedback');
 
 const app = express();
 const port = config.server.port;
-
-const behandlingerFor = (aktorId, accessToken, callback) => {
-    request.get(
-        `http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`,
-        {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        },
-        (error, response, body) => {
-            const erred = error || response.statusCode !== 200;
-            if (erred) {
-                console.log(
-                    `Error during lookup, got ${response.statusCode} ${error ||
-                        'unknown error'} fom spade`
-                );
-            }
-
-            callback({
-                status: response.statusCode,
-                data: erred ? error : body
-            });
-        }
-    );
-};
 
 const proxyAgent = proxy.setup(Issuer, custom);
 
@@ -78,15 +52,12 @@ Issuer.discover(config.oidc.identityMetadata)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressSession({ secret: config.server.sessionSecret }));
-app.use('/static', express.static('dist'));
+app.use(compression());
 
 headers.setup(app);
 metrics.setup(app);
 
-if (process.env.NODE_ENV === 'development') {
-    app.use('/mock-data', express.static('__mock-data__'));
-}
-
+// Unprotected routes
 app.get('/isAlive', (req, res) => res.send('alive'));
 app.get('/isReady', (req, res) => res.send('ready'));
 
@@ -109,8 +80,8 @@ app.post('/callback', (req, res) => {
         .callback(config.oidc.redirectUrl, params, { nonce })
         .then(tokenSet => {
             res.cookie('speil', `${tokenSet['id_token']}`, {
-                httpOnly: true,
-                secure: true
+                secure: process.env.NODE_ENV === 'development' ? false : true,
+                sameSite: true
             });
             req.session.spadeToken = tokenSet['access_token'];
             res.redirect('/');
@@ -122,50 +93,40 @@ app.post('/callback', (req, res) => {
         });
 });
 
-app.get('/whoami', (req, res) => {
-    if (process.env.NODE_ENV === 'development') {
-        res.send({ name: `Sara Saksbehandler` });
-    } else if (req.cookies['speil']) {
-        res.send({ name: `${tokendecoder.username(req.cookies['speil'])}` });
+// Protected routes
+app.use('/*', (req, res, next) => {
+    if (
+        process.env.NODE_ENV === 'development' ||
+        authsupport.stillValid(req.session.spadeToken)
+    ) {
+        next();
     } else {
-        res.sendStatus(401);
+        console.log(
+            `no valid session found for ${req.headers['x-forwarded-for'] ||
+                req.connection.remoteAddress ||
+                'unknown remote ip'}`
+        );
+        if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
+            res.redirect('/login');
+        } else {
+            // these are xhr's, let the client decide how to handle
+            res.sendStatus(401);
+        }
     }
 });
 
-app.get('/behandlinger/:aktorId', (req, res) => {
-    if (process.env.NODE_ENV === 'development') {
-        fs.readFile('__mock-data__/behandlinger.json', (err, data) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);
-            }
-            res.header('Content-type', 'application/json; charset=utf-8');
-            res.send(
-                JSON.parse(data).behandlinger.map(behandling =>
-                    mapping.alle(behandling)
-                )
-            );
-        });
-        return;
-    }
-    const accessToken = req.session.spadeToken;
-    if (!accessToken) {
-        res.sendStatus(403);
-    } else {
-        const aktorId = req.params.aktorId;
-        behandlingerFor(aktorId, accessToken, apiresponse => {
-            if (apiresponse.status !== 200) {
-                res.status(apiresponse.status).send(apiresponse.data);
-            } else {
-                res.send(
-                    JSON.parse(apiresponse.data).behandlinger.map(behandling =>
-                        mapping.alle(behandling)
-                    )
-                );
-            }
-        });
-    }
-});
+app.use('/static', express.static('dist'));
+
+behandlinger.setup(app);
+
+feedback
+    .setup(app, config.s3)
+    .then(() => {
+        console.log(`Feedback storage at ${config.s3.s3url}`);
+    })
+    .catch(err => {
+        console.log(`Failed to setup feedback storage: ${err}`);
+    });
 
 app.get('/', (_, res) => {
     res.redirect('/static');

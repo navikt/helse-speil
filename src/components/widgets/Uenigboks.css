@@ -1,0 +1,33 @@
+.Uenigboks {
+    display: flex;
+    align-content: stretch;
+    align-items: center;
+    padding: 0.3rem;
+    width: 66%;
+}
+
+.Uenigboks__input {
+    flex: 1;
+}
+
+.Uenigboks__input input {
+    font-size: 1rem;
+    background-color: #fff;
+    color: #000;
+}
+
+.Uenigboks .skjemaelement {
+    margin: 0;
+}
+
+.Uenigboks .skjemaelement__label {
+    margin: 0;
+}
+
+.Uenigboks .skjemaelement:last-child {
+    margin-left: 1rem;
+}
+
+.Uenigboks__input label {
+    display: none;
+}

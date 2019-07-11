@@ -1,0 +1,7 @@
+.Tidslinje__radnavn {
+    padding-top: 1.5rem;
+    width: max-content;
+    min-width: 10rem;
+    text-align: right;
+    color: #59514b;
+}

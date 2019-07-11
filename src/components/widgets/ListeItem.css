@@ -1,0 +1,22 @@
+.ListeItem {
+    display: flex;
+    margin: 0.5rem;
+}
+
+.ListeItem .typo-normal {
+    width: 50%;
+    min-width: max-content;
+    word-break: keep-all;
+}
+
+.ListeItem .typo-normal:not(:last-child) {
+    margin-right: 3rem;
+}
+
+.ListeItem.bold .typo-normal {
+    font-weight: 600;
+}
+
+.ListeItem .typo-normal:last-child {
+    text-align: right;
+}

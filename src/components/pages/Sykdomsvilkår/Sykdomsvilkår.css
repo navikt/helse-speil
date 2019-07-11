@@ -1,0 +1,12 @@
+.Sykdomsvilkår .typo-undertittel:first-child {
+    margin-bottom: 1.5rem;
+}
+
+.Deloverskrift {
+    /* Bredden av checkmark-ikonet + margin mellom ikon og label. */
+    padding-left: calc(24px + 1rem);
+}
+
+.Deloverskrift.typo-normal {
+    font-weight: 600;
+}

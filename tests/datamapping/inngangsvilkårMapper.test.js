@@ -14,24 +14,24 @@ test('medlemskap', () => {
 
 test('opptjening', () => {
     const unmapped = {
-        førsteSykdomsdag: '2019-09-05T00:00:00.000Z',
+        førsteSykdomsdag: '2019-05-09T00:00:00.000Z',
         antallDager: 768,
-        startdato: '2017-01-04T00:00:00.000Z'
+        startdato: '2017-04-01T00:00:00.000Z'
     };
 
     expect(Mapper.opptjening(unmapped)).toEqual([
-        { label: 'Første sykdomsdag', value: '5.9.2019' },
+        { label: 'Første sykdomsdag', value: '09.05.2019' },
         { label: 'Antall dager', value: '768' },
-        { label: 'Startdato', value: '4.1.2017' },
+        { label: 'Startdato', value: '01.04.2017' },
         { label: 'Sluttdato', value: '-' }
     ]);
 
     unmapped.sluttdato = '2017-05-01T00:00:00.000Z';
     expect(Mapper.opptjening(unmapped)).toEqual([
-        { label: 'Første sykdomsdag', value: '5.9.2019' },
+        { label: 'Første sykdomsdag', value: '09.05.2019' },
         { label: 'Antall dager', value: '768' },
-        { label: 'Startdato', value: '4.1.2017' },
-        { label: 'Sluttdato', value: '1.5.2017' }
+        { label: 'Startdato', value: '01.04.2017' },
+        { label: 'Sluttdato', value: '01.05.2017' }
     ]);
 });
 
@@ -42,8 +42,8 @@ test('søknadsfrist', () => {
         innen3Mnd: true
     };
     expect(Mapper.søknadsfrist(unmapped)).toEqual([
-        { label: 'Sendt NAV', value: '11.6.2019' },
-        { label: 'Siste sykdomsdag', value: '26.5.2019' },
+        { label: 'Sendt NAV', value: '11.06.2019' },
+        { label: 'Siste sykdomsdag', value: '26.05.2019' },
         { label: 'Innen 3 mnd', value: 'Ja' }
     ]);
 });
@@ -58,11 +58,11 @@ test('dagerIgjen', () => {
         maxDato: '2020-04-20T00:00:00.000Z'
     };
     expect(Mapper.dagerIgjen(unmapped)).toEqual([
-        { label: 'Første fraværsdag', value: '9.5.2019' },
-        { label: 'Første sykepengedag', value: '9.5.2019' },
+        { label: 'Første fraværsdag', value: '09.05.2019' },
+        { label: 'Første sykepengedag', value: '09.05.2019' },
         { label: 'Alder', value: '42' },
         { label: 'Yrkesstatus', value: 'Arbeidstaker' },
         { label: 'Tidligere perioder', value: '-' },
-        { label: 'Max dato', value: '20.4.2020' }
+        { label: 'Max dato', value: '20.04.2020' }
     ]);
 });

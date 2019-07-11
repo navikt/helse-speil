@@ -1,27 +1,46 @@
+'use strict';
+
 import React from 'react';
 import { render, cleanup, waitForElement } from 'react-testing-library';
 import HeaderBar from '../../src/components/HeaderBar/HeaderBar';
-import AuthContext from '../../src/context/AuthContext';
 import 'jest-dom/extend-expect';
+
+const clgOrig = console.log;
 
 afterEach(cleanup);
 
-test('Missing brukernavn is replaced with a default', async () => {
-    const { container } = render(<HeaderBar />);
-    const brukerTextNode = await waitForElement(() =>
-        container.querySelector('#user')
-    );
-    expect(brukerTextNode).toHaveTextContent('Ikke Pålogget');
+beforeAll(() => {
+    // reduce noise in log
+    console.log = jest.fn();
 });
 
-test('Provided value from context is used as brukernavn', async () => {
-    const { container } = render(
-        <AuthContext.Provider value={{ state: { name: 'Bruker Brukersen' } }}>
-            <HeaderBar displayname="Bruker Brukersen" />
-        </AuthContext.Provider>
-    );
+jest.mock('../../src/components/widgets/modal/ErrorModal', () => () => <div />);
+jest.mock('../../src/components/Search/Search', () => () => <div />);
+
+afterAll(() => {
+    console.log = clgOrig;
+});
+
+test('name of logged in user is retrieved from cookie', async () => {
+    const { container } = render(<HeaderBar />);
+    const name = 'Navn Med Æøå';
+
+    Object.defineProperty(document, 'cookie', {
+        get: jest.fn().mockImplementation(() => {
+            return `name=whateverelse; speil=${createJWT(name)}`;
+        }),
+        set: jest.fn().mockImplementation(() => {})
+    });
     const brukerTextNode = await waitForElement(() =>
         container.querySelector('#user')
     );
-    expect(brukerTextNode).toHaveTextContent('Bruker Brukersen');
+    expect(brukerTextNode).toHaveTextContent(name);
 });
+
+const createJWT = name => {
+    const header = { alg: 'HS256', typ: 'JWT' };
+    const payload = { sub: '1234567890', name: name, iat: 1516239022 };
+    return `${btoa(JSON.stringify(header))}.${btoa(
+        JSON.stringify(payload)
+    )}.signaturehere`;
+};

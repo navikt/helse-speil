@@ -1,0 +1,34 @@
+@lineHeight: 1.5rem;
+
+.InformasjonspanelItem {
+  display: flex;
+  justify-content: space-between;
+  line-height: @lineHeight;
+  height: @lineHeight;
+
+  > .typo-undertekst {
+    font-size: 1rem;
+    white-space: nowrap;
+    &:first-child {
+      color: #59514b;
+      min-width: 9rem;
+    }
+    &:nth-child(2) {
+      text-align: right;
+      font-weight: bold;
+      flex: 1;
+    }
+  }
+
+  .InformasjonspanelItem__right {
+    width: 1.5rem;
+
+    .typo-undertekst {
+      color: #0067c5;
+      text-decoration: underline;
+      text-align: right;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
+}

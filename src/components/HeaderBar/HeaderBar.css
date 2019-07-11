@@ -14,15 +14,19 @@
 
 .header_divider {
     border-left: 1px solid #78706a;
-    margin: 10px;
+    margin: 0 1.5rem;
     height: 30px;
 }
 
 .title {
     display: flex;
+    align-items: center;
+}
+
+.title h1 {
     line-height: 1.75rem;
     font-size: 1.25rem;
-    align-items: center;
+    font-family: 'Source Sans Pro', Arial, sans-serif;
 }
 
 .center {

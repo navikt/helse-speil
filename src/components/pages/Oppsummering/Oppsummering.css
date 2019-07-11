@@ -1,0 +1,41 @@
+.Oppsummering__right-col,
+.Oppsummering .panel {
+    flex: 1;
+}
+
+.Oppsummering {
+    width: 100%;
+    display: flex;
+}
+
+.Oppsummering .typo-undertittel {
+    margin-bottom: 1rem;
+}
+
+.Oppsummering > .panel {
+    margin-right: 0;
+    min-width: 24rem;
+    max-width: max-content;
+}
+
+.Oppsummering + .Navigasjonsknapper {
+    margin-left: 1rem;
+}
+
+.Oppsummering__right-col .panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.Oppsummering__right-col .panel > .typo-normal:not(:last-child) {
+    margin-bottom: 0.5rem;
+}
+
+.Oppsummering__right-col .panel .typo-normal span {
+    font-style: italic;
+}
+
+.Oppsummering__right-col .panel .knapp {
+    width: max-content;
+    margin-top: 1rem;
+}

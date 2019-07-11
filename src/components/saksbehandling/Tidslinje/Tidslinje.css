@@ -1,0 +1,18 @@
+.Tidslinje__wrapper {
+    max-width: calc(100% - 4rem);
+    margin: 0;
+    padding: 0;
+}
+
+.Tidslinje {
+    width: 100%;
+    min-width: 800px;
+    overflow-x: scroll;
+    display: flex;
+    padding: 1rem;
+}
+
+hr {
+    height: 1px;
+    margin: 0;
+}

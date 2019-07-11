@@ -1,8 +1,6 @@
 import React, { useContext, useRef } from 'react';
-import BehandlingerContext from '../../context/BehandlingerContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { behandlingerFor } from '../../io/http';
+import ErrorModal from '../widgets/modal/ErrorModal';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { Keys } from '../../hooks/useKeyboard';
 import './Search.css';
 
@@ -19,13 +17,7 @@ const Search = () => {
 
     const search = value => {
         if (value.trim().length !== 0) {
-            behandlingerFor(value)
-                .then(response => {
-                    behandlingerCtx.setBehandlinger({ behandlinger: response });
-                })
-                .catch(err => {
-                    console.log(err); // eslint-disable-line no-console
-                });
+            behandlingerCtx.fetchBehandlinger(value);
         }
     };
 
@@ -37,9 +29,13 @@ const Search = () => {
                 placeholder="FNR eller aktør"
                 onKeyPress={keyTyped}
             />
-            <button onClick={() => search(ref.current.value)}>
-                <FontAwesomeIcon icon={faSearch} />
-            </button>
+            <button onClick={() => search(ref.current.value)}>&#x1F50D;</button>
+            {behandlingerCtx.error && (
+                <ErrorModal
+                    errorMessage={behandlingerCtx.error}
+                    onClose={() => behandlingerCtx.clearError()}
+                />
+            )}
         </div>
     );
 };

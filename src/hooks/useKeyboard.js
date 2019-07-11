@@ -4,14 +4,25 @@ import PropTypes from 'prop-types';
 export const Keys = {
     LEFT: 37,
     RIGHT: 39,
-    ENTER: 13
+    ENTER: 13,
+    SPACE: 32
+};
+
+const shouldDisableKeyboard = () => {
+    return (
+        document.activeElement.tagName.toLowerCase() === 'input' &&
+        document.activeElement.attributes.getNamedItem('type') &&
+        document.activeElement.attributes
+            .getNamedItem('type')
+            .value.toLowerCase() === 'text'
+    );
 };
 
 export const useKeyboard = actionMappings => {
     const [map, setMap] = useState({});
 
     const handleKeyDown = e => {
-        if (map[e.keyCode]) {
+        if (!shouldDisableKeyboard() && map[e.keyCode]) {
             map[e.keyCode]();
         }
     };

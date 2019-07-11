@@ -1,0 +1,25 @@
+.ListeItemBolk {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.ListeItemBolk .ListeItem {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    max-width: 18rem;
+    min-width: 18rem;
+}
+
+.ListeItemBolk > *:not(:first-child) {
+    margin-left: 2rem;
+}
+
+.ListeItemBolk .ListeItem p svg {
+    vertical-align: middle;
+}
+
+.ListeItemBolk .Uenigboks .Uenigboks__input {
+    min-width: 32rem;
+}

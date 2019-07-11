@@ -16,10 +16,6 @@
     margin-right: 1rem;
 }
 
-.IkonHeader__status g path:first-child {
-    fill: #38a161;
-}
-
 .IkonHeader__list {
     margin-left: 2.5rem;
 }
@@ -42,4 +38,17 @@
     height: 0;
     border-top: 1px dotted #3e3832;
     align-self: center;
+}
+
+.IkonHeader--with-value {
+    width: 76%;
+    display: flex;
+    margin-right: 0 !important;
+    padding-right: 1rem;
+    box-sizing: border-box;
+}
+
+.IkonHeader--without-value {
+    display: flex;
+    width: 100%;
 }

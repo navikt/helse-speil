@@ -9,17 +9,21 @@ const IkonHeader = ({ title, titleValue, items, ikon }) => (
         {title && (
             <div className="IkonHeader__status">
                 {ikon && <Ikon kind="ok-sirkel-fyll" size={24} />}
-                <Normaltekst>{title}</Normaltekst>
-                <span className="IkonHeader__line" />
-                {titleValue && (
-                    <span className="IkonHeader__item">
-                        <Element>{titleValue}</Element>
-                    </span>
-                )}
+                <div
+                    className={
+                        titleValue
+                            ? 'IkonHeader--with-value'
+                            : 'IkonHeader--without-value'
+                    }
+                >
+                    <Normaltekst>{title}</Normaltekst>
+                    <span className="IkonHeader__line" />
+                </div>
+                {titleValue && <Element>{titleValue}</Element>}
             </div>
         )}
         {items && (
-            <div className="IkonHeader__list">
+            <div className={ikon ? 'IkonHeader__list' : ''}>
                 {items.map((item, i) => (
                     <span
                         className="IkonHeader__item"

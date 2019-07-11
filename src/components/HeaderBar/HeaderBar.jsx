@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import navLogoSrc from './img/navlogo.svg';
 import ImageLink from '../ImageLink/ImageLink';
-import AuthContext from '../../context/AuthContext';
+import useLoggedInUser from '../../hooks/useLoggedInUser';
 import Search from '../Search/Search';
 import './HeaderBar.css';
 
 const HeaderBar = () => {
-    const authCtx = useContext(AuthContext);
+    const loggedInUser = useLoggedInUser('Ikke pålogget');
 
     return (
         <header className="topbar">
@@ -16,7 +16,7 @@ const HeaderBar = () => {
                     imgSrc={navLogoSrc.toString()}
                     href="/"
                 />
-                <h2>Sykepenger</h2>
+                <h1>Sykepenger</h1>
             </div>
 
             <div className="header_divider" />
@@ -28,9 +28,7 @@ const HeaderBar = () => {
             <div className="header_divider" />
 
             <div id="user" className="user">
-                {authCtx.state && authCtx.state.name
-                    ? authCtx.state.name
-                    : 'Ikke Pålogget'}
+                {loggedInUser.name}
             </div>
         </header>
     );

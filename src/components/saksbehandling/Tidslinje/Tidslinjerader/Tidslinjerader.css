@@ -1,0 +1,22 @@
+.Tidslinjerader {
+    padding-top: 1.5rem;
+    width: 100%;
+    min-height: 1rem;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+}
+
+.Tidslinje__bar {
+    height: 1px;
+    background: #c6c2bf;
+    width: 100%;
+    border: none;
+}
+
+.Periodestreker {
+    position: relative;
+    width: 100%;
+}

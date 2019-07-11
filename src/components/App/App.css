@@ -1,6 +1,6 @@
 body {
     background-color: #eaeceb;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Source Sans Pro', Helvetica, sans-serif;
     height: 100%;
 }
 
@@ -10,4 +10,8 @@ html {
 
 .main {
     margin-top: 1em;
+}
+
+svg[kind='ok-sirkel-fyll'] g path:first-child {
+    fill: #38a161;
 }
