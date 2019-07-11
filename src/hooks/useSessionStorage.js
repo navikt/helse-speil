@@ -20,7 +20,7 @@ export const useSessionStorage = (key, initialValue) => {
             const parsedState = JSON.parse(decodeURIComponent(sessionState));
             setState(parsedState);
         }
-    }, []);
+    }, [key]);
 
     return [state, setState];
 };
