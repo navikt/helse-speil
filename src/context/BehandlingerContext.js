@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { behandlingerFor } from '../io/http';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 
 export const BehandlingerContext = createContext();
 
@@ -18,7 +19,10 @@ export const withBehandlingContext = Component => {
 
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [behandlinger, setBehandlinger] = useState([]);
+    const [behandlinger, setBehandlinger] = useSessionStorage(
+        'behandlinger',
+        []
+    );
 
     const fetchBehandlinger = value => {
         behandlingerFor(value)
