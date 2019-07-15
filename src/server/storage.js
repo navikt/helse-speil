@@ -47,7 +47,9 @@ const createBucketIfNotExists = async name => {
             .createBucket({
                 Bucket: name,
                 ACL: 'private',
-                CreateBucketConfiguration: {}
+                CreateBucketConfiguration: {
+                    LocationConstraint: ''
+                }
             })
             .promise();
     } else {
