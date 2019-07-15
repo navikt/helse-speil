@@ -1,29 +1,20 @@
 'use strict';
 
-const isWithin3Months = (oldest, newest) => {
-    const inThreeMonths = new Date(oldest);
-    inThreeMonths.setMonth(inThreeMonths.getMonth() + 3 + 1);
-    inThreeMonths.setDate(
-        daysInMonth(inThreeMonths.getMonth() + 1, inThreeMonths.getFullYear())
-    );
-    inThreeMonths.setDate(0);
-    inThreeMonths.setHours(23);
-    inThreeMonths.setMinutes(59);
-    inThreeMonths.setSeconds(59);
-    inThreeMonths.setMilliseconds(999);
-    return newest.getTime() <= inThreeMonths.getTime();
-};
+const moment = require('moment');
 
-const daysInMonth = (iMonth, iYear) => {
-    return new Date(iYear, iMonth, 0).getDate();
+const isWithin3Months = (oldest, newest) => {
+    return moment(oldest)
+        .add(4, 'month')
+        .date(0)
+        .hours(23)
+        .minutes(59)
+        .seconds(59)
+        .milliseconds(999)
+        .isSameOrAfter(moment(newest));
 };
 
 const daysBetween = (firstDate, lastDate) => {
-    const first = new Date(firstDate);
-    const last = new Date(lastDate);
-    return Math.ceil(
-        Math.abs((first.getTime() - last.getTime()) / (24 * 60 * 60 * 1000))
-    );
+    return moment(lastDate).diff(moment(firstDate), 'days');
 };
 
 const toDate = dateString => {
