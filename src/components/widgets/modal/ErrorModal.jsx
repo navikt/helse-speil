@@ -13,6 +13,7 @@ const ErrorModal = ({ errorMessage, onClose }) => (
         isOpen={true}
         contentLabel="Feilmelding"
         closeButton={false}
+        onRequestClose={onClose || (() => {})}
     >
         <Systemtittel>Det har oppstått en feil</Systemtittel>
         <Normaltekst>{errorMessage}</Normaltekst>
