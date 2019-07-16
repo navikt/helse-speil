@@ -42,8 +42,3 @@
 .Search button:active {
     background: black;
 }
-
-.Search button svg.svg-inline--fa {
-    width: 1rem;
-    height: 1rem;
-}
