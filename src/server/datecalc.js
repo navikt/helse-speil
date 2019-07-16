@@ -14,7 +14,7 @@ const isWithin3Months = (oldest, newest) => {
 };
 
 const daysBetween = (firstDate, lastDate) => {
-    return moment(lastDate).diff(moment(firstDate), 'days');
+    return Math.abs(moment(lastDate).diff(moment(firstDate), 'days'));
 };
 
 const toDate = dateString => {
