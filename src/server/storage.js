@@ -19,12 +19,12 @@ const init = async (url, accessKeyId, secretAccessKey) => {
     return createBucketIfNotExists(bucketName);
 };
 
-const save = async (key, text) => {
+const save = async (key, text, mimetype) => {
     return s3
         .putObject({
             Bucket: bucketName,
             Key: key,
-            ContentType: 'text/plain',
+            ContentType: mimetype || 'application/octet-stream',
             Body: Buffer.from(text, 'utf-8')
         })
         .promise();
