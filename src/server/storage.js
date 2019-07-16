@@ -8,9 +8,12 @@ const init = async (url, accessKeyId, secretAccessKey) => {
     AWS.config.update({
         endpoint: url,
         sslEnabled: false,
-        accessKeyId: accessKeyId,
-        secretAccessKey: secretAccessKey,
-        s3ForcePathStyle: true
+        credentials: {
+            accessKeyId: accessKeyId,
+            secretAccessKey: secretAccessKey
+        },
+        s3ForcePathStyle: true,
+        s3BucketEndpoint: false
     });
     s3 = new AWS.S3({ apiVersion: '2006-03-01' });
     return createBucketIfNotExists(bucketName);
@@ -45,7 +48,7 @@ const createBucketIfNotExists = async name => {
                 Bucket: name,
                 ACL: 'private',
                 CreateBucketConfiguration: {
-                    LocationConstraint: 'EU'
+                    LocationConstraint: ''
                 }
             })
             .promise();
