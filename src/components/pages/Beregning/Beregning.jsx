@@ -8,9 +8,6 @@ import Bolk from '../../widgets/Bolk/Bolk';
 import './Beregning.css';
 
 const Beregning = withBehandlingContext(({ behandling }) => {
-    /* eslint-disable */
-    console.log({ behandling });
-    /* eslint-enable */
     return (
         <Panel border className="Beregning">
             <Undertittel className="panel-tittel">
