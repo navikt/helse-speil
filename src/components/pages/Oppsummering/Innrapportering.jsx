@@ -4,20 +4,28 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
-import { postFeedback } from '../../../io/http';
+import { putFeedback } from '../../../io/http';
 
 const Innrapportering = withBehandlingContext(({ behandling }) => {
     const innrapportering = useContext(InnrapporteringContext);
     const [error, setError] = useState(undefined);
 
     const sendRapporter = () => {
-        // Send innholdet av innrapportering.uenigheter et eller annet sted
-        postFeedback({
-            key: behandling.behandlingsId,
-            value: JSON.stringify(innrapportering.uenigheter)
-        }).catch(err => {
-            setError(err.message);
-        });
+        putFeedback({
+            id: behandling.behandlingsId,
+            txt: JSON.stringify(
+                innrapportering.uenigheter.map(uenighet => ({
+                    label: uenighet.label,
+                    value: uenighet.value
+                }))
+            )
+        })
+            .then(() => {
+                setError(undefined);
+            })
+            .catch(() => {
+                setError('Feil ved innsending av rapport. Prøv igjen senere.');
+            });
     };
 
     return (
@@ -33,7 +41,11 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                         </Normaltekst>
                     ))}
                     <Knapp onClick={sendRapporter}>Send inn</Knapp>
-                    {error && error}
+                    {error && (
+                        <Normaltekst className="skjemaelement__feilmelding">
+                            {error}
+                        </Normaltekst>
+                    )}
                 </>
             )}
         </Panel>

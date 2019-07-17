@@ -10,10 +10,17 @@ export const behandlingerFor = async aktorId => {
     return response.status !== 200 ? null : await response.json();
 };
 
-export const postFeedback = async feedback => {
-    const options = {
-        method: 'POST',
+export const putFeedback = async feedback => {
+    const response = await fetch(baseUrl + '/feedback', {
+        method: 'PUT',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(feedback)
-    };
-    const response = await fetch(baseUrl + '/feedback', options);
+    });
+
+    if (response.status !== 204) {
+        throw Error();
+    }
 };
