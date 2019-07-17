@@ -50,6 +50,7 @@ Issuer.discover(config.oidc.identityMetadata)
     });
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressSession({ secret: config.server.sessionSecret }));
 app.use(compression());
