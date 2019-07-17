@@ -16,6 +16,7 @@
         "start": "NODE_ENV=development parcel src/index.html --open",
         "start-express": "DEBUG=express:* node src/server/server.js --experimental-modules",
         "dev-express": "DEBUG=express:* NODE_ENV=development nodemon src/server/server.js --experimental-modules",
+        "mock-s3": "docker-compose --file __mocks__/s3-docker-compose.yaml up",
         "build": "npm run test && npm run clean:dist && parcel build src/index.html --public-url ./ --no-source-maps",
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"src/**/*.{jsx,js,css}\"",
