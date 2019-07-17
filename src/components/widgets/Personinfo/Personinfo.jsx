@@ -17,7 +17,7 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
 
     const søkernavn = 'Navn Navnesen';
     const telefonnummer = '123-99-124';
-    const kjønn = Kjønn.KVINNE;
+    const kjønn = Kjønn.NØYTRAL;
 
     return (
         <>
