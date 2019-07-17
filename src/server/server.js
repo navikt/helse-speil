@@ -80,7 +80,7 @@ app.post('/callback', (req, res) => {
         .callback(config.oidc.redirectUrl, params, { nonce })
         .then(tokenSet => {
             const accessToken = tokenSet['access_token'];
-            const requiredGroup = config.requiredGroup;
+            const requiredGroup = config.oidc.requiredGroup;
             if (
                 !accessToken ||
                 !authsupport.isMemberOf(requiredGroup, accessToken)
