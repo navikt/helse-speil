@@ -125,7 +125,9 @@ feedback
         console.log(`Feedback storage at ${config.s3.s3url}`);
     })
     .catch(err => {
-        console.log(`Failed to setup feedback storage: ${err}`);
+        console.log(
+            `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback are not available.`
+        );
     });
 
 app.get('/', (_, res) => {
