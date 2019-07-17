@@ -27,7 +27,11 @@ export const BehandlingerProvider = ({ children }) => {
     const fetchBehandlinger = value => {
         behandlingerFor(value)
             .then(response => {
-                setBehandlinger({ behandlinger: response });
+                if (response.status === 200) {
+                    setBehandlinger({ behandlinger: response.data });
+                } else {
+                    setError(response.data);
+                }
             })
             .catch(() => {
                 setError('Kunne ikke utføre søket');
