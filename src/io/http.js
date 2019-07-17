@@ -7,7 +7,13 @@ const baseUrl =
 
 export const behandlingerFor = async aktorId => {
     const response = await fetch(baseUrl + `/behandlinger/${aktorId}`);
-    return response.status !== 200 ? null : await response.json();
+    return {
+        status: response.status,
+        data:
+            response.status === 200
+                ? await response.json()
+                : `Fant ingen behandlinger for ${aktorId}`
+    };
 };
 
 export const putFeedback = async feedback => {
