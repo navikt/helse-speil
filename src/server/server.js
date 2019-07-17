@@ -79,12 +79,27 @@ app.post('/callback', (req, res) => {
     azureClient
         .callback(config.oidc.redirectUrl, params, { nonce })
         .then(tokenSet => {
-            res.cookie('speil', `${tokenSet['id_token']}`, {
-                secure: process.env.NODE_ENV !== 'development',
-                sameSite: true
-            });
-            req.session.spadeToken = tokenSet['access_token'];
-            res.redirect('/');
+            const accessToken = tokenSet['access_token'];
+            const requiredGroup = config.requiredGroup;
+            if (
+                !accessToken ||
+                !authsupport.isMemberOf(requiredGroup, accessToken)
+            ) {
+                console.log(
+                    `'${authsupport.nameFrom(
+                        accessToken
+                    )}' is not member of '${requiredGroup}', denying access`
+                );
+                req.session.destroy();
+                res.sendStatus(403);
+            } else {
+                res.cookie('speil', `${tokenSet['id_token']}`, {
+                    secure: process.env.NODE_ENV !== 'development',
+                    sameSite: true
+                });
+                req.session.spadeToken = accessToken;
+                res.redirect('/');
+            }
         })
         .catch(err => {
             console.log(`error in oidc callback: ${err}`);
