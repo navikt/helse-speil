@@ -126,6 +126,7 @@ app.use('/*', (req, res, next) => {
             res.redirect('/login');
         } else {
             // these are xhr's, let the client decide how to handle
+            res.clearCookie('speil');
             res.sendStatus(401);
         }
     }

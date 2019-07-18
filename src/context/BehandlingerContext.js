@@ -29,11 +29,14 @@ export const BehandlingerProvider = ({ children }) => {
             .then(response => {
                 if (response.status === 200) {
                     setBehandlinger({ behandlinger: response.data });
+                } else if (response.status === 401) {
+                    setError('Du må logge inn på nytt.');
                 } else {
-                    setError(response.data);
+                    setError(`Fant ingen behandlinger for '${value}'`);
                 }
             })
-            .catch(() => {
+            .catch(err => {
+                console.log(err); // eslint-disable-line no-console
                 setError('Kunne ikke utføre søket');
             });
     };

@@ -16,7 +16,6 @@ const ErrorModal = ({ errorMessage, onClose }) => (
     >
         <Systemtittel>Det har oppstått en feil</Systemtittel>
         <Normaltekst>{errorMessage}</Normaltekst>
-        <Normaltekst>Prøv igjen senere.</Normaltekst>
         <Knapp
             onClick={() => {
                 if (onClose) {
