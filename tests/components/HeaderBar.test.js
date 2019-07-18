@@ -4,6 +4,7 @@ import React from 'react';
 import { render, cleanup } from 'react-testing-library';
 import HeaderBar from '../../src/components/HeaderBar/HeaderBar';
 import 'jest-dom/extend-expect';
+import { AuthProvider } from '../../src/context/AuthContext';
 
 const clgOrig = console.log;
 
@@ -33,7 +34,11 @@ test('name of logged in user is retrieved from cookie', async () => {
         set: jest.fn().mockImplementation(() => {})
     });
 
-    render(<HeaderBar />);
+    render(
+        <AuthProvider>
+            <HeaderBar />
+        </AuthProvider>
+    );
 
     expect(getByText(name)).toBeDefined();
 });

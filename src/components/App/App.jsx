@@ -15,9 +15,11 @@ const App = withContextProviders(() => {
 
     useEffect(() => {
         fetchIntercept.register({
-            responseError: error => {
-                setUserLoggedOut();
-                return Promise.reject(error);
+            response: res => {
+                if (res.status === 401) {
+                    setUserLoggedOut();
+                }
+                return res;
             }
         });
     }, []);
