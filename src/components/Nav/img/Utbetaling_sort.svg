@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="28px" height="28px" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 55.1 (78136) - https://sketchapp.com -->
-    <title>Utbetaling Copy</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Utbetaling-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <circle id="Oval" stroke="#3E3832" stroke-width="1.5" cx="14" cy="14" r="13"></circle>
-        <text id="Kr" font-family="SourceSansPro-SemiBold, Source Sans Pro SemiBold, sans-serif" font-size="14" font-weight="500" line-spacing="22" fill="#3E3832">
+<svg width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <circle stroke="#3E3832" stroke-width="1.5" cx="14" cy="14" r="13"/>
+        <text font-family="SourceSansPro-SemiBold, Source Sans Pro SemiBold, sans-serif" font-size="14"
+              font-weight="500" fill="#3E3832">
             <tspan x="7.5" y="19">Kr</tspan>
         </text>
     </g>
