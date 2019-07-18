@@ -1,6 +1,7 @@
 nav {
     background-color: #59514b;
     width: 50px;
+    min-width: 50px;
     min-height: 100%;
     padding-top: 10em !important;
     list-style: none;

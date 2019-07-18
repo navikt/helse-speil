@@ -3,7 +3,6 @@ import { Undertittel } from 'nav-frontend-typografi';
 import { Panel } from 'nav-frontend-paneler';
 import Ikon from 'nav-frontend-ikoner-assets';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
-import './Periode.css';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
@@ -19,7 +18,7 @@ const Periode = withBehandlingContext(({ behandling }) => {
     } = behandling.periode;
 
     return (
-        <Panel className="Periode" border>
+        <Panel border>
             <Undertittel className="panel-tittel">Sykepengeperiode</Undertittel>
             <ListeItemBolk
                 label="Antall kalenderdager"

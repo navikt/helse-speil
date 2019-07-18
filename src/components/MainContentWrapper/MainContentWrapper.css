@@ -3,8 +3,10 @@
     box-sizing: border-box;
     display: flex;
 }
+
 .main-content {
     flex: 1;
+    max-width: calc(100% - 50px);
 }
 
 .main-content .panel {
