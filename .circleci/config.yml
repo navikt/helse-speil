@@ -39,14 +39,16 @@ jobs:
 
                    echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin https://docker.pkg.github.com
                    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
+                 else
+                    echo "Not on master, skipping this step"
                  fi
          - run:
               name: deploy to preprod
               command: |
                  set -e
-                 docker create -v /nais --name naisyamlpreprod alpine:3.4 /bin/true
-                 docker cp deploy/preprod.yaml naisyamlpreprod:/nais
                  if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
+                    docker create -v /nais --name naisyamlpreprod alpine:3.4 /bin/true
+                    docker cp deploy/preprod.yaml naisyamlpreprod:/nais
                     PREPROD_NAISERATOR=$(docker run --volumes-from naisyamlpreprod mikefarah/yq yq r /nais/preprod.yaml -j)
                     PREPROD_NAISERATOR=$(echo $PREPROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
                     PREPROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PREPROD_NAISERATOR']')
@@ -57,14 +59,16 @@ jobs:
                         -d "$PREPROD_DEPLOYMENT" \
                         -H "Accept: application/vnd.github.ant-man-preview+json" \
                         https://api.github.com/repos/navikt/helse-speil/deployments
+                 else
+                    echo "Not on master, skipping this step"
                  fi
          - run:
               name: deploy to prod
               command: |
                  set -e
-                 docker create -v /nais --name naisyamlprod alpine:3.4 /bin/true
-                 docker cp deploy/prod.yaml naisyamlprod:/nais
                  if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
+                    docker create -v /nais --name naisyamlprod alpine:3.4 /bin/true
+                    docker cp deploy/prod.yaml naisyamlprod:/nais
                     PROD_NAISERATOR=$(docker run --volumes-from naisyamlprod mikefarah/yq yq r /nais/prod.yaml -j)
                     PROD_NAISERATOR=$(echo $PROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
                     PROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PROD_NAISERATOR']')
@@ -75,4 +79,6 @@ jobs:
                         -d "$PROD_DEPLOYMENT" \
                         -H "Accept: application/vnd.github.ant-man-preview+json" \
                         https://api.github.com/repos/navikt/helse-speil/deployments
+                 else
+                    echo "Not on master, skipping this step"
                  fi
