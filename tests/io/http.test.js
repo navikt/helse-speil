@@ -24,14 +24,14 @@ test('behandlinger ikke funnet', async () => {
         return Promise.resolve({
             status: 404,
             json: () => {
-                return Promise.resolve('nope...');
+                return Promise.resolve();
             }
         });
     });
     const response = await behandlingerFor(12345);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({
-        data: `Fant ingen behandlinger for 12345`,
+        data: undefined,
         status: 404
     });
 });

@@ -1,9 +1,10 @@
 'use strict';
 
 import React from 'react';
-import { render, cleanup, waitForElement } from 'react-testing-library';
+import { render, cleanup } from 'react-testing-library';
 import HeaderBar from '../../src/components/HeaderBar/HeaderBar';
 import 'jest-dom/extend-expect';
+import { AuthProvider } from '../../src/context/AuthContext';
 
 const clgOrig = console.log;
 
@@ -22,19 +23,24 @@ afterAll(() => {
 });
 
 test('name of logged in user is retrieved from cookie', async () => {
-    const { container } = render(<HeaderBar />);
-    const name = 'Navn Med Æøå';
+    const { getByText } = render(<HeaderBar />);
+    expect(getByText('Ikke pålogget')).toBeDefined();
 
+    const name = 'Navn Med Æøå';
     Object.defineProperty(document, 'cookie', {
         get: jest.fn().mockImplementation(() => {
             return `name=whateverelse; speil=${createJWT(name)}`;
         }),
         set: jest.fn().mockImplementation(() => {})
     });
-    const brukerTextNode = await waitForElement(() =>
-        container.querySelector('#user')
+
+    render(
+        <AuthProvider>
+            <HeaderBar />
+        </AuthProvider>
     );
-    expect(brukerTextNode).toHaveTextContent(name);
+
+    expect(getByText(name)).toBeDefined();
 });
 
 const createJWT = name => {

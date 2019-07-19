@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import navLogoSrc from './img/navlogo.svg';
 import ImageLink from '../ImageLink/ImageLink';
-import useLoggedInUser from '../../hooks/useLoggedInUser';
+import { AuthContext } from '../../context/AuthContext';
 import Search from '../Search/Search';
 import './HeaderBar.css';
 
 const HeaderBar = () => {
-    const loggedInUser = useLoggedInUser('Ikke pålogget');
+    const { authInfo: { name, isLoggedIn } = {} } = useContext(AuthContext);
+
+    const username = isLoggedIn ? name : 'Ikke pålogget';
 
     return (
         <header className="topbar">
@@ -28,7 +30,7 @@ const HeaderBar = () => {
             <div className="header_divider" />
 
             <div id="user" className="user">
-                {loggedInUser.name}
+                {username}
             </div>
         </header>
     );
