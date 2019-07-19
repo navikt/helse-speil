@@ -21,17 +21,6 @@ jobs:
               paths:
                  - ./node_modules
          - run:
-              name: github creds
-              command: |
-                 set -e
-                 git clone https://github.com/navikt/github-apps-support.git
-                 export PATH=`pwd`/github-apps-support/bin:$PATH
-                 echo $HELSECI_KEY | tr '_' '\n' > helseci.key
-                 export GITHUB_APP_ID=19726
-                 export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh helseci.key $GITHUB_APP_ID`)
-                 echo -e "machine api.github.com login x-access-token password $GH_TOKEN" > ~/.netrc
-                 rm helseci.key
-         - run:
               name: build client
               command: |
                  set -e
@@ -41,14 +30,14 @@ jobs:
               command: |
                  set -e
                  if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
-                   export DOCKER_IMG_NAME="navikt/speil"
+                   export DOCKER_IMG_NAME="docker.pkg.github.com/navikt/helse-speil/speil"
                    export COMMIT_SHORT="$(git rev-parse --short HEAD)"
                    echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> $BASH_ENV
                    echo "export COMMIT_SHORT=$COMMIT_SHORT" >> $BASH_ENV
 
                    docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 
-                   echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+                   docker login -u "$GITHUB_USERNAME" -p "$GITHUB_PASSWORD" docker.pkg.github.com
                    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
                  fi
          - run:
@@ -63,7 +52,7 @@ jobs:
                     PREPROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PREPROD_NAISERATOR']')
                     PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.environment = "dev-fss"')
                     PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
-                    curl -i -n --fail \
+                    curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
                         -X POST \
                         -d "$PREPROD_DEPLOYMENT" \
                         -H "Accept: application/vnd.github.ant-man-preview+json" \
@@ -81,7 +70,7 @@ jobs:
                     PROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PROD_NAISERATOR']')
                     PROD_DEPLOYMENT=$(echo $PROD_DEPLOYMENT | jq '.environment = "prod-fss"')
                     PROD_DEPLOYMENT=$(echo $PROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
-                    curl -i -n --fail \
+                    curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
                         -X POST \
                         -d "$PROD_DEPLOYMENT" \
                         -H "Accept: application/vnd.github.ant-man-preview+json" \

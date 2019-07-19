@@ -6,7 +6,7 @@ metadata:
   labels:
     team: tbd
 spec:
-  image: navikt/speil:5e89f02
+  image: "set_from_pipeline"
   port: 3000
   team: tbd
   liveness:
