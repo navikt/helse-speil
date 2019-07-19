@@ -15,16 +15,16 @@ export const behandlingerFor = async aktorId => {
     return {
         status: response.status,
         data: await getData(response)
-    }
+    };
 };
 
 const getData = async response => {
     try {
-        return await response.json()
+        return await response.json();
     } catch (e) {
-        return undefined
+        return undefined;
     }
-}
+};
 
 export const putFeedback = async feedback => {
     const response = await fetch(baseUrl + '/feedback', {

@@ -79,9 +79,7 @@ test('originalSøknad', async () => {
             orgnummer: '999999999'
         },
         aktorId: '12345678910112',
-        soknadsperioder: [
-            { sykmeldingsgrad: 100 }
-        ],
+        soknadsperioder: [{ sykmeldingsgrad: 100 }],
         fom: new Date('2019-05-09T00:00:00.000Z'),
         tom: new Date('2019-05-26T00:00:00.000Z')
     };
