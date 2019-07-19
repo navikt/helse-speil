@@ -37,7 +37,7 @@ jobs:
 
                    docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 
-                   echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin docker.pkg.github.com
+                   echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin https://docker.pkg.github.com
                    docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
                  fi
          - run:
