@@ -154,6 +154,10 @@ const periode = behandling => ({
     sykmeldingsgrad: selectors.sykmeldingsgrad(behandling)
 });
 
+const avklarteVerdier = behandling => ({
+    sykepengegrunnlag: behandling.avklarteVerdier.sykepengegrunnlag
+});
+
 const alle = behandling => ({
     behandlingsId: behandling.behandlingsId,
     sykdomsvilkår: sykdomsvilkår(behandling),
@@ -161,7 +165,8 @@ const alle = behandling => ({
     oppsummering: oppsummering(behandling),
     originalSøknad: originalSøknad(behandling),
     utbetaling: utbetaling(behandling),
-    periode: periode(behandling)
+    periode: periode(behandling),
+    avklarteVerdier: avklarteVerdier(behandling)
 });
 
 const newestTom = objs => {

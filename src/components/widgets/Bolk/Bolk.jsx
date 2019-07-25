@@ -1,13 +1,19 @@
 import React from 'react';
 import Uenigboks from '../Uenigboks';
-import IkonHeader from '../IkonHeader';
+import BolkHeader from '../BolkHeader';
+import PropTypes from 'prop-types';
 import './Bolk.css';
 
-const Bolk = ({ title, items }) => {
+const Bolk = ({ title, titleValue, items, ikon }) => {
     return (
         <div className="bolk">
             <div className="vilkårskolonne">
-                <IkonHeader title={title} items={items} />
+                <BolkHeader
+                    title={title}
+                    titleValue={titleValue}
+                    items={items}
+                    ikon={ikon}
+                />
             </div>
             <Uenigboks label={title} />
         </div>
@@ -15,7 +21,8 @@ const Bolk = ({ title, items }) => {
 };
 
 Bolk.propTypes = {
-    ...IkonHeader.propTypes
+    ...BolkHeader.propTypes,
+    ikon: PropTypes.bool
 };
 
 export default Bolk;

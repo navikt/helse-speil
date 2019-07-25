@@ -21,6 +21,12 @@ Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette 
 npm start
 ```
 
+Dersom du er på mac OS og ønsker appen startet i Chrome:
+
+```
+npm start-mac
+```
+
 ### Backend som server både API og frontend som statiske filer
 
 Lag en .env-fil med følgende innhold i rotkatalogen:

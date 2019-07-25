@@ -4,17 +4,19 @@ import 'jest-dom/extend-expect';
 test('medlemskap', () => {
     const unmapped = { bostedsland: 'nor' };
     const mapped = Mapper.medlemskap(unmapped);
-    expect(mapped).toEqual([{
-        label: 'Bostedsland',
-        value: 'NOR'
-    }]);
+    expect(mapped).toEqual([
+        {
+            label: 'Bostedsland',
+            value: 'NOR'
+        }
+    ]);
 });
 
 test('opptjening', () => {
     const unmapped = {
         førsteSykdomsdag: '2019-05-09T00:00:00.000Z',
         antallDager: 768,
-        startdato: "2017-04-01T00:00:00.000Z"
+        startdato: '2017-04-01T00:00:00.000Z'
     };
 
     expect(Mapper.opptjening(unmapped)).toEqual([

@@ -14,6 +14,7 @@
         "tdd": "jest --watch",
         "pretest": "npm run test:eslint",
         "start": "NODE_ENV=development parcel src/index.html --open",
+        "start-mac": "NODE_ENV=development parcel src/index.html --open 'Google Chrome'",
         "start-express": "DEBUG=express:* node src/server/server.js --experimental-modules",
         "dev-express": "DEBUG=express:* NODE_ENV=development nodemon src/server/server.js --experimental-modules",
         "mock-s3": "docker-compose --file __mocks__/s3-docker-compose.yaml up",
