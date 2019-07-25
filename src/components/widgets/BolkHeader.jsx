@@ -2,9 +2,9 @@ import React from 'react';
 import Ikon from 'nav-frontend-ikoner-assets';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import './IkonHeader.css';
+import './BolkHeader.css';
 
-const IkonHeader = ({ title, titleValue, items, ikon }) => (
+const BolkHeader = ({ title, titleValue, items, ikon }) => (
     <div className="IkonHeader">
         {title && (
             <div className="IkonHeader__status">
@@ -12,8 +12,8 @@ const IkonHeader = ({ title, titleValue, items, ikon }) => (
                 <div
                     className={
                         titleValue
-                            ? 'IkonHeader--with-value'
-                            : 'IkonHeader--without-value'
+                            ? 'BolkHeader--with-value'
+                            : 'BolkHeader--without-value'
                     }
                 >
                     <Normaltekst>{title}</Normaltekst>
@@ -38,7 +38,11 @@ const IkonHeader = ({ title, titleValue, items, ikon }) => (
     </div>
 );
 
-IkonHeader.propTypes = {
+BolkHeader.defaultProps = {
+    ikon: true
+};
+
+BolkHeader.propTypes = {
     items: PropTypes.arrayOf(
         PropTypes.shape({
             label: PropTypes.string.isRequired,
@@ -46,8 +50,8 @@ IkonHeader.propTypes = {
         })
     ),
     title: PropTypes.string,
-    ikon: PropTypes.bool.isRequired,
+    ikon: PropTypes.bool,
     titleValue: PropTypes.string
 };
 
-export default IkonHeader;
+export default BolkHeader;
