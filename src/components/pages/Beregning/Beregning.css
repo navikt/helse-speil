@@ -1,12 +1,12 @@
-.Beregning .IkonHeader__item {
+.Beregning .BolkHeader__item {
     display: flex;
     justify-content: normal;
 }
 
-.Beregning .IkonHeader__item .typo-normal {
+.Beregning .BolkHeader__item .typo-normal {
     width: initial;
 }
 
-.Beregning .IkonHeader__item .typo-normal:first-child {
+.Beregning .BolkHeader__item .typo-normal:first-child {
     width: 76%;
 }

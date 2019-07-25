@@ -5,9 +5,9 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import './BolkHeader.css';
 
 const BolkHeader = ({ title, titleValue, items, ikon }) => (
-    <div className="IkonHeader">
+    <div className="BolkHeader">
         {title && (
-            <div className="IkonHeader__status">
+            <div className="BolkHeader__status">
                 {ikon && <Ikon kind="ok-sirkel-fyll" size={24} />}
                 <div
                     className={
@@ -17,16 +17,16 @@ const BolkHeader = ({ title, titleValue, items, ikon }) => (
                     }
                 >
                     <Normaltekst>{title}</Normaltekst>
-                    <span className="IkonHeader__line" />
+                    <span className="BolkHeader__line" />
                 </div>
                 {titleValue && <Element>{titleValue}</Element>}
             </div>
         )}
         {items && (
-            <div className={ikon ? 'IkonHeader__list' : ''}>
+            <div className={ikon ? 'BolkHeader__list' : ''}>
                 {items.map((item, i) => (
                     <span
-                        className="IkonHeader__item"
+                        className="BolkHeader__item"
                         key={`${item.label}${i}`}
                     >
                         <Normaltekst>{item.label}</Normaltekst>
