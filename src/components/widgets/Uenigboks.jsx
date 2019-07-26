@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, Input } from 'nav-frontend-skjema';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
@@ -14,17 +14,19 @@ Input.propTypes = {
 const Uenigboks = ({ label }) => {
     const id = label + decodeURIComponent(window.location.pathname);
     const innrapportering = useContext(InnrapporteringContext);
-
-    const uenighet = useMemo(
-        () => innrapportering.uenigheter.find(uenighet => uenighet.id === id),
-        [innrapportering.uenigheter]
-    );
-
-    const [checked, setChecked] = useState(uenighet !== undefined);
-    const [inputValue, setInputValue] = useState(
-        (uenighet && uenighet.value) || ''
-    );
+    const [checked, setChecked] = useState(false);
+    const [inputValue, setInputValue] = useState('');
     const ref = useFocusRef(checked && inputValue === '');
+
+    useEffect(() => {
+        const uenighet = innrapportering.uenigheter.find(
+            uenighet => uenighet.id === id
+        );
+        if (uenighet) {
+            setChecked(true);
+            setInputValue(uenighet.value || '');
+        }
+    }, [innrapportering.uenigheter]);
 
     useEffect(() => {
         innrapportering.updateUenighet(id, inputValue);
@@ -32,6 +34,7 @@ const Uenigboks = ({ label }) => {
 
     const onCheckboxChange = e => {
         setChecked(e.target.checked);
+        setInputValue('');
         if (e.target.checked) {
             innrapportering.addUenighet(id, label);
         } else {
