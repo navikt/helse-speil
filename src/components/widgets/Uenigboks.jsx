@@ -28,10 +28,6 @@ const Uenigboks = ({ label }) => {
         }
     }, [innrapportering.uenigheter]);
 
-    useEffect(() => {
-        innrapportering.updateUenighet(id, inputValue);
-    }, [inputValue]);
-
     const onCheckboxChange = e => {
         setChecked(e.target.checked);
         setInputValue('');
@@ -40,6 +36,11 @@ const Uenigboks = ({ label }) => {
         } else {
             innrapportering.removeUenighet(id);
         }
+    };
+
+    const onInputChange = e => {
+        setInputValue(e.target.value);
+        innrapportering.updateUenighet(id, e.target.value);
     };
 
     return (
@@ -55,7 +56,7 @@ const Uenigboks = ({ label }) => {
                 placeholder="Skriv inn årsak til uenighet"
                 inputRef={ref}
                 disabled={!checked}
-                onChange={e => setInputValue(e.target.value)}
+                onChange={onInputChange}
                 value={inputValue}
             />
         </div>
