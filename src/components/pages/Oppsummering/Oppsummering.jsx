@@ -8,7 +8,7 @@ import ListeItem from '../../widgets/ListeItem';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import Innrapportering from './Innrapportering';
-import './Oppsummering.css';
+import './Oppsummering.less';
 
 const Oppsummering = withBehandlingContext(({ behandling }) => (
     <div className="Oppsummering">

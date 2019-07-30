@@ -25,16 +25,26 @@
 .Oppsummering__right-col .panel {
     display: flex;
     flex-direction: column;
-}
 
-.Oppsummering__right-col .panel > .typo-normal:not(:last-child) {
-    margin-bottom: 0.5rem;
-}
+    > .typo-normal {
+        display: flex;
+        align-items: center;
 
-.Oppsummering__right-col .panel .typo-normal span {
-    font-style: italic;
-}
+        > * {
+            margin-left: 0.5rem;
+        }
+    }
 
-.Oppsummering__right-col .panel .knapp {
-    margin-top: 1rem;
+    > .typo-normal:not(:last-child) {
+        margin-bottom: 0.5rem;
+    }
+
+    .typo-normal span {
+        font-style: italic;
+    }
+
+    .knapp {
+        width: max-content;
+        margin-top: 1rem;
+    }
 }

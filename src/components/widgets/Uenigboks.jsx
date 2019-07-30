@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox, Input } from 'nav-frontend-skjema';
+import DynamicTextarea from './DynamicTextarea';
+import { Checkbox } from 'nav-frontend-skjema';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
-import './Uenigboks.css';
 import { useFocusRef } from '../../hooks/useFocusRef';
-
-// Override proptypes til Input for å kunne gi en ref som parameter til inputRef
-Input.propTypes = {
-    ...Input.propTypes,
-    inputRef: PropTypes.any
-};
+import './Uenigboks.css';
 
 const Uenigboks = ({ label }) => {
     const id = label + decodeURIComponent(window.location.pathname);
@@ -55,14 +50,14 @@ const Uenigboks = ({ label }) => {
                 checked={checked}
                 onChange={onCheckboxChange}
             />
-            <Input
-                className="Uenigboks__input"
-                label="Årsak"
+            <DynamicTextarea
+                name="Årsak"
+                className="Uenigboks__input skjemaelement skjemaelement__input"
                 placeholder="Skriv inn årsak til uenighet"
-                inputRef={ref}
                 disabled={!checked}
                 onChange={onInputChange}
                 value={inputValue}
+                ref={ref}
             />
         </div>
     );
