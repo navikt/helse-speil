@@ -26,13 +26,13 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
         })
             .then(() => {
                 setError(undefined);
+                innrapportering.setHasSendt(true);
             })
             .catch(() => {
                 setError('Feil ved innsending av rapport. Prøv igjen senere.');
             })
             .finally(() => {
                 setIsSending(false);
-                innrapportering.setHasSendt(true);
             });
     };
 
