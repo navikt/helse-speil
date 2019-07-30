@@ -1,0 +1,21 @@
+@sendtColor: #38a161;
+
+.Innrapportering.panel {
+  .knapp {
+    width: max-content;
+    display: flex;
+
+    &.sendt {
+      border-color: @sendtColor;
+      color: @sendtColor;
+    }
+
+    > svg {
+      margin-left: 0.5rem;
+    }
+
+    &.knapp--disabled {
+      background: #fff;
+    }
+  }
+}
