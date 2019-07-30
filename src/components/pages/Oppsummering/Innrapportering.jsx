@@ -48,23 +48,16 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                             {uenighet.label} - <span>{uenighet.value}</span>
                         </Normaltekst>
                     ))}
-                    <Knapp
-                        className={innrapportering.hasSendt ? 'sendt' : ''}
-                        onClick={
-                            innrapportering.hasSendt ? undefined : sendRapporter
-                        }
-                        spinner={isSending}
-                        disabled={innrapportering.hasSendt}
-                    >
-                        {innrapportering.hasSendt ? (
-                            <>
-                                Rapport mottatt
-                                <Icon kind="ok-sirkel-fyll" size={20} />
-                            </>
-                        ) : (
-                            <>Send inn</>
-                        )}
-                    </Knapp>
+                    {innrapportering.hasSendt ? (
+                        <Knapp className="sendt" disabled>
+                            Rapport mottatt
+                            <Icon kind="ok-sirkel-fyll" size={20} />
+                        </Knapp>
+                    ) : (
+                        <Knapp onClick={sendRapporter} spinner={isSending}>
+                            Send inn
+                        </Knapp>
+                    )}
                     {error && (
                         <Normaltekst className="skjemaelement__feilmelding">
                             {error}
