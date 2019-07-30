@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { withBehandlingContext } from './BehandlingerContext';
@@ -14,20 +14,24 @@ export const InnrapporteringProvider = withBehandlingContext(
             `uenigheter-${behandlingsId}`,
             []
         );
+        const [hasSendt, setHasSendt] = useState(false);
 
         const removeUenighet = id => {
+            setHasSendt(false);
             setUenigheter(uenigheter =>
                 uenigheter.filter(uenighet => uenighet.id !== id)
             );
         };
 
         const addUenighet = (id, label) => {
+            setHasSendt(false);
             if (!uenigheter.find(uenighet => uenighet.id === id)) {
                 setUenigheter(uenigheter => [...uenigheter, { id, label }]);
             }
         };
 
         const updateUenighet = (id, value) => {
+            setHasSendt(false);
             setUenigheter(uenigheter =>
                 uenigheter.map(uenighet =>
                     uenighet.id === id ? { ...uenighet, value } : uenighet
@@ -42,7 +46,9 @@ export const InnrapporteringProvider = withBehandlingContext(
                     setUenigheter,
                     removeUenighet,
                     addUenighet,
-                    updateUenighet
+                    updateUenighet,
+                    hasSendt,
+                    setHasSendt
                 }}
             >
                 {children}
