@@ -24,6 +24,7 @@ const Months = {
 const setMomentMonth = month => {
     moment.now = function() {
         const date = new Date();
+        date.setDate(1);
         date.setMonth(month);
         return date;
     };
