@@ -45,7 +45,8 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                 <>
                     {innrapportering.uenigheter.map((uenighet, i) => (
                         <Normaltekst key={`uenighet-${i}`}>
-                            {uenighet.label}: <span>{uenighet.value}</span>
+                            <span>{uenighet.label}:</span>
+                            <span>{uenighet.value}</span>
                         </Normaltekst>
                     ))}
                     {innrapportering.hasSendt ? (
