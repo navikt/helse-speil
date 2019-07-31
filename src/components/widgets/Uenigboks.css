@@ -1,19 +1,14 @@
 .Uenigboks {
     display: flex;
+    flex: 1;
     align-content: stretch;
-    align-items: center;
+    align-items: flex-start;
     padding: 0.3rem;
     width: 66%;
 }
 
-.Uenigboks__input {
+.Uenigboks .Uenigboks__input {
     flex: 1;
-}
-
-.Uenigboks__input input {
-    font-size: 1rem;
-    background-color: #fff;
-    color: #000;
 }
 
 .Uenigboks .skjemaelement {
@@ -24,10 +19,10 @@
     margin: 0;
 }
 
-.Uenigboks .skjemaelement:last-child {
-    margin-left: 1rem;
+.Uenigboks .skjemaelement:first-child {
+    margin-top: 0.5rem;
 }
 
-.Uenigboks__input label {
-    display: none;
+.Uenigboks .skjemaelement:last-child {
+    margin-left: 1rem;
 }

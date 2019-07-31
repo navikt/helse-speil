@@ -1,11 +1,38 @@
-@sendtColor: #38a161;
-
 .Innrapportering.panel {
+  display: flex;
+  flex-direction: column;
+
+  > .typo-normal {
+    display: flex;
+    align-items: flex-start;
+
+    > * {
+      margin-left: 0.5rem;
+    }
+  }
+
+  > .typo-normal:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+
+  .typo-normal span:first-child {
+    @width: 15rem;
+    min-width: @width;
+    max-width: @width;
+  }
+
+  .typo-normal span:last-child {
+    font-style: italic;
+    min-width: 15rem;
+  }
+
   .knapp {
     width: max-content;
     display: flex;
+    margin-top: 1rem;
 
     &.sendt {
+      @sendtColor: #38a161;
       border-color: @sendtColor;
       color: @sendtColor;
     }
