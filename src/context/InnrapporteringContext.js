@@ -10,11 +10,11 @@ export const InnrapporteringContext = createContext({
 export const InnrapporteringProvider = withBehandlingContext(
     ({ behandling, children }) => {
         const behandlingsId = behandling && behandling.behandlingsId;
+        const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
         const [uenigheter, setUenigheter] = useSessionStorage(
             `uenigheter-${behandlingsId}`,
             []
         );
-        const [hasSendt, setHasSendt] = useState(false);
 
         const removeUenighet = id => {
             setHasSendt(false);
