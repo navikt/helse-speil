@@ -40,7 +40,7 @@ const DynamicTextarea = ({
 
 DynamicTextarea.propTypes = {
     name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     placeholder: PropTypes.string,
     maxCharacters: PropTypes.number,
     disabled: PropTypes.bool,
@@ -48,6 +48,7 @@ DynamicTextarea.propTypes = {
 };
 
 DynamicTextarea.defaultProps = {
+    value: '',
     placeholder: '',
     maxCharacters: 2000,
     disabled: false
