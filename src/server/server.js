@@ -5,13 +5,11 @@ const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
-const { Issuer } = require('openid-client');
 const { generators } = require('openid-client');
-const { custom } = require('openid-client');
 
+const azure = require('./azure');
 const config = require('./config');
 const authsupport = require('./authsupport');
-const proxy = require('./proxy');
 const metrics = require('./metrics');
 const headers = require('./headers');
 const behandlinger = require('./behandlinger');
@@ -19,35 +17,6 @@ const feedback = require('./feedback');
 
 const app = express();
 const port = config.server.port;
-
-const proxyAgent = proxy.setup(Issuer, custom);
-
-let azureClient = null;
-Issuer.discover(config.oidc.identityMetadata)
-    .then(azure => {
-        console.log(`Discovered issuer ${azure.issuer}`);
-        azureClient = new azure.Client({
-            client_id: config.oidc.clientID,
-            client_secret: config.oidc.clientSecret,
-            redirect_uris: config.oidc.redirectUrl,
-            response_types: config.oidc.responseType
-        });
-
-        if (proxyAgent) {
-            azure[custom.http_options] = function(options) {
-                options.agent = proxyAgent;
-                return options;
-            };
-            azureClient[custom.http_options] = function(options) {
-                options.agent = proxyAgent;
-                return options;
-            };
-        }
-    })
-    .catch(err => {
-        console.log(`Failed to discover OIDC provider properties: ${err}`);
-        process.exit(1);
-    });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -57,6 +26,17 @@ app.use(compression());
 
 headers.setup(app);
 metrics.setup(app);
+
+let azureClient = null;
+azure
+    .setup(config.oidc)
+    .then(client => {
+        azureClient = client;
+    })
+    .catch(err => {
+        console.log(`Failed to discover OIDC provider properties: ${err}`);
+        process.exit(1);
+    });
 
 // Unprotected routes
 app.get('/isAlive', (req, res) => res.send('alive'));
@@ -75,35 +55,19 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/callback', (req, res) => {
-    const params = azureClient.callbackParams(req);
-    const nonce = req.session.nonce;
-    azureClient
-        .callback(config.oidc.redirectUrl, params, { nonce })
-        .then(tokenSet => {
-            const accessToken = tokenSet['access_token'];
-            const requiredGroup = config.oidc.requiredGroup;
-            if (
-                !accessToken ||
-                !authsupport.isMemberOf(requiredGroup, accessToken)
-            ) {
-                console.log(
-                    `'${authsupport.nameFrom(
-                        accessToken
-                    )}' is not member of '${requiredGroup}', denying access`
-                );
-                req.session.destroy();
-                res.sendStatus(403);
-            } else {
-                res.cookie('speil', `${tokenSet['id_token']}`, {
-                    secure: process.env.NODE_ENV !== 'development',
-                    sameSite: true
-                });
-                req.session.spadeToken = accessToken;
-                res.redirect('/');
-            }
+    authsupport
+        .validateOidcCallback(req, azureClient, config.oidc)
+        .then(tokens => {
+            const [accessToken, idToken] = tokens;
+            res.cookie('speil', `${idToken}`, {
+                secure: process.env.NODE_ENV !== 'development',
+                sameSite: true
+            });
+            req.session.spadeToken = accessToken;
+            res.redirect('/');
         })
         .catch(err => {
-            console.log(`error in oidc callback: ${err}`);
+            console.log(err);
             req.session.destroy();
             res.sendStatus(403);
         });

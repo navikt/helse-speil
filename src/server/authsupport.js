@@ -12,6 +12,33 @@ const stillValid = token => {
     }
 };
 
+const validateOidcCallback = (req, azureClient, config) => {
+    const params = azureClient.callbackParams(req);
+    const nonce = req.session.nonce;
+
+    return new Promise((resolve, reject) => {
+        azureClient
+            .callback(config.redirectUrl, params, { nonce })
+            .then(tokenSet => {
+                const accessToken = tokenSet['access_token'];
+                const idToken = tokenSet['id_token'];
+                const requiredGroup = config.requiredGroup;
+                if (accessToken && isMemberOf(requiredGroup, accessToken)) {
+                    resolve([accessToken, idToken]);
+                } else {
+                    reject(
+                        `'${nameFrom(
+                            idToken
+                        )}' is not member of '${requiredGroup}', denying access`
+                    );
+                }
+            })
+            .catch(err => {
+                reject(`error in oidc callback: ${err}`);
+            });
+    });
+};
+
 const isMemberOf = (group, token) => {
     const claims = claimsFrom(token);
     const groups = claims['groups'];
@@ -36,6 +63,7 @@ const nameFrom = token => {
 
 module.exports = {
     stillValid: stillValid,
+    validateOidcCallback: validateOidcCallback,
     isMemberOf: isMemberOf,
     nameFrom: nameFrom
 };
