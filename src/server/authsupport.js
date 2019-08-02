@@ -1,6 +1,10 @@
 'use strict';
 
 const stillValid = token => {
+    if (!token) {
+        return false;
+    }
+
     try {
         const claims = claimsFrom(token);
         const expirationTime = parseInt(claims['exp']);

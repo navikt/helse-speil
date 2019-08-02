@@ -29,8 +29,12 @@ test('invalid token has expiry in the past', async () => {
     expect(authsupport.stillValid(token)).toEqual(false);
 });
 
-test('missing token does not validate', async () => {
+test('null token does not validate', async () => {
     expect(authsupport.stillValid(null)).toEqual(false);
+});
+
+test('undefined token does not validate', async () => {
+    expect(authsupport.stillValid(undefined)).toEqual(false);
 });
 
 test('malformed token does not validate', async () => {
