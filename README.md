@@ -25,7 +25,7 @@ npm start
 Dersom du er på mac OS og ønsker appen startet i Chrome:
 
 ```
-npm start-mac
+npm run start-mac
 ```
 
 ### Backend som server både API og frontend som statiske filer
