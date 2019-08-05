@@ -28,21 +28,21 @@ const inngangsvilkår = behandling => {
         antallDager: behandling.avklarteVerdier.opptjeningstid.fastsattVerdi,
         // kun 1 arbeidsforhold i MVP
         startdato:
-            behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .grunnlag.length !== 0
-                ? toDate(
-                      behandling.avklarteVerdier.opptjeningstid.grunnlag
-                          .arbeidsforhold.grunnlag[0].startdato
-                  )
-                : null,
+            (behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
+                .grunnlag &&
+                toDate(
+                    behandling.avklarteVerdier.opptjeningstid.grunnlag
+                        .arbeidsforhold.grunnlag[0].startdato
+                )) ||
+            null,
         sluttdato:
-            behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .grunnlag.length !== 0
-                ? toDate(
-                      behandling.avklarteVerdier.opptjeningstid.grunnlag
-                          .arbeidsforhold.grunnlag[0].sluttdato
-                  )
-                : null
+            (behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
+                .grunnlag &&
+                toDate(
+                    behandling.avklarteVerdier.opptjeningstid.grunnlag
+                        .arbeidsforhold.grunnlag[0].sluttdato
+                )) ||
+            null
     };
 
     const inntekt = {

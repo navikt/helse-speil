@@ -33,6 +33,19 @@ test('opptjening', async () => {
     expect(opptjening).toEqual(expected);
 });
 
+test('opptjening grunnlag may be missing, startdato and sluttdato will be set to null', async () => {
+    let behandling = JSON.parse(readTestdata()).behandlinger[0];
+    behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold.grunnlag = undefined;
+    const opptjening = mapping.inngangsvilkår(behandling).opptjening;
+    const expected = {
+        førsteSykdomsdag: new Date(Date.parse('2019-05-09')),
+        antallDager: 768,
+        startdato: null,
+        sluttdato: null
+    };
+    expect(opptjening).toEqual(expected);
+});
+
 test('inntekt', async () => {
     const rawServerResponse = JSON.parse(readTestdata());
     const mapped = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
@@ -79,9 +92,7 @@ test('originalSøknad', async () => {
             orgnummer: '999999999'
         },
         aktorId: '12345678910112',
-        soknadsperioder: [
-            { sykmeldingsgrad: 100 }
-        ],
+        soknadsperioder: [{ sykmeldingsgrad: 100 }],
         fom: new Date('2019-05-09T00:00:00.000Z'),
         tom: new Date('2019-05-26T00:00:00.000Z')
     };
