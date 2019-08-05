@@ -21,7 +21,18 @@ const port = config.server.port;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(expressSession({ secret: config.server.sessionSecret }));
+app.use(
+    expressSession({
+        secret: config.server.sessionSecret,
+        cookie: {
+            path: '/',
+            httpOnly: true,
+            secure: 'development' !== process.env.NODE_ENV,
+            maxAge: 8 * 60 * 60 * 1000,
+            sameSite: true
+        }
+    })
+);
 app.use(compression());
 
 headers.setup(app);
