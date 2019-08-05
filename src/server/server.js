@@ -25,11 +25,8 @@ app.use(
     expressSession({
         secret: config.server.sessionSecret,
         cookie: {
-            path: '/',
             httpOnly: true,
-            secure: 'development' !== process.env.NODE_ENV,
-            maxAge: 8 * 60 * 60 * 1000,
-            sameSite: true
+            secure: 'development' !== process.env.NODE_ENV
         }
     })
 );
