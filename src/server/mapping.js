@@ -29,7 +29,7 @@ const inngangsvilkår = behandling => {
         // kun 1 arbeidsforhold i MVP
         startdato:
             behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .length !== 0
+                .grunnlag.length !== 0
                 ? toDate(
                       behandling.avklarteVerdier.opptjeningstid.grunnlag
                           .arbeidsforhold.grunnlag[0].startdato
@@ -37,7 +37,7 @@ const inngangsvilkår = behandling => {
                 : null,
         sluttdato:
             behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .length !== 0
+                .grunnlag.length !== 0
                 ? toDate(
                       behandling.avklarteVerdier.opptjeningstid.grunnlag
                           .arbeidsforhold.grunnlag[0].sluttdato
