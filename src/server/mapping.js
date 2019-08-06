@@ -8,7 +8,8 @@ const sykdomsvilkår = behandling => {
     const mindreEnnÅtteUkerSammenhengende = {
         førsteSykdomsdag: toDate(
             behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag
-        )
+        ),
+        sisteSykdomsdag: newestTom(behandling.originalSøknad.soknadsperioder)
     };
 
     return {

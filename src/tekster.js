@@ -23,6 +23,7 @@ bokmål['empty_state_message'] =
 bokmål.sykdomsvilkår['sykdomsvilkår_oppfylt'] = 'Sykdomsvilkår er oppfylt';
 bokmål.sykdomsvilkår['mindre_enn_8_uker'] = 'Mindre enn 8 uker sammenhengende';
 bokmål.sykdomsvilkår['første_sykdomsdag'] = 'Første sykdomsdag';
+bokmål.sykdomsvilkår['siste_sykdomsdag'] = 'Siste sykdomsdag';
 bokmål.sykdomsvilkår['ingen_yrkesskade'] = 'Ingen yrkesskade';
 
 bokmål.inngangsvilkår.tittel = 'Inngangsvilkår';
