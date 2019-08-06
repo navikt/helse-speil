@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, getByTestId } from 'react-testing-library';
+import { render, fireEvent, getByTestId } from '@testing-library/react';
 import { useSessionStorage } from '../../src/hooks/useSessionStorage';
 
 const Container = () => {
