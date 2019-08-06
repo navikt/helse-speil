@@ -47,8 +47,20 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                         <Normaltekst key={`uenighet-${i}`}>
                             <span>{uenighet.label}:</span>
                             <span>{uenighet.value}</span>
+                            {!uenighet.value && (
+                                <span className="skjemaelement__feilmelding">
+                                    Du må fylle ut årsak.
+                                </span>
+                            )}
                         </Normaltekst>
                     ))}
+                    {innrapportering.uenigheter.some(
+                        uenighet => !uenighet.value
+                    ) && (
+                        <Normaltekst className="skjemaelement__feilmelding">
+                            Felter uten oppgitt årsak blir ikke sendt inn.
+                        </Normaltekst>
+                    )}
                     {innrapportering.hasSendt ? (
                         <Knapp className="sendt" disabled>
                             Rapport mottatt
