@@ -30,6 +30,8 @@ const Uenigboks = ({ label }) => {
         if (uenighet) {
             setChecked(true);
             setInputValue(uenighet.value || '');
+        } else {
+            setError(undefined);
         }
     }, [uenighet]);
 
