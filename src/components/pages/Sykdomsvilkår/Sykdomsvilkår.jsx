@@ -15,11 +15,9 @@ const Sykdomsvilkår = withBehandlingContext(({ behandling }) => (
 
         <Bolk title={tekster('sykdomsvilkår_oppfylt')} />
 
-        <ListeSeparator type="dotted" />
+        <ListeSeparator />
 
-        <Normaltekst className="Deloverskrift">
-            {tekster('sykdomsrelaterte_betingelser')}
-        </Normaltekst>
+        <Undertittel>{tekster('sykdomsrelaterte_betingelser')}</Undertittel>
 
         <Bolk
             title={tekster('mindre_enn_8_uker')}
