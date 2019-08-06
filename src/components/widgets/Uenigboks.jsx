@@ -6,6 +6,8 @@ import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { useFocusRef } from '../../hooks/useFocusRef';
 import './Uenigboks.css';
 
+const errorMessage = 'Du må oppgi årsak';
+
 const Uenigboks = ({ label }) => {
     const id = label + decodeURIComponent(window.location.pathname);
     const innrapportering = useContext(InnrapporteringContext);
@@ -18,6 +20,9 @@ const Uenigboks = ({ label }) => {
     const [checked, setChecked] = useState(!!uenighet);
     const [inputValue, setInputValue] = useState(
         uenighet ? uenighet.value : ''
+    );
+    const [error, setError] = useState(
+        checked && (!inputValue || inputValue === '') ? errorMessage : undefined
     );
     const ref = useFocusRef(checked && inputValue === '');
 
@@ -43,6 +48,10 @@ const Uenigboks = ({ label }) => {
         innrapportering.updateUenighet(id, e.target.value);
     };
 
+    const onInputBlur = e => {
+        setError(e.target.value === '' ? errorMessage : undefined);
+    };
+
     return (
         <div className="Uenigboks">
             <Checkbox
@@ -56,6 +65,8 @@ const Uenigboks = ({ label }) => {
                 placeholder="Skriv inn årsak til uenighet"
                 disabled={!checked}
                 onChange={onInputChange}
+                onBlur={onInputBlur}
+                error={error}
                 value={inputValue}
                 ref={ref}
             />
