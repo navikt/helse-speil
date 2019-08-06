@@ -78,7 +78,7 @@
         "react-router-dom": "^5.0.1",
         "request": "^2.88.0",
         "reset-css": "^4.0.1",
-        "snyk": "^1.189.0",
+        "snyk": "^1.210.0",
         "tunnel": "0.0.6"
     },
     "devDependencies": {
