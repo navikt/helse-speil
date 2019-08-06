@@ -3,7 +3,7 @@ import './Sykdomsvilkår.css';
 import Bolk from '../../widgets/Bolk/Bolk';
 import ItemMapper from '../../../datamapping/sykdomsvilkårMapper';
 import { Panel } from 'nav-frontend-paneler';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Undertittel } from 'nav-frontend-typografi';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import { sykdomsvilkårtekster as tekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
