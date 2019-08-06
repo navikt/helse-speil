@@ -109,7 +109,7 @@
         "prettier": "^1.17.1",
         "react-hot-loader": "^4.8.8",
         "react-test-renderer": "^16.8.6",
-        "react-testing-library": "^7.0.1",
+        "react-testing-library": "^8.0.1",
         "rimraf": "^2.6.3",
         "whatwg-fetch": "^3.0.0"
     },
