@@ -98,32 +98,3 @@ test('originalSøknad', async () => {
     };
     expect(mapped).toEqual(expected);
 });
-
-test('newestTom', () => {
-    const behandling = {
-        avklarteVerdier: {
-            opptjeningstid: {
-                grunnlag: {
-                    førsteSykdomsdag: '2019-12-01'
-                }
-            }
-        },
-        originalSøknad: {
-            soknadsperioder: [
-                {
-                    tom: '2018-01-01'
-                },
-                {
-                    tom: '2019-12-12'
-                }
-            ]
-        }
-    };
-    const newestTom = mapping.sykdomsvilkår(behandling);
-    expect(newestTom).toEqual({
-        mindreEnnÅtteUkerSammenhengende: {
-            førsteSykdomsdag: new Date('2019-12-01T00:00:00.000Z'),
-            sisteSykdomsdag: new Date('2019-12-12T00:00:00.000Z')
-        }
-    });
-});

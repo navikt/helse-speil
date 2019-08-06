@@ -1,4 +1,4 @@
-const { daysBetween, toDate } = require('./datecalc');
+const { daysBetween, toDate, newestTom } = require('./datecalc');
 
 const antallDager = behandling =>
     behandling.vedtak.perioder.reduce(
@@ -23,6 +23,9 @@ const antallKalenderdager = behandling => {
     const tom = toDate(behandling.originalSøknad.tom);
     return daysBetween(fom, tom);
 };
+
+const sisteSykdomsdag = behandling =>
+    newestTom(behandling.originalSøknad.soknadsperioder);
 
 const sykepengegrunnlag = behandling => {
     const {
@@ -63,6 +66,7 @@ module.exports = {
     betalerArbeidsgiverperiode,
     dagsats,
     refusjonTilArbeidsgiver,
+    sisteSykdomsdag,
     sykepengegrunnlag,
     sykmeldingsgrad,
     utbetaling

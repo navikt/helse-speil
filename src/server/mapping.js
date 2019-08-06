@@ -9,7 +9,7 @@ const sykdomsvilkår = behandling => {
         førsteSykdomsdag: toDate(
             behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag
         ),
-        sisteSykdomsdag: newestTom(behandling.originalSøknad.soknadsperioder)
+        sisteSykdomsdag: selectors.sisteSykdomsdag(behandling)
     };
 
     return {
@@ -45,9 +45,7 @@ const inngangsvilkår = behandling => {
     };
 
     const sendtNav = toDate(behandling.originalSøknad.sendtNav);
-    const sisteSykdomsdag = newestTom(
-        behandling.originalSøknad.soknadsperioder
-    );
+    const sisteSykdomsdag = selectors.sisteSykdomsdag(behandling);
     const søknadsfrist = {
         sendtNav: sendtNav,
         sisteSykdomsdag: sisteSykdomsdag,
@@ -161,13 +159,6 @@ const alle = behandling => ({
     periode: periode(behandling),
     avklarteVerdier: avklarteVerdier(behandling)
 });
-
-const newestTom = objs => {
-    return objs.reduce((max, d) => {
-        const date = toDate(d.tom);
-        return date > max ? date : max;
-    }, toDate(objs[0].tom));
-};
 
 const capitalize = string =>
     string[0].toUpperCase() + string.toLowerCase().substring(1);
