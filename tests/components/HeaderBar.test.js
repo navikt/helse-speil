@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { render, cleanup } from 'react-testing-library';
+import { render, cleanup } from '@testing-library/react';
 import HeaderBar from '../../src/components/HeaderBar/HeaderBar';
 import 'jest-dom/extend-expect';
 import { AuthProvider } from '../../src/context/AuthContext';
