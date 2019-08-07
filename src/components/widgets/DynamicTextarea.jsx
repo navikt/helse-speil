@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Undertekst } from 'nav-frontend-typografi';
+import './DynamicTextarea.less';
 
 const lineHeight = 22;
 
@@ -10,6 +12,7 @@ const DynamicTextarea = ({
     maxCharacters,
     disabled,
     forwardedRef,
+    error,
     ...rest
 }) => {
     const [rows, setRows] = useState(1);
@@ -21,20 +24,27 @@ const DynamicTextarea = ({
     }, [value, forwardedRef]);
 
     return (
-        <textarea
-            name={name}
-            value={value}
-            placeholder={placeholder}
-            maxLength={maxCharacters}
-            disabled={disabled}
-            rows={rows}
-            ref={forwardedRef}
-            style={{
-                marginLeft: '0.5rem',
-                resize: disabled ? 'none' : ''
-            }}
-            {...rest}
-        />
+        <div className="DynamicTextarea">
+            <textarea
+                name={name}
+                value={value}
+                placeholder={placeholder}
+                maxLength={maxCharacters}
+                disabled={disabled}
+                rows={rows}
+                ref={forwardedRef}
+                style={{
+                    marginLeft: '0.5rem',
+                    resize: 'none'
+                }}
+                {...rest}
+            />
+            {error && (
+                <Undertekst className="skjemaelement__feilmelding">
+                    {error}
+                </Undertekst>
+            )}
+        </div>
     );
 };
 
@@ -44,7 +54,8 @@ DynamicTextarea.propTypes = {
     placeholder: PropTypes.string,
     maxCharacters: PropTypes.number,
     disabled: PropTypes.bool,
-    forwardedRef: PropTypes.any
+    forwardedRef: PropTypes.any,
+    error: PropTypes.string
 };
 
 DynamicTextarea.defaultProps = {
