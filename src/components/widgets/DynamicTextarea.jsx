@@ -13,6 +13,7 @@ const DynamicTextarea = ({
     disabled,
     forwardedRef,
     error,
+    className,
     ...rest
 }) => {
     const [rows, setRows] = useState(1);
@@ -26,6 +27,7 @@ const DynamicTextarea = ({
     return (
         <div className="DynamicTextarea">
             <textarea
+                className={`${className} ${error ? ' error' : ''}`}
                 name={name}
                 value={value}
                 placeholder={placeholder}
@@ -39,11 +41,13 @@ const DynamicTextarea = ({
                 }}
                 {...rest}
             />
-            {error && (
-                <Undertekst className="skjemaelement__feilmelding">
-                    {error}
-                </Undertekst>
-            )}
+            <div role="alert" aria-live="assertive">
+                {error && (
+                    <Undertekst className="skjemaelement__feilmelding">
+                        {error}
+                    </Undertekst>
+                )}
+            </div>
         </div>
     );
 };
@@ -51,15 +55,17 @@ const DynamicTextarea = ({
 DynamicTextarea.propTypes = {
     name: PropTypes.string.isRequired,
     value: PropTypes.string,
+    error: PropTypes.string,
+    className: PropTypes.string,
     placeholder: PropTypes.string,
     maxCharacters: PropTypes.number,
-    disabled: PropTypes.bool,
     forwardedRef: PropTypes.any,
-    error: PropTypes.string
+    disabled: PropTypes.bool
 };
 
 DynamicTextarea.defaultProps = {
     value: '',
+    className: '',
     placeholder: '',
     maxCharacters: 2000,
     disabled: false
