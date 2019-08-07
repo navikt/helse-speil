@@ -9,6 +9,7 @@ import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import ListeItem from '../../widgets/ListeItem';
 import { toKronerOgØre } from '../../../utils/locale';
+import { utbetalingstekster } from '../../../tekster';
 
 const Utbetaling = withBehandlingContext(({ behandling }) => {
     const {
@@ -21,41 +22,52 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
     } = behandling.utbetaling;
     return (
         <Panel className="Utbetaling" border>
-            <Undertittel className="panel-tittel">Utbetaling</Undertittel>
+            <Undertittel className="panel-tittel">
+                {utbetalingstekster('tittel')}
+            </Undertittel>
             <ListeItemBolk
-                label="Refusjon til arbeidsgiver"
+                label={utbetalingstekster('refusjon')}
                 value={refusjonTilArbeidsgiver ? 'Ja' : 'Nei'}
             />
             <ListeItemBolk
-                label="Betaler arb.giverperiode"
+                label={utbetalingstekster('betaler')}
                 value={betalerArbeidsgiverperiode ? 'Ja' : 'Nei'}
             />
 
             <ListeSeparator type="dotted" />
 
             <ListeItem
-                label="Sykepengegrunnlag"
+                label={utbetalingstekster('sykepengegrunnlag')}
                 value={toKronerOgØre(sykepengegrunnlag)}
             />
-            <ListeItem label="Dagsats" value={toKronerOgØre(dagsats)} />
+            <ListeItem
+                label={utbetalingstekster('dagsats')}
+                value={toKronerOgØre(dagsats)}
+            />
 
             <ListeSeparator type="dotted" />
 
-            <ListeItem label="Antall dager" value={antallDager} />
-            <ListeItem label="Sykmeldingsgrad" value={`${sykmeldingsgrad}%`} />
+            <ListeItem
+                label={utbetalingstekster('dager')}
+                value={antallDager}
+            />
+            <ListeItem
+                label={utbetalingstekster('sykmeldingsgrad')}
+                value={`${sykmeldingsgrad}%`}
+            />
 
             <ListeSeparator type="dotted" />
 
             <ListeItemBolk
-                label="Utbetaling"
+                label={utbetalingstekster('utbetaling')}
                 value={toKronerOgØre(antallDager * dagsats)}
             />
 
             <ListeSeparator type="solid" />
 
-            <Undertittel>Filter for MVP</Undertittel>
+            <Undertittel>Hva dekkes av løsningen nå</Undertittel>
             <ListeItemBolk
-                label="Arb.giver forskutterer"
+                label={utbetalingstekster('forskutterer')}
                 value={<Ikon kind="ok-sirkel-fyll" size={24} />}
             />
 

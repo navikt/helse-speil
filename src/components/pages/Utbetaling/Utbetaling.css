@@ -8,7 +8,7 @@
 }
 
 .Utbetaling .typo-undertittel:not(:first-child) {
-    margin-top: 3rem;
+    margin-top: 1.5rem;
 }
 
 .Utbetaling.panel .Navigasjonsknapper {

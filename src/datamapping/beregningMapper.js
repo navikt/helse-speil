@@ -1,14 +1,18 @@
 import { item } from './mappingUtils';
+import { beregningstekster } from '../tekster';
 
 const inntektsmelding = månedsinntekt => [
-    item('Månedsinntekt, inntektsmelding', `${månedsinntekt / 12} kr`),
-    item('Omregnet årsinntekt', `${månedsinntekt} kr`)
+    item(beregningstekster('månedsinntekt'), `${månedsinntekt / 12} kr`),
+    item(beregningstekster('årsinntekt'), `${månedsinntekt} kr`)
 ];
 
 const aordning = månedsinntekt => {
     return [
-        item('Beregningsperioden', `${(månedsinntekt / 12) * 3} kr`),
-        item('Sammenligningsgrunnlag', `${månedsinntekt} kr`)
+        item(
+            beregningstekster('beregningsperioden'),
+            `${(månedsinntekt / 12) * 3} kr`
+        ),
+        item(beregningstekster('sammenligningsgrunnlag'), `${månedsinntekt} kr`)
     ];
 };
 

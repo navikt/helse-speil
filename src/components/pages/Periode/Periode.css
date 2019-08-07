@@ -1,0 +1,3 @@
+.Periode .typo-undertittel:not(:first-child) {
+    margin-top: 1.5rem;
+}

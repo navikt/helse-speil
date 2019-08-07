@@ -6,6 +6,8 @@ import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
+import './Periode.css';
+import { periodetekster, tekster } from '../../../tekster';
 
 const Periode = withBehandlingContext(({ behandling }) => {
     const {
@@ -18,37 +20,45 @@ const Periode = withBehandlingContext(({ behandling }) => {
     } = behandling.periode;
 
     return (
-        <Panel border>
-            <Undertittel className="panel-tittel">Sykepengeperiode</Undertittel>
+        <Panel className="Periode" border>
+            <Undertittel className="panel-tittel">
+                {periodetekster('tittel')}
+            </Undertittel>
             <ListeItemBolk
-                label="Antall kalenderdager"
+                label={periodetekster('kalenderdager')}
                 value={antallKalenderdager}
             />
             <ListeItemBolk
-                label="Arb.giverperiode, kalenderdager"
+                label={periodetekster('arbeidsgiverperiode')}
                 value={arbeidsgiverperiodeKalenderdager}
             />
             <ListeSeparator type="dotted" />
-            <ListeItemBolk label="Antall virkedager" value={antallVirkedager} />
             <ListeItemBolk
-                label="Ferie"
+                label={periodetekster('virkedager')}
+                value={antallVirkedager}
+            />
+            <ListeItemBolk
+                label={periodetekster('ferie')}
                 value={antallFeriedager ? antallFeriedager : '-'}
             />
             <ListeSeparator type="dotted" />
-            <ListeItemBolk label="Antall dager" value={antallDager} />
+            <ListeItemBolk
+                label={periodetekster('dager')}
+                value={antallDager}
+            />
             <ListeSeparator type="dotted" />
             <ListeItemBolk
-                label="Sykmeldingsgrad"
+                label={periodetekster('sykmeldingsgrad')}
                 value={`${sykmeldingsgrad}%`}
             />
             <ListeSeparator />
-            <Undertittel>Filter for MVP</Undertittel>
+            <Undertittel>{tekster('mvp')}</Undertittel>
             <ListeItemBolk
-                label="Ingen friskmelding"
+                label={periodetekster('friskmelding')}
                 value={<Ikon kind="ok-sirkel-fyll" size={24} />}
             />
             <ListeItemBolk
-                label="Ingen gradering"
+                label={periodetekster('gradering')}
                 value={<Ikon kind="ok-sirkel-fyll" size={24} />}
             />
             <Navigasjonsknapper previous="/beregning" next="/utbetaling" />

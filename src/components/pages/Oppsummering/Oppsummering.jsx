@@ -9,33 +9,34 @@ import ListeSeparator from '../../widgets/ListeSeparator';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import Innrapportering from './Innrapportering';
 import './Oppsummering.less';
+import { oppsummeringstekster } from '../../../tekster';
 
 const Oppsummering = withBehandlingContext(({ behandling }) => (
     <div className="Oppsummering">
         <Panel border>
-            <Undertittel>Oppsummering</Undertittel>
+            <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
             <ListeItem
-                label="Sykdomsvilkår er oppfylt"
+                label={oppsummeringstekster('sykdomsvilkår')}
                 value={behandling.oppsummering.sykdomsvilkårErOppfylt}
             />
             <ListeSeparator type="dotted" />
             <ListeItem
-                label="Inngangsvilkår er oppfylt"
+                label={oppsummeringstekster('inngangsvilkår')}
                 value={behandling.oppsummering.inngangsvilkårErOppfylt}
             />
             <ListeSeparator type="dotted" />
             <ListeItem
-                label="Arbeidsgiver"
+                label={oppsummeringstekster('arbeidsgiver')}
                 value={behandling.oppsummering.arbeidsgiver.navn}
                 bold
             />
             <ListeItem
-                label="Organisasjonsnummer"
+                label={oppsummeringstekster('orgnr')}
                 value={behandling.oppsummering.arbeidsgiver.orgnummer}
                 bold
             />
             <ListeItem
-                label="Refusjon til arbeidsgiver"
+                label={oppsummeringstekster('refusjon')}
                 value={
                     behandling.oppsummering.refusjonTilArbeidsgiver
                         ? 'Ja'
@@ -44,50 +45,50 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
                 bold
             />
             <ListeItem
-                label="Betaler arb.giverperiode"
+                label={oppsummeringstekster('betaler')}
                 value={behandling.oppsummering.betalerArbeidsgiverPeriode}
             />
             <ListeItem
-                label="Fordeling"
+                label={oppsummeringstekster('fordeling')}
                 value={`${behandling.oppsummering.fordeling}%`}
             />
             <ListeSeparator type="dotted" />
             <ListeItem
-                label="Sykepengegrunnlag"
+                label={oppsummeringstekster('sykepengegrunnlag')}
                 value={toKronerOgØre(behandling.oppsummering.sykepengegrunnlag)}
             />
             <ListeItem
-                label="Månedsbeløp"
+                label={oppsummeringstekster('månedsbeløp')}
                 value={toKronerOgØre(behandling.oppsummering.månedsbeløp)}
                 bold
             />
             <ListeItem
-                label="Dagsats"
+                label={oppsummeringstekster('dagsats')}
                 value={toKronerOgØre(behandling.oppsummering.dagsats)}
             />
             <ListeSeparator type="dotted" />
             <ListeItem
-                label="Antall dager"
+                label={oppsummeringstekster('dager')}
                 value={behandling.oppsummering.antallDager}
             />
             <ListeItem
-                label="Sykmeldt fra og med"
+                label={oppsummeringstekster('fom')}
                 value={toDate(behandling.oppsummering.sykmeldtFraOgMed)}
                 bold
             />
             <ListeItem
-                label="Sykmeldt til og med"
+                label={oppsummeringstekster('tom')}
                 value={toDate(behandling.oppsummering.sykmeldtTilOgMed)}
                 bold
             />
             <ListeItem
-                label="Sykmeldingsgrad"
+                label={oppsummeringstekster('sykmeldingsgrad')}
                 value={`${behandling.oppsummering.sykmeldingsgrad}%`}
                 bold
             />
             <ListeSeparator type="dotted" />
             <ListeItem
-                label="Utbetaling"
+                label={oppsummeringstekster('utbetaling')}
                 value={`${toKronerOgØre(behandling.oppsummering.utbetaling)}`}
             />
             <ListeSeparator type="solid" />
