@@ -95,7 +95,7 @@
         "babel-jest": "^24.8.0",
         "deasync": "^0.1.15",
         "eslint": "^5.16.0",
-        "eslint-config-prettier": "^4.3.0",
+        "eslint-config-prettier": "^6.0.0",
         "eslint-config-standard-jsx": "^6.0.2",
         "eslint-plugin-react": "^7.14.3",
         "fetch-intercept": "^2.3.1",
