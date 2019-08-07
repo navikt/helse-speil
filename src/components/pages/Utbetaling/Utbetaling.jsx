@@ -9,7 +9,7 @@ import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import ListeItem from '../../widgets/ListeItem';
 import { toKronerOgØre } from '../../../utils/locale';
-import { utbetalingstekster } from '../../../tekster';
+import { tekster, utbetalingstekster } from '../../../tekster';
 
 const Utbetaling = withBehandlingContext(({ behandling }) => {
     const {
@@ -65,7 +65,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
 
             <ListeSeparator type="solid" />
 
-            <Undertittel>Hva dekkes av løsningen nå</Undertittel>
+            <Undertittel>{tekster('mvp')}</Undertittel>
             <ListeItemBolk
                 label={utbetalingstekster('forskutterer')}
                 value={<Ikon kind="ok-sirkel-fyll" size={24} />}
