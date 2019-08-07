@@ -7,6 +7,10 @@
     width: 66%;
 }
 
+.Uenigboks .skjemaelement.skjemaelement--horisontal {
+    margin: 0.5rem 0;
+}
+
 .Uenigboks .skjemaelement__label {
     margin: 0 0.5rem 0 0;
 }
