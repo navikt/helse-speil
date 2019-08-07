@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, getByTestId } from '@testing-library/react';
-import { useSessionStorage } from '../../src/hooks/useSessionStorage';
+import { useSessionStorage } from './useSessionStorage';
 
 const Container = () => {
     const [state, setState] = useSessionStorage('test', 0);

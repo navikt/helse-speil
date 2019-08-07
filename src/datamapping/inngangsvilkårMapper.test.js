@@ -1,4 +1,4 @@
-import Mapper from '../../src/datamapping/inngangsvilkårMapper';
+import Mapper from './inngangsvilkårMapper';
 import 'jest-dom/extend-expect';
 
 test('medlemskap', () => {

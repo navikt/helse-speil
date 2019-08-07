@@ -1,6 +1,6 @@
 'use strict';
 
-const storage = require('../../src/server/storage');
+const storage = require('./storage');
 const port = 9001;
 
 const ServerMock = require('mock-http-server');

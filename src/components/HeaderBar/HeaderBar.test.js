@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
-import HeaderBar from '../../src/components/HeaderBar/HeaderBar';
+import HeaderBar from './HeaderBar';
 import 'jest-dom/extend-expect';
-import { AuthProvider } from '../../src/context/AuthContext';
+import { AuthProvider } from '../../context/AuthContext';
 
 const clgOrig = console.log;
 
@@ -15,8 +15,8 @@ beforeAll(() => {
     console.log = jest.fn();
 });
 
-jest.mock('../../src/components/widgets/modal/ErrorModal', () => () => <div />);
-jest.mock('../../src/components/Search/Search', () => () => <div />);
+jest.mock('../widgets/modal/ErrorModal', () => () => <div />);
+jest.mock('../Search/Search', () => () => <div />);
 
 afterAll(() => {
     console.log = clgOrig;

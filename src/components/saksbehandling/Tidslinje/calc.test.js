@@ -1,9 +1,4 @@
-import {
-    daysBetween,
-    extractDates,
-    toMoments,
-    yearsBetween
-} from '../../../../src/components/saksbehandling/Tidslinje/calc';
+import { daysBetween, extractDates, toMoments, yearsBetween } from './calc';
 import moment from 'moment';
 
 moment.suppressDeprecationWarnings = true;

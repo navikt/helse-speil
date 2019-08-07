@@ -1,4 +1,4 @@
-import { behandlingerFor } from '../../src/io/http';
+import { behandlingerFor } from './http';
 import 'jest-dom/extend-expect';
 
 afterEach(() => {

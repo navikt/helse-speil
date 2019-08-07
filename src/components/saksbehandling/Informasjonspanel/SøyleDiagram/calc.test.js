@@ -3,7 +3,7 @@ import {
     calculateYearPinPosition,
     incomeToHeight,
     lastTwelveMonths
-} from '../../../../../src/components/saksbehandling/Informasjonspanel/SøyleDiagram/calc';
+} from './calc';
 import moment from 'moment';
 
 const Months = {
