@@ -7,6 +7,7 @@ import { Panel } from 'nav-frontend-paneler';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { putFeedback } from '../../../io/http';
 import './Innrapportering.less';
+import { oppsummeringstekster } from '../../../tekster';
 
 const Innrapportering = withBehandlingContext(({ behandling }) => {
     const innrapportering = useContext(InnrapporteringContext);
@@ -42,9 +43,11 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
 
     return (
         <Panel className="Innrapportering" border>
-            <Undertittel>Innrapportert</Undertittel>
+            <Undertittel>{oppsummeringstekster('innrapportert')}</Undertittel>
             {innrapportering.uenigheter.length === 0 ? (
-                <Normaltekst>Ingen uenigheter</Normaltekst>
+                <Normaltekst>
+                    {oppsummeringstekster('ingen_uenigheter')}
+                </Normaltekst>
             ) : (
                 <>
                     {innrapportering.uenigheter.map((uenighet, i) => (
@@ -53,7 +56,7 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                             <span>{uenighet.value}</span>
                             {!uenighet.value && (
                                 <span className="skjemaelement__feilmelding">
-                                    Du må fylle ut årsak.
+                                    {oppsummeringstekster('oppgi_årsak')}
                                 </span>
                             )}
                         </Normaltekst>
@@ -62,7 +65,7 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                         uenighet => !uenighet.value
                     ) && (
                         <Normaltekst className="skjemaelement__feilmelding">
-                            Felter uten oppgitt årsak blir ikke sendt inn.
+                            {oppsummeringstekster('felter_uten_årsak')}
                         </Normaltekst>
                     )}
                     {innrapportering.hasSendt ? (
