@@ -5,7 +5,7 @@ export const useFocusRef = predicate => {
 
     useEffect(() => {
         if (predicate) {
-            ref.current && ref.current.focus();
+            ref.current?.focus();
         }
     }, [predicate]);
 

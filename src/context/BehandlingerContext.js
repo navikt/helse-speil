@@ -8,10 +8,7 @@ export const BehandlingerContext = createContext();
 export const withBehandlingContext = Component => {
     return props => {
         const behandlingerCtx = useContext(BehandlingerContext);
-        const behandling =
-            behandlingerCtx.state &&
-            behandlingerCtx.state.behandlinger &&
-            behandlingerCtx.state.behandlinger[0];
+        const behandling = behandlingerCtx.state?.behandlinger?.[0];
 
         return <Component behandling={behandling} {...props} />;
     };
