@@ -24,3 +24,10 @@ exports.server = {
     port: 3000,
     sessionSecret: process.env.SESSION_SECRET
 };
+
+exports.nav = {
+    serviceUserName: process.env.SERVICE_USER_NAME,
+    serviceUserPassword: process.env.SERVICE_USER_PASSWORD,
+    stsUrl:
+        process.env.STS_URL || 'http://security-token-service.svc.nais.local'
+};

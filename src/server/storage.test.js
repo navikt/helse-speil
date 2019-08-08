@@ -13,7 +13,7 @@ beforeAll(done => {
         setupServer();
         storage
             .init(`localhost:${port}`, 'anAccessKeyId', 'aSecretAccessKey')
-            .then(result => {
+            .then(() => {
                 done();
             })
             .catch(err => {
