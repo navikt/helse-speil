@@ -12,8 +12,10 @@ const config = require('./config');
 const authsupport = require('./authsupport');
 const metrics = require('./metrics');
 const headers = require('./headers');
-const behandlinger = require('./behandlinger');
-const feedback = require('./feedback');
+
+const behandlinger = require('./behandlingerroutes');
+const feedback = require('./feedbackroutes');
+const person = require('./personroutes');
 
 const app = express();
 const port = config.server.port;
@@ -110,6 +112,8 @@ feedback
             `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback are not available.`
         );
     });
+
+person.setup(app, config.nav);
 
 app.get('/', (_, res) => {
     res.redirect('/static');
