@@ -16,7 +16,7 @@ const hentPerson = async aktørId => {
         logonToNav()
             .then(jwt => {
                 request.get(
-                    `http://sparkel.svc.nais.local/api/person/${aktørId}`,
+                    `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
                     {
                         headers: {
                             Authorization: `Bearer: ${jwt}`
