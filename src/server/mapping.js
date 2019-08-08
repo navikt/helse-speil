@@ -2,13 +2,13 @@
 
 const selectors = require('./selectors');
 
-const { isWithin3Months, toDate } = require('./datecalc');
+const { isWithin3Months } = require('./datecalc');
 
 const sykdomsvilkår = behandling => {
     const mindreEnnÅtteUkerSammenhengende = {
-        førsteSykdomsdag: toDate(
-            behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag
-        )
+        førsteSykdomsdag:
+            behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag,
+        sisteSykdomsdag: selectors.sisteSykdomsdag(behandling)
     };
 
     return {
@@ -22,19 +22,16 @@ const inngangsvilkår = behandling => {
     };
 
     const opptjening = {
-        førsteSykdomsdag: toDate(
-            behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag
-        ),
+        førsteSykdomsdag:
+            behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag,
         antallDager: behandling.avklarteVerdier.opptjeningstid.fastsattVerdi,
         // kun 1 arbeidsforhold i MVP
-        startdato: toDate(
+        startdato:
             behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .grunnlag?.[0].startdato
-        ),
-        sluttdato: toDate(
+                .grunnlag?.[0].startdato,
+        sluttdato:
             behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
                 .grunnlag?.[0].sluttdato
-        )
     };
 
     const inntekt = {
@@ -43,10 +40,8 @@ const inngangsvilkår = behandling => {
                 .sykepengegrunnlagNårTrygdenYter.fastsattVerdi
     };
 
-    const sendtNav = toDate(behandling.originalSøknad.sendtNav);
-    const sisteSykdomsdag = newestTom(
-        behandling.originalSøknad.soknadsperioder
-    );
+    const sendtNav = behandling.originalSøknad.sendtNav;
+    const sisteSykdomsdag = selectors.sisteSykdomsdag(behandling);
     const søknadsfrist = {
         sendtNav: sendtNav,
         sisteSykdomsdag: sisteSykdomsdag,
@@ -54,15 +49,13 @@ const inngangsvilkår = behandling => {
     };
 
     const dagerIgjen = {
-        førsteFraværsdag: toDate(
-            behandling.avklarteVerdier.maksdato.grunnlag.førsteFraværsdag
-        ),
-        førsteSykepengedag: toDate(
-            behandling.avklarteVerdier.maksdato.grunnlag.førsteSykepengedag
-        ),
+        førsteFraværsdag:
+            behandling.avklarteVerdier.maksdato.grunnlag.førsteFraværsdag,
+        førsteSykepengedag:
+            behandling.avklarteVerdier.maksdato.grunnlag.førsteSykepengedag,
         alder: behandling.avklarteVerdier.maksdato.grunnlag.personensAlder,
         yrkesstatus: behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus,
-        maxDato: toDate(behandling.avklarteVerdier.maksdato.fastsattVerdi),
+        maxDato: behandling.avklarteVerdier.maksdato.fastsattVerdi,
         tidligerePerioder:
             behandling.avklarteVerdier.maksdato.grunnlag.tidligerePerioder
     };
@@ -79,8 +72,8 @@ const inngangsvilkår = behandling => {
 const oppsummering = (behandling, periode = 0) => {
     const arbeidsgiver = behandling.originalSøknad.arbeidsgiver;
     const fordelinger = behandling.vedtak.perioder[periode].fordeling;
-    const sykmeldtFraOgMed = toDate(behandling.originalSøknad.fom);
-    const sykmeldtTilOgMed = toDate(behandling.originalSøknad.tom);
+    const sykmeldtFraOgMed = behandling.originalSøknad.fom;
+    const sykmeldtTilOgMed = behandling.originalSøknad.tom;
     const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
 
     const arbeidsgiverFordeling = fordelinger.find(
@@ -116,8 +109,8 @@ const originalSøknad = behandling => ({
     soknadsperioder: behandling.originalSøknad.soknadsperioder.map(periode => ({
         sykmeldingsgrad: periode.sykmeldingsgrad
     })),
-    fom: toDate(behandling.originalSøknad.fom),
-    tom: toDate(behandling.originalSøknad.tom)
+    fom: behandling.originalSøknad.fom,
+    tom: behandling.originalSøknad.tom
 });
 
 const utbetaling = behandling => {
@@ -160,13 +153,6 @@ const alle = behandling => ({
     periode: periode(behandling),
     avklarteVerdier: avklarteVerdier(behandling)
 });
-
-const newestTom = objs => {
-    return objs.reduce((max, d) => {
-        const date = toDate(d.tom);
-        return date > max ? date : max;
-    }, toDate(objs[0].tom));
-};
 
 const capitalize = string =>
     string[0].toUpperCase() + string.toLowerCase().substring(1);

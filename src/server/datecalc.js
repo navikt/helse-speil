@@ -21,8 +21,17 @@ const toDate = dateString => {
     return dateString ? new Date(dateString) : null;
 };
 
+const newestTom = objs => newestDate(objs.map(obj => obj.tom));
+
+const newestDate = objs => {
+    return objs.reduce((max, date) => {
+        return toDate(date) > toDate(max) ? date : max;
+    }, objs[0]);
+};
+
 module.exports = {
     isWithin3Months,
     daysBetween,
-    toDate
+    toDate,
+    newestTom
 };
