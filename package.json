@@ -19,7 +19,7 @@
         "dev-express": "npm run build-server && DEBUG=express:* NODE_ENV=development nodemon dist/server/server.js --experimental-modules",
         "mock-s3": "docker-compose --file __mocks__/s3-docker-compose.yaml up",
         "build": "npm run test && npm run clean:dist && parcel build src/index.html --public-url ./ --no-source-maps",
-        "build-server": "babel src/server --out-dir dist/server",
+        "build-server": "$(npm bin)/babel src/server --out-dir dist/server",
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"src/**/*.{jsx,js,css}\"",
         "snyk-protect": "snyk protect",
