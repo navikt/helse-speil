@@ -24,10 +24,9 @@ const toDate = dateString => {
 const newestTom = objs => newestDate(objs.map(obj => obj.tom));
 
 const newestDate = objs => {
-    return objs.reduce((max, d) => {
-        const date = toDate(d);
-        return date > max ? date : max;
-    }, toDate(objs[0]));
+    return objs.reduce((max, date) => {
+        return toDate(date) > toDate(max) ? date : max;
+    }, objs[0]);
 };
 
 module.exports = {

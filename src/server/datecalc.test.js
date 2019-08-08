@@ -30,5 +30,5 @@ test('newestTom', () => {
         }
     ];
     const mapped = datecalc.newestTom(data);
-    expect(mapped).toEqual(new Date('2019-12-12T00:00:00.000Z'));
+    expect(mapped).toEqual('2019-12-12');
 });
