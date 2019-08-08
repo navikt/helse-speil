@@ -1,6 +1,6 @@
 import { cleanup } from '@testing-library/react';
 
-const authsupport = require('../../src/server/authsupport');
+const authsupport = require('./authsupport');
 
 const clgOrig = console.log;
 
