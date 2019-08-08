@@ -1,6 +1,6 @@
 'use strict';
 
-jest.mock('request');
+const request = require('request');
 
 const personLookup = require('../../src/server/personlookup');
 
@@ -13,12 +13,12 @@ beforeEach(() => {
 });
 
 test('successful person lookup resolves with person object', () => {
-    require('request').setStsStatusCode(200);
-    require('request').setStsResponseBody({
+    request.setStsStatusCode(200);
+    request.setStsResponseBody({
         access_token: 'some_token'
     });
-    require('request').setPersonStatusCode(200);
-    require('request').setPersonResponseBody({ navn: 'Navn Navnesen' });
+    request.setPersonStatusCode(200);
+    request.setPersonResponseBody({ navn: 'Navn Navnesen' });
 
     expect(personLookup.hentPerson('12345')).resolves.toEqual({
         navn: 'Navn Navnesen'
@@ -26,7 +26,7 @@ test('successful person lookup resolves with person object', () => {
 });
 
 test('logon failure -> rejection', () => {
-    require('request').setStsStatusCode(500);
+    request.setStsStatusCode(500);
 
     expect(personLookup.hentPerson('12345')).rejects.toMatch(
         'Error during STS login'
@@ -34,11 +34,11 @@ test('logon failure -> rejection', () => {
 });
 
 test('lookup failure -> rejection', () => {
-    require('request').setStsStatusCode(200);
-    require('request').setStsResponseBody({
+    request.setStsStatusCode(200);
+    request.setStsResponseBody({
         access_token: 'some_token'
     });
-    require('request').setPersonStatusCode(500);
+    request.setPersonStatusCode(500);
 
     expect(personLookup.hentPerson('12345')).rejects.toMatch(
         'Error during person lookup'
