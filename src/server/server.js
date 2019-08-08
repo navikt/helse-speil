@@ -77,7 +77,7 @@ app.post('/callback', (req, res) => {
 app.use('/*', (req, res, next) => {
     if (
         process.env.NODE_ENV === 'development' ||
-        authsupport.stillValid(req.session.spadeToken)
+        authsupport.isValidNow(req.session.spadeToken)
     ) {
         next();
     } else {

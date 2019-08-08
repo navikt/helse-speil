@@ -1,6 +1,10 @@
 'use strict';
 
-const stillValid = token => {
+const isValidNow = token => {
+    return isValidAt(token, Math.floor(Date.now()) / 1000);
+};
+
+const isValidAt = (token, timeInSeconds) => {
     if (!token) {
         return false;
     }
@@ -8,12 +12,17 @@ const stillValid = token => {
     try {
         const claims = claimsFrom(token);
         const expirationTime = parseInt(claims['exp']);
-        const nowInSeconds = Math.floor(Date.now() / 1000);
-        return expirationTime >= nowInSeconds;
+        return expirationTime >= timeInSeconds;
     } catch (err) {
         console.log(`error while checking token validity: ${err}`);
         return false;
     }
+};
+
+const willExpireInLessThan = (seconds, token) => {
+    const timeToTest = Math.floor(Date.now() / 1000) + seconds;
+    const expirationTime = parseInt(claimsFrom(token)['exp']);
+    return timeToTest > expirationTime;
 };
 
 const validateOidcCallback = (req, azureClient, config) => {
@@ -66,7 +75,9 @@ const nameFrom = token => {
 };
 
 module.exports = {
-    stillValid: stillValid,
+    isValidAt: isValidAt,
+    isValidNow: isValidNow,
+    willExpireInLessThan: willExpireInLessThan,
     validateOidcCallback: validateOidcCallback,
     isMemberOf: isMemberOf,
     nameFrom: nameFrom
