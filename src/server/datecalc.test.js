@@ -1,6 +1,6 @@
 'use strict';
 
-const datecalc = require('../../src/server/datecalc');
+const datecalc = require('./datecalc');
 
 test('daysBeforeIsOk', async () => {
     const oldest = new Date('2019-06-19T17:19:05.700');

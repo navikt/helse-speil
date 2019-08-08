@@ -4,7 +4,7 @@ import 'jest-dom/extend-expect';
 
 const fs = require('fs');
 
-const mapping = require('../../src/server/mapping');
+const mapping = require('./mapping');
 
 const readTestdata = () => {
     return fs.readFileSync('__mock-data__/behandlinger.json').toString();

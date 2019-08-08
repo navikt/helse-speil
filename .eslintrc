@@ -19,6 +19,7 @@
    "overrides": [
       {
          "files": ["src/server/**/*.js"],
+         "excludedFiles": "*.test.js",
          "env": {
             "node": true,
             "browser": false

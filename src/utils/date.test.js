@@ -1,5 +1,5 @@
 import 'jest-dom/extend-expect';
-import { daysBetween, toDate } from '../../src/utils/date';
+import { daysBetween, toDate } from './date';
 
 test('toDate', () => {
     expect(toDate('notadate')).toEqual('Invalid date');

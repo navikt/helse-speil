@@ -1,4 +1,4 @@
-import { tekster, inngangsvilkårtekster } from '../src/tekster';
+import { tekster, inngangsvilkårtekster } from './tekster';
 
 test('kan slå opp "globale" tekster', () => {
     expect(tekster('neste')).toEqual('Neste');
