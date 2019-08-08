@@ -63,9 +63,9 @@ const logonToNav = async () => {
                 (error, response, body) => {
                     if (error || response.statusCode !== 200) {
                         reject(
-                            `Error during STS login, got ${
-                                response.statusCode
-                            } ${error || 'unknown error'}`
+                            `Error during STS login, got ${response?.statusCode ||
+                                'unknown status code'}: ${error ||
+                                'unknown error'}`
                         );
                     } else {
                         cachedAccessToken = body.access_token;
