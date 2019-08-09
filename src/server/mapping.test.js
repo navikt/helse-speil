@@ -1,6 +1,6 @@
 'use strict';
 
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 
 const fs = require('fs');
 

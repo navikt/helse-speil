@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import HeaderBar from './HeaderBar';
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 import { AuthProvider } from '../../context/AuthContext';
 
 const clgOrig = console.log;

@@ -1,5 +1,5 @@
 import { behandlingerFor } from './http';
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 
 afterEach(() => {
     global.fetch = undefined;

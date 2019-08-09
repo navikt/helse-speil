@@ -1,5 +1,5 @@
 import Mapper from './inngangsvilkårMapper';
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 
 test('medlemskap', () => {
     const unmapped = { bostedsland: 'nor' };
