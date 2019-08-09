@@ -19,14 +19,10 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
         putFeedback({
             id: behandling.behandlingsId,
             txt: JSON.stringify(
-                innrapportering.uenigheter
-                    .filter(
-                        uenighet => uenighet.value && uenighet.value.length > 0
-                    )
-                    .map(uenighet => ({
-                        label: uenighet.label,
-                        value: uenighet.value
-                    }))
+                innrapportering.uenigheter.map(uenighet => ({
+                    label: uenighet.label,
+                    value: uenighet.value
+                }))
             )
         })
             .then(() => {
