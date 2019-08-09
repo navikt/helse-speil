@@ -19,7 +19,7 @@ const hentPerson = async aktørId => {
                     `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
                     {
                         headers: {
-                            Authorization: `Bearer: ${jwt}`
+                            Authorization: `Bearer ${jwt}`
                         }
                     },
                     (error, response, body) => {
