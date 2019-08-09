@@ -69,6 +69,12 @@ const logonToNav = async () => {
                                 'unknown error'}`
                         );
                     } else {
+                        console.log(
+                            `STS login OK: ${JSON.stringify(body).substring(
+                                0,
+                                10
+                            )}`
+                        );
                         cachedAccessToken = body.access_token;
                         resolve(body.access_token);
                     }
