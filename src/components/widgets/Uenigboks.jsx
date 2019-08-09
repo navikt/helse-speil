@@ -32,7 +32,7 @@ const Uenigboks = ({ label }) => {
 
     const onCheckboxChange = e => {
         setChecked(e.target.checked);
-        setInputValue('');
+        setError(undefined);
         if (e.target.checked) {
             uenighet.create(label);
         } else {
