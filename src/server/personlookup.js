@@ -26,7 +26,7 @@ const hentPerson = async aktørId => {
                         if (error || response.statusCode !== 200) {
                             reject(
                                 `Error during person lookup, got ${
-                                    response.statusCode
+                                    response?.statusCode
                                 } ${error || 'unknown error'}`
                             );
                         } else {
@@ -57,7 +57,8 @@ const logonToNav = async () => {
                             'Basic ' +
                             Buffer.from(
                                 `${navConfig.serviceUserName}:${navConfig.serviceUserPassword}`
-                            ).toString('base64')
+                            ).toString('base64'),
+                        Accept: 'application/json'
                     }
                 },
                 (error, response, body) => {
