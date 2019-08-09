@@ -98,7 +98,7 @@ app.use('/*', (req, res, next) => {
     }
 });
 
-app.use('/static', express.static('dist'));
+app.use('/static', express.static('dist/client'));
 
 behandlinger.setup(app);
 
