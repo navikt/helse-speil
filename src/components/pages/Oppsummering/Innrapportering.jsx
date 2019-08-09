@@ -61,13 +61,6 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                             )}
                         </Normaltekst>
                     ))}
-                    {innrapportering.uenigheter.some(
-                        uenighet => !uenighet.value
-                    ) && (
-                        <Normaltekst className="skjemaelement__feilmelding">
-                            {oppsummeringstekster('felter_uten_årsak')}
-                        </Normaltekst>
-                    )}
                     {innrapportering.hasSendt ? (
                         <Knapp className="sendt" disabled>
                             Rapport mottatt

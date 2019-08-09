@@ -80,7 +80,7 @@ bokmål.oppsummering['innrapportert'] = 'Innrapportert';
 bokmål.oppsummering['ingen_uenigheter'] = 'Ingen uenigheter';
 bokmål.oppsummering['felter_uten_årsak'] =
     'Felter uten oppgitt årsak blir ikke sendt inn.';
-bokmål.oppsummering['oppgi_årsak'] = 'Du må oppgi årsak';
+bokmål.oppsummering['oppgi_årsak'] = 'Du bør skrive inn årsak';
 
 const hardkodetBrukerspråk = 'bokmål';
 

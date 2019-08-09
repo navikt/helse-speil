@@ -6,14 +6,14 @@ import { useFocusRef } from '../../hooks/useFocusRef';
 import './Uenigboks.css';
 import { useUenighet } from '../../hooks/useUenighet';
 
-const errorMessage = 'Du må oppgi årsak';
+const errorMessage = 'Du bør skrive inn årsak';
 
 const Uenigboks = ({ label }) => {
     const id = label + decodeURIComponent(window.location.pathname);
 
     const uenighet = useUenighet(id);
-    const [checked, setChecked] = useState(!!uenighet.value);
-    const [inputValue, setInputValue] = useState(uenighet.value || '');
+    const [checked, setChecked] = useState(uenighet.value ?? false);
+    const [inputValue, setInputValue] = useState(uenighet.value ?? '');
 
     const showValidationError = checked && !inputValue;
     const ref = useFocusRef(showValidationError);
@@ -23,9 +23,9 @@ const Uenigboks = ({ label }) => {
 
     useEffect(() => {
         setInputValue(uenighet.value || '');
-        if (uenighet.value) {
+        if (uenighet.value !== undefined) {
             setChecked(true);
-        } else {
+        } else if (uenighet.value === '') {
             setError(undefined);
         }
     }, [uenighet.value]);
