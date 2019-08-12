@@ -28,7 +28,7 @@ export const useKeyboard = actionMappings => {
                 [mapping.keyCode]: mapping.action
             }));
         });
-    }, [actionMappings]);
+    }, []);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
