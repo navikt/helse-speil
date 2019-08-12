@@ -1,32 +1,33 @@
 import React from 'react';
-import Bolk from '../../widgets/Bolk/Bolk';
+import IconRow from '../../widgets/rows/IconRow';
+import ListRow from '../../widgets/rows/ListRow';
 import ItemMapper from '../../../datamapping/inngangsvilkårMapper';
+import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import { inngangsvilkårtekster as tekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
-import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 
 const Inngangsvilkår = withBehandlingContext(({ behandling }) => (
     <Panel border>
         <Undertittel className="panel-tittel">{tekster(`tittel`)}</Undertittel>
-        <Bolk title="Inngangsvilkår oppfylt" />
-        <Bolk
-            title="Medlemskap"
+        <IconRow label="Inngangsvilkår oppfylt" bold />
+        <ListRow
+            label="Medlemskap"
             items={ItemMapper.medlemskap(behandling.inngangsvilkår.medlemskap)}
         />
-        <Bolk
-            title="Opptjening"
+        <ListRow
+            label="Opptjening"
             items={ItemMapper.opptjening(behandling.inngangsvilkår.opptjening)}
         />
-        <Bolk
-            title="Søknadsfrist"
+        <ListRow
+            label="Søknadsfrist"
             items={ItemMapper.søknadsfrist(
                 behandling.inngangsvilkår.søknadsfrist
             )}
         />
-        <Bolk
-            title="Dager igjen"
+        <ListRow
+            label="Dager igjen"
             items={ItemMapper.dagerIgjen(behandling.inngangsvilkår.dagerIgjen)}
         />
         <Navigasjonsknapper previous="/" next="/beregning" />

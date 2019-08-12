@@ -1,0 +1,32 @@
+.IconRow {
+  display: flex;
+
+  .IconRow__left {
+    display: flex;
+    flex: 1;
+    align-items: center;
+
+    > svg {
+      margin-right: 1rem;
+    }
+
+    > span.divider {
+      flex: 1;
+      border-top: 1px dotted #000;
+      margin: 0 1rem;
+    }
+
+    .typo-normal:last-child {
+      margin-right: 1rem;
+    }
+
+    .typo-normal.bold {
+      font-weight: 600;
+    }
+  }
+
+  .IconRow__right {
+    display: flex;
+    flex: 2;
+  }
+}

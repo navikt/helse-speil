@@ -1,7 +1,0 @@
-.Sykdomsvilkår .typo-undertittel {
-    margin-bottom: 1.5rem;
-}
-
-.Sykdomsvilkår .typo-undertittel:not(:first-child) {
-    margin-top: 1.5rem;
-}

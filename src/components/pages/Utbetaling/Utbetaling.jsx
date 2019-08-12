@@ -1,14 +1,12 @@
 import React from 'react';
-import Ikon from 'nav-frontend-ikoner-assets';
-import { Undertittel } from 'nav-frontend-typografi';
-import { Panel } from 'nav-frontend-paneler';
-import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
-import { withBehandlingContext } from '../../../context/BehandlingerContext';
-import './Utbetaling.css';
-import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
+import IconRow from '../../widgets/rows/IconRow';
+import FormRow from '../../widgets/rows/FormRow';
 import ListeSeparator from '../../widgets/ListeSeparator';
-import ListeItem from '../../widgets/ListeItem';
+import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
+import { Panel } from 'nav-frontend-paneler';
+import { Element, Undertittel } from 'nav-frontend-typografi';
 import { toKronerOgØre } from '../../../utils/locale';
+import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { tekster, utbetalingstekster } from '../../../tekster';
 
 const Utbetaling = withBehandlingContext(({ behandling }) => {
@@ -25,51 +23,44 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             <Undertittel className="panel-tittel">
                 {utbetalingstekster('tittel')}
             </Undertittel>
-            <ListeItemBolk
+            <FormRow
                 label={utbetalingstekster('refusjon')}
                 value={refusjonTilArbeidsgiver ? 'Ja' : 'Nei'}
             />
-            <ListeItemBolk
+            <FormRow
                 label={utbetalingstekster('betaler')}
                 value={betalerArbeidsgiverperiode ? 'Ja' : 'Nei'}
             />
-
-            <ListeSeparator type="dotted" />
-
-            <ListeItem
+            <ListeSeparator type="transparent" />
+            <FormRow
                 label={utbetalingstekster('sykepengegrunnlag')}
                 value={toKronerOgØre(sykepengegrunnlag)}
+                showRightSide={false}
             />
-            <ListeItem
+            <FormRow
                 label={utbetalingstekster('dagsats')}
                 value={toKronerOgØre(dagsats)}
+                showRightSide={false}
             />
-
-            <ListeSeparator type="dotted" />
-
-            <ListeItem
+            <FormRow
                 label={utbetalingstekster('dager')}
                 value={antallDager}
+                showRightSide={false}
             />
-            <ListeItem
+            <FormRow
                 label={utbetalingstekster('sykmeldingsgrad')}
                 value={`${sykmeldingsgrad}%`}
+                showRightSide={false}
             />
-
-            <ListeSeparator type="dotted" />
-
-            <ListeItemBolk
+            <ListeSeparator type="transparent" />
+            <FormRow
                 label={utbetalingstekster('utbetaling')}
                 value={toKronerOgØre(antallDager * dagsats)}
+                bold
             />
-
-            <ListeSeparator type="solid" />
-
-            <Undertittel>{tekster('mvp')}</Undertittel>
-            <ListeItemBolk
-                label={utbetalingstekster('forskutterer')}
-                value={<Ikon kind="ok-sirkel-fyll" size={24} />}
-            />
+            <ListeSeparator />
+            <Element className="mvp-tittel">{tekster('mvp')}</Element>
+            <IconRow label={utbetalingstekster('forskutterer')} />
 
             <Navigasjonsknapper previous="/periode" next="/oppsummering" />
         </Panel>

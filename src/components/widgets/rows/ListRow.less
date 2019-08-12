@@ -1,0 +1,29 @@
+div.ListRow {
+  margin: -0.5rem 0 0;
+
+  .ListItem {
+    display: flex;
+
+    > .ListItem__left {
+      flex: 1;
+      display: flex;
+
+      > .typo-normal {
+        flex: 1;
+      }
+
+      > .typo-normal:first-child {
+        padding-left: 2.5rem;
+        margin-right: 1rem;
+      }
+
+      >.typo-normal.bold {
+        font-weight: 600;
+      }
+    }
+
+    > .ListItem__right {
+      flex: 2;
+    }
+  }
+}
