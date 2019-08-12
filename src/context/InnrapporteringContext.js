@@ -26,7 +26,10 @@ export const InnrapporteringProvider = withBehandlingContext(
         const addUenighet = (id, label) => {
             setHasSendt(false);
             if (!uenigheter.find(uenighet => uenighet.id === id)) {
-                setUenigheter(uenigheter => [...uenigheter, { id, label }]);
+                setUenigheter(uenigheter => [
+                    ...uenigheter,
+                    { id, label, value: '' }
+                ]);
             }
         };
 

@@ -19,14 +19,10 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
         putFeedback({
             id: behandling.behandlingsId,
             txt: JSON.stringify(
-                innrapportering.uenigheter
-                    .filter(
-                        uenighet => uenighet.value && uenighet.value.length > 0
-                    )
-                    .map(uenighet => ({
-                        label: uenighet.label,
-                        value: uenighet.value
-                    }))
+                innrapportering.uenigheter.map(uenighet => ({
+                    label: uenighet.label,
+                    value: uenighet.value
+                }))
             )
         })
             .then(() => {
@@ -61,13 +57,6 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                             )}
                         </Normaltekst>
                     ))}
-                    {innrapportering.uenigheter.some(
-                        uenighet => !uenighet.value
-                    ) && (
-                        <Normaltekst className="skjemaelement__feilmelding">
-                            {oppsummeringstekster('felter_uten_årsak')}
-                        </Normaltekst>
-                    )}
                     {innrapportering.hasSendt ? (
                         <Knapp className="sendt" disabled>
                             Rapport mottatt
