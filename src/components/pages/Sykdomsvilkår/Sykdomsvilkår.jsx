@@ -12,7 +12,7 @@ import { withBehandlingContext } from '../../../context/BehandlingerContext';
 const Sykdomsvilkår = withBehandlingContext(({ behandling }) => (
     <Panel className="Sykdomsvilkår" border>
         <Undertittel className="panel-tittel">Sykdomsvilkår</Undertittel>
-        <IconRow label={sykdomsvilkårtekster('sykdomsvilkår_oppfylt')} />
+        <IconRow label={sykdomsvilkårtekster('sykdomsvilkår_oppfylt')} bold />
         <ListeSeparator />
         <Element className="mvp-tittel">{tekster('mvp')}</Element>
         <ListRow
@@ -21,7 +21,7 @@ const Sykdomsvilkår = withBehandlingContext(({ behandling }) => (
                 behandling.sykdomsvilkår.mindreEnnÅtteUkerSammenhengende
             )}
         />
-        <IconRow label={sykdomsvilkårtekster('ingen_yrkesskade')} />
+        <IconRow label={sykdomsvilkårtekster('ingen_yrkesskade')} bold />
         <Navigasjonsknapper next="/inngangsvilkår" />
     </Panel>
 ));
