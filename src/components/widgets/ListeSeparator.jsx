@@ -4,7 +4,8 @@ import './ListeSeparator.css';
 
 const SeparatorType = {
     DOTTED: 'dotted',
-    SOLID: 'solid'
+    SOLID: 'solid',
+    TRANSPARENT: 'transparent'
 };
 
 const ListeSeparator = ({ type }) => (

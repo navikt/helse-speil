@@ -1,12 +1,11 @@
 import React from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
-import { Panel } from 'nav-frontend-paneler';
-import Ikon from 'nav-frontend-ikoner-assets';
-import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
-import { withBehandlingContext } from '../../../context/BehandlingerContext';
-import ListeItemBolk from '../../widgets/Bolk/ListeItemBolk';
+import IconRow from '../../widgets/rows/IconRow';
+import FormRow from '../../widgets/rows/FormRow';
 import ListeSeparator from '../../widgets/ListeSeparator';
-import './Periode.css';
+import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
+import { Panel } from 'nav-frontend-paneler';
+import { Element, Undertittel } from 'nav-frontend-typografi';
+import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { periodetekster, tekster } from '../../../tekster';
 
 const Periode = withBehandlingContext(({ behandling }) => {
@@ -24,43 +23,29 @@ const Periode = withBehandlingContext(({ behandling }) => {
             <Undertittel className="panel-tittel">
                 {periodetekster('tittel')}
             </Undertittel>
-            <ListeItemBolk
+            <FormRow
                 label={periodetekster('kalenderdager')}
                 value={antallKalenderdager}
             />
-            <ListeItemBolk
+            <FormRow
                 label={periodetekster('arbeidsgiverperiode')}
                 value={arbeidsgiverperiodeKalenderdager}
             />
-            <ListeSeparator type="dotted" />
-            <ListeItemBolk
+            <FormRow
                 label={periodetekster('virkedager')}
                 value={antallVirkedager}
             />
-            <ListeItemBolk
-                label={periodetekster('ferie')}
-                value={antallFeriedager ? antallFeriedager : '-'}
-            />
-            <ListeSeparator type="dotted" />
-            <ListeItemBolk
-                label={periodetekster('dager')}
-                value={antallDager}
-            />
-            <ListeSeparator type="dotted" />
-            <ListeItemBolk
+            <FormRow label={periodetekster('ferie')} value={antallFeriedager} />
+            <FormRow label={periodetekster('dager')} value={antallDager} bold />
+            <FormRow
                 label={periodetekster('sykmeldingsgrad')}
                 value={`${sykmeldingsgrad}%`}
+                bold
             />
             <ListeSeparator />
-            <Undertittel>{tekster('mvp')}</Undertittel>
-            <ListeItemBolk
-                label={periodetekster('friskmelding')}
-                value={<Ikon kind="ok-sirkel-fyll" size={24} />}
-            />
-            <ListeItemBolk
-                label={periodetekster('gradering')}
-                value={<Ikon kind="ok-sirkel-fyll" size={24} />}
-            />
+            <Element className="mvp-tittel">{tekster('mvp')}</Element>
+            <IconRow label={periodetekster('friskmelding')} />
+            <IconRow label={periodetekster('gradering')} />
             <Navigasjonsknapper previous="/beregning" next="/utbetaling" />
         </Panel>
     );

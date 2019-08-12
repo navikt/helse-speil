@@ -1,0 +1,27 @@
+.FormRow {
+  display: flex;
+
+  > span {
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    .typo-normal:first-child {
+      flex: 2;
+    }
+
+    .typo-normal:last-child {
+      flex: 1;
+      padding: 0 1rem;
+    }
+
+    .typo-normal.bold {
+      font-weight: 600;
+    }
+  }
+
+  > .Uenigboks,
+  > .FormRow__padder {
+    flex: 2;
+  }
+}

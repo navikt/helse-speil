@@ -50,15 +50,15 @@ bokmål.periode['sykmeldingsgrad'] = 'Sykmeldingsgrad';
 bokmål.periode['friskmelding'] = 'Ingen friskmelding';
 bokmål.periode['gradering'] = 'Ingen gradering';
 
-bokmål.utbetaling['tittel'] = 'Utbetaling';
+bokmål.utbetaling['tittel'] = 'Beregning av utbetaling';
 bokmål.utbetaling['refusjon'] = 'Refusjon til arbeidsgiver';
-bokmål.utbetaling['betaler'] = 'Betaler arb.giverperiode';
+bokmål.utbetaling['betaler'] = 'Betaler arbeidsgiverperiode';
 bokmål.utbetaling['sykepengegrunnlag'] = 'Sykepengegrunnlag';
 bokmål.utbetaling['dagsats'] = 'Dagsats';
-bokmål.utbetaling['dager'] = 'Antall dager';
-bokmål.utbetaling['sykmeldingsgrad'] = 'Sykmeldingsgrad';
+bokmål.utbetaling['dager'] = 'Sykepengedager';
+bokmål.utbetaling['sykmeldingsgrad'] = 'Sykemeldingsgrad';
 bokmål.utbetaling['utbetaling'] = 'Utbetaling';
-bokmål.utbetaling['forskutterer'] = 'Arb.giver forskutterer';
+bokmål.utbetaling['forskutterer'] = 'Arbeidsgiver forskutterer';
 
 bokmål.oppsummering['tittel'] = 'Oppsummering';
 bokmål.oppsummering['sykdomsvilkår'] = 'Sykdomsvilkår er oppfylt';
