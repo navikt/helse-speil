@@ -7,7 +7,7 @@ import OppsummeringsboksItem, {
     OppsummeringsboksItemProps
 } from './OppsummeringsboksItem';
 import './Oppsummeringsboks.less';
-import { toKronerOgØre } from '../../../utils/locale';
+import { toKroner } from '../../../utils/locale';
 
 const withTestData = Component => {
     Component.propTypes = {};
@@ -17,16 +17,16 @@ const withTestData = Component => {
             items={[
                 {
                     label: 'Månedsinntekt',
-                    value: toKronerOgØre(17000),
+                    value: toKroner(17000),
                     iconType: 'inntekstmelding'
                 },
                 {
                     label: 'Omregnet til årsinntekt',
-                    value: toKronerOgØre(204000)
+                    value: toKroner(204000)
                 },
                 {
                     label: 'Sammenligningsgr.lag',
-                    value: toKronerOgØre(155691),
+                    value: toKroner(155691),
                     iconType: 'aaregisteret'
                 },
                 {

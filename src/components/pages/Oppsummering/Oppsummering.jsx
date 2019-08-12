@@ -3,7 +3,7 @@ import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { toDate } from '../../../utils/date';
-import { toKronerOgØre } from '../../../utils/locale';
+import { toKroner } from '../../../utils/locale';
 import ListeItem from '../../widgets/ListeItem';
 import ListeSeparator from '../../widgets/ListeSeparator';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
@@ -46,7 +46,9 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             />
             <ListeItem
                 label={oppsummeringstekster('betaler')}
-                value={behandling.oppsummering.betalerArbeidsgiverPeriode}
+                value={`${toKroner(
+                    behandling.oppsummering.betalerArbeidsgiverPeriode
+                )} kr`}
             />
             <ListeItem
                 label={oppsummeringstekster('fordeling')}
@@ -55,16 +57,18 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             <ListeSeparator type="dotted" />
             <ListeItem
                 label={oppsummeringstekster('sykepengegrunnlag')}
-                value={toKronerOgØre(behandling.oppsummering.sykepengegrunnlag)}
+                value={`${toKroner(
+                    behandling.oppsummering.sykepengegrunnlag
+                )} kr`}
             />
             <ListeItem
                 label={oppsummeringstekster('månedsbeløp')}
-                value={toKronerOgØre(behandling.oppsummering.månedsbeløp)}
+                value={`${toKroner(behandling.oppsummering.månedsbeløp)} kr`}
                 bold
             />
             <ListeItem
                 label={oppsummeringstekster('dagsats')}
-                value={toKronerOgØre(behandling.oppsummering.dagsats)}
+                value={`${toKroner(behandling.oppsummering.dagsats)} kr`}
             />
             <ListeSeparator type="dotted" />
             <ListeItem
@@ -89,7 +93,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => (
             <ListeSeparator type="dotted" />
             <ListeItem
                 label={oppsummeringstekster('utbetaling')}
-                value={`${toKronerOgØre(behandling.oppsummering.utbetaling)}`}
+                value={`${toKroner(behandling.oppsummering.utbetaling)} kr`}
             />
             <ListeSeparator type="solid" />
             <Navigasjonsknapper previous="/utbetaling" />

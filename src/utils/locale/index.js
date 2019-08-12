@@ -11,7 +11,8 @@ export const toLocaleFixedNumberString = (number, decimals, locale = 'nb-NO') =>
         minimumFractionDigits: decimals
     });
 
-export const toKronerOgØre = number => toLocaleFixedNumberString(number, 2);
+export const toKroner = number =>
+    Number.parseInt(number).toLocaleString('nb-NO');
 
 export const capitalize = string =>
     string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();

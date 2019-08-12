@@ -1,23 +1,30 @@
 import { item } from './mappingUtils';
 import { beregningstekster } from '../tekster';
+import { toKroner } from '../utils/locale';
 
 const inntektsmelding = månedsinntekt => [
-    item(beregningstekster('månedsinntekt'), `${månedsinntekt / 12} kr`),
-    item(beregningstekster('årsinntekt'), `${månedsinntekt} kr`)
+    item(
+        beregningstekster('månedsinntekt'),
+        `${toKroner(månedsinntekt / 12)} kr`
+    ),
+    item(beregningstekster('årsinntekt'), `${toKroner(månedsinntekt)} kr`)
 ];
 
 const aordning = månedsinntekt => {
     return [
         item(
             beregningstekster('beregningsperioden'),
-            `${(månedsinntekt / 12) * 3} kr`
+            `${toKroner((månedsinntekt / 12) * 3)} kr`
         ),
-        item(beregningstekster('sammenligningsgrunnlag'), `${månedsinntekt} kr`)
+        item(
+            beregningstekster('sammenligningsgrunnlag'),
+            `${toKroner(månedsinntekt)} kr`
+        )
     ];
 };
 
 const sykepleiegrunnlag = sykepleiegrunnlag => {
-    return [item('Dagsats', `${sykepleiegrunnlag / 260} kr`)];
+    return [item('Dagsats', `${toKroner(sykepleiegrunnlag / 260)} kr`)];
 };
 
 export default {

@@ -7,6 +7,7 @@ import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { beregningstekster } from '../../../tekster';
 import ListRow from '../../widgets/rows/ListRow';
 import IconRow from '../../widgets/rows/IconRow';
+import { toKroner } from '../../../utils/locale';
 
 const Beregning = withBehandlingContext(({ behandling }) => {
     return (
@@ -31,7 +32,7 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             <IconRow label={beregningstekster('avvik')} value={'100 %'} bold />
             <IconRow
                 label={beregningstekster('sykepengegrunnlag')}
-                value={'321000 kr'}
+                value={`${toKroner(321000)} kr`}
                 bold
             />
 

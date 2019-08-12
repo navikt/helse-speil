@@ -1,7 +1,7 @@
 import React from 'react';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertekst, Undertittel } from 'nav-frontend-typografi';
-import { toKronerOgØre } from '../../../utils/locale';
+import { toKroner } from '../../../utils/locale';
 import Søylediagram from './SøyleDiagram/Søylediagram';
 import InformasjonspanelItem from './InformasjonspanelItem';
 import './Informasjonspanel.less';
@@ -83,21 +83,21 @@ const Informasjonspanel = withInformasjonsdata(
                 <Undertittel>Mnd. inntekt siste 3 mnd</Undertittel>
                 <InformasjonspanelItem
                     label="Beregnet mnd. inntekt"
-                    value={`${toKronerOgØre(beregnetInntekt)} kr`}
+                    value={`${toKroner(beregnetInntekt)} kr`}
                     iconType={IconType.INNTEKSTMELDING}
                 />
                 <InformasjonspanelItem
                     label="Gj.snitt mnd. inntekt"
-                    value={`${toKronerOgØre(gjennomsnittligInntekt)} kr`}
+                    value={`${toKroner(gjennomsnittligInntekt)} kr`}
                     iconType={IconType.AAREGISTERET}
                 />
                 <InformasjonspanelItem
                     label="Omregnet årsinntekt"
-                    value={`${toKronerOgØre(omregnetÅrsinntekt)} kr`}
+                    value={`${toKroner(omregnetÅrsinntekt)} kr`}
                 />
                 <InformasjonspanelItem
                     label="Sammenligningsgrunnl."
-                    value={`${toKronerOgØre(sammenligningsgrunnlag)} kr`}
+                    value={`${toKroner(sammenligningsgrunnlag)} kr`}
                 />
                 <Undertekst>
                     Avvik:{' '}

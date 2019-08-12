@@ -5,7 +5,7 @@ import ListeSeparator from '../../widgets/ListeSeparator';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import { Panel } from 'nav-frontend-paneler';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import { toKronerOgØre } from '../../../utils/locale';
+import { toKroner } from '../../../utils/locale';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { tekster, utbetalingstekster } from '../../../tekster';
 
@@ -34,12 +34,12 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             <ListeSeparator type="transparent" />
             <FormRow
                 label={utbetalingstekster('sykepengegrunnlag')}
-                value={toKronerOgØre(sykepengegrunnlag)}
+                value={`${toKroner(sykepengegrunnlag)} kr`}
                 showRightSide={false}
             />
             <FormRow
                 label={utbetalingstekster('dagsats')}
-                value={toKronerOgØre(dagsats)}
+                value={`${toKroner(dagsats)} kr`}
                 showRightSide={false}
             />
             <FormRow
@@ -55,7 +55,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             <ListeSeparator type="transparent" />
             <FormRow
                 label={utbetalingstekster('utbetaling')}
-                value={toKronerOgØre(antallDager * dagsats)}
+                value={`${toKroner(antallDager * dagsats)} kr`}
                 bold
             />
             <ListeSeparator />

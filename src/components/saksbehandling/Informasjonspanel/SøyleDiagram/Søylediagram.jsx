@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Undertekst } from 'nav-frontend-typografi';
-import { toKronerOgØre } from '../../../../utils/locale';
+import { toKroner } from '../../../../utils/locale';
 import { useElementSize } from '../../../../hooks/useElementSize';
 import './Søylediagram.less';
 import {
@@ -71,11 +71,11 @@ const Søylediagram = withDiagramdata(({ incomes }) => {
                 style={{ bottom: `${incomeToHeight(min, max, maxHeight)}px` }}
             >
                 <div className="pin" />
-                <Undertekst>{toKronerOgØre(min)}</Undertekst>
+                <Undertekst>{toKroner(min)}</Undertekst>
             </div>
             <div className="max">
                 <div className="pin" />
-                <Undertekst>{toKronerOgØre(max)}</Undertekst>
+                <Undertekst>{toKroner(max)}</Undertekst>
             </div>
         </div>
     );
