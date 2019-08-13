@@ -29,5 +29,5 @@ export const extractValues = values => {
 };
 
 export const extractName = () => {
-    return extractValues(['name']);
+    return extractValues([Keys.NAME]);
 };
