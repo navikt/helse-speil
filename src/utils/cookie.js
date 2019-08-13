@@ -25,7 +25,9 @@ export const extractValues = values => {
         .map(decode)
         .pop();
 
-    return Array.from(values).map(val => decodedCookie[val]);
+    return decodedCookie
+        ? Array.from(values).map(val => decodedCookie[val])
+        : [];
 };
 
 export const extractName = () => {
