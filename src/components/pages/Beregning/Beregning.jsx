@@ -1,10 +1,10 @@
 import React from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Element, Undertittel } from 'nav-frontend-typografi';
 import { Panel } from 'nav-frontend-paneler';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import ItemMapper from '../../../datamapping/beregningMapper';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
-import { beregningstekster } from '../../../tekster';
+import { beregningstekster, tekster } from '../../../tekster';
 import ListRow from '../../widgets/rows/ListRow';
 import IconRow from '../../widgets/rows/IconRow';
 import { toKroner } from '../../../utils/locale';
@@ -42,6 +42,7 @@ const Beregning = withBehandlingContext(({ behandling }) => {
                 bold
             />
             <ListeSeparator />
+            <Element className="mvp-tittel">{tekster('mvp')}</Element>
             <IconRow label="Arbeidstaker" />
             <IconRow label="Kun 1 arbeidsforhold" />
             <IconRow label="Ingen andre ytelser" />
