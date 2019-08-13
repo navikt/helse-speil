@@ -16,7 +16,6 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
         behandling.originalSøknad.soknadsperioder[0].sykmeldingsgrad;
 
     const søkernavn = 'Navn Navnesen';
-    const telefonnummer = '123-99-124';
     const kjønn = Kjønn.NØYTRAL;
 
     return (
@@ -28,8 +27,7 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
                     className={kjønn}
                 />
                 <Element>{søkernavn}</Element>/
-                <Undertekst>Aktør-ID: {aktorId}</Undertekst>/
-                <Undertekst>Tlf: {telefonnummer}</Undertekst>
+                <Undertekst>Aktør-ID: {aktorId}</Undertekst>
             </div>
             <div className="behandling-hovedinfo">
                 <Undertekst className="arbeidsgivernavn">
