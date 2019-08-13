@@ -35,7 +35,11 @@ const Beregning = withBehandlingContext(({ behandling }) => {
                 value={`${toKroner(321000)} kr`}
                 bold
             />
-
+            <IconRow
+                label={beregningstekster('dagsats')}
+                value={`${toKroner(behandling.beregning.dagsats)} kr`}
+                bold
+            />
             <Navigasjonsknapper previous="/inngangsvilkår" next="/periode" />
         </Panel>
     );

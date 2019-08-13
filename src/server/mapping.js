@@ -143,6 +143,10 @@ const avklarteVerdier = behandling => ({
     sykepengegrunnlag: behandling.avklarteVerdier.sykepengegrunnlag
 });
 
+const beregning = behandling => ({
+    dagsats: behandling.vedtak.perioder[0].dagsats
+});
+
 const alle = behandling => ({
     behandlingsId: behandling.behandlingsId,
     sykdomsvilkår: sykdomsvilkår(behandling),
@@ -151,6 +155,7 @@ const alle = behandling => ({
     originalSøknad: originalSøknad(behandling),
     utbetaling: utbetaling(behandling),
     periode: periode(behandling),
+    beregning: beregning(behandling),
     avklarteVerdier: avklarteVerdier(behandling)
 });
 

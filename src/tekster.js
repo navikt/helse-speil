@@ -31,7 +31,7 @@ bokmål.inngangsvilkår.inngangsvilkår_oppfylt = 'Inngangsvilkår oppfylt';
 bokmål.inngangsvilkår.medlemskap = 'Medlemskap';
 
 bokmål.beregning['tittel'] = 'Beregning av sykepengegrunnlag og dagsats';
-bokmål.beregning['inntektsmeldinger'] = 'Hentet fra inntektsmeldinger';
+bokmål.beregning['inntektsmeldinger'] = 'Hentet fra inntektsmelding';
 bokmål.beregning['månedsinntekt'] = 'Månedsinntekt';
 bokmål.beregning['årsinntekt'] = 'Omregnet årsinntekt';
 bokmål.beregning['aordningen'] = 'Hentet fra A-Ordningen';
@@ -39,6 +39,7 @@ bokmål.beregning['beregningsperioden'] = 'Beregningsperioden';
 bokmål.beregning['sammenligningsgrunnlag'] = 'Sammenligningsgrunnlag';
 bokmål.beregning['avvik'] = 'Utregnet avvik';
 bokmål.beregning['sykepengegrunnlag'] = 'Sykepengegrunnlag';
+bokmål.beregning['dagsats'] = 'Dagsats';
 
 bokmål.periode['tittel'] = 'Sykepengeperiode';
 bokmål.periode['kalenderdager'] = 'Antall kalenderdager';
