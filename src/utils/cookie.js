@@ -1,25 +1,33 @@
-'use strict';
-
-const extractName = () => {
-    return document.cookie
-        .split(';')
-        .filter(item => item.trim().startsWith('speil='))
-        .map(decode)
-        .pop();
+export const Keys = {
+    NAME: 'name',
+    IDENT: 'NAVident',
+    EMAIL: 'email'
 };
 
 const decode = cookie => {
-    const jwt = cookie.split('=')[1];
+    const token = cookie
+        .split('=')[1]
+        .split('.')[1]
+        .replace(/%3D/g, '=')
+        .replace(/%3d/g, '=');
     try {
-        const tokenBody = jwt
-            .split('.')[1]
-            .replace(/%3D/g, '=')
-            .replace(/%3d/g, '=');
-        return JSON.parse(atob(tokenBody))['name'];
+        return JSON.parse(atob(token));
     } catch (err) {
-        console.log(`error while extracting name: ${err}`); // eslint-disable-line no-console
+        console.warn('error while decoding cookie:', err); // eslint-disable-line no-console
         return null;
     }
 };
 
-export default extractName;
+export const extractValues = values => {
+    const decodedCookie = document.cookie
+        .split(';')
+        .filter(item => item.trim().startsWith('speil='))
+        .map(decode)
+        .pop();
+
+    return Array.from(values).map(val => decodedCookie[val]);
+};
+
+export const extractName = () => {
+    return extractValues(['name']);
+};

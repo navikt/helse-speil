@@ -30,7 +30,15 @@ export const InnrapporteringProvider = withBehandlingContext(
             if (!uenigheter.find(uenighet => uenighet.id === id)) {
                 setUenigheter(uenigheter => [
                     ...uenigheter,
-                    { id, label, value: '', userId: authContext.name }
+                    {
+                        id,
+                        label,
+                        value: '',
+                        userId: {
+                            ident: authContext.authInfo.ident,
+                            email: authContext.authInfo.email
+                        }
+                    }
                 ]);
             }
         };
