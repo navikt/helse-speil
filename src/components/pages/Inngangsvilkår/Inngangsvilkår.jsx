@@ -30,6 +30,10 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => (
             label="Dager igjen"
             items={ItemMapper.dagerIgjen(behandling.inngangsvilkår.dagerIgjen)}
         />
+        <ListRow
+            label="Under 67 år"
+            items={ItemMapper.under67År(behandling.inngangsvilkår.dagerIgjen)}
+        />
         <Navigasjonsknapper previous="/" next="/beregning" />
     </Panel>
 ));

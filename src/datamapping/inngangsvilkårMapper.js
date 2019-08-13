@@ -8,9 +8,12 @@ const medlemskap = behandling => [
 
 const opptjening = behandling => [
     item('Første sykdomsdag', toDate(behandling.førsteSykdomsdag)),
-    item('Antall dager', `${behandling.antallDager}`),
     item('Startdato', toDate(behandling.startdato)),
-    item('Sluttdato', behandling.sluttdato ? toDate(behandling.sluttdato) : '-')
+    item(
+        'Sluttdato',
+        behandling.sluttdato ? toDate(behandling.sluttdato) : '-'
+    ),
+    item('Antall dager (>28)', `${behandling.antallDager}`)
 ];
 
 const søknadsfrist = behandling => [
@@ -22,15 +25,17 @@ const søknadsfrist = behandling => [
 const dagerIgjen = behandling => [
     item('Første fraværsdag', toDate(behandling.førsteFraværsdag)),
     item('Første sykepengedag', toDate(behandling.førsteSykepengedag)),
-    item('Alder', `${behandling.alder}`),
     item('Yrkesstatus', capitalize(behandling.yrkesstatus)),
     item('Tidligere perioder', behandling.tidligerePerioder.length || '-'),
     item('Max dato', toDate(behandling.maxDato))
 ];
 
+const under67År = behandling => [item('Alder', `${behandling.alder}`)];
+
 export default {
     medlemskap,
     opptjening,
     søknadsfrist,
-    dagerIgjen
+    dagerIgjen,
+    under67År
 };
