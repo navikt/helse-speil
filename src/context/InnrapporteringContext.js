@@ -1,7 +1,8 @@
-import React, { createContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { withBehandlingContext } from './BehandlingerContext';
+import { AuthContext } from './AuthContext';
 
 export const InnrapporteringContext = createContext({
     uenigheter: []
@@ -9,6 +10,7 @@ export const InnrapporteringContext = createContext({
 
 export const InnrapporteringProvider = withBehandlingContext(
     ({ behandling, children }) => {
+        const authContext = useContext(AuthContext);
         const behandlingsId = behandling && behandling.behandlingsId;
         const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
         const [uenigheter, setUenigheter] = useSessionStorage(
@@ -28,7 +30,15 @@ export const InnrapporteringProvider = withBehandlingContext(
             if (!uenigheter.find(uenighet => uenighet.id === id)) {
                 setUenigheter(uenigheter => [
                     ...uenigheter,
-                    { id, label, value: '' }
+                    {
+                        id,
+                        label,
+                        value: '',
+                        userId: {
+                            ident: authContext.authInfo.ident,
+                            email: authContext.authInfo.email
+                        }
+                    }
                 ]);
             }
         };

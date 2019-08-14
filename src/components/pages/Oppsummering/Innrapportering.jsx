@@ -21,7 +21,8 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
             txt: JSON.stringify(
                 innrapportering.uenigheter.map(uenighet => ({
                     label: uenighet.label,
-                    value: uenighet.value
+                    value: uenighet.value,
+                    userId: uenighet.userId
                 }))
             )
         })

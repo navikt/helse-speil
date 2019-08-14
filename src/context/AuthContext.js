@@ -1,9 +1,11 @@
 import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import extractName from '../utils/cookie';
+import { extractValues, Keys } from '../utils/cookie';
 
 const notLoggedInUser = {
     name: '',
+    ident: undefined,
+    email: undefined,
     isLoggedIn: false
 };
 
@@ -13,9 +15,18 @@ export const AuthProvider = ({ children }) => {
     const [authInfo, setAuthInfo] = useState({});
 
     useEffect(() => {
-        const name = extractName();
+        const [name, ident, email] = extractValues([
+            Keys.NAME,
+            Keys.IDENT,
+            Keys.EMAIL
+        ]);
         if (name && name !== authInfo.name) {
-            setAuthInfo({ name, isLoggedIn: true });
+            setAuthInfo({
+                name,
+                ident,
+                email,
+                isLoggedIn: true
+            });
         }
     });
 
