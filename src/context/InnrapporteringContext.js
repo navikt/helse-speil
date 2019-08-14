@@ -1,8 +1,9 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { withBehandlingContext } from './BehandlingerContext';
 import { AuthContext } from './AuthContext';
+import { getFeedback } from '../io/http';
 
 export const InnrapporteringContext = createContext({
     uenigheter: []
@@ -17,6 +18,19 @@ export const InnrapporteringProvider = withBehandlingContext(
             `uenigheter-${behandlingsId}`,
             []
         );
+
+        useEffect(() => {
+            behandling &&
+                getFeedback(behandlingsId)
+                    .then(response => {
+                        if (response.status === 200) {
+                            setUenigheter(response.data);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err); // eslint-disable-line no-console
+                    });
+        }, [behandling]);
 
         const removeUenighet = id => {
             setHasSendt(false);

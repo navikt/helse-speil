@@ -18,13 +18,7 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
         setIsSending(true);
         putFeedback({
             id: behandling.behandlingsId,
-            txt: JSON.stringify(
-                innrapportering.uenigheter.map(uenighet => ({
-                    label: uenighet.label,
-                    value: uenighet.value,
-                    userId: uenighet.userId
-                }))
-            )
+            txt: JSON.stringify(innrapportering.uenigheter)
         })
             .then(() => {
                 setError(undefined);
