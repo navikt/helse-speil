@@ -21,17 +21,17 @@ test('opptjening', () => {
 
     expect(Mapper.opptjening(unmapped)).toEqual([
         { label: 'Første sykdomsdag', value: '09.05.2019' },
-        { label: 'Antall dager', value: '768' },
         { label: 'Startdato', value: '01.04.2017' },
-        { label: 'Sluttdato', value: '-' }
+        { label: 'Sluttdato', value: '-' },
+        { label: 'Antall dager (>28)', value: '768' }
     ]);
 
     unmapped.sluttdato = '2017-05-01T00:00:00.000Z';
     expect(Mapper.opptjening(unmapped)).toEqual([
         { label: 'Første sykdomsdag', value: '09.05.2019' },
-        { label: 'Antall dager', value: '768' },
         { label: 'Startdato', value: '01.04.2017' },
-        { label: 'Sluttdato', value: '01.05.2017' }
+        { label: 'Sluttdato', value: '01.05.2017' },
+        { label: 'Antall dager (>28)', value: '768' }
     ]);
 });
 
@@ -52,7 +52,6 @@ test('dagerIgjen', () => {
     const unmapped = {
         førsteFraværsdag: '2019-05-09T00:00:00.000Z',
         førsteSykepengedag: '2019-05-09T00:00:00.000Z',
-        alder: 42,
         yrkesstatus: 'ARBEIDSTAKER',
         tidligerePerioder: [],
         maxDato: '2020-04-20T00:00:00.000Z'
@@ -60,7 +59,6 @@ test('dagerIgjen', () => {
     expect(Mapper.dagerIgjen(unmapped)).toEqual([
         { label: 'Første fraværsdag', value: '09.05.2019' },
         { label: 'Første sykepengedag', value: '09.05.2019' },
-        { label: 'Alder', value: '42' },
         { label: 'Yrkesstatus', value: 'Arbeidstaker' },
         { label: 'Tidligere perioder', value: '-' },
         { label: 'Max dato', value: '20.04.2020' }
