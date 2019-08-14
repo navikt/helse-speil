@@ -40,3 +40,16 @@ export const putFeedback = async feedback => {
         throw Error();
     }
 };
+
+export const getFeedback = async behandlingsId => {
+    const response = await fetch(`${baseUrl}/feedback/${behandlingsId}`);
+
+    if (!response) {
+        throw Error();
+    }
+
+    return {
+        status: response.status,
+        data: await getData(response)
+    };
+};
