@@ -1,4 +1,6 @@
 import React, { useContext, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import ErrorModal from '../widgets/modal/ErrorModal';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { Keys } from '../../hooks/useKeyboard';
@@ -29,7 +31,7 @@ const SearchIcon = () => (
     </svg>
 );
 
-const Search = () => {
+const Search = ({ history }) => {
     const ref = useRef(undefined);
     const behandlingerCtx = useContext(BehandlingerContext);
 
@@ -40,9 +42,15 @@ const Search = () => {
         }
     };
 
+    const goBackToStart = newData => {
+        if (newData?.behandlinger && history.location.pathname !== '/') {
+            history.push('/');
+        }
+    };
+
     const search = value => {
         if (value.trim().length !== 0) {
-            behandlingerCtx.fetchBehandlinger(value);
+            behandlingerCtx.fetchBehandlinger(value).then(goBackToStart);
         }
     };
 
@@ -67,4 +75,12 @@ const Search = () => {
     );
 };
 
-export default Search;
+Search.propTypes = {
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        location: PropTypes.shape({
+            pathname: PropTypes.string.isRequired
+        }).isRequired
+    }).isRequired
+};
+export default withRouter(Search);
