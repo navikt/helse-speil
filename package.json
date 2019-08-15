@@ -115,7 +115,7 @@
         "prettier": "^1.17.1",
         "react-hot-loader": "^4.12.11",
         "react-test-renderer": "^16.9.0",
-        "rimraf": "^2.6.3",
+        "rimraf": "^3.0.0",
         "whatwg-fetch": "^3.0.0"
     },
     "snyk": true
