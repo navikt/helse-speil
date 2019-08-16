@@ -21,6 +21,12 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => (
             items={ItemMapper.opptjening(behandling.inngangsvilkår.opptjening)}
         />
         <ListRow
+            label="Mer enn 0,5G"
+            items={ItemMapper.merEnn05G(
+                behandling.inngangsvilkår.merEnn05G
+            )}
+        />
+        <ListRow
             label="Søknadsfrist"
             items={ItemMapper.søknadsfrist(
                 behandling.inngangsvilkår.søknadsfrist
