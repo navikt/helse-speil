@@ -3,7 +3,7 @@
     flex: 1;
     align-content: stretch;
     align-items: flex-start;
-    padding: 0.3rem;
+    padding: 0.3rem 0;
     width: 66%;
 }
 
