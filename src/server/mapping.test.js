@@ -15,7 +15,9 @@ test('medlemskap', async () => {
     const medlemskap = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
         .medlemskap;
     const expected = {
-        bostedsland: 'NOR'
+        statsborgerskap: 'NOR',
+        bosattINorge: true,
+        diskresjonskode: null
     };
     expect(medlemskap).toEqual(expected);
 });

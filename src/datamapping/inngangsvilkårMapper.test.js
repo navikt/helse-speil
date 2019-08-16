@@ -2,13 +2,16 @@ import Mapper from './inngangsvilkårMapper';
 import '@testing-library/jest-dom/extend-expect';
 
 test('medlemskap', () => {
-    const unmapped = { bostedsland: 'nor' };
+    const unmapped = {
+        bosattINorge: true,
+        diskresjonskode: null,
+        statsborgerskap: 'NOR'
+    };
     const mapped = Mapper.medlemskap(unmapped);
     expect(mapped).toEqual([
-        {
-            label: 'Bostedsland',
-            value: 'NOR'
-        }
+        { label: 'Statsborgerskap', value: 'Norsk' },
+        { label: 'Bosatt i Norge', value: 'Ja' },
+        { label: 'Diskresjonskode', value: 'Nei' }
     ]);
 });
 

@@ -2,8 +2,15 @@ import { item } from './mappingUtils';
 import { toDate } from '../utils/date';
 import { capitalize } from '../utils/locale';
 
-const medlemskap = behandling => [
-    item('Bostedsland', behandling.bostedsland.toUpperCase())
+const medlemskap = medlemskap => [
+    item(
+        'Statsborgerskap',
+        medlemskap.statsborgerskap === 'NOR'
+            ? 'Norsk'
+            : medlemskap.statsborgerskap
+    ),
+    item('Bosatt i Norge', medlemskap.bosattINorge ? 'Ja' : 'Nei'),
+    item('Diskresjonskode', medlemskap.diskresjonskode || 'Nei')
 ];
 
 const opptjening = behandling => [

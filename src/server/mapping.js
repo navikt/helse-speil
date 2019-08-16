@@ -18,7 +18,9 @@ const sykdomsvilkår = behandling => {
 
 const inngangsvilkår = behandling => {
     const medlemskap = {
-        bostedsland: behandling.faktagrunnlag.tps.bostedland
+        statsborgerskap: behandling.faktagrunnlag.tps.statsborgerskap,
+        bosattINorge: behandling.faktagrunnlag.tps.bostedland === 'NOR',
+        diskresjonskode: behandling.faktagrunnlag.tps.diskresjonskode
     };
 
     const opptjening = {
