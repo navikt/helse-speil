@@ -13,31 +13,31 @@ const medlemskap = medlemskap => [
     item('Diskresjonskode', medlemskap.diskresjonskode || 'Nei')
 ];
 
-const opptjening = behandling => [
-    item('Første sykdomsdag', toDate(behandling.førsteSykdomsdag)),
-    item('Startdato', toDate(behandling.startdato)),
+const opptjening = opptjening => [
+    item('Første sykdomsdag', toDate(opptjening.førsteSykdomsdag)),
+    item('Startdato', toDate(opptjening.startdato)),
     item(
         'Sluttdato',
-        behandling.sluttdato ? toDate(behandling.sluttdato) : '-'
+        opptjening.sluttdato ? toDate(opptjening.sluttdato) : '-'
     ),
-    item('Antall dager (>28)', `${behandling.antallDager}`)
+    item('Antall dager (>28)', `${opptjening.antallDager}`)
 ];
 
-const søknadsfrist = behandling => [
-    item('Sendt NAV', toDate(behandling.sendtNav)),
-    item('Siste sykdomsdag', toDate(behandling.sisteSykdomsdag)),
-    item('Innen 3 mnd', behandling.innen3Mnd ? 'Ja' : 'Nei')
+const søknadsfrist = søknadsfrist => [
+    item('Sendt NAV', toDate(søknadsfrist.sendtNav)),
+    item('Siste sykdomsdag', toDate(søknadsfrist.sisteSykdomsdag)),
+    item('Innen 3 mnd', søknadsfrist.innen3Mnd ? 'Ja' : 'Nei')
 ];
 
-const dagerIgjen = behandling => [
-    item('Første fraværsdag', toDate(behandling.førsteFraværsdag)),
-    item('Første sykepengedag', toDate(behandling.førsteSykepengedag)),
-    item('Yrkesstatus', capitalize(behandling.yrkesstatus)),
-    item('Tidligere perioder', behandling.tidligerePerioder.length || '-'),
-    item('Max dato', toDate(behandling.maxDato))
+const dagerIgjen = dagerIgjen => [
+    item('Første fraværsdag', toDate(dagerIgjen.førsteFraværsdag)),
+    item('Første sykepengedag', toDate(dagerIgjen.førsteSykepengedag)),
+    item('Yrkesstatus', capitalize(dagerIgjen.yrkesstatus)),
+    item('Tidligere perioder', dagerIgjen.tidligerePerioder.length || '-'),
+    item('Max dato', toDate(dagerIgjen.maxDato))
 ];
 
-const under67År = behandling => [item('Alder', `${behandling.alder}`)];
+const under67År = dagerIgjen => [item('Alder', `${dagerIgjen.alder}`)];
 
 export default {
     medlemskap,
