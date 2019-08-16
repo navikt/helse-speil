@@ -42,7 +42,7 @@
         ]
     },
     "dependencies": {
-        "aws-sdk": "^2.510.0",
+        "aws-sdk": "^2.511.0",
         "classnames": "^2.2.6",
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.4",
