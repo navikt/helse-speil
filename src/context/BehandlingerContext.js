@@ -22,10 +22,12 @@ export const BehandlingerProvider = ({ children }) => {
     );
 
     const fetchBehandlinger = value => {
-        behandlingerFor(value)
+        return behandlingerFor(value)
             .then(response => {
                 if (response.status === 200) {
-                    setBehandlinger({ behandlinger: response.data });
+                    const newData = { behandlinger: response.data };
+                    setBehandlinger(newData);
+                    return newData;
                 } else if (response.status === 401) {
                     setError('Du må logge inn på nytt.');
                 } else {
