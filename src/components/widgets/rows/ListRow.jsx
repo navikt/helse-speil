@@ -18,7 +18,7 @@ const ListRow = ({ label, items, bold }) => {
                             <span className="ListItem__left">
                                 <Normaltekst>{item.label}</Normaltekst>
                                 <Normaltekst className={bold ? 'bold' : ''}>
-                                    {item.value}
+                                    {item.value ?? ''}
                                 </Normaltekst>
                             </span>
                             <span className="ListItem__right" />

@@ -1,6 +1,6 @@
 import { item } from './mappingUtils';
 import { toDate } from '../utils/date';
-import { capitalize } from '../utils/locale';
+import { capitalize, toKroner } from '../utils/locale';
 
 const medlemskap = medlemskap => [
     item(
@@ -23,6 +23,11 @@ const opptjening = opptjening => [
     item('Antall dager (>28)', `${opptjening.antallDager}`)
 ];
 
+const merEnn05G = merEnn05G => [
+    item('Beregningsperioden', `${toKroner(merEnn05G.beregningsperioden)} kr`),
+    item(`0,5G er ${8322} kr`)
+];
+
 const søknadsfrist = søknadsfrist => [
     item('Sendt NAV', toDate(søknadsfrist.sendtNav)),
     item('Siste sykdomsdag', toDate(søknadsfrist.sisteSykdomsdag)),
@@ -42,6 +47,7 @@ const under67År = dagerIgjen => [item('Alder', `${dagerIgjen.alder}`)];
 export default {
     medlemskap,
     opptjening,
+    merEnn05G,
     søknadsfrist,
     dagerIgjen,
     under67År
