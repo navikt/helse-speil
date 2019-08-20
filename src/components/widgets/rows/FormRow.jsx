@@ -12,7 +12,7 @@ const FormRow = ({ label, value, bold, showRightSide }) => {
                 <Normaltekst className={className}>{label}</Normaltekst>
                 <Normaltekst className={className}>{value || '-'}</Normaltekst>
             </span>
-            {showRightSide && value ? (
+            {showRightSide ? (
                 <Uenigboks label={label} />
             ) : (
                 <div className="FormRow__padder" />
