@@ -1,19 +1,14 @@
 .DetaljerBoks {
   display: flex;
   flex-direction: column;
+  padding: 2rem;
+  min-width: 32rem;
 
-  .lukknapp {
-    flex-direction: column;
-    align-self: flex-end;
-  }
-
-  .tittel {
-    padding-left: 1rem;
+  .typo-undertittel {
+    margin-bottom: 2rem;
   }
 
   .periodeliste {
-    padding: 1rem;
-    overflow: auto;
 
     .periode {
       width: 60%;
@@ -22,7 +17,15 @@
     }
 
     .sum-linje {
-      margin-bottom: 1rem;
+      margin: 1rem 0;
+    }
+
+    .sum-linje:last-child {
+      margin-bottom: 0;
     }
   }
+}
+
+.DetaljerBoks__link {
+  cursor: pointer;
 }

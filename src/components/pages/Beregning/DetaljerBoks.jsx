@@ -1,65 +1,73 @@
 import React from 'react';
-import Lukknapp from 'nav-frontend-lukknapp';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import Modal from 'nav-frontend-modal';
 import PropTypes from 'prop-types';
-import { toKronerOgØre } from '../../../utils/locale';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { toKroner } from '../../../utils/locale';
 import './DetaljerBoks.less';
+
+Modal.setAppElement('#root');
+
+const periodePropType = PropTypes.arrayOf(
+    PropTypes.shape({
+        utbetalingsperiode: PropTypes.string.isRequired,
+        beløp: PropTypes.number.isRequired
+    })
+).isRequired;
+
+const Detaljer = ({ items, label }) => {
+    const sum = items.reduce((acc, periode) => acc + periode.beløp, 0);
+    return (
+        <>
+            {items.map(item => (
+                <div className="periode">
+                    <Normaltekst>{item.utbetalingsperiode}</Normaltekst>
+                    <Normaltekst>{toKroner(item.beløp)} kr</Normaltekst>
+                </div>
+            ))}
+            <div className="periode sum-linje">
+                <Element>{label}</Element>
+                <Element>{toKroner(sum)} kr</Element>
+            </div>
+        </>
+    );
+};
+
+Detaljer.propTypes = {
+    items: periodePropType,
+    label: PropTypes.string.isRequired
+};
 
 const DetaljerBoks = ({
     beregningsperioden,
     sammenligningsperiode,
     onClose
 }) => {
-    const totaltIBeregningsperioden = toKronerOgØre(
-        beregningsperioden.reduce((acc, periode) => acc + periode.beløp, 0)
-    );
-    const totaltISammenligningsperioden = toKronerOgØre(
-        sammenligningsperiode.reduce((acc, periode) => acc + periode.beløp, 0)
-    );
     return (
-        <div className="DetaljerBoks">
-            <Lukknapp onClick={onClose} />
-            <Element className="tittel">Innrapportert til A-Ordningen</Element>
+        <Modal
+            className="DetaljerBoks"
+            isOpen={true}
+            contentLabel="Innrapportert til A-Ordningen"
+            onRequestClose={onClose}
+        >
+            <Undertittel>Innrapportert til A-Ordningen</Undertittel>
             <div className="periodeliste">
-                {beregningsperioden.map(periode => (
-                    <div className="periode">
-                        <Normaltekst>{periode.utbetalingsperiode}</Normaltekst>
-                        <Normaltekst>{periode.beløp} kr</Normaltekst>
-                    </div>
-                ))}
-                <div className="periode sum-linje">
-                    <Element>Beregningsperioden</Element>
-                    <Element>{totaltIBeregningsperioden} kr</Element>
-                </div>
-                {sammenligningsperiode.map(periode => (
-                    <div className="periode">
-                        <Normaltekst>{periode.utbetalingsperiode}</Normaltekst>
-                        <Normaltekst>{periode.beløp} kr</Normaltekst>
-                    </div>
-                ))}
-                <div className="periode">
-                    <Element>Sammenligningsgrunnlag</Element>
-                    <Element>{totaltISammenligningsperioden}</Element>
-                </div>
+                <Detaljer
+                    label="Beregningsperioden"
+                    items={beregningsperioden}
+                />
+                <Detaljer
+                    label="Sammenligningsgrunnlag"
+                    items={sammenligningsperiode}
+                />
             </div>
-        </div>
+        </Modal>
     );
 };
 
 DetaljerBoks.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    beregningsperioden: PropTypes.arrayOf(
-        PropTypes.shape({
-            utbetalingsperiode: PropTypes.string.isRequired,
-            beløp: PropTypes.number.isRequired
-        })
-    ).isRequired,
-    sammenligningsperiode: PropTypes.arrayOf(
-        PropTypes.shape({
-            utbetalingsperiode: PropTypes.string.isRequired,
-            beløp: PropTypes.number.isRequired
-        })
-    ).isRequired
+    beregningsperioden: periodePropType,
+    sammenligningsperiode: periodePropType,
+    onClose: PropTypes.func.isRequired
 };
 
 export default DetaljerBoks;

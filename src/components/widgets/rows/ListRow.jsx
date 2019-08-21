@@ -31,7 +31,7 @@ const ListRow = ({ label, items, bold }) => {
 };
 
 ListRow.propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
     items: PropTypes.arrayOf(
         PropTypes.shape({
             label: PropTypes.string.isRequired,

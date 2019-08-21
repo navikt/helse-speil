@@ -23,6 +23,16 @@ const Beregning = withBehandlingContext(({ behandling }) => {
         setVisDetaljerboks(false);
     };
 
+    const detaljerLenke = (
+        <a
+            className="DetaljerBoks__link"
+            onClick={onVisDetaljerClick}
+            tabIndex={0}
+        >
+            {' (Vis detaljer)'}
+        </a>
+    );
+
     return (
         <Panel border className="Beregning">
             <Undertittel className="panel-tittel">
@@ -45,28 +55,28 @@ const Beregning = withBehandlingContext(({ behandling }) => {
                 )}
             />
             <ListRow
-                label={beregningstekster('aordningen')}
+                label={
+                    <>
+                        {beregningstekster('aordningen')}
+                        {detaljerLenke}
+                    </>
+                }
                 items={ItemMapper.aordning(behandling.sykepengeberegning)}
                 bold
-                // Legg inn knapp: onClick={onVisDetaljerClick}
             />
             <IconRow
                 label={beregningstekster('avvik')}
-                value={`${toKroner(
-                    sykepengeberegning.avvik * 100
-                )} %`}
+                value={`${toKroner(sykepengeberegning.avvik * 100)} %`}
                 bold
             />
             <IconRow
                 label={beregningstekster('sykepengegrunnlag')}
-                value={`${toKroner(
-                    sykepengeberegning.sykepengegrunnlag
-                )} kr`}
+                value={`${toKroner(sykepengeberegning.sykepengegrunnlag)} kr`}
                 bold
             />
             <IconRow
                 label={beregningstekster('dagsats')}
-                value={`${toKroner(behandling.beregning.dagsats)} kr`}
+                value={`${toKroner(sykepengeberegning.dagsats)} kr`}
                 bold
             />
             <ListeSeparator />
