@@ -80,7 +80,7 @@
         "react-router-dom": "^5.0.1",
         "request": "^2.88.0",
         "reset-css": "^4.0.1",
-        "snyk": "^1.217.1",
+        "snyk": "^1.217.3",
         "tunnel": "0.0.6"
     },
     "devDependencies": {
@@ -101,7 +101,7 @@
         "babel-jest": "^24.9.0",
         "deasync": "^0.1.15",
         "eslint": "^6.2.1",
-        "eslint-config-prettier": "^6.0.0",
+        "eslint-config-prettier": "^6.1.0",
         "eslint-config-standard-jsx": "^8.0.0",
         "eslint-plugin-react": "^7.14.3",
         "fetch-intercept": "^2.3.1",
