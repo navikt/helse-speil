@@ -44,10 +44,10 @@ bokmål.beregning['dagsats'] = 'Dagsats';
 
 bokmål.periode['tittel'] = 'Sykepengeperiode';
 bokmål.periode['kalenderdager'] = 'Antall kalenderdager';
-bokmål.periode['arbeidsgiverperiode'] = 'Arb.giverperiode, kalenderdager';
+bokmål.periode['arbeidsgiverperiode'] = 'Antall dager i arbeidsgiverperioden';
 bokmål.periode['virkedager'] = 'Antall virkedager';
 bokmål.periode['ferie'] = 'Ferie';
-bokmål.periode['dager'] = 'Antall dager';
+bokmål.periode['dager'] = 'Antall utbetalingsdager';
 bokmål.periode['sykmeldingsgrad'] = 'Sykmeldingsgrad';
 bokmål.periode['friskmelding'] = 'Ikke utfylt friskmelding i søknaden';
 bokmål.periode['gradering'] = 'Sykmeldingen er på 100%';
