@@ -1,0 +1,28 @@
+.DetaljerBoks {
+  display: flex;
+  flex-direction: column;
+
+  .lukknapp {
+    flex-direction: column;
+    align-self: flex-end;
+  }
+
+  .tittel {
+    padding-left: 1rem;
+  }
+
+  .periodeliste {
+    padding: 1rem;
+    overflow: auto;
+
+    .periode {
+      width: 60%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .sum-linje {
+      margin-bottom: 1rem;
+    }
+  }
+}

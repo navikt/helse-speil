@@ -17,6 +17,13 @@ const daysBetween = (firstDate, lastDate) => {
     return Math.abs(moment(lastDate).diff(moment(firstDate), 'days'));
 };
 
+const sortObjectsWithDate = (periodeA, periodeB, sortKey) => {
+    const dateA = moment(periodeA[sortKey]);
+    const dateB = moment(periodeB[sortKey]);
+
+    return dateB.isAfter(dateA) ? -1 : 1;
+};
+
 const toDate = dateString => {
     return dateString ? new Date(dateString) : null;
 };
@@ -32,6 +39,7 @@ const newestDate = objs => {
 module.exports = {
     isWithin3Months,
     daysBetween,
-    toDate,
-    newestTom
+    newestTom,
+    sortObjectsWithDate,
+    toDate
 };

@@ -1,4 +1,4 @@
-const { daysBetween, toDate, newestTom } = require('./datecalc');
+const { daysBetween, toDate, newestTom, sortObjectsWithDate } = require('./datecalc');
 
 const antallDager = behandling =>
     behandling.vedtak.perioder.reduce(
@@ -27,16 +27,39 @@ const antallKalenderdager = behandling => {
 const sisteSykdomsdag = behandling =>
     newestTom(behandling.originalSøknad.soknadsperioder);
 
-const sykepengegrunnlag = behandling => {
-    const {
-        sykepengegrunnlagNårTrygdenYter,
-        sykepengegrunnlagIArbeidsgiverperioden
-    } = behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi;
+const sykepengegrunnlag = behandling =>
+    behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
+        .sykepengegrunnlagNårTrygdenYter.fastsattVerdi;
 
-    return (
-        sykepengegrunnlagNårTrygdenYter.fastsattVerdi +
-        sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi
+const utbetalinger = behandling =>
+    behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi.sykepengegrunnlagNårTrygdenYter.grunnlag
+        .map(periode => ({
+            utbetalingsperiode: periode.utbetalingsperiode,
+            beløp: periode.beløp
+        }))
+        .sort((periodeA, periodeB) =>
+            sortObjectsWithDate(periodeA, periodeB, 'utbetalingsperiode')
+        );
+
+const beregningsperioden = behandling => {
+    const beregningsperiode = utbetalinger(behandling).slice(0, 3);
+    return beregningsperiode;
+};
+
+const avvik = behandling => {
+    const sammenligningsgrunnlag = utbetalinger(behandling).reduce(
+        (acc, periode) => acc + periode.beløp,
+        0
     );
+    const beregningsperioden = utbetalinger(behandling)
+        .slice(0, 3)
+        .reduce((acc, periode) => acc + periode.beløp, 0);
+    const aktuellMånedsinntekt = beregningsperioden / 3;
+    const omregnetÅrsinntekt = aktuellMånedsinntekt * 12;
+    const avvik =
+        Math.abs(omregnetÅrsinntekt - sammenligningsgrunnlag) /
+        sammenligningsgrunnlag;
+    return avvik;
 };
 
 const dagsats = (behandling, periode = 0) =>
@@ -68,6 +91,9 @@ module.exports = {
     refusjonTilArbeidsgiver,
     sisteSykdomsdag,
     sykepengegrunnlag,
+    beregningsperioden,
+    utbetalinger,
+    avvik,
     sykmeldingsgrad,
     utbetaling
 };
