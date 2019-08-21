@@ -2,33 +2,35 @@ import { item } from './mappingUtils';
 import { beregningstekster } from '../tekster';
 import { toKroner } from '../utils/locale';
 
-const inntektsmelding = månedsinntekt => [
-    item(
-        beregningstekster('månedsinntekt'),
-        `${toKroner(månedsinntekt / 12)} kr`
-    ),
-    item(beregningstekster('årsinntekt'), `${toKroner(månedsinntekt)} kr`)
+// TODO: Legg til riktige beløp her når inntektsmelding er klart
+const inntektsmelding = årsinntekt => [
+    item(beregningstekster('månedsinntekt'), 'Ikke klart'),
+    item(beregningstekster('årsinntekt'), 'Ikke klart')
 ];
 
-const aordning = månedsinntekt => {
+const aordning = behandling => {
+    const totaltIBeregningsperioden = behandling.beregningsperioden.reduce(
+        (acc, periode) => acc + periode.beløp,
+        0
+    );
     return [
         item(
             beregningstekster('beregningsperioden'),
-            `${toKroner((månedsinntekt / 12) * 3)} kr`
+            `${toKroner(totaltIBeregningsperioden)} kr`
         ),
         item(
             beregningstekster('sammenligningsgrunnlag'),
-            `${toKroner(månedsinntekt)} kr`
+            `${toKroner(behandling.sykepengegrunnlag)} kr`
         )
     ];
 };
 
-const sykepleiegrunnlag = sykepleiegrunnlag => {
-    return [item('Dagsats', `${toKroner(sykepleiegrunnlag / 260)} kr`)];
+const sykepengegrunnlag = beregning => {
+    return [item('Dagsats', `${toKroner(beregning.dagsats)} kr`)];
 };
 
 export default {
     inntektsmelding,
     aordning,
-    sykepleiegrunnlag
+    sykepengegrunnlag
 };

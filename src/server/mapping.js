@@ -112,6 +112,21 @@ const oppsummering = (behandling, periode = 0) => {
     };
 };
 
+const sykepengeberegning = behandling => {
+    const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
+    const beregningsperioden = selectors.beregningsperioden(behandling);
+    const sammenligningsgrunnlag = selectors.utbetalinger(behandling);
+    const avvik = selectors.avvik(behandling);
+
+    return {
+        beregningsperioden,
+        sykepengegrunnlag,
+        sammenligningsgrunnlag,
+        avvik,
+        dagsats: selectors.dagsats(behandling)
+    };
+};
+
 const originalSøknad = behandling => ({
     arbeidsgiver: behandling.originalSøknad.arbeidsgiver,
     aktorId: behandling.originalSøknad.aktorId,
@@ -152,10 +167,6 @@ const avklarteVerdier = behandling => ({
     sykepengegrunnlag: behandling.avklarteVerdier.sykepengegrunnlag
 });
 
-const beregning = behandling => ({
-    dagsats: behandling.vedtak.perioder[0].dagsats
-});
-
 const alle = behandling => ({
     behandlingsId: behandling.behandlingsId,
     sykdomsvilkår: sykdomsvilkår(behandling),
@@ -164,8 +175,8 @@ const alle = behandling => ({
     originalSøknad: originalSøknad(behandling),
     utbetaling: utbetaling(behandling),
     periode: periode(behandling),
-    beregning: beregning(behandling),
-    avklarteVerdier: avklarteVerdier(behandling)
+    avklarteVerdier: avklarteVerdier(behandling),
+    sykepengeberegning: sykepengeberegning(behandling)
 });
 
 const capitalize = string =>
@@ -174,6 +185,7 @@ const capitalize = string =>
 module.exports = {
     sykdomsvilkår,
     inngangsvilkår,
+    sykepengeberegning,
     oppsummering,
     originalSøknad,
     alle

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { Panel } from 'nav-frontend-paneler';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
@@ -9,36 +9,74 @@ import ListRow from '../../widgets/rows/ListRow';
 import IconRow from '../../widgets/rows/IconRow';
 import { toKroner } from '../../../utils/locale';
 import ListeSeparator from '../../widgets/ListeSeparator';
+import DetaljerBoks from './DetaljerBoks';
 
 const Beregning = withBehandlingContext(({ behandling }) => {
+    const { sykepengeberegning } = behandling;
+
+    const [visDetaljerboks, setVisDetaljerboks] = useState(false);
+
+    const onVisDetaljerClick = () => {
+        setVisDetaljerboks(true);
+    };
+    const onLukkDetaljerClick = () => {
+        setVisDetaljerboks(false);
+    };
+
+    const detaljerLenke = (
+        <a
+            className="DetaljerBoks__link"
+            onClick={onVisDetaljerClick}
+            tabIndex={0}
+        >
+            {' (Vis detaljer)'}
+        </a>
+    );
+
     return (
         <Panel border className="Beregning">
             <Undertittel className="panel-tittel">
                 {beregningstekster('tittel')}
             </Undertittel>
+            {visDetaljerboks && (
+                <DetaljerBoks
+                    beregningsperioden={sykepengeberegning.beregningsperioden}
+                    sammenligningsperiode={
+                        sykepengeberegning.sammenligningsgrunnlag
+                    }
+                    onClose={onLukkDetaljerClick}
+                />
+            )}
             {/* TODO: send inn riktig beløp til inntektsmeldingbolken */}
             <ListRow
                 label={beregningstekster('inntektsmeldinger')}
-                items={ItemMapper.inntektsmelding([321000])}
+                items={ItemMapper.inntektsmelding(
+                    sykepengeberegning.inntektsmelding
+                )}
             />
             <ListRow
-                label={beregningstekster('aordningen')}
-                items={ItemMapper.aordning(
-                    behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
-                        .sykepengegrunnlagNårTrygdenYter.fastsattVerdi
-                )}
+                label={
+                    <>
+                        {beregningstekster('aordningen')}
+                        {detaljerLenke}
+                    </>
+                }
+                items={ItemMapper.aordning(behandling.sykepengeberegning)}
                 bold
             />
-            {/* TODO: send inn riktig avvik til titleValue */}
-            <IconRow label={beregningstekster('avvik')} value={'100 %'} bold />
+            <IconRow
+                label={beregningstekster('avvik')}
+                value={`${toKroner(sykepengeberegning.avvik * 100)} %`}
+                bold
+            />
             <IconRow
                 label={beregningstekster('sykepengegrunnlag')}
-                value={`${toKroner(321000)} kr`}
+                value={`${toKroner(sykepengeberegning.sykepengegrunnlag)} kr`}
                 bold
             />
             <IconRow
                 label={beregningstekster('dagsats')}
-                value={`${toKroner(behandling.beregning.dagsats)} kr`}
+                value={`${toKroner(sykepengeberegning.dagsats)} kr`}
                 bold
             />
             <ListeSeparator />
