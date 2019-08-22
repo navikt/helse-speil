@@ -36,11 +36,7 @@ const inngangsvilkår = behandling => {
                 .grunnlag?.[0].sluttdato
     };
 
-    const merEnn05G = {
-        beregningsperioden:
-            behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
-                .sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi
-    };
+    const merEnn05G = selectors.sykepengegrunnlag(behandling);
 
     const inntekt = {
         beløp:
