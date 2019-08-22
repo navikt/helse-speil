@@ -97,9 +97,6 @@ const oppsummering = (behandling, periode = 0) => {
         inngangsvilkårErOppfylt: capitalize(behandling.vilkårsprøving.resultat),
         arbeidsgiver: behandling.originalSøknad.arbeidsgiver,
         refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
-        betalerArbeidsgiverPeriode: selectors.betalerArbeidsgiverperiode(
-            behandling
-        ),
         fordeling: arbeidsgiverFordeling ? arbeidsgiverFordeling.andel : '-',
         månedsbeløp: sykepengegrunnlag / 12,
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
@@ -108,7 +105,9 @@ const oppsummering = (behandling, periode = 0) => {
         sykmeldtFraOgMed,
         sykmeldtTilOgMed,
         antallDager,
-        dagsats
+        dagsats,
+        utbetalesFom: behandling.vedtak.perioder[0].fom,
+        utbetalesTom: behandling.vedtak.perioder[0].tom
     };
 };
 
@@ -148,12 +147,8 @@ const utbetaling = behandling => {
 
     return {
         refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
-        betalerArbeidsgiverperiode: selectors.betalerArbeidsgiverperiode(
-            behandling
-        ),
         sykepengegrunnlag: selectors.sykepengegrunnlag(behandling),
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
-        utbetaling: selectors.utbetaling(behandling),
         antallDager,
         dagsats
     };

@@ -13,20 +13,12 @@ import DetaljerBoks from './DetaljerBoks';
 
 const Beregning = withBehandlingContext(({ behandling }) => {
     const { sykepengeberegning } = behandling;
-
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
-
-    const onVisDetaljerClick = () => {
-        setVisDetaljerboks(true);
-    };
-    const onLukkDetaljerClick = () => {
-        setVisDetaljerboks(false);
-    };
 
     const detaljerLenke = (
         <a
             className="DetaljerBoks__link"
-            onClick={onVisDetaljerClick}
+            onClick={() => setVisDetaljerboks(true)}
             tabIndex={0}
         >
             {' (Vis detaljer)'}
@@ -45,7 +37,7 @@ const Beregning = withBehandlingContext(({ behandling }) => {
                     sammenligningsgrunnlag={
                         sykepengeberegning.sammenligningsgrunnlag
                     }
-                    onClose={onLukkDetaljerClick}
+                    onClose={() => setVisDetaljerboks(false)}
                 />
             )}
             {/* TODO: send inn riktig beløp til inntektsmeldingbolken */}
