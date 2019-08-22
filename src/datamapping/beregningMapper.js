@@ -9,18 +9,14 @@ const inntektsmelding = årsinntekt => [
 ];
 
 const aordning = behandling => {
-    const totaltIBeregningsperioden = behandling.beregningsperioden.reduce(
-        (acc, periode) => acc + periode.beløp,
-        0
-    );
     return [
         item(
             beregningstekster('beregningsperioden'),
-            `${toKroner(totaltIBeregningsperioden)} kr`
+            `${toKroner(behandling.beregningsperioden)} kr`
         ),
         item(
             beregningstekster('sammenligningsgrunnlag'),
-            `${toKroner(behandling.sykepengegrunnlag)} kr`
+            `${toKroner(behandling.sammenligningsgrunnlag)} kr`
         )
     ];
 };
