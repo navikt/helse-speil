@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './ListRow.less';
 
-const ListRow = ({ label, items, bold }) => {
+const ListRow = ({ label, labelProp, items, bold }) => {
     return (
         <>
-            <IconRow label={label} bold={bold} />
+            <IconRow label={label} labelProp={labelProp} bold={bold} />
             {items && (
                 <div className="ListRow">
                     {items.map((item, i) => (
@@ -32,6 +32,7 @@ const ListRow = ({ label, items, bold }) => {
 
 ListRow.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
+    labelProp: PropTypes.node,
     items: PropTypes.arrayOf(
         PropTypes.shape({
             label: PropTypes.string.isRequired,

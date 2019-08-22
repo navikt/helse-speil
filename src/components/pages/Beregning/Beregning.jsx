@@ -40,8 +40,9 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             </Undertittel>
             {visDetaljerboks && (
                 <DetaljerBoks
+                    perioder={sykepengeberegning.utbetalingsperioder}
                     beregningsperioden={sykepengeberegning.beregningsperioden}
-                    sammenligningsperiode={
+                    sammenligningsgrunnlag={
                         sykepengeberegning.sammenligningsgrunnlag
                     }
                     onClose={onLukkDetaljerClick}
@@ -55,12 +56,8 @@ const Beregning = withBehandlingContext(({ behandling }) => {
                 )}
             />
             <ListRow
-                label={
-                    <>
-                        {beregningstekster('aordningen')}
-                        {detaljerLenke}
-                    </>
-                }
+                label={beregningstekster('aordningen')}
+                labelProp={detaljerLenke}
                 items={ItemMapper.aordning(behandling.sykepengeberegning)}
                 bold
             />
@@ -71,9 +68,7 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             />
             <IconRow
                 label={beregningstekster('sykepengegrunnlag')}
-                value={`${toKroner(
-                    sykepengeberegning.sammenligningsgrunnlag
-                )} kr`}
+                value={`${toKroner(sykepengeberegning.sykepengegrunnlag)} kr`}
                 bold
             />
             <IconRow
