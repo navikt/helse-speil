@@ -32,7 +32,7 @@ const DetaljerBoks = ({
                     <Element>Beregningsperioden</Element>
                     <Element>{toKroner(beregningsperioden)} kr</Element>
                 </div>
-                {perioder.map(item => (
+                {perioder.slice(3).map(item => (
                     <div className="periode" key={item.join('-')}>
                         <Normaltekst>{item[0]}</Normaltekst>
                         <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
