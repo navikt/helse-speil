@@ -15,7 +15,7 @@ beforeEach(() => {
 test('successful person lookup resolves with person object', () => {
     request.setStsStatusCode(200);
     request.setStsResponseBody({
-        access_token: 'some_token'
+        access_token: createToken({ exp: 12345 })
     });
     request.setPersonStatusCode(200);
     request.setPersonResponseBody({ navn: 'Navn Navnesen' });
@@ -27,7 +27,6 @@ test('successful person lookup resolves with person object', () => {
 
 test('logon failure -> rejection', () => {
     request.setStsStatusCode(500);
-
     expect(personLookup.hentPerson('12345')).rejects.toMatch(
         'Error during STS login'
     );
@@ -44,3 +43,10 @@ test('lookup failure -> rejection', () => {
         'Error during person lookup'
     );
 });
+
+const createToken = claims => {
+    const header = { alg: 'HS256', typ: 'JWT' };
+    return `${btoa(JSON.stringify(header))}.${btoa(
+        JSON.stringify(claims)
+    )}.bogussignature`;
+};

@@ -3,23 +3,23 @@
 const request = require('request');
 const authSupport = require('./authsupport');
 
-let navConfig = null;
 let cachedAccessToken = null;
+let authConfig = null;
 
-const init = config => {
-    navConfig = config;
-    cachedAccessToken = null;
+const init = navConfig => {
+    authConfig = navConfig;
+    exchangeCredsForAccessToken();
 };
 
 const hentPerson = async aktørId => {
     return new Promise((resolve, reject) => {
-        logonToNav()
-            .then(jwt => {
+        exchangeCredsForAccessToken()
+            .then(token => {
                 request.get(
                     `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
                     {
                         headers: {
-                            Authorization: `Bearer ${jwt}`
+                            Authorization: `Bearer ${token}`
                         }
                     },
                     (error, response, body) => {
@@ -41,22 +41,17 @@ const hentPerson = async aktørId => {
     });
 };
 
-const logonToNav = async () => {
+const exchangeCredsForAccessToken = async () => {
     return new Promise((resolve, reject) => {
-        if (
-            cachedAccessToken &&
-            !authSupport.willExpireInLessThan(30, cachedAccessToken)
-        ) {
-            resolve(cachedAccessToken);
-        } else {
+        if (tokenNeedsRefresh()) {
             request.get(
-                `${navConfig.stsUrl}/rest/v1/sts/token?grant_type=client_credentials&scope=openid`,
+                `${authConfig.stsUrl}/rest/v1/sts/token?grant_type=client_credentials&scope=openid`,
                 {
                     headers: {
                         Authorization:
                             'Basic ' +
                             Buffer.from(
-                                `${navConfig.serviceUserName}:${navConfig.serviceUserPassword}`
+                                `${authConfig.serviceUserName}:${authConfig.serviceUserPassword}`
                             ).toString('base64'),
                         Accept: 'application/json'
                     }
@@ -69,19 +64,22 @@ const logonToNav = async () => {
                                 'unknown error'}`
                         );
                     } else {
-                        console.log(
-                            `STS login OK: ${JSON.stringify(body).substring(
-                                0,
-                                10
-                            )}`
-                        );
                         cachedAccessToken = body.access_token;
-                        resolve(body.access_token);
+                        resolve(cachedAccessToken);
                     }
                 }
             );
+        } else {
+            resolve(cachedAccessToken);
         }
     });
+};
+
+const tokenNeedsRefresh = () => {
+    return (
+        !cachedAccessToken ||
+        authSupport.willExpireInLessThan(30, cachedAccessToken)
+    );
 };
 
 module.exports = {
