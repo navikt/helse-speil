@@ -9,8 +9,6 @@ import { inngangsvilkårtekster as tekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 
 const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
-        console.log(behandling);
-
         return (
             <Panel border>
                     <Undertittel className="panel-tittel">{tekster(`tittel`)}</Undertittel>
