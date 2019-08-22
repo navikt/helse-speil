@@ -113,15 +113,20 @@ const oppsummering = (behandling, periode = 0) => {
 };
 
 const sykepengeberegning = behandling => {
-    const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
     const beregningsperioden = selectors.beregningsperioden(behandling);
-    const sammenligningsgrunnlag = selectors.utbetalinger(behandling);
-    const avvik = selectors.avvik(behandling);
+    const utbetalingsperioder = selectors.utbetalingsperioder(behandling);
+    const sammenligningsgrunnlag = beregningsperioden * 4;
+    const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
+    const avvik =
+        (Math.abs(sammenligningsgrunnlag - sykepengegrunnlag) /
+            sammenligningsgrunnlag) *
+        100;
 
     return {
         beregningsperioden,
-        sykepengegrunnlag,
+        utbetalingsperioder,
         sammenligningsgrunnlag,
+        sykepengegrunnlag,
         avvik,
         dagsats: selectors.dagsats(behandling)
     };

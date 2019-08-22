@@ -66,12 +66,14 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             />
             <IconRow
                 label={beregningstekster('avvik')}
-                value={`${toKroner(sykepengeberegning.avvik * 100)} %`}
+                value={`${toKroner(sykepengeberegning.avvik)} %`}
                 bold
             />
             <IconRow
                 label={beregningstekster('sykepengegrunnlag')}
-                value={`${toKroner(sykepengeberegning.sykepengegrunnlag)} kr`}
+                value={`${toKroner(
+                    sykepengeberegning.sammenligningsgrunnlag
+                )} kr`}
                 bold
             />
             <IconRow
