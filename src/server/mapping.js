@@ -179,10 +179,10 @@ const capitalize = string =>
     string[0].toUpperCase() + string.toLowerCase().substring(1);
 
 module.exports = {
-    sykdomsvilkår,
-    inngangsvilkår,
-    sykepengeberegning,
-    oppsummering,
-    originalSøknad,
+    _sykdomsvilkår: sykdomsvilkår,
+    _inngangsvilkår: inngangsvilkår,
+    _sykepengeberegning: sykepengeberegning,
+    _oppsummering: oppsummering,
+    _originalSøknad: originalSøknad,
     alle
 };

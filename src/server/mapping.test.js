@@ -12,8 +12,9 @@ const readTestdata = () => {
 
 test('medlemskap', async () => {
     const rawServerResponse = JSON.parse(readTestdata());
-    const medlemskap = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
-        .medlemskap;
+    const medlemskap = mapping._inngangsvilkår(
+        rawServerResponse.behandlinger[0]
+    ).medlemskap;
     const expected = {
         statsborgerskap: 'NOR',
         bosattINorge: true,
@@ -24,8 +25,9 @@ test('medlemskap', async () => {
 
 test('opptjening', async () => {
     const rawServerResponse = JSON.parse(readTestdata());
-    const opptjening = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
-        .opptjening;
+    const opptjening = mapping._inngangsvilkår(
+        rawServerResponse.behandlinger[0]
+    ).opptjening;
     const expected = {
         førsteSykdomsdag: '2019-05-09',
         antallDager: 768,
@@ -38,7 +40,7 @@ test('opptjening', async () => {
 test('opptjening grunnlag may be missing, startdato and sluttdato will not be set', async () => {
     let behandling = JSON.parse(readTestdata()).behandlinger[0];
     behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold.grunnlag = undefined;
-    const opptjening = mapping.inngangsvilkår(behandling).opptjening;
+    const opptjening = mapping._inngangsvilkår(behandling).opptjening;
     const expected = {
         førsteSykdomsdag: '2019-05-09',
         antallDager: 768,
@@ -50,7 +52,7 @@ test('opptjening grunnlag may be missing, startdato and sluttdato will not be se
 
 test('inntekt', async () => {
     const rawServerResponse = JSON.parse(readTestdata());
-    const mapped = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
+    const mapped = mapping._inngangsvilkår(rawServerResponse.behandlinger[0])
         .inntekt;
     const expected = {
         beløp: 416820
@@ -60,7 +62,7 @@ test('inntekt', async () => {
 
 test('søknadsfrist', async () => {
     const rawServerResponse = JSON.parse(readTestdata());
-    const mapped = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
+    const mapped = mapping._inngangsvilkår(rawServerResponse.behandlinger[0])
         .søknadsfrist;
     const expected = {
         sendtNav: '2019-06-11T17:21:29.127',
@@ -72,7 +74,7 @@ test('søknadsfrist', async () => {
 
 test('dagerIgjen', async () => {
     const rawServerResponse = JSON.parse(readTestdata());
-    const mapped = mapping.inngangsvilkår(rawServerResponse.behandlinger[0])
+    const mapped = mapping._inngangsvilkår(rawServerResponse.behandlinger[0])
         .dagerIgjen;
     const expected = {
         førsteFraværsdag: '2019-05-09',
@@ -87,7 +89,7 @@ test('dagerIgjen', async () => {
 
 test('originalSøknad', async () => {
     const rawServerResponse = JSON.parse(readTestdata());
-    const mapped = mapping.originalSøknad(rawServerResponse.behandlinger[0]);
+    const mapped = mapping._originalSøknad(rawServerResponse.behandlinger[0]);
     const expected = {
         arbeidsgiver: {
             navn: 'S. VINDEL & SØNN',
