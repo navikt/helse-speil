@@ -1,16 +1,26 @@
-const { daysBetween, toDate, newestTom } = require('./datecalc');
+const {
+    calendarDaysBetween,
+    newestTom,
+    toDate,
+    workdaysBetween
+} = require('./datecalc');
 
-const antallDager = behandling =>
+const antallVirkedager = behandling =>
     behandling.vedtak.perioder.reduce(
-        (acc, periode) =>
-            acc + daysBetween(toDate(periode.fom), toDate(periode.tom)),
+        (acc, periode) => acc + workdaysBetween(periode.fom, periode.tom),
+        0
+    );
+
+const antallUtbetalingsdager = behandling =>
+    behandling.beregning.dagsatser.reduce(
+        (acc, dag) => (dag.skalUtbetales ? acc + 1 : acc),
         0
     );
 
 const antallFeriedager = behandling => {
     const fravarAccumulator = (acc, fravar) => {
         return fravar.type.toLowerCase() === 'ferie'
-            ? acc + daysBetween(toDate(fravar.fom), toDate(fravar.tom))
+            ? acc + calendarDaysBetween(toDate(fravar.fom), toDate(fravar.tom))
             : acc + 0;
     };
     return behandling.originalSøknad.fravar.length === 0
@@ -21,7 +31,7 @@ const antallFeriedager = behandling => {
 const antallKalenderdager = behandling => {
     const fom = toDate(behandling.originalSøknad.fom);
     const tom = toDate(behandling.originalSøknad.tom);
-    return daysBetween(fom, tom);
+    return calendarDaysBetween(fom, tom);
 };
 
 const sisteSykdomsdag = behandling =>
@@ -70,7 +80,8 @@ const refusjonTilArbeidsgiver = behandling =>
     behandling.originalSøknad.arbeidsgiverForskutterer;
 
 module.exports = {
-    antallDager,
+    antallVirkedager,
+    antallUtbetalingsdager,
     antallFeriedager,
     antallKalenderdager,
     dagsats,
