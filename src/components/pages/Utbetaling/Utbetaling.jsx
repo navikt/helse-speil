@@ -25,7 +25,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             </Undertittel>
             <FormRow
                 label={utbetalingstekster('refusjon')}
-                value={refusjonTilArbeidsgiver ? 'Ja' : 'Nei'}
+                value={tekster('informasjon ikke tilgjengelig')}
             />
             <FormRow
                 label={utbetalingstekster('betaler')}

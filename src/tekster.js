@@ -19,6 +19,7 @@ bokmål.mvp = 'Hva dekkes av løsningen nå';
 bokmål.neste = 'Neste';
 bokmål['empty_state_message'] =
     'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over';
+bokmål['informasjon ikke tilgjengelig'] = 'Ikke klart';
 
 bokmål.sykdomsvilkår['sykdomsvilkår_oppfylt'] = 'Sykdomsvilkår er oppfylt';
 bokmål.sykdomsvilkår['mindre_enn_8_uker'] = 'Mindre enn 8 uker sammenhengende';
