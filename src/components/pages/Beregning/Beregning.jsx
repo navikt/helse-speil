@@ -13,20 +13,12 @@ import DetaljerBoks from './DetaljerBoks';
 
 const Beregning = withBehandlingContext(({ behandling }) => {
     const { sykepengeberegning } = behandling;
-
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
-
-    const onVisDetaljerClick = () => {
-        setVisDetaljerboks(true);
-    };
-    const onLukkDetaljerClick = () => {
-        setVisDetaljerboks(false);
-    };
 
     const detaljerLenke = (
         <a
             className="DetaljerBoks__link"
-            onClick={onVisDetaljerClick}
+            onClick={() => setVisDetaljerboks(true)}
             tabIndex={0}
         >
             {' (Vis detaljer)'}
@@ -40,11 +32,12 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             </Undertittel>
             {visDetaljerboks && (
                 <DetaljerBoks
+                    perioder={sykepengeberegning.utbetalingsperioder}
                     beregningsperioden={sykepengeberegning.beregningsperioden}
-                    sammenligningsperiode={
+                    sammenligningsgrunnlag={
                         sykepengeberegning.sammenligningsgrunnlag
                     }
-                    onClose={onLukkDetaljerClick}
+                    onClose={() => setVisDetaljerboks(false)}
                 />
             )}
             {/* TODO: send inn riktig beløp til inntektsmeldingbolken */}
@@ -55,18 +48,14 @@ const Beregning = withBehandlingContext(({ behandling }) => {
                 )}
             />
             <ListRow
-                label={
-                    <>
-                        {beregningstekster('aordningen')}
-                        {detaljerLenke}
-                    </>
-                }
+                label={beregningstekster('aordningen')}
+                labelProp={detaljerLenke}
                 items={ItemMapper.aordning(behandling.sykepengeberegning)}
                 bold
             />
             <IconRow
                 label={beregningstekster('avvik')}
-                value={`${toKroner(sykepengeberegning.avvik * 100)} %`}
+                value={`${toKroner(sykepengeberegning.avvik)} %`}
                 bold
             />
             <IconRow

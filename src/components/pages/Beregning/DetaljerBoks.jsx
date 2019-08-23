@@ -7,39 +7,10 @@ import './DetaljerBoks.less';
 
 Modal.setAppElement('#root');
 
-const periodePropType = PropTypes.arrayOf(
-    PropTypes.shape({
-        utbetalingsperiode: PropTypes.string.isRequired,
-        beløp: PropTypes.number.isRequired
-    })
-).isRequired;
-
-const Detaljer = ({ items, label }) => {
-    const sum = items.reduce((acc, periode) => acc + periode.beløp, 0);
-    return (
-        <>
-            {items.map(item => (
-                <div className="periode">
-                    <Normaltekst>{item.utbetalingsperiode}</Normaltekst>
-                    <Normaltekst>{toKroner(item.beløp)} kr</Normaltekst>
-                </div>
-            ))}
-            <div className="periode sum-linje">
-                <Element>{label}</Element>
-                <Element>{toKroner(sum)} kr</Element>
-            </div>
-        </>
-    );
-};
-
-Detaljer.propTypes = {
-    items: periodePropType,
-    label: PropTypes.string.isRequired
-};
-
 const DetaljerBoks = ({
+    perioder,
     beregningsperioden,
-    sammenligningsperiode,
+    sammenligningsgrunnlag,
     onClose
 }) => {
     return (
@@ -51,22 +22,35 @@ const DetaljerBoks = ({
         >
             <Undertittel>Innrapportert til A-Ordningen</Undertittel>
             <div className="periodeliste">
-                <Detaljer
-                    label="Beregningsperioden"
-                    items={beregningsperioden}
-                />
-                <Detaljer
-                    label="Sammenligningsgrunnlag"
-                    items={sammenligningsperiode}
-                />
+                {perioder.slice(0, 3).map(item => (
+                    <div className="periode" key={item.join('-')}>
+                        <Normaltekst>{item[0]}</Normaltekst>
+                        <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
+                    </div>
+                ))}
+                <div className="periode sum-linje">
+                    <Element>Beregningsperioden</Element>
+                    <Element>{toKroner(beregningsperioden)} kr</Element>
+                </div>
+                {perioder.slice(3).map(item => (
+                    <div className="periode" key={item.join('-')}>
+                        <Normaltekst>{item[0]}</Normaltekst>
+                        <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
+                    </div>
+                ))}
+                <div className="periode sum-linje">
+                    <Element>Sammenligningsgrunnlag</Element>
+                    <Element>{toKroner(sammenligningsgrunnlag)} kr</Element>
+                </div>
             </div>
         </Modal>
     );
 };
 
 DetaljerBoks.propTypes = {
-    beregningsperioden: periodePropType,
-    sammenligningsperiode: periodePropType,
+    perioder: PropTypes.arrayOf(PropTypes.any).isRequired,
+    beregningsperioden: PropTypes.number.isRequired,
+    sammenligningsgrunnlag: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired
 };
 

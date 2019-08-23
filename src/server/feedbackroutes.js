@@ -29,7 +29,9 @@ const routes = app => {
                 res.send(loadResult.Body.toString());
             })
             .catch(err => {
-                console.log(err);
+                if (err.code !== 'NoSuchKey') {
+                    console.log(err);
+                }
                 res.sendStatus(err.statusCode || 500);
             });
     });

@@ -36,11 +36,7 @@ const inngangsvilkår = behandling => {
                 .grunnlag?.[0].sluttdato
     };
 
-    const merEnn05G = {
-        beregningsperioden:
-            behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
-                .sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi
-    };
+    const merEnn05G = selectors.sykepengegrunnlag(behandling);
 
     const inntekt = {
         beløp:
@@ -97,9 +93,6 @@ const oppsummering = (behandling, periode = 0) => {
         inngangsvilkårErOppfylt: capitalize(behandling.vilkårsprøving.resultat),
         arbeidsgiver: behandling.originalSøknad.arbeidsgiver,
         refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
-        betalerArbeidsgiverPeriode: selectors.betalerArbeidsgiverperiode(
-            behandling
-        ),
         fordeling: arbeidsgiverFordeling ? arbeidsgiverFordeling.andel : '-',
         månedsbeløp: sykepengegrunnlag / 12,
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
@@ -108,20 +101,27 @@ const oppsummering = (behandling, periode = 0) => {
         sykmeldtFraOgMed,
         sykmeldtTilOgMed,
         antallDager,
-        dagsats
+        dagsats,
+        utbetalesFom: behandling.vedtak.perioder[0].fom,
+        utbetalesTom: behandling.vedtak.perioder[0].tom
     };
 };
 
 const sykepengeberegning = behandling => {
-    const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
     const beregningsperioden = selectors.beregningsperioden(behandling);
-    const sammenligningsgrunnlag = selectors.utbetalinger(behandling);
-    const avvik = selectors.avvik(behandling);
+    const utbetalingsperioder = selectors.utbetalingsperioder(behandling);
+    const sammenligningsgrunnlag = beregningsperioden * 4;
+    const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
+    const avvik =
+        (Math.abs(sammenligningsgrunnlag - sykepengegrunnlag) /
+            sammenligningsgrunnlag) *
+        100;
 
     return {
         beregningsperioden,
-        sykepengegrunnlag,
+        utbetalingsperioder,
         sammenligningsgrunnlag,
+        sykepengegrunnlag,
         avvik,
         dagsats: selectors.dagsats(behandling)
     };
@@ -143,12 +143,8 @@ const utbetaling = behandling => {
 
     return {
         refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
-        betalerArbeidsgiverperiode: selectors.betalerArbeidsgiverperiode(
-            behandling
-        ),
         sykepengegrunnlag: selectors.sykepengegrunnlag(behandling),
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
-        utbetaling: selectors.utbetaling(behandling),
         antallDager,
         dagsats
     };

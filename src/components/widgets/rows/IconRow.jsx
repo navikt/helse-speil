@@ -5,14 +5,17 @@ import Icon from 'nav-frontend-ikoner-assets';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './IconRow.less';
 
-const IconRow = ({ label, value, bold }) => {
+const IconRow = ({ label, labelProp, value, bold }) => {
     const className = bold ? 'bold' : '';
 
     return (
         <span className="IconRow">
             <span className="IconRow__left">
                 <Icon kind="ok-sirkel-fyll" size={24} />
-                <Normaltekst className={className}>{label}</Normaltekst>
+                <Normaltekst className={className}>
+                    {label}
+                    {labelProp && labelProp}
+                </Normaltekst>
                 <span className="divider" />
                 {value && (
                     <Normaltekst className={className}>{value}</Normaltekst>
@@ -27,6 +30,7 @@ const IconRow = ({ label, value, bold }) => {
 
 IconRow.propTypes = {
     label: PropTypes.string.isRequired,
+    labelProp: PropTypes.node,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     bold: PropTypes.bool
 };
