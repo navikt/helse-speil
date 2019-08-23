@@ -9,41 +9,51 @@ import { inngangsvilkårtekster as tekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 
 const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
-        return (
-            <Panel border>
-                    <Undertittel className="panel-tittel">{tekster(`tittel`)}</Undertittel>
-                    <IconRow label="Inngangsvilkår oppfylt" bold />
-                    <ListRow
-                        label="Medlemskap"
-                        items={ItemMapper.medlemskap(behandling.inngangsvilkår.medlemskap)}
-                    />
-                    <ListRow
-                        label="Opptjening"
-                        items={ItemMapper.opptjening(behandling.inngangsvilkår.opptjening)}
-                    />
-                    <ListRow
-                        label="Mer enn 0,5G"
-                        items={ItemMapper.merEnn05G(
-                            behandling.inngangsvilkår.merEnn05G
-                        )}
-                    />
-                    <ListRow
-                        label="Søknadsfrist"
-                        items={ItemMapper.søknadsfrist(
-                            behandling.inngangsvilkår.søknadsfrist
-                        )}
-                    />
-                    <ListRow
-                        label="Dager igjen"
-                        items={ItemMapper.dagerIgjen(behandling.inngangsvilkår.dagerIgjen)}
-                    />
-                    <ListRow
-                        label="Under 67 år"
-                        items={ItemMapper.under67År(behandling.inngangsvilkår.dagerIgjen)}
-                    />
-                    <Navigasjonsknapper previous="/" next="/beregning" />
-            </Panel>
-        )
+    return (
+        <Panel border>
+            <Undertittel className="panel-tittel">
+                {tekster(`tittel`)}
+            </Undertittel>
+            <IconRow label="Inngangsvilkår oppfylt" bold />
+            <ListRow
+                label="Medlemskap"
+                items={ItemMapper.medlemskap(
+                    behandling.inngangsvilkår.medlemskap
+                )}
+            />
+            <ListRow
+                label="Opptjening"
+                items={ItemMapper.opptjening(
+                    behandling.inngangsvilkår.opptjening
+                )}
+            />
+            <ListRow
+                label="Mer enn 0,5G"
+                items={ItemMapper.merEnn05G(
+                    behandling.inngangsvilkår.merEnn05G
+                )}
+            />
+            <ListRow
+                label="Søknadsfrist"
+                items={ItemMapper.søknadsfrist(
+                    behandling.inngangsvilkår.søknadsfrist
+                )}
+            />
+            <ListRow
+                label="Dager igjen"
+                items={ItemMapper.dagerIgjen(
+                    behandling.inngangsvilkår.dagerIgjen
+                )}
+            />
+            <ListRow
+                label="Under 67 år"
+                items={ItemMapper.under67År(
+                    behandling.inngangsvilkår.dagerIgjen
+                )}
+            />
+            <Navigasjonsknapper previous="/" next="/beregning" />
+        </Panel>
+    );
 });
 
 export default Inngangsvilkår;
