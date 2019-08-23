@@ -15,7 +15,7 @@ const sider = {
 
 Object.keys(sider).forEach(side => (bokmål[side] = {}));
 
-bokmål.mvp = 'Hva dekkes av løsningen nå';
+bokmål.mvp = 'Hvilke elementer i søknaden utløser automatisk behandling';
 bokmål.neste = 'Neste';
 bokmål['empty_state_message'] =
     'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over';
@@ -49,8 +49,8 @@ bokmål.periode['virkedager'] = 'Antall virkedager';
 bokmål.periode['ferie'] = 'Ferie';
 bokmål.periode['dager'] = 'Antall dager';
 bokmål.periode['sykmeldingsgrad'] = 'Sykmeldingsgrad';
-bokmål.periode['friskmelding'] = 'Ingen friskmelding';
-bokmål.periode['gradering'] = 'Ingen gradering';
+bokmål.periode['friskmelding'] = 'Ikke utfylt friskmelding i søknaden';
+bokmål.periode['gradering'] = 'Sykmeldingen er på 100%';
 
 bokmål.utbetaling['tittel'] = 'Beregning av utbetaling';
 bokmål.utbetaling['refusjon'] = 'Refusjon til arbeidsgiver';
@@ -58,7 +58,7 @@ bokmål.utbetaling['betaler'] = 'Betaler arbeidsgiverperiode';
 bokmål.utbetaling['sykepengegrunnlag'] = 'Sykepengegrunnlag';
 bokmål.utbetaling['dagsats'] = 'Dagsats';
 bokmål.utbetaling['dager'] = 'Utbetalingsdager';
-bokmål.utbetaling['sykmeldingsgrad'] = 'Sykemeldingsgrad';
+bokmål.utbetaling['sykmeldingsgrad'] = 'Sykmeldingsgrad';
 bokmål.utbetaling['utbetaling'] = 'Utbetaling';
 bokmål.utbetaling['forskutterer'] = 'Arbeidsgiver forskutterer';
 
