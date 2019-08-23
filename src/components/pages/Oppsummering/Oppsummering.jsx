@@ -73,8 +73,8 @@ const Oppsummering = withBehandlingContext(({ behandling }) => {
                 />
                 <ListeSeparator type="dotted" />
                 <ListeItem
-                    label={oppsummeringstekster('dager')}
-                    value={behandling.oppsummering.antallDager}
+                    label={oppsummeringstekster('antall_utbetalingsdager')}
+                    value={behandling.oppsummering.antallUtbetalingsdager}
                 />
                 <ListeItem
                     label={oppsummeringstekster('fom')}
