@@ -14,9 +14,17 @@ const setPersonResponseBody = body => (personResponseBody = body);
 
 const get = (url, options, callback) => {
     if (url.includes('/sts/')) {
-        callback(null, { statusCode: stsStatusCode }, stsResponseBody);
+        callback(
+            null,
+            { statusCode: stsStatusCode },
+            JSON.stringify(stsResponseBody)
+        );
     } else {
-        callback(null, { statusCode: personStatusCode }, personResponseBody);
+        callback(
+            null,
+            { statusCode: personStatusCode },
+            JSON.stringify(personResponseBody)
+        );
     }
 };
 

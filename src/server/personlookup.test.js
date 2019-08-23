@@ -14,22 +14,20 @@ beforeEach(() => {
 
 test('successful person lookup resolves with person object', () => {
     request.setStsStatusCode(200);
-    request.setStsResponseBody({
-        access_token: createToken({ exp: 12345 })
-    });
+    request.setStsResponseBody(`{
+        access_token: ${createToken({ exp: 12345 })}
+    }`);
     request.setPersonStatusCode(200);
     request.setPersonResponseBody({ navn: 'Navn Navnesen' });
 
-    expect(personLookup.hentPerson('12345')).resolves.toEqual({
-        navn: 'Navn Navnesen'
-    });
+    expect(personLookup.hentPerson('12345')).resolves.toEqual(
+        '{"navn":"Navn Navnesen"}'
+    );
 });
 
 test('logon failure -> rejection', () => {
     request.setStsStatusCode(500);
-    expect(personLookup.hentPerson('12345')).rejects.toMatch(
-        'Error during STS login'
-    );
+    expect(personLookup.hentPerson('12345')).rejects.toMatch('Error');
 });
 
 test('lookup failure -> rejection', () => {
@@ -39,9 +37,7 @@ test('lookup failure -> rejection', () => {
     });
     request.setPersonStatusCode(500);
 
-    expect(personLookup.hentPerson('12345')).rejects.toMatch(
-        'Error during person lookup'
-    );
+    expect(personLookup.hentPerson('12345')).rejects.toMatch('Error');
 });
 
 const createToken = claims => {

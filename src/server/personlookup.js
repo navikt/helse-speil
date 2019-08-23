@@ -64,8 +64,12 @@ const exchangeCredsForAccessToken = async () => {
                                 'unknown error'}`
                         );
                     } else {
-                        cachedAccessToken = body.access_token;
-                        resolve(cachedAccessToken);
+                        try {
+                            cachedAccessToken = JSON.parse(body).access_token;
+                            resolve(cachedAccessToken);
+                        } catch (err) {
+                            reject('Error while parsing response from sts');
+                        }
                     }
                 }
             );
