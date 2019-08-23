@@ -9,7 +9,7 @@ import ListeSeparator from '../../widgets/ListeSeparator';
 import Navigasjonsknapper from '../../widgets/Navigasjonsknapper';
 import Innrapportering from './Innrapportering';
 import './Oppsummering.less';
-import { oppsummeringstekster } from '../../../tekster';
+import { oppsummeringstekster, tekster } from '../../../tekster';
 
 const Oppsummering = withBehandlingContext(({ behandling }) => {
     return (
@@ -38,17 +38,13 @@ const Oppsummering = withBehandlingContext(({ behandling }) => {
                 />
                 <ListeItem
                     label={oppsummeringstekster('refusjon')}
-                    value={
-                        behandling.oppsummering.refusjonTilArbeidsgiver
-                            ? 'Ja'
-                            : 'Nei'
-                    }
+                    value={tekster('informasjon ikke tilgjengelig')}
                     bold
                 />
                 <ListeItem
                     label={oppsummeringstekster('betaler')}
                     value={
-                        behandling.oppsummering.refusjonTilArbeidsgiver
+                        behandling.oppsummering.betalerArbeidsgiverperiode
                             ? 'Nei'
                             : 'Ja'
                     }
