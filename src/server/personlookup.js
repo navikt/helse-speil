@@ -8,12 +8,12 @@ let authConfig = null;
 
 const init = navConfig => {
     authConfig = navConfig;
-    exchangeCredsForAccessToken();
+    hentAccessToken();
 };
 
 const hentPerson = async aktørId => {
     return new Promise((resolve, reject) => {
-        exchangeCredsForAccessToken()
+        hentAccessToken()
             .then(token => {
                 request.get(
                     `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
@@ -30,7 +30,7 @@ const hentPerson = async aktørId => {
                                 } ${error || 'unknown error'}`
                             );
                         } else {
-                            resolve(body);
+                            resolve(map(JSON.parse(body)));
                         }
                     }
                 );
@@ -41,7 +41,14 @@ const hentPerson = async aktørId => {
     });
 };
 
-const exchangeCredsForAccessToken = async () => {
+const map = person => {
+    return {
+        navn: `${person.fornavn} ${person.etternavn}`,
+        kjønn: `${person.kjønn}`
+    };
+};
+
+const hentAccessToken = async () => {
     return new Promise((resolve, reject) => {
         if (tokenNeedsRefresh()) {
             request.get(

@@ -12,17 +12,27 @@ beforeEach(() => {
     });
 });
 
-test('successful person lookup resolves with person object', () => {
+test('successful person lookup resolves with mapped person object', () => {
     request.setStsStatusCode(200);
-    request.setStsResponseBody(`{
-        access_token: ${createToken({ exp: 12345 })}
-    }`);
+    request.setStsResponseBody({
+        access_token: createToken({ exp: 12345 })
+    });
     request.setPersonStatusCode(200);
-    request.setPersonResponseBody({ navn: 'Navn Navnesen' });
+    request.setPersonResponseBody({
+        fdato: '1995-01-01',
+        statsborgerskap: 'NOR',
+        etternavn: 'BETJENT',
+        aktørId: '1000012345678',
+        bostedsland: 'NOR',
+        fornavn: 'BJARNE',
+        kjønn: 'MANN',
+        status: 'BOSA'
+    });
 
-    expect(personLookup.hentPerson('12345')).resolves.toEqual(
-        '{"navn":"Navn Navnesen"}'
-    );
+    expect(personLookup.hentPerson('12345')).resolves.toEqual({
+        navn: 'BJARNE BETJENT',
+        kjønn: 'MANN'
+    });
 });
 
 test('logon failure -> rejection', () => {
