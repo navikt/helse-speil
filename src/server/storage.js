@@ -41,6 +41,9 @@ const load = async key => {
 
 const createBucketIfNotExists = async name => {
     const exists = await bucketExists(name);
+    s3.getBucketLocation({ Bucket: bucketName }, (err, data) => {
+        console.log('Bucket location:', data);
+    });
     if (!exists) {
         console.log(`Creating bucket ${name}`);
         return s3
