@@ -15,7 +15,7 @@ const sider = {
 
 Object.keys(sider).forEach(side => (bokmål[side] = {}));
 
-bokmål.mvp = 'Hvilke elementer i søknaden utløser automatisk behandling';
+bokmål.mvp = 'Gjeldende kriterier for automatisk saksbehandling';
 bokmål.neste = 'Neste';
 bokmål['empty_state_message'] =
     'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over';
