@@ -49,7 +49,7 @@ const Periode = withBehandlingContext(({ behandling }) => {
             <ListeSeparator />
             <Element className="mvp-tittel">{tekster('mvp')}</Element>
             <IconRow label={periodetekster('friskmelding')} />
-            <IconRow label={periodetekster('gradering')} />
+            <IconRow label={`Sykmeldingen er på ${sykmeldingsgrad}%`} />
             <Navigasjonsknapper previous="/beregning" next="/utbetaling" />
         </Panel>
     );
