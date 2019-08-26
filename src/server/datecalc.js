@@ -13,8 +13,22 @@ const isWithin3Months = (oldest, newest) => {
         .isSameOrAfter(moment(newest));
 };
 
-const daysBetween = (firstDate, lastDate) => {
+const calendarDaysBetween = (firstDate, lastDate) => {
     return Math.abs(moment(lastDate).diff(moment(firstDate), 'days'));
+};
+
+const workdaysBetween = (firstDate, lastDate) => {
+    firstDate = moment(firstDate);
+    lastDate = moment(lastDate);
+    const tempDate = firstDate.clone();
+    let numberOfDays = 0;
+    while (tempDate <= lastDate) {
+        if (tempDate.isoWeekday() <= 5) {
+            numberOfDays++;
+        }
+        tempDate.add(1, 'days');
+    }
+    return numberOfDays;
 };
 
 const toDate = dateString => {
@@ -31,7 +45,8 @@ const newestDate = objs => {
 
 module.exports = {
     isWithin3Months,
-    daysBetween,
+    workdaysBetween,
+    calendarDaysBetween,
     newestTom,
     toDate
 };

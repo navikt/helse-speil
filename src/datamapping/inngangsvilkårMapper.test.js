@@ -11,7 +11,7 @@ test('medlemskap', () => {
     expect(mapped).toEqual([
         { label: 'Statsborgerskap', value: 'Norsk' },
         { label: 'Bosatt i Norge', value: 'Ja' },
-        { label: 'Diskresjonskode', value: 'Nei' }
+        { label: 'Diskresjonskode', value: 'Ingen' }
     ]);
 });
 

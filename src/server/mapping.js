@@ -85,7 +85,7 @@ const oppsummering = (behandling, periode = 0) => {
         fordeling => fordeling.mottager === arbeidsgiver.orgnummer
     );
 
-    const antallDager = selectors.antallDager(behandling);
+    const antallUtbetalingsdager = selectors.antallUtbetalingsdager(behandling);
     const dagsats = selectors.dagsats(behandling);
 
     return {
@@ -96,11 +96,11 @@ const oppsummering = (behandling, periode = 0) => {
         fordeling: arbeidsgiverFordeling ? arbeidsgiverFordeling.andel : '-',
         månedsbeløp: sykepengegrunnlag / 12,
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
-        utbetaling: antallDager * dagsats,
+        utbetaling: antallUtbetalingsdager * dagsats,
         sykepengegrunnlag,
         sykmeldtFraOgMed,
         sykmeldtTilOgMed,
-        antallDager,
+        antallUtbetalingsdager,
         dagsats,
         utbetalesFom: behandling.vedtak.perioder[0].fom,
         utbetalesTom: behandling.vedtak.perioder[0].tom
@@ -138,14 +138,14 @@ const originalSøknad = behandling => ({
 });
 
 const utbetaling = behandling => {
-    const antallDager = selectors.antallDager(behandling);
+    const antallUtbetalingsdager = selectors.antallUtbetalingsdager(behandling);
     const dagsats = selectors.dagsats(behandling);
 
     return {
         refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
         sykepengegrunnlag: selectors.sykepengegrunnlag(behandling),
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
-        antallDager,
+        antallUtbetalingsdager,
         dagsats
     };
 };
@@ -153,9 +153,9 @@ const utbetaling = behandling => {
 const periode = behandling => ({
     antallKalenderdager: selectors.antallKalenderdager(behandling),
     arbeidsgiverperiodeKalenderdager: 16,
-    antallVirkedager: selectors.antallDager(behandling),
+    antallVirkedager: selectors.antallVirkedager(behandling),
     antallFeriedager: selectors.antallFeriedager(behandling),
-    antallDager: selectors.antallDager(behandling),
+    antallUtbetalingsdager: selectors.antallUtbetalingsdager(behandling),
     sykmeldingsgrad: selectors.sykmeldingsgrad(behandling)
 });
 
@@ -179,10 +179,10 @@ const capitalize = string =>
     string[0].toUpperCase() + string.toLowerCase().substring(1);
 
 module.exports = {
-    sykdomsvilkår,
-    inngangsvilkår,
-    sykepengeberegning,
-    oppsummering,
-    originalSøknad,
+    _sykdomsvilkår: sykdomsvilkår,
+    _inngangsvilkår: inngangsvilkår,
+    _sykepengeberegning: sykepengeberegning,
+    _oppsummering: oppsummering,
+    _originalSøknad: originalSøknad,
     alle
 };

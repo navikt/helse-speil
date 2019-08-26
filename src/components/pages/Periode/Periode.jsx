@@ -14,7 +14,7 @@ const Periode = withBehandlingContext(({ behandling }) => {
         arbeidsgiverperiodeKalenderdager,
         antallVirkedager,
         antallFeriedager,
-        antallDager,
+        antallUtbetalingsdager,
         sykmeldingsgrad
     } = behandling.periode;
 
@@ -36,7 +36,11 @@ const Periode = withBehandlingContext(({ behandling }) => {
                 value={antallVirkedager}
             />
             <FormRow label={periodetekster('ferie')} value={antallFeriedager} />
-            <FormRow label={periodetekster('dager')} value={antallDager} bold />
+            <FormRow
+                label={periodetekster('antall_utbetalingsdager')}
+                value={antallUtbetalingsdager}
+                bold
+            />
             <FormRow
                 label={periodetekster('sykmeldingsgrad')}
                 value={`${sykmeldingsgrad}%`}

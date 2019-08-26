@@ -10,7 +10,7 @@ const medlemskap = medlemskap => [
             : medlemskap.statsborgerskap
     ),
     item('Bosatt i Norge', medlemskap.bosattINorge ? 'Ja' : 'Nei'),
-    item('Diskresjonskode', medlemskap.diskresjonskode || 'Nei')
+    item('Diskresjonskode', medlemskap.diskresjonskode || 'Ingen')
 ];
 
 const opptjening = opptjening => [
