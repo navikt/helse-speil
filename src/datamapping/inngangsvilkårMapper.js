@@ -25,7 +25,7 @@ const opptjening = opptjening => [
 
 const merEnn05G = merEnn05G => [
     item('Sykepengegrunnlaget', `${toKroner(merEnn05G)} kr`),
-    item(`0,5G er ${toKroner(98866 / 2)} kr`)
+    item(`0,5G er ${toKroner(99858 / 2)} kr`)
 ];
 
 const søknadsfrist = søknadsfrist => [
