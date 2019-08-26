@@ -1,48 +1,69 @@
 import { item } from './mappingUtils';
 import { toDate } from '../utils/date';
 import { capitalize, toKroner } from '../utils/locale';
+import { inngangsvilkårtekster as tekster } from '../tekster';
 
 const medlemskap = medlemskap => [
     item(
-        'Statsborgerskap',
+        tekster('etikett -> statsborgerskap'),
         medlemskap.statsborgerskap === 'NOR'
             ? 'Norsk'
             : medlemskap.statsborgerskap
     ),
-    item('Bosatt i Norge', medlemskap.bosattINorge ? 'Ja' : 'Nei'),
-    item('Diskresjonskode', medlemskap.diskresjonskode || 'Ingen')
+    item(tekster('etikett -> bosatt'), medlemskap.bosattINorge ? 'Ja' : 'Nei'),
+    item(
+        tekster('etikett -> diskresjonskode'),
+        medlemskap.diskresjonskode || 'Ingen'
+    )
 ];
 
 const opptjening = opptjening => [
-    item('Første sykdomsdag', toDate(opptjening.førsteSykdomsdag)),
-    item('Startdato', toDate(opptjening.startdato)),
     item(
-        'Sluttdato',
+        tekster('etikett.førsteSykdomsdag'),
+        toDate(opptjening.førsteSykdomsdag)
+    ),
+    item(tekster('etikett.startdato'), toDate(opptjening.startdato)),
+    item(
+        tekster('etikett.sluttdato'),
         opptjening.sluttdato ? toDate(opptjening.sluttdato) : '-'
     ),
-    item('Antall dager (>28)', `${opptjening.antallDager}`)
+    item(tekster('etikett.antall dager'), `${opptjening.antallDager}`)
 ];
 
 const merEnn05G = merEnn05G => [
-    item('Sykepengegrunnlaget', `${toKroner(merEnn05G)} kr`),
-    item(`0,5G er ${toKroner(98866 / 2)} kr`)
+    item(tekster('etikett_sykepengegrunnlaget'), `${toKroner(merEnn05G)} kr`),
+    item(tekster('etikett_05Ger').replace('{$1}', toKroner(98866 / 2)))
 ];
 
 const søknadsfrist = søknadsfrist => [
-    item('Sendt NAV', toDate(søknadsfrist.sendtNav)),
-    item('Siste sykdomsdag', toDate(søknadsfrist.sisteSykdomsdag)),
-    item('Innen 3 mnd', søknadsfrist.innen3Mnd ? 'Ja' : 'Nei')
+    item(tekster('etikett_sendt_nav'), toDate(søknadsfrist.sendtNav)),
+    item(
+        tekster('etikett_siste_sykdomsdag'),
+        toDate(søknadsfrist.sisteSykdomsdag)
+    ),
+    item(tekster('etikett_innen_3_mnd'), søknadsfrist.innen3Mnd ? 'Ja' : 'Nei')
 ];
 
 const dagerIgjen = dagerIgjen => [
-    item('Første fraværsdag', toDate(dagerIgjen.førsteFraværsdag)),
-    item('Første sykepengedag', toDate(dagerIgjen.førsteSykepengedag)),
-    item('Yrkesstatus', capitalize(dagerIgjen.yrkesstatus)),
-    item('Tidligere perioder', dagerIgjen.tidligerePerioder.length || '-'),
-    item('Max dato', toDate(dagerIgjen.maxDato))
+    item(
+        tekster('etikett: første fraværsdag'),
+        toDate(dagerIgjen.førsteFraværsdag)
+    ),
+    item(
+        tekster('etikett: første sykepengedag'),
+        toDate(dagerIgjen.førsteSykepengedag)
+    ),
+    item(tekster('etikett: yrkesstatus'), capitalize(dagerIgjen.yrkesstatus)),
+    item(
+        tekster('etikett: tidligere perioder'),
+        dagerIgjen.tidligerePerioder.length || '-'
+    ),
+    item(tekster('etikett: max dato'), toDate(dagerIgjen.maxDato))
 ];
 
-const under67År = dagerIgjen => [item('Alder', `${dagerIgjen.alder}`)];
+const under67År = dagerIgjen => [
+    item(tekster('etikett -> alder'), `${dagerIgjen.alder}`)
+];
 
 export default {
     medlemskap,

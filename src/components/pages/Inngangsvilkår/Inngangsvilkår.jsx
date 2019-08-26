@@ -14,39 +14,42 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
             <Undertittel className="panel-tittel">
                 {tekster(`tittel`)}
             </Undertittel>
-            <IconRow label="Inngangsvilkår oppfylt" bold />
+            <IconRow
+                label={tekster('overskrift -> inngangsvilkår oppfylt')}
+                bold
+            />
             <ListRow
-                label="Medlemskap"
+                label={tekster('overskrift -> medlemskap')}
                 items={ItemMapper.medlemskap(
                     behandling.inngangsvilkår.medlemskap
                 )}
             />
             <ListRow
-                label="Opptjening"
+                label={tekster('overskrift -> opptjening')}
                 items={ItemMapper.opptjening(
                     behandling.inngangsvilkår.opptjening
                 )}
             />
             <ListRow
-                label="Mer enn 0,5G"
+                label={tekster('overskrift -> mer enn 0,5G')}
                 items={ItemMapper.merEnn05G(
                     behandling.inngangsvilkår.merEnn05G
                 )}
             />
             <ListRow
-                label="Søknadsfrist"
+                label={tekster('overskrift -> søknadsfrist')}
                 items={ItemMapper.søknadsfrist(
                     behandling.inngangsvilkår.søknadsfrist
                 )}
             />
             <ListRow
-                label="Dager igjen"
+                label={tekster('overskrift -> dager igjen')}
                 items={ItemMapper.dagerIgjen(
                     behandling.inngangsvilkår.dagerIgjen
                 )}
             />
             <ListRow
-                label="Under 67 år"
+                label={tekster('overskrift -> under 67 år')}
                 items={ItemMapper.under67År(
                     behandling.inngangsvilkår.dagerIgjen
                 )}

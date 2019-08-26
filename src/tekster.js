@@ -28,8 +28,37 @@ bokmål.sykdomsvilkår['siste_sykdomsdag'] = 'Siste sykdomsdag';
 bokmål.sykdomsvilkår['ingen_yrkesskade'] = 'Ingen yrkesskade';
 
 bokmål.inngangsvilkår.tittel = 'Inngangsvilkår';
-bokmål.inngangsvilkår.inngangsvilkår_oppfylt = 'Inngangsvilkår oppfylt';
-bokmål.inngangsvilkår.medlemskap = 'Medlemskap';
+bokmål.inngangsvilkår['overskrift -> inngangsvilkår oppfylt'] =
+    'Inngangsvilkår oppfylt';
+bokmål.inngangsvilkår['overskrift -> medlemskap'] = 'Medlemskap';
+bokmål.inngangsvilkår['overskrift -> opptjening'] = 'Opptjening';
+bokmål.inngangsvilkår['overskrift -> mer enn 0,5G'] = 'Mer enn 0,5G';
+bokmål.inngangsvilkår['overskrift -> søknadsfrist'] = 'Søknadsfrist';
+bokmål.inngangsvilkår['overskrift -> dager igjen'] = 'Dager igjen';
+bokmål.inngangsvilkår['overskrift -> under 67 år'] = 'Under 67 år';
+
+bokmål.inngangsvilkår['etikett -> statsborgerskap'] = 'Statsborgerskap';
+bokmål.inngangsvilkår['etikett -> bosatt'] = 'Bosatt i Norge';
+bokmål.inngangsvilkår['etikett -> diskresjonskode'] = 'Diskresjonskode';
+
+bokmål.inngangsvilkår['etikett.førsteSykdomsdag'] = 'Første sykdomsdag';
+bokmål.inngangsvilkår['etikett.startdato'] = 'Startdato';
+bokmål.inngangsvilkår['etikett.sluttdato'] = 'Sluttdato';
+bokmål.inngangsvilkår['etikett.antall dager'] = 'Antall dager (>28)';
+
+bokmål.inngangsvilkår.etikett_sykepengegrunnlaget = 'Sykepengegrunnlaget';
+bokmål.inngangsvilkår.etikett_05Ger = '0,5G er {$1} kr';
+bokmål.inngangsvilkår.etikett_sendt_nav = 'Sendt NAV';
+bokmål.inngangsvilkår.etikett_siste_sykdomsdag = 'Siste sykdomsdag';
+bokmål.inngangsvilkår.etikett_innen_3_mnd = 'Innen 3 mnd';
+
+bokmål.inngangsvilkår['etikett: første fraværsdag'] = 'Første fraværsdag';
+bokmål.inngangsvilkår['etikett: første sykepengedag'] = 'Første sykepengedag';
+bokmål.inngangsvilkår['etikett: yrkesstatus'] = 'Yrkesstatus';
+bokmål.inngangsvilkår['etikett: tidligere perioder'] = 'Tidligere perioder';
+bokmål.inngangsvilkår['etikett: max dato'] = 'Max dato';
+
+bokmål.inngangsvilkår['etikett -> alder'] = 'Alder';
 
 bokmål.beregning['tittel'] = 'Beregning av sykepengegrunnlag og dagsats';
 bokmål.beregning['inntektsmeldinger'] = 'Hentet fra inntektsmelding';
