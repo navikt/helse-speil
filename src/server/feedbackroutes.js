@@ -36,6 +36,18 @@ const routes = app => {
             });
     });
 
+    app.get('/feedback', (req, res) => {
+        storage
+            .loadAll()
+            .then(objects => {
+                res.send(objects);
+            })
+            .catch(err => {
+                console.warn(err);
+                res.sendStatus(err.statusCode || 500);
+            });
+    });
+
     app.put('/feedback', (req, res) => {
         if (isInvalid(req)) {
             res.sendStatus(400);

@@ -11,13 +11,14 @@ import { tekster, utbetalingstekster } from '../../../tekster';
 
 const Utbetaling = withBehandlingContext(({ behandling }) => {
     const {
-        antallDager,
+        antallUtbetalingsdager,
         betalerArbeidsgiverperiode,
         dagsats,
         refusjonTilArbeidsgiver,
         sykepengegrunnlag,
         sykmeldingsgrad
     } = behandling.utbetaling;
+
     return (
         <Panel className="Utbetaling" border>
             <Undertittel className="panel-tittel">
@@ -25,7 +26,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             </Undertittel>
             <FormRow
                 label={utbetalingstekster('refusjon')}
-                value={refusjonTilArbeidsgiver ? 'Ja' : 'Nei'}
+                value={tekster('informasjon ikke tilgjengelig')}
             />
             <FormRow
                 label={utbetalingstekster('betaler')}
@@ -44,7 +45,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             />
             <FormRow
                 label={utbetalingstekster('dager')}
-                value={antallDager}
+                value={antallUtbetalingsdager}
                 showRightSide={false}
             />
             <FormRow
@@ -55,7 +56,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             <ListeSeparator type="transparent" />
             <FormRow
                 label={utbetalingstekster('utbetaling')}
-                value={`${toKroner(antallDager * dagsats)} kr`}
+                value={`${toKroner(antallUtbetalingsdager * dagsats)} kr`}
                 bold
             />
             <ListeSeparator />

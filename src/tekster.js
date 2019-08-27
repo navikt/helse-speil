@@ -15,10 +15,11 @@ const sider = {
 
 Object.keys(sider).forEach(side => (bokmål[side] = {}));
 
-bokmål.mvp = 'Hva dekkes av løsningen nå';
+bokmål.mvp = 'Gjeldende kriterier for automatisk saksbehandling';
 bokmål.neste = 'Neste';
 bokmål['empty_state_message'] =
     'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over';
+bokmål['informasjon ikke tilgjengelig'] = 'Ikke klart';
 
 bokmål.sykdomsvilkår['sykdomsvilkår_oppfylt'] = 'Sykdomsvilkår er oppfylt';
 bokmål.sykdomsvilkår['mindre_enn_8_uker'] = 'Mindre enn 8 uker sammenhengende';
@@ -43,13 +44,13 @@ bokmål.beregning['dagsats'] = 'Dagsats';
 
 bokmål.periode['tittel'] = 'Sykepengeperiode';
 bokmål.periode['kalenderdager'] = 'Antall kalenderdager';
-bokmål.periode['arbeidsgiverperiode'] = 'Arb.giverperiode, kalenderdager';
+bokmål.periode['arbeidsgiverperiode'] = 'Antall dager i arbeidsgiverperioden';
 bokmål.periode['virkedager'] = 'Antall virkedager';
 bokmål.periode['ferie'] = 'Ferie';
-bokmål.periode['dager'] = 'Antall dager';
+bokmål.periode['antall_utbetalingsdager'] = 'Antall utbetalingsdager';
 bokmål.periode['sykmeldingsgrad'] = 'Sykmeldingsgrad';
-bokmål.periode['friskmelding'] = 'Ingen friskmelding';
-bokmål.periode['gradering'] = 'Ingen gradering';
+bokmål.periode['friskmelding'] = 'Ikke utfylt friskmelding i søknaden';
+bokmål.periode['gradering'] = 'Sykmeldingen er på 100%';
 
 bokmål.utbetaling['tittel'] = 'Beregning av utbetaling';
 bokmål.utbetaling['refusjon'] = 'Refusjon til arbeidsgiver';
@@ -57,7 +58,7 @@ bokmål.utbetaling['betaler'] = 'Betaler arbeidsgiverperiode';
 bokmål.utbetaling['sykepengegrunnlag'] = 'Sykepengegrunnlag';
 bokmål.utbetaling['dagsats'] = 'Dagsats';
 bokmål.utbetaling['dager'] = 'Utbetalingsdager';
-bokmål.utbetaling['sykmeldingsgrad'] = 'Sykemeldingsgrad';
+bokmål.utbetaling['sykmeldingsgrad'] = 'Sykmeldingsgrad';
 bokmål.utbetaling['utbetaling'] = 'Utbetaling';
 bokmål.utbetaling['forskutterer'] = 'Arbeidsgiver forskutterer';
 
@@ -72,7 +73,7 @@ bokmål.oppsummering['fordeling'] = 'Fordeling';
 bokmål.oppsummering['sykepengegrunnlag'] = 'Sykepengegrunnlag';
 bokmål.oppsummering['månedsbeløp'] = 'Månedsbeløp';
 bokmål.oppsummering['dagsats'] = 'Dagsats';
-bokmål.oppsummering['dager'] = 'Antall dager';
+bokmål.oppsummering['antall_utbetalingsdager'] = 'Utbetalingsdager';
 bokmål.oppsummering['fom'] = 'Sykmeldt fra og med';
 bokmål.oppsummering['tom'] = 'Sykmeldt til og med';
 bokmål.oppsummering['sykmeldingsgrad'] = 'Sykmeldingsgrad';

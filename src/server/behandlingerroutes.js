@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const mapping = require('./mapping');
-const api = require('./api');
+const api = require('./behandlingerlookup');
 
 const setup = app => {
     app.get('/behandlinger/:aktorId', (req, res) => {

@@ -39,6 +39,25 @@ const load = async key => {
         .promise();
 };
 
+const loadAll = async () => {
+    return s3
+        .listObjects({
+            Bucket: bucketName
+        })
+        .promise()
+        .then(res => {
+            const keys = res.Contents.map(item => item.Key);
+            const objects = keys.map(key =>
+                load(key).then(res => ({
+                    key,
+                    value: JSON.parse(res.Body)
+                }))
+            );
+            return Promise.all(objects);
+        })
+        .catch(err => console.warn(err));
+};
+
 const createBucketIfNotExists = async name => {
     const exists = await bucketExists(name);
     if (!exists) {
@@ -75,7 +94,8 @@ const bucketExists = async name => {
 };
 
 module.exports = {
-    init: init,
-    save: save,
-    load: load
+    init,
+    save,
+    load,
+    loadAll
 };

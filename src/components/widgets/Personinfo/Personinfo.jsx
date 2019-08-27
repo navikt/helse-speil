@@ -12,8 +12,7 @@ const Kjønn = {
 
 const Personinfo = withBehandlingContext(({ behandling }) => {
     const { aktorId, arbeidsgiver, fom, tom } = behandling.originalSøknad;
-    const sykmeldingsgrad =
-        behandling.originalSøknad.soknadsperioder[0].sykmeldingsgrad;
+    const sykmeldingsgrad = behandling.periode.sykmeldingsgrad;
 
     const søkernavn = 'Navn Navnesen';
     const kjønn = Kjønn.NØYTRAL;
