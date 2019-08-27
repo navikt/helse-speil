@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Personinfo.css';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { toDate } from '../../../utils/date';
+import { getPerson } from '../../../io/http';
 
 const Kjønn = {
     MANN: 'mann',
@@ -13,19 +14,28 @@ const Kjønn = {
 const Personinfo = withBehandlingContext(({ behandling }) => {
     const { aktorId, arbeidsgiver, fom, tom } = behandling.originalSøknad;
     const sykmeldingsgrad = behandling.periode.sykmeldingsgrad;
+    const [person, setPerson] = useState({
+        navn: 'Navn Navnesen',
+        kjønn: Kjønn.NØYTRAL
+    });
 
-    const søkernavn = 'Navn Navnesen';
-    const kjønn = Kjønn.NØYTRAL;
+    useEffect(() => {
+        getPerson(aktorId).then(response => {
+            response.data && setPerson(response.data);
+        });
+    }, []);
+
+    console.log(person);
 
     return (
         <>
             <div className="personalia-linje">
                 <figure
                     id="personinfo-kjønn"
-                    aria-label={`Kjønn: ${kjønn}`}
-                    className={kjønn}
+                    aria-label={`Kjønn: ${person.kjønn}`}
+                    className={person.kjønn}
                 />
-                <Element>{søkernavn}</Element>/
+                <Element>{person.navn}</Element>/
                 <Undertekst>Aktør-ID: {aktorId}</Undertekst>
             </div>
             <div className="behandling-hovedinfo">
