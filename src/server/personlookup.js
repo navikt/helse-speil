@@ -8,7 +8,9 @@ let authConfig = null;
 
 const init = navConfig => {
     authConfig = navConfig;
-    hentAccessToken();
+    hentAccessToken().catch(err => {
+        console.log(`Error during init: ${err}`);
+    });
 };
 
 const hentPerson = async aktørId => {
