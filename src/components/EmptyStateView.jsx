@@ -4,8 +4,9 @@ import { tekster } from '../tekster';
 import { Panel } from 'nav-frontend-paneler';
 
 const styles = {
-    margin: '2rem',
-    display: 'inline-block'
+    margin: '1.5rem',
+    display: 'inline-block',
+    height: 'max-content'
 };
 
 const EmptyStateView = () => {

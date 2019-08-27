@@ -1,0 +1,36 @@
+nav.Nav {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-right: 1px solid #c6c2bf;
+  min-width: 15rem;
+  width: max-content;
+  padding: 10rem 0;
+
+  > a {
+    text-decoration: none;
+    padding: 0.625rem 2rem;
+    color: #3e3832;
+
+    &:hover,
+    &.active {
+      background: #e7e9e9;
+    }
+
+    &.active {
+      box-shadow: inset 0.25rem 0 0 0 #0067c5;
+    }
+  }
+
+  > a .typo-normal {
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+
+  &.inactive {
+    > a {
+      box-shadow: none;
+      background: none;
+    }
+  }
+}
