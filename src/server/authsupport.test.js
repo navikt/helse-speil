@@ -2,18 +2,7 @@ import { cleanup } from '@testing-library/react';
 
 const authsupport = require('./authsupport');
 
-const clgOrig = console.log;
-
 afterEach(cleanup);
-
-beforeEach(() => {
-    // reduce noise in log
-    console.log = jest.fn();
-});
-
-afterAll(() => {
-    console.log = clgOrig;
-});
 
 test('valid token has expiry in the future', () => {
     const nowInSeconds = Math.floor(Date.now() / 1000);
