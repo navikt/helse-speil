@@ -1,9 +1,0 @@
-<svg width="28" height="28" xmlns="http://www.w3.org/2000/svg">
-    <g fill="none" fill-rule="evenodd">
-        <circle stroke="#3E3832" stroke-width="1.5" cx="14" cy="14" r="13"/>
-        <text font-family="SourceSansPro-SemiBold, Source Sans Pro SemiBold, sans-serif" font-size="14"
-              font-weight="500" fill="#3E3832">
-            <tspan x="7.5" y="19">Kr</tspan>
-        </text>
-    </g>
-</svg>

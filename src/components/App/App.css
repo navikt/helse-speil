@@ -2,6 +2,7 @@ body {
     background-color: #eaeceb;
     font-family: 'Source Sans Pro', Helvetica, sans-serif;
     height: 100%;
+    overflow-x: hidden;
 }
 
 html {

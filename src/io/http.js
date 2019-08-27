@@ -5,8 +5,16 @@ const baseUrl =
     process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
 /* eslint-enable */
 
-export const behandlingerFor = async aktorId => {
-    const response = await fetch(baseUrl + `/behandlinger/${aktorId}`);
+const getData = async response => {
+    try {
+        return await response.json();
+    } catch (e) {
+        return undefined;
+    }
+};
+
+const get = async url => {
+    const response = await fetch(url);
 
     if (!response) {
         throw Error();
@@ -18,12 +26,8 @@ export const behandlingerFor = async aktorId => {
     };
 };
 
-const getData = async response => {
-    try {
-        return await response.json();
-    } catch (e) {
-        return undefined;
-    }
+export const behandlingerFor = async aktorId => {
+    return get(`${baseUrl}/behandlinger/${aktorId}`);
 };
 
 export const putFeedback = async feedback => {
@@ -42,14 +46,9 @@ export const putFeedback = async feedback => {
 };
 
 export const getFeedback = async behandlingsId => {
-    const response = await fetch(`${baseUrl}/feedback/${behandlingsId}`);
+    return get(`${baseUrl}/feedback/${behandlingsId}`);
+};
 
-    if (!response) {
-        throw Error();
-    }
-
-    return {
-        status: response.status,
-        data: await getData(response)
-    };
+export const getPerson = async aktorId => {
+    return get(`${baseUrl}/person/${aktorId}`);
 };
