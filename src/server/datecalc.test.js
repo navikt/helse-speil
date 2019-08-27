@@ -35,18 +35,18 @@ test('newestTom', () => {
     expect(mapped).toEqual('2019-12-12');
 });
 
-describe('calendar days between', () => {
+describe('calendar days between, includes both dates', () => {
     const fom = '2020-01-01';
     const tom = '2020-02-01';
 
     test('calculates  days given strings as input', () => {
-        expect(datecalc.calendarDaysBetween(fom, tom)).toEqual(31);
+        expect(datecalc.calendarDaysBetween(fom, tom)).toEqual(32);
     });
 
     test('calculates  days given moment instances as input', () => {
         let momentFom = moment(fom);
         let momentTom = moment(tom);
-        expect(datecalc.calendarDaysBetween(momentFom, momentTom)).toEqual(31);
+        expect(datecalc.calendarDaysBetween(momentFom, momentTom)).toEqual(32);
     });
 });
 
