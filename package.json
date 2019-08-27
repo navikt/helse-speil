@@ -69,7 +69,7 @@
         "nav-frontend-skjema": "^1.0.68",
         "nav-frontend-skjema-style": "^1.0.41",
         "nav-frontend-typografi": "^2.0.12",
-        "nav-frontend-typografi-style": "^1.0.13",
+        "nav-frontend-typografi-style": "^1.0.14",
         "openid-client": "^3.6.1",
         "prom-client": "^11.5.3",
         "prop-types": "^15.7.2",
