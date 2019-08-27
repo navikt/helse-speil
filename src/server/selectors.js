@@ -31,7 +31,7 @@ const antallFeriedager = behandling => {
 const antallKalenderdager = behandling => {
     const fom = toDate(behandling.originalSøknad.fom);
     const tom = toDate(behandling.originalSøknad.tom);
-    return calendarDaysBetween(fom, tom);
+    return calendarDaysBetween(fom, tom) + 1;
 };
 
 const sisteSykdomsdag = behandling =>
