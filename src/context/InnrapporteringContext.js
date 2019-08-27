@@ -14,6 +14,7 @@ export const InnrapporteringProvider = withBehandlingContext(
         const authContext = useContext(AuthContext);
         const behandlingsId = behandling && behandling.behandlingsId;
         const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
+        const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
         const [uenigheter, setUenigheter] = useSessionStorage(
             `uenigheter-${behandlingsId}`,
             []
@@ -24,7 +25,8 @@ export const InnrapporteringProvider = withBehandlingContext(
                 getFeedback(behandlingsId)
                     .then(response => {
                         if (response.status === 200) {
-                            setUenigheter(response.data);
+                            setUenigheter(response.data.uenigheter);
+                            setKommentarer(response.data.kommentarer);
                         }
                     })
                     .catch(err => {
@@ -75,7 +77,9 @@ export const InnrapporteringProvider = withBehandlingContext(
                     addUenighet,
                     updateUenighet,
                     hasSendt,
-                    setHasSendt
+                    setHasSendt,
+                    kommentarer,
+                    setKommentarer
                 }}
             >
                 {children}

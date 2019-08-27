@@ -36,7 +36,6 @@ const DynamicTextarea = ({
                 rows={rows}
                 ref={forwardedRef}
                 style={{
-                    marginLeft: '0.5rem',
                     resize: 'none'
                 }}
                 {...rest}
