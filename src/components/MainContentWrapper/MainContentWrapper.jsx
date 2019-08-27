@@ -13,26 +13,30 @@ import { withBehandlingContext } from '../../context/BehandlingerContext';
 import EmptyStateView from '../EmptyStateView';
 
 const MainContentWrapper = withBehandlingContext(({ behandling }) => {
-    if (!behandling) {
-        return <EmptyStateView />;
-    }
-
     return (
         <div className="page-content">
-            <Nav />
-            <div className="main-content">
-                <Personinfo />
-                <Route path={'/'} exact component={Sykdomsvilkår} />
-                <Route
-                    path={'/inngangsvilkår'}
-                    exact
-                    component={Inngangsvilkår}
-                />
-                <Route path={'/beregning'} exact component={Beregning} />
-                <Route path={'/periode'} exact component={Periode} />
-                <Route path={'/utbetaling'} exact component={Utbetaling} />
-                <Route path={'/oppsummering'} exact component={Oppsummering} />
-            </div>
+            <Nav active={behandling !== undefined} />
+            {behandling ? (
+                <div className="main-content">
+                    <Personinfo />
+                    <Route path={'/'} exact component={Sykdomsvilkår} />
+                    <Route
+                        path={'/inngangsvilkår'}
+                        exact
+                        component={Inngangsvilkår}
+                    />
+                    <Route path={'/beregning'} exact component={Beregning} />
+                    <Route path={'/periode'} exact component={Periode} />
+                    <Route path={'/utbetaling'} exact component={Utbetaling} />
+                    <Route
+                        path={'/oppsummering'}
+                        exact
+                        component={Oppsummering}
+                    />
+                </div>
+            ) : (
+                <EmptyStateView />
+            )}
         </div>
     );
 });
