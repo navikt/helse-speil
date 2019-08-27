@@ -14,7 +14,7 @@ const isWithin3Months = (oldest, newest) => {
 };
 
 const calendarDaysBetween = (firstDate, lastDate) => {
-    return Math.abs(moment(lastDate).diff(moment(firstDate), 'days'));
+    return Math.abs(moment(lastDate).diff(moment(firstDate), 'days')) + 1;
 };
 
 const workdaysBetween = (firstDate, lastDate) => {
