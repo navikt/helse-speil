@@ -25,15 +25,13 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
         });
     }, []);
 
-    console.log(person);
-
     return (
         <>
             <div className="personalia-linje">
                 <figure
                     id="personinfo-kjønn"
                     aria-label={`Kjønn: ${person.kjønn}`}
-                    className={person.kjønn}
+                    className={person.kjønn.toLowerCase()}
                 />
                 <Element>{person.navn}</Element>/
                 <Undertekst>Aktør-ID: {aktorId}</Undertekst>
