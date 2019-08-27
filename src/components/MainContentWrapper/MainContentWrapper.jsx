@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import './MainContentWrapper.css';
 import Sykdomsvilkår from '../pages/Sykdomsvilkår/Sykdomsvilkår';
-import Nav from '../Nav/NavView';
+import Nav from '../Nav/Nav';
 import Personinfo from '../widgets/Personinfo/Personinfo';
 import Inngangsvilkår from '../pages/Inngangsvilkår/Inngangsvilkår';
 import Beregning from '../pages/Beregning/Beregning';
