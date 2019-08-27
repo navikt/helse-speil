@@ -16,6 +16,11 @@ const antallUtbetalingsdager = behandling =>
         (acc, dag) => (dag.skalUtbetales ? acc + 1 : acc),
         0
     );
+const utbetalingsbeløp = behandling =>
+    behandling.beregning.dagsatser.reduce(
+        (acc, dagsats) => (dagsats.skalUtbetales ? acc + dagsats.sats : acc),
+        0
+    );
 
 const antallFeriedager = behandling => {
     const fravarAccumulator = (acc, fravar) => {
@@ -85,6 +90,7 @@ module.exports = {
     antallFeriedager,
     antallKalenderdager,
     dagsats,
+    utbetalingsbeløp,
     refusjonTilArbeidsgiver,
     sisteSykdomsdag,
     sykepengegrunnlag,
