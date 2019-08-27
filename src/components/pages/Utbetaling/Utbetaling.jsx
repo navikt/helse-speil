@@ -16,7 +16,8 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
         dagsats,
         refusjonTilArbeidsgiver,
         sykepengegrunnlag,
-        sykmeldingsgrad
+        sykmeldingsgrad,
+        utbetalingsbeløp
     } = behandling.utbetaling;
 
     return (
@@ -56,7 +57,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
             <ListeSeparator type="transparent" />
             <FormRow
                 label={utbetalingstekster('utbetaling')}
-                value={`${toKroner(antallUtbetalingsdager * dagsats)} kr`}
+                value={`${toKroner(utbetalingsbeløp)} kr`}
                 bold
             />
             <ListeSeparator />
