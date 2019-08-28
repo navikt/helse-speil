@@ -27,9 +27,9 @@ const setup = app => {
         api.behandlingerFor(aktorId, accessToken)
             .then(apiResponse =>
                 res
-                    .status(apiResponse.status)
+                    .status(apiResponse.statusCode)
                     .send(
-                        apiResponse.behandlinger.map(behandling =>
+                        apiResponse.data.behandlinger.map(behandling =>
                             mapping.alle(behandling)
                         )
                     )
