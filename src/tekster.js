@@ -80,7 +80,7 @@ bokmål.oppsummering['sykmeldingsgrad'] = 'Sykmeldingsgrad';
 bokmål.oppsummering['utbetalesFom'] = 'Utbetales fra og med';
 bokmål.oppsummering['utbetalesTom'] = 'Utbetales til og med';
 bokmål.oppsummering['utbetaling'] = 'Utbetaling';
-bokmål.oppsummering['innrapportert'] = 'Innrapportert';
+bokmål.oppsummering['innrapportert'] = 'Innrapportering';
 bokmål.oppsummering['ingen_uenigheter'] = 'Ingen uenigheter';
 bokmål.oppsummering['felter_uten_årsak'] =
     'Felter uten oppgitt årsak blir ikke sendt inn.';
