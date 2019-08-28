@@ -29,7 +29,7 @@
          }
       },
       {
-         "files": ["**/*.test.js", "__mocks__/**/*.js"],
+         "files": ["**/*.test.js", "__mocks__/**/*.js", "jest.config.js"],
          "env": {
             "mocha": true,
             "node": true,

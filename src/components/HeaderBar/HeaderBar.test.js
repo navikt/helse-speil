@@ -6,21 +6,10 @@ import HeaderBar from './HeaderBar';
 import '@testing-library/jest-dom/extend-expect';
 import { AuthProvider } from '../../context/AuthContext';
 
-const clgOrig = console.log;
-
 afterEach(cleanup);
-
-beforeAll(() => {
-    // reduce noise in log
-    console.log = jest.fn();
-});
 
 jest.mock('../widgets/modal/ErrorModal', () => () => <div />);
 jest.mock('../Search/Search', () => () => <div />);
-
-afterAll(() => {
-    console.log = clgOrig;
-});
 
 test('name of logged in user is retrieved from cookie', async () => {
     const { getByText } = render(<HeaderBar />);

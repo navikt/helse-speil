@@ -17,7 +17,7 @@ beforeAll(done => {
                 done();
             })
             .catch(err => {
-                console.log(`oh noes: ${err}`);
+                console.error(`oh noes: ${err}`);
             });
     });
 });

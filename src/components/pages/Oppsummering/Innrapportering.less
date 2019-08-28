@@ -5,10 +5,6 @@
   > .typo-normal {
     display: flex;
     align-items: flex-start;
-
-    > * {
-      margin-left: 0.5rem;
-    }
   }
 
   > .typo-normal:not(:last-child) {
@@ -34,7 +30,7 @@
     width: max-content;
     display: flex;
     align-items: center;
-    margin-top: 1rem;
+    margin-top: 2rem;
 
     &.sendt {
       @sendtColor: #38a161;
@@ -49,5 +45,14 @@
     &.knapp--disabled {
       background: #fff;
     }
+  }
+
+  .Innrapportering__category,
+  .Innrapportering__feedback {
+    color: #78706a;
+  }
+
+  .Innrapportering__feedback {
+    margin-top: 3rem;
   }
 }

@@ -96,7 +96,7 @@ const oppsummering = (behandling, periode = 0) => {
         fordeling: arbeidsgiverFordeling ? arbeidsgiverFordeling.andel : '-',
         månedsbeløp: sykepengegrunnlag / 12,
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
-        utbetaling: antallUtbetalingsdager * dagsats,
+        utbetaling: selectors.utbetalingsbeløp(behandling),
         sykepengegrunnlag,
         sykmeldtFraOgMed,
         sykmeldtTilOgMed,
@@ -140,13 +140,15 @@ const originalSøknad = behandling => ({
 const utbetaling = behandling => {
     const antallUtbetalingsdager = selectors.antallUtbetalingsdager(behandling);
     const dagsats = selectors.dagsats(behandling);
+    const utbetalingsbeløp = selectors.utbetalingsbeløp(behandling);
 
     return {
         refusjonTilArbeidsgiver: selectors.refusjonTilArbeidsgiver(behandling),
         sykepengegrunnlag: selectors.sykepengegrunnlag(behandling),
         sykmeldingsgrad: selectors.sykmeldingsgrad(behandling),
         antallUtbetalingsdager,
-        dagsats
+        dagsats,
+        utbetalingsbeløp
     };
 };
 
