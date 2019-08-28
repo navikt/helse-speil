@@ -4,6 +4,7 @@ import { useSessionStorage } from '../hooks/useSessionStorage';
 import { withBehandlingContext } from './BehandlingerContext';
 import { AuthContext } from './AuthContext';
 import { getFeedback } from '../io/http';
+import moment from 'moment';
 
 export const InnrapporteringContext = createContext({
     uenigheter: [],
@@ -42,7 +43,7 @@ export const InnrapporteringProvider = withBehandlingContext(
             );
         };
 
-        const addUenighet = (id, label) => {
+        const addUenighet = (id, label, items) => {
             setHasSendt(false);
             if (!uenigheter.find(uenighet => uenighet.id === id)) {
                 setUenigheter(uenigheter => [
@@ -50,11 +51,13 @@ export const InnrapporteringProvider = withBehandlingContext(
                     {
                         id,
                         label,
+                        items,
                         value: '',
                         userId: {
                             ident: authContext.authInfo.ident,
                             email: authContext.authInfo.email
-                        }
+                        },
+                        date: moment().format()
                     }
                 ]);
             }

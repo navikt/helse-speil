@@ -7,7 +7,12 @@ import './ListRow.less';
 const ListRow = ({ label, labelProp, items, bold }) => {
     return (
         <>
-            <IconRow label={label} labelProp={labelProp} bold={bold} />
+            <IconRow
+                label={label}
+                labelProp={labelProp}
+                bold={bold}
+                items={items}
+            />
             {items && (
                 <div className="ListRow">
                     {items.map((item, i) => (
