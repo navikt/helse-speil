@@ -6,7 +6,8 @@ import { AuthContext } from './AuthContext';
 import { getFeedback } from '../io/http';
 
 export const InnrapporteringContext = createContext({
-    uenigheter: []
+    uenigheter: [],
+    kommentarer: ''
 });
 
 export const InnrapporteringProvider = withBehandlingContext(
