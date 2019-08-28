@@ -17,7 +17,7 @@ export const useSessionStorage = (key, initialValue) => {
     useEffect(() => {
         const sessionState = sessionStorage.getItem(key);
         if (sessionState) {
-            const parsedState = JSON.parse(decodeURIComponent(sessionState));
+            const parsedState = JSON.parse(sessionState);
             setState(parsedState);
         }
     }, [key]);
