@@ -49,7 +49,9 @@ const routes = app => {
     });
 
     app.put('/feedback', (req, res) => {
+        log(`Storing feedback from IP address ${req.ip}`);
         if (isInvalid(req)) {
+            log(`Rejecting feedback due to validation error`);
             res.sendStatus(400);
         } else {
             storage
@@ -74,6 +76,10 @@ const isInvalid = req => {
         req.body.txt.length === 0 ||
         req.body.txt.length > 1000
     );
+};
+
+const log = string => {
+    console.log(new Date().toISOString() + ': ' + string);
 };
 
 module.exports = {
