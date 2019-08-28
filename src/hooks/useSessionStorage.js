@@ -18,7 +18,11 @@ export const useSessionStorage = (key, initialValue) => {
         const sessionState = sessionStorage.getItem(key);
         if (sessionState) {
             const parsedState = JSON.parse(decodeURIComponent(sessionState));
-            setState(parsedState);
+            if (parsedState) {
+                setState(parsedState);
+            } else {
+                sessionStorage.removeItem(key);
+            }
         }
     }, [key]);
 

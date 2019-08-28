@@ -5,7 +5,7 @@ export const useUenighet = id => {
     const innrapportering = useContext(InnrapporteringContext);
 
     const value = useMemo(
-        () => innrapportering.uenigheter.find(uenighet => uenighet.id === id),
+        () => innrapportering.uenigheter?.find(uenighet => uenighet.id === id),
         [innrapportering.uenigheter]
     )?.value;
 
