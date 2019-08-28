@@ -9,7 +9,7 @@ export const useSessionStorage = (key, initialValue) => {
     const [state, setState] = useState(initialValue);
 
     useEffect(() => {
-        if (state !== initialValue) {
+        if (state && state !== initialValue) {
             sessionStorage.setItem(key, JSON.stringify(state));
         }
     }, [state]);
