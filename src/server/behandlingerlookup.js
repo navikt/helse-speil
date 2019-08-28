@@ -1,31 +1,30 @@
 'use strict';
 
-const request = require('request');
+const request = require('request-promise-native');
 
-const behandlingerFor = (aktorId, accessToken, callback) => {
-    request.get(
-        `http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`,
-        {
+const behandlingerFor = (aktorId, accessToken) =>
+    new Promise((resolve, reject) => {
+        const options = {
+            uri: `http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`,
             headers: {
                 Authorization: `Bearer ${accessToken}`
-            }
-        },
-        (error, response, body) => {
-            const erred = error || response.statusCode !== 200;
-            if (erred) {
-                console.log(
-                    `Error during lookup, got ${response.statusCode} ${error ||
-                        'unknown error'} fom spade`
-                );
-            }
+            },
+            json: true,
+            resolveWithFullResponse: true
+        };
 
-            callback({
-                status: response.statusCode,
-                data: erred ? error : body
+        request
+            .get(options)
+            .then(response => {
+                resolve({
+                    status: response.statusCode,
+                    behandlinger: response.data
+                });
+            })
+            .catch(err => {
+                reject(err);
             });
-        }
-    );
-};
+    });
 
 module.exports = {
     behandlingerFor: behandlingerFor

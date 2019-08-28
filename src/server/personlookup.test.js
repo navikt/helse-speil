@@ -1,58 +1,51 @@
 'use strict';
 
-const request = require('request');
+jest.mock('request-promise-native');
 
 const personLookup = require('../../src/server/personlookup');
 
-beforeEach(() => {
-    personLookup.init({
-        serviceUserName: 'da_usah',
-        serviceUserPassword: 'pazzwd',
-        stsUrl: 'http://localhost'
-    });
-});
+const expectedPerson = {
+    navn: 'BJARNE BETJENT',
+    kjønn: 'MANN'
+};
+
+const validCreds = {
+    serviceUserName: 'valid',
+    serviceUserPassword: 'creds'
+};
+
+const bogusCreds = {
+    serviceUserName: 'bogus',
+    serviceUserPassword: 'creds'
+};
 
 test('successful person lookup resolves with mapped person object', () => {
-    request.setStsStatusCode(200);
-    request.setStsResponseBody({
-        access_token: createToken({ exp: 12345 })
-    });
-    request.setPersonStatusCode(200);
-    request.setPersonResponseBody({
-        fdato: '1995-01-01',
-        statsborgerskap: 'NOR',
-        etternavn: 'BETJENT',
-        aktørId: '1000012345678',
-        bostedsland: 'NOR',
-        fornavn: 'BJARNE',
-        kjønn: 'MANN',
-        status: 'BOSA'
+    personLookup.init({
+        stsUrl: 'http://localhost',
+        ...validCreds
     });
 
-    expect(personLookup.hentPerson('12345')).resolves.toEqual({
-        navn: 'BJARNE BETJENT',
-        kjønn: 'MANN'
-    });
+    expect(personLookup.hentPerson('11111')).resolves.toEqual(expectedPerson);
 });
 
 test('logon failure -> rejection', () => {
-    request.setStsStatusCode(500);
-    expect(personLookup.hentPerson('12345')).rejects.toMatch('Error');
+    personLookup.init({
+        stsUrl: 'http://localhost',
+        ...bogusCreds
+    });
+
+    expect(personLookup.hentPerson('22222')).rejects.toMatch(
+        'Error while retrieving access token'
+    );
 });
 
 test('lookup failure -> rejection', () => {
-    request.setStsStatusCode(200);
-    request.setStsResponseBody({
-        access_token: 'some_token'
+    personLookup.init({
+        stsUrl: 'http://localhost',
+        ...validCreds
     });
-    request.setPersonStatusCode(500);
 
-    expect(personLookup.hentPerson('12345')).rejects.toMatch('Error');
+    expect(personLookup.hentPerson('33333')).rejects.toMatch(
+        'Error while finding person'
+    );
 });
-
-const createToken = claims => {
-    const header = { alg: 'HS256', typ: 'JWT' };
-    return `${btoa(JSON.stringify(header))}.${btoa(
-        JSON.stringify(claims)
-    )}.bogussignature`;
-};
