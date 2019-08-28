@@ -74,7 +74,7 @@ const isInvalid = req => {
         req.body.id.length === 0 ||
         req.body.id.length > 50 ||
         req.body.txt.length === 0 ||
-        req.body.txt.length > 1000
+        req.body.txt.length > 20000
     );
 };
 
