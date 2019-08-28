@@ -26,7 +26,7 @@ export const InnrapporteringProvider = withBehandlingContext(
                 getFeedback(behandlingsId)
                     .then(response => {
                         if (response.status === 200) {
-                            setUenigheter(response.data.uenigheter);
+                            setUenigheter(response.data.uenigheter ?? []);
                             setKommentarer(response.data.kommentarer);
                         }
                     })
