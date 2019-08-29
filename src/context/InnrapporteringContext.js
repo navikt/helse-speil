@@ -80,7 +80,10 @@ export const InnrapporteringProvider = withBehandlingContext(
                     hasSendt,
                     setHasSendt,
                     kommentarer,
-                    setKommentarer
+                    setKommentarer: val => {
+                        setHasSendt(false);
+                        setKommentarer(val);
+                    }
                 }}
             >
                 {children}
