@@ -6,6 +6,7 @@ import './FormRow.less';
 
 const FormRow = ({ label, value, bold, showRightSide }) => {
     const className = bold ? 'bold' : '';
+    const itemsForFeedback = value !== undefined ? [{ label, value }] : [];
     return (
         <span className="FormRow">
             <span>
@@ -13,7 +14,7 @@ const FormRow = ({ label, value, bold, showRightSide }) => {
                 <Normaltekst className={className}>{value || '-'}</Normaltekst>
             </span>
             {showRightSide ? (
-                <Uenigboks label={label} items={[{ label, value }]} />
+                <Uenigboks label={label} itemsForFeedback={itemsForFeedback} />
             ) : (
                 <div className="FormRow__padder" />
             )}
