@@ -1,6 +1,7 @@
 'use strict';
 
 const storage = require('./storage');
+const { ipAddressFromRequest } = require('./requestData.js');
 
 const setup = (app, config) => {
     return new Promise((resolve, reject) => {
@@ -49,7 +50,7 @@ const routes = app => {
     });
 
     app.put('/feedback', (req, res) => {
-        log(`Storing feedback from IP address ${req.ip}`);
+        log(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
         if (isInvalid(req)) {
             log(`Rejecting feedback due to validation error`);
             res.sendStatus(400);

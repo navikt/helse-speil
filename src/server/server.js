@@ -17,6 +17,8 @@ const behandlinger = require('./behandlingerroutes');
 const feedback = require('./feedbackroutes');
 const person = require('./personroutes');
 
+const { ipAddressFromRequest } = require('./requestData');
+
 const app = express();
 const port = config.server.port;
 
@@ -83,11 +85,7 @@ app.use('/*', (req, res, next) => {
     ) {
         next();
     } else {
-        console.log(
-            `no valid session found for ${req.headers['x-forwarded-for'] ||
-                req.connection.remoteAddress ||
-                'unknown remote ip'}`
-        );
+        console.log(`no valid session found for ${ipAddressFromRequest(req)}`);
         if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
             res.redirect('/login');
         } else {
