@@ -14,60 +14,41 @@ const init = navConfig => {
 };
 
 const hentPerson = async aktørId => {
-    return new Promise((resolve, reject) => {
-        hentAccessToken()
-            .then(token => {
-                const options = {
-                    uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    json: true
-                };
-
-                request
-                    .get(options)
-                    .then(person => {
-                        resolve(map(person));
-                    })
-                    .catch(err => {
-                        reject(`Error while finding person: ${err}`);
-                    });
-            })
-            .catch(err => {
-                reject(err);
-            });
-    });
-};
-
-const hentAccessToken = async () => {
-    return new Promise((resolve, reject) => {
-        if (tokenNeedsRefresh()) {
+    return hentAccessToken()
+        .then(token => {
             const options = {
-                uri: `${authConfig.stsUrl}/rest/v1/sts/token?grant_type=client_credentials&scope=openid`,
+                uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
                 headers: {
-                    Authorization:
-                        'Basic ' +
-                        Buffer.from(
-                            `${authConfig.serviceUserName}:${authConfig.serviceUserPassword}`
-                        ).toString('base64')
+                    Authorization: `Bearer ${token}`
                 },
                 json: true
             };
 
-            request
-                .get(options)
-                .then(response => {
-                    cachedAccessToken = response.access_token;
-                    resolve(cachedAccessToken);
-                })
-                .catch(err => {
-                    reject(`Error while retrieving access token: ${err}`);
-                });
-        } else {
-            resolve(cachedAccessToken);
-        }
-    });
+            return request.get(options);
+        })
+        .catch(err => {
+            return Promise.reject(err);
+        });
+};
+
+const hentAccessToken = async () => {
+    if (!tokenNeedsRefresh()) {
+        return Promise.resolve(cachedAccessToken);
+    }
+
+    const options = {
+        uri: `${authConfig.stsUrl}/rest/v1/sts/token?grant_type=client_credentials&scope=openid`,
+        headers: {
+            Authorization:
+                'Basic ' +
+                Buffer.from(
+                    `${authConfig.serviceUserName}:${authConfig.serviceUserPassword}`
+                ).toString('base64')
+        },
+        json: true
+    };
+
+    return request.get(options);
 };
 
 const tokenNeedsRefresh = () => {
@@ -75,13 +56,6 @@ const tokenNeedsRefresh = () => {
         !cachedAccessToken ||
         authSupport.willExpireInLessThan(30, cachedAccessToken)
     );
-};
-
-const map = person => {
-    return {
-        navn: `${person.fornavn} ${person.etternavn}`,
-        kjønn: `${person.kjønn}`
-    };
 };
 
 module.exports = {

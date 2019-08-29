@@ -5,8 +5,14 @@ jest.mock('request-promise-native');
 const personLookup = require('../../src/server/personlookup');
 
 const expectedPerson = {
-    navn: 'BJARNE BETJENT',
-    kjønn: 'MANN'
+    fdato: '1995-01-01',
+    statsborgerskap: 'NOR',
+    etternavn: 'BETJENT',
+    aktørId: '1000012345678',
+    bostedsland: 'NOR',
+    fornavn: 'BJARNE',
+    kjønn: 'MANN',
+    status: 'BOSA'
 };
 
 const validCreds = {
@@ -19,7 +25,7 @@ const bogusCreds = {
     serviceUserPassword: 'creds'
 };
 
-test('successful person lookup resolves with mapped person object', () => {
+test('successful lookup resolves with person object', () => {
     personLookup.init({
         stsUrl: 'http://localhost',
         ...validCreds
@@ -34,9 +40,7 @@ test('logon failure -> rejection', () => {
         ...bogusCreds
     });
 
-    expect(personLookup.hentPerson('22222')).rejects.toMatch(
-        'Error while retrieving access token'
-    );
+    expect(personLookup.hentPerson('22222')).rejects.toMatch('wrong creds');
 });
 
 test('lookup failure -> rejection', () => {
@@ -45,7 +49,5 @@ test('lookup failure -> rejection', () => {
         ...validCreds
     });
 
-    expect(personLookup.hentPerson('33333')).rejects.toMatch(
-        'Error while finding person'
-    );
+    expect(personLookup.hentPerson('33333')).rejects.toMatch('request failed');
 });

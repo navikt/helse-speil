@@ -1,6 +1,7 @@
 'use strict';
 
 const personLookup = require('./personlookup');
+const personMapping = require('./personmapping');
 
 const setup = (app, config) => {
     personLookup.init(config);
@@ -13,7 +14,7 @@ const routes = app => {
         personLookup
             .hentPerson(aktørId)
             .then(person => {
-                res.send(person);
+                res.send(personMapping.map(person));
             })
             .catch(err => {
                 console.log(err);

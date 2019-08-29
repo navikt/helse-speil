@@ -13,22 +13,23 @@ const testPerson = {
     status: 'BOSA'
 };
 
-rpn.get = options =>
-    new Promise((resolve, reject) => {
-        if (options.uri.includes('/sts/')) {
-            if (options.headers.Authorization.includes('Ym9ndXM6Y3JlZHM=')) {
-                reject('wrong creds');
-            } else {
-                resolve({ access_token: createToken({ exp: 12345 }) });
-            }
+rpn.get = options => {
+    if (options.uri.includes('/sts/')) {
+        if (options.headers.Authorization.includes('Ym9ndXM6Y3JlZHM=')) {
+            return Promise.reject('wrong creds');
         } else {
-            if (options.uri.includes('11111')) {
-                resolve(testPerson);
-            } else {
-                reject('request failed');
-            }
+            return Promise.resolve({
+                access_token: createToken({ exp: 12345 })
+            });
         }
-    });
+    } else {
+        if (options.uri.includes('11111')) {
+            return Promise.resolve(testPerson);
+        } else {
+            return Promise.reject('request failed');
+        }
+    }
+};
 
 const createToken = claims => {
     const header = { alg: 'HS256', typ: 'JWT' };
