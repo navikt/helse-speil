@@ -8,7 +8,7 @@ import { useUenighet } from '../../hooks/useUenighet';
 
 const errorMessage = 'Du bør skrive inn årsak';
 
-const Uenigboks = ({ label }) => {
+const Uenigboks = ({ label, itemsForFeedback }) => {
     const id = label + decodeURIComponent(window.location.pathname);
 
     const uenighet = useUenighet(id);
@@ -34,7 +34,7 @@ const Uenigboks = ({ label }) => {
         setChecked(e.target.checked);
         setError(undefined);
         if (e.target.checked) {
-            uenighet.create(label);
+            uenighet.create(label, itemsForFeedback);
         } else {
             uenighet.remove();
         }
@@ -72,7 +72,13 @@ const Uenigboks = ({ label }) => {
 };
 
 Uenigboks.propTypes = {
-    label: PropTypes.string.isRequired
+    label: PropTypes.string.isRequired,
+    itemsForFeedback: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        })
+    )
 };
 
 export default Uenigboks;

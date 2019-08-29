@@ -11,7 +11,7 @@ export const useUenighet = id => {
 
     return {
         remove: () => innrapportering.removeUenighet(id),
-        create: label => innrapportering.addUenighet(id, label),
+        create: (label, items) => innrapportering.addUenighet(id, label, items),
         update: value => innrapportering.updateUenighet(id, value),
         value
     };
