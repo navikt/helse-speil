@@ -25,8 +25,8 @@ const Uenigboks = ({ label, itemsForFeedback }) => {
         setInputValue(uenighet.value || '');
         if (uenighet.value !== undefined) {
             setChecked(true);
-        } else if (uenighet.value === '') {
-            setError(undefined);
+        } else {
+            setChecked(false);
         }
     }, [uenighet.value]);
 

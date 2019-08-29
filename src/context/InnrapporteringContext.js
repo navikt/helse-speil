@@ -22,20 +22,17 @@ export const InnrapporteringProvider = withBehandlingContext(
             []
         );
 
-        const fetchFeedback = () => {
-            return (
-                behandling &&
-                getFeedback(behandlingsId)
-                    .then(response => {
-                        if (response.status === 200) {
-                            setUenigheter(response.data.uenigheter ?? []);
-                            setKommentarer(response.data.kommentarer);
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err); // eslint-disable-line no-console
-                    })
-            );
+        const fetchFeedback = behandlingsId => {
+            return getFeedback(behandlingsId)
+                .then(response => {
+                    if (response.status === 200) {
+                        setUenigheter(response.data.uenigheter ?? []);
+                        setKommentarer(response.data.kommentarer);
+                    }
+                })
+                .catch(err => {
+                    console.log(err); // eslint-disable-line no-console
+                });
         };
 
         const removeUenighet = id => {
