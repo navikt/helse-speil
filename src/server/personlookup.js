@@ -48,7 +48,15 @@ const hentAccessToken = async () => {
         json: true
     };
 
-    return request.get(options);
+    return request
+        .get(options)
+        .then(response => {
+            cachedAccessToken = response.access_token;
+            return Promise.resolve(cachedAccessToken);
+        })
+        .catch(err => {
+            return Promise.reject(err);
+        });
 };
 
 const tokenNeedsRefresh = () => {
