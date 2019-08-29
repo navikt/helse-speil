@@ -28,8 +28,8 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                 setError(undefined);
                 innrapportering.setHasSendt(true);
             })
-            .catch(() => {
-                setError('Feil ved innsending av rapport. Prøv igjen senere.');
+            .catch(e => {
+                setError(e);
             })
             .finally(() => {
                 setIsSending(false);
@@ -48,7 +48,10 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                 </Normaltekst>
             )}
             {innrapportering.uenigheter.map((uenighet, i) => (
-                <Normaltekst key={`uenighet-${i}`}>
+                <Normaltekst
+                    key={`uenighet-${i}`}
+                    className="Innrapportering__uenighet"
+                >
                     <span>{uenighet.label}:</span>
                     <span>{uenighet.value}</span>
                     {!uenighet.value && (
@@ -71,7 +74,19 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
             )}
             {error && (
                 <Normaltekst className="skjemaelement__feilmelding">
-                    {error}
+                    {error.statusCode === 401 ? (
+                        <>
+                            <span>
+                                Du må logge inn på nytt for å kunne sende
+                                rapport. Du vil sendes tilbake til forsiden
+                                etter innlogging og beholder arbeidet du har
+                                gjort.
+                            </span>
+                            <a href="/"> Logg inn</a>
+                        </>
+                    ) : (
+                        <>Feil ved innsending av rapport. Prøv igjen senere.</>
+                    )}
                 </Normaltekst>
             )}
         </Panel>
