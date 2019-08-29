@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { withBehandlingContext } from './BehandlingerContext';
@@ -14,7 +14,7 @@ export const InnrapporteringContext = createContext({
 export const InnrapporteringProvider = withBehandlingContext(
     ({ behandling, children }) => {
         const authContext = useContext(AuthContext);
-        const behandlingsId = behandling && behandling.behandlingsId;
+        const behandlingsId = behandling?.behandlingsId;
         const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
         const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
         const [uenigheter, setUenigheter] = useSessionStorage(
@@ -22,8 +22,9 @@ export const InnrapporteringProvider = withBehandlingContext(
             []
         );
 
-        useEffect(() => {
-            behandling &&
+        const fetchFeedback = () => {
+            return (
+                behandling &&
                 getFeedback(behandlingsId)
                     .then(response => {
                         if (response.status === 200) {
@@ -33,8 +34,9 @@ export const InnrapporteringProvider = withBehandlingContext(
                     })
                     .catch(err => {
                         console.log(err); // eslint-disable-line no-console
-                    });
-        }, [behandling]);
+                    })
+            );
+        };
 
         const removeUenighet = id => {
             setHasSendt(false);
@@ -83,6 +85,7 @@ export const InnrapporteringProvider = withBehandlingContext(
                     hasSendt,
                     setHasSendt,
                     kommentarer,
+                    fetchFeedback,
                     setKommentarer: val => {
                         setHasSendt(false);
                         setKommentarer(val);

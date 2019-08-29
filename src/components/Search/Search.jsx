@@ -5,6 +5,7 @@ import ErrorModal from '../widgets/modal/ErrorModal';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { Keys } from '../../hooks/useKeyboard';
 import './Search.css';
+import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 
 const SearchIcon = () => (
     <svg
@@ -34,6 +35,7 @@ const SearchIcon = () => (
 const Search = ({ history }) => {
     const ref = useRef(undefined);
     const behandlingerCtx = useContext(BehandlingerContext);
+    const innrapportering = useContext(InnrapporteringContext);
 
     const keyTyped = event => {
         const isEnter = (event.charCode || event.keyCode) === Keys.ENTER;
@@ -43,14 +45,20 @@ const Search = ({ history }) => {
     };
 
     const goBackToStart = newData => {
-        if (newData?.behandlinger && history.location.pathname !== '/') {
-            history.push('/');
+        if (newData?.behandlinger) {
+            if (history.location.pathname === '/') {
+                window.location.reload();
+            } else {
+                history.push('/');
+            }
         }
     };
 
-    const search = value => {
+    const search = async value => {
         if (value.trim().length !== 0) {
-            behandlingerCtx.fetchBehandlinger(value).then(goBackToStart);
+            const behandling = await behandlingerCtx.fetchBehandlinger(value);
+            await innrapportering.fetchFeedback();
+            goBackToStart(behandling);
         }
     };
 
