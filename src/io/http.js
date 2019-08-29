@@ -1,5 +1,10 @@
 'use strict';
 
+export const ResponseError = response => ({
+    message: response.statusText,
+    statusCode: response.status
+});
+
 /* eslint-disable no-undef */
 const baseUrl =
     process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
@@ -16,8 +21,8 @@ const getData = async response => {
 const get = async url => {
     const response = await fetch(url);
 
-    if (!response) {
-        throw Error();
+    if (response.status >= 400) {
+        throw ResponseError(response);
     }
 
     return {
