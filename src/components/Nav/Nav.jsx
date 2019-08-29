@@ -8,6 +8,8 @@ const Nav = ({ active }) => {
     const onClick = e => {
         if (!active) {
             e.preventDefault();
+        } else {
+            e.target.blur();
         }
     };
 
