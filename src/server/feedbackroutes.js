@@ -2,6 +2,7 @@
 
 const storage = require('./storage');
 const { ipAddressFromRequest } = require('./requestData.js');
+const { log } = require('./logging');
 
 const setup = (app, config) => {
     return new Promise((resolve, reject) => {
@@ -77,10 +78,6 @@ const isInvalid = req => {
         req.body.txt.length === 0 ||
         req.body.txt.length > 20000
     );
-};
-
-const log = string => {
-    console.log(new Date().toISOString() + ': ' + string);
 };
 
 module.exports = {

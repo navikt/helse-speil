@@ -18,6 +18,7 @@ const feedback = require('./feedbackroutes');
 const person = require('./personroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
+const { log } = require('./logging');
 
 const app = express();
 const port = config.server.port;
@@ -38,7 +39,7 @@ azure
         azureClient = client;
     })
     .catch(err => {
-        console.log(`Failed to discover OIDC provider properties: ${err}`);
+        log(`Failed to discover OIDC provider properties: ${err}`);
         process.exit(1);
     });
 
@@ -71,7 +72,7 @@ app.post('/callback', (req, res) => {
             res.redirect('/');
         })
         .catch(err => {
-            console.log(err);
+            log(err);
             req.session.destroy();
             res.sendStatus(403);
         });
@@ -85,7 +86,7 @@ app.use('/*', (req, res, next) => {
     ) {
         next();
     } else {
-        console.log(`no valid session found for ${ipAddressFromRequest(req)}`);
+        log(`no valid session found for ${ipAddressFromRequest(req)}`);
         if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
             res.redirect('/login');
         } else {
@@ -103,10 +104,10 @@ behandlinger.setup(app);
 feedback
     .setup(app, config.s3)
     .then(() => {
-        console.log(`Feedback storage at ${config.s3.s3url}`);
+        log(`Feedback storage at ${config.s3.s3url}`);
     })
     .catch(err => {
-        console.log(
+        log(
             `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback are not available.`
         );
     });
@@ -117,4 +118,4 @@ app.get('/', (_, res) => {
     res.redirect('/static');
 });
 
-app.listen(port, () => console.log(`Speil backend listening on port ${port}`));
+app.listen(port, () => log(`Speil backend listening on port ${port}`));
