@@ -36,13 +36,18 @@ const validateOidcCallback = (req, azureClient, config) => {
                 const accessToken = tokenSet['access_token'];
                 const idToken = tokenSet['id_token'];
                 const requiredGroup = config.requiredGroup;
+                const username = nameFrom(idToken);
                 if (accessToken && isMemberOf(requiredGroup, accessToken)) {
+                    console.log(
+                        `User ${username} has been authenticated, from IP address ${req
+                            .headers['x-forwarded-for'] ||
+                            req.connection.remoteAddress ||
+                            'unknown remote ip'}`
+                    );
                     resolve([accessToken, idToken]);
                 } else {
                     reject(
-                        `'${nameFrom(
-                            idToken
-                        )}' is not member of '${requiredGroup}', denying access`
+                        `'${username}' is not member of '${requiredGroup}', denying access`
                     );
                 }
             })
