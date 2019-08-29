@@ -46,7 +46,7 @@ export const putFeedback = async feedback => {
     });
 
     if (response.status !== 204) {
-        throw ResponseError(response);
+        throw ResponseError(response.statusText, response.status);
     }
 };
 
