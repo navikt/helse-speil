@@ -1,5 +1,7 @@
 'use strict';
 
+const { ipAddressFromRequest } = require('./requestData');
+
 const isValidNow = token => {
     return isValidAt(token, Math.floor(Date.now()) / 1000);
 };
@@ -39,10 +41,9 @@ const validateOidcCallback = (req, azureClient, config) => {
                 const username = nameFrom(idToken);
                 if (accessToken && isMemberOf(requiredGroup, accessToken)) {
                     console.log(
-                        `User ${username} has been authenticated, from IP address ${req
-                            .headers['x-forwarded-for'] ||
-                            req.connection.remoteAddress ||
-                            'unknown remote ip'}`
+                        `User ${username} has been authenticated, from IP address ${ipAddressFromRequest(
+                            req
+                        )}`
                     );
                     resolve([accessToken, idToken]);
                 } else {
