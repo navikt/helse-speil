@@ -18,6 +18,7 @@ const feedback = require('./feedbackroutes');
 const person = require('./personroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
+const { nameFrom } = require('./authsupport');
 const { log } = require('./logging');
 
 const app = express();
@@ -86,7 +87,11 @@ app.use('/*', (req, res, next) => {
     ) {
         next();
     } else {
-        log(`no valid session found for ${ipAddressFromRequest(req)}`);
+        log(
+            `no valid session found for ${ipAddressFromRequest(
+                req
+            )}, username ${nameFrom(req.session.spadeToken)}`
+        );
         if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
             res.redirect('/login');
         } else {
