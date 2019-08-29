@@ -1,0 +1,112 @@
+[
+    {
+        "behandlingsId": "76bc2ff4-f094-4bc0-a21c-7a46fc660732",
+        "sykdomsvilkår": {
+            "mindreEnnÅtteUkerSammenhengende": {
+                "førsteSykdomsdag": "2019-07-01",
+                "sisteSykdomsdag": "2019-07-31"
+            }
+        },
+        "inngangsvilkår": {
+            "medlemskap": {
+                "statsborgerskap": "NOR",
+                "bosattINorge": true,
+                "diskresjonskode": null
+            },
+            "opptjening": {
+                "førsteSykdomsdag": "2019-07-01",
+                "antallDager": 510,
+                "startdato": "2018-02-06",
+                "sluttdato": null
+            },
+            "merEnn05G": 300000,
+            "inntekt": {
+                "beløp": 300000
+            },
+            "søknadsfrist": {
+                "sendtNav": "2019-08-14T14:31:35.109",
+                "sisteSykdomsdag": "2019-07-31",
+                "innen3Mnd": true
+            },
+            "dagerIgjen": {
+                "førsteFraværsdag": "2019-07-01",
+                "førsteSykepengedag": "2019-07-01",
+                "alder": 24,
+                "yrkesstatus": "ARBEIDSTAKER",
+                "maxDato": "2020-06-10",
+                "tidligerePerioder": []
+            }
+        },
+        "oppsummering": {
+            "sykdomsvilkårErOppfylt": "Ja",
+            "inngangsvilkårErOppfylt": "Ja",
+            "arbeidsgiver": {
+                "navn": "EID SPIK OG LOL",
+                "orgnummer": "988888888"
+            },
+            "refusjonTilArbeidsgiver": null,
+            "fordeling": 100,
+            "månedsbeløp": 25000,
+            "sykmeldingsgrad": 100,
+            "utbetaling": 26542,
+            "sykepengegrunnlag": 300000,
+            "sykmeldtFraOgMed": "2019-07-01",
+            "sykmeldtTilOgMed": "2019-07-31",
+            "antallUtbetalingsdager": 23,
+            "dagsats": 1154,
+            "utbetalesFom": "2019-07-01",
+            "utbetalesTom": "2019-07-31"
+        },
+        "originalSøknad": {
+            "arbeidsgiver": {
+                "navn": "EID SPIK OG LOL",
+                "orgnummer": "988888888"
+            },
+            "aktorId": "10000000000001",
+            "soknadsperioder": [
+                {
+                    "sykmeldingsgrad": 100
+                }
+            ],
+            "fom": "2019-07-01",
+            "tom": "2019-07-31"
+        },
+        "utbetaling": {
+            "refusjonTilArbeidsgiver": null,
+            "sykepengegrunnlag": 300000,
+            "sykmeldingsgrad": 100,
+            "antallUtbetalingsdager": 23,
+            "dagsats": 1154,
+            "utbetalingsbeløp": 26542
+        },
+        "periode": {
+            "antallKalenderdager": 31,
+            "arbeidsgiverperiodeKalenderdager": 16,
+            "antallVirkedager": 23,
+            "antallFeriedager": 0,
+            "antallUtbetalingsdager": 23,
+            "sykmeldingsgrad": 100
+        },
+        "sykepengeberegning": {
+            "beregningsperioden": 75000,
+            "utbetalingsperioder": [
+                ["2019-06", 25000],
+                ["2019-05", 25000],
+                ["2019-04", 25000],
+                ["2019-03", 25000],
+                ["2019-02", 25000],
+                ["2019-01", 25000],
+                ["2018-12", 25000],
+                ["2018-11", 25000],
+                ["2018-10", 25000],
+                ["2018-09", 25000],
+                ["2018-08", 25000],
+                ["2018-07", 25000]
+            ],
+            "sammenligningsgrunnlag": 300000,
+            "sykepengegrunnlag": 300000,
+            "avvik": 0,
+            "dagsats": 1154
+        }
+    }
+]
