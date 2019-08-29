@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
     <g>
-        <rect x="-1" y="-1" width="42" height="42"/>
+        <rect x="-1" y="-1" width="42" height="42" fill="none"/>
     </g>
     <g>
         <rect x="1" y="1" width="37.75" height="37.75" rx="5" fill="none" stroke="#fff" stroke-width="2"/>
