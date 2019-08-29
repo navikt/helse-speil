@@ -1,6 +1,6 @@
 'use strict';
 
-const ResponseError = response => ({
+export const ResponseError = response => ({
     message: response.statusText,
     statusCode: response.status
 });
@@ -21,8 +21,8 @@ const getData = async response => {
 const get = async url => {
     const response = await fetch(url);
 
-    if (!response) {
-        throw Error();
+    if (response.status >= 400) {
+        throw ResponseError(response);
     }
 
     return {

@@ -24,19 +24,24 @@ export const BehandlingerProvider = ({ children }) => {
     const fetchBehandlinger = value => {
         return behandlingerFor(value)
             .then(response => {
-                if (response.status === 200) {
-                    const newData = { behandlinger: response.data };
-                    setBehandlinger(newData);
-                    return newData;
-                } else if (response.status === 401) {
-                    setError('Du må logge inn på nytt.');
-                } else {
-                    setError(`Fant ingen behandlinger for '${value}'`);
-                }
+                const newData = { behandlinger: response.data };
+                setBehandlinger(newData);
+                return newData;
             })
             .catch(err => {
-                console.log(err); // eslint-disable-line no-console
-                setError('Kunne ikke utføre søket');
+                if (err.statusCode === 401) {
+                    setError({ ...err, message: 'Du må logge inn på nytt.' });
+                } else if (err.statusCode === 404) {
+                    setError({
+                        ...err,
+                        message: `Fant ingen behandlinger for ${value}.`
+                    });
+                } else {
+                    setError({
+                        ...err,
+                        message: 'Kunne ikke utføre søket. Prøv igjen senere.'
+                    });
+                }
             });
     };
 
