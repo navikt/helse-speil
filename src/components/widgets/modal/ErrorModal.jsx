@@ -19,7 +19,6 @@ const ErrorModal = ({ errorMessage, onClose }) => (
         <Normaltekst>{errorMessage}</Normaltekst>
         <Knapp
             onClick={() => {
-                console.log(onClose);
                 if (onClose) {
                     onClose();
                 } else {

@@ -1,8 +1,8 @@
 'use strict';
 
-export const ResponseError = response => ({
-    message: response.statusText,
-    statusCode: response.status
+export const ResponseError = (message, statusCode) => ({
+    message,
+    statusCode
 });
 
 /* eslint-disable no-undef */
@@ -22,7 +22,7 @@ const get = async url => {
     const response = await fetch(url);
 
     if (response.status >= 400) {
-        throw ResponseError(response);
+        throw ResponseError(response.statusText, response.status);
     }
 
     return {
