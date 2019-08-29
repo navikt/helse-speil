@@ -1,5 +1,10 @@
 'use strict';
 
+const ResponseError = response => ({
+    message: response.statusText,
+    statusCode: response.status
+});
+
 /* eslint-disable no-undef */
 const baseUrl =
     process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
@@ -41,7 +46,7 @@ export const putFeedback = async feedback => {
     });
 
     if (response.status !== 204) {
-        throw Error();
+        throw ResponseError(response);
     }
 };
 
