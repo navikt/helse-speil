@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
  * returns {array}              et array bestående av verdien av state og en setState-funksjon
  */
 export const useSessionStorage = (key, initialValue) => {
+    const [hasCheckedStorage, setHasCheckedStorage] = useState(false);
     const [state, setState] = useState(initialValue);
 
     useEffect(() => {
@@ -24,7 +25,8 @@ export const useSessionStorage = (key, initialValue) => {
                 sessionStorage.removeItem(key);
             }
         }
+        setHasCheckedStorage(true);
     }, [key]);
 
-    return [state, setState];
+    return [state, setState, hasCheckedStorage];
 };

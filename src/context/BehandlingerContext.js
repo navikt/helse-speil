@@ -10,16 +10,23 @@ export const withBehandlingContext = Component => {
         const behandlingerCtx = useContext(BehandlingerContext);
         const behandling = behandlingerCtx.state?.behandlinger?.[0];
 
-        return <Component behandling={behandling} {...props} />;
+        return (
+            <Component
+                behandling={behandling}
+                hasCheckedStorage={behandlingerCtx.hasCheckedStorage}
+                {...props}
+            />
+        );
     };
 };
 
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [behandlinger, setBehandlinger] = useSessionStorage(
-        'behandlinger',
-        []
-    );
+    const [
+        behandlinger,
+        setBehandlinger,
+        hasCheckedStorage
+    ] = useSessionStorage('behandlinger', []);
 
     const fetchBehandlinger = value => {
         return behandlingerFor(value)
@@ -47,7 +54,8 @@ export const BehandlingerProvider = ({ children }) => {
                 setBehandlinger: setBehandlinger,
                 fetchBehandlinger,
                 error,
-                clearError: () => setError(undefined)
+                clearError: () => setError(undefined),
+                hasCheckedStorage
             }}
         >
             {children}
