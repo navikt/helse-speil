@@ -14,21 +14,17 @@ const init = navConfig => {
 };
 
 const hentPerson = async aktørId => {
-    return hentAccessToken()
-        .then(token => {
-            const options = {
-                uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                json: true
-            };
+    return hentAccessToken().then(token => {
+        const options = {
+            uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            json: true
+        };
 
-            return request.get(options);
-        })
-        .catch(err => {
-            return Promise.reject(err);
-        });
+        return request.get(options);
+    });
 };
 
 const hentAccessToken = async () => {
@@ -48,15 +44,10 @@ const hentAccessToken = async () => {
         json: true
     };
 
-    return request
-        .get(options)
-        .then(response => {
-            cachedAccessToken = response.access_token;
-            return Promise.resolve(cachedAccessToken);
-        })
-        .catch(err => {
-            return Promise.reject(err);
-        });
+    return request.get(options).then(response => {
+        cachedAccessToken = response.access_token;
+        return Promise.resolve(cachedAccessToken);
+    });
 };
 
 const tokenNeedsRefresh = () => {
