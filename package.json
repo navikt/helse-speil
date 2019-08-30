@@ -80,6 +80,7 @@
         "react-router-dom": "^5.0.1",
         "react-tooltip": "^3.11.0",
         "request": "^2.88.0",
+        "request-promise-native": "^1.0.7",
         "reset-css": "^4.0.1",
         "snyk": "^1.221.1",
         "tunnel": "0.0.6"

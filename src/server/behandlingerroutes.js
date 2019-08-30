@@ -21,19 +21,23 @@ const setup = app => {
             });
             return;
         }
+
         const accessToken = req.session.spadeToken;
         const aktorId = req.params.aktorId;
-        api.behandlingerFor(aktorId, accessToken, apiresponse => {
-            if (apiresponse.status !== 200) {
-                res.status(apiresponse.status).send(apiresponse.data);
-            } else {
-                res.send(
-                    JSON.parse(apiresponse.data).behandlinger.map(behandling =>
-                        mapping.alle(behandling)
+        api.behandlingerFor(aktorId, accessToken)
+            .then(apiResponse =>
+                res
+                    .status(apiResponse.statusCode)
+                    .send(
+                        apiResponse.data.behandlinger.map(behandling =>
+                            mapping.alle(behandling)
+                        )
                     )
-                );
-            }
-        });
+            )
+            .catch(err => {
+                console.error(err);
+                res.sendStatus(500);
+            });
     });
 };
 
