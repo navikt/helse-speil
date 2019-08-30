@@ -15,7 +15,6 @@ const init = navConfig => {
 
 const hentPerson = async aktørId =>
     hentAccessToken().then(token => {
-        console.log(token);
         const options = {
             uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
             headers: {
