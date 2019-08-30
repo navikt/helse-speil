@@ -13,8 +13,9 @@ const init = navConfig => {
     });
 };
 
-const hentPerson = async aktørId => {
-    return hentAccessToken().then(token => {
+const hentPerson = async aktørId =>
+    hentAccessToken().then(token => {
+        console.log(token);
         const options = {
             uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
             headers: {
@@ -25,7 +26,6 @@ const hentPerson = async aktørId => {
 
         return request.get(options);
     });
-};
 
 const hentAccessToken = async () => {
     if (!tokenNeedsRefresh()) {
@@ -46,7 +46,7 @@ const hentAccessToken = async () => {
 
     return request.get(options).then(response => {
         cachedAccessToken = response.access_token;
-        return Promise.resolve(cachedAccessToken);
+        return cachedAccessToken;
     });
 };
 
