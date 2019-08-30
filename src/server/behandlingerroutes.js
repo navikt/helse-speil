@@ -29,7 +29,7 @@ const setup = app => {
                 res
                     .status(apiResponse.statusCode)
                     .send(
-                        apiResponse.data.behandlinger.map(behandling =>
+                        apiResponse.body.behandlinger.map(behandling =>
                             mapping.alle(behandling)
                         )
                     )
