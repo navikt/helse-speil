@@ -9,22 +9,32 @@ export const useSessionStorage = (key, initialValue) => {
     const [state, setState] = useState(initialValue);
 
     useEffect(() => {
-        if (state && state !== initialValue) {
+        if (state !== undefined && state !== initialValue) {
             sessionStorage.setItem(key, JSON.stringify(state));
         }
     }, [state]);
 
     useEffect(() => {
         const sessionState = sessionStorage.getItem(key);
-        if (sessionState) {
-            const parsedState = JSON.parse(sessionState);
-            if (parsedState) {
-                setState(parsedState);
-            } else {
-                sessionStorage.removeItem(key);
-            }
+        if (!keyExistsInSessionStorage(sessionState)) return;
+
+        const parsedState = parseData(sessionState);
+        if (parsedState !== undefined) {
+            setState(parsedState);
+        } else {
+            sessionStorage.removeItem(key);
         }
     }, [key]);
+
+    const keyExistsInSessionStorage = key => key !== null;
+
+    const parseData = data => {
+        try {
+            return JSON.parse(data);
+        } catch {
+            return undefined;
+        }
+    };
 
     return [state, setState];
 };

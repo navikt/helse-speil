@@ -45,20 +45,24 @@ const Search = ({ history }) => {
     };
 
     const goBackToStart = newData => {
-        if (newData?.behandlinger) {
-            if (history.location.pathname === '/') {
-                window.location.reload();
-            } else {
-                history.push('/');
-            }
+        if (newData?.behandlinger && history.location.pathname !== '/') {
+            history.push('/');
         }
     };
 
     const search = async value => {
         if (value.trim().length !== 0) {
-            const behandling = await behandlingerCtx.fetchBehandlinger(value);
-            await innrapportering.fetchFeedback();
-            goBackToStart(behandling);
+            const data = await behandlingerCtx.fetchBehandlinger(value);
+
+            if (data?.behandlinger?.length > 0) {
+                innrapportering.setUenigheter([]);
+                innrapportering.setHasSendt(false);
+                await innrapportering.fetchFeedback(
+                    data.behandlinger[0].behandlingsId
+                );
+            }
+
+            goBackToStart(data);
         }
     };
 
