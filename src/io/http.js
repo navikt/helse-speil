@@ -54,6 +54,11 @@ export const getFeedback = async behandlingsId => {
     return get(`${baseUrl}/feedback/${behandlingsId}`);
 };
 
+export const downloadFeedback = params => {
+    const query = params ? `?fraogmed=${params}` : '';
+    window.open(`${baseUrl}/feedback${query}`, { target: '_blank' });
+};
+
 export const getPerson = async aktorId => {
     return get(`${baseUrl}/person/${aktorId}`);
 };
