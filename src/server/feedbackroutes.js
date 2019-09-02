@@ -4,6 +4,7 @@ const storage = require('./storage');
 const { ipAddressFromRequest } = require('./requestData.js');
 const { log } = require('./logging');
 const moment = require('moment');
+const { csvMapper } = require('./feedback-csv-mapper');
 
 const setup = (app, config) => {
     return new Promise((resolve, reject) => {
@@ -69,9 +70,10 @@ const routes = app => {
         const timestamp = moment().format('YYYY-MM-DDTHH.mm.ss');
         res.setHeader(
             'Content-Disposition',
-            `attachment; filename=tilbakemeldinger_${timestamp}.json`
+            `attachment; filename=tilbakemeldinger_${timestamp}.csv`
         );
-        res.send(response);
+        res.setHeader('Content-Type', 'text/csv');
+        res.send(csvMapper(response));
     });
 
     app.put('/feedback', (req, res) => {
