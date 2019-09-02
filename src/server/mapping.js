@@ -52,16 +52,27 @@ const inngangsvilkår = behandling => {
         innen3Mnd: isWithin3Months(sisteSykdomsdag, sendtNav)
     };
 
+    const førsteSykepengedag =
+        behandling.avklarteVerdier.maksdato.grunnlag.førsteSykepengedag;
+    const tidligerePerioder = behandling.avklarteVerdier.maksdato.grunnlag.tidligerePerioder.sort(
+        (a, b) => a['tom'].localeCompare(b['tom'])
+    );
+    const alder = behandling.avklarteVerdier.maksdato.grunnlag.personensAlder;
+    const yrkesstatus =
+        behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus;
     const dagerIgjen = {
         førsteFraværsdag:
             behandling.avklarteVerdier.maksdato.grunnlag.førsteFraværsdag,
-        førsteSykepengedag:
-            behandling.avklarteVerdier.maksdato.grunnlag.førsteSykepengedag,
-        alder: behandling.avklarteVerdier.maksdato.grunnlag.personensAlder,
-        yrkesstatus: behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus,
         maxDato: behandling.avklarteVerdier.maksdato.fastsattVerdi,
-        tidligerePerioder:
-            behandling.avklarteVerdier.maksdato.grunnlag.tidligerePerioder
+        dagerBrukt: selectors.sykepengedager(
+            behandling,
+            førsteSykepengedag,
+            tidligerePerioder
+        ),
+        førsteSykepengedag,
+        alder,
+        yrkesstatus,
+        tidligerePerioder
     };
 
     return {

@@ -20,6 +20,7 @@ const calendarDaysBetween = (firstDate, lastDate) => {
 const workdaysBetween = (firstDate, lastDate) => {
     firstDate = moment(firstDate);
     lastDate = moment(lastDate);
+
     const tempDate = firstDate.clone();
     let numberOfDays = 0;
     while (tempDate <= lastDate) {

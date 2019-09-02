@@ -3,11 +3,11 @@ import Modal from 'nav-frontend-modal';
 import PropTypes from 'prop-types';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { toKroner } from '../../../utils/locale';
-import './DetaljerBoks.less';
+import './SykepengegrunnlagModal.less';
 
 Modal.setAppElement('#root');
 
-const DetaljerBoks = ({
+const SykepengegrunnlagModal = ({
     perioder,
     beregningsperioden,
     sammenligningsgrunnlag,
@@ -15,7 +15,7 @@ const DetaljerBoks = ({
 }) => {
     return (
         <Modal
-            className="DetaljerBoks"
+            className="SykepengegrunnlagModal"
             isOpen={true}
             contentLabel="Innrapportert til A-Ordningen"
             onRequestClose={onClose}
@@ -47,11 +47,11 @@ const DetaljerBoks = ({
     );
 };
 
-DetaljerBoks.propTypes = {
+SykepengegrunnlagModal.propTypes = {
     perioder: PropTypes.arrayOf(PropTypes.any).isRequired,
     beregningsperioden: PropTypes.number.isRequired,
     sammenligningsgrunnlag: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired
 };
 
-export default DetaljerBoks;
+export default SykepengegrunnlagModal;

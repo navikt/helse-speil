@@ -84,6 +84,22 @@ const sykmeldingsgrad = (behandling, periode = 0) =>
 const refusjonTilArbeidsgiver = behandling =>
     behandling.originalSøknad.arbeidsgiverForskutterer;
 
+const sykepengedager = (behandling, førsteSykepengedag, maksDato) => {
+    const antallDagerIgjen = workdaysBetween(førsteSykepengedag, maksDato);
+    const antallDagerBrukt =
+        maxAntallSykepengedager(behandling) - antallDagerIgjen;
+    return { antallDagerIgjen, antallDagerBrukt };
+};
+
+const maxAntallSykepengedager = behandling => {
+    const alder = behandling.avklarteVerdier.maksdato.grunnlag.personensAlder;
+    const yrkesstatus =
+        behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus;
+    if (alder >= 67 && alder <= 70) return 60;
+    else if (yrkesstatus === 'IKKE_I_ARBEID') return 250;
+    else return 248;
+};
+
 module.exports = {
     antallVirkedager,
     antallUtbetalingsdager,
@@ -96,5 +112,6 @@ module.exports = {
     sykepengegrunnlag,
     beregningsperioden,
     utbetalingsperioder,
-    sykmeldingsgrad
+    sykmeldingsgrad,
+    sykepengedager
 };

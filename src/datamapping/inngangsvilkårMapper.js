@@ -38,7 +38,8 @@ const dagerIgjen = dagerIgjen => [
     item('Første fraværsdag', toDate(dagerIgjen.førsteFraværsdag)),
     item('Første sykepengedag', toDate(dagerIgjen.førsteSykepengedag)),
     item('Yrkesstatus', capitalize(dagerIgjen.yrkesstatus)),
-    item('Tidligere perioder', dagerIgjen.tidligerePerioder.length || '-'),
+    item('Dager brukt', dagerIgjen.dagerBrukt.antallDagerBrukt),
+    item('Dager igjen', dagerIgjen.dagerBrukt.antallDagerIgjen),
     item('Max dato', toDate(dagerIgjen.maxDato))
 ];
 

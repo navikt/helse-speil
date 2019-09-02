@@ -9,20 +9,20 @@ import ListRow from '../../widgets/rows/ListRow';
 import IconRow from '../../widgets/rows/IconRow';
 import { toKroner } from '../../../utils/locale';
 import ListeSeparator from '../../widgets/ListeSeparator';
-import DetaljerBoks from './DetaljerBoks';
+import SykepengegrunnlagModal from './SykepengegrunnlagModal';
 
 const Beregning = withBehandlingContext(({ behandling }) => {
     const { sykepengeberegning } = behandling;
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
 
-    const detaljerLenke = (
-        <a
-            className="DetaljerBoks__link"
+    const detaljerKnapp = (
+        <button
+            className="vis-modal-button"
             onClick={() => setVisDetaljerboks(true)}
             tabIndex={0}
         >
             {' (Vis detaljer)'}
-        </a>
+        </button>
     );
 
     return (
@@ -31,7 +31,7 @@ const Beregning = withBehandlingContext(({ behandling }) => {
                 {beregningstekster('tittel')}
             </Undertittel>
             {visDetaljerboks && (
-                <DetaljerBoks
+                <SykepengegrunnlagModal
                     perioder={sykepengeberegning.utbetalingsperioder}
                     beregningsperioden={sykepengeberegning.beregningsperioden}
                     sammenligningsgrunnlag={
@@ -49,7 +49,7 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             />
             <ListRow
                 label={beregningstekster('aordningen')}
-                labelProp={detaljerLenke}
+                labelProp={detaljerKnapp}
                 items={ItemMapper.aordning(behandling.sykepengeberegning)}
                 bold
             />
