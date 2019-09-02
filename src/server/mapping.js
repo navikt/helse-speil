@@ -55,20 +55,21 @@ const inngangsvilkår = behandling => {
     const førsteSykepengedag =
         behandling.avklarteVerdier.maksdato.grunnlag.førsteSykepengedag;
     const tidligerePerioder = behandling.avklarteVerdier.maksdato.grunnlag.tidligerePerioder.sort(
-        (a, b) => a['tom'].localeCompare(b['tom'])
+        (a, b) => b['tom'].localeCompare(a['tom'])
     );
     const alder = behandling.avklarteVerdier.maksdato.grunnlag.personensAlder;
     const yrkesstatus =
         behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus;
+    const maxDato = behandling.avklarteVerdier.maksdato.fastsattVerdi;
     const dagerIgjen = {
         førsteFraværsdag:
             behandling.avklarteVerdier.maksdato.grunnlag.førsteFraværsdag,
-        maxDato: behandling.avklarteVerdier.maksdato.fastsattVerdi,
         dagerBrukt: selectors.sykepengedager(
             behandling,
             førsteSykepengedag,
-            tidligerePerioder
+            maxDato
         ),
+        maxDato,
         førsteSykepengedag,
         alder,
         yrkesstatus,

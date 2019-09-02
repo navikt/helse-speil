@@ -82,6 +82,10 @@ test('dagerIgjen', async () => {
         alder: 42,
         yrkesstatus: 'ARBEIDSTAKER',
         maxDato: '2020-04-20',
+        dagerBrukt: {
+            antallDagerBrukt: 0,
+            antallDagerIgjen: 248
+        },
         tidligerePerioder: []
     };
     expect(mapped).toEqual(expected);
