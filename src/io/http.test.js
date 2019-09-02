@@ -28,10 +28,12 @@ test('behandlinger ikke funnet', async () => {
             }
         });
     });
-    const response = await behandlingerFor(12345);
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(response).toEqual({
-        data: undefined,
-        status: 404
+    const response = await behandlingerFor(12345).catch(err => {
+        expect(err).toEqual({
+            message: undefined,
+            statusCode: 404
+        });
     });
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(response).toEqual(undefined);
 });

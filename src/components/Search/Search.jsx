@@ -79,8 +79,12 @@ const Search = ({ history }) => {
             </button>
             {behandlingerCtx.error && (
                 <ErrorModal
-                    errorMessage={behandlingerCtx.error}
-                    onClose={() => behandlingerCtx.clearError()}
+                    errorMessage={behandlingerCtx.error.message}
+                    onClose={
+                        behandlingerCtx.error.statusCode !== 401
+                            ? () => behandlingerCtx.clearError()
+                            : undefined
+                    }
                 />
             )}
         </div>
