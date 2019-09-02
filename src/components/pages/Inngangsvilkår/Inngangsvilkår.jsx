@@ -18,7 +18,7 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
             onClick={() => setVisDetaljerboks(true)}
             tabIndex={0}
         >
-            {' (Vis detaljer)'}
+            (Vis detaljer)
         </button>
     );
     return (
