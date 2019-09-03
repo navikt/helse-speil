@@ -44,10 +44,26 @@ const newestDate = objs => {
     }, objs[0]);
 };
 
+const first26WeeksInterval = (periods, firstDay) => {
+    return periods.findIndex((period, i) => {
+        const firstDayPreviousPeriod = i === 0 ? firstDay : periods[i - 1].fom;
+        const lastDayNextPeriod = period.tom;
+        return (
+            Math.abs(
+                moment(firstDayPreviousPeriod).diff(
+                    moment(lastDayNextPeriod),
+                    'weeks'
+                )
+            ) >= 26
+        );
+    });
+};
+
 module.exports = {
     isWithin3Months,
     workdaysBetween,
     calendarDaysBetween,
     newestTom,
-    toDate
+    toDate,
+    first26WeeksInterval
 };

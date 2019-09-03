@@ -82,4 +82,15 @@ describe('workdays between', () => {
             datecalc.workdaysBetween(moment(fom), moment(tom))
         );
     });
+
+    test('finds index of the first 26 weeks interval in a list of periods', () => {
+        const periods = [
+            { fom: '2019-04-02', tom: '2019-04-13' },
+            { fom: '2019-02-02', tom: '2019-02-13' },
+            { fom: '2018-04-02', tom: '2018-04-13' }
+        ];
+        const førsteFraværsdag = '2019-06-20';
+        const index = datecalc.first26WeeksInterval(periods, førsteFraværsdag);
+        expect(index).toEqual(2);
+    });
 });
