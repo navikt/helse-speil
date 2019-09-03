@@ -3,7 +3,7 @@ jobs:
    build-speil:
       working_directory: ~/speil
       docker:
-         - image: circleci/node:12.2.0-stretch
+         - image: circleci/node:12.9.1-stretch
       steps:
          - checkout
          - run:
