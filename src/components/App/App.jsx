@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import Tilbakemeldinger from '../pages/HentTilbakemeldinger/HentTilbakemeldinger';
 import HeaderBar from '../HeaderBar/HeaderBar';
 import MainContentWrapper from '../MainContentWrapper/MainContentWrapper';
 import { BehandlingerProvider } from '../../context/BehandlingerContext';
@@ -16,7 +18,14 @@ const App = withContextProviders(() => {
     return (
         <Router>
             <HeaderBar />
-            <MainContentWrapper />
+            <Switch>
+                <Route
+                    path={'/tilbakemeldinger'}
+                    component={Tilbakemeldinger}
+                    exact
+                />
+                <Route component={MainContentWrapper} />
+            </Switch>
         </Router>
     );
 }, [InnrapporteringProvider, BehandlingerProvider, AuthProvider]);

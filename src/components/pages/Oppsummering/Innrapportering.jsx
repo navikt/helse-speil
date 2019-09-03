@@ -9,6 +9,7 @@ import { putFeedback } from '../../../io/http';
 import { oppsummeringstekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import './Innrapportering.less';
+import moment from 'moment';
 
 const Innrapportering = withBehandlingContext(({ behandling }) => {
     const innrapportering = useContext(InnrapporteringContext);
@@ -21,7 +22,8 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
             id: behandling.behandlingsId,
             txt: JSON.stringify({
                 uenigheter: innrapportering.uenigheter,
-                kommentarer: innrapportering.kommentarer
+                kommentarer: innrapportering.kommentarer,
+                submittedDate: moment().format()
             })
         })
             .then(() => {
