@@ -1,5 +1,7 @@
 'use strict';
 
+const config = require('./config');
+
 const express = require('express');
 const expressSession = require('express-session');
 const bodyParser = require('body-parser');
@@ -8,8 +10,12 @@ const compression = require('compression');
 const { generators } = require('openid-client');
 
 const azure = require('./auth/azure');
-const config = require('./config');
 const authsupport = require('./auth/authsupport');
+
+const redis = require('redis');
+const redisStore = require('connect-redis')(expressSession);
+const redisClient = redis.createClient({ password: config.redis.password });
+
 const metrics = require('./metrics');
 const headers = require('./headers');
 
@@ -27,7 +33,17 @@ const port = config.server.port;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(expressSession({ secret: config.server.sessionSecret }));
+app.use(
+    expressSession({
+        secret: config.server.sessionSecret,
+        ttl: 43200, // 12 hours
+        store: new redisStore({
+            host: config.redis.host,
+            port: config.redis.port,
+            client: redisClient
+        })
+    })
+);
 app.use(compression());
 
 headers.setup(app);
