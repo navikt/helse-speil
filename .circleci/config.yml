@@ -1,16 +1,4 @@
 version: 2
-commands:
-   early_return_for_pull_requests:
-      description: >-
-         Prevents steps from running if they are spawned from a pull request
-      steps:
-         - run:
-              name: Early return if this build is from a PR
-              command: |
-                 if [ -n "$CIRCLE_PULL_REQUEST" ]; then
-                    echo "Nothing to do for pull requests, so marking this step successful"
-                    circleci step halt
-                 fi
 jobs:
    build-speil:
       working_directory: ~/speil
@@ -41,28 +29,28 @@ jobs:
                  set -e
                  npm run build-server
          - run:
-              command: early_return_for_pull_requests
-         - run:
               name: assemble and push docker image
               command: |
                  set -e
-                 export DOCKER_IMG_NAME="docker.pkg.github.com/navikt/helse-speil/speil"
-                 export COMMIT_SHORT="$(git rev-parse --short HEAD)"
-                 echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> $BASH_ENV
-                 echo "export COMMIT_SHORT=$COMMIT_SHORT" >> $BASH_ENV
+                 if [ -z "$CIRCLE_PULL_REQUEST" ]; then
+                     export DOCKER_IMG_NAME="docker.pkg.github.com/navikt/helse-speil/speil"
+                     export COMMIT_SHORT="$(git rev-parse --short HEAD)"
+                     echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> $BASH_ENV
+                     echo "export COMMIT_SHORT=$COMMIT_SHORT" >> $BASH_ENV
 
-                 docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
+                     docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 
-                 echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin https://docker.pkg.github.com
-                 docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
+                     echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin https://docker.pkg.github.com
+                     docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
+                 else
+                     echo "No need to create Docker images for pull requests"
+                 fi
 
    deploy-speil-to-preprod:
       working_directory: ~/speil
       docker:
          - image: circleci/node:12.2.0-stretch
       steps:
-         - run:
-              command: early_return_for_pull_requests
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
@@ -87,8 +75,6 @@ jobs:
       docker:
          - image: circleci/node:12.2.0-stretch
       steps:
-         - run:
-              command: early_return_for_pull_requests
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
@@ -113,8 +99,6 @@ jobs:
       docker:
          - image: circleci/node:12.2.0-stretch
       steps:
-         - run:
-              command: early_return_for_pull_requests
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
@@ -138,8 +122,6 @@ jobs:
       docker:
          - image: circleci/node:12.2.0-stretch
       steps:
-         - run:
-              command: early_return_for_pull_requests
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
@@ -160,11 +142,20 @@ jobs:
 
 workflows:
    version: 2
-   build-and-deploy:
+   master:
       jobs:
-         - deploy-redis-to-preprod
-         - deploy-redis-to-prod
-         - build-speil
+         - deploy-redis-to-preprod:
+              filters:
+                 branches:
+                    only: master
+         - deploy-redis-to-prod:
+              filters:
+                 branches:
+                    only: master
+         - build-speil:
+              filters:
+                 branches:
+                    only: master
          - deploy-speil-to-preprod:
               requires:
                  - build-speil
@@ -179,3 +170,9 @@ workflows:
               filters:
                  branches:
                     only: master
+   not_master:
+      jobs:
+         - build-speil:
+              filters:
+                 branches:
+                    ignore: master
