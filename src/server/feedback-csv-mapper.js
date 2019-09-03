@@ -11,7 +11,7 @@ const mapFeedback = f => {
     const mapUenighet = uenighet => {
         const uenighetId = uenighet.id;
         const userId = uenighet.userId.email || 'ukjent bruker';
-        const items = uenighet.items
+        const items = (uenighet.items || [])
             .map(item => `${item.label}, ${item.value}`)
             .join(' - ');
         return `${uenighet.label};${uenighet.value};${items};${uenighetId};${userId};${submittedDate};${kommentarer};${feedbackId}`;
