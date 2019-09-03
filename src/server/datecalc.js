@@ -47,11 +47,11 @@ const newestDate = objs => {
 const first26WeeksInterval = (periods, firstDay) => {
     return periods.findIndex((period, i) => {
         const firstDayPreviousPeriod = i === 0 ? firstDay : periods[i - 1].fom;
-        const lastDayNextPeriod = period.tom;
+        const lastDayCurrentPeriod = period.tom;
         return (
             Math.abs(
                 moment(firstDayPreviousPeriod).diff(
-                    moment(lastDayNextPeriod),
+                    moment(lastDayCurrentPeriod),
                     'weeks'
                 )
             ) >= 26
