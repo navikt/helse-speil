@@ -1,8 +1,8 @@
 'use strict';
 
 const storage = require('./storage');
-const { ipAddressFromRequest } = require('./requestData.js');
-const { log } = require('./logging');
+const { ipAddressFromRequest } = require('../requestData.js');
+const { log } = require('../logging');
 const moment = require('moment');
 const { csvMapper } = require('./feedback-csv-mapper');
 

@@ -7,9 +7,9 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const { generators } = require('openid-client');
 
-const azure = require('./azure');
+const azure = require('./auth/azure');
 const config = require('./config');
-const authsupport = require('./authsupport');
+const authsupport = require('./auth/authsupport');
 const metrics = require('./metrics');
 const headers = require('./headers');
 
@@ -18,7 +18,7 @@ const feedback = require('./feedbackroutes');
 const person = require('./personroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
-const { nameFrom } = require('./authsupport');
+const { nameFrom } = require('./auth/authsupport');
 const { log } = require('./logging');
 
 const app = express();

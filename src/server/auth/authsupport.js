@@ -1,6 +1,6 @@
 'use strict';
 
-const { ipAddressFromRequest } = require('./requestData');
+const { ipAddressFromRequest } = require('../requestData');
 
 const isValidNow = token => {
     return isValidAt(token, Math.floor(Date.now()) / 1000);
