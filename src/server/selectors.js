@@ -79,7 +79,7 @@ const dagsats = (behandling, periode = 0) =>
     behandling.vedtak.perioder[periode].dagsats;
 
 const sykmeldingsgrad = (behandling, periode = 0) =>
-    behandling.vedtak.perioder[periode].grad;
+    behandling.originalSøknad.soknadsperioder[periode].sykmeldingsgrad;
 
 const refusjonTilArbeidsgiver = behandling =>
     behandling.originalSøknad.arbeidsgiverForskutterer;
