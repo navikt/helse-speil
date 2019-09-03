@@ -64,7 +64,7 @@ jobs:
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
-              name: deploy speil to prod
+              name: deploy speil to preprod
               command: |
                  set -e
                  docker create -v /nais --name naisyamlpreprod alpine:3.4 /bin/true
