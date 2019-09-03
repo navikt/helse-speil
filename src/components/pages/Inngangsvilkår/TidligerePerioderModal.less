@@ -1,31 +1,26 @@
-.DetaljerBoks {
+.TidligerePerioderModal {
   display: flex;
   flex-direction: column;
   padding: 2rem;
   min-width: 32rem;
 
   .typo-undertittel {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 
   .periodeliste {
+    margin-top: 1rem;
 
     .periode {
-      width: 60%;
+      width: 80%;
       display: flex;
       justify-content: space-between;
-    }
+      border-bottom: 1px dotted #000;
 
-    .sum-linje {
-      margin: 1rem 0;
-    }
 
-    .sum-linje:last-child {
-      margin-bottom: 0;
+      p {
+        flex-basis: 7rem;
+      }
     }
   }
-}
-
-.DetaljerBoks__link {
-  cursor: pointer;
 }

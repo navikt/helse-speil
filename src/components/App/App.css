@@ -16,3 +16,14 @@ html {
 svg[kind='ok-sirkel-fyll'] g path:first-child {
     fill: #38a161;
 }
+
+.vis-modal-button {
+    cursor: pointer;
+    -webkit-appearance: none;
+    background-color: #fff;
+    border: none;
+    font: inherit;
+    margin-left: 0.3rem;
+    padding: 0;
+    color: inherit;
+}
