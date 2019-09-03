@@ -66,6 +66,9 @@ const routes = app => {
 
         const response =
             fom !== undefined ? excludeOlderFeedback(fom, feedback) : feedback;
+        log(
+            `Will return ${response.length} feedbacks to client, out of ${feedback.length} fetched from storage`
+        );
 
         const timestamp = moment().format('YYYY-MM-DDTHH.mm.ss');
         res.setHeader(
@@ -73,7 +76,9 @@ const routes = app => {
             `attachment; filename=tilbakemeldinger_${timestamp}.csv`
         );
         res.setHeader('Content-Type', 'text/csv');
-        res.send(csvMapper(response));
+        const csvResponse = csvMapper(response);
+        log(`Mapped CSV file is ${csvResponse.length} characters long.`);
+        res.send(csvResponse);
     });
 
     app.put('/feedback', (req, res) => {

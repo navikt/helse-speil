@@ -17,6 +17,9 @@ const mapFeedback = f => {
         return `${uenighet.label};${uenighet.value};${items};${uenighetId};${userId};${submittedDate};${kommentarer};${feedbackId}`;
     };
 
+    if (feedback.uenigheter === undefined || feedback.uenigheter.length === 0) {
+        return `;;;;;${submittedDate};${kommentarer};${feedbackId}`;
+    }
     return feedback.uenigheter.map(mapUenighet).join('\n');
 };
 
