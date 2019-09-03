@@ -40,7 +40,8 @@ jobs:
               command: |
                  set -e
                  npm run build-server
-         - early_return_for_pull_requests
+         - run:
+              command: early_return_for_pull_requests
          - run:
               name: assemble and push docker image
               command: |
@@ -60,7 +61,8 @@ jobs:
       docker:
          - image: circleci/node:12.2.0-stretch
       steps:
-         - early_return_for_pull_requests
+         - run:
+              command: early_return_for_pull_requests
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
@@ -85,7 +87,8 @@ jobs:
       docker:
          - image: circleci/node:12.2.0-stretch
       steps:
-         - early_return_for_pull_requests
+         - run:
+              command: early_return_for_pull_requests
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
@@ -110,7 +113,8 @@ jobs:
       docker:
          - image: circleci/node:12.2.0-stretch
       steps:
-         - early_return_for_pull_requests
+         - run:
+              command: early_return_for_pull_requests
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
@@ -134,7 +138,8 @@ jobs:
       docker:
          - image: circleci/node:12.2.0-stretch
       steps:
-         - early_return_for_pull_requests
+         - run:
+              command: early_return_for_pull_requests
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
