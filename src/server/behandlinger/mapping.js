@@ -2,7 +2,7 @@
 
 const selectors = require('./selectors');
 
-const { isWithin3Months } = require('./datecalc');
+const { isWithin3Months } = require('../datecalc');
 
 const sykdomsvilkår = behandling => {
     const mindreEnnÅtteUkerSammenhengende = {

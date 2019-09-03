@@ -1,7 +1,7 @@
 'use strict';
 
 const request = require('request-promise-native');
-const authSupport = require('./authsupport');
+const authSupport = require('../auth/authsupport');
 
 let cachedAccessToken = null;
 let authConfig = null;

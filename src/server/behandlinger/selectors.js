@@ -3,7 +3,7 @@ const {
     newestTom,
     toDate,
     workdaysBetween
-} = require('./datecalc');
+} = require('../datecalc');
 
 const antallVirkedager = behandling =>
     behandling.vedtak.perioder.reduce(

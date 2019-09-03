@@ -2,7 +2,7 @@
 
 jest.mock('request-promise-native');
 
-const personLookup = require('../../src/server/personlookup');
+const personLookup = require('./personlookup');
 
 const expectedPerson = {
     fdato: '1995-01-01',
