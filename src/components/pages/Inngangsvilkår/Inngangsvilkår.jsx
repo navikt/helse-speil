@@ -27,7 +27,6 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
             {visDetaljerboks && (
                 <TidligerePerioderModal
                     perioder={behandling.inngangsvilkår.dagerIgjen.tidligerePerioder}
-                    dagerBrukt={behandling.inngangsvilkår.dagerIgjen.dagerBrukt.antallDagerBrukt}
                     onClose={() => setVisDetaljerboks(false)}
                     førsteFraværsdag={behandling.inngangsvilkår.dagerIgjen.førsteFraværsdag}
                 />

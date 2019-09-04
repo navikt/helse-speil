@@ -34,7 +34,11 @@
                 "alder": 24,
                 "yrkesstatus": "ARBEIDSTAKER",
                 "maxDato": "2020-06-10",
-                "tidligerePerioder": []
+                "tidligerePerioder": [],
+                "dagerBrukt": {
+                    "antallDagerBrukt": 0,
+                    "antallDagerIgjen": 248
+                }
             }
         },
         "oppsummering": {
