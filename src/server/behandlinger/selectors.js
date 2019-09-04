@@ -75,6 +75,9 @@ const beregningsperioden = behandling => {
     );
 };
 
+const sammenligningsgrunnlag = behandling =>
+    utbetalingsperioder(behandling).reduce((acc, curr) => acc + curr[1], 0);
+
 const dagsats = (behandling, periode = 0) =>
     behandling.vedtak.perioder[periode].dagsats;
 
@@ -111,6 +114,7 @@ module.exports = {
     sisteSykdomsdag,
     sykepengegrunnlag,
     beregningsperioden,
+    sammenligningsgrunnlag,
     utbetalingsperioder,
     sykmeldingsgrad,
     sykepengedager
