@@ -40,6 +40,18 @@ const routes = app => {
             });
     });
 
+    app.get('/feedback-json', async (req, res) => {
+        storage
+            .loadAll()
+            .then(objects => {
+                res.send(objects);
+            })
+            .catch(err => {
+                console.warn(err);
+                res.sendStatus(err.statusCode || 500);
+            });
+    });
+
     app.get('/feedback', async (req, res) => {
         let fom;
         const fomFromQuery = req.query.fraogmed;
