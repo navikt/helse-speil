@@ -23,8 +23,16 @@ const mapFeedback = f => {
         return `${uenighetId};${enteredUenighetValue};${items};${userId};${submittedDate};${kommentarer};${feedbackId}`;
     };
 
-    if (feedback.uenigheter === undefined || feedback.uenigheter.length === 0) {
-        return `;;;;${submittedDate};${kommentarer};${feedbackId}`;
+    const mapOldStyleFeedback = feedback =>
+        feedback.map(uenighet => {
+            const enteredUenighetValue = sanitizeForCsv(uenighet.value);
+            return `${uenighet.label};${enteredUenighetValue};;N/A;N/A;N/A;${feedbackId}`;
+        });
+
+    if (feedback.uenigheter === undefined) {
+        return mapOldStyleFeedback(feedback).join('\n');
+    } else if (feedback.uenigheter.length === 0) {
+        return `;;;N/A;${submittedDate};${kommentarer};${feedbackId}`;
     }
     return feedback.uenigheter.map(mapUenighet).join('\n');
 };

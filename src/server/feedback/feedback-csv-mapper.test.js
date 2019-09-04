@@ -175,3 +175,43 @@ id for uenighet 6;inntastet tekst for uenighet 6- mer tekst;;ukjent bruker;N/A;E
 `.trim()
     );
 });
+
+test('should handle earlier data structure', () => {
+    const feedbacks = [
+        {
+            key: '357',
+            value: [
+                { label: 'Sykdomsvilkår er oppfylt', value: 'Nei' },
+                { label: 'Sykmeldingsgrad', value: 'Skal være 66%' }
+            ]
+        }
+    ];
+
+    expect(csvMapper(feedbacks)).toBe(
+        `
+${headerLine}
+Sykdomsvilkår er oppfylt;Nei;;N/A;N/A;N/A;357
+Sykmeldingsgrad;Skal være 66%;;N/A;N/A;N/A;357
+`.trim()
+    );
+});
+
+test('should handle feedback with no uenigheter', () => {
+    const feedbacks = [
+        {
+            key: '468',
+            value: {
+                uenigheter: [],
+                kommentarer: 'Litten kommentar, bare',
+                submittedDate
+            }
+        }
+    ];
+
+    expect(csvMapper(feedbacks)).toBe(
+        `
+${headerLine}
+;;;N/A;${submittedDateFormatted};Litten kommentar, bare;468
+`.trim()
+    );
+});
