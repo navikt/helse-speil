@@ -20,17 +20,17 @@ const mapFeedback = f => {
         const userId = uenighet.userId.email || 'ukjent bruker';
         const items = mapItems(uenighet.items);
         const enteredUenighetValue = sanitizeForCsv(uenighet.value);
-        return `${uenighet.label};${enteredUenighetValue};${items};${uenighetId};${userId};${submittedDate};${kommentarer};${feedbackId}`;
+        return `${uenighetId};${enteredUenighetValue};${items};${userId};${submittedDate};${kommentarer};${feedbackId}`;
     };
 
     if (feedback.uenigheter === undefined || feedback.uenigheter.length === 0) {
-        return `;;;;;${submittedDate};${kommentarer};${feedbackId}`;
+        return `;;;;${submittedDate};${kommentarer};${feedbackId}`;
     }
     return feedback.uenigheter.map(mapUenighet).join('\n');
 };
 
 const header =
-    'uenighet-label;uenighet-value;uenighet-items;uenighet-id;uenighet-userId;submittedDate;kommentarer;behandlingsId\n';
+    'Felt;Inntastet tekst;Kontekst;Saksbehandler;Innrapportert;Kommentarer;BehandlingsID\n';
 
 module.exports = {
     csvMapper
