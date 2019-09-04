@@ -20,13 +20,10 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
     });
 
     useEffect(() => {
-        // eslint-disable-next-line no-undef
-        if (process.env.NODE_ENV !== 'development') {
-            getPerson(aktorId).then(response => {
-                response.data && setPerson(response.data);
-            });
-        }
-    }, []);
+        getPerson(aktorId).then(response => {
+            response.data && setPerson(response.data);
+        });
+    }, [behandling]);
 
     return (
         <>
