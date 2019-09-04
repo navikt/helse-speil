@@ -147,3 +147,31 @@ label for uenighet 5;inntastet verdi for uenighet 5;;id for uenighet 5;ukjent br
 `.trim()
     );
 });
+
+test('should handle semicolons', () => {
+    const feedbacks = [
+        {
+            key: '246',
+            value: {
+                uenigheter: [
+                    {
+                        id: 'id for uenighet 6',
+                        label: 'label for uenighet 6',
+                        value: 'inntastet tekst for uenighet 6; mer tekst',
+                        userId: {},
+                        date: feedbackDate
+                    }
+                ],
+                kommentarer: 'En ting; en ting til',
+                submittedDate: undefined
+            }
+        }
+    ];
+
+    expect(csvMapper(feedbacks)).toBe(
+        `
+${headerLine}
+label for uenighet 6;inntastet tekst for uenighet 6- mer tekst;;id for uenighet 6;ukjent bruker;N/A;En ting- en ting til;246
+`.trim()
+    );
+});
