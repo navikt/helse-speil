@@ -13,9 +13,9 @@ const authsupport = require('./auth/authsupport');
 const metrics = require('./metrics');
 const headers = require('./headers');
 
-const behandlinger = require('./behandlingerroutes');
-const feedback = require('./feedbackroutes');
-const person = require('./personroutes');
+const behandlinger = require('./behandlinger/behandlingerroutes');
+const feedback = require('./feedback/feedbackroutes');
+const person = require('./person/personroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
 const { nameFrom } = require('./auth/authsupport');
