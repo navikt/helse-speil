@@ -10,6 +10,14 @@ const setup = (app, config) => {
 
 const routes = app => {
     app.get('/person/:aktorId', (req, res) => {
+        if (process.env.NODE_ENV === 'development') {
+            const response =
+                req.params.aktorId === '10000000000001'
+                    ? { navn: 'Kong Harald', kjønn: 'mann' }
+                    : { navn: 'Dronning Sonja', kjønn: 'kvinne' };
+            res.send(response);
+            return;
+        }
         const aktørId = req.params.aktorId;
         personLookup
             .hentPerson(aktørId)
