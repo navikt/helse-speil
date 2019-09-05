@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { toKroner } from '../../../utils/locale';
 import './SykepengegrunnlagModal.less';
+import ListeSeparator from '../../widgets/ListeSeparator';
 
 Modal.setAppElement('#root');
 
@@ -23,6 +24,10 @@ const SykepengegrunnlagModal = ({
         >
             <Undertittel>Innrapportert til A-Ordningen</Undertittel>
             <div className="periodeliste">
+                <Element>Beregningsperioden</Element>
+                <Normaltekst className="periodeforklaring">
+                    Inkluderer kun inntekter fra den ene arbeidsgiveren
+                </Normaltekst>
                 {beregningsperioden.map(periode => (
                     <div
                         className="periode"
@@ -33,9 +38,14 @@ const SykepengegrunnlagModal = ({
                     </div>
                 ))}
                 <div className="periode sum-linje">
-                    <Element>Beregningsperioden</Element>
+                    <Element>Totalt i beregningsperioden</Element>
                     <Element>{toKroner(totaltIBeregningsperioden)} kr</Element>
                 </div>
+                <ListeSeparator type="dotted" />
+                <Element>Sammenligningsgrunnlag</Element>
+                <Normaltekst className="periodeforklaring">
+                    Inkluderer alle inntekter, som ytelser
+                </Normaltekst>
                 {sammenligningsperioden.map(periode => (
                     <div
                         className="periode"
@@ -46,7 +56,7 @@ const SykepengegrunnlagModal = ({
                     </div>
                 ))}
                 <div className="periode sum-linje">
-                    <Element>Sammenligningsgrunnlag</Element>
+                    <Element>Totalt i sammenligningsgrunnlaget</Element>
                     <Element>{toKroner(sammenligningsgrunnlag)} kr</Element>
                 </div>
             </div>
