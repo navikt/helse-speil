@@ -23,20 +23,26 @@ const SykepengegrunnlagModal = ({
         >
             <Undertittel>Innrapportert til A-Ordningen</Undertittel>
             <div className="periodeliste">
-                {beregningsperioden.map(item => (
-                    <div className="periode" key={item.join('-')}>
-                        <Normaltekst>{item[0]}</Normaltekst>
-                        <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
+                {beregningsperioden.map(periode => (
+                    <div
+                        className="periode"
+                        key={`beregningsperiode-${periode.utbetalingsperiode}-${periode.beløp}`}
+                    >
+                        <Normaltekst>{periode.utbetalingsperiode}</Normaltekst>
+                        <Normaltekst>{toKroner(periode.beløp)} kr</Normaltekst>
                     </div>
                 ))}
                 <div className="periode sum-linje">
                     <Element>Beregningsperioden</Element>
                     <Element>{toKroner(totaltIBeregningsperioden)} kr</Element>
                 </div>
-                {sammenligningsperioden.map(item => (
-                    <div className="periode" key={item.join('-')}>
-                        <Normaltekst>{item[0]}</Normaltekst>
-                        <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
+                {sammenligningsperioden.map(periode => (
+                    <div
+                        className="periode"
+                        key={`sammenligningsperiode-${periode.utbetalingsperiode}-${periode.beløp}`}
+                    >
+                        <Normaltekst>{periode.utbetalingsperiode}</Normaltekst>
+                        <Normaltekst>{toKroner(periode.beløp)} kr</Normaltekst>
                     </div>
                 ))}
                 <div className="periode sum-linje">

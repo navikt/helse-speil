@@ -43,25 +43,25 @@ const sisteSykdomsdag = behandling =>
     newestTom(behandling.originalSøknad.soknadsperioder);
 
 const utbetalingsperioder = perioder => {
-    const UTBETALINGSPERIODE = 'utbetalingsperiode';
-    const BELØP = 'beløp';
-
     const mappedPerioder = perioder
         .map(periode => ({
             utbetalingsperiode: periode.utbetalingsperiode,
             beløp: periode.beløp
         }))
-        .reduce((prev, curr) => {
-            if (prev[curr[UTBETALINGSPERIODE]]) {
-                prev[curr[UTBETALINGSPERIODE]] += curr[BELØP];
+        .reduce((acc, curr) => {
+            const periodensIndex = acc.findIndex(
+                p => p.utbetalingsperiode === curr.utbetalingsperiode
+            );
+            if (periodensIndex > -1) {
+                acc[periodensIndex].beløp += curr.beløp;
             } else {
-                prev[curr[UTBETALINGSPERIODE]] = curr[BELØP];
+                acc = [...acc, curr];
             }
-            return prev;
-        }, {});
+            return acc;
+        }, []);
 
-    return Object.entries(mappedPerioder).sort((a, b) =>
-        b[0].localeCompare(a[0])
+    return mappedPerioder.sort((a, b) =>
+        b['utbetalingsperiode'].localeCompare(a['utbetalingsperiode'])
     );
 };
 
@@ -87,7 +87,10 @@ const totaltIBeregningsperioden = behandling => {
 };
 
 const sammenligningsgrunnlag = behandling =>
-    sammenligningsperioden(behandling).reduce((acc, curr) => acc + curr[1], 0);
+    sammenligningsperioden(behandling).reduce(
+        (acc, curr) => acc + curr.beløp,
+        0
+    );
 
 const dagsats = (behandling, periode = 0) =>
     behandling.vedtak.perioder[periode].dagsats;
