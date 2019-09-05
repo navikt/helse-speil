@@ -8,8 +8,9 @@ import './SykepengegrunnlagModal.less';
 Modal.setAppElement('#root');
 
 const SykepengegrunnlagModal = ({
-    perioder,
     beregningsperioden,
+    sammenligningsperioden,
+    totaltIBeregningsperioden,
     sammenligningsgrunnlag,
     onClose
 }) => {
@@ -22,7 +23,7 @@ const SykepengegrunnlagModal = ({
         >
             <Undertittel>Innrapportert til A-Ordningen</Undertittel>
             <div className="periodeliste">
-                {perioder.slice(0, 3).map(item => (
+                {beregningsperioden.map(item => (
                     <div className="periode" key={item.join('-')}>
                         <Normaltekst>{item[0]}</Normaltekst>
                         <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
@@ -30,9 +31,9 @@ const SykepengegrunnlagModal = ({
                 ))}
                 <div className="periode sum-linje">
                     <Element>Beregningsperioden</Element>
-                    <Element>{toKroner(beregningsperioden)} kr</Element>
+                    <Element>{toKroner(totaltIBeregningsperioden)} kr</Element>
                 </div>
-                {perioder.slice(3).map(item => (
+                {sammenligningsperioden.map(item => (
                     <div className="periode" key={item.join('-')}>
                         <Normaltekst>{item[0]}</Normaltekst>
                         <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
@@ -48,8 +49,9 @@ const SykepengegrunnlagModal = ({
 };
 
 SykepengegrunnlagModal.propTypes = {
-    perioder: PropTypes.arrayOf(PropTypes.any).isRequired,
-    beregningsperioden: PropTypes.number.isRequired,
+    sammenligningsperioden: PropTypes.arrayOf(PropTypes.any).isRequired,
+    totaltIBeregningsperioden: PropTypes.number.isRequired,
+    beregningsperioden: PropTypes.arrayOf(PropTypes.any).isRequired,
     sammenligningsgrunnlag: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired
 };

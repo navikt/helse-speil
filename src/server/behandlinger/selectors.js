@@ -42,11 +42,11 @@ const antallKalenderdager = behandling => {
 const sisteSykdomsdag = behandling =>
     newestTom(behandling.originalSøknad.soknadsperioder);
 
-const utbetalingsperioder = behandling => {
+const utbetalingsperioder = perioder => {
     const UTBETALINGSPERIODE = 'utbetalingsperiode';
     const BELØP = 'beløp';
 
-    const perioder = behandling.avklarteVerdier.sykepengegrunnlag.grunnlag
+    const mappedPerioder = perioder
         .map(periode => ({
             utbetalingsperiode: periode.utbetalingsperiode,
             beløp: periode.beløp
@@ -60,15 +60,26 @@ const utbetalingsperioder = behandling => {
             return prev;
         }, {});
 
-    return Object.entries(perioder).sort((a, b) => b[0].localeCompare(a[0]));
+    return Object.entries(mappedPerioder).sort((a, b) =>
+        b[0].localeCompare(a[0])
+    );
 };
+
+const beregningsperioden = behandling =>
+    utbetalingsperioder(
+        behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
+            .sykepengegrunnlagIArbeidsgiverperioden.grunnlag
+    );
+
+const sammenligningsperioden = behandling =>
+    utbetalingsperioder(behandling.avklarteVerdier.sykepengegrunnlag.grunnlag);
 
 const sykepengegrunnlag = behandling => {
     return behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
         .sykepengegrunnlagNårTrygdenYter.fastsattVerdi;
 };
 
-const beregningsperioden = behandling => {
+const totaltIBeregningsperioden = behandling => {
     return (
         behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
             .sykepengegrunnlagIArbeidsgiverperioden.fastsattVerdi * 3
@@ -76,7 +87,7 @@ const beregningsperioden = behandling => {
 };
 
 const sammenligningsgrunnlag = behandling =>
-    utbetalingsperioder(behandling).reduce((acc, curr) => acc + curr[1], 0);
+    sammenligningsperioden(behandling).reduce((acc, curr) => acc + curr[1], 0);
 
 const dagsats = (behandling, periode = 0) =>
     behandling.vedtak.perioder[periode].dagsats;
@@ -115,7 +126,8 @@ module.exports = {
     sykepengegrunnlag,
     beregningsperioden,
     sammenligningsgrunnlag,
-    utbetalingsperioder,
+    totaltIBeregningsperioden,
+    sammenligningsperioden,
     sykmeldingsgrad,
     sykepengedager
 };
