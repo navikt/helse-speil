@@ -18,7 +18,7 @@ const aordning = behandling => {
     return [
         item(
             beregningstekster('beregningsperioden'),
-            `${toKroner(behandling.beregningsperioden)} kr`
+            `${toKroner(behandling.totaltIBeregningsperioden)} kr`
         ),
         item(
             beregningstekster('sammenligningsgrunnlag'),

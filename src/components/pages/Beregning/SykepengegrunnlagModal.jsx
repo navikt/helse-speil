@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { toKroner } from '../../../utils/locale';
 import './SykepengegrunnlagModal.less';
+import ListeSeparator from '../../widgets/ListeSeparator';
 
 Modal.setAppElement('#root');
 
 const SykepengegrunnlagModal = ({
-    perioder,
     beregningsperioden,
+    sammenligningsperioden,
+    totaltIBeregningsperioden,
     sammenligningsgrunnlag,
     onClose
 }) => {
@@ -22,24 +24,39 @@ const SykepengegrunnlagModal = ({
         >
             <Undertittel>Innrapportert til A-Ordningen</Undertittel>
             <div className="periodeliste">
-                {perioder.slice(0, 3).map(item => (
-                    <div className="periode" key={item.join('-')}>
-                        <Normaltekst>{item[0]}</Normaltekst>
-                        <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
+                <Element>Beregningsperioden</Element>
+                <Normaltekst className="periodeforklaring">
+                    Inkluderer kun inntekter fra den ene arbeidsgiveren
+                </Normaltekst>
+                {beregningsperioden.map(periode => (
+                    <div
+                        className="periode"
+                        key={`beregningsperiode-${periode.utbetalingsperiode}-${periode.beløp}`}
+                    >
+                        <Normaltekst>{periode.utbetalingsperiode}</Normaltekst>
+                        <Normaltekst>{toKroner(periode.beløp)} kr</Normaltekst>
                     </div>
                 ))}
                 <div className="periode sum-linje">
-                    <Element>Beregningsperioden</Element>
-                    <Element>{toKroner(beregningsperioden)} kr</Element>
+                    <Element>Totalt i beregningsperioden</Element>
+                    <Element>{toKroner(totaltIBeregningsperioden)} kr</Element>
                 </div>
-                {perioder.slice(3).map(item => (
-                    <div className="periode" key={item.join('-')}>
-                        <Normaltekst>{item[0]}</Normaltekst>
-                        <Normaltekst>{toKroner(item[1])} kr</Normaltekst>
+                <ListeSeparator type="dotted" />
+                <Element>Sammenligningsgrunnlag</Element>
+                <Normaltekst className="periodeforklaring">
+                    Inkluderer alle inntekter, som ytelser
+                </Normaltekst>
+                {sammenligningsperioden.map(periode => (
+                    <div
+                        className="periode"
+                        key={`sammenligningsperiode-${periode.utbetalingsperiode}-${periode.beløp}`}
+                    >
+                        <Normaltekst>{periode.utbetalingsperiode}</Normaltekst>
+                        <Normaltekst>{toKroner(periode.beløp)} kr</Normaltekst>
                     </div>
                 ))}
                 <div className="periode sum-linje">
-                    <Element>Sammenligningsgrunnlag</Element>
+                    <Element>Totalt i sammenligningsgrunnlaget</Element>
                     <Element>{toKroner(sammenligningsgrunnlag)} kr</Element>
                 </div>
             </div>
@@ -48,8 +65,9 @@ const SykepengegrunnlagModal = ({
 };
 
 SykepengegrunnlagModal.propTypes = {
-    perioder: PropTypes.arrayOf(PropTypes.any).isRequired,
-    beregningsperioden: PropTypes.number.isRequired,
+    sammenligningsperioden: PropTypes.arrayOf(PropTypes.any).isRequired,
+    totaltIBeregningsperioden: PropTypes.number.isRequired,
+    beregningsperioden: PropTypes.arrayOf(PropTypes.any).isRequired,
     sammenligningsgrunnlag: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired
 };

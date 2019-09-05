@@ -32,10 +32,15 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             </Undertittel>
             {visDetaljerboks && (
                 <SykepengegrunnlagModal
-                    perioder={sykepengeberegning.utbetalingsperioder}
+                    sammenligningsperioden={
+                        sykepengeberegning.sammenligningsperioden
+                    }
                     beregningsperioden={sykepengeberegning.beregningsperioden}
                     sammenligningsgrunnlag={
                         sykepengeberegning.sammenligningsgrunnlag
+                    }
+                    totaltIBeregningsperioden={
+                        sykepengeberegning.totaltIBeregningsperioden
                     }
                     onClose={() => setVisDetaljerboks(false)}
                 />
