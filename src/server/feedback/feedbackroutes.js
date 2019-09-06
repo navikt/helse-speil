@@ -47,7 +47,7 @@ const routes = app => {
     });
 
     app.get('/feedback', async (req, res) => {
-        const date = await utils.parseDate(req.query.fraogmed).catch(err => {
+        const date = utils.parseDate(req.query.fraogmed).catch(err => {
             res.send(err);
             return;
         });
