@@ -22,15 +22,10 @@ const utbetalingsbeløp = behandling =>
         0
     );
 
-const antallFeriedager = behandling => {
-    const fravarAccumulator = (acc, fravar) => {
-        return fravar.type.toLowerCase() === 'ferie'
-            ? acc + calendarDaysBetween(toDate(fravar.fom), toDate(fravar.tom))
-            : acc + 0;
-    };
-    return behandling.originalSøknad.fravar.length === 0
-        ? 0
-        : behandling.originalSøknad.fravar.reduce(fravarAccumulator, 0);
+const ferieperioder = behandling => {
+    return behandling.originalSøknad.fravar.filter(
+        periode => periode.type.toLowerCase() === 'ferie'
+    );
 };
 
 const antallKalenderdager = behandling => {
@@ -120,7 +115,7 @@ const maxAntallSykepengedager = behandling => {
 module.exports = {
     antallVirkedager,
     antallUtbetalingsdager,
-    antallFeriedager,
+    ferieperioder,
     antallKalenderdager,
     dagsats,
     utbetalingsbeløp,

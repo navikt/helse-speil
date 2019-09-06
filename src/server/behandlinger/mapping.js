@@ -173,7 +173,7 @@ const periode = behandling => ({
     antallKalenderdager: selectors.antallKalenderdager(behandling),
     arbeidsgiverperiodeKalenderdager: 16,
     antallVirkedager: selectors.antallVirkedager(behandling),
-    antallFeriedager: selectors.antallFeriedager(behandling),
+    ferieperioder: selectors.ferieperioder(behandling),
     antallUtbetalingsdager: selectors.antallUtbetalingsdager(behandling),
     sykmeldingsgrad: selectors.sykmeldingsgrad(behandling)
 });

@@ -87,7 +87,7 @@
             "antallKalenderdager": 31,
             "arbeidsgiverperiodeKalenderdager": 16,
             "antallVirkedager": 23,
-            "antallFeriedager": 0,
+            "ferieperioder": [],
             "antallUtbetalingsdager": 23,
             "sykmeldingsgrad": 100
         },
