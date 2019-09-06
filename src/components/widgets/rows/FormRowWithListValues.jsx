@@ -4,7 +4,7 @@ import Uenigboks from '../Uenigboks';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './FormRowWithListValues.less';
 
-const FormRow = ({ label, items, bold, showRightSide }) => {
+const FormRowWithListValues = ({ label, items, bold, showRightSide }) => {
     const className = bold ? 'bold' : '';
     const itemsForFeedback =
         items.length !== 0 ? [{ label, items: items.join(', ') }] : [];
@@ -31,16 +31,16 @@ const FormRow = ({ label, items, bold, showRightSide }) => {
     );
 };
 
-FormRow.propTypes = {
+FormRowWithListValues.propTypes = {
     label: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.string).isRequired,
     bold: PropTypes.bool,
     showRightSide: PropTypes.bool
 };
 
-FormRow.defaultProps = {
+FormRowWithListValues.defaultProps = {
     bold: false,
     showRightSide: true
 };
 
-export default FormRow;
+export default FormRowWithListValues;
