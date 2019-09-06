@@ -92,25 +92,75 @@
             "sykmeldingsgrad": 100
         },
         "sykepengeberegning": {
-            "beregningsperioden": 75000,
-            "utbetalingsperioder": [
-                ["2019-06", 25000],
-                ["2019-05", 25000],
-                ["2019-04", 25000],
-                ["2019-03", 25000],
-                ["2019-02", 25000],
-                ["2019-01", 25000],
-                ["2018-12", 25000],
-                ["2018-11", 25000],
-                ["2018-10", 25000],
-                ["2018-09", 25000],
-                ["2018-08", 25000],
-                ["2018-07", 25000]
+            "beregningsperioden": [
+                {
+                    "utbetalingsperiode": "2019-04",
+                    "beløp": 38308.88
+                },
+                {
+                    "utbetalingsperiode": "2019-03",
+                    "beløp": 31292.45
+                },
+                {
+                    "utbetalingsperiode": "2019-02",
+                    "beløp": 34604.64
+                }
             ],
-            "sammenligningsgrunnlag": 300000,
-            "sykepengegrunnlag": 300000,
-            "avvik": 0,
-            "dagsats": 1154
+            "sammenligningsperioden": [
+                {
+                    "utbetalingsperiode": "2019-04",
+                    "beløp": 40028.88
+                },
+                {
+                    "utbetalingsperiode": "2019-03",
+                    "beløp": 34452.45
+                },
+                {
+                    "utbetalingsperiode": "2019-02",
+                    "beløp": 34604.64
+                },
+                {
+                    "utbetalingsperiode": "2019-01",
+                    "beløp": 37478.96
+                },
+                {
+                    "utbetalingsperiode": "2018-12",
+                    "beløp": 32161.61
+                },
+                {
+                    "utbetalingsperiode": "2018-11",
+                    "beløp": 32448.88
+                },
+                {
+                    "utbetalingsperiode": "2018-10",
+                    "beløp": 32180.88
+                },
+                {
+                    "utbetalingsperiode": "2018-09",
+                    "beløp": 30407.77
+                },
+                {
+                    "utbetalingsperiode": "2018-08",
+                    "beløp": 31891.38
+                },
+                {
+                    "utbetalingsperiode": "2018-07",
+                    "beløp": 29387.13
+                },
+                {
+                    "utbetalingsperiode": "2018-06",
+                    "beløp": 39499.26
+                },
+                {
+                    "utbetalingsperiode": "2018-05",
+                    "beløp": 30707.949999999997
+                }
+            ],
+            "sammenligningsgrunnlag": 405249.79000000004,
+            "sykepengegrunnlag": 416820,
+            "avvik": 2.8550810600049816,
+            "totaltIBeregningsperioden": 104205,
+            "dagsats": 1603
         }
     }
 ]

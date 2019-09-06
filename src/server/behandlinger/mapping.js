@@ -127,10 +127,11 @@ const sykepengeberegning = behandling => {
         behandling
     );
     const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
-    const avvik =
+    const avvik = Math.round(
         (Math.abs(sammenligningsgrunnlag - sykepengegrunnlag) /
             sammenligningsgrunnlag) *
-        100;
+            100
+    );
 
     return {
         beregningsperioden,
