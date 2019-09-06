@@ -85,7 +85,8 @@
         "request-promise-native": "^1.0.7",
         "reset-css": "^4.0.1",
         "snyk": "^1.226.0",
-        "tunnel": "0.0.6"
+        "tunnel": "0.0.6",
+        "uuid": "^3.3.3"
     },
     "devDependencies": {
         "@babel/cli": "^7.6.0",
