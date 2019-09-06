@@ -82,7 +82,7 @@
         "request": "^2.88.0",
         "request-promise-native": "^1.0.7",
         "reset-css": "^4.0.1",
-        "snyk": "^1.224.0",
+        "snyk": "^1.226.0",
         "tunnel": "0.0.6"
     },
     "devDependencies": {
