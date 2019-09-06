@@ -10,7 +10,6 @@ const parseDate = date => {
         if (isoMoment.isValid()) {
             resolve(isoMoment);
         }
-        console.warn('not a parseable date: ' + date);
         reject(`Det lot seg ikke gjøre å tolke '${date}' som en dato`);
     });
 };
