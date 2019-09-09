@@ -8,7 +8,8 @@ import moment from 'moment';
 
 export const InnrapporteringContext = createContext({
     uenigheter: [],
-    kommentarer: ''
+    kommentarer: '',
+    godkjent: false
 });
 
 export const InnrapporteringProvider = withBehandlingContext(
@@ -17,6 +18,7 @@ export const InnrapporteringProvider = withBehandlingContext(
         const behandlingsId = behandling?.behandlingsId;
         const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
         const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
+        const [godkjent, setGodkjent] = useSessionStorage('godkjent');
         const [uenigheter, setUenigheter] = useSessionStorage(
             `uenigheter-${behandlingsId}`,
             []
@@ -28,6 +30,7 @@ export const InnrapporteringProvider = withBehandlingContext(
                     if (response.status === 200) {
                         setUenigheter(response.data.uenigheter ?? []);
                         setKommentarer(response.data.kommentarer);
+                        setGodkjent(response.data.godkjent ?? false);
                     }
                 })
                 .catch(err => {
@@ -82,6 +85,8 @@ export const InnrapporteringProvider = withBehandlingContext(
                     hasSendt,
                     setHasSendt,
                     kommentarer,
+                    godkjent,
+                    setGodkjent,
                     fetchFeedback,
                     setKommentarer: val => {
                         setHasSendt(false);

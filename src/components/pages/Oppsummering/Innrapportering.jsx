@@ -10,6 +10,7 @@ import { oppsummeringstekster } from '../../../tekster';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import './Innrapportering.less';
 import moment from 'moment';
+import { Checkbox } from 'nav-frontend-skjema';
 
 const Innrapportering = withBehandlingContext(({ behandling }) => {
     const innrapportering = useContext(InnrapporteringContext);
@@ -23,6 +24,7 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
             txt: JSON.stringify({
                 uenigheter: innrapportering.uenigheter,
                 kommentarer: innrapportering.kommentarer,
+                godkjent: innrapportering.godkjent,
                 submittedDate: moment().format()
             })
         })
@@ -36,6 +38,10 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
             .finally(() => {
                 setIsSending(false);
             });
+    };
+
+    const onGodkjentChange = e => {
+        innrapportering.setGodkjent(e.target.checked);
     };
 
     return (
@@ -64,6 +70,11 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                 </Normaltekst>
             ))}
             <Kommentarer />
+            <Checkbox
+                defaultChecked={innrapportering.godkjent}
+                onChange={onGodkjentChange}
+                label="Jeg er enig med maskinen"
+            />
             {innrapportering.hasSendt ? (
                 <Knapp className="sendt" disabled>
                     Rapport mottatt
