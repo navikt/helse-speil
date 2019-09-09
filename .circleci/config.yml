@@ -1,16 +1,14 @@
 version: 2
 jobs:
-   build:
+   build-speil:
       working_directory: ~/speil
       docker:
-         - image: circleci/node:12.2.0-stretch
+         - image: circleci/node:12.9.1-stretch
       steps:
          - checkout
-         - setup_remote_docker:
-              docker_layer_caching: true
          - run:
               name: update-npm
-              command: 'sudo npm install -g npm@latest'
+              command: "sudo npm install -g npm@latest"
          - restore_cache:
               key: dependency-cache-{{ checksum "package.json" }}
          - run:
@@ -34,56 +32,147 @@ jobs:
               name: assemble and push docker image
               command: |
                  set -e
-                 if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
-                   export DOCKER_IMG_NAME="docker.pkg.github.com/navikt/helse-speil/speil"
-                   export COMMIT_SHORT="$(git rev-parse --short HEAD)"
-                   echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> $BASH_ENV
-                   echo "export COMMIT_SHORT=$COMMIT_SHORT" >> $BASH_ENV
+                 if [ -z "$CIRCLE_PULL_REQUEST" ]; then
+                     export DOCKER_IMG_NAME="docker.pkg.github.com/navikt/helse-speil/speil"
+                     export COMMIT_SHORT="$(git rev-parse --short HEAD)"
+                     echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> $BASH_ENV
+                     echo "export COMMIT_SHORT=$COMMIT_SHORT" >> $BASH_ENV
 
-                   docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
+                     docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 
-                   echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin https://docker.pkg.github.com
-                   docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
+                     echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin https://docker.pkg.github.com
+                     docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
                  else
-                    echo "Not on master, skipping this step"
+                     echo "No need to create Docker images for pull requests"
                  fi
+
+   deploy-speil-to-preprod:
+      working_directory: ~/speil
+      docker:
+         - image: circleci/node:12.2.0-stretch
+      steps:
+         - setup_remote_docker:
+              docker_layer_caching: true
          - run:
-              name: deploy to preprod
+              name: deploy speil to preprod
               command: |
                  set -e
-                 if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
-                    docker create -v /nais --name naisyamlpreprod alpine:3.4 /bin/true
-                    docker cp deploy/preprod.yaml naisyamlpreprod:/nais
-                    PREPROD_NAISERATOR=$(docker run --volumes-from naisyamlpreprod mikefarah/yq yq r /nais/preprod.yaml -j)
-                    PREPROD_NAISERATOR=$(echo $PREPROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
-                    PREPROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PREPROD_NAISERATOR']')
-                    PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.environment = "dev-fss"')
-                    PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
-                    curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
-                        -X POST \
-                        -d "$PREPROD_DEPLOYMENT" \
-                        -H "Accept: application/vnd.github.ant-man-preview+json" \
-                        https://api.github.com/repos/navikt/helse-speil/deployments
-                 else
-                    echo "Not on master, skipping this step"
-                 fi
+                 docker create -v /nais --name naisyamlpreprod alpine:3.4 /bin/true
+                 docker cp deploy/preprod.yaml naisyamlpreprod:/nais
+                 NAISERATOR=$(docker run --volumes-from naisyamlpreprod mikefarah/yq yq r /nais/preprod.yaml -j)
+                 NAISERATOR=$(echo $NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$NAISERATOR']')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "dev-fss"')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
+                 curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
+                    -X POST \
+                    -d "$DEPLOYMENT" \
+                    -H "Accept: application/vnd.github.ant-man-preview+json" \
+                    https://api.github.com/repos/navikt/helse-speil/deployments
+
+   deploy-speil-to-prod:
+      working_directory: ~/speil
+      docker:
+         - image: circleci/node:12.2.0-stretch
+      steps:
+         - setup_remote_docker:
+              docker_layer_caching: true
          - run:
-              name: deploy to prod
+              name: deploy speil to prod
               command: |
                  set -e
-                 if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
-                    docker create -v /nais --name naisyamlprod alpine:3.4 /bin/true
-                    docker cp deploy/prod.yaml naisyamlprod:/nais
-                    PROD_NAISERATOR=$(docker run --volumes-from naisyamlprod mikefarah/yq yq r /nais/prod.yaml -j)
-                    PROD_NAISERATOR=$(echo $PROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
-                    PROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PROD_NAISERATOR']')
-                    PROD_DEPLOYMENT=$(echo $PROD_DEPLOYMENT | jq '.environment = "prod-fss"')
-                    PROD_DEPLOYMENT=$(echo $PROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
-                    curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
-                        -X POST \
-                        -d "$PROD_DEPLOYMENT" \
-                        -H "Accept: application/vnd.github.ant-man-preview+json" \
-                        https://api.github.com/repos/navikt/helse-speil/deployments
-                 else
-                    echo "Not on master, skipping this step"
-                 fi
+                 docker create -v /nais --name naisyamlprod alpine:3.4 /bin/true
+                 docker cp deploy/prod.yaml naisyamlprod:/nais
+                 NAISERATOR=$(docker run --volumes-from naisyamlprod mikefarah/yq yq r /nais/prod.yaml -j)
+                 NAISERATOR=$(echo $NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$NAISERATOR']')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "prod-fss"')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
+                 curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
+                    -X POST \
+                    -d "$DEPLOYMENT" \
+                    -H "Accept: application/vnd.github.ant-man-preview+json" \
+                    https://api.github.com/repos/navikt/helse-speil/deployments
+
+   deploy-redis-to-preprod:
+      working_directory: ~/speil
+      docker:
+         - image: circleci/node:12.2.0-stretch
+      steps:
+         - setup_remote_docker:
+              docker_layer_caching: true
+         - run:
+              name: deploy redis to preprod
+              command: |
+                 set -e
+                 docker create -v /nais --name redispreprod alpine:3.4 /bin/true
+                 docker cp deploy/redis.yaml redispreprod:/nais
+                 NAISERATOR=$(docker run --volumes-from redispreprod mikefarah/yq yq r /nais/redis.yaml -j)
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$NAISERATOR']')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "speil-redis"')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "dev-fss"')
+                 curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
+                       -X POST \
+                       -d "$DEPLOYMENT" \
+                       -H "Accept: application/vnd.github.ant-man-preview+json" \
+                       https://api.github.com/repos/navikt/helse-speil/deployments
+
+   deploy-redis-to-prod:
+      working_directory: ~/speil
+      docker:
+         - image: circleci/node:12.2.0-stretch
+      steps:
+         - setup_remote_docker:
+              docker_layer_caching: true
+         - run:
+              name: deploy redis to prod
+              command: |
+                 set -e
+                 docker create -v /nais --name redisprod alpine:3.4 /bin/true
+                 docker cp deploy/redis.yaml redispreprod:/nais
+                 NAISERATOR=$(docker run --volumes-from redisprod mikefarah/yq yq r /nais/redis.yaml -j)
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$NAISERATOR']')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "speil-redis"')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "prod-fss"')
+                 curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
+                       -X POST \
+                       -d "$DEPLOYMENT" \
+                       -H "Accept: application/vnd.github.ant-man-preview+json" \
+                       https://api.github.com/repos/navikt/helse-speil/deployments
+
+workflows:
+   version: 2
+   master:
+      jobs:
+         - deploy-redis-to-preprod:
+              filters:
+                 branches:
+                    only: master
+         - deploy-redis-to-prod:
+              filters:
+                 branches:
+                    only: master
+         - build-speil:
+              filters:
+                 branches:
+                    only: master
+         - deploy-speil-to-preprod:
+              requires:
+                 - build-speil
+                 - deploy-redis-to-preprod
+              filters:
+                 branches:
+                    only: master
+         - deploy-speil-to-prod:
+              requires:
+                 - build-speil
+                 - deploy-redis-to-prod
+              filters:
+                 branches:
+                    only: master
+   not_master:
+      jobs:
+         - build-speil:
+              filters:
+                 branches:
+                    ignore: master

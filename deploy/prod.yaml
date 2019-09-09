@@ -44,3 +44,7 @@ spec:
       value: https://spade.nais.adeo.no
     - name: DEBUG
       value: global-tunnel
+    - name: REDIS_HOST
+      value: speil-redis.default.svc.nais.local
+    - name: REDIS_PORT
+      value: 6379
