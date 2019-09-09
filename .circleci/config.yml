@@ -19,6 +19,10 @@ jobs:
    build-speil:
       executor: my-executor
       steps:
+         - run: ls -l
+         - run: ls -l workspace
+         - attach_workspace:
+              at: workspace
          - run:
               name: update-npm
               command: "sudo npm install -g npm@latest"
