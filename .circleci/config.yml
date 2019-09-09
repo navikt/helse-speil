@@ -11,18 +11,29 @@ jobs:
       executor: my-executor
       steps:
          - checkout
-         - run: mkdir workspace && cp -R deploy/ workspace
+         - run:
+            name: build client
+            command: |
+                 set -e
+                 mkdir workspace
+                 cp -R deploy/ workspace
+                 cp -R src/ workspace
+                 cp package.json workspace
+                 cp package-lock.json workspace
          - persist_to_workspace:
               root: workspace
               paths:
                  - deploy
+                 - src
+                 - package.json
+                 - package-lock.json
    build-speil:
       executor: my-executor
       steps:
-         - run: ls -l
-         - run: ls -l workspace
          - attach_workspace:
               at: workspace
+         - run: ls -l
+         - run: ls -l workspace
          - run:
               name: update-npm
               command: "sudo npm install -g npm@latest"
@@ -69,10 +80,10 @@ jobs:
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
-         - run: ls -l
-         - run: ls -l workspace
          - attach_workspace:
               at: workspace
+         - run: ls -l
+         - run: ls -l workspace
          - run:
               name: deploy speil to preprod
               command: |
@@ -97,6 +108,8 @@ jobs:
               docker_layer_caching: true
          - attach_workspace:
               at: workspace
+         - run: ls -l
+         - run: ls -l workspace
          - run:
               name: deploy speil to prod
               command: |
@@ -121,6 +134,8 @@ jobs:
               docker_layer_caching: true
          - attach_workspace:
               at: workspace
+         - run: ls -l
+         - run: ls -l workspace
          - run:
               name: deploy redis to preprod
               command: |
@@ -144,6 +159,8 @@ jobs:
               docker_layer_caching: true
          - attach_workspace:
               at: workspace
+         - run: ls -l
+         - run: ls -l workspace
          - run:
               name: deploy redis to prod
               command: |
