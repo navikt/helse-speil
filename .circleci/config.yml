@@ -149,7 +149,7 @@ jobs:
               command: |
                  set -e
                  docker create -v /nais --name redisprod alpine:3.4 /bin/true
-                 docker cp deploy/redis.yaml redispreprod:/nais
+                 docker cp deploy/redis.yaml redisprod:/nais
                  NAISERATOR=$(docker run --volumes-from redisprod mikefarah/yq yq r /nais/redis.yaml -j)
                  DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$NAISERATOR']')
                  DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "speil-redis"')
