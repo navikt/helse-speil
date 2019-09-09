@@ -8,6 +8,10 @@ const proxyAgent = proxy.setup(Issuer, custom);
 
 const setup = config => {
     return new Promise((resolve, reject) => {
+        if (process.env.NODE_ENV === 'development') {
+            resolve();
+        }
+
         Issuer.discover(config.identityMetadata)
             .then(azure => {
                 console.log(`Discovered issuer ${azure.issuer}`);
