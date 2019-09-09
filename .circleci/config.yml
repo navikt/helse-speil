@@ -1,18 +1,23 @@
 version: 2
 
 executors:
-   common-executor:
+   my-executor:
       docker:
          - image: circleci/node:12.9.1-stretch
       working_directory: ~/speil
 
 jobs:
    checkout:
-      executor: common-executor
+      executor: my-executor
       steps:
          - checkout
+         - run: cp -R deploy/ workspace
+         - persist_to_workspace:
+              root: workspace
+              paths:
+                 - deploy/
    build-speil:
-      executor: common-executor
+      executor: my-executor
       steps:
          - run:
               name: update-npm
@@ -36,6 +41,7 @@ jobs:
               command: |
                  set -e
                  npm run build-server
+         - run: mkdir workspace
          - run:
               name: assemble and push docker image
               command: |
@@ -55,10 +61,12 @@ jobs:
                  fi
 
    deploy-speil-to-preprod:
-      executor: common-executor
+      executor: my-executor
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
+         - attach_workspace:
+              at: workspace
          - run:
               name: deploy speil to preprod
               command: |
@@ -77,10 +85,12 @@ jobs:
                     https://api.github.com/repos/navikt/helse-speil/deployments
 
    deploy-speil-to-prod:
-      executor: common-executor
+      executor: my-executor
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
+         - attach_workspace:
+              at: workspace
          - run:
               name: deploy speil to prod
               command: |
@@ -99,10 +109,12 @@ jobs:
                     https://api.github.com/repos/navikt/helse-speil/deployments
 
    deploy-redis-to-preprod:
-      executor: common-executor
+      executor: my-executor
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
+         - attach_workspace:
+              at: workspace
          - run:
               name: deploy redis to preprod
               command: |
@@ -120,10 +132,12 @@ jobs:
                        https://api.github.com/repos/navikt/helse-speil/deployments
 
    deploy-redis-to-prod:
-      executor: common-executor
+      executor: my-executor
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
+         - attach_workspace:
+              at: workspace
          - run:
               name: deploy redis to prod
               command: |
