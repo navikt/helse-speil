@@ -11,11 +11,11 @@ jobs:
       executor: my-executor
       steps:
          - checkout
-         - run: cp -R deploy/ workspace
+         - run: mkdir workspace && cp -R deploy/ workspace
          - persist_to_workspace:
               root: workspace
               paths:
-                 - deploy/
+                 - deploy
    build-speil:
       executor: my-executor
       steps:
