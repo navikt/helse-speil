@@ -1,11 +1,19 @@
 version: 2
-jobs:
-   build-speil:
-      working_directory: ~/speil
+
+executors:
+   common-executor:
       docker:
          - image: circleci/node:12.9.1-stretch
+      working_directory: ~/speil
+
+jobs:
+   checkout:
+      executor: common-executor
       steps:
          - checkout
+   build-speil:
+      executor: common-executor
+      steps:
          - run:
               name: update-npm
               command: "sudo npm install -g npm@latest"
@@ -47,9 +55,7 @@ jobs:
                  fi
 
    deploy-speil-to-preprod:
-      working_directory: ~/speil
-      docker:
-         - image: circleci/node:12.2.0-stretch
+      executor: common-executor
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
@@ -71,9 +77,7 @@ jobs:
                     https://api.github.com/repos/navikt/helse-speil/deployments
 
    deploy-speil-to-prod:
-      working_directory: ~/speil
-      docker:
-         - image: circleci/node:12.2.0-stretch
+      executor: common-executor
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
@@ -95,9 +99,7 @@ jobs:
                     https://api.github.com/repos/navikt/helse-speil/deployments
 
    deploy-redis-to-preprod:
-      working_directory: ~/speil
-      docker:
-         - image: circleci/node:12.2.0-stretch
+      executor: common-executor
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
@@ -118,9 +120,7 @@ jobs:
                        https://api.github.com/repos/navikt/helse-speil/deployments
 
    deploy-redis-to-prod:
-      working_directory: ~/speil
-      docker:
-         - image: circleci/node:12.2.0-stretch
+      executor: common-executor
       steps:
          - setup_remote_docker:
               docker_layer_caching: true
@@ -144,15 +144,22 @@ workflows:
    version: 2
    master:
       jobs:
+         - checkout
          - deploy-redis-to-preprod:
+              requires:
+                 - checkout
               filters:
                  branches:
                     only: master
          - deploy-redis-to-prod:
+              requires:
+                 - checkout
               filters:
                  branches:
                     only: master
          - build-speil:
+              requires:
+                 - checkout
               filters:
                  branches:
                     only: master
