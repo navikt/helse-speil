@@ -63,7 +63,7 @@ const routes = app => {
         if (isInvalid(req)) {
             log(`Rejecting feedback due to validation error`);
             res.send({
-                message: 'Lagring av tilbakemeldinger feilet pga. valideringsfeil',
+                message: 'Lagring av tilbakemelding feilet pga. valideringsfeil',
                 statusCode: 400
             });
         } else {
@@ -75,8 +75,8 @@ const routes = app => {
                 .catch(err => {
                     console.log(`Error while saving feedback: ${err.message}`);
                     res.send({
-                        message: `Lagring av tilbakemeldinger feilet: ${err.message}`,
-                        statusCode: err.statusCode || 500
+                        message: `Lagring av tilbakemeldinger feilet`,
+                        statusCode: 500
                     });
                 });
         }
