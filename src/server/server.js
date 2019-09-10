@@ -14,7 +14,6 @@ const authsupport = require('./auth/authsupport');
 
 const redis = require('redis');
 const redisStore = require('connect-redis')(expressSession);
-const redisClient = redis.createClient({ password: config.redis.password });
 
 const metrics = require('./metrics');
 const headers = require('./headers');
@@ -38,9 +37,11 @@ app.use(
         secret: config.server.sessionSecret,
         ttl: 43200, // 12 hours
         store: new redisStore({
-            host: config.redis.host,
-            port: config.redis.port,
-            client: redisClient
+            client: redis.createClient({
+                host: config.redis.host,
+                port: config.redis.port,
+                password: config.redis.password
+            })
         })
     })
 );
