@@ -14,7 +14,7 @@ jobs:
          - persist_to_workspace:
               root: ~/speil
               paths:
-                 - ./**/*
+                 - '*'
    build-speil:
       executor: my-executor
       steps:
