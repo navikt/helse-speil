@@ -16,41 +16,27 @@ const Beregning = withBehandlingContext(({ behandling }) => {
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
 
     const detaljerKnapp = (
-        <button
-            className="vis-modal-button"
-            onClick={() => setVisDetaljerboks(true)}
-            tabIndex={0}
-        >
+        <button className="vis-modal-button" onClick={() => setVisDetaljerboks(true)} tabIndex={0}>
             (Vis detaljer)
         </button>
     );
 
     return (
         <Panel border className="Beregning">
-            <Undertittel className="panel-tittel">
-                {beregningstekster('tittel')}
-            </Undertittel>
+            <Undertittel className="panel-tittel">{beregningstekster('tittel')}</Undertittel>
             {visDetaljerboks && (
                 <SykepengegrunnlagModal
-                    sammenligningsperioden={
-                        sykepengeberegning.sammenligningsperioden
-                    }
+                    sammenligningsperioden={sykepengeberegning.sammenligningsperioden}
                     beregningsperioden={sykepengeberegning.beregningsperioden}
-                    sammenligningsgrunnlag={
-                        sykepengeberegning.sammenligningsgrunnlag
-                    }
-                    totaltIBeregningsperioden={
-                        sykepengeberegning.totaltIBeregningsperioden
-                    }
+                    sammenligningsgrunnlag={sykepengeberegning.sammenligningsgrunnlag}
+                    totaltIBeregningsperioden={sykepengeberegning.totaltIBeregningsperioden}
                     onClose={() => setVisDetaljerboks(false)}
                 />
             )}
             {/* TODO: send inn riktig beløp til inntektsmeldingbolken */}
             <ListRow
                 label={beregningstekster('inntektsmeldinger')}
-                items={ItemMapper.inntektsmelding(
-                    sykepengeberegning.inntektsmelding
-                )}
+                items={ItemMapper.inntektsmelding(sykepengeberegning.inntektsmelding)}
             />
             <ListRow
                 label={beregningstekster('aordningen')}

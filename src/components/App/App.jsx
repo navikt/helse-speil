@@ -19,11 +19,7 @@ const App = withContextProviders(() => {
         <Router>
             <HeaderBar />
             <Switch>
-                <Route
-                    path={'/tilbakemeldinger'}
-                    component={Tilbakemeldinger}
-                    exact
-                />
+                <Route path={'/tilbakemeldinger'} component={Tilbakemeldinger} exact />
                 <Route component={MainContentWrapper} />
             </Switch>
         </Router>

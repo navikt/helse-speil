@@ -13,11 +13,7 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
 
     const detaljerKnapp = (
-        <button
-            className="vis-modal-button"
-            onClick={() => setVisDetaljerboks(true)}
-            tabIndex={0}
-        >
+        <button className="vis-modal-button" onClick={() => setVisDetaljerboks(true)} tabIndex={0}>
             (Vis detaljer)
         </button>
     );
@@ -42,15 +38,11 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
             />
             <ListRow
                 label="Mer enn 0,5G"
-                items={ItemMapper.merEnn05G(
-                    behandling.inngangsvilkår.merEnn05G
-                )}
+                items={ItemMapper.merEnn05G(behandling.inngangsvilkår.merEnn05G)}
             />
             <ListRow
                 label="Søknadsfrist"
-                items={ItemMapper.søknadsfrist(
-                    behandling.inngangsvilkår.søknadsfrist
-                )}
+                items={ItemMapper.søknadsfrist(behandling.inngangsvilkår.søknadsfrist)}
             />
             <ListRow
                 label="Dager igjen"
@@ -63,7 +55,7 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
             />
             <Navigasjonsknapper previous="/" next="/beregning" />
         </Panel>
-    )
+    );
 });
 
 export default Inngangsvilkår;

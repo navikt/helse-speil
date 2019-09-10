@@ -6,8 +6,7 @@ const { isWithin3Months } = require('../datecalc');
 
 const sykdomsvilkår = behandling => {
     const mindreEnnÅtteUkerSammenhengende = {
-        førsteSykdomsdag:
-            behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag,
+        førsteSykdomsdag: behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag,
         sisteSykdomsdag: selectors.sisteSykdomsdag(behandling)
     };
 
@@ -24,16 +23,15 @@ const inngangsvilkår = behandling => {
     };
 
     const opptjening = {
-        førsteSykdomsdag:
-            behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag,
+        førsteSykdomsdag: behandling.avklarteVerdier.opptjeningstid.grunnlag.førsteSykdomsdag,
         antallDager: behandling.avklarteVerdier.opptjeningstid.fastsattVerdi,
         // kun 1 arbeidsforhold i MVP
         startdato:
-            behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .grunnlag?.[0].startdato,
+            behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold.grunnlag?.[0]
+                .startdato,
         sluttdato:
-            behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold
-                .grunnlag?.[0].sluttdato
+            behandling.avklarteVerdier.opptjeningstid.grunnlag.arbeidsforhold.grunnlag?.[0]
+                .sluttdato
     };
 
     const merEnn05G = selectors.sykepengegrunnlag(behandling);
@@ -52,23 +50,16 @@ const inngangsvilkår = behandling => {
         innen3Mnd: isWithin3Months(sisteSykdomsdag, sendtNav)
     };
 
-    const førsteSykepengedag =
-        behandling.avklarteVerdier.maksdato.grunnlag.førsteSykepengedag;
+    const førsteSykepengedag = behandling.avklarteVerdier.maksdato.grunnlag.førsteSykepengedag;
     const tidligerePerioder = behandling.avklarteVerdier.maksdato.grunnlag.tidligerePerioder.sort(
         (a, b) => b['tom'].localeCompare(a['tom'])
     );
     const alder = behandling.avklarteVerdier.maksdato.grunnlag.personensAlder;
-    const yrkesstatus =
-        behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus;
+    const yrkesstatus = behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus;
     const maxDato = behandling.avklarteVerdier.maksdato.fastsattVerdi;
     const dagerIgjen = {
-        førsteFraværsdag:
-            behandling.avklarteVerdier.maksdato.grunnlag.førsteFraværsdag,
-        dagerBrukt: selectors.sykepengedager(
-            behandling,
-            førsteSykepengedag,
-            maxDato
-        ),
+        førsteFraværsdag: behandling.avklarteVerdier.maksdato.grunnlag.førsteFraværsdag,
+        dagerBrukt: selectors.sykepengedager(behandling, førsteSykepengedag, maxDato),
         maxDato,
         førsteSykepengedag,
         alder,
@@ -123,14 +114,10 @@ const sykepengeberegning = behandling => {
     const beregningsperioden = selectors.beregningsperioden(behandling);
     const sammenligningsperioden = selectors.sammenligningsperioden(behandling);
     const sammenligningsgrunnlag = selectors.sammenligningsgrunnlag(behandling);
-    const totaltIBeregningsperioden = selectors.totaltIBeregningsperioden(
-        behandling
-    );
+    const totaltIBeregningsperioden = selectors.totaltIBeregningsperioden(behandling);
     const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
     const avvik =
-        (Math.abs(sammenligningsgrunnlag - sykepengegrunnlag) /
-            sammenligningsgrunnlag) *
-        100;
+        (Math.abs(sammenligningsgrunnlag - sykepengegrunnlag) / sammenligningsgrunnlag) * 100;
 
     return {
         beregningsperioden,
@@ -193,8 +180,7 @@ const alle = behandling => ({
     sykepengeberegning: sykepengeberegning(behandling)
 });
 
-const capitalize = string =>
-    string[0].toUpperCase() + string.toLowerCase().substring(1);
+const capitalize = string => string[0].toUpperCase() + string.toLowerCase().substring(1);
 
 module.exports = {
     _sykdomsvilkår: sykdomsvilkår,

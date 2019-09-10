@@ -47,9 +47,7 @@ const validateOidcCallback = (req, azureClient, config) => {
                     );
                     resolve([accessToken, idToken]);
                 } else {
-                    reject(
-                        `'${username}' is not member of '${requiredGroup}', denying access`
-                    );
+                    reject(`'${username}' is not member of '${requiredGroup}', denying access`);
                 }
             })
             .catch(err => {
@@ -70,10 +68,7 @@ const claimsFrom = token => {
 
 const nameFrom = token => {
     try {
-        return (
-            JSON.parse(Buffer.from(token.split('.')[1], 'base64'))['name'] ||
-            'unknown user'
-        );
+        return JSON.parse(Buffer.from(token.split('.')[1], 'base64'))['name'] || 'unknown user';
     } catch (err) {
         console.log(`error while extracting name: ${err}`);
         return 'unknown user';

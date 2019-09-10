@@ -1,9 +1,4 @@
-const {
-    calendarDaysBetween,
-    newestTom,
-    toDate,
-    workdaysBetween
-} = require('../datecalc');
+const { calendarDaysBetween, newestTom, toDate, workdaysBetween } = require('../datecalc');
 
 const antallVirkedager = behandling =>
     behandling.vedtak.perioder.reduce(
@@ -12,10 +7,7 @@ const antallVirkedager = behandling =>
     );
 
 const antallUtbetalingsdager = behandling =>
-    behandling.beregning.dagsatser.reduce(
-        (acc, dag) => (dag.skalUtbetales ? acc + 1 : acc),
-        0
-    );
+    behandling.beregning.dagsatser.reduce((acc, dag) => (dag.skalUtbetales ? acc + 1 : acc), 0);
 const utbetalingsbeløp = behandling =>
     behandling.beregning.dagsatser.reduce(
         (acc, dagsats) => (dagsats.skalUtbetales ? acc + dagsats.sats : acc),
@@ -39,8 +31,7 @@ const antallKalenderdager = behandling => {
     return calendarDaysBetween(fom, tom);
 };
 
-const sisteSykdomsdag = behandling =>
-    newestTom(behandling.originalSøknad.soknadsperioder);
+const sisteSykdomsdag = behandling => newestTom(behandling.originalSøknad.soknadsperioder);
 
 const utbetalingsperioder = perioder => {
     const mappedPerioder = perioder
@@ -87,31 +78,24 @@ const totaltIBeregningsperioden = behandling => {
 };
 
 const sammenligningsgrunnlag = behandling =>
-    sammenligningsperioden(behandling).reduce(
-        (acc, curr) => acc + curr.beløp,
-        0
-    );
+    sammenligningsperioden(behandling).reduce((acc, curr) => acc + curr.beløp, 0);
 
-const dagsats = (behandling, periode = 0) =>
-    behandling.vedtak.perioder[periode].dagsats;
+const dagsats = (behandling, periode = 0) => behandling.vedtak.perioder[periode].dagsats;
 
 const sykmeldingsgrad = (behandling, periode = 0) =>
     behandling.originalSøknad.soknadsperioder[periode].sykmeldingsgrad;
 
-const refusjonTilArbeidsgiver = behandling =>
-    behandling.originalSøknad.arbeidsgiverForskutterer;
+const refusjonTilArbeidsgiver = behandling => behandling.originalSøknad.arbeidsgiverForskutterer;
 
 const sykepengedager = (behandling, førsteSykepengedag, maksDato) => {
     const antallDagerIgjen = workdaysBetween(førsteSykepengedag, maksDato);
-    const antallDagerBrukt =
-        maxAntallSykepengedager(behandling) - antallDagerIgjen;
+    const antallDagerBrukt = maxAntallSykepengedager(behandling) - antallDagerIgjen;
     return { antallDagerIgjen, antallDagerBrukt };
 };
 
 const maxAntallSykepengedager = behandling => {
     const alder = behandling.avklarteVerdier.maksdato.grunnlag.personensAlder;
-    const yrkesstatus =
-        behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus;
+    const yrkesstatus = behandling.avklarteVerdier.maksdato.grunnlag.yrkesstatus;
     if (alder >= 67 && alder <= 70) return 60;
     else if (yrkesstatus === 'IKKE_I_ARBEID') return 250;
     else return 248;

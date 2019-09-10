@@ -12,9 +12,7 @@ const Kommentarer = () => {
 
     return (
         <>
-            <Normaltekst className="Innrapportering__feedback">
-                Andre kommentarer
-            </Normaltekst>
+            <Normaltekst className="Innrapportering__feedback">Andre kommentarer</Normaltekst>
             <DynamicTextarea
                 className="skjemaelement__input skjemaelement"
                 name="tilbakemelding"

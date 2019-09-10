@@ -7,19 +7,11 @@ import './ListRow.less';
 const ListRow = ({ label, labelProp, items, bold }) => {
     return (
         <>
-            <IconRow
-                label={label}
-                labelProp={labelProp}
-                bold={bold}
-                items={items}
-            />
+            <IconRow label={label} labelProp={labelProp} bold={bold} items={items} />
             {items && (
                 <div className="ListRow">
                     {items.map((item, i) => (
-                        <span
-                            key={`ListRow__item-${label}-${i}`}
-                            className="ListItem"
-                        >
+                        <span key={`ListRow__item-${label}-${i}`} className="ListItem">
                             <span className="ListItem__left">
                                 <Normaltekst>{item.label}</Normaltekst>
                                 <Normaltekst className={bold ? 'bold' : ''}>

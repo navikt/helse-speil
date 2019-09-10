@@ -43,11 +43,7 @@ const Oppsummering = withBehandlingContext(({ behandling }) => {
                 />
                 <ListeItem
                     label={oppsummeringstekster('betaler')}
-                    value={
-                        behandling.oppsummering.betalerArbeidsgiverperiode
-                            ? 'Nei'
-                            : 'Ja'
-                    }
+                    value={behandling.oppsummering.betalerArbeidsgiverperiode ? 'Nei' : 'Ja'}
                 />
                 <ListeItem
                     label={oppsummeringstekster('fordeling')}
@@ -56,15 +52,11 @@ const Oppsummering = withBehandlingContext(({ behandling }) => {
                 <ListeSeparator type="dotted" />
                 <ListeItem
                     label={oppsummeringstekster('sykepengegrunnlag')}
-                    value={`${toKroner(
-                        behandling.oppsummering.sykepengegrunnlag
-                    )} kr`}
+                    value={`${toKroner(behandling.oppsummering.sykepengegrunnlag)} kr`}
                 />
                 <ListeItem
                     label={oppsummeringstekster('månedsbeløp')}
-                    value={`${toKroner(
-                        behandling.oppsummering.månedsbeløp
-                    )} kr`}
+                    value={`${toKroner(behandling.oppsummering.månedsbeløp)} kr`}
                     bold
                 />
                 <ListeItem

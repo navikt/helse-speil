@@ -50,10 +50,7 @@ const hentAccessToken = async () => {
 };
 
 const tokenNeedsRefresh = () => {
-    return (
-        !cachedAccessToken ||
-        authSupport.willExpireInLessThan(30, cachedAccessToken)
-    );
+    return !cachedAccessToken || authSupport.willExpireInLessThan(30, cachedAccessToken);
 };
 
 module.exports = {

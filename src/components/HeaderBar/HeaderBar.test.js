@@ -35,7 +35,5 @@ test('name of logged in user is retrieved from cookie', async () => {
 const createJWT = name => {
     const header = { alg: 'HS256', typ: 'JWT' };
     const payload = { sub: '1234567890', name: name, iat: 1516239022 };
-    return `${btoa(JSON.stringify(header))}.${btoa(
-        JSON.stringify(payload)
-    )}.signaturehere`;
+    return `${btoa(JSON.stringify(header))}.${btoa(JSON.stringify(payload))}.signaturehere`;
 };

@@ -15,11 +15,7 @@ export const AuthProvider = ({ children }) => {
     const [authInfo, setAuthInfo] = useState({});
 
     useEffect(() => {
-        const [name, ident, email] = extractValues([
-            Keys.NAME,
-            Keys.IDENT,
-            Keys.EMAIL
-        ]);
+        const [name, ident, email] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL]);
         if (name && name !== authInfo.name) {
             setAuthInfo({
                 name,

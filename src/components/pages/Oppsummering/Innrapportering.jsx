@@ -41,19 +41,12 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
     return (
         <Panel className="Innrapportering" border>
             <Undertittel>{oppsummeringstekster('innrapportert')}</Undertittel>
-            <Normaltekst className="Innrapportering__category">
-                Uenigheter
-            </Normaltekst>
+            <Normaltekst className="Innrapportering__category">Uenigheter</Normaltekst>
             {innrapportering.uenigheter.length === 0 && (
-                <Normaltekst>
-                    {oppsummeringstekster('ingen_uenigheter')}
-                </Normaltekst>
+                <Normaltekst>{oppsummeringstekster('ingen_uenigheter')}</Normaltekst>
             )}
             {innrapportering.uenigheter.map((uenighet, i) => (
-                <Normaltekst
-                    key={`uenighet-${i}`}
-                    className="Innrapportering__uenighet"
-                >
+                <Normaltekst key={`uenighet-${i}`} className="Innrapportering__uenighet">
                     <span>{uenighet.label}:</span>
                     <span>{uenighet.value}</span>
                     {!uenighet.value && (
@@ -79,9 +72,8 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                     {error.statusCode === 401 ? (
                         <>
                             <span>
-                                Du må logge inn på nytt for å kunne sende
-                                rapport. Du vil sendes tilbake til forsiden
-                                etter innlogging og beholder arbeidet du har
+                                Du må logge inn på nytt for å kunne sende rapport. Du vil sendes
+                                tilbake til forsiden etter innlogging og beholder arbeidet du har
                                 gjort.
                             </span>
                             <a href="/"> Logg inn</a>

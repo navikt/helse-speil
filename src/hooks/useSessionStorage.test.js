@@ -8,14 +8,8 @@ const Container = () => {
     return (
         <>
             <div data-testid="stateValue">{state}</div>
-            <button
-                data-testid="increment"
-                onClick={() => setState(state + 1)}
-            />
-            <button
-                data-testid="decrement"
-                onClick={() => setState(state - 1)}
-            />
+            <button data-testid="increment" onClick={() => setState(state + 1)} />
+            <button data-testid="decrement" onClick={() => setState(state - 1)} />
         </>
     );
 };

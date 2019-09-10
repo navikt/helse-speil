@@ -20,12 +20,10 @@ const Tilbakemeldinger = () => {
 
     return (
         <Panel border>
-            <Undertittel className="panel-tittel">
-                Laste ned tilbakemeldinger
-            </Undertittel>
+            <Undertittel className="panel-tittel">Laste ned tilbakemeldinger</Undertittel>
             <Normaltekst>
-                Bruk dato for å begrense hvilke tilbameldinger du vil hente. Du
-                kan bruke norsk datoformat eller datadatoformat. Eksempler:
+                Bruk dato for å begrense hvilke tilbameldinger du vil hente. Du kan bruke norsk
+                datoformat eller datadatoformat. Eksempler:
             </Normaltekst>
             <ul className="dato-eksempler typo-normal">
                 <li>2019-09-02</li>

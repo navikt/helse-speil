@@ -38,15 +38,11 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
                 </div>
             )}
             <div className="behandling-hovedinfo">
-                <Undertekst className="arbeidsgivernavn">
-                    {arbeidsgiver.navn}
-                </Undertekst>
+                <Undertekst className="arbeidsgivernavn">{arbeidsgiver.navn}</Undertekst>
                 <Element className="sykdomsperiode">
                     {toDate(fom)} - {toDate(tom)}
                 </Element>
-                <Element className="sykmeldingsgrad">
-                    Førstegangsb. / {sykmeldingsgrad}%
-                </Element>
+                <Element className="sykmeldingsgrad">Førstegangsb. / {sykmeldingsgrad}%</Element>
             </div>
         </>
     );

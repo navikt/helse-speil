@@ -21,10 +21,7 @@ const setup = app => {
             "default-src 'self' data:; style-src 'self' data: 'unsafe-inline'; connect-src 'self'"
         );
 
-        res.header(
-            'Feature-Policy',
-            "geolocation 'none'; microphone 'none'; camera 'none'"
-        );
+        res.header('Feature-Policy', "geolocation 'none'; microphone 'none'; camera 'none'");
         if (process.env.NODE_ENV === 'development') {
             res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
             res.header(
