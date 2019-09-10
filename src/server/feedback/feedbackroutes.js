@@ -62,7 +62,10 @@ const routes = app => {
         log(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
         if (isInvalid(req)) {
             log(`Rejecting feedback due to validation error`);
-            res.sendStatus(400);
+            res.send({
+                message: 'Lagring av tilbakemeldinger feilet pga. valideringsfeil',
+                statusCode: 400
+            });
         } else {
             storage
                 .save(req.body.id, req.body.txt, 'text/plain')
@@ -70,8 +73,11 @@ const routes = app => {
                     res.sendStatus(204);
                 })
                 .catch(err => {
-                    console.log(`Error while saving feedback: ${err}`);
-                    res.sendStatus(500);
+                    console.log(`Error while saving feedback: ${err.message}`);
+                    res.send({
+                        message: `Lagring av tilbakemeldinger feilet: ${err.message}`,
+                        statusCode: err.statusCode || 500
+                    });
                 });
         }
     });
