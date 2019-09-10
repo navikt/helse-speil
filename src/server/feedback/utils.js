@@ -23,7 +23,6 @@ const parseDate = dateString => {
         return date;
     } else {
         console.warn('not a parseable date: ' + dateString);
-        return;
     }
 };
 
