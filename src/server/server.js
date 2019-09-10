@@ -97,16 +97,13 @@ app.post('/callback', (req, res) => {
 
 // Protected routes
 app.use('/*', (req, res, next) => {
-    if (
-        process.env.NODE_ENV === 'development' ||
-        authsupport.isValidNow(req.session.spadeToken)
-    ) {
+    if (process.env.NODE_ENV === 'development' || authsupport.isValidNow(req.session.spadeToken)) {
         next();
     } else {
         log(
-            `no valid session found for ${ipAddressFromRequest(
-                req
-            )}, username ${nameFrom(req.session.spadeToken)}`
+            `no valid session found for ${ipAddressFromRequest(req)}, username ${nameFrom(
+                req.session.spadeToken
+            )}`
         );
         if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
             res.redirect('/login');

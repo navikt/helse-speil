@@ -5,9 +5,7 @@ import { capitalize, toKroner } from '../utils/locale';
 const medlemskap = medlemskap => [
     item(
         'Statsborgerskap',
-        medlemskap.statsborgerskap === 'NOR'
-            ? 'Norsk'
-            : medlemskap.statsborgerskap
+        medlemskap.statsborgerskap === 'NOR' ? 'Norsk' : medlemskap.statsborgerskap
     ),
     item('Bosatt i Norge', medlemskap.bosattINorge ? 'Ja' : 'Nei'),
     item('Diskresjonskode', medlemskap.diskresjonskode || 'Ingen')
@@ -16,10 +14,7 @@ const medlemskap = medlemskap => [
 const opptjening = opptjening => [
     item('Første sykdomsdag', toDate(opptjening.førsteSykdomsdag)),
     item('Startdato', toDate(opptjening.startdato)),
-    item(
-        'Sluttdato',
-        opptjening.sluttdato ? toDate(opptjening.sluttdato) : '-'
-    ),
+    item('Sluttdato', opptjening.sluttdato ? toDate(opptjening.sluttdato) : '-'),
     item('Antall dager (>28)', `${opptjening.antallDager}`)
 ];
 

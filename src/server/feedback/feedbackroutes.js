@@ -26,10 +26,7 @@ const routes = app => {
         storage
             .load(behandlingsId)
             .then(loadResult => {
-                res.setHeader(
-                    'Content-Type',
-                    loadResult.ContentType || 'application/octet-stream'
-                );
+                res.setHeader('Content-Type', loadResult.ContentType || 'application/octet-stream');
                 res.send(loadResult.Body.toString());
             })
             .catch(err => {
@@ -58,14 +55,10 @@ const routes = app => {
         if (fomFromQuery !== undefined) {
             try {
                 fom = convertToMoment(fomFromQuery);
-                log(
-                    `Parsed feedback search params '${fomFromQuery}' to ${fom}.`
-                );
+                log(`Parsed feedback search params '${fomFromQuery}' to ${fom}.`);
             } catch (e) {
                 console.warn(e.message);
-                res.send(
-                    `Det lot seg ikke gjøre å tolke '${fomFromQuery}' som en dato`
-                );
+                res.send(`Det lot seg ikke gjøre å tolke '${fomFromQuery}' som en dato`);
                 return;
             }
         }
@@ -76,8 +69,7 @@ const routes = app => {
             return;
         });
 
-        const response =
-            fom !== undefined ? excludeOlderFeedback(fom, feedback) : feedback;
+        const response = fom !== undefined ? excludeOlderFeedback(fom, feedback) : feedback;
         log(
             `Will return ${response.length} feedbacks to client, out of ${feedback.length} fetched from storage`
         );

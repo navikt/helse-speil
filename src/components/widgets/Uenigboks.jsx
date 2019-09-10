@@ -17,9 +17,7 @@ const Uenigboks = ({ label, itemsForFeedback }) => {
 
     const showValidationError = checked && !inputValue;
     const ref = useFocusRef(showValidationError);
-    const [error, setError] = useState(
-        showValidationError ? errorMessage : undefined
-    );
+    const [error, setError] = useState(showValidationError ? errorMessage : undefined);
 
     useEffect(() => {
         setInputValue(uenighet.value || '');
@@ -51,11 +49,7 @@ const Uenigboks = ({ label, itemsForFeedback }) => {
 
     return (
         <div className="Uenigboks">
-            <Checkbox
-                label="Uenig"
-                checked={checked}
-                onChange={onCheckboxChange}
-            />
+            <Checkbox label="Uenig" checked={checked} onChange={onCheckboxChange} />
             <DynamicTextarea
                 name="Årsak"
                 className="Uenigboks__input skjemaelement skjemaelement__input"

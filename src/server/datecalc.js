@@ -49,12 +49,8 @@ const first26WeeksInterval = (periods, firstDay) => {
         const firstDayPreviousPeriod = i === 0 ? firstDay : periods[i - 1].fom;
         const lastDayCurrentPeriod = period.tom;
         return (
-            Math.abs(
-                moment(firstDayPreviousPeriod).diff(
-                    moment(lastDayCurrentPeriod),
-                    'weeks'
-                )
-            ) >= 26
+            Math.abs(moment(firstDayPreviousPeriod).diff(moment(lastDayCurrentPeriod), 'weeks')) >=
+            26
         );
     });
 };

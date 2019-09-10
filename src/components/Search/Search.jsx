@@ -57,9 +57,7 @@ const Search = ({ history }) => {
             if (data?.behandlinger?.length > 0) {
                 innrapportering.setUenigheter([]);
                 innrapportering.setHasSendt(false);
-                await innrapportering.fetchFeedback(
-                    data.behandlinger[0].behandlingsId
-                );
+                await innrapportering.fetchFeedback(data.behandlinger[0].behandlingsId);
             }
 
             goBackToStart(data);
@@ -68,12 +66,7 @@ const Search = ({ history }) => {
 
     return (
         <div className="Search">
-            <input
-                ref={ref}
-                type="text"
-                placeholder="FNR eller aktør"
-                onKeyPress={keyTyped}
-            />
+            <input ref={ref} type="text" placeholder="FNR eller aktør" onKeyPress={keyTyped} />
             <button onClick={() => search(ref.current.value)}>
                 <SearchIcon />
             </button>

@@ -20,19 +20,11 @@ const MainContentWrapper = withBehandlingContext(({ behandling }) => {
                 <div className="main-content">
                     <Personinfo />
                     <Route path={'/'} exact component={Sykdomsvilkår} />
-                    <Route
-                        path={'/inngangsvilkår'}
-                        exact
-                        component={Inngangsvilkår}
-                    />
+                    <Route path={'/inngangsvilkår'} exact component={Inngangsvilkår} />
                     <Route path={'/beregning'} exact component={Beregning} />
                     <Route path={'/periode'} exact component={Periode} />
                     <Route path={'/utbetaling'} exact component={Utbetaling} />
-                    <Route
-                        path={'/oppsummering'}
-                        exact
-                        component={Oppsummering}
-                    />
+                    <Route path={'/oppsummering'} exact component={Oppsummering} />
                 </div>
             ) : (
                 <EmptyStateView />

@@ -25,9 +25,7 @@ const IconRow = ({ label, labelProp, value, bold, items }) => {
                     {labelProp && labelProp}
                 </Normaltekst>
                 <span className="divider" />
-                {value && (
-                    <Normaltekst className={className}>{value}</Normaltekst>
-                )}
+                {value && <Normaltekst className={className}>{value}</Normaltekst>}
             </span>
             <span className="IconRow__right">
                 <Uenigboks label={label} itemsForFeedback={itemsForFeedback} />

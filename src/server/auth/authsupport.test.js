@@ -73,7 +73,5 @@ test('name extraction from jwt, malformed token', () => {
 
 const createToken = claims => {
     const header = { alg: 'HS256', typ: 'JWT' };
-    return `${btoa(JSON.stringify(header))}.${btoa(
-        JSON.stringify(claims)
-    )}.bogussignature`;
+    return `${btoa(JSON.stringify(header))}.${btoa(JSON.stringify(claims))}.bogussignature`;
 };

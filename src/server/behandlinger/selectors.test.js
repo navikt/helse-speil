@@ -40,11 +40,9 @@ test('utbetalingsbeløp beregnes ved å summere alle dagbeløp som skal utbetale
 
 test('Antall brukte og gjenstående sykepengedager beregnes fra alder, yrkesstatus og maksdato', () => {
     expect(
-        selectors.sykepengedager(testData, testFørsteSykdomsdag, testMaksdato)
-            .antallDagerIgjen
+        selectors.sykepengedager(testData, testFørsteSykdomsdag, testMaksdato).antallDagerIgjen
     ).toEqual(166);
     expect(
-        selectors.sykepengedager(testData, testFørsteSykdomsdag, testMaksdato)
-            .antallDagerBrukt
+        selectors.sykepengedager(testData, testFørsteSykdomsdag, testMaksdato).antallDagerBrukt
     ).toEqual(82);
 });
