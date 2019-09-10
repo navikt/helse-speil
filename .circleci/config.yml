@@ -20,6 +20,8 @@ jobs:
       steps:
          - attach_workspace:
               at: ~/speil
+         - setup_remote_docker:
+              docker_layer_caching: true
          - run: ls -l
          - run:
               name: update-npm
