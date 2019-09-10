@@ -35,7 +35,7 @@ const setup = app => {
                     .send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)))
             )
             .catch(err => {
-                console.error(err);
+                console.error(err.error);
                 res.sendStatus(500);
             });
     });
