@@ -62,6 +62,10 @@ jobs:
                  else
                      echo "No need to create Docker images for pull requests"
                  fi
+         - persist_to_workspace:
+              root: ~/speil
+              paths:
+                 - shared_env
 
    deploy-to-preprod:
       executor: my-executor
