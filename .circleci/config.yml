@@ -107,7 +107,7 @@ jobs:
               command: |
                  set -e
                  docker create -v /nais --name yamlprod alpine:3.4 /bin/true
-                 docker cp deploy/preprod.yaml yamlprod:/nais
+                 docker cp deploy/prod.yaml yamlprod:/nais
                  docker cp deploy/redis.yaml yamlprod:/nais
 
                  SPEIL=$(docker run --volumes-from yamlprod mikefarah/yq yq r /nais/prod.yaml -j)
