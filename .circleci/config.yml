@@ -1,16 +1,30 @@
-version: 2
-jobs:
-   build:
-      working_directory: ~/speil
+version: 2.1
+
+executors:
+   my-executor:
       docker:
-         - image: circleci/node:12.2.0-stretch
+         - image: circleci/node:12.9.1-stretch
+      working_directory: ~/speil
+
+jobs:
+   checkout:
+      executor: my-executor
       steps:
          - checkout
+         - persist_to_workspace:
+              root: ~/speil
+              paths:
+                 - '*'
+   build-speil:
+      executor: my-executor
+      steps:
+         - attach_workspace:
+              at: ~/speil
          - setup_remote_docker:
               docker_layer_caching: true
          - run:
               name: update-npm
-              command: 'sudo npm install -g npm@latest'
+              command: "sudo npm install -g npm@latest"
          - restore_cache:
               key: dependency-cache-{{ checksum "package.json" }}
          - run:
@@ -30,60 +44,123 @@ jobs:
               command: |
                  set -e
                  npm run build-server
+         - run: mkdir workspace
          - run:
               name: assemble and push docker image
               command: |
                  set -e
-                 if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
-                   export DOCKER_IMG_NAME="docker.pkg.github.com/navikt/helse-speil/speil"
-                   export COMMIT_SHORT="$(git rev-parse --short HEAD)"
-                   echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> $BASH_ENV
-                   echo "export COMMIT_SHORT=$COMMIT_SHORT" >> $BASH_ENV
+                 if [ -z "$CIRCLE_PULL_REQUEST" ]; then
+                     export DOCKER_IMG_NAME="docker.pkg.github.com/navikt/helse-speil/speil"
+                     export COMMIT_SHORT="$(git rev-parse --short HEAD)"
+                     echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> shared_env
+                     echo "export COMMIT_SHORT=$COMMIT_SHORT" >> shared_env
 
-                   docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
+                     docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 
-                   echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin https://docker.pkg.github.com
-                   docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
+                     echo $GITHUB_PASSWORD | docker login -u "$GITHUB_USERNAME" --password-stdin https://docker.pkg.github.com
+                     docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
                  else
-                    echo "Not on master, skipping this step"
+                     echo "No need to create Docker images for pull requests"
                  fi
+         - persist_to_workspace:
+              root: ~/speil
+              paths:
+                 - shared_env
+
+   deploy-to-preprod:
+      executor: my-executor
+      steps:
+         - setup_remote_docker:
+              docker_layer_caching: true
+         - attach_workspace:
+              at: ~/speil
          - run:
-              name: deploy to preprod
+              name: restore shared env from build job
+              command: cat shared_env >> $BASH_ENV
+         - run:
+              name: deploy speil and redis to preprod
               command: |
                  set -e
-                 if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
-                    docker create -v /nais --name naisyamlpreprod alpine:3.4 /bin/true
-                    docker cp deploy/preprod.yaml naisyamlpreprod:/nais
-                    PREPROD_NAISERATOR=$(docker run --volumes-from naisyamlpreprod mikefarah/yq yq r /nais/preprod.yaml -j)
-                    PREPROD_NAISERATOR=$(echo $PREPROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
-                    PREPROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PREPROD_NAISERATOR']')
-                    PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.environment = "dev-fss"')
-                    PREPROD_DEPLOYMENT=$(echo $PREPROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
-                    curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
-                        -X POST \
-                        -d "$PREPROD_DEPLOYMENT" \
-                        -H "Accept: application/vnd.github.ant-man-preview+json" \
-                        https://api.github.com/repos/navikt/helse-speil/deployments
-                 else
-                    echo "Not on master, skipping this step"
-                 fi
+                 docker create -v /nais --name yamlpreprod alpine:3.4 /bin/true
+                 docker cp deploy/preprod.yaml yamlpreprod:/nais
+                 docker cp deploy/redis.yaml yamlpreprod:/nais
+
+                 SPEIL=$(docker run --volumes-from yamlpreprod mikefarah/yq yq r /nais/preprod.yaml -j)
+                 SPEIL=$(echo $SPEIL | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
+
+                 REDIS=$(docker run --volumes-from yamlpreprod mikefarah/yq yq r /nais/redis.yaml -j)
+
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$SPEIL', '$REDIS']')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "dev-fss"')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
+                 echo $DEPLOYMENT
+                 curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
+                    -X POST \
+                    -d "$DEPLOYMENT" \
+                    -H "Accept: application/vnd.github.ant-man-preview+json" \
+                    https://api.github.com/repos/navikt/helse-speil/deployments
+
+   deploy-to-prod:
+      executor: my-executor
+      steps:
+         - setup_remote_docker:
+              docker_layer_caching: true
+         - attach_workspace:
+              at: ~/speil
          - run:
-              name: deploy to prod
+              name: restore shared env from build job
+              command: cat shared_env >> $BASH_ENV
+         - run:
+              name: deploy speil and redis to prod
               command: |
                  set -e
-                 if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
-                    docker create -v /nais --name naisyamlprod alpine:3.4 /bin/true
-                    docker cp deploy/prod.yaml naisyamlprod:/nais
-                    PROD_NAISERATOR=$(docker run --volumes-from naisyamlprod mikefarah/yq yq r /nais/prod.yaml -j)
-                    PROD_NAISERATOR=$(echo $PROD_NAISERATOR | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
-                    PROD_DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$PROD_NAISERATOR']')
-                    PROD_DEPLOYMENT=$(echo $PROD_DEPLOYMENT | jq '.environment = "prod-fss"')
-                    PROD_DEPLOYMENT=$(echo $PROD_DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
-                    curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
-                        -X POST \
-                        -d "$PROD_DEPLOYMENT" \
-                        -H "Accept: application/vnd.github.ant-man-preview+json" \
-                        https://api.github.com/repos/navikt/helse-speil/deployments
-                 else
-                    echo "Not on master, skipping this step"
-                 fi
+                 docker create -v /nais --name yamlprod alpine:3.4 /bin/true
+                 docker cp deploy/prod.yaml yamlprod:/nais
+                 docker cp deploy/redis.yaml yamlprod:/nais
+
+                 SPEIL=$(docker run --volumes-from yamlprod mikefarah/yq yq r /nais/prod.yaml -j)
+                 SPEIL=$(echo $SPEIL | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
+
+                 REDIS=$(docker run --volumes-from yamlprod mikefarah/yq yq r /nais/redis.yaml -j)
+
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$SPEIL', '$REDIS']')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "prod-fss"')
+                 DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
+                 echo $DEPLOYMENT
+                 curl -u "$GITHUB_USERNAME:$GITHUB_PASSWORD" --fail \
+                    -X POST \
+                    -d "$DEPLOYMENT" \
+                    -H "Accept: application/vnd.github.ant-man-preview+json" \
+                    https://api.github.com/repos/navikt/helse-speil/deployments
+
+workflows:
+   master:
+      jobs:
+         - checkout
+         - build-speil:
+              requires:
+                 - checkout
+              filters:
+                 branches:
+                    only: master
+         - deploy-to-preprod:
+              requires:
+                 - build-speil
+              filters:
+                 branches:
+                    only: master
+         - deploy-to-prod:
+              requires:
+                 - build-speil
+              filters:
+                 branches:
+                    only: master
+   not_master:
+      jobs:
+         - checkout
+         - build-speil:
+              requires:
+                 - checkout
+              filters:
+                 branches:
+                    ignore: master

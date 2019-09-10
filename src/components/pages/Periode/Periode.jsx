@@ -7,17 +7,21 @@ import { Panel } from 'nav-frontend-paneler';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { periodetekster, tekster } from '../../../tekster';
+import { toDate } from '../../../utils/date';
+import FormRowWithListValues from '../../widgets/rows/FormRowWithListValues';
 
 const Periode = withBehandlingContext(({ behandling }) => {
     const {
         antallKalenderdager,
         arbeidsgiverperiodeKalenderdager,
         antallVirkedager,
-        antallFeriedager,
+        ferieperioder,
         antallUtbetalingsdager,
         sykmeldingsgrad
     } = behandling.periode;
-
+    const ferieperioderAsString = ferieperioder.map(
+        periode => `${toDate(periode.fom)} - ${toDate(periode.tom)}`
+    );
     return (
         <Panel className="Periode" border>
             <Undertittel className="panel-tittel">{periodetekster('tittel')}</Undertittel>
@@ -27,7 +31,7 @@ const Periode = withBehandlingContext(({ behandling }) => {
                 value={arbeidsgiverperiodeKalenderdager}
             />
             <FormRow label={periodetekster('virkedager')} value={antallVirkedager} />
-            <FormRow label={periodetekster('ferie')} value={antallFeriedager} />
+            <FormRowWithListValues label={periodetekster('ferie')} items={ferieperioderAsString} />
             <FormRow
                 label={periodetekster('antall_utbetalingsdager')}
                 value={antallUtbetalingsdager}

@@ -30,3 +30,9 @@ exports.nav = {
     serviceUserPassword: process.env.SERVICE_USER_PASSWORD,
     stsUrl: process.env.STS_URL || 'http://security-token-service.svc.nais.local'
 };
+
+exports.redis = {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD
+};

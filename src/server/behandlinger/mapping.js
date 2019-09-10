@@ -116,8 +116,9 @@ const sykepengeberegning = behandling => {
     const sammenligningsgrunnlag = selectors.sammenligningsgrunnlag(behandling);
     const totaltIBeregningsperioden = selectors.totaltIBeregningsperioden(behandling);
     const sykepengegrunnlag = selectors.sykepengegrunnlag(behandling);
-    const avvik =
-        (Math.abs(sammenligningsgrunnlag - sykepengegrunnlag) / sammenligningsgrunnlag) * 100;
+    const avvik = Math.round(
+        (Math.abs(sammenligningsgrunnlag - sykepengegrunnlag) / sammenligningsgrunnlag) * 100
+    );
 
     return {
         beregningsperioden,
@@ -159,7 +160,7 @@ const periode = behandling => ({
     antallKalenderdager: selectors.antallKalenderdager(behandling),
     arbeidsgiverperiodeKalenderdager: 16,
     antallVirkedager: selectors.antallVirkedager(behandling),
-    antallFeriedager: selectors.antallFeriedager(behandling),
+    ferieperioder: selectors.ferieperioder(behandling),
     antallUtbetalingsdager: selectors.antallUtbetalingsdager(behandling),
     sykmeldingsgrad: selectors.sykmeldingsgrad(behandling)
 });
