@@ -52,8 +52,8 @@ jobs:
                  if [ -z "$CIRCLE_PULL_REQUEST" ]; then
                      export DOCKER_IMG_NAME="docker.pkg.github.com/navikt/helse-speil/speil"
                      export COMMIT_SHORT="$(git rev-parse --short HEAD)"
-                     echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> $BASH_ENV
-                     echo "export COMMIT_SHORT=$COMMIT_SHORT" >> $BASH_ENV
+                     echo "export DOCKER_IMG_NAME=$DOCKER_IMG_NAME" >> shared_env
+                     echo "export COMMIT_SHORT=$COMMIT_SHORT" >> shared_env
 
                      docker build . -t $DOCKER_IMG_NAME:$COMMIT_SHORT
 
@@ -70,6 +70,9 @@ jobs:
               docker_layer_caching: true
          - attach_workspace:
               at: ~/speil
+         - run:
+              name: restore shared env from build job
+              command: cat shared_env >> $BASH_ENV
          - run:
               name: deploy speil and redis to preprod
               command: |
@@ -100,6 +103,9 @@ jobs:
               docker_layer_caching: true
          - attach_workspace:
               at: ~/speil
+         - run:
+              name: restore shared env from build job
+              command: cat shared_env >> $BASH_ENV
          - run:
               name: deploy speil and redis to prod
               command: |
