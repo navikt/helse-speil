@@ -10,6 +10,7 @@ const { generators } = require('openid-client');
 
 const azure = require('./auth/azure');
 const authsupport = require('./auth/authsupport');
+const stsclient = require('./auth/stsclient');
 const { sessionStore } = require('./sessionstore');
 
 const metrics = require('./metrics');
@@ -46,6 +47,8 @@ azure
         log(`Failed to discover OIDC provider properties: ${err}`);
         process.exit(1);
     });
+
+stsclient.init(config.nav);
 
 // Unprotected routes
 app.get('/isAlive', (req, res) => res.send('alive'));
@@ -117,7 +120,7 @@ feedback
         );
     });
 
-person.setup(app, config.nav);
+person.setup(app, stsclient);
 
 app.get('/', (_, res) => {
     res.redirect('/static');
