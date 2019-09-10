@@ -10,7 +10,7 @@ exports.oidc = {
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
     clientSecret: process.env.CLIENT_SECRET || 'unknown',
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
-    scope: `profile openid email ${process.env.CLIENT_ID_SPADE}/user_impersonation`,
+    scope: `profile openid email ${process.env.CLIENT_ID_SPADE}/.default`,
     requiredGroup: process.env.REQUIRED_GROUP
 };
 
