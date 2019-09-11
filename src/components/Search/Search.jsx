@@ -58,7 +58,7 @@ const Search = ({ history }) => {
                 innrapportering.setUenigheter([]);
                 innrapportering.setHasSendt(false);
                 innrapportering.setKommentarer('');
-                innrapportering.setGodkjent(false);
+                innrapportering.setGodkjent(true);
                 await innrapportering.fetchFeedback(
                     data.behandlinger[0].behandlingsId
                 );

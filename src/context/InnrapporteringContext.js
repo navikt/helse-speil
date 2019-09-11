@@ -9,7 +9,7 @@ import moment from 'moment';
 export const InnrapporteringContext = createContext({
     uenigheter: [],
     kommentarer: '',
-    godkjent: false
+    godkjent: true
 });
 
 export const InnrapporteringProvider = withBehandlingContext(
@@ -30,7 +30,10 @@ export const InnrapporteringProvider = withBehandlingContext(
                     if (response.status === 200) {
                         setUenigheter(response.data.uenigheter ?? []);
                         setKommentarer(response.data.kommentarer);
-                        setGodkjent(response.data.godkjent ?? false);
+                        setGodkjent(
+                            response.data.godkjent ??
+                                !(response.data.uenigheter?.length > 0)
+                        );
                     }
                 })
                 .catch(err => {
@@ -40,13 +43,19 @@ export const InnrapporteringProvider = withBehandlingContext(
 
         const removeUenighet = id => {
             setHasSendt(false);
-            setUenigheter(uenigheter =>
-                uenigheter.filter(uenighet => uenighet.id !== id)
+            const filteredUenigheter = uenigheter.filter(
+                uenighet => uenighet.id !== id
             );
+            setUenigheter(filteredUenigheter);
+
+            if (filteredUenigheter.length === 0) {
+                setGodkjent(true);
+            }
         };
 
         const addUenighet = (id, label, items) => {
             setHasSendt(false);
+            setGodkjent(false);
             if (!uenigheter.find(uenighet => uenighet.id === id)) {
                 setUenigheter(uenigheter => [
                     ...uenigheter,

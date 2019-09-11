@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Icon from 'nav-frontend-ikoner-assets';
 import Kommentarer from './Kommentarer';
 import { InnrapporteringContext } from '../../../context/InnrapporteringContext';
@@ -16,6 +16,13 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
     const innrapportering = useContext(InnrapporteringContext);
     const [error, setError] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
+    const [validationError, setValidationError] = useState(false);
+
+    useEffect(() => {
+        if (innrapportering.kommentarer !== '' || innrapportering.godkjent) {
+            setValidationError(false);
+        }
+    }, [innrapportering.kommentarer === '', innrapportering.godkjent]);
 
     const sendRapporter = () => {
         setIsSending(true);
@@ -44,6 +51,19 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
         innrapportering.setGodkjent(e.target.checked);
     };
 
+    const validate = () => {
+        if (
+            innrapportering.uenigheter.length > 0 ||
+            innrapportering.kommentarer !== '' ||
+            innrapportering.godkjent
+        ) {
+            sendRapporter();
+        } else {
+            setValidationError(true);
+            setError(undefined);
+        }
+    };
+
     return (
         <Panel className="Innrapportering" border>
             <Undertittel>{oppsummeringstekster('innrapportert')}</Undertittel>
@@ -70,20 +90,38 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
                 </Normaltekst>
             ))}
             <Kommentarer />
-            <Checkbox
-                defaultChecked={innrapportering.godkjent}
-                onChange={onGodkjentChange}
-                label="Jeg er enig med maskinen"
-            />
+            <div
+                className={`checkbox${
+                    innrapportering.uenigheter.length > 0 ? ' disabled' : ''
+                }`}
+            >
+                <span className="checkbox__tooltip">
+                    Du er uenig med maskinen
+                </span>
+                <Checkbox
+                    defaultChecked={innrapportering.godkjent}
+                    onChange={onGodkjentChange}
+                    label="Jeg er enig med maskinen"
+                    disabled={innrapportering.uenigheter.length > 0}
+                />
+            </div>
             {innrapportering.hasSendt ? (
                 <Knapp className="sendt" disabled>
                     Rapport mottatt
                     <Icon kind="ok-sirkel-fyll" size={20} />
                 </Knapp>
             ) : (
-                <Knapp onClick={sendRapporter} spinner={isSending}>
-                    Send inn
-                </Knapp>
+                <>
+                    <Knapp onClick={validate} spinner={isSending}>
+                        Send inn
+                    </Knapp>
+                    {validationError && (
+                        <Normaltekst className="skjemaelement__feilmelding">
+                            Huk av for at du er enig med maskinen dersom du ikke
+                            har noen kommentarer.
+                        </Normaltekst>
+                    )}
+                </>
             )}
             {error && (
                 <Normaltekst className="skjemaelement__feilmelding">
