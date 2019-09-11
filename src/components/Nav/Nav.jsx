@@ -18,11 +18,7 @@ const Nav = ({ active }) => {
             <NavLink exact id="nav-link-sykdomsvilkår" to="/" onClick={onClick}>
                 <Normaltekst>Sykdomsvilkår</Normaltekst>
             </NavLink>
-            <NavLink
-                id="nav-link-inngangsvilkår"
-                to="/inngangsvilkår"
-                onClick={onClick}
-            >
+            <NavLink id="nav-link-inngangsvilkår" to="/inngangsvilkår" onClick={onClick}>
                 <Normaltekst>Inngangsvilkår</Normaltekst>
             </NavLink>
             <NavLink id="nav-link-beregning" to="/beregning" onClick={onClick}>
@@ -31,18 +27,10 @@ const Nav = ({ active }) => {
             <NavLink id="nav-link-periode" to="/periode" onClick={onClick}>
                 <Normaltekst>Sykepengeperiode</Normaltekst>
             </NavLink>
-            <NavLink
-                id="nav-link-utbetaling"
-                to="/utbetaling"
-                onClick={onClick}
-            >
+            <NavLink id="nav-link-utbetaling" to="/utbetaling" onClick={onClick}>
                 <Normaltekst>Utbetaling</Normaltekst>
             </NavLink>
-            <NavLink
-                id="nav-link-oppsummering"
-                to="/oppsummering"
-                onClick={onClick}
-            >
+            <NavLink id="nav-link-oppsummering" to="/oppsummering" onClick={onClick}>
                 <Normaltekst>Oppsummering</Normaltekst>
             </NavLink>
         </nav>

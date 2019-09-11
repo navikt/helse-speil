@@ -22,9 +22,7 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
 
     return (
         <Panel className="Utbetaling" border>
-            <Undertittel className="panel-tittel">
-                {utbetalingstekster('tittel')}
-            </Undertittel>
+            <Undertittel className="panel-tittel">{utbetalingstekster('tittel')}</Undertittel>
             <FormRow
                 label={utbetalingstekster('refusjon')}
                 value={tekster('informasjon ikke tilgjengelig')}

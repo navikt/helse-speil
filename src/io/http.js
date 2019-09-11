@@ -6,8 +6,7 @@ export const ResponseError = (message, statusCode) => ({
 });
 
 /* eslint-disable no-undef */
-const baseUrl =
-    process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
 /* eslint-enable */
 
 const getData = async response => {

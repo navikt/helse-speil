@@ -9,7 +9,6 @@ import { first26WeeksInterval, workdaysBetween } from '../../../server/datecalc'
 document && document.getElementById('#root') && Modal.setAppElement('#root');
 
 const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }) => {
-
     const første26UkersMellomromIndex = first26WeeksInterval(perioder, førsteFraværsdag);
 
     return (
@@ -20,10 +19,13 @@ const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }) => {
             onRequestClose={onClose}
         >
             <Undertittel>Tidligere perioder de siste 3 årene</Undertittel>
-            {perioder.length === 0 ? <Normaltekst>Ingen tidligere perioder.</Normaltekst> :
+            {perioder.length === 0 ? (
+                <Normaltekst>Ingen tidligere perioder.</Normaltekst>
+            ) : (
                 <>
-                    {første26UkersMellomromIndex === 0 &&
-                    <Normaltekst>Det er 26 uker eller mer siden forrige periode.</Normaltekst>}
+                    {første26UkersMellomromIndex === 0 && (
+                        <Normaltekst>Det er 26 uker eller mer siden forrige periode.</Normaltekst>
+                    )}
                     <div className="periodeliste">
                         <div className="periode">
                             <Element>Første dag</Element>
@@ -32,8 +34,12 @@ const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }) => {
                         </div>
                         {perioder.map((item, i) => (
                             <React.Fragment key={`${item.fom}-${item.tom}-${i}`}>
-                                {første26UkersMellomromIndex > 0 && i === første26UkersMellomromIndex &&
-                                <Element className="periode">Første 26-ukers mellomrom</Element>}
+                                {første26UkersMellomromIndex > 0 &&
+                                    i === første26UkersMellomromIndex && (
+                                        <Element className="periode">
+                                            Første 26-ukers mellomrom
+                                        </Element>
+                                    )}
                                 <div className="periode" key={JSON.stringify(item)}>
                                     <Normaltekst>{item.fom}</Normaltekst>
                                     <Normaltekst>{item.tom}</Normaltekst>
@@ -42,7 +48,8 @@ const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }) => {
                             </React.Fragment>
                         ))}
                     </div>
-                </>}
+                </>
+            )}
         </Modal>
     );
 };

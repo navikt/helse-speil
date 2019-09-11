@@ -7,12 +7,7 @@ import Liste from '../Liste';
 Modal.setAppElement('#root');
 
 const ListeModal = ({ isOpen, title, onClose, items }) => (
-    <Modal
-        className="ListeModal"
-        isOpen={isOpen}
-        contentLabel={title}
-        onRequestClose={onClose}
-    >
+    <Modal className="ListeModal" isOpen={isOpen} contentLabel={title} onRequestClose={onClose}>
         {items && <Liste items={items} title={title} />}
     </Modal>
 );

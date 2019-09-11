@@ -6,8 +6,7 @@ import './FormRowWithListValues.less';
 
 const FormRowWithListValues = ({ label, items, bold, showRightSide }) => {
     const className = bold ? 'bold' : '';
-    const itemsForFeedback =
-        items.length !== 0 ? [{ label, items: items.join(', ') }] : [];
+    const itemsForFeedback = items.length !== 0 ? [{ label, items: items.join(', ') }] : [];
     return (
         <span className="FormRowWithListValues">
             <span>

@@ -13,11 +13,7 @@ const HeaderBar = () => {
     return (
         <header className="topbar">
             <div className="title">
-                <ImageLink
-                    ariaLabel="Logo"
-                    imgSrc={navLogoSrc.toString()}
-                    href="/"
-                />
+                <ImageLink ariaLabel="Logo" imgSrc={navLogoSrc.toString()} href="/" />
                 <h1>Sykepenger</h1>
             </div>
 

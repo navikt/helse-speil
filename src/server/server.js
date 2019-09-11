@@ -3,7 +3,6 @@
 const config = require('./config');
 
 const express = require('express');
-const expressSession = require('express-session');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
@@ -11,10 +10,8 @@ const { generators } = require('openid-client');
 
 const azure = require('./auth/azure');
 const authsupport = require('./auth/authsupport');
-
-const redis = require('redis');
-const redisStore = require('connect-redis')(expressSession);
-const redisClient = redis.createClient({ password: config.redis.password });
+const stsclient = require('./auth/stsclient');
+const { sessionStore } = require('./sessionstore');
 
 const metrics = require('./metrics');
 const headers = require('./headers');
@@ -33,17 +30,8 @@ const port = config.server.port;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(
-    expressSession({
-        secret: config.server.sessionSecret,
-        ttl: 43200, // 12 hours
-        store: new redisStore({
-            host: config.redis.host,
-            port: config.redis.port,
-            client: redisClient
-        })
-    })
-);
+
+app.use(sessionStore(config));
 app.use(compression());
 
 headers.setup(app);
@@ -59,6 +47,8 @@ azure
         log(`Failed to discover OIDC provider properties: ${err}`);
         process.exit(1);
     });
+
+stsclient.init(config.nav);
 
 // Unprotected routes
 app.get('/isAlive', (req, res) => res.send('alive'));
@@ -97,16 +87,13 @@ app.post('/callback', (req, res) => {
 
 // Protected routes
 app.use('/*', (req, res, next) => {
-    if (
-        process.env.NODE_ENV === 'development' ||
-        authsupport.isValidNow(req.session.spadeToken)
-    ) {
+    if (process.env.NODE_ENV === 'development' || authsupport.isValidNow(req.session.spadeToken)) {
         next();
     } else {
         log(
-            `no valid session found for ${ipAddressFromRequest(
-                req
-            )}, username ${nameFrom(req.session.spadeToken)}`
+            `no valid session found for ${ipAddressFromRequest(req)}, username ${nameFrom(
+                req.session.spadeToken
+            )}`
         );
         if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
             res.redirect('/login');
@@ -133,7 +120,7 @@ feedback
         );
     });
 
-person.setup(app, config.nav);
+person.setup(app, stsclient);
 
 app.get('/', (_, res) => {
     res.redirect('/static');

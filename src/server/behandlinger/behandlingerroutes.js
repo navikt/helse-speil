@@ -8,9 +8,7 @@ const setup = app => {
     app.get('/behandlinger/:aktorId', (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             const filename =
-                req.params.aktorId.charAt(0) < 5
-                    ? 'behandlinger.json'
-                    : 'behandlinger_mapped.json';
+                req.params.aktorId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
             fs.readFile(`__mock-data__/${filename}`, (err, data) => {
                 if (err) {
                     console.log(err);
@@ -21,9 +19,7 @@ const setup = app => {
                     res.send(data);
                 } else {
                     res.send(
-                        JSON.parse(data).behandlinger.map(behandling =>
-                            mapping.alle(behandling)
-                        )
+                        JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling))
                     );
                 }
             });
@@ -36,14 +32,10 @@ const setup = app => {
             .then(apiResponse =>
                 res
                     .status(apiResponse.statusCode)
-                    .send(
-                        apiResponse.body.behandlinger.map(behandling =>
-                            mapping.alle(behandling)
-                        )
-                    )
+                    .send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)))
             )
             .catch(err => {
-                console.error(err);
+                console.error(err.error);
                 res.sendStatus(500);
             });
     });

@@ -16,10 +16,7 @@ export const withBehandlingContext = Component => {
 
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [behandlinger, setBehandlinger] = useSessionStorage(
-        'behandlinger',
-        []
-    );
+    const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
 
     const fetchBehandlinger = value => {
         return behandlingerFor(value)

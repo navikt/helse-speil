@@ -13,11 +13,7 @@ const ListeItem = ({ label, value, bold }) => (
 
 ListeItem.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.object
-    ]).isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]).isRequired,
     bold: PropTypes.bool
 };
 

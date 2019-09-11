@@ -4,10 +4,9 @@ import { InnrapporteringContext } from '../context/InnrapporteringContext';
 export const useUenighet = id => {
     const innrapportering = useContext(InnrapporteringContext);
 
-    const value = useMemo(
-        () => innrapportering.uenigheter?.find(uenighet => uenighet.id === id),
-        [innrapportering.uenigheter]
-    )?.value;
+    const value = useMemo(() => innrapportering.uenigheter?.find(uenighet => uenighet.id === id), [
+        innrapportering.uenigheter
+    ])?.value;
 
     return {
         remove: () => innrapportering.removeUenighet(id),

@@ -82,8 +82,7 @@ bokmål.oppsummering['utbetalesTom'] = 'Utbetales til og med';
 bokmål.oppsummering['utbetaling'] = 'Utbetaling';
 bokmål.oppsummering['innrapportert'] = 'Innrapportering';
 bokmål.oppsummering['ingen_uenigheter'] = 'Ingen uenigheter';
-bokmål.oppsummering['felter_uten_årsak'] =
-    'Felter uten oppgitt årsak blir ikke sendt inn.';
+bokmål.oppsummering['felter_uten_årsak'] = 'Felter uten oppgitt årsak blir ikke sendt inn.';
 bokmål.oppsummering['oppgi_årsak'] = 'Du bør skrive inn årsak';
 
 const hardkodetBrukerspråk = 'bokmål';
@@ -93,10 +92,8 @@ export const inngangsvilkårtekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.inngangsvilkår][nøkkel];
 export const sykdomsvilkårtekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.sykdomsvilkår][nøkkel];
-export const beregningstekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.beregning][nøkkel];
-export const periodetekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.periode][nøkkel];
+export const beregningstekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.beregning][nøkkel];
+export const periodetekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.periode][nøkkel];
 export const utbetalingstekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.utbetaling][nøkkel];
 export const oppsummeringstekster = nøkkel =>

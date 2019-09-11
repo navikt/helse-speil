@@ -41,11 +41,7 @@ const DynamicTextarea = ({
                 {...rest}
             />
             <div role="alert" aria-live="assertive">
-                {error && (
-                    <Undertekst className="skjemaelement__feilmelding">
-                        {error}
-                    </Undertekst>
-                )}
+                {error && <Undertekst className="skjemaelement__feilmelding">{error}</Undertekst>}
             </div>
         </div>
     );
@@ -70,6 +66,4 @@ DynamicTextarea.defaultProps = {
     disabled: false
 };
 
-export default React.forwardRef((props, ref) => (
-    <DynamicTextarea {...props} forwardedRef={ref} />
-));
+export default React.forwardRef((props, ref) => <DynamicTextarea {...props} forwardedRef={ref} />);
