@@ -4,7 +4,8 @@
   .IconRow__left {
     display: flex;
     flex: 2;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 0.75rem;
 
     > svg {
       margin-right: 1rem;
@@ -13,7 +14,7 @@
     > span.divider {
       flex: 1;
       border-top: 1px dotted #000;
-      margin: 0 1rem;
+      margin: 0.75rem;
     }
 
     .typo-normal:last-child {
@@ -22,6 +23,16 @@
 
     .typo-normal.bold {
       font-weight: 600;
+    }
+
+    > p:nth-child(2) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      > .vis-modal-button {
+        margin-bottom: 1rem;
+      }
     }
   }
 
