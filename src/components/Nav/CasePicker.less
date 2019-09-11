@@ -1,0 +1,26 @@
+@import '../widgets/Picker/Picker.less';
+
+@idWidth: 10rem;
+@idPadding: 1rem;
+@chevronWidth: 2.375rem;
+@borderThickness: 0.125rem;
+
+.CasePicker {
+  position: relative;
+  box-shadow: 0 0 0 @borderThickness @blue;
+  border-radius: @borderThickness;
+  height: @idHeight;
+
+  > .typo-normal {
+    text-align: center;
+  }
+
+  .Picker__popup {
+    top: @idHeight + @borderThickness;
+  }
+
+  .Picker__chevron {
+    border: none;
+    border-left: @borderThickness solid @blue;
+  }
+}

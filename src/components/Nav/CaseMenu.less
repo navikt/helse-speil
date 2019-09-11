@@ -1,0 +1,54 @@
+@menuPadding: 1.5rem;
+
+.CaseMenu {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid #78706a;
+  background: #fcfcfc;
+
+  .CaseMenu__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > *:not(:first-child) {
+      margin-left: 1rem;
+    }
+  }
+
+  .etikett.etikett--info {
+    background: #f4ccc5;
+    border: 1px solid #979797;
+    border-radius: 1rem;
+    width: max-content;
+    height: 0.875rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+
+    .typo-normal {
+      font-size: 0.875rem;
+      color: #3e3832;
+    }
+  }
+
+  .CaseMenu__info {
+    margin-top: 1.5rem;
+    color: #3e3832;
+
+    .typo-normal {
+      display: flex;
+      align-items: center;
+      margin: 0.125rem 0;
+      font-size: 0.875rem;
+
+      .CaseMenu__employer {
+        background: url('img/Ikon_arbeidsgiver_grå.svg') center;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
