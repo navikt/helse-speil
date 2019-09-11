@@ -14,31 +14,33 @@ const mapFeedback = f => {
     const submittedDate =
         feedback.submittedDate?.replace('+02:00', '') || 'N/A';
     const kommentarer = sanitizeForCsv(feedback.kommentarer);
+    const godkjent =
+        feedback.godkjent !== undefined ? feedback.godkjent : 'N/A';
 
     const mapUenighet = uenighet => {
         const uenighetId = uenighet.id;
         const userId = uenighet.userId.email || 'ukjent bruker';
         const items = mapItems(uenighet.items);
         const enteredUenighetValue = sanitizeForCsv(uenighet.value);
-        return `${uenighetId};${enteredUenighetValue};${items};${userId};${submittedDate};${kommentarer};${feedbackId}`;
+        return `${uenighetId};${enteredUenighetValue};${items};${userId};${submittedDate};${kommentarer};${godkjent};${feedbackId}`;
     };
 
     const mapOldStyleFeedback = feedback =>
         feedback.map(uenighet => {
             const enteredUenighetValue = sanitizeForCsv(uenighet.value);
-            return `${uenighet.label};${enteredUenighetValue};;N/A;N/A;N/A;${feedbackId}`;
+            return `${uenighet.label};${enteredUenighetValue};;N/A;N/A;N/A;N/A;${feedbackId}`;
         });
 
     if (feedback.uenigheter === undefined) {
         return mapOldStyleFeedback(feedback).join('\n');
     } else if (feedback.uenigheter.length === 0) {
-        return `;;;N/A;${submittedDate};${kommentarer};${feedbackId}`;
+        return `;;;N/A;${submittedDate};${kommentarer};${godkjent};${feedbackId}`;
     }
     return feedback.uenigheter.map(mapUenighet).join('\n');
 };
 
 const header =
-    'Felt;Inntastet tekst;Kontekst;Saksbehandler;Innrapportert;Kommentarer;BehandlingsID\n';
+    'Felt;Inntastet tekst;Kontekst;Saksbehandler;Innrapportert;Kommentarer;Godkjent;BehandlingsID\n';
 
 module.exports = {
     csvMapper
