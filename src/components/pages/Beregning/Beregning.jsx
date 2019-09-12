@@ -17,7 +17,7 @@ const Beregning = withBehandlingContext(({ behandling }) => {
 
     const detaljerKnapp = (
         <button className="vis-modal-button" onClick={() => setVisDetaljerboks(true)} tabIndex={0}>
-            (Vis detaljer)
+            Vis detaljer
         </button>
     );
 
