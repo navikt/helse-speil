@@ -64,7 +64,7 @@ export const BehandlingerProvider = ({ children }) => {
     return (
         <BehandlingerContext.Provider
             value={{
-                state: behandlinger,
+                state: { behandlinger },
                 setBehandlinger: setBehandlinger,
                 setValgtBehandling: velgBehandling,
                 valgtBehandling,
