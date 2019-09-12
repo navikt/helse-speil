@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
 import Periode from '../pages/Periode/Periode';
 import LeftMenu from '../LeftMenu/LeftMenu';
@@ -11,11 +11,32 @@ import Inngangsvilkår from '../pages/Inngangsvilkår/Inngangsvilkår';
 import EmptyStateView from '../EmptyStateView';
 import { withBehandlingContext } from '../../context/BehandlingerContext';
 import './MainContentWrapper.css';
+import VelgBehandlingModal from './VelgBehandlingModal';
 
 const MainContentWrapper = withBehandlingContext(
     ({ behandlinger, behandling, setValgtBehandling }) => {
+        const [modalOpen, setModalOpen] = useState(false);
+
+        useEffect(() => {
+            if (behandling === undefined && behandlinger?.length > 1) {
+                setModalOpen(true);
+            }
+        }, [behandlinger, behandling]);
+
+        const velgBehandling = behandling => {
+            setModalOpen(false);
+            setValgtBehandling(behandling);
+        };
+
         return (
             <div className="page-content">
+                {modalOpen && (
+                    <VelgBehandlingModal
+                        setModalOpen={setModalOpen}
+                        behandlinger={behandlinger}
+                        velgBehandling={velgBehandling}
+                    />
+                )}
                 <LeftMenu
                     behandlinger={behandlinger}
                     setValgtBehandling={setValgtBehandling}

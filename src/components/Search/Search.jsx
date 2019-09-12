@@ -57,7 +57,7 @@ const Search = ({ history }) => {
             if (data?.behandlinger?.length > 0) {
                 innrapportering.setUenigheter([]);
                 innrapportering.setHasSendt(false);
-                await innrapportering.fetchFeedback(data.behandlinger[0].behandlingsId);
+                innrapportering.setKommentarer('');
             }
 
             goBackToStart(data);

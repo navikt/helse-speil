@@ -3,8 +3,8 @@
 const personLookup = require('./personlookup');
 const personMapping = require('./personmapping');
 
-const setup = (app, config) => {
-    personLookup.init(config);
+const setup = (app, stsclient) => {
+    personLookup.init(stsclient);
     routes(app);
 };
 

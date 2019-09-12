@@ -61,6 +61,7 @@ jobs:
                      docker push $DOCKER_IMG_NAME:$COMMIT_SHORT
                  else
                      echo "No need to create Docker images for pull requests"
+                     touch shared_env
                  fi
          - persist_to_workspace:
               root: ~/speil

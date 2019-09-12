@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { withBehandlingContext } from './BehandlingerContext';
@@ -17,6 +17,12 @@ export const InnrapporteringProvider = withBehandlingContext(({ behandling, chil
     const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
     const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
     const [uenigheter, setUenigheter] = useSessionStorage(`uenigheter-${behandlingsId}`, []);
+
+    useEffect(() => {
+        if (behandlingsId !== undefined) {
+            fetchFeedback(behandlingsId);
+        }
+    }, [behandlingsId]);
 
     const fetchFeedback = behandlingsId => {
         return getFeedback(behandlingsId)
