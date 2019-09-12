@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import './CasePicker.less';
 
-const CasePicker = ({ cases }) => {
+const CasePicker = ({ ...props }) => {
     const [showPopup, setShowPopup] = useState(false);
     const popupRef = useRef(null);
 
@@ -12,15 +12,18 @@ const CasePicker = ({ cases }) => {
         setShowPopup(false);
     });
 
-    return <Picker className="CasePicker" preLabel="Saks-ID" items={cases} />;
+    return <Picker className="CasePicker" {...props} />;
 };
 
 CasePicker.propTypes = {
-    cases: PropTypes.arrayOf(PropTypes.string)
+    items: PropTypes.arrayOf(PropTypes.any).isRequired,
+    currentItem: PropTypes.any,
+    onChange: PropTypes.func.isRequired,
+    itemLabel: PropTypes.func.isRequired
 };
 
 CasePicker.defaultProps = {
-    cases: ['123456789', '987654321', '134679258']
+    currentItem: undefined
 };
 
 export default CasePicker;

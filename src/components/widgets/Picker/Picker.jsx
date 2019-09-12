@@ -5,9 +5,8 @@ import { NedChevron } from 'nav-frontend-chevron';
 import { useClickOutside } from '../../../hooks/useClickOutside';
 import './Picker.less';
 
-const Picker = ({ items, preLabel, defaultLabel, className, maxVisibleCharacters }) => {
+const Picker = ({ items, className, currentItem, onChange, itemLabel }) => {
     const [showPopup, setShowPopup] = useState(false);
-    const [current, setCurrent] = useState(items[0]);
     const popupRef = useRef(null);
 
     useClickOutside(popupRef, showPopup, () => {
@@ -21,8 +20,7 @@ const Picker = ({ items, preLabel, defaultLabel, className, maxVisibleCharacters
             onClick={() => setShowPopup(!showPopup)}
         >
             <Normaltekst>
-                {preLabel && `${preLabel} `}
-                {defaultLabel ? defaultLabel : `${current.slice(0, maxVisibleCharacters)}...`}
+                {currentItem !== undefined ? itemLabel(currentItem) : 'Ingen saker for bruker'}
             </Normaltekst>
             {showPopup && (
                 <ul className="Picker__popup" ref={popupRef} onBlur={() => setShowPopup(false)}>
@@ -30,11 +28,11 @@ const Picker = ({ items, preLabel, defaultLabel, className, maxVisibleCharacters
                         <li
                             key={`popup-item-${i}`}
                             role="option"
-                            onClick={() => setCurrent(item)}
+                            onClick={() => onChange(item)}
                             tabIndex={0}
-                            aria-selected={current === item}
+                            aria-selected={currentItem.behandlingsId === item.behandlingsId}
                         >
-                            <Normaltekst>{item}</Normaltekst>
+                            <Normaltekst>{itemLabel(item)}</Normaltekst>
                         </li>
                     ))}
                 </ul>
@@ -47,15 +45,15 @@ const Picker = ({ items, preLabel, defaultLabel, className, maxVisibleCharacters
 };
 
 Picker.propTypes = {
-    items: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-    preLabel: PropTypes.string,
-    defaultLabel: PropTypes.string,
-    maxVisibleCharacters: PropTypes.number,
-    className: PropTypes.string
+    items: PropTypes.arrayOf(PropTypes.node).isRequired,
+    className: PropTypes.string,
+    currentItem: PropTypes.any,
+    onChange: PropTypes.func.isRequired,
+    itemLabel: PropTypes.func.isRequired
 };
 
 Picker.defaultProps = {
-    maxVisibleCharacters: 8
+    currentItem: undefined
 };
 
 export default Picker;

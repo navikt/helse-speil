@@ -8,21 +8,40 @@ export const BehandlingerContext = createContext();
 export const withBehandlingContext = Component => {
     return props => {
         const behandlingerCtx = useContext(BehandlingerContext);
-        const behandling = behandlingerCtx.state?.behandlinger?.[0];
+        const behandlinger = behandlingerCtx.state?.behandlinger ?? [];
 
-        return <Component behandling={behandling} {...props} />;
+        return (
+            <Component
+                behandlinger={behandlinger}
+                behandling={behandlingerCtx.valgtBehandling}
+                setValgtBehandling={behandlingerCtx.setValgtBehandling}
+                {...props}
+            />
+        );
     };
 };
-
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
+    const [valgtBehandling, setValgtBehandling] = useState(undefined);
+
+    const velgBehandling = behandling => {
+        const valgtBehandling = behandlinger.find(
+            b => b.behandlingsId === behandling.behandlingsId
+        );
+        setValgtBehandling(valgtBehandling);
+    };
 
     const fetchBehandlinger = value => {
         return behandlingerFor(value)
             .then(response => {
                 const newData = { behandlinger: response.data };
-                setBehandlinger(newData);
+                setBehandlinger(newData.behandlinger);
+                if (newData.behandlinger?.length !== 1) {
+                    setValgtBehandling(undefined);
+                } else {
+                    setValgtBehandling(newData.behandlinger[0]);
+                }
                 return newData;
             })
             .catch(err => {
@@ -47,6 +66,8 @@ export const BehandlingerProvider = ({ children }) => {
             value={{
                 state: behandlinger,
                 setBehandlinger: setBehandlinger,
+                setValgtBehandling: velgBehandling,
+                valgtBehandling,
                 fetchBehandlinger,
                 error,
                 clearError: () => setError(undefined)

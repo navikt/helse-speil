@@ -5,18 +5,31 @@ import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { EtikettInfo } from 'nav-frontend-etiketter';
 import './CaseMenu.less';
+import { toDate } from '../../utils/date';
 
-const CaseMenu = ({ behandling }) => {
-    const { behandlingsId } = behandling;
+const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
     const { arbeidsgiver, fom, tom } = behandling.originalSøknad;
     const { sykmeldingsgrad } = behandling.periode;
+    const behandlingMapper = behandling => ({
+        behandlingsId: behandling.behandlingsId,
+        fom: behandling.originalSøknad.fom,
+        tom: behandling.originalSøknad.tom
+    });
+    const items = behandlinger.map(behandling => behandlingMapper(behandling));
+    const currentItem = behandlingMapper(behandling);
+    const itemLabel = item => `${toDate(item.fom)} - ${toDate(item.tom)}`;
 
     return (
         <Panel className="CaseMenu">
             <div className="CaseMenu__top">
-                <CasePicker cases={[behandlingsId]} />
+                <CasePicker
+                    items={items}
+                    currentItem={currentItem}
+                    onChange={setValgtBehandling}
+                    itemLabel={itemLabel}
+                />
             </div>
-            <EtikettInfo>Førstegangs.</EtikettInfo>
+            <EtikettInfo>Kvalitetssikring</EtikettInfo>
             <div className="CaseMenu__info">
                 <Normaltekst>
                     <span className="CaseMenu__employer" />
@@ -28,7 +41,9 @@ const CaseMenu = ({ behandling }) => {
 };
 
 CaseMenu.propTypes = {
-    behandling: PropTypes.any
+    behandlinger: PropTypes.arrayOf(PropTypes.any).isRequired,
+    behandling: PropTypes.any,
+    setValgtBehandling: PropTypes.func.isRequired
 };
 
 export default CaseMenu;

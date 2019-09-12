@@ -12,25 +12,31 @@ import EmptyStateView from '../EmptyStateView';
 import { withBehandlingContext } from '../../context/BehandlingerContext';
 import './MainContentWrapper.css';
 
-const MainContentWrapper = withBehandlingContext(({ behandling }) => {
-    return (
-        <div className="page-content">
-            <LeftMenu behandling={behandling} />
-            {behandling ? (
-                <div className="main-content">
-                    <Personinfo />
-                    <Route path={'/'} exact component={Sykdomsvilkår} />
-                    <Route path={'/inngangsvilkår'} exact component={Inngangsvilkår} />
-                    <Route path={'/beregning'} exact component={Beregning} />
-                    <Route path={'/periode'} exact component={Periode} />
-                    <Route path={'/utbetaling'} exact component={Utbetaling} />
-                    <Route path={'/oppsummering'} exact component={Oppsummering} />
-                </div>
-            ) : (
-                <EmptyStateView />
-            )}
-        </div>
-    );
-});
+const MainContentWrapper = withBehandlingContext(
+    ({ behandlinger, behandling, setValgtBehandling }) => {
+        return (
+            <div className="page-content">
+                <LeftMenu
+                    behandlinger={behandlinger}
+                    setValgtBehandling={setValgtBehandling}
+                    behandling={behandling}
+                />
+                {behandling ? (
+                    <div className="main-content">
+                        <Personinfo />
+                        <Route path={'/'} exact component={Sykdomsvilkår} />
+                        <Route path={'/inngangsvilkår'} exact component={Inngangsvilkår} />
+                        <Route path={'/beregning'} exact component={Beregning} />
+                        <Route path={'/periode'} exact component={Periode} />
+                        <Route path={'/utbetaling'} exact component={Utbetaling} />
+                        <Route path={'/oppsummering'} exact component={Oppsummering} />
+                    </div>
+                ) : (
+                    <EmptyStateView />
+                )}
+            </div>
+        );
+    }
+);
 
 export default MainContentWrapper;
