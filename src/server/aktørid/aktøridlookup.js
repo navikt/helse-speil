@@ -3,15 +3,15 @@ const { log } = require('../logging');
 const uuid = require('uuid/v4');
 
 let aktørregisterUrl;
-let stsclient;
+let stsClient;
 
-const init = (stsClient, config) => {
-    stsclient = stsClient;
+const init = (stsclient, config) => {
+    stsClient = stsclient;
     aktørregisterUrl = config.aktørregisterUrl;
 };
 
 const hentAktørId = async ssn => {
-    const stsToken = await stsclient.hentAccessToken();
+    const stsToken = await stsClient.hentAccessToken();
 
     const options = {
         uri: `${aktørregisterUrl}/api/v1/identer?gjeldende=true`,
