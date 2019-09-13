@@ -14,6 +14,19 @@ const behandlingerFor = (aktorId, accessToken) => {
     return request.get(options);
 };
 
+const behandlingerIPeriode = (fom, tom, accessToken) => {
+    const options = {
+        uri: `http://spade.default.svc.nais.local/api/behandlinger/periode/${fom}/${tom}`,
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        },
+        json: true,
+        resolveWithFullResponse: true
+    };
+    return request.get(options);
+};
+
 module.exports = {
-    behandlingerFor: behandlingerFor
+    behandlingerFor: behandlingerFor,
+    behandlingerIPeriode: behandlingerIPeriode
 };

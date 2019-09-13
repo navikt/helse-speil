@@ -15,7 +15,7 @@ const Nav = ({ active }) => {
 
     return (
         <nav className={`Nav ${active ? '' : 'inactive'}`}>
-            <NavLink exact id="nav-link-sykdomsvilkår" to="/" onClick={onClick}>
+            <NavLink exact id="nav-link-sykdomsvilkår" to="/sykdomsvilkår" onClick={onClick}>
                 <Normaltekst>Sykdomsvilkår</Normaltekst>
             </NavLink>
             <NavLink id="nav-link-inngangsvilkår" to="/inngangsvilkår" onClick={onClick}>

@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { behandlingerFor } from '../io/http';
+import { behandlingerFor, behandlingerIPeriode } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
+import moment from 'moment';
 
 export const BehandlingerContext = createContext();
 
@@ -15,6 +16,7 @@ export const withBehandlingContext = Component => {
                 behandlinger={behandlinger}
                 behandling={behandlingerCtx.valgtBehandling}
                 setValgtBehandling={behandlingerCtx.setValgtBehandling}
+                fetchAlleBehandlinger={behandlingerCtx.fetchAlleBehandlinger}
                 {...props}
             />
         );
@@ -29,7 +31,37 @@ export const BehandlingerProvider = ({ children }) => {
         const valgtBehandling = behandlinger.find(
             b => b.behandlingsId === behandling.behandlingsId
         );
+
         setValgtBehandling(valgtBehandling);
+    };
+
+    const fetchAlleBehandlinger = () => {
+        const fom = moment()
+            .subtract(1, 'days')
+            .format('YYYY-MM-DD');
+        const tom = moment().format('YYYY-MM-DD');
+        return behandlingerIPeriode(fom, tom)
+            .then(response => {
+                const newData = { behandlinger: response.data };
+                setBehandlinger(newData.behandlinger);
+                setValgtBehandling(undefined);
+                return;
+            })
+            .catch(err => {
+                if (err.statusCode === 401) {
+                    setError({ ...err, message: 'Du må logge inn på nytt.' });
+                } else if (err.statusCode === 404) {
+                    setError({
+                        ...err,
+                        message: `Fant ingen behandlinger mellom i går og i dag.`
+                    });
+                } else {
+                    setError({
+                        ...err,
+                        message: 'Kunne ikke hente behandlinger. Prøv igjen senere.'
+                    });
+                }
+            });
     };
 
     const fetchBehandlinger = value => {
@@ -69,6 +101,7 @@ export const BehandlingerProvider = ({ children }) => {
                 setValgtBehandling: velgBehandling,
                 valgtBehandling,
                 fetchBehandlinger,
+                fetchAlleBehandlinger,
                 error,
                 clearError: () => setError(undefined)
             }}

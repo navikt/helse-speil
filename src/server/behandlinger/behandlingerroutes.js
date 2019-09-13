@@ -39,6 +39,41 @@ const setup = app => {
                 res.sendStatus(500);
             });
     });
+
+    app.get('/behandlinger/periode/:fom/:tom', (req, res) => {
+        if (process.env.NODE_ENV === 'development') {
+            const filename = 'behandlinger.json';
+            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                }
+                res.header('Content-Type', 'application/json; charset=utf-8');
+                if (filename.indexOf('mapped') > -1) {
+                    res.send(data);
+                } else {
+                    res.send(
+                        JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling))
+                    );
+                }
+            });
+            return;
+        }
+
+        const accessToken = req.session.spadeToken;
+        const fom = req.params.fom;
+        const tom = req.params.tom;
+        api.behandlingerIPeriode(fom, tom, accessToken)
+            .then(apiResponse =>
+                res
+                    .status(apiResponse.statusCode)
+                    .send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)))
+            )
+            .catch(err => {
+                console.error(err.error);
+                res.sendStatus(500);
+            });
+    });
 };
 
 module.exports = {

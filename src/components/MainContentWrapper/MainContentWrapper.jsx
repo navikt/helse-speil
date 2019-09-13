@@ -45,7 +45,7 @@ const MainContentWrapper = withBehandlingContext(
                 {behandling ? (
                     <div className="main-content">
                         <Personinfo />
-                        <Route path={'/'} exact component={Sykdomsvilkår} />
+                        <Route path={'/sykdomsvilkår'} exact component={Sykdomsvilkår} />
                         <Route path={'/inngangsvilkår'} exact component={Inngangsvilkår} />
                         <Route path={'/beregning'} exact component={Beregning} />
                         <Route path={'/periode'} exact component={Periode} />

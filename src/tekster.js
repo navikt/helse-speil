@@ -5,6 +5,7 @@ const ordbøker = {
 };
 
 const sider = {
+    oversikt: 'oversikt',
     sykdomsvilkår: 'sykdomsvilkår',
     inngangsvilkår: 'inngangsvilkår',
     beregning: 'beregning',
@@ -20,6 +21,12 @@ bokmål.neste = 'Neste';
 bokmål['empty_state_message'] =
     'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over';
 bokmål['informasjon ikke tilgjengelig'] = 'Ikke klart';
+
+bokmål.oversikt['tittel'] = 'Neste behandlinger';
+bokmål.oversikt['søker'] = 'Søker';
+bokmål.oversikt['type'] = 'Behandlingstype';
+bokmål.oversikt['periode'] = 'Søknadsperiode';
+bokmål.oversikt['frist'] = 'Behandlingsfrist';
 
 bokmål.sykdomsvilkår['sykdomsvilkår_oppfylt'] = 'Sykdomsvilkår er oppfylt';
 bokmål.sykdomsvilkår['mindre_enn_8_uker'] = 'Mindre enn 8 uker sammenhengende';
@@ -88,6 +95,7 @@ bokmål.oppsummering['oppgi_årsak'] = 'Du bør skrive inn årsak';
 const hardkodetBrukerspråk = 'bokmål';
 
 export const tekster = nøkkel => ordbøker[hardkodetBrukerspråk][nøkkel];
+export const oversikttekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.oversikt][nøkkel];
 export const inngangsvilkårtekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.inngangsvilkår][nøkkel];
 export const sykdomsvilkårtekster = nøkkel =>

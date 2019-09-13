@@ -9,8 +9,9 @@ import { InnrapporteringProvider } from '../../context/InnrapporteringContext';
 import { AuthProvider } from '../../context/AuthContext';
 import { withContextProviders } from '../../context/withContextProviders';
 import { useLogUserOut } from '../../hooks/useLogUserOut';
-import './App.css';
+import './App.less';
 import 'reset-css';
+import Oversikt from '../pages/Oversikt/Oversikt';
 
 const App = withContextProviders(() => {
     useLogUserOut();
@@ -20,6 +21,7 @@ const App = withContextProviders(() => {
             <HeaderBar />
             <Switch>
                 <Route path={'/tilbakemeldinger'} component={Tilbakemeldinger} exact />
+                <Route path={'/'} exact component={Oversikt} />
                 <Route component={MainContentWrapper} />
             </Switch>
         </Router>

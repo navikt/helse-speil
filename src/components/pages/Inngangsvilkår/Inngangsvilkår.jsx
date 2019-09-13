@@ -53,7 +53,7 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
                 label="Under 67 år"
                 items={ItemMapper.under67År(behandling.inngangsvilkår.dagerIgjen)}
             />
-            <Navigasjonsknapper previous="/" next="/beregning" />
+            <Navigasjonsknapper previous="/sykdomsvilkår" next="/beregning" />
         </Panel>
     );
 });
