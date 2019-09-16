@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CasePicker from './CasePicker';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { EtikettInfo } from 'nav-frontend-etiketter';
 import './CaseMenu.less';
 import { toDate } from '../../utils/date';
+import Picker from '../widgets/Picker';
 
 const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
     const { arbeidsgiver, fom, tom } = behandling.originalSøknad;
@@ -15,18 +15,19 @@ const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
         fom: behandling.originalSøknad.fom,
         tom: behandling.originalSøknad.tom
     });
-    const items = behandlinger.map(behandling => behandlingMapper(behandling));
-    const currentItem = behandlingMapper(behandling);
-    const itemLabel = item => `${toDate(item.fom)} - ${toDate(item.tom)}`;
+    const cases = behandlinger.map(behandling => behandlingMapper(behandling));
+    const currentCase = behandlingMapper(behandling);
+    const caseLabel = item => `${toDate(item.fom)} - ${toDate(item.tom)}`;
 
     return (
         <Panel className="CaseMenu">
             <div className="CaseMenu__top">
-                <CasePicker
-                    items={items}
-                    currentItem={currentItem}
+                <Picker
+                    className="CasePicker"
+                    items={cases}
+                    currentItem={currentCase}
                     onChange={setValgtBehandling}
-                    itemLabel={itemLabel}
+                    itemLabel={caseLabel}
                 />
             </div>
             <EtikettInfo>Kvalitetssikring</EtikettInfo>
