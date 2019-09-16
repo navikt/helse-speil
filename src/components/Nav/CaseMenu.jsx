@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import CasePicker from './CasePicker';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { EtikettInfo } from 'nav-frontend-etiketter';
 import './CaseMenu.less';
 
 const CaseMenu = ({ behandling }) => {
@@ -16,7 +15,7 @@ const CaseMenu = ({ behandling }) => {
             <div className="CaseMenu__top">
                 <CasePicker cases={[behandlingsId]} />
             </div>
-            <EtikettInfo>Førstegangs.</EtikettInfo>
+            <Normaltekst>Førstegangs.</Normaltekst>
             <div className="CaseMenu__info">
                 <Normaltekst>
                     <span className="CaseMenu__employer" />
