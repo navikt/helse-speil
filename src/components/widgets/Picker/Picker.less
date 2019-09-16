@@ -1,0 +1,89 @@
+@blue: #0067c5;
+@blueActive: #254b6d;
+@idHeight: 2rem;
+@idPadding: 0.5rem;
+@minIdWidth: 5rem;
+@chevronPadding: 0.5rem;
+
+.setChevronColor(@color) {
+    i.nav-frontend-chevron.chevron--ned {
+        &::before,
+        &::after {
+            background: @color;
+        }
+    }
+}
+
+.focusable() {
+    &:focus {
+        box-shadow: 0 0 0 3px @blueActive;
+        outline: none;
+    }
+}
+
+.Picker {
+    background: none;
+    padding: 0;
+    border: none;
+    position: relative;
+    height: @idHeight;
+    width: max-content;
+    display: flex;
+    align-items: center;
+
+    > .typo-normal {
+        color: @blue;
+        font-weight: bold;
+        padding: 0 @idPadding;
+    }
+
+    .Picker__popup {
+        background: #fff;
+        color: #3e3832;
+        position: absolute;
+        top: @idHeight;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        width: max-content;
+        list-style: none;
+        box-shadow: 0 2px 3px 1px rgba(62, 56, 50, 0.3);
+
+        > li {
+            padding: 0.5rem 1rem;
+
+            &:hover,
+            &:focus {
+                box-shadow: 0 0 0 0.5rem @blue inset;
+                background: @blue;
+                color: #fff;
+            }
+            &:active {
+                outline: none;
+                box-shadow: 0 0 0 0.5rem #254b6d inset;
+                background: #254b6d;
+            }
+            .focusable();
+        }
+    }
+
+    .Picker__chevron {
+        display: flex;
+        align-items: center;
+        height: @idHeight;
+        padding: 0 0.5rem;
+        .setChevronColor(#0067c5);
+    }
+
+    .focusable();
+
+    &:hover .Picker__chevron,
+    &:active .Picker__chevron {
+        background: @blue;
+        .setChevronColor(#fff);
+    }
+
+    &:active .Picker__chevron {
+        background: @blueActive;
+    }
+}
