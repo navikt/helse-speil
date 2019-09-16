@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import './VelgBehandlingModal.less';
 import { toDate } from '../../utils/date';
 
-Modal.setAppElement('#root');
+document && document.getElementById('#root') && Modal.setAppElement('#root');
 
 const VelgBehandlingModal = ({ setModalOpen, behandlinger, velgBehandling }) => (
     <Modal onRequestClose={() => setModalOpen(false)} contentLabel="Velg behandling" isOpen={true}>
