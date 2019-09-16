@@ -51,9 +51,6 @@ jest.mock('nav-frontend-paneler-style', () => {
 jest.mock('nav-frontend-chevron-style', () => {
     return {};
 });
-jest.mock('nav-frontend-etiketter-style', () => {
-    return {};
-});
 
 describe('MainContentWrapper', () => {
     it('render modal when no behandling is chosen', () => {
