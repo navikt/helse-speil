@@ -63,9 +63,7 @@ const Beregning = withBehandlingContext(
                     <thead>
                         <tr>
                             <th>{oversikttekster('søker')}</th>
-                            <th>{oversikttekster('type')}</th>
                             <th>{oversikttekster('periode')}</th>
-                            <th>{oversikttekster('frist')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,13 +74,9 @@ const Beregning = withBehandlingContext(
                                         {behandling.navn}
                                     </Lenke>
                                 </td>
-                                <td>
-                                    <EtikettInfo>Kvalitetssikring</EtikettInfo>
-                                </td>
                                 <td>{`${toDate(behandling.originalSøknad.fom)} - ${toDate(
                                     behandling.originalSøknad.tom
                                 )}`}</td>
-                                <td>Ukjent</td>
                             </tr>
                         ))}
                     </tbody>

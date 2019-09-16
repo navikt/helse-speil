@@ -24,9 +24,7 @@ bokmål['informasjon ikke tilgjengelig'] = 'Ikke klart';
 
 bokmål.oversikt['tittel'] = 'Neste behandlinger';
 bokmål.oversikt['søker'] = 'Søker';
-bokmål.oversikt['type'] = 'Behandlingstype';
 bokmål.oversikt['periode'] = 'Søknadsperiode';
-bokmål.oversikt['frist'] = 'Behandlingsfrist';
 
 bokmål.sykdomsvilkår['sykdomsvilkår_oppfylt'] = 'Sykdomsvilkår er oppfylt';
 bokmål.sykdomsvilkår['mindre_enn_8_uker'] = 'Mindre enn 8 uker sammenhengende';
