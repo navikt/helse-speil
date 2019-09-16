@@ -1,14 +1,21 @@
 'use strict';
 
 const fs = require('fs');
+const { log } = require('../logging');
 const mapping = require('./mapping');
 const api = require('./behandlingerlookup');
+const aktøridlookup = require('../aktørid/aktøridlookup');
+const { isValidSsn } = require('../aktørid/ssnvalidation');
 
-const setup = app => {
-    app.get('/behandlinger/:aktorId', (req, res) => {
+const setup = ({ app, stsclient, config }) => {
+    aktøridlookup.init(stsclient, config);
+
+    app.get('/behandlinger/:personId', async (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             const filename =
-                req.params.aktorId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
+                req.params.personId.charAt(0) < 5
+                    ? 'behandlinger.json'
+                    : 'behandlinger_mapped.json';
             fs.readFile(`__mock-data__/${filename}`, (err, data) => {
                 if (err) {
                     console.log(err);
@@ -26,8 +33,22 @@ const setup = app => {
             return;
         }
 
+        const personId = req.params.personId;
+        let aktorId;
+        if (isValidSsn(personId)) {
+            aktorId = await aktøridlookup.hentAktørId(personId).catch(err => {
+                log(`Could not fetch aktørId for ${personId}. ${err}`);
+            });
+            if (!aktorId) {
+                res.status(500);
+                res.send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
+                return;
+            }
+        } else {
+            aktorId = personId;
+        }
+
         const accessToken = req.session.spadeToken;
-        const aktorId = req.params.aktorId;
         api.behandlingerFor(aktorId, accessToken)
             .then(apiResponse =>
                 res

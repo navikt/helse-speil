@@ -58,6 +58,7 @@ const Search = ({ history }) => {
                 innrapportering.setUenigheter([]);
                 innrapportering.setHasSendt(false);
                 innrapportering.setKommentarer('');
+                innrapportering.setGodkjent(true);
             }
 
             goBackToStart(data);

@@ -2,14 +2,14 @@
 
 const request = require('request-promise-native');
 
-let stsclient = null;
+let stsClient = null;
 
-const init = stsClient => {
-    stsclient = stsClient;
+const init = stsclient => {
+    stsClient = stsclient;
 };
 
 const hentPerson = async aktørId =>
-    stsclient.hentAccessToken().then(token => {
+    stsClient.hentAccessToken().then(token => {
         const options = {
             uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
             headers: {

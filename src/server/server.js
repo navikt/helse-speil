@@ -107,7 +107,7 @@ app.use('/*', (req, res, next) => {
 
 app.use('/static', express.static('dist/client'));
 
-behandlinger.setup(app);
+behandlinger.setup({ app, stsclient, config: config.nav });
 
 feedback
     .setup(app, config.s3)
