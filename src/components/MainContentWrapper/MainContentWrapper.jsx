@@ -9,9 +9,9 @@ import Oppsummering from '../pages/Oppsummering/Oppsummering';
 import Sykdomsvilkår from '../pages/Sykdomsvilkår/Sykdomsvilkår';
 import Inngangsvilkår from '../pages/Inngangsvilkår/Inngangsvilkår';
 import EmptyStateView from '../EmptyStateView';
+import VelgBehandlingModal from './VelgBehandlingModal';
 import { withBehandlingContext } from '../../context/BehandlingerContext';
 import './MainContentWrapper.css';
-import VelgBehandlingModal from './VelgBehandlingModal';
 
 const MainContentWrapper = withBehandlingContext(
     ({ behandlinger, behandling, setValgtBehandling }) => {

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import CasePicker from './CasePicker';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { EtikettInfo } from 'nav-frontend-etiketter';
 import './CaseMenu.less';
 import { toDate } from '../../utils/date';
 
@@ -29,7 +28,6 @@ const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
                     itemLabel={itemLabel}
                 />
             </div>
-            <EtikettInfo>Kvalitetssikring</EtikettInfo>
             <div className="CaseMenu__info">
                 <Normaltekst>
                     <span className="CaseMenu__employer" />

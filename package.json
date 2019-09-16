@@ -42,7 +42,7 @@
         ]
     },
     "dependencies": {
-        "aws-sdk": "^2.524.0",
+        "aws-sdk": "^2.528.0",
         "classnames": "^2.2.6",
         "compression": "^1.7.4",
         "connect-redis": "^4.0.2",
@@ -57,8 +57,6 @@
         "nav-frontend-chevron": "^1.0.10",
         "nav-frontend-chevron-style": "^0.3.5",
         "nav-frontend-core": "^4.0.10",
-        "nav-frontend-etiketter": "^1.0.24",
-        "nav-frontend-etiketter-style": "^0.3.18",
         "nav-frontend-ikoner-assets": "^1.0.2",
         "nav-frontend-js-utils": "^1.0.7",
         "nav-frontend-knapper": "^1.0.34",
@@ -109,7 +107,7 @@
         "babel-eslint": "^10.0.3",
         "babel-jest": "^24.9.0",
         "deasync": "^0.1.15",
-        "eslint": "^6.3.0",
+        "eslint": "^6.4.0",
         "eslint-config-prettier": "^6.3.0",
         "eslint-config-standard-jsx": "^8.1.0",
         "eslint-plugin-react": "^7.14.3",
