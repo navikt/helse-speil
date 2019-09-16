@@ -1,4 +1,9 @@
+@import '../widgets/Picker/Picker.less';
 @menuPadding: 1.5rem;
+@idWidth: 10rem;
+@idPadding: 1rem;
+@chevronWidth: 2.375rem;
+@borderThickness: 0.125rem;
 
 .CaseMenu {
   display: flex;
@@ -14,22 +19,6 @@
 
     > *:not(:first-child) {
       margin-left: 1rem;
-    }
-  }
-
-  .etikett.etikett--info {
-    background: #f4ccc5;
-    border: 1px solid #979797;
-    border-radius: 1rem;
-    width: max-content;
-    height: 0.875rem;
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-
-    .typo-normal {
-      font-size: 0.875rem;
-      color: #3e3832;
     }
   }
 
@@ -49,6 +38,26 @@
         height: 1.25rem;
         margin-right: 0.5rem;
       }
+    }
+  }
+
+  .CasePicker {
+    position: relative;
+    box-shadow: 0 0 0 @borderThickness @blue;
+    border-radius: @borderThickness;
+    height: @idHeight;
+
+    > .typo-normal {
+      text-align: center;
+    }
+
+    .Picker__popup {
+      top: @idHeight + @borderThickness;
+    }
+
+    .Picker__chevron {
+      border: none;
+      border-left: @borderThickness solid @blue;
     }
   }
 }

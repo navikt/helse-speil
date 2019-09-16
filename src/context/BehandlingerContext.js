@@ -20,25 +20,27 @@ export const withBehandlingContext = Component => {
         );
     };
 };
-
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
     const [valgtBehandling, setValgtBehandling] = useState(undefined);
 
     const velgBehandling = behandling => {
-        setValgtBehandling(behandling);
+        const valgtBehandling = behandlinger.find(
+            b => b.behandlingsId === behandling.behandlingsId
+        );
+        setValgtBehandling(valgtBehandling);
     };
 
     const fetchBehandlinger = value => {
         return behandlingerFor(value)
             .then(response => {
                 const newData = { behandlinger: response.data };
-                setBehandlinger(newData);
+                setBehandlinger(newData.behandlinger);
                 if (newData.behandlinger?.length !== 1) {
-                    velgBehandling(undefined);
+                    setValgtBehandling(undefined);
                 } else {
-                    velgBehandling(newData.behandlinger[0]);
+                    setValgtBehandling(newData.behandlinger[0]);
                 }
                 return newData;
             })
@@ -62,7 +64,7 @@ export const BehandlingerProvider = ({ children }) => {
     return (
         <BehandlingerContext.Provider
             value={{
-                state: behandlinger,
+                state: { behandlinger },
                 setBehandlinger: setBehandlinger,
                 setValgtBehandling: velgBehandling,
                 valgtBehandling,
