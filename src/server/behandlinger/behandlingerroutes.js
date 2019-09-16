@@ -13,22 +13,7 @@ const setup = ({ app, stsclient, config }) => {
     app.get('/behandlinger/', async (req, res) => {
         const personId = req.headers['nav-person-id'];
         if (process.env.NODE_ENV === 'development') {
-            const filename =
-                personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
-            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
-                if (err) {
-                    console.log(err);
-                    res.sendStatus(500);
-                }
-                res.header('Content-Type', 'application/json; charset=utf-8');
-                if (filename.indexOf('mapped') > -1) {
-                    res.send(data);
-                } else {
-                    res.send(
-                        JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling))
-                    );
-                }
-            });
+            sendDevResponse(personId, res);
             return;
         }
 
@@ -50,13 +35,12 @@ const setup = ({ app, stsclient, config }) => {
         api.behandlingerFor(aktorId, accessToken)
             .then(
                 apiResponse =>
-                    res
-                        .status(apiResponse.statusCode)
-                        .send(
-                            apiResponse.body.behandlinger.map(behandling =>
-                                mapping.alle(behandling)
-                            )
+                    res.status(apiResponse.statusCode).send({
+                        behandlinger: apiResponse.body.behandlinger.map(behandling =>
+                            mapping.alle(behandling)
                         ),
+                        fnr: aktorId !== personId ? personId : aktøridlookup.hentFnr(aktorId)
+                    }),
                 err => {
                     throw Error(`Could not fetch cases: ${err.error}`);
                 }
@@ -68,6 +52,30 @@ const setup = ({ app, stsclient, config }) => {
                 console.error(err);
                 res.sendStatus(500);
             });
+    });
+};
+
+const sendDevResponse = (personId, res) => {
+    const filename = personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
+    fs.readFile(`__mock-data__/${filename}`, (err, data) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+
+        let behandlingerToReturn;
+        if (filename.indexOf('mapped') > -1) {
+            behandlingerToReturn = JSON.parse(data);
+        } else {
+            behandlingerToReturn = JSON.parse(data).behandlinger.map(behandling =>
+                mapping.alle(behandling)
+            );
+        }
+        res.header('Content-Type', 'application/json; charset=utf-8');
+        res.send({
+            fnr: personId,
+            behandlinger: behandlingerToReturn
+        });
     });
 };
 
