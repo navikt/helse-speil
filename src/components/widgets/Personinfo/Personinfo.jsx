@@ -4,7 +4,7 @@ import { Element, Undertekst } from 'nav-frontend-typografi';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { getPerson } from '../../../io/http';
 
-const Personinfo = withBehandlingContext(({ behandling }) => {
+const Personinfo = withBehandlingContext(({ behandling, fnr }) => {
     const { aktorId } = behandling.originalSøknad;
     const [person, setPerson] = useState();
 
@@ -32,6 +32,7 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
                         className={person.kjønn.toLowerCase()}
                     />
                     <Element>{person.navn}</Element>
+                    <Undertekst>Fødselsnummer: {fnr}</Undertekst>
                     <Undertekst>Aktør-ID: {aktorId}</Undertekst>
                 </div>
             )}

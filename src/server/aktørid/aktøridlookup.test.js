@@ -1,11 +1,11 @@
-const aktøridlookup = require('./aktøridlookup');
+const sut = require('./aktøridlookup');
 
 describe('response mapping', () => {
     test('maps OK response correctly', () => {
         const ssn = '140819';
         const aktørId = '1000036876618';
 
-        expect(aktøridlookup._mapResponse(okResponse(ssn, aktørId), ssn)).resolves.toEqual(aktørId);
+        expect(sut._mapToAktørId(okResponse(ssn, aktørId), ssn)).resolves.toEqual(aktørId);
     });
 
     test('rejects on error in response', () => {
@@ -13,7 +13,7 @@ describe('response mapping', () => {
 
         const response = errorResponse(ssn);
 
-        expect(aktøridlookup._mapResponse(response, ssn)).rejects.toEqual('AktørId not found');
+        expect(sut._mapToAktørId(response, ssn)).rejects.toEqual('AktørId not found');
     });
 
     const okResponse = (ssn, aktørId) => ({
@@ -38,6 +38,6 @@ describe('identifier masking', () => {
     test('obfuscates input', () => {
         const input = '01019512345';
         const result = '0101****345';
-        expect(aktøridlookup._maskIdentifier(input)).toEqual(result);
+        expect(sut._maskIdentifier(input)).toEqual(result);
     });
 });
