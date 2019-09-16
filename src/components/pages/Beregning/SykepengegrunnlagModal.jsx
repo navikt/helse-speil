@@ -6,7 +6,7 @@ import { toKroner } from '../../../utils/locale';
 import './SykepengegrunnlagModal.less';
 import ListeSeparator from '../../widgets/ListeSeparator';
 
-Modal.setAppElement('#root');
+document && document.getElementById('#root') && Modal.setAppElement('#root');
 
 const SykepengegrunnlagModal = ({
     beregningsperioden,
