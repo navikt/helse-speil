@@ -45,7 +45,7 @@ const Picker = ({ items, className, currentItem, onChange, itemLabel }) => {
 };
 
 Picker.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.node).isRequired,
+    items: PropTypes.arrayOf(PropTypes.any).isRequired,
     className: PropTypes.string,
     currentItem: PropTypes.any,
     onChange: PropTypes.func.isRequired,
