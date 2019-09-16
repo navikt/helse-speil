@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Personinfo.css';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
-import { toDate } from '../../../utils/date';
 import { getPerson } from '../../../io/http';
 
 const Personinfo = withBehandlingContext(({ behandling }) => {
-    const { aktorId, arbeidsgiver, fom, tom } = behandling.originalSøknad;
-    const sykmeldingsgrad = behandling.periode.sykmeldingsgrad;
+    const { aktorId } = behandling.originalSøknad;
     const [person, setPerson] = useState();
 
     useEffect(() => {
@@ -37,13 +35,6 @@ const Personinfo = withBehandlingContext(({ behandling }) => {
                     <Undertekst>Aktør-ID: {aktorId}</Undertekst>
                 </div>
             )}
-            <div className="behandling-hovedinfo">
-                <Undertekst className="arbeidsgivernavn">{arbeidsgiver.navn}</Undertekst>
-                <Element className="sykdomsperiode">
-                    {toDate(fom)} - {toDate(tom)}
-                </Element>
-                <Element className="sykmeldingsgrad">Førstegangsb. / {sykmeldingsgrad}%</Element>
-            </div>
         </>
     );
 });

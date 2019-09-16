@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Route } from 'react-router-dom';
-import './MainContentWrapper.css';
-import Sykdomsvilkår from '../pages/Sykdomsvilkår/Sykdomsvilkår';
-import Nav from '../Nav/Nav';
-import Personinfo from '../widgets/Personinfo/Personinfo';
-import Inngangsvilkår from '../pages/Inngangsvilkår/Inngangsvilkår';
-import Beregning from '../pages/Beregning/Beregning';
 import Periode from '../pages/Periode/Periode';
+import LeftMenu from '../LeftMenu/LeftMenu';
+import Beregning from '../pages/Beregning/Beregning';
+import Personinfo from '../widgets/Personinfo/Personinfo';
 import Utbetaling from '../pages/Utbetaling/Utbetaling';
 import Oppsummering from '../pages/Oppsummering/Oppsummering';
-import { withBehandlingContext } from '../../context/BehandlingerContext';
+import Sykdomsvilkår from '../pages/Sykdomsvilkår/Sykdomsvilkår';
+import Inngangsvilkår from '../pages/Inngangsvilkår/Inngangsvilkår';
 import EmptyStateView from '../EmptyStateView';
 import VelgBehandlingModal from './VelgBehandlingModal';
+import { withBehandlingContext } from '../../context/BehandlingerContext';
+import './MainContentWrapper.css';
 
 const MainContentWrapper = withBehandlingContext(
     ({ behandlinger, behandling, setValgtBehandling }) => {
@@ -37,7 +37,7 @@ const MainContentWrapper = withBehandlingContext(
                         velgBehandling={velgBehandling}
                     />
                 )}
-                <Nav active={behandling !== undefined} />
+                <LeftMenu behandling={behandling} />
                 {behandling ? (
                     <div className="main-content">
                         <Personinfo />

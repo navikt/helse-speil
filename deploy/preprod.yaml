@@ -48,3 +48,5 @@ spec:
       value: speil-redis.default.svc.nais.local
     - name: REDIS_PORT
       value: "6379"
+    - name: AKTØRREGISTER_URL
+      value: https://app-q1.adeo.no/aktoerregister

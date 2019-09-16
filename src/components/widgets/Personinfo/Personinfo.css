@@ -1,5 +1,5 @@
 .personalia-linje {
-    padding: 0.5em 1.5rem;
+    padding: 1rem 1.5rem 0;
     height: 2.5rem;
     display: flex;
     align-items: center;
@@ -12,15 +12,6 @@
 
 .personalia-linje > p:not(.typo-element) {
     margin-left: 0.5rem;
-}
-
-.behandling-hovedinfo {
-    display: inline-block;
-    padding: 0.5rem 1.5rem 0;
-}
-
-.behandling-hovedinfo .arbeidsgivernavn {
-    margin-bottom: 0.5rem;
 }
 
 #personinfo-kjønn {
