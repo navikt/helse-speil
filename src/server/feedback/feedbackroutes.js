@@ -5,7 +5,10 @@ const { log } = require('../logging');
 const { ipAddressFromRequest } = require('../requestData.js');
 const { excludeOlderFeedback, isInvalid, parseDate, prepareCsvFeedback } = require('./utils');
 
-const setup = (app, config) => {
+let counter = null;
+
+const setup = (app, config, metrics) => {
+    counter = metrics.feedbackCounter();
     return new Promise((resolve, reject) => {
         storage
             .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
@@ -67,6 +70,7 @@ const routes = app => {
                 statusCode: 400
             });
         } else {
+            reportMetrics(req.body);
             storage
                 .save(req.body.id, req.body.txt, 'text/plain')
                 .then(() => {
@@ -81,6 +85,27 @@ const routes = app => {
                 });
         }
     });
+};
+
+const isInvalid = req => {
+    return (
+        !req.body.id ||
+        !req.body.txt ||
+        req.body.id.length === 0 ||
+        req.body.id.length > 50 ||
+        req.body.txt.length === 0 ||
+        req.body.txt.length > 20000
+    );
+};
+
+const reportMetrics = requestBody => {
+    const parsed = JSON.parse(requestBody.txt);
+    const behandlingId = requestBody.id;
+    if (parsed.uenigheter.length == 0) {
+        counter.agree(behandlingId);
+    } else {
+        parsed.uenigheter.forEach(uenighet => counter.disagree(behandlingId, uenighet.label));
+    }
 };
 
 module.exports = {

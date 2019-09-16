@@ -13,7 +13,6 @@ const authsupport = require('./auth/authsupport');
 const stsclient = require('./auth/stsclient');
 const { sessionStore } = require('./sessionstore');
 
-const metrics = require('./metrics');
 const headers = require('./headers');
 
 const behandlinger = require('./behandlinger/behandlingerroutes');
@@ -27,6 +26,8 @@ const { log } = require('./logging');
 const app = express();
 const port = config.server.port;
 
+const instrumentation = require('./instrumentation').setup(app);
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -35,7 +36,6 @@ app.use(sessionStore(config));
 app.use(compression());
 
 headers.setup(app);
-metrics.setup(app);
 
 let azureClient = null;
 azure
@@ -110,7 +110,7 @@ app.use('/static', express.static('dist/client'));
 behandlinger.setup({ app, stsclient, config: config.nav });
 
 feedback
-    .setup(app, config.s3)
+    .setup(app, config.s3, instrumentation)
     .then(() => {
         log(`Feedback storage at ${config.s3.s3url}`);
     })
