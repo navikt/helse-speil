@@ -7,7 +7,7 @@ let stsClient;
 
 const init = (stsclient, config) => {
     stsClient = stsclient;
-    aktørregisterUrl = config.aktørregisterUrl;
+    aktørregisterUrl = config.aktoerregisterUrl;
 };
 
 const hentAktørId = async ssn => {

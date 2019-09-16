@@ -38,9 +38,9 @@ const MainContentWrapper = withBehandlingContext(
                     />
                 )}
                 <LeftMenu
+                    behandling={behandling}
                     behandlinger={behandlinger}
                     setValgtBehandling={setValgtBehandling}
-                    behandling={behandling}
                 />
                 {behandling ? (
                     <div className="main-content">
