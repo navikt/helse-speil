@@ -8,7 +8,8 @@ import moment from 'moment';
 
 export const InnrapporteringContext = createContext({
     uenigheter: [],
-    kommentarer: ''
+    kommentarer: '',
+    godkjent: true
 });
 
 export const InnrapporteringProvider = withBehandlingContext(({ behandling, children }) => {
@@ -17,6 +18,7 @@ export const InnrapporteringProvider = withBehandlingContext(({ behandling, chil
     const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
     const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
     const [uenigheter, setUenigheter] = useSessionStorage(`uenigheter-${behandlingsId}`, []);
+    const [godkjent, setGodkjent] = useSessionStorage('godkjent');
 
     useEffect(() => {
         if (behandlingsId !== undefined) {
@@ -30,6 +32,7 @@ export const InnrapporteringProvider = withBehandlingContext(({ behandling, chil
                 if (response.status === 200) {
                     setUenigheter(response.data.uenigheter ?? []);
                     setKommentarer(response.data.kommentarer);
+                    setGodkjent(response.data.godkjent ?? !(response.data.uenigheter?.length > 0));
                 }
             })
             .catch(err => {
@@ -39,11 +42,17 @@ export const InnrapporteringProvider = withBehandlingContext(({ behandling, chil
 
     const removeUenighet = id => {
         setHasSendt(false);
-        setUenigheter(uenigheter => uenigheter.filter(uenighet => uenighet.id !== id));
+        const filteredUenigheter = uenigheter.filter(uenighet => uenighet.id !== id);
+        setUenigheter(filteredUenigheter);
+
+        if (filteredUenigheter.length === 0) {
+            setGodkjent(true);
+        }
     };
 
     const addUenighet = (id, label, items) => {
         setHasSendt(false);
+        setGodkjent(false);
         if (!uenigheter.find(uenighet => uenighet.id === id)) {
             setUenigheter(uenigheter => [
                 ...uenigheter,
@@ -80,6 +89,8 @@ export const InnrapporteringProvider = withBehandlingContext(({ behandling, chil
                 hasSendt,
                 setHasSendt,
                 kommentarer,
+                godkjent,
+                setGodkjent,
                 fetchFeedback,
                 setKommentarer: val => {
                     setHasSendt(false);
