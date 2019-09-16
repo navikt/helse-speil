@@ -8,11 +8,11 @@ test('mindre enn åtte uker', () => {
     const mapped = Mapper.mindreEnnÅtteUker(unmapped);
     expect(mapped).toEqual([
         {
-            label: 'Første sykdomsdag',
+            label: 'Første sykmeldingsdag',
             value: '01.01.2019'
         },
         {
-            label: 'Siste sykdomsdag',
+            label: 'Siste sykmeldingsdag',
             value: '17.01.2019'
         }
     ]);
