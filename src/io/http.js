@@ -17,8 +17,8 @@ const getData = async response => {
     }
 };
 
-const get = async url => {
-    const response = await fetch(url);
+const get = async (url, options) => {
+    const response = await fetch(url, options);
 
     if (response.status >= 400) {
         throw ResponseError(response.statusText, response.status);
@@ -31,7 +31,9 @@ const get = async url => {
 };
 
 export const behandlingerFor = async aktorId => {
-    return get(`${baseUrl}/behandlinger/${aktorId}`);
+    return get(`${baseUrl}/behandlinger/`, {
+        headers: { 'nav-person-id': aktorId }
+    });
 };
 
 export const putFeedback = async feedback => {
