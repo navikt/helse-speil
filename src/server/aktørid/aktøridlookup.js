@@ -11,24 +11,16 @@ const init = (stsclient, config) => {
 };
 
 const hentAktørId = async ssn => {
-    const stsToken = await stsClient.hentAccessToken();
-
-    const options = {
-        uri: `${aktørregisterUrl}/api/v1/identer?gjeldende=true`,
-        headers: {
-            Authorization: `Bearer ${stsToken}`,
-            Accept: 'application/json',
-            'Nav-Call-Id': uuid(),
-            'Nav-Consumer-Id': 'speil',
-            'Nav-Personidenter': ssn
-        },
-        json: true
-    };
-
-    return request.get(options).then(response => mapToAktørId(response, ssn));
+    const response = await fetchFromAktørregisteret(ssn);
+    return mapToAktørId(response, ssn);
 };
 
 const hentFnr = async aktørId => {
+    const response = await fetchFromAktørregisteret(aktørId);
+    return mapToFnr(response, aktørId);
+};
+
+const fetchFromAktørregisteret = async ident => {
     const stsToken = await stsClient.hentAccessToken();
 
     const options = {
@@ -38,12 +30,12 @@ const hentFnr = async aktørId => {
             Accept: 'application/json',
             'Nav-Call-Id': uuid(),
             'Nav-Consumer-Id': 'speil',
-            'Nav-Personidenter': aktørId
+            'Nav-Personidenter': ident
         },
         json: true
     };
 
-    return request.get(options).then(response => mapToFnr(response, aktørId));
+    return request.get(options);
 };
 
 const mapToAktørId = (response, ssn) => {
@@ -94,5 +86,6 @@ module.exports = {
     hentAktørId,
     hentFnr,
     _mapToAktørId: mapToAktørId,
+    _mapToFnr: mapToFnr,
     _maskIdentifier: maskIdentifier
 };
