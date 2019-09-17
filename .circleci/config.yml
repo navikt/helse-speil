@@ -126,7 +126,7 @@ jobs:
                  REDIS=$(docker run --volumes-from yamlprod mikefarah/yq yq r /nais/redis.yaml -j)
                  ALERTS=$(jq '' -c deploy/alerts-prod.json)
 
-                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$SPEIL', '$REDIS', 'ALERTS']')
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$SPEIL', '$REDIS', '$ALERTS']')
                  DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "prod-fss"')
                  DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
                  echo $DEPLOYMENT
