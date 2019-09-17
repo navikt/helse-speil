@@ -10,12 +10,11 @@ const { isValidSsn } = require('../aktørid/ssnvalidation');
 const setup = ({ app, stsclient, config }) => {
     aktøridlookup.init(stsclient, config);
 
-    app.get('/behandlinger/:personId', async (req, res) => {
+    app.get('/behandlinger/', async (req, res) => {
+        const personId = req.headers['nav-person-id'];
         if (process.env.NODE_ENV === 'development') {
             const filename =
-                req.params.personId.charAt(0) < 5
-                    ? 'behandlinger.json'
-                    : 'behandlinger_mapped.json';
+                personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
             fs.readFile(`__mock-data__/${filename}`, (err, data) => {
                 if (err) {
                     console.log(err);
@@ -33,7 +32,6 @@ const setup = ({ app, stsclient, config }) => {
             return;
         }
 
-        const personId = req.params.personId;
         let aktorId;
         if (isValidSsn(personId)) {
             aktorId = await aktøridlookup.hentAktørId(personId).catch(err => {

@@ -99,3 +99,19 @@ test('originalSøknad', async () => {
     };
     expect(mapped).toEqual(expected);
 });
+
+test('sakskompleks', async () => {
+    const rawServerResponse = JSON.parse(readTestdata());
+    const mapped = mapping.alle(rawServerResponse.behandlinger[1]);
+    const expected = {
+        arbeidsgiver: {
+            navn: 'S. VANDEL & DATTER',
+            orgnummer: '888888888'
+        },
+        aktorId: '12345678910113',
+        soknadsperioder: [{ sykmeldingsgrad: 100 }],
+        fom: '2019-05-09',
+        tom: '2019-05-26'
+    };
+    expect(mapped.originalSøknad).toEqual(expected);
+});

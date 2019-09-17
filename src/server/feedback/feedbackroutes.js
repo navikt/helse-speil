@@ -5,7 +5,10 @@ const { log } = require('../logging');
 const { ipAddressFromRequest } = require('../requestData.js');
 const { excludeOlderFeedback, isInvalid, parseDate, prepareCsvFeedback } = require('./utils');
 
-const setup = (app, config) => {
+let counter = null;
+
+const setup = (app, config, instrumentation) => {
+    counter = instrumentation.feedbackCounter();
     return new Promise((resolve, reject) => {
         storage
             .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
@@ -67,6 +70,7 @@ const routes = app => {
                 statusCode: 400
             });
         } else {
+            reportMetrics(req.body);
             storage
                 .save(req.body.id, req.body.txt, 'text/plain')
                 .then(() => {
@@ -81,6 +85,19 @@ const routes = app => {
                 });
         }
     });
+};
+
+const reportMetrics = requestBody => {
+    try {
+        const parsed = JSON.parse(requestBody.txt);
+        if (parsed.uenigheter.length == 0) {
+            counter.agree();
+        } else {
+            counter.disagree();
+        }
+    } catch (err) {
+        console.error(`Unable to report metrics: ${err}`);
+    }
 };
 
 module.exports = {

@@ -30,10 +30,12 @@ const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
                 />
             </div>
             <div className="CaseMenu__info">
+                <span className="CaseMenu__employer" />
+                <Normaltekst>{arbeidsgiver.navn}</Normaltekst>
                 <Normaltekst>
-                    <span className="CaseMenu__employer" />
-                    {`${arbeidsgiver.navn} / ${fom} - ${tom} / ${sykmeldingsgrad}%`}
+                    {toDate(fom)} - {toDate(tom)}
                 </Normaltekst>
+                <Normaltekst>{sykmeldingsgrad}%</Normaltekst>
             </div>
         </Panel>
     );
