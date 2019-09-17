@@ -169,17 +169,27 @@ const avklarteVerdier = behandling => ({
     sykepengegrunnlag: behandling.avklarteVerdier.sykepengegrunnlag
 });
 
-const alle = behandling => ({
-    behandlingsId: behandling.behandlingsId,
-    sykdomsvilkår: sykdomsvilkår(behandling),
-    inngangsvilkår: inngangsvilkår(behandling),
-    oppsummering: oppsummering(behandling),
-    originalSøknad: originalSøknad(behandling),
-    utbetaling: utbetaling(behandling),
-    periode: periode(behandling),
-    avklarteVerdier: avklarteVerdier(behandling),
-    sykepengeberegning: sykepengeberegning(behandling)
-});
+const alle = behandling => {
+    let mappedBehandling = behandling;
+    if (behandling.sakskompleks !== undefined) {
+        mappedBehandling = {
+            ...behandling,
+            originalSøknad: behandling.sakskompleks.søknader[0],
+            sakskompleks: undefined
+        };
+    }
+    return {
+        behandlingsId: mappedBehandling.behandlingsId,
+        sykdomsvilkår: sykdomsvilkår(mappedBehandling),
+        inngangsvilkår: inngangsvilkår(mappedBehandling),
+        oppsummering: oppsummering(mappedBehandling),
+        originalSøknad: originalSøknad(mappedBehandling),
+        utbetaling: utbetaling(mappedBehandling),
+        periode: periode(mappedBehandling),
+        avklarteVerdier: avklarteVerdier(mappedBehandling),
+        sykepengeberegning: sykepengeberegning(mappedBehandling)
+    };
+};
 
 const capitalize = string => string[0].toUpperCase() + string.toLowerCase().substring(1);
 
