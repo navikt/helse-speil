@@ -70,13 +70,7 @@ const setup = ({ app, stsclient, config }) => {
                     res.sendStatus(500);
                 }
                 res.header('Content-Type', 'application/json; charset=utf-8');
-                if (filename.indexOf('mapped') > -1) {
-                    res.send(data);
-                } else {
-                    res.send(
-                        JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling))
-                    );
-                }
+                res.send(JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling)));
             });
             return;
         }
@@ -91,7 +85,9 @@ const setup = ({ app, stsclient, config }) => {
                     .send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)))
             )
             .catch(err => {
-                console.error(err.error);
+                console.error(
+                    `Kunne ikke hente behandlinger for perioden ${fom} - ${tom}. Feil: ${err.error}`
+                );
                 res.sendStatus(500);
             });
     });

@@ -45,7 +45,6 @@ export const BehandlingerProvider = ({ children }) => {
                 const newData = { behandlinger: response.data };
                 setBehandlinger(newData.behandlinger);
                 setValgtBehandling(undefined);
-                return;
             })
             .catch(err => {
                 if (err.statusCode === 401) {

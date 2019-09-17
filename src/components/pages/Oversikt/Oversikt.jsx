@@ -36,7 +36,8 @@ const Beregning = withBehandlingContext(
                 .then(response => {
                     return {
                         behandlingsId: behandling.behandlingsId,
-                        originalSøknad: behandling.originalSøknad,
+                        fom: behandling.originalSøknad.fom,
+                        tom: behandling.originalSøknad.tom,
                         navn: response.data.navn
                     };
                 })
@@ -44,7 +45,8 @@ const Beregning = withBehandlingContext(
                     console.error('Feil ved henting av person.', err);
                     return {
                         behandlingsId: behandling.behandlingsId,
-                        originalSøknad: behandling.originalSøknad,
+                        fom: behandling.originalSøknad.fom,
+                        tom: behandling.originalSøknad.tom,
                         navn: behandling.originalSøknad.aktorId
                     };
                 });
