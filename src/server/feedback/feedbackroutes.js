@@ -90,11 +90,10 @@ const routes = app => {
 const reportMetrics = requestBody => {
     try {
         const parsed = JSON.parse(requestBody.txt);
-        const behandlingId = requestBody.id;
         if (parsed.uenigheter.length == 0) {
-            counter.agree(behandlingId);
+            counter.agree();
         } else {
-            parsed.uenigheter.forEach(uenighet => counter.disagree(behandlingId, uenighet.label));
+            counter.disagree();
         }
     } catch (err) {
         console.error(`Unable to report metrics: ${err}`);

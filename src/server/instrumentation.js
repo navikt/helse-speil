@@ -14,24 +14,19 @@ const feedbackCounter = () => {
     const counter = new prometheus.Counter({
         name: 'feedbacks',
         help: 'nr of feedbacks submitted',
-        labelNames: ['result', 'id', 'reason']
+        labelNames: ['result']
     });
 
     return {
-        agree: id => {
-            const labels = {
-                result: 'agree',
-                id: id
-            };
-            counter.inc(labels);
+        agree: () => {
+            counter.inc({
+                result: 'agree'
+            });
         },
-        disagree: (id, why) => {
-            const labels = {
-                result: 'disagree',
-                id: id,
-                why: why
-            };
-            counter.inc(labels);
+        disagree: () => {
+            counter.inc({
+                result: 'disagree'
+            });
         }
     };
 };
