@@ -7,8 +7,8 @@ const { excludeOlderFeedback, isInvalid, parseDate, prepareCsvFeedback } = requi
 
 let counter = null;
 
-const setup = (app, config, metrics) => {
-    counter = metrics.feedbackCounter();
+const setup = (app, config, instrumentation) => {
+    counter = instrumentation.feedbackCounter();
     return new Promise((resolve, reject) => {
         storage
             .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
