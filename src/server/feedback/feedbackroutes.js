@@ -87,17 +87,6 @@ const routes = app => {
     });
 };
 
-const isInvalid = req => {
-    return (
-        !req.body.id ||
-        !req.body.txt ||
-        req.body.id.length === 0 ||
-        req.body.id.length > 50 ||
-        req.body.txt.length === 0 ||
-        req.body.txt.length > 20000
-    );
-};
-
 const reportMetrics = requestBody => {
     const parsed = JSON.parse(requestBody.txt);
     const behandlingId = requestBody.id;
