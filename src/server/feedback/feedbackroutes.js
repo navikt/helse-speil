@@ -88,12 +88,16 @@ const routes = app => {
 };
 
 const reportMetrics = requestBody => {
-    const parsed = JSON.parse(requestBody.txt);
-    const behandlingId = requestBody.id;
-    if (parsed.uenigheter.length == 0) {
-        counter.agree(behandlingId);
-    } else {
-        parsed.uenigheter.forEach(uenighet => counter.disagree(behandlingId, uenighet.label));
+    try {
+        const parsed = JSON.parse(requestBody.txt);
+        const behandlingId = requestBody.id;
+        if (parsed.uenigheter.length == 0) {
+            counter.agree(behandlingId);
+        } else {
+            parsed.uenigheter.forEach(uenighet => counter.disagree(behandlingId, uenighet.label));
+        }
+    } catch (err) {
+        console.error(`Unable to report metrics: ${err}`);
     }
 };
 
