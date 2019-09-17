@@ -33,7 +33,7 @@ spec:
     max: 1
     cpuThresholdPercentage: 90
   prometheus:
-    enabled: false
+    enabled: true
   vault:
     enabled: true
   webproxy: true
