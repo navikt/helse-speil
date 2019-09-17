@@ -76,9 +76,7 @@ const Beregning = withBehandlingContext(
                                         {behandling.navn}
                                     </Lenke>
                                 </td>
-                                <td>{`${toDate(behandling.originalSøknad.fom)} - ${toDate(
-                                    behandling.originalSøknad.tom
-                                )}`}</td>
+                                <td>{`${toDate(behandling.fom)} - ${toDate(behandling.tom)}`}</td>
                             </tr>
                         ))}
                     </tbody>
