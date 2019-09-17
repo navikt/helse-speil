@@ -90,8 +90,9 @@ jobs:
                  SPEIL=$(echo $SPEIL | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
 
                  REDIS=$(docker run --volumes-from yamlpreprod mikefarah/yq yq r /nais/redis.yaml -j)
+                 ALERTS=$(jq '' -c deploy/alerts-preprod.json)
 
-                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$SPEIL', '$REDIS']')
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$SPEIL', '$REDIS', '$ALERTS']')
                  DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "dev-fss"')
                  DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
                  echo $DEPLOYMENT
@@ -123,8 +124,9 @@ jobs:
                  SPEIL=$(echo $SPEIL | jq '.spec.image = "'$DOCKER_IMG_NAME':'$COMMIT_SHORT'"' -c)
 
                  REDIS=$(docker run --volumes-from yamlprod mikefarah/yq yq r /nais/redis.yaml -j)
+                 ALERTS=$(jq '' -c deploy/alerts-prod.json)
 
-                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$SPEIL', '$REDIS']')
+                 DEPLOYMENT=$(cat deploy/deployreq.json | jq '.payload.kubernetes.resources += ['$SPEIL', '$REDIS', 'ALERTS']')
                  DEPLOYMENT=$(echo $DEPLOYMENT | jq '.environment = "prod-fss"')
                  DEPLOYMENT=$(echo $DEPLOYMENT | jq '.ref = "'$COMMIT_SHORT'"')
                  echo $DEPLOYMENT
