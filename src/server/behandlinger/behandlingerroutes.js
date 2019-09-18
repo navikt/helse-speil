@@ -58,11 +58,11 @@ const setup = ({ app, stsclient, config }) => {
                             )
                         ),
                 err => {
-                    throw Error('could not fetch behandlinger', err.error);
+                    throw Error(`Could not fetch cases: ${err.error}`);
                 }
             )
             .then(null, err => {
-                throw Error('error in mapping', err);
+                throw Error(`Could not map fetched cases: ${err}`);
             })
             .catch(err => {
                 console.error(err);
