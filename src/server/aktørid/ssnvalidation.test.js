@@ -36,6 +36,7 @@ test('invalid social security numbers', () => {
 });
 
 test('other length than 11 is invalid', () => {
+    expect(isValidSsn(undefined)).toBeFalsy();
     expect(isValidSsn(validSsn.substring(0, 10))).toBeFalsy();
     expect(isValidSsn(' ' + validSsn.substring(1, 11))).toBeFalsy();
     expect(isValidSsn(validSsn + '1')).toBeFalsy();
