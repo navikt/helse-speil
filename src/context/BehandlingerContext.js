@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { behandlingerFor, behandlingerIPeriode } from '../io/http';
+import { behandlingerFor, behandlingerIPeriode, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import moment from 'moment';
 
@@ -16,7 +16,7 @@ export const withBehandlingContext = Component => {
                 behandlinger={behandlinger}
                 behandling={behandlingerCtx.valgtBehandling}
                 setValgtBehandling={behandlingerCtx.setValgtBehandling}
-                fetchAlleBehandlinger={behandlingerCtx.fetchAlleBehandlinger}
+                fetchAlleBehandlinger={behandlingerCtx.fetchBehandlingerMedPersoninfo}
                 {...props}
             />
         );
@@ -35,6 +35,14 @@ export const BehandlingerProvider = ({ children }) => {
         setValgtBehandling(valgtBehandling);
     };
 
+    const fetchBehandlingerMedPersoninfo = async () => {
+        const alleBehandlinger = await fetchAlleBehandlinger();
+        const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
+
+        setBehandlinger(behandlingerMedPersoninfo);
+        setValgtBehandling(undefined);
+    };
+
     const fetchAlleBehandlinger = () => {
         const fom = moment()
             .subtract(1, 'days')
@@ -43,8 +51,7 @@ export const BehandlingerProvider = ({ children }) => {
         return behandlingerIPeriode(fom, tom)
             .then(response => {
                 const newData = { behandlinger: response.data };
-                setBehandlinger(newData.behandlinger);
-                setValgtBehandling(undefined);
+                return newData.behandlinger;
             })
             .catch(err => {
                 if (err.statusCode === 401) {
@@ -60,6 +67,31 @@ export const BehandlingerProvider = ({ children }) => {
                         message: 'Kunne ikke hente behandlinger. Prøv igjen senere.'
                     });
                 }
+            });
+    };
+
+    const hentNavnForBehandlinger = async alleBehandlinger => {
+        return await Promise.all(alleBehandlinger.map(behandling => fetchPerson(behandling)));
+    };
+
+    const fetchPerson = behandling => {
+        return getPerson(behandling.originalSøknad.aktorId)
+            .then(response => {
+                return {
+                    ...behandling,
+                    personinfo: {
+                        navn: response.data.navn,
+                        kjønn: response.data.kjønn
+                    }
+                };
+            })
+            .catch(err => {
+                console.error('Feil ved henting av person.', err);
+                setError({
+                    ...err,
+                    message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
+                });
+                return behandling;
             });
     };
 
@@ -100,7 +132,7 @@ export const BehandlingerProvider = ({ children }) => {
                 setValgtBehandling: velgBehandling,
                 valgtBehandling,
                 fetchBehandlinger,
-                fetchAlleBehandlinger,
+                fetchBehandlingerMedPersoninfo,
                 error,
                 clearError: () => setError(undefined)
             }}

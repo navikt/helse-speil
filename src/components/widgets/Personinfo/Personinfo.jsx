@@ -6,32 +6,34 @@ import { getPerson } from '../../../io/http';
 
 const Personinfo = withBehandlingContext(({ behandling }) => {
     const { aktorId } = behandling.originalSøknad;
-    const [person, setPerson] = useState();
+    const [personinfo, setPersoninfo] = useState(behandling.personinfo);
 
     useEffect(() => {
-        getPerson(aktorId)
-            .then(response => {
-                response.data && setPerson(response.data);
-            })
-            .catch(err => {
-                console.error('Feil ved henting av person.', err);
-                setPerson({
-                    navn: 'Navn ikke tilgjengelig',
-                    kjønn: 'Ikke tilgjengelig'
+        if (personinfo === undefined) {
+            getPerson(aktorId)
+                .then(response => {
+                    response.data && setPersoninfo(response.data);
+                })
+                .catch(err => {
+                    console.error('Feil ved henting av person.', err);
+                    setPersoninfo({
+                        navn: 'Navn ikke tilgjengelig',
+                        kjønn: 'Ikke tilgjengelig'
+                    });
                 });
-            });
+        }
     }, [behandling]);
 
     return (
         <>
-            {person && (
+            {personinfo && (
                 <div className="personalia-linje">
                     <figure
                         id="personinfo-kjønn"
-                        aria-label={`Kjønn: ${person.kjønn}`}
-                        className={person.kjønn.toLowerCase()}
+                        aria-label={`Kjønn: ${personinfo.kjønn}`}
+                        className={personinfo.kjønn.toLowerCase()}
                     />
-                    <Element>{person.navn}</Element>
+                    <Element>{personinfo.navn}</Element>
                     <Undertekst>Aktør-ID: {aktorId}</Undertekst>
                 </div>
             )}
