@@ -32,7 +32,7 @@ const Personinfo = withBehandlingContext(({ behandling, fnr }) => {
                         className={person.kjønn.toLowerCase()}
                     />
                     <Element>{person.navn}</Element>
-                    <Undertekst>Fødselsnummer: {fnr}</Undertekst>
+                    <Undertekst>Fødselsnummer: {fnr || 'Ikke tilgjengelig'}</Undertekst>
                     <Undertekst>Aktør-ID: {aktorId}</Undertekst>
                 </div>
             )}

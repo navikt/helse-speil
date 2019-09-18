@@ -34,15 +34,23 @@ const setup = ({ app, stsclient, config }) => {
         const accessToken = req.session.spadeToken;
         api.behandlingerFor(aktorId, accessToken)
             .then(
-                apiResponse =>
+                apiResponse => {
+                    const fnr =
+                        aktorId !== personId
+                            ? personId
+                            : aktøridlookup.hentFnr(aktorId).catch(err => {
+                                  console.log(err);
+                                  return null;
+                              });
                     res.status(apiResponse.statusCode).send({
                         behandlinger: apiResponse.body.behandlinger.map(behandling =>
                             mapping.alle(behandling)
                         ),
-                        fnr: aktorId !== personId ? personId : aktøridlookup.hentFnr(aktorId)
-                    }),
+                        fnr
+                    });
+                },
                 err => {
-                    throw Error(`Could not fetch cases: ${err.error}`);
+                    throw Error(`Could not fetch cases: ${err.error.toString()}`);
                 }
             )
             .then(null, err => {
