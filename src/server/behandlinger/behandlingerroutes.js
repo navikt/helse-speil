@@ -34,11 +34,11 @@ const setup = ({ app, stsclient, config }) => {
         const accessToken = req.session.spadeToken;
         api.behandlingerFor(aktorId, accessToken)
             .then(
-                apiResponse => {
+                async apiResponse => {
                     const fnr =
                         aktorId !== personId
                             ? personId
-                            : aktøridlookup.hentFnr(aktorId).catch(err => {
+                            : await aktøridlookup.hentFnr(aktorId).catch(err => {
                                   console.log(err);
                                   return null;
                               });
