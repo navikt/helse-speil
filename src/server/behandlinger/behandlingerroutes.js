@@ -48,13 +48,24 @@ const setup = ({ app, stsclient, config }) => {
 
         const accessToken = req.session.spadeToken;
         api.behandlingerFor(aktorId, accessToken)
-            .then(apiResponse =>
-                res
-                    .status(apiResponse.statusCode)
-                    .send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)))
+            .then(
+                apiResponse =>
+                    res
+                        .status(apiResponse.statusCode)
+                        .send(
+                            apiResponse.body.behandlinger.map(behandling =>
+                                mapping.alle(behandling)
+                            )
+                        ),
+                err => {
+                    throw Error('could not fetch behandlinger', err.error);
+                }
             )
+            .then(null, err => {
+                throw Error('error in mapping', err);
+            })
             .catch(err => {
-                console.error(err.error);
+                console.error(err);
                 res.sendStatus(500);
             });
     });
