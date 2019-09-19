@@ -35,9 +35,8 @@ const Beregning = withBehandlingContext(
                             <tr key={behandling.behandlingsId}>
                                 <td>
                                     <Lenke onClick={() => velgBehandling(behandling)}>
-                                        {behandling.personinfo.navn
-                                            ? behandling.personinfo.navn
-                                            : behandling.originalSøknad.aktorId}
+                                        {behandling.personinfo?.navn ??
+                                            behandling.originalSøknad.aktorId}
                                     </Lenke>
                                 </td>
                                 <td>{`${toDate(behandling.originalSøknad.fom)} - ${toDate(
