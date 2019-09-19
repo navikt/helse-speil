@@ -6,12 +6,25 @@ const mapping = require('./mapping');
 const api = require('./behandlingerlookup');
 const aktøridlookup = require('../aktørid/aktøridlookup');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
+const { nameFrom } = require('../auth/authsupport');
+
+const personIdHeaderName = 'nav-person-id';
 
 const setup = ({ app, stsclient, config }) => {
     aktøridlookup.init(stsclient, config);
 
     app.get('/behandlinger/', async (req, res) => {
-        const personId = req.headers['nav-person-id'];
+        const personId = req.headers[personIdHeaderName];
+        if (!personId) {
+            log(
+                `Missing header '${personIdHeaderName}' in request, from user ${nameFrom(
+                    req.session.spadeToken
+                )}`
+            );
+            res.status(500).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
+            return;
+        }
+
         if (process.env.NODE_ENV === 'development') {
             sendDevResponse(personId, res);
             return;
@@ -39,7 +52,7 @@ const setup = ({ app, stsclient, config }) => {
                         aktorId !== personId
                             ? personId
                             : await aktøridlookup.hentFnr(aktorId).catch(err => {
-                                  console.log(err);
+                                  console.log('Could not fetch NNIN from Aktørregisteret.', err);
                                   return null;
                               });
                     res.status(apiResponse.statusCode).send({
