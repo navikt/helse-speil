@@ -6,29 +6,27 @@ const mapping = require('./mapping');
 const api = require('./behandlingerlookup');
 const aktøridlookup = require('../aktørid/aktøridlookup');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
+const { nameFrom } = require('../auth/authsupport');
+
+const personIdHeaderName = 'nav-person-id';
 
 const setup = ({ app, stsclient, config }) => {
     aktøridlookup.init(stsclient, config);
 
     app.get('/behandlinger/', async (req, res) => {
-        const personId = req.headers['nav-person-id'];
+        const personId = req.headers[personIdHeaderName];
+        if (!personId) {
+            log(
+                `Missing header '${personIdHeaderName}' in request, from user ${nameFrom(
+                    req.session.spadeToken
+                )}`
+            );
+            res.status(500).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
+            return;
+        }
+
         if (process.env.NODE_ENV === 'development') {
-            const filename =
-                personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
-            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
-                if (err) {
-                    console.log(err);
-                    res.sendStatus(500);
-                }
-                res.header('Content-Type', 'application/json; charset=utf-8');
-                if (filename.indexOf('mapped') > -1) {
-                    res.send(data);
-                } else {
-                    res.send(
-                        JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling))
-                    );
-                }
-            });
+            sendDevResponse(personId, res);
             return;
         }
 
@@ -48,15 +46,57 @@ const setup = ({ app, stsclient, config }) => {
 
         const accessToken = req.session.spadeToken;
         api.behandlingerFor(aktorId, accessToken)
-            .then(apiResponse =>
-                res
-                    .status(apiResponse.statusCode)
-                    .send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)))
+            .then(
+                async apiResponse => {
+                    const fnr =
+                        aktorId !== personId
+                            ? personId
+                            : await aktøridlookup.hentFnr(aktorId).catch(err => {
+                                  console.log('Could not fetch NNIN from Aktørregisteret.', err);
+                                  return null;
+                              });
+                    res.status(apiResponse.statusCode).send({
+                        behandlinger: apiResponse.body.behandlinger.map(behandling =>
+                            mapping.alle(behandling)
+                        ),
+                        fnr
+                    });
+                },
+                err => {
+                    throw Error(`Could not fetch cases: ${err.error.toString()}`);
+                }
             )
+            .then(null, err => {
+                throw Error(`Could not map fetched cases: ${err}`);
+            })
             .catch(err => {
-                console.error(err.error);
+                console.error(err);
                 res.sendStatus(500);
             });
+    });
+};
+
+const sendDevResponse = (personId, res) => {
+    const filename = personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
+    fs.readFile(`__mock-data__/${filename}`, (err, data) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+
+        let behandlingerToReturn;
+        if (filename.indexOf('mapped') > -1) {
+            behandlingerToReturn = JSON.parse(data);
+        } else {
+            behandlingerToReturn = JSON.parse(data).behandlinger.map(behandling =>
+                mapping.alle(behandling)
+            );
+        }
+        res.header('Content-Type', 'application/json; charset=utf-8');
+        res.send({
+            fnr: personId,
+            behandlinger: behandlingerToReturn
+        });
     });
 };
 

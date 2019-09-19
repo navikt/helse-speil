@@ -15,6 +15,10 @@ const utbetalingsbeløp = behandling =>
     );
 
 const ferieperioder = behandling => {
+    if (!behandling.originalSøknad.fravar) {
+        console.log('Denne behandlingen mangler informasjon om fravær:', behandling.behandlingsId);
+        throw Error('mangler fravær');
+    }
     return behandling.originalSøknad.fravar.filter(
         periode => periode.type.toLowerCase() === 'ferie'
     );

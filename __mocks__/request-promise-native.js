@@ -22,6 +22,8 @@ rpn.get = options => {
                 access_token: createToken({ exp: 12345 })
             });
         }
+    } else if (options.uri.includes('/api/v1/identer')) {
+        return handleAktørregisteretRequest();
     } else {
         if (options.uri.includes('11111')) {
             return Promise.resolve(testPerson);
@@ -31,11 +33,18 @@ rpn.get = options => {
     }
 };
 
+const handleAktørregisteretRequest = () => {
+    return Promise.resolve(aktørregisteretResponse);
+};
+
+let aktørregisteretResponse;
+rpn.prepareAktørregisteretResponse = response => {
+    aktørregisteretResponse = response;
+};
+
 const createToken = claims => {
     const header = { alg: 'HS256', typ: 'JWT' };
-    return `${btoa(JSON.stringify(header))}.${btoa(
-        JSON.stringify(claims)
-    )}.bogussignature`;
+    return `${btoa(JSON.stringify(header))}.${btoa(JSON.stringify(claims))}.bogussignature`;
 };
 
 module.exports = rpn;

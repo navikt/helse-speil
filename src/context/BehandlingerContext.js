@@ -15,6 +15,7 @@ export const withBehandlingContext = Component => {
                 behandlinger={behandlinger}
                 behandling={behandlingerCtx.valgtBehandling}
                 setValgtBehandling={behandlingerCtx.setValgtBehandling}
+                fnr={behandlingerCtx.fnr}
                 {...props}
             />
         );
@@ -23,6 +24,7 @@ export const withBehandlingContext = Component => {
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
+    const [fnr, setFnr] = useState(undefined);
     const [valgtBehandling, setValgtBehandling] = useState(undefined);
 
     const velgBehandling = behandling => {
@@ -35,7 +37,8 @@ export const BehandlingerProvider = ({ children }) => {
     const fetchBehandlinger = value => {
         return behandlingerFor(value)
             .then(response => {
-                const newData = { behandlinger: response.data };
+                setFnr(response.data.fnr);
+                const newData = { behandlinger: response.data.behandlinger };
                 setBehandlinger(newData.behandlinger);
                 if (newData.behandlinger?.length !== 1) {
                     setValgtBehandling(undefined);
@@ -69,6 +72,7 @@ export const BehandlingerProvider = ({ children }) => {
                 setValgtBehandling: velgBehandling,
                 valgtBehandling,
                 fetchBehandlinger,
+                fnr,
                 error,
                 clearError: () => setError(undefined)
             }}

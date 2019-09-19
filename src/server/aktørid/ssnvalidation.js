@@ -8,7 +8,7 @@ const checksum = (fødselsnumberNumeric, weigths) =>
     (11 - (sum(fødselsnumberNumeric, weigths) % 11)) % 11;
 
 const isValidSsn = ssn => {
-    if (ssn.trim().length != 11) {
+    if (ssn?.trim().length != 11) {
         return false;
     }
 

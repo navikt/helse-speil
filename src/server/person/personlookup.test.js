@@ -1,7 +1,5 @@
 'use strict';
 
-jest.mock('request-promise-native');
-
 const personLookup = require('./personlookup');
 
 const expectedPerson = {
