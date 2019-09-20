@@ -37,30 +37,20 @@ export const BehandlingerProvider = ({ children }) => {
     const fetchBehandlinger = value => {
         return behandlingerFor(value)
             .then(response => {
+                const { behandlinger } = response.data;
                 setFnr(response.data.fnr);
-                const newData = { behandlinger: response.data.behandlinger };
-                setBehandlinger(newData.behandlinger);
-                if (newData.behandlinger?.length !== 1) {
-                    setValgtBehandling(undefined);
-                } else {
-                    setValgtBehandling(newData.behandlinger[0]);
-                }
-                return newData;
+                setBehandlinger(behandlinger);
+                setValgtBehandling(behandlinger?.length !== 1 ? undefined : behandlinger[0]);
+                return { behandlinger };
             })
             .catch(err => {
-                if (err.statusCode === 401) {
-                    setError({ ...err, message: 'Du må logge inn på nytt.' });
-                } else if (err.statusCode === 404) {
-                    setError({
-                        ...err,
-                        message: `Fant ingen behandlinger for ${value}.`
-                    });
-                } else {
-                    setError({
-                        ...err,
-                        message: 'Kunne ikke utføre søket. Prøv igjen senere.'
-                    });
-                }
+                const message =
+                    err.statusCode === 401
+                        ? 'Du må logge inn på nytt'
+                        : err.statusCode === 404
+                        ? `Fant ingen behandlinger for ${value}`
+                        : 'Kunne ikke utføre søket. Prøv igjen senere.';
+                setError({ ...err, message });
             });
     };
 
