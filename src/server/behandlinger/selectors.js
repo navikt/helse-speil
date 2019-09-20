@@ -17,6 +17,9 @@ const utbetalingsbeløp = behandling =>
 const ferieperioder = behandling => {
     if (!behandling.originalSøknad.fravar) {
         const logStructureOfTree = (object, stack) => {
+            if (object && Object.keys(object).length === 0) {
+                console.log(stack + '.[]');
+            }
             for (var property in object) {
                 // filter out non-essential keys
                 if (
