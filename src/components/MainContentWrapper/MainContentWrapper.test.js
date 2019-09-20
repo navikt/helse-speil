@@ -69,9 +69,7 @@ describe('MainContentWrapper', () => {
     });
 
     it('render empty state view when there are no behandlinger', () => {
-        const { getByText, container } = render(
-            <MainContentWrapper {...wrapperProps} behandlinger={[]} />
-        );
+        const { getByText } = render(<MainContentWrapper {...wrapperProps} behandlinger={[]} />);
         expect(
             getByText(
                 'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over'
