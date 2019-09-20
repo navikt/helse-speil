@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Personinfo.css';
+import './Personinfo.less';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import { withBehandlingContext } from '../../../context/BehandlingerContext';
 import { getPerson } from '../../../io/http';

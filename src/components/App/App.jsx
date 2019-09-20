@@ -9,7 +9,7 @@ import { InnrapporteringProvider } from '../../context/InnrapporteringContext';
 import { AuthProvider } from '../../context/AuthContext';
 import { withContextProviders } from '../../context/withContextProviders';
 import { useLogUserOut } from '../../hooks/useLogUserOut';
-import './App.css';
+import './App.less';
 import 'reset-css';
 
 const App = withContextProviders(() => {

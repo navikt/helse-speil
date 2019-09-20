@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import ErrorModal from '../widgets/modal/ErrorModal';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { Keys } from '../../hooks/useKeyboard';
-import './Search.css';
+import './Search.less';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 
 const SearchIcon = () => (
@@ -12,7 +12,6 @@ const SearchIcon = () => (
         version="1.1"
         id="Filled_Version"
         xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
         x="0px"
         y="0px"
         width="16px"

@@ -3,7 +3,7 @@ import navLogoSrc from './img/navlogo.svg';
 import ImageLink from '../ImageLink/ImageLink';
 import { AuthContext } from '../../context/AuthContext';
 import Search from '../Search/Search';
-import './HeaderBar.css';
+import './HeaderBar.less';
 
 const HeaderBar = () => {
     const { authInfo: { name, isLoggedIn } = {} } = useContext(AuthContext);

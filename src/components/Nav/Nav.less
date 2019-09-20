@@ -1,3 +1,6 @@
+@import '../../variables';
+@import '../../mixins';
+
 nav.Nav {
   display: flex;
   flex-direction: column;
@@ -19,12 +22,10 @@ nav.Nav {
     }
 
     &.active {
-      box-shadow: inset 0.25rem 0 0 0 #0067c5;
+      box-shadow: inset 0.25rem 0 0 0 @blue;
     }
 
-    &:focus {
-      outline: #254b6d solid 3px;
-    }
+    .focusable();
   }
 
   > a .typo-normal {
