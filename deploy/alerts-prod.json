@@ -16,7 +16,7 @@
         "alerts": [
             {
                 "alert": "speil-har-ingen-aktive-pods",
-                "expr": "up{app=~\"speil\",job=\"kubernetes-pods\"} == 0",
+                "expr": "up{app=~'speil',job='kubernetes-pods'} == 0",
                 "for": "2m",
                 "description": "speil mangler aktive pods i produksjon!",
                 "action": "Se poden sin logg for mer info",
