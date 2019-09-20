@@ -19,7 +19,7 @@
                 "expr": "up{app=~\"speil\",job=\"kubernetes-pods\"} == 0",
                 "for": "2m",
                 "description": "speil mangler aktive pods i produksjon!",
-                "action": "Se `kubectl describe pod {{ $labels.kubernetes_pod_name }}` for events, og `kubectl logs {{ $labels.kubernetes_pod_name }}` for logger",
+                "action": "Se poden sin logg for mer info",
                 "sla": "respond within 1h, during office hours",
                 "severity": "danger"
             }
