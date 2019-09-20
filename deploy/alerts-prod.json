@@ -10,8 +10,7 @@
     "spec": {
         "receivers": {
             "slack": {
-                "channel": "#team-bømlo-alerts",
-                "prependText": "@channel"
+                "channel": "#team-bømlo-alerts"
             }
         },
         "alerts": [
