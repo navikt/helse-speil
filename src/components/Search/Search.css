@@ -23,6 +23,7 @@
 .Search button {
     border: none;
     display: flex;
+    align-items: center;
     background: none;
     padding: 0 0.5rem;
     color: #d7dae0;
