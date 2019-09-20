@@ -1,5 +1,6 @@
-@blue: #0067c5;
-@blueActive: #254b6d;
+@import '../../../variables';
+@import '../../../mixins';
+
 @idHeight: 2rem;
 @idPadding: 0.5rem;
 @minIdWidth: 5rem;
@@ -11,13 +12,6 @@
         &::after {
             background: @color;
         }
-    }
-}
-
-.focusable() {
-    &:focus {
-        box-shadow: 0 0 0 3px @blueActive;
-        outline: none;
     }
 }
 
@@ -39,7 +33,7 @@
 
     .Picker__popup {
         background: #fff;
-        color: #3e3832;
+        color: @darkGrey;
         position: absolute;
         top: @idHeight;
         left: 0;
@@ -60,8 +54,8 @@
             }
             &:active {
                 outline: none;
-                box-shadow: 0 0 0 0.5rem #254b6d inset;
-                background: #254b6d;
+                box-shadow: 0 0 0 0.5rem @blueActive inset;
+                background: @blueActive;
             }
             .focusable();
         }
@@ -72,7 +66,7 @@
         align-items: center;
         height: @idHeight;
         padding: 0 0.5rem;
-        .setChevronColor(#0067c5);
+        .setChevronColor(@blue);
     }
 
     .focusable();

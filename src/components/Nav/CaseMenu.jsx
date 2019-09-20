@@ -1,10 +1,10 @@
 import React from 'react';
+import Picker from '../widgets/Picker';
 import PropTypes from 'prop-types';
 import { Panel } from 'nav-frontend-paneler';
+import { toDate } from '../../utils/date';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './CaseMenu.less';
-import { toDate } from '../../utils/date';
-import Picker from '../widgets/Picker';
 
 const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
     const { arbeidsgiver, fom, tom } = behandling.originalSøknad;

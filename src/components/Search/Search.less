@@ -1,0 +1,47 @@
+@import '../../variables';
+
+.Search {
+  border: 1px solid @lightGrey;
+  border-radius: 3px;
+  display: flex;
+  height: 2rem;
+  width: 24rem;
+
+  input[type='text'] {
+    padding: 0.5rem;
+    background-color: @darkGrey;
+    color: @lightGrey;
+    font-size: 1em;
+    border: none;
+    border-radius: 3px;
+    flex: 1;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  button {
+    border: none;
+    display: flex;
+    align-items: center;
+    background: none;
+    padding: 0 0.5rem;
+    color: @lightGrey;
+    width: max-content;
+    font-size: 1.3em;
+
+    &:hover {
+      filter: brightness(150%);
+      backdrop-filter: blur(2px);
+    }
+
+    &:focus {
+      color: #fff;
+    }
+
+    &:active {
+      background: black;
+    }
+  }
+}
