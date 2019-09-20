@@ -1,4 +1,4 @@
-name: Bygg og deploy master
+name: master
 
 on:
   push:
@@ -28,7 +28,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: create docker tag
       env:
-        DOCKER_IMAGE: docker.pkg.github.com/navikt/speil
+        DOCKER_IMAGE: docker.pkg.github.com/navikt/helse-speil/speil
       run: |
         echo $DOCKER_IMAGE > .docker_image
         echo $(echo $GITHUB_SHA | cut -c1-7) > .docker_tag
