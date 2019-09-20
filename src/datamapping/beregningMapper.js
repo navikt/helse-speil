@@ -3,7 +3,7 @@ import { beregningstekster, tekster } from '../tekster';
 import { toKroner } from '../utils/locale';
 
 // TODO: Legg til riktige beløp her når inntektsmelding er klart
-const inntektsmelding = årsinntekt => [
+const inntektsmelding = () => [
     item(beregningstekster('månedsinntekt'), tekster('informasjon ikke tilgjengelig')),
     item(beregningstekster('årsinntekt'), tekster('informasjon ikke tilgjengelig'))
 ];

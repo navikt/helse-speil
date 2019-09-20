@@ -14,7 +14,6 @@ const Utbetaling = withBehandlingContext(({ behandling }) => {
         antallUtbetalingsdager,
         betalerArbeidsgiverperiode,
         dagsats,
-        refusjonTilArbeidsgiver,
         sykepengegrunnlag,
         sykmeldingsgrad,
         utbetalingsbeløp

@@ -2,6 +2,10 @@
 
 const stsclient = require('./stsclient');
 
+global.console = {
+    error: jest.fn()
+};
+
 const validCreds = {
     serviceUserName: 'valid',
     serviceUserPassword: 'creds'
