@@ -58,6 +58,18 @@ const loadAll = async () => {
         .catch(err => console.warn(err));
 };
 
+const loadSome = async keys => {
+    console.log({ keys });
+
+    const objects = keys.map(key =>
+        load(key).then(res => ({
+            key,
+            value: JSON.parse(res.Body)
+        }))
+    );
+    return Promise.all(objects);
+};
+
 const createBucketIfNotExists = async name => {
     const exists = await bucketExists(name);
     if (!exists) {
@@ -97,5 +109,6 @@ module.exports = {
     init,
     save,
     load,
-    loadAll
+    loadAll,
+    loadSome
 };

@@ -1,5 +1,6 @@
 'use strict';
 
+const fs = require('fs');
 const storage = require('./storage');
 const { log } = require('../logging');
 const { ipAddressFromRequest } = require('../requestData.js');
@@ -17,7 +18,12 @@ const setup = (app, config, instrumentation) => {
                 resolve();
             })
             .catch(err => {
-                reject(err);
+                if (process.env.NODE_ENV === 'development') {
+                    devRoutes(app);
+                    resolve();
+                } else {
+                    reject(err);
+                }
             });
     });
 };
@@ -61,6 +67,20 @@ const routes = app => {
             });
     });
 
+    app.get('/feedback/list', (req, res) => {
+        const behandlingsIdList = req.query.id;
+        storage
+            .loadSome(behandlingsIdList)
+            .then(loadResult => {
+                res.setHeader('Content-Type', loadResult.ContentType || 'application/octet-stream');
+                res.send(loadResult);
+            })
+            .catch(err => {
+                console.log(`Error while fetching feedback for list: ${err.message}`);
+                res.sendStatus(err.statusCode || 500);
+            });
+    });
+
     app.put('/feedback', (req, res) => {
         log(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
         if (isInvalid(req)) {
@@ -83,6 +103,26 @@ const routes = app => {
                         statusCode: 500
                     });
                 });
+        }
+    });
+};
+
+const devRoutes = app => {
+    app.get('/feedback/list', (req, res) => {
+        const behandlingsIdList = req.query.id;
+        console.log({ behandlingsIdList });
+
+        if (process.env.NODE_ENV === 'development') {
+            const filename = 'feedback.json';
+            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                }
+                res.header('Content-Type', 'application/json; charset=utf-8');
+                res.send(data);
+            });
+            return;
         }
     });
 };
