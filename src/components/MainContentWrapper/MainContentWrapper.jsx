@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 import Periode from '../pages/Periode/Periode';
 import LeftMenu from '../LeftMenu/LeftMenu';
 import Beregning from '../pages/Beregning/Beregning';
-import Personinfo from '../widgets/Personinfo/Personinfo';
+import Personinfo from '../Personinfo/Personinfo';
 import Utbetaling from '../pages/Utbetaling/Utbetaling';
 import Oppsummering from '../pages/Oppsummering/Oppsummering';
 import Sykdomsvilkår from '../pages/Sykdomsvilkår/Sykdomsvilkår';
