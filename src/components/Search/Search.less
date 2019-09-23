@@ -1,11 +1,18 @@
 @import '../../variables';
 
+@borderRadius: 0.25rem;
+
 .Search {
-  border: 1px solid @lightGrey;
-  border-radius: 3px;
+  position: relative;
+  border: 1px solid @grey;
+  border-radius: @borderRadius;
   display: flex;
   height: 2rem;
   width: 24rem;
+
+  &:hover {
+    border-color: @lightGrey;
+  }
 
   input[type='text'] {
     padding: 0.5rem;
@@ -13,35 +20,37 @@
     color: @lightGrey;
     font-size: 1em;
     border: none;
-    border-radius: 3px;
+    border-radius: @borderRadius;
     flex: 1;
 
     &:focus {
       outline: none;
+      box-shadow: 0 0 0 2px #ead744;
     }
   }
 
   button {
-    border: none;
     display: flex;
     align-items: center;
+    position: absolute;
+    right: 0;
+    border: none;
+    height: 2rem;
+    width: 2rem;
     background: none;
-    padding: 0 0.5rem;
-    color: @lightGrey;
-    width: max-content;
-    font-size: 1.3em;
 
-    &:hover {
-      filter: brightness(150%);
-      backdrop-filter: blur(2px);
-    }
-
+    &:active,
     &:focus {
-      color: #fff;
+      outline: none;
     }
 
-    &:active {
-      background: black;
+    &:hover svg > g > path,
+    &:focus svg > g > path {
+      fill: @lightGrey;
+    }
+
+    &:active svg > g > path {
+      fill: @grey;
     }
   }
 }
