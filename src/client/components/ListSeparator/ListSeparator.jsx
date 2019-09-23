@@ -9,7 +9,7 @@ const SeparatorType = {
 };
 
 const ListSeparator = ({ type }) => (
-    <div className="ListeSeparator">
+    <div className="ListSeparator">
         <hr className={type} />
     </div>
 );

@@ -1,6 +1,6 @@
 import React from 'react';
-import ListItem from '../../components/ListItem/ListItem';
-import ListSeparator from '../../components/ListSeparator/ListSeparator';
+import ListItem from '../../components/ListItem';
+import ListSeparator from '../../components/ListSeparator';
 import Innrapportering from './Innrapportering';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
