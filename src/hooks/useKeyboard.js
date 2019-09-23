@@ -8,9 +8,9 @@ export const Keys = {
     SPACE: 32
 };
 
-const shouldDisableKeyboard = () => {
-    return document.activeElement.tagName.toLowerCase() === 'textarea';
-};
+const shouldDisableKeyboard = () =>
+    document.activeElement.tagName.toLowerCase() === 'textarea' ||
+    document.activeElement.tagName.toLowerCase() === 'input';
 
 export const useKeyboard = actionMappings => {
     const [map, setMap] = useState({});
