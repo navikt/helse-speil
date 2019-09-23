@@ -10,12 +10,7 @@ const HeaderBar = () => {
 
     return (
         <header className="HeaderBar">
-            <div className="title">
-                <a href="/" aria-label="Logo">
-                    <figure className="logo" />
-                </a>
-                <h1>Sykepenger</h1>
-            </div>
+            <h1 className="title">NAV Sykepenger</h1>
             <div className="divider" />
             <div className="search">
                 <Search />
