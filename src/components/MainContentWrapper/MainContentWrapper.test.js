@@ -22,7 +22,7 @@ const wrapperProps = {
     behandling: undefined
 };
 
-jest.mock('../widgets/Personinfo/Personinfo', () => () => <div />);
+jest.mock('../Personinfo/Personinfo', () => () => <div />);
 jest.mock('../LeftMenu/LeftMenu', () => () => <div />);
 jest.mock('../../context/BehandlingerContext', () => ({
     withBehandlingContext: jest

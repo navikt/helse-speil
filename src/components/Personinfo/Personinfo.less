@@ -1,0 +1,34 @@
+@import '../../variables';
+
+.personalia-linje {
+    padding: 1rem 1.5rem 0;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.personalia-linje > * {
+    margin-right: 0.5rem;
+    color: @darkGrey;
+}
+
+.personalia-linje > p:not(.typo-element) {
+    margin-left: 0.5rem;
+}
+
+#personinfo-kjønn {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+#personinfo-kjønn.kvinne {
+    background: url('img/Ikon_kvinne.svg');
+}
+
+#personinfo-kjønn.mann {
+    background: url('img/Ikon_mann.svg');
+}
+
+#personinfo-kjønn.kjønnsnøytral {
+    background: url('img/Ikon_nøytral.svg');
+}

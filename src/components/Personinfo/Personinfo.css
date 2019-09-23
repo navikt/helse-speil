@@ -1,5 +1,3 @@
-@import '../../../variables';
-
 .personalia-linje {
     padding: 1rem 1.5rem 0;
     height: 2.5rem;
@@ -8,12 +6,15 @@
 }
 
 .personalia-linje > * {
-    margin-right: 0.5rem;
-    color: @darkGrey;
+    color: #3e3832;
 }
 
-.personalia-linje > p:not(.typo-element) {
+.personalia-linje > *:nth-child(2) {
     margin-left: 0.5rem;
+}
+
+.personalia-linje > *:not(:first-child):not(:nth-child(2)) {
+    margin-left: 1rem;
 }
 
 #personinfo-kjønn {
