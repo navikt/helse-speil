@@ -1,38 +1,30 @@
 import React from 'react';
+import Link from './Link';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import './Nav.less';
 import { Normaltekst } from 'nav-frontend-typografi';
+import './Nav.less';
 
 const Nav = ({ active }) => {
-    const onClick = e => {
-        if (!active) {
-            e.preventDefault();
-        } else {
-            e.target.blur();
-        }
-    };
-
     return (
         <nav className={`Nav ${active ? '' : 'inactive'}`}>
-            <NavLink exact id="nav-link-sykdomsvilkår" to="/" onClick={onClick}>
+            <Link exact id="nav-link-sykdomsvilkår" to="/" active={active}>
                 <Normaltekst>Sykdomsvilkår</Normaltekst>
-            </NavLink>
-            <NavLink id="nav-link-inngangsvilkår" to="/inngangsvilkår" onClick={onClick}>
+            </Link>
+            <Link id="nav-link-inngangsvilkår" to="/inngangsvilkår" active={active}>
                 <Normaltekst>Inngangsvilkår</Normaltekst>
-            </NavLink>
-            <NavLink id="nav-link-beregning" to="/beregning" onClick={onClick}>
+            </Link>
+            <Link id="nav-link-beregning" to="/beregning" active={active}>
                 <Normaltekst>Sykepengegrunnlag</Normaltekst>
-            </NavLink>
-            <NavLink id="nav-link-periode" to="/periode" onClick={onClick}>
+            </Link>
+            <Link id="nav-link-periode" to="/periode" active={active}>
                 <Normaltekst>Sykepengeperiode</Normaltekst>
-            </NavLink>
-            <NavLink id="nav-link-utbetaling" to="/utbetaling" onClick={onClick}>
+            </Link>
+            <Link id="nav-link-utbetaling" to="/utbetaling" active={active}>
                 <Normaltekst>Utbetaling</Normaltekst>
-            </NavLink>
-            <NavLink id="nav-link-oppsummering" to="/oppsummering" onClick={onClick}>
+            </Link>
+            <Link id="nav-link-oppsummering" to="/oppsummering" active={active}>
                 <Normaltekst>Oppsummering</Normaltekst>
-            </NavLink>
+            </Link>
         </nav>
     );
 };
