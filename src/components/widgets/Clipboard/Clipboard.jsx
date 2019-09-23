@@ -3,22 +3,8 @@ import Icon from 'nav-frontend-ikoner-assets';
 import PropTypes from 'prop-types';
 import { Undertekst } from 'nav-frontend-typografi';
 import { motion, AnimatePresence } from 'framer-motion';
+import { copyContentsToClipboard } from './util';
 import './Clipboard.less';
-
-const copyContentsToClipboard = node => {
-    node.contentEditable = true;
-    const range = document.createRange();
-    range.selectNodeContents(node);
-
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    const didCopy = document.execCommand('copy');
-    document.getSelection().removeAllRanges();
-    node.contentEditable = false;
-    return didCopy;
-};
 
 const animation = {
     initial: { y: -10, opacity: 0 },
@@ -41,9 +27,7 @@ const Clipboard = ({ children }) => {
     };
 
     useEffect(() => {
-        if (didCopy) {
-            setTimeout(() => setDidCopy(false), 2000);
-        }
+        didCopy && setTimeout(() => setDidCopy(false), 2000);
     }, [didCopy]);
 
     useEffect(() => {
@@ -55,10 +39,7 @@ const Clipboard = ({ children }) => {
             <AnimatePresence initial={false}>
                 {didCopy ? (
                     <motion.div key="Clipboard__copytext" {...animation}>
-                        <Undertekst
-                            className="Clipboard__copytext"
-                            style={{ minWidth: `${minWidth}px` }}
-                        >
+                        <Undertekst className="Clipboard__copytext">
                             Kopiert
                             <Icon kind="ok-sirkel-fyll" size={14} />
                         </Undertekst>
@@ -74,7 +55,7 @@ const Clipboard = ({ children }) => {
                     </motion.div>
                 )}
             </AnimatePresence>
-            <button onClick={copy} style={{ marginLeft: `${minWidth + 8}px` }}>
+            <button onClick={copy} style={{ marginLeft: minWidth + 8 }}>
                 KOPIÉR
             </button>
         </div>
