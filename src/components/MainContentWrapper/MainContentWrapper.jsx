@@ -28,12 +28,16 @@ const MainContentWrapper = withBehandlingContext(
             setValgtBehandling(behandling);
         };
 
+        const behandlingerForAktør = behandlinger.filter(
+            b => b.originalSøknad.aktorId === behandling.originalSøknad.aktorId
+        );
+
         return (
             <div className="page-content">
                 {modalOpen && (
                     <VelgBehandlingModal
                         setModalOpen={setModalOpen}
-                        behandlinger={behandlinger}
+                        behandlinger={behandlingerForAktør}
                         velgBehandling={velgBehandling}
                     />
                 )}

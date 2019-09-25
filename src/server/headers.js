@@ -28,7 +28,7 @@ const setup = app => {
                 'Access-Control-Allow-Headers',
                 'Origin, X-Requested-With, Content-Type, Accept, nav-person-id'
             );
-            res.header('Access-Control-Allow-Methods', 'PUT, GET');
+            res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
         }
         next();
     });

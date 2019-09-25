@@ -18,6 +18,7 @@ const headers = require('./headers');
 const behandlinger = require('./behandlinger/behandlingerroutes');
 const feedback = require('./feedback/feedbackroutes');
 const person = require('./person/personroutes');
+const behandlingsession = require('./behandlingsession/behandlingsessionroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
 const { nameFrom } = require('./auth/authsupport');
@@ -32,7 +33,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(sessionStore(config));
 app.use(compression());
 
 headers.setup(app);
@@ -117,6 +117,18 @@ feedback
     .catch(err => {
         log(
             `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback are not available.`
+        );
+    });
+
+behandlingsession
+    .setup(app, config)
+    .then(client => {
+        log(`Connected to Redis storage at ${config.redis.host}`);
+        app.use(sessionStore(config, client));
+    })
+    .catch(err => {
+        log(
+            `Failed to setup redis storage: ${err}. Routes for storing and retrieving behandlingsessions are not available.`
         );
     });
 

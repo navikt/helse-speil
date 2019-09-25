@@ -31,15 +31,16 @@ export const BehandlingerProvider = ({ children }) => {
         const valgtBehandling = behandlinger.find(
             b => b.behandlingsId === behandling.behandlingsId
         );
-
         setValgtBehandling(valgtBehandling);
     };
 
     const fetchBehandlingerMedPersoninfo = async () => {
         const alleBehandlinger = await fetchAlleBehandlinger();
         const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
-
-        setBehandlinger(behandlingerMedPersoninfo);
+        const sorted = behandlingerMedPersoninfo.sort((a, b) =>
+            a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt)
+        );
+        setBehandlinger(sorted);
         setValgtBehandling(undefined);
     };
 

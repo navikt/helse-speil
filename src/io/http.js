@@ -30,6 +30,38 @@ const get = async (url, options) => {
     };
 };
 
+export const post = async (url, data) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (response.status !== 204) {
+        throw ResponseError(response.statusText, response.status);
+    }
+    return response;
+};
+
+export const del = async (url, data) => {
+    const response = await fetch(url, {
+        method: 'DELETE',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (response.status !== 204) {
+        throw ResponseError(response.statusText, response.status);
+    }
+    return response;
+};
+
 export const behandlingerFor = async aktorId => {
     return get(`${baseUrl}/behandlinger/`, {
         headers: { 'nav-person-id': aktorId }
@@ -61,7 +93,7 @@ export const getFeedback = async behandlingsId => {
 
 export const getFeedbackList = async behandlingsIdList => {
     const parameterList = behandlingsIdList.map(id => `id=${id}`).join('&');
-    return get(`${baseUrl}/feedback/list`);
+    return get(`${baseUrl}/feedback/list?${parameterList}`);
 };
 
 export const downloadFeedback = params => {
@@ -71,4 +103,21 @@ export const downloadFeedback = params => {
 
 export const getPerson = async aktorId => {
     return get(`${baseUrl}/person/${aktorId}`);
+};
+
+export const getTildeling = async behandlingsId => {
+    return get(`${baseUrl}/tildeling/${behandlingsId}`);
+};
+
+export const getTildelinger = async behandlingsIdList => {
+    const parameterList = behandlingsIdList.map(id => `id=${id}`).join('&');
+    return get(`${baseUrl}/tildeling/list?${parameterList}`);
+};
+
+export const postTildeling = async tildeling => {
+    return post(`${baseUrl}/tildeling`, tildeling);
+};
+
+export const deleteTildeling = async behandlingsId => {
+    return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };

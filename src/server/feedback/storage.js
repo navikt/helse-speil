@@ -59,15 +59,20 @@ const loadAll = async () => {
 };
 
 const loadSome = async keys => {
-    console.log({ keys });
-
-    const objects = keys.map(key =>
-        load(key).then(res => ({
-            key,
+    if (Array.isArray(keys)) {
+        const objects = keys.map(key =>
+            load(key).then(res => ({
+                key,
+                value: JSON.parse(res.Body)
+            }))
+        );
+        return Promise.all(objects);
+    } else {
+        load(keys).then(res => ({
+            key: keys,
             value: JSON.parse(res.Body)
-        }))
-    );
-    return Promise.all(objects);
+        }));
+    }
 };
 
 const createBucketIfNotExists = async name => {

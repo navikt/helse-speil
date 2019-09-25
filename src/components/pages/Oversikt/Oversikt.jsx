@@ -10,25 +10,54 @@ import Lenke from 'nav-frontend-lenker';
 import { InnrapporteringContext } from '../../../context/InnrapporteringContext';
 import PropTypes from 'prop-types';
 import { extractNameFromEmail } from '../../../utils/locale';
+import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+import { deleteTildeling, getTildelinger, postTildeling } from '../../../io/http';
+import { AuthContext } from '../../../context/AuthContext';
 
+const twoMinutesInMilliSec = 120000;
 const Oversikt = ({ history }) => {
     const behandlingerCtx = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
+    const { authInfo } = useContext(AuthContext);
     const [behandletSaker, setBehandletSaker] = useState([]);
+    const [ubehandletSaker, setUbehandletSaker] = useState([]);
+    const [tildelinger, setTildelinger] = useState([]);
+    const [error, setError] = useState(undefined);
 
     const { fetchBehandlingerMedPersoninfo, setValgtBehandling } = behandlingerCtx;
     const behandlinger = behandlingerCtx.state.behandlinger;
-    console.log({ behandlinger });
 
     useEffect(() => {
         fetchBehandlingerMedPersoninfo();
     }, []);
 
     useEffect(() => {
-        console.log({ behandlinger });
-        console.log(innrapportering.feedback);
+        fetchTildelinger();
+        const interval = window.setInterval(fetchTildelinger, twoMinutesInMilliSec);
+        return () => {
+            window.clearInterval(interval);
+        };
+    }, [behandlinger.length]);
 
-        const saker = behandlinger.reduce((acc, behandling) => {
+    const fetchTildelinger = () => {
+        if (behandlinger.length > 0) {
+            const behandlingsIdList = behandlinger.map(b => b.behandlingsId);
+            getTildelinger(behandlingsIdList)
+                .then(result => {
+                    const nyeTildelinger = result.data.filter(
+                        behandlingId => behandlingId.userId !== undefined
+                    );
+                    setTildelinger(nyeTildelinger);
+                })
+                .catch(err => {
+                    setError('Kunne ikke hente tildelingsinformasjon');
+                });
+        }
+    };
+
+    useEffect(() => {
+        let behandlingerUtenFeedback = [];
+        const sakerMedFeedback = behandlinger.reduce((acc, behandling) => {
             const feedback = innrapportering.feedback.find(f => f.key === behandling.behandlingsId);
             if (feedback) {
                 const behandletSak = {
@@ -38,10 +67,11 @@ const Oversikt = ({ history }) => {
                     userName: extractNameFromEmail(feedback.value.userId.email)
                 };
                 acc = [...acc, behandletSak];
-            }
+            } else behandlingerUtenFeedback.push(behandling);
             return acc;
         }, []);
-        setBehandletSaker(saker);
+        setBehandletSaker(sakerMedFeedback);
+        setUbehandletSaker(behandlingerUtenFeedback);
     }, [innrapportering.feedback]);
 
     const velgBehandling = behandling => {
@@ -49,7 +79,30 @@ const Oversikt = ({ history }) => {
         history.push('/sykdomsvilkår');
     };
 
-    // const goToBehandling = () => history.push('/sykdomsvilkår');
+    const tildelBehandling = behandlingsId => {
+        postTildeling({ behandlingsId: behandlingsId, userId: authInfo.email })
+            .then(response => {
+                setTildelinger([
+                    ...tildelinger,
+                    { behandlingsId: behandlingsId, userId: authInfo.email }
+                ]);
+                setError(undefined);
+            })
+            .catch(() => {
+                setError('Kunne ikke tildele sak');
+            });
+    };
+
+    const fjernTildeling = behandlingsId => {
+        deleteTildeling(behandlingsId)
+            .then(() => {
+                setTildelinger(tildelinger.filter(t => t.behandlingsId !== behandlingsId));
+                setError(undefined);
+            })
+            .catch(() => {
+                setError('Kunne ikke fjerne tildeling av sak');
+            });
+    };
 
     return (
         <div className="Oversikt">
@@ -61,22 +114,56 @@ const Oversikt = ({ history }) => {
                         <tr>
                             <th>{oversikttekster('søker')}</th>
                             <th>{oversikttekster('periode')}</th>
+                            <th>{oversikttekster('tildeling')}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {behandlinger.map(behandling => (
-                            <tr key={behandling.behandlingsId}>
-                                <td>
-                                    <Lenke onClick={() => velgBehandling(behandling)}>
-                                        {behandling.personinfo?.navn ??
-                                            behandling.originalSøknad.aktorId}
-                                    </Lenke>
-                                </td>
-                                <td>{`${toDate(behandling.originalSøknad.fom)} - ${toDate(
-                                    behandling.originalSøknad.tom
-                                )}`}</td>
-                            </tr>
-                        ))}
+                        {ubehandletSaker.map(behandling => {
+                            const tildeling = tildelinger.find(
+                                b => b.behandlingsId === behandling.behandlingsId
+                            );
+                            const tildelingsCelle = tildeling ? (
+                                tildeling.userId === authInfo.email ? (
+                                    <span className="tabell__avmelding">
+                                        <Normaltekst>
+                                            {extractNameFromEmail(tildeling.userId)}
+                                        </Normaltekst>
+                                        <Flatknapp
+                                            className="knapp--avmeld"
+                                            onClick={() => fjernTildeling(behandling.behandlingsId)}
+                                        >
+                                            Meld av
+                                        </Flatknapp>
+                                    </span>
+                                ) : (
+                                    <Normaltekst>
+                                        {extractNameFromEmail(tildeling.userId)}
+                                    </Normaltekst>
+                                )
+                            ) : (
+                                <Knapp
+                                    mini
+                                    onClick={() => tildelBehandling(behandling.behandlingsId)}
+                                >
+                                    Tildel til meg
+                                </Knapp>
+                            );
+
+                            return (
+                                <tr key={behandling.behandlingsId}>
+                                    <td>
+                                        <Lenke onClick={() => velgBehandling(behandling)}>
+                                            {behandling.personinfo?.navn ??
+                                                behandling.originalSøknad.aktorId}
+                                        </Lenke>
+                                    </td>
+                                    <td>{`${toDate(behandling.originalSøknad.fom)} - ${toDate(
+                                        behandling.originalSøknad.tom
+                                    )}`}</td>
+                                    <td>{tildelingsCelle}</td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </Panel>
