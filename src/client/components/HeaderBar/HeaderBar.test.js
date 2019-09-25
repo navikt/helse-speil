@@ -8,6 +8,9 @@ import '@testing-library/jest-dom/extend-expect';
 
 afterEach(cleanup);
 
+jest.mock('react-router-dom', () => ({
+    Link: () => <div />
+}));
 jest.mock('../ErrorModal', () => () => <div />);
 jest.mock('../Search', () => () => <div />);
 
