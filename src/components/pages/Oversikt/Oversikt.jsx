@@ -18,16 +18,12 @@ const Oversikt = ({ history }) => {
 
     const { fetchBehandlingerMedPersoninfo, setValgtBehandling } = behandlingerCtx;
     const behandlinger = behandlingerCtx.state.behandlinger;
-    console.log({ behandlinger });
 
     useEffect(() => {
         fetchBehandlingerMedPersoninfo();
     }, []);
 
     useEffect(() => {
-        console.log({ behandlinger });
-        console.log(innrapportering.feedback);
-
         const saker = behandlinger.reduce((acc, behandling) => {
             const feedback = innrapportering.feedback.find(f => f.key === behandling.behandlingsId);
             if (feedback) {
@@ -48,8 +44,6 @@ const Oversikt = ({ history }) => {
         setValgtBehandling(behandling);
         history.push('/sykdomsvilkår');
     };
-
-    // const goToBehandling = () => history.push('/sykdomsvilkår');
 
     return (
         <div className="Oversikt">
