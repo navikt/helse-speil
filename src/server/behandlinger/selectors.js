@@ -87,6 +87,12 @@ const beregningsperioden = behandling => {
     if (!Array.isArray(beregningsperiode)) {
         console.log('Forventer en liste, men beregningsperioden er ', typeof beregningsperiode);
         console.log(Object.keys(beregningsperiode).toString());
+        if (beregningsperiode.inntekter) {
+            console.log('Inntekter keys: ', Object.keys(beregningsperiode.inntekter).toString());
+        }
+        if (beregningsperiode.begrunnelse) {
+            console.log('Begrunnelse: ', beregningsperiode.begrunnelse);
+        }
     }
     return utbetalingsperioder(beregningsperiode);
 };
