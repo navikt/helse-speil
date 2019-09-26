@@ -67,6 +67,8 @@ export const BehandlingerProvider = ({ children }) => {
                         message: 'Kunne ikke hente behandlinger. Prøv igjen senere.'
                     });
                 }
+                console.error('Feil ved henting av behandlinger. ', err);
+                return [];
             });
     };
 
