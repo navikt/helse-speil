@@ -37,7 +37,6 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
         })
             .then(() => {
                 setError(undefined);
-                innrapportering.setHasSendt(true); //TODO: Håndtere 'hasSendt' på en bedre måte
                 history.push('/');
             })
             .catch(e => {

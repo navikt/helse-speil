@@ -25,16 +25,17 @@ export const InnrapporteringProvider = withBehandlingContext(
 
         useEffect(() => {
             if (behandlingsId !== undefined) {
-                const feedBackInList = feedback.find(f => f.key === behandlingsId);
-                if (feedBackInList === undefined) {
+                const feedbackInList = feedback.find(f => f.key === behandlingsId);
+                if (feedbackInList === undefined) {
                     fetchFeedback(behandlingsId);
                 } else {
-                    setUenigheter(feedBackInList.value.uenigheter ?? []);
-                    setKommentarer(feedBackInList.value.kommentarer);
+                    setUenigheter(feedbackInList.value.uenigheter ?? []);
+                    setKommentarer(feedbackInList.value.kommentarer);
                     setGodkjent(
-                        feedBackInList.value.godkjent ??
-                            !(feedBackInList.value.uenigheter?.length > 0)
+                        feedbackInList.value.godkjent ??
+                            !(feedbackInList.value.uenigheter?.length > 0)
                     );
+                    setHasSendt(true);
                 }
             }
         }, [behandlingsId]);
@@ -55,6 +56,7 @@ export const InnrapporteringProvider = withBehandlingContext(
                         setGodkjent(
                             response.data.godkjent ?? !(response.data.uenigheter?.length > 0)
                         );
+                        setHasSendt(true);
                     }
                 })
                 .catch(err => {

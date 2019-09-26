@@ -15,6 +15,7 @@ const Oversikt = ({ history }) => {
     const behandlingerCtx = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
     const [behandletSaker, setBehandletSaker] = useState([]);
+    const [ubehandletSaker, setUbehandletSaker] = useState([]);
 
     const { fetchBehandlingerMedPersoninfo, setValgtBehandling } = behandlingerCtx;
     const behandlinger = behandlingerCtx.state.behandlinger;
@@ -24,7 +25,8 @@ const Oversikt = ({ history }) => {
     }, []);
 
     useEffect(() => {
-        const saker = behandlinger.reduce((acc, behandling) => {
+        let behandlingerUtenFeedback = [];
+        const sakerMedFeedback = behandlinger.reduce((acc, behandling) => {
             const feedback = innrapportering.feedback.find(f => f.key === behandling.behandlingsId);
             if (feedback) {
                 const behandletSak = {
@@ -34,10 +36,13 @@ const Oversikt = ({ history }) => {
                     userName: extractNameFromEmail(feedback.value.userId.email)
                 };
                 acc = [...acc, behandletSak];
+            } else {
+                behandlingerUtenFeedback.push(behandling);
             }
             return acc;
         }, []);
-        setBehandletSaker(saker);
+        setBehandletSaker(sakerMedFeedback);
+        setUbehandletSaker(behandlingerUtenFeedback);
     }, [innrapportering.feedback]);
 
     const velgBehandling = behandling => {
@@ -58,7 +63,7 @@ const Oversikt = ({ history }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {behandlinger.map(behandling => (
+                        {ubehandletSaker.map(behandling => (
                             <tr key={behandling.behandlingsId}>
                                 <td>
                                     <Lenke onClick={() => velgBehandling(behandling)}>

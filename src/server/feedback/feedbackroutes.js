@@ -109,9 +109,6 @@ const routes = app => {
 
 const devRoutes = app => {
     app.get('/feedback/list', (req, res) => {
-        const behandlingsIdList = req.query.id;
-        console.log({ behandlingsIdList });
-
         if (process.env.NODE_ENV === 'development') {
             const filename = 'feedback.json';
             fs.readFile(`__mock-data__/${filename}`, (err, data) => {

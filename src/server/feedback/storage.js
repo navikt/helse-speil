@@ -59,8 +59,6 @@ const loadAll = async () => {
 };
 
 const loadSome = async keys => {
-    console.log({ keys });
-
     const objects = keys.map(key =>
         load(key).then(res => ({
             key,
