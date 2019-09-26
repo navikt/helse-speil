@@ -1,0 +1,17 @@
+@import 'FormRow.less';
+
+.FormRowWithListValues {
+  &:extend(.FormRow all);
+  > span {
+
+    .typo-normal:last-child {
+      padding: unset;
+    }
+  }
+  .FormRow__List {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 1rem;
+  }
+}

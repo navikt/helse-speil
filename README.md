@@ -1,7 +1,7 @@
 ## Speil
 
-[![CircleCI](https://circleci.com/gh/navikt/helse-speil.svg?style=svg)](https://circleci.com/gh/navikt/helse-speil)
 [![Known Vulnerabilities](https://snyk.io/test/github/navikt/helse-speil/badge.svg)](https://snyk.io/test/github/navikt/helse-speil)
+[![Actions Status](https://github.com/navikt/helse-speil/workflows/master/badge.svg)](https://github.com/navikt/helse-speil/actions)
 
 Verktøy for innsyn i behandling av sykepenger. Utvikler seg kanskje til et nytt "ordentlig" saksbehandlerverktøy.
 

@@ -16,7 +16,33 @@ const utbetalingsbeløp = behandling =>
 
 const ferieperioder = behandling => {
     if (!behandling.originalSøknad.fravar) {
-        console.log('Denne behandlingen mangler informasjon om fravær:', behandling.behandlingsId);
+        const logStructureOfTree = (object, stack) => {
+            if (object && Object.keys(object).length === 0) {
+                console.log(stack + '.[]');
+            }
+            for (var property in object) {
+                // filter out non-essential keys
+                if (
+                    property === 'vilkårsprøving' ||
+                    property === 'beregning' ||
+                    property === 'avklarteVerdier' ||
+                    property === 'arbeidInntektYtelse' ||
+                    property === 'sammenligningsperiode' ||
+                    property === 'beregningsperiode'
+                )
+                    continue;
+                if (Object.prototype.hasOwnProperty.call(object, property)) {
+                    if (typeof object[property] == 'object') {
+                        logStructureOfTree(object[property], stack + '.' + property);
+                    } else {
+                        console.log(stack + '.' + property);
+                    }
+                }
+            }
+        };
+        console.log('Struktur på behandling som mangler fravær:');
+        logStructureOfTree(behandling, '');
+
         throw Error('mangler fravær');
     }
     return behandling.originalSøknad.fravar.filter(

@@ -20,6 +20,8 @@ const createRedisSession = config => {
     return expressSession({
         secret: config.server.sessionSecret,
         ttl: 43200, // 12 hours
+        saveUninitialized: false,
+        resave: false,
         store: new redisStore({
             client: redis.createClient({
                 host: config.redis.host,
