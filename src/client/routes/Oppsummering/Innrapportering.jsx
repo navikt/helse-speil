@@ -11,8 +11,10 @@ import { withBehandlingContext } from '../../context/BehandlingerContext';
 import './Innrapportering.less';
 import moment from 'moment';
 import { Checkbox } from 'nav-frontend-skjema';
+import { AuthContext } from '../../context/AuthContext';
 
 const Innrapportering = withBehandlingContext(({ behandling }) => {
+    const authContext = useContext(AuthContext);
     const innrapportering = useContext(InnrapporteringContext);
     const [error, setError] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
@@ -26,13 +28,18 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
 
     const sendRapporter = () => {
         setIsSending(true);
+
         putFeedback({
             id: behandling.behandlingsId,
             txt: JSON.stringify({
                 uenigheter: innrapportering.uenigheter,
                 kommentarer: innrapportering.kommentarer,
                 godkjent: innrapportering.godkjent,
-                submittedDate: moment().format()
+                submittedDate: moment().format(),
+                userId: {
+                    ident: authContext.authInfo.ident,
+                    email: authContext.authInfo.email
+                }
             })
         })
             .then(() => {
