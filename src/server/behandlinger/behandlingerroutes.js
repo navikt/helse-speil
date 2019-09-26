@@ -93,11 +93,10 @@ const setup = ({ app, stsclient, config }) => {
         const fom = req.params.fom;
         const tom = req.params.tom;
         api.behandlingerIPeriode(fom, tom, accessToken)
-            .then(apiResponse =>
-                res
-                    .status(apiResponse.statusCode)
-                    .send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)))
-            )
+            .then(apiResponse => {
+                res.status(apiResponse.statusCode);
+                res.send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)));
+            })
             .catch(err => {
                 console.error(
                     `Kunne ikke hente behandlinger for perioden ${fom} - ${tom}. Feil: ${err.error}`
