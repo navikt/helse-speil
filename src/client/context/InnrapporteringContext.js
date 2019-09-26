@@ -41,7 +41,7 @@ export const InnrapporteringProvider = withBehandlingContext(
         }, [behandlingsId]);
 
         useEffect(() => {
-            if (behandlinger.length > 0 && behandling === undefined) {
+            if (behandlinger.length > 0 && behandlingsId === undefined && feedback.length === 0) {
                 const behandlingIdList = behandlinger.map(b => b.behandlingsId);
                 fetchFeedbackList(behandlingIdList);
             }
