@@ -47,7 +47,7 @@ const routes = app => {
             .then(response => {
                 const feedback = date ? excludeOlderFeedback(date, response) : response;
                 log(`Will return ${feedback.length} feedbacks out of ${response.length}`);
-                if (res.accepts('csv')) {
+                if (req.accepts('csv')) {
                     const csvResponse = prepareCsvFeedback(feedback, res);
                     res.send(csvResponse);
                 } else {

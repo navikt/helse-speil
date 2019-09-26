@@ -5,7 +5,7 @@ const submittedDateFormatted = submittedDate.replace('+02:00', '');
 const feedbackDate = '2019-08-29T16:39:04+02:00';
 
 const headerLine =
-    'Felt;Inntastet tekst;Kontekst;Saksbehandler;Innrapportert;Kommentarer;Godkjent;BehandlingsID';
+    'Felt;Inntastet tekst;Kontekst;Saksbehandler;Innrapportert;Kommentarer;Godkjent;Innsendt sist av;BehandlingsID';
 test('csv mapper should map feedback from json to csv', () => {
     const feedbacks = [
         {
@@ -32,7 +32,8 @@ test('csv mapper should map feedback from json to csv', () => {
                 ],
                 kommentarer: 'ser bra ut 👍',
                 godkjent: false,
-                submittedDate
+                submittedDate,
+                userId: { email: 'hei1@nav.no' }
             }
         },
         {
@@ -76,7 +77,8 @@ test('csv mapper should map feedback from json to csv', () => {
                 ],
                 kommentarer: 'ser veldig bra ut 👍',
                 godkjent: false,
-                submittedDate
+                submittedDate,
+                userId: { email: 'hei1@nav.no' }
             }
         }
     ];
@@ -86,10 +88,10 @@ test('csv mapper should map feedback from json to csv', () => {
     expect(result).toBe(
         `
 ${headerLine}
-id for uenighet 1;inntastet verdi for uenighet 1;underlabel-1.1, undervalue-1.1 - underlabel-1.2, undervalue-1.2;hei1@nav.no;${submittedDateFormatted};ser bra ut 👍;false;123
+id for uenighet 1;inntastet verdi for uenighet 1;underlabel-1.1, undervalue-1.1 - underlabel-1.2, undervalue-1.2;hei1@nav.no;${submittedDateFormatted};ser bra ut 👍;false;hei1@nav.no;123
 
-id for uenighet 2;inntastet verdi for uenighet 2;underlabel-2.1, undervalue-2.1 - underlabel-2.2, undervalue-2.2;ukjent bruker;${submittedDateFormatted};ser veldig bra ut 👍;false;456
-id for uenighet 3;inntastet verdi for uenighet 3;underlabel-3.1, undervalue-3.1 - underlabel-3.2, undervalue-3.2;hei3@nav.no;${submittedDateFormatted};ser veldig bra ut 👍;false;456
+id for uenighet 2;inntastet verdi for uenighet 2;underlabel-2.1, undervalue-2.1 - underlabel-2.2, undervalue-2.2;ukjent bruker;${submittedDateFormatted};ser veldig bra ut 👍;false;hei1@nav.no;456
+id for uenighet 3;inntastet verdi for uenighet 3;underlabel-3.1, undervalue-3.1 - underlabel-3.2, undervalue-3.2;hei3@nav.no;${submittedDateFormatted};ser veldig bra ut 👍;false;hei1@nav.no;456
 `.trim()
     );
 });
@@ -110,7 +112,8 @@ test('should handle uenigheter without the items field', () => {
                 ],
                 kommentarer: 'silky 👍 smooth',
                 godkjent: false,
-                submittedDate
+                submittedDate,
+                userId: undefined
             }
         }
     ];
@@ -118,7 +121,7 @@ test('should handle uenigheter without the items field', () => {
     expect(csvMapper(feedbacks)).toBe(
         `
 ${headerLine}
-id for uenighet 4;inntastet verdi for uenighet 4;;ukjent bruker;${submittedDateFormatted};silky 👍 smooth;false;789
+id for uenighet 4;inntastet verdi for uenighet 4;;ukjent bruker;${submittedDateFormatted};silky 👍 smooth;false;N/A;789
 `.trim()
     );
 });
@@ -139,7 +142,8 @@ test('should output N/A for empty fields', () => {
                 ],
                 kommentarer: undefined,
                 godkjent: undefined,
-                submittedDate: undefined
+                submittedDate: undefined,
+                userId: undefined
             }
         }
     ];
@@ -147,7 +151,7 @@ test('should output N/A for empty fields', () => {
     expect(csvMapper(feedbacks)).toBe(
         `
 ${headerLine}
-id for uenighet 5;inntastet verdi for uenighet 5;;ukjent bruker;N/A;N/A;N/A;135
+id for uenighet 5;inntastet verdi for uenighet 5;;ukjent bruker;N/A;N/A;N/A;N/A;135
 `.trim()
     );
 });
@@ -168,7 +172,8 @@ test('should handle semicolons', () => {
                 ],
                 kommentarer: 'En ting; en ting til',
                 godkjent: undefined,
-                submittedDate: undefined
+                submittedDate: undefined,
+                userId: undefined
             }
         }
     ];
@@ -176,7 +181,7 @@ test('should handle semicolons', () => {
     expect(csvMapper(feedbacks)).toBe(
         `
 ${headerLine}
-id for uenighet 6;inntastet tekst for uenighet 6- mer tekst;;ukjent bruker;N/A;En ting- en ting til;N/A;246
+id for uenighet 6;inntastet tekst for uenighet 6- mer tekst;;ukjent bruker;N/A;En ting- en ting til;N/A;N/A;246
 `.trim()
     );
 });
@@ -195,8 +200,8 @@ test('should handle earlier data structure', () => {
     expect(csvMapper(feedbacks)).toBe(
         `
 ${headerLine}
-Sykdomsvilkår er oppfylt;Nei;;N/A;N/A;N/A;N/A;357
-Sykmeldingsgrad;Skal være 66%;;N/A;N/A;N/A;N/A;357
+Sykdomsvilkår er oppfylt;Nei;;N/A;N/A;N/A;N/A;N/A;357
+Sykmeldingsgrad;Skal være 66%;;N/A;N/A;N/A;N/A;N/A;357
 `.trim()
     );
 });
@@ -209,7 +214,8 @@ test('should handle feedback with no uenigheter', () => {
                 uenigheter: [],
                 kommentarer: 'Litten kommentar, bare',
                 godkjent: true,
-                submittedDate
+                submittedDate,
+                userId: { email: 'hei1@nav.no' }
             }
         }
     ];
@@ -217,7 +223,7 @@ test('should handle feedback with no uenigheter', () => {
     expect(csvMapper(feedbacks)).toBe(
         `
 ${headerLine}
-;;;N/A;${submittedDateFormatted};Litten kommentar, bare;true;468
+;;;N/A;${submittedDateFormatted};Litten kommentar, bare;true;hei1@nav.no;468
 `.trim()
     );
 });

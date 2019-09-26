@@ -1,36 +1,73 @@
-const aktøridlookup = require('./aktøridlookup');
+const sut = require('./aktøridlookup');
+const requestMock = require('request-promise-native');
 
-describe('response mapping', () => {
-    test('maps OK response correctly', () => {
-        const ssn = '140819';
-        const aktørId = '1000036876618';
+describe('calling Aktørregisteret', () => {
+    const stsClient = {
+        hentAccessToken: () => Promise.resolve()
+    };
+    const config = {
+        aktoerregisterUrl: ''
+    };
+    sut.init(stsClient, config);
 
-        expect(aktøridlookup._mapResponse(okResponse(ssn, aktørId), ssn)).resolves.toEqual(aktørId);
+    test('hentAktørId works', async () => {
+        const nnin = '123';
+        const expectedAktørId = '456';
+
+        requestMock.prepareAktørregisteretResponse({
+            [nnin]: {
+                identer: [
+                    {
+                        identgruppe: 'AktoerId',
+                        ident: expectedAktørId
+                    }
+                ]
+            }
+        });
+
+        const resultingAktørId = await sut.hentAktørId(nnin);
+        expect(resultingAktørId).toEqual(expectedAktørId);
     });
 
-    test('rejects on error in response', () => {
-        const ssn = '140819';
+    test('hentFnr works', async () => {
+        const aktørId = '456';
+        const expectedNnin = '123';
 
-        const response = errorResponse(ssn);
+        requestMock.prepareAktørregisteretResponse({
+            [aktørId]: {
+                identer: [
+                    {
+                        identgruppe: 'NorskIdent',
+                        ident: expectedNnin
+                    }
+                ]
+            }
+        });
 
-        expect(aktøridlookup._mapResponse(response, ssn)).rejects.toEqual('AktørId not found');
+        const resultingNnin = await sut.hentFnr(aktørId);
+        expect(resultingNnin).toEqual(expectedNnin);
     });
 
-    const okResponse = (ssn, aktørId) => ({
-        [ssn]: {
-            identer: [
-                {
-                    identgruppe: 'AktoerId',
-                    ident: aktørId
-                }
-            ]
-        }
+    test('hentAktørId rejects on error in response', () => {
+        const aktørId = '123';
+        requestMock.prepareAktørregisteretResponse({
+            [aktørId]: {
+                feilmelding: 'uh-oh'
+            }
+        });
+
+        expect(sut.hentAktørId(aktørId)).rejects.toEqual('AktørId not found');
     });
 
-    const errorResponse = ssn => ({
-        [ssn]: {
-            feilmelding: 'uh-oh'
-        }
+    test('hentFnr rejects on error in response', () => {
+        const nnin = '456';
+        requestMock.prepareAktørregisteretResponse({
+            [nnin]: {
+                feilmelding: 'uh-oh'
+            }
+        });
+
+        expect(sut.hentFnr(nnin)).rejects.toEqual('NNIN not found');
     });
 });
 
@@ -38,6 +75,6 @@ describe('identifier masking', () => {
     test('obfuscates input', () => {
         const input = '01019512345';
         const result = '0101****345';
-        expect(aktøridlookup._maskIdentifier(input)).toEqual(result);
+        expect(sut._maskIdentifier(input)).toEqual(result);
     });
 });
