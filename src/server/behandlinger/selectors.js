@@ -85,7 +85,7 @@ const beregningsperioden = behandling => {
         behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
             .sykepengegrunnlagIArbeidsgiverperioden.grunnlag;
     if (!Array.isArray(beregningsperiode)) {
-        console.log('Forventer en liste, men sykepengegrunnlag er ', typeof beregningsperiode);
+        console.log('Forventer en liste, men beregningsperioden er ', typeof beregningsperiode);
         console.log(Object.keys(beregningsperiode).toString());
     }
     return utbetalingsperioder(beregningsperiode);
@@ -94,7 +94,10 @@ const beregningsperioden = behandling => {
 const sammenligningsperioden = behandling => {
     const sammenligningsperiode = behandling.avklarteVerdier.sykepengegrunnlag.grunnlag;
     if (!Array.isArray(sammenligningsperiode)) {
-        console.log('Forventer en liste, men sykepengegrunnlag er ', typeof sammenligningsperiode);
+        console.log(
+            'Forventer en liste, men sammenligningsgrunnlag er ',
+            typeof sammenligningsperiode
+        );
         console.log(Object.keys(sammenligningsperiode).toString());
     }
     return utbetalingsperioder(sammenligningsperiode);
