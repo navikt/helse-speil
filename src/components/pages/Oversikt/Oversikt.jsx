@@ -13,6 +13,7 @@ import { extractNameFromEmail } from '../../../utils/locale';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { deleteTildeling, getTildelinger, postTildeling } from '../../../io/http';
 import { AuthContext } from '../../../context/AuthContext';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 
 const twoMinutesInMilliSec = 120000;
 const Oversikt = ({ history }) => {
@@ -50,7 +51,8 @@ const Oversikt = ({ history }) => {
                     setTildelinger(nyeTildelinger);
                 })
                 .catch(err => {
-                    setError('Kunne ikke hente tildelingsinformasjon');
+                    setError('Kunne ikke hente tildelingsinformasjon.');
+                    console.log(error);
                 });
         }
     };
@@ -67,7 +69,9 @@ const Oversikt = ({ history }) => {
                     userName: extractNameFromEmail(feedback.value.userId.email)
                 };
                 acc = [...acc, behandletSak];
-            } else behandlingerUtenFeedback.push(behandling);
+            } else {
+                behandlingerUtenFeedback.push(behandling);
+            }
             return acc;
         }, []);
         setBehandletSaker(sakerMedFeedback);
@@ -89,7 +93,8 @@ const Oversikt = ({ history }) => {
                 setError(undefined);
             })
             .catch(() => {
-                setError('Kunne ikke tildele sak');
+                setError('Kunne ikke tildele sak.');
+                console.log(error);
             });
     };
 
@@ -100,31 +105,30 @@ const Oversikt = ({ history }) => {
                 setError(undefined);
             })
             .catch(() => {
-                setError('Kunne ikke fjerne tildeling av sak');
+                setError('Kunne ikke fjerne tildeling av sak.');
+                console.log(error);
             });
     };
 
     return (
         <div className="Oversikt">
-            <Panel border className="Oversikt__list">
-                <Undertittel className="panel-tittel">{oversikttekster('tittel')}</Undertittel>
-
-                <table className="tabell">
-                    <thead>
-                        <tr>
-                            <th>{oversikttekster('søker')}</th>
-                            <th>{oversikttekster('periode')}</th>
-                            <th>{oversikttekster('tildeling')}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            {error && <AlertStripeAdvarsel>{error}</AlertStripeAdvarsel>}
+            <div className="Oversikt__container">
+                <Panel border className="Oversikt__neste-behandlinger">
+                    <Undertittel className="panel-tittel">{oversikttekster('tittel')}</Undertittel>
+                    <ul>
+                        <li className="row">
+                            <Normaltekst>{oversikttekster('søker')}</Normaltekst>
+                            <Normaltekst>{oversikttekster('periode')}</Normaltekst>
+                            <Normaltekst>{oversikttekster('tildeling')}</Normaltekst>
+                        </li>
                         {ubehandletSaker.map(behandling => {
                             const tildeling = tildelinger.find(
                                 b => b.behandlingsId === behandling.behandlingsId
                             );
                             const tildelingsCelle = tildeling ? (
                                 tildeling.userId === authInfo.email ? (
-                                    <span className="tabell__avmelding">
+                                    <>
                                         <Normaltekst>
                                             {extractNameFromEmail(tildeling.userId)}
                                         </Normaltekst>
@@ -134,7 +138,7 @@ const Oversikt = ({ history }) => {
                                         >
                                             Meld av
                                         </Flatknapp>
-                                    </span>
+                                    </>
                                 ) : (
                                     <Normaltekst>
                                         {extractNameFromEmail(tildeling.userId)}
@@ -150,40 +154,38 @@ const Oversikt = ({ history }) => {
                             );
 
                             return (
-                                <tr key={behandling.behandlingsId}>
-                                    <td>
-                                        <Lenke onClick={() => velgBehandling(behandling)}>
-                                            {behandling.personinfo?.navn ??
-                                                behandling.originalSøknad.aktorId}
-                                        </Lenke>
-                                    </td>
-                                    <td>{`${toDate(behandling.originalSøknad.fom)} - ${toDate(
-                                        behandling.originalSøknad.tom
-                                    )}`}</td>
-                                    <td>{tildelingsCelle}</td>
-                                </tr>
+                                <li className="row row--info" key={behandling.behandlingsId}>
+                                    <Lenke onClick={() => velgBehandling(behandling)}>
+                                        {behandling.personinfo?.navn ??
+                                            behandling.originalSøknad.aktorId}
+                                    </Lenke>
+                                    <Normaltekst>{`${toDate(
+                                        behandling.originalSøknad.fom
+                                    )} - ${toDate(behandling.originalSøknad.tom)}`}</Normaltekst>
+                                    <span className="row__tildeling">{tildelingsCelle}</span>
+                                </li>
                             );
                         })}
-                    </tbody>
-                </table>
-            </Panel>
-            <Panel border className="Oversikt__historikk">
-                <Undertittel className="panel-tittel">Siste behandlinger</Undertittel>
-                <ul>
-                    <li className="row" key="header">
-                        <Normaltekst>Søker</Normaltekst>
-                        <Normaltekst>Saksbehandler</Normaltekst>
-                        <Normaltekst>Innsendt</Normaltekst>
-                    </li>
-                    {behandletSaker.map(sak => (
-                        <li className="row row--info" key={sak.behandlingsId}>
-                            <Lenke onClick={() => velgBehandling(sak)}>{sak.søkerName}</Lenke>
-                            <Normaltekst>{sak.userName}</Normaltekst>
-                            <Normaltekst>{toDateAndTime(sak.submittedDate)}</Normaltekst>
+                    </ul>
+                </Panel>
+                <Panel border className="Oversikt__historikk">
+                    <Undertittel className="panel-tittel">Siste behandlinger</Undertittel>
+                    <ul>
+                        <li className="row" key="header">
+                            <Normaltekst>Søker</Normaltekst>
+                            <Normaltekst>Saksbehandler</Normaltekst>
+                            <Normaltekst>Innsendt</Normaltekst>
                         </li>
-                    ))}
-                </ul>
-            </Panel>
+                        {behandletSaker.map(sak => (
+                            <li className="row row--info" key={sak.behandlingsId}>
+                                <Lenke onClick={() => velgBehandling(sak)}>{sak.søkerName}</Lenke>
+                                <Normaltekst>{sak.userName}</Normaltekst>
+                                <Normaltekst>{toDateAndTime(sak.submittedDate)}</Normaltekst>
+                            </li>
+                        ))}
+                    </ul>
+                </Panel>
+            </div>
         </div>
     );
 };
