@@ -99,7 +99,7 @@ const setup = ({ app, stsclient, config }) => {
             })
             .catch(err => {
                 console.error(
-                    `Kunne ikke hente behandlinger for perioden ${fom} - ${tom}. Feil: ${err.error}`
+                    `Kunne ikke hente behandlinger for perioden ${fom} - ${tom}. Feil: ${err}`
                 );
                 res.sendStatus(500);
             });
