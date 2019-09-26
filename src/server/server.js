@@ -123,7 +123,7 @@ feedback
 person.setup(app, stsclient);
 
 app.get('/', (_, res) => {
-    res.redirect('/static');
+    res.redirect('/static/');
 });
 
 app.listen(port, () => log(`Speil backend listening on port ${port}`));

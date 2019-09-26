@@ -1,8 +1,10 @@
 'use strict';
 
-jest.mock('request-promise-native');
-
 const stsclient = require('./stsclient');
+
+global.console = {
+    error: jest.fn()
+};
 
 const validCreds = {
     serviceUserName: 'valid',

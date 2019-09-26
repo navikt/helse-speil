@@ -1,0 +1,60 @@
+.Clipboard {
+  position: relative;
+  display:flex;
+  align-items: center;
+
+  > div {
+    position: absolute;
+  }
+
+  .Clipboard__copytext.typo-undertekst {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0 0.5rem;
+
+    @backgroundColor: #6ab889;
+    background: rgba(
+            red(@backgroundColor),
+            green(@backgroundColor),
+            blue(@backgroundColor),
+            0.5
+    );
+
+    > svg {
+      margin-left: 0.25rem;
+    }
+  }
+
+  .Clipboard__children {
+    min-width: 5rem;
+    text-align: right;
+  }
+
+  &:hover .Clipboard__children {
+    border-bottom: 1px dotted #000;
+  }
+
+  > button {
+    background: #0067c5;
+    border: none;
+    border-radius: 0.625rem;
+    color: #fff;
+    cursor: pointer;
+    height: 1rem;
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+    line-height: 0.875rem;
+    letter-spacing: 0.43px;
+    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+
+    &:focus,
+    &:active {
+      box-shadow: 0 0 0 3px #254b6d;
+      outline: none;
+    }
+  }
+}
