@@ -177,6 +177,8 @@ const alle = behandling => {
             sakskompleks: undefined
         };
     }
+    console.log('Vurderingstidpunkt: ', behandling.avklarteVerdier.medlemsskap.vurderingstidspunkt);
+
     return {
         behandlingsId: mappedBehandling.behandlingsId,
         sykdomsvilkår: sykdomsvilkår(mappedBehandling),
