@@ -80,14 +80,25 @@ const utbetalingsperioder = perioder => {
     );
 };
 
-const beregningsperioden = behandling =>
-    utbetalingsperioder(
+const beregningsperioden = behandling => {
+    const beregningsperiode =
         behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
-            .sykepengegrunnlagIArbeidsgiverperioden.grunnlag
-    );
+            .sykepengegrunnlagIArbeidsgiverperioden.grunnlag;
+    if (!Array.isArray(beregningsperiode)) {
+        console.log('Forventer en liste, men sykepengegrunnlag er ', typeof beregningsperiode);
+        console.log(Object.keys(beregningsperiode).toString());
+    }
+    return utbetalingsperioder(beregningsperiode);
+};
 
-const sammenligningsperioden = behandling =>
-    utbetalingsperioder(behandling.avklarteVerdier.sykepengegrunnlag.grunnlag);
+const sammenligningsperioden = behandling => {
+    const sammenligningsperiode = behandling.avklarteVerdier.sykepengegrunnlag.grunnlag;
+    if (!Array.isArray(sammenligningsperiode)) {
+        console.log('Forventer en liste, men sykepengegrunnlag er ', typeof sammenligningsperiode);
+        console.log(Object.keys(sammenligningsperiode).toString());
+    }
+    return utbetalingsperioder(sammenligningsperiode);
+};
 
 const sykepengegrunnlag = behandling => {
     return behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
