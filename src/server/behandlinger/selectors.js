@@ -42,8 +42,7 @@ const ferieperioder = behandling => {
         };
         console.log('Struktur på behandling som mangler fravær:');
         logStructureOfTree(behandling, '');
-
-        throw Error('mangler fravær');
+        return [];
     }
     return behandling.originalSøknad.fravar.filter(
         periode => periode.type.toLowerCase() === 'ferie'
