@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import IconRow from '../../components/Rows/IconRow';
 import ListRow from '../../components/Rows/ListRow';
 import ItemMapper from '../../datamapping/inngangsvilkårMapper';
-import NavigationButtons from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel } from 'nav-frontend-typografi';
 import { inngangsvilkårtekster as tekster } from '../../tekster';
 import { withBehandlingContext } from '../../context/BehandlingerContext';
 import TidligerePerioderModal from './TidligerePerioderModal';
+import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
 
 const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
@@ -53,7 +53,7 @@ const Inngangsvilkår = withBehandlingContext(({ behandling }) => {
                 label="Under 67 år"
                 items={ItemMapper.under67År(behandling.inngangsvilkår.dagerIgjen)}
             />
-            <NavigationButtons previous="/" next="/beregning" />
+            <NavigationButtons previous="/sykdomsvilkår" next="/beregning" />
         </Panel>
     );
 });

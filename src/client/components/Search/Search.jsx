@@ -21,8 +21,8 @@ const Search = ({ history }) => {
     };
 
     const goBackToStart = newData => {
-        if (newData?.behandlinger && history.location.pathname !== '/') {
-            history.push('/');
+        if (newData?.behandlinger && history.location.pathname !== '/sykdomsvilkår') {
+            history.push('/sykdomsvilkår');
         }
     };
 

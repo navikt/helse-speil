@@ -9,32 +9,34 @@ const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
 const PersonBar = withBehandlingContext(({ behandling, fnr }) => {
     const { aktorId } = behandling.originalSøknad;
-    const [person, setPerson] = useState();
+    const [personinfo, setPersoninfo] = useState(behandling.personinfo);
 
     useEffect(() => {
-        getPerson(aktorId)
-            .then(response => {
-                response.data && setPerson(response.data);
-            })
-            .catch(err => {
-                console.error('Feil ved henting av person.', err);
-                setPerson({
-                    navn: 'Navn ikke tilgjengelig',
-                    kjønn: 'Ikke tilgjengelig'
+        if (personinfo === undefined) {
+            getPerson(aktorId)
+                .then(response => {
+                    response.data && setPersoninfo(response.data);
+                })
+                .catch(err => {
+                    console.error('Feil ved henting av person.', err);
+                    setPersoninfo({
+                        navn: 'Navn ikke tilgjengelig',
+                        kjønn: 'Ikke tilgjengelig'
+                    });
                 });
-            });
+        }
     }, [behandling]);
 
     return (
         <>
-            {person && (
+            {personinfo && (
                 <div className="PersonBar">
                     <figure
                         id="PersonBar__gender"
-                        aria-label={`Kjønn: ${person.kjønn}`}
-                        className={person.kjønn.toLowerCase()}
+                        aria-label={`Kjønn: ${personinfo.kjønn}`}
+                        className={personinfo.kjønn.toLowerCase()}
                     />
-                    <Element>{person.navn}</Element>
+                    <Element>{personinfo.navn}</Element>
                     <Undertekst>/</Undertekst>
                     {fnr ? (
                         <Clipboard>

@@ -36,6 +36,10 @@ export const behandlingerFor = async aktorId => {
     });
 };
 
+export const behandlingerIPeriode = async (fom, tom) => {
+    return get(`${baseUrl}/behandlinger/periode/${fom}/${tom}`);
+};
+
 export const putFeedback = async feedback => {
     const response = await fetch(baseUrl + '/feedback', {
         method: 'PUT',

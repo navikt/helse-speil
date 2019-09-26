@@ -7,7 +7,7 @@ import './Nav.less';
 const Nav = ({ active }) => {
     return (
         <nav className={`Nav ${active ? '' : 'inactive'}`}>
-            <Link exact id="nav-link-sykdomsvilkår" to="/" active={active}>
+            <Link exact id="nav-link-sykdomsvilkår" to="/sykdomsvilkår" active={active}>
                 <Normaltekst>Sykdomsvilkår</Normaltekst>
             </Link>
             <Link id="nav-link-inngangsvilkår" to="/inngangsvilkår" active={active}>
