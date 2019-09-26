@@ -11,7 +11,7 @@ import { withBehandlingContext } from '../../context/BehandlingerContext';
 import './Innrapportering.less';
 import moment from 'moment';
 import { Checkbox } from 'nav-frontend-skjema';
-import { AuthContext } from '../../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const Innrapportering = withBehandlingContext(({ behandling }) => {
     const authContext = useContext(AuthContext);
