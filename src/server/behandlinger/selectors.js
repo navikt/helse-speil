@@ -88,7 +88,9 @@ const beregningsperioden = behandling => {
         console.log('Forventer en liste, men beregningsperioden er ', typeof beregningsperiode);
         console.log(Object.keys(beregningsperiode).toString());
         if (beregningsperiode.inntekter) {
+            console.log('Inntekter er type ', typeof beregningsperiode.inntekter);
             console.log('Inntekter keys: ', Object.keys(beregningsperiode.inntekter).toString());
+            return [];
         }
         if (beregningsperiode.begrunnelse) {
             console.log('Begrunnelse: ', beregningsperiode.begrunnelse);
