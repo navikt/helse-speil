@@ -76,6 +76,19 @@ const setup = ({ app, stsclient, config }) => {
     });
 
     app.get('/behandlinger/periode/:fom/:tom', (req, res) => {
+        if (process.env.NODE_ENV === 'development') {
+            const filename = 'behandlinger.json';
+            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                }
+                res.header('Content-Type', 'application/json; charset=utf-8');
+                res.send(JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling)));
+            });
+            return;
+        }
+
         const accessToken = req.session.spadeToken;
         const fom = req.params.fom;
         const tom = req.params.tom;
