@@ -88,9 +88,15 @@ const beregningsperioden = behandling => {
         console.log('Forventer en liste, men beregningsperioden er ', typeof beregningsperiode);
         console.log(Object.keys(beregningsperiode).toString());
         if (beregningsperiode.inntekter) {
-            console.log('Inntekter er type ', typeof beregningsperiode.inntekter);
-            console.log('Inntekter keys: ', Object.keys(beregningsperiode.inntekter).toString());
-            return [];
+            if (
+                Array.isArray(beregningsperiode.inntekter) &&
+                beregningsperiode.inntekter.utbetalingsperiode &&
+                beregningsperiode.inntekter.beløp
+            ) {
+                return utbetalingsperioder(beregningsperiode.inntekter);
+            } else {
+                return [];
+            }
         }
         if (beregningsperiode.begrunnelse) {
             console.log('Begrunnelse: ', beregningsperiode.begrunnelse);
@@ -107,6 +113,22 @@ const sammenligningsperioden = behandling => {
             typeof sammenligningsperiode
         );
         console.log(Object.keys(sammenligningsperiode).toString());
+        if (sammenligningsperiode.inntekter) {
+            console.log('Inntekter er type ', typeof sammenligningsperiode.inntekter);
+            console.log(
+                'Inntekter keys: ',
+                Object.keys(sammenligningsperiode.inntekter).toString()
+            );
+            if (
+                Array.isArray(sammenligningsperiode.inntekter) &&
+                sammenligningsperiode.inntekter.utbetalingsperiode &&
+                sammenligningsperiode.inntekter.beløp
+            ) {
+                return utbetalingsperioder(sammenligningsperiode.inntekter);
+            } else {
+                return [];
+            }
+        }
     }
     return utbetalingsperioder(sammenligningsperiode);
 };
