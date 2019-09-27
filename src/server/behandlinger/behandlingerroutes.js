@@ -10,10 +10,10 @@ const { nameFrom } = require('../auth/authsupport');
 
 const personIdHeaderName = 'nav-person-id';
 
-const setup = ({ app, stsclient, config }) => {
+const setup = ({ app, stsclient, config, path }) => {
     aktøridlookup.init(stsclient, config);
 
-    app.get('/behandlinger/', async (req, res) => {
+    app.get(`${path}/behandlinger/`, async (req, res) => {
         const personId = req.headers[personIdHeaderName];
         if (!personId) {
             log(
@@ -75,7 +75,7 @@ const setup = ({ app, stsclient, config }) => {
             });
     });
 
-    app.get('/behandlinger/periode/:fom/:tom', (req, res) => {
+    app.get(`${path}/behandlinger/periode/:fom/:tom`, (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             const filename = 'behandlinger.json';
             fs.readFile(`__mock-data__/${filename}`, (err, data) => {

@@ -105,10 +105,7 @@ app.use('/*', (req, res, next) => {
     }
 });
 
-app.use('/static', express.static('dist/client'));
-
-behandlinger.setup({ app, stsclient, config: config.nav });
-
+person.setup(app, stsclient);
 feedback
     .setup(app, config.s3, instrumentation)
     .then(() => {
@@ -116,14 +113,24 @@ feedback
     })
     .catch(err => {
         log(
-            `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback are not available.`
+            `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback will not work, as setup will not be retried.`
         );
     });
 
-person.setup(app, stsclient);
-
-app.get('/', (_, res) => {
-    res.redirect('/static/');
+behandlinger.setup({ app, stsclient, config: config.nav, path: '/api' });
+app.get('/*', (req, res, next) => {
+    if (!req.accepts('html') && /\/api/.test(req.url)) {
+        console.debug(`Received a request for '${req.url}', which didn't match a route`);
+        res.sendStatus(404);
+        return;
+    } else {
+        next();
+    }
 });
+
+// At the time of writing this comment, the setup of the static 'routes' has to be done in a particular order.
+app.use('/static', express.static('dist/client'));
+app.use('/*', express.static('dist/client/index.html'));
+app.use('/', express.static('dist/client/'));
 
 app.listen(port, () => log(`Speil backend listening on port ${port}`));

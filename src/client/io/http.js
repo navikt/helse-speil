@@ -6,7 +6,7 @@ export const ResponseError = (message, statusCode) => ({
 });
 
 /* eslint-disable no-undef */
-const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
 /* eslint-enable */
 
 const getData = async response => {
@@ -17,8 +17,19 @@ const getData = async response => {
     }
 };
 
+const ensureAcceptHeader = (options = {}) => {
+    const acceptHeader = {
+        Accept: 'application/json'
+    };
+    if (!options?.headers) {
+        return { ...options, headers: acceptHeader };
+    } else if (!options.headers.Accept || !options.headers.accept) {
+        return { ...options, headers: { ...acceptHeader, ...options.headers } };
+    }
+};
+
 const get = async (url, options) => {
-    const response = await fetch(url, options);
+    const response = await fetch(url, ensureAcceptHeader(options));
 
     if (response.status >= 400) {
         throw ResponseError(response.statusText, response.status);

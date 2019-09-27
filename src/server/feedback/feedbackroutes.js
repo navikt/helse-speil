@@ -8,22 +8,13 @@ const { excludeOlderFeedback, isInvalid, parseDate, prepareCsvFeedback } = requi
 let counter = null;
 
 const setup = (app, config, instrumentation) => {
+    routes({ app, path: '/api' });
     counter = instrumentation.feedbackCounter();
-    return new Promise((resolve, reject) => {
-        storage
-            .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
-            .then(() => {
-                routes(app);
-                resolve();
-            })
-            .catch(err => {
-                reject(err);
-            });
-    });
+    return storage.init(config.s3url, config.s3AccessKey, config.s3SecretKey);
 };
 
-const routes = app => {
-    app.get('/feedback/:behandlingsId', (req, res) => {
+const routes = ({ app, path }) => {
+    app.get(`${path}/feedback/:behandlingsId`, (req, res) => {
         const behandlingsId = req.params.behandlingsId;
 
         storage
@@ -40,7 +31,7 @@ const routes = app => {
             });
     });
 
-    app.get('/feedback', async (req, res) => {
+    app.get(`${path}/feedback`, async (req, res) => {
         const date = parseDate(req.query.fraogmed);
 
         storage
@@ -62,7 +53,7 @@ const routes = app => {
             });
     });
 
-    app.put('/feedback', (req, res) => {
+    app.put(`${path}/feedback`, (req, res) => {
         log(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
         if (isInvalid(req)) {
             log(`Rejecting feedback due to validation error`);

@@ -9,7 +9,7 @@ const setup = (app, stsclient) => {
 };
 
 const routes = app => {
-    app.get('/person/:aktorId', (req, res) => {
+    app.get('/api/person/:aktorId', (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             const response =
                 req.params.aktorId === '10000000000001'
