@@ -177,6 +177,9 @@ const alle = behandling => {
             sakskompleks: undefined
         };
     }
+    const vurderingstidspunkt = behandling.avklarteVerdier.medlemsskap.vurderingstidspunkt;
+    console.log('Vurderingstidpunkt: ', vurderingstidspunkt);
+
     return {
         behandlingsId: mappedBehandling.behandlingsId,
         sykdomsvilkår: sykdomsvilkår(mappedBehandling),
@@ -186,7 +189,8 @@ const alle = behandling => {
         utbetaling: utbetaling(mappedBehandling),
         periode: periode(mappedBehandling),
         avklarteVerdier: avklarteVerdier(mappedBehandling),
-        sykepengeberegning: sykepengeberegning(mappedBehandling)
+        sykepengeberegning: sykepengeberegning(mappedBehandling),
+        vurderingstidspunkt
     };
 };
 
