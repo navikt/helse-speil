@@ -31,6 +31,8 @@ jobs:
         DOCKER_IMAGE: docker.pkg.github.com/navikt/helse-speil/speil
       run: |
         echo Verdien av GITHUB_SHA er $GITHUB_SHA
+        echo Verdien av github.sha er ${{ github.sha }}
+        echo Verdien av github.repository er ${{ github.repository }}
         echo $DOCKER_IMAGE > .docker_image
         echo $GITHUB_SHA | cut -c1-7 > .docker_tag
         cat .docker_image
