@@ -29,7 +29,8 @@ exports.nav = {
     serviceUserName: process.env.SERVICE_USER_NAME,
     serviceUserPassword: process.env.SERVICE_USER_PASSWORD,
     stsUrl: process.env.STS_URL || 'http://security-token-service.svc.nais.local',
-    aktoerregisterUrl: process.env.AKTOERREGISTER_URL
+    aktoerregisterUrl: process.env.AKTOERREGISTER_URL,
+    spennUrl: process.env.SPENN_URL || 'http://spenn.svc.nais.local'
 };
 
 exports.redis = {
