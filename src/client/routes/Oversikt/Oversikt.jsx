@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Panel } from 'nav-frontend-paneler';
 import './Oversikt.less';
-import { withRouter } from 'react-router';
 import Lenke from 'nav-frontend-lenker';
 import { withBehandlingContext } from '../../context/BehandlingerContext';
 import { oversikttekster } from '../../tekster';
 import { toDate } from '../../utils/date';
+import { withRouter } from 'react-router';
 
-const Beregning = withBehandlingContext(
+const Oversikt = withBehandlingContext(
     ({ behandlinger, fetchAlleBehandlinger, setValgtBehandling, history }) => {
         useEffect(() => {
             fetchAlleBehandlinger();
@@ -51,4 +51,4 @@ const Beregning = withBehandlingContext(
     }
 );
 
-export default withRouter(Beregning);
+export default withRouter(Oversikt);
