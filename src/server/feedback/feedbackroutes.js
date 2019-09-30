@@ -25,6 +25,7 @@ const setup = (app, config, instrumentation) => {
 const routes = app => {
     app.get('/feedback/:behandlingsId', (req, res) => {
         const behandlingsId = req.params.behandlingsId;
+
         storage
             .load(behandlingsId)
             .then(loadResult => {
