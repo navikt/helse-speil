@@ -31,7 +31,9 @@ jobs:
         DOCKER_IMAGE: docker.pkg.github.com/navikt/helse-speil/speil
       run: |
         echo $DOCKER_IMAGE > .docker_image
-        echo $(echo $GITHUB_SHA | cut -c1-7) > .docker_tag
+        echo $GITHUB_SHA | cut -c1-7 > .docker_tag
+        cat .docker_image
+        cat .docker_tag
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
