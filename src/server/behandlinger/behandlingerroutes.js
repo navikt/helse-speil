@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const router = require('express').Router();
 const { log } = require('../logging');
 const mapping = require('./mapping');
 const api = require('./behandlingerlookup');
@@ -10,10 +11,14 @@ const { nameFrom } = require('../auth/authsupport');
 
 const personIdHeaderName = 'nav-person-id';
 
-const setup = ({ app, stsclient, config, path }) => {
+const setup = ({ stsclient, config }) => {
     aktøridlookup.init(stsclient, config);
+    routes({ router });
+    return router;
+};
 
-    app.get(`${path}/behandlinger/`, async (req, res) => {
+const routes = ({ router }) => {
+    router.get('/', async (req, res) => {
         const personId = req.headers[personIdHeaderName];
         if (!personId) {
             log(
@@ -75,7 +80,7 @@ const setup = ({ app, stsclient, config, path }) => {
             });
     });
 
-    app.get(`${path}/behandlinger/periode/:fom/:tom`, (req, res) => {
+    router.get('/periode/:fom/:tom', (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             const filename = 'behandlinger.json';
             fs.readFile(`__mock-data__/${filename}`, (err, data) => {
