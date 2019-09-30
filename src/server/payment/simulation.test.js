@@ -13,13 +13,31 @@ test('vedtak with missing keys is invalid', () => {
 });
 
 test('vedtak with to many keys is invalid', () => {
-    expect(simulation.isValid(vedtakWithToManyKeys)).toEqual(false);
+    expect(simulation.isValid(vedtakWithTooManyKeysInRootLevel)).toEqual(false);
 });
 
-test('run simulation', () => {
+test('vedtak with to many keys is invalid', () => {
+    expect(simulation.isValid(vedtakWithTooManyKeysInSublevel)).toEqual(false);
+});
+
+test('vedtak with wrong key types is invalid', () => {
+    expect(simulation.isValid(vedtakWithWrongKeyTypeInRootLevel)).toEqual(false);
+});
+
+test('vedtak with wrong key types is invalid', () => {
+    expect(simulation.isValid(vedtakWithWrongKeyTypeInSublevel)).toEqual(false);
+});
+
+test('simulation with valid input runs ok', () => {
     expect(
         simulation.simulate(validVedtak, createToken({ name: 'Navn Navnesen' }))
     ).resolves.not.toBeNull();
+});
+
+test('simulation with invalid input is rejected', () => {
+    expect(
+        simulation.simulate(vedtakWithMissingKeys, createToken({ name: 'Navn Navnesen' }))
+    ).rejects.toMatch('Invalid vedtak supplied');
 });
 
 const createToken = claims => {
@@ -44,19 +62,19 @@ const validVedtak = {
 
 const vedtakWithMissingKeys = {
     soknadId: 'abcd123',
-    vedtaksperioder: [
-        {
-            fom: '2019-09-27',
-            tom: '2019-09-28',
-            grad: 100,
-            dagsats: 12345,
-            fordeling: [{ mottager: 'orgnr', andel: 100 }]
-        }
-    ],
+    vedtaksperioder: [],
     maksDato: '2019-10-27'
 };
 
-const vedtakWithToManyKeys = {
+const vedtakWithTooManyKeysInRootLevel = {
+    soknadId: 'abcd123',
+    aktorId: '123456',
+    vedtaksperioder: [],
+    maksDato: '2019-10-27',
+    something: 'whatever'
+};
+
+const vedtakWithTooManyKeysInSublevel = {
     soknadId: 'abcd123',
     aktorId: '123456',
     vedtaksperioder: [
@@ -65,9 +83,30 @@ const vedtakWithToManyKeys = {
             tom: '2019-09-28',
             grad: 100,
             dagsats: 12345,
+            fordeling: [{ mottager: 'orgnr', andel: 100, whatever: 'blabla' }]
+        }
+    ],
+    maksDato: '2019-10-27'
+};
+
+const vedtakWithWrongKeyTypeInRootLevel = {
+    soknadId: 'abcd123',
+    aktorId: 123456,
+    vedtaksperioder: [],
+    maksDato: '2019-10-27'
+};
+
+const vedtakWithWrongKeyTypeInSublevel = {
+    soknadId: 'abcd123',
+    aktorId: '123456',
+    vedtaksperioder: [
+        {
+            fom: '2019-09-27',
+            tom: '2019-09-28',
+            grad: 100,
+            dagsats: '12345',
             fordeling: [{ mottager: 'orgnr', andel: 100 }]
         }
     ],
-    maksDato: '2019-10-27',
-    something: 'whatever'
+    maksDato: '2019-10-27'
 };
