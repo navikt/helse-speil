@@ -5,6 +5,7 @@ import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import MainContentWrapper from './MainContentWrapper';
 import ReactModal from 'react-modal';
+import { MemoryRouter } from 'react-router-dom';
 
 ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
 afterEach(cleanup);
@@ -54,7 +55,11 @@ jest.mock('nav-frontend-chevron-style', () => {
 
 describe('MainContentWrapper', () => {
     it('render modal when no behandling is chosen', () => {
-        const { getByText, container } = render(<MainContentWrapper {...wrapperProps} />);
+        const { getByText, container } = render(
+            <MemoryRouter>
+                <MainContentWrapper {...wrapperProps} />
+            </MemoryRouter>
+        );
         expect(
             getByText('Denne brukeren har flere saker. Velg den saken du vil se på.')
         ).toBeDefined();
@@ -69,7 +74,11 @@ describe('MainContentWrapper', () => {
     });
 
     it('render empty state view when there are no behandlinger', () => {
-        const { getByText } = render(<MainContentWrapper {...wrapperProps} behandlinger={[]} />);
+        const { getByText } = render(
+            <MemoryRouter>
+                <MainContentWrapper {...wrapperProps} behandlinger={[]} />
+            </MemoryRouter>
+        );
         expect(
             getByText(
                 'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over'

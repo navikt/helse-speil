@@ -1,5 +1,5 @@
 import React from 'react';
-const rrd = require('react-router-dom');
+const rr = require('react-router');
 
-rrd.Route = () => <div></div>;
-module.exports = rrd;
+rr.Route = () => <div></div>;
+module.exports = rr;
