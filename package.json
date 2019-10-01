@@ -14,6 +14,7 @@
         "tdd": "jest --watch",
         "pretest": "npm run test:eslint",
         "start": "NODE_ENV=development parcel src/client/index.html --open",
+        "start-no-browser": "NODE_ENV=development parcel src/client/index.html",
         "start-mac": "NODE_ENV=development parcel src/client/index.html --open 'Google Chrome'",
         "start-express": "npm run build-server && DEBUG=express:* TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
         "dev-express": "NODE_ENV=development npm run start-express",
@@ -24,7 +25,8 @@
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"src/**/*.{jsx,js,css}\"",
         "snyk-protect": "snyk protect",
-        "prepare": "npm run snyk-protect"
+        "prepare": "npm run snyk-protect",
+        "e2e-test": "e2e-tests/run.sh"
     },
     "husky": {
         "hooks": {
@@ -107,6 +109,7 @@
         "autoprefixer": "^9.6.1",
         "babel-eslint": "^10.0.3",
         "babel-jest": "^24.9.0",
+        "cypress": "^3.4.1",
         "deasync": "^0.1.15",
         "eslint": "^6.4.0",
         "eslint-config-prettier": "^6.3.0",
@@ -124,6 +127,7 @@
         "react-hot-loader": "^4.12.14",
         "react-test-renderer": "^16.9.0",
         "rimraf": "^3.0.0",
+        "wait-on": "^3.3.0",
         "whatwg-fetch": "^3.0.0"
     },
     "snyk": true
