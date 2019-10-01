@@ -38,9 +38,10 @@ export const BehandlingerProvider = ({ children }) => {
 
     const fetchBehandlingerMedPersoninfo = async () => {
         const alleBehandlinger = await fetchAlleBehandlinger();
-        const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
-
-        setBehandlinger(behandlingerMedPersoninfo);
+        if (alleBehandlinger !== undefined) {
+            const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
+            setBehandlinger(behandlingerMedPersoninfo);
+        }
         setValgtBehandling(undefined);
     };
 
