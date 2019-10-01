@@ -31,7 +31,7 @@ const routes = ({ router }) => {
         }
 
         if (process.env.NODE_ENV === 'development') {
-            sendDevResponse(personId, res);
+            sendDevResponse(res, personId);
             return;
         }
 
@@ -92,7 +92,11 @@ const routes = ({ router }) => {
         api.behandlingerIPeriode(fom, tom, accessToken)
             .then(apiResponse => {
                 res.status(apiResponse.statusCode);
-                res.send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)));
+                res.send({
+                    behandlinger: apiResponse.body.behandlinger.map(behandling =>
+                        mapping.alle(behandling)
+                    )
+                });
             })
             .catch(err => {
                 console.error(
@@ -103,7 +107,7 @@ const routes = ({ router }) => {
     });
 };
 
-const sendDevResponse = (personId, res) => {
+const sendDevResponse = (res, personId) => {
     const filename =
         !personId || personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
     fs.readFile(`__mock-data__/${filename}`, (err, data) => {

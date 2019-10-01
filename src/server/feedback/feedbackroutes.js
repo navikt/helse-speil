@@ -27,6 +27,35 @@ const setup = ({ config, instrumentation }) => {
 };
 
 const routes = ({ router }) => {
+    router.get('/list', (req, res) => {
+        if (process.env.NODE_ENV === 'development') {
+            const filename = 'feedback.json';
+            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                }
+                res.header('Content-Type', 'application/json; charset=utf-8');
+                res.send(data);
+            });
+            return;
+        }
+        let behandlingsIdList = req.query.id;
+        if (!Array.isArray(behandlingsIdList)) {
+            behandlingsIdList = [behandlingsIdList];
+        }
+        storage
+            .loadSome(behandlingsIdList)
+            .then(loadResult => {
+                res.setHeader('Content-Type', loadResult.ContentType || 'application/octet-stream');
+                res.send(loadResult);
+            })
+            .catch(err => {
+                console.log(`Error while fetching feedback for list: ${err.message}`);
+                res.sendStatus(err.statusCode || 500);
+            });
+    });
+
     router.get('/:behandlingsId', (req, res) => {
         const behandlingsId = req.params.behandlingsId;
 
@@ -62,35 +91,6 @@ const routes = ({ router }) => {
             })
             .catch(err => {
                 console.warn(err);
-                res.sendStatus(err.statusCode || 500);
-            });
-    });
-
-    router.get('/list', (req, res) => {
-        if (process.env.NODE_ENV === 'development') {
-            const filename = 'feedback.json';
-            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
-                if (err) {
-                    console.log(err);
-                    res.sendStatus(500);
-                }
-                res.header('Content-Type', 'application/json; charset=utf-8');
-                res.send(data);
-            });
-            return;
-        }
-        let behandlingsIdList = req.query.id;
-        if (!Array.isArray(behandlingsIdList)) {
-            behandlingsIdList = [behandlingsIdList];
-        }
-        storage
-            .loadSome(behandlingsIdList)
-            .then(loadResult => {
-                res.setHeader('Content-Type', loadResult.ContentType || 'application/octet-stream');
-                res.send(loadResult);
-            })
-            .catch(err => {
-                console.log(`Error while fetching feedback for list: ${err.message}`);
                 res.sendStatus(err.statusCode || 500);
             });
     });
