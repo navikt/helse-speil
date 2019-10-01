@@ -12,8 +12,9 @@ import './Innrapportering.less';
 import moment from 'moment';
 import { Checkbox } from 'nav-frontend-skjema';
 import { AuthContext } from '../../context/AuthContext';
+import { withRouter } from 'react-router';
 
-const Innrapportering = withBehandlingContext(({ behandling }) => {
+const Innrapportering = withBehandlingContext(({ behandling, history }) => {
     const authContext = useContext(AuthContext);
     const innrapportering = useContext(InnrapporteringContext);
     const [error, setError] = useState(undefined);
@@ -44,13 +45,14 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
         })
             .then(() => {
                 setError(undefined);
-                history.push('/');
+                innrapportering.setHasSendt(true);
             })
             .catch(e => {
                 setError(e);
             })
             .finally(() => {
                 setIsSending(false);
+                setTimeout(() => history.push('/'), 1000);
             });
     };
 
@@ -137,4 +139,4 @@ const Innrapportering = withBehandlingContext(({ behandling }) => {
     );
 });
 
-export default Innrapportering;
+export default withRouter(Innrapportering);
