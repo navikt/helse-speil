@@ -17,6 +17,6 @@ export const capitalize = string => string.charAt(0).toUpperCase() + string.slic
 
 export const extractNameFromEmail = email =>
     email
-        .split('@')[0]
+        ?.split('@')[0]
         .split('.')
-        .join(' ');
+        .join(' ') ?? 'Navn mangler';

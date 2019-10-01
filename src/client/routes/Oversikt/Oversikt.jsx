@@ -14,8 +14,8 @@ import './Oversikt.less';
 const Oversikt = ({ history }) => {
     const behandlingerCtx = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
-    const [behandletSaker, setBehandletSaker] = useState([]);
-    const [ubehandletSaker, setUbehandletSaker] = useState([]);
+    const [behandledeSaker, setBehandledeSaker] = useState([]);
+    const [ubehandledeSaker, setUbehandledeSaker] = useState([]);
 
     const { fetchBehandlingerMedPersoninfo, setValgtBehandling } = behandlingerCtx;
     const behandlinger = behandlingerCtx.state.behandlinger;
@@ -25,25 +25,32 @@ const Oversikt = ({ history }) => {
     }, []);
 
     useEffect(() => {
-        let behandlingerUtenFeedback = [];
-        const sakerMedFeedback = behandlinger.reduce((acc, behandling) => {
-            const feedback = innrapportering.feedback.find(f => f.key === behandling.behandlingsId);
-            if (feedback) {
-                const behandletSak = {
-                    søkerName: behandling.personinfo.navn ?? behandling.originalSøknad.aktorId,
-                    submittedDate: feedback.value.submittedDate,
-                    behandlingsId: behandling.behandlingsId,
-                    userName: extractNameFromEmail(feedback.value.userId.email)
-                };
-                acc = [...acc, behandletSak];
-            } else {
-                behandlingerUtenFeedback.push(behandling);
-            }
-            return acc;
-        }, []);
-        setBehandletSaker(sakerMedFeedback);
-        setUbehandletSaker(behandlingerUtenFeedback);
-    }, [innrapportering.feedback]);
+        if (innrapportering.feedback.length >= 1) {
+            const behandlingerUtenFeedback = behandlinger.filter(
+                behandling =>
+                    !innrapportering.feedback.find(f => f.key === behandling.behandlingsId)
+            );
+
+            const sakerMedFeedback = behandlinger.reduce((acc, behandling) => {
+                const feedback = innrapportering.feedback.find(
+                    f => f.key === behandling.behandlingsId
+                );
+                if (feedback) {
+                    const sakMedFeedback = {
+                        søkerName: behandling.personinfo.navn ?? behandling.originalSøknad.aktorId,
+                        submittedDate: feedback.value.submittedDate,
+                        behandlingsId: behandling.behandlingsId,
+                        userName: extractNameFromEmail(feedback.value.userId.email)
+                    };
+                    acc = [...acc, sakMedFeedback];
+                }
+                return acc;
+            }, []);
+
+            setBehandledeSaker(sakerMedFeedback);
+            setUbehandledeSaker(behandlingerUtenFeedback);
+        }
+    }, [innrapportering.feedback, behandlinger]);
 
     const velgBehandling = behandling => {
         setValgtBehandling(behandling);
@@ -63,7 +70,7 @@ const Oversikt = ({ history }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {ubehandletSaker.map(behandling => (
+                        {ubehandledeSaker.map(behandling => (
                             <tr key={behandling.behandlingsId}>
                                 <td>
                                     <Lenke onClick={() => velgBehandling(behandling)}>
@@ -87,7 +94,7 @@ const Oversikt = ({ history }) => {
                         <Normaltekst>Saksbehandler</Normaltekst>
                         <Normaltekst>Innsendt</Normaltekst>
                     </li>
-                    {behandletSaker.map(sak => (
+                    {behandledeSaker.map(sak => (
                         <li className="row row--info" key={sak.behandlingsId}>
                             <Lenke onClick={() => velgBehandling(sak)}>{sak.søkerName}</Lenke>
                             <Normaltekst>{sak.userName}</Normaltekst>

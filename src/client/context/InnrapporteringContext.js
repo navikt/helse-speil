@@ -38,14 +38,14 @@ export const InnrapporteringProvider = withBehandlingContext(
                     setHasSendt(true);
                 }
             }
-        }, [behandlingsId]);
+        }, [behandlingsId, feedback]);
 
         useEffect(() => {
             if (behandlinger.length > 0 && behandlingsId === undefined && feedback.length === 0) {
                 const behandlingIdList = behandlinger.map(b => b.behandlingsId);
                 fetchFeedbackList(behandlingIdList);
             }
-        }, [behandlinger, behandlingsId]);
+        }, [behandlinger, behandlingsId, feedback]);
 
         const fetchFeedback = behandlingsId => {
             return getFeedback(behandlingsId)
