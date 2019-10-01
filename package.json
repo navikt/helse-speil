@@ -20,7 +20,7 @@
         "dev-express": "NODE_ENV=development npm run start-express",
         "oppgulp": "nodemon --watch src/server --exec 'npm run dev-express'",
         "mock-s3": "docker-compose --file __mocks__/s3-docker-compose.yaml up",
-        "build": "npm run clean:dist && npm run test && parcel build src/client/index.html --out-dir dist/client --public-url ./ --no-source-maps",
+        "build": "npm run clean:dist && npm run test && parcel build src/client/index.html --out-dir dist/client --public-url /static --no-source-maps",
         "build-server": "$(npm bin)/babel --config-file ./babel-server.config.json src/server --out-dir dist/server",
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"src/**/*.{jsx,js,css}\"",

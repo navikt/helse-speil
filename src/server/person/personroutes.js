@@ -2,14 +2,16 @@
 
 const personLookup = require('./personlookup');
 const personMapping = require('./personmapping');
+const router = require('express').Router();
 
-const setup = (app, stsclient) => {
+const setup = stsclient => {
     personLookup.init(stsclient);
-    routes(app);
+    routes(router);
+    return router;
 };
 
 const routes = app => {
-    app.get('/person/:aktorId', (req, res) => {
+    app.get('/:aktorId', (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             const response =
                 req.params.aktorId === '10000000000001'
@@ -32,5 +34,5 @@ const routes = app => {
 };
 
 module.exports = {
-    setup: setup
+    setup
 };
