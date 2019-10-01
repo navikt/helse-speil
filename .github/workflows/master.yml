@@ -46,6 +46,8 @@ jobs:
       run: npm run build
     - name: build server
       run: npm run build-server
+    - name: run e2e-test
+      run: npm run e2e-test
     - name: build docker image
       run: docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
     - name: push docker image
