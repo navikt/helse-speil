@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const router = require('express').Router();
 const { log } = require('../logging');
 const mapping = require('./mapping');
 const api = require('./behandlingerlookup');
@@ -10,10 +11,14 @@ const { nameFrom } = require('../auth/authsupport');
 
 const personIdHeaderName = 'nav-person-id';
 
-const setup = ({ app, stsclient, config }) => {
+const setup = ({ stsclient, config }) => {
     aktøridlookup.init(stsclient, config);
+    routes({ router });
+    return router;
+};
 
-    app.get('/behandlinger/', async (req, res) => {
+const routes = ({ router }) => {
+    router.get('/', async (req, res) => {
         const personId = req.headers[personIdHeaderName];
         if (!personId) {
             log(
@@ -75,17 +80,9 @@ const setup = ({ app, stsclient, config }) => {
             });
     });
 
-    app.get('/behandlinger/periode/:fom/:tom', (req, res) => {
+    router.get('/periode/:fom/:tom', (req, res) => {
         if (process.env.NODE_ENV === 'development') {
-            const filename = 'behandlinger.json';
-            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
-                if (err) {
-                    console.log(err);
-                    res.sendStatus(500);
-                }
-                res.header('Content-Type', 'application/json; charset=utf-8');
-                res.send(JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling)));
-            });
+            sendDevResponse(res);
             return;
         }
 
@@ -107,7 +104,8 @@ const setup = ({ app, stsclient, config }) => {
 };
 
 const sendDevResponse = (personId, res) => {
-    const filename = personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
+    const filename =
+        !personId || personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
     fs.readFile(`__mock-data__/${filename}`, (err, data) => {
         if (err) {
             console.log(err);

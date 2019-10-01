@@ -5,32 +5,31 @@ const storage = require('./storage');
 const { log } = require('../logging');
 const { ipAddressFromRequest } = require('../requestData.js');
 const { excludeOlderFeedback, isInvalid, parseDate, prepareCsvFeedback } = require('./utils');
+const router = require('express').Router();
 
 let counter = null;
 
-const setup = (app, config, instrumentation) => {
+const setup = ({ config, instrumentation }) => {
+    routes({ router });
     counter = instrumentation.feedbackCounter();
-    return new Promise((resolve, reject) => {
-        storage
-            .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
-            .then(() => {
-                routes(app);
-                resolve();
-            })
-            .catch(err => {
-                if (process.env.NODE_ENV === 'development') {
-                    devRoutes(app);
-                    resolve();
-                } else {
-                    reject(err);
-                }
-            });
-    });
+    storage
+        .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
+        .then(() => {
+            log(`Feedback storage at ${config.s3url}`);
+        })
+        .catch(err => {
+            log(
+                `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback will not work, as setup will not be retried.`
+            );
+        });
+
+    return router;
 };
 
-const routes = app => {
-    app.get('/feedback/:behandlingsId', (req, res) => {
+const routes = ({ router }) => {
+    router.get('/:behandlingsId', (req, res) => {
         const behandlingsId = req.params.behandlingsId;
+
         storage
             .load(behandlingsId)
             .then(loadResult => {
@@ -45,7 +44,7 @@ const routes = app => {
             });
     });
 
-    app.get('/feedback', async (req, res) => {
+    router.get('/', async (req, res) => {
         const date = parseDate(req.query.fraogmed);
 
         storage
@@ -67,8 +66,23 @@ const routes = app => {
             });
     });
 
-    app.get('/feedback/list', (req, res) => {
-        const behandlingsIdList = req.query.id;
+    router.get('/list', (req, res) => {
+        if (process.env.NODE_ENV === 'development') {
+            const filename = 'feedback.json';
+            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                }
+                res.header('Content-Type', 'application/json; charset=utf-8');
+                res.send(data);
+            });
+            return;
+        }
+        let behandlingsIdList = req.query.id;
+        if (!Array.isArray(behandlingsIdList)) {
+            behandlingsIdList = [behandlingsIdList];
+        }
         storage
             .loadSome(behandlingsIdList)
             .then(loadResult => {
@@ -81,7 +95,7 @@ const routes = app => {
             });
     });
 
-    app.put('/feedback', (req, res) => {
+    router.put('/', (req, res) => {
         log(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
         if (isInvalid(req)) {
             log(`Rejecting feedback due to validation error`);
@@ -103,23 +117,6 @@ const routes = app => {
                         statusCode: 500
                     });
                 });
-        }
-    });
-};
-
-const devRoutes = app => {
-    app.get('/feedback/list', (req, res) => {
-        if (process.env.NODE_ENV === 'development') {
-            const filename = 'feedback.json';
-            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
-                if (err) {
-                    console.log(err);
-                    res.sendStatus(500);
-                }
-                res.header('Content-Type', 'application/json; charset=utf-8');
-                res.send(data);
-            });
-            return;
         }
     });
 };
