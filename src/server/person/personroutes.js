@@ -10,27 +10,37 @@ const setup = stsclient => {
     return router;
 };
 
-const routes = app => {
-    app.get('/:aktorId', (req, res) => {
-        if (process.env.NODE_ENV === 'development') {
-            const response =
-                req.params.aktorId === '10000000000001'
-                    ? { navn: 'Kong Harald', kjønn: 'mann' }
-                    : { navn: 'Dronning Sonja', kjønn: 'kvinne' };
-            res.send(response);
-            return;
+const routes = router => {
+    const handlers = {
+        getPerson: {
+            prod: getPerson,
+            dev: devGetPerson
         }
-        const aktørId = req.params.aktorId;
-        personLookup
-            .hentPerson(aktørId)
-            .then(person => {
-                res.send(personMapping.map(person));
-            })
-            .catch(err => {
-                console.log(err);
-                res.sendStatus(500);
-            });
-    });
+    };
+
+    const mode = process.env.NODE_ENV === 'development' ? 'dev' : 'prod';
+    router.get('/:aktorId', handlers.getPerson[mode]);
+};
+
+const getPerson = (req, res) => {
+    const aktørId = req.params.aktorId;
+    personLookup
+        .hentPerson(aktørId)
+        .then(person => {
+            res.send(personMapping.map(person));
+        })
+        .catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        });
+};
+
+const devGetPerson = (req, res) => {
+    const response =
+        req.params.aktorId === '10000000000001'
+            ? { navn: 'Kong Harald', kjønn: 'mann' }
+            : { navn: 'Dronning Sonja', kjønn: 'kvinne' };
+    res.send(response);
 };
 
 module.exports = {

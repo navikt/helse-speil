@@ -18,116 +18,113 @@ const setup = ({ stsclient, config }) => {
 };
 
 const routes = ({ router }) => {
-    router.get('/', async (req, res) => {
-        const personId = req.headers[personIdHeaderName];
-        if (!personId) {
-            log(
-                `Missing header '${personIdHeaderName}' in request, from user ${nameFrom(
-                    req.session.spadeToken
-                )}`
-            );
-            res.status(500).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
+    const handlers = {
+        getBehandlinger: {
+            prod: getBehandlinger,
+            dev: devGetBehandlinger
+        },
+        getAlleBehandlinger: {
+            prod: getAlleBehandlinger,
+            dev: devGetAlleBehandlinger
+        }
+    };
+
+    const mode = process.env.NODE_ENV === 'development' ? 'dev' : 'prod';
+    router.get('/', handlers.getBehandlinger[mode]);
+    router.get('/periode/:fom/:tom', handlers.getAlleBehandlinger[mode]);
+};
+
+const getBehandlinger = async (req, res) => {
+    const personId = req.headers[personIdHeaderName];
+    if (!personId) {
+        log(
+            `Missing header '${personIdHeaderName}' in request, from user ${nameFrom(
+                req.session.spadeToken
+            )}`
+        );
+        res.status(500).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
+        return;
+    }
+
+    let aktorId;
+    if (isValidSsn(personId)) {
+        aktorId = await aktøridlookup.hentAktørId(personId).catch(err => {
+            log(`Could not fetch aktørId for ${personId}. ${err}`);
+        });
+        if (!aktorId) {
+            res.status(500);
+            res.send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
             return;
         }
+    } else {
+        aktorId = personId;
+    }
 
-        if (process.env.NODE_ENV === 'development') {
-            sendDevResponse(res, personId);
-            return;
-        }
-
-        let aktorId;
-        if (isValidSsn(personId)) {
-            aktorId = await aktøridlookup.hentAktørId(personId).catch(err => {
-                log(`Could not fetch aktørId for ${personId}. ${err}`);
-            });
-            if (!aktorId) {
-                res.status(500);
-                res.send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
-                return;
-            }
-        } else {
-            aktorId = personId;
-        }
-
-        const accessToken = req.session.spadeToken;
-        api.behandlingerFor(aktorId, accessToken)
-            .then(
-                async apiResponse => {
-                    const fnr =
-                        aktorId !== personId
-                            ? personId
-                            : await aktøridlookup.hentFnr(aktorId).catch(err => {
-                                  console.log('Could not fetch NNIN from Aktørregisteret.', err);
-                                  return null;
-                              });
-                    res.status(apiResponse.statusCode).send({
-                        behandlinger: apiResponse.body.behandlinger.map(behandling =>
-                            mapping.alle(behandling)
-                        ),
-                        fnr
-                    });
-                },
-                err => {
-                    throw Error(`Could not fetch cases: ${err.error.toString()}`);
-                }
-            )
-            .then(null, err => {
-                throw Error(`Could not map fetched cases: ${err}`);
-            })
-            .catch(err => {
-                console.error(err);
-                res.sendStatus(500);
-            });
-    });
-
-    router.get('/periode/:fom/:tom', (req, res) => {
-        if (process.env.NODE_ENV === 'development') {
-            sendBehandlingerSummaryDevResponse(res);
-            return;
-        }
-
-        const accessToken = req.session.spadeToken;
-        const fom = req.params.fom;
-        const tom = req.params.tom;
-        api.behandlingerIPeriode(fom, tom, accessToken)
-            .then(apiResponse => {
-                res.status(apiResponse.statusCode);
-                res.send({
+    const accessToken = req.session.spadeToken;
+    api.behandlingerFor(aktorId, accessToken)
+        .then(
+            async apiResponse => {
+                const fnr =
+                    aktorId !== personId
+                        ? personId
+                        : await aktøridlookup.hentFnr(aktorId).catch(err => {
+                              console.log('Could not fetch NNIN from Aktørregisteret.', err);
+                              return null;
+                          });
+                res.status(apiResponse.statusCode).send({
                     behandlinger: apiResponse.body.behandlinger.map(behandlingSummary =>
                         mapping.fromBehandlingSummary(behandlingSummary)
-                    )
+                    ),
+                    fnr
                 });
-            })
-            .catch(err => {
-                console.error(
-                    `Kunne ikke hente behandlinger for perioden ${fom} - ${tom}. Feil: ${err}`
-                );
-                res.sendStatus(500);
-            });
-    });
-};
-
-const sendBehandlingerSummaryDevResponse = res => {
-    fs.readFile(`__mock-data__/behandlingsummaries.json`, (err, data) => {
-        if (err) {
-            console.log(err);
+            },
+            err => {
+                throw Error(`Could not fetch cases: ${err.error.toString()}`);
+            }
+        )
+        .then(null, err => {
+            throw Error(`Could not map fetched cases: ${err}`);
+        })
+        .catch(err => {
+            console.error(err);
             res.sendStatus(500);
-        }
-        const behandlingerToReturn = JSON.parse(data).behandlinger.map(behandling =>
-            mapping.fromBehandlingSummary(behandling)
-        );
-        res.header('Content-Type', 'application/json; charset=utf-8');
-        res.send({
-            behandlinger: behandlingerToReturn
         });
-    });
 };
 
-const sendDevResponse = (res, personId) => {
-    const filename =
-        !personId || personId.charAt(0) < 5 || personId.charAt(0) !== '7'
-            ? 'behandlinger.json'
-            : 'behandlinger_mapped.json';
+const getAlleBehandlinger = (req, res) => {
+    const accessToken = req.session.spadeToken;
+    const fom = req.params.fom;
+    const tom = req.params.tom;
+    api.behandlingerIPeriode(fom, tom, accessToken)
+        .then(apiResponse => {
+            res.status(apiResponse.statusCode);
+            res.send({
+                behandlinger: apiResponse.body.behandlinger.map(behandling =>
+                    mapping.alle(behandling)
+                )
+            });
+        })
+        .catch(err => {
+            console.error(
+                `Kunne ikke hente behandlinger for perioden ${fom} - ${tom}. Feil: ${err}`
+            );
+            res.sendStatus(500);
+        });
+};
+
+const devGetBehandlinger = (req, res) => {
+    const personId = req.headers[personIdHeaderName];
+    if (!personId) {
+        log(
+            `Missing header '${personIdHeaderName}' in request, from user ${nameFrom(
+                req.session.spadeToken
+            )}`
+        );
+        res.status(500).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
+        return;
+    }
+
+    const filename = personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
     fs.readFile(`__mock-data__/${filename}`, (err, data) => {
         if (err) {
             console.log(err);
@@ -150,6 +147,22 @@ const sendDevResponse = (res, personId) => {
     });
 };
 
+const devGetAlleBehandlinger = (_req, res) => {
+    fs.readFile(`__mock-data__/behandlingsummaries.json`, (err, data) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+        const behandlingerToReturn = JSON.parse(data).behandlinger.map(behandling =>
+            mapping.fromBehandlingSummary(behandling)
+        );
+        res.header('Content-Type', 'application/json; charset=utf-8');
+        res.send({
+            behandlinger: behandlingerToReturn
+        });
+    });
+};
+
 module.exports = {
-    setup: setup
+    setup
 };
