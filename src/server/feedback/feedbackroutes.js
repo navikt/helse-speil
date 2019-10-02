@@ -45,10 +45,10 @@ const routes = ({ router }) => {
             .loadSome(behandlingsIdList)
             .then(loadResult => {
                 res.setHeader('Content-Type', loadResult.ContentType || 'application/octet-stream');
-                res.send(loadResult);
+                res.send(loadResult.filter(feedback => feedback !== undefined));
             })
             .catch(err => {
-                console.log(`Error while fetching feedback for list: ${err.message}`);
+                console.log(`Error while fetching feedback for list: ${err}`);
                 res.sendStatus(err.statusCode || 500);
             });
     });

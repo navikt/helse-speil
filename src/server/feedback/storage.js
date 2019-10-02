@@ -60,10 +60,14 @@ const loadAll = async () => {
 
 const loadSome = async keys => {
     const objects = keys.map(key =>
-        load(key).then(res => ({
-            key,
-            value: JSON.parse(res.Body)
-        }))
+        load(key)
+            .then(res => ({
+                key,
+                value: JSON.parse(res.Body)
+            }))
+            .catch(() => {
+                return undefined;
+            })
     );
     return Promise.all(objects);
 };
