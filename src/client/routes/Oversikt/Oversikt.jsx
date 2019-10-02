@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Panel } from 'nav-frontend-paneler';
 import { withRouter } from 'react-router';
@@ -14,8 +14,6 @@ import './Oversikt.less';
 const Oversikt = ({ history }) => {
     const behandlingerCtx = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
-    const [behandledeSaker, setBehandledeSaker] = useState([]);
-    const [ubehandledeSaker, setUbehandledeSaker] = useState([]);
 
     const { fetchBehandlingerMedPersoninfo, setValgtBehandling } = behandlingerCtx;
     const behandlinger = behandlingerCtx.state.behandlinger;
@@ -24,33 +22,31 @@ const Oversikt = ({ history }) => {
         fetchBehandlingerMedPersoninfo();
     }, []);
 
-    useEffect(() => {
-        if (innrapportering.feedback.length >= 1) {
-            const behandlingerUtenFeedback = behandlinger.filter(
-                behandling =>
-                    !innrapportering.feedback.find(f => f.key === behandling.behandlingsId)
-            );
+    const toBehandletSak = (behandling, feedback) => ({
+        søkerName: behandling.personinfo.navn ?? behandling.originalSøknad.aktorId,
+        submittedDate: feedback.value.submittedDate,
+        behandlingsId: behandling.behandlingsId,
+        userName: extractNameFromEmail(feedback.value.userId.email)
+    });
 
-            const sakerMedFeedback = behandlinger.reduce((acc, behandling) => {
-                const feedback = innrapportering.feedback.find(
-                    f => f.key === behandling.behandlingsId
-                );
-                if (feedback) {
-                    const sakMedFeedback = {
-                        søkerName: behandling.personinfo.navn ?? behandling.originalSøknad.aktorId,
-                        submittedDate: feedback.value.submittedDate,
-                        behandlingsId: behandling.behandlingsId,
-                        userName: extractNameFromEmail(feedback.value.userId.email)
-                    };
-                    acc = [...acc, sakMedFeedback];
-                }
-                return acc;
-            }, []);
-
-            setBehandledeSaker(sakerMedFeedback);
-            setUbehandledeSaker(behandlingerUtenFeedback);
-        }
-    }, [innrapportering.feedback, behandlinger]);
+    const [behandledeSaker, ubehandledeSaker] = useMemo(
+        () =>
+            behandlinger.reduce(
+                ([behandledeSaker, ubehandledeSaker], behandling) => {
+                    const feedback = innrapportering.feedback.find(
+                        f => f.key === behandling.behandlingsId
+                    );
+                    return feedback
+                        ? [
+                              [...behandledeSaker, toBehandletSak(behandling, feedback)],
+                              ubehandledeSaker
+                          ]
+                        : [behandledeSaker, [...ubehandledeSaker, behandling]];
+                },
+                [[], []]
+            ),
+        [innrapportering.feedback, behandlinger]
+    );
 
     const velgBehandling = behandling => {
         setValgtBehandling(behandling);

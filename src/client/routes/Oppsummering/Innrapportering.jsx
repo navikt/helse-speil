@@ -46,13 +46,13 @@ const Innrapportering = withBehandlingContext(({ behandling, history }) => {
             .then(() => {
                 setError(undefined);
                 innrapportering.setHasSendt(true);
+                setTimeout(() => history.push('/'), 1000);
             })
             .catch(e => {
                 setError(e);
             })
             .finally(() => {
                 setIsSending(false);
-                setTimeout(() => history.push('/'), 1000);
             });
     };
 
