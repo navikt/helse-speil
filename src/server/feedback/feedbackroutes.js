@@ -27,7 +27,7 @@ const setup = ({ config, instrumentation }) => {
 };
 
 const routes = ({ router }) => {
-    router.get('/list', (req, res) => {
+    router.post('/list', (req, res) => {
         if (process.env.NODE_ENV === 'development') {
             const filename = 'feedback.json';
             fs.readFile(`__mock-data__/${filename}`, (err, data) => {
@@ -40,10 +40,7 @@ const routes = ({ router }) => {
             });
             return;
         }
-        let behandlingsIdList = req.query.id;
-        if (!Array.isArray(behandlingsIdList)) {
-            behandlingsIdList = [behandlingsIdList];
-        }
+        let behandlingsIdList = req.body;
         storage
             .loadSome(behandlingsIdList)
             .then(loadResult => {
