@@ -76,6 +76,7 @@
         "vault": {
             "enabled": true
         },
-        "webproxy": true
+        "webproxy": true,
+        "secureLogs": true
     }
 }

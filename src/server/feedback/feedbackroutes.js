@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const storage = require('./storage');
-const { log } = require('../logging');
+const logger = require('../logging');
 const { ipAddressFromRequest } = require('../requestData.js');
 const { excludeOlderFeedback, isInvalid, parseDate, prepareCsvFeedback } = require('./utils');
 const router = require('express').Router();
@@ -15,10 +15,10 @@ const setup = ({ config, instrumentation }) => {
     storage
         .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
         .then(() => {
-            log(`Feedback storage at ${config.s3url}`);
+            logger.info(`Feedback storage at ${config.s3url}`);
         })
         .catch(err => {
-            log(
+            logger.error(
                 `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback will not work, as setup will not be retried.`
             );
         });
@@ -32,7 +32,7 @@ const routes = ({ router }) => {
             const filename = 'feedback.json';
             fs.readFile(`__mock-data__/${filename}`, (err, data) => {
                 if (err) {
-                    console.log(err);
+                    logger.error(err);
                     res.sendStatus(500);
                 }
                 res.header('Content-Type', 'application/json; charset=utf-8');
@@ -48,7 +48,7 @@ const routes = ({ router }) => {
                 res.send(loadResult.filter(feedback => feedback !== undefined));
             })
             .catch(err => {
-                console.log(`Error while fetching feedback for list: ${err}`);
+                logger.error(`Error while fetching feedback for list: ${err}`);
                 res.sendStatus(err.statusCode || 500);
             });
     });
@@ -64,7 +64,7 @@ const routes = ({ router }) => {
             })
             .catch(err => {
                 if (err.code !== 'NoSuchKey') {
-                    console.log(err);
+                    logger.error(err);
                 }
                 res.sendStatus(err.statusCode || 500);
             });
@@ -77,7 +77,7 @@ const routes = ({ router }) => {
             .loadAll()
             .then(response => {
                 const feedback = date ? excludeOlderFeedback(date, response) : response;
-                log(`Will return ${feedback.length} feedbacks out of ${response.length}`);
+                logger.info(`Will return ${feedback.length} feedbacks out of ${response.length}`);
                 if (req.accepts('csv')) {
                     const csvResponse = prepareCsvFeedback(feedback, res);
                     res.send(csvResponse);
@@ -93,9 +93,9 @@ const routes = ({ router }) => {
     });
 
     router.put('/', (req, res) => {
-        log(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
+        logger.info(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
         if (isInvalid(req)) {
-            log(`Rejecting feedback due to validation error`);
+            logger.info(`Rejecting feedback due to validation error`);
             res.send({
                 message: 'Lagring av tilbakemelding feilet pga. valideringsfeil',
                 statusCode: 400
@@ -108,7 +108,7 @@ const routes = ({ router }) => {
                     res.sendStatus(204);
                 })
                 .catch(err => {
-                    console.log(`Error while saving feedback: ${err.message}`);
+                    logger.error(`Error while saving feedback: ${err.message}`);
                     res.send({
                         message: `Lagring av tilbakemeldinger feilet`,
                         statusCode: 500

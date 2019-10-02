@@ -1,5 +1,7 @@
 'use strict';
 
+const logger = require('../logging');
+
 const { ipAddressFromRequest } = require('../requestData');
 
 const isValidNow = token => {
@@ -16,7 +18,7 @@ const isValidAt = (token, timeInSeconds) => {
         const expirationTime = parseInt(claims['exp']);
         return expirationTime >= timeInSeconds;
     } catch (err) {
-        console.log(`error while checking token validity: ${err}`);
+        logger.error(`error while checking token validity: ${err}`);
         return false;
     }
 };
@@ -40,7 +42,7 @@ const validateOidcCallback = (req, azureClient, config) => {
                 const requiredGroup = config.requiredGroup;
                 const username = nameFrom(idToken);
                 if (accessToken && isMemberOf(requiredGroup, accessToken)) {
-                    console.log(
+                    logger.info(
                         `User ${username} has been authenticated, from IP address ${ipAddressFromRequest(
                             req
                         )}`
@@ -70,7 +72,7 @@ const nameFrom = token => {
     try {
         return JSON.parse(Buffer.from(token.split('.')[1], 'base64'))['name'] || 'unknown user';
     } catch (err) {
-        console.log(`error while extracting name: ${err}`);
+        logger.error(`error while extracting name: ${err}`);
         return 'unknown user';
     }
 };

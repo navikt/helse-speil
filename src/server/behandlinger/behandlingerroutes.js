@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const router = require('express').Router();
-const { log } = require('../logging');
+const logger = require('../logging');
 const mapping = require('./mapping');
 const api = require('./behandlingerlookup');
 const aktøridlookup = require('../aktørid/aktøridlookup');
@@ -37,7 +37,7 @@ const routes = ({ router }) => {
 const getBehandlinger = async (req, res) => {
     const personId = req.headers[personIdHeaderName];
     if (!personId) {
-        log(
+        logger.error(
             `Missing header '${personIdHeaderName}' in request, from user ${nameFrom(
                 req.session.spadeToken
             )}`
@@ -49,7 +49,7 @@ const getBehandlinger = async (req, res) => {
     let aktorId;
     if (isValidSsn(personId)) {
         aktorId = await aktøridlookup.hentAktørId(personId).catch(err => {
-            log(`Could not fetch aktørId for ${personId}. ${err}`);
+            logger.error(`Could not fetch aktørId for ${personId}. ${err}`);
         });
         if (!aktorId) {
             res.status(500);
@@ -68,7 +68,7 @@ const getBehandlinger = async (req, res) => {
                     aktorId !== personId
                         ? personId
                         : await aktøridlookup.hentFnr(aktorId).catch(err => {
-                              console.log('Could not fetch NNIN from Aktørregisteret.', err);
+                              logger.error('Could not fetch NNIN from Aktørregisteret.', err);
                               return null;
                           });
                 res.status(apiResponse.statusCode).send({
@@ -115,7 +115,7 @@ const getAlleBehandlinger = (req, res) => {
 const devGetBehandlinger = (req, res) => {
     const personId = req.headers[personIdHeaderName];
     if (!personId) {
-        log(
+        logger.error(
             `Missing header '${personIdHeaderName}' in request, from user ${nameFrom(
                 req.session.spadeToken
             )}`
@@ -127,7 +127,7 @@ const devGetBehandlinger = (req, res) => {
     const filename = personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
     fs.readFile(`__mock-data__/${filename}`, (err, data) => {
         if (err) {
-            console.log(err);
+            logger.error(err);
             res.sendStatus(500);
         }
 
@@ -150,7 +150,7 @@ const devGetBehandlinger = (req, res) => {
 const devGetAlleBehandlinger = (_req, res) => {
     fs.readFile(`__mock-data__/behandlingsummaries.json`, (err, data) => {
         if (err) {
-            console.log(err);
+            logger.error(err);
             res.sendStatus(500);
         }
         const behandlingerToReturn = JSON.parse(data).behandlinger.map(behandling =>

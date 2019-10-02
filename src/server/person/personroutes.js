@@ -3,6 +3,7 @@
 const personLookup = require('./personlookup');
 const personMapping = require('./personmapping');
 const router = require('express').Router();
+const logger = require('../logging');
 
 const setup = stsclient => {
     personLookup.init(stsclient);
@@ -30,7 +31,7 @@ const getPerson = (req, res) => {
             res.send(personMapping.map(person));
         })
         .catch(err => {
-            console.log(err);
+            logger.error(err);
             res.sendStatus(500);
         });
 };
