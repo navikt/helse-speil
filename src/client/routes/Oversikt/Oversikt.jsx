@@ -23,7 +23,7 @@ const Oversikt = ({ history }) => {
     }, []);
 
     const toBehandletSak = (behandling, feedback) => ({
-        søkerName: behandling.personinfo.navn ?? behandling.originalSøknad.aktorId,
+        søkerName: behandling.personinfo?.navn ?? behandling.originalSøknad.aktorId,
         submittedDate: feedback.value.submittedDate,
         behandlingsId: behandling.behandlingsId,
         userName: extractNameFromEmail(feedback.value.userId.email)
