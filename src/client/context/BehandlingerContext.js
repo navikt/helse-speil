@@ -36,14 +36,19 @@ export const BehandlingerProvider = ({ children }) => {
         setValgtBehandling(valgtBehandling);
     };
 
+    const sort = behandlinger =>
+        behandlinger.sort((a, b) => a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt));
+
     const fetchBehandlingerMedPersoninfo = async () => {
         const alleBehandlinger = await fetchAlleBehandlinger();
-        const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
-        const sorted = behandlingerMedPersoninfo.sort((a, b) =>
-            a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt)
-        );
-        setBehandlinger(sorted);
-        setValgtBehandling(undefined);
+        if (alleBehandlinger !== undefined) {
+            setBehandlinger(sort(alleBehandlinger));
+            setValgtBehandling(undefined);
+            const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
+            if (valgtBehandling !== undefined) {
+                setBehandlinger(sort(behandlingerMedPersoninfo));
+            }
+        }
     };
 
     const fetchAlleBehandlinger = () => {

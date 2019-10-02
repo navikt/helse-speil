@@ -45,7 +45,7 @@ export const InnrapporteringProvider = withBehandlingContext(
                 const behandlingIdList = behandlinger.map(b => b.behandlingsId);
                 fetchFeedbackList(behandlingIdList);
             }
-        }, [behandlinger, behandlingsId, feedback]);
+        }, [behandlinger, behandlingsId, feedback.length]);
 
         const fetchFeedback = behandlingsId => {
             return getFeedback(behandlingsId)

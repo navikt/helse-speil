@@ -41,22 +41,6 @@ const get = async (url, options) => {
     };
 };
 
-export const post = async (url, data) => {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-
-    if (response.status !== 204) {
-        throw ResponseError(response.statusText, response.status);
-    }
-    return response;
-};
-
 export const del = async (url, data) => {
     const response = await fetch(url, {
         method: 'DELETE',
@@ -83,6 +67,26 @@ export const behandlingerIPeriode = async (fom, tom) => {
     return get(`${baseUrl}/behandlinger/periode/${fom}/${tom}`);
 };
 
+export const post = async (url, data) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (response.status !== 200) {
+        throw ResponseError(response.statusText, response.status);
+    }
+
+    return {
+        status: response.status,
+        data: await getData(response)
+    };
+};
+
 export const putFeedback = async feedback => {
     const response = await fetch(baseUrl + '/feedback', {
         method: 'PUT',
@@ -103,8 +107,7 @@ export const getFeedback = async behandlingsId => {
 };
 
 export const getFeedbackList = async behandlingsIdList => {
-    const parameterList = behandlingsIdList.map(id => `id=${id}`).join('&');
-    return get(`${baseUrl}/feedback/list?${parameterList}`);
+    return post(`${baseUrl}/feedback/list`, behandlingsIdList);
 };
 
 export const downloadFeedback = params => {

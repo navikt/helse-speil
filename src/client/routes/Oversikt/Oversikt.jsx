@@ -9,11 +9,11 @@ import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { oversikttekster } from '../../tekster';
 import { toDate, toDateAndTime } from '../../utils/date';
 import './Oversikt.less';
-import { extractNameFromEmail } from '../../../utils/locale';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { deleteTildeling, getTildelinger, postTildeling } from '../../../io/http';
-import { AuthContext } from '../../../context/AuthContext';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { AuthContext } from '../../context/AuthContext';
+import { extractNameFromEmail } from '../../utils/locale';
+import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
 
 const twoMinutesInMilliSec = 120000;
 const Oversikt = ({ history }) => {
@@ -31,7 +31,7 @@ const Oversikt = ({ history }) => {
     }, []);
 
     const toBehandletSak = (behandling, feedback) => ({
-        søkerName: behandling.personinfo.navn ?? behandling.originalSøknad.aktorId,
+        søkerName: behandling.personinfo?.navn ?? behandling.originalSøknad.aktorId,
         submittedDate: feedback.value.submittedDate,
         behandlingsId: behandling.behandlingsId,
         userName: extractNameFromEmail(feedback.value.userId.email)
