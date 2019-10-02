@@ -31,7 +31,7 @@ const routes = ({ router }) => {
         }
 
         if (process.env.NODE_ENV === 'development') {
-            sendDevResponse(personId, res);
+            sendDevResponse(res, personId);
             return;
         }
 
@@ -82,15 +82,7 @@ const routes = ({ router }) => {
 
     router.get('/periode/:fom/:tom', (req, res) => {
         if (process.env.NODE_ENV === 'development') {
-            const filename = 'behandlinger.json';
-            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
-                if (err) {
-                    console.log(err);
-                    res.sendStatus(500);
-                }
-                res.header('Content-Type', 'application/json; charset=utf-8');
-                res.send(JSON.parse(data).behandlinger.map(behandling => mapping.alle(behandling)));
-            });
+            sendDevResponse(res);
             return;
         }
 
@@ -100,7 +92,11 @@ const routes = ({ router }) => {
         api.behandlingerIPeriode(fom, tom, accessToken)
             .then(apiResponse => {
                 res.status(apiResponse.statusCode);
-                res.send(apiResponse.body.behandlinger.map(behandling => mapping.alle(behandling)));
+                res.send({
+                    behandlinger: apiResponse.body.behandlinger.map(behandling =>
+                        mapping.alle(behandling)
+                    )
+                });
             })
             .catch(err => {
                 console.error(
@@ -111,8 +107,9 @@ const routes = ({ router }) => {
     });
 };
 
-const sendDevResponse = (personId, res) => {
-    const filename = personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
+const sendDevResponse = (res, personId) => {
+    const filename =
+        !personId || personId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger_mapped.json';
     fs.readFile(`__mock-data__/${filename}`, (err, data) => {
         if (err) {
             console.log(err);

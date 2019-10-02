@@ -51,7 +51,7 @@ export const BehandlingerProvider = ({ children }) => {
         const tom = moment().format('YYYY-MM-DD');
         return behandlingerIPeriode(fom, tom)
             .then(response => {
-                const newData = { behandlinger: response.data };
+                const newData = response.data;
                 return newData.behandlinger;
             })
             .catch(err => {

@@ -178,7 +178,6 @@ const alle = behandling => {
         };
     }
     const vurderingstidspunkt = behandling.avklarteVerdier.medlemsskap.vurderingstidspunkt;
-    console.log('Vurderingstidpunkt: ', vurderingstidspunkt);
 
     return {
         behandlingsId: mappedBehandling.behandlingsId,
