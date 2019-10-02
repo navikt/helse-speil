@@ -46,7 +46,8 @@ export const BehandlingerProvider = ({ children }) => {
             setBehandlinger(sort(alleBehandlinger));
             setValgtBehandling(undefined);
             const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
-            if (valgtBehandling !== undefined) {
+            if (valgtBehandling === undefined) {
+                // I tilfelle det gikk tregt og bruker har valgt behandling i mellomtiden
                 setBehandlinger(sort(behandlingerMedPersoninfo));
             }
         }
