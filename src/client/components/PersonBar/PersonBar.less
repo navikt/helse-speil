@@ -1,0 +1,34 @@
+@import '../../variables';
+
+.PersonBar {
+    padding: 1rem 1.5rem 0;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+
+    p:not(.typo-element) {
+        margin-left: 0.5rem;
+    }
+
+    > * {
+        margin-right: 0.5rem;
+        color: @darkGrey;
+    }
+}
+
+#PersonBar__gender {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+#PersonBar__gender.kvinne {
+    background: url('img/Ikon_kvinne.svg');
+}
+
+#PersonBar__gender.mann {
+    background: url('img/Ikon_mann.svg');
+}
+
+#PersonBar__gender.kjønnsnøytral {
+    background: url('img/Ikon_nøytral.svg');
+}

@@ -1,0 +1,46 @@
+@import '../../variables';
+@import '../../mixins';
+
+nav.Nav {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 2rem 0;
+
+  p {
+    pointer-events: none;
+  }
+
+  > a {
+    text-decoration: none;
+    padding: 0.625rem 3rem;
+    color: #3e3832;
+
+    &:hover,
+    &.active {
+      background: #e7e9e9;
+    }
+
+    &.active {
+      box-shadow: inset 0.25rem 0 0 0 @blue;
+    }
+
+    .focusable();
+
+    &:focus {
+      z-index: 1000;
+    }
+  }
+
+  > a .typo-normal {
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+
+  &.inactive {
+    > a {
+      box-shadow: none;
+      background: none;
+    }
+  }
+}

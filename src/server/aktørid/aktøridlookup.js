@@ -11,6 +11,16 @@ const init = (stsclient, config) => {
 };
 
 const hentAktørId = async ssn => {
+    const response = await fetchFromAktørregisteret(ssn);
+    return mapToAktørId(response, ssn);
+};
+
+const hentFnr = async aktørId => {
+    const response = await fetchFromAktørregisteret(aktørId);
+    return mapToFnr(response, aktørId);
+};
+
+const fetchFromAktørregisteret = async ident => {
     const stsToken = await stsClient.hentAccessToken();
 
     const options = {
@@ -20,15 +30,15 @@ const hentAktørId = async ssn => {
             Accept: 'application/json',
             'Nav-Call-Id': uuid(),
             'Nav-Consumer-Id': 'speil',
-            'Nav-Personidenter': ssn
+            'Nav-Personidenter': ident
         },
         json: true
     };
 
-    return request.get(options).then(response => mapResponse(response, ssn));
+    return request.get(options);
 };
 
-const mapResponse = (response, ssn) => {
+const mapToAktørId = (response, ssn) => {
     const identResponse = response && response[ssn];
     const identer = identResponse?.identer;
 
@@ -39,8 +49,24 @@ const mapResponse = (response, ssn) => {
         const aktørId = identer
             .filter(ident => ident.identgruppe === 'AktoerId')
             .map(ident => ident.ident)[0];
-        log(`Retrieved AktørId '${maskIdentifier(aktørId)}' for SSN '${maskIdentifier(ssn)}'.`);
+        log(`Retrieved AktørID '${maskIdentifier(aktørId)}' for NNIN '${maskIdentifier(ssn)}'.`);
         return Promise.resolve(aktørId);
+    }
+};
+
+const mapToFnr = (response, aktørId) => {
+    const identResponse = response && response[aktørId];
+    const identer = identResponse?.identer;
+
+    if (identer === undefined || identer.length === 0) {
+        log(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
+        return Promise.reject('NNIN not found');
+    } else {
+        const fnr = identer
+            .filter(ident => ident.identgruppe === 'NorskIdent')
+            .map(ident => ident.ident)[0];
+        log(`Retrieved NNIN '${maskIdentifier(fnr)}' for AktørID '${maskIdentifier(aktørId)}'.`);
+        return Promise.resolve(fnr);
     }
 };
 
@@ -58,6 +84,8 @@ const maskIdentifier = identifier => {
 module.exports = {
     init,
     hentAktørId,
-    _mapResponse: mapResponse,
+    hentFnr,
+    _mapToAktørId: mapToAktørId,
+    _mapToFnr: mapToFnr,
     _maskIdentifier: maskIdentifier
 };

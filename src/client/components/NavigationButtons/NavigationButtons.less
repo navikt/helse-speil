@@ -1,0 +1,25 @@
+.NavigationButtons > div {
+  display: contents;
+}
+
+.NavigationButtons > div .knapp {
+  margin-right: 1rem;
+}
+
+.NavigationButtons__tooltip {
+  display: flex;
+  align-items: center;
+
+  &:after {
+    content: '';
+    display: inline-block;
+    margin-left: 0.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: url('img/arrow.svg');
+  }
+
+  &.left:after {
+    transform: rotate(180deg);
+  }
+}

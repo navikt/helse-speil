@@ -1,0 +1,81 @@
+{
+    "apiVersion": "nais.io/v1alpha1",
+    "kind": "Application",
+    "metadata": {
+        "labels": {
+            "team": "tbd"
+        },
+        "name": "speil",
+        "namespace": "default"
+    },
+    "spec": {
+        "env": [
+            {
+                "name": "REDIRECT_URL",
+                "value": "https://speil.nais.adeo.no/callback"
+            },
+            {
+                "name": "API_BASE_URL",
+                "value": "https://spade.nais.adeo.no"
+            },
+            {
+                "name": "DEBUG",
+                "value": "global-tunnel"
+            },
+            {
+                "name": "REDIS_HOST",
+                "value": "speil-redis.default.svc.nais.local"
+            },
+            {
+                "name": "REDIS_PORT",
+                "value": "6379"
+            },
+            {
+                "name": "AKTOERREGISTER_URL",
+                "value": "https://app.adeo.no/aktoerregister"
+            },
+            {
+                "name": "SPENN_URL",
+                "value": "spenn.default.svc.nais.local"
+            }
+        ],
+        "image": "set_from_pipeline",
+        "ingresses": ["https://speil.nais.adeo.no"],
+        "liveness": {
+            "failureThreshold": 10,
+            "initialDelay": 20,
+            "path": "isAlive",
+            "periodSeconds": 5,
+            "timeout": 1
+        },
+        "port": 3000,
+        "prometheus": {
+            "enabled": true
+        },
+        "readiness": {
+            "initialDelay": 20,
+            "path": "isReady",
+            "timeout": 1
+        },
+        "replicas": {
+            "cpuThresholdPercentage": 90,
+            "max": 1,
+            "min": 1
+        },
+        "resources": {
+            "limits": {
+                "cpu": "2000m",
+                "memory": "512Mi"
+            },
+            "requests": {
+                "cpu": "50m",
+                "memory": "128Mi"
+            }
+        },
+        "team": "tbd",
+        "vault": {
+            "enabled": true
+        },
+        "webproxy": true
+    }
+}

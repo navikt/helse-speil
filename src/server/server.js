@@ -105,20 +105,9 @@ app.use('/*', (req, res, next) => {
     }
 });
 
-app.use('/static', express.static('dist/client'));
-
-behandlinger.setup({ app, stsclient, config: config.nav });
-
-feedback
-    .setup(app, config.s3, instrumentation)
-    .then(() => {
-        log(`Feedback storage at ${config.s3.s3url}`);
-    })
-    .catch(err => {
-        log(
-            `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback are not available.`
-        );
-    });
+app.use('/api/person', person.setup(stsclient));
+app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
+app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));
 
 behandlingsession
     .setup(app, config)
@@ -132,10 +121,18 @@ behandlingsession
         );
     });
 
-person.setup(app, stsclient);
-
-app.get('/', (_, res) => {
-    res.redirect('/static');
+app.get('/*', (req, res, next) => {
+    if (!req.accepts('html') && /\/api/.test(req.url)) {
+        console.debug(`Received a non-HTML request for '${req.url}', which didn't match a route`);
+        res.sendStatus(404);
+        return;
+    }
+    next();
 });
+
+// At the time of writing this comment, the setup of the static 'routes' has to be done in a particular order.
+app.use('/static', express.static('dist/client'));
+app.use('/*', express.static('dist/client/index.html'));
+app.use('/', express.static('dist/client/'));
 
 app.listen(port, () => log(`Speil backend listening on port ${port}`));

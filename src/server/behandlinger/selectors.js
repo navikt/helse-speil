@@ -15,6 +15,35 @@ const utbetalingsbeløp = behandling =>
     );
 
 const ferieperioder = behandling => {
+    if (!behandling.originalSøknad.fravar) {
+        const logStructureOfTree = (object, stack) => {
+            if (object && Object.keys(object).length === 0) {
+                console.log(stack + '.[]');
+            }
+            for (var property in object) {
+                // filter out non-essential keys
+                if (
+                    property === 'vilkårsprøving' ||
+                    property === 'beregning' ||
+                    property === 'avklarteVerdier' ||
+                    property === 'arbeidInntektYtelse' ||
+                    property === 'sammenligningsperiode' ||
+                    property === 'beregningsperiode'
+                )
+                    continue;
+                if (Object.prototype.hasOwnProperty.call(object, property)) {
+                    if (typeof object[property] == 'object') {
+                        logStructureOfTree(object[property], stack + '.' + property);
+                    } else {
+                        console.log(stack + '.' + property);
+                    }
+                }
+            }
+        };
+        console.log('Struktur på behandling som mangler fravær:');
+        logStructureOfTree(behandling, '');
+        return [];
+    }
     return behandling.originalSøknad.fravar.filter(
         periode => periode.type.toLowerCase() === 'ferie'
     );
@@ -51,14 +80,58 @@ const utbetalingsperioder = perioder => {
     );
 };
 
-const beregningsperioden = behandling =>
-    utbetalingsperioder(
+const beregningsperioden = behandling => {
+    const beregningsperiode =
         behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
-            .sykepengegrunnlagIArbeidsgiverperioden.grunnlag
-    );
+            .sykepengegrunnlagIArbeidsgiverperioden.grunnlag;
+    if (!Array.isArray(beregningsperiode)) {
+        console.log('Forventer en liste, men beregningsperioden er ', typeof beregningsperiode);
+        console.log(Object.keys(beregningsperiode).toString());
+        if (beregningsperiode.inntekter) {
+            if (
+                Array.isArray(beregningsperiode.inntekter) &&
+                beregningsperiode.inntekter.utbetalingsperiode &&
+                beregningsperiode.inntekter.beløp
+            ) {
+                return utbetalingsperioder(beregningsperiode.inntekter);
+            } else {
+                return [];
+            }
+        }
+        if (beregningsperiode.begrunnelse) {
+            console.log('Begrunnelse: ', beregningsperiode.begrunnelse);
+        }
+    }
+    return utbetalingsperioder(beregningsperiode);
+};
 
-const sammenligningsperioden = behandling =>
-    utbetalingsperioder(behandling.avklarteVerdier.sykepengegrunnlag.grunnlag);
+const sammenligningsperioden = behandling => {
+    const sammenligningsperiode = behandling.avklarteVerdier.sykepengegrunnlag.grunnlag;
+    if (!Array.isArray(sammenligningsperiode)) {
+        console.log(
+            'Forventer en liste, men sammenligningsgrunnlag er ',
+            typeof sammenligningsperiode
+        );
+        console.log(Object.keys(sammenligningsperiode).toString());
+        if (sammenligningsperiode.inntekter) {
+            console.log('Inntekter er type ', typeof sammenligningsperiode.inntekter);
+            console.log(
+                'Inntekter keys: ',
+                Object.keys(sammenligningsperiode.inntekter).toString()
+            );
+            if (
+                Array.isArray(sammenligningsperiode.inntekter) &&
+                sammenligningsperiode.inntekter.utbetalingsperiode &&
+                sammenligningsperiode.inntekter.beløp
+            ) {
+                return utbetalingsperioder(sammenligningsperiode.inntekter);
+            } else {
+                return [];
+            }
+        }
+    }
+    return utbetalingsperioder(sammenligningsperiode);
+};
 
 const sykepengegrunnlag = behandling => {
     return behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
