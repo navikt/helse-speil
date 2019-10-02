@@ -72,7 +72,7 @@ export const getFeedback = async behandlingsId => {
 
 export const getFeedbackList = async behandlingsIdList => {
     const parameterList = behandlingsIdList.map(id => `id=${id}`).join('&');
-    return get(`${baseUrl}/feedback/list`);
+    return get(`${baseUrl}/feedback/list?${parameterList}`);
 };
 
 export const downloadFeedback = params => {
