@@ -6,9 +6,12 @@ let redisClient = null;
 
 const init = async config => {
     redisClient = redis.createClient({
-        host: config.redis.host,
-        port: config.redis.port,
-        password: config.redis.password
+        host: config.host,
+        port: config.port,
+        password: config.password
+    });
+    redisClient.on('connect', () => {
+        console.log('Redis client connected');
     });
     redisClient.on('error', err => {
         console.log('Redis error: ', err);
@@ -48,7 +51,6 @@ const get = async key => {
 
 const set = async (key, value) => {
     const secondsInThreeDays = 267913;
-
     redisClient
         .multi()
         .setnx(key, value)

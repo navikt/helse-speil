@@ -12,7 +12,7 @@ import './Oversikt.less';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { AuthContext } from '../../context/AuthContext';
-import { extractNameFromEmail } from '../../utils/locale';
+import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
 
 const twoMinutesInMilliSec = 120000;
@@ -95,7 +95,7 @@ const Oversikt = ({ history }) => {
                 ]);
                 setError(undefined);
             })
-            .catch(() => {
+            .catch(error => {
                 setError('Kunne ikke tildele sak.');
                 console.log(error);
             });
@@ -107,7 +107,7 @@ const Oversikt = ({ history }) => {
                 setTildelinger(tildelinger.filter(t => t.behandlingsId !== behandlingsId));
                 setError(undefined);
             })
-            .catch(() => {
+            .catch(error => {
                 setError('Kunne ikke fjerne tildeling av sak.');
                 console.log(error);
             });
@@ -144,7 +144,7 @@ const Oversikt = ({ history }) => {
                                     </>
                                 ) : (
                                     <Normaltekst>
-                                        {extractNameFromEmail(tildeling.userId)}
+                                        {capitalizeName(extractNameFromEmail(tildeling.userId))}
                                     </Normaltekst>
                                 )
                             ) : (

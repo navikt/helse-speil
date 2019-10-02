@@ -12,13 +12,14 @@ const azure = require('./auth/azure');
 const authsupport = require('./auth/authsupport');
 const stsclient = require('./auth/stsclient');
 const { sessionStore } = require('./sessionstore');
+const redisstorage = require('./tildeling/storage');
 
 const headers = require('./headers');
 
 const behandlinger = require('./behandlinger/behandlingerroutes');
 const feedback = require('./feedback/feedbackroutes');
 const person = require('./person/personroutes');
-const behandlingsession = require('./behandlingsession/behandlingsessionroutes');
+const tildeling = require('./tildeling/tildelingroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
 const { nameFrom } = require('./auth/authsupport');
@@ -104,22 +105,12 @@ app.use('/*', (req, res, next) => {
         }
     }
 });
-
+const redisClient = redisstorage.init({ config: config.redis });
+app.use(sessionStore(config, redisClient));
+app.use('/api/tildeling', tildeling.setup({ storage: redisstorage }));
 app.use('/api/person', person.setup(stsclient));
 app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
 app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));
-
-behandlingsession
-    .setup(app, config)
-    .then(client => {
-        log(`Connected to Redis storage at ${config.redis.host}`);
-        app.use(sessionStore(config, client));
-    })
-    .catch(err => {
-        log(
-            `Failed to setup redis storage: ${err}. Routes for storing and retrieving behandlingsessions are not available.`
-        );
-    });
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {

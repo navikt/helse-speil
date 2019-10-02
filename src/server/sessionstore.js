@@ -1,10 +1,10 @@
 const expressSession = require('express-session');
 const redisStore = require('connect-redis')(expressSession);
 
-const sessionStore = config => {
+const sessionStore = (config, redisClient) => {
     return process.env.NODE_ENV === 'development'
         ? createMemoryStoreSession(config)
-        : createRedisSession(config);
+        : createRedisSession(config, redisClient);
 };
 
 const createMemoryStoreSession = config => {

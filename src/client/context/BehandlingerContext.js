@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { behandlingerFor, behandlingerIPeriode, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import moment from 'moment';
+import { capitalizeName } from '../utils/locale';
 
 export const BehandlingerContext = createContext();
 
@@ -90,7 +91,7 @@ export const BehandlingerProvider = ({ children }) => {
                 return {
                     ...behandling,
                     personinfo: {
-                        navn: response.data.navn,
+                        navn: capitalizeName(response.data.navn),
                         kjønn: response.data.kjønn
                     }
                 };

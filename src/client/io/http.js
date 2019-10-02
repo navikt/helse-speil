@@ -77,7 +77,7 @@ export const post = async (url, data) => {
         body: JSON.stringify(data)
     });
 
-    if (response.status !== 200) {
+    if (response.status !== 200 && response.status !== 204) {
         throw ResponseError(response.statusText, response.status);
     }
 
@@ -124,8 +124,7 @@ export const getTildeling = async behandlingsId => {
 };
 
 export const getTildelinger = async behandlingsIdList => {
-    const parameterList = behandlingsIdList.map(id => `id=${id}`).join('&');
-    return get(`${baseUrl}/tildeling/list?${parameterList}`);
+    return post(`${baseUrl}/tildeling/list`, behandlingsIdList);
 };
 
 export const postTildeling = async tildeling => {

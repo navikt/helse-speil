@@ -15,6 +15,8 @@ export const toKroner = number => Number.parseInt(number).toLocaleString('nb-NO'
 
 export const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 
+export const capitalizeName = string => string.replace(/\b[\w']+\b/g, word => capitalize(word));
+
 export const extractNameFromEmail = email =>
     email
         ?.split('@')[0]
