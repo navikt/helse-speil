@@ -36,11 +36,11 @@ const routes = ({ router }) => {
 
 const getBehandlinger = async (req, res) => {
     const personId = req.headers[personIdHeaderName];
+    const speilUser = nameFrom(req.session.spadeToken);
+    logger.audit(`${speilUser} is looking up person ${personId}`);
     if (!personId) {
         logger.error(
-            `Missing header '${personIdHeaderName}' in request, from user ${nameFrom(
-                req.session.spadeToken
-            )}`
+            `Missing header '${personIdHeaderName}' in request, from user ${speilUser}`
         );
         res.status(500).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
         return;
@@ -93,8 +93,10 @@ const getBehandlinger = async (req, res) => {
 
 const getAlleBehandlinger = (req, res) => {
     const accessToken = req.session.spadeToken;
+    const speilUser = nameFrom(accessToken);
     const fom = req.params.fom;
     const tom = req.params.tom;
+    logger.audit(`${speilUser} is looking up everything ${fom} -> ${tom}`);
     api.behandlingerIPeriode(fom, tom, accessToken)
         .then(apiResponse => {
             res.status(apiResponse.statusCode);
