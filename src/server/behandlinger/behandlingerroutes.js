@@ -125,7 +125,7 @@ const sendBehandlingerSummaryDevResponse = res => {
 
 const sendDevResponse = (res, personId) => {
     const filename =
-        !personId || personId.charAt(0) < 5 || personId.charAt(0) !== 7
+        !personId || personId.charAt(0) < 5 || personId.charAt(0) !== '7'
             ? 'behandlinger.json'
             : 'behandlinger_mapped.json';
     fs.readFile(`__mock-data__/${filename}`, (err, data) => {
