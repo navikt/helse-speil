@@ -49,8 +49,7 @@ const Oversikt = ({ history }) => {
     );
 
     const velgBehandling = behandling => {
-        setValgtBehandling(behandling);
-        history.push('/sykdomsvilkår');
+        setValgtBehandling(behandling, history);
     };
 
     return (
