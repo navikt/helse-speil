@@ -1,23 +1,9 @@
 'use strict';
 
-const redis = require('redis');
-
 let redisClient = null;
 
-const init = async config => {
-    redisClient = redis.createClient({
-        host: config.host,
-        port: config.port,
-        password: config.password
-    });
-    redisClient.on('connect', () => {
-        console.log('Redis client connected');
-    });
-    redisClient.on('error', err => {
-        console.log('Redis error: ', err);
-    });
-
-    return redisClient;
+const init = client => {
+    redisClient = client;
 };
 
 const getAll = async keys => {
@@ -50,7 +36,7 @@ const get = async key => {
 };
 
 const set = async (key, value) => {
-    const secondsInThreeDays = 267913;
+    const secondsInThreeDays = 259200;
     redisClient
         .multi()
         .setnx(key, value)

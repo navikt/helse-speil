@@ -181,7 +181,7 @@ const Oversikt = ({ history }) => {
                         {behandledeSaker.map(sak => (
                             <li className="row row--info" key={sak.behandlingsId}>
                                 <Lenke onClick={() => velgBehandling(sak)}>{sak.søkerName}</Lenke>
-                                <Normaltekst>{sak.userName}</Normaltekst>
+                                <Normaltekst>{capitalizeName(sak.userName)}</Normaltekst>
                                 <Normaltekst>{toDateAndTime(sak.submittedDate)}</Normaltekst>
                             </li>
                         ))}

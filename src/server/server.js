@@ -12,7 +12,7 @@ const azure = require('./auth/azure');
 const authsupport = require('./auth/authsupport');
 const stsclient = require('./auth/stsclient');
 const { sessionStore } = require('./sessionstore');
-const redisstorage = require('./tildeling/storage');
+const redisclient = require('./redisclient');
 
 const headers = require('./headers');
 
@@ -105,9 +105,9 @@ app.use('/*', (req, res, next) => {
         }
     }
 });
-const redisClient = redisstorage.init({ config: config.redis });
+const redisClient = redisclient.init({ config: config.redis });
 app.use(sessionStore(config, redisClient));
-app.use('/api/tildeling', tildeling.setup({ storage: redisstorage }));
+app.use('/api/tildeling', tildeling.setup(redisClient));
 app.use('/api/person', person.setup(stsclient));
 app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
 app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));
