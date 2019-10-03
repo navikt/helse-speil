@@ -30,9 +30,13 @@ const port = config.server.port;
 
 const instrumentation = require('./instrumentation').setup(app);
 
+const redisClient = redisclient.init({ config: config.redis });
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+
+app.use(sessionStore(config, redisClient));
 
 app.use(compression());
 
@@ -105,8 +109,7 @@ app.use('/*', (req, res, next) => {
         }
     }
 });
-const redisClient = redisclient.init({ config: config.redis });
-app.use(sessionStore(config, redisClient));
+
 app.use('/api/tildeling', tildeling.setup(redisClient));
 app.use('/api/person', person.setup(stsclient));
 app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
