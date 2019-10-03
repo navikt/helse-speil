@@ -1,5 +1,5 @@
 const request = require('request-promise-native');
-const { log } = require('../logging');
+const logger = require('../logging');
 const uuid = require('uuid/v4');
 
 let aktørregisterUrl;
@@ -43,13 +43,13 @@ const mapToAktørId = (response, ssn) => {
     const identer = identResponse?.identer;
 
     if (identer === undefined || identer.length === 0) {
-        log(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
+        logger.error(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
         return Promise.reject('AktørId not found');
     } else {
         const aktørId = identer
             .filter(ident => ident.identgruppe === 'AktoerId')
             .map(ident => ident.ident)[0];
-        log(`Retrieved AktørID '${maskIdentifier(aktørId)}' for NNIN '${maskIdentifier(ssn)}'.`);
+        logger.info(`Retrieved AktørID '${maskIdentifier(aktørId)}' for NNIN '${maskIdentifier(ssn)}'.`);
         return Promise.resolve(aktørId);
     }
 };
@@ -59,13 +59,13 @@ const mapToFnr = (response, aktørId) => {
     const identer = identResponse?.identer;
 
     if (identer === undefined || identer.length === 0) {
-        log(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
+        logger.error(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
         return Promise.reject('NNIN not found');
     } else {
         const fnr = identer
             .filter(ident => ident.identgruppe === 'NorskIdent')
             .map(ident => ident.ident)[0];
-        log(`Retrieved NNIN '${maskIdentifier(fnr)}' for AktørID '${maskIdentifier(aktørId)}'.`);
+        logger.info(`Retrieved NNIN '${maskIdentifier(fnr)}' for AktørID '${maskIdentifier(aktørId)}'.`);
         return Promise.resolve(fnr);
     }
 };

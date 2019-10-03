@@ -21,7 +21,7 @@ const person = require('./person/personroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
 const { nameFrom } = require('./auth/authsupport');
-const { log } = require('./logging');
+const logger = require('./logging');
 
 const app = express();
 const port = config.server.port;
@@ -44,7 +44,7 @@ azure
         azureClient = client;
     })
     .catch(err => {
-        log(`Failed to discover OIDC provider properties: ${err}`);
+        logger.error(`Failed to discover OIDC provider properties: ${err}`);
         process.exit(1);
     });
 
@@ -79,7 +79,7 @@ app.post('/callback', (req, res) => {
             res.redirect('/');
         })
         .catch(err => {
-            log(err);
+            logger.error(err);
             req.session.destroy();
             res.sendStatus(403);
         });
@@ -90,7 +90,7 @@ app.use('/*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development' || authsupport.isValidNow(req.session.spadeToken)) {
         next();
     } else {
-        log(
+        logger.info(
             `no valid session found for ${ipAddressFromRequest(req)}, username ${nameFrom(
                 req.session.spadeToken
             )}`
@@ -123,4 +123,4 @@ app.use('/static', express.static('dist/client'));
 app.use('/*', express.static('dist/client/index.html'));
 app.use('/', express.static('dist/client/'));
 
-app.listen(port, () => log(`Speil backend listening on port ${port}`));
+app.listen(port, () => logger.info(`Speil backend listening on port ${port}`));

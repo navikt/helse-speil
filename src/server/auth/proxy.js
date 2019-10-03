@@ -1,6 +1,7 @@
 'use strict';
 
 const tunnel = require('tunnel');
+const logger = require('../logging');
 
 const setup = (Issuer, custom) => {
     let proxyAgent = null;
@@ -16,14 +17,14 @@ const setup = (Issuer, custom) => {
             }
         });
 
-        console.log(`proxying requests via ${process.env['HTTP_PROXY']}`);
+        logger.info(`proxying requests via ${process.env['HTTP_PROXY']}`);
 
         Issuer[custom.http_options] = function(options) {
             options.agent = proxyAgent;
             return options;
         };
     } else {
-        console.log(`proxy is not active`);
+        logger.info(`proxy is not active`);
     }
 
     return proxyAgent;
