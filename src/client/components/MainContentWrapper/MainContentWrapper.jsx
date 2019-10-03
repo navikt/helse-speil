@@ -14,14 +14,14 @@ import { withBehandlingContext } from '../../context/BehandlingerContext';
 import './MainContentWrapper.css';
 
 const MainContentWrapper = withBehandlingContext(
-    ({ behandlinger, behandling, setValgtBehandling }) => {
+    ({ behandlinger, behandling, userMustSelectBehandling, setValgtBehandling }) => {
         const [modalOpen, setModalOpen] = useState(false);
 
         useEffect(() => {
-            if (behandling === undefined && behandlinger?.length > 1) {
+            if (userMustSelectBehandling) {
                 setModalOpen(true);
             }
-        }, [behandlinger, behandling]);
+        }, [userMustSelectBehandling]);
 
         const velgBehandling = behandling => {
             setModalOpen(false);

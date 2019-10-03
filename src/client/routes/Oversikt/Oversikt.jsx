@@ -48,8 +48,9 @@ const Oversikt = ({ history }) => {
         [innrapportering.feedback, behandlinger]
     );
 
-    const velgBehandling = behandling => {
-        setValgtBehandling(behandling, history);
+    const velgBehandling = async behandling => {
+        await setValgtBehandling(behandling);
+        history.push('/sykdomsvilkår');
     };
 
     return (
