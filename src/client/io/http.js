@@ -44,10 +44,6 @@ const get = async (url, options) => {
 export const del = async (url, data) => {
     const response = await fetch(url, {
         method: 'DELETE',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
         body: JSON.stringify(data)
     });
 

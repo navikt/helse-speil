@@ -15,7 +15,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
 
-const twoMinutesInMilliSec = 120000;
+const fetchTildelingerInterval = 120000;
 const Oversikt = ({ history }) => {
     const behandlingerCtx = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
@@ -58,7 +58,7 @@ const Oversikt = ({ history }) => {
 
     useEffect(() => {
         fetchTildelinger();
-        const interval = window.setInterval(fetchTildelinger, twoMinutesInMilliSec);
+        const interval = window.setInterval(fetchTildelinger, fetchTildelingerInterval);
         return () => {
             window.clearInterval(interval);
         };
