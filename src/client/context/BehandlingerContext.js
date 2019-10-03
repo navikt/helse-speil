@@ -34,7 +34,11 @@ export const BehandlingerProvider = ({ children }) => {
             b => b.behandlingsId === behandling?.behandlingsId
         );
         if (valgtBehandling && !valgtBehandling.avklarteVerdier) {
-            fetchBehandlinger(valgtBehandling.aktorId, valgtBehandling.behandlingsId, history);
+            fetchBehandlinger(
+                valgtBehandling.originalSøknad.aktorId,
+                valgtBehandling.behandlingsId,
+                history
+            );
         } else {
             setValgtBehandling(valgtBehandling);
             if (history) {
