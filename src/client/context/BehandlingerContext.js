@@ -49,6 +49,11 @@ export const BehandlingerProvider = ({ children }) => {
         setBehandlinger(alleBehandlinger);
         if (alleBehandlinger !== undefined) {
             const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
+            if (behandlingerMedPersoninfo.find(behandling => behandling.personinfo === undefined)) {
+                setError({
+                    message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
+                });
+            }
             setBehandlinger(behandlingerMedPersoninfo);
         }
     };
@@ -99,10 +104,6 @@ export const BehandlingerProvider = ({ children }) => {
             })
             .catch(err => {
                 console.error('Feil ved henting av person.', err);
-                setError({
-                    ...err,
-                    message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
-                });
                 return behandling;
             });
     };
