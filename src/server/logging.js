@@ -19,7 +19,7 @@ const stdoutLogger = winston.createLogger({
 const auditLogger = winston.createLogger({
     level: 'info',
     format: winston.format.simple(),
-    transports: [new winston.transports.File({ filename: auditLogPath() })]
+    transports: [new winston.transports.File({ filename: auditLogPath(), maxsize: 5242880 })]
 });
 
 const info = msg => {
