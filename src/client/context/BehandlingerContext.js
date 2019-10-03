@@ -30,26 +30,30 @@ export const BehandlingerProvider = ({ children }) => {
     const [fnr, setFnr] = useState(undefined);
     const [valgtBehandling, setValgtBehandling] = useState(undefined);
 
-    const velgBehandling = behandling => {
+    const velgBehandling = (behandling, history) => {
         const valgtBehandling = behandlinger.find(
-            b => b.behandlingsId === behandling.behandlingsId
+            b => b.behandlingsId === behandling?.behandlingsId
         );
-        setValgtBehandling(valgtBehandling);
+        if (valgtBehandling && !valgtBehandling.avklarteVerdier) {
+            fetchBehandlinger(valgtBehandling.aktorId, valgtBehandling.behandlingsId, history);
+        } else {
+            setValgtBehandling(valgtBehandling);
+            if (history) {
+                history.push('/sykdomsvilkår');
+            }
+        }
     };
 
     const sort = behandlinger =>
         behandlinger.sort((a, b) => a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt));
 
     const fetchBehandlingerMedPersoninfo = async () => {
+        setValgtBehandling(undefined);
         const alleBehandlinger = await fetchAlleBehandlinger();
         if (alleBehandlinger !== undefined) {
             setBehandlinger(sort(alleBehandlinger));
-            setValgtBehandling(undefined);
             const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
-            if (valgtBehandling === undefined) {
-                // I tilfelle det gikk tregt og bruker har valgt behandling i mellomtiden
-                setBehandlinger(sort(behandlingerMedPersoninfo));
-            }
+            setBehandlinger(behandlingerMedPersoninfo);
         }
     };
 
@@ -107,13 +111,22 @@ export const BehandlingerProvider = ({ children }) => {
             });
     };
 
-    const fetchBehandlinger = value => {
+    const fetchBehandlinger = (value, behandlingsId, history) => {
         return behandlingerFor(value)
             .then(response => {
                 const { behandlinger } = response.data;
                 setFnr(response.data.fnr);
                 setBehandlinger(behandlinger);
-                setValgtBehandling(behandlinger?.length !== 1 ? undefined : behandlinger[0]);
+                if (!behandlingsId) {
+                    setValgtBehandling(behandlinger?.length !== 1 ? undefined : behandlinger[0]);
+                } else {
+                    setValgtBehandling(
+                        behandlinger.find(behandling => behandling.behandlingsId === behandlingsId)
+                    );
+                }
+                if (history) {
+                    history.push('/sykdomsvilkår');
+                }
                 return { behandlinger };
             })
             .catch(err => {

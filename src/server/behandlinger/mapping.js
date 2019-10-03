@@ -195,6 +195,19 @@ const alle = behandling => {
     };
 };
 
+const fromBehandlingSummary = behandlingSummary => {
+    const { vurderingstidspunkt, fom, tom, aktorId, behandlingsId } = behandlingSummary;
+    return {
+        originalSøknad: {
+            aktorId,
+            fom,
+            tom
+        },
+        behandlingsId,
+        vurderingstidspunkt
+    };
+};
+
 const capitalize = string => string[0].toUpperCase() + string.toLowerCase().substring(1);
 
 module.exports = {
@@ -203,5 +216,6 @@ module.exports = {
     _sykepengeberegning: sykepengeberegning,
     _oppsummering: oppsummering,
     _originalSøknad: originalSøknad,
-    alle
+    alle,
+    fromBehandlingSummary
 };
