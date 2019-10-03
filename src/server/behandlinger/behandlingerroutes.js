@@ -72,8 +72,8 @@ const getBehandlinger = async (req, res) => {
                               return null;
                           });
                 res.status(apiResponse.statusCode).send({
-                    behandlinger: apiResponse.body.behandlinger.map(behandlingSummary =>
-                        mapping.fromBehandlingSummary(behandlingSummary)
+                    behandlinger: apiResponse.body.behandlinger.map(behandling =>
+                        mapping.alle(behandling)
                     ),
                     fnr
                 });
@@ -99,8 +99,8 @@ const getAlleBehandlinger = (req, res) => {
         .then(apiResponse => {
             res.status(apiResponse.statusCode);
             res.send({
-                behandlinger: apiResponse.body.behandlinger.map(behandling =>
-                    mapping.alle(behandling)
+                behandlinger: apiResponse.body.behandlinger.map(behandlingSummary =>
+                    mapping.fromBehandlingSummary(behandlingSummary)
                 )
             });
         })
