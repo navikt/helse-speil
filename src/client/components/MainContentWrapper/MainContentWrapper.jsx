@@ -29,7 +29,7 @@ const MainContentWrapper = withBehandlingContext(
         };
 
         const behandlingerForAktør = behandlinger.filter(
-            b => b.originalSøknad.aktorId === behandling.originalSøknad.aktorId
+            b => b.originalSøknad.aktorId === behandling?.originalSøknad.aktorId
         );
 
         return (
