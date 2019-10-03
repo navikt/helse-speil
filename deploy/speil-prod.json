@@ -77,6 +77,8 @@
             "enabled": true
         },
         "webproxy": true,
-        "secureLogs": true
+        "secureLogs": {
+            "enabled": true
+        }
     }
 }

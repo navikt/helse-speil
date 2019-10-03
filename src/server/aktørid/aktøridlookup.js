@@ -49,7 +49,7 @@ const mapToAktørId = (response, ssn) => {
         const aktørId = identer
             .filter(ident => ident.identgruppe === 'AktoerId')
             .map(ident => ident.ident)[0];
-        logger.error(`Retrieved AktørID '${maskIdentifier(aktørId)}' for NNIN '${maskIdentifier(ssn)}'.`);
+        logger.info(`Retrieved AktørID '${maskIdentifier(aktørId)}' for NNIN '${maskIdentifier(ssn)}'.`);
         return Promise.resolve(aktørId);
     }
 };
