@@ -5,7 +5,7 @@ import { NedChevron } from 'nav-frontend-chevron';
 import { useClickOutside } from '../../hooks/useClickOutside';
 import './Picker.less';
 
-const Picker = ({ items, className, currentItem, onChange, itemLabel }) => {
+const Picker = ({ items, className, currentItem, onSelectItem, itemLabel }) => {
     const [showPopup, setShowPopup] = useState(false);
     const popupRef = useRef(null);
 
@@ -28,7 +28,7 @@ const Picker = ({ items, className, currentItem, onChange, itemLabel }) => {
                         <li
                             key={`popup-item-${i}`}
                             role="option"
-                            onClick={() => onChange(item)}
+                            onClick={() => onSelectItem(item)}
                             tabIndex={0}
                             aria-selected={currentItem.behandlingsId === item.behandlingsId}
                         >
@@ -48,7 +48,7 @@ Picker.propTypes = {
     items: PropTypes.arrayOf(PropTypes.any).isRequired,
     className: PropTypes.string,
     currentItem: PropTypes.any,
-    onChange: PropTypes.func.isRequired,
+    onSelectItem: PropTypes.func.isRequired,
     itemLabel: PropTypes.func.isRequired
 };
 

@@ -15,7 +15,7 @@ export const withBehandlingContext = Component => {
             <Component
                 behandlinger={behandlinger}
                 behandling={behandlingerCtx.valgtBehandling}
-                setValgtBehandling={behandlingerCtx.setValgtBehandling}
+                velgBehandling={behandlingerCtx.velgBehandling}
                 userMustSelectBehandling={behandlingerCtx.userMustSelectBehandling}
                 fnr={behandlingerCtx.fnr}
                 fetchAlleBehandlinger={behandlingerCtx.fetchBehandlingerMedPersoninfo}
@@ -160,7 +160,7 @@ export const BehandlingerProvider = ({ children }) => {
             value={{
                 state: { behandlinger },
                 setBehandlinger,
-                setValgtBehandling: velgBehandling,
+                velgBehandling,
                 valgtBehandling,
                 fetchBehandlinger,
                 userMustSelectBehandling,

@@ -19,7 +19,7 @@ const wrapperProps = {
         behandling1,
         { behandlingsId: '456', originalSøknad: { fom: '2019-06-10', tom: '2019-06-20' } }
     ],
-    setValgtBehandling: jest.fn(),
+    velgBehandling: jest.fn(),
     behandling: undefined
 };
 

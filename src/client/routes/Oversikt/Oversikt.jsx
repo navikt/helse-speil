@@ -15,7 +15,7 @@ const Oversikt = ({ history }) => {
     const behandlingerCtx = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
 
-    const { fetchBehandlingerMedPersoninfo, setValgtBehandling } = behandlingerCtx;
+    const { fetchBehandlingerMedPersoninfo, velgBehandling } = behandlingerCtx;
     const behandlinger = behandlingerCtx.state.behandlinger;
 
     useEffect(() => {
@@ -48,8 +48,8 @@ const Oversikt = ({ history }) => {
         [innrapportering.feedback, behandlinger]
     );
 
-    const velgBehandling = async behandling => {
-        await setValgtBehandling(behandling);
+    const velgBehandlingAndNavigate = async behandling => {
+        await velgBehandling(behandling);
         history.push('/sykdomsvilkår');
     };
 
@@ -69,7 +69,7 @@ const Oversikt = ({ history }) => {
                         {ubehandledeSaker.map(behandling => (
                             <tr key={behandling.behandlingsId}>
                                 <td>
-                                    <Lenke onClick={() => velgBehandling(behandling)}>
+                                    <Lenke onClick={() => velgBehandlingAndNavigate(behandling)}>
                                         {behandling.personinfo?.navn ??
                                             behandling.originalSøknad.aktorId}
                                     </Lenke>
@@ -92,7 +92,9 @@ const Oversikt = ({ history }) => {
                     </li>
                     {behandledeSaker.map(sak => (
                         <li className="row row--info" key={sak.behandlingsId}>
-                            <Lenke onClick={() => velgBehandling(sak)}>{sak.søkerName}</Lenke>
+                            <Lenke onClick={() => velgBehandlingAndNavigate(sak)}>
+                                {sak.søkerName}
+                            </Lenke>
                             <Normaltekst>{sak.userName}</Normaltekst>
                             <Normaltekst>{toDateAndTime(sak.submittedDate)}</Normaltekst>
                         </li>
