@@ -18,6 +18,7 @@ const headers = require('./headers');
 const behandlinger = require('./behandlinger/behandlingerroutes');
 const feedback = require('./feedback/feedbackroutes');
 const person = require('./person/personroutes');
+const payments = require('./payment/paymentroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
 const { nameFrom } = require('./auth/authsupport');
@@ -28,7 +29,6 @@ const port = config.server.port;
 
 const instrumentation = require('./instrumentation').setup(app);
 
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -108,6 +108,7 @@ app.use('/*', (req, res, next) => {
 app.use('/api/person', person.setup(stsclient));
 app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
 app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));
+app.use('/api/payments', payments.setup({ config: config.nav }));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {
