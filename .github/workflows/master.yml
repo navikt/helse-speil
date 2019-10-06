@@ -9,34 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: Dump job context
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
     - uses: actions/checkout@v1
-    - name: create docker tag
-      env:
-        DOCKER_IMAGE: docker.pkg.github.com/navikt/helse-speil/speil
-      run: |
-        echo Verdien av GITHUB_SHA er $GITHUB_SHA
-        echo Verdien av github.sha er ${{ github.sha }}
-        echo Verdien av github.repository er ${{ github.repository }}
-        echo $DOCKER_IMAGE > .docker_image
-        git rev-parse HEAD | cut -c1-7 > .docker_tag
-        cat .docker_image
-        cat .docker_tag
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
@@ -48,6 +21,12 @@ jobs:
       run: npm run build-server
     - name: run e2e-test
       run: npm run e2e-test
+    - name: create docker tag
+      env:
+        DOCKER_IMAGE: docker.pkg.github.com/navikt/helse-speil/speil
+      run: |
+        echo $DOCKER_IMAGE > .docker_image
+        git rev-parse HEAD | cut -c1-7 > .docker_tag
     - name: build docker image
       run: docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
     - name: push docker image
