@@ -130,7 +130,6 @@
         "react-hot-loader": "^4.12.14",
         "react-test-renderer": "^16.10.2",
         "rimraf": "^3.0.0",
-        "wait-on": "^3.3.0",
         "whatwg-fetch": "^3.0.0"
     },
     "snyk": true
