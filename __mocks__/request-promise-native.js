@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs');
+
 const rpn = jest.genMockFromModule('request-promise-native');
 
 const testPerson = {
@@ -34,7 +36,7 @@ rpn.get = options => {
 };
 
 rpn.post = options => {
-    return Promise.resolve(spennReply);
+    return Promise.resolve(mockSpennData());
 };
 
 const handleAktørregisteretRequest = () => {
@@ -51,125 +53,6 @@ const createToken = claims => {
     return `${btoa(JSON.stringify(header))}.${btoa(JSON.stringify(claims))}.bogussignature`;
 };
 
-const spennReply = {
-    status: 'OK',
-    feilMelding: '',
-    simulering: {
-        gjelderId: '1234567',
-        gjelderNavn: 'Navn Navnesen',
-        datoBeregnet: {
-            year: 2019,
-            month: 'SEPTEMBER',
-            monthValue: 9,
-            dayOfMonth: 27,
-            dayOfWeek: 'FRIDAY',
-            leapYear: false,
-            dayOfYear: 270,
-            era: 'CE',
-            chronology: {
-                id: 'ISO',
-                calendarType: 'iso8601'
-            }
-        },
-        totalBelop: 12345.29,
-        periodeList: [
-            {
-                fom: {
-                    year: 2019,
-                    month: 'SEPTEMBER',
-                    monthValue: 9,
-                    dayOfMonth: 27,
-                    dayOfWeek: 'FRIDAY',
-                    leapYear: false,
-                    dayOfYear: 270,
-                    era: 'CE',
-                    chronology: {
-                        id: 'ISO',
-                        calendarType: 'iso8601'
-                    }
-                },
-                tom: {
-                    year: 2019,
-                    month: 'SEPTEMBER',
-                    monthValue: 9,
-                    dayOfMonth: 27,
-                    dayOfWeek: 'FRIDAY',
-                    leapYear: false,
-                    dayOfYear: 270,
-                    era: 'CE',
-                    chronology: {
-                        id: 'ISO',
-                        calendarType: 'iso8601'
-                    }
-                },
-                utbetaling: [
-                    {
-                        fagSystemId: 'SelveFagsystemet',
-                        utbetalesTilId: '',
-                        utbetalesTilNavn: 'Bjarne Betjent',
-                        forfall: {
-                            year: 2019,
-                            month: 'SEPTEMBER',
-                            monthValue: 9,
-                            dayOfMonth: 27,
-                            dayOfWeek: 'FRIDAY',
-                            leapYear: false,
-                            dayOfYear: 270,
-                            era: 'CE',
-                            chronology: {
-                                id: 'ISO',
-                                calendarType: 'iso8601'
-                            }
-                        },
-                        feilkonto: false,
-                        detaljer: [
-                            {
-                                faktiskFom: {
-                                    year: 2019,
-                                    month: 'SEPTEMBER',
-                                    monthValue: 9,
-                                    dayOfMonth: 27,
-                                    dayOfWeek: 'FRIDAY',
-                                    leapYear: false,
-                                    dayOfYear: 270,
-                                    era: 'CE',
-                                    chronology: {
-                                        id: 'ISO',
-                                        calendarType: 'iso8601'
-                                    }
-                                },
-                                faktiskTom: {
-                                    year: 2019,
-                                    month: 'SEPTEMBER',
-                                    monthValue: 9,
-                                    dayOfMonth: 27,
-                                    dayOfWeek: 'FRIDAY',
-                                    leapYear: false,
-                                    dayOfYear: 270,
-                                    era: 'CE',
-                                    chronology: {
-                                        id: 'ISO',
-                                        calendarType: 'iso8601'
-                                    }
-                                },
-                                konto: '12345',
-                                belop: 132,
-                                tilbakeforing: false,
-                                sats: 123,
-                                typeSats: 'UKENTLIG',
-                                antallSats: 123,
-                                uforegrad: 12,
-                                klassekode: 'aaa',
-                                klassekodeBeskrivelse: 'whatever',
-                                utbetalingsType: 'JUSTERING',
-                                refunderesOrgNr: '123456'
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    }
-};
+const mockSpennData = () => fs.readFileSync('__mock-data__/spenn-reply.json', 'utf-8');
 
 module.exports = rpn;
