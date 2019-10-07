@@ -15,11 +15,14 @@ const Oversikt = ({ history }) => {
     const behandlingerCtx = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
 
-    const { fetchBehandlingerMedPersoninfo, velgBehandling } = behandlingerCtx;
-    const behandlinger = behandlingerCtx.state.behandlinger;
+    const {
+        behandlingsoversikt,
+        fetchBehandlingsoversiktMedPersoninfo,
+        velgBehandlingFraOversikt
+    } = behandlingerCtx;
 
     useEffect(() => {
-        fetchBehandlingerMedPersoninfo();
+        fetchBehandlingsoversiktMedPersoninfo();
     }, []);
 
     const toBehandletSak = (behandling, feedback) => ({
@@ -31,7 +34,7 @@ const Oversikt = ({ history }) => {
 
     const [behandledeSaker, ubehandledeSaker] = useMemo(
         () =>
-            behandlinger.reduce(
+            behandlingsoversikt.reduce(
                 ([behandledeSaker, ubehandledeSaker], behandling) => {
                     const feedback = innrapportering.feedback.find(
                         f => f.key === behandling.behandlingsId
@@ -45,12 +48,17 @@ const Oversikt = ({ history }) => {
                 },
                 [[], []]
             ),
-        [innrapportering.feedback, behandlinger]
+        [innrapportering.feedback, behandlingsoversikt]
     );
 
     const velgBehandlingAndNavigate = async behandling => {
-        await velgBehandling(behandling);
-        history.push('/sykdomsvilkår');
+        await velgBehandlingFraOversikt(behandling)
+            .then(() => {
+                history.push('/sykdomsvilkår');
+            })
+            .catch(() => {
+                // Catch rejection to avoid warning; expecting error handling to have been done
+            });
     };
 
     return (
