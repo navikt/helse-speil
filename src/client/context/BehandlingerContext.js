@@ -14,11 +14,12 @@ export const withBehandlingContext = Component => {
         return (
             <Component
                 behandlinger={behandlinger}
+                behandlingsoversikt={behandlingerCtx.behandlingsoversikt}
                 behandling={behandlingerCtx.valgtBehandling}
                 velgBehandling={behandlingerCtx.velgBehandling}
+                velgBehandlingFraOversikt={behandlingerCtx.velgBehandlingFraOversikt}
                 userMustSelectBehandling={behandlingerCtx.userMustSelectBehandling}
                 fnr={behandlingerCtx.fnr}
-                fetchAlleBehandlinger={behandlingerCtx.fetchBehandlingerMedPersoninfo}
                 {...props}
             />
         );
@@ -27,6 +28,7 @@ export const withBehandlingContext = Component => {
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
+    const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
     const [fnr, setFnr] = useState(undefined);
     const [valgtBehandling, setValgtBehandling] = useState(undefined);
     const [lastSelectedBehandling, setLastSelectedBehandling] = useSessionStorage(
@@ -35,31 +37,39 @@ export const BehandlingerProvider = ({ children }) => {
     );
     const [userMustSelectBehandling, setUserMustSelectBehandling] = useState(false);
 
-    const velgBehandling = async behandling => {
-        const valgtBehandling = behandlinger.find(
-            b => b.behandlingsId === behandling?.behandlingsId
-        );
-        if (valgtBehandling && !valgtBehandling.sykepengeberegning) {
-            await fetchBehandlinger(
-                valgtBehandling.originalSøknad.aktorId,
-                valgtBehandling.behandlingsId
-            );
-        } else {
-            setValgtBehandling(valgtBehandling);
+    const velgBehandlingFraOversikt = async ({ behandlingsId }) => {
+        const behandlingSummary = behandlingsoversikt.find(b => b.behandlingsId === behandlingsId);
+        if (behandlingSummary === undefined) {
+            setError({
+                message: 'En feil har oppstått. Vennligst prøv igjen eller kontakt systemansvarlig.'
+            });
+            return Promise.reject();
         }
+        const behandlinger = await fetchBehandlinger(
+            behandlingSummary.originalSøknad.aktorId,
+            behandlingSummary.behandlingsId
+        );
+        if (behandlinger === undefined) {
+            return Promise.reject();
+        }
+        setLastSelectedBehandling(behandlingsId);
+    };
+
+    const velgBehandling = ({ behandlingsId }) => {
+        const valgtBehandling = behandlinger.find(b => b.behandlingsId === behandlingsId);
+        setValgtBehandling(valgtBehandling);
         setLastSelectedBehandling(valgtBehandling?.behandlingsId);
     };
 
     useEffect(() => {
-        if (lastSelectedBehandling !== undefined) {
+        if (lastSelectedBehandling !== undefined && window.location.pathname !== '/') {
             velgBehandling({ behandlingsId: lastSelectedBehandling });
         }
     }, [lastSelectedBehandling]);
 
-    const fetchBehandlingerMedPersoninfo = async () => {
+    const fetchBehandlingsoversiktMedPersoninfo = async () => {
         setValgtBehandling(undefined);
-        const alleBehandlinger = await fetchAlleBehandlinger();
-        setBehandlinger(alleBehandlinger);
+        const alleBehandlinger = await fetchBehandlingsoversikt();
         if (alleBehandlinger !== undefined) {
             const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
             if (behandlingerMedPersoninfo.find(behandling => behandling.personinfo === undefined)) {
@@ -67,11 +77,11 @@ export const BehandlingerProvider = ({ children }) => {
                     message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
                 });
             }
-            setBehandlinger(behandlingerMedPersoninfo);
+            setBehandlingsoversikt(behandlingerMedPersoninfo);
         }
     };
 
-    const fetchAlleBehandlinger = () => {
+    const fetchBehandlingsoversikt = () => {
         const fom = moment()
             .subtract(1, 'days')
             .format('YYYY-MM-DD');
@@ -79,7 +89,7 @@ export const BehandlingerProvider = ({ children }) => {
         return behandlingerIPeriode(fom, tom)
             .then(response => {
                 const newData = response.data;
-                return newData.behandlinger;
+                return newData.behandlingsoversikt;
             })
             .catch(err => {
                 if (err.statusCode === 401) {
@@ -159,13 +169,14 @@ export const BehandlingerProvider = ({ children }) => {
         <BehandlingerContext.Provider
             value={{
                 state: { behandlinger },
-                setBehandlinger,
+                behandlingsoversikt,
                 velgBehandling,
+                velgBehandlingFraOversikt,
                 valgtBehandling,
                 fetchBehandlinger,
                 userMustSelectBehandling,
                 fnr,
-                fetchBehandlingerMedPersoninfo,
+                fetchBehandlingsoversiktMedPersoninfo,
                 error,
                 clearError: () => setError(undefined)
             }}

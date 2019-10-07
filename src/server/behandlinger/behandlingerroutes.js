@@ -39,9 +39,7 @@ const getBehandlinger = async (req, res) => {
     const speilUser = nameFrom(req.session.spadeToken);
     logger.audit(`${speilUser} is looking up person ${personId}`);
     if (!personId) {
-        logger.error(
-            `Missing header '${personIdHeaderName}' in request, from user ${speilUser}`
-        );
+        logger.error(`Missing header '${personIdHeaderName}' in request, from user ${speilUser}`);
         res.status(500).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
         return;
     }
@@ -101,7 +99,7 @@ const getAlleBehandlinger = (req, res) => {
         .then(apiResponse => {
             res.status(apiResponse.statusCode);
             res.send({
-                behandlinger: apiResponse.body.behandlinger.map(behandlingSummary =>
+                behandlingsoversikt: apiResponse.body.behandlinger.map(behandlingSummary =>
                     mapping.fromBehandlingSummary(behandlingSummary)
                 )
             });
@@ -160,7 +158,7 @@ const devGetAlleBehandlinger = (_req, res) => {
         );
         res.header('Content-Type', 'application/json; charset=utf-8');
         res.send({
-            behandlinger: behandlingerToReturn
+            behandlingsoversikt: behandlingerToReturn
         });
     });
 };
