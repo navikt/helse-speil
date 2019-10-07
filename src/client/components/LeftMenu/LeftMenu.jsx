@@ -4,14 +4,14 @@ import CaseMenu from '../CaseMenu/CaseMenu';
 import PropTypes from 'prop-types';
 import './LeftMenu.less';
 
-const LeftMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
+const LeftMenu = ({ behandlinger, behandling, onSelectItem }) => {
     return (
         <div className="LeftMenu">
             {behandling && (
                 <CaseMenu
                     behandlinger={behandlinger}
                     behandling={behandling}
-                    setValgtBehandling={setValgtBehandling}
+                    onSelectItem={onSelectItem}
                 />
             )}
             <Nav active={behandling !== undefined} />
@@ -22,7 +22,7 @@ const LeftMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
 LeftMenu.propTypes = {
     behandlinger: PropTypes.arrayOf(PropTypes.any).isRequired,
     behandling: PropTypes.any,
-    setValgtBehandling: PropTypes.func.isRequired
+    onSelectItem: PropTypes.func.isRequired
 };
 
 export default LeftMenu;

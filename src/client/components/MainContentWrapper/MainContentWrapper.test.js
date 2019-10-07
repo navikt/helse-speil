@@ -19,7 +19,7 @@ const wrapperProps = {
         behandling1,
         { behandlingsId: '456', originalSøknad: { fom: '2019-06-10', tom: '2019-06-20' } }
     ],
-    setValgtBehandling: jest.fn(),
+    velgBehandling: jest.fn(),
     behandling: undefined
 };
 
@@ -57,7 +57,7 @@ describe('MainContentWrapper', () => {
     it('render modal when no behandling is chosen', () => {
         const { getByText, container } = render(
             <MemoryRouter>
-                <MainContentWrapper {...wrapperProps} />
+                <MainContentWrapper {...wrapperProps} userMustSelectBehandling={true} />
             </MemoryRouter>
         );
         expect(
@@ -66,11 +66,11 @@ describe('MainContentWrapper', () => {
         expect(container.querySelector('.main-content')).toBe(null);
     });
 
-    it('doesnt render modal when behandling is chosen', () => {
+    it('does not render modal when behandling is chosen', () => {
         const { container } = render(
             <MainContentWrapper {...wrapperProps} behandling={behandling1} />
         );
-        expect(container.querySelector('.main-content')).toBeDefined();
+        expect(container.querySelector('.main-content')).toBeTruthy();
     });
 
     it('render empty state view when there are no behandlinger', () => {

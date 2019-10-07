@@ -6,7 +6,7 @@ import { toDate } from '../../utils/date';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './CaseMenu.less';
 
-const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
+const CaseMenu = ({ behandlinger, behandling, onSelectItem }) => {
     const { arbeidsgiver, fom, tom } = behandling.originalSøknad;
     const { sykmeldingsgrad } = behandling.periode;
     const behandlingMapper = behandling => ({
@@ -25,7 +25,7 @@ const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
                     className="CasePicker"
                     items={cases}
                     currentItem={currentCase}
-                    onChange={setValgtBehandling}
+                    onSelectItem={onSelectItem}
                     itemLabel={caseLabel}
                 />
             </div>
@@ -44,7 +44,7 @@ const CaseMenu = ({ behandlinger, behandling, setValgtBehandling }) => {
 CaseMenu.propTypes = {
     behandlinger: PropTypes.arrayOf(PropTypes.any).isRequired,
     behandling: PropTypes.any,
-    setValgtBehandling: PropTypes.func.isRequired
+    onSelectItem: PropTypes.func.isRequired
 };
 
 export default CaseMenu;

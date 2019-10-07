@@ -14,18 +14,18 @@ import { withBehandlingContext } from '../../context/BehandlingerContext';
 import './MainContentWrapper.css';
 
 const MainContentWrapper = withBehandlingContext(
-    ({ behandlinger, behandling, setValgtBehandling }) => {
+    ({ behandlinger, behandling, userMustSelectBehandling, velgBehandling }) => {
         const [modalOpen, setModalOpen] = useState(false);
 
         useEffect(() => {
-            if (behandling === undefined && behandlinger?.length > 1) {
+            if (userMustSelectBehandling) {
                 setModalOpen(true);
             }
-        }, [behandlinger, behandling]);
+        }, [userMustSelectBehandling]);
 
-        const velgBehandling = behandling => {
+        const lukkModalOgVelgBehandling = behandling => {
             setModalOpen(false);
-            setValgtBehandling(behandling);
+            velgBehandling(behandling);
         };
 
         return (
@@ -34,13 +34,13 @@ const MainContentWrapper = withBehandlingContext(
                     <VelgBehandlingModal
                         setModalOpen={setModalOpen}
                         behandlinger={behandlinger}
-                        velgBehandling={velgBehandling}
+                        onSelectItem={lukkModalOgVelgBehandling}
                     />
                 )}
                 <LeftMenu
                     behandling={behandling}
                     behandlinger={behandlinger}
-                    setValgtBehandling={setValgtBehandling}
+                    onSelectItem={lukkModalOgVelgBehandling}
                 />
                 {behandling ? (
                     <div className="main-content">

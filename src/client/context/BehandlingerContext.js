@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { behandlingerFor, behandlingerIPeriode, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
@@ -15,7 +15,8 @@ export const withBehandlingContext = Component => {
             <Component
                 behandlinger={behandlinger}
                 behandling={behandlingerCtx.valgtBehandling}
-                setValgtBehandling={behandlingerCtx.setValgtBehandling}
+                velgBehandling={behandlingerCtx.velgBehandling}
+                userMustSelectBehandling={behandlingerCtx.userMustSelectBehandling}
                 fnr={behandlingerCtx.fnr}
                 fetchAlleBehandlinger={behandlingerCtx.fetchBehandlingerMedPersoninfo}
                 {...props}
@@ -28,24 +29,32 @@ export const BehandlingerProvider = ({ children }) => {
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
     const [fnr, setFnr] = useState(undefined);
     const [valgtBehandling, setValgtBehandling] = useState(undefined);
+    const [lastSelectedBehandling, setLastSelectedBehandling] = useSessionStorage(
+        'last-selected-behandling-id',
+        undefined
+    );
+    const [userMustSelectBehandling, setUserMustSelectBehandling] = useState(false);
 
-    const velgBehandling = (behandling, history) => {
+    const velgBehandling = async behandling => {
         const valgtBehandling = behandlinger.find(
             b => b.behandlingsId === behandling?.behandlingsId
         );
-        if (valgtBehandling && !valgtBehandling.avklarteVerdier) {
-            fetchBehandlinger(
+        if (valgtBehandling && !valgtBehandling.sykepengeberegning) {
+            await fetchBehandlinger(
                 valgtBehandling.originalSøknad.aktorId,
-                valgtBehandling.behandlingsId,
-                history
+                valgtBehandling.behandlingsId
             );
         } else {
             setValgtBehandling(valgtBehandling);
-            if (history) {
-                history.push('/sykdomsvilkår');
-            }
         }
+        setLastSelectedBehandling(valgtBehandling?.behandlingsId);
     };
+
+    useEffect(() => {
+        if (lastSelectedBehandling !== undefined) {
+            velgBehandling({ behandlingsId: lastSelectedBehandling });
+        }
+    }, [lastSelectedBehandling]);
 
     const fetchBehandlingerMedPersoninfo = async () => {
         setValgtBehandling(undefined);
@@ -112,21 +121,26 @@ export const BehandlingerProvider = ({ children }) => {
             });
     };
 
-    const fetchBehandlinger = (value, behandlingsId, history) => {
+    const fetchBehandlinger = (value, behandlingsId) => {
+        setUserMustSelectBehandling(false);
         return behandlingerFor(value)
             .then(response => {
                 const { behandlinger } = response.data;
                 setFnr(response.data.fnr);
                 setBehandlinger(behandlinger);
                 if (!behandlingsId) {
+                    if (behandlinger?.length === 1) {
+                        setLastSelectedBehandling(behandlinger[0].behandlingsId);
+                    } else if (behandlinger.length > 1) {
+                        setLastSelectedBehandling(null);
+                        setUserMustSelectBehandling(true);
+                    }
+
                     setValgtBehandling(behandlinger?.length !== 1 ? undefined : behandlinger[0]);
                 } else {
                     setValgtBehandling(
                         behandlinger.find(behandling => behandling.behandlingsId === behandlingsId)
                     );
-                }
-                if (history) {
-                    history.push('/sykdomsvilkår');
                 }
                 return { behandlinger };
             })
@@ -145,10 +159,11 @@ export const BehandlingerProvider = ({ children }) => {
         <BehandlingerContext.Provider
             value={{
                 state: { behandlinger },
-                setBehandlinger: setBehandlinger,
-                setValgtBehandling: velgBehandling,
+                setBehandlinger,
+                velgBehandling,
                 valgtBehandling,
                 fetchBehandlinger,
+                userMustSelectBehandling,
                 fnr,
                 fetchBehandlingerMedPersoninfo,
                 error,
