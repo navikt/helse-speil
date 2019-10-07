@@ -37,40 +37,38 @@ const validateOidcCallback = (req, azureClient, config) => {
     const nonce = req.session.nonce;
     const state = req.session.state;
 
-    return new Promise((resolve, reject) => {
-        azureClient
-            .callback(config.redirectUrl, params, { nonce, state })
-            .then(tokenSet => {
-                const accessTokenKey = 'access_token';
-                const idTokenKey = 'id_token';
-                const errorMessages = checkAzureResponseContainsTokens(
-                    tokenSet,
-                    accessTokenKey,
-                    idTokenKey
-                );
-                if (errorMessages.length > 0) {
-                    return reject(`Access denied: ${errorMessages.join(' ')}`);
-                }
+    return azureClient
+        .callback(config.redirectUrl, params, { nonce, state })
+        .catch(err => Promise.reject(`error in oidc callback: ${err}`))
+        .then(tokenSet => {
+            const accessTokenKey = 'access_token';
+            const idTokenKey = 'id_token';
+            const errorMessages = checkAzureResponseContainsTokens(
+                tokenSet,
+                accessTokenKey,
+                idTokenKey
+            );
+            if (errorMessages.length > 0) {
+                return Promise.reject(`Access denied: ${errorMessages.join(' ')}`);
+            }
 
-                const accessToken = tokenSet[accessTokenKey];
-                const idToken = tokenSet[idTokenKey];
-                const requiredGroup = config.requiredGroup;
-                const username = valueFromClaim('name', idToken);
-                if (accessToken && isMemberOf(requiredGroup, accessToken)) {
-                    logger.info(
-                        `User ${username} has been authenticated, from IP address ${ipAddressFromRequest(
-                            req
-                        )}`
-                    );
-                    resolve([accessToken, idToken]);
-                } else {
-                    reject(`'${username}' is not member of '${requiredGroup}', denying access`);
-                }
-            })
-            .catch(err => {
-                reject(`error in oidc callback: ${err}`);
-            });
-    });
+            const accessToken = tokenSet[accessTokenKey];
+            const idToken = tokenSet[idTokenKey];
+            const requiredGroup = config.requiredGroup;
+            const username = valueFromClaim('name', idToken);
+            if (accessToken && isMemberOf(requiredGroup, accessToken)) {
+                logger.info(
+                    `User ${username} has been authenticated, from IP address ${ipAddressFromRequest(
+                        req
+                    )}`
+                );
+                return [accessToken, idToken];
+            } else {
+                return Promise.reject(
+                    `'${username}' is not member of '${requiredGroup}', denying access`
+                );
+            }
+        });
 };
 
 const checkAzureResponseContainsTokens = (tokenSet, ...tokens) =>
