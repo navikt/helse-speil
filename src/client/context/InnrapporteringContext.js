@@ -14,7 +14,7 @@ export const InnrapporteringContext = createContext({
 });
 
 export const InnrapporteringProvider = withBehandlingContext(
-    ({ behandlinger, behandling, children }) => {
+    ({ behandlingsoversikt, behandling, children }) => {
         const authContext = useContext(AuthContext);
         const behandlingsId = behandling?.behandlingsId;
         const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
@@ -41,11 +41,15 @@ export const InnrapporteringProvider = withBehandlingContext(
         }, [behandlingsId, feedback]);
 
         useEffect(() => {
-            if (behandlinger.length > 0 && behandlingsId === undefined && feedback.length === 0) {
-                const behandlingIdList = behandlinger.map(b => b.behandlingsId);
+            if (
+                behandlingsoversikt.length > 0 &&
+                behandlingsId === undefined &&
+                feedback.length === 0
+            ) {
+                const behandlingIdList = behandlingsoversikt.map(b => b.behandlingsId);
                 fetchFeedbackList(behandlingIdList);
             }
-        }, [behandlinger, behandlingsId, feedback.length]);
+        }, [behandlingsoversikt, behandlingsId, feedback.length]);
 
         const fetchFeedback = behandlingsId => {
             return getFeedback(behandlingsId)
