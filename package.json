@@ -89,7 +89,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "reset-css": "^4.0.1",
-    "snyk": "^1.230.4",
+    "snyk": "^1.231.0",
     "tunnel": "0.0.6",
     "uuid": "^3.3.3",
     "winston": "^3.2.1"
