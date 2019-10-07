@@ -17,7 +17,7 @@ const routes = ({ router }) => {
     const requestHandler = {
         handle: (req, res) => {
             if (!input.isValid(req.body)) {
-                res.status(400).send('invalid behndling supplied');
+                res.status(400).send('invalid behandling supplied');
                 return;
             }
             if (process.env.NODE_ENV === 'development') {
