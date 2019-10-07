@@ -6,7 +6,7 @@ export const ResponseError = (message, statusCode) => ({
 });
 
 /* eslint-disable no-undef */
-const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '';
+const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
 /* eslint-enable */
 
 const getData = async response => {
@@ -17,8 +17,19 @@ const getData = async response => {
     }
 };
 
+const ensureAcceptHeader = (options = {}) => {
+    const acceptHeader = {
+        Accept: 'application/json'
+    };
+    if (!options?.headers) {
+        return { ...options, headers: acceptHeader };
+    } else if (!options.headers.Accept || !options.headers.accept) {
+        return { ...options, headers: { ...acceptHeader, ...options.headers } };
+    }
+};
+
 const get = async (url, options) => {
-    const response = await fetch(url, options);
+    const response = await fetch(url, ensureAcceptHeader(options));
 
     if (response.status >= 400) {
         throw ResponseError(response.statusText, response.status);
@@ -40,6 +51,26 @@ export const behandlingerIPeriode = async (fom, tom) => {
     return get(`${baseUrl}/behandlinger/periode/${fom}/${tom}`);
 };
 
+export const post = async (url, data) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (response.status !== 200) {
+        throw ResponseError(response.statusText, response.status);
+    }
+
+    return {
+        status: response.status,
+        data: await getData(response)
+    };
+};
+
 export const putFeedback = async feedback => {
     const response = await fetch(baseUrl + '/feedback', {
         method: 'PUT',
@@ -57,6 +88,10 @@ export const putFeedback = async feedback => {
 
 export const getFeedback = async behandlingsId => {
     return get(`${baseUrl}/feedback/${behandlingsId}`);
+};
+
+export const getFeedbackList = async behandlingsIdList => {
+    return post(`${baseUrl}/feedback/list`, behandlingsIdList);
 };
 
 export const downloadFeedback = params => {

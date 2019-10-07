@@ -29,19 +29,37 @@ export const BehandlingerProvider = ({ children }) => {
     const [fnr, setFnr] = useState(undefined);
     const [valgtBehandling, setValgtBehandling] = useState(undefined);
 
-    const velgBehandling = behandling => {
+    const velgBehandling = (behandling, history) => {
         const valgtBehandling = behandlinger.find(
-            b => b.behandlingsId === behandling.behandlingsId
+            b => b.behandlingsId === behandling?.behandlingsId
         );
-        setValgtBehandling(valgtBehandling);
+        if (valgtBehandling && !valgtBehandling.avklarteVerdier) {
+            fetchBehandlinger(
+                valgtBehandling.originalSøknad.aktorId,
+                valgtBehandling.behandlingsId,
+                history
+            );
+        } else {
+            setValgtBehandling(valgtBehandling);
+            if (history) {
+                history.push('/sykdomsvilkår');
+            }
+        }
     };
 
     const fetchBehandlingerMedPersoninfo = async () => {
-        const alleBehandlinger = await fetchAlleBehandlinger();
-        const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
-
-        setBehandlinger(behandlingerMedPersoninfo);
         setValgtBehandling(undefined);
+        const alleBehandlinger = await fetchAlleBehandlinger();
+        setBehandlinger(alleBehandlinger);
+        if (alleBehandlinger !== undefined) {
+            const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
+            if (behandlingerMedPersoninfo.find(behandling => behandling.personinfo === undefined)) {
+                setError({
+                    message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
+                });
+            }
+            setBehandlinger(behandlingerMedPersoninfo);
+        }
     };
 
     const fetchAlleBehandlinger = () => {
@@ -51,7 +69,7 @@ export const BehandlingerProvider = ({ children }) => {
         const tom = moment().format('YYYY-MM-DD');
         return behandlingerIPeriode(fom, tom)
             .then(response => {
-                const newData = { behandlinger: response.data };
+                const newData = response.data;
                 return newData.behandlinger;
             })
             .catch(err => {
@@ -90,21 +108,26 @@ export const BehandlingerProvider = ({ children }) => {
             })
             .catch(err => {
                 console.error('Feil ved henting av person.', err);
-                setError({
-                    ...err,
-                    message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
-                });
                 return behandling;
             });
     };
 
-    const fetchBehandlinger = value => {
+    const fetchBehandlinger = (value, behandlingsId, history) => {
         return behandlingerFor(value)
             .then(response => {
                 const { behandlinger } = response.data;
                 setFnr(response.data.fnr);
                 setBehandlinger(behandlinger);
-                setValgtBehandling(behandlinger?.length !== 1 ? undefined : behandlinger[0]);
+                if (!behandlingsId) {
+                    setValgtBehandling(behandlinger?.length !== 1 ? undefined : behandlinger[0]);
+                } else {
+                    setValgtBehandling(
+                        behandlinger.find(behandling => behandling.behandlingsId === behandlingsId)
+                    );
+                }
+                if (history) {
+                    history.push('/sykdomsvilkår');
+                }
                 return { behandlinger };
             })
             .catch(err => {

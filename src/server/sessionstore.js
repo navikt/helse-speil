@@ -1,6 +1,7 @@
 const expressSession = require('express-session');
 const redisStore = require('connect-redis')(expressSession);
 const redis = require('redis');
+const logger = require('./logging');
 
 const sessionStore = config => {
     return process.env.NODE_ENV === 'development'
@@ -9,13 +10,13 @@ const sessionStore = config => {
 };
 
 const createMemoryStoreSession = config => {
-    console.log('Setting up MemoryStore session store');
+    logger.info('Setting up MemoryStore session store');
 
     return expressSession({ secret: config.server.sessionSecret });
 };
 
 const createRedisSession = config => {
-    console.log('Setting up Redis session store');
+    logger.info('Setting up Redis session store');
 
     return expressSession({
         secret: config.server.sessionSecret,

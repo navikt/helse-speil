@@ -1,30 +1,61 @@
 'use strict';
 
+const fs = require('fs');
 const storage = require('./storage');
-const { log } = require('../logging');
+const logger = require('../logging');
 const { ipAddressFromRequest } = require('../requestData.js');
 const { excludeOlderFeedback, isInvalid, parseDate, prepareCsvFeedback } = require('./utils');
+const router = require('express').Router();
 
 let counter = null;
 
-const setup = (app, config, instrumentation) => {
+const setup = ({ config, instrumentation }) => {
+    routes({ router });
     counter = instrumentation.feedbackCounter();
-    return new Promise((resolve, reject) => {
-        storage
-            .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
-            .then(() => {
-                routes(app);
-                resolve();
-            })
-            .catch(err => {
-                reject(err);
-            });
-    });
+    storage
+        .init(config.s3url, config.s3AccessKey, config.s3SecretKey)
+        .then(() => {
+            logger.info(`Feedback storage at ${config.s3url}`);
+        })
+        .catch(err => {
+            logger.error(
+                `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback will not work, as setup will not be retried.`
+            );
+        });
+
+    return router;
 };
 
-const routes = app => {
-    app.get('/feedback/:behandlingsId', (req, res) => {
+const routes = ({ router }) => {
+    router.post('/list', (req, res) => {
+        if (process.env.NODE_ENV === 'development') {
+            const filename = 'feedback.json';
+            fs.readFile(`__mock-data__/${filename}`, (err, data) => {
+                if (err) {
+                    logger.error(err);
+                    res.sendStatus(500);
+                }
+                res.header('Content-Type', 'application/json; charset=utf-8');
+                res.send(data);
+            });
+            return;
+        }
+        let behandlingsIdList = req.body;
+        storage
+            .loadSome(behandlingsIdList)
+            .then(loadResult => {
+                res.setHeader('Content-Type', loadResult.ContentType || 'application/octet-stream');
+                res.send(loadResult.filter(feedback => feedback !== undefined));
+            })
+            .catch(err => {
+                logger.error(`Error while fetching feedback for list: ${err}`);
+                res.sendStatus(err.statusCode || 500);
+            });
+    });
+
+    router.get('/:behandlingsId', (req, res) => {
         const behandlingsId = req.params.behandlingsId;
+
         storage
             .load(behandlingsId)
             .then(loadResult => {
@@ -33,20 +64,20 @@ const routes = app => {
             })
             .catch(err => {
                 if (err.code !== 'NoSuchKey') {
-                    console.log(err);
+                    logger.error(err);
                 }
                 res.sendStatus(err.statusCode || 500);
             });
     });
 
-    app.get('/feedback', async (req, res) => {
+    router.get('/', async (req, res) => {
         const date = parseDate(req.query.fraogmed);
 
         storage
             .loadAll()
             .then(response => {
                 const feedback = date ? excludeOlderFeedback(date, response) : response;
-                log(`Will return ${feedback.length} feedbacks out of ${response.length}`);
+                logger.info(`Will return ${feedback.length} feedbacks out of ${response.length}`);
                 if (req.accepts('csv')) {
                     const csvResponse = prepareCsvFeedback(feedback, res);
                     res.send(csvResponse);
@@ -61,10 +92,10 @@ const routes = app => {
             });
     });
 
-    app.put('/feedback', (req, res) => {
-        log(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
+    router.put('/', (req, res) => {
+        logger.info(`Storing feedback from IP address ${ipAddressFromRequest(req)}`);
         if (isInvalid(req)) {
-            log(`Rejecting feedback due to validation error`);
+            logger.info(`Rejecting feedback due to validation error`);
             res.send({
                 message: 'Lagring av tilbakemelding feilet pga. valideringsfeil',
                 statusCode: 400
@@ -77,7 +108,7 @@ const routes = app => {
                     res.sendStatus(204);
                 })
                 .catch(err => {
-                    console.log(`Error while saving feedback: ${err.message}`);
+                    logger.error(`Error while saving feedback: ${err.message}`);
                     res.send({
                         message: `Lagring av tilbakemeldinger feilet`,
                         statusCode: 500

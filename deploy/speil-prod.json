@@ -33,6 +33,10 @@
             {
                 "name": "AKTOERREGISTER_URL",
                 "value": "https://app.adeo.no/aktoerregister"
+            },
+            {
+                "name": "SPENN_URL",
+                "value": "spenn.default.svc.nais.local"
             }
         ],
         "image": "set_from_pipeline",
@@ -72,6 +76,9 @@
         "vault": {
             "enabled": true
         },
-        "webproxy": true
+        "webproxy": true,
+        "secureLogs": {
+            "enabled": true
+        }
     }
 }

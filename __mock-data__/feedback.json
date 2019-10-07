@@ -1,0 +1,55 @@
+[
+    {
+        "key": "81846f2c-968a-4d88-ac76-c6cec5142bff",
+        "value": {
+            "godkjent": false,
+            "submittedDate": "2019-09-19T13:08:06+02:00",
+            "kommentarer": "Quack quack",
+            "userId": {
+                "ident": "D123123",
+                "email": "Donald.Duck@nav.no"
+            },
+            "uenigheter": [
+                {
+                    "id": "Sykdomsvilkår er oppfylt/",
+                    "label": "Sykdomsvilkår er oppfylt",
+                    "items": [],
+                    "value": "De er ikke oppfylt.",
+                    "userId": {
+                        "ident": "D123123",
+                        "email": "Donald.Duck@nav.no"
+                    },
+                    "date": "2019-09-19T13:06:56+02:00"
+                },
+                {
+                    "id": "Opptjening/inngangsvilkår",
+                    "label": "Opptjening",
+                    "items": [
+                        {
+                            "label": "Første sykdomsdag",
+                            "value": "01.08.2019"
+                        },
+                        {
+                            "label": "Startdato",
+                            "value": "06.02.2018"
+                        },
+                        {
+                            "label": "Sluttdato",
+                            "value": "-"
+                        },
+                        {
+                            "label": "Antall dager (>28)",
+                            "value": "541"
+                        }
+                    ],
+                    "value": "Usikker..",
+                    "userId": {
+                        "ident": "D123123",
+                        "email": "Donald.Duck@nav.no"
+                    },
+                    "date": "2019-09-19T13:07:23+02:00"
+                }
+            ]
+        }
+    }
+]

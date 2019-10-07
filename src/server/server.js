@@ -21,7 +21,7 @@ const person = require('./person/personroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
 const { nameFrom } = require('./auth/authsupport');
-const { log } = require('./logging');
+const logger = require('./logging');
 
 const app = express();
 const port = config.server.port;
@@ -44,7 +44,7 @@ azure
         azureClient = client;
     })
     .catch(err => {
-        log(`Failed to discover OIDC provider properties: ${err}`);
+        logger.error(`Failed to discover OIDC provider properties: ${err}`);
         process.exit(1);
     });
 
@@ -79,7 +79,7 @@ app.post('/callback', (req, res) => {
             res.redirect('/');
         })
         .catch(err => {
-            log(err);
+            logger.error(err);
             req.session.destroy();
             res.sendStatus(403);
         });
@@ -90,7 +90,7 @@ app.use('/*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development' || authsupport.isValidNow(req.session.spadeToken)) {
         next();
     } else {
-        log(
+        logger.info(
             `no valid session found for ${ipAddressFromRequest(req)}, username ${nameFrom(
                 req.session.spadeToken
             )}`
@@ -105,25 +105,22 @@ app.use('/*', (req, res, next) => {
     }
 });
 
-app.use('/static', express.static('dist/client'));
+app.use('/api/person', person.setup(stsclient));
+app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
+app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));
 
-behandlinger.setup({ app, stsclient, config: config.nav });
-
-feedback
-    .setup(app, config.s3, instrumentation)
-    .then(() => {
-        log(`Feedback storage at ${config.s3.s3url}`);
-    })
-    .catch(err => {
-        log(
-            `Failed to setup feedback storage: ${err}. Routes for storing and retrieving feedback are not available.`
-        );
-    });
-
-person.setup(app, stsclient);
-
-app.get('/', (_, res) => {
-    res.redirect('/static/');
+app.get('/*', (req, res, next) => {
+    if (!req.accepts('html') && /\/api/.test(req.url)) {
+        console.debug(`Received a non-HTML request for '${req.url}', which didn't match a route`);
+        res.sendStatus(404);
+        return;
+    }
+    next();
 });
 
-app.listen(port, () => log(`Speil backend listening on port ${port}`));
+// At the time of writing this comment, the setup of the static 'routes' has to be done in a particular order.
+app.use('/static', express.static('dist/client'));
+app.use('/*', express.static('dist/client/index.html'));
+app.use('/', express.static('dist/client/'));
+
+app.listen(port, () => logger.info(`Speil backend listening on port ${port}`));

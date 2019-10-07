@@ -1,7 +1,7 @@
 'use strict';
 
 const moment = require('moment');
-const { log } = require('../logging');
+const logger = require('../logging');
 const { csvMapper } = require('./feedback-csv-mapper');
 
 const prepareCsvFeedback = (feedback, res) => {
@@ -9,7 +9,7 @@ const prepareCsvFeedback = (feedback, res) => {
     const timestamp = moment().format('YYYY-MM-DDTHH.mm.ss');
     res.setHeader('Content-Disposition', `attachment; filename=tilbakemeldinger_${timestamp}.csv`);
     res.setHeader('Content-Type', 'text/csv');
-    log(`Mapped CSV file is ${csvResponse.length} characters long.`);
+    logger.info(`Mapped CSV file is ${csvResponse.length} characters long.`);
     return csvResponse;
 };
 
@@ -19,10 +19,10 @@ const parseDate = dateString => {
         date = moment(dateString, 'YYYY-MM-DD');
     }
     if (date.isValid()) {
-        log(`Parsed feedback search params '${dateString}' to ${date}.`);
+        logger.error(`Parsed feedback search params '${dateString}' to ${date}.`);
         return date;
     } else {
-        console.warn('not a parseable date: ' + dateString);
+        logger.warning('not a parseable date: ' + dateString);
     }
 };
 

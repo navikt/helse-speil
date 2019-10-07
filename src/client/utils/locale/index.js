@@ -14,3 +14,9 @@ export const toLocaleFixedNumberString = (number, decimals, locale = 'nb-NO') =>
 export const toKroner = number => Number.parseInt(number).toLocaleString('nb-NO');
 
 export const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+
+export const extractNameFromEmail = email =>
+    email
+        ?.split('@')[0]
+        .split('.')
+        .join(' ') ?? 'Navn mangler';

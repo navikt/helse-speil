@@ -1,27 +1,67 @@
 .Oversikt {
   margin: 1rem;
-  padding: 1rem;
-  .tabell {
-    font-family: 'Source Sans Pro', Arial, sans-serif;
-    tr {
-      td:first-child {
-        width: 32%;
-      }
-    }
+  display: flex;
+  font-family: 'Source Sans Pro', Arial, sans-serif;
 
-    tbody {
+  .Oversikt__list {
+    flex-grow: 2;
+    margin-right: 1rem;
+    padding: 1rem;
+
+    .tabell {
+      font-family: 'Source Sans Pro', Arial, sans-serif;
+      width: 100%;
       tr {
-        border-top: 1px solid #b7b1a9;
+        td:first-child {
+          width: 70%;
+        }
+        td:nth-child(2) {
+          width: 30%;
+        }
+      }
+
+      tbody {
+        tr {
+          border-top: 1px solid #b7b1a9;
+        }
+      }
+
+      td {
+        padding: 0.15rem 1rem;
+        max-width: 350px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      th {
+        text-align: left;
+        padding: 0.15rem 1rem;
+      }
+    }
+  }
+
+  .Oversikt__historikk {
+    padding: 1rem;
+    flex-grow: 1;
+
+    .row {
+      display: flex;
+
+      p:not(:last-child), a {
+        flex-basis: 35%;
+        flex-grow: 2;
+        line-height: 1.375rem;
+      }
+      p:last-child {
+        flex-basis: 30%;
+        flex-grow: 1;
       }
     }
 
-    td {
-      padding: 0.15rem 1rem;
-    }
-
-    th {
-      text-align: left;
-      padding: 0.15rem 1rem;
+    .row--info {
+      border-top: 1px solid #b7b1a9;
+      border-bottom: 1px solid #b7b1a9;
     }
   }
 }
