@@ -50,8 +50,9 @@ jobs:
         cluster: dev-fss
         team: tbd
         resources: deploy/speil-preprod.yaml
-        rawresources: deploy/redis.yaml
-        rawresources: deploy/alerts-preprod.yaml
+        rawresources:
+        - deploy/redis.yaml
+        - deploy/alerts-preprod.yaml
     - name: deploy to prod
       uses: navikt/deployment-cli/action@0.4.1
       env:
@@ -61,6 +62,7 @@ jobs:
         cluster: prod-fss
         team: tbd
         resources: deploy/speil-prod.yaml
-        rawresources: deploy/redis.yaml
-        rawresources: deploy/alerts-prod.yaml
+        rawresources: 
+        - deploy/redis.yaml
+        - deploy/alerts-prod.yaml
 
