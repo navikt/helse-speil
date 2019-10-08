@@ -91,7 +91,7 @@ const getAlleBehandlinger = (req, res) => {
         .then(apiResponse => {
             res.status(apiResponse.statusCode);
             res.send({
-                behandlinger: apiResponse.body.behandlinger.map(behandlingSummary =>
+                behandlingsoversikt: apiResponse.body.behandlinger.map(behandlingSummary =>
                     mapping.fromBehandlingSummary(behandlingSummary)
                 )
             });
@@ -150,7 +150,7 @@ const devGetAlleBehandlinger = (_req, res) => {
         );
         res.header('Content-Type', 'application/json; charset=utf-8');
         res.send({
-            behandlinger: behandlingerToReturn
+            behandlingsoversikt: behandlingerToReturn
         });
     });
 };
