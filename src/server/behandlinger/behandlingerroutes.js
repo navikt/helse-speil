@@ -61,19 +61,11 @@ const getBehandlinger = async (req, res) => {
     const accessToken = req.session.spadeToken;
     api.behandlingerFor(aktorId, accessToken)
         .then(
-            async apiResponse => {
-                const fnr =
-                    aktorId !== personId
-                        ? personId
-                        : await aktøridlookup.hentFnr(aktorId).catch(err => {
-                              logger.error('Could not fetch NNIN from Aktørregisteret.', err);
-                              return null;
-                          });
+            apiResponse => {
                 res.status(apiResponse.statusCode).send({
                     behandlinger: apiResponse.body.behandlinger.map(behandling =>
                         mapping.alle(behandling)
-                    ),
-                    fnr
+                    )
                 });
             },
             err => {
