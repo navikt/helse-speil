@@ -3,7 +3,8 @@
 const map = person => {
     return {
         navn: `${person.fornavn} ${person.etternavn}`,
-        kjønn: person.kjønn
+        kjønn: person.kjønn,
+        fnr: person.fnr
     };
 };
 

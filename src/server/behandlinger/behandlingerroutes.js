@@ -39,9 +39,7 @@ const getBehandlinger = async (req, res) => {
     const speilUser = nameFrom(req.session.spadeToken);
     logger.audit(`${speilUser} is looking up person ${personId}`);
     if (!personId) {
-        logger.error(
-            `Missing header '${personIdHeaderName}' in request, from user ${speilUser}`
-        );
+        logger.error(`Missing header '${personIdHeaderName}' in request, from user ${speilUser}`);
         res.status(500).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
         return;
     }
@@ -63,30 +61,19 @@ const getBehandlinger = async (req, res) => {
     const accessToken = req.session.spadeToken;
     api.behandlingerFor(aktorId, accessToken)
         .then(
-            async apiResponse => {
-                const fnr =
-                    aktorId !== personId
-                        ? personId
-                        : await aktøridlookup.hentFnr(aktorId).catch(err => {
-                              logger.error('Could not fetch NNIN from Aktørregisteret.', err);
-                              return null;
-                          });
+            apiResponse => {
                 res.status(apiResponse.statusCode).send({
                     behandlinger: apiResponse.body.behandlinger.map(behandling =>
                         mapping.alle(behandling)
-                    ),
-                    fnr
+                    )
                 });
             },
             err => {
                 throw Error(`Could not fetch cases: ${err.error.toString()}`);
             }
         )
-        .then(null, err => {
-            throw Error(`Could not map fetched cases: ${err}`);
-        })
         .catch(err => {
-            console.error(err);
+            console.error(`Could not map fetched cases: ${err}`);
             res.sendStatus(500);
         });
 };

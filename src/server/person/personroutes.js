@@ -39,8 +39,8 @@ const getPerson = (req, res) => {
 const devGetPerson = (req, res) => {
     const response =
         req.params.aktorId === '10000000000001'
-            ? { navn: 'Kong Harald', kjønn: 'mann' }
-            : { navn: 'Dronning Sonja', kjønn: 'kvinne' };
+            ? { navn: 'Kong Harald', kjønn: 'mann', fnr: '98765432100' }
+            : { navn: 'Dronning Sonja', kjønn: 'kvinne', fnr: '12345678900' };
     res.send(response);
 };
 

@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Clipboard from '../Clipboard';
 import { getPerson } from '../../io/http';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { withBehandlingContext } from '../../context/BehandlingerContext';
+import { BehandlingerContext, withBehandlingContext } from '../../context/BehandlingerContext';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 import './PersonBar.less';
 
 const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
-const PersonBar = withBehandlingContext(({ behandling, fnr }) => {
-    const { aktorId } = behandling.originalSøknad;
-    const [personinfo, setPersoninfo] = useState(behandling.personinfo);
+const PersonBar = withBehandlingContext(({ behandling }) => {
+    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { aktorId } = valgtBehandling.originalSøknad;
+    const [personinfo, setPersoninfo] = useSessionStorage(
+        `personinfo-${valgtBehandling?.behandlingsId}`,
+        valgtBehandling.personinfo
+    );
 
     useEffect(() => {
         if (personinfo === undefined) {
@@ -38,9 +43,9 @@ const PersonBar = withBehandlingContext(({ behandling, fnr }) => {
                     />
                     <Element>{personinfo.navn}</Element>
                     <Undertekst>/</Undertekst>
-                    {fnr ? (
+                    {personinfo.fnr ? (
                         <Clipboard>
-                            <Undertekst>{formatFnr(fnr)}</Undertekst>
+                            <Undertekst>{formatFnr(personinfo.fnr)}</Undertekst>
                         </Clipboard>
                     ) : (
                         <Undertekst>Fødselsnummer ikke tilgjengelig</Undertekst>
