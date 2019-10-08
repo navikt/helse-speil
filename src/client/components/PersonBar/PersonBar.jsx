@@ -14,13 +14,16 @@ const PersonBar = () => {
 
     useEffect(() => {
         getPerson(aktorId)
-            .then(response => setPersoninfo(response?.data))
+            .then(response =>
+                setPersoninfo(
+                    response.data ?? {
+                        navn: 'Navn ikke tilgjengelig',
+                        kjønn: 'Ikke tilgjengelig'
+                    }
+                )
+            )
             .catch(err => {
                 console.error('Feil ved henting av person.', err);
-                setPersoninfo({
-                    navn: 'Navn ikke tilgjengelig',
-                    kjønn: 'Ikke tilgjengelig'
-                });
             });
     }, [aktorId]);
 
