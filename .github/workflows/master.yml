@@ -41,44 +41,24 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.GH_REPO_USER }}
         DOCKER_PASSWORD: ${{ secrets.GH_REPO_TOKEN }}
-    - name: deploy to preprod
+    - name: deploy to dev
+      uses: navikt/deployment-cli/action@0.4.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NAV_CLUSTER: dev-fss
-        SPEIL_FILE: deploy/speil-preprod.json
-        REDIS_FILE: deploy/redis.json
-        ALERTS_FILE: deploy/alerts-preprod.json
-      run: |
-        SPEIL=$(jq '.spec.image = "'$(cat .docker_image)':'$(cat .docker_tag)'"' -c $SPEIL_FILE )
-        REDIS=$(jq '' -c $REDIS_FILE)
-        ALERTS=$(jq '' -c $ALERTS_FILE)
-        DEPLOY_PAYLOAD=$(jq ".payload.kubernetes.resources += [$SPEIL, $REDIS, $ALERTS]" deploy/deployreq.json)
-        DEPLOY_PAYLOAD=$(echo $DEPLOY_PAYLOAD | jq '.environment = "'$NAV_CLUSTER'"')
-        DEPLOY_PAYLOAD=$(echo $DEPLOY_PAYLOAD | jq '.ref = "'$(cat .docker_tag)'"')
-        curl -i -n --fail \
-           -X POST \
-           -u x-access-token:$GITHUB_TOKEN \
-           -d "$DEPLOY_PAYLOAD" \
-           -H "Accept: application/vnd.github.ant-man-preview+json" \
-           https://api.github.com/repos/$GITHUB_REPOSITORY/deployments
+        AWAIT_SECONDS: 0
+      with:
+        cluster: dev-fss
+        team: tbd
+        resources: deploy/speil-preprod.yaml
+        rawresources: deploy/redis.yaml deploy/alerts-preprod.yaml
     - name: deploy to prod
+      uses: navikt/deployment-cli/action@0.4.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        NAV_CLUSTER: prod-fss
-        SPEIL_FILE: deploy/speil-prod.json
-        REDIS_FILE: deploy/redis.json
-        ALERTS_FILE: deploy/alerts-prod.json
-      run: |
-        SPEIL=$(jq '.spec.image = "'$(cat .docker_image)':'$(cat .docker_tag)'"' -c $SPEIL_FILE )
-        REDIS=$(jq '' -c $REDIS_FILE)
-        ALERTS=$(jq '' -c $ALERTS_FILE)
-        DEPLOY_PAYLOAD=$(jq ".payload.kubernetes.resources += [$SPEIL, $REDIS, $ALERTS]" deploy/deployreq.json)
-        DEPLOY_PAYLOAD=$(echo $DEPLOY_PAYLOAD | jq '.environment = "'$NAV_CLUSTER'"')
-        DEPLOY_PAYLOAD=$(echo $DEPLOY_PAYLOAD | jq '.ref = "'$(cat .docker_tag)'"')
-        curl -i -n --fail \
-           -X POST \
-           -u x-access-token:$GITHUB_TOKEN \
-           -d "$DEPLOY_PAYLOAD" \
-           -H "Accept: application/vnd.github.ant-man-preview+json" \
-           https://api.github.com/repos/$GITHUB_REPOSITORY/deployments
+        AWAIT_SECONDS: 0
+      with:
+        cluster: prod-fss
+        team: tbd
+        resources: deploy/speil-prod.yaml
+        rawresources: deploy/redis.yaml deploy/alerts-prod.yaml
 
