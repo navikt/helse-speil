@@ -1,37 +1,38 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Icon from 'nav-frontend-ikoner-assets';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 import Kommentarer from './Kommentarer';
+import Icon from 'nav-frontend-ikoner-assets';
+import { AuthContext } from '../../context/AuthContext';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import { putFeedback } from '../../io/http';
 import { oppsummeringstekster } from '../../tekster';
-import { withBehandlingContext } from '../../context/BehandlingerContext';
-import './Innrapportering.less';
-import moment from 'moment';
 import { Checkbox } from 'nav-frontend-skjema';
-import { AuthContext } from '../../context/AuthContext';
 import { withRouter } from 'react-router';
+import './Innrapportering.less';
+import Uenigheter from './Uenigheter';
 
-const Innrapportering = withBehandlingContext(({ behandling, history }) => {
-    const authContext = useContext(AuthContext);
+const Innrapportering = ({ history }) => {
+    const { valgtBehandling } = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
+    const authContext = useContext(AuthContext);
     const [error, setError] = useState(undefined);
     const [isSending, setIsSending] = useState(false);
-    const [validationError, setValidationError] = useState(false);
 
     useEffect(() => {
         if (innrapportering.kommentarer !== '' || innrapportering.godkjent) {
-            setValidationError(false);
+            setError(undefined);
         }
-    }, [innrapportering.kommentarer === '', innrapportering.godkjent]);
+    }, [innrapportering.kommentarer, innrapportering.godkjent]);
 
     const sendRapporter = () => {
         setIsSending(true);
-
         putFeedback({
-            id: behandling.behandlingsId,
+            id: valgtBehandling.behandlingsId,
             txt: JSON.stringify({
                 uenigheter: innrapportering.uenigheter,
                 kommentarer: innrapportering.kommentarer,
@@ -49,18 +50,21 @@ const Innrapportering = withBehandlingContext(({ behandling, history }) => {
                 setTimeout(() => history.push('/'), 1000);
             })
             .catch(e => {
-                setError(e);
+                const message =
+                    e.statusCode === 401
+                        ? 'Du må logge inn på nytt for å kunne sende rapport. Du vil sendes tilbake til forsiden etter innlogging og beholder arbeidet du har gjort.'
+                        : 'Feil ved innsending av rapport. Prøv igjen senere.';
+                setError({
+                    ...e,
+                    message
+                });
             })
             .finally(() => {
                 setIsSending(false);
             });
     };
 
-    const onGodkjentChange = e => {
-        innrapportering.setGodkjent(e.target.checked);
-    };
-
-    const validate = () => {
+    const validateAndSend = () => {
         if (
             innrapportering.uenigheter.length > 0 ||
             innrapportering.kommentarer !== '' ||
@@ -68,35 +72,22 @@ const Innrapportering = withBehandlingContext(({ behandling, history }) => {
         ) {
             sendRapporter();
         } else {
-            setValidationError(true);
-            setError(undefined);
+            setError({
+                message: 'Huk av for at du er enig med maskinen dersom du ikke har noen kommentarer'
+            });
         }
     };
 
     return (
         <Panel className="Innrapportering" border>
             <Undertittel>{oppsummeringstekster('innrapportert')}</Undertittel>
-            <Normaltekst className="Innrapportering__category">Uenigheter</Normaltekst>
-            {innrapportering.uenigheter.length === 0 && (
-                <Normaltekst>{oppsummeringstekster('ingen_uenigheter')}</Normaltekst>
-            )}
-            {innrapportering.uenigheter.map((uenighet, i) => (
-                <Normaltekst key={`uenighet-${i}`} className="Innrapportering__uenighet">
-                    <span>{uenighet.label}:</span>
-                    <span>{uenighet.value}</span>
-                    {!uenighet.value && (
-                        <span className="skjemaelement__feilmelding">
-                            {oppsummeringstekster('oppgi_årsak')}
-                        </span>
-                    )}
-                </Normaltekst>
-            ))}
+            <Uenigheter uenigheter={innrapportering.uenigheter} />
             <Kommentarer />
             <div className={`checkbox${innrapportering.uenigheter.length > 0 ? ' disabled' : ''}`}>
                 <span className="checkbox__tooltip">Du er uenig med maskinen</span>
                 <Checkbox
                     defaultChecked={innrapportering.godkjent}
-                    onChange={onGodkjentChange}
+                    onChange={e => innrapportering.setGodkjent(e.target.checked)}
                     label="Jeg er enig med maskinen"
                     disabled={innrapportering.uenigheter.length > 0}
                 />
@@ -107,36 +98,22 @@ const Innrapportering = withBehandlingContext(({ behandling, history }) => {
                     <Icon kind="ok-sirkel-fyll" size={20} />
                 </Knapp>
             ) : (
-                <>
-                    <Knapp onClick={validate} spinner={isSending}>
-                        Send inn
-                    </Knapp>
-                    {validationError && (
-                        <Normaltekst className="skjemaelement__feilmelding">
-                            Huk av for at du er enig med maskinen dersom du ikke har noen
-                            kommentarer.
-                        </Normaltekst>
-                    )}
-                </>
+                <Knapp onClick={validateAndSend} spinner={isSending}>
+                    Send inn
+                </Knapp>
             )}
             {error && (
                 <Normaltekst className="skjemaelement__feilmelding">
-                    {error.statusCode === 401 ? (
-                        <>
-                            <span>
-                                Du må logge inn på nytt for å kunne sende rapport. Du vil sendes
-                                tilbake til forsiden etter innlogging og beholder arbeidet du har
-                                gjort.
-                            </span>
-                            <a href="/"> Logg inn</a>
-                        </>
-                    ) : (
-                        <>Feil ved innsending av rapport. Prøv igjen senere.</>
-                    )}
+                    {error.message}
+                    {error.statusCode === 401 && <a href="/"> Logg inn</a>}
                 </Normaltekst>
             )}
         </Panel>
     );
-});
+};
+
+Innrapportering.propTypes = {
+    history: PropTypes.shape({ push: PropTypes.func })
+};
 
 export default withRouter(Innrapportering);
