@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import ReactTooltip from 'react-tooltip';
+import ClipboardIcon from './ClipboardIcon';
 import { motion, AnimatePresence } from 'framer-motion';
 import { copyContentsToClipboard } from './util';
 import './Clipboard.less';
-import ClipboardIcon from './ClipboardIcon';
 
 const animation = {
     initial: { y: 5, opacity: 0 },
@@ -33,7 +34,8 @@ const Clipboard = ({ children }) => {
             <div ref={ref}>
                 <div className="Clipboard__children">{children}</div>
             </div>
-            <button onClick={copy}>
+            <ReactTooltip place="bottom" disable={!didCopy} />
+            <button data-tip="Kopiert!" onClick={copy} data-class="typo-undertekst">
                 <AnimatePresence initial={false} exitBeforeEnter>
                     <motion.div {...animation} key={didCopy ? 'check' : 'copy'}>
                         <ClipboardIcon type={didCopy ? 'check' : 'copy'} />
