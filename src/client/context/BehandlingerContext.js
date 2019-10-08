@@ -17,7 +17,6 @@ export const withBehandlingContext = Component => {
                 behandling={behandlingerCtx.valgtBehandling}
                 velgBehandling={behandlingerCtx.velgBehandling}
                 userMustSelectBehandling={behandlingerCtx.userMustSelectBehandling}
-                fnr={behandlingerCtx.fnr}
                 fetchAlleBehandlinger={behandlingerCtx.fetchBehandlingerMedPersoninfo}
                 {...props}
             />
@@ -27,7 +26,6 @@ export const withBehandlingContext = Component => {
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
-    const [fnr, setFnr] = useState(undefined);
     const [valgtBehandling, setValgtBehandling] = useState(undefined);
     const [lastSelectedBehandling, setLastSelectedBehandling] = useSessionStorage(
         'last-selected-behandling-id',
@@ -106,15 +104,14 @@ export const BehandlingerProvider = ({ children }) => {
 
     const fetchPerson = behandling => {
         return getPerson(behandling.originalSøknad.aktorId)
-            .then(response => {
-                return {
-                    ...behandling,
-                    personinfo: {
-                        navn: response.data.navn,
-                        kjønn: response.data.kjønn
-                    }
-                };
-            })
+            .then(response => ({
+                ...behandling,
+                personinfo: {
+                    navn: response.data?.navn,
+                    kjønn: response.data?.kjønn,
+                    fnr: response.data?.fnr
+                }
+            }))
             .catch(err => {
                 console.error('Feil ved henting av person.', err);
                 return behandling;
@@ -126,7 +123,6 @@ export const BehandlingerProvider = ({ children }) => {
         return behandlingerFor(value)
             .then(response => {
                 const { behandlinger } = response.data;
-                setFnr(response.data.fnr);
                 setBehandlinger(behandlinger);
                 if (!behandlingsId) {
                     if (behandlinger?.length === 1) {
@@ -159,12 +155,10 @@ export const BehandlingerProvider = ({ children }) => {
         <BehandlingerContext.Provider
             value={{
                 state: { behandlinger },
-                setBehandlinger,
                 velgBehandling,
                 valgtBehandling,
                 fetchBehandlinger,
                 userMustSelectBehandling,
-                fnr,
                 fetchBehandlingerMedPersoninfo,
                 error,
                 clearError: () => setError(undefined)
