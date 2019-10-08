@@ -72,8 +72,11 @@ const getBehandlinger = async (req, res) => {
                 throw Error(`Could not fetch cases: ${err.error.toString()}`);
             }
         )
+        .then(null, err => {
+            throw Error(`Could not map fetched cases: ${err.error.toString()}`);
+        })
         .catch(err => {
-            console.error(`Could not map fetched cases: ${err}`);
+            console.error(err);
             res.sendStatus(500);
         });
 };
