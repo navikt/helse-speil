@@ -1,36 +1,28 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Clipboard from '../Clipboard';
 import { getPerson } from '../../io/http';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { BehandlingerContext, withBehandlingContext } from '../../context/BehandlingerContext';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 import './PersonBar.less';
 
 const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
-const PersonBar = withBehandlingContext(({ behandling }) => {
+const PersonBar = () => {
     const { valgtBehandling } = useContext(BehandlingerContext);
     const { aktorId } = valgtBehandling.originalSøknad;
-    const [personinfo, setPersoninfo] = useSessionStorage(
-        `personinfo-${valgtBehandling?.behandlingsId}`,
-        valgtBehandling.personinfo
-    );
+    const [personinfo, setPersoninfo] = useState(valgtBehandling.personinfo);
 
     useEffect(() => {
-        if (personinfo === undefined) {
-            getPerson(aktorId)
-                .then(response => {
-                    response.data && setPersoninfo(response.data);
-                })
-                .catch(err => {
-                    console.error('Feil ved henting av person.', err);
-                    setPersoninfo({
-                        navn: 'Navn ikke tilgjengelig',
-                        kjønn: 'Ikke tilgjengelig'
-                    });
+        getPerson(aktorId)
+            .then(response => setPersoninfo(response?.data))
+            .catch(err => {
+                console.error('Feil ved henting av person.', err);
+                setPersoninfo({
+                    navn: 'Navn ikke tilgjengelig',
+                    kjønn: 'Ikke tilgjengelig'
                 });
-        }
-    }, [behandling]);
+            });
+    }, [aktorId]);
 
     return (
         <>
@@ -56,6 +48,6 @@ const PersonBar = withBehandlingContext(({ behandling }) => {
             )}
         </>
     );
-});
+};
 
 export default PersonBar;
