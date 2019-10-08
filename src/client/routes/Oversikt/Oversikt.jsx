@@ -12,14 +12,12 @@ import { toDate, toDateAndTime } from '../../utils/date';
 import './Oversikt.less';
 
 const Oversikt = ({ history }) => {
-    const behandlingerCtx = useContext(BehandlingerContext);
-    const innrapportering = useContext(InnrapporteringContext);
-
     const {
         behandlingsoversikt,
         fetchBehandlingsoversiktMedPersoninfo,
         velgBehandlingFraOversikt
-    } = behandlingerCtx;
+    } = useContext(BehandlingerContext);
+    const innrapportering = useContext(InnrapporteringContext);
 
     useEffect(() => {
         fetchBehandlingsoversiktMedPersoninfo();
