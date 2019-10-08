@@ -19,7 +19,6 @@ export const withBehandlingContext = Component => {
                 velgBehandling={behandlingerCtx.velgBehandling}
                 velgBehandlingFraOversikt={behandlingerCtx.velgBehandlingFraOversikt}
                 userMustSelectBehandling={behandlingerCtx.userMustSelectBehandling}
-                fetchAlleBehandlinger={behandlingerCtx.fetchBehandlingerMedPersoninfo}
                 {...props}
             />
         );

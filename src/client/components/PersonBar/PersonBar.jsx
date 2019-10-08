@@ -14,14 +14,7 @@ const PersonBar = () => {
 
     useEffect(() => {
         getPerson(aktorId)
-            .then(response =>
-                setPersoninfo(
-                    response.data ?? {
-                        navn: 'Navn ikke tilgjengelig',
-                        kjønn: 'Ikke tilgjengelig'
-                    }
-                )
-            )
+            .then(response => setPersoninfo(response.data))
             .catch(err => {
                 console.error('Feil ved henting av person.', err);
             });
@@ -33,12 +26,12 @@ const PersonBar = () => {
                 <div className="PersonBar">
                     <figure
                         id="PersonBar__gender"
-                        aria-label={`Kjønn: ${personinfo.kjønn}`}
-                        className={personinfo.kjønn.toLowerCase()}
+                        aria-label={`Kjønn: ${personinfo?.kjønn ?? 'Ikke tilgjengelig'}`}
+                        className={personinfo?.kjønn?.toLowerCase() ?? 'kjønnsnøytral'}
                     />
-                    <Element>{personinfo.navn}</Element>
+                    <Element>{personinfo?.navn ?? 'Navn ikke tilgjengelig'}</Element>
                     <Undertekst>/</Undertekst>
-                    {personinfo.fnr ? (
+                    {personinfo?.fnr ? (
                         <Clipboard>
                             <Undertekst>{formatFnr(personinfo.fnr)}</Undertekst>
                         </Clipboard>
