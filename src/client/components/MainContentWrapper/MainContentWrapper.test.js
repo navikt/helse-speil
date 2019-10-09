@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import MainContentWrapper from './MainContentWrapper';
 import ReactModal from 'react-modal';
 import { MemoryRouter } from 'react-router-dom';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 
 ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
 afterEach(cleanup);
@@ -15,21 +16,18 @@ const behandling1 = {
     originalSøknad: { fom: '2019-05-10', tom: '2019-05-20' }
 };
 const wrapperProps = {
-    behandlinger: [
-        behandling1,
-        { behandlingsId: '456', originalSøknad: { fom: '2019-06-10', tom: '2019-06-20' } }
-    ],
+    state: {
+        behandlinger: [
+            behandling1,
+            { behandlingsId: '456', originalSøknad: { fom: '2019-06-10', tom: '2019-06-20' } }
+        ]
+    },
     velgBehandling: jest.fn(),
-    behandling: undefined
+    valgtBehandling: undefined
 };
 
 jest.mock('../PersonBar', () => () => <div />);
 jest.mock('../LeftMenu', () => () => <div />);
-jest.mock('../../context/BehandlingerContext', () => ({
-    withBehandlingContext: jest
-        .fn()
-        .mockImplementation(Component => props => <Component {...props} />)
-}));
 
 jest.mock('nav-frontend-lukknapp-style', () => {
     return {};
@@ -57,7 +55,14 @@ describe('MainContentWrapper', () => {
     it('render modal when no behandling is chosen', () => {
         const { getByText, container } = render(
             <MemoryRouter>
-                <MainContentWrapper {...wrapperProps} userMustSelectBehandling={true} />
+                <BehandlingerContext.Provider
+                    value={{
+                        ...wrapperProps,
+                        userMustSelectBehandling: true
+                    }}
+                >
+                    <MainContentWrapper />
+                </BehandlingerContext.Provider>
             </MemoryRouter>
         );
         expect(
@@ -68,7 +73,14 @@ describe('MainContentWrapper', () => {
 
     it('does not render modal when behandling is chosen', () => {
         const { container } = render(
-            <MainContentWrapper {...wrapperProps} behandling={behandling1} />
+            <BehandlingerContext.Provider
+                value={{
+                    ...wrapperProps,
+                    valgtBehandling: { ...behandling1 }
+                }}
+            >
+                <MainContentWrapper />
+            </BehandlingerContext.Provider>
         );
         expect(container.querySelector('.main-content')).toBeTruthy();
     });
@@ -76,7 +88,16 @@ describe('MainContentWrapper', () => {
     it('render empty state view when there are no behandlinger', () => {
         const { getByText } = render(
             <MemoryRouter>
-                <MainContentWrapper {...wrapperProps} behandlinger={[]} />
+                <BehandlingerContext.Provider
+                    value={{
+                        ...wrapperProps,
+                        state: {
+                            behandlinger: []
+                        }
+                    }}
+                >
+                    <MainContentWrapper />
+                </BehandlingerContext.Provider>
             </MemoryRouter>
         );
         expect(
