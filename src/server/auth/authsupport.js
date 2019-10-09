@@ -30,6 +30,9 @@ const willExpireInLessThan = (seconds, token) => {
 };
 
 const validateOidcCallback = (req, azureClient, config) => {
+    if (req.body.code === undefined) {
+        return Promise.reject('missing data in POST after login');
+    }
     const params = azureClient.callbackParams(req);
     const nonce = req.session.nonce;
 
