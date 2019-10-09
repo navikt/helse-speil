@@ -29,6 +29,7 @@ const port = config.server.port;
 
 const instrumentation = require('./instrumentation').setup(app);
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
