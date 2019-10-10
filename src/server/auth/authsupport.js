@@ -35,10 +35,11 @@ const validateOidcCallback = (req, azureClient, config) => {
     }
     const params = azureClient.callbackParams(req);
     const nonce = req.session.nonce;
+    const state = req.session.state;
 
     return new Promise((resolve, reject) => {
         azureClient
-            .callback(config.redirectUrl, params, { nonce })
+            .callback(config.redirectUrl, params, { nonce, state })
             .then(tokenSet => {
                 const accessTokenKey = 'access_token';
                 const idTokenKey = 'id_token';
