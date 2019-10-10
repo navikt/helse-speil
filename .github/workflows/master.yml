@@ -42,7 +42,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.GH_REPO_USER }}
           DOCKER_PASSWORD: ${{ secrets.GH_REPO_TOKEN }}
       - name: deploy to preprod
-        uses: navikt/deployment-cli/action@0.4.1
+        uses: navikt/deployment-cli/action@ea9e740
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWAIT_SECONDS: 0
@@ -52,7 +52,7 @@ jobs:
           resources: deploy/speil-preprod.yaml,deploy/redis.yaml
           rawresources: deploy/alerts-preprod.yaml
       - name: deploy to prod
-        uses: navikt/deployment-cli/action@0.4.1
+        uses: navikt/deployment-cli/action@ea9e740
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWAIT_SECONDS: 0
