@@ -1,4 +1,7 @@
+'use strict';
+
 const { calendarDaysBetween, newestTom, toDate, workdaysBetween } = require('../datecalc');
+const logger = require('../logging');
 
 const antallVirkedager = behandling =>
     behandling.vedtak.perioder.reduce(
@@ -18,7 +21,7 @@ const ferieperioder = behandling => {
     if (!behandling.originalSøknad.fravar) {
         const logStructureOfTree = (object, stack) => {
             if (object && Object.keys(object).length === 0) {
-                console.log(stack + '.[]');
+                logger.info(stack + '.[]');
             }
             for (var property in object) {
                 // filter out non-essential keys
@@ -35,12 +38,12 @@ const ferieperioder = behandling => {
                     if (typeof object[property] == 'object') {
                         logStructureOfTree(object[property], stack + '.' + property);
                     } else {
-                        console.log(stack + '.' + property);
+                        logger.info(stack + '.' + property);
                     }
                 }
             }
         };
-        console.log('Struktur på behandling som mangler fravær:');
+        logger.info('Struktur på behandling som mangler fravær:');
         logStructureOfTree(behandling, '');
         return [];
     }
@@ -85,8 +88,8 @@ const beregningsperioden = behandling => {
         behandling.avklarteVerdier.sykepengegrunnlag.fastsattVerdi
             .sykepengegrunnlagIArbeidsgiverperioden.grunnlag;
     if (!Array.isArray(beregningsperiode)) {
-        console.log('Forventer en liste, men beregningsperioden er ', typeof beregningsperiode);
-        console.log(Object.keys(beregningsperiode).toString());
+        logger.info('Forventer en liste, men beregningsperioden er ', typeof beregningsperiode);
+        logger.info(Object.keys(beregningsperiode).toString());
         if (beregningsperiode.inntekter) {
             if (
                 Array.isArray(beregningsperiode.inntekter) &&
@@ -99,7 +102,7 @@ const beregningsperioden = behandling => {
             }
         }
         if (beregningsperiode.begrunnelse) {
-            console.log('Begrunnelse: ', beregningsperiode.begrunnelse);
+            logger.info('Begrunnelse: ', beregningsperiode.begrunnelse);
         }
     }
     return utbetalingsperioder(beregningsperiode);
@@ -108,14 +111,14 @@ const beregningsperioden = behandling => {
 const sammenligningsperioden = behandling => {
     const sammenligningsperiode = behandling.avklarteVerdier.sykepengegrunnlag.grunnlag;
     if (!Array.isArray(sammenligningsperiode)) {
-        console.log(
+        logger.info(
             'Forventer en liste, men sammenligningsgrunnlag er ',
             typeof sammenligningsperiode
         );
-        console.log(Object.keys(sammenligningsperiode).toString());
+        logger.info(Object.keys(sammenligningsperiode).toString());
         if (sammenligningsperiode.inntekter) {
-            console.log('Inntekter er type ', typeof sammenligningsperiode.inntekter);
-            console.log(
+            logger.info('Inntekter er type ', typeof sammenligningsperiode.inntekter);
+            logger.info(
                 'Inntekter keys: ',
                 Object.keys(sammenligningsperiode.inntekter).toString()
             );

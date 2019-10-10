@@ -1,5 +1,7 @@
 'use strict';
 
+const logger = require('../logging');
+
 const { ipAddressFromRequest } = require('../requestData');
 
 const isValidNow = token => {
@@ -16,7 +18,7 @@ const isValidAt = (token, timeInSeconds) => {
         const expirationTime = parseInt(claims['exp']);
         return expirationTime >= timeInSeconds;
     } catch (err) {
-        console.log(`error while checking token validity: ${err}`);
+        logger.error(`error while checking token validity: ${err}`);
         return false;
     }
 };
@@ -28,6 +30,9 @@ const willExpireInLessThan = (seconds, token) => {
 };
 
 const validateOidcCallback = (req, azureClient, config) => {
+    if (req.body.code === undefined) {
+        return Promise.reject('missing data in POST after login');
+    }
     const params = azureClient.callbackParams(req);
     const nonce = req.session.nonce;
 
@@ -35,12 +40,23 @@ const validateOidcCallback = (req, azureClient, config) => {
         azureClient
             .callback(config.redirectUrl, params, { nonce })
             .then(tokenSet => {
-                const accessToken = tokenSet['access_token'];
-                const idToken = tokenSet['id_token'];
+                const accessTokenKey = 'access_token';
+                const idTokenKey = 'id_token';
+                const errorMessages = checkAzureResponseContainsTokens(
+                    tokenSet,
+                    accessTokenKey,
+                    idTokenKey
+                );
+                if (errorMessages.length > 0) {
+                    return reject(`Access denied: ${errorMessages.join(' ')}`);
+                }
+
+                const accessToken = tokenSet[accessTokenKey];
+                const idToken = tokenSet[idTokenKey];
                 const requiredGroup = config.requiredGroup;
                 const username = nameFrom(idToken);
                 if (accessToken && isMemberOf(requiredGroup, accessToken)) {
-                    console.log(
+                    logger.info(
                         `User ${username} has been authenticated, from IP address ${ipAddressFromRequest(
                             req
                         )}`
@@ -56,6 +72,11 @@ const validateOidcCallback = (req, azureClient, config) => {
     });
 };
 
+const checkAzureResponseContainsTokens = (tokenSet, ...tokens) =>
+    [...tokens]
+        .filter(tokenName => tokenSet[tokenName] === undefined)
+        .map(tokenName => `Missing ${[tokenName]} in response from Azure AD.`);
+
 const isMemberOf = (group, token) => {
     const claims = claimsFrom(token);
     const groups = claims['groups'];
@@ -70,7 +91,7 @@ const nameFrom = token => {
     try {
         return JSON.parse(Buffer.from(token.split('.')[1], 'base64'))['name'] || 'unknown user';
     } catch (err) {
-        console.log(`error while extracting name: ${err}`);
+        logger.error(`error while extracting name: ${err}`);
         return 'unknown user';
     }
 };

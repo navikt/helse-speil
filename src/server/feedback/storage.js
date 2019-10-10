@@ -3,6 +3,8 @@
 const AWS = require('aws-sdk');
 const bucketName = 'speil';
 
+const logger = require('../logging');
+
 let s3 = null;
 const init = async (url, accessKeyId, secretAccessKey) => {
     AWS.config.update({
@@ -75,7 +77,7 @@ const loadSome = async keys => {
 const createBucketIfNotExists = async name => {
     const exists = await bucketExists(name);
     if (!exists) {
-        console.log(`Creating bucket ${name}`);
+        logger.info(`Creating bucket ${name}`);
         return s3
             .createBucket({
                 Bucket: name,
@@ -86,7 +88,7 @@ const createBucketIfNotExists = async name => {
             })
             .promise();
     } else {
-        console.log(`Bucket ${name} already exists, will keep using it`);
+        logger.info(`Bucket ${name} already exists, will keep using it`);
         return Promise.resolve({});
     }
 };

@@ -1,5 +1,5 @@
 const request = require('request-promise-native');
-const { log } = require('../logging');
+const logger = require('../logging');
 const uuid = require('uuid/v4');
 
 let aktørregisterUrl;
@@ -38,47 +38,42 @@ const fetchFromAktørregisteret = async ident => {
     return request.get(options);
 };
 
-const mapToAktørId = (response, ssn) => {
-    const identResponse = response && response[ssn];
+const mapToIdentType = (response, value, identType) => {
+    const identResponse = response?.[value];
     const identer = identResponse?.identer;
 
     if (identer === undefined || identer.length === 0) {
-        log(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
-        return Promise.reject('AktørId not found');
+        logger.error(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
+        return Promise.reject(`${identType.name} not found`);
     } else {
-        const aktørId = identer
-            .filter(ident => ident.identgruppe === 'AktoerId')
+        const ident = identer
+            .filter(ident => ident.identgruppe === identType.key)
             .map(ident => ident.ident)[0];
-        log(`Retrieved AktørID '${maskIdentifier(aktørId)}' for NNIN '${maskIdentifier(ssn)}'.`);
-        return Promise.resolve(aktørId);
+        logger.info(
+            `Retrieved ${identType.name} '${maskIdentifier(ident)}' for ${
+                identType.name
+            } '${maskIdentifier(ident)}'.`
+        );
+        return Promise.resolve(ident);
     }
 };
 
-const mapToFnr = (response, aktørId) => {
-    const identResponse = response && response[aktørId];
-    const identer = identResponse?.identer;
+const mapToAktørId = (response, fnr) => {
+    return mapToIdentType(response, fnr, { name: 'AktørId', key: 'AktoerId' });
+};
 
-    if (identer === undefined || identer.length === 0) {
-        log(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
-        return Promise.reject('NNIN not found');
-    } else {
-        const fnr = identer
-            .filter(ident => ident.identgruppe === 'NorskIdent')
-            .map(ident => ident.ident)[0];
-        log(`Retrieved NNIN '${maskIdentifier(fnr)}' for AktørID '${maskIdentifier(aktørId)}'.`);
-        return Promise.resolve(fnr);
-    }
+const mapToFnr = (response, aktørId) => {
+    return mapToIdentType(response, aktørId, { name: 'NNIN', key: 'NorskIdent' });
 };
 
 const maskIdentifier = identifier => {
     const length = identifier.length;
     const numberOfMaskCharacters = Math.floor(length / 3) + 1;
-    const maskedIdentifier =
+    return (
         identifier.substring(0, numberOfMaskCharacters) +
         '*'.repeat(numberOfMaskCharacters) +
-        identifier.substring(numberOfMaskCharacters * 2);
-
-    return maskedIdentifier;
+        identifier.substring(numberOfMaskCharacters * 2)
+    );
 };
 
 module.exports = {

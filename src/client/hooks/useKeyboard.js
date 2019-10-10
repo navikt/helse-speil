@@ -9,15 +9,15 @@ export const Keys = {
 };
 
 const shouldDisableKeyboard = () =>
-    document.activeElement.tagName.toLowerCase() === 'textarea' ||
-    document.activeElement.tagName.toLowerCase() === 'input';
+    document.activeElement.type?.toLowerCase() === 'textarea' ||
+    document.activeElement.type?.toLowerCase() === 'text';
 
 export const useKeyboard = actionMappings => {
     const [map, setMap] = useState({});
 
     const handleKeyDown = e => {
-        if (!shouldDisableKeyboard() && map[e.keyCode]) {
-            map[e.keyCode]();
+        if (!shouldDisableKeyboard()) {
+            map[e.keyCode]?.();
         }
     };
 

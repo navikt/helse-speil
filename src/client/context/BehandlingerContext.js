@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { behandlingerFor, behandlingerIPeriode, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
@@ -7,57 +7,66 @@ import { capitalizeName } from '../utils/locale';
 
 export const BehandlingerContext = createContext();
 
-export const withBehandlingContext = Component => {
-    return props => {
-        const behandlingerCtx = useContext(BehandlingerContext);
-        const behandlinger = behandlingerCtx.state?.behandlinger ?? [];
-
-        return (
-            <Component
-                behandlinger={behandlinger}
-                behandling={behandlingerCtx.valgtBehandling}
-                setValgtBehandling={behandlingerCtx.setValgtBehandling}
-                fnr={behandlingerCtx.fnr}
-                fetchAlleBehandlinger={behandlingerCtx.fetchBehandlingerMedPersoninfo}
-                {...props}
-            />
-        );
-    };
-};
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
-    const [fnr, setFnr] = useState(undefined);
+    const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
     const [valgtBehandling, setValgtBehandling] = useState(undefined);
+    const [lastSelectedBehandling, setLastSelectedBehandling] = useSessionStorage(
+        'last-selected-behandling-id',
+        undefined
+    );
+    const [userMustSelectBehandling, setUserMustSelectBehandling] = useState(false);
 
-    const velgBehandling = (behandling, history) => {
-        const valgtBehandling = behandlinger.find(
-            b => b.behandlingsId === behandling?.behandlingsId
-        );
-        if (valgtBehandling && !valgtBehandling.avklarteVerdier) {
-            fetchBehandlinger(valgtBehandling.aktorId, valgtBehandling.behandlingsId, history);
-        } else {
-            setValgtBehandling(valgtBehandling);
-            if (history) {
-                history.push('/sykdomsvilkår');
-            }
+    const velgBehandlingFraOversikt = async ({ behandlingsId }) => {
+        const behandlingSummary = behandlingsoversikt.find(b => b.behandlingsId === behandlingsId);
+        if (behandlingSummary === undefined) {
+            setError({
+                message: 'En feil har oppstått. Vennligst prøv igjen eller kontakt systemansvarlig.'
+            });
+            return Promise.reject();
         }
+        const behandlinger = await fetchBehandlinger(
+            behandlingSummary.originalSøknad.aktorId,
+            behandlingSummary.behandlingsId
+        );
+        if (behandlinger === undefined) {
+            return Promise.reject();
+        }
+        setLastSelectedBehandling(behandlingsId);
+    };
+
+    const velgBehandling = ({ behandlingsId }) => {
+        const valgtBehandling = behandlinger.find(b => b.behandlingsId === behandlingsId);
+        setValgtBehandling(valgtBehandling);
+        setLastSelectedBehandling(valgtBehandling?.behandlingsId);
     };
 
     const sort = behandlinger =>
         behandlinger.sort((a, b) => a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt));
 
-    const fetchBehandlingerMedPersoninfo = async () => {
+    useEffect(() => {
+        if (lastSelectedBehandling !== undefined && window.location.pathname !== '/') {
+            velgBehandling({ behandlingsId: lastSelectedBehandling });
+        }
+    }, [lastSelectedBehandling]);
+
+    const fetchBehandlingsoversiktMedPersoninfo = async () => {
         setValgtBehandling(undefined);
-        const alleBehandlinger = await fetchAlleBehandlinger();
+        const alleBehandlinger = await fetchBehandlingsoversikt();
         if (alleBehandlinger !== undefined) {
             setBehandlinger(sort(alleBehandlinger));
             const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
-            setBehandlinger(behandlingerMedPersoninfo);
+            if (behandlingerMedPersoninfo.find(behandling => behandling.personinfo === undefined)) {
+                setError({
+                    message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
+                });
+            }
+            setBehandlingsoversikt(behandlingerMedPersoninfo);
         }
     };
 
-    const fetchAlleBehandlinger = () => {
+    const fetchBehandlingsoversikt = () => {
         const fom = moment()
             .subtract(1, 'days')
             .format('YYYY-MM-DD');
@@ -65,7 +74,7 @@ export const BehandlingerProvider = ({ children }) => {
         return behandlingerIPeriode(fom, tom)
             .then(response => {
                 const newData = response.data;
-                return newData.behandlinger;
+                return newData.behandlingsoversikt;
             })
             .catch(err => {
                 if (err.statusCode === 401) {
@@ -92,40 +101,39 @@ export const BehandlingerProvider = ({ children }) => {
 
     const fetchPerson = behandling => {
         return getPerson(behandling.originalSøknad.aktorId)
-            .then(response => {
-                return {
-                    ...behandling,
-                    personinfo: {
-                        navn: capitalizeName(response.data.navn),
-                        kjønn: response.data.kjønn
-                    }
-                };
-            })
+            .then(response => ({
+                ...behandling,
+                personinfo: {
+                    navn: capitalizeName(response.data.navn),
+                    kjønn: response.data?.kjønn,
+                    fnr: response.data?.fnr
+                }
+            }))
             .catch(err => {
                 console.error('Feil ved henting av person.', err);
-                setError({
-                    ...err,
-                    message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
-                });
                 return behandling;
             });
     };
 
-    const fetchBehandlinger = (value, behandlingsId, history) => {
+    const fetchBehandlinger = (value, behandlingsId) => {
+        setUserMustSelectBehandling(false);
         return behandlingerFor(value)
             .then(response => {
                 const { behandlinger } = response.data;
-                setFnr(response.data.fnr);
                 setBehandlinger(behandlinger);
                 if (!behandlingsId) {
+                    if (behandlinger?.length === 1) {
+                        setLastSelectedBehandling(behandlinger[0].behandlingsId);
+                    } else if (behandlinger.length > 1) {
+                        setLastSelectedBehandling(null);
+                        setUserMustSelectBehandling(true);
+                    }
+
                     setValgtBehandling(behandlinger?.length !== 1 ? undefined : behandlinger[0]);
                 } else {
                     setValgtBehandling(
                         behandlinger.find(behandling => behandling.behandlingsId === behandlingsId)
                     );
-                }
-                if (history) {
-                    history.push('/sykdomsvilkår');
                 }
                 return { behandlinger };
             })
@@ -144,12 +152,13 @@ export const BehandlingerProvider = ({ children }) => {
         <BehandlingerContext.Provider
             value={{
                 state: { behandlinger },
-                setBehandlinger: setBehandlinger,
-                setValgtBehandling: velgBehandling,
+                behandlingsoversikt,
+                velgBehandling,
+                velgBehandlingFraOversikt,
                 valgtBehandling,
                 fetchBehandlinger,
-                fnr,
-                fetchBehandlingerMedPersoninfo,
+                userMustSelectBehandling,
+                fetchBehandlingsoversiktMedPersoninfo,
                 error,
                 clearError: () => setError(undefined)
             }}

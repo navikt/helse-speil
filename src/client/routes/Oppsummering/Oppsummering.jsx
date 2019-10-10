@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ListItem from '../../components/ListItem';
 import ListSeparator from '../../components/ListSeparator';
 import Innrapportering from './Innrapportering';
@@ -7,33 +7,34 @@ import { Panel } from 'nav-frontend-paneler';
 import { toDate } from '../../utils/date';
 import { toKroner } from '../../utils/locale';
 import { Undertittel } from 'nav-frontend-typografi';
-import { withBehandlingContext } from '../../context/BehandlingerContext';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { oppsummeringstekster, tekster } from '../../tekster';
 import './Oppsummering.less';
 
-const Oppsummering = withBehandlingContext(({ behandling }) => {
+const Oppsummering = () => {
+    const { valgtBehandling } = useContext(BehandlingerContext);
     return (
         <div className="Oppsummering">
             <Panel border>
                 <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
                 <ListItem
                     label={oppsummeringstekster('sykdomsvilkår')}
-                    value={behandling.oppsummering.sykdomsvilkårErOppfylt}
+                    value={valgtBehandling.oppsummering.sykdomsvilkårErOppfylt}
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('inngangsvilkår')}
-                    value={behandling.oppsummering.inngangsvilkårErOppfylt}
+                    value={valgtBehandling.oppsummering.inngangsvilkårErOppfylt}
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('arbeidsgiver')}
-                    value={behandling.oppsummering.arbeidsgiver.navn}
+                    value={valgtBehandling.oppsummering.arbeidsgiver.navn}
                     bold
                 />
                 <ListItem
                     label={oppsummeringstekster('orgnr')}
-                    value={behandling.oppsummering.arbeidsgiver.orgnummer}
+                    value={valgtBehandling.oppsummering.arbeidsgiver.orgnummer}
                     bold
                 />
                 <ListItem
@@ -43,58 +44,58 @@ const Oppsummering = withBehandlingContext(({ behandling }) => {
                 />
                 <ListItem
                     label={oppsummeringstekster('betaler')}
-                    value={behandling.oppsummering.betalerArbeidsgiverperiode ? 'Nei' : 'Ja'}
+                    value={valgtBehandling.oppsummering.betalerArbeidsgiverperiode ? 'Nei' : 'Ja'}
                 />
                 <ListItem
                     label={oppsummeringstekster('fordeling')}
-                    value={`${behandling.oppsummering.fordeling}%`}
+                    value={`${valgtBehandling.oppsummering.fordeling}%`}
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('sykepengegrunnlag')}
-                    value={`${toKroner(behandling.oppsummering.sykepengegrunnlag)} kr`}
+                    value={`${toKroner(valgtBehandling.oppsummering.sykepengegrunnlag)} kr`}
                 />
                 <ListItem
                     label={oppsummeringstekster('månedsbeløp')}
-                    value={`${toKroner(behandling.oppsummering.månedsbeløp)} kr`}
+                    value={`${toKroner(valgtBehandling.oppsummering.månedsbeløp)} kr`}
                     bold
                 />
                 <ListItem
                     label={oppsummeringstekster('dagsats')}
-                    value={`${toKroner(behandling.oppsummering.dagsats)} kr`}
+                    value={`${toKroner(valgtBehandling.oppsummering.dagsats)} kr`}
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('antall_utbetalingsdager')}
-                    value={behandling.oppsummering.antallUtbetalingsdager}
+                    value={valgtBehandling.oppsummering.antallUtbetalingsdager}
                 />
                 <ListItem
                     label={oppsummeringstekster('fom')}
-                    value={toDate(behandling.oppsummering.sykmeldtFraOgMed)}
+                    value={toDate(valgtBehandling.oppsummering.sykmeldtFraOgMed)}
                     bold
                 />
                 <ListItem
                     label={oppsummeringstekster('tom')}
-                    value={toDate(behandling.oppsummering.sykmeldtTilOgMed)}
+                    value={toDate(valgtBehandling.oppsummering.sykmeldtTilOgMed)}
                     bold
                 />
                 <ListItem
                     label={oppsummeringstekster('sykmeldingsgrad')}
-                    value={`${behandling.oppsummering.sykmeldingsgrad}%`}
+                    value={`${valgtBehandling.oppsummering.sykmeldingsgrad}%`}
                     bold
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('utbetalesFom')}
-                    value={toDate(behandling.oppsummering.utbetalesFom)}
+                    value={toDate(valgtBehandling.oppsummering.utbetalesFom)}
                 />
                 <ListItem
                     label={oppsummeringstekster('utbetalesTom')}
-                    value={toDate(behandling.oppsummering.utbetalesTom)}
+                    value={toDate(valgtBehandling.oppsummering.utbetalesTom)}
                 />
                 <ListItem
                     label={oppsummeringstekster('utbetaling')}
-                    value={`${toKroner(behandling.oppsummering.utbetaling)} kr`}
+                    value={`${toKroner(valgtBehandling.oppsummering.utbetaling)} kr`}
                 />
                 <ListSeparator type="solid" />
                 <Navigasjonsknapper previous="/utbetaling" />
@@ -104,6 +105,6 @@ const Oppsummering = withBehandlingContext(({ behandling }) => {
             </div>
         </div>
     );
-});
+};
 
 export default Oppsummering;

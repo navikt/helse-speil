@@ -8,6 +8,8 @@ const setup = redisclient => {
     return router;
 };
 
+routes;
+
 const routes = ({ router }) => {
     router.post('/list', (req, res) => {
         const behandlingsIdList = req.body;

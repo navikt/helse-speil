@@ -17,17 +17,18 @@ import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
 
 const fetchTildelingerInterval = 120000;
 const Oversikt = ({ history }) => {
-    const behandlingerCtx = useContext(BehandlingerContext);
+    const {
+        behandlingsoversikt,
+        fetchBehandlingsoversiktMedPersoninfo,
+        velgBehandlingFraOversikt
+    } = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
     const { authInfo } = useContext(AuthContext);
     const [tildelinger, setTildelinger] = useState([]);
     const [error, setError] = useState(undefined);
 
-    const { fetchBehandlingerMedPersoninfo, setValgtBehandling } = behandlingerCtx;
-    const behandlinger = behandlingerCtx.state.behandlinger;
-
     useEffect(() => {
-        fetchBehandlingerMedPersoninfo();
+        fetchBehandlingsoversiktMedPersoninfo();
     }, []);
 
     const toBehandletSak = (behandling, feedback) => ({
@@ -39,7 +40,7 @@ const Oversikt = ({ history }) => {
 
     const [behandledeSaker, ubehandledeSaker] = useMemo(
         () =>
-            behandlinger.reduce(
+            behandlingsoversikt.reduce(
                 ([behandledeSaker, ubehandledeSaker], behandling) => {
                     const feedback = innrapportering.feedback.find(
                         f => f.key === behandling.behandlingsId
@@ -53,7 +54,7 @@ const Oversikt = ({ history }) => {
                 },
                 [[], []]
             ),
-        [innrapportering.feedback, behandlinger]
+        [innrapportering.feedback, behandlingsoversikt]
     );
 
     useEffect(() => {
@@ -62,11 +63,11 @@ const Oversikt = ({ history }) => {
         return () => {
             window.clearInterval(interval);
         };
-    }, [behandlinger.length]);
+    }, [behandlingsoversikt.length]);
 
     const fetchTildelinger = () => {
-        if (behandlinger.length > 0) {
-            const behandlingsIdList = behandlinger.map(b => b.behandlingsId);
+        if (behandlingsoversikt.length > 0) {
+            const behandlingsIdList = behandlingsoversikt.map(b => b.behandlingsId);
             getTildelinger(behandlingsIdList)
                 .then(result => {
                     const nyeTildelinger = result.data.filter(
@@ -81,8 +82,14 @@ const Oversikt = ({ history }) => {
         }
     };
 
-    const velgBehandling = behandling => {
-        setValgtBehandling(behandling, history);
+    const velgBehandlingAndNavigate = async behandling => {
+        await velgBehandlingFraOversikt(behandling)
+            .then(() => {
+                history.push('/sykdomsvilkår');
+            })
+            .catch(() => {
+                // Catch rejection to avoid warning; expecting error handling to have been done
+            });
     };
 
     const tildelBehandling = behandlingsId => {
@@ -157,7 +164,7 @@ const Oversikt = ({ history }) => {
 
                             return (
                                 <li className="row row--info" key={behandling.behandlingsId}>
-                                    <Lenke onClick={() => velgBehandling(behandling)}>
+                                    <Lenke onClick={() => velgBehandlingAndNavigate(behandling)}>
                                         {behandling.personinfo?.navn ??
                                             behandling.originalSøknad.aktorId}
                                     </Lenke>
@@ -180,7 +187,9 @@ const Oversikt = ({ history }) => {
                         </li>
                         {behandledeSaker.map(sak => (
                             <li className="row row--info" key={sak.behandlingsId}>
-                                <Lenke onClick={() => velgBehandling(sak)}>{sak.søkerName}</Lenke>
+                                <Lenke onClick={() => velgBehandlingAndNavigate(sak)}>
+                                    {sak.søkerName}
+                                </Lenke>
                                 <Normaltekst>{capitalizeName(sak.userName)}</Normaltekst>
                                 <Normaltekst>{toDateAndTime(sak.submittedDate)}</Normaltekst>
                             </li>

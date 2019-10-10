@@ -8,7 +8,7 @@ import { toDate } from '../../utils/date';
 
 document && document.getElementById('#root') && Modal.setAppElement('#root');
 
-const VelgBehandlingModal = ({ setModalOpen, behandlinger, velgBehandling }) => (
+const VelgBehandlingModal = ({ setModalOpen, behandlinger, onSelectItem }) => (
     <Modal onRequestClose={() => setModalOpen(false)} contentLabel="Velg behandling" isOpen={true}>
         <div className="VelgBehandlingModal">
             <Undertittel>Velg sak</Undertittel>
@@ -22,7 +22,7 @@ const VelgBehandlingModal = ({ setModalOpen, behandlinger, velgBehandling }) => 
                     <li key={behandling.behandlingsId}>
                         <Normaltekst>{toDate(behandling.originalSøknad.fom)}</Normaltekst>
                         <Normaltekst>{toDate(behandling.originalSøknad.tom)}</Normaltekst>
-                        <Knapp onClick={() => velgBehandling(behandling)}>Velg</Knapp>
+                        <Knapp onClick={() => onSelectItem(behandling)}>Velg</Knapp>
                     </li>
                 ))}
             </ul>
@@ -32,7 +32,7 @@ const VelgBehandlingModal = ({ setModalOpen, behandlinger, velgBehandling }) => 
 
 VelgBehandlingModal.propTypes = {
     behandlinger: PropTypes.arrayOf(PropTypes.any).isRequired,
-    velgBehandling: PropTypes.func.isRequired,
+    onSelectItem: PropTypes.func.isRequired,
     setModalOpen: PropTypes.func.isRequired
 };
 

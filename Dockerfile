@@ -6,11 +6,9 @@ ENV TZ="Europe/Oslo"
 
 WORKDIR /app
 
-COPY package*.json /app/
-RUN npm install
-
-COPY dist/server/ /app/dist/server/
-COPY dist/client/ /app/dist/client/
+COPY node_modules/ node_modules/
+COPY dist/server/ dist/server/
+COPY dist/client/ dist/client/
 
 EXPOSE 3000
 

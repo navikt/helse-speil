@@ -20,10 +20,11 @@ const behandlinger = require('./behandlinger/behandlingerroutes');
 const feedback = require('./feedback/feedbackroutes');
 const person = require('./person/personroutes');
 const tildeling = require('./tildeling/tildelingroutes');
+const payments = require('./payment/paymentroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
 const { nameFrom } = require('./auth/authsupport');
-const { log } = require('./logging');
+const logger = require('./logging');
 
 const app = express();
 const port = config.server.port;
@@ -32,7 +33,6 @@ const instrumentation = require('./instrumentation').setup(app);
 
 const redisClient = redisclient.init({ config: config.redis });
 
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -49,7 +49,7 @@ azure
         azureClient = client;
     })
     .catch(err => {
-        log(`Failed to discover OIDC provider properties: ${err}`);
+        logger.error(`Failed to discover OIDC provider properties: ${err}`);
         process.exit(1);
     });
 
@@ -59,43 +59,48 @@ stsclient.init(config.nav);
 app.get('/isAlive', (req, res) => res.send('alive'));
 app.get('/isReady', (req, res) => res.send('ready'));
 
-app.get('/login', (req, res) => {
-    req.session.nonce = generators.nonce();
-    const url = azureClient.authorizationUrl({
-        scope: config.oidc.scope,
-        redirect_uri: config.oidc.redirectUrl,
-        response_type: config.oidc.responseType,
-        response_mode: 'form_post',
-        nonce: req.session.nonce
-    });
-    res.redirect(url);
-});
-
-app.post('/callback', (req, res) => {
-    authsupport
-        .validateOidcCallback(req, azureClient, config.oidc)
-        .then(tokens => {
-            const [accessToken, idToken] = tokens;
-            res.cookie('speil', `${idToken}`, {
-                secure: process.env.NODE_ENV !== 'development',
-                sameSite: true
-            });
-            req.session.spadeToken = accessToken;
-            res.redirect('/');
-        })
-        .catch(err => {
-            log(err);
-            req.session.destroy();
-            res.sendStatus(403);
+const setUpAuthentication = () => {
+    app.get('/login', (req, res) => {
+        req.session.nonce = generators.nonce();
+        const url = azureClient.authorizationUrl({
+            scope: config.oidc.scope,
+            redirect_uri: config.oidc.redirectUrl,
+            response_type: config.oidc.responseType,
+            response_mode: 'form_post',
+            nonce: req.session.nonce
         });
-});
+        res.redirect(url);
+    });
+
+    app.use(bodyParser.urlencoded({ extended: false }));
+    app.post('/callback', (req, res) => {
+        authsupport
+            .validateOidcCallback(req, azureClient, config.oidc)
+            .then(tokens => {
+                const [accessToken, idToken] = tokens;
+                res.cookie('speil', `${idToken}`, {
+                    secure: process.env.NODE_ENV !== 'development',
+                    sameSite: true
+                });
+                req.session.spadeToken = accessToken;
+                res.redirect('/');
+            })
+            .catch(err => {
+                logger.error(err);
+                req.session.destroy();
+                res.sendStatus(403);
+            });
+    });
+};
+
+setUpAuthentication();
 
 // Protected routes
 app.use('/*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development' || authsupport.isValidNow(req.session.spadeToken)) {
         next();
     } else {
-        log(
+        logger.info(
             `no valid session found for ${ipAddressFromRequest(req)}, username ${nameFrom(
                 req.session.spadeToken
             )}`
@@ -114,6 +119,7 @@ app.use('/api/tildeling', tildeling.setup(redisClient));
 app.use('/api/person', person.setup(stsclient));
 app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
 app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));
+app.use('/api/payments', payments.setup({ config: config.nav }));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {
@@ -129,4 +135,4 @@ app.use('/static', express.static('dist/client'));
 app.use('/*', express.static('dist/client/index.html'));
 app.use('/', express.static('dist/client/'));
 
-app.listen(port, () => log(`Speil backend listening on port ${port}`));
+app.listen(port, () => logger.info(`Speil backend listening on port ${port}`));

@@ -1,31 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Clipboard from '../Clipboard';
 import { getPerson } from '../../io/http';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { withBehandlingContext } from '../../context/BehandlingerContext';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 import './PersonBar.less';
 
 const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
-const PersonBar = withBehandlingContext(({ behandling, fnr }) => {
-    const { aktorId } = behandling.originalSøknad;
-    const [personinfo, setPersoninfo] = useState(behandling.personinfo);
+const PersonBar = () => {
+    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { aktorId } = valgtBehandling.originalSøknad;
+    const [personinfo, setPersoninfo] = useState(valgtBehandling.personinfo);
 
     useEffect(() => {
-        if (personinfo === undefined) {
-            getPerson(aktorId)
-                .then(response => {
-                    response.data && setPersoninfo(response.data);
-                })
-                .catch(err => {
-                    console.error('Feil ved henting av person.', err);
-                    setPersoninfo({
-                        navn: 'Navn ikke tilgjengelig',
-                        kjønn: 'Ikke tilgjengelig'
-                    });
-                });
-        }
-    }, [behandling]);
+        getPerson(aktorId)
+            .then(response => setPersoninfo(response.data))
+            .catch(err => {
+                console.error('Feil ved henting av person.', err);
+            });
+    }, [aktorId]);
 
     return (
         <>
@@ -33,14 +26,14 @@ const PersonBar = withBehandlingContext(({ behandling, fnr }) => {
                 <div className="PersonBar">
                     <figure
                         id="PersonBar__gender"
-                        aria-label={`Kjønn: ${personinfo.kjønn}`}
-                        className={personinfo.kjønn.toLowerCase()}
+                        aria-label={`Kjønn: ${personinfo?.kjønn ?? 'Ikke tilgjengelig'}`}
+                        className={personinfo?.kjønn?.toLowerCase() ?? 'kjønnsnøytral'}
                     />
-                    <Element>{personinfo.navn}</Element>
+                    <Element>{personinfo?.navn ?? 'Navn ikke tilgjengelig'}</Element>
                     <Undertekst>/</Undertekst>
-                    {fnr ? (
+                    {personinfo?.fnr ? (
                         <Clipboard>
-                            <Undertekst>{formatFnr(fnr)}</Undertekst>
+                            <Undertekst>{formatFnr(personinfo.fnr)}</Undertekst>
                         </Clipboard>
                     ) : (
                         <Undertekst>Fødselsnummer ikke tilgjengelig</Undertekst>
@@ -51,6 +44,6 @@ const PersonBar = withBehandlingContext(({ behandling, fnr }) => {
             )}
         </>
     );
-});
+};
 
 export default PersonBar;

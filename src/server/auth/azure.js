@@ -2,6 +2,7 @@
 
 const { Issuer, custom } = require('openid-client');
 const proxy = require('./proxy');
+const logger = require('../logging');
 
 let azureClient = null;
 const proxyAgent = proxy.setup(Issuer, custom);
@@ -14,7 +15,7 @@ const setup = config => {
 
         Issuer.discover(config.identityMetadata)
             .then(azure => {
-                console.log(`Discovered issuer ${azure.issuer}`);
+                logger.info(`Discovered issuer ${azure.issuer}`);
                 azureClient = new azure.Client({
                     client_id: config.clientID,
                     client_secret: config.clientSecret,
