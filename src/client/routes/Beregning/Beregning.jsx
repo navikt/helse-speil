@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import IconRow from '../../components/Rows/IconRow';
 import ListRow from '../../components/Rows/ListRow';
 import ItemMapper from '../../datamapping/beregningMapper';
@@ -8,11 +8,12 @@ import SykepengegrunnlagModal from './SykepengegrunnlagModal';
 import { Panel } from 'nav-frontend-paneler';
 import { toKroner } from '../../utils/locale';
 import { Element, Undertittel } from 'nav-frontend-typografi';
-import { withBehandlingContext } from '../../context/BehandlingerContext';
 import { beregningstekster, tekster } from '../../tekster';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 
-const Beregning = withBehandlingContext(({ behandling }) => {
-    const { sykepengeberegning } = behandling;
+const Beregning = () => {
+    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { sykepengeberegning } = valgtBehandling;
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
 
     const detaljerKnapp = (
@@ -41,7 +42,7 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             <ListRow
                 label={beregningstekster('aordningen')}
                 labelProp={detaljerKnapp}
-                items={ItemMapper.aordning(behandling.sykepengeberegning)}
+                items={ItemMapper.aordning(valgtBehandling.sykepengeberegning)}
                 bold
             />
             <IconRow
@@ -74,6 +75,6 @@ const Beregning = withBehandlingContext(({ behandling }) => {
             <Navigasjonsknapper previous="/inngangsvilkår" next="/periode" />
         </Panel>
     );
-});
+};
 
 export default Beregning;

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { behandlingerFor, behandlingerIPeriode, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
@@ -6,24 +6,6 @@ import moment from 'moment';
 
 export const BehandlingerContext = createContext();
 
-export const withBehandlingContext = Component => {
-    return props => {
-        const behandlingerCtx = useContext(BehandlingerContext);
-        const behandlinger = behandlingerCtx.state?.behandlinger ?? [];
-
-        return (
-            <Component
-                behandlinger={behandlinger}
-                behandlingsoversikt={behandlingerCtx.behandlingsoversikt}
-                behandling={behandlingerCtx.valgtBehandling}
-                velgBehandling={behandlingerCtx.velgBehandling}
-                velgBehandlingFraOversikt={behandlingerCtx.velgBehandlingFraOversikt}
-                userMustSelectBehandling={behandlingerCtx.userMustSelectBehandling}
-                {...props}
-            />
-        );
-    };
-};
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
