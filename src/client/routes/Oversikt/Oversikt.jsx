@@ -93,12 +93,10 @@ const Oversikt = ({ history }) => {
     };
 
     const tildelBehandling = behandlingsId => {
-        postTildeling({ behandlingsId: behandlingsId, userId: authInfo.email })
+        const userId = authInfo.email;
+        postTildeling({ behandlingsId, userId })
             .then(() => {
-                setTildelinger([
-                    ...tildelinger,
-                    { behandlingsId: behandlingsId, userId: authInfo.email }
-                ]);
+                setTildelinger([...tildelinger, { behandlingsId, userId }]);
                 setError(undefined);
             })
             .catch(error => {
