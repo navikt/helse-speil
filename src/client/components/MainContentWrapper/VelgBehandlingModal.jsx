@@ -1,12 +1,12 @@
 import Modal from 'nav-frontend-modal';
-import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
 import React from 'react';
 import PropTypes from 'prop-types';
-import './VelgBehandlingModal.less';
+import { Knapp } from 'nav-frontend-knapper';
 import { toDate } from '../../utils/date';
+import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
+import './VelgBehandlingModal.less';
 
-document && document.getElementById('#root') && Modal.setAppElement('#root');
+Modal.setAppElement('#root');
 
 const VelgBehandlingModal = ({ onRequestClose, behandlinger, onSelectItem }) => (
     <Modal onRequestClose={onRequestClose} contentLabel="Velg behandling" isOpen={true}>

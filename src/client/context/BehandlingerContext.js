@@ -1,10 +1,10 @@
 import React, { createContext, useEffect, useState } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
+import ErrorModal from '../components/ErrorModal';
+import VelgBehandlingModal from '../components/MainContentWrapper/VelgBehandlingModal';
 import { behandlingerFor, behandlingerIPeriode, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
-import moment from 'moment';
-import VelgBehandlingModal from '../components/MainContentWrapper/VelgBehandlingModal';
-import ErrorModal from '../components/ErrorModal';
 
 export const BehandlingerContext = createContext();
 
