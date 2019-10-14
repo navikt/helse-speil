@@ -45,7 +45,7 @@
         ]
     },
     "dependencies": {
-        "aws-sdk": "^2.538.0",
+        "aws-sdk": "^2.548.0",
         "classnames": "^2.2.6",
         "compression": "^1.7.4",
         "connect-redis": "^4.0.3",
