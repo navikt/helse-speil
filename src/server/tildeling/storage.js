@@ -20,19 +20,16 @@ const assignmentsTtl = 3 * 24 * 60 * 60;
 const assignCase = (key, value) =>
     promisify(redisClient.set).bind(redisClient)(key, value, 'NX', 'EX', assignmentsTtl);
 
-const unassignCase = key => {
-    return new Promise((resolve, reject) => {
-        redisClient.del(key, (err, val) => {
-            if (err) {
-                reject(err);
-            } else if (val === 0) {
-                reject(Error(`No items to delete for key ${key}`));
+const unassignCase = key =>
+    promisify(redisClient.del)
+        .bind(redisClient)(key)
+        .then(value => {
+            if (value === 0) {
+                throw Error(`No items to delete for key ${key}`);
             } else {
-                resolve();
+                return value;
             }
         });
-    });
-};
 
 module.exports = {
     init,
