@@ -52,7 +52,7 @@
          }
       }
    ],
-   "plugins": ["react"],
+   "plugins": ["react", "react-hooks"],
    "extends": ["eslint:recommended", "prettier"],
    "rules": {
       "react/jsx-no-bind": [
@@ -73,6 +73,8 @@
       "react/jsx-indent": "off",
       "react/jsx-indent-props": "off",
       "react/jsx-uses-vars": "error",
-      "react/jsx-uses-react": "error"
+      "react/jsx-uses-react": "error",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
    }
 }

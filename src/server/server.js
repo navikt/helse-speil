@@ -62,12 +62,14 @@ app.get('/isReady', (req, res) => res.send('ready'));
 const setUpAuthentication = () => {
     app.get('/login', (req, res) => {
         req.session.nonce = generators.nonce();
+        req.session.state = generators.state();
         const url = azureClient.authorizationUrl({
             scope: config.oidc.scope,
             redirect_uri: config.oidc.redirectUrl,
             response_type: config.oidc.responseType,
             response_mode: 'form_post',
-            nonce: req.session.nonce
+            nonce: req.session.nonce,
+            state: req.session.state
         });
         res.redirect(url);
     });
