@@ -1,5 +1,6 @@
 'use strict';
 
+const { promisify } = require('util');
 let redisClient = null;
 
 const init = client => {
@@ -26,28 +27,11 @@ const getAll = async keys => {
     return Promise.all(keyValuePairs);
 };
 
-const get = async key => {
-    redisClient.get(key, (err, val) => {
-        if (err) {
-            throw err;
-        }
-        return val;
-    });
-};
+const get = key => promisify(redisClient.get).bind(redisClient)(key);
 
-const set = async (key, value) => {
-    const secondsInThreeDays = 259200;
-    redisClient
-        .multi()
-        .setnx(key, value)
-        .expire(key, secondsInThreeDays)
-        .exec((err, val) => {
-            if (err) {
-                throw err;
-            }
-            return val;
-        });
-};
+const assignmentsTtl = 3 * 24 * 60 * 60;
+const assignCase = (key, value) =>
+    promisify(redisClient.set).bind(redisClient)(key, value, 'NX', 'EX', assignmentsTtl);
 
 const unassignCase = key => {
     return new Promise((resolve, reject) => {
@@ -66,7 +50,7 @@ const unassignCase = key => {
 module.exports = {
     init,
     get,
-    set,
+    assignCase,
     getAll,
     unassignCase
 };

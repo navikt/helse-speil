@@ -1,8 +1,8 @@
 'use strict';
 
-export const ResponseError = (message, statusCode) => ({
-    message,
-    statusCode
+export const ResponseError = (statusCode, message) => ({
+    statusCode,
+    message
 });
 
 /* eslint-disable no-undef */
@@ -32,7 +32,7 @@ const get = async (url, options) => {
     const response = await fetch(url, ensureAcceptHeader(options));
 
     if (response.status >= 400) {
-        throw ResponseError(response.statusText, response.status);
+        throw ResponseError(response.status);
     }
 
     return {
@@ -48,7 +48,7 @@ export const del = async (url, data) => {
     });
 
     if (response.status !== 204) {
-        throw ResponseError(response.statusText, response.status);
+        throw ResponseError(response.status);
     }
     return response;
 };
@@ -74,7 +74,8 @@ export const post = async (url, data) => {
     });
 
     if (response.status !== 200 && response.status !== 204) {
-        throw ResponseError(response.statusText, response.status);
+        const message = await getData(response);
+        throw ResponseError(response.status, message);
     }
 
     return {
@@ -94,7 +95,7 @@ export const putFeedback = async feedback => {
     });
 
     if (response.status !== 204) {
-        throw ResponseError(response.statusText, response.status);
+        throw ResponseError(response.status);
     }
 };
 

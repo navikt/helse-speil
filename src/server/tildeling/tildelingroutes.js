@@ -1,6 +1,7 @@
 'use strict';
 const router = require('express').Router();
 const storage = require('./storage');
+const logger = require('../logging');
 
 const setup = redisclient => {
     storage.init(redisclient);
@@ -41,14 +42,30 @@ const routes = ({ router }) => {
 
     router.post('/', (req, res) => {
         const { behandlingsId, userId } = req.body;
+        if (behandlingsId === undefined || userId === undefined) {
+            const errorMessage = `behandlingsId '${behandlingsId}' and/or userId '${userId}' is not valid.`;
+            logger.info(`Assign case: ${errorMessage}`);
+            return res.status(400).send(errorMessage);
+        }
         storage
-            .set(behandlingsId, userId)
-            .then(() => {
-                res.sendStatus(204);
+            .assignCase(behandlingsId, userId)
+            .then(async result => {
+                if (result === 'OK') {
+                    logger.info(`Case ${behandlingsId} has been assigned to ${userId}.`);
+                    return res.sendStatus(204);
+                } else {
+                    const assignedUser = await storage.get(behandlingsId);
+                    if (assignedUser) {
+                        return res.status(409).json({ alreadyAssignedTo: assignedUser });
+                    } else {
+                        logger.info(`Error while unassigning case ${behandlingsId}`);
+                        return res.sendStatus(500);
+                    }
+                }
             })
             .catch(err => {
-                console.log(`Error while inserting value in Redis. Error: ${err}`);
-                res.send({
+                logger.info(`Error while inserting value in Redis. Error: ${err}`);
+                return res.send({
                     message: `Tildeling av behandling feilet.`,
                     statusCode: 500
                 });

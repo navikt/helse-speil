@@ -100,8 +100,12 @@ const Oversikt = ({ history }) => {
                 setError(undefined);
             })
             .catch(error => {
-                setError('Kunne ikke tildele sak.');
-                console.log(error);
+                const assignedUser = error.message?.alreadyAssignedTo;
+                if (assignedUser) {
+                    setError(`Saken er allerede tildelt til ${assignedUser}`);
+                } else {
+                    setError('Kunne ikke tildele sak.');
+                }
             });
     };
 
