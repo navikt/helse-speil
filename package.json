@@ -40,7 +40,7 @@
             "git add"
         ],
         "*.{js,jsx}": [
-            "eslint --fix",
+            "eslint --fix --rule react-hooks/exhaustive-deps:off",
             "git add"
         ]
     },
