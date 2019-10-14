@@ -105,7 +105,7 @@
         "@babel/plugin-transform-runtime": "^7.6.2",
         "@babel/polyfill": "^7.6.0",
         "@babel/preset-env": "^7.6.3",
-        "@babel/preset-react": "^7.0.0",
+        "@babel/preset-react": "^7.6.3",
         "@testing-library/jest-dom": "^4.1.0",
         "@testing-library/react": "^9.1.4",
         "autoprefixer": "^9.6.4",
