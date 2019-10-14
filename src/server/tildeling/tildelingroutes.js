@@ -21,7 +21,7 @@ const routes = ({ router }) => {
                 res.send(JSON.stringify(result));
             })
             .catch(err => {
-                console.log(`Error while retrieving values from Redis. Error: ${err}`);
+                logger.info(`Error while retrieving values from Redis: ${err}`);
                 res.sendStatus(err.statusCode || 500);
             });
     });

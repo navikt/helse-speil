@@ -7,25 +7,12 @@ const init = client => {
     redisClient = client;
 };
 
-const getAll = async keys => {
-    const keyValuePairs = keys.map(
-        key =>
-            new Promise((resolve, reject) =>
-                redisClient.get(key, (err, value) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    if (value) {
-                        resolve({ behandlingsId: key, userId: value });
-                    } else {
-                        resolve({ behandlingsId: key, userId: undefined });
-                    }
-                })
-            )
+const getAll = keys =>
+    Promise.all(
+        keys.map(key =>
+            get(key).then(value => ({ behandlingsId: key, userId: value || undefined }))
+        )
     );
-
-    return Promise.all(keyValuePairs);
-};
 
 const get = key => promisify(redisClient.get).bind(redisClient)(key);
 
