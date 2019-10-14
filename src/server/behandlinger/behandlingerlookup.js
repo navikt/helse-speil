@@ -4,15 +4,13 @@ const request = require('request-promise-native');
 const fs = require('fs');
 
 const behandlingerForPerson = (aktorId, accessToken) => {
-    const mode = process.env.NODE_ENV === 'development' ? 'dev' : 'prod';
-    return mode === 'dev'
+    return process.env.NODE_ENV === 'development'
         ? devBehandlingerForPerson(aktorId)
         : prodBehandlingerForPerson(aktorId, accessToken);
 };
 
 const behandlingerForPeriod = (fom, tom, accessToken) => {
-    const mode = process.env.NODE_ENV === 'development' ? 'dev' : 'prod';
-    return mode === 'dev'
+    return process.env.NODE_ENV === 'development'
         ? devBehandlingerForPeriod()
         : prodBehandlingerForPeriod(fom, tom, accessToken);
 };
@@ -63,6 +61,6 @@ const devBehandlingerForPeriod = () => {
 };
 
 module.exports = {
-    behandlingerForPerson: behandlingerForPerson,
-    behandlingerForPeriod: behandlingerForPeriod
+    behandlingerForPerson,
+    behandlingerForPeriod
 };

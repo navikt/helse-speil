@@ -77,7 +77,6 @@ const toAktørId = async fnr => {
 const respondWith = (res, lookupPromise, mapper) => {
     lookupPromise
         .then(apiResponse => {
-            console.error(apiResponse);
             res.status(apiResponse.statusCode).send({
                 behandlinger: apiResponse.body.behandlinger.map(mapper)
             });
