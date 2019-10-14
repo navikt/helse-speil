@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
  */
 export const useSessionStorage = (key, initialValue) => {
     const [state, setState] = useState(initialValue);
+    const [didFetchFromStorage, setDidFetchFromStorage] = useState(false);
 
     useEffect(() => {
         if (state !== undefined && state !== initialValue) {
@@ -16,17 +17,16 @@ export const useSessionStorage = (key, initialValue) => {
 
     useEffect(() => {
         const sessionState = sessionStorage.getItem(key);
-        if (!keyExistsInSessionStorage(sessionState)) return;
-
-        const parsedState = parseData(sessionState);
-        if (parsedState !== undefined) {
-            setState(parsedState);
-        } else {
-            sessionStorage.removeItem(key);
+        if (sessionState !== null) {
+            const parsedState = parseData(sessionState);
+            if (parsedState !== undefined) {
+                setState(parsedState);
+            } else {
+                sessionStorage.removeItem(key);
+            }
         }
+        setDidFetchFromStorage(true);
     }, [key]);
-
-    const keyExistsInSessionStorage = key => key !== null;
 
     const parseData = data => {
         try {
@@ -36,5 +36,5 @@ export const useSessionStorage = (key, initialValue) => {
         }
     };
 
-    return [state, setState];
+    return [state, setState, didFetchFromStorage];
 };

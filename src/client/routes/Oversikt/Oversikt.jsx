@@ -1,62 +1,52 @@
-import React, { useContext, useEffect, useMemo } from 'react';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Panel } from 'nav-frontend-paneler';
-import { withRouter } from 'react-router';
+import React, { useContext, useMemo } from 'react';
 import Lenke from 'nav-frontend-lenker';
 import PropTypes from 'prop-types';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
-import { InnrapporteringContext } from '../../context/InnrapporteringContext';
-import { extractNameFromEmail } from '../../utils/locale';
+import { Panel } from 'nav-frontend-paneler';
+import { withRouter } from 'react-router';
 import { oversikttekster } from '../../tekster';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { extractNameFromEmail } from '../../utils/locale';
 import { toDate, toDateAndTime } from '../../utils/date';
+import { InnrapporteringContext } from '../../context/InnrapporteringContext';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './Oversikt.less';
 
+const toBehandletSak = (behandling, feedback) => ({
+    ...behandling,
+    søkerName: behandling.personinfo?.navn ?? behandling.originalSøknad.aktorId,
+    submittedDate: feedback.value.submittedDate,
+    behandlingsId: behandling.behandlingsId,
+    userName: extractNameFromEmail(feedback.value.userId.email)
+});
+
 const Oversikt = ({ history }) => {
-    const {
-        behandlingsoversikt,
-        fetchBehandlingsoversiktMedPersoninfo,
-        velgBehandlingFraOversikt
-    } = useContext(BehandlingerContext);
-    const innrapportering = useContext(InnrapporteringContext);
-
-    useEffect(() => {
-        fetchBehandlingsoversiktMedPersoninfo();
-    }, []);
-
-    const toBehandletSak = (behandling, feedback) => ({
-        søkerName: behandling.personinfo?.navn ?? behandling.originalSøknad.aktorId,
-        submittedDate: feedback.value.submittedDate,
-        behandlingsId: behandling.behandlingsId,
-        userName: extractNameFromEmail(feedback.value.userId.email)
-    });
+    const { behandlingsoversikt, velgBehandlingFraOversikt } = useContext(BehandlingerContext);
+    const { feedback } = useContext(InnrapporteringContext);
 
     const [behandledeSaker, ubehandledeSaker] = useMemo(
         () =>
             behandlingsoversikt.reduce(
-                ([behandledeSaker, ubehandledeSaker], behandling) => {
-                    const feedback = innrapportering.feedback.find(
+                (partitioned, behandling) => {
+                    const feedbackForBehandling = feedback.find(
                         f => f.key === behandling.behandlingsId
                     );
-                    return feedback
+                    return feedbackForBehandling
                         ? [
-                              [...behandledeSaker, toBehandletSak(behandling, feedback)],
-                              ubehandledeSaker
+                              [
+                                  ...partitioned[0],
+                                  toBehandletSak(behandling, feedbackForBehandling)
+                              ],
+                              partitioned[1]
                           ]
-                        : [behandledeSaker, [...ubehandledeSaker, behandling]];
+                        : [partitioned[0], [...partitioned[1], behandling]];
                 },
                 [[], []]
             ),
-        [innrapportering.feedback, behandlingsoversikt]
+        [feedback, behandlingsoversikt]
     );
 
-    const velgBehandlingAndNavigate = async behandling => {
-        await velgBehandlingFraOversikt(behandling)
-            .then(() => {
-                history.push('/sykdomsvilkår');
-            })
-            .catch(() => {
-                // Catch rejection to avoid warning; expecting error handling to have been done
-            });
+    const velgBehandlingAndNavigate = behandling => {
+        velgBehandlingFraOversikt(behandling).then(() => history.push('/sykdomsvilkår'));
     };
 
     return (
@@ -113,10 +103,7 @@ const Oversikt = ({ history }) => {
 
 Oversikt.propTypes = {
     history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-        location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
-        }).isRequired
+        push: PropTypes.func.isRequired
     }).isRequired
 };
 

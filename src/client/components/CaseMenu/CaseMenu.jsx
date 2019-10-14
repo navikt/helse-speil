@@ -6,14 +6,15 @@ import { toDate } from '../../utils/date';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './CaseMenu.less';
 
+const behandlingMapper = behandling => ({
+    behandlingsId: behandling.behandlingsId,
+    fom: behandling.originalSøknad.fom,
+    tom: behandling.originalSøknad.tom
+});
+
 const CaseMenu = ({ behandlinger, behandling, onSelectItem }) => {
     const { arbeidsgiver, fom, tom } = behandling.originalSøknad;
     const { sykmeldingsgrad } = behandling.periode;
-    const behandlingMapper = behandling => ({
-        behandlingsId: behandling.behandlingsId,
-        fom: behandling.originalSøknad.fom,
-        tom: behandling.originalSøknad.tom
-    });
     const cases = behandlinger.map(behandling => behandlingMapper(behandling));
     const currentCase = behandlingMapper(behandling);
     const caseLabel = item => `${toDate(item.fom)} - ${toDate(item.tom)}`;
