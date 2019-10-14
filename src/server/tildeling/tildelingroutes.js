@@ -57,16 +57,22 @@ const routes = ({ router }) => {
 
     router.delete('/:behandlingsId', (req, res) => {
         const behandlingsId = req.params.behandlingsId;
+        if (behandlingsId === undefined) {
+            const errorMessage = `behandlingsId '${behandlingsId}' is not valid.`;
+            console.log(`Unassign case: ${errorMessage}`);
+            res.status(400).send(errorMessage);
+            return;
+        }
         storage
-            .del(behandlingsId)
+            .unassignCase(behandlingsId)
             .then(() => {
+                console.log(`The case ${behandlingsId} is no longer assigned.`);
                 res.sendStatus(204);
             })
             .catch(err => {
-                console.log(`Error while deleting key and value in Redis. Error: ${err}`);
-                res.send({
-                    message: `Sletting av tildeling feilet.`,
-                    statusCode: 500
+                console.log(`Error while deleting key in Redis: ${err}`);
+                res.status(500).send({
+                    message: `Sletting av tildeling feilet.`
                 });
             });
     });

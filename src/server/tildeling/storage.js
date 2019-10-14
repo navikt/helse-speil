@@ -49,12 +49,17 @@ const set = async (key, value) => {
         });
 };
 
-const del = async key => {
-    redisClient.del(key, (err, val) => {
-        if (err) {
-            throw err;
-        }
-        return val;
+const unassignCase = key => {
+    return new Promise((resolve, reject) => {
+        redisClient.del(key, (err, val) => {
+            if (err) {
+                reject(err);
+            } else if (val === 0) {
+                reject(Error(`No items to delete for key ${key}`));
+            } else {
+                resolve();
+            }
+        });
     });
 };
 
@@ -63,5 +68,5 @@ module.exports = {
     get,
     set,
     getAll,
-    del
+    unassignCase
 };
