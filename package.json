@@ -18,7 +18,7 @@
         "start-no-browser": "NODE_ENV=development parcel src/client/index.html",
         "start-mac": "NODE_ENV=development parcel src/client/index.html --open 'Google Chrome'",
         "start-express": "npm run build-server && DEBUG=express:* TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
-        "dev-express": "NODE_ENV=development npm run start-express",
+        "dev-express": "export NODE_ENV=development && export SESSION_SECRET=whatever && npm run start-express",
         "oppgulp": "nodemon --watch src/server --exec 'npm run dev-express'",
         "mock-s3": "docker-compose --file __mocks__/s3-docker-compose.yaml up",
         "build": "npm run clean:dist && npm run test && parcel build src/client/index.html --out-dir dist/client --public-url /static --no-source-maps",
