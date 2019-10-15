@@ -1,7 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import SearchIcon from './SearchIcon';
-import ErrorModal from '../ErrorModal';
 import { Keys } from '../../hooks/useKeyboard';
 import { withRouter } from 'react-router';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
