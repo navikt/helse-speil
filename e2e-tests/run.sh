@@ -4,7 +4,7 @@ set -e
 
 npm run dev-express >/dev/null 2>&1&
 echo "Started Node, waiting for it to accept connections..."
-bash -c 'while [[ "$(curl -L -s -o /dev/null -w ''%{http_code}'' localhost:3000)" != "200" ]]; do sleep 5; done' || false
+timeout 10 bash -c 'while [[ "$(curl -L -s -o /dev/null -w ''%{http_code}'' localhost:3000)" != "200" ]]; do sleep 5; done' || false
 
 NODE_PID=$(lsof -i :3000 -t)
 if [ -z "NODE_PID" ]
