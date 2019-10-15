@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { AuthContext } from '../../context/AuthContext';
-import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
+import OversiktsLenke from './OversiktsLenke';
 import { toDate } from '../../utils/date';
-import Lenke from 'nav-frontend-lenker';
+import { AuthContext } from '../../context/AuthContext';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 
 const Oversiktslinje = ({ behandling, tildeling, onUnassignCase, onAssignCase, onSelectCase }) => {
     const { authInfo } = useContext(AuthContext);
@@ -30,9 +30,9 @@ const Oversiktslinje = ({ behandling, tildeling, onUnassignCase, onAssignCase, o
 
     return (
         <li className="row row--info">
-            <Lenke onClick={() => onSelectCase(behandling)}>
+            <OversiktsLenke onClick={() => onSelectCase(behandling)}>
                 {behandling.personinfo?.navn ?? behandling.originalSøknad.aktorId}
-            </Lenke>
+            </OversiktsLenke>
             <Normaltekst>{`${toDate(behandling.originalSøknad.fom)} - ${toDate(
                 behandling.originalSøknad.tom
             )}`}</Normaltekst>

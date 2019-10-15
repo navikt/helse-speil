@@ -14,6 +14,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
 import './Oversikt.less';
+import OversiktsLenke from './OversiktsLenke';
 
 const toBehandletSak = (behandling, feedback) => ({
     ...behandling,
@@ -151,9 +152,9 @@ const Oversikt = ({ history }) => {
                         </li>
                         {behandledeSaker.map(sak => (
                             <li className="row row--info" key={sak.behandlingsId}>
-                                <Lenke onClick={() => velgBehandlingAndNavigate(sak)}>
+                                <OversiktsLenke onClick={() => velgBehandlingAndNavigate(sak)}>
                                     {sak.søkerName}
-                                </Lenke>
+                                </OversiktsLenke>
                                 <Normaltekst>{capitalizeName(sak.userName)}</Normaltekst>
                                 <Normaltekst>{toDateAndTime(sak.submittedDate)}</Normaltekst>
                             </li>
