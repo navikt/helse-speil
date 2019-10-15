@@ -16,7 +16,7 @@ function cleanup {
 }
 trap cleanup ERR
 
-npm run dev-express &
+npm run dev-express &>/dev/null &
 NPM_PID=$!
 
 echo "Started Node, waiting for it to accept connections..."
