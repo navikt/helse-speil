@@ -48,7 +48,7 @@ describe('calling Aktørregisteret', () => {
         expect(resultingNnin).toEqual(expectedNnin);
     });
 
-    test('hentAktørId rejects on error in response', () => {
+    test('hentAktørId rejects on error in response', async () => {
         const aktørId = '123';
         requestMock.prepareAktørregisteretResponse({
             [aktørId]: {
@@ -56,10 +56,10 @@ describe('calling Aktørregisteret', () => {
             }
         });
 
-        expect(sut.hentAktørId(aktørId)).rejects.toEqual('AktørId not found');
+        await expect(sut.hentAktørId(aktørId)).rejects.toEqual('AktørId not found');
     });
 
-    test('hentFnr rejects on error in response', () => {
+    test('hentFnr rejects on error in response', async () => {
         const nnin = '456';
         requestMock.prepareAktørregisteretResponse({
             [nnin]: {
@@ -67,7 +67,7 @@ describe('calling Aktørregisteret', () => {
             }
         });
 
-        expect(sut.hentFnr(nnin)).rejects.toEqual('NNIN not found');
+        await expect(sut.hentFnr(nnin)).rejects.toEqual('NNIN not found');
     });
 });
 
