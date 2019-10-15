@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { oversikttekster } from '../../tekster';
-import { toDate, toDateAndTime } from '../../utils/date';
+import { toDateAndTime } from '../../utils/date';
 import './Oversikt.less';
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+import Oversiktslinje from './Oversiktslinje';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { AuthContext } from '../../context/AuthContext';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
@@ -137,44 +137,15 @@ const Oversikt = ({ history }) => {
                             const tildeling = tildelinger.find(
                                 b => b.behandlingsId === behandling.behandlingsId
                             );
-                            const tildelingsCelle = tildeling ? (
-                                tildeling.userId === authInfo.email ? (
-                                    <>
-                                        <Normaltekst>
-                                            {extractNameFromEmail(tildeling.userId)}
-                                        </Normaltekst>
-                                        <Flatknapp
-                                            className="knapp--avmeld"
-                                            onClick={() => fjernTildeling(behandling.behandlingsId)}
-                                        >
-                                            Meld av
-                                        </Flatknapp>
-                                    </>
-                                ) : (
-                                    <Normaltekst>
-                                        {capitalizeName(extractNameFromEmail(tildeling.userId))}
-                                    </Normaltekst>
-                                )
-                            ) : (
-                                <Knapp
-                                    mini
-                                    onClick={() => tildelBehandling(behandling.behandlingsId)}
-                                >
-                                    Tildel til meg
-                                </Knapp>
-                            );
-
                             return (
-                                <li className="row row--info" key={behandling.behandlingsId}>
-                                    <Lenke onClick={() => velgBehandlingAndNavigate(behandling)}>
-                                        {behandling.personinfo?.navn ??
-                                            behandling.originalSøknad.aktorId}
-                                    </Lenke>
-                                    <Normaltekst>{`${toDate(
-                                        behandling.originalSøknad.fom
-                                    )} - ${toDate(behandling.originalSøknad.tom)}`}</Normaltekst>
-                                    <span className="row__tildeling">{tildelingsCelle}</span>
-                                </li>
+                                <Oversiktslinje
+                                    behandling={behandling}
+                                    tildeling={tildeling}
+                                    onAssignCase={tildelBehandling}
+                                    onUnassignCase={fjernTildeling}
+                                    onSelectCase={velgBehandlingAndNavigate}
+                                    key={behandling.behandlingsId}
+                                />
                             );
                         })}
                     </ul>
