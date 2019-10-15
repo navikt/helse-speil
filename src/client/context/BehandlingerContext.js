@@ -92,7 +92,7 @@ export const BehandlingerProvider = ({ children }) => {
             .format('YYYY-MM-DD');
         const today = moment().format('YYYY-MM-DD');
         return behandlingerIPeriode(yesterday, today)
-            .then(response => response.data.behandlingsoversikt)
+            .then(response => response.data.behandlinger)
             .catch(err => {
                 setError({
                     ...err,
