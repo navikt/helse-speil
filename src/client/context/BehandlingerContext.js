@@ -1,136 +1,118 @@
 import React, { createContext, useEffect, useState } from 'react';
+import moment from 'moment';
 import PropTypes from 'prop-types';
+import ErrorModal from '../components/ErrorModal';
+import VelgBehandlingModal from '../components/MainContentWrapper/VelgBehandlingModal';
 import { behandlingerFor, behandlingerIPeriode, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
-import moment from 'moment';
 
 export const BehandlingerContext = createContext();
+
+const appendPersoninfo = behandling => {
+    return getPerson(behandling.originalSøknad.aktorId)
+        .then(response => ({
+            ...behandling,
+            personinfo: {
+                navn: response.data?.navn,
+                kjønn: response.data?.kjønn,
+                fnr: response.data?.fnr
+            }
+        }))
+        .catch(err => {
+            console.error('Feil ved henting av person.', err);
+            return behandling;
+        });
+};
 
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
-    const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
-    const [valgtBehandling, setValgtBehandling] = useState(undefined);
-    const [lastSelectedBehandling, setLastSelectedBehandling] = useSessionStorage(
-        'last-selected-behandling-id',
-        undefined
+    const [valgtBehandling, setValgtBehandling] = useSessionStorage('valgtBehandling');
+    const [lastBehandlingId, setLastBehandlingId, didFetchLastBehandling] = useSessionStorage(
+        'lastBehandlingId'
     );
+    const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
     const [userMustSelectBehandling, setUserMustSelectBehandling] = useState(false);
 
-    const velgBehandlingFraOversikt = async ({ behandlingsId }) => {
-        const behandlingSummary = behandlingsoversikt.find(b => b.behandlingsId === behandlingsId);
-        if (behandlingSummary === undefined) {
-            setError({
-                message: 'En feil har oppstått. Vennligst prøv igjen eller kontakt systemansvarlig.'
-            });
-            return Promise.reject();
+    useEffect(() => {
+        fetchBehandlingsoversikt();
+    }, []);
+
+    useEffect(() => {
+        if (behandlinger?.length === 1) {
+            setValgtBehandling(behandlinger[0]);
         }
-        const behandlinger = await fetchBehandlinger(
-            behandlingSummary.originalSøknad.aktorId,
-            behandlingSummary.behandlingsId
+    }, [behandlinger]);
+
+    useEffect(() => {
+        if (valgtBehandling) {
+            setUserMustSelectBehandling(false);
+            setLastBehandlingId(valgtBehandling.behandlingsId);
+        }
+    }, [valgtBehandling]);
+
+    useEffect(() => {
+        if (!valgtBehandling && lastBehandlingId && didFetchLastBehandling) {
+            velgBehandling({ behandlingsId: lastBehandlingId });
+        }
+    }, [valgtBehandling, lastBehandlingId, didFetchLastBehandling]);
+
+    const velgBehandlingFraOversikt = ({ behandlingsId, originalSøknad }) => {
+        const cachedBehandling = behandlinger.find(b => b.behandlingsId === behandlingsId);
+        if (cachedBehandling) {
+            setValgtBehandling(cachedBehandling);
+            return Promise.resolve();
+        }
+
+        return fetchBehandlinger(originalSøknad.aktorId).then(behandlinger =>
+            setValgtBehandling(behandlinger.find(b => b.behandlingsId === behandlingsId))
         );
-        if (behandlinger === undefined) {
-            return Promise.reject();
-        }
-        setLastSelectedBehandling(behandlingsId);
     };
 
     const velgBehandling = ({ behandlingsId }) => {
-        const valgtBehandling = behandlinger.find(b => b.behandlingsId === behandlingsId);
-        setValgtBehandling(valgtBehandling);
-        setLastSelectedBehandling(valgtBehandling?.behandlingsId);
+        const behandling = behandlinger.find(b => b.behandlingsId === behandlingsId);
+        setValgtBehandling(behandling);
     };
 
-    useEffect(() => {
-        if (lastSelectedBehandling !== undefined && window.location.pathname !== '/') {
-            velgBehandling({ behandlingsId: lastSelectedBehandling });
-        }
-    }, [lastSelectedBehandling]);
-
-    const fetchBehandlingsoversiktMedPersoninfo = async () => {
+    const fetchBehandlingsoversikt = async () => {
         setValgtBehandling(undefined);
-        const alleBehandlinger = await fetchBehandlingsoversikt();
-        if (alleBehandlinger !== undefined) {
-            const behandlingerMedPersoninfo = await hentNavnForBehandlinger(alleBehandlinger);
-            if (behandlingerMedPersoninfo.find(behandling => behandling.personinfo === undefined)) {
-                setError({
-                    message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId'
-                });
-            }
-            setBehandlingsoversikt(behandlingerMedPersoninfo);
+        const oversikt = await fetchBehandlingsoversiktSinceYesterday();
+        const oversiktWithPersoninfo = await Promise.all(
+            oversikt.map(behandling => appendPersoninfo(behandling))
+        );
+        if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
+            setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
+        setBehandlingsoversikt(oversiktWithPersoninfo);
     };
 
-    const fetchBehandlingsoversikt = () => {
-        const fom = moment()
+    const fetchBehandlingsoversiktSinceYesterday = () => {
+        const yesterday = moment()
             .subtract(1, 'days')
             .format('YYYY-MM-DD');
-        const tom = moment().format('YYYY-MM-DD');
-        return behandlingerIPeriode(fom, tom)
-            .then(response => {
-                const newData = response.data;
-                return newData.behandlingsoversikt;
-            })
+        const today = moment().format('YYYY-MM-DD');
+        return behandlingerIPeriode(yesterday, today)
+            .then(response => response.data.behandlingsoversikt)
             .catch(err => {
-                if (err.statusCode === 401) {
-                    setError({ ...err, message: 'Du må logge inn på nytt.' });
-                } else if (err.statusCode === 404) {
-                    setError({
-                        ...err,
-                        message: `Fant ingen behandlinger mellom i går og i dag.`
-                    });
-                } else {
-                    setError({
-                        ...err,
-                        message: 'Kunne ikke hente behandlinger. Prøv igjen senere.'
-                    });
-                }
-                console.error('Feil ved henting av behandlinger. ', err);
+                setError({
+                    ...err,
+                    message:
+                        err.statusCode === 401
+                            ? 'Du må logge inn på nytt'
+                            : err.statusCode === 404
+                            ? 'Fant ingen behandlinger mellom i går og i dag.'
+                            : 'Kunne ikke hente behandlinger. Prøv igjen senere.'
+                });
                 return [];
             });
     };
 
-    const hentNavnForBehandlinger = async alleBehandlinger => {
-        return await Promise.all(alleBehandlinger.map(behandling => fetchPerson(behandling)));
-    };
-
-    const fetchPerson = behandling => {
-        return getPerson(behandling.originalSøknad.aktorId)
-            .then(response => ({
-                ...behandling,
-                personinfo: {
-                    navn: response.data?.navn,
-                    kjønn: response.data?.kjønn,
-                    fnr: response.data?.fnr
-                }
-            }))
-            .catch(err => {
-                console.error('Feil ved henting av person.', err);
-                return behandling;
-            });
-    };
-
-    const fetchBehandlinger = (value, behandlingsId) => {
-        setUserMustSelectBehandling(false);
+    const fetchBehandlinger = value => {
         return behandlingerFor(value)
             .then(response => {
                 const { behandlinger } = response.data;
                 setBehandlinger(behandlinger);
-                if (!behandlingsId) {
-                    if (behandlinger?.length === 1) {
-                        setLastSelectedBehandling(behandlinger[0].behandlingsId);
-                    } else if (behandlinger.length > 1) {
-                        setLastSelectedBehandling(null);
-                        setUserMustSelectBehandling(true);
-                    }
-
-                    setValgtBehandling(behandlinger?.length !== 1 ? undefined : behandlinger[0]);
-                } else {
-                    setValgtBehandling(
-                        behandlinger.find(behandling => behandling.behandlingsId === behandlingsId)
-                    );
-                }
-                return { behandlinger };
+                return behandlinger;
             })
             .catch(err => {
                 const message =
@@ -146,19 +128,29 @@ export const BehandlingerProvider = ({ children }) => {
     return (
         <BehandlingerContext.Provider
             value={{
-                state: { behandlinger },
-                behandlingsoversikt,
+                behandlinger,
                 velgBehandling,
                 velgBehandlingFraOversikt,
+                behandlingsoversikt,
                 valgtBehandling,
                 fetchBehandlinger,
-                userMustSelectBehandling,
-                fetchBehandlingsoversiktMedPersoninfo,
-                error,
-                clearError: () => setError(undefined)
+                setUserMustSelectBehandling
             }}
         >
             {children}
+            {error && (
+                <ErrorModal
+                    errorMessage={error.message}
+                    onClose={error.statusCode !== 401 ? () => setError(undefined) : undefined}
+                />
+            )}
+            {userMustSelectBehandling && (
+                <VelgBehandlingModal
+                    onRequestClose={() => setUserMustSelectBehandling(false)}
+                    behandlinger={behandlinger}
+                    onSelectItem={behandling => velgBehandling(behandling)}
+                />
+            )}
         </BehandlingerContext.Provider>
     );
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import PersonBar from '../PersonBar';
 import LeftMenu from '../LeftMenu';
 import Periode from '../../routes/Periode';
@@ -8,42 +8,19 @@ import Oppsummering from '../../routes/Oppsummering';
 import Sykdomsvilkår from '../../routes/Sykdomsvilkår';
 import Inngangsvilkår from '../../routes/Inngangsvilkår';
 import EmptyStateView from '../EmptyStateView';
-import VelgBehandlingModal from './VelgBehandlingModal';
 import { Route } from 'react-router-dom';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import './MainContentWrapper.css';
 
 const MainContentWrapper = () => {
-    const { userMustSelectBehandling, velgBehandling, valgtBehandling, state } = useContext(
-        BehandlingerContext
-    );
-    const { behandlinger } = state;
-    const [modalOpen, setModalOpen] = useState(false);
-
-    useEffect(() => {
-        if (userMustSelectBehandling) {
-            setModalOpen(true);
-        }
-    }, [userMustSelectBehandling]);
-
-    const lukkModalOgVelgBehandling = valgtBehandling => {
-        setModalOpen(false);
-        velgBehandling(valgtBehandling);
-    };
+    const { velgBehandling, valgtBehandling, behandlinger } = useContext(BehandlingerContext);
 
     return (
         <div className="page-content">
-            {modalOpen && (
-                <VelgBehandlingModal
-                    setModalOpen={setModalOpen}
-                    behandlinger={behandlinger}
-                    onSelectItem={lukkModalOgVelgBehandling}
-                />
-            )}
             <LeftMenu
                 behandling={valgtBehandling}
                 behandlinger={behandlinger}
-                onSelectItem={lukkModalOgVelgBehandling}
+                onSelectItem={behandling => velgBehandling(behandling)}
             />
             {valgtBehandling ? (
                 <div className="main-content">
