@@ -15,6 +15,6 @@ const origPerson = {
 
 const expectedPerson = { kjønn: 'MANN', navn: 'BJARNE BETJENT' };
 
-test('successful person lookup resolves with mapped person object', () => {
+test('person mapper maps person correctly', () => {
     expect(personMapping.map(origPerson)).toEqual(expectedPerson);
 });

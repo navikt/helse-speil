@@ -29,8 +29,8 @@ test('successful lookup resolves with person object', async () => {
     });
 });
 
-test('lookup failure -> rejection', () => {
+test('lookup failure -> rejection', async () => {
     personLookup.init(stsclientStub);
 
-    expect(personLookup.hentPerson('22222')).rejects.toMatch('request failed');
+    await expect(personLookup.hentPerson('22222')).rejects.toMatch('request failed');
 });
