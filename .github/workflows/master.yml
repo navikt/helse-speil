@@ -34,7 +34,9 @@ jobs:
           echo $DOCKER_IMAGE > .docker_image
           git rev-parse HEAD | cut -c1-7 > .docker_tag
       - name: build docker image
-        run: docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
+        run: |
+          rm -rf node_modules && npm install --only=production
+          docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
       - name: push docker image
         run: |
           echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin https://docker.pkg.github.com
