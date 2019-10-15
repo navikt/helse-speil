@@ -1,12 +1,13 @@
 'use strict';
 
 const request = require('request-promise-native');
-const aktøridlookup = require('../aktørid/aktøridlookup');
 
 let stsClient = null;
+let aktørIdLookup;
 
-const init = stsclient => {
+const init = (stsclient, aktøridlookup) => {
     stsClient = stsclient;
+    aktørIdLookup = aktøridlookup;
 };
 
 const hentPerson = async aktørId =>
@@ -24,7 +25,7 @@ const hentPerson = async aktørId =>
             return request.get(options);
         })
         .then(async person => {
-            const fnr = await aktøridlookup.hentFnr(aktørId);
+            const fnr = await aktørIdLookup.hentFnr(aktørId);
             return { ...person, fnr };
         });
 
