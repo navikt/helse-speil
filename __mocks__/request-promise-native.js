@@ -26,6 +26,10 @@ rpn.get = options => {
         }
     } else if (options.uri.includes('/api/v1/identer')) {
         return handleAktørregisteretRequest();
+    } else if (options.uri.includes('behandlinger/periode')) {
+        return Promise.resolve({ body: JSON.parse(mockBehandlingerPeriod()) });
+    } else if (options.uri.includes('behandlinger')) {
+        return Promise.resolve({ body: JSON.parse(mockBehandlingerPerson()) });
     } else {
         if (options.uri.includes('11111')) {
             return Promise.resolve(testPerson);
@@ -54,5 +58,10 @@ const createToken = claims => {
 };
 
 const mockSpennData = () => fs.readFileSync('__mock-data__/spenn-reply.json', 'utf-8');
+
+const mockBehandlingerPerson = () => fs.readFileSync('__mock-data__/behandlinger.json', 'utf-8');
+
+const mockBehandlingerPeriod = () =>
+    fs.readFileSync('__mock-data__/behandlingsummaries.json', 'utf-8');
 
 module.exports = rpn;

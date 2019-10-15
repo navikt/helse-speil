@@ -74,7 +74,6 @@
       "react/jsx-indent-props": "off",
       "react/jsx-uses-vars": "error",
       "react/jsx-uses-react": "error",
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
+      "react-hooks/rules-of-hooks": "error"
    }
 }

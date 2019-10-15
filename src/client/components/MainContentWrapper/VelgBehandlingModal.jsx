@@ -1,15 +1,15 @@
 import Modal from 'nav-frontend-modal';
-import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
 import React from 'react';
 import PropTypes from 'prop-types';
-import './VelgBehandlingModal.less';
+import { Knapp } from 'nav-frontend-knapper';
 import { toDate } from '../../utils/date';
+import { Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
+import './VelgBehandlingModal.less';
 
-document && document.getElementById('#root') && Modal.setAppElement('#root');
+Modal.setAppElement('#root');
 
-const VelgBehandlingModal = ({ setModalOpen, behandlinger, onSelectItem }) => (
-    <Modal onRequestClose={() => setModalOpen(false)} contentLabel="Velg behandling" isOpen={true}>
+const VelgBehandlingModal = ({ onRequestClose, behandlinger, onSelectItem }) => (
+    <Modal onRequestClose={onRequestClose} contentLabel="Velg behandling" isOpen={true}>
         <div className="VelgBehandlingModal">
             <Undertittel>Velg sak</Undertittel>
             <Normaltekst>Denne brukeren har flere saker. Velg den saken du vil se på.</Normaltekst>
@@ -33,7 +33,7 @@ const VelgBehandlingModal = ({ setModalOpen, behandlinger, onSelectItem }) => (
 VelgBehandlingModal.propTypes = {
     behandlinger: PropTypes.arrayOf(PropTypes.any).isRequired,
     onSelectItem: PropTypes.func.isRequired,
-    setModalOpen: PropTypes.func.isRequired
+    onRequestClose: PropTypes.func.isRequired
 };
 
 export default VelgBehandlingModal;

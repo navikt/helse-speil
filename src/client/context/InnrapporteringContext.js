@@ -16,18 +16,27 @@ export const InnrapporteringContext = createContext({
 export const InnrapporteringProvider = ({ children }) => {
     const authContext = useContext(AuthContext);
     const { valgtBehandling, behandlingsoversikt } = useContext(BehandlingerContext);
-    const behandlingsId = valgtBehandling?.behandlingsId;
-    const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
-    const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
-    const [uenigheter, setUenigheter] = useSessionStorage(`uenigheter-${behandlingsId}`, []);
-    const [godkjent, setGodkjent] = useSessionStorage('godkjent');
     const [feedback, setFeedback] = useState([]);
+    const [godkjent, setGodkjent] = useSessionStorage('godkjent');
+    const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
+    const [uenigheter, setUenigheter] = useSessionStorage(
+        `uenigheter-${valgtBehandling?.behandlingsId}`,
+        []
+    );
+    const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
 
     useEffect(() => {
-        if (behandlingsId !== undefined) {
-            const feedbackInList = feedback.find(f => f.key === behandlingsId);
+        if (behandlingsoversikt.length > 0) {
+            const behandlingIds = behandlingsoversikt.map(b => b.behandlingsId);
+            fetchFeedbackList(behandlingIds);
+        }
+    }, [behandlingsoversikt]);
+
+    useEffect(() => {
+        if (valgtBehandling?.behandlingsId) {
+            const feedbackInList = feedback.find(f => f.key === valgtBehandling.behandlingsId);
             if (feedbackInList === undefined) {
-                fetchFeedback(behandlingsId);
+                fetchFeedback(valgtBehandling.behandlingsId);
             } else {
                 setUenigheter(feedbackInList.value.uenigheter ?? []);
                 setKommentarer(feedbackInList.value.kommentarer);
@@ -37,18 +46,7 @@ export const InnrapporteringProvider = ({ children }) => {
                 setHasSendt(true);
             }
         }
-    }, [behandlingsId, feedback]);
-
-    useEffect(() => {
-        if (
-            behandlingsoversikt.length > 0 &&
-            behandlingsId === undefined &&
-            feedback.length === 0
-        ) {
-            const behandlingIdList = behandlingsoversikt.map(b => b.behandlingsId);
-            fetchFeedbackList(behandlingIdList);
-        }
-    }, [behandlingsoversikt, behandlingsId, feedback.length]);
+    }, [valgtBehandling, feedback]);
 
     const fetchFeedback = behandlingsId => {
         return getFeedback(behandlingsId)
@@ -119,7 +117,6 @@ export const InnrapporteringProvider = ({ children }) => {
         <InnrapporteringContext.Provider
             value={{
                 uenigheter,
-                setUenigheter,
                 removeUenighet,
                 addUenighet,
                 updateUenighet,
@@ -132,6 +129,12 @@ export const InnrapporteringProvider = ({ children }) => {
                 setKommentarer: val => {
                     setHasSendt(false);
                     setKommentarer(val);
+                },
+                resetUserFeedback: () => {
+                    setUenigheter([]);
+                    setHasSendt(false);
+                    setKommentarer('');
+                    setGodkjent(true);
                 }
             }}
         >
