@@ -74,14 +74,13 @@ export const BehandlingerProvider = ({ children }) => {
         setValgtBehandling(behandling);
     };
 
-    const sort = behandlinger =>
-        behandlinger.sort((a, b) => a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt));
-
     const fetchBehandlingsoversikt = async () => {
         setValgtBehandling(undefined);
         const oversikt = await fetchBehandlingsoversiktSinceYesterday();
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
+        ).then(
+            behandlinger.sort((a, b) => a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt))
         );
         if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });

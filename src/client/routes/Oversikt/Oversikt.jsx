@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Lenke from 'nav-frontend-lenker';
 import PropTypes from 'prop-types';
+import Oversiktslinje from './Oversiktslinje';
 import { Panel } from 'nav-frontend-paneler';
 import { withRouter } from 'react-router';
-import { oversikttekster } from '../../tekster';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
-import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
+import { AuthContext } from '../../context/AuthContext';
 import { toDateAndTime } from '../../utils/date';
+import { oversikttekster } from '../../tekster';
+import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import './Oversikt.less';
-import Oversiktslinje from './Oversiktslinje';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { AuthContext } from '../../context/AuthContext';
+import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
+import './Oversikt.less';
 
 const toBehandletSak = (behandling, feedback) => ({
     ...behandling,
@@ -22,7 +22,8 @@ const toBehandletSak = (behandling, feedback) => ({
     behandlingsId: behandling.behandlingsId,
     userName: extractNameFromEmail(feedback.value.userId.email)
 });
-const fetchTildelingerInterval = 120000;
+
+const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
 
 const Oversikt = ({ history }) => {
     const { behandlingsoversikt, velgBehandlingFraOversikt } = useContext(BehandlingerContext);
@@ -55,7 +56,7 @@ const Oversikt = ({ history }) => {
 
     useEffect(() => {
         fetchTildelinger();
-        const interval = window.setInterval(fetchTildelinger, fetchTildelingerInterval);
+        const interval = window.setInterval(fetchTildelinger, FETCH_TILDELINGER_INTERVAL_IN_MS);
         return () => {
             window.clearInterval(interval);
         };
@@ -73,7 +74,7 @@ const Oversikt = ({ history }) => {
                 })
                 .catch(err => {
                     setError('Kunne ikke hente tildelingsinformasjon.');
-                    console.log(err);
+                    console.error(err);
                 });
         }
     };
@@ -103,7 +104,7 @@ const Oversikt = ({ history }) => {
             })
             .catch(error => {
                 setError('Kunne ikke fjerne tildeling av sak.');
-                console.log(error);
+                console.error(error);
             });
     };
 
