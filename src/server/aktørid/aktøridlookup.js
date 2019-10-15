@@ -49,7 +49,11 @@ const mapToIdentType = (response, value, identType) => {
         const ident = identer
             .filter(ident => ident.identgruppe === identType.key)
             .map(ident => ident.ident)[0];
-        logger.info(`Retrieved ${identType.name} '${maskIdentifier(ident)}' for ${identType.name} '${maskIdentifier(ident)}'.`);
+        logger.info(
+            `Retrieved ${identType.name} '${maskIdentifier(ident)}' for ${
+                identType.name
+            } '${maskIdentifier(ident)}'.`
+        );
         return Promise.resolve(ident);
     }
 };
@@ -65,7 +69,11 @@ const mapToFnr = (response, aktørId) => {
 const maskIdentifier = identifier => {
     const length = identifier.length;
     const numberOfMaskCharacters = Math.floor(length / 3) + 1;
-    return identifier.substring(0, numberOfMaskCharacters) + '*'.repeat(numberOfMaskCharacters) + identifier.substring(numberOfMaskCharacters * 2);
+    return (
+        identifier.substring(0, numberOfMaskCharacters) +
+        '*'.repeat(numberOfMaskCharacters) +
+        identifier.substring(numberOfMaskCharacters * 2)
+    );
 };
 
 module.exports = {

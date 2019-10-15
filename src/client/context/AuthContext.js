@@ -15,6 +15,20 @@ export const AuthProvider = ({ children }) => {
     const [authInfo, setAuthInfo] = useState({});
 
     useEffect(() => {
+        /* eslint-disable no-undef */
+        if (process.env.NODE_ENV === 'development') {
+            /* eslint-enable */
+            document.cookie = `speil=dev-cookie.${btoa(
+                JSON.stringify({
+                    name: 'Lokal utvikler',
+                    ident: 'dev-ident',
+                    email: 'dev@nav.no'
+                })
+            )}.ignored-part`;
+        }
+    }, []);
+
+    useEffect(() => {
         const [name, ident, email] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL]);
         if (name && name !== authInfo.name) {
             setAuthInfo({

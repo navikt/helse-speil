@@ -24,6 +24,7 @@ bokmål['informasjon ikke tilgjengelig'] = 'Ikke klart';
 
 bokmål.oversikt['tittel'] = 'Neste behandlinger';
 bokmål.oversikt['søker'] = 'Søker';
+bokmål.oversikt['tildeling'] = 'Tildelt';
 bokmål.oversikt['periode'] = 'Søknadsperiode';
 
 bokmål.sykdomsvilkår['sykdomsvilkår_oppfylt'] = 'Sykdomsvilkår er oppfylt';

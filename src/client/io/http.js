@@ -1,8 +1,8 @@
 'use strict';
 
-export const ResponseError = (message, statusCode) => ({
-    message,
-    statusCode
+export const ResponseError = (statusCode, message) => ({
+    statusCode,
+    message
 });
 
 /* eslint-disable no-undef */
@@ -32,13 +32,25 @@ const get = async (url, options) => {
     const response = await fetch(url, ensureAcceptHeader(options));
 
     if (response.status >= 400) {
-        throw ResponseError(response.statusText, response.status);
+        throw ResponseError(response.status);
     }
 
     return {
         status: response.status,
         data: await getData(response)
     };
+};
+
+export const del = async (url, data) => {
+    const response = await fetch(url, {
+        method: 'DELETE',
+        body: JSON.stringify(data)
+    });
+
+    if (response.status !== 204) {
+        throw ResponseError(response.status);
+    }
+    return response;
 };
 
 export const behandlingerFor = async aktorId => {
@@ -61,8 +73,9 @@ export const post = async (url, data) => {
         body: JSON.stringify(data)
     });
 
-    if (response.status !== 200) {
-        throw ResponseError(response.statusText, response.status);
+    if (response.status !== 200 && response.status !== 204) {
+        const message = await getData(response);
+        throw ResponseError(response.status, message);
     }
 
     return {
@@ -82,7 +95,7 @@ export const putFeedback = async feedback => {
     });
 
     if (response.status !== 204) {
-        throw ResponseError(response.statusText, response.status);
+        throw ResponseError(response.status);
     }
 };
 
@@ -101,4 +114,20 @@ export const downloadFeedback = params => {
 
 export const getPerson = async aktorId => {
     return get(`${baseUrl}/person/${aktorId}`);
+};
+
+export const getTildeling = async behandlingsId => {
+    return get(`${baseUrl}/tildeling/${behandlingsId}`);
+};
+
+export const getTildelinger = async behandlingsIdList => {
+    return post(`${baseUrl}/tildeling/list`, behandlingsIdList);
+};
+
+export const postTildeling = async tildeling => {
+    return post(`${baseUrl}/tildeling`, tildeling);
+};
+
+export const deleteTildeling = async behandlingsId => {
+    return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };

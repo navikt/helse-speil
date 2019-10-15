@@ -12,12 +12,14 @@ const azure = require('./auth/azure');
 const authsupport = require('./auth/authsupport');
 const stsclient = require('./auth/stsclient');
 const { sessionStore } = require('./sessionstore');
+const redisclient = require('./redisclient');
 
 const headers = require('./headers');
 
 const behandlinger = require('./behandlinger/behandlingerroutes');
 const feedback = require('./feedback/feedbackroutes');
 const person = require('./person/personroutes');
+const tildeling = require('./tildeling/tildelingroutes');
 const payments = require('./payment/paymentroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
@@ -29,10 +31,13 @@ const port = config.server.port;
 
 const instrumentation = require('./instrumentation').setup(app);
 
+const redisClient = redisclient.init({ config: config.redis });
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(sessionStore(config));
+app.use(sessionStore(config, redisClient));
+
 app.use(compression());
 
 headers.setup(app);
@@ -112,6 +117,7 @@ app.use('/*', (req, res, next) => {
     }
 });
 
+app.use('/api/tildeling', tildeling.setup(redisClient));
 app.use('/api/person', person.setup(stsclient));
 app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
 app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));

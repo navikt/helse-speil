@@ -168,6 +168,9 @@ const avklarteVerdier = behandling => ({
     sykepengegrunnlag: behandling.avklarteVerdier.sykepengegrunnlag
 });
 
+const vurderingstidspunkt = behandling =>
+    behandling.avklarteVerdier.medlemsskap.vurderingstidspunkt;
+
 const alle = behandling => {
     let mappedBehandling = behandling;
     if (behandling.sakskompleks !== undefined) {
@@ -177,7 +180,6 @@ const alle = behandling => {
             sakskompleks: undefined
         };
     }
-    const vurderingstidspunkt = behandling.avklarteVerdier.medlemsskap.vurderingstidspunkt;
 
     return {
         behandlingsId: mappedBehandling.behandlingsId,
@@ -189,7 +191,7 @@ const alle = behandling => {
         periode: periode(mappedBehandling),
         avklarteVerdier: avklarteVerdier(mappedBehandling),
         sykepengeberegning: sykepengeberegning(mappedBehandling),
-        vurderingstidspunkt
+        vurderingstidspunkt: vurderingstidspunkt(behandling)
     };
 };
 
