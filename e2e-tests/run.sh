@@ -2,7 +2,7 @@
 
 set -e
 
-npm run dev-express
+npm run dev-express &
 echo "Started Node, waiting for it to accept connections..."
 timeout 10 bash -c 'while [[ "$(curl -L -s -o /dev/null -w ''%{http_code}'' localhost:3000)" != "200" ]]; do sleep 5; done' || false
 
