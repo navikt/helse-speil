@@ -2,11 +2,12 @@
 
 const personLookup = require('./personlookup');
 const personMapping = require('./personmapping');
+const aktøridlookup = require('../aktørid/aktøridlookup');
 const router = require('express').Router();
 const logger = require('../logging');
 
 const setup = stsclient => {
-    personLookup.init(stsclient);
+    personLookup.init(stsclient, aktøridlookup);
     routes(router);
     return router;
 };
