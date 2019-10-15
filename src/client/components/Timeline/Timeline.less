@@ -1,0 +1,63 @@
+@yPadding: 0.25rem;
+
+@colorEgenmelding: #85d5f0;
+@colorSyk: #b5bd33;
+@colorUbestemt: #826ba1;
+@colorUtenlands: #337c9b;
+@colorDefault: #78706a;
+
+.Timeline.tabell {
+  color: #3e3832;
+  width: unset;
+
+  th, td {
+    position: relative;
+    padding: 0 1rem;
+    height: 2rem;
+    vertical-align: middle;
+  }
+
+  .TimelineRow__date,
+  .TimelineRow__type,
+  .TimelineRow__degree {
+    display: flex;
+    align-items: center;
+    float: left;
+    height: 2rem;
+  }
+
+  .TimelineRow__date {
+    width: 8.75rem;
+  }
+
+  .TimelineRow__degree {
+    justify-content: space-between;
+
+    > *:first-child {
+      margin-right: 1rem;
+    }
+  }
+
+  .TimelineRow__type {
+    justify-content: space-between;
+    width: 9rem;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      margin-left: -0.875rem;
+      background: @colorDefault;
+      height: 2rem;
+      width: 0.25rem;
+    }
+
+    &.egenmelding:before {
+      background: @colorEgenmelding;
+    }
+
+    &.syk:before {
+      background: @colorSyk;
+    }
+  }
+}
