@@ -59,7 +59,7 @@ const mockData = {
 
 const Timeline = () => {
     return (
-        <table className="Timeline tabell tabell--stripet">
+        <table className="Timeline tabell">
             <thead>
                 <tr>
                     <th>Sykemeldingsperiode</th>
