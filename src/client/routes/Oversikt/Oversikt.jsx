@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import Lenke from 'nav-frontend-lenker';
 import PropTypes from 'prop-types';
 import Oversiktslinje from './Oversiktslinje';
+import OversiktsLenke from './OversiktsLenke';
 import { Panel } from 'nav-frontend-paneler';
 import { withRouter } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
@@ -14,7 +14,6 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
 import './Oversikt.less';
-import OversiktsLenke from './OversiktsLenke';
 
 const toBehandletSak = (behandling, feedback) => ({
     ...behandling,
