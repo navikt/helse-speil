@@ -118,7 +118,7 @@ app.use('/*', (req, res, next) => {
 });
 
 app.use('/api/tildeling', tildeling.setup(redisClient));
-app.use('/api/person', person.setup(stsclient));
+app.use('/api/person', person.setup({ stsclient, cache: redisClient }));
 app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
 app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));
 app.use('/api/payments', payments.setup({ config: config.nav }));
