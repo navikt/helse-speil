@@ -1,6 +1,6 @@
 const redis = require('redis');
 
-const init = config => {
+const init = ({ config }) => {
     const redisClient = redis.createClient({
         host: config.host,
         port: config.port,
