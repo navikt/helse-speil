@@ -30,6 +30,7 @@ jest.mock('nav-frontend-paneler-style', () => ({}));
 jest.mock('nav-frontend-chevron-style', () => ({}));
 jest.mock('nav-frontend-skjema-style', () => ({}));
 jest.mock('nav-frontend-modal-style', () => ({}));
+jest.mock('nav-frontend-tabell-style', () => ({}));
 
 jest.mock('nav-frontend-modal', () => ({
     setAppElement: () => {}

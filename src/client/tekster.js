@@ -11,7 +11,8 @@ const sider = {
     beregning: 'beregning',
     periode: 'periode',
     utbetaling: 'utbetaling',
-    oppsummering: 'oppsummering'
+    oppsummering: 'oppsummering',
+    sykmeldingsperiode: 'sykmeldingsperiode'
 };
 
 Object.keys(sider).forEach(side => (bokmål[side] = {}));
@@ -91,6 +92,8 @@ bokmål.oppsummering['ingen_uenigheter'] = 'Ingen uenigheter';
 bokmål.oppsummering['felter_uten_årsak'] = 'Felter uten oppgitt årsak blir ikke sendt inn.';
 bokmål.oppsummering['oppgi_årsak'] = 'Du bør skrive inn årsak';
 
+bokmål.sykmeldingsperiode['dager'] = 'Dagene er riktig kategorisert';
+
 const hardkodetBrukerspråk = 'bokmål';
 
 export const tekster = nøkkel => ordbøker[hardkodetBrukerspråk][nøkkel];
@@ -105,3 +108,5 @@ export const utbetalingstekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.utbetaling][nøkkel];
 export const oppsummeringstekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.oppsummering][nøkkel];
+export const sykmeldingsperiodetekster = nøkkel =>
+    ordbøker[hardkodetBrukerspråk][sider.sykmeldingsperiode][nøkkel];

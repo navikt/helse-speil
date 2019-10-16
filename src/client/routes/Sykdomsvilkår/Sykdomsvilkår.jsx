@@ -24,7 +24,7 @@ const Sykdomsvilkår = () => {
                 )}
             />
             <IconRow label={sykdomsvilkårtekster('ingen_yrkesskade')} bold />
-            <Navigasjonsknapper next="/inngangsvilkår" />
+            <Navigasjonsknapper previous="/sykmeldingsperiode" next="/inngangsvilkår" />
         </Panel>
     );
 };

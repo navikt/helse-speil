@@ -1,0 +1,30 @@
+@import '../../mixins';
+
+@color: #0067c5;
+
+.SourceLink {
+  display: flex;
+  align-items: center;
+  color: @color;
+  box-shadow: 0 0 0 1.5px @color;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  padding: 0 0.25rem 0 0.35rem;
+  height: 1rem;
+  text-decoration: none;
+
+  > *:first-child {
+    margin-left: 0.125rem;
+  }
+
+  &:hover {
+    background: @color;
+    color: #fff;
+
+    path {
+      stroke: #fff;
+    }
+  }
+
+  .focusable();
+}
