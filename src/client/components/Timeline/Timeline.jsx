@@ -13,7 +13,7 @@ const PeriodeType = {
     PERMISJON: 'permisjon',
     ARBEIDSDAG: 'arbeidsdag',
     UTDANNING: 'utdanning',
-    ANNEN: 'annen'
+    ANNEN_INNTEKT: 'annen inntekt'
 };
 
 const PeriodeKilde = {
@@ -46,13 +46,13 @@ const mockData = {
         { date: '5.02.2019', type: PeriodeType.SYK, degree: 100, source: PeriodeKilde.SM },
         { date: '4.02.2019', type: PeriodeType.SYK, degree: 100, source: PeriodeKilde.SM },
         { date: '3.02.2019', type: PeriodeType.SYK, degree: 100, source: PeriodeKilde.SM },
-        { date: '2.02.2019', type: PeriodeType.UTENLANDS },
-        { date: '1.02.2019', type: PeriodeType.UTENLANDS },
+        { date: '2.02.2019', type: PeriodeType.UTENLANDS, degree: 100, source: PeriodeKilde.SM },
+        { date: '1.02.2019', type: PeriodeType.UTENLANDS, degree: 100, source: PeriodeKilde.SM },
         { date: '31.01.2019', type: PeriodeType.HELG },
         { date: '30.01.2019', type: PeriodeType.HELG },
         { date: '29.01.2019', type: PeriodeType.PERMISJON },
         { date: '28.01.2019', type: PeriodeType.ARBEIDSDAG },
-        { date: '27.01.2019', type: PeriodeType.ANNEN },
+        { date: '27.01.2019', type: PeriodeType.ANNEN_INNTEKT },
         { date: '26.01.2019', type: PeriodeType.UTDANNING }
     ].map(item => ({ ...item, key: guid() }))
 };
