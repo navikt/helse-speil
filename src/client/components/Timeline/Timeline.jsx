@@ -5,14 +5,14 @@ import 'nav-frontend-tabell-style';
 import './Timeline.less';
 
 const PeriodeType = {
-    EGENMELDING: 'egenmelding',
     SYK: 'syk',
+    HELG: 'helg',
     UBESTEMT: 'ubestemt',
     UTENLANDS: 'utenlands',
-    HELG: 'helg',
     PERMISJON: 'permisjon',
-    ARBEIDSDAG: 'arbeidsdag',
     UTDANNING: 'utdanning',
+    ARBEIDSDAG: 'arbeidsdag',
+    EGENMELDING: 'egenmelding',
     ANNEN_INNTEKT: 'annen inntekt'
 };
 
@@ -62,7 +62,7 @@ const Timeline = () => {
         <table className="Timeline tabell">
             <thead>
                 <tr>
-                    <th>Sykemeldingsperiode</th>
+                    <th>Sykmeldingsperiode</th>
                     <th>Gradering</th>
                 </tr>
             </thead>
