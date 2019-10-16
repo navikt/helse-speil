@@ -16,20 +16,20 @@ const bogusCreds = {
     serviceUserPassword: 'creds'
 };
 
-test('valid credentials resolves with valid token', () => {
+test('valid credentials resolves with valid token', async () => {
     stsclient.init({
         stsUrl: 'http://localhost',
         ...validCreds
     });
 
-    expect(stsclient.hentAccessToken()).resolves.toMatch('bogussignature');
+    await expect(stsclient.hentAccessToken()).resolves.toMatch('bogussignature');
 });
 
-test('invalid credentials rejects with error message', () => {
+test('invalid credentials rejects with error message', async () => {
     stsclient.init({
         stsUrl: 'http://localhost',
         ...bogusCreds
     });
 
-    expect(stsclient.hentAccessToken()).rejects.toMatch('wrong creds');
+    await expect(stsclient.hentAccessToken()).rejects.toMatch('wrong creds');
 });

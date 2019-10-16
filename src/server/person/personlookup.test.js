@@ -16,15 +16,21 @@ const expectedPerson = {
 const stsclientStub = {
     hentAccessToken: () => Promise.resolve({})
 };
+const aktørIdLookupStub = {
+    hentFnr: () => Promise.resolve(2469)
+};
 
-test('successful lookup resolves with person object', () => {
-    personLookup.init(stsclientStub);
+test('successful lookup resolves with person object', async () => {
+    personLookup.init(stsclientStub, aktørIdLookupStub);
 
-    expect(personLookup.hentPerson('11111')).resolves.toEqual(expectedPerson);
+    await expect(personLookup.hentPerson('11111')).resolves.toEqual({
+        ...expectedPerson,
+        fnr: 2469
+    });
 });
 
-test('lookup failure -> rejection', () => {
+test('lookup failure -> rejection', async () => {
     personLookup.init(stsclientStub);
 
-    expect(personLookup.hentPerson('22222')).rejects.toMatch('request failed');
+    await expect(personLookup.hentPerson('22222')).rejects.toMatch('request failed');
 });
