@@ -4,8 +4,8 @@ const simulation = require('./simulation').setup({ spennUrl: 'http://spenn' });
 
 afterEach(cleanup);
 
-test('simulation with valid input runs ok', () => {
-    expect(
+test('simulation with valid input runs ok', async () => {
+    await expect(
         simulation.simulate(validVedtak, createToken({ name: 'Navn Navnesen' }))
     ).resolves.toMatch('Navn Navnesen');
 });
