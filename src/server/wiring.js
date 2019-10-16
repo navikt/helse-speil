@@ -1,5 +1,6 @@
 const config = require('./config');
 const redisclient = require('./redisclient');
+const devRedisClient = require('./devredisclient');
 
 const instrumentationModule = require('./instrumentation');
 const stsclient = require('./auth/stsclient');
@@ -16,7 +17,6 @@ const getDependencies = app =>
     process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
 
 const getDevDependencies = app => {
-    const redisClient = redisclient.init({ config: config.redis });
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
     return {
@@ -26,11 +26,11 @@ const getDevDependencies = app => {
             spadeClient: devSpadeClient,
             stsclient: devStsClient,
             onBehalfOf,
-            cache: redisClient,
+            cache: devRedisClient,
             config
         },
         payments: { config: config, onBehalfOf },
-        redisClient
+        redisClient: devRedisClient
     };
 };
 
