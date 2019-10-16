@@ -16,15 +16,19 @@ import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
 import 'nav-frontend-lenker-style';
 import './Oversikt.less';
 
+const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
+
 const toBehandletSak = (behandling, feedback) => ({
     ...behandling,
     søkerName: behandling.personinfo?.navn ?? behandling.originalSøknad.aktorId,
     submittedDate: feedback.value.submittedDate,
     behandlingsId: behandling.behandlingsId,
-    userName: extractNameFromEmail(feedback.value.userId.email)
+    userName: extractNameFromEmail(feedback.value.userId.email),
+    behandlet: true
 });
 
-const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
+const partition = predicate => (acc, cur) =>
+    predicate(cur) ? [[...acc[0], cur], acc[1]] : [acc[0], [...acc[1], cur]];
 
 const Oversikt = ({ history }) => {
     const { behandlingsoversikt, velgBehandlingFraOversikt } = useContext(BehandlingerContext);
@@ -35,23 +39,16 @@ const Oversikt = ({ history }) => {
 
     const [behandledeSaker, ubehandledeSaker] = useMemo(
         () =>
-            behandlingsoversikt.reduce(
-                (partitioned, behandling) => {
-                    const feedbackForBehandling = feedback.find(
+            behandlingsoversikt
+                .map(behandling => {
+                    const behandlingFeedback = feedback.find(
                         f => f.key === behandling.behandlingsId
                     );
-                    return feedbackForBehandling
-                        ? [
-                              [
-                                  ...partitioned[0],
-                                  toBehandletSak(behandling, feedbackForBehandling)
-                              ],
-                              partitioned[1]
-                          ]
-                        : [partitioned[0], [...partitioned[1], behandling]];
-                },
-                [[], []]
-            ),
+                    return behandlingFeedback
+                        ? toBehandletSak(behandling, behandlingFeedback)
+                        : behandling;
+                })
+                .reduce(partition(b => b.behandlet), [[], []]),
         [feedback, behandlingsoversikt]
     );
 
