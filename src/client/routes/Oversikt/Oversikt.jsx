@@ -13,6 +13,7 @@ import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
+import 'nav-frontend-lenker-style';
 import './Oversikt.less';
 
 const toBehandletSak = (behandling, feedback) => ({
