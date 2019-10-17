@@ -15,7 +15,7 @@ const Oppsummering = () => {
     const { valgtBehandling } = useContext(BehandlingerContext);
     return (
         <div className="Oppsummering">
-            <Panel border>
+            <Panel>
                 <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
                 <ListItem
                     label={oppsummeringstekster('sykdomsvilkår')}

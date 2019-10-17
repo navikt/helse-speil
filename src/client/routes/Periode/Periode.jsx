@@ -26,7 +26,7 @@ const Periode = () => {
     );
 
     return (
-        <Panel className="Periode" border>
+        <Panel className="Periode">
             <Undertittel className="panel-tittel">{periodetekster('tittel')}</Undertittel>
             <FormRow label={periodetekster('kalenderdager')} value={antallKalenderdager} />
             <FormRow

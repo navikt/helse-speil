@@ -1,10 +1,12 @@
 @import '../../variables';
 
 .PersonBar {
-    padding: 1rem 1.5rem 0;
-    height: 2.5rem;
     display: flex;
     align-items: center;
+    height: 5rem;
+    padding: 0 2rem;
+    background: #fff;
+    border-bottom: 1px solid #c6c2bf;
 
     p:not(.typo-element) {
         margin-left: 0.5rem;
@@ -13,6 +15,17 @@
     > * {
         margin-right: 0.5rem;
         color: @darkGrey;
+    }
+
+    .PersonBar__separator {
+        height: 2rem;
+        width: 1px;
+        margin: 0 1.5rem;
+        background: #979797;
+    }
+
+    .CasePicker {
+        margin-right: 1rem;
     }
 }
 

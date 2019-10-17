@@ -20,7 +20,7 @@ const Inngangsvilkår = () => {
     );
 
     return (
-        <Panel border>
+        <Panel>
             <Undertittel className="panel-tittel">{tekster(`tittel`)}</Undertittel>
             {visDetaljerboks && (
                 <TidligerePerioderModal

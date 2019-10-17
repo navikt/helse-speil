@@ -23,7 +23,7 @@ const Beregning = () => {
     );
 
     return (
-        <Panel border className="Beregning">
+        <Panel className="Beregning">
             <Undertittel className="panel-tittel">{beregningstekster('tittel')}</Undertittel>
             {visDetaljerboks && (
                 <SykepengegrunnlagModal

@@ -21,7 +21,7 @@ const Utbetaling = () => {
     } = valgtBehandling.utbetaling;
 
     return (
-        <Panel className="Utbetaling" border>
+        <Panel className="Utbetaling">
             <Undertittel className="panel-tittel">{utbetalingstekster('tittel')}</Undertittel>
             <FormRow
                 label={utbetalingstekster('refusjon')}
