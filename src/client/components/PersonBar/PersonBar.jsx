@@ -24,10 +24,10 @@ const PersonBar = () => {
     }, [aktorId]);
 
     return (
-        <>
+        <div className="PersonBar">
+            <CasePicker />
             {personinfo && valgtBehandling && (
-                <div className="PersonBar">
-                    <CasePicker />
+                <>
                     <Normaltekst>{valgtBehandling.originalSøknad.arbeidsgiver.navn}</Normaltekst>
                     <Normaltekst>{' / '}</Normaltekst>
                     <Normaltekst>{`${valgtBehandling.periode.sykmeldingsgrad}%`}</Normaltekst>
@@ -48,9 +48,9 @@ const PersonBar = () => {
                     )}
                     <Normaltekst>/</Normaltekst>
                     <Normaltekst>Aktør-ID: {aktorId}</Normaltekst>
-                </div>
+                </>
             )}
-        </>
+        </div>
     );
 };
 

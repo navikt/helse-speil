@@ -23,7 +23,14 @@ const Picker = ({ items, className, currentItem, onSelectItem, itemLabel }) => {
                 {currentItem !== undefined ? itemLabel(currentItem) : 'Ingen saker for bruker'}
             </Normaltekst>
             {showPopup && (
-                <ul className="Picker__popup" ref={popupRef} onBlur={() => setShowPopup(false)}>
+                <ul
+                    className="Picker__popup"
+                    ref={popupRef}
+                    onBlur={() => {
+                        console.log('blur');
+                        setShowPopup(false);
+                    }}
+                >
                     {items.map((item, i) => (
                         <li
                             key={`popup-item-${i}`}

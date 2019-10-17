@@ -35,7 +35,12 @@ const Clipboard = ({ children }) => {
                 <div className="Clipboard__children">{children}</div>
             </div>
             <ReactTooltip place="bottom" disable={!didCopy} />
-            <button data-tip={didCopy && 'Kopiert!'} onClick={copy} data-class="typo-undertekst">
+            <button
+                data-tip="Kopiert!"
+                data-tip-disable={!didCopy}
+                onClick={copy}
+                data-class="typo-undertekst"
+            >
                 <AnimatePresence initial={false} exitBeforeEnter>
                     <motion.div {...animation} key={didCopy ? 'check' : 'copy'}>
                         <ClipboardIcon type={didCopy ? 'check' : 'copy'} />
