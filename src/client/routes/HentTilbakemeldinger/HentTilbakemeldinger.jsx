@@ -19,7 +19,7 @@ const Tilbakemeldinger = () => {
     };
 
     return (
-        <Panel border>
+        <Panel>
             <Undertittel className="panel-tittel">Laste ned tilbakemeldinger</Undertittel>
             <Normaltekst>
                 Bruk dato for å begrense hvilke tilbameldinger du vil hente. Du kan bruke norsk
@@ -29,9 +29,7 @@ const Tilbakemeldinger = () => {
                 <li>2019-09-02</li>
                 <li>1.10.2020</li>
             </ul>
-
-            <br></br>
-
+            <br />
             <div className="form">
                 <label className="dato-label" htmlFor="datofelt">
                     <Normaltekst>Fra og med dato:</Normaltekst>

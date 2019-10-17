@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Clipboard from '../Clipboard';
+import CasePicker from '../CasePicker';
 import { getPerson } from '../../io/http';
-import { Element, Undertekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import './PersonBar.less';
 
@@ -9,37 +10,44 @@ const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
 const PersonBar = () => {
     const { valgtBehandling } = useContext(BehandlingerContext);
-    const { aktorId } = valgtBehandling.originalSøknad;
-    const [personinfo, setPersoninfo] = useState(valgtBehandling.personinfo);
+    const aktorId = valgtBehandling?.originalSøknad?.aktorId;
+    const [personinfo, setPersoninfo] = useState(valgtBehandling?.personinfo);
 
     useEffect(() => {
-        getPerson(aktorId)
-            .then(response => setPersoninfo(response.data))
-            .catch(err => {
-                console.error('Feil ved henting av person.', err);
-            });
+        if (aktorId) {
+            getPerson(aktorId)
+                .then(response => setPersoninfo(response.data))
+                .catch(err => {
+                    console.error('Feil ved henting av person.', err);
+                });
+        }
     }, [aktorId]);
 
     return (
         <>
-            {personinfo && (
+            {personinfo && valgtBehandling && (
                 <div className="PersonBar">
+                    <CasePicker />
+                    <Normaltekst>{valgtBehandling.originalSøknad.arbeidsgiver.navn}</Normaltekst>
+                    <Normaltekst>{' / '}</Normaltekst>
+                    <Normaltekst>{`${valgtBehandling.periode.sykmeldingsgrad}%`}</Normaltekst>
+                    <span className="PersonBar__separator" />
                     <figure
                         id="PersonBar__gender"
                         aria-label={`Kjønn: ${personinfo?.kjønn ?? 'Ikke tilgjengelig'}`}
                         className={personinfo?.kjønn?.toLowerCase() ?? 'kjønnsnøytral'}
                     />
                     <Element>{personinfo?.navn ?? 'Navn ikke tilgjengelig'}</Element>
-                    <Undertekst>/</Undertekst>
+                    <Normaltekst>/</Normaltekst>
                     {personinfo?.fnr ? (
                         <Clipboard>
-                            <Undertekst>{formatFnr(personinfo.fnr)}</Undertekst>
+                            <Normaltekst>{formatFnr(personinfo.fnr)}</Normaltekst>
                         </Clipboard>
                     ) : (
-                        <Undertekst>Fødselsnummer ikke tilgjengelig</Undertekst>
+                        <Normaltekst>Fødselsnummer ikke tilgjengelig</Normaltekst>
                     )}
-                    <Undertekst>/</Undertekst>
-                    <Undertekst>Aktør-ID: {aktorId}</Undertekst>
+                    <Normaltekst>/</Normaltekst>
+                    <Normaltekst>Aktør-ID: {aktorId}</Normaltekst>
                 </div>
             )}
         </>

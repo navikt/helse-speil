@@ -1,15 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Route, Switch } from 'react-router-dom';
-import { withContextProviders } from '../context/withContextProviders';
-import { useLogUserOut } from '../hooks/useLogUserOut';
-import Tilbakemeldinger from '../routes/HentTilbakemeldinger';
-import { InnrapporteringProvider } from '../context/InnrapporteringContext';
-import { BehandlingerProvider } from '../context/BehandlingerContext';
-import { AuthProvider } from '../context/AuthContext';
-import MainContentWrapper from './MainContentWrapper';
-import HeaderBar from './HeaderBar';
 import Oversikt from '../routes/Oversikt/Oversikt';
+import HeaderBar from './HeaderBar';
+import Tilbakemeldinger from '../routes/HentTilbakemeldinger';
+import MainContentWrapper from './MainContentWrapper';
+import { AuthProvider } from '../context/AuthContext';
+import { Route, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { useLogUserOut } from '../hooks/useLogUserOut';
+import { withContextProviders } from '../context/withContextProviders';
+import { BehandlingerProvider } from '../context/BehandlingerContext';
+import { InnrapporteringProvider } from '../context/InnrapporteringContext';
 import './App.less';
 import 'reset-css';
 
@@ -17,14 +17,14 @@ const App = withContextProviders(() => {
     useLogUserOut();
 
     return (
-        <Router>
+        <BrowserRouter>
             <HeaderBar />
             <Switch>
                 <Route path={'/tilbakemeldinger'} component={Tilbakemeldinger} exact />
                 <Route path={'/'} exact component={Oversikt} />
                 <Route component={MainContentWrapper} />
             </Switch>
-        </Router>
+        </BrowserRouter>
     );
 }, [InnrapporteringProvider, BehandlingerProvider, AuthProvider]);
 

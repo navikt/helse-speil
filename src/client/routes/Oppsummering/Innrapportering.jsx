@@ -79,7 +79,7 @@ const Innrapportering = ({ history }) => {
     };
 
     return (
-        <Panel className="Innrapportering" border>
+        <Panel className="Innrapportering">
             <Undertittel>{oppsummeringstekster('innrapportert')}</Undertittel>
             <Uenigheter uenigheter={innrapportering.uenigheter} />
             <Kommentarer />
