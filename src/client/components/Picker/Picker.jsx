@@ -27,7 +27,6 @@ const Picker = ({ items, className, currentItem, onSelectItem, itemLabel }) => {
                     className="Picker__popup"
                     ref={popupRef}
                     onBlur={() => {
-                        console.log('blur');
                         setShowPopup(false);
                     }}
                 >
