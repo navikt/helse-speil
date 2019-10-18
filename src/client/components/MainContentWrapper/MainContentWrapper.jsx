@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import LeftMenu from '../LeftMenu';
+import Nav from '../Nav';
 import PersonBar from '../PersonBar';
 import Periode from '../../routes/Periode';
 import Beregning from '../../routes/Beregning';
@@ -20,7 +20,9 @@ const MainContentWrapper = () => {
         <>
             <PersonBar />
             <div className="page-content">
-                <LeftMenu behandling={valgtBehandling} />
+                <div className="LeftMenu">
+                    <Nav active={valgtBehandling !== undefined} />
+                </div>
                 {valgtBehandling ? (
                     <div className="main-content">
                         <Route path={'/sykmeldingsperiode'} exact component={Sykmeldingsperiode} />

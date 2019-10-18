@@ -21,7 +21,7 @@ const wrapperProps = {
 };
 
 jest.mock('../PersonBar', () => () => <div />);
-jest.mock('../LeftMenu', () => () => <div />);
+jest.mock('../Nav', () => () => <div />);
 
 jest.mock('nav-frontend-typografi-style', () => ({}));
 jest.mock('nav-frontend-lukknapp-style', () => ({}));
