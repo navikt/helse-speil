@@ -6,7 +6,8 @@ export const Keys = {
     RIGHT: 39,
     ENTER: 13,
     SPACE: 32,
-    BACKSPACE: 8
+    BACKSPACE: 8,
+    ESC: 27
 };
 
 const shouldDisableKeyboard = () =>

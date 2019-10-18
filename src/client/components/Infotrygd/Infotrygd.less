@@ -13,7 +13,7 @@
   padding: @paddingY 2.5rem;
   color: #fff;
   font-family: 'Press Start 2P', cursive;
-  letter-spacing: 0.5rem;
+  letter-spacing: 0.25rem;
 
   hr {
     border: none;
@@ -53,12 +53,32 @@
     }
   }
 
+  .InfotrygdMenu {
+    li span:last-child {
+      color: @terminalBlue;
+    }
+  }
+
+  @listPadding: 2rem;
+
+  h2 {
+    padding: 0 @listPadding;
+    margin-bottom: 2rem;
+  }
+
   .Infotrygd__content {
     flex: 1;
+    display: flex;
+    position: relative;
+    padding: 0 @listPadding;
 
-    ul {
+    .Infotrygd__content--left,
+    .Infotrygd__content--right {
+      flex: 1;
+    }
+
+    ul.InfotrygdMenu {
       list-style: none;
-      padding: 0 4rem;
 
       li {
         display: flex;
@@ -67,11 +87,11 @@
           margin-top: 1rem;
         }
 
-        span:first-child {
+        > span:first-child {
           width: 6rem;
         }
 
-        span:last-child {
+        span.label {
           color: @terminalBlue;
         }
       }
@@ -104,6 +124,17 @@
           right: @width + 1rem;
         }
       }
+    }
+  }
+
+  .InfotrygdList {
+    display: grid;
+    grid-template-columns: 4rem auto auto;
+    grid-gap: 1rem;
+    height: max-content;
+
+    > *:nth-child(3n + 2) {
+      color: @terminalBlue;
     }
   }
 }
