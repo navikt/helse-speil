@@ -81,7 +81,7 @@ const setUpAuthentication = () => {
             .then(tokens => {
                 const [accessToken, idToken] = tokens;
                 res.cookie('speil', `${idToken}`, {
-                    secure: process.env.NODE_ENV !== 'development',
+                    secure: true,
                     sameSite: true
                 });
                 req.session.spadeToken = accessToken;
@@ -100,6 +100,10 @@ setUpAuthentication();
 // Protected routes
 app.use('/*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development' || authsupport.isValidNow(req.session.spadeToken)) {
+        res.cookie('speil', authsupport.createTokenForTest(), {
+            secure: false,
+            sameSite: true
+        });
         next();
     } else {
         logger.info(

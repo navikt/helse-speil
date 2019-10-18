@@ -97,11 +97,17 @@ const nameFrom = token => {
     }
 };
 
+const createTokenForTest = () =>
+    `${Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64')}.${Buffer.from(
+        JSON.stringify({ name: 'S. A. Ksbehandler' })
+    ).toString('base64')}.bogussignature`;
+
 module.exports = {
-    isValidAt: isValidAt,
-    isValidNow: isValidNow,
-    willExpireInLessThan: willExpireInLessThan,
-    validateOidcCallback: validateOidcCallback,
-    isMemberOf: isMemberOf,
-    nameFrom: nameFrom
+    isValidAt,
+    isValidNow,
+    willExpireInLessThan,
+    validateOidcCallback,
+    isMemberOf,
+    nameFrom,
+    createTokenForTest
 };
