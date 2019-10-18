@@ -12,7 +12,6 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './Infotrygd.less';
 
 const navigate = (value, history) => {
-    console.log(value, history);
     const path =
         (value === '' && '/') ||
         (value === 'sv' && '/sykdomsvilkår') ||

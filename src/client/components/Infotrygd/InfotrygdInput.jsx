@@ -56,7 +56,7 @@ const InfotrygdInput = ({ onEnter, history }) => {
                 }
             }
         },
-        [history.location.pathname]
+        [history.location.pathname, value]
     );
 
     useEffect(() => {
