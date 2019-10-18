@@ -16,7 +16,7 @@ const CasePicker = () => {
     const itemsMapped = behandlinger?.map(mapper) ?? [];
     const currentItemMapped = mapper(valgtBehandling);
 
-    return (
+    return valgtBehandling ? (
         <Picker
             className="CasePicker"
             items={itemsMapped}
@@ -24,6 +24,8 @@ const CasePicker = () => {
             onSelectItem={velgBehandling}
             itemLabel={item => `${toDate(item.fom)} - ${toDate(item.tom)}`}
         />
+    ) : (
+        <></>
     );
 };
 
