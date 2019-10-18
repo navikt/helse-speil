@@ -18,7 +18,6 @@ import 'reset-css';
 const App = withContextProviders(() => {
     useLogUserOut();
     const { valgtBehandling } = useContext(BehandlingerContext);
-
     const { isActive } = useContext(EasterEggContext);
 
     if (isActive && valgtBehandling) {
