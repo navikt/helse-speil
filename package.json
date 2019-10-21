@@ -125,7 +125,7 @@
         "less": "^3.10.3",
         "lint-staged": "^9.4.0",
         "mock-http-server": "^1.4.0",
-        "nodemon": "^1.19.3",
+        "nodemon": "^1.19.4",
         "parcel-bundler": "^1.12.4",
         "prettier": "^1.17.1",
         "react-hot-loader": "^4.12.14",
