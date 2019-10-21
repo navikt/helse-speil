@@ -99,7 +99,7 @@ const nameFrom = token => {
 
 const createTokenForTest = () =>
     `${Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64')}.${Buffer.from(
-        JSON.stringify({ name: 'S. A. Ksbehandler' })
+        JSON.stringify({ name: 'S. A. Ksbehandler', email: 'dev@nav.no', ident: 'dev-ident' })
     ).toString('base64')}.bogussignature`;
 
 module.exports = {
