@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Oversikt from '../routes/Oversikt/Oversikt';
 import HeaderBar from './HeaderBar';
+import Infotrygd from './Infotrygd';
 import Tilbakemeldinger from '../routes/HentTilbakemeldinger';
 import MainContentWrapper from './MainContentWrapper';
 import { AuthProvider } from '../context/AuthContext';
-import { Route, Switch } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { useLogUserOut } from '../hooks/useLogUserOut';
 import { withContextProviders } from '../context/withContextProviders';
-import { BehandlingerProvider } from '../context/BehandlingerContext';
 import { InnrapporteringProvider } from '../context/InnrapporteringContext';
+import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
+import { BehandlingerContext, BehandlingerProvider } from '../context/BehandlingerContext';
 import './App.less';
 import 'reset-css';
 
 const App = withContextProviders(() => {
     useLogUserOut();
+    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { isActive } = useContext(EasterEggContext);
+
+    if (isActive && valgtBehandling) {
+        return <Infotrygd />;
+    }
 
     return (
         <BrowserRouter>
@@ -26,6 +34,6 @@ const App = withContextProviders(() => {
             </Switch>
         </BrowserRouter>
     );
-}, [InnrapporteringProvider, BehandlingerProvider, AuthProvider]);
+}, [InnrapporteringProvider, BehandlingerProvider, AuthProvider, EasterEggProvider]);
 
 export default App;

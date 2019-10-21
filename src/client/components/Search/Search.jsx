@@ -6,9 +6,11 @@ import { withRouter } from 'react-router';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import './Search.less';
+import { EasterEggContext } from '../../context/EasterEggContext';
 
 const Search = ({ history }) => {
     const ref = useRef();
+    const { activate } = useContext(EasterEggContext);
     const { fetchBehandlinger, setUserMustSelectBehandling } = useContext(BehandlingerContext);
     const { resetUserFeedback } = useContext(InnrapporteringContext);
 
@@ -26,7 +28,9 @@ const Search = ({ history }) => {
     };
 
     const search = async value => {
-        if (value.trim().length !== 0) {
+        if (value.trim().toLowerCase() === 'infotrygd') {
+            activate();
+        } else if (value.trim().length !== 0) {
             fetchBehandlinger(value).then(behandlinger => {
                 if (behandlinger?.length > 1) {
                     setUserMustSelectBehandling(true);
