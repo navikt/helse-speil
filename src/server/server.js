@@ -99,24 +99,28 @@ setUpAuthentication();
 
 // Protected routes
 app.use('/*', (req, res, next) => {
-    if (process.env.NODE_ENV === 'development' || authsupport.isValidNow(req.session.spadeToken)) {
+    if (process.env.NODE_ENV === 'development') {
         res.cookie('speil', authsupport.createTokenForTest(), {
             secure: false,
             sameSite: true
         });
         next();
     } else {
-        logger.info(
-            `no valid session found for ${ipAddressFromRequest(req)}, username ${nameFrom(
-                req.session.spadeToken
-            )}`
-        );
-        if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
-            res.redirect('/login');
+        if (authsupport.isValidNow(req.session.spadeToken)) {
+            next();
         } else {
-            // these are xhr's, let the client decide how to handle
-            res.clearCookie('speil');
-            res.sendStatus(401);
+            logger.info(
+                `no valid session found for ${ipAddressFromRequest(req)}, username ${nameFrom(
+                    req.session.spadeToken
+                )}`
+            );
+            if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
+                res.redirect('/login');
+            } else {
+                // these are xhr's, let the client decide how to handle
+                res.clearCookie('speil');
+                res.sendStatus(401);
+            }
         }
     }
 });
