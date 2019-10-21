@@ -12,7 +12,7 @@ import { sykdomsvilkårtekster, tekster } from '../../tekster';
 const Sykdomsvilkår = () => {
     const { valgtBehandling } = useContext(BehandlingerContext);
     return (
-        <Panel className="Sykdomsvilkår" border>
+        <Panel className="Sykdomsvilkår">
             <Undertittel className="panel-tittel">Sykdomsvilkår</Undertittel>
             <IconRow label={sykdomsvilkårtekster('sykdomsvilkår_oppfylt')} bold />
             <ListSeparator />

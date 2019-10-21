@@ -9,7 +9,7 @@ import './Sykmeldingsperiode.less';
 
 const Sykmeldingsperiode = () => {
     return (
-        <Panel className="Sykmeldingsperiode" border>
+        <Panel className="Sykmeldingsperiode">
             <Undertittel className="panel-tittel">Kun demo</Undertittel>
             <IconRow label={sykmeldingsperiodetekster('dager')} bold />
             <Timeline />

@@ -6,8 +6,11 @@ const aktøridlookup = require('../aktørid/aktøridlookup');
 const router = require('express').Router();
 const logger = require('../logging');
 
-const setup = stsclient => {
+const timeToExpire = 34 * 60 * 60 * 1000;
+let cache;
+const setup = ({ stsclient, cache: cacheParam }) => {
     personLookup.init(stsclient, aktøridlookup);
+    cache = cacheParam;
     routes(router);
     return router;
 };
@@ -26,15 +29,27 @@ const routes = router => {
 
 const getPerson = (req, res) => {
     const aktørId = req.params.aktorId;
-    personLookup
-        .hentPerson(aktørId)
-        .then(person => {
-            res.send(personMapping.map(person));
-        })
-        .catch(err => {
+    cache.get(`person-${aktørId}`, (err, personinfo) => {
+        if (err) {
             logger.error(err);
-            res.sendStatus(500);
-        });
+            return res.sendStatus(500);
+        }
+        if (personinfo) {
+            return res.send(JSON.parse(personinfo));
+        } else {
+            personLookup
+                .hentPerson(aktørId)
+                .then(person => {
+                    const personinfo = personMapping.map(person);
+                    cache.setex(`person-${aktørId}`, timeToExpire, JSON.stringify(personinfo));
+                    res.send(personinfo);
+                })
+                .catch(err => {
+                    logger.error(err);
+                    res.sendStatus(500);
+                });
+        }
+    });
 };
 
 const devGetPerson = (req, res) => {
