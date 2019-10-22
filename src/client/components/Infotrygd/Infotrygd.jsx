@@ -10,6 +10,7 @@ import SykepengeperiodeInfotrygd from './routes/SykepengeperiodeInfotrygd';
 import SykepengegrunnlagInfotrygd from './routes/SykepengegrunnlagInfotrygd';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './Infotrygd.less';
+import InfotrygdTitle from './InfotrygdTitle';
 
 const navigate = (value, history) => {
     const path =
@@ -41,7 +42,7 @@ const Infotrygd = () => {
                 <div className="Infotrygd__header--wrapper">
                     <div className="Infotrygd__header">
                         <div className="Infotrygd__header--left" />
-                        <h1>SPEIL HOVEDMENY</h1>
+                        <InfotrygdTitle />
                         <div className="Infotrygd__header--right">
                             <span>Dato: {moment().format('DD/MM-YY')}</span>
                             <span>{`Tid : ${currentTime}`}</span>
