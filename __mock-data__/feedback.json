@@ -11,7 +11,7 @@
             },
             "uenigheter": [
                 {
-                    "id": "Sykdomsvilkår er oppfylt/",
+                    "id": "Sykdomsvilkår er oppfylt/sykdomsvilkår",
                     "label": "Sykdomsvilkår er oppfylt",
                     "items": [],
                     "value": "De er ikke oppfylt.",
