@@ -4,10 +4,21 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { NedChevron } from 'nav-frontend-chevron';
 import { hasParent, useClickOutside } from '../../hooks/useClickOutside';
 import './Picker.less';
+import { Keys } from '../../hooks/useKeyboard';
 
 const Picker = ({ items, className, currentItem, onSelectItem, itemLabel, placeholderLabel }) => {
     const [showPopup, setShowPopup] = useState(false);
     const popupRef = useRef(null);
+
+    const onClick = item => {
+        onSelectItem(item);
+    };
+
+    const onSimulatedClick = (e, item) => {
+        if (e.keyCode === Keys.ENTER) {
+            onSelectItem(item);
+        }
+    };
 
     useClickOutside(popupRef, showPopup, () => {
         setShowPopup(false);
@@ -38,7 +49,8 @@ const Picker = ({ items, className, currentItem, onSelectItem, itemLabel, placeh
                         <li
                             key={`popup-item-${i}`}
                             role="option"
-                            onClick={() => onSelectItem(item)}
+                            onClick={onClick}
+                            onKeyDown={e => onSimulatedClick(e, item)}
                             tabIndex={0}
                             aria-selected={currentItem.behandlingsId === item.behandlingsId}
                         >
