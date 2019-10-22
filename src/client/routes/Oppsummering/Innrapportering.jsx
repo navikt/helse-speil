@@ -1,21 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
+import Icon from 'nav-frontend-ikoner-assets';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import Uenigheter from './Uenigheter';
 import Kommentarer from './Kommentarer';
-import Icon from 'nav-frontend-ikoner-assets';
-import { AuthContext } from '../../context/AuthContext';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
-import { InnrapporteringContext } from '../../context/InnrapporteringContext';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import ReactTooltip from 'react-tooltip';
 import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
-import { putFeedback } from '../../io/http';
-import { oppsummeringstekster } from '../../tekster';
 import { Checkbox } from 'nav-frontend-skjema';
 import { withRouter } from 'react-router';
+import { AuthContext } from '../../context/AuthContext';
+import { putFeedback } from '../../io/http';
+import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { oppsummeringstekster } from '../../tekster';
+import { InnrapporteringContext } from '../../context/InnrapporteringContext';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './Innrapportering.less';
-import Uenigheter from './Uenigheter';
-import ReactTooltip from 'react-tooltip';
 
 const Innrapportering = ({ history }) => {
     const { valgtBehandling } = useContext(BehandlingerContext);
@@ -51,13 +51,12 @@ const Innrapportering = ({ history }) => {
                 setTimeout(() => history.push('/'), 1000);
             })
             .catch(e => {
-                const message =
-                    e.statusCode === 401
-                        ? 'Du må logge inn på nytt for å kunne sende rapport. Du vil sendes tilbake til forsiden etter innlogging og beholder arbeidet du har gjort.'
-                        : 'Feil ved innsending av rapport. Prøv igjen senere.';
                 setError({
                     ...e,
-                    message
+                    message:
+                        e.statusCode === 401
+                            ? 'Du må logge inn på nytt for å kunne sende rapport. Du vil sendes tilbake til forsiden etter innlogging og beholder arbeidet du har gjort.'
+                            : 'Feil ved innsending av rapport. Prøv igjen senere.'
                 });
             })
             .finally(() => {
@@ -82,7 +81,7 @@ const Innrapportering = ({ history }) => {
     return (
         <Panel className="Innrapportering">
             <Undertittel>{oppsummeringstekster('innrapportert')}</Undertittel>
-            <Uenigheter uenigheter={innrapportering.uenigheter} />
+            <Uenigheter />
             <Kommentarer />
             <ReactTooltip html={true} place="bottom" />
             <div

@@ -1,0 +1,35 @@
+@import '../../../mixins';
+
+@height: 1.5rem;
+
+.EditableUenighet__value,
+.EditableUenighet__label,
+.EditableUenighet__edit{
+  display: flex;
+  height: @height;
+  align-self: center;
+  align-items: center;
+}
+
+.EditableUenighet__value {
+  p {
+    display: flex;
+    align-items: center;
+  }
+
+  input[type="text"] {
+    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    padding: 0.25rem;
+    border: 1px solid #78706A;
+    border-radius: 0.25rem;
+
+    .focusable();
+  }
+}
+
+.EditableUenighet__edit {
+  button {
+    margin-left: 0.25rem;
+  }
+}

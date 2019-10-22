@@ -1,0 +1,16 @@
+@import '../../../mixins';
+
+.DeleteButton {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.25rem;
+
+  .focusable();
+
+  &:hover {
+    svg g {
+      stroke: #0067C5;
+    }
+  }
+}
