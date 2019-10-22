@@ -2,10 +2,10 @@ import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { NedChevron } from 'nav-frontend-chevron';
-import { useClickOutside } from '../../hooks/useClickOutside';
+import { hasParent, useClickOutside } from '../../hooks/useClickOutside';
 import './Picker.less';
 
-const Picker = ({ items, className, currentItem, onSelectItem, itemLabel }) => {
+const Picker = ({ items, className, currentItem, onSelectItem, itemLabel, placeholderLabel }) => {
     const [showPopup, setShowPopup] = useState(false);
     const popupRef = useRef(null);
 
@@ -20,14 +20,18 @@ const Picker = ({ items, className, currentItem, onSelectItem, itemLabel }) => {
             onClick={() => setShowPopup(!showPopup)}
         >
             <Normaltekst>
-                {currentItem !== undefined ? itemLabel(currentItem) : 'Ingen saker for bruker'}
+                {currentItem !== undefined ? itemLabel(currentItem) : placeholderLabel}
             </Normaltekst>
             {showPopup && (
                 <ul
                     className="Picker__popup"
                     ref={popupRef}
                     onBlur={() => {
-                        setShowPopup(false);
+                        setTimeout(() => {
+                            if (!hasParent(document.activeElement, popupRef.current)) {
+                                setShowPopup(false);
+                            }
+                        }, 0);
                     }}
                 >
                     {items.map((item, i) => (
@@ -52,10 +56,11 @@ const Picker = ({ items, className, currentItem, onSelectItem, itemLabel }) => {
 
 Picker.propTypes = {
     items: PropTypes.arrayOf(PropTypes.any).isRequired,
+    onSelectItem: PropTypes.func.isRequired,
+    itemLabel: PropTypes.func.isRequired,
     className: PropTypes.string,
     currentItem: PropTypes.any,
-    onSelectItem: PropTypes.func.isRequired,
-    itemLabel: PropTypes.func.isRequired
+    placeholderLabel: PropTypes.string
 };
 
 Picker.defaultProps = {

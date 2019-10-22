@@ -6,7 +6,7 @@ import { useEffect } from 'react';
  * @param {number} maxDepth     maksimalt antall nivåer søket skal foretas gjennom
  * @returns {boolean}           true dersom child har target som foreldreelement innen maxDepth-nivåer
  */
-const hasParent = (child, target, maxDepth = 3) => {
+export const hasParent = (child, target, maxDepth = 3) => {
     let current = child;
     let depth = 0;
 

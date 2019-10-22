@@ -23,6 +23,7 @@ const CasePicker = () => {
             currentItem={currentItemMapped}
             onSelectItem={velgBehandling}
             itemLabel={item => `${toDate(item.fom)} - ${toDate(item.tom)}`}
+            placeholderLabel="Ingen saker for bruker"
         />
     ) : (
         <></>
