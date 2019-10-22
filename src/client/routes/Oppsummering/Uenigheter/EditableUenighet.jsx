@@ -35,8 +35,7 @@ const EditableUenighet = ({ uenighet }) => {
             <Normaltekst className="EditableUenighet__label">{uenighet.label}:</Normaltekst>
             <span className="EditableUenighet__value">
                 {isEditing ? (
-                    <input
-                        type="text"
+                    <textarea
                         value={value}
                         onBlur={onBlur}
                         onChange={onChange}
