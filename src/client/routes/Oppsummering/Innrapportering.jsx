@@ -15,6 +15,7 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { withRouter } from 'react-router';
 import './Innrapportering.less';
 import Uenigheter from './Uenigheter';
+import ReactTooltip from 'react-tooltip';
 
 const Innrapportering = ({ history }) => {
     const { valgtBehandling } = useContext(BehandlingerContext);
@@ -83,8 +84,12 @@ const Innrapportering = ({ history }) => {
             <Undertittel>{oppsummeringstekster('innrapportert')}</Undertittel>
             <Uenigheter uenigheter={innrapportering.uenigheter} />
             <Kommentarer />
-            <div className={`checkbox${innrapportering.uenigheter.length > 0 ? ' disabled' : ''}`}>
-                <span className="checkbox__tooltip">Du er uenig med maskinen</span>
+            <ReactTooltip html={true} place="bottom" />
+            <div
+                data-html={true}
+                data-tip={'<p class="typo-normal">Du er uenig med maskinen</p>'}
+                data-tip-disable={innrapportering.uenigheter.length === 0}
+            >
                 <Checkbox
                     defaultChecked={innrapportering.godkjent}
                     onChange={e => innrapportering.setGodkjent(e.target.checked)}

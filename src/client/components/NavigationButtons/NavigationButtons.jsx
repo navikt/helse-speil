@@ -7,7 +7,7 @@ import { useKeyboard, Keys } from '../../hooks/useKeyboard';
 import './NavigationButtons.less';
 
 const tooltip = (direction = 'right') =>
-    `<span class="typo-normal Navigasjonsknapper__tooltip ${direction}">Hurtigtast: </span>`;
+    `<span class="typo-normal NavigationButtons__tooltip ${direction}">Hurtigtast: </span>`;
 
 const NavigationButtons = ({ history, previous, next }) => {
     const clickPrevious = () => {

@@ -22,52 +22,16 @@
     min-width: 15rem;
   }
 
+  .checkbox {
+
+  }
+
   .typo-normal.skjemaelement__feilmelding {
     margin-top: 1rem;
     flex-direction: column;
 
     a {
       margin-top: 0.5rem;
-    }
-  }
-
-  .checkbox {
-    .checkbox__tooltip {
-      visibility: hidden;
-      width: 200px;
-      background-color: #3E3832;
-      color: #fff;
-      border: 1px solid #254B6D;
-      text-align: center;
-      border-radius: 6px;
-      padding: 1rem 1rem;
-      font-family: 'Source Sans Pro', Arial, sans-serif;
-      margin-top: -4rem;
-      position: absolute;
-      z-index: 1;
-
-      &:before {
-        content: '';
-        height: 1.06066017rem;
-        width: 1.06066017rem;
-        background-color: #3E3832;
-        display: block;
-        position: absolute;
-        transform: rotate(-45deg);
-        transform-origin: 200% 100%;
-        z-index: 1;
-        border: 3px solid transparent;
-        box-sizing: border-box;
-
-      }
-    }
-
-    &.disabled {
-      &:hover {
-        .checkbox__tooltip {
-          visibility: visible;
-        }
-      }
     }
   }
 
