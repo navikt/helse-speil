@@ -78,7 +78,7 @@ const respondWith = (res, lookupPromise, mapper) => {
     lookupPromise
         .then(apiResponse => {
             res.status(apiResponse.statusCode).send({
-                behandlinger: mapper(apiResponse.body.person)
+                person: mapper(apiResponse.body.person)
             });
         })
         .catch(err => {

@@ -16,7 +16,6 @@ const behandlinger = [
 
 const wrapperProps = {
     behandlinger: [...behandlinger],
-    velgBehandling: jest.fn(),
     valgtBehandling: undefined
 };
 

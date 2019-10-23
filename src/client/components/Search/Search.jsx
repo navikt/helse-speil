@@ -11,7 +11,7 @@ import { EasterEggContext } from '../../context/EasterEggContext';
 const Search = ({ history }) => {
     const ref = useRef();
     const { activate } = useContext(EasterEggContext);
-    const { fetchBehandlinger, setUserMustSelectBehandling } = useContext(BehandlingerContext);
+    const { hentPerson } = useContext(BehandlingerContext);
     const { resetUserFeedback } = useContext(InnrapporteringContext);
 
     const keyTyped = event => {
@@ -21,8 +21,8 @@ const Search = ({ history }) => {
         }
     };
 
-    const goToStartPage = behandlinger => {
-        if (behandlinger && history.location.pathname !== '/sykdomsvilkår') {
+    const goToStartPage = person => {
+        if (person && history.location.pathname !== '/sykdomsvilkår') {
             history.push('/sykmeldingsperiode');
         }
     };
@@ -31,13 +31,10 @@ const Search = ({ history }) => {
         if (value.trim().toLowerCase() === 'infotrygd') {
             activate();
         } else if (value.trim().length !== 0) {
-            fetchBehandlinger(value).then(behandlinger => {
-                if (behandlinger?.length > 1) {
-                    setUserMustSelectBehandling(true);
-                }
-                if (behandlinger) {
+            hentPerson(value).then(person => {
+                if (person) {
                     resetUserFeedback();
-                    goToStartPage(behandlinger);
+                    goToStartPage(person);
                 }
             });
         }

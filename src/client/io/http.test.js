@@ -1,4 +1,4 @@
-import { behandlingerFor } from './http';
+import { hentPersonFraBackend } from './http';
 import '@testing-library/jest-dom/extend-expect';
 
 afterEach(() => {
@@ -14,7 +14,7 @@ test('behandlinger funnet', async () => {
             }
         });
     });
-    const response = await behandlingerFor(12345);
+    const response = await hentPersonFraBackend(12345);
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({ data: 'yup', status: 200 });
 });
@@ -28,7 +28,7 @@ test('behandlinger ikke funnet', async () => {
             }
         });
     });
-    const response = await behandlingerFor(12345).catch(err => {
+    const response = await hentPersonFraBackend(12345).catch(err => {
         expect(err).toEqual({
             message: undefined,
             statusCode: 404
