@@ -1,6 +1,6 @@
 'use strict';
 
-const personMapping = require('./personmapping');
+const personMapping = require('./personinfomapping');
 
 const origPerson = {
     fdato: '1995-01-01',

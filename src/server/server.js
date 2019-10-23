@@ -16,7 +16,6 @@ const redisclient = require('./redisclient');
 
 const headers = require('./headers');
 
-const behandlinger = require('./behandlinger/behandlingerroutes');
 const feedback = require('./feedback/feedbackroutes');
 const person = require('./person/personroutes');
 const tildeling = require('./tildeling/tildelingroutes');
@@ -126,9 +125,8 @@ app.use('/*', (req, res, next) => {
 });
 
 app.use('/api/tildeling', tildeling.setup(redisClient));
-app.use('/api/person', person.setup({ stsclient, cache: redisClient }));
+app.use('/api/person', person.setup({ stsclient, cache: redisClient, config: config.nav }));
 app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
-app.use('/api/behandlinger', behandlinger.setup({ stsclient, config: config.nav }));
 app.use('/api/payments', payments.setup({ config: config.nav }));
 
 app.get('/*', (req, res, next) => {

@@ -55,11 +55,7 @@ export const BehandlingerProvider = ({ children }) => {
     };
 
     const fetchBehandlingsoversiktSinceYesterday = () => {
-        const yesterday = moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD');
-        const today = moment().format('YYYY-MM-DD');
-        return behandlingerIPeriode(yesterday, today)
+        return behandlingerIPeriode()
             .then(response => response.data.behandlinger)
             .catch(err => {
                 setError({

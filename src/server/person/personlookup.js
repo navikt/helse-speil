@@ -1,8 +1,9 @@
 'use strict';
 
-const router = require('express').Router();
+const request = require('request-promise-native');
+const fs = require('fs');
+
 const logger = require('../logging');
-const api = require('./personlookup');
 const mapping = require('./mapping');
 const aktøridlookup = require('../aktørid/aktøridlookup');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
@@ -12,16 +13,9 @@ const personIdHeaderName = 'nav-person-id';
 
 const setup = ({ stsclient, config }) => {
     aktøridlookup.init(stsclient, config);
-    routes({ router });
-    return router;
 };
 
-const routes = ({ router }) => {
-    router.get('/', behandlingerForPerson);
-    router.get('/periode/:fom/:tom', behandlingerForPeriod);
-};
-
-const behandlingerForPerson = async (req, res) => {
+const personSøk = async (req, res) => {
     const undeterminedPersonId = req.headers[personIdHeaderName];
     auditLog(req, undeterminedPersonId || 'missing person id');
     if (!undeterminedPersonId) {
@@ -38,23 +32,18 @@ const behandlingerForPerson = async (req, res) => {
         return;
     }
 
-    respondWith(res, api.behandlingerForPerson(aktorId, req.session.spadeToken), mapping.person);
+    respondWith(res, _personSøk(aktorId, req.session.spadeToken), mapping.person);
 };
 
 const behandlingerForPeriod = (req, res) => {
     auditLog(req, fom || 'missing fom', tom || 'missing tom');
 
-    const fom = req.params.fom;
-    const tom = req.params.tom;
-    if (!fom && !tom) {
-        logger.error(`Missing params 'fom' and/or 'tom' in request`);
-        res.status(400).send(`Påkrevde qurey params 'fom' og/eller 'tom' mangler`);
-        return;
-    }
+    const fom = 'fom';
+    const tom = 'tom';
 
     respondForSummary(
         res,
-        api.behandlingerForPeriod(fom, tom, req.session.spadeToken),
+        _behandlingerForPeriod(fom, tom, req.session.spadeToken),
         mapping.fromBehandlingSummary
     );
 };
@@ -71,6 +60,63 @@ const auditLog = (request, ...queryParams) => {
 const toAktørId = async fnr => {
     return await aktøridlookup.hentAktørId(fnr).catch(err => {
         logger.error(`Could not fetch aktørId. ${err}`);
+    });
+};
+
+const _personSøk = (aktorId, accessToken) => {
+    return process.env.NODE_ENV === 'development'
+        ? devBehandlingerForPerson(aktorId)
+        : prodBehandlingerForPerson(aktorId, accessToken);
+};
+
+const _behandlingerForPeriod = (fom, tom, accessToken) => {
+    return process.env.NODE_ENV === 'development'
+        ? devBehandlingerForPeriod()
+        : prodBehandlingerForPeriod(fom, tom, accessToken);
+};
+
+const prodBehandlingerForPerson = (aktorId, accessToken) => {
+    const options = {
+        uri: `http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`,
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        },
+        json: true,
+        resolveWithFullResponse: true
+    };
+    return request.get(options);
+};
+
+const devBehandlingerForPerson = aktorId => {
+    const fromFile = fs.readFileSync('__mock-data__/tidslinjeperson.json', 'utf-8');
+    const person = JSON.parse(fromFile);
+    return Promise.resolve({
+        statusCode: 200,
+        body: {
+            fnr: aktorId,
+            person
+        }
+    });
+};
+
+const prodBehandlingerForPeriod = (fom, tom, accessToken) => {
+    const options = {
+        uri: `http://spade.default.svc.nais.local/api/behandlinger/periode/${fom}/${tom}`,
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        },
+        json: true,
+        resolveWithFullResponse: true
+    };
+    return request.get(options);
+};
+
+const devBehandlingerForPeriod = () => {
+    const fromFile = fs.readFileSync('__mock-data__/behandlingsummaries.json', 'utf-8');
+    const summary = JSON.parse(fromFile).behandlinger;
+    return Promise.resolve({
+        statusCode: 200,
+        body: { behandlinger: summary }
     });
 };
 
@@ -101,5 +147,9 @@ const respondForSummary = (res, lookupPromise, mapper) => {
 };
 
 module.exports = {
-    setup
+    setup,
+    personSøk,
+    behandlingerForPeriod,
+    _personSøk,
+    _behandlingerForPeriod
 };

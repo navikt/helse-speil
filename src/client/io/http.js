@@ -54,13 +54,13 @@ export const del = async (url, data) => {
 };
 
 export const hentPersonFraBackend = async aktorId => {
-    return get(`${baseUrl}/behandlinger/`, {
+    return get(`${baseUrl}/person/sok`, {
         headers: { 'nav-person-id': aktorId }
     });
 };
 
-export const behandlingerIPeriode = async (fom, tom) => {
-    return get(`${baseUrl}/behandlinger/periode/${fom}/${tom}`);
+export const behandlingerIPeriode = async () => {
+    return get(`${baseUrl}/person/`);
 };
 
 export const post = async (url, data) => {
@@ -113,7 +113,7 @@ export const downloadFeedback = params => {
 };
 
 export const getPerson = async aktorId => {
-    return get(`${baseUrl}/person/${aktorId}`);
+    return get(`${baseUrl}/person/${aktorId}/info`);
 };
 
 export const getTildeling = async behandlingsId => {
