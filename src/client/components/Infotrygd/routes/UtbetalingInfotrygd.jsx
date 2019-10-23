@@ -6,7 +6,7 @@ import { BehandlingerContext } from '../../../context/BehandlingerContext';
 import { toKroner } from '../../../utils/locale';
 
 const UtbetalingInfotrygd = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
 
     return (
         <>
@@ -17,24 +17,24 @@ const UtbetalingInfotrygd = () => {
                         {tekster('informasjon ikke tilgjengelig')}
                     </InfotrygdListItem>
                     <InfotrygdListItem label={utbetalingstekster('betaler')}>
-                        {valgtBehandling.utbetaling.betalerArbeidsgiverperiode ? 'Ja' : 'Nei'}
+                        {personTilBehandling.utbetaling.betalerArbeidsgiverperiode ? 'Ja' : 'Nei'}
                     </InfotrygdListItem>
                     <InfotrygdListItem />
                     <InfotrygdListItem label={utbetalingstekster('sykepengegrunnlag')}>
-                        {`${toKroner(valgtBehandling.utbetaling.sykepengegrunnlag)} kr`}
+                        {`${toKroner(personTilBehandling.utbetaling.sykepengegrunnlag)} kr`}
                     </InfotrygdListItem>
                     <InfotrygdListItem label={utbetalingstekster('dagsats')}>
-                        {`${toKroner(valgtBehandling.utbetaling.dagsats)} kr`}
+                        {`${toKroner(personTilBehandling.utbetaling.dagsats)} kr`}
                     </InfotrygdListItem>
                     <InfotrygdListItem label={utbetalingstekster('dager')}>
-                        {valgtBehandling.utbetaling.antallUtbetalingsdager}
+                        {personTilBehandling.utbetaling.antallUtbetalingsdager}
                     </InfotrygdListItem>
                     <InfotrygdListItem label={utbetalingstekster('sykmeldingsgrad')}>
-                        {`${valgtBehandling.utbetaling.sykmeldingsgrad}%`}
+                        {`${personTilBehandling.utbetaling.sykmeldingsgrad}%`}
                     </InfotrygdListItem>
                     <InfotrygdListItem />
                     <InfotrygdListItem label={utbetalingstekster('utbetaling')}>
-                        {`${toKroner(valgtBehandling.utbetaling.utbetalingsbeløp)} kr`}
+                        {`${toKroner(personTilBehandling.utbetaling.utbetalingsbeløp)} kr`}
                     </InfotrygdListItem>
                 </InfotrygdList>
             </span>

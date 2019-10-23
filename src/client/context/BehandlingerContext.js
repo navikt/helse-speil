@@ -25,7 +25,7 @@ const appendPersoninfo = behandling => {
 
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [valgtBehandling, setValgtBehandling] = useSessionStorage('person', {});
+    const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person', {});
     const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
 
     useEffect(() => {
@@ -33,17 +33,17 @@ export const BehandlingerProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (valgtBehandling !== undefined) {
-            setValgtBehandling(valgtBehandling);
+        if (personTilBehandling !== undefined) {
+            setPersonTilBehandling(personTilBehandling);
         }
-    }, [valgtBehandling]);
+    }, [personTilBehandling]);
 
     const velgBehandlingFraOversikt = ({ aktørId }) => {
         return hentPerson(aktørId);
     };
 
     const fetchBehandlingsoversikt = async () => {
-        setValgtBehandling(undefined);
+        setPersonTilBehandling(undefined);
         const oversikt = await fetchBehandlingsoversiktSinceYesterday();
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
@@ -79,7 +79,7 @@ export const BehandlingerProvider = ({ children }) => {
         return hentPersonFraBackend(value)
             .then(response => {
                 const { person } = response.data;
-                setValgtBehandling(person);
+                setPersonTilBehandling(person);
                 return person;
             })
             .catch(err => {
@@ -98,7 +98,7 @@ export const BehandlingerProvider = ({ children }) => {
             value={{
                 velgBehandlingFraOversikt,
                 behandlingsoversikt,
-                valgtBehandling,
+                personTilBehandling,
                 hentPerson
             }}
         >

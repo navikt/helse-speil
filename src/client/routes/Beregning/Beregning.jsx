@@ -12,8 +12,8 @@ import { beregningstekster, tekster } from '../../tekster';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 
 const Beregning = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
-    const { sykepengeberegning } = valgtBehandling;
+    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { sykepengeberegning } = personTilBehandling;
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
 
     const detaljerKnapp = (
@@ -42,7 +42,7 @@ const Beregning = () => {
             <ListRow
                 label={beregningstekster('aordningen')}
                 labelProp={detaljerKnapp}
-                items={ItemMapper.aordning(valgtBehandling.sykepengeberegning)}
+                items={ItemMapper.aordning(personTilBehandling.sykepengeberegning)}
                 bold
             />
             <IconRow

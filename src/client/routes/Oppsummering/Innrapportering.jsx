@@ -18,7 +18,7 @@ import Uenigheter from './Uenigheter';
 import ReactTooltip from 'react-tooltip';
 
 const Innrapportering = ({ history }) => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
     const innrapportering = useContext(InnrapporteringContext);
     const authContext = useContext(AuthContext);
     const [error, setError] = useState(undefined);
@@ -33,7 +33,7 @@ const Innrapportering = ({ history }) => {
     const sendRapporter = () => {
         setIsSending(true);
         putFeedback({
-            id: valgtBehandling.behandlingsId,
+            id: personTilBehandling.behandlingsId,
             txt: JSON.stringify({
                 uenigheter: innrapportering.uenigheter,
                 kommentarer: innrapportering.kommentarer,

@@ -17,10 +17,10 @@ import 'reset-css';
 
 const App = withContextProviders(() => {
     useLogUserOut();
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
     const { isActive } = useContext(EasterEggContext);
 
-    if (isActive && valgtBehandling) {
+    if (isActive && personTilBehandling) {
         return <Infotrygd />;
     }
 

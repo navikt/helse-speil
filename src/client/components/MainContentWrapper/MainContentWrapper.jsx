@@ -14,16 +14,16 @@ import { BehandlingerContext } from '../../context/BehandlingerContext';
 import './MainContentWrapper.css';
 
 const MainContentWrapper = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
 
     return (
         <>
             <PersonBar />
             <div className="page-content">
                 <div className="LeftMenu">
-                    <Nav active={valgtBehandling !== undefined} />
+                    <Nav active={personTilBehandling !== undefined} />
                 </div>
-                {valgtBehandling ? (
+                {personTilBehandling ? (
                     <div className="main-content">
                         <Route path={'/sykmeldingsperiode'} exact component={Sykmeldingsperiode} />
                         <Route path={'/sykdomsvilkår'} exact component={Sykdomsvilkår} />

@@ -10,7 +10,7 @@ import { Element, Undertittel } from 'nav-frontend-typografi';
 import { sykdomsvilkårtekster, tekster } from '../../tekster';
 
 const Sykdomsvilkår = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
     return (
         <Panel className="Sykdomsvilkår">
             <Undertittel className="panel-tittel">Sykdomsvilkår</Undertittel>
@@ -20,7 +20,7 @@ const Sykdomsvilkår = () => {
             <ListRow
                 label={sykdomsvilkårtekster('mindre_enn_8_uker')}
                 items={ItemMapper.mindreEnnÅtteUker(
-                    valgtBehandling.sykdomsvilkår.mindreEnnÅtteUkerSammenhengende
+                    personTilBehandling.sykdomsvilkår.mindreEnnÅtteUkerSammenhengende
                 )}
             />
             <IconRow label={sykdomsvilkårtekster('ingen_yrkesskade')} bold />

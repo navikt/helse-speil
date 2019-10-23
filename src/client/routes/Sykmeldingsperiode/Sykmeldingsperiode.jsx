@@ -9,7 +9,7 @@ import './Sykmeldingsperiode.less';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 
 const Sykmeldingsperiode = () => {
-    const { valgtBehandling: person } = useContext(BehandlingerContext);
+    const { personTilBehandling: person } = useContext(BehandlingerContext);
     return (
         <Panel className="Sykmeldingsperiode">
             <Undertittel className="panel-tittel">Kun demo</Undertittel>

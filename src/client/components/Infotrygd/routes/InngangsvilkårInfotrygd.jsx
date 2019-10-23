@@ -5,14 +5,16 @@ import InfotrygdListItem from '../InfotrygdListItem';
 import { BehandlingerContext } from '../../../context/BehandlingerContext';
 
 const InngangsvilkårInfotrygd = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
 
-    const søknadsfristItems = ItemMapper.søknadsfrist(valgtBehandling.inngangsvilkår.søknadsfrist);
-    const medlemsskapsItems = ItemMapper.medlemskap(valgtBehandling.inngangsvilkår.medlemskap);
-    const opptjeningsItems = ItemMapper.opptjening(valgtBehandling.inngangsvilkår.opptjening);
-    const dagerIgjenItems = ItemMapper.dagerIgjen(valgtBehandling.inngangsvilkår.dagerIgjen);
-    const merEnn05GItems = ItemMapper.merEnn05G(valgtBehandling.inngangsvilkår.merEnn05G);
-    const under67ÅrItems = ItemMapper.under67År(valgtBehandling.inngangsvilkår.dagerIgjen);
+    const søknadsfristItems = ItemMapper.søknadsfrist(
+        personTilBehandling.inngangsvilkår.søknadsfrist
+    );
+    const medlemsskapsItems = ItemMapper.medlemskap(personTilBehandling.inngangsvilkår.medlemskap);
+    const opptjeningsItems = ItemMapper.opptjening(personTilBehandling.inngangsvilkår.opptjening);
+    const dagerIgjenItems = ItemMapper.dagerIgjen(personTilBehandling.inngangsvilkår.dagerIgjen);
+    const merEnn05GItems = ItemMapper.merEnn05G(personTilBehandling.inngangsvilkår.merEnn05G);
+    const under67ÅrItems = ItemMapper.under67År(personTilBehandling.inngangsvilkår.dagerIgjen);
 
     return (
         <>
