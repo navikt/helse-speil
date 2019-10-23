@@ -33,6 +33,7 @@ export const BehandlingerProvider = ({ children }) => {
     );
     const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
     const [userMustSelectBehandling, setUserMustSelectBehandling] = useState(false);
+    const [isFetchingBehandlingsoversikt, setIsFetchingBehandlingsoversikt] = useState(false);
 
     useEffect(() => {
         fetchBehandlingsoversikt();
@@ -79,9 +80,13 @@ export const BehandlingerProvider = ({ children }) => {
         const oversikt = await fetchBehandlingsoversiktSinceYesterday();
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
-        ).then(
-            behandlinger.sort((a, b) => a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt))
-        );
+        )
+            .then(
+                behandlinger.sort((a, b) =>
+                    a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt)
+                )
+            )
+            .finally(() => setIsFetchingBehandlingsoversikt(false));
         if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
@@ -93,6 +98,7 @@ export const BehandlingerProvider = ({ children }) => {
             .subtract(1, 'days')
             .format('YYYY-MM-DD');
         const today = moment().format('YYYY-MM-DD');
+        setIsFetchingBehandlingsoversikt(true);
         return behandlingerIPeriode(yesterday, today)
             .then(response => response.data.behandlinger)
             .catch(err => {
@@ -136,7 +142,8 @@ export const BehandlingerProvider = ({ children }) => {
                 behandlingsoversikt,
                 valgtBehandling,
                 fetchBehandlinger,
-                setUserMustSelectBehandling
+                setUserMustSelectBehandling,
+                isFetchingBehandlingsoversikt
             }}
         >
             {children}
