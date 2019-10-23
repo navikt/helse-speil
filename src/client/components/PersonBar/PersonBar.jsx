@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Clipboard from '../Clipboard';
-import CasePicker from '../CasePicker';
 import { getPerson } from '../../io/http';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
@@ -9,9 +8,9 @@ import './PersonBar.less';
 const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
 const PersonBar = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
-    const aktorId = valgtBehandling?.originalSøknad?.aktorId;
-    const [personinfo, setPersoninfo] = useState(valgtBehandling?.personinfo);
+    const { personTilBehandling } = useContext(BehandlingerContext);
+    const aktorId = personTilBehandling?.originalSøknad?.aktorId;
+    const [personinfo, setPersoninfo] = useState(personTilBehandling?.personinfo);
 
     useEffect(() => {
         if (aktorId) {
@@ -25,12 +24,13 @@ const PersonBar = () => {
 
     return (
         <div className="PersonBar">
-            <CasePicker />
-            {personinfo && valgtBehandling && (
+            {personinfo && personTilBehandling && (
                 <>
-                    <Normaltekst>{valgtBehandling.originalSøknad.arbeidsgiver.navn}</Normaltekst>
+                    <Normaltekst>
+                        {personTilBehandling.originalSøknad.arbeidsgiver.navn}
+                    </Normaltekst>
                     <Normaltekst>{' / '}</Normaltekst>
-                    <Normaltekst>{`${valgtBehandling.periode.sykmeldingsgrad}%`}</Normaltekst>
+                    <Normaltekst>{`${personTilBehandling.periode.sykmeldingsgrad}%`}</Normaltekst>
                     <span className="PersonBar__separator" />
                     <figure
                         id="PersonBar__gender"

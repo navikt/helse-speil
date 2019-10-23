@@ -15,12 +15,12 @@ export const InnrapporteringContext = createContext({
 
 export const InnrapporteringProvider = ({ children }) => {
     const authContext = useContext(AuthContext);
-    const { valgtBehandling, behandlingsoversikt } = useContext(BehandlingerContext);
+    const { personTilBehandling, behandlingsoversikt } = useContext(BehandlingerContext);
     const [feedback, setFeedback] = useState([]);
     const [godkjent, setGodkjent] = useSessionStorage('godkjent');
     const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
     const [uenigheter, setUenigheter] = useSessionStorage(
-        `uenigheter-${valgtBehandling?.behandlingsId}`,
+        `uenigheter-${personTilBehandling?.behandlingsId}`,
         []
     );
     const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
@@ -33,10 +33,10 @@ export const InnrapporteringProvider = ({ children }) => {
     }, [behandlingsoversikt]);
 
     useEffect(() => {
-        if (valgtBehandling?.behandlingsId) {
-            const feedbackInList = feedback.find(f => f.key === valgtBehandling.behandlingsId);
+        if (personTilBehandling?.behandlingsId) {
+            const feedbackInList = feedback.find(f => f.key === personTilBehandling.behandlingsId);
             if (feedbackInList === undefined) {
-                fetchFeedback(valgtBehandling.behandlingsId);
+                fetchFeedback(personTilBehandling.behandlingsId);
             } else {
                 setUenigheter(feedbackInList.value.uenigheter ?? []);
                 setKommentarer(feedbackInList.value.kommentarer);
@@ -46,7 +46,7 @@ export const InnrapporteringProvider = ({ children }) => {
                 setHasSendt(true);
             }
         }
-    }, [valgtBehandling, feedback]);
+    }, [personTilBehandling, feedback]);
 
     const fetchFeedback = behandlingsId => {
         return getFeedback(behandlingsId)

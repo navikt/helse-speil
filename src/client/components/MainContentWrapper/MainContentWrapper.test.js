@@ -16,8 +16,7 @@ const behandlinger = [
 
 const wrapperProps = {
     behandlinger: [...behandlinger],
-    velgBehandling: jest.fn(),
-    valgtBehandling: undefined
+    personTilBehandling: undefined
 };
 
 jest.mock('../PersonBar', () => () => <div />);
@@ -42,7 +41,7 @@ describe('MainContentWrapper', () => {
             <BehandlingerContext.Provider
                 value={{
                     ...wrapperProps,
-                    valgtBehandling: { ...behandlinger[0] }
+                    personTilBehandling: { ...behandlinger[0] }
                 }}
             >
                 <MainContentWrapper />

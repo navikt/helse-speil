@@ -10,7 +10,7 @@ import { tekster, utbetalingstekster } from '../../tekster';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 
 const Utbetaling = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
     const {
         antallUtbetalingsdager,
         betalerArbeidsgiverperiode,
@@ -18,7 +18,7 @@ const Utbetaling = () => {
         sykepengegrunnlag,
         sykmeldingsgrad,
         utbetalingsbeløp
-    } = valgtBehandling.utbetaling;
+    } = personTilBehandling.utbetaling;
 
     return (
         <Panel className="Utbetaling">

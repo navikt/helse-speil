@@ -2,8 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import VelgBehandlingModal from '../components/MainContentWrapper/VelgBehandlingModal';
-import { behandlingerFor, behandlingerIPeriode, getPerson } from '../io/http';
+import { hentPersonFraBackend, behandlingerIPeriode, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 
 export const BehandlingerContext = createContext();
@@ -26,13 +25,8 @@ const appendPersoninfo = behandling => {
 
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
-    const [valgtBehandling, setValgtBehandling] = useSessionStorage('valgtBehandling');
-    const [lastBehandlingId, setLastBehandlingId, didFetchLastBehandling] = useSessionStorage(
-        'lastBehandlingId'
-    );
+    const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person', {});
     const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
-    const [userMustSelectBehandling, setUserMustSelectBehandling] = useState(false);
     const [isFetchingBehandlingsoversikt, setIsFetchingBehandlingsoversikt] = useState(false);
 
     useEffect(() => {
@@ -40,53 +34,21 @@ export const BehandlingerProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (behandlinger?.length === 1) {
-            setValgtBehandling(behandlinger[0]);
+        if (personTilBehandling !== undefined) {
+            setPersonTilBehandling(personTilBehandling);
         }
-    }, [behandlinger]);
+    }, [personTilBehandling]);
 
-    useEffect(() => {
-        if (valgtBehandling) {
-            setUserMustSelectBehandling(false);
-            setLastBehandlingId(valgtBehandling.behandlingsId);
-        }
-    }, [valgtBehandling]);
-
-    useEffect(() => {
-        if (!valgtBehandling && lastBehandlingId && didFetchLastBehandling) {
-            velgBehandling({ behandlingsId: lastBehandlingId });
-        }
-    }, [valgtBehandling, lastBehandlingId, didFetchLastBehandling]);
-
-    const velgBehandlingFraOversikt = ({ behandlingsId, originalSøknad }) => {
-        const cachedBehandling = behandlinger.find(b => b.behandlingsId === behandlingsId);
-        if (cachedBehandling) {
-            setValgtBehandling(cachedBehandling);
-            return Promise.resolve();
-        }
-
-        return fetchBehandlinger(originalSøknad.aktorId).then(behandlinger =>
-            setValgtBehandling(behandlinger.find(b => b.behandlingsId === behandlingsId))
-        );
-    };
-
-    const velgBehandling = ({ behandlingsId }) => {
-        const behandling = behandlinger.find(b => b.behandlingsId === behandlingsId);
-        setValgtBehandling(behandling);
+    const velgBehandlingFraOversikt = ({ aktørId }) => {
+        return hentPerson(aktørId);
     };
 
     const fetchBehandlingsoversikt = async () => {
-        setValgtBehandling(undefined);
+        setPersonTilBehandling(undefined);
         const oversikt = await fetchBehandlingsoversiktSinceYesterday();
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
-        )
-            .then(
-                behandlinger.sort((a, b) =>
-                    a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt)
-                )
-            )
-            .finally(() => setIsFetchingBehandlingsoversikt(false));
+        ).finally(() => setIsFetchingBehandlingsoversikt(false));
         if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
@@ -115,12 +77,12 @@ export const BehandlingerProvider = ({ children }) => {
             });
     };
 
-    const fetchBehandlinger = value => {
-        return behandlingerFor(value)
+    const hentPerson = value => {
+        return hentPersonFraBackend(value)
             .then(response => {
-                const { behandlinger } = response.data;
-                setBehandlinger(behandlinger);
-                return behandlinger;
+                const { person } = response.data;
+                setPersonTilBehandling(person);
+                return person;
             })
             .catch(err => {
                 const message =
@@ -136,13 +98,10 @@ export const BehandlingerProvider = ({ children }) => {
     return (
         <BehandlingerContext.Provider
             value={{
-                behandlinger,
-                velgBehandling,
                 velgBehandlingFraOversikt,
                 behandlingsoversikt,
-                valgtBehandling,
-                fetchBehandlinger,
-                setUserMustSelectBehandling,
+                personTilBehandling,
+                hentPerson,
                 isFetchingBehandlingsoversikt
             }}
         >
@@ -151,13 +110,6 @@ export const BehandlingerProvider = ({ children }) => {
                 <ErrorModal
                     errorMessage={error.message}
                     onClose={error.statusCode !== 401 ? () => setError(undefined) : undefined}
-                />
-            )}
-            {userMustSelectBehandling && (
-                <VelgBehandlingModal
-                    onRequestClose={() => setUserMustSelectBehandling(false)}
-                    behandlinger={behandlinger}
-                    onSelectItem={behandling => velgBehandling(behandling)}
                 />
             )}
         </BehandlingerContext.Provider>

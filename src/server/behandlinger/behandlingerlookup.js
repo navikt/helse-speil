@@ -28,14 +28,13 @@ const prodBehandlingerForPerson = (aktorId, accessToken) => {
 };
 
 const devBehandlingerForPerson = aktorId => {
-    const filename = aktorId.charAt(0) < 5 ? 'behandlinger.json' : 'behandlinger2.json';
-    const fromFile = fs.readFileSync('__mock-data__/' + filename, 'utf-8');
-    const behandlinger = JSON.parse(fromFile).behandlinger;
+    const fromFile = fs.readFileSync('__mock-data__/tidslinjeperson.json', 'utf-8');
+    const person = JSON.parse(fromFile);
     return Promise.resolve({
         statusCode: 200,
         body: {
             fnr: aktorId,
-            behandlinger: behandlinger
+            person
         }
     });
 };

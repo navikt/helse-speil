@@ -5,14 +5,14 @@ import { periodetekster } from '../../../tekster';
 import { BehandlingerContext } from '../../../context/BehandlingerContext';
 
 const SykepengeperiodeInfotrygd = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
     const {
         antallKalenderdager,
         arbeidsgiverperiodeKalenderdager,
         antallVirkedager,
         antallUtbetalingsdager,
         sykmeldingsgrad
-    } = valgtBehandling.periode;
+    } = personTilBehandling.periode;
 
     return (
         <>

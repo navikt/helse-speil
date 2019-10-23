@@ -38,7 +38,7 @@ const behandlingerForPerson = async (req, res) => {
         return;
     }
 
-    respondWith(res, api.behandlingerForPerson(aktorId, req.session.spadeToken), mapping.alle);
+    respondWith(res, api.behandlingerForPerson(aktorId, req.session.spadeToken), mapping.person);
 };
 
 const behandlingerForPeriod = (req, res) => {
@@ -52,7 +52,7 @@ const behandlingerForPeriod = (req, res) => {
         return;
     }
 
-    respondWith(
+    respondForSummary(
         res,
         api.behandlingerForPeriod(fom, tom, req.session.spadeToken),
         mapping.fromBehandlingSummary
@@ -75,6 +75,19 @@ const toAktørId = async fnr => {
 };
 
 const respondWith = (res, lookupPromise, mapper) => {
+    lookupPromise
+        .then(apiResponse => {
+            res.status(apiResponse.statusCode).send({
+                person: mapper(apiResponse.body.person)
+            });
+        })
+        .catch(err => {
+            logger.error(`Error during behandlinger lookup: ${err}`);
+            res.sendStatus(500);
+        });
+};
+
+const respondForSummary = (res, lookupPromise, mapper) => {
     lookupPromise
         .then(apiResponse => {
             res.status(apiResponse.statusCode).send({

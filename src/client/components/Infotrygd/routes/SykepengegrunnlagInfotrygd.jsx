@@ -7,12 +7,12 @@ import { beregningstekster } from '../../../tekster';
 import { BehandlingerContext } from '../../../context/BehandlingerContext';
 
 const SykepengegrunnlagInfotrygd = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
 
     const inntektsmeldingItems = ItemMapper.inntektsmelding(
-        valgtBehandling.sykepengeberegning.inntektsmelding
+        personTilBehandling.sykepengeberegning.inntektsmelding
     );
-    const aordningenItems = ItemMapper.aordning(valgtBehandling.sykepengeberegning);
+    const aordningenItems = ItemMapper.aordning(personTilBehandling.sykepengeberegning);
 
     return (
         <>
@@ -30,18 +30,18 @@ const SykepengegrunnlagInfotrygd = () => {
                     ))}
                     <InfotrygdListItem />
                     <InfotrygdListItem label={beregningstekster('avvik')}>
-                        {`${valgtBehandling.sykepengeberegning.avvik.toLocaleString('nb-NO', {
+                        {`${personTilBehandling.sykepengeberegning.avvik.toLocaleString('nb-NO', {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2
                         })} %`}
                     </InfotrygdListItem>
                     <InfotrygdListItem />
                     <InfotrygdListItem label={beregningstekster('sykepengegrunnlag')}>
-                        {`${toKroner(valgtBehandling.sykepengeberegning.sykepengegrunnlag)} kr`}
+                        {`${toKroner(personTilBehandling.sykepengeberegning.sykepengegrunnlag)} kr`}
                     </InfotrygdListItem>
                     <InfotrygdListItem />
                     <InfotrygdListItem label={beregningstekster('dagsats')}>
-                        {`${toKroner(valgtBehandling.sykepengeberegning.dagsats)} kr`}
+                        {`${toKroner(personTilBehandling.sykepengeberegning.dagsats)} kr`}
                     </InfotrygdListItem>
                 </InfotrygdList>
             </span>

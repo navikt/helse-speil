@@ -12,29 +12,29 @@ import { oppsummeringstekster, tekster } from '../../tekster';
 import './Oppsummering.less';
 
 const Oppsummering = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
     return (
         <div className="Oppsummering">
             <Panel>
                 <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
                 <ListItem
                     label={oppsummeringstekster('sykdomsvilkår')}
-                    value={valgtBehandling.oppsummering.sykdomsvilkårErOppfylt}
+                    value={personTilBehandling.oppsummering.sykdomsvilkårErOppfylt}
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('inngangsvilkår')}
-                    value={valgtBehandling.oppsummering.inngangsvilkårErOppfylt}
+                    value={personTilBehandling.oppsummering.inngangsvilkårErOppfylt}
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('arbeidsgiver')}
-                    value={valgtBehandling.oppsummering.arbeidsgiver.navn}
+                    value={personTilBehandling.oppsummering.arbeidsgiver.navn}
                     bold
                 />
                 <ListItem
                     label={oppsummeringstekster('orgnr')}
-                    value={valgtBehandling.oppsummering.arbeidsgiver.orgnummer}
+                    value={personTilBehandling.oppsummering.arbeidsgiver.orgnummer}
                     bold
                 />
                 <ListItem
@@ -44,58 +44,60 @@ const Oppsummering = () => {
                 />
                 <ListItem
                     label={oppsummeringstekster('betaler')}
-                    value={valgtBehandling.oppsummering.betalerArbeidsgiverperiode ? 'Nei' : 'Ja'}
+                    value={
+                        personTilBehandling.oppsummering.betalerArbeidsgiverperiode ? 'Nei' : 'Ja'
+                    }
                 />
                 <ListItem
                     label={oppsummeringstekster('fordeling')}
-                    value={`${valgtBehandling.oppsummering.fordeling}%`}
+                    value={`${personTilBehandling.oppsummering.fordeling}%`}
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('sykepengegrunnlag')}
-                    value={`${toKroner(valgtBehandling.oppsummering.sykepengegrunnlag)} kr`}
+                    value={`${toKroner(personTilBehandling.oppsummering.sykepengegrunnlag)} kr`}
                 />
                 <ListItem
                     label={oppsummeringstekster('månedsbeløp')}
-                    value={`${toKroner(valgtBehandling.oppsummering.månedsbeløp)} kr`}
+                    value={`${toKroner(personTilBehandling.oppsummering.månedsbeløp)} kr`}
                     bold
                 />
                 <ListItem
                     label={oppsummeringstekster('dagsats')}
-                    value={`${toKroner(valgtBehandling.oppsummering.dagsats)} kr`}
+                    value={`${toKroner(personTilBehandling.oppsummering.dagsats)} kr`}
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('antall_utbetalingsdager')}
-                    value={valgtBehandling.oppsummering.antallUtbetalingsdager}
+                    value={personTilBehandling.oppsummering.antallUtbetalingsdager}
                 />
                 <ListItem
                     label={oppsummeringstekster('fom')}
-                    value={toDate(valgtBehandling.oppsummering.sykmeldtFraOgMed)}
+                    value={toDate(personTilBehandling.oppsummering.sykmeldtFraOgMed)}
                     bold
                 />
                 <ListItem
                     label={oppsummeringstekster('tom')}
-                    value={toDate(valgtBehandling.oppsummering.sykmeldtTilOgMed)}
+                    value={toDate(personTilBehandling.oppsummering.sykmeldtTilOgMed)}
                     bold
                 />
                 <ListItem
                     label={oppsummeringstekster('sykmeldingsgrad')}
-                    value={`${valgtBehandling.oppsummering.sykmeldingsgrad}%`}
+                    value={`${personTilBehandling.oppsummering.sykmeldingsgrad}%`}
                     bold
                 />
                 <ListSeparator type="dotted" />
                 <ListItem
                     label={oppsummeringstekster('utbetalesFom')}
-                    value={toDate(valgtBehandling.oppsummering.utbetalesFom)}
+                    value={toDate(personTilBehandling.oppsummering.utbetalesFom)}
                 />
                 <ListItem
                     label={oppsummeringstekster('utbetalesTom')}
-                    value={toDate(valgtBehandling.oppsummering.utbetalesTom)}
+                    value={toDate(personTilBehandling.oppsummering.utbetalesTom)}
                 />
                 <ListItem
                     label={oppsummeringstekster('utbetaling')}
-                    value={`${toKroner(valgtBehandling.oppsummering.utbetaling)} kr`}
+                    value={`${toKroner(personTilBehandling.oppsummering.utbetaling)} kr`}
                 />
                 <ListSeparator type="solid" />
                 <Navigasjonsknapper previous="/utbetaling" />

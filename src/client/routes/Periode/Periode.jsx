@@ -11,7 +11,7 @@ import { Element, Undertittel } from 'nav-frontend-typografi';
 import { periodetekster, tekster } from '../../tekster';
 
 const Periode = () => {
-    const { valgtBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(BehandlingerContext);
     const {
         antallKalenderdager,
         arbeidsgiverperiodeKalenderdager,
@@ -19,7 +19,7 @@ const Periode = () => {
         ferieperioder,
         antallUtbetalingsdager,
         sykmeldingsgrad
-    } = valgtBehandling.periode;
+    } = personTilBehandling.periode;
 
     const ferieperioderAsString = ferieperioder.map(
         periode => `${toDate(periode.fom)} - ${toDate(periode.tom)}`
