@@ -9,13 +9,9 @@ import '@testing-library/jest-dom/extend-expect';
 
 afterEach(cleanup);
 
-const behandlinger = [
-    { behandlingsId: '123', originalSøknad: { fom: '2019-05-10', tom: '2019-05-20' } },
-    { behandlingsId: '456', originalSøknad: { fom: '2019-06-10', tom: '2019-06-20' } }
-];
+const person = { behandlingsId: '123', originalSøknad: { fom: '2019-05-10', tom: '2019-05-20' } };
 
 const wrapperProps = {
-    behandlinger: [...behandlinger],
     personTilBehandling: undefined
 };
 
@@ -36,12 +32,12 @@ jest.mock('nav-frontend-modal', () => ({
 }));
 
 describe('MainContentWrapper', () => {
-    it('renders content when a behandling is selected', () => {
+    it('renders content when a person is selected', () => {
         const { container } = render(
             <BehandlingerContext.Provider
                 value={{
                     ...wrapperProps,
-                    personTilBehandling: { ...behandlinger[0] }
+                    personTilBehandling: { ...person }
                 }}
             >
                 <MainContentWrapper />
@@ -50,13 +46,12 @@ describe('MainContentWrapper', () => {
         expect(container.querySelector('.main-content')).toBeTruthy();
     });
 
-    it('render empty state view when there are no behandlinger', () => {
+    it('render empty state view when no person is selected', () => {
         const { getByText } = render(
             <MemoryRouter>
                 <BehandlingerContext.Provider
                     value={{
-                        ...wrapperProps,
-                        behandlinger: []
+                        ...wrapperProps
                     }}
                 >
                     <MainContentWrapper />
