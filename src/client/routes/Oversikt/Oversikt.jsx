@@ -15,6 +15,7 @@ import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { deleteTildeling, getTildelinger, postTildeling } from '../../io/http';
 import 'nav-frontend-lenker-style';
 import './Oversikt.less';
+import ErrorModal from '../../components/ErrorModal';
 
 const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
 
@@ -36,6 +37,7 @@ const Oversikt = ({ history }) => {
     const { authInfo } = useContext(AuthContext);
     const [tildelinger, setTildelinger] = useState([]);
     const [error, setError] = useState();
+    const [unauthorizedModalOpen, setUnauthorizedModalOpen] = useState(false);
 
     const [behandledeSaker, ubehandledeSaker] = useMemo(
         () =>
@@ -71,6 +73,9 @@ const Oversikt = ({ history }) => {
                     setTildelinger(nyeTildelinger);
                 })
                 .catch(err => {
+                    if (err.statusCode === 401) {
+                        setUnauthorizedModalOpen(true);
+                    }
                     setError('Kunne ikke hente tildelingsinformasjon.');
                     console.error(err);
                 });
@@ -112,6 +117,9 @@ const Oversikt = ({ history }) => {
 
     return (
         <div className="Oversikt">
+            {unauthorizedModalOpen && (
+                <ErrorModal errorMessage="Sesjonen har utløpt. Du må logge inn på nytt." />
+            )}
             {error && <AlertStripeAdvarsel>{error}</AlertStripeAdvarsel>}
             <div className="Oversikt__container">
                 <Panel border className="Oversikt__neste-behandlinger">
