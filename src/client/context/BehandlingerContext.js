@@ -26,7 +26,7 @@ const appendPersoninfo = behandling => {
 
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', []);
+    const [behandlinger, setBehandlinger] = useSessionStorage('behandlinger', {});
     const [valgtBehandling, setValgtBehandling] = useSessionStorage('valgtBehandling');
     const [lastBehandlingId, setLastBehandlingId, didFetchLastBehandling] = useSessionStorage(
         'lastBehandlingId'
@@ -39,8 +39,8 @@ export const BehandlingerProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (behandlinger?.length === 1) {
-            setValgtBehandling(behandlinger[0]);
+        if (behandlinger !== undefined) {
+            setValgtBehandling(behandlinger);
         }
     }, [behandlinger]);
 
@@ -79,8 +79,6 @@ export const BehandlingerProvider = ({ children }) => {
         const oversikt = await fetchBehandlingsoversiktSinceYesterday();
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
-        ).then(
-            behandlinger.sort((a, b) => a.vurderingstidspunkt.localeCompare(b.vurderingstidspunkt))
         );
         if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });

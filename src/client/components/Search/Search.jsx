@@ -21,9 +21,9 @@ const Search = ({ history }) => {
         }
     };
 
-    const goBackToStart = behandlinger => {
+    const goToStartPage = behandlinger => {
         if (behandlinger && history.location.pathname !== '/sykdomsvilkår') {
-            history.push('/sykdomsvilkår');
+            history.push('/sykmeldingsperiode');
         }
     };
 
@@ -37,7 +37,7 @@ const Search = ({ history }) => {
                 }
                 if (behandlinger) {
                     resetUserFeedback();
-                    goBackToStart(behandlinger);
+                    goToStartPage(behandlinger);
                 }
             });
         }

@@ -1,0 +1,29 @@
+{
+    "aktørId": "abde",
+    "arbeidsgivere": [
+        {
+            "organisasjonsnummer": "123456789",
+            "saker": [
+                {
+                    "id": "7f712788-4497-4168-9743-4c7af287f69c",
+                    "aktørId": "abde",
+                    "organisasjonsnummer": "123456789",
+                    "tilstandType": "NY_SØKNAD_MOTTATT",
+                    "sykdomstidslinje": [
+                        {
+                            "type": "SYKEDAG",
+                            "dato": "2019-09-10",
+                            "erstatter": []
+                        },
+                        {
+                            "type": "SYKEDAG",
+                            "dato": "2019-09-11",
+                            "erstatter": []
+                        }
+                    ]
+                }
+            ],
+            "id": "4ddd1c6f-e449-4264-9889-4e7b84425d03"
+        }
+    ]
+}

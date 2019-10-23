@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Clipboard from '../Clipboard';
-import CasePicker from '../CasePicker';
 import { getPerson } from '../../io/http';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
@@ -25,7 +24,6 @@ const PersonBar = () => {
 
     return (
         <div className="PersonBar">
-            <CasePicker />
             {personinfo && valgtBehandling && (
                 <>
                     <Normaltekst>{valgtBehandling.originalSøknad.arbeidsgiver.navn}</Normaltekst>
