@@ -2,7 +2,7 @@
 
 const router = require('express').Router();
 const logger = require('../logging');
-const api = require('./behandlingerlookup');
+const api = require('./personlookup');
 const mapping = require('./mapping');
 const aktøridlookup = require('../aktørid/aktøridlookup');
 const { isValidSsn } = require('../aktørid/ssnvalidation');

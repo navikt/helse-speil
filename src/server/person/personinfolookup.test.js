@@ -1,6 +1,6 @@
 'use strict';
 
-const personLookup = require('./personlookup');
+const personinfolookup = require('./personinfolookup');
 
 const expectedPerson = {
     fdato: '1995-01-01',
@@ -21,16 +21,16 @@ const aktørIdLookupStub = {
 };
 
 test('successful lookup resolves with person object', async () => {
-    personLookup.init(stsclientStub, aktørIdLookupStub);
+    personinfolookup.init(stsclientStub, aktørIdLookupStub);
 
-    await expect(personLookup.hentPerson('11111')).resolves.toEqual({
+    await expect(personinfolookup.hentPerson('11111')).resolves.toEqual({
         ...expectedPerson,
         fnr: 2469
     });
 });
 
 test('lookup failure -> rejection', async () => {
-    personLookup.init(stsclientStub);
+    personinfolookup.init(stsclientStub);
 
-    await expect(personLookup.hentPerson('22222')).rejects.toMatch('request failed');
+    await expect(personinfolookup.hentPerson('22222')).rejects.toMatch('request failed');
 });

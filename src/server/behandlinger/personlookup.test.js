@@ -1,4 +1,4 @@
-const lookup = require('./behandlingerlookup');
+const lookup = require('./personlookup');
 
 describe('calling mocked spade', () => {
     test('behandlinger for person', async () => {

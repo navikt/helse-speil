@@ -1,6 +1,6 @@
 'use strict';
 
-const personLookup = require('./personlookup');
+const personInfoLookup = require('./personinfolookup');
 const personMapping = require('./personmapping');
 const aktøridlookup = require('../aktørid/aktøridlookup');
 const router = require('express').Router();
@@ -9,7 +9,7 @@ const logger = require('../logging');
 const timeToExpire = 34 * 60 * 60 * 1000;
 let cache;
 const setup = ({ stsclient, cache: cacheParam }) => {
-    personLookup.init(stsclient, aktøridlookup);
+    personInfoLookup.init(stsclient, aktøridlookup);
     cache = cacheParam;
     routes(router);
     return router;
@@ -37,7 +37,7 @@ const getPerson = (req, res) => {
         if (personinfo) {
             return res.send(JSON.parse(personinfo));
         } else {
-            personLookup
+            personInfoLookup
                 .hentPerson(aktørId)
                 .then(person => {
                     const personinfo = personMapping.map(person);
