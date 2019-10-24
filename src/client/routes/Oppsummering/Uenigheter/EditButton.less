@@ -1,0 +1,16 @@
+@import '../../../mixins';
+
+.EditButton {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.25rem;
+
+  .focusable();
+
+  &:hover {
+    svg g {
+      fill: #0067C5;
+    }
+  }
+}
