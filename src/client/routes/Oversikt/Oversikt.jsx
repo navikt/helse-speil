@@ -35,7 +35,8 @@ const Oversikt = ({ history }) => {
     const {
         behandlingsoversikt,
         velgBehandlingFraOversikt,
-        isFetchingBehandlingsoversikt
+        isFetchingBehandlingsoversikt,
+        isFetchingPersoninfo
     } = useContext(BehandlingerContext);
     const { feedback } = useContext(InnrapporteringContext);
     const { authInfo } = useContext(AuthContext);
@@ -124,6 +125,11 @@ const Oversikt = ({ history }) => {
                     {isFetchingBehandlingsoversikt && (
                         <AlertStripeInfo>
                             Henter behandlinger <NavFrontendSpinner type="XS" />
+                        </AlertStripeInfo>
+                    )}
+                    {isFetchingPersoninfo && (
+                        <AlertStripeInfo>
+                            Henter navn for behandlinger <NavFrontendSpinner type="XS" />
                         </AlertStripeInfo>
                     )}
                     <ul>

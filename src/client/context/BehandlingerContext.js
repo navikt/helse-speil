@@ -28,6 +28,7 @@ export const BehandlingerProvider = ({ children }) => {
     const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person', {});
     const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
     const [isFetchingBehandlingsoversikt, setIsFetchingBehandlingsoversikt] = useState(false);
+    const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
 
     useEffect(() => {
         fetchBehandlingsoversikt();
@@ -46,9 +47,12 @@ export const BehandlingerProvider = ({ children }) => {
     const fetchBehandlingsoversikt = async () => {
         setPersonTilBehandling(undefined);
         const oversikt = await fetchBehandlingsoversiktSinceYesterday();
+        setBehandlingsoversikt(oversikt);
+        setIsFetchingBehandlingsoversikt(false);
+        setIsFetchingPersoninfo(true);
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
-        ).finally(() => setIsFetchingBehandlingsoversikt(false));
+        ).finally(() => setIsFetchingPersoninfo(false));
         if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
@@ -56,12 +60,8 @@ export const BehandlingerProvider = ({ children }) => {
     };
 
     const fetchBehandlingsoversiktSinceYesterday = () => {
-        const yesterday = moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD');
-        const today = moment().format('YYYY-MM-DD');
         setIsFetchingBehandlingsoversikt(true);
-        return behandlingerIPeriode(yesterday, today)
+        return behandlingerIPeriode()
             .then(response => response.data.behandlinger)
             .catch(err => {
                 setError({
@@ -102,7 +102,8 @@ export const BehandlingerProvider = ({ children }) => {
                 behandlingsoversikt,
                 personTilBehandling,
                 hentPerson,
-                isFetchingBehandlingsoversikt
+                isFetchingBehandlingsoversikt,
+                isFetchingPersoninfo
             }}
         >
             {children}
