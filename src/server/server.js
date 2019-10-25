@@ -1,6 +1,7 @@
 'use strict';
 
 const config = require('./config');
+const wiring = require('./wiring');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -12,7 +13,6 @@ const azure = require('./auth/azure');
 const authsupport = require('./auth/authsupport');
 const stsclient = require('./auth/stsclient');
 const { sessionStore } = require('./sessionstore');
-const redisclient = require('./redisclient');
 
 const headers = require('./headers');
 
@@ -28,14 +28,12 @@ const logger = require('./logging');
 const app = express();
 const port = config.server.port;
 
-const instrumentation = require('./instrumentation').setup(app);
-
-const redisClient = redisclient.init({ config: config.redis });
+const dependencies = wiring.getDependencies(app);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use(sessionStore(config, redisClient));
+app.use(sessionStore(config, dependencies.redisClient));
 
 app.use(compression());
 
@@ -124,10 +122,10 @@ app.use('/*', (req, res, next) => {
     }
 });
 
-app.use('/api/tildeling', tildeling.setup(redisClient));
-app.use('/api/person', person.setup({ stsclient, cache: redisClient, config: config.nav }));
-app.use('/api/feedback', feedback.setup({ config: config.s3, instrumentation }));
-app.use('/api/payments', payments.setup({ config: config.nav }));
+app.use('/api/tildeling', tildeling.setup(dependencies.redisClient));
+app.use('/api/person', person.setup(dependencies.person));
+app.use('/api/feedback', feedback.setup(dependencies.feedback));
+app.use('/api/payments', payments.setup(dependencies.payments));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {
