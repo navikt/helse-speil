@@ -1,4 +1,4 @@
-const init = navConfig => undefined;
+const init = () => undefined;
 
 const hentAccessToken = async () => {
     return 'accessToken';

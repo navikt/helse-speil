@@ -1,5 +1,5 @@
 module.exports = {
-    hentPerson: (aktørId, token) => {
+    hentPerson: aktørId => {
         const response =
             aktørId === '10000000000001'
                 ? { fornavn: 'Kong', etternavn: 'Harald', kjønn: 'mann' }

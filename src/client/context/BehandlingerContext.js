@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { hentPersonFraBackend, behandlingerIPeriode, getPerson } from '../io/http';
