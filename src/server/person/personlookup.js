@@ -66,36 +66,11 @@ const toAktørId = async fnr => {
     });
 };
 
-const _personSøk = (aktorId, accessToken) => {
-    return spadeClient.behandlingerForPerson({ aktørId: aktorId, accessToken });
-};
+const _personSøk = (aktorId, accessToken) =>
+    spadeClient.behandlingerForPerson({ aktørId: aktorId, accessToken });
 
-const _behandlingerForPeriod = (fom, tom, accessToken) => {
-    return process.env.NODE_ENV === 'development'
-        ? devBehandlingerForPeriod()
-        : prodBehandlingerForPeriod(fom, tom, accessToken);
-};
-
-const prodBehandlingerForPeriod = (fom, tom, accessToken) => {
-    const options = {
-        uri: `http://spade.default.svc.nais.local/api/behandlinger/periode/${fom}/${tom}`,
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        },
-        json: true,
-        resolveWithFullResponse: true
-    };
-    return request.get(options);
-};
-
-const devBehandlingerForPeriod = () => {
-    const fromFile = fs.readFileSync('__mock-data__/behandlingsummaries.json', 'utf-8');
-    const summary = JSON.parse(fromFile).behandlinger;
-    return Promise.resolve({
-        statusCode: 200,
-        body: { behandlinger: summary }
-    });
-};
+const _behandlingerForPeriod = (fom, tom, accessToken) =>
+    spadeClient.behandlingerForPeriode(fom, tom, accessToken);
 
 const respondWith = (res, lookupPromise, mapper) => {
     lookupPromise
