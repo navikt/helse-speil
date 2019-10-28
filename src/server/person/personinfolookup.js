@@ -1,34 +1,24 @@
 'use strict';
 
-const request = require('request-promise-native');
-
-let stsClient = null;
+let sparkelClient;
+let stsClient;
 let aktørIdLookup;
 
-const init = (stsclient, aktøridlookup) => {
+const init = ({ stsclient, sparkelclient, aktørIdLookup: aktøridlookup }) => {
     stsClient = stsclient;
+    sparkelClient = sparkelclient;
     aktørIdLookup = aktøridlookup;
 };
 
-const hentPerson = async aktørId =>
-    stsClient
+const hentPerson = async aktørId => {
+    return stsClient
         .hentAccessToken()
-        .then(token => {
-            const options = {
-                uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                json: true
-            };
-
-            return request.get(options);
-        })
+        .then(token => sparkelClient.hentPerson(aktørId, token))
         .then(async person => {
             const fnr = await aktørIdLookup.hentFnr(aktørId);
             return { ...person, fnr };
         });
-
+};
 module.exports = {
     init: init,
     hentPerson: hentPerson

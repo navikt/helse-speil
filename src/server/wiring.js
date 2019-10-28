@@ -3,12 +3,43 @@ const redisclient = require('./redisclient');
 
 const instrumentation = require('./instrumentation');
 const stsclient = require('./auth/stsclient');
+const devStsClient = require('./auth/devStsClient');
+const sparkelClient = require('./adapters/sparkelClient');
+const devSparkelClient = require('./adapters/devSparkelClient');
+const aktørIdLookup = require('./aktørid/aktøridlookup');
+const devAktørIdLookup = require('./aktørid/devAktørIdLookup');
 
-const getDependencies = app => {
+const getDependencies = app =>
+    process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
+
+const getDevDependencies = app => {
     const redisClient = redisclient.init({ config: config.redis });
     return {
         feedback: { config: config.s3, instrumentation: instrumentation.setup(app) },
-        person: { stsclient, cache: redisClient, config: config.nav },
+        person: {
+            sparkelClient: devSparkelClient,
+            aktørIdLookup: devAktørIdLookup,
+            stsclient: devStsClient,
+            cache: redisClient,
+            config: config.nav
+        },
+        payments: { config: config.nav },
+        redisClient
+    };
+};
+
+const getProdDependencies = app => {
+    const redisClient = redisclient.init({ config: config.redis });
+    aktørIdLookup.init(stsclient, config);
+    return {
+        feedback: { config: config.s3, instrumentation: instrumentation.setup(app) },
+        person: {
+            sparkelClient,
+            aktørIdLookup,
+            stsclient,
+            cache: redisClient,
+            config: config.nav
+        },
         payments: { config: config.nav },
         redisClient
     };

@@ -5,14 +5,15 @@ const fs = require('fs');
 
 const logger = require('../logging');
 const mapping = require('./mapping');
-const aktøridlookup = require('../aktørid/aktøridlookup');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
 const { nameFrom } = require('../auth/authsupport');
 
 const personIdHeaderName = 'nav-person-id';
 
-const setup = ({ stsclient, config }) => {
-    aktøridlookup.init(stsclient, config);
+let aktørIdLookup;
+
+const setup = ({ aktørIdLookup: aktøridlookup }) => {
+    aktørIdLookup = aktøridlookup;
 };
 
 const personSøk = async (req, res) => {
@@ -58,7 +59,7 @@ const auditLog = (request, ...queryParams) => {
 };
 
 const toAktørId = async fnr => {
-    return await aktøridlookup.hentAktørId(fnr).catch(err => {
+    return await aktørIdLookup.hentAktørId(fnr).catch(err => {
         logger.error(`Could not fetch aktørId. ${err}`);
     });
 };

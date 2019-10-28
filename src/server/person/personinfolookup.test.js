@@ -2,6 +2,8 @@
 
 const personinfolookup = require('./personinfolookup');
 
+const sparkelclient = require('../adapters/sparkelClient');
+
 const expectedPerson = {
     fdato: '1995-01-01',
     statsborgerskap: 'NOR',
@@ -20,9 +22,15 @@ const aktørIdLookupStub = {
     hentFnr: () => Promise.resolve(2469)
 };
 
-test('successful lookup resolves with person object', async () => {
-    personinfolookup.init(stsclientStub, aktørIdLookupStub);
+beforeEach(() => {
+    personinfolookup.init({
+        sparkelclient,
+        stsclient: stsclientStub,
+        aktørIdLookup: aktørIdLookupStub
+    });
+});
 
+test('successful lookup resolves with person object', async () => {
     await expect(personinfolookup.hentPerson('11111')).resolves.toEqual({
         ...expectedPerson,
         fnr: 2469
@@ -30,7 +38,5 @@ test('successful lookup resolves with person object', async () => {
 });
 
 test('lookup failure -> rejection', async () => {
-    personinfolookup.init(stsclientStub);
-
     await expect(personinfolookup.hentPerson('22222')).rejects.toMatch('request failed');
 });
