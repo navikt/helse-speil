@@ -1,8 +1,5 @@
 'use strict';
 
-const request = require('request-promise-native');
-const fs = require('fs');
-
 const logger = require('../logging');
 const mapping = require('./mapping');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
