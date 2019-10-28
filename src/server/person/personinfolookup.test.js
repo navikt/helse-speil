@@ -22,7 +22,7 @@ const aktørIdLookupStub = {
     hentFnr: () => Promise.resolve(2469)
 };
 
-beforeEach(() => {
+beforeAll(() => {
     personinfolookup.init({
         sparkelclient,
         stsclient: stsclientStub,

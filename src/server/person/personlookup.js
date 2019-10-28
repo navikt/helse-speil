@@ -11,9 +11,11 @@ const { nameFrom } = require('../auth/authsupport');
 const personIdHeaderName = 'nav-person-id';
 
 let aktørIdLookup;
+let spadeClient;
 
-const setup = ({ aktørIdLookup: aktøridlookup }) => {
+const setup = ({ aktørIdLookup: aktøridlookup, spadeClient: spadeclient }) => {
     aktørIdLookup = aktøridlookup;
+    spadeClient = spadeclient;
 };
 
 const personSøk = async (req, res) => {
@@ -65,39 +67,13 @@ const toAktørId = async fnr => {
 };
 
 const _personSøk = (aktorId, accessToken) => {
-    return process.env.NODE_ENV === 'development'
-        ? devBehandlingerForPerson(aktorId)
-        : prodBehandlingerForPerson(aktorId, accessToken);
+    return spadeClient.behandlingerForPerson({ aktørId: aktorId, accessToken });
 };
 
 const _behandlingerForPeriod = (fom, tom, accessToken) => {
     return process.env.NODE_ENV === 'development'
         ? devBehandlingerForPeriod()
         : prodBehandlingerForPeriod(fom, tom, accessToken);
-};
-
-const prodBehandlingerForPerson = (aktorId, accessToken) => {
-    const options = {
-        uri: `http://spade.default.svc.nais.local/api/behandlinger/${aktorId}`,
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        },
-        json: true,
-        resolveWithFullResponse: true
-    };
-    return request.get(options);
-};
-
-const devBehandlingerForPerson = aktorId => {
-    const fromFile = fs.readFileSync('__mock-data__/tidslinjeperson.json', 'utf-8');
-    const person = JSON.parse(fromFile);
-    return Promise.resolve({
-        statusCode: 200,
-        body: {
-            fnr: aktorId,
-            person
-        }
-    });
 };
 
 const prodBehandlingerForPeriod = (fom, tom, accessToken) => {

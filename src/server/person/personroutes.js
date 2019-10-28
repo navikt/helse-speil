@@ -2,9 +2,9 @@ const router = require('express').Router();
 const personinforoutes = require('./personinforoutes');
 const personlookup = require('./personlookup');
 
-const setup = ({ sparkelClient, aktørIdLookup, stsclient, cache }) => {
+const setup = ({ sparkelClient, aktørIdLookup, spadeClient, stsclient, cache }) => {
     personinforoutes.setup({ sparkelClient, aktørIdLookup, stsclient, cache });
-    personlookup.setup({ aktørIdLookup });
+    personlookup.setup({ aktørIdLookup, spadeClient });
     routes(router);
     return router;
 };

@@ -8,6 +8,8 @@ const sparkelClient = require('./adapters/sparkelClient');
 const devSparkelClient = require('./adapters/devSparkelClient');
 const aktørIdLookup = require('./aktørid/aktøridlookup');
 const devAktørIdLookup = require('./aktørid/devAktørIdLookup');
+const spadeClient = require('./adapters/spadeClient');
+const devSpadeClient = require('./adapters/devSpadeClient');
 
 const getDependencies = app =>
     process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
@@ -19,6 +21,7 @@ const getDevDependencies = app => {
         person: {
             sparkelClient: devSparkelClient,
             aktørIdLookup: devAktørIdLookup,
+            spadeClient: devSpadeClient,
             stsclient: devStsClient,
             cache: redisClient,
             config: config.nav
@@ -36,6 +39,7 @@ const getProdDependencies = app => {
         person: {
             sparkelClient,
             aktørIdLookup,
+            spadeClient,
             stsclient,
             cache: redisClient,
             config: config.nav
