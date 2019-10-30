@@ -32,7 +32,7 @@ const personSøk = async (req, res) => {
         return;
     }
 
-    respondWith(res, _personSøk(aktorId, req.session.spadeToken), mapping.person);
+    respondWith(res, _personSøk(aktorId, req.session.spadeToken), input => input);
 };
 
 const behandlingerForPeriod = (req, res) => {
