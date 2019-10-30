@@ -48,7 +48,6 @@ export const BehandlingerProvider = ({ children }) => {
         setPersonTilBehandling(undefined);
         const oversikt = await fetchBehandlingsoversiktSinceYesterday();
         setBehandlingsoversikt(oversikt);
-        setIsFetchingBehandlingsoversikt(false);
         setIsFetchingPersoninfo(true);
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
@@ -74,7 +73,8 @@ export const BehandlingerProvider = ({ children }) => {
                             : 'Kunne ikke hente behandlinger. Prøv igjen senere.'
                 });
                 return [];
-            });
+            })
+            .finally(() => setIsFetchingBehandlingsoversikt(false));
     };
 
     const hentPerson = value => {
