@@ -5,17 +5,40 @@ import { guid } from 'nav-frontend-js-utils';
 import 'nav-frontend-tabell-style';
 import './Timeline.less';
 
+const hendelseTypeTilUiNavn = type => {
+    switch (type) {
+        case 'NySøknadMottatt':
+            return 'SM';
+        case 'SendtSøknadMottatt':
+            return 'SØ';
+        case 'InntektsmeldingMottatt':
+            return 'IM';
+        default:
+            return type;
+    }
+};
 const Timeline = ({ person }) => {
-    return person?.sykdomstidslinje ? (
+    if (!person?.arbeidsgivere) {
+        return null;
+    }
+    const tidslinje = person.arbeidsgivere[0].saker[0].sykdomstidslinje;
+    const hendelser = tidslinje.hendelser;
+    const dager = tidslinje.dager.map(dag => {
+        return {
+            date: dag.dato,
+            type: dag.type,
+            source: hendelseTypeTilUiNavn(hendelser.find(h => h.hendelseId === dag.hendelseId).type)
+        };
+    });
+    return (
         <table className="Timeline tabell">
             <thead>
                 <tr>
                     <th>Sykmeldingsperiode</th>
-                    <th>Gradering</th>
                 </tr>
             </thead>
             <tbody>
-                {person.sykdomstidslinje
+                {dager
                     .map(item => ({ ...item, key: guid() }))
                     .map((item, i, array) => {
                         const showType = i === 0 || array[i - 1].type !== item.type;
@@ -23,7 +46,7 @@ const Timeline = ({ person }) => {
                     })}
             </tbody>
         </table>
-    ) : null;
+    );
 };
 
 Timeline.propTypes = {
