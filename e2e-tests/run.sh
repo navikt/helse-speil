@@ -16,7 +16,7 @@ function cleanup {
 }
 trap cleanup ERR
 
-npm run dev-express &>/dev/null &
+npm run dev-express &
 NPM_PID=$!
 
 echo "Started Node, waiting for it to accept connections..."
@@ -30,6 +30,6 @@ then
 else
     echo "Node is running as pid $NODE_PID, executing tests"
     $(npm bin)/cypress run --project e2e-tests
-    echo "Done, stopping processes"
+    echo "Done, stopping processes $NODE_PID and $NPM_PID"
     kill $NODE_PID $NPM_PID
 fi

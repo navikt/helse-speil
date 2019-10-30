@@ -1,0 +1,68 @@
+version: '3.2'
+services:
+   spade:
+      image: navikt/spade:local
+      container_name: spade
+      ports:
+        - 8083:8083
+      environment:
+         - KAFKA_BOOTSTRAP_SERVERS=kafka:19092
+         - OIDC_CONFIG_URL=http://simple-oidc-provider:9000/.well-known/openid-configuration
+         - CLIENT_ID=foo
+         - CLIENT_SECRET=bar
+         - SERVICEUSER_USERNAME=spadekafkauser
+         - SERVICEUSER_PASSWORD=spadekafkapassword
+         - REQUIRED_GROUP=spadegruppe
+      depends_on:
+        - oidc
+        - kafka
+
+   redis:
+      image: redis
+      ports:
+         - "6379:6379"
+      container_name: redis1
+
+   kafka:
+      image: confluentinc/cp-kafka:5.1.0
+      networks:
+         default:
+            aliases:
+               - kafka
+      environment:
+         - KAFKA_LISTENERS=LISTENER_DOCKER_INTERNAL://kafka:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+         - KAFKA_ADVERTISED_LISTENERS=LISTENER_DOCKER_INTERNAL://kafka:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+         - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+         - KAFKA_INTER_BROKER_LISTENER_NAME= LISTENER_DOCKER_INTERNAL
+         - KAFKA_OPTS=-Djava.security.auth.login.config=/kafka_server_jaas.conf
+         - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+         - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+         - ZOOKEEPER_SASL_ENABLED=false
+      ports:
+         - "9092:9092"
+      volumes:
+        - "./kafka_server_jaas.conf:/kafka_server_jaas.conf"
+      depends_on:
+         - zookeeper
+
+   zookeeper:
+      image: confluentinc/cp-zookeeper:5.1.0
+      environment:
+         - ZOOKEEPER_CLIENT_PORT=2181
+      ports:
+         - "2181:2181"
+
+   oidc:
+      image: qlik/simple-oidc-provider
+      container_name: simple-oidc-provider
+      ports:
+         - 9000:9000
+      networks:
+         default:
+            aliases:
+               - simple-oidc-provider
+      volumes:
+         - "./oidc-users.json:/oidc-users.json"
+      environment:
+         - REDIRECTS=http://localhost:3000/callback
+         - USERS_FILE=/oidc-users.json

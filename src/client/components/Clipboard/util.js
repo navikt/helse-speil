@@ -1,14 +1,25 @@
 export const copyContentsToClipboard = node => {
-    node.contentEditable = true;
-    const range = document.createRange();
-    range.selectNodeContents(node);
+    let didCopy = false;
 
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
+    if (node) {
+        node.contentEditable = 'true';
+        const tempTextContents = node.innerText;
+        node.innerText = node.innerText.replace(' ', '');
+        const range = document.createRange();
+        range.selectNodeContents(node);
 
-    const didCopy = document.execCommand('copy');
-    selection.removeAllRanges();
-    node.contentEditable = false;
+        const selection = window.getSelection();
+
+        if (selection) {
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            didCopy = document.execCommand('copy');
+            selection.removeAllRanges();
+        }
+        node.innerText = tempTextContents;
+        node.contentEditable = 'false';
+    }
+
     return didCopy;
 };

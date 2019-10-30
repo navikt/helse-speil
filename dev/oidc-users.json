@@ -1,0 +1,11 @@
+[
+    {
+        "id": "SIMPLE_OIDC_USER_SPEIL",
+        "email": "dev@nav.no",
+        "email_verified": true,
+        "name": "Dev Devson",
+        "nickname": "dev",
+        "password": "plain text password",
+        "groups": ["spadegruppe"]
+    }
+]

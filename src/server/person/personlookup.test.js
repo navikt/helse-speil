@@ -1,36 +1,22 @@
-'use strict';
+const lookup = require('./personlookup');
+const spadeClient = require('../adapters/spadeClient');
 
-const personLookup = require('./personlookup');
-
-const expectedPerson = {
-    fdato: '1995-01-01',
-    statsborgerskap: 'NOR',
-    etternavn: 'BETJENT',
-    aktørId: '1000012345678',
-    bostedsland: 'NOR',
-    fornavn: 'BJARNE',
-    kjønn: 'MANN',
-    status: 'BOSA'
-};
-
-const stsclientStub = {
-    hentAccessToken: () => Promise.resolve({})
-};
-const aktørIdLookupStub = {
-    hentFnr: () => Promise.resolve(2469)
-};
-
-test('successful lookup resolves with person object', async () => {
-    personLookup.init(stsclientStub, aktørIdLookupStub);
-
-    await expect(personLookup.hentPerson('11111')).resolves.toEqual({
-        ...expectedPerson,
-        fnr: 2469
+describe('calling mocked spade', () => {
+    beforeAll(() => {
+        lookup.setup({ spadeClient });
     });
-});
 
-test('lookup failure -> rejection', async () => {
-    personLookup.init(stsclientStub);
+    test('behandlinger for person', async () => {
+        await lookup._personSøk('xxx', 'yyy').then(response => {
+            expect(JSON.stringify(response.body)).toMatch('bbbb-cccc-dddd-eeee-ffff');
+        });
+    });
 
-    await expect(personLookup.hentPerson('22222')).rejects.toMatch('request failed');
+    test('behandlinger summary for time period', async () => {
+        await lookup._behandlingerForPeriod(111, 222, 'aaa').then(response => {
+            expect(JSON.stringify(response.body.behandlinger)).toMatch(
+                '81846f2c-968a-4d88-ac76-c6cec5142bff'
+            );
+        });
+    });
 });

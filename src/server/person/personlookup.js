@@ -1,35 +1,104 @@
 'use strict';
 
-const request = require('request-promise-native');
+const logger = require('../logging');
+const mapping = require('./mapping');
+const { isValidSsn } = require('../aktørid/ssnvalidation');
+const { nameFrom } = require('../auth/authsupport');
 
-let stsClient = null;
+const personIdHeaderName = 'nav-person-id';
+
 let aktørIdLookup;
+let spadeClient;
 
-const init = (stsclient, aktøridlookup) => {
-    stsClient = stsclient;
+const setup = ({ aktørIdLookup: aktøridlookup, spadeClient: spadeclient }) => {
     aktørIdLookup = aktøridlookup;
+    spadeClient = spadeclient;
 };
 
-const hentPerson = async aktørId =>
-    stsClient
-        .hentAccessToken()
-        .then(token => {
-            const options = {
-                uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-                json: true
-            };
+const personSøk = async (req, res) => {
+    const undeterminedPersonId = req.headers[personIdHeaderName];
+    auditLog(req, undeterminedPersonId || 'missing person id');
+    if (!undeterminedPersonId) {
+        logger.error(`Missing header '${personIdHeaderName}' in request`);
+        res.status(400).send(`Påkrevd header '${personIdHeaderName}' mangler`);
+        return;
+    }
 
-            return request.get(options);
+    let aktorId = isValidSsn(undeterminedPersonId)
+        ? await toAktørId(undeterminedPersonId)
+        : undeterminedPersonId;
+    if (!aktorId) {
+        res.status(404).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
+        return;
+    }
+
+    respondWith(res, _personSøk(aktorId, req.session.spadeToken), mapping.person);
+};
+
+const behandlingerForPeriod = (req, res) => {
+    auditLog(req, fom || 'missing fom', tom || 'missing tom');
+
+    const fom = 'fom';
+    const tom = 'tom';
+
+    respondForSummary(
+        res,
+        _behandlingerForPeriod(fom, tom, req.session.spadeToken),
+        mapping.fromBehandlingSummary
+    );
+};
+
+const auditLog = (request, ...queryParams) => {
+    const speilUser = nameFrom(request.session.spadeToken);
+    logger.audit(
+        `${speilUser} is doing lookup with params: ${queryParams.reduce(
+            (previous, current) => `${previous}, ${current}`
+        )}`
+    );
+};
+
+const toAktørId = async fnr => {
+    return await aktørIdLookup.hentAktørId(fnr).catch(err => {
+        logger.error(`Could not fetch aktørId. ${err}`);
+    });
+};
+
+const _personSøk = (aktorId, accessToken) =>
+    spadeClient.behandlingerForPerson({ aktørId: aktorId, accessToken });
+
+const _behandlingerForPeriod = (fom, tom, accessToken) =>
+    spadeClient.behandlingerForPeriode(fom, tom, accessToken);
+
+const respondWith = (res, lookupPromise, mapper) => {
+    lookupPromise
+        .then(apiResponse => {
+            res.status(apiResponse.statusCode).send({
+                person: mapper(apiResponse.body.person)
+            });
         })
-        .then(async person => {
-            const fnr = await aktørIdLookup.hentFnr(aktørId);
-            return { ...person, fnr };
+        .catch(err => {
+            logger.error(`Error during behandlinger lookup: ${err}`);
+            res.sendStatus(500);
         });
+};
+
+const respondForSummary = (res, lookupPromise, mapper) => {
+    lookupPromise
+        .then(apiResponse => {
+            res.status(apiResponse.statusCode).send({
+                behandlinger: apiResponse.body.behandlinger.map(mapper)
+            });
+        })
+        .catch(err => {
+            logger.error(`Error during behandlinger lookup: ${err}`);
+            res.sendStatus(500);
+        });
+};
 
 module.exports = {
-    init: init,
-    hentPerson: hentPerson
+    setup,
+    personSøk,
+    behandlingerForPeriod,
+    _personSøk,
+    _behandlingerForPeriod
 };
