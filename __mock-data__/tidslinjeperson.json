@@ -433,7 +433,7 @@
                                     "aktorId": "0123456789012",
                                     "sykmeldingId": "00a07584-a586-4403-925f-82428318127e",
                                     "arbeidsgiver": {
-                                        "navn": null,
+                                        "navn": "Kongehuset",
                                         "orgnummer": "012345678"
                                     },
                                     "arbeidssituasjon": "ARBEIDSTAKER",
@@ -468,7 +468,7 @@
                                         {
                                             "fom": "2019-09-16",
                                             "tom": "2019-09-30",
-                                            "sykmeldingsgrad": null,
+                                            "sykmeldingsgrad": 100,
                                             "faktiskGrad": null,
                                             "avtaltTimer": null,
                                             "faktiskTimer": null,
@@ -477,7 +477,7 @@
                                         {
                                             "fom": "2019-10-05",
                                             "tom": "2019-10-05",
-                                            "sykmeldingsgrad": null,
+                                            "sykmeldingsgrad": 100,
                                             "faktiskGrad": null,
                                             "avtaltTimer": null,
                                             "faktiskTimer": null,

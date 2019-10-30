@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SourceLink from './SourceLink';
 
-const capitalize = text => text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-
 const dayTypes = {
     ARBEIDSDAG: {
         cssName: 'arbeidsdag',

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Clipboard from '../Clipboard';
 import { getPerson } from '../../io/http';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
@@ -7,47 +7,66 @@ import './PersonBar.less';
 
 const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
+const finnSøknad = person =>
+    person.arbeidsgivere?.[0].saker[0].sykdomstidslinje.hendelser.find(
+        h => h.type === 'SendtSøknadMottatt'
+    ).søknad;
+
+const finnSykmeldingsgrad = person => finnSøknad(person).soknadsperioder[0].sykmeldingsgrad;
+
 const PersonBar = () => {
     const { personTilBehandling } = useContext(BehandlingerContext);
-    const aktorId = personTilBehandling?.originalSøknad?.aktorId;
+    const aktørId = personTilBehandling?.aktørId;
     const [personinfo, setPersoninfo] = useState(personTilBehandling?.personinfo);
 
     useEffect(() => {
-        if (aktorId) {
-            getPerson(aktorId)
+        if (aktørId) {
+            getPerson(aktørId)
                 .then(response => setPersoninfo(response.data))
                 .catch(err => {
                     console.error('Feil ved henting av person.', err);
                 });
         }
-    }, [aktorId]);
+    }, [aktørId]);
+
+    const data = useMemo(() => {
+        if (!personTilBehandling || !personinfo) {
+            return null;
+        }
+        return {
+            navn: personinfo.navn ?? 'Navn ikke tilgjengelig',
+            fnr: personinfo.fnr,
+            arbeidsgivernavn: finnSøknad(personTilBehandling)?.arbeidsgiver.navn,
+            sykmeldingsgrad: `${finnSykmeldingsgrad(personTilBehandling)}%`,
+            ariaLabelKjønn: `Kjønn: ${personinfo.kjønn ?? 'Ikke tilgjengelig'}`,
+            classNameKjønn: personinfo.kjønn?.toLowerCase() ?? 'kjønnsnøytral'
+        };
+    }, [personTilBehandling, personinfo]);
 
     return (
         <div className="PersonBar">
-            {personinfo && personTilBehandling && (
+            {data && (
                 <>
-                    <Normaltekst>
-                        {personTilBehandling.originalSøknad.arbeidsgiver.navn}
-                    </Normaltekst>
+                    <Normaltekst>{data.arbeidsgivernavn}</Normaltekst>
                     <Normaltekst>{' / '}</Normaltekst>
-                    <Normaltekst>{`${personTilBehandling.periode.sykmeldingsgrad}%`}</Normaltekst>
+                    <Normaltekst>{data.sykmeldingsgrad}</Normaltekst>
                     <span className="PersonBar__separator" />
                     <figure
                         id="PersonBar__gender"
-                        aria-label={`Kjønn: ${personinfo?.kjønn ?? 'Ikke tilgjengelig'}`}
-                        className={personinfo?.kjønn?.toLowerCase() ?? 'kjønnsnøytral'}
+                        aria-label={data.ariaLabelKjønn}
+                        className={data.classNameKjønn}
                     />
-                    <Element>{personinfo?.navn ?? 'Navn ikke tilgjengelig'}</Element>
+                    <Element>{data.navn}</Element>
                     <Normaltekst>/</Normaltekst>
-                    {personinfo?.fnr ? (
+                    {data.fnr ? (
                         <Clipboard>
-                            <Normaltekst>{formatFnr(personinfo.fnr)}</Normaltekst>
+                            <Normaltekst>{formatFnr(data.fnr)}</Normaltekst>
                         </Clipboard>
                     ) : (
                         <Normaltekst>Fødselsnummer ikke tilgjengelig</Normaltekst>
                     )}
                     <Normaltekst>/</Normaltekst>
-                    <Normaltekst>Aktør-ID: {aktorId}</Normaltekst>
+                    <Normaltekst>Aktør-ID: {aktørId}</Normaltekst>
                 </>
             )}
         </div>
