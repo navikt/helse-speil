@@ -1,9 +1,14 @@
 @yPadding: 0.25rem;
 
-@colorEgenmelding: #e0f5fb;
-@colorSyk: #ecefcc;
-@colorUbestemt: #e0dae7;
-@colorUtenlands: #ccdee6;
+@colorArbeidsdag: #c6c2bf;
+@colorEgenmeldingsdag: #e0f5fb;
+@colorFeriedag: #c6c2bf;
+@colorPermisjonsdag: #c6c2bf;
+@colorStudiedag: #c6c2bf;
+@colorSykHelgedag: #e0f5fb;
+@colorSykedag: #ecefcc;
+@colorUbestemtdag: #e0dae7;
+@colorUtenlandsdag: #ccdee6;
 @colorDefault: #c6c2bf;
 
 .Timeline.tabell {
@@ -51,20 +56,41 @@
       margin-right: 0.75rem;
     }
 
-    &.egenmelding > span {
-      background: @colorEgenmelding;
+    &.arbeidsdag > span {
+      background: @colorArbeidsdag;
     }
 
-    &.syk > span {
-      background: @colorSyk;
+    &.egenmeldingsdag > span {
+      background: @colorEgenmeldingsdag;
     }
 
-    &.utenlands > span {
-      background: @colorUtenlands;
+    &.feriedag > span {
+      background: @colorFeriedag;
     }
 
-    &.ubestemt > span {
-      background: @colorUbestemt;
+    &.permisjonsdag > span {
+      background: @colorPermisjonsdag;
     }
+
+    &.permisstudiedagonsdag > span {
+      background: @colorStudiedag;
+    }
+
+    &.sykHelgedag > span {
+      background: @colorSykHelgedag;
+    }
+
+    &.sykedag > span {
+      background: @colorSykedag;
+    }
+
+    &.ubestemtdag > span {
+      background: @colorUbestemtdag;
+    }
+
+    &.utenlandsdag > span {
+      background: @colorUtenlandsdag;
+    }
+
   }
 }
