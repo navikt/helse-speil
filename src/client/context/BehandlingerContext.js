@@ -26,6 +26,8 @@ export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person', {});
     const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
+    const [isFetchingBehandlingsoversikt, setIsFetchingBehandlingsoversikt] = useState(false);
+    const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
 
     useEffect(() => {
         fetchBehandlingsoversikt();
@@ -44,9 +46,11 @@ export const BehandlingerProvider = ({ children }) => {
     const fetchBehandlingsoversikt = async () => {
         setPersonTilBehandling(undefined);
         const oversikt = await fetchBehandlingsoversiktSinceYesterday();
+        setBehandlingsoversikt(oversikt);
+        setIsFetchingPersoninfo(true);
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
-        );
+        ).finally(() => setIsFetchingPersoninfo(false));
         if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
@@ -54,6 +58,7 @@ export const BehandlingerProvider = ({ children }) => {
     };
 
     const fetchBehandlingsoversiktSinceYesterday = () => {
+        setIsFetchingBehandlingsoversikt(true);
         return behandlingerIPeriode()
             .then(response => response.data.behandlinger)
             .catch(err => {
@@ -67,7 +72,8 @@ export const BehandlingerProvider = ({ children }) => {
                             : 'Kunne ikke hente behandlinger. Prøv igjen senere.'
                 });
                 return [];
-            });
+            })
+            .finally(() => setIsFetchingBehandlingsoversikt(false));
     };
 
     const hentPerson = value => {
@@ -94,7 +100,9 @@ export const BehandlingerProvider = ({ children }) => {
                 velgBehandlingFraOversikt,
                 behandlingsoversikt,
                 personTilBehandling,
-                hentPerson
+                hentPerson,
+                isFetchingBehandlingsoversikt,
+                isFetchingPersoninfo
             }}
         >
             {children}

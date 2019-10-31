@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Oversiktslinje from './Oversiktslinje';
 import OversiktsLenke from './OversiktsLenke';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Panel } from 'nav-frontend-paneler';
 import { withRouter } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
 import { toDateAndTime } from '../../utils/date';
 import { oversikttekster } from '../../tekster';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
@@ -31,7 +32,12 @@ const partition = predicate => (acc, cur) =>
     predicate(cur) ? [[...acc[0], cur], acc[1]] : [acc[0], [...acc[1], cur]];
 
 const Oversikt = ({ history }) => {
-    const { behandlingsoversikt, velgBehandlingFraOversikt } = useContext(BehandlingerContext);
+    const {
+        behandlingsoversikt,
+        velgBehandlingFraOversikt,
+        isFetchingBehandlingsoversikt,
+        isFetchingPersoninfo
+    } = useContext(BehandlingerContext);
     const { feedback } = useContext(InnrapporteringContext);
     const { authInfo } = useContext(AuthContext);
     const [tildelinger, setTildelinger] = useState([]);
@@ -116,6 +122,16 @@ const Oversikt = ({ history }) => {
             <div className="Oversikt__container">
                 <Panel border className="Oversikt__neste-behandlinger">
                     <Undertittel className="panel-tittel">{oversikttekster('tittel')}</Undertittel>
+                    {isFetchingBehandlingsoversikt && (
+                        <AlertStripeInfo>
+                            Henter behandlinger <NavFrontendSpinner type="XS" />
+                        </AlertStripeInfo>
+                    )}
+                    {isFetchingPersoninfo && (
+                        <AlertStripeInfo>
+                            Henter navn for behandlinger <NavFrontendSpinner type="XS" />
+                        </AlertStripeInfo>
+                    )}
                     <ul>
                         <li className="row">
                             <Normaltekst>{oversikttekster('søker')}</Normaltekst>
