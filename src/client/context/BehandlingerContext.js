@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { hentPersonFraBackend, behandlingerIPeriode, getPerson } from '../io/http';
+import { fetchPerson, fetchPersonoversikt, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 
 export const BehandlingerContext = createContext();
@@ -25,18 +25,18 @@ const appendPersoninfo = behandling => {
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person');
-    const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
-    const [isFetchingBehandlingsoversikt, setIsFetchingBehandlingsoversikt] = useState(false);
+    const [personoversikt, setPersonoversikt] = useState([]);
+    const [isFetchingPersonoversikt, setIsFetchingPersonoversikt] = useState(false);
     const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
 
-    const velgBehandlingFraOversikt = ({ aktørId }) => {
+    const velgPersonFraOversikt = ({ aktørId }) => {
         return hentPerson(aktørId);
     };
 
-    const fetchBehandlingsoversikt = async () => {
+    const hentPersonoversikt = async () => {
         setPersonTilBehandling(undefined);
-        const oversikt = await fetchBehandlingsoversiktSinceYesterday();
-        setBehandlingsoversikt(oversikt);
+        const oversikt = await hentPersoner();
+        setPersonoversikt(oversikt);
         setIsFetchingPersoninfo(true);
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
@@ -44,13 +44,13 @@ export const BehandlingerProvider = ({ children }) => {
         if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
-        setBehandlingsoversikt(oversiktWithPersoninfo);
+        setPersonoversikt(oversiktWithPersoninfo);
     };
 
-    const fetchBehandlingsoversiktSinceYesterday = () => {
-        setIsFetchingBehandlingsoversikt(true);
-        return behandlingerIPeriode()
-            .then(response => response.data.behandlinger)
+    const hentPersoner = () => {
+        setIsFetchingPersonoversikt(true);
+        return fetchPersonoversikt()
+            .then(response => response.data.personer)
             .catch(err => {
                 setError({
                     ...err,
@@ -63,11 +63,11 @@ export const BehandlingerProvider = ({ children }) => {
                 });
                 return [];
             })
-            .finally(() => setIsFetchingBehandlingsoversikt(false));
+            .finally(() => setIsFetchingPersonoversikt(false));
     };
 
     const hentPerson = value => {
-        return hentPersonFraBackend(value)
+        return fetchPerson(value)
             .then(response => {
                 const { person } = response.data;
                 setPersonTilBehandling(person);
@@ -78,7 +78,7 @@ export const BehandlingerProvider = ({ children }) => {
                     err.statusCode === 401
                         ? 'Du må logge inn på nytt'
                         : err.statusCode === 404
-                        ? `Fant ingen behandlinger for ${value}`
+                        ? `Fant ikke data for ${value}`
                         : 'Kunne ikke utføre søket. Prøv igjen senere.';
                 setError({ ...err, message });
             });
@@ -87,12 +87,12 @@ export const BehandlingerProvider = ({ children }) => {
     return (
         <BehandlingerContext.Provider
             value={{
-                velgBehandlingFraOversikt,
-                behandlingsoversikt,
-                fetchBehandlingsoversikt,
+                velgPersonFraOversikt,
+                personoversikt,
+                hentPersonoversikt,
                 personTilBehandling,
                 hentPerson,
-                isFetchingBehandlingsoversikt,
+                isFetchingPersonoversikt,
                 isFetchingPersoninfo
             }}
         >

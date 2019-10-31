@@ -33,10 +33,10 @@ const partition = predicate => (acc, cur) =>
 
 const Oversikt = ({ history }) => {
     const {
-        behandlingsoversikt,
-        fetchBehandlingsoversikt,
-        velgBehandlingFraOversikt,
-        isFetchingBehandlingsoversikt,
+        personoversikt,
+        hentPersonoversikt,
+        velgPersonFraOversikt,
+        isFetchingPersonoversikt,
         isFetchingPersoninfo
     } = useContext(BehandlingerContext);
     const { feedback } = useContext(InnrapporteringContext);
@@ -46,7 +46,7 @@ const Oversikt = ({ history }) => {
 
     const [behandledeSaker, ubehandledeSaker] = useMemo(
         () =>
-            behandlingsoversikt
+            personoversikt
                 .map(behandling => {
                     const behandlingFeedback = feedback.find(
                         f => f.key === behandling.behandlingsId
@@ -56,11 +56,11 @@ const Oversikt = ({ history }) => {
                         : behandling;
                 })
                 .reduce(partition(b => b.behandlet), [[], []]),
-        [feedback, behandlingsoversikt]
+        [feedback, personoversikt]
     );
 
     useEffect(() => {
-        fetchBehandlingsoversikt();
+        hentPersonoversikt();
     }, []);
 
     useEffect(() => {
@@ -69,11 +69,11 @@ const Oversikt = ({ history }) => {
         return () => {
             window.clearInterval(interval);
         };
-    }, [behandlingsoversikt.length]);
+    }, [personoversikt.length]);
 
     const fetchTildelinger = () => {
-        if (behandlingsoversikt.length > 0) {
-            const behandlingsIdList = behandlingsoversikt.map(b => b.behandlingsId);
+        if (personoversikt.length > 0) {
+            const behandlingsIdList = personoversikt.map(b => b.behandlingsId);
             getTildelinger(behandlingsIdList)
                 .then(result => {
                     const nyeTildelinger = result.data.filter(
@@ -118,7 +118,7 @@ const Oversikt = ({ history }) => {
     };
 
     const velgBehandlingAndNavigate = behandling => {
-        velgBehandlingFraOversikt(behandling).then(() => history.push('/sykdomsvilkår'));
+        velgPersonFraOversikt(behandling).then(() => history.push('/sykdomsvilkår'));
     };
 
     return (
@@ -127,7 +127,7 @@ const Oversikt = ({ history }) => {
             <div className="Oversikt__container">
                 <Panel border className="Oversikt__neste-behandlinger">
                     <Undertittel className="panel-tittel">{oversikttekster('tittel')}</Undertittel>
-                    {isFetchingBehandlingsoversikt && (
+                    {isFetchingPersonoversikt && (
                         <AlertStripeInfo>
                             Henter behandlinger <NavFrontendSpinner type="XS" />
                         </AlertStripeInfo>

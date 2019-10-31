@@ -86,7 +86,7 @@ const respondForSummary = (res, lookupPromise, mapper) => {
     lookupPromise
         .then(apiResponse => {
             res.status(apiResponse.statusCode).send({
-                behandlinger: apiResponse.body.behandlinger.map(mapper)
+                personer: apiResponse.body.behandlinger.map(mapper)
             });
         })
         .catch(err => {
