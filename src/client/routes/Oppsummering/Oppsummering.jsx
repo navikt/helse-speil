@@ -7,12 +7,12 @@ import { Panel } from 'nav-frontend-paneler';
 import { toDate } from '../../utils/date';
 import { toKroner } from '../../utils/locale';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 import { oppsummeringstekster, tekster } from '../../tekster';
 import './Oppsummering.less';
 
 const Oppsummering = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
     return (
         <div className="Oppsummering">
             <Panel>

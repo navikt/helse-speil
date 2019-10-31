@@ -11,14 +11,14 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { withRouter } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
 import { putFeedback } from '../../io/http';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 import { oppsummeringstekster } from '../../tekster';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './Innrapportering.less';
 
 const Innrapportering = ({ history }) => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
     const innrapportering = useContext(InnrapporteringContext);
     const authContext = useContext(AuthContext);
     const [error, setError] = useState(undefined);

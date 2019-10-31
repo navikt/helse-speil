@@ -5,12 +5,12 @@ import ItemMapper from '../../datamapping/inngangsvilkårMapper';
 import TidligerePerioderModal from './TidligerePerioderModal';
 import { Panel } from 'nav-frontend-paneler';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 import { inngangsvilkårtekster as tekster } from '../../tekster';
 import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
 
 const Inngangsvilkår = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
     const [visDetaljerboks, setVisDetaljerboks] = useState(false);
 
     const detaljerKnapp = (

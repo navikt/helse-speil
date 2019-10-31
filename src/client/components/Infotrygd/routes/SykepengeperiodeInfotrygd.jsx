@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
 import { periodetekster } from '../../../tekster';
-import { BehandlingerContext } from '../../../context/BehandlingerContext';
+import { PersonContext } from '../../../context/PersonContext';
 
 const SykepengeperiodeInfotrygd = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
     const {
         antallKalenderdager,
         arbeidsgiverperiodeKalenderdager,

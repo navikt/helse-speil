@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
 import { tekster, utbetalingstekster } from '../../../tekster';
-import { BehandlingerContext } from '../../../context/BehandlingerContext';
+import { PersonContext } from '../../../context/PersonContext';
 import { toKroner } from '../../../utils/locale';
 
 const UtbetalingInfotrygd = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
 
     return (
         <>

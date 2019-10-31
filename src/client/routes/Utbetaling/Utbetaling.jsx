@@ -7,10 +7,10 @@ import { Panel } from 'nav-frontend-paneler';
 import { toKroner } from '../../utils/locale';
 import { Element, Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import { tekster, utbetalingstekster } from '../../tekster';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 
 const Utbetaling = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
     const {
         antallUtbetalingsdager,
         betalerArbeidsgiverperiode,

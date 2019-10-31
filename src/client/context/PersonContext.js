@@ -4,7 +4,7 @@ import ErrorModal from '../components/ErrorModal';
 import { fetchPerson, fetchPersonoversikt, getPerson } from '../io/http';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 
-export const BehandlingerContext = createContext();
+export const PersonContext = createContext();
 
 const appendPersoninfo = behandling => {
     return getPerson(behandling.originalSøknad.aktorId)
@@ -22,7 +22,7 @@ const appendPersoninfo = behandling => {
         });
 };
 
-export const BehandlingerProvider = ({ children }) => {
+export const PersonProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person');
     const [personoversikt, setPersonoversikt] = useState([]);
@@ -85,7 +85,7 @@ export const BehandlingerProvider = ({ children }) => {
     };
 
     return (
-        <BehandlingerContext.Provider
+        <PersonContext.Provider
             value={{
                 velgPersonFraOversikt,
                 personoversikt,
@@ -103,10 +103,10 @@ export const BehandlingerProvider = ({ children }) => {
                     onClose={error.statusCode !== 401 ? () => setError(undefined) : undefined}
                 />
             )}
-        </BehandlingerContext.Provider>
+        </PersonContext.Provider>
     );
 };
 
-BehandlingerProvider.propTypes = {
+PersonProvider.propTypes = {
     children: PropTypes.node.isRequired
 };

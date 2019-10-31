@@ -11,13 +11,13 @@ import { useLogUserOut } from '../hooks/useLogUserOut';
 import { withContextProviders } from '../context/withContextProviders';
 import { InnrapporteringProvider } from '../context/InnrapporteringContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
-import { BehandlingerContext, BehandlingerProvider } from '../context/BehandlingerContext';
+import { PersonContext, PersonProvider } from '../context/PersonContext';
 import './App.less';
 import 'reset-css';
 
 const App = withContextProviders(() => {
     useLogUserOut();
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
     const { isActive } = useContext(EasterEggContext);
 
     if (isActive && personTilBehandling) {
@@ -34,6 +34,6 @@ const App = withContextProviders(() => {
             </Switch>
         </BrowserRouter>
     );
-}, [InnrapporteringProvider, BehandlingerProvider, AuthProvider, EasterEggProvider]);
+}, [InnrapporteringProvider, PersonProvider, AuthProvider, EasterEggProvider]);
 
 export default App;

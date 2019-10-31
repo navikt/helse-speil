@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { AuthContext } from './AuthContext';
 import { useSessionStorage } from '../hooks/useSessionStorage';
-import { BehandlingerContext } from './BehandlingerContext';
+import { PersonContext } from './PersonContext';
 import { getFeedback, getFeedbackList } from '../io/http';
 
 export const InnrapporteringContext = createContext({
@@ -15,7 +15,7 @@ export const InnrapporteringContext = createContext({
 
 export const InnrapporteringProvider = ({ children }) => {
     const authContext = useContext(AuthContext);
-    const { personTilBehandling, personoversikt } = useContext(BehandlingerContext);
+    const { personTilBehandling, personoversikt } = useContext(PersonContext);
     const [feedback, setFeedback] = useState([]);
     const [godkjent, setGodkjent] = useSessionStorage('godkjent');
     const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');

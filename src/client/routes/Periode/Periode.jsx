@@ -6,12 +6,12 @@ import NavigationButtons from '../../components/NavigationButtons';
 import FormRowWithListValues from '../../components/Rows/FormRowWithListValues';
 import { Panel } from 'nav-frontend-paneler';
 import { toDate } from '../../utils/date';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 import { Element, Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import { periodetekster, tekster } from '../../tekster';
 
 const Periode = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
     const {
         antallKalenderdager,
         arbeidsgiverperiodeKalenderdager,

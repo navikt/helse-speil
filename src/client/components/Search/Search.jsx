@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SearchIcon from './SearchIcon';
 import { Keys } from '../../hooks/useKeyboard';
 import { withRouter } from 'react-router';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import './Search.less';
 import { EasterEggContext } from '../../context/EasterEggContext';
@@ -11,7 +11,7 @@ import { EasterEggContext } from '../../context/EasterEggContext';
 const Search = ({ history }) => {
     const ref = useRef();
     const { activate } = useContext(EasterEggContext);
-    const { hentPerson } = useContext(BehandlingerContext);
+    const { hentPerson } = useContext(PersonContext);
     const { resetUserFeedback } = useContext(InnrapporteringContext);
 
     const keyTyped = event => {
