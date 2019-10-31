@@ -24,20 +24,10 @@ const appendPersoninfo = behandling => {
 
 export const BehandlingerProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person', {});
+    const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person');
     const [behandlingsoversikt, setBehandlingsoversikt] = useState([]);
     const [isFetchingBehandlingsoversikt, setIsFetchingBehandlingsoversikt] = useState(false);
     const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
-
-    useEffect(() => {
-        fetchBehandlingsoversikt();
-    }, []);
-
-    useEffect(() => {
-        if (personTilBehandling !== undefined) {
-            setPersonTilBehandling(personTilBehandling);
-        }
-    }, [personTilBehandling]);
 
     const velgBehandlingFraOversikt = ({ aktørId }) => {
         return hentPerson(aktørId);
@@ -99,6 +89,7 @@ export const BehandlingerProvider = ({ children }) => {
             value={{
                 velgBehandlingFraOversikt,
                 behandlingsoversikt,
+                fetchBehandlingsoversikt,
                 personTilBehandling,
                 hentPerson,
                 isFetchingBehandlingsoversikt,

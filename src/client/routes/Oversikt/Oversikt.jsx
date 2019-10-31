@@ -34,6 +34,7 @@ const partition = predicate => (acc, cur) =>
 const Oversikt = ({ history }) => {
     const {
         behandlingsoversikt,
+        fetchBehandlingsoversikt,
         velgBehandlingFraOversikt,
         isFetchingBehandlingsoversikt,
         isFetchingPersoninfo
@@ -57,6 +58,10 @@ const Oversikt = ({ history }) => {
                 .reduce(partition(b => b.behandlet), [[], []]),
         [feedback, behandlingsoversikt]
     );
+
+    useEffect(() => {
+        fetchBehandlingsoversikt();
+    }, []);
 
     useEffect(() => {
         fetchTildelinger();
