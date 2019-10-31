@@ -1,5 +1,7 @@
 'use strict';
 
+const moment = require('moment');
+
 const logger = require('../logging');
 const mapping = require('./mapping');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
@@ -36,14 +38,16 @@ const personSøk = async (req, res) => {
 };
 
 const behandlingerForPeriod = (req, res) => {
-    auditLog(req, fom || 'missing fom', tom || 'missing tom');
+    auditLog(req);
 
-    const fom = 'fom';
-    const tom = 'tom';
+    const today = moment().format('YYYY-MM-DD');
+    const yesterday = moment()
+        .subtract(1, 'days')
+        .format('YYYY-MM-DD');
 
     respondForSummary(
         res,
-        _behandlingerForPeriod(fom, tom, req.session.spadeToken),
+        _behandlingerForPeriod(yesterday, today, req.session.spadeToken),
         mapping.fromBehandlingSummary
     );
 };
@@ -51,8 +55,9 @@ const behandlingerForPeriod = (req, res) => {
 const auditLog = (request, ...queryParams) => {
     const speilUser = nameFrom(request.session.spadeToken);
     logger.audit(
-        `${speilUser} is doing lookup with params: ${queryParams.reduce(
-            (previous, current) => `${previous}, ${current}`
+        `${speilUser} is doing lookup with params: ${queryParams?.reduce(
+            (previous, current) => `${previous}, ${current}`,
+            ''
         )}`
     );
 };
