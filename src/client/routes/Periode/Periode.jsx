@@ -7,7 +7,7 @@ import FormRowWithListValues from '../../components/Rows/FormRowWithListValues';
 import { Panel } from 'nav-frontend-paneler';
 import { toDate } from '../../utils/date';
 import { BehandlingerContext } from '../../context/BehandlingerContext';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import { Element, Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import { periodetekster, tekster } from '../../tekster';
 
 const Periode = () => {
@@ -19,32 +19,45 @@ const Periode = () => {
         ferieperioder,
         antallUtbetalingsdager,
         sykmeldingsgrad
-    } = personTilBehandling.periode;
+    } = personTilBehandling.periode || {};
 
-    const ferieperioderAsString = ferieperioder.map(
+    const ferieperioderAsString = ferieperioder?.map(
         periode => `${toDate(periode.fom)} - ${toDate(periode.tom)}`
     );
 
     return (
         <Panel className="Periode">
             <Undertittel className="panel-tittel">{periodetekster('tittel')}</Undertittel>
-            <FormRow label={periodetekster('kalenderdager')} value={antallKalenderdager} />
-            <FormRow
-                label={periodetekster('arbeidsgiverperiode')}
-                value={arbeidsgiverperiodeKalenderdager}
-            />
-            <FormRow label={periodetekster('virkedager')} value={antallVirkedager} />
-            <FormRowWithListValues label={periodetekster('ferie')} items={ferieperioderAsString} />
-            <FormRow
-                label={periodetekster('antall_utbetalingsdager')}
-                value={antallUtbetalingsdager}
-                bold
-            />
-            <FormRow label={periodetekster('sykmeldingsgrad')} value={`${sykmeldingsgrad}%`} bold />
-            <ListSeparator />
-            <Element className="mvp-tittel">{tekster('mvp')}</Element>
-            <IconRow label={periodetekster('friskmelding')} />
-            <IconRow label={`Sykmeldingen er på ${sykmeldingsgrad}%`} />
+            {personTilBehandling.periode ? (
+                <>
+                    <FormRow label={periodetekster('kalenderdager')} value={antallKalenderdager} />
+                    <FormRow
+                        label={periodetekster('arbeidsgiverperiode')}
+                        value={arbeidsgiverperiodeKalenderdager}
+                    />
+                    <FormRow label={periodetekster('virkedager')} value={antallVirkedager} />
+                    <FormRowWithListValues
+                        label={periodetekster('ferie')}
+                        items={ferieperioderAsString}
+                    />
+                    <FormRow
+                        label={periodetekster('antall_utbetalingsdager')}
+                        value={antallUtbetalingsdager}
+                        bold
+                    />
+                    <FormRow
+                        label={periodetekster('sykmeldingsgrad')}
+                        value={`${sykmeldingsgrad}%`}
+                        bold
+                    />
+                    <ListSeparator />
+                    <Element className="mvp-tittel">{tekster('mvp')}</Element>
+                    <IconRow label={periodetekster('friskmelding')} />
+                    <IconRow label={`Sykmeldingen er på ${sykmeldingsgrad}%`} />
+                </>
+            ) : (
+                <Normaltekst>Ingen data</Normaltekst>
+            )}
             <NavigationButtons previous="/beregning" next="/utbetaling" />
         </Panel>
     );
