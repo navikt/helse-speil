@@ -9,7 +9,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { toDateAndTime } from '../../utils/date';
 import { oversikttekster } from '../../tekster';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { PersonContext } from '../../context/PersonContext';
+import { PersonoversiktContext } from '../../context/PersonoversiktContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
@@ -38,7 +38,7 @@ const Oversikt = ({ history }) => {
         velgPersonFraOversikt,
         isFetchingPersonoversikt,
         isFetchingPersoninfo
-    } = useContext(PersonContext);
+    } = useContext(PersonoversiktContext);
     const { feedback } = useContext(InnrapporteringContext);
     const { authInfo } = useContext(AuthContext);
     const [tildelinger, setTildelinger] = useState([]);

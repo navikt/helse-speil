@@ -12,6 +12,7 @@ import { withContextProviders } from '../context/withContextProviders';
 import { InnrapporteringProvider } from '../context/InnrapporteringContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
 import { PersonContext, PersonProvider } from '../context/PersonContext';
+import { PersonoversiktProvider } from '../context/PersonoversiktContext';
 import './App.less';
 import 'reset-css';
 
@@ -34,6 +35,12 @@ const App = withContextProviders(() => {
             </Switch>
         </BrowserRouter>
     );
-}, [InnrapporteringProvider, PersonProvider, AuthProvider, EasterEggProvider]);
+}, [
+    InnrapporteringProvider,
+    PersonoversiktProvider,
+    PersonProvider,
+    AuthProvider,
+    EasterEggProvider
+]);
 
 export default App;
