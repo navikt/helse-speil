@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SourceLink from './SourceLink';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 const dayTypes = {
     ARBEIDSDAG: {
@@ -58,7 +58,7 @@ const TimelineRow = ({ date, type, source, showType }) => {
                 {type && (
                     <div className={`TimelineRow__type ${dayType(type).cssName}`}>
                         <span>{showType && dayType(type).text}</span>
-                        {source && <SourceLink label={source} />}
+                        {source && <Normaltekst>{source}</Normaltekst>}
                     </div>
                 )}
             </td>
