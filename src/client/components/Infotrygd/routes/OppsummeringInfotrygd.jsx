@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
-import { BehandlingerContext } from '../../../context/BehandlingerContext';
+import { PersonContext } from '../../../context/PersonContext';
 import { oppsummeringstekster, tekster } from '../../../tekster';
 import { toKroner } from '../../../utils/locale';
 
 const OppsummeringInfotrygd = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
 
     return (
         <>

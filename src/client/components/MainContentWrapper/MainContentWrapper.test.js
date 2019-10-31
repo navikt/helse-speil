@@ -4,7 +4,7 @@ import React from 'react';
 import MainContentWrapper from './MainContentWrapper';
 import { MemoryRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 import '@testing-library/jest-dom/extend-expect';
 
 afterEach(cleanup);
@@ -34,14 +34,14 @@ jest.mock('nav-frontend-modal', () => ({
 describe('MainContentWrapper', () => {
     it('renders content when a person is selected', () => {
         const { container } = render(
-            <BehandlingerContext.Provider
+            <PersonContext.Provider
                 value={{
                     ...wrapperProps,
                     personTilBehandling: { ...person }
                 }}
             >
                 <MainContentWrapper />
-            </BehandlingerContext.Provider>
+            </PersonContext.Provider>
         );
         expect(container.querySelector('.main-content')).toBeTruthy();
     });
@@ -49,13 +49,13 @@ describe('MainContentWrapper', () => {
     it('render empty state view when no person is selected', () => {
         const { getByText } = render(
             <MemoryRouter>
-                <BehandlingerContext.Provider
+                <PersonContext.Provider
                     value={{
                         ...wrapperProps
                     }}
                 >
                     <MainContentWrapper />
-                </BehandlingerContext.Provider>
+                </PersonContext.Provider>
             </MemoryRouter>
         );
         expect(

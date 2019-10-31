@@ -53,13 +53,13 @@ export const del = async (url, data) => {
     return response;
 };
 
-export const hentPersonFraBackend = async aktorId => {
+export const fetchPerson = async aktorId => {
     return get(`${baseUrl}/person/sok`, {
         headers: { 'nav-person-id': aktorId }
     });
 };
 
-export const behandlingerIPeriode = async () => {
+export const fetchPersonoversikt = async () => {
     return get(`${baseUrl}/person/`);
 };
 

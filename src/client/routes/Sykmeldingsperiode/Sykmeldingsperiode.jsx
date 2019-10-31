@@ -6,10 +6,10 @@ import { Panel } from 'nav-frontend-paneler';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import { sykmeldingsperiodetekster } from '../../tekster';
 import './Sykmeldingsperiode.less';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 
 const Sykmeldingsperiode = () => {
-    const { personTilBehandling: person } = useContext(BehandlingerContext);
+    const { personTilBehandling: person } = useContext(PersonContext);
     return (
         <Panel className="Sykmeldingsperiode">
             <Undertittel className="panel-tittel">Sykmeldingsperiode</Undertittel>

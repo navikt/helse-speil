@@ -4,10 +4,10 @@ import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
 import { toKroner } from '../../../utils/locale';
 import { beregningstekster } from '../../../tekster';
-import { BehandlingerContext } from '../../../context/BehandlingerContext';
+import { PersonContext } from '../../../context/PersonContext';
 
 const SykepengegrunnlagInfotrygd = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
 
     const inntektsmeldingItems = ItemMapper.inntektsmelding(
         personTilBehandling.sykepengeberegning.inntektsmelding

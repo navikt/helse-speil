@@ -3,7 +3,8 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import { AuthContext } from './AuthContext';
 import { useSessionStorage } from '../hooks/useSessionStorage';
-import { BehandlingerContext } from './BehandlingerContext';
+import { PersonContext } from './PersonContext';
+import { PersonoversiktContext } from './PersonoversiktContext';
 import { getFeedback, getFeedbackList } from '../io/http';
 
 export const InnrapporteringContext = createContext({
@@ -15,7 +16,8 @@ export const InnrapporteringContext = createContext({
 
 export const InnrapporteringProvider = ({ children }) => {
     const authContext = useContext(AuthContext);
-    const { personTilBehandling, behandlingsoversikt } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
+    const { personoversikt } = useContext(PersonoversiktContext);
     const [feedback, setFeedback] = useState([]);
     const [godkjent, setGodkjent] = useSessionStorage('godkjent');
     const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
@@ -26,11 +28,11 @@ export const InnrapporteringProvider = ({ children }) => {
     const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
 
     useEffect(() => {
-        if (behandlingsoversikt.length > 0) {
-            const behandlingIds = behandlingsoversikt.map(b => b.behandlingsId);
+        if (personoversikt.length > 0) {
+            const behandlingIds = personoversikt.map(b => b.behandlingsId);
             fetchFeedbackList(behandlingIds);
         }
-    }, [behandlingsoversikt]);
+    }, [personoversikt]);
 
     useEffect(() => {
         if (personTilBehandling?.behandlingsId) {

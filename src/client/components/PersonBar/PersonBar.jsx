@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Clipboard from '../Clipboard';
 import { getPerson } from '../../io/http';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 import './PersonBar.less';
 
 const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
@@ -15,7 +15,7 @@ const finnSøknad = person =>
 const finnSykmeldingsgrad = person => finnSøknad(person).soknadsperioder[0].sykmeldingsgrad;
 
 const PersonBar = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
     const aktørId = personTilBehandling?.aktørId;
     const [personinfo, setPersoninfo] = useState(personinfo);
 

@@ -10,11 +10,11 @@ import Inngangsvilkår from '../../routes/Inngangsvilkår';
 import Sykmeldingsperiode from '../../routes/Sykmeldingsperiode';
 import EmptyStateView from '../EmptyStateView';
 import { Route } from 'react-router-dom';
-import { BehandlingerContext } from '../../context/BehandlingerContext';
+import { PersonContext } from '../../context/PersonContext';
 import './MainContentWrapper.css';
 
 const MainContentWrapper = () => {
-    const { personTilBehandling } = useContext(BehandlingerContext);
+    const { personTilBehandling } = useContext(PersonContext);
 
     return (
         <>
