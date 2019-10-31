@@ -89,6 +89,10 @@ const claimsFrom = token => {
 };
 
 const nameFrom = token => {
+    if (token === undefined) {
+        logger.info('no token, cannot extract name');
+        return 'unknown user';
+    }
     try {
         return JSON.parse(Buffer.from(token.split('.')[1], 'base64'))['name'] || 'unknown user';
     } catch (err) {
