@@ -8,7 +8,7 @@ import './PersonBar.less';
 const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
 const finnSøknad = person =>
-    person.arbeidsgivere?.[0].saker[0].sykdomstidslinje.hendelser.find(
+    person.arbeidsgivere[0].saker[0].sykdomstidslinje.hendelser.find(
         h => h.type === 'SendtSøknadMottatt'
     ).søknad;
 
@@ -17,7 +17,7 @@ const finnSykmeldingsgrad = person => finnSøknad(person).soknadsperioder[0].syk
 const PersonBar = () => {
     const { personTilBehandling } = useContext(BehandlingerContext);
     const aktørId = personTilBehandling?.aktørId;
-    const [personinfo, setPersoninfo] = useState(personTilBehandling?.personinfo);
+    const [personinfo, setPersoninfo] = useState(personinfo);
 
     useEffect(() => {
         if (aktørId) {
