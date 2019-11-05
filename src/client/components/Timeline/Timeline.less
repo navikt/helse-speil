@@ -1,3 +1,5 @@
+@import '../../variables';
+
 @yPadding: 0.25rem;
 
 @colorArbeidsdag: #c6c2bf;
@@ -12,7 +14,7 @@
 @colorDefault: #c6c2bf;
 
 .Timeline.tabell {
-  color: #3e3832;
+  color: @darkGrey;
   width: unset;
 
   th, td {
@@ -56,6 +58,22 @@
       margin-right: 0.75rem;
     }
 
+    > p.typo-undertekst {
+      @activeColor: mix(@blue, #fff, 50%);
+      @defaultColor: mix(@lightGrey, @grey, 50%);
+      padding: 0 0.125rem;
+      color: @defaultColor;
+      box-shadow: 0 0 0 0.125rem @defaultColor;
+      border-radius: 0.25rem;
+      min-width: 1.5rem;
+      text-align: center;
+
+      &.active {
+        color: @activeColor;
+        box-shadow: 0 0 0 0.125rem @activeColor;
+      }
+    }
+
     &.arbeidsdag > span {
       background: @colorArbeidsdag;
     }
@@ -91,6 +109,5 @@
     &.utenlandsdag > span {
       background: @colorUtenlandsdag;
     }
-
   }
 }

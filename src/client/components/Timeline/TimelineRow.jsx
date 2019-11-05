@@ -1,6 +1,7 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Undertekst } from 'nav-frontend-typografi';
 
 const dayTypes = {
     ARBEIDSDAG: {
@@ -54,11 +55,11 @@ const TimelineRow = ({ date, type, source, showType }) => {
     return (
         <tr>
             <td>
-                <div className="TimelineRow__date">{date}</div>
+                <div className="TimelineRow__date">{dayjs(date).format('DD.MM.YYYY')}</div>
                 {type && (
                     <div className={`TimelineRow__type ${dayType(type).cssName}`}>
                         <span>{showType && dayType(type).text}</span>
-                        {source && <Normaltekst>{source}</Normaltekst>}
+                        {source && <Undertekst>{source}</Undertekst>}
                     </div>
                 )}
             </td>
