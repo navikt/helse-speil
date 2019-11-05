@@ -23,7 +23,7 @@ const Oversiktslinje = ({ behandling, tildeling, onUnassignCase, onAssignCase, o
             )}
         </>
     ) : (
-        <Knapp mini onClick={() => onAssignCase(behandling.behandlingsId)}>
+        <Knapp mini onClick={() => onAssignCase(behandling.behandlingsId, authInfo.email)}>
             Tildel til meg
         </Knapp>
     );
