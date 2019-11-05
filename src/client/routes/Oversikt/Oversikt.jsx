@@ -118,7 +118,7 @@ const Oversikt = ({ history }) => {
     };
 
     const velgBehandlingAndNavigate = behandling => {
-        velgPersonFraOversikt(behandling).then(() => history.push('/sykdomsvilkår'));
+        velgPersonFraOversikt(behandling).then(() => history.push('/sykmeldingsperiode'));
     };
 
     return (
