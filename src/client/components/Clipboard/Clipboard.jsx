@@ -31,8 +31,8 @@ const Clipboard = ({ children }) => {
 
     return (
         <div className="Clipboard">
-            <div ref={ref}>
-                <div className="Clipboard__children">{children}</div>
+            <div className="Clipboard__children" ref={ref}>
+                {children}
             </div>
             <ReactTooltip place="bottom" disable={!didCopy} />
             <button

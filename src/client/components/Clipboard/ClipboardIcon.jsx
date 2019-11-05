@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { motion } from 'framer-motion';
 
 const defaultIconProps = {
     stroke: '#000',
@@ -17,14 +16,19 @@ const svgForType = type => {
                 <path
                     {...defaultIconProps}
                     d="M23.5.5l-16.5 23-6.5-6.5"
-                    strokeWidth="3"
+                    strokeWidth="2"
                     stroke="#38a161"
                 />
             );
         case 'copy':
             return (
                 <g {...defaultIconProps}>
-                    <motion.path d="M20.5 20.5h-14v-20h8l6 6zM14.5.5v6h6M17.5 20.5v3h-14v-20h3" />
+                    <g strokeWidth="1">
+                        <g transform="translate(4, 4)">
+                            <polygon points="4.4408921e-14 19.1729323 4.4408921e-14 4.5112782 10.1503759 4.5112782 10.1503759 19.1729323" />
+                            <polyline points="5.63909774 2.19924812 5.63909774 -2.69118061e-13 15.7894737 -2.69118061e-13 15.7894737 14.6616541 13.2518797 14.6616541" />
+                        </g>
+                    </g>
                 </g>
             );
         default:
@@ -34,7 +38,7 @@ const svgForType = type => {
 
 const ClipboardIcon = ({ size, type }) => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="-2 0 26 26">
             {svgForType(type)}
         </svg>
     );
@@ -46,7 +50,7 @@ ClipboardIcon.propTypes = {
 };
 
 ClipboardIcon.defaultProps = {
-    size: 16
+    size: 20
 };
 
 export default ClipboardIcon;
