@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { deleteTildeling, getTildelinger, postTildeling } from '../io/http';
 
@@ -8,7 +8,7 @@ export const TildelingerProvider = ({ children }) => {
     const [tildelinger, setTildelinger] = useState([]);
     const [error, setError] = useState();
 
-    const tildelBehandling = useCallback((behandlingsId, userId) => {
+    const tildelBehandling = (behandlingsId, userId) => {
         postTildeling({ behandlingsId, userId })
             .then(() => {
                 setTildelinger(t => [...t, { behandlingsId, userId }]);
@@ -22,9 +22,9 @@ export const TildelingerProvider = ({ children }) => {
                     setError('Kunne ikke tildele sak.');
                 }
             });
-    }, []);
+    };
 
-    const fetchTildelinger = useCallback(personoversikt => {
+    const fetchTildelinger = personoversikt => {
         if (personoversikt.length > 0) {
             const behandlingsIdList = personoversikt.map(b => b.behandlingsId);
             getTildelinger(behandlingsIdList)
@@ -39,9 +39,9 @@ export const TildelingerProvider = ({ children }) => {
                     console.error(err);
                 });
         }
-    }, []);
+    };
 
-    const fjernTildeling = useCallback(behandlingsId => {
+    const fjernTildeling = behandlingsId => {
         deleteTildeling(behandlingsId)
             .then(() => {
                 setTildelinger(tildelinger.filter(t => t.behandlingsId !== behandlingsId));
@@ -51,21 +51,20 @@ export const TildelingerProvider = ({ children }) => {
                 setError('Kunne ikke fjerne tildeling av sak.');
                 console.error(error);
             });
-    }, []);
+    };
 
-    return (
-        <TildelingerContext.Provider
-            value={{
-                tildelinger,
-                tildelBehandling,
-                tildelingError: error,
-                fetchTildelinger,
-                fjernTildeling
-            }}
-        >
-            {children}
-        </TildelingerContext.Provider>
+    const value = useMemo(
+        () => ({
+            tildelinger,
+            tildelBehandling,
+            tildelingError: error,
+            fetchTildelinger,
+            fjernTildeling
+        }),
+        [tildelinger, error]
     );
+
+    return <TildelingerContext.Provider value={value}>{children}</TildelingerContext.Provider>;
 };
 
 TildelingerProvider.propTypes = {
