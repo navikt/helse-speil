@@ -8,11 +8,12 @@ import { AuthProvider } from '../context/AuthContext';
 import { BrowserRouter } from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
 import { useLogUserOut } from '../hooks/useLogUserOut';
+import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
-import { InnrapporteringProvider } from '../context/InnrapporteringContext';
-import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
-import { PersonContext, PersonProvider } from '../context/PersonContext';
 import { PersonoversiktProvider } from '../context/PersonoversiktContext';
+import { InnrapporteringProvider } from '../context/InnrapporteringContext';
+import { PersonContext, PersonProvider } from '../context/PersonContext';
+import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
 import './App.less';
 import 'reset-css';
 
@@ -40,7 +41,8 @@ const App = withContextProviders(() => {
     PersonoversiktProvider,
     PersonProvider,
     AuthProvider,
-    EasterEggProvider
+    EasterEggProvider,
+    TildelingerProvider
 ]);
 
 export default App;
