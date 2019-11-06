@@ -1,7 +1,8 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import SearchIcon from './SearchIcon';
 import { Keys } from '../../hooks/useKeyboard';
+import useLinks, { pages } from '../../hooks/useLinks';
 import { withRouter } from 'react-router';
 import { PersonContext } from '../../context/PersonContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
@@ -10,8 +11,10 @@ import { EasterEggContext } from '../../context/EasterEggContext';
 
 const Search = ({ history }) => {
     const ref = useRef();
+    const [fetchPerformed, setFetchPerformed] = useState(false);
+    const links = useLinks();
     const { activate } = useContext(EasterEggContext);
-    const { hentPerson } = useContext(PersonContext);
+    const { hentPerson, personTilBehandling } = useContext(PersonContext);
     const { resetUserFeedback } = useContext(InnrapporteringContext);
 
     const keyTyped = event => {
@@ -21,11 +24,17 @@ const Search = ({ history }) => {
         }
     };
 
-    const goToStartPage = person => {
-        if (person && history.location.pathname !== '/sykdomsvilkår') {
-            history.push('/sykmeldingsperiode');
+    useEffect(() => {
+        if (
+            personTilBehandling &&
+            links &&
+            fetchPerformed &&
+            history.location.pathname.indexOf(pages.SYKMELDINGSPERIODE) < 0
+        ) {
+            history.push(links[pages.SYKMELDINGSPERIODE]);
+            setFetchPerformed(false);
         }
-    };
+    }, [fetchPerformed, links, personTilBehandling]);
 
     const search = async value => {
         if (value.trim().toLowerCase() === 'infotrygd') {
@@ -34,7 +43,7 @@ const Search = ({ history }) => {
             hentPerson(value).then(person => {
                 if (person) {
                     resetUserFeedback();
-                    goToStartPage(person);
+                    setFetchPerformed(true);
                 }
             });
         }

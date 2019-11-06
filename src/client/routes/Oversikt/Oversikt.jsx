@@ -15,6 +15,7 @@ import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper'
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import 'nav-frontend-lenker-style';
 import './Oversikt.less';
+import useLinks, { pages } from '../../hooks/useLinks';
 
 const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
 
@@ -46,6 +47,7 @@ const Oversikt = ({ history }) => {
         fjernTildeling
     } = useContext(TildelingerContext);
     const { feedback } = useContext(InnrapporteringContext);
+    const links = useLinks();
 
     const [behandledeSaker, ubehandledeSaker] = useMemo(
         () =>
@@ -76,7 +78,7 @@ const Oversikt = ({ history }) => {
     }, [personoversikt.length]);
 
     const velgBehandlingAndNavigate = behandling => {
-        velgPersonFraOversikt(behandling).then(() => history.push('/sykmeldingsperiode'));
+        velgPersonFraOversikt(behandling).then(() => history.push(links[pages.SYKMELDINGSPERIODE]));
     };
 
     return (
