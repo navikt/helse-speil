@@ -16,7 +16,7 @@ const Sykmeldingsperiode = () => {
             {person.arbeidsgivere ? (
                 <>
                     <IconRow label={sykmeldingsperiodetekster('dager')} bold />
-                    <Timeline person={person} />
+                    <Timeline person={person} showDagsats={false} />
                 </>
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>

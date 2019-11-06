@@ -4,6 +4,10 @@ import TimelineRow from './TimelineRow';
 import { guid } from 'nav-frontend-js-utils';
 import 'nav-frontend-tabell-style';
 import './Timeline.less';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+
+dayjs.extend(isBetween);
 
 const hendelseTypeTilUiNavn = type => {
     switch (type) {
@@ -17,17 +21,26 @@ const hendelseTypeTilUiNavn = type => {
             return type;
     }
 };
-const Timeline = ({ person }) => {
+
+const findDagsats = (date, utbetalingsperioder) =>
+    utbetalingsperioder.find(utbetalingsperiode => {
+        return dayjs(date).isBetween(utbetalingsperiode.fom, utbetalingsperiode.tom, 'day', '[]');
+    })?.dagsats || 0;
+
+const Timeline = ({ person, showDagsats }) => {
     if (!person?.arbeidsgivere) {
         return null;
     }
-    const tidslinje = person.arbeidsgivere[0].saker[0].sykdomstidslinje;
+    const { sykdomstidslinje: tidslinje, utbetalingsperioder } = person.arbeidsgivere[0].saker[0];
     const hendelser = tidslinje.hendelser;
     const dager = tidslinje.dager.map(dag => {
         return {
             date: dag.dato,
             type: dag.type,
-            source: hendelseTypeTilUiNavn(hendelser.find(h => h.hendelseId === dag.hendelseId).type)
+            source: hendelseTypeTilUiNavn(
+                hendelser.find(h => h.hendelseId === dag.hendelseId).type
+            ),
+            dagsats: findDagsats(dag.dato, utbetalingsperioder)
         };
     });
     return (
@@ -35,6 +48,7 @@ const Timeline = ({ person }) => {
             <thead>
                 <tr>
                     <th>Sykmeldingsperiode</th>
+                    {showDagsats && <th>Dagsats</th>}
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +56,14 @@ const Timeline = ({ person }) => {
                     .map(item => ({ ...item, key: guid() }))
                     .map((item, i, array) => {
                         const showType = i === 0 || array[i - 1].type !== item.type;
-                        return <TimelineRow {...item} key={item.key} showType={showType} />;
+                        return (
+                            <TimelineRow
+                                {...item}
+                                key={item.key}
+                                showType={showType}
+                                showDagsats={showDagsats}
+                            />
+                        );
                     })}
             </tbody>
         </table>
@@ -50,7 +71,9 @@ const Timeline = ({ person }) => {
 };
 
 Timeline.propTypes = {
-    person: PropTypes.object
+    person: PropTypes.object,
+    showDagsats: PropTypes.bool
 };
 
+export const _findDagsats = findDagsats;
 export default Timeline;

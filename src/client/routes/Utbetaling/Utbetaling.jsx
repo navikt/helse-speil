@@ -1,68 +1,23 @@
 import React, { useContext } from 'react';
 import IconRow from '../../components/Rows/IconRow';
-import FormRow from '../../components/Rows/FormRow';
-import ListSeparator from '../../components/ListSeparator/ListSeparator';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
-import { toKroner } from '../../utils/locale';
-import { Element, Undertittel, Normaltekst } from 'nav-frontend-typografi';
-import { tekster, utbetalingstekster } from '../../tekster';
+import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
+import { utbetalingstekster } from '../../tekster';
 import { PersonContext } from '../../context/PersonContext';
+import Timeline from '../../components/Timeline';
+import './Utbetaling.less';
 
 const Utbetaling = () => {
-    const { personTilBehandling } = useContext(PersonContext);
-    const {
-        antallUtbetalingsdager,
-        betalerArbeidsgiverperiode,
-        dagsats,
-        sykepengegrunnlag,
-        sykmeldingsgrad,
-        utbetalingsbeløp
-    } = personTilBehandling.utbetaling || {};
+    const { personTilBehandling: person } = useContext(PersonContext);
 
     return (
         <Panel className="Utbetaling">
             <Undertittel className="panel-tittel">{utbetalingstekster('tittel')}</Undertittel>
-            {personTilBehandling.utbetaling ? (
+            {person.arbeidsgivere ? (
                 <>
-                    <FormRow
-                        label={utbetalingstekster('refusjon')}
-                        value={tekster('informasjon ikke tilgjengelig')}
-                    />
-                    <FormRow
-                        label={utbetalingstekster('betaler')}
-                        value={betalerArbeidsgiverperiode ? 'Ja' : 'Nei'}
-                    />
-                    <ListSeparator type="transparent" />
-                    <FormRow
-                        label={utbetalingstekster('sykepengegrunnlag')}
-                        value={`${toKroner(sykepengegrunnlag)} kr`}
-                        showRightSide={false}
-                    />
-                    <FormRow
-                        label={utbetalingstekster('dagsats')}
-                        value={`${toKroner(dagsats)} kr`}
-                        showRightSide={false}
-                    />
-                    <FormRow
-                        label={utbetalingstekster('dager')}
-                        value={antallUtbetalingsdager}
-                        showRightSide={false}
-                    />
-                    <FormRow
-                        label={utbetalingstekster('sykmeldingsgrad')}
-                        value={`${sykmeldingsgrad}%`}
-                        showRightSide={false}
-                    />
-                    <ListSeparator type="transparent" />
-                    <FormRow
-                        label={utbetalingstekster('utbetaling')}
-                        value={`${toKroner(utbetalingsbeløp)} kr`}
-                        bold
-                    />
-                    <ListSeparator />
-                    <Element className="mvp-tittel">{tekster('mvp')}</Element>
-                    <IconRow label={utbetalingstekster('forskutterer')} />
+                    <IconRow label={utbetalingstekster('dager')} bold />
+                    <Timeline person={person} showDagsats={true} />
                 </>
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
