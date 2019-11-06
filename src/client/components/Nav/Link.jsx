@@ -8,7 +8,7 @@ const Link = ({ active, id, to, children }) => {
             {children}
         </NavLink>
     ) : (
-        <a>{children}</a>
+        <a className="inactive">{children}</a>
     );
 };
 

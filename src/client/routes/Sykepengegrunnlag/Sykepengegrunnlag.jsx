@@ -3,13 +3,13 @@ import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-const Sykdomsvilkår = () => {
+const Sykepengegrunnlag = () => {
     return (
-        <Panel className="Sykdomsvilkår">
+        <Panel className="Sykepengegrunnlag">
             <Normaltekst>Ingen data</Normaltekst>
-            <Navigasjonsknapper previous="/sykmeldingsperiode" next="/inngangsvilkår" />
+            <Navigasjonsknapper previous="/inntektskilder" next="/utbetaling" />
         </Panel>
     );
 };
 
-export default Sykdomsvilkår;
+export default Sykepengegrunnlag;
