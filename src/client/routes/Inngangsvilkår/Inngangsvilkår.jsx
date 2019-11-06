@@ -4,9 +4,8 @@ import ListRow from '../../components/Rows/ListRow';
 import ItemMapper from '../../datamapping/inngangsvilkårMapper';
 import TidligerePerioderModal from './TidligerePerioderModal';
 import { Panel } from 'nav-frontend-paneler';
-import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
-import { inngangsvilkårtekster as tekster } from '../../tekster';
 import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
 
 const Inngangsvilkår = () => {
@@ -21,7 +20,6 @@ const Inngangsvilkår = () => {
 
     return (
         <Panel>
-            <Undertittel className="panel-tittel">{tekster(`tittel`)}</Undertittel>
             {personTilBehandling.Inngangsvilkår ? (
                 <>
                     {visDetaljerboks && (
