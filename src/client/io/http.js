@@ -131,3 +131,7 @@ export const postTildeling = async tildeling => {
 export const deleteTildeling = async behandlingsId => {
     return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };
+
+export const postUtbetalingApproval = async (behovId, aktørId) => {
+    return post(`${baseUrl}/payments/approve`, { behovId, aktørId });
+};
