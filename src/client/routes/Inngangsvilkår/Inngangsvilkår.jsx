@@ -67,7 +67,7 @@ const Inngangsvilkår = () => {
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
             )}
-            <NavigationButtons previous="/sykdomsvilkår" next="/beregning" />
+            <NavigationButtons previous="/sykmeldingsperiode" next="/inntektskilder" />
         </Panel>
     );
 };

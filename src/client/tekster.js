@@ -8,8 +8,9 @@ const sider = {
     oversikt: 'oversikt',
     sykdomsvilkår: 'sykdomsvilkår',
     inngangsvilkår: 'inngangsvilkår',
-    beregning: 'beregning',
-    periode: 'periode',
+    inntektskilder: 'inntektskilder',
+    sykepengegrunnlag: 'sykepengegrunnlag',
+    fordeling: 'fordeling',
     utbetaling: 'utbetaling',
     oppsummering: 'oppsummering',
     sykmeldingsperiode: 'sykmeldingsperiode'
@@ -28,6 +29,7 @@ bokmål.oversikt['søker'] = 'Søker';
 bokmål.oversikt['tildeling'] = 'Tildelt';
 bokmål.oversikt['periode'] = 'Søknadsperiode';
 
+bokmål.sykdomsvilkår['tittel'] = 'Sykdomsvilkår';
 bokmål.sykdomsvilkår['sykdomsvilkår_oppfylt'] = 'Sykdomsvilkår er oppfylt';
 bokmål.sykdomsvilkår['mindre_enn_8_uker'] = 'Mindre enn 8 uker sammenhengende';
 bokmål.sykdomsvilkår['første_sykdomsdag'] = 'Første sykmeldingsdag';
@@ -38,26 +40,20 @@ bokmål.inngangsvilkår.tittel = 'Inngangsvilkår';
 bokmål.inngangsvilkår.inngangsvilkår_oppfylt = 'Inngangsvilkår oppfylt';
 bokmål.inngangsvilkår.medlemskap = 'Medlemskap';
 
-bokmål.beregning['tittel'] = 'Beregning av sykepengegrunnlag og dagsats';
-bokmål.beregning['inntektsmeldinger'] = 'Hentet fra inntektsmelding';
-bokmål.beregning['månedsinntekt'] = 'Månedsinntekt';
-bokmål.beregning['årsinntekt'] = 'Omregnet årsinntekt';
-bokmål.beregning['aordningen'] = 'Hentet fra A-Ordningen';
-bokmål.beregning['beregningsperioden'] = 'Beregningsperioden';
-bokmål.beregning['sammenligningsgrunnlag'] = 'Sammenligningsgrunnlag';
-bokmål.beregning['avvik'] = 'Utregnet avvik';
-bokmål.beregning['sykepengegrunnlag'] = 'Sykepengegrunnlag';
-bokmål.beregning['dagsats'] = 'Dagsats';
+bokmål.inntektskilder.tittel = 'Inntektskilder';
 
-bokmål.periode['tittel'] = 'Sykepengeperiode';
-bokmål.periode['kalenderdager'] = 'Antall kalenderdager';
-bokmål.periode['arbeidsgiverperiode'] = 'Antall dager i arbeidsgiverperioden';
-bokmål.periode['virkedager'] = 'Antall virkedager';
-bokmål.periode['ferie'] = 'Ferie';
-bokmål.periode['antall_utbetalingsdager'] = 'Antall utbetalingsdager';
-bokmål.periode['sykmeldingsgrad'] = 'Sykmeldingsgrad';
-bokmål.periode['friskmelding'] = 'Ikke utfylt friskmelding i søknaden';
-bokmål.periode['gradering'] = 'Sykmeldingen er på 100%';
+bokmål.sykepengegrunnlag['tittel'] = 'Beregning av sykepengegrunnlag og dagsats';
+bokmål.sykepengegrunnlag['inntektsmeldinger'] = 'Hentet fra inntektsmelding';
+bokmål.sykepengegrunnlag['månedsinntekt'] = 'Månedsinntekt';
+bokmål.sykepengegrunnlag['årsinntekt'] = 'Omregnet årsinntekt';
+bokmål.sykepengegrunnlag['aordningen'] = 'Hentet fra A-Ordningen';
+bokmål.sykepengegrunnlag['beregningsperioden'] = 'Beregningsperioden';
+bokmål.sykepengegrunnlag['sammenligningsgrunnlag'] = 'Sammenligningsgrunnlag';
+bokmål.sykepengegrunnlag['avvik'] = 'Utregnet avvik';
+bokmål.sykepengegrunnlag['sykepengegrunnlag'] = 'Sykepengegrunnlag';
+bokmål.sykepengegrunnlag['dagsats'] = 'Dagsats';
+
+bokmål.fordeling['tittel'] = 'Fordeling';
 
 bokmål.utbetaling['tittel'] = 'Beregning av utbetaling';
 bokmål.utbetaling['refusjon'] = 'Refusjon til arbeidsgiver';
@@ -100,10 +96,13 @@ export const tekster = nøkkel => ordbøker[hardkodetBrukerspråk][nøkkel];
 export const oversikttekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.oversikt][nøkkel];
 export const inngangsvilkårtekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.inngangsvilkår][nøkkel];
+export const inntektskildertekster = nøkkel =>
+    ordbøker[hardkodetBrukerspråk][sider.inntektskilder][nøkkel];
 export const sykdomsvilkårtekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.sykdomsvilkår][nøkkel];
-export const beregningstekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.beregning][nøkkel];
-export const periodetekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.periode][nøkkel];
+export const sykepengegrunnlagstekster = nøkkel =>
+    ordbøker[hardkodetBrukerspråk][sider.sykepengegrunnlag][nøkkel];
+export const fordelingtekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.fordeling][nøkkel];
 export const utbetalingstekster = nøkkel =>
     ordbøker[hardkodetBrukerspråk][sider.utbetaling][nøkkel];
 export const oppsummeringstekster = nøkkel =>

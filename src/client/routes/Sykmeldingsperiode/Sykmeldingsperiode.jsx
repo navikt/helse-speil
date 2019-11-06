@@ -21,7 +21,7 @@ const Sykmeldingsperiode = () => {
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
             )}
-            <Navigasjonsknapper next="/sykdomsvilkår" />
+            <Navigasjonsknapper next="/inngangsvilkår" />
         </Panel>
     );
 };

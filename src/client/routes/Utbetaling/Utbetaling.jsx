@@ -23,7 +23,7 @@ const Utbetaling = () => {
                 <Normaltekst>Ingen data</Normaltekst>
             )}
 
-            <Navigasjonsknapper previous="/periode" next="/oppsummering" />
+            <Navigasjonsknapper previous="/sykepengegrunnlag" next="/oppsummering" />
         </Panel>
     );
 };
