@@ -2,13 +2,13 @@
 
 const request = require('request-promise-native');
 
-const godkjenn = async (behovsId, aktørId, accessToken) => {
+const godkjenn = async (behovId, aktørId, accessToken) => {
     const options = {
         uri: `http://spade.default.svc.nais.local/api/godkjenning`,
         headers: {
             Authorization: `Bearer ${accessToken}`
         },
-        body: { behovsId, aktørId },
+        body: { behovId, aktørId },
         json: true
     };
 
