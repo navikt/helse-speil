@@ -29,20 +29,15 @@ bokmål.oversikt['søker'] = 'Søker';
 bokmål.oversikt['tildeling'] = 'Tildelt';
 bokmål.oversikt['periode'] = 'Søknadsperiode';
 
-bokmål.sykdomsvilkår['tittel'] = 'Sykdomsvilkår';
 bokmål.sykdomsvilkår['sykdomsvilkår_oppfylt'] = 'Sykdomsvilkår er oppfylt';
 bokmål.sykdomsvilkår['mindre_enn_8_uker'] = 'Mindre enn 8 uker sammenhengende';
 bokmål.sykdomsvilkår['første_sykdomsdag'] = 'Første sykmeldingsdag';
 bokmål.sykdomsvilkår['siste_sykdomsdag'] = 'Siste sykmeldingsdag';
 bokmål.sykdomsvilkår['ingen_yrkesskade'] = 'Ingen yrkesskade';
 
-bokmål.inngangsvilkår.tittel = 'Inngangsvilkår';
 bokmål.inngangsvilkår.inngangsvilkår_oppfylt = 'Inngangsvilkår oppfylt';
 bokmål.inngangsvilkår.medlemskap = 'Medlemskap';
 
-bokmål.inntektskilder.tittel = 'Inntektskilder';
-
-bokmål.sykepengegrunnlag['tittel'] = 'Beregning av sykepengegrunnlag og dagsats';
 bokmål.sykepengegrunnlag['inntektsmeldinger'] = 'Hentet fra inntektsmelding';
 bokmål.sykepengegrunnlag['månedsinntekt'] = 'Månedsinntekt';
 bokmål.sykepengegrunnlag['årsinntekt'] = 'Omregnet årsinntekt';
@@ -53,9 +48,6 @@ bokmål.sykepengegrunnlag['avvik'] = 'Utregnet avvik';
 bokmål.sykepengegrunnlag['sykepengegrunnlag'] = 'Sykepengegrunnlag';
 bokmål.sykepengegrunnlag['dagsats'] = 'Dagsats';
 
-bokmål.fordeling['tittel'] = 'Fordeling';
-
-bokmål.utbetaling['tittel'] = 'Beregning av utbetaling';
 bokmål.utbetaling['refusjon'] = 'Refusjon til arbeidsgiver';
 bokmål.utbetaling['betaler'] = 'Betaler arbeidsgiverperiode';
 bokmål.utbetaling['sykepengegrunnlag'] = 'Sykepengegrunnlag';
