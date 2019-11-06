@@ -51,7 +51,7 @@ const dayType = type => {
         }
     );
 };
-const TimelineRow = ({ date, type, source, showType }) => {
+const TimelineRow = ({ date, type, source, dagsats, showType, showDagsats }) => {
     return (
         <tr>
             <td>
@@ -63,6 +63,13 @@ const TimelineRow = ({ date, type, source, showType }) => {
                     </div>
                 )}
             </td>
+            {showDagsats && (
+                <td>
+                    <div className="TimelineRow__dagsats">
+                        <span>{dagsats} kr</span>
+                    </div>
+                </td>
+            )}
         </tr>
     );
 };
@@ -71,7 +78,9 @@ TimelineRow.propTypes = {
     date: PropTypes.string,
     type: PropTypes.string,
     source: PropTypes.string,
-    showType: PropTypes.bool
+    dagsats: PropTypes.number,
+    showType: PropTypes.bool,
+    showDagsats: PropTypes.bool
 };
 
 export default TimelineRow;

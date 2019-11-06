@@ -20,16 +20,6 @@ const modalProps = {
     førsteFraværsdag: '2019-07-23'
 };
 
-jest.mock('nav-frontend-lukknapp-style', () => {
-    return {};
-});
-jest.mock('nav-frontend-modal-style', () => {
-    return {};
-});
-jest.mock('nav-frontend-typografi-style', () => {
-    return {};
-});
-
 test('list of periods with 26 weeks interval', async () => {
     const { getByText } = render(<TidligerePerioderModal {...modalProps} />);
     expect(getByText('Første 26-ukers mellomrom')).toBeDefined();

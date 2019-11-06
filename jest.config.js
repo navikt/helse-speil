@@ -8,7 +8,8 @@ module.exports = {
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
         '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
-        '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
+        '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
+        'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js'
     },
     transformIgnorePatterns: ['<rootDir>/node_modules/'],
     watchPathIgnorePatterns: ['/dist'],
