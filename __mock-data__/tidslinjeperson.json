@@ -559,7 +559,7 @@
                             }
                         ]
                     },
-                    "utbetalingsperioder": [
+                    "utbetalingslinjer": [
                         {
                             "fom": "2019-09-20",
                             "tom": "2019-09-27",

@@ -1,6 +1,6 @@
 import { _findDagsats } from './Timeline';
 
-const utbetalingsperioder = [
+const utbetalingslinjer = [
     {
         fom: '2019-09-20',
         tom: '2019-09-27',
@@ -14,11 +14,11 @@ const utbetalingsperioder = [
 ];
 
 test('findDagsats finner riktig dagsats for dato', () => {
-    expect(_findDagsats('2019-09-19', utbetalingsperioder)).toBe(0);
-    expect(_findDagsats('2019-09-20', utbetalingsperioder)).toBe(100);
-    expect(_findDagsats('2019-09-27', utbetalingsperioder)).toBe(100);
+    expect(_findDagsats('2019-09-19', utbetalingslinjer)).toBe(0);
+    expect(_findDagsats('2019-09-20', utbetalingslinjer)).toBe(100);
+    expect(_findDagsats('2019-09-27', utbetalingslinjer)).toBe(100);
 
-    expect(_findDagsats('2019-09-28', utbetalingsperioder)).toBe(200);
-    expect(_findDagsats('2019-10-05', utbetalingsperioder)).toBe(200);
-    expect(_findDagsats('2019-10-06', utbetalingsperioder)).toBe(0);
+    expect(_findDagsats('2019-09-28', utbetalingslinjer)).toBe(200);
+    expect(_findDagsats('2019-10-05', utbetalingslinjer)).toBe(200);
+    expect(_findDagsats('2019-10-06', utbetalingslinjer)).toBe(0);
 });

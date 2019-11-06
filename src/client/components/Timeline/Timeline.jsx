@@ -22,8 +22,8 @@ const hendelseTypeTilUiNavn = type => {
     }
 };
 
-const findDagsats = (date, utbetalingsperioder) =>
-    utbetalingsperioder.find(utbetalingsperiode => {
+const findDagsats = (date, utbetalingslinjer) =>
+    utbetalingslinjer.find(utbetalingsperiode => {
         return dayjs(date).isBetween(utbetalingsperiode.fom, utbetalingsperiode.tom, 'day', '[]');
     })?.dagsats || 0;
 
@@ -31,7 +31,7 @@ const Timeline = ({ person, showDagsats }) => {
     if (!person?.arbeidsgivere) {
         return null;
     }
-    const { sykdomstidslinje: tidslinje, utbetalingsperioder } = person.arbeidsgivere[0].saker[0];
+    const { sykdomstidslinje: tidslinje, utbetalingslinjer } = person.arbeidsgivere[0].saker[0];
     const hendelser = tidslinje.hendelser;
     const dager = tidslinje.dager.map(dag => {
         return {
@@ -40,7 +40,7 @@ const Timeline = ({ person, showDagsats }) => {
             source: hendelseTypeTilUiNavn(
                 hendelser.find(h => h.hendelseId === dag.hendelseId).type
             ),
-            dagsats: findDagsats(dag.dato, utbetalingsperioder)
+            dagsats: findDagsats(dag.dato, utbetalingslinjer)
         };
     });
     return (
