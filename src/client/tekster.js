@@ -92,20 +92,15 @@ bokmål.sykmeldingsperiode['dager'] = 'Dagene er riktig kategorisert';
 
 const hardkodetBrukerspråk = 'bokmål';
 
+const createLookupFunction = page => nøkkel => ordbøker[hardkodetBrukerspråk][page][nøkkel];
+
 export const tekster = nøkkel => ordbøker[hardkodetBrukerspråk][nøkkel];
-export const oversikttekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.oversikt][nøkkel];
-export const inngangsvilkårtekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.inngangsvilkår][nøkkel];
-export const inntektskildertekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.inntektskilder][nøkkel];
-export const sykdomsvilkårtekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.sykdomsvilkår][nøkkel];
-export const sykepengegrunnlagstekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.sykepengegrunnlag][nøkkel];
-export const fordelingtekster = nøkkel => ordbøker[hardkodetBrukerspråk][sider.fordeling][nøkkel];
-export const utbetalingstekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.utbetaling][nøkkel];
-export const oppsummeringstekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.oppsummering][nøkkel];
-export const sykmeldingsperiodetekster = nøkkel =>
-    ordbøker[hardkodetBrukerspråk][sider.sykmeldingsperiode][nøkkel];
+export const oversikttekster = createLookupFunction(sider.oversikt);
+export const inngangsvilkårtekster = createLookupFunction(sider.inngangsvilkår);
+export const inntektskildertekster = createLookupFunction(sider.inntektskilder);
+export const sykdomsvilkårtekster = createLookupFunction(sider.sykdomsvilkår);
+export const sykepengegrunnlagstekster = createLookupFunction(sider.sykepengegrunnlag);
+export const fordelingtekster = createLookupFunction(sider.fordeling);
+export const utbetalingstekster = createLookupFunction(sider.utbetaling);
+export const oppsummeringstekster = createLookupFunction(sider.oppsummering);
+export const sykmeldingsperiodetekster = createLookupFunction(sider.sykmeldingsperiode);
