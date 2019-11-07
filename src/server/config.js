@@ -3,14 +3,16 @@
 require('dotenv').config();
 
 exports.oidc = {
+    tenantID: process.env.TENANT_ID,
+    providerBaseUrl: `https://login.microsoftonline.com/${process.env.TENANT_ID}/oauth2/v2.0`,
     clientID: process.env.CLIENT_ID || 'unknown',
     clientIDSpade: process.env.CLIENT_ID_SPADE || 'unknown',
-    identityMetadata: `https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0/.well-known/openid-configuration`,
+    clientIDSpleis: process.env.CLIENT_ID_SPLEIS || 'unknown',
     responseType: ['code'],
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
     clientSecret: process.env.CLIENT_SECRET || 'unknown',
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
-    scope: `profile openid email ${process.env.CLIENT_ID_SPADE}/.default`,
+    scope: `profile openid email ${process.env.CLIENT_ID}/.default`,
     requiredGroup: process.env.REQUIRED_GROUP
 };
 
