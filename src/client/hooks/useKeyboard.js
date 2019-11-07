@@ -18,16 +18,25 @@ export const useKeyboard = actionMappings => {
     const [map, setMap] = useState({});
 
     const handleKeyDown = e => {
-        if (!shouldDisableKeyboard()) {
-            map[e.keyCode]?.();
+        const keyConfig = map[e.keyCode];
+        if (!keyConfig || shouldDisableKeyboard()) return;
+
+        if (
+            keyConfig.ignoreIfModifiers &&
+            (e.getModifierState('Meta') || e.getModifierState('Alt'))
+        ) {
+            return;
         }
+        map[e.keyCode]?.action();
     };
 
     useEffect(() => {
         actionMappings.forEach(mapping => {
             setMap(map => ({
                 ...map,
-                [mapping.keyCode]: mapping.action
+                [mapping.keyCode]: {
+                    ...mapping
+                }
             }));
         });
     }, []);

@@ -11,16 +11,16 @@ const tooltip = (direction = 'right') =>
 
 const NavigationButtons = ({ history, previous, next }) => {
     const clickPrevious = () => {
-        history.push(previous);
+        previous && history.push(previous);
     };
 
     const clickNext = () => {
-        history.push(next);
+        next && history.push(next);
     };
 
     useKeyboard([
-        { keyCode: Keys.LEFT, action: clickPrevious },
-        { keyCode: Keys.RIGHT, action: clickNext }
+        { keyCode: Keys.LEFT, action: clickPrevious, ignoreIfModifiers: true },
+        { keyCode: Keys.RIGHT, action: clickNext, ignoreIfModifiers: true }
     ]);
 
     return (
