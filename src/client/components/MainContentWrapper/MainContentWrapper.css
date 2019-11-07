@@ -9,7 +9,11 @@
 }
 
 .main-content .panel {
-    padding: 2rem;
+    padding: 3rem;
+}
+
+.main-content .panel.tekstbolker {
+    width: 23rem;
 }
 
 .main-content .panel-tittel {

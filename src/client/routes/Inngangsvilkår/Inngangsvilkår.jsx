@@ -20,7 +20,7 @@ const Inngangsvilkår = () => {
     );
 
     return (
-        <Panel>
+        <Panel className="tekstbolker">
             {inngangsvilkår ? (
                 <>
                     <ListRow
