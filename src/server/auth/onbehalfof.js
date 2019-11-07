@@ -27,5 +27,6 @@ const hentFor = async (clientId, speilAccessToken) => {
 };
 
 module.exports = {
-    init
+    init,
+    hentFor
 };
