@@ -32,13 +32,13 @@ const routes = ({ router }) => {
     const vedtakHandler = {
         handle: (req, res) => {
             if (!req.body.behovId || !req.body.aktørId || !req.body.godkjent) {
-                res.status(400).send('både behovId, aktørId og godkjent-verdi må være tilstede');
+                res.status(400).send('Både behovId, aktørId og godkjent-verdi må være tilstede');
                 return;
             }
             if (process.env.NODE_ENV === 'development') {
-                devApprovePayment(req, res);
+                devSendVedtak(req, res);
             } else {
-                prodApprovePayment(req, res);
+                prodSendVedtak(req, res);
             }
         }
     };
@@ -65,7 +65,7 @@ const devSimulation = (req, res) => {
     res.json(mockSpennData);
 };
 
-const prodApprovePayment = (req, res) => {
+const prodSendVedtak = (req, res) => {
     vedtak
         .vedtak({
             behovId: req.body.behovId,
@@ -83,7 +83,7 @@ const prodApprovePayment = (req, res) => {
         });
 };
 
-const devApprovePayment = (req, res) => {
+const devSendVedtak = (req, res) => {
     if (Math.random() > 0.5) {
         res.status(204).send();
     } else {
