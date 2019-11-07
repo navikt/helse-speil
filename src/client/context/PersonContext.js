@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { fetchPerson } from '../io/http';
+import personMapper from './mapper';
 
 export const PersonContext = createContext();
 
@@ -27,7 +28,7 @@ export const PersonProvider = ({ children }) => {
         return fetchPerson(value)
             .then(response => {
                 const { person } = response.data;
-                setPersonTilBehandling(person);
+                setPersonTilBehandling(personMapper.map(person));
                 return person;
             })
             .catch(err => {
