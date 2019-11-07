@@ -4,7 +4,6 @@ let config;
 
 const init = oidcConfig => {
     config = oidcConfig;
-    return {};
 };
 
 const hentFor = async (clientId, speilAccessToken) => {
