@@ -8,21 +8,21 @@ import './IconRow.less';
 const IconRow = ({ label, labelProp, bold, items, displayFeedback }) => {
     const className = bold ? 'bold' : '';
     return (
-        <span className="IconRow">
-            <span className="IconRow__left">
-                <Icon kind="ok-sirkel-fyll" size={24} />
-                <Normaltekst className={className}>
-                    {label}
-                    {labelProp && labelProp}
-                </Normaltekst>
-                <span className="divider" />
-            </span>
-            {displayFeedback && (
-                <span className="IconRow__right">
-                    <FeedbackInput label={label} items={items} />
+        <>
+            <span className="IconRow">
+                <span className="IconRow__left">
+                    <Icon kind="ok-sirkel-fyll" size={20} />
+                    <Normaltekst className={className}>{label}</Normaltekst>
+                    {labelProp && <Normaltekst className={className}>{labelProp}</Normaltekst>}
                 </span>
-            )}
-        </span>
+                {displayFeedback && (
+                    <span className="IconRow__right">
+                        <FeedbackInput label={label} items={items} />
+                    </span>
+                )}
+            </span>
+            <h2 className="divider"></h2>
+        </>
     );
 };
 

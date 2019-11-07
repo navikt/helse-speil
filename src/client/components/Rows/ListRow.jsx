@@ -24,7 +24,7 @@ const ListRow = ({ label, labelProp, items, bold, displayFeedback }) => {
                                     {item.value ?? ''}
                                 </Normaltekst>
                             </span>
-                            <span className="ListItem__right" />
+                            {displayFeedback && <span className="ListItem__right" />}
                         </span>
                     ))}
                 </div>
