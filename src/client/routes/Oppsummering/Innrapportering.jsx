@@ -16,9 +16,11 @@ import { oppsummeringstekster } from '../../tekster';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './Innrapportering.less';
+import { PersonoversiktContext } from '../../context/PersonoversiktContext';
 
 const Innrapportering = ({ history }) => {
     const { personTilBehandling } = useContext(PersonContext);
+    const { personoversikt } = useContext(PersonoversiktContext);
     const innrapportering = useContext(InnrapporteringContext);
     const authContext = useContext(AuthContext);
     const [error, setError] = useState(undefined);
@@ -31,9 +33,16 @@ const Innrapportering = ({ history }) => {
     }, [innrapportering.kommentarer, innrapportering.godkjent]);
 
     const sendRapporter = () => {
+        const id = personoversikt.find(behov => behov.aktørId === personTilBehandling.aktørId)?.[
+            '@id'
+        ];
+        if (id === undefined) {
+            setError({ message: 'En feil har oppstått' });
+            return;
+        }
         setIsSending(true);
         putFeedback({
-            id: personTilBehandling.behandlingsId,
+            id,
             txt: JSON.stringify({
                 uenigheter: innrapportering.uenigheter,
                 kommentarer: innrapportering.kommentarer,

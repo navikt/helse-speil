@@ -6,10 +6,10 @@ import { PersonContext } from './PersonContext';
 
 export const PersonoversiktContext = createContext();
 
-const appendPersoninfo = behandling => {
-    return getPersoninfo(behandling.originalSøknad.aktorId)
+const appendPersoninfo = behov => {
+    return getPersoninfo(behov.aktørId)
         .then(response => ({
-            ...behandling,
+            ...behov,
             personinfo: {
                 navn: response.data?.navn,
                 kjønn: response.data?.kjønn,
@@ -18,7 +18,7 @@ const appendPersoninfo = behandling => {
         }))
         .catch(err => {
             console.error('Feil ved henting av person.', err);
-            return behandling;
+            return behov;
         });
 };
 
@@ -49,7 +49,7 @@ export const PersonoversiktProvider = ({ children }) => {
     const hentPersoner = () => {
         setIsFetchingPersonoversikt(true);
         return fetchPersonoversikt()
-            .then(response => response.data.personer)
+            .then(response => response.data.behov)
             .catch(err => {
                 setError({
                     ...err,

@@ -29,8 +29,8 @@ export const InnrapporteringProvider = ({ children }) => {
 
     useEffect(() => {
         if (personoversikt.length > 0) {
-            const behandlingIds = personoversikt.map(b => b.behandlingsId);
-            fetchFeedbackList(behandlingIds);
+            const behovIds = personoversikt.map(b => b['@id']);
+            fetchFeedbackList(behovIds);
         }
     }, [personoversikt]);
 

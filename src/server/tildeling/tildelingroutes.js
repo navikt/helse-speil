@@ -11,9 +11,9 @@ const setup = redisclient => {
 
 const routes = ({ router }) => {
     router.post('/list', (req, res) => {
-        const behandlingsIdList = req.body;
+        const behovIdList = req.body;
         storage
-            .getAll(behandlingsIdList)
+            .getAll(behovIdList)
             .then(result => {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(result));
@@ -24,13 +24,13 @@ const routes = ({ router }) => {
             });
     });
 
-    router.get('/:behandlingsId', (req, res) => {
-        const behandlingsId = req.params.behandlingsId;
+    router.get('/:behovId', (req, res) => {
+        const behovId = req.params.behovId;
         storage
-            .get(behandlingsId)
-            .then(result => {
+            .get(behovId)
+            .then(userId => {
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({ behandlingsId: behandlingsId, userId: result }));
+                res.send(JSON.stringify({ behovId, userId }));
             })
             .catch(err => {
                 logger.info(`Error while retrieving value from Redis. Error: ${err}`);
@@ -39,24 +39,24 @@ const routes = ({ router }) => {
     });
 
     router.post('/', (req, res) => {
-        const { behandlingsId, userId } = req.body;
-        if (behandlingsId === undefined || userId === undefined) {
-            const errorMessage = `behandlingsId '${behandlingsId}' and/or userId '${userId}' is not valid.`;
+        const { behovId, userId } = req.body;
+        if (behovId === undefined || userId === undefined) {
+            const errorMessage = `behovId '${behovId}' and/or userId '${userId}' is not valid.`;
             logger.info(`Assign case: ${errorMessage}`);
             return res.status(400).send(errorMessage);
         }
         storage
-            .assignCase(behandlingsId, userId)
+            .assignCase(behovId, userId)
             .then(async result => {
                 if (result === 'OK') {
-                    logger.info(`Case ${behandlingsId} has been assigned to ${userId}.`);
+                    logger.info(`Case ${behovId} has been assigned to ${userId}.`);
                     return res.sendStatus(204);
                 } else {
-                    const assignedUser = await storage.get(behandlingsId);
+                    const assignedUser = await storage.get(behovId);
                     if (assignedUser) {
                         return res.status(409).json({ alreadyAssignedTo: assignedUser });
                     } else {
-                        logger.info(`Error while unassigning case ${behandlingsId}`);
+                        logger.info(`Error while unassigning case ${behovId}`);
                         return res.sendStatus(500);
                     }
                 }
@@ -64,24 +64,24 @@ const routes = ({ router }) => {
             .catch(err => {
                 logger.info(`Error while inserting value in Redis. Error: ${err}`);
                 return res.send({
-                    message: `Tildeling av behandling feilet.`,
+                    message: `Tildeling av behov feilet.`,
                     statusCode: 500
                 });
             });
     });
 
-    router.delete('/:behandlingsId', (req, res) => {
-        const behandlingsId = req.params.behandlingsId;
-        if (behandlingsId === undefined) {
-            const errorMessage = `behandlingsId '${behandlingsId}' is not valid.`;
+    router.delete('/:behovId', (req, res) => {
+        const behovId = req.params.behovId;
+        if (behovId === undefined) {
+            const errorMessage = `behovId '${behovId}' is not valid.`;
             logger.info(`Unassign case: ${errorMessage}`);
             res.status(400).send(errorMessage);
             return;
         }
         storage
-            .unassignCase(behandlingsId)
+            .unassignCase(behovId)
             .then(() => {
-                logger.info(`The case ${behandlingsId} is no longer assigned.`);
+                logger.info(`The case ${behovId} is no longer assigned.`);
                 res.sendStatus(204);
             })
             .catch(err => {
