@@ -7,9 +7,11 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { sykmeldingsperiodetekster } from '../../tekster';
 import './Sykmeldingsperiode.less';
 import { PersonContext } from '../../context/PersonContext';
+import { pages } from '../../hooks/useLinks';
 
 const Sykmeldingsperiode = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
+
     return (
         <Panel className="Sykmeldingsperiode">
             {person.arbeidsgivere ? (
@@ -20,7 +22,7 @@ const Sykmeldingsperiode = () => {
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
             )}
-            <Navigasjonsknapper next="/inngangsvilkår" />
+            <Navigasjonsknapper next={pages.INNGANGSVILKÅR} />
         </Panel>
     );
 };

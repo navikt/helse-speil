@@ -7,6 +7,7 @@ import { utbetalingstekster } from '../../tekster';
 import { PersonContext } from '../../context/PersonContext';
 import Timeline from '../../components/Timeline';
 import './Utbetaling.less';
+import { pages } from '../../hooks/useLinks';
 
 const Utbetaling = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
@@ -22,7 +23,7 @@ const Utbetaling = () => {
                 <Normaltekst>Ingen data</Normaltekst>
             )}
 
-            <Navigasjonsknapper previous="/sykepengegrunnlag" next="/oppsummering" />
+            <Navigasjonsknapper previous={pages.SYKEPENGEGRUNNLAG} next={pages.OPPSUMMERING} />
         </Panel>
     );
 };

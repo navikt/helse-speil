@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 const Link = ({ active, id, to, children }) => {
-    return active ? (
+    return active && to ? (
         <NavLink id={id} to={to} tabIndex={0} onClick={e => e.target.blur()}>
             {children}
         </NavLink>
@@ -15,7 +15,7 @@ const Link = ({ active, id, to, children }) => {
 Link.propTypes = {
     children: PropTypes.node.isRequired,
     id: PropTypes.string.isRequired,
-    to: PropTypes.string.isRequired,
+    to: PropTypes.string,
     active: PropTypes.bool
 };
 

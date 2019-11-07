@@ -6,7 +6,9 @@ import TidligerePerioderModal from './TidligerePerioderModal';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
+
 import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
+import { pages } from '../../hooks/useLinks';
 
 const Inngangsvilkår = () => {
     const { personTilBehandling } = useContext(PersonContext);
@@ -65,7 +67,7 @@ const Inngangsvilkår = () => {
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
             )}
-            <NavigationButtons previous="/sykmeldingsperiode" next="/inntektskilder" />
+            <NavigationButtons previous={pages.SYKMELDINGSPERIODE} next={pages.INNTEKTSKILDER} />
         </Panel>
     );
 };

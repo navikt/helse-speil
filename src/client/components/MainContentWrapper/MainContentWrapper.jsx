@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Nav from '../Nav';
+import { pages } from '../../hooks/useLinks';
 import PersonBar from '../PersonBar';
 import Fordeling from '../../routes/Fordeling';
 import Sykepengegrunnlag from '../../routes/Sykepengegrunnlag';
@@ -26,14 +27,42 @@ const MainContentWrapper = () => {
                 </div>
                 {personTilBehandling ? (
                     <div className="main-content">
-                        <Route path={'/sykmeldingsperiode'} exact component={Sykmeldingsperiode} />
-                        <Route path={'/sykdomsvilkår'} exact component={Sykdomsvilkår} />
-                        <Route path={'/inngangsvilkår'} exact component={Inngangsvilkår} />
-                        <Route path={'/inntektskilder'} exact component={Inntektskilder} />
-                        <Route path={'/sykepengegrunnlag'} exact component={Sykepengegrunnlag} />
-                        <Route path={'/fordeling'} exact component={Fordeling} />
-                        <Route path={'/utbetaling'} exact component={Utbetaling} />
-                        <Route path={'/oppsummering'} exact component={Oppsummering} />
+                        <Route
+                            path={`/${pages.SYKMELDINGSPERIODE}/:aktoerId`}
+                            exact
+                            component={Sykmeldingsperiode}
+                        />
+                        <Route
+                            path={`/${pages.SYKDOMSVILKÅR}/:aktoerId`}
+                            exact
+                            component={Sykdomsvilkår}
+                        />
+                        <Route
+                            path={`/${pages.INNGANGSVILKÅR}/:aktoerId`}
+                            exact
+                            component={Inngangsvilkår}
+                        />
+                        <Route
+                            path={`/${pages.INNTEKTSKILDER}/:aktoerId`}
+                            exact
+                            component={Inntektskilder}
+                        />
+                        <Route
+                            path={`/${pages.SYKEPENGEGRUNNLAG}/:aktoerId`}
+                            exact
+                            component={Sykepengegrunnlag}
+                        />
+                        <Route path={`/${pages.FORDELING}/:aktoerId`} exact component={Fordeling} />
+                        <Route
+                            path={`/${pages.UTBETALING}/:aktoerId`}
+                            exact
+                            component={Utbetaling}
+                        />
+                        <Route
+                            path={`/${pages.OPPSUMMERING}/:aktoerId`}
+                            exact
+                            component={Oppsummering}
+                        />
                     </div>
                 ) : (
                     <EmptyStateView />

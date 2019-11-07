@@ -10,6 +10,7 @@ import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
 import { oppsummeringstekster, tekster } from '../../tekster';
 import './Oppsummering.less';
+import { pages } from '../../hooks/useLinks';
 
 const Oppsummering = () => {
     const { personTilBehandling } = useContext(PersonContext);
@@ -111,7 +112,7 @@ const Oppsummering = () => {
                     <Normaltekst>Ingen data</Normaltekst>
                 )}
 
-                <Navigasjonsknapper previous="/utbetaling" />
+                <Navigasjonsknapper previous={pages.UTBETALING} />
             </Panel>
             <div className="Oppsummering__right-col">
                 <Innrapportering />

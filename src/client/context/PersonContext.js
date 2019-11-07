@@ -1,14 +1,27 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { fetchPerson } from '../io/http';
-import { useSessionStorage } from '../hooks/useSessionStorage';
 
 export const PersonContext = createContext();
 
 export const PersonProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [personTilBehandling, setPersonTilBehandling] = useSessionStorage('person');
+    const [aktørIdFromUrl, setAktørIdFromUrl] = useState();
+    const [personTilBehandling, setPersonTilBehandling] = useState();
+
+    useEffect(() => {
+        const aktørId = /\d{12,15}/.exec(window.location.pathname);
+        if (!aktørIdFromUrl && aktørId) {
+            setAktørIdFromUrl(aktørId);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (aktørIdFromUrl && !personTilBehandling) {
+            hentPerson(aktørIdFromUrl);
+        }
+    }, [aktørIdFromUrl, personTilBehandling]);
 
     const hentPerson = value => {
         return fetchPerson(value)

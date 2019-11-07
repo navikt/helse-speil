@@ -1,13 +1,13 @@
 import React, { createContext, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { fetchPersonoversikt, getPerson } from '../io/http';
+import { fetchPersonoversikt, getPersoninfo } from '../io/http';
 import { PersonContext } from './PersonContext';
 
 export const PersonoversiktContext = createContext();
 
 const appendPersoninfo = behandling => {
-    return getPerson(behandling.originalSøknad.aktorId)
+    return getPersoninfo(behandling.originalSøknad.aktorId)
         .then(response => ({
             ...behandling,
             personinfo: {

@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 import { Knapp } from 'nav-frontend-knapper';
 import { withRouter } from 'react-router';
 import { useKeyboard, Keys } from '../../hooks/useKeyboard';
+import useLinks from '../../hooks/useLinks';
 import './NavigationButtons.less';
 
 const tooltip = (direction = 'right') =>
     `<span class="typo-normal NavigationButtons__tooltip ${direction}">Hurtigtast: </span>`;
 
 const NavigationButtons = ({ history, previous, next }) => {
+    const links = useLinks();
+
+    const linksRef = useRef(links);
+    useEffect(() => {
+        linksRef.current = links;
+    }, [links]);
+
     const clickPrevious = () => {
-        previous && history.push(previous);
+        previous && history.push(linksRef.current[previous]);
     };
 
     const clickNext = () => {
-        next && history.push(next);
+        next && history.push(linksRef.current[next]);
     };
 
     useKeyboard([
