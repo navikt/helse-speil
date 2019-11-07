@@ -71,6 +71,11 @@ test('name extraction from jwt, malformed token', () => {
     expect(authsupport.nameFrom(token)).toEqual('unknown user');
 });
 
+test('navIdent extraction from jwt', () => {
+    const token = createToken({ name: 'John Doe', NAVident: 'X12345' });
+    expect(authsupport.navIdentFrom(token)).toEqual('X12345');
+});
+
 const createToken = claims => {
     const header = { alg: 'HS256', typ: 'JWT' };
     return `${btoa(JSON.stringify(header))}.${btoa(JSON.stringify(claims))}.bogussignature`;

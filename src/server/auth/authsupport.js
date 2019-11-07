@@ -101,6 +101,19 @@ const nameFrom = token => {
     }
 };
 
+const navIdentFrom = token => {
+    if (token === undefined) {
+        logger.info('no token, cannot extract navIdent');
+        return 'unknown user';
+    }
+    try {
+        return JSON.parse(Buffer.from(token.split('.')[1], 'base64'))['NAVident'] || 'unknown user';
+    } catch (err) {
+        logger.error(`error while extracting name: ${err}`);
+        return 'unknown user';
+    }
+};
+
 const createTokenForTest = () =>
     `${Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64')}.${Buffer.from(
         JSON.stringify({ name: 'S. A. Ksbehandler', email: 'dev@nav.no', NAVident: 'dev-ident' })
@@ -113,5 +126,6 @@ module.exports = {
     validateOidcCallback,
     isMemberOf,
     nameFrom,
+    navIdentFrom,
     createTokenForTest
 };

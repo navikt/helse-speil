@@ -67,7 +67,12 @@ const devSimulation = (req, res) => {
 
 const prodApprovePayment = (req, res) => {
     godkjenning
-        .godkjenn(req.body.behovId, req.body.aktørId, req.session.spadeToken)
+        .godkjenn({
+            behovId: req.body.behovId,
+            aktørId: req.body.aktørId,
+            saksbehandler: req.session.user,
+            token: req.session.spadeToken
+        })
         .then(() => {
             res.status(204).send();
         })
