@@ -48,14 +48,14 @@ bokmål.sykepengegrunnlag['avvik'] = 'Utregnet avvik';
 bokmål.sykepengegrunnlag['sykepengegrunnlag'] = 'Sykepengegrunnlag';
 bokmål.sykepengegrunnlag['dagsats'] = 'Dagsats';
 
-bokmål.utbetaling['refusjon'] = 'Refusjon til arbeidsgiver';
-bokmål.utbetaling['betaler'] = 'Betaler arbeidsgiverperiode';
-bokmål.utbetaling['sykepengegrunnlag'] = 'Sykepengegrunnlag';
-bokmål.utbetaling['dagsats'] = 'Dagsats';
-bokmål.utbetaling['dager'] = 'Utbetalingsdager';
-bokmål.utbetaling['sykmeldingsgrad'] = 'Sykmeldingsgrad';
-bokmål.utbetaling['utbetaling'] = 'Utbetaling';
-bokmål.utbetaling['forskutterer'] = 'Arbeidsgiver forskutterer';
+bokmål.utbetalingsoversikt['refusjon'] = 'Refusjon til arbeidsgiver';
+bokmål.utbetalingsoversikt['betaler'] = 'Betaler arbeidsgiverperiode';
+bokmål.utbetalingsoversikt['sykepengegrunnlag'] = 'Sykepengegrunnlag';
+bokmål.utbetalingsoversikt['dagsats'] = 'Dagsats';
+bokmål.utbetalingsoversikt['dager'] = 'Utbetalingsdager';
+bokmål.utbetalingsoversikt['sykmeldingsgrad'] = 'Sykmeldingsgrad';
+bokmål.utbetalingsoversikt['utbetalingsoversikt'] = 'Utbetalingsoversikt';
+bokmål.utbetalingsoversikt['forskutterer'] = 'Arbeidsgiver forskutterer';
 
 bokmål.oppsummering['tittel'] = 'Oppsummering';
 bokmål.oppsummering['sykdomsvilkår'] = 'Sykdomsvilkår er oppfylt';

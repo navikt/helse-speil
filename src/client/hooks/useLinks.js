@@ -8,7 +8,7 @@ export const pages = {
     INNTEKTSKILDER: 'inntektskilder',
     SYKEPENGEGRUNNLAG: 'sykepengegrunnlag',
     FORDELING: 'fordeling',
-    UTBETALING: 'utbetaling',
+    UTBETALINGSOVERSIKT: 'utbetalingsoversikt',
     OPPSUMMERING: 'oppsummering'
 };
 
@@ -19,7 +19,7 @@ const linkBases = {
     [pages.INNTEKTSKILDER]: '/inntektskilder',
     [pages.SYKEPENGEGRUNNLAG]: '/sykepengegrunnlag',
     [pages.FORDELING]: '/fordeling',
-    [pages.UTBETALING]: '/utbetaling',
+    [pages.UTBETALINGSOVERSIKT]: '/utbetalingsoversikt',
     [pages.OPPSUMMERING]: '/oppsummering'
 };
 
