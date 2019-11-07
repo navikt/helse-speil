@@ -4,7 +4,7 @@ require('dotenv').config();
 
 exports.oidc = {
     tenantID: process.env.TENANT_ID,
-    providerBaseUrl: `https://login.microsoftonline.com/${process.env.TENANT_ID}/oauth2/v2.0`,
+    providerBaseUrl: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
     clientID: process.env.CLIENT_ID || 'unknown',
     clientIDSpade: process.env.CLIENT_ID_SPADE || 'unknown',
     clientIDSpleis: process.env.CLIENT_ID_SPLEIS || 'unknown',

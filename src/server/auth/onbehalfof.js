@@ -8,7 +8,7 @@ const init = oidcConfig => {
 
 const hentFor = async (clientId, speilAccessToken) => {
     const options = {
-        uri: `${config.providerBaseUrl}/token`,
+        uri: `${config.providerBaseUrl}/oauth2/v2.0/token`,
         json: true,
         postData: {
             mimeType: 'application/x-www-form-urlencoded',
