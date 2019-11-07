@@ -7,45 +7,41 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 
-const Oversiktslinje = ({ behandling, tildeling, onUnassignCase, onAssignCase, onSelectCase }) => {
+const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSelectCase }) => {
     const { authInfo } = useContext(AuthContext);
 
     const tildelingsCelle = tildeling ? (
         <>
             <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
             {tildeling.userId === authInfo.email && (
-                <Flatknapp
-                    className="knapp--avmeld"
-                    onClick={() => onUnassignCase(behandling.behandlingsId)}
-                >
+                <Flatknapp className="knapp--avmeld" onClick={() => onUnassignCase(behov['@id'])}>
                     Meld av
                 </Flatknapp>
             )}
         </>
     ) : (
-        <Knapp mini onClick={() => onAssignCase(behandling.behandlingsId, authInfo.email)}>
+        <Knapp mini onClick={() => onAssignCase(behov['@id'], authInfo.email)}>
             Tildel til meg
         </Knapp>
     );
 
     return (
         <li className="row row--info">
-            <OversiktsLenke onClick={() => onSelectCase(behandling)}>
-                {behandling.personinfo?.navn ?? behandling.originalSøknad.aktorId}
+            <OversiktsLenke onClick={() => onSelectCase(behov)}>
+                {behov.personinfo?.navn ?? behov.aktørId}
             </OversiktsLenke>
-            <Normaltekst>{`${toDate(behandling.originalSøknad.fom)} - ${toDate(
-                behandling.originalSøknad.tom
-            )}`}</Normaltekst>
+            <Normaltekst>{`${toDate(behov['@opprettet'])}`}</Normaltekst>
             <span className="row__tildeling">{tildelingsCelle}</span>
         </li>
     );
 };
 
 Oversiktslinje.propTypes = {
-    behandling: PropTypes.shape({
-        behandlingsId: PropTypes.string.isRequired,
+    behov: PropTypes.shape({
+        '@id': PropTypes.string.isRequired,
+        '@opprettet': PropTypes.string.isRequired,
         personinfo: PropTypes.object,
-        originalSøknad: PropTypes.object.isRequired
+        aktørId: PropTypes.string.isRequired
     }),
     tildeling: PropTypes.shape({ userId: PropTypes.string }),
     onAssignCase: PropTypes.func,

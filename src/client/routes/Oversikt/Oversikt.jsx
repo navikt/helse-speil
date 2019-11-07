@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Oversiktslinje from './Oversiktslinje';
 import OversiktsLenke from './OversiktsLenke';
@@ -19,12 +19,10 @@ import useLinks, { pages } from '../../hooks/useLinks';
 
 const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
 
-const toBehandletSak = (behandling, feedback) => ({
-    ...behandling,
-    søkerName: behandling.personinfo?.navn ?? behandling.originalSøknad.aktorId,
-    submittedDate: feedback.value.submittedDate,
-    behandlingsId: behandling.behandlingsId,
-    userName: extractNameFromEmail(feedback.value.userId.email),
+const toBehandletBehov = behov => ({
+    ...behov,
+    søkerNavn: behov.personinfo?.navn ?? behov.aktørId,
+    caseWorkerName: extractNameFromEmail('MANGLER BRUKERNAVN'),
     behandlet: true
 });
 
@@ -48,18 +46,15 @@ const Oversikt = ({ history }) => {
     } = useContext(TildelingerContext);
     const { feedback } = useContext(InnrapporteringContext);
     const links = useLinks();
+    const linksRef = useRef(links);
+    useEffect(() => {
+        linksRef.current = links;
+    }, [links]);
 
-    const [behandledeSaker, ubehandledeSaker] = useMemo(
+    const [behandledeBehov, ubehandledeBehov] = useMemo(
         () =>
             personoversikt
-                .map(behandling => {
-                    const behandlingFeedback = feedback.find(
-                        f => f.key === behandling.behandlingsId
-                    );
-                    return behandlingFeedback
-                        ? toBehandletSak(behandling, behandlingFeedback)
-                        : behandling;
-                })
+                .map(behov => (behov['@løsning'] ? toBehandletBehov(behov) : behov))
                 .reduce(partition(b => b.behandlet), [[], []]),
         [feedback, personoversikt]
     );
@@ -77,8 +72,10 @@ const Oversikt = ({ history }) => {
         return () => window.clearInterval(id);
     }, [personoversikt.length]);
 
-    const velgBehandlingAndNavigate = behandling => {
-        velgPersonFraOversikt(behandling).then(() => history.push(links[pages.SYKMELDINGSPERIODE]));
+    const velgBehovAndNavigate = behov => {
+        velgPersonFraOversikt(behov).then(() =>
+            setTimeout(() => history.push(linksRef.current[pages.SYKMELDINGSPERIODE]), 0)
+        );
     };
 
     return (
@@ -89,52 +86,50 @@ const Oversikt = ({ history }) => {
                     <Undertittel className="panel-tittel">{oversikttekster('tittel')}</Undertittel>
                     {isFetchingPersonoversikt && (
                         <AlertStripeInfo>
-                            Henter behandlinger <NavFrontendSpinner type="XS" />
+                            Henter personer <NavFrontendSpinner type="XS" />
                         </AlertStripeInfo>
                     )}
                     {isFetchingPersoninfo && (
                         <AlertStripeInfo>
-                            Henter navn for behandlinger <NavFrontendSpinner type="XS" />
+                            Henter navn <NavFrontendSpinner type="XS" />
                         </AlertStripeInfo>
                     )}
                     <ul>
                         <li className="row">
                             <Normaltekst>{oversikttekster('søker')}</Normaltekst>
-                            <Normaltekst>{oversikttekster('periode')}</Normaltekst>
+                            <Normaltekst>{oversikttekster('tidspunkt')}</Normaltekst>
                             <Normaltekst>{oversikttekster('tildeling')}</Normaltekst>
                         </li>
-                        {ubehandledeSaker.map(behandling => {
-                            const tildeling = tildelinger.find(
-                                b => b.behandlingsId === behandling.behandlingsId
-                            );
+                        {ubehandledeBehov.map(behov => {
+                            const tildeling = tildelinger.find(b => b.behovId === behov['@id']);
                             return (
                                 <Oversiktslinje
-                                    behandling={behandling}
+                                    behov={behov}
                                     tildeling={tildeling}
                                     onAssignCase={tildelBehandling}
                                     onUnassignCase={fjernTildeling}
-                                    onSelectCase={velgBehandlingAndNavigate}
-                                    key={behandling.behandlingsId}
+                                    onSelectCase={velgBehovAndNavigate}
+                                    key={behov['@id']}
                                 />
                             );
                         })}
                     </ul>
                 </Panel>
                 <Panel border className="Oversikt__historikk">
-                    <Undertittel className="panel-tittel">Siste behandlinger</Undertittel>
+                    <Undertittel className="panel-tittel">Siste behov</Undertittel>
                     <ul>
                         <li className="row" key="header">
                             <Normaltekst>Søker</Normaltekst>
                             <Normaltekst>Saksbehandler</Normaltekst>
                             <Normaltekst>Innsendt</Normaltekst>
                         </li>
-                        {behandledeSaker.map(sak => (
-                            <li className="row row--info" key={sak.behandlingsId}>
-                                <OversiktsLenke onClick={() => velgBehandlingAndNavigate(sak)}>
-                                    {sak.søkerName}
+                        {behandledeBehov.map(behov => (
+                            <li className="row row--info" key={behov['@id']}>
+                                <OversiktsLenke onClick={() => velgBehovAndNavigate(behov)}>
+                                    {behov.søkerNavn}
                                 </OversiktsLenke>
-                                <Normaltekst>{capitalizeName(sak.userName)}</Normaltekst>
-                                <Normaltekst>{toDateAndTime(sak.submittedDate)}</Normaltekst>
+                                <Normaltekst>{capitalizeName(behov.caseWorkerName)}</Normaltekst>
+                                <Normaltekst>{toDateAndTime(behov.submittedDate)}</Normaltekst>
                             </li>
                         ))}
                     </ul>

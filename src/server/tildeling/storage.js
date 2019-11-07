@@ -9,9 +9,7 @@ const init = client => {
 
 const getAll = keys =>
     Promise.all(
-        keys.map(key =>
-            get(key).then(value => ({ behandlingsId: key, userId: value || undefined }))
-        )
+        keys.map(key => get(key).then(value => ({ behovId: key, userId: value || undefined })))
     );
 
 const get = key => promisify(redisClient.get).bind(redisClient)(key);

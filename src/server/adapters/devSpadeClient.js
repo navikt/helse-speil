@@ -9,11 +9,11 @@ const behandlingerForPerson = () => {
     });
 };
 const behandlingerForPeriode = () => {
-    const fromFile = fs.readFileSync('__mock-data__/behandlingsummaries.json', 'utf-8');
-    const behandlinger = JSON.parse(fromFile).behandlinger;
+    const fromFile = fs.readFileSync('__mock-data__/behov.json', 'utf-8');
+    const behov = JSON.parse(fromFile);
     return Promise.resolve({
         statusCode: 200,
-        body: { behandlinger }
+        body: behov
     });
 };
 module.exports = {

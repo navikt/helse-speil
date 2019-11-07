@@ -8,10 +8,10 @@ export const TildelingerProvider = ({ children }) => {
     const [tildelinger, setTildelinger] = useState([]);
     const [error, setError] = useState();
 
-    const tildelBehandling = (behandlingsId, userId) => {
-        postTildeling({ behandlingsId, userId })
+    const tildelBehandling = (behovId, userId) => {
+        postTildeling({ behovId, userId })
             .then(() => {
-                setTildelinger(t => [...t, { behandlingsId, userId }]);
+                setTildelinger(t => [...t, { behandlingsId: behovId, userId }]);
                 setError(undefined);
             })
             .catch(error => {
@@ -26,11 +26,11 @@ export const TildelingerProvider = ({ children }) => {
 
     const fetchTildelinger = personoversikt => {
         if (personoversikt.length > 0) {
-            const behandlingsIdList = personoversikt.map(b => b.behandlingsId);
-            getTildelinger(behandlingsIdList)
+            const behovIds = personoversikt.map(b => b['@id']);
+            getTildelinger(behovIds)
                 .then(result => {
                     const nyeTildelinger = result.data.filter(
-                        behandlingId => behandlingId.userId !== undefined
+                        behovId => behovId.userId !== undefined
                     );
                     setTildelinger(nyeTildelinger);
                 })

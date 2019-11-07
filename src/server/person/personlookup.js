@@ -87,11 +87,11 @@ const respondWith = (res, lookupPromise, mapper) => {
         });
 };
 
-const respondForSummary = (res, lookupPromise, mapper) => {
+const respondForSummary = (res, lookupPromise) => {
     lookupPromise
         .then(apiResponse => {
             res.status(apiResponse.statusCode).send({
-                personer: apiResponse.body.behandlinger.map(mapper)
+                behov: apiResponse.body
             });
         })
         .catch(err => {
