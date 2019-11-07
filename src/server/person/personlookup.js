@@ -5,7 +5,7 @@ const moment = require('moment');
 const logger = require('../logging');
 const mapping = require('./mapping');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
-const { nameFrom } = require('../auth/authsupport');
+const { valueFromClaim } = require('../auth/authsupport');
 
 const personIdHeaderName = 'nav-person-id';
 
@@ -53,7 +53,7 @@ const behandlingerForPeriod = (req, res) => {
 };
 
 const auditLog = (request, ...queryParams) => {
-    const speilUser = nameFrom(request.session.spadeToken);
+    const speilUser = valueFromClaim('name', request.session.spadeToken);
     logger.audit(
         `${speilUser} is doing lookup with params: ${queryParams?.reduce(
             (previous, current) => `${previous}, ${current}`,

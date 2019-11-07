@@ -22,7 +22,7 @@ const tildeling = require('./tildeling/tildelingroutes');
 const payments = require('./payment/paymentroutes');
 
 const { ipAddressFromRequest } = require('./requestData');
-const { nameFrom } = require('./auth/authsupport');
+const { valueFromClaim } = require('./auth/authsupport');
 const logger = require('./logging');
 
 const app = express();
@@ -108,7 +108,8 @@ app.use('/*', (req, res, next) => {
             next();
         } else {
             logger.info(
-                `no valid session found for ${ipAddressFromRequest(req)}, username ${nameFrom(
+                `no valid session found for ${ipAddressFromRequest(req)}, username ${valueFromClaim(
+                    'name',
                     req.session.spadeToken
                 )}`
             );

@@ -55,7 +55,7 @@ const validateOidcCallback = (req, azureClient, config) => {
                 const accessToken = tokenSet[accessTokenKey];
                 const idToken = tokenSet[idTokenKey];
                 const requiredGroup = config.requiredGroup;
-                const username = nameFrom(idToken);
+                const username = valueFromClaim('name', idToken);
                 if (accessToken && isMemberOf(requiredGroup, accessToken)) {
                     logger.info(
                         `User ${username} has been authenticated, from IP address ${ipAddressFromRequest(
@@ -84,34 +84,21 @@ const isMemberOf = (group, token) => {
     return groups.filter(element => element === group).length === 1;
 };
 
+const valueFromClaim = (claim, token) => {
+    if (token === undefined) {
+        logger.info('no token, cannot extract claim value');
+        return 'unknown value';
+    }
+    try {
+        return claimsFrom(token)[claim] || 'unknown value';
+    } catch (err) {
+        logger.error(`error while extracting value from claim '${claim}': ${err}`);
+        return 'unknown value';
+    }
+};
+
 const claimsFrom = token => {
     return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-};
-
-const nameFrom = token => {
-    if (token === undefined) {
-        logger.info('no token, cannot extract name');
-        return 'unknown user';
-    }
-    try {
-        return JSON.parse(Buffer.from(token.split('.')[1], 'base64'))['name'] || 'unknown user';
-    } catch (err) {
-        logger.error(`error while extracting name: ${err}`);
-        return 'unknown user';
-    }
-};
-
-const navIdentFrom = token => {
-    if (token === undefined) {
-        logger.info('no token, cannot extract navIdent');
-        return 'unknown user';
-    }
-    try {
-        return JSON.parse(Buffer.from(token.split('.')[1], 'base64'))['NAVident'] || 'unknown user';
-    } catch (err) {
-        logger.error(`error while extracting name: ${err}`);
-        return 'unknown user';
-    }
 };
 
 const createTokenForTest = () =>
@@ -125,7 +112,6 @@ module.exports = {
     willExpireInLessThan,
     validateOidcCallback,
     isMemberOf,
-    nameFrom,
-    navIdentFrom,
+    valueFromClaim,
     createTokenForTest
 };

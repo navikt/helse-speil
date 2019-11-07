@@ -13,7 +13,7 @@ const setup = navConfig => {
 };
 
 const simulate = async (vedtak, accessToken) => {
-    vedtak.saksbehandler = authSupport.nameFrom(accessToken);
+    vedtak.saksbehandler = authSupport.valueFromClaim('name', accessToken);
 
     const options = {
         uri: config.spennUrl,

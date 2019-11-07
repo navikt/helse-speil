@@ -56,24 +56,19 @@ test('user is not member of required group', () => {
     expect(authsupport.isMemberOf('group4', token)).toEqual(false);
 });
 
-test('name extraction from jwt', () => {
+test('extraction from named jwt claim', () => {
     const token = createToken({ name: 'John Doe' });
-    expect(authsupport.nameFrom(token)).toEqual('John Doe');
+    expect(authsupport.valueFromClaim('name', token)).toEqual('John Doe');
 });
 
-test('name extraction from jwt, name property missing', () => {
+test('extraction from jwt claim, property missing', () => {
     const token = createToken({});
-    expect(authsupport.nameFrom(token)).toEqual('unknown user');
+    expect(authsupport.valueFromClaim('name', token)).toEqual('unknown value');
 });
 
-test('name extraction from jwt, malformed token', () => {
+test('extraction from jwt claim, malformed token', () => {
     const token = 'invalid bogus';
-    expect(authsupport.nameFrom(token)).toEqual('unknown user');
-});
-
-test('navIdent extraction from jwt', () => {
-    const token = createToken({ name: 'John Doe', NAVident: 'X12345' });
-    expect(authsupport.navIdentFrom(token)).toEqual('X12345');
+    expect(authsupport.valueFromClaim('name', token)).toEqual('unknown value');
 });
 
 const createToken = claims => {
