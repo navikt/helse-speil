@@ -1,8 +1,42 @@
 .Utbetaling {
   .alertstripe {
-    margin-bottom: 1rem;
+    margin: 1rem 0 3rem 0;
+    .alertstripe__tekst {
+      max-width: 100%;
+    }
   }
-  .knapp.godkjenn {
-    margin-right: 1rem;
+
+  .knapperad {
+    display: flex;
+    align-items: center;
+
+    .knapp--utbetaling {
+      width: 7.5rem;
+      height: 7.5rem;
+      border-radius: 100%;
+      background-color: #b7b1a9;
+      display: flex;
+      align-items: center;
+      justify-items: center;
+      padding: 1rem;
+      margin-right: 5rem;
+
+      button {
+        border-radius: 100%;
+        background-color: #ba3a26;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        user-select: none;
+        letter-spacing: 0.0625em;
+        line-height: 1.375rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        min-height: 7.5rem;
+        min-width: 7.5rem;
+        box-shadow: 0 2px 2px #483c3c;
+        font-size: large;
+      }
+    }
   }
 }
