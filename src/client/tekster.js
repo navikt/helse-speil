@@ -11,7 +11,7 @@ const sider = {
     inntektskilder: 'inntektskilder',
     sykepengegrunnlag: 'sykepengegrunnlag',
     fordeling: 'fordeling',
-    utbetaling: 'utbetaling',
+    utbetalingsoversikt: 'utbetalingsoversikt',
     oppsummering: 'oppsummering',
     sykmeldingsperiode: 'sykmeldingsperiode'
 };
@@ -93,6 +93,6 @@ export const inntektskildertekster = createLookupFunction(sider.inntektskilder);
 export const sykdomsvilkårtekster = createLookupFunction(sider.sykdomsvilkår);
 export const sykepengegrunnlagstekster = createLookupFunction(sider.sykepengegrunnlag);
 export const fordelingtekster = createLookupFunction(sider.fordeling);
-export const utbetalingstekster = createLookupFunction(sider.utbetaling);
+export const utbetalingsoversikttekster = createLookupFunction(sider.utbetalingsoversikt);
 export const oppsummeringstekster = createLookupFunction(sider.oppsummering);
 export const sykmeldingsperiodetekster = createLookupFunction(sider.sykmeldingsperiode);

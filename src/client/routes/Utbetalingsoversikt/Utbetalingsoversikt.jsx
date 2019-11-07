@@ -3,7 +3,7 @@ import IconRow from '../../components/Rows/IconRow';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { utbetalingstekster } from '../../tekster';
+import { utbetalingsoversikttekster } from '../../tekster';
 import { PersonContext } from '../../context/PersonContext';
 import Timeline from '../../components/Timeline';
 import './Utbetalingsoversikt.less';
@@ -16,7 +16,7 @@ const Utbetalingsoversikt = () => {
         <Panel className="Utbetalingsoversikt">
             {person.arbeidsgivere ? (
                 <>
-                    <IconRow label={utbetalingstekster('dager')} bold />
+                    <IconRow label={utbetalingsoversikttekster('dager')} bold />
                     <Timeline person={person} showDagsats={true} />
                 </>
             ) : (
