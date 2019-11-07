@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Clipboard from '../Clipboard';
-import { getPerson } from '../../io/http';
+import { getPersoninfo } from '../../io/http';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
 import './PersonBar.less';
@@ -21,7 +21,7 @@ const PersonBar = () => {
 
     useEffect(() => {
         if (aktørId) {
-            getPerson(aktørId)
+            getPersoninfo(aktørId)
                 .then(response => setPersoninfo(response.data))
                 .catch(err => {
                     console.error('Feil ved henting av person.', err);

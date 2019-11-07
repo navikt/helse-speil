@@ -53,9 +53,9 @@ export const del = async (url, data) => {
     return response;
 };
 
-export const fetchPerson = async aktorId => {
+export const fetchPerson = async personId => {
     return get(`${baseUrl}/person/sok`, {
-        headers: { 'nav-person-id': aktorId }
+        headers: { 'nav-person-id': personId }
     });
 };
 
@@ -112,7 +112,7 @@ export const downloadFeedback = params => {
     window.open(`${baseUrl}/feedback${query}`, { target: '_blank' });
 };
 
-export const getPerson = async aktorId => {
+export const getPersoninfo = async aktorId => {
     return get(`${baseUrl}/person/${aktorId}/info`);
 };
 
