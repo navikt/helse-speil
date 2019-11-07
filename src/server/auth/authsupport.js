@@ -43,15 +43,6 @@ const validateOidcCallback = (req, azureClient, config) => {
             .then(tokenSet => {
                 const accessTokenKey = 'access_token';
                 const idTokenKey = 'id_token';
-                logger.info(
-                    `Access token: ${Object.prototype.hasOwnProperty.call(
-                        tokenSet,
-                        accessTokenKey
-                    )}`
-                );
-                logger.info(
-                    `ID token: ${Object.prototype.hasOwnProperty.call(tokenSet, idTokenKey)}`
-                );
                 const errorMessages = checkAzureResponseContainsTokens(
                     tokenSet,
                     accessTokenKey,
