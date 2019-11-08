@@ -56,10 +56,6 @@ test('dagerIgjen', () => {
         førsteFraværsdag: '2019-05-09T00:00:00.000Z',
         førsteSykepengedag: '2019-05-09T00:00:00.000Z',
         yrkesstatus: 'ARBEIDSTAKER',
-        dagerBrukt: {
-            antallDagerBrukt: 0,
-            antallDagerIgjen: 248
-        },
         tidligerePerioder: [],
         maksdato: '2020-04-20T00:00:00.000Z'
     };
@@ -67,8 +63,8 @@ test('dagerIgjen', () => {
         { label: 'Første fraværsdag', value: '09.05.2019' },
         { label: 'Første sykepengedag', value: '09.05.2019' },
         { label: 'Yrkesstatus', value: 'Arbeidstaker' },
-        { label: 'Dager brukt', value: 0 },
-        { label: 'Dager igjen', value: 248 },
+        { label: 'Dager brukt', value: '(0)' },
+        { label: 'Dager igjen', value: '(248)' },
         { label: 'Maks dato', value: '20.04.2020' }
     ]);
 });
