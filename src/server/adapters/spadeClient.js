@@ -2,7 +2,7 @@ const request = require('request-promise-native');
 
 const behandlingerForPerson = ({ aktørId, accessToken }) => {
     const options = {
-        uri: `http://spade.default.svc.nais.local/api/behandlinger/${aktørId}`,
+        uri: `http://spade.default.svc.nais.local/api/behov/${aktørId}`,
         headers: {
             Authorization: `Bearer ${accessToken}`
         },
@@ -14,7 +14,7 @@ const behandlingerForPerson = ({ aktørId, accessToken }) => {
 
 const behandlingerForPeriode = (fom, tom, accessToken) => {
     const options = {
-        uri: `http://spade.default.svc.nais.local/api/behandlinger/periode/${fom}/${tom}`,
+        uri: `http://spade.default.svc.nais.local/api/behov/periode?fom=${fom}&tom=${tom}`,
         headers: {
             Authorization: `Bearer ${accessToken}`
         },

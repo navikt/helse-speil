@@ -8,7 +8,7 @@ import { useUenighet } from '../../hooks/useUenighet';
 
 const errorMessage = 'Du bør skrive inn årsak';
 
-const FeedbackInput = ({ label, itemsForFeedback }) => {
+const FeedbackInput = ({ label, items }) => {
     const id = label + decodeURIComponent(window.location.pathname);
 
     const uenighet = useUenighet(id);
@@ -32,7 +32,7 @@ const FeedbackInput = ({ label, itemsForFeedback }) => {
         setChecked(e.target.checked);
         setError(undefined);
         if (e.target.checked) {
-            uenighet.create(label, itemsForFeedback);
+            uenighet.create(label, items || []);
         } else {
             uenighet.remove();
         }
@@ -67,7 +67,7 @@ const FeedbackInput = ({ label, itemsForFeedback }) => {
 
 FeedbackInput.propTypes = {
     label: PropTypes.string.isRequired,
-    itemsForFeedback: PropTypes.arrayOf(
+    items: PropTypes.arrayOf(
         PropTypes.shape({
             label: PropTypes.string.isRequired,
             value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])

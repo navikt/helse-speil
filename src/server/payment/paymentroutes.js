@@ -4,7 +4,7 @@ const fs = require('fs');
 const logger = require('../logging');
 const router = require('express').Router();
 const input = require('./inputhandler');
-const godkjenning = require('./godkjenning');
+const vedtak = require('./vedtak');
 
 let simulation;
 
@@ -29,22 +29,22 @@ const routes = ({ router }) => {
         }
     };
 
-    const approvalHandler = {
+    const vedtakHandler = {
         handle: (req, res) => {
-            if (!req.body.behovId || !req.body.aktørId) {
-                res.status(400).send('både behovId og aktørId må være tilstede');
+            if (!req.body.behovId || !req.body.aktørId || req.body.godkjent === undefined) {
+                res.status(400).send('Både behovId, aktørId og godkjent-verdi må være tilstede');
                 return;
             }
             if (process.env.NODE_ENV === 'development') {
-                devApprovePayment(req, res);
+                devSendVedtak(req, res);
             } else {
-                prodApprovePayment(req, res);
+                prodSendVedtak(req, res);
             }
         }
     };
 
     router.post('/simulate', simulationHandler.handle);
-    router.post('/approve', approvalHandler.handle);
+    router.post('/vedtak', vedtakHandler.handle);
 };
 
 const prodSimulation = (req, res) => {
@@ -65,28 +65,29 @@ const devSimulation = (req, res) => {
     res.json(mockSpennData);
 };
 
-const prodApprovePayment = (req, res) => {
-    godkjenning
-        .godkjenn({
+const prodSendVedtak = (req, res) => {
+    vedtak
+        .vedtak({
             behovId: req.body.behovId,
             aktørId: req.body.aktørId,
-            saksbehandler: req.session.user,
-            token: req.session.spadeToken
+            saksbehandlerIdent: req.session.user,
+            token: req.session.spadeToken,
+            godkjent: req.body.godkjent
         })
         .then(() => {
             res.status(204).send();
         })
         .catch(err => {
-            logger.error(`Feil under godkjenning av utbetaling: ${err}`);
-            res.status(500).send('Feil under godkjenning av utbetaling');
+            logger.error(`Feil under fatting av vedtak: ${err}`);
+            res.status(500).send('Feil under fatting av vedtak');
         });
 };
 
-const devApprovePayment = (req, res) => {
+const devSendVedtak = (req, res) => {
     if (Math.random() > 0.5) {
         res.status(204).send();
     } else {
-        res.status(500).send('Feil under godkjenning av utbetaling');
+        res.status(500).send('Feil under fatting av vedtak');
     }
 };
 

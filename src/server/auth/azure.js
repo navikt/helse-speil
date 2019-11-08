@@ -13,7 +13,7 @@ const setup = config => {
             resolve();
         }
 
-        Issuer.discover(`${config.providerBaseUrl}/.well-known/openid-configuration`)
+        Issuer.discover(`${config.providerBaseUrl}/v2.0/.well-known/openid-configuration`)
             .then(azure => {
                 logger.info(`Discovered issuer ${azure.issuer}`);
                 azureClient = new azure.Client({

@@ -82,7 +82,7 @@ const setUpAuthentication = () => {
                     sameSite: true
                 });
                 req.session.spadeToken = accessToken;
-                req.session.user = authsupport.navIdentFrom(idToken);
+                req.session.user = authsupport.valueFromClaim('NAVIdent', idToken);
                 res.redirect('/');
             })
             .catch(err => {

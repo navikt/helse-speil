@@ -69,6 +69,6 @@ test('dagerIgjen', () => {
         { label: 'Yrkesstatus', value: 'Arbeidstaker' },
         { label: 'Dager brukt', value: 0 },
         { label: 'Dager igjen', value: 248 },
-        { label: 'Max dato', value: '20.04.2020' }
+        { label: 'Maks dato', value: '20.04.2020' }
     ]);
 });
