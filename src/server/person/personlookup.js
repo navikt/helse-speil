@@ -68,8 +68,9 @@ const toAktørId = async fnr => {
 };
 
 const _personSøk = (aktorId, spadeAccessToken) => {
-    const onBehalfOfToken = onBehalfOf.hentFor(spleisId, spadeAccessToken);
-    return spleis.hentPerson(aktorId, onBehalfOfToken);
+    return onBehalfOf
+        .hentFor(spleisId, spadeAccessToken)
+        .then(token => spleis.hentPerson(aktorId, token));
 };
 
 const _behovForPeriode = (fom, tom, accessToken) =>
