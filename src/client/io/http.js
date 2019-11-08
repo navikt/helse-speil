@@ -135,3 +135,7 @@ export const deleteTildeling = async behandlingsId => {
 export const postVedtak = async (behovId, aktørId, godkjent) => {
     return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent });
 };
+
+export const postSimulering = async (sak, saksbehandlerIdent) => {
+    return post(`${baseUrl}/payments/simulate`, { sak, saksbehandlerIdent });
+};
