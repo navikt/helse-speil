@@ -26,9 +26,9 @@ rpn.get = options => {
         }
     } else if (options.uri.includes('/api/v1/identer')) {
         return handleAktørregisteretRequest();
-    } else if (options.uri.includes('behandlinger/periode')) {
+    } else if (options.uri.includes('behov/periode')) {
         return Promise.resolve({ body: JSON.parse(mockBehandlingerPeriod()) });
-    } else if (options.uri.includes('behandlinger')) {
+    } else if (options.uri.includes('behov')) {
         return Promise.resolve({ body: JSON.parse(mockBehandlingerPerson()) });
     } else {
         if (options.uri.includes('11111')) {
