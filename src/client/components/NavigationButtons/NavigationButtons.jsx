@@ -35,16 +35,16 @@ const NavigationButtons = ({ history, previous, next }) => {
         <>
             <ReactTooltip html={true} place="bottom" />
             <div className="NavigationButtons">
-                <div data-tip={tooltip('left')}>
-                    <Knapp disabled={!previous} onClick={clickPrevious}>
-                        FORRIGE
-                    </Knapp>
-                </div>
-                <div data-tip={tooltip()}>
-                    <Knapp disabled={!next} onClick={clickNext}>
-                        NESTE
-                    </Knapp>
-                </div>
+                {previous && (
+                    <div data-tip={tooltip('left')}>
+                        <Knapp onClick={clickPrevious}>FORRIGE</Knapp>
+                    </div>
+                )}
+                {next && (
+                    <div data-tip={tooltip()}>
+                        <Knapp onClick={clickNext}>NESTE</Knapp>
+                    </div>
+                )}
             </div>
         </>
     );
