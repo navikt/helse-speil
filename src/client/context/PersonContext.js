@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { fetchPerson } from '../io/http';
+import { fetchPerson, getPersoninfo } from '../io/http';
 import personMapper from './mapper';
 
 export const PersonContext = createContext();
@@ -26,9 +26,14 @@ export const PersonProvider = ({ children }) => {
 
     const hentPerson = value => {
         return fetchPerson(value)
-            .then(response => {
+            .then(async response => {
                 const { person } = response.data;
-                setPersonTilBehandling(personMapper.map(person));
+                const personinfo = await getPersoninfo(value).then(response => ({
+                    navn: response.data?.navn,
+                    kjønn: response.data?.kjønn,
+                    fnr: response.data?.fnr
+                }));
+                setPersonTilBehandling(personMapper.map(person, personinfo));
                 return person;
             })
             .catch(err => {

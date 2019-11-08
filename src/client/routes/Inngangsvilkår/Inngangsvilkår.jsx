@@ -25,7 +25,10 @@ const Inngangsvilkår = () => {
         <Panel className="tekstbolker Inngangsvilkår">
             {inngangsvilkår ? (
                 <>
-                    <IconRow label="Enkelte inngangsvilkår må vurderes manuelt" iconType="advarsel" />
+                    <IconRow
+                        label="Enkelte inngangsvilkår må vurderes manuelt"
+                        iconType="advarsel"
+                    />
                     <Panel>
                         <IconRow label="Medlemsskap må vurderes manuelt" iconType="advarsel" />
                         <IconRow label="Opptjening må vurderes manuelt" iconType="advarsel" />
@@ -40,7 +43,7 @@ const Inngangsvilkår = () => {
                         />
                         <ListRow
                             label="Under 67 år"
-                            items={ItemMapper.under67År(inngangsvilkår.dagerIgjen)}
+                            items={ItemMapper.alder(inngangsvilkår.alder)}
                         />
                         <ListRow
                             label="Søknadsfrist"

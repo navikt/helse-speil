@@ -38,7 +38,7 @@ const dagerIgjen = dagerIgjen => [
     item('Maks dato', toDate(dagerIgjen.maksdato))
 ];
 
-const under67År = dagerIgjen => [item('Alder', `${dagerIgjen.alder}`)];
+const alder = alder => [item('Alder', `${alder}`)];
 
 export default {
     medlemskap,
@@ -46,5 +46,5 @@ export default {
     merEnn05G,
     søknadsfrist,
     dagerIgjen,
-    under67År
+    alder
 };
