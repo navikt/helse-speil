@@ -33,10 +33,11 @@ const PersonBar = () => {
         if (!personTilBehandling || !personinfo) {
             return null;
         }
+        const arbeidsgiver = finnSøknad(personTilBehandling)?.arbeidsgiver || {};
         return {
             navn: personinfo.navn ?? 'Navn ikke tilgjengelig',
             fnr: personinfo.fnr,
-            arbeidsgivernavn: finnSøknad(personTilBehandling)?.arbeidsgiver.navn,
+            arbeidsgivernavn: arbeidsgiver?.navn || arbeidsgiver?.orgnummer,
             sykmeldingsgrad: `${finnSykmeldingsgrad(personTilBehandling)}%`,
             ariaLabelKjønn: `Kjønn: ${personinfo.kjønn ?? 'Ikke tilgjengelig'}`,
             classNameKjønn: personinfo.kjønn?.toLowerCase() ?? 'kjønnsnøytral'
