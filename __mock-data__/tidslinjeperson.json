@@ -1,12 +1,12 @@
 {
-    "aktørId": "87654321962",
+    "aktørId": "0123456789012",
     "arbeidsgivere": [
         {
             "id": "bac2cbee-9327-43f5-be9b-3f73ea95596d",
             "saker": [
                 {
                     "id": "9485bde4-6541-4dcf-aa53-8b466fc4ac87",
-                    "aktørId": "87654321962",
+                    "aktørId": "0123456789012",
                     "maksdato": "2020-09-11",
                     "godkjentAv": null,
                     "tilstandType": "TIL_GODKJENNING",
@@ -412,7 +412,7 @@
                                     "endringIRefusjoner": [],
                                     "foersteFravaersdag": "2019-09-10",
                                     "arbeidsgiverAktorId": null,
-                                    "arbeidstakerAktorId": "87654321962",
+                                    "arbeidstakerAktorId": "0123456789012",
                                     "arbeidsgiverperioder": [
                                         {
                                             "fom": "2019-09-10",
@@ -438,7 +438,7 @@
                                         }
                                     ],
                                     "status": "SENDT",
-                                    "aktorId": "87654321962",
+                                    "aktorId": "0123456789012",
                                     "mottaker": null,
                                     "sendtNav": "2019-10-15T00:00:00",
                                     "sporsmal": null,
@@ -505,7 +505,7 @@
                                         }
                                     ],
                                     "status": "NY",
-                                    "aktorId": "87654321962",
+                                    "aktorId": "0123456789012",
                                     "mottaker": null,
                                     "sendtNav": "2019-10-15T00:00:00",
                                     "sporsmal": null,

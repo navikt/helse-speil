@@ -61,7 +61,7 @@ test('dagerIgjen', () => {
             antallDagerIgjen: 248
         },
         tidligerePerioder: [],
-        maxDato: '2020-04-20T00:00:00.000Z'
+        maksdato: '2020-04-20T00:00:00.000Z'
     };
     expect(Mapper.dagerIgjen(unmapped)).toEqual([
         { label: 'Første fraværsdag', value: '09.05.2019' },

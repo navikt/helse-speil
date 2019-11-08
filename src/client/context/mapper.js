@@ -5,14 +5,16 @@ dayjs.extend(minMax);
 
 export default {
     map: person => {
+        const sak = person.arbeidsgivere[0].saker[0];
         const mapped = {
             ...person,
             inngangsvilkår: {
                 dagerIgjen: {
                     dagerBrukt: {},
-                    tidligerePerioder: [],
                     førsteFraværsdag: finnInntektsmelding(person).foersteFravaersdag,
                     førsteSykepengedag: finnFørsteSykepengedag(person),
+                    maksdato: sak.maksdato,
+                    tidligerePerioder: [],
                     yrkesstatus: finnSøknad(person).arbeidssituasjon
                 },
                 sykepengegrunnlag: 0,

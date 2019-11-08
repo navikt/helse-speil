@@ -12,9 +12,9 @@ export const PersonProvider = ({ children }) => {
     const [personTilBehandling, setPersonTilBehandling] = useState();
 
     useEffect(() => {
-        const aktørId = /\d{12,15}/.exec(window.location.pathname);
+        const aktørId = /\d{12,15}$/.exec(window.location.pathname);
         if (!aktørIdFromUrl && aktørId) {
-            setAktørIdFromUrl(aktørId);
+            setAktørIdFromUrl(aktørId[0]);
         }
     }, []);
 
