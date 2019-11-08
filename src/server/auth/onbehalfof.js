@@ -7,6 +7,7 @@ const init = oidcConfig => {
 };
 
 const hentFor = async (clientId, spadeAccessToken) => {
+    if (process.env.NODE_ENV === 'development') return '';
     const options = {
         uri: `${config.providerBaseUrl}/oauth2/v2.0/token`,
         json: true,
