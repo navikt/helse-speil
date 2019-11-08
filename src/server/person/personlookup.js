@@ -6,15 +6,19 @@ const logger = require('../logging');
 const mapping = require('./mapping');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
 const { valueFromClaim } = require('../auth/authsupport');
+const spleis = require('./spleisClient');
+const onBehalfOf = require('../auth/onbehalfof');
 
 const personIdHeaderName = 'nav-person-id';
 
 let aktørIdLookup;
 let spadeClient;
+let spleisId;
 
-const setup = ({ aktørIdLookup: aktøridlookup, spadeClient: spadeclient }) => {
+const setup = ({ aktørIdLookup: aktøridlookup, spadeClient: spadeclient, config }) => {
     aktørIdLookup = aktøridlookup;
     spadeClient = spadeclient;
+    spleisId = config.clientIDSpleis;
 };
 
 const personSøk = async (req, res) => {
@@ -68,8 +72,10 @@ const toAktørId = async fnr => {
     });
 };
 
-const _personSøk = (aktorId, accessToken) =>
-    spadeClient.behandlingerForPerson({ aktørId: aktorId, accessToken });
+const _personSøk = (aktorId, spadeAccessToken) => {
+    const onBehalfOfToken = onBehalfOf(spleisId, spadeAccessToken);
+    return spleis.hentPerson(aktorId, onBehalfOfToken);
+};
 
 const _behandlingerForPeriod = (fom, tom, accessToken) =>
     spadeClient.behandlingerForPeriode(fom, tom, accessToken);
