@@ -11,7 +11,7 @@ const sider = {
     inntektskilder: 'inntektskilder',
     sykepengegrunnlag: 'sykepengegrunnlag',
     fordeling: 'fordeling',
-    utbetaling: 'utbetaling',
+    utbetalingsoversikt: 'utbetalingsoversikt',
     oppsummering: 'oppsummering',
     sykmeldingsperiode: 'sykmeldingsperiode'
 };
@@ -48,14 +48,14 @@ bokmål.sykepengegrunnlag['avvik'] = 'Utregnet avvik';
 bokmål.sykepengegrunnlag['sykepengegrunnlag'] = 'Sykepengegrunnlag';
 bokmål.sykepengegrunnlag['dagsats'] = 'Dagsats';
 
-bokmål.utbetaling['refusjon'] = 'Refusjon til arbeidsgiver';
-bokmål.utbetaling['betaler'] = 'Betaler arbeidsgiverperiode';
-bokmål.utbetaling['sykepengegrunnlag'] = 'Sykepengegrunnlag';
-bokmål.utbetaling['dagsats'] = 'Dagsats';
-bokmål.utbetaling['dager'] = 'Utbetalingsdager';
-bokmål.utbetaling['sykmeldingsgrad'] = 'Sykmeldingsgrad';
-bokmål.utbetaling['utbetaling'] = 'Utbetaling';
-bokmål.utbetaling['forskutterer'] = 'Arbeidsgiver forskutterer';
+bokmål.utbetalingsoversikt['refusjon'] = 'Refusjon til arbeidsgiver';
+bokmål.utbetalingsoversikt['betaler'] = 'Betaler arbeidsgiverperiode';
+bokmål.utbetalingsoversikt['sykepengegrunnlag'] = 'Sykepengegrunnlag';
+bokmål.utbetalingsoversikt['dagsats'] = 'Dagsats';
+bokmål.utbetalingsoversikt['dager'] = 'Utbetalingsdager';
+bokmål.utbetalingsoversikt['sykmeldingsgrad'] = 'Sykmeldingsgrad';
+bokmål.utbetalingsoversikt['utbetalingsoversikt'] = 'Utbetalingsoversikt';
+bokmål.utbetalingsoversikt['forskutterer'] = 'Arbeidsgiver forskutterer';
 
 bokmål.oppsummering['tittel'] = 'Oppsummering';
 bokmål.oppsummering['sykdomsvilkår'] = 'Sykdomsvilkår er oppfylt';
@@ -75,7 +75,6 @@ bokmål.oppsummering['sykmeldingsgrad'] = 'Sykmeldingsgrad';
 bokmål.oppsummering['utbetalesFom'] = 'Utbetales fra og med';
 bokmål.oppsummering['utbetalesTom'] = 'Utbetales til og med';
 bokmål.oppsummering['utbetaling'] = 'Utbetaling';
-bokmål.oppsummering['innrapportert'] = 'Innrapportering';
 bokmål.oppsummering['ingen_uenigheter'] = 'Ingen uenigheter';
 bokmål.oppsummering['felter_uten_årsak'] = 'Felter uten oppgitt årsak blir ikke sendt inn.';
 bokmål.oppsummering['oppgi_årsak'] = 'Du bør skrive inn årsak';
@@ -93,6 +92,6 @@ export const inntektskildertekster = createLookupFunction(sider.inntektskilder);
 export const sykdomsvilkårtekster = createLookupFunction(sider.sykdomsvilkår);
 export const sykepengegrunnlagstekster = createLookupFunction(sider.sykepengegrunnlag);
 export const fordelingtekster = createLookupFunction(sider.fordeling);
-export const utbetalingstekster = createLookupFunction(sider.utbetaling);
+export const utbetalingsoversikttekster = createLookupFunction(sider.utbetalingsoversikt);
 export const oppsummeringstekster = createLookupFunction(sider.oppsummering);
 export const sykmeldingsperiodetekster = createLookupFunction(sider.sykmeldingsperiode);
