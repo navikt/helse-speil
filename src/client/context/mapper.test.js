@@ -9,6 +9,7 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
                 tidligerePerioder: [],
                 førsteFraværsdag: '2019-09-10',
                 førsteSykepengedag: '2019-09-26',
+                maksdato: '2020-09-11',
                 yrkesstatus: expect.anything()
             },
             sykepengegrunnlag: expect.anything(),

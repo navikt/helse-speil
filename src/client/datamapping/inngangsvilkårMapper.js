@@ -35,7 +35,7 @@ const dagerIgjen = dagerIgjen => [
     item('Yrkesstatus', capitalize(dagerIgjen.yrkesstatus)),
     item('Dager brukt', dagerIgjen.dagerBrukt.antallDagerBrukt),
     item('Dager igjen', dagerIgjen.dagerBrukt.antallDagerIgjen),
-    item('Maks dato', toDate(dagerIgjen.maxDato))
+    item('Maks dato', toDate(dagerIgjen.maksdato))
 ];
 
 const under67År = dagerIgjen => [item('Alder', `${dagerIgjen.alder}`)];
