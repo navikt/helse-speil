@@ -1,13 +1,14 @@
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { oppsummeringstekster } from '../../tekster';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import React, { useContext, useState } from 'react';
 import { postVedtak } from '../../io/http';
 import { PersonoversiktContext } from '../../context/PersonoversiktContext';
 import { PersonContext } from '../../context/PersonContext';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
+import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import './Utbetaling.less';
+import InfoModal from '../../components/InfoModal';
 
 const BESLUTNING = { GODKJENT: 'GODKJENT', AVVIST: 'AVVIST' };
 
@@ -17,6 +18,7 @@ const Utbetaling = () => {
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState(undefined);
     const [error, setError] = useState(undefined);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const fattVedtak = godkjent => {
         const behovId = personoversikt.find(
@@ -29,31 +31,40 @@ const Utbetaling = () => {
                 setError(undefined);
             })
             .catch(err => setError(err))
-            .finally(() => setIsSending(false));
+            .finally(() => {
+                setIsSending(false);
+                setModalOpen(false);
+            });
     };
 
     return (
         <Panel className="Utbetaling">
+            {modalOpen && (
+                <InfoModal
+                    onClose={() => setModalOpen(false)}
+                    onApprove={() => fattVedtak(true)}
+                    isSending={isSending}
+                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet. Dette kan ikke angres."
+                />
+            )}
             <Undertittel>{oppsummeringstekster('utbetaling')}</Undertittel>
             <AlertStripeAdvarsel>
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
                 til teamet for evaluering.
             </AlertStripeAdvarsel>
             {beslutning ? (
-                <Normaltekst>
+                <AlertStripeInfo>
                     {beslutning === BESLUTNING.GODKJENT
-                        ? 'Saken er godkjent og sendt til utbetaling'
-                        : 'Saken er registrert som avvist. Husk å prate med teamet om grunnen.'}
-                </Normaltekst>
+                        ? 'Utbetalingen er sendt til oppdragsystemet.'
+                        : 'Saken er sendt til behandling i Infotrygd.'}
+                </AlertStripeInfo>
             ) : (
                 <div className="knapperad">
                     <div className="knapp--utbetaling">
-                        <button onClick={() => fattVedtak(true)} spinner={isSending}>
-                            Utbetal
-                        </button>
+                        <button onClick={() => setModalOpen(true)}>Utbetal</button>
                     </div>
-                    <Knapp onClick={() => fattVedtak(false)} spinner={isSending}>
-                        Avvis
+                    <Knapp onClick={() => fattVedtak(false)} spinner={isSending && !modalOpen}>
+                        Behandle i Infotrygd
                     </Knapp>
                 </div>
             )}

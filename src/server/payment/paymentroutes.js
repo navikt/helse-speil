@@ -31,7 +31,7 @@ const routes = ({ router }) => {
 
     const vedtakHandler = {
         handle: (req, res) => {
-            if (!req.body.behovId || !req.body.aktørId || !req.body.godkjent) {
+            if (!req.body.behovId || !req.body.aktørId || req.body.godkjent === undefined) {
                 res.status(400).send('Både behovId, aktørId og godkjent-verdi må være tilstede');
                 return;
             }
