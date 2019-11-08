@@ -3,7 +3,11 @@ const spadeClient = require('../adapters/spadeClient');
 
 describe('calling mocked spade', () => {
     beforeAll(() => {
-        lookup.setup({ aktørIdLookup: '', spadeClient, config: { clientIDSpleis: 'xxxyyyzzz' } });
+        lookup.setup({
+            aktørIdLookup: '',
+            spadeClient,
+            config: { oidc: { clientIDSpleis: 'xxxyyyzzz' } }
+        });
     });
 
     test('behandlinger summary for time period', async () => {
