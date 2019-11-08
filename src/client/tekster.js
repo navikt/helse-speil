@@ -24,7 +24,7 @@ bokmål['empty_state_message'] =
     'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over';
 bokmål['informasjon ikke tilgjengelig'] = 'Ikke klart';
 
-bokmål.oversikt['tittel'] = 'Neste behandlinger';
+bokmål.oversikt['tittel'] = 'Neste saker';
 bokmål.oversikt['søker'] = 'Søker';
 bokmål.oversikt['tildeling'] = 'Tildelt';
 bokmål.oversikt['tidspunkt'] = 'Tidspunkt';
