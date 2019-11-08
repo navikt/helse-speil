@@ -18,7 +18,9 @@ export default {
                     yrkesstatus: finnSøknad(person).arbeidssituasjon
                 },
                 sykepengegrunnlag: finnInntektsmelding(person).beregnetInntekt,
-                søknadsfrist: {}
+                søknadsfrist: {
+                    sendtNav: finnSøknad(person).sendtNav
+                }
             }
         };
         return mapped;
