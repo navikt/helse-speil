@@ -1,12 +1,20 @@
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
+
+dayjs.extend(minMax);
+
 export default {
     map: person => {
+        const sak = person.arbeidsgivere[0].saker[0];
         const mapped = {
             ...person,
             inngangsvilkår: {
                 dagerIgjen: {
                     dagerBrukt: {},
-                    tidligerePerioder: [],
                     førsteFraværsdag: finnInntektsmelding(person).foersteFravaersdag,
+                    førsteSykepengedag: finnFørsteSykepengedag(person),
+                    maksdato: sak.maksdato,
+                    tidligerePerioder: [],
                     yrkesstatus: finnSøknad(person).arbeidssituasjon
                 },
                 sykepengegrunnlag: 0,
@@ -15,6 +23,11 @@ export default {
         };
         return mapped;
     }
+};
+
+const finnFørsteSykepengedag = person => {
+    const utbetalingslinjer = person.arbeidsgivere[0].saker[0].utbetalingslinjer;
+    return dayjs.min(utbetalingslinjer.map(linje => dayjs(linje.fom))).format('YYYY-MM-DD');
 };
 
 const hendelsestyper = {

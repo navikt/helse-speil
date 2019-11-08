@@ -6,7 +6,8 @@ const init = oidcConfig => {
     config = oidcConfig;
 };
 
-const hentFor = async (clientId, speilAccessToken) => {
+const hentFor = async (clientId, spadeAccessToken) => {
+    if (process.env.NODE_ENV === 'development') return '';
     const options = {
         uri: `${config.providerBaseUrl}/oauth2/v2.0/token`,
         json: true,
@@ -16,7 +17,7 @@ const hentFor = async (clientId, speilAccessToken) => {
                 { name: 'grant_type', value: 'urn:ietf:params:oauth:grant-type:jwt-bearer' },
                 { name: 'client_id', value: config.clientID }, // our own
                 { name: 'client_secret', value: config.clientSecret },
-                { name: 'assertion', value: speilAccessToken },
+                { name: 'assertion', value: spadeAccessToken },
                 { name: 'scope', value: `${clientId}/.default` }, // the app we're reaching out to
                 { name: 'requested_token_use', value: 'on_behalf_of' }
             ]

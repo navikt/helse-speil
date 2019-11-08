@@ -24,7 +24,7 @@ const getDevDependencies = app => {
             spadeClient: devSpadeClient,
             stsclient: devStsClient,
             cache: redisClient,
-            config: config.nav
+            config: config
         },
         payments: { config: config.nav },
         redisClient

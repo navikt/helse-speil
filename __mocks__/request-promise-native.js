@@ -62,6 +62,6 @@ const mockSpennData = () => fs.readFileSync('__mock-data__/spenn-reply.json', 'u
 const mockBehandlingerPerson = () => fs.readFileSync('__mock-data__/behandlinger.json', 'utf-8');
 
 const mockBehandlingerPeriod = () =>
-    fs.readFileSync('__mock-data__/behandlingsummaries.json', 'utf-8');
+    fs.readFileSync('__mock-data__/behandlingsummaries.json', 'utf-8'); // TODO: behandlinger => det nye
 
 module.exports = rpn;
