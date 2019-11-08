@@ -9,7 +9,7 @@ const setup = ({ sparkelClient, aktørIdLookup, spadeClient, stsclient, cache })
     return router;
 };
 const routes = router => {
-    router.get('/', personlookup.behandlingerForPeriod);
+    router.get('/', personlookup.behovForPeriode);
     router.get('/sok', personlookup.personSøk);
     router.get('/:aktorId/info', personinforoutes.getPerson);
 };
