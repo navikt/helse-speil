@@ -2,8 +2,11 @@ const request = require('request-promise-native');
 
 let config;
 
-const init = oidcConfig => {
+const factory = oidcConfig => {
     config = oidcConfig;
+    return {
+        hentFor
+    };
 };
 
 const hentFor = async (clientId, spadeAccessToken) => {
@@ -28,6 +31,5 @@ const hentFor = async (clientId, spadeAccessToken) => {
 };
 
 module.exports = {
-    init,
-    hentFor
+    factory
 };
