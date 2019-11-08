@@ -30,8 +30,8 @@ const warning = msg => {
     stdoutLogger.warn(msg);
 };
 
-const error = msg => {
-    stdoutLogger.error(msg);
+const error = (msg, err) => {
+    stdoutLogger.error(msg, { message: `: ${err?.message || err}` });
 };
 
 const audit = msg => {
