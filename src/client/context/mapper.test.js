@@ -12,7 +12,7 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
                 maksdato: '2020-09-11',
                 yrkesstatus: expect.anything()
             },
-            sykepengegrunnlag: expect.anything(),
+            sykepengegrunnlag: '666.00',
             søknadsfrist: {}
         }
     };
