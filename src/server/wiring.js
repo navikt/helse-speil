@@ -27,7 +27,7 @@ const getDevDependencies = app => {
             stsclient: devStsClient,
             onBehalfOf,
             cache: redisClient,
-            config: config
+            config
         },
         payments: { config: config.nav },
         redisClient
@@ -47,7 +47,7 @@ const getProdDependencies = app => {
             stsclient,
             onBehalfOf,
             cache: redisClient,
-            config: config.nav
+            config
         },
         payments: { config: config.nav },
         redisClient
