@@ -28,6 +28,8 @@ rpn.get = options => {
         return handleAktørregisteretRequest();
     } else if (options.uri.includes('behov/periode')) {
         return Promise.resolve({ body: JSON.parse(mockBehandlingerPeriod()) });
+    } else if (options.uri.includes('behov')) {
+        return Promise.resolve({ body: JSON.parse(mockBehandlingerPerson()) });
     } else {
         if (options.uri.includes('11111')) {
             return Promise.resolve(testPerson);

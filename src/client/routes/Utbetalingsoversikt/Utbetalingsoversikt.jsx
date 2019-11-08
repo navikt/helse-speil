@@ -3,20 +3,20 @@ import IconRow from '../../components/Rows/IconRow';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { utbetalingstekster } from '../../tekster';
+import { utbetalingsoversikttekster } from '../../tekster';
 import { PersonContext } from '../../context/PersonContext';
 import Timeline from '../../components/Timeline';
-import './Utbetaling.less';
+import './Utbetalingsoversikt.less';
 import { pages } from '../../hooks/useLinks';
 
-const Utbetaling = () => {
+const Utbetalingsoversikt = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
 
     return (
-        <Panel className="Utbetaling">
+        <Panel className="Utbetalingsoversikt">
             {person.arbeidsgivere ? (
                 <>
-                    <IconRow label={utbetalingstekster('dager')} bold />
+                    <IconRow label={utbetalingsoversikttekster('dager')} bold />
                     <Timeline person={person} showDagsats={true} />
                 </>
             ) : (
@@ -28,4 +28,4 @@ const Utbetaling = () => {
     );
 };
 
-export default Utbetaling;
+export default Utbetalingsoversikt;

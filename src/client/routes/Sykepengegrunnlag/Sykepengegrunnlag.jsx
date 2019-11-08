@@ -8,7 +8,7 @@ const Sykepengegrunnlag = () => {
     return (
         <Panel className="Sykepengegrunnlag">
             <Normaltekst>Ingen data</Normaltekst>
-            <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALING} />
+            <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />
         </Panel>
     );
 };

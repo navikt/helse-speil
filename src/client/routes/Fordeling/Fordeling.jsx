@@ -8,7 +8,10 @@ const Periode = () => {
     return (
         <Panel className="Periode">
             <Normaltekst>Ingen data</Normaltekst>
-            <NavigationButtons previous={pages.SYKEPENGEGRUNNLAG} next={pages.UTBETALING} />
+            <NavigationButtons
+                previous={pages.SYKEPENGEGRUNNLAG}
+                next={pages.UTBETALINGSOVERSIKT}
+            />
         </Panel>
     );
 };

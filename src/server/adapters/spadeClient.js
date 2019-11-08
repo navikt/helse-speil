@@ -14,7 +14,7 @@ const behandlingerForPerson = ({ aktørId, accessToken }) => {
 
 const behandlingerForPeriode = (fom, tom, accessToken) => {
     const options = {
-        uri: `http://spade.default.svc.nais.local/api/behov/periode/${fom}/${tom}`,
+        uri: `http://spade.default.svc.nais.local/api/behov/periode?fom=${fom}&tom=${tom}`,
         headers: {
             Authorization: `Bearer ${accessToken}`
         },

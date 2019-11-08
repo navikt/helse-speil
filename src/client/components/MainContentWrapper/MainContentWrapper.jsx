@@ -4,7 +4,7 @@ import { pages } from '../../hooks/useLinks';
 import PersonBar from '../PersonBar';
 import Fordeling from '../../routes/Fordeling';
 import Sykepengegrunnlag from '../../routes/Sykepengegrunnlag';
-import Utbetaling from '../../routes/Utbetaling';
+import Utbetalingsoversikt from '../../routes/Utbetalingsoversikt';
 import Oppsummering from '../../routes/Oppsummering';
 import Sykdomsvilkår from '../../routes/Sykdomsvilkår';
 import Inngangsvilkår from '../../routes/Inngangsvilkår';
@@ -54,9 +54,9 @@ const MainContentWrapper = () => {
                         />
                         <Route path={`/${pages.FORDELING}/:aktoerId`} exact component={Fordeling} />
                         <Route
-                            path={`/${pages.UTBETALING}/:aktoerId`}
+                            path={`/${pages.UTBETALINGSOVERSIKT}/:aktoerId`}
                             exact
-                            component={Utbetaling}
+                            component={Utbetalingsoversikt}
                         />
                         <Route
                             path={`/${pages.OPPSUMMERING}/:aktoerId`}

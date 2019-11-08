@@ -3,7 +3,6 @@
 const moment = require('moment');
 
 const logger = require('../logging');
-const mapping = require('./mapping');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
 const { valueFromClaim } = require('../auth/authsupport');
 const spleis = require('./spleisClient');
@@ -41,7 +40,7 @@ const personSøk = async (req, res) => {
     respondWith(res, _personSøk(aktorId, req.session.spadeToken), input => input);
 };
 
-const behandlingerForPeriod = (req, res) => {
+const behovForPeriode = (req, res) => {
     auditLog(req);
 
     const today = moment().format('YYYY-MM-DD');
@@ -49,11 +48,7 @@ const behandlingerForPeriod = (req, res) => {
         .subtract(1, 'days')
         .format('YYYY-MM-DD');
 
-    respondForSummary(
-        res,
-        _behandlingerForPeriod(yesterday, today, req.session.spadeToken),
-        mapping.fromBehandlingSummary
-    );
+    respondForSummary(res, _behovForPeriode(yesterday, today, req.session.spadeToken));
 };
 
 const auditLog = (request, ...queryParams) => {
@@ -77,7 +72,7 @@ const _personSøk = (aktorId, spadeAccessToken) => {
     return spleis.hentPerson(aktorId, onBehalfOfToken);
 };
 
-const _behandlingerForPeriod = (fom, tom, accessToken) =>
+const _behovForPeriode = (fom, tom, accessToken) =>
     spadeClient.behandlingerForPeriode(fom, tom, accessToken);
 
 const respondWith = (res, lookupPromise, mapper) => {
@@ -88,8 +83,8 @@ const respondWith = (res, lookupPromise, mapper) => {
             });
         })
         .catch(err => {
-            logger.error(`Error during behandlinger lookup: ${err}`);
-            res.sendStatus(500);
+            logger.error(`Error during behov lookup: ${err}`);
+            res.sendStatus(err.statusCode);
         });
 };
 
@@ -101,15 +96,15 @@ const respondForSummary = (res, lookupPromise) => {
             });
         })
         .catch(err => {
-            logger.error(`Error during behandlinger lookup: ${err}`);
-            res.sendStatus(500);
+            logger.error(`Error during behov lookup: ${err}`);
+            res.sendStatus(err.statusCode);
         });
 };
 
 module.exports = {
     setup,
     personSøk,
-    behandlingerForPeriod,
+    behovForPeriode: behovForPeriode,
     _personSøk,
-    _behandlingerForPeriod
+    _behovForPeriode: _behovForPeriode
 };

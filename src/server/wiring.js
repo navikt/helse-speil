@@ -33,7 +33,7 @@ const getDevDependencies = app => {
 
 const getProdDependencies = app => {
     const redisClient = redisclient.init({ config: config.redis });
-    aktørIdLookup.init(stsclient, config);
+    aktørIdLookup.init(stsclient, config.nav);
     return {
         feedback: { config: config.s3, instrumentation: instrumentation.setup(app) },
         person: {

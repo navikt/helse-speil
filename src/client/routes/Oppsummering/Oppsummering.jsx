@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import ListItem from '../../components/ListItem';
 import ListSeparator from '../../components/ListSeparator';
-import Innrapportering from './Innrapportering';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { toDate } from '../../utils/date';
@@ -11,6 +10,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { oppsummeringstekster, tekster } from '../../tekster';
 import './Oppsummering.less';
 import { pages } from '../../hooks/useLinks';
+import Utbetaling from './Utbetaling';
 
 const Oppsummering = () => {
     const { personTilBehandling } = useContext(PersonContext);
@@ -112,10 +112,10 @@ const Oppsummering = () => {
                     <Normaltekst>Ingen data</Normaltekst>
                 )}
 
-                <Navigasjonsknapper previous={pages.UTBETALING} />
+                <Navigasjonsknapper previous={pages.UTBETALINGSOVERSIKT} />
             </Panel>
             <div className="Oppsummering__right-col">
-                <Innrapportering />
+                <Utbetaling />
             </div>
         </div>
     );

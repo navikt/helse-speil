@@ -35,7 +35,7 @@ const Nav = ({ active }) => {
             <Link id="nav-link-fordeling" to={links[pages.FORDELING]} active={false}>
                 <Normaltekst>Fordeling</Normaltekst>
             </Link>
-            <Link id="nav-link-utbetaling" to={links[pages.UTBETALING]} active={active}>
+            <Link id="nav-link-utbetaling" to={links[pages.UTBETALINGSOVERSIKT]} active={active}>
                 <Normaltekst>Utbetaling</Normaltekst>
             </Link>
             <Link id="nav-link-oppsummering" to={links[pages.OPPSUMMERING]} active={active}>
