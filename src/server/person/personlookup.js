@@ -22,7 +22,7 @@ const setup = ({
 }) => {
     aktørIdLookup = aktøridlookup;
     spadeClient = spadeclient;
-    spleisId = config.clientIDSpleis;
+    spleisId = config.oidc.clientIDSpleis;
     onBehalfOf = onbehalfof;
 };
 
