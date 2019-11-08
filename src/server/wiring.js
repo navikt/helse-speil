@@ -4,6 +4,7 @@ const redisclient = require('./redisclient');
 const instrumentation = require('./instrumentation');
 const stsclient = require('./auth/stsclient');
 const devStsClient = require('./auth/devStsClient');
+const onbehalfof = require('./auth/onbehalfof');
 const sparkelClient = require('./adapters/sparkelClient');
 const devSparkelClient = require('./adapters/devSparkelClient');
 const aktørIdLookup = require('./aktørid/aktøridlookup');
@@ -16,6 +17,7 @@ const getDependencies = app =>
 
 const getDevDependencies = app => {
     const redisClient = redisclient.init({ config: config.redis });
+    const onBehalfOf = onbehalfof.factory(config.oidc);
     return {
         feedback: { config: config.s3, instrumentation: instrumentation.setup(app) },
         person: {
@@ -23,6 +25,7 @@ const getDevDependencies = app => {
             aktørIdLookup: devAktørIdLookup,
             spadeClient: devSpadeClient,
             stsclient: devStsClient,
+            onBehalfOf,
             cache: redisClient,
             config: config
         },
@@ -34,6 +37,7 @@ const getDevDependencies = app => {
 const getProdDependencies = app => {
     const redisClient = redisclient.init({ config: config.redis });
     aktørIdLookup.init(stsclient, config.nav);
+    const onBehalfOf = onbehalfof.factory(config.oidc);
     return {
         feedback: { config: config.s3, instrumentation: instrumentation.setup(app) },
         person: {
@@ -41,6 +45,7 @@ const getProdDependencies = app => {
             aktørIdLookup,
             spadeClient,
             stsclient,
+            onBehalfOf,
             cache: redisClient,
             config: config.nav
         },

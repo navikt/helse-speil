@@ -2,8 +2,11 @@ const request = require('request-promise-native');
 
 let config;
 
-const init = oidcConfig => {
+const factory = oidcConfig => {
     config = oidcConfig;
+    return {
+        hentFor
+    };
 };
 
 const hentFor = async (clientId, spadeAccessToken) => {
@@ -11,16 +14,14 @@ const hentFor = async (clientId, spadeAccessToken) => {
     const options = {
         uri: `${config.providerBaseUrl}/oauth2/v2.0/token`,
         json: true,
-        postData: {
-            mimeType: 'application/x-www-form-urlencoded',
-            params: [
-                { name: 'grant_type', value: 'urn:ietf:params:oauth:grant-type:jwt-bearer' },
-                { name: 'client_id', value: config.clientID }, // our own
-                { name: 'client_secret', value: config.clientSecret },
-                { name: 'assertion', value: spadeAccessToken },
-                { name: 'scope', value: `${clientId}/.default` }, // the app we're reaching out to
-                { name: 'requested_token_use', value: 'on_behalf_of' }
-            ]
+        method: 'POST',
+        form: {
+            grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            client_id: config.clientID, // our own
+            client_secret: config.clientSecret,
+            assertion: spadeAccessToken,
+            scope: `${clientId}/.default`, // the app we're reaching out to
+            requested_token_use: 'on_behalf_of'
         }
     };
     const response = await request.post(options);
@@ -28,6 +29,5 @@ const hentFor = async (clientId, spadeAccessToken) => {
 };
 
 module.exports = {
-    init,
-    hentFor
+    factory
 };

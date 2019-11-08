@@ -6,18 +6,24 @@ const logger = require('../logging');
 const { isValidSsn } = require('../aktørid/ssnvalidation');
 const { valueFromClaim } = require('../auth/authsupport');
 const spleis = require('./spleisClient');
-const onBehalfOf = require('../auth/onbehalfof');
 
 const personIdHeaderName = 'nav-person-id';
 
 let aktørIdLookup;
 let spadeClient;
 let spleisId;
+let onBehalfOf;
 
-const setup = ({ aktørIdLookup: aktøridlookup, spadeClient: spadeclient, config }) => {
+const setup = ({
+    aktørIdLookup: aktøridlookup,
+    spadeClient: spadeclient,
+    config,
+    onBehalfOf: onbehalfof
+}) => {
     aktørIdLookup = aktøridlookup;
     spadeClient = spadeclient;
     spleisId = config.clientIDSpleis;
+    onBehalfOf = onbehalfof;
 };
 
 const personSøk = async (req, res) => {
@@ -68,8 +74,9 @@ const toAktørId = async fnr => {
 };
 
 const _personSøk = (aktorId, spadeAccessToken) => {
-    const onBehalfOfToken = onBehalfOf.hentFor(spleisId, spadeAccessToken);
-    return spleis.hentPerson(aktorId, onBehalfOfToken);
+    return onBehalfOf
+        .hentFor(spleisId, spadeAccessToken)
+        .then(token => spleis.hentPerson(aktorId, token));
 };
 
 const _behovForPeriode = (fom, tom, accessToken) =>

@@ -12,8 +12,10 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
                 maksdato: '2020-09-11',
                 yrkesstatus: expect.anything()
             },
-            sykepengegrunnlag: expect.anything(),
-            søknadsfrist: {}
+            sykepengegrunnlag: '666.00',
+            søknadsfrist: {
+                sendtNav: '2019-10-15T00:00:00'
+            }
         }
     };
     expect(personMapper.map(behov)).toEqual(expect.objectContaining(expectedPerson));
