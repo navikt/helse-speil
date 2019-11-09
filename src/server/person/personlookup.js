@@ -43,7 +43,13 @@ const personSøk = async (req, res) => {
         return;
     }
 
-    respondWith(res, _personSøk(aktorId, req.session.spadeToken), input => input);
+    respondWith({
+        res,
+        lookupPromise: _personSøk(aktorId, req.session.spadeToken),
+        mapper: response => ({
+            person: response.body.person
+        })
+    });
 };
 
 const behovForPeriode = (req, res) => {
@@ -54,7 +60,13 @@ const behovForPeriode = (req, res) => {
         .subtract(1, 'days')
         .format('YYYY-MM-DD');
 
-    respondForSummary(res, _behovForPeriode(yesterday, today, req.session.spadeToken));
+    respondWith({
+        res,
+        lookupPromise: _behovForPeriode(yesterday, today, req.session.spadeToken),
+        mapper: response => ({
+            behov: response.body
+        })
+    });
 };
 
 const auditLog = (request, ...queryParams) => {
@@ -82,28 +94,13 @@ const _personSøk = (aktorId, spadeAccessToken) => {
 const _behovForPeriode = (fom, tom, accessToken) =>
     spadeClient.behandlingerForPeriode(fom, tom, accessToken);
 
-const respondWith = (res, lookupPromise, mapper) => {
+const respondWith = ({ res, lookupPromise, mapper }) => {
     lookupPromise
         .then(apiResponse => {
-            res.status(apiResponse.statusCode).send({
-                person: mapper(apiResponse.body.person)
-            });
+            res.status(apiResponse.statusCode).send(mapper(apiResponse));
         })
         .catch(err => {
-            logger.error(`Error during behov lookup: ${err}`);
-            res.sendStatus(err.statusCode);
-        });
-};
-
-const respondForSummary = (res, lookupPromise) => {
-    lookupPromise
-        .then(apiResponse => {
-            res.status(apiResponse.statusCode).send({
-                behov: apiResponse.body
-            });
-        })
-        .catch(err => {
-            logger.error(`Error during behov lookup: ${err}`);
+            logger.error(`Error during data fetching: ${err}`);
             res.sendStatus(err.statusCode);
         });
 };
