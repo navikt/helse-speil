@@ -62,7 +62,7 @@ const behovForPeriode = (req, res) => {
 
     respondWith({
         res,
-        lookupPromise: _behovForPeriode(yesterday, today, req.session.spadeToken),
+        lookupPromise: spadeClient.behandlingerForPeriode(yesterday, today, req.session.spadeToken),
         mapper: response => ({
             behov: response.body
         })
@@ -91,9 +91,6 @@ const _personSøk = (aktorId, spadeAccessToken) => {
         .then(token => spleis.hentPerson(aktorId, token));
 };
 
-const _behovForPeriode = (fom, tom, accessToken) =>
-    spadeClient.behandlingerForPeriode(fom, tom, accessToken);
-
 const respondWith = ({ res, lookupPromise, mapper }) => {
     lookupPromise
         .then(apiResponse => {
@@ -108,7 +105,5 @@ const respondWith = ({ res, lookupPromise, mapper }) => {
 module.exports = {
     setup,
     personSøk,
-    behovForPeriode: behovForPeriode,
-    _personSøk,
-    _behovForPeriode: _behovForPeriode
+    behovForPeriode
 };
