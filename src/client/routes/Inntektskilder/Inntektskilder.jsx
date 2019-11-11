@@ -24,7 +24,9 @@ const Inntektskilder = () => {
                             item(
                                 'Omregnet årsinntekt',
                                 `${toLocaleFixedNumberString(inntektskilder.årsinntekt, 2)} kr`
-                            )
+                            ),
+                            item('Refusjon til arbeidsgiver', inntektskilder.refusjon),
+                            item('Betaler arbeidsgiverperiode', inntektskilder.forskuttering)
                         ]}
                         displayIcon={false}
                     ></ListRow>

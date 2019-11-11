@@ -19,7 +19,9 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
         },
         inntektskilder: {
             månedsinntekt: 666.0,
-            årsinntekt: 7992.0
+            årsinntekt: 7992.0,
+            refusjon: '(Ja)',
+            forskuttering: '(Ja)'
         }
     };
     expect(personMapper.map(behov)).toEqual(expect.objectContaining(expectedPerson));

@@ -24,7 +24,9 @@ export default {
             },
             inntektskilder: {
                 månedsinntekt: parseInt(finnInntektsmelding(person).beregnetInntekt, 10),
-                årsinntekt: parseInt(finnInntektsmelding(person).beregnetInntekt, 10) * 12
+                årsinntekt: parseInt(finnInntektsmelding(person).beregnetInntekt, 10) * 12,
+                refusjon: '(Ja)',
+                forskuttering: '(Ja)'
             }
         };
         return mapped;
