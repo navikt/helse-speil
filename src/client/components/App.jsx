@@ -14,6 +14,7 @@ import { PersonoversiktProvider } from '../context/PersonoversiktContext';
 import { InnrapporteringProvider } from '../context/InnrapporteringContext';
 import { PersonContext, PersonProvider } from '../context/PersonContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
+import { SimuleringProvider } from '../context/SimuleringContext';
 import './App.less';
 import 'reset-css';
 
@@ -38,6 +39,7 @@ const App = withContextProviders(() => {
     );
 }, [
     InnrapporteringProvider,
+    SimuleringProvider,
     PersonoversiktProvider,
     PersonProvider,
     AuthProvider,

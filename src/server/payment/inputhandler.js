@@ -1,13 +1,21 @@
 'use strict';
 
-const isValid = behandling => objectStructureMatches(validBehandling, behandling);
+const isValid = sak => objectStructureMatches(validSak, sak);
 
-const map = behandling => {
+const map = (sak, saksbehandlerIdent) => {
     return {
-        soknadId: behandling.originalSøknad.id,
-        aktorId: behandling.originalSøknad.aktorId,
-        vedtaksperioder: behandling.vedtak.perioder,
-        maksDato: behandling.avklarteVerdier.maksdato.fastsattVerdi
+        '@behov': 'Utbetaling',
+        sakskompleksId: sak.id,
+        aktørId: sak.aktørId,
+        organisasjonsnummer: sak.organisasjonsnummer,
+        maksdato: sak.maksdato,
+        saksbehandler: saksbehandlerIdent,
+        utbetalingslinjer: sak.utbetalingslinjer.map(linje => ({
+            fom: linje.fom,
+            tom: linje.tom,
+            grad: linje.grad ? linje.grad : 100,
+            dagsats: linje.dagsats
+        }))
     };
 };
 
@@ -39,32 +47,18 @@ const arrayEquals = (expected, actual) => {
     return true;
 };
 
-const validBehandling = {
-    originalSøknad: {
-        id: 123,
-        aktorId: '11111'
-    },
-    vedtak: {
-        perioder: [
-            {
-                fom: '2019-05-09',
-                tom: '2019-05-24',
-                dagsats: 1603,
-                grad: 100,
-                fordeling: [
-                    {
-                        mottager: '999999999',
-                        andel: 100
-                    }
-                ]
-            }
-        ]
-    },
-    avklarteVerdier: {
-        maksdato: {
-            fastsattVerdi: '2019-05-24'
+const validSak = {
+    id: '9485bde4-6541-4dcf-aa53-8b466fc4ac87',
+    aktørId: '0123456789012',
+    organisasjonsnummer: '123456789',
+    utbetalingslinjer: [
+        {
+            fom: '2019-05-09',
+            tom: '2019-05-24',
+            dagsats: 1603
         }
-    }
+    ],
+    maksdato: '2019-05-27'
 };
 
 module.exports = {
