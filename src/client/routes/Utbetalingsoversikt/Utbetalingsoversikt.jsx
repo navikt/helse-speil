@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import IconRow from '../../components/Rows/IconRow';
+import Timeline from '../../components/Timeline';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { utbetalingsoversikttekster } from '../../tekster';
-import { PersonContext } from '../../context/PersonContext';
-import Timeline from '../../components/Timeline';
-import './Utbetalingsoversikt.less';
 import { pages } from '../../hooks/useLinks';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { PersonContext } from '../../context/PersonContext';
+import { utbetalingsoversikttekster } from '../../tekster';
+import './Utbetalingsoversikt.less';
 
 const Utbetalingsoversikt = () => {
     const { personTilBehandling: person } = useContext(PersonContext);

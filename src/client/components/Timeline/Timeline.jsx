@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TimelineRow from './TimelineRow';
 import { guid } from 'nav-frontend-js-utils';
+import { listOfDatesBetween } from '../../utils/date';
 import 'nav-frontend-tabell-style';
 import './Timeline.less';
-import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
-
-dayjs.extend(isBetween);
 
 const hendelseTypeTilUiNavn = type => {
     switch (type) {
@@ -22,27 +19,36 @@ const hendelseTypeTilUiNavn = type => {
     }
 };
 
-const findDagsats = (date, utbetalingslinjer) =>
-    utbetalingslinjer.find(utbetalingsperiode => {
-        return dayjs(date).isBetween(utbetalingsperiode.fom, utbetalingsperiode.tom, 'day', '[]');
-    })?.dagsats || 0;
+const buildDagsatserDictionary = utbetalingslinjer => {
+    const dagsatser = {};
+    utbetalingslinjer
+        .flatMap(periode =>
+            listOfDatesBetween(periode.fom, periode.tom).map(dag => ({
+                dag,
+                dagsats: periode.dagsats
+            }))
+        )
+        .forEach(d => (dagsatser[d.dag] = d.dagsats));
+    return dagsatser;
+};
+
+const sumDagsatser = dagsatser => {
+    return Object.values(dagsatser).reduce((sum, dagsats) => sum + dagsats, 0);
+};
 
 const Timeline = ({ person, showDagsats }) => {
-    if (!person?.arbeidsgivere) {
-        return null;
-    }
     const { sykdomstidslinje: tidslinje, utbetalingslinjer } = person.arbeidsgivere[0].saker[0];
     const hendelser = tidslinje.hendelser;
-    const dager = tidslinje.dager.map(dag => {
-        return {
-            date: dag.dato,
-            type: dag.type,
-            source: hendelseTypeTilUiNavn(
-                hendelser.find(h => h.hendelseId === dag.hendelseId).type
-            ),
-            dagsats: findDagsats(dag.dato, utbetalingslinjer)
-        };
-    });
+    const dagsatser = showDagsats ? buildDagsatserDictionary(utbetalingslinjer) : {};
+    const dagsatserSummed = showDagsats && sumDagsatser(dagsatser);
+
+    const dager = tidslinje.dager.map(dag => ({
+        date: dag.dato,
+        type: dag.type,
+        hendelse: hendelseTypeTilUiNavn(hendelser.find(h => h.hendelseId === dag.hendelseId).type),
+        dagsats: dagsatser?.[dag.dato]
+    }));
+
     return (
         <table className="Timeline tabell">
             <thead>
@@ -66,6 +72,14 @@ const Timeline = ({ person, showDagsats }) => {
                         );
                     })}
             </tbody>
+            {dagsatserSummed !== 0 && (
+                <tfoot>
+                    <tr>
+                        <th>SUM</th>
+                        <th>{`${dagsatserSummed} kr`}</th>
+                    </tr>
+                </tfoot>
+            )}
         </table>
     );
 };
@@ -75,5 +89,6 @@ Timeline.propTypes = {
     showDagsats: PropTypes.bool
 };
 
-export const _findDagsats = findDagsats;
+export const _buildDagsatserDictionary = buildDagsatserDictionary;
+export const _sumDagsatser = sumDagsatser;
 export default Timeline;

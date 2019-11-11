@@ -51,7 +51,8 @@ const dayType = type => {
         }
     );
 };
-const TimelineRow = ({ date, type, source, dagsats, showType, showDagsats }) => {
+const TimelineRow = ({ date, type, hendelse, dagsats, showType, showDagsats }) => {
+    console.log(dagsats);
     return (
         <tr>
             <td>
@@ -59,14 +60,14 @@ const TimelineRow = ({ date, type, source, dagsats, showType, showDagsats }) => 
                 {type && (
                     <div className={`TimelineRow__type ${dayType(type).cssName}`}>
                         <span>{showType && dayType(type).text}</span>
-                        {source && <Undertekst>{source}</Undertekst>}
+                        {hendelse && <Undertekst>{hendelse}</Undertekst>}
                     </div>
                 )}
             </td>
             {showDagsats && (
                 <td>
                     <div className="TimelineRow__dagsats">
-                        <span>{dagsats} kr</span>
+                        {dagsats && <span>{dagsats} kr</span>}
                     </div>
                 </td>
             )}
@@ -77,7 +78,7 @@ const TimelineRow = ({ date, type, source, dagsats, showType, showDagsats }) => 
 TimelineRow.propTypes = {
     date: PropTypes.string,
     type: PropTypes.string,
-    source: PropTypes.string,
+    hendelse: PropTypes.string,
     dagsats: PropTypes.number,
     showType: PropTypes.bool,
     showDagsats: PropTypes.bool

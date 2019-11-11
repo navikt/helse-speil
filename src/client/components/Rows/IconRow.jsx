@@ -1,7 +1,7 @@
 import React from 'react';
+import Icon from 'nav-frontend-ikoner-assets';
 import PropTypes from 'prop-types';
 import FeedbackInput from '../FeedbackInput/FeedbackInput';
-import Icon from 'nav-frontend-ikoner-assets';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './IconRow.less';
 
@@ -21,7 +21,6 @@ const IconRow = ({ label, labelProp, bold, items, displayFeedback }) => {
                     </span>
                 )}
             </span>
-            <h2 className="divider"></h2>
         </>
     );
 };

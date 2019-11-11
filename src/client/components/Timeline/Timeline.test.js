@@ -1,4 +1,4 @@
-import { _findDagsats } from './Timeline';
+import { _buildDagsatserDictionary, _sumDagsatser } from './Timeline';
 
 const utbetalingslinjer = [
     {
@@ -13,12 +13,29 @@ const utbetalingslinjer = [
     }
 ];
 
-test('findDagsats finner riktig dagsats for dato', () => {
-    expect(_findDagsats('2019-09-19', utbetalingslinjer)).toBe(0);
-    expect(_findDagsats('2019-09-20', utbetalingslinjer)).toBe(100);
-    expect(_findDagsats('2019-09-27', utbetalingslinjer)).toBe(100);
+test('buildDagsatserDictionary bygger et objekt som inneholder alle datoer som nøkler', () => {
+    const dagsatser = _buildDagsatserDictionary(utbetalingslinjer);
+    expect(dagsatser['2019-09-19']).toBeUndefined();
+    expect(dagsatser['2019-09-20']).toBe(100);
+    expect(dagsatser['2019-09-21']).toBe(100);
+    expect(dagsatser['2019-09-22']).toBe(100);
+    expect(dagsatser['2019-09-23']).toBe(100);
+    expect(dagsatser['2019-09-24']).toBe(100);
+    expect(dagsatser['2019-09-25']).toBe(100);
+    expect(dagsatser['2019-09-26']).toBe(100);
+    expect(dagsatser['2019-09-27']).toBe(100);
+    expect(dagsatser['2019-09-28']).toBe(200);
+    expect(dagsatser['2019-09-29']).toBe(200);
+    expect(dagsatser['2019-09-30']).toBe(200);
+    expect(dagsatser['2019-10-01']).toBe(200);
+    expect(dagsatser['2019-10-02']).toBe(200);
+    expect(dagsatser['2019-10-03']).toBe(200);
+    expect(dagsatser['2019-10-04']).toBe(200);
+    expect(dagsatser['2019-10-05']).toBe(200);
+    expect(dagsatser['2019-10-07']).toBeUndefined();
+});
 
-    expect(_findDagsats('2019-09-28', utbetalingslinjer)).toBe(200);
-    expect(_findDagsats('2019-10-05', utbetalingslinjer)).toBe(200);
-    expect(_findDagsats('2019-10-06', utbetalingslinjer)).toBe(0);
+test('sumDagsatser finner riktig sum for dagsatser i en periode', () => {
+    const sum = _sumDagsatser(_buildDagsatserDictionary(utbetalingslinjer));
+    expect(sum).toBe(2400);
 });
