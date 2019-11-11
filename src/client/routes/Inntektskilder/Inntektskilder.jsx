@@ -26,15 +26,13 @@ const Inntektskilder = () => {
     return (
         <Panel className="tekstbolker">
             {inntektskilder && (
-                <>
-                    <ListRow
-                        label="Hentet fra inntektsmeldingen"
-                        items={inntektsmeldingItems}
-                        showIcon={false}
-                    />
-                    <IconRow label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
-                </>
+                <ListRow
+                    label="Hentet fra inntektsmeldingen"
+                    items={inntektsmeldingItems}
+                    showIcon={false}
+                />
             )}
+            <IconRow label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
             <NavigationButtons previous={pages.INNGANGSVILKÅR} next={pages.SYKEPENGEGRUNNLAG} />
         </Panel>
     );
