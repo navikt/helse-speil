@@ -16,7 +16,7 @@ const simulate = async (vedtak, accessToken) => {
     vedtak.saksbehandler = authSupport.valueFromClaim('name', accessToken);
 
     const options = {
-        uri: config.spennUrl,
+        uri: `${config.spennUrl}/api/v1/simulering`,
         headers: {
             Authorization: `Bearer ${accessToken}`
         },
