@@ -16,7 +16,7 @@ const Nav = ({ active }) => {
             >
                 <Normaltekst>Sykmeldingsperiode</Normaltekst>
             </Link>
-            <Link id="nav-link-sykdomsvilkår" to={links[pages.SYKDOMSVILKÅR]} active={false}>
+            <Link id="nav-link-sykdomsvilkår" to={links[pages.SYKDOMSVILKÅR]} active={active}>
                 <Normaltekst>Sykdomsvilkår</Normaltekst>
             </Link>
             <Link id="nav-link-inngangsvilkår" to={links[pages.INNGANGSVILKÅR]} active={active}>

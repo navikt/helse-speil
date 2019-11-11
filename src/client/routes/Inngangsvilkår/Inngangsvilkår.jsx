@@ -52,7 +52,7 @@ const Inngangsvilkår = () => {
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
             )}
-            <NavigationButtons previous={pages.SYKMELDINGSPERIODE} next={pages.INNTEKTSKILDER} />
+            <NavigationButtons previous={pages.SYKDOMSVILKÅR} next={pages.INNTEKTSKILDER} />
         </Panel>
     );
 };

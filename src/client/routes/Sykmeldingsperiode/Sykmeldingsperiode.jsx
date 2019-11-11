@@ -22,7 +22,7 @@ const Sykmeldingsperiode = () => {
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
             )}
-            <Navigasjonsknapper next={pages.INNGANGSVILKÅR} />
+            <Navigasjonsknapper next={pages.SYKDOMSVILKÅR} />
         </Panel>
     );
 };

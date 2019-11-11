@@ -9,7 +9,7 @@
 }
 
 .main-content .panel {
-    padding: 3rem;
+    padding: 1.5rem 2rem;
 }
 
 .main-content .panel.tekstbolker {
@@ -31,4 +31,10 @@
 
 .LeftMenu {
     border-right: 1px solid #c6c2bf;
+}
+
+.RowSeparator {
+    border: none;
+    border-top: 1px solid #c6c2bf;
+    margin: 0;
 }

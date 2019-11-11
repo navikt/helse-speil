@@ -72,7 +72,7 @@ const Timeline = ({ person, showDagsats }) => {
                         );
                     })}
             </tbody>
-            {dagsatserSummed !== 0 && (
+            {dagsatserSummed && (
                 <tfoot>
                     <tr>
                         <th>SUM</th>

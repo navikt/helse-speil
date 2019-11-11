@@ -1,32 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FeedbackInput from '../FeedbackInput/FeedbackInput';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './FormRow.less';
 
-const FormRow = ({ label, value, bold, showRightSide }) => {
+const FormRow = ({ label, value, bold = true }) => {
     const className = bold ? 'bold' : '';
-    const itemsForFeedback = value !== undefined ? [{ label, value }] : [];
     return (
-        <span className="FormRow">
-            <span>
+        <>
+            <span className="FormRow">
                 <Normaltekst className={className}>{label}</Normaltekst>
                 <Normaltekst className={className}>{value || '-'}</Normaltekst>
             </span>
-            {showRightSide ? (
-                <FeedbackInput label={label} itemsForFeedback={itemsForFeedback} />
-            ) : (
-                <div className="FormRow__padder" />
-            )}
-        </span>
+            <hr className="RowSeparator" />
+        </>
     );
 };
 
 FormRow.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    bold: PropTypes.bool,
-    showRightSide: PropTypes.bool
+    bold: PropTypes.bool
 };
 
 FormRow.defaultProps = {
