@@ -115,7 +115,7 @@
         "autoprefixer": "^9.6.4",
         "babel-eslint": "^10.0.3",
         "babel-jest": "^24.9.0",
-        "cypress": "^3.5.0",
+        "cypress": "^3.6.1",
         "deasync": "^0.1.15",
         "eslint": "^6.5.1",
         "eslint-config-prettier": "^6.5.0",
