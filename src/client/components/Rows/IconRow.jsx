@@ -5,13 +5,13 @@ import Icon from 'nav-frontend-ikoner-assets';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './IconRow.less';
 
-const IconRow = ({ label, labelProp, bold, items, displayFeedback }) => {
+const IconRow = ({ label, labelProp, bold, items, displayFeedback, displayIcon }) => {
     const className = bold ? 'bold' : '';
     return (
         <>
             <span className="IconRow">
                 <span className="IconRow__left">
-                    <Icon kind="ok-sirkel-fyll" size={20} />
+                    {displayIcon && <Icon kind="ok-sirkel-fyll" size={20} />}
                     <Normaltekst className={className}>{label}</Normaltekst>
                     {labelProp && <Normaltekst className={className}>{labelProp}</Normaltekst>}
                 </span>
@@ -36,7 +36,8 @@ IconRow.propTypes = {
             value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         })
     ),
-    displayFeedback: PropTypes.bool
+    displayFeedback: PropTypes.bool,
+    displayIcon: PropTypes.bool
 };
 
 IconRow.defaultProps = {
