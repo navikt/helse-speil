@@ -17,6 +17,7 @@ const ListRow = ({ label, labelProp, items, bold, displayFeedback, displayIcon =
             />
             {items && (
                 <div className="ListRow">
+                    <hr />
                     {items.map((item, i) => (
                         <span key={`ListRow__item-${label}-${i}`} className="ListItem">
                             <span className="ListItem__left">
