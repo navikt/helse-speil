@@ -15,7 +15,12 @@ const Inntektskilder = () => {
             'Beregnet månedsinntekt',
             `${toLocaleFixedNumberString(inntektskilder.månedsinntekt, 2)} kr`
         ),
-        item('Omregnet årsinntekt', `${toLocaleFixedNumberString(inntektskilder.årsinntekt, 2)} kr`)
+        item(
+            'Omregnet årsinntekt',
+            `${toLocaleFixedNumberString(inntektskilder.årsinntekt, 2)} kr`
+        ),
+        item('Refusjon til arbeidsgiver', inntektskilder.refusjon),
+        item('Betaler arbeidsgiverperiode', inntektskilder.forskuttering)
     ];
 
     return (

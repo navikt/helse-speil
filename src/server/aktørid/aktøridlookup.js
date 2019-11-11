@@ -51,8 +51,8 @@ const mapToIdentType = (response, value, identType) => {
             .map(ident => ident.ident)[0];
         logger.info(
             `Retrieved ${identType.name} '${maskIdentifier(ident)}' for ${
-                identType.name
-            } '${maskIdentifier(ident)}'.`
+                identType.name === 'NNIN' ? 'AktørId' : 'NNIN'
+            } '${maskIdentifier(value)}'.`
         );
         return Promise.resolve(ident);
     }
