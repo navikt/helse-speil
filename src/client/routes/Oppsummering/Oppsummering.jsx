@@ -1,116 +1,132 @@
 import React, { useContext } from 'react';
 import ListItem from '../../components/ListItem';
-import ListSeparator from '../../components/ListSeparator';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
-import { toDate } from '../../utils/date';
-import { toKroner } from '../../utils/locale';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
-import { PersonContext } from '../../context/PersonContext';
-import { oppsummeringstekster, tekster } from '../../tekster';
+import { oppsummeringstekster } from '../../tekster';
 import './Oppsummering.less';
 import { pages } from '../../hooks/useLinks';
 import Utbetaling from './Utbetaling';
+import { SimuleringContext } from '../../context/SimuleringContext';
+import ListSeparator from '../../components/ListSeparator';
+import { toLocaleFixedNumberString } from '../../utils/locale';
 
 const Oppsummering = () => {
-    const { personTilBehandling } = useContext(PersonContext);
+    // const { personTilBehandling } = useContext(PersonContext);
+    const simuleringContext = useContext(SimuleringContext);
+    console.log({ simuleringContext });
+
     return (
         <div className="Oppsummering">
             <Panel>
                 <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
-                {personTilBehandling.oppsummering ? (
-                    <>
-                        <ListItem
-                            label={oppsummeringstekster('sykdomsvilkår')}
-                            value={personTilBehandling.oppsummering.sykdomsvilkårErOppfylt}
-                        />
-                        <ListSeparator type="dotted" />
-                        <ListItem
-                            label={oppsummeringstekster('inngangsvilkår')}
-                            value={personTilBehandling.oppsummering.inngangsvilkårErOppfylt}
-                        />
-                        <ListSeparator type="dotted" />
-                        <ListItem
-                            label={oppsummeringstekster('arbeidsgiver')}
-                            value={personTilBehandling.oppsummering.arbeidsgiver.navn}
-                            bold
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('orgnr')}
-                            value={personTilBehandling.oppsummering.arbeidsgiver.orgnummer}
-                            bold
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('refusjon')}
-                            value={tekster('informasjon ikke tilgjengelig')}
-                            bold
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('betaler')}
-                            value={
-                                personTilBehandling.oppsummering.betalerArbeidsgiverperiode
-                                    ? 'Nei'
-                                    : 'Ja'
-                            }
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('fordeling')}
-                            value={`${personTilBehandling.oppsummering.fordeling}%`}
-                        />
-                        <ListSeparator type="dotted" />
-                        <ListItem
-                            label={oppsummeringstekster('sykepengegrunnlag')}
-                            value={`${toKroner(
-                                personTilBehandling.oppsummering.sykepengegrunnlag
-                            )} kr`}
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('månedsbeløp')}
-                            value={`${toKroner(personTilBehandling.oppsummering.månedsbeløp)} kr`}
-                            bold
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('dagsats')}
-                            value={`${toKroner(personTilBehandling.oppsummering.dagsats)} kr`}
-                        />
-                        <ListSeparator type="dotted" />
-                        <ListItem
-                            label={oppsummeringstekster('antall_utbetalingsdager')}
-                            value={personTilBehandling.oppsummering.antallUtbetalingsdager}
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('fom')}
-                            value={toDate(personTilBehandling.oppsummering.sykmeldtFraOgMed)}
-                            bold
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('tom')}
-                            value={toDate(personTilBehandling.oppsummering.sykmeldtTilOgMed)}
-                            bold
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('sykmeldingsgrad')}
-                            value={`${personTilBehandling.oppsummering.sykmeldingsgrad}%`}
-                            bold
-                        />
-                        <ListSeparator type="dotted" />
-                        <ListItem
-                            label={oppsummeringstekster('utbetalesFom')}
-                            value={toDate(personTilBehandling.oppsummering.utbetalesFom)}
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('utbetalesTom')}
-                            value={toDate(personTilBehandling.oppsummering.utbetalesTom)}
-                        />
-                        <ListItem
-                            label={oppsummeringstekster('utbetaling')}
-                            value={`${toKroner(personTilBehandling.oppsummering.utbetaling)} kr`}
-                        />
-                        <ListSeparator type="solid" />
-                    </>
+                {/*{personTilBehandling.oppsummering ? (*/}
+                {/*    <>*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('sykdomsvilkår')}*/}
+                {/*            value={personTilBehandling.oppsummering.sykdomsvilkårErOppfylt}*/}
+                {/*        />*/}
+                {/*        <ListSeparator type="dotted" />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('inngangsvilkår')}*/}
+                {/*            value={personTilBehandling.oppsummering.inngangsvilkårErOppfylt}*/}
+                {/*        />*/}
+                {/*        <ListSeparator type="dotted" />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('arbeidsgiver')}*/}
+                {/*            value={personTilBehandling.oppsummering.arbeidsgiver.navn}*/}
+                {/*            bold*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('orgnr')}*/}
+                {/*            value={personTilBehandling.oppsummering.arbeidsgiver.orgnummer}*/}
+                {/*            bold*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('refusjon')}*/}
+                {/*            value={tekster('informasjon ikke tilgjengelig')}*/}
+                {/*            bold*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('betaler')}*/}
+                {/*            value={*/}
+                {/*                personTilBehandling.oppsummering.betalerArbeidsgiverperiode*/}
+                {/*                    ? 'Nei'*/}
+                {/*                    : 'Ja'*/}
+                {/*            }*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('fordeling')}*/}
+                {/*            value={`${personTilBehandling.oppsummering.fordeling}%`}*/}
+                {/*        />*/}
+                {/*        <ListSeparator type="dotted" />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('sykepengegrunnlag')}*/}
+                {/*            value={`${toKroner(*/}
+                {/*                personTilBehandling.oppsummering.sykepengegrunnlag*/}
+                {/*            )} kr`}*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('månedsbeløp')}*/}
+                {/*            value={`${toKroner(personTilBehandling.oppsummering.månedsbeløp)} kr`}*/}
+                {/*            bold*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('dagsats')}*/}
+                {/*            value={`${toKroner(personTilBehandling.oppsummering.dagsats)} kr`}*/}
+                {/*        />*/}
+                {/*        <ListSeparator type="dotted" />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('antall_utbetalingsdager')}*/}
+                {/*            value={personTilBehandling.oppsummering.antallUtbetalingsdager}*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('fom')}*/}
+                {/*            value={toDate(personTilBehandling.oppsummering.sykmeldtFraOgMed)}*/}
+                {/*            bold*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('tom')}*/}
+                {/*            value={toDate(personTilBehandling.oppsummering.sykmeldtTilOgMed)}*/}
+                {/*            bold*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('sykmeldingsgrad')}*/}
+                {/*            value={`${personTilBehandling.oppsummering.sykmeldingsgrad}%`}*/}
+                {/*            bold*/}
+                {/*        />*/}
+                {/*        <ListSeparator type="dotted" />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('utbetalesFom')}*/}
+                {/*            value={toDate(personTilBehandling.oppsummering.utbetalesFom)}*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('utbetalesTom')}*/}
+                {/*            value={toDate(personTilBehandling.oppsummering.utbetalesTom)}*/}
+                {/*        />*/}
+                {/*        <ListItem*/}
+                {/*            label={oppsummeringstekster('utbetaling')}*/}
+                {/*            value={`${toKroner(personTilBehandling.oppsummering.utbetaling)} kr`}*/}
+                {/*        />*/}
+                {/*        <ListSeparator type="solid" />*/}
+                {/*    </>*/}
+                <ListSeparator type="solid" />
+                {simuleringContext.error ? (
+                    <Normaltekst>{simuleringContext.error}</Normaltekst>
                 ) : (
-                    <Normaltekst>Ingen data</Normaltekst>
+                    <ListItem
+                        label="Simulering"
+                        value={
+                            simuleringContext.simulering?.simulering?.totalBelop
+                                ? `${toLocaleFixedNumberString(
+                                      simuleringContext.simulering?.simulering?.totalBelop,
+                                      2
+                                  )} kr`
+                                : simuleringContext.simulering?.feilMelding ?? 'Ikke tilgjengelig'
+                        }
+                    />
                 )}
+                <ListSeparator type="solid" />
 
                 <Navigasjonsknapper previous={pages.UTBETALINGSOVERSIKT} />
             </Panel>

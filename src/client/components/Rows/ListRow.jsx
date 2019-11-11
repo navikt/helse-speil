@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './ListRow.less';
 
-const ListRow = ({ label, labelProp, items, bold, displayFeedback }) => {
+const ListRow = ({ label, labelProp, items, bold, displayFeedback, displayIcon = true }) => {
     return (
         <>
             <IconRow
@@ -13,6 +13,7 @@ const ListRow = ({ label, labelProp, items, bold, displayFeedback }) => {
                 bold={bold}
                 items={items}
                 displayFeedback={displayFeedback}
+                displayIcon={displayIcon}
             />
             {items && (
                 <div className="ListRow">
@@ -43,7 +44,8 @@ ListRow.propTypes = {
         })
     ),
     bold: PropTypes.bool,
-    displayFeedback: PropTypes.bool
+    displayFeedback: PropTypes.bool,
+    displayIcon: PropTypes.bool
 };
 
 ListRow.defaultProps = {

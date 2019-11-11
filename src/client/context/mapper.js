@@ -17,10 +17,14 @@ export default {
                     tidligerePerioder: [],
                     yrkesstatus: finnSøknad(person).arbeidssituasjon
                 },
-                sykepengegrunnlag: finnInntektsmelding(person).beregnetInntekt,
+                sykepengegrunnlag: parseInt(finnInntektsmelding(person).beregnetInntekt, 10) * 12,
                 søknadsfrist: {
                     sendtNav: finnSøknad(person).sendtNav
                 }
+            },
+            inntektskilder: {
+                månedsinntekt: parseInt(finnInntektsmelding(person).beregnetInntekt, 10),
+                årsinntekt: parseInt(finnInntektsmelding(person).beregnetInntekt, 10) * 12
             }
         };
         return mapped;

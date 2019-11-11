@@ -18,7 +18,7 @@ const routes = ({ router }) => {
     const simulationHandler = {
         handle: (req, res) => {
             if (!input.isValid(req.body)) {
-                res.status(400).send('invalid behandling supplied');
+                res.status(400).send('Invalid sak supplied');
                 return;
             }
             if (process.env.NODE_ENV === 'development') {
