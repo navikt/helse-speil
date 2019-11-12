@@ -47,7 +47,7 @@ const personSøk = async (req, res) => {
 
     respondWith({
         res,
-        lookupPromise: _personSøk(aktorId, req.session.accessToken),
+        lookupPromise: _personSøk(aktorId, req.session.speilToken),
         mapper: response => ({
             person: response.body.person
         })
@@ -65,7 +65,7 @@ const behovForPeriode = (req, res) => {
     respondWith({
         res,
         lookupPromise: onBehalfOf
-            .hentFor(spadeId, req.session.accessToken)
+            .hentFor(spadeId, req.session.speilToken)
             .then(behalfOfToken =>
                 spadeClient.behandlingerForPeriode(yesterday, today, behalfOfToken)
             ),

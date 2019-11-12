@@ -54,7 +54,7 @@ const routes = ({ router }) => {
 const prodSimulation = async (req, res) => {
     const onBehalfOfToken = await onBehalfOf.hentFor(
         config.oidc.clientIDSpenn,
-        req.session.accessToken
+        req.session.speilToken
     );
     simulation
         .simulate(input.map(req.body), onBehalfOfToken)
@@ -76,7 +76,7 @@ const devSimulation = (req, res) => {
 const prodSendVedtak = async (req, res) => {
     const onBehalfOfToken = await onBehalfOf.hentFor(
         config.oidc.clientIDSpade,
-        req.session.accessToken
+        req.session.speilToken
     );
     vedtak
         .vedtak({

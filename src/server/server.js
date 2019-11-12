@@ -104,13 +104,13 @@ app.use('/*', (req, res, next) => {
         });
         next();
     } else {
-        if (authsupport.isValidNow(req.session.accessToken)) {
+        if (authsupport.isValidNow(req.session.speilToken)) {
             next();
         } else {
             logger.info(
                 `no valid session found for ${ipAddressFromRequest(req)}, username ${valueFromClaim(
                     'name',
-                    req.session.accessToken
+                    req.session.speilToken
                 )}`
             );
             if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
