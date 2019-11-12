@@ -7,10 +7,14 @@ const input = require('./inputhandler');
 const vedtak = require('./vedtak');
 
 let simulation;
+let onBehalfOf;
+let config;
 
-const setup = ({ config }) => {
-    simulation = require('./simulation').setup(config);
+const setup = ({ config: _config, onBehalfOf: _onBehalfOf }) => {
+    simulation = require('./simulation').setup(_config);
     routes({ router });
+    onBehalfOf = _onBehalfOf;
+    config = _config;
     return router;
 };
 
@@ -47,9 +51,13 @@ const routes = ({ router }) => {
     router.post('/vedtak', vedtakHandler.handle);
 };
 
-const prodSimulation = (req, res) => {
+const prodSimulation = async (req, res) => {
+    const onBehalfOfToken = await onBehalfOf.hentFor(
+        config.oidc.clientIDSpenn,
+        req.session.accessToken
+    );
     simulation
-        .simulate(input.map(req.body), req.session.spadeToken)
+        .simulate(input.map(req.body), onBehalfOfToken)
         .then(reply => {
             res.set('Content-Type', 'application/json');
             res.send(reply);
@@ -65,13 +73,17 @@ const devSimulation = (req, res) => {
     res.json(mockSpennData);
 };
 
-const prodSendVedtak = (req, res) => {
+const prodSendVedtak = async (req, res) => {
+    const onBehalfOfToken = await onBehalfOf.hentFor(
+        config.oidc.clientIDSpade,
+        req.session.accessToken
+    );
     vedtak
         .vedtak({
             behovId: req.body.behovId,
             aktørId: req.body.aktørId,
             saksbehandlerIdent: req.session.user,
-            token: req.session.spadeToken,
+            accessToken: onBehalfOfToken,
             godkjent: req.body.godkjent
         })
         .then(() => {

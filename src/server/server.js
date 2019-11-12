@@ -81,7 +81,7 @@ const setUpAuthentication = () => {
                     secure: true,
                     sameSite: true
                 });
-                req.session.spadeToken = accessToken;
+                req.session.speilToken = accessToken;
                 req.session.user = authsupport.valueFromClaim('NAVIdent', idToken);
                 res.redirect('/');
             })
@@ -104,13 +104,13 @@ app.use('/*', (req, res, next) => {
         });
         next();
     } else {
-        if (authsupport.isValidNow(req.session.spadeToken)) {
+        if (authsupport.isValidNow(req.session.accessToken)) {
             next();
         } else {
             logger.info(
                 `no valid session found for ${ipAddressFromRequest(req)}, username ${valueFromClaim(
                     'name',
-                    req.session.spadeToken
+                    req.session.accessToken
                 )}`
             );
             if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
