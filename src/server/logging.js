@@ -31,7 +31,7 @@ const warning = msg => {
 };
 
 const error = (msg, err) => {
-    stdoutLogger.error(msg, { message: `: ${err?.message || err}` });
+    stdoutLogger.error(msg, err && { message: `: ${err?.message || err}` });
 };
 
 const audit = msg => {
