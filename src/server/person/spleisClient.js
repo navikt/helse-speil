@@ -15,6 +15,7 @@ const hentPerson = async (aktørId, onBehalfOfToken) => {
         headers: {
             Authorization: `Bearer ${onBehalfOfToken}`
         },
+        resolveWithFullResponse: true,
         json: true
     };
     return request.get(options);
