@@ -36,7 +36,7 @@
             },
             {
                 "name": "SPENN_URL",
-                "value": "spenn.default.svc.nais.local"
+                "value": "http://spenn.default.svc.nais.local"
             }
         ],
         "image": "set_from_pipeline",
