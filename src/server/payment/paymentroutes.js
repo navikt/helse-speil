@@ -11,7 +11,7 @@ let onBehalfOf;
 let config;
 
 const setup = ({ config: _config, onBehalfOf: _onBehalfOf }) => {
-    simulation = require('./simulation').setup(_config);
+    simulation = require('./simulation').setup(_config.nav);
     routes({ router });
     onBehalfOf = _onBehalfOf;
     config = _config;
