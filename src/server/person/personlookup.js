@@ -48,12 +48,10 @@ const personSøk = async (req, res) => {
     const spleisPromise = onBehalfOf
         .hentFor(spleisId, req.session.speilToken)
         .then(token => {
-            logger.audit(Object.keys(token));
             return token;
         })
         .then(token => spleis.hentPerson(aktorId, token))
         .then(resp => {
-            logger.audit(Object.keys(resp));
             return resp;
         })
         .catch(logger.audit);
@@ -104,18 +102,10 @@ const toAktørId = async fnr => {
     });
 };
 
-const _personSøk = (aktorId, accessToken) => {
-    return onBehalfOf
-        .hentFor(spleisId, accessToken)
-        .then(token => spleis.hentPerson(aktorId, token));
-};
-
 const respondWith = ({ res, lookupPromise, mapper }) => {
     lookupPromise
         .then(apiResponse => {
             if (apiResponse === undefined) return res.status(503);
-            logger.audit(JSON.stringify(Object.keys(apiResponse)));
-            logger.audit(JSON.stringify(apiResponse));
             res.status(apiResponse.statusCode).send(mapper(apiResponse));
         })
         .catch(err => {

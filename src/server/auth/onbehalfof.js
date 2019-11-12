@@ -1,3 +1,4 @@
+const logger = require('../logging');
 const request = require('request-promise-native');
 
 let config;
@@ -30,6 +31,9 @@ const hentFor = async (targetClientId, accessToken) => {
         }
     };
     const response = await request.post(options);
+
+    logger.audit(`on behalf of token: ${JSON.stringify(response)}`);
+
     return response.access_token;
 };
 
