@@ -8,11 +8,12 @@ exports.oidc = {
     clientID: process.env.CLIENT_ID || 'unknown',
     clientIDSpade: process.env.CLIENT_ID_SPADE || 'unknown',
     clientIDSpleis: process.env.CLIENT_ID_SPLEIS || 'unknown',
+    clientIDSpenn: process.env.CLIENT_ID_SPENN || 'unknown',
     responseType: ['code'],
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
     clientSecret: process.env.CLIENT_SECRET || 'unknown',
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
-    scope: `profile openid email ${process.env.CLIENT_ID_SPADE}/.default`,
+    scope: `profile openid email ${process.env.CLIENT_ID}/.default`,
     requiredGroup: process.env.REQUIRED_GROUP
 };
 

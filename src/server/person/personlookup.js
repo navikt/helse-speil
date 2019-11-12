@@ -12,6 +12,7 @@ const personIdHeaderName = 'nav-person-id';
 let aktørIdLookup;
 let spadeClient;
 let spleisId;
+let spadeId;
 let onBehalfOf;
 
 const setup = ({
@@ -23,6 +24,7 @@ const setup = ({
     aktørIdLookup = aktøridlookup;
     spadeClient = spadeclient;
     spleisId = config.oidc.clientIDSpleis;
+    spadeId = config.oidc.clientIDSpade;
     onBehalfOf = onbehalfof;
 };
 
@@ -45,7 +47,7 @@ const personSøk = async (req, res) => {
 
     respondWith({
         res,
-        lookupPromise: _personSøk(aktorId, req.session.spadeToken),
+        lookupPromise: _personSøk(aktorId, req.session.speilToken),
         mapper: response => ({
             person: response.body.person
         })
@@ -62,7 +64,11 @@ const behovForPeriode = (req, res) => {
 
     respondWith({
         res,
-        lookupPromise: spadeClient.behandlingerForPeriode(yesterday, today, req.session.spadeToken),
+        lookupPromise: onBehalfOf
+            .hentFor(spadeId, req.session.speilToken)
+            .then(behalfOfToken =>
+                spadeClient.behandlingerForPeriode(yesterday, today, behalfOfToken)
+            ),
         mapper: response => ({
             behov: response.body
         })
@@ -70,7 +76,7 @@ const behovForPeriode = (req, res) => {
 };
 
 const auditLog = (request, ...queryParams) => {
-    const speilUser = valueFromClaim('name', request.session.spadeToken);
+    const speilUser = valueFromClaim('name', request.session.speilToken);
     logger.audit(
         `${speilUser} is doing lookup with params: ${queryParams?.reduce(
             (previous, current) => `${previous}, ${current}`,
@@ -85,9 +91,9 @@ const toAktørId = async fnr => {
     });
 };
 
-const _personSøk = (aktorId, spadeAccessToken) => {
+const _personSøk = (aktorId, accessToken) => {
     return onBehalfOf
-        .hentFor(spleisId, spadeAccessToken)
+        .hentFor(spleisId, accessToken)
         .then(token => spleis.hentPerson(aktorId, token));
 };
 
