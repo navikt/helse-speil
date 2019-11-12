@@ -41,7 +41,7 @@ const validateOidcCallback = (req, azureClient, config) => {
         azureClient
             .callback(config.redirectUrl, params, { nonce, state })
             .then(tokenSet => {
-                logger.audit(tokenSet);
+                logger.audit(JSON.stringify(tokenSet));
                 const accessTokenKey = 'access_token';
                 const idTokenKey = 'id_token';
                 const errorMessages = checkAzureResponseContainsTokens(
