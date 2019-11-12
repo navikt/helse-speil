@@ -16,6 +16,7 @@ import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import 'nav-frontend-lenker-style';
 import './Oversikt.less';
 import useLinks, { pages } from '../../hooks/useLinks';
+import { PersonContext } from '../../context/PersonContext';
 
 const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
 
@@ -30,10 +31,10 @@ const partition = predicate => (acc, cur) =>
     predicate(cur) ? [[...acc[0], cur], acc[1]] : [acc[0], [...acc[1], cur]];
 
 const Oversikt = ({ history }) => {
+    const { hentPerson } = useContext(PersonContext);
     const {
         personoversikt,
         hentPersonoversikt,
-        velgPersonFraOversikt,
         isFetchingPersonoversikt,
         isFetchingPersoninfo
     } = useContext(PersonoversiktContext);
@@ -73,9 +74,11 @@ const Oversikt = ({ history }) => {
     }, [personoversikt.length]);
 
     const velgBehovAndNavigate = behov => {
-        velgPersonFraOversikt(behov).then(() =>
-            setTimeout(() => history.push(linksRef.current[pages.SYKMELDINGSPERIODE]), 0)
-        );
+        hentPerson(behov.aktørId).then(person => {
+            if (person !== undefined) {
+                setTimeout(() => history.push(linksRef.current[pages.SYKMELDINGSPERIODE]), 0);
+            }
+        });
     };
 
     return (

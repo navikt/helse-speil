@@ -1,8 +1,7 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { fetchPersonoversikt, getPersoninfo } from '../io/http';
-import { PersonContext } from './PersonContext';
 
 export const PersonoversiktContext = createContext();
 
@@ -27,11 +26,6 @@ export const PersonoversiktProvider = ({ children }) => {
     const [personoversikt, setPersonoversikt] = useState([]);
     const [isFetchingPersonoversikt, setIsFetchingPersonoversikt] = useState(false);
     const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
-    const { hentPerson } = useContext(PersonContext);
-
-    const velgPersonFraOversikt = ({ aktørId }) => {
-        return hentPerson(aktørId);
-    };
 
     const hentPersonoversikt = async () => {
         const oversikt = await hentPersoner();
@@ -68,7 +62,6 @@ export const PersonoversiktProvider = ({ children }) => {
     return (
         <PersonoversiktContext.Provider
             value={{
-                velgPersonFraOversikt,
                 personoversikt,
                 hentPersonoversikt,
                 isFetchingPersonoversikt,
