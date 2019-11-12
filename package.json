@@ -55,6 +55,7 @@
         "express": "^4.17.1",
         "express-session": "^1.17.0",
         "framer-motion": "^1.6.14",
+        "global-request-logger": "^0.1.1",
         "lodash.throttle": "^4.1.1",
         "moment": "^2.24.0",
         "nav-frontend-alertstriper": "^3.0.4",
