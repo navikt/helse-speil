@@ -45,20 +45,11 @@ const personSøk = async (req, res) => {
         return;
     }
 
-    const spleisPromise = onBehalfOf
-        .hentFor(spleisId, req.session.speilToken)
-        .then(token => {
-            return token;
-        })
-        .then(token => spleis.hentPerson(aktorId, token))
-        .then(resp => {
-            return resp;
-        })
-        .catch(logger.audit);
-
     respondWith({
         res,
-        lookupPromise: spleisPromise,
+        lookupPromise: onBehalfOf
+            .hentFor(spleisId, req.session.speilToken)
+            .then(token => spleis.hentPerson(aktorId, token)),
         mapper: response => ({
             person: response.body
         })
@@ -105,12 +96,15 @@ const toAktørId = async fnr => {
 const respondWith = ({ res, lookupPromise, mapper }) => {
     lookupPromise
         .then(apiResponse => {
-            if (apiResponse === undefined) return res.status(503);
+            if (apiResponse === undefined) {
+                logger.error('Unexpected error, missing apiResponse value');
+                return res.sendStatus(503);
+            }
             res.status(apiResponse.statusCode).send(mapper(apiResponse));
         })
         .catch(err => {
             logger.error(`Error during data fetching: ${err}`);
-            res.sendStatus(err.statusCode);
+            res.sendStatus(err.statusCode || 503);
         });
 };
 
