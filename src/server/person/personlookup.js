@@ -45,11 +45,22 @@ const personSøk = async (req, res) => {
         return;
     }
 
+    const spleisPromise = onBehalfOf
+        .hentFor(spleisId, req.session.speilToken)
+        .then(token => {
+            logger.audit(Object.keys(token));
+            return token;
+        })
+        .then(token => spleis.hentPerson(aktorId, token))
+        .then(resp => {
+            logger.audit(Object.keys(resp));
+            return resp;
+        })
+        .catch(logger.audit);
+
     respondWith({
         res,
-        lookupPromise: onBehalfOf
-            .hentFor(spleisId, req.session.speilToken)
-            .then(token => spleis.hentPerson(aktorId, token)),
+        lookupPromise: spleisPromise,
         mapper: response => ({
             person: response.body
         })
@@ -102,6 +113,7 @@ const _personSøk = (aktorId, accessToken) => {
 const respondWith = ({ res, lookupPromise, mapper }) => {
     lookupPromise
         .then(apiResponse => {
+            if (apiResponse === undefined) return res.status(503);
             logger.audit(JSON.stringify(Object.keys(apiResponse)));
             logger.audit(JSON.stringify(apiResponse));
             res.status(apiResponse.statusCode).send(mapper(apiResponse));
