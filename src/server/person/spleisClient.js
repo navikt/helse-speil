@@ -7,7 +7,7 @@ const hentPerson = async (aktørId, onBehalfOfToken) => {
         const person = JSON.parse(fromFile);
         return Promise.resolve({
             statusCode: 200,
-            body: { person }
+            body: person
         });
     }
     const options = {

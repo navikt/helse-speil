@@ -47,9 +47,11 @@ const personSøk = async (req, res) => {
 
     respondWith({
         res,
-        lookupPromise: _personSøk(aktorId, req.session.speilToken),
+        lookupPromise: onBehalfOf
+            .hentFor(spleisId, req.session.speilToken)
+            .then(token => spleis.hentPerson(aktorId, token)),
         mapper: response => ({
-            person: response.body.person
+            person: response.body
         })
     });
 };
@@ -100,6 +102,8 @@ const _personSøk = (aktorId, accessToken) => {
 const respondWith = ({ res, lookupPromise, mapper }) => {
     lookupPromise
         .then(apiResponse => {
+            logger.audit(JSON.stringify(Object.keys(apiResponse)));
+            logger.audit(JSON.stringify(apiResponse));
             res.status(apiResponse.statusCode).send(mapper(apiResponse));
         })
         .catch(err => {
