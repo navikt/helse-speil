@@ -30,7 +30,7 @@ const getDevDependencies = app => {
             cache: redisClient,
             config
         },
-        payments: { config: config.nav },
+        payments: { config: config.nav, onBehalfOf },
         redisClient
     };
 };
@@ -51,7 +51,7 @@ const getProdDependencies = app => {
             cache: redisClient,
             config
         },
-        payments: { config: config.nav },
+        payments: { config: config.nav, onBehalfOf },
         redisClient
     };
 };
