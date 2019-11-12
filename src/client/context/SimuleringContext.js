@@ -14,7 +14,7 @@ export const SimuleringProvider = ({ children }) => {
 
     useEffect(() => {
         if (personTilBehandling) {
-            hentSimulering(personTilBehandling);
+            hentSimulering(personTilBehandling.arbeidsgivere?.[0].saker?.[0]);
         }
     }, [personTilBehandling]);
 

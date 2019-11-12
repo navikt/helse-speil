@@ -17,14 +17,15 @@ const setup = ({ config }) => {
 const routes = ({ router }) => {
     const simulationHandler = {
         handle: (req, res) => {
-            if (!input.isValid(req.body)) {
+            const sak = input.map(req.body);
+            if (!input.isValid(sak)) {
                 res.status(400).send('Invalid sak supplied');
                 return;
             }
             if (process.env.NODE_ENV === 'development') {
                 devSimulation(req, res);
             } else {
-                prodSimulation(req, res);
+                prodSimulation(req, res, sak);
             }
         }
     };
@@ -47,9 +48,9 @@ const routes = ({ router }) => {
     router.post('/vedtak', vedtakHandler.handle);
 };
 
-const prodSimulation = (req, res) => {
+const prodSimulation = (req, res, sak) => {
     simulation
-        .simulate(input.map(req.body), req.session.spadeToken)
+        .simulate(sak, req.session.spadeToken)
         .then(reply => {
             res.set('Content-Type', 'application/json');
             res.send(reply);

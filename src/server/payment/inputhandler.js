@@ -2,7 +2,8 @@
 
 const isValid = sak => objectStructureMatches(validSak, sak);
 
-const map = (sak, saksbehandlerIdent) => {
+const map = requestBody => {
+    const { sak, saksbehandlerIdent } = requestBody;
     return {
         '@behov': 'Utbetaling',
         sakskompleksId: sak.id,
@@ -48,7 +49,7 @@ const arrayEquals = (expected, actual) => {
 };
 
 const validSak = {
-    id: '9485bde4-6541-4dcf-aa53-8b466fc4ac87',
+    sakskompleksId: '6541-4dcf',
     aktørId: '0123456789012',
     organisasjonsnummer: '123456789',
     utbetalingslinjer: [
