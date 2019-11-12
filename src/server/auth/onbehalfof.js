@@ -1,4 +1,3 @@
-const logger = require('../logging');
 const request = require('request-promise-native');
 
 let config;
@@ -16,7 +15,9 @@ const factory = (oidcConfig, _instrumentation) => {
 
 const hentFor = async (targetClientId, accessToken) => {
     counter.inc(targetClientId);
+
     if (process.env.NODE_ENV === 'development') return '';
+
     const options = {
         uri: `${config.providerBaseUrl}/oauth2/v2.0/token`,
         json: true,
@@ -31,9 +32,6 @@ const hentFor = async (targetClientId, accessToken) => {
         }
     };
     const response = await request.post(options);
-
-    logger.audit(`on behalf of token: ${JSON.stringify(response)}`);
-
     return response.access_token;
 };
 
