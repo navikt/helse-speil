@@ -41,7 +41,6 @@ test('opptjening', () => {
 test('søknadsfrist', () => {
     const unmapped = {
         sendtNav: '2019-06-11T15:21:29.127Z',
-        sisteSykdomsdag: '2019-05-26T00:00:00.000Z',
         innen3Mnd: '(Ja)'
     };
     expect(Mapper.søknadsfrist(unmapped)).toEqual([
