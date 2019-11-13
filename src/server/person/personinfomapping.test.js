@@ -2,7 +2,7 @@
 
 const personMapping = require('./personinfomapping');
 
-const origPerson = {
+const sparkelResponse = {
     fdato: '1995-01-01',
     statsborgerskap: 'NOR',
     etternavn: 'BETJENT',
@@ -13,8 +13,17 @@ const origPerson = {
     status: 'BOSA'
 };
 
-const expectedPerson = { kjønn: 'MANN', navn: 'BJARNE BETJENT' };
+const aktørregisterResponse = '12045632100';
+
+const inputTilMapper = { ...sparkelResponse, fnr: aktørregisterResponse };
+
+const expectedPerson = {
+    kjønn: 'MANN',
+    navn: 'BJARNE BETJENT',
+    fødselsdato: '1995-01-01',
+    fnr: aktørregisterResponse
+};
 
 test('person mapper maps person correctly', () => {
-    expect(personMapping.map(origPerson)).toEqual(expectedPerson);
+    expect(personMapping.map(inputTilMapper)).toEqual(expectedPerson);
 });

@@ -1,9 +1,10 @@
 import behov from '../../../__mock-data__/tidslinjeperson';
-import personMapper from './mapper';
+import personMapper, { beregnAlder } from './mapper';
 
 test('mapper data riktig for inngangsvilkår-siden', () => {
     const expectedPerson = {
         inngangsvilkår: {
+            alder: 62,
             dagerIgjen: {
                 dagerBrukt: expect.anything(),
                 tidligerePerioder: [],
@@ -24,5 +25,15 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
             forskuttering: '(Ja)'
         }
     };
-    expect(personMapper.map(behov)).toEqual(expect.objectContaining(expectedPerson));
+    const personinfo = { fødselsdato: '1956-12-12' };
+    expect(personMapper.map(behov, personinfo)).toEqual(expect.objectContaining(expectedPerson));
+});
+
+test('beregner alder riktig', () => {
+    const søknadstidspunkt1 = '2020-01-14T00:00:00';
+    const søknadstidspunkt2 = '2020-01-15T00:00:00';
+    const fødselsdato = '2000-01-15';
+
+    expect(beregnAlder(søknadstidspunkt1, fødselsdato)).toBe(19);
+    expect(beregnAlder(søknadstidspunkt2, fødselsdato)).toBe(20);
 });

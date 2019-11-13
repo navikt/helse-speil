@@ -1,14 +1,17 @@
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
+dayjs.extend(relativeTime);
 dayjs.extend(minMax);
 
 export default {
-    map: person => {
+    map: (person, personinfo) => {
         const sak = person.arbeidsgivere[0].saker[0];
         const mapped = {
             ...person,
             inngangsvilkår: {
+                alder: beregnAlder(finnSøknad(person).sendtNav, personinfo.fødselsdato),
                 dagerIgjen: {
                     dagerBrukt: {},
                     førsteFraværsdag: finnInntektsmelding(person).foersteFravaersdag,
@@ -31,6 +34,12 @@ export default {
         };
         return mapped;
     }
+};
+
+export const beregnAlder = (tidspunkt, fødselsdato) => {
+    const søknadstidspunkt = dayjs(tidspunkt + 'Z'.replace('ZZ', 'Z'));
+    const fødselsdag = dayjs(fødselsdato);
+    return søknadstidspunkt.diff(fødselsdag, 'year', false);
 };
 
 const finnFørsteSykepengedag = person => {

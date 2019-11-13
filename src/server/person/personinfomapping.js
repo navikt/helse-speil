@@ -4,7 +4,8 @@ const map = person => {
     return {
         navn: `${person.fornavn} ${person.etternavn}`,
         kjønn: person.kjønn,
-        fnr: person.fnr
+        fnr: person.fnr,
+        fødselsdato: person.fdato
     };
 };
 
