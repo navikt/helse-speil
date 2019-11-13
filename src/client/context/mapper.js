@@ -22,7 +22,8 @@ export default {
                 },
                 sykepengegrunnlag: (parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12).toFixed(2),
                 søknadsfrist: {
-                    sendtNav: finnSøknad(person).sendtNav
+                    sendtNav: finnSøknad(person).sendtNav,
+                    innen3Mnd: '(Ja)'
                 }
             },
             inntektskilder: {

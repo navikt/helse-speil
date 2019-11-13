@@ -42,12 +42,11 @@ test('søknadsfrist', () => {
     const unmapped = {
         sendtNav: '2019-06-11T15:21:29.127Z',
         sisteSykdomsdag: '2019-05-26T00:00:00.000Z',
-        innen3Mnd: true
+        innen3Mnd: '(Ja)'
     };
     expect(Mapper.søknadsfrist(unmapped)).toEqual([
         { label: 'Sendt NAV', value: '11.06.2019' },
-        { label: 'Siste sykdomsdag', value: '26.05.2019' },
-        { label: 'Innen 3 mnd', value: 'Ja' }
+        { label: 'Innen 3 mnd', value: '(Ja)' }
     ]);
 });
 

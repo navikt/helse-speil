@@ -15,7 +15,8 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
             },
             sykepengegrunnlag: "7995.96",
             søknadsfrist: {
-                sendtNav: '2019-10-15T00:00:00'
+                sendtNav: '2019-10-15T00:00:00',
+                innen3Mnd: '(Ja)'
             }
         },
         inntektskilder: {
