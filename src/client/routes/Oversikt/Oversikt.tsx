@@ -37,9 +37,7 @@ const Oversikt = () => {
     const { navigateTo } = useNavigation();
     const { t } = useTranslation();
     const { hentPerson } = useContext(PersonContext);
-    const { behovoversikt, hentBehovoversikt, isFetchingBehovoversikt, isFetchingPersoninfo } = useContext(
-        SaksoversiktContext
-    );
+    const { behovoversikt, hentBehovoversikt, isFetchingBehovoversikt } = useContext(SaksoversiktContext);
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
@@ -84,11 +82,6 @@ const Oversikt = () => {
                     {isFetchingBehovoversikt && (
                         <AlertStripeInfo>
                             Henter personer <NavFrontendSpinner type="XS" />
-                        </AlertStripeInfo>
-                    )}
-                    {isFetchingPersoninfo && (
-                        <AlertStripeInfo>
-                            Henter navn <NavFrontendSpinner type="XS" />
                         </AlertStripeInfo>
                     )}
                     <ul>

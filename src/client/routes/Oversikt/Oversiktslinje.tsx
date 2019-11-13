@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import OversiktsLenke from './OversiktsLenke';
 import { AuthContext } from '../../context/AuthContext';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -8,6 +8,7 @@ import { Tildeling } from '../../context/types';
 import { Behov } from '../../../types';
 import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import { getPersoninfo } from '../../io/http';
 
 interface Props {
     behov: Behov;
@@ -19,6 +20,16 @@ interface Props {
 
 const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
     const { authInfo } = useContext(AuthContext);
+    const [søkernavn, setSøkernavn] = useState(behov.aktørId);
+    const [fetchFailedText, setFetchFailedText] = useState<string>();
+
+    useEffect(() => {
+        getPersoninfo(behov.aktørId)
+            .then(personinfo => {
+                setSøkernavn(personinfo.data?.navn);
+            })
+            .catch(() => setFetchFailedText('(Kunne ikke hente navn)'));
+    }, [behov.aktørId]);
 
     const tildelingsCelle = tildeling?.userId ? (
         <>
@@ -37,9 +48,9 @@ const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSele
 
     return (
         <li className="row row--info">
-            <OversiktsLenke onClick={() => onSelectCase(behov)}>
-                {behov.personinfo?.navn ?? behov.aktørId}
-            </OversiktsLenke>
+            <span>
+                <OversiktsLenke onClick={() => onSelectCase(behov)}>{søkernavn}</OversiktsLenke> {fetchFailedText}
+            </span>
             <Normaltekst>{`${somDato(behov['@opprettet']).format(NORSK_DATOFORMAT)}`}</Normaltekst>
             <span className="row__tildeling">{tildelingsCelle}</span>
         </li>

@@ -1,7 +1,7 @@
 import React, { createContext, ReactChild, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { fetchBehovoversikt, getPersoninfo } from '../io/http';
+import { fetchBehovoversikt } from '../io/http';
 import { Behov } from '../../types';
 
 interface Error {
@@ -17,48 +17,22 @@ interface BehovoversiktContextType {
     behovoversikt: Behov[];
     hentBehovoversikt: () => void;
     isFetchingBehovoversikt: boolean;
-    isFetchingPersoninfo: boolean;
 }
 
 export const SaksoversiktContext = createContext<BehovoversiktContextType>({
     behovoversikt: [],
     hentBehovoversikt: () => {},
-    isFetchingBehovoversikt: false,
-    isFetchingPersoninfo: false
+    isFetchingBehovoversikt: false
 });
-
-const appendPersoninfo = (behov: Behov) => {
-    return getPersoninfo(behov.aktørId)
-        .then(response => ({
-            ...behov,
-            personinfo: { ...response.data }
-        }))
-        .catch(err => {
-            console.error('Feil ved henting av vedtaksperiode.', err);
-            return behov;
-        });
-};
 
 export const BehovoversiktProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<Error | undefined>(undefined);
     const [behovoversikt, setBehovoversikt] = useState<Behov[]>([]);
     const [isFetchingBehovoversikt, setIsFetchingBehovoversikt] = useState(false);
-    const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
 
     const hentBehovoversikt = async () => {
         const oversikt: Behov[] = await hentBehov();
         setBehovoversikt(oversikt);
-        setIsFetchingPersoninfo(true);
-        const oversiktWithPersoninfo: Behov[] = await Promise.all(
-            oversikt.map((behandling: Behov) => appendPersoninfo(behandling))
-        ).finally(() => setIsFetchingPersoninfo(false));
-        const finnesBehovUtenPersoninfo = oversiktWithPersoninfo.find(
-            (behandling: Behov) => behandling.personinfo === undefined
-        );
-        if (finnesBehovUtenPersoninfo) {
-            setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
-        }
-        setBehovoversikt(oversiktWithPersoninfo);
     };
 
     const hentBehov = () => {
@@ -84,8 +58,7 @@ export const BehovoversiktProvider = ({ children }: ProviderProps) => {
             value={{
                 behovoversikt: behovoversikt,
                 hentBehovoversikt: hentBehovoversikt,
-                isFetchingBehovoversikt: isFetchingBehovoversikt,
-                isFetchingPersoninfo
+                isFetchingBehovoversikt: isFetchingBehovoversikt
             }}
         >
             {children}
