@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
+import ListRow from '../../components/Rows/ListRow';
+import IconRow from '../../components/Rows/IconRow';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
-import { PersonContext } from '../../context/PersonContext';
 import { item } from '../../datamapping/mappingUtils';
+import { PersonContext } from '../../context/PersonContext';
 import { toLocaleFixedNumberString } from '../../utils/locale';
-import ListRow from '../../components/Rows/ListRow';
-import IconRow from '../../components/Rows/IconRow';
+import './Sykepengegrunnlag.less';
 
 const Sykepengegrunnlag = () => {
     const { inntektskilder } = useContext(PersonContext).personTilBehandling;
@@ -19,7 +20,7 @@ const Sykepengegrunnlag = () => {
     ];
 
     return (
-        <Panel className="tekstbolker">
+        <Panel className="tekstbolker Sykepengegrunnlag">
             {inntektskilder && (
                 <>
                     <ListRow
@@ -28,6 +29,7 @@ const Sykepengegrunnlag = () => {
                         showIcon={false}
                     />
                     <IconRow label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
+                    <IconRow label="Avvik må sjekkes manuelt" iconType="advarsel" />
                 </>
             )}
             <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />
