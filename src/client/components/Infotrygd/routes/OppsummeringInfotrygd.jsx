@@ -1,83 +1,101 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
+import { SimuleringContext } from '../../../context/SimuleringContext';
+import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { toLocaleFixedNumberString } from '../../../utils/locale';
+import './OppsummeringInfotrygd.less';
+import { Knapp } from 'nav-frontend-knapper';
+import { postVedtak } from '../../../io/http';
 import { PersonContext } from '../../../context/PersonContext';
-import { oppsummeringstekster, tekster } from '../../../tekster';
-import { toKroner } from '../../../utils/locale';
+import { PersonoversiktContext } from '../../../context/PersonoversiktContext';
+import InfoModal from '../../InfoModal';
+import { Normaltekst } from 'nav-frontend-typografi';
+
+const Beslutning = {
+    GODKJENT: 'GODKJENT',
+    AVVIST: 'AVVIST'
+};
 
 const OppsummeringInfotrygd = () => {
     const { personTilBehandling } = useContext(PersonContext);
+    const { personoversikt } = useContext(PersonoversiktContext);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [isSending, setIsSending] = useState(false);
+    const [beslutning, setBeslutning] = useState(undefined);
+    const [error, setError] = useState(undefined);
+    const simuleringContext = useContext(SimuleringContext);
+
+    const fattVedtak = godkjent => {
+        const behovId = personoversikt.find(
+            behov => behov.aktørId === personTilBehandling.aktørId
+        )?.['@id'];
+        setIsSending(true);
+        postVedtak(behovId, personTilBehandling.aktørId, godkjent)
+            .then(() => {
+                setBeslutning(godkjent ? Beslutning.GODKJENT : Beslutning.AVVIST);
+                setError(undefined);
+            })
+            .catch(err => setError(err))
+            .finally(() => {
+                setIsSending(false);
+                setModalOpen(false);
+            });
+    };
+
+    const simulering = simuleringContext.simulering?.simulering?.totalBelop
+        ? `${toLocaleFixedNumberString(simuleringContext.simulering?.simulering?.totalBelop, 2)} kr`
+        : simuleringContext.simulering?.feilMelding ?? 'Ikke tilgjengelig';
 
     return (
         <>
             <h2>Oppsummering</h2>
-            <span className="Infotrygd__content">
-                <span className="Infotrygd__content--left">
-                    <InfotrygdList>
-                        <InfotrygdListItem label={oppsummeringstekster('sykdomsvilkår')}>
-                            {personTilBehandling.oppsummering.sykdomsvilkårErOppfylt}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem />
-                        <InfotrygdListItem label={oppsummeringstekster('inngangsvilkår')}>
-                            {personTilBehandling.oppsummering.inngangsvilkårErOppfylt}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem />
-                        <InfotrygdListItem label={oppsummeringstekster('arbeidsgiver')}>
-                            {personTilBehandling.oppsummering.arbeidsgiver.navn}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('orgnr')}>
-                            {personTilBehandling.oppsummering.arbeidsgiver.orgnummer}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('refusjon')}>
-                            {tekster('informasjon ikke tilgjengelig')}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('betaler')}>
-                            {personTilBehandling.oppsummering.betalerArbeidsgiverperiode
-                                ? 'Nei'
-                                : 'Ja'}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('fordeling')}>
-                            {`${personTilBehandling.oppsummering.fordeling}%`}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem />
-                        <InfotrygdListItem label={oppsummeringstekster('sykepengegrunnlag')}>
-                            {`${toKroner(personTilBehandling.oppsummering.sykepengegrunnlag)} kr`}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('månedsbeløp')}>
-                            {`${toKroner(personTilBehandling.oppsummering.månedsbeløp)} kr`}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('dagsats')}>
-                            {`${toKroner(personTilBehandling.oppsummering.dagsats)} kr`}
-                        </InfotrygdListItem>
-                    </InfotrygdList>
-                </span>
-                <span className="Infotrygd__content--right">
-                    <InfotrygdList>
-                        <InfotrygdListItem label={oppsummeringstekster('antall_utbetalingsdager')}>
-                            {personTilBehandling.oppsummering.antallUtbetalingsdager}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('fom')}>
-                            {personTilBehandling.oppsummering.sykmeldtFraOgMed}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('tom')}>
-                            {personTilBehandling.oppsummering.sykmeldtTilOgMed}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('sykmeldingsgrad')}>
-                            {personTilBehandling.oppsummering.sykmeldingsgrad}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem />
-                        <InfotrygdListItem label={oppsummeringstekster('utbetalesFom')}>
-                            {personTilBehandling.oppsummering.utbetalesFom}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('utbetalesTom')}>
-                            {personTilBehandling.oppsummering.utbetalesTom}
-                        </InfotrygdListItem>
-                        <InfotrygdListItem label={oppsummeringstekster('utbetaling')}>
-                            {personTilBehandling.oppsummering.utbetaling}
-                        </InfotrygdListItem>
-                    </InfotrygdList>
-                </span>
+            <span className="Infotrygd__content OppsummeringInfotrygd">
+                <InfotrygdList>
+                    {simuleringContext.error ? (
+                        <InfotrygdListItem label={simuleringContext.error} status="!" />
+                    ) : (
+                        <InfotrygdListItem label="Simulering">{simulering}</InfotrygdListItem>
+                    )}
+                </InfotrygdList>
             </span>
+            <h2>Utbetaling</h2>
+            <AlertStripeAdvarsel>
+                Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
+                til teamet for evaluering.
+            </AlertStripeAdvarsel>
+            <span className="Infotrygd__content OppsummeringInfotrygd">
+                {beslutning ? (
+                    <AlertStripeInfo>
+                        {beslutning === Beslutning.GODKJENT
+                            ? 'Utbetalingen er sendt til oppdragsystemet.'
+                            : 'Saken er sendt til behandling i Infotrygd.'}
+                    </AlertStripeInfo>
+                ) : (
+                    <span className="Infotrygd__buttons">
+                        <span>
+                            <button onClick={() => setModalOpen(true)}>UTBETAL</button>
+                            {error && (
+                                <Normaltekst className="skjemaelement__feilmelding">
+                                    {error.message || 'En feil har oppstått.'}
+                                    {error.statusCode === 401 && <a href="/"> Logg inn</a>}
+                                </Normaltekst>
+                            )}
+                        </span>
+                        <Knapp onClick={() => fattVedtak(false)} spinner={isSending && !modalOpen}>
+                            Behandle i Infotrygd
+                        </Knapp>
+                    </span>
+                )}
+            </span>
+            {modalOpen && (
+                <InfoModal
+                    onClose={() => setModalOpen(false)}
+                    onApprove={() => fattVedtak(true)}
+                    isSending={isSending}
+                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet. Dette kan ikke angres."
+                />
+            )}
         </>
     );
 };
