@@ -7,6 +7,7 @@ import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import { toLocaleFixedNumberString } from '../../utils/locale';
+import FormRow from '../../components/Rows/FormRow';
 
 const Inntektskilder = () => {
     const { inntektskilder } = useContext(PersonContext).personTilBehandling;
@@ -15,12 +16,7 @@ const Inntektskilder = () => {
             'Beregnet månedsinntekt',
             `${toLocaleFixedNumberString(inntektskilder.månedsinntekt, 2)} kr`
         ),
-        item(
-            'Omregnet årsinntekt',
-            `${toLocaleFixedNumberString(inntektskilder.årsinntekt, 2)} kr`
-        ),
-        item('Refusjon til arbeidsgiver', inntektskilder.refusjon),
-        item('Betaler arbeidsgiverperiode', inntektskilder.forskuttering)
+        item('Omregnet årsinntekt', `${toLocaleFixedNumberString(inntektskilder.årsinntekt, 2)} kr`)
     ];
 
     return (
@@ -33,6 +29,8 @@ const Inntektskilder = () => {
                 />
             )}
             <IconRow label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
+            <FormRow label="Refusjon til arbeidsgiver" value={inntektskilder.refusjon} />
+            <FormRow label="Betaler arbeidsgiverperiode" value={inntektskilder.forskuttering} />
             <NavigationButtons previous={pages.INNGANGSVILKÅR} next={pages.SYKEPENGEGRUNNLAG} />
         </Panel>
     );
