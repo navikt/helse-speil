@@ -49,8 +49,6 @@ const Timeline = ({ person, showDagsats }) => {
         dagsats: dagsatser?.[dag.dato]
     }));
 
-    console.log(dager);
-
     return (
         <table className="Timeline tabell">
             <thead>
