@@ -1,6 +1,5 @@
-import dayjs from 'dayjs';
 import behov from '../../../__mock-data__/tidslinjeperson';
-import personMapper, { beregnAlder, finnFødselsår } from './mapper';
+import personMapper, { beregnAlder } from './mapper';
 
 test('mapper data riktig for inngangsvilkår-siden', () => {
     const expectedPerson = {
@@ -26,29 +25,15 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
             forskuttering: '(Ja)'
         }
     };
-    const personinfo = { fnr: '12125612300' };
+    const personinfo = { fødselsdato: '1956-12-12' };
     expect(personMapper.map(behov, personinfo)).toEqual(expect.objectContaining(expectedPerson));
 });
 
 test('beregner alder riktig', () => {
     const søknadstidspunkt1 = '2020-01-14T00:00:00';
     const søknadstidspunkt2 = '2020-01-15T00:00:00';
-    const fnr = '15010072345';
+    const fødselsdato = '2000-01-15';
 
-    expect(beregnAlder(søknadstidspunkt1, fnr)).toBe(19);
-    expect(beregnAlder(søknadstidspunkt2, fnr)).toBe(20);
-});
-
-test('bruker riktig fødselsår', () => {
-    expect(finnFødselsår('01017010000')).toBe('1970');
-    expect(finnFødselsår('01011010000')).toBe('1910');
-
-    expect(finnFødselsår('01010050000')).toBe('2000');
-    expect(finnFødselsår('01016074900')).toBe('1860');
-
-    expect(finnFødselsår('01010050000')).toBe('2000');
-    expect(finnFødselsår('01013999900')).toBe('2039');
-
-    expect(finnFødselsår('01014090000')).toBe('1940');
-    expect(finnFødselsår('01019999900')).toBe('1999');
+    expect(beregnAlder(søknadstidspunkt1, fødselsdato)).toBe(19);
+    expect(beregnAlder(søknadstidspunkt2, fødselsdato)).toBe(20);
 });

@@ -31,7 +31,8 @@ export const PersonProvider = ({ children }) => {
                 const personinfo = await getPersoninfo(value).then(response => ({
                     navn: response.data?.navn,
                     kjønn: response.data?.kjønn,
-                    fnr: response.data?.fnr
+                    fnr: response.data?.fnr,
+                    fødselsdato: response.data?.fødselsdato
                 }));
                 setPersonTilBehandling(personMapper.map(person, personinfo));
                 return person;
