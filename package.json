@@ -132,7 +132,7 @@
         "nodemon": "^1.19.4",
         "parcel-bundler": "^1.12.4",
         "prettier": "^1.17.1",
-        "react-hot-loader": "^4.12.14",
+        "react-hot-loader": "^4.12.16",
         "react-test-renderer": "^16.10.2",
         "rimraf": "^3.0.0",
         "whatwg-fetch": "^3.0.0"
