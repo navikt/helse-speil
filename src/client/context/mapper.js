@@ -20,14 +20,14 @@ export default {
                     tidligerePerioder: [],
                     yrkesstatus: finnSøknad(person).arbeidssituasjon
                 },
-                sykepengegrunnlag: parseInt(finnInntektsmelding(person).beregnetInntekt, 10) * 12,
+                sykepengegrunnlag: (parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12).toFixed(2),
                 søknadsfrist: {
                     sendtNav: finnSøknad(person).sendtNav
                 }
             },
             inntektskilder: {
-                månedsinntekt: parseInt(finnInntektsmelding(person).beregnetInntekt, 10),
-                årsinntekt: parseInt(finnInntektsmelding(person).beregnetInntekt, 10) * 12,
+                månedsinntekt: parseFloat(finnInntektsmelding(person).beregnetInntekt, 10).toFixed(2),
+                årsinntekt: (parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12).toFixed(2),
                 refusjon: '(Ja)',
                 forskuttering: '(Ja)'
             }
