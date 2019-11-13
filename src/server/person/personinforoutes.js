@@ -1,7 +1,6 @@
 'use strict';
 
 const personInfoLookup = require('./personinfolookup');
-const personMapping = require('./personinfomapping');
 const logger = require('../logging');
 
 const timeToExpire = 34 * 60 * 60 * 1000;
@@ -23,8 +22,7 @@ const getPerson = (req, res) => {
         } else {
             personInfoLookup
                 .hentPerson(aktørId)
-                .then(person => {
-                    const personinfo = personMapping.map(person);
+                .then(personinfo => {
                     cache.setex(`person-${aktørId}`, timeToExpire, JSON.stringify(personinfo));
                     res.send(personinfo);
                 })

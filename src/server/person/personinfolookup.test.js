@@ -4,16 +4,13 @@ const personinfolookup = require('./personinfolookup');
 
 const sparkelclient = require('../adapters/sparkelClient');
 
-const expectedPerson = {
-    fdato: '1995-01-01',
-    statsborgerskap: 'NOR',
-    etternavn: 'BETJENT',
-    aktørId: '1000012345678',
-    bostedsland: 'NOR',
-    fornavn: 'BJARNE',
-    kjønn: 'MANN',
-    status: 'BOSA'
+const personinfoAsInMockedResponsesFile = {
+    fornavn: 'BJARNE'
 };
+
+jest.mock('./personinfomapping', () => ({
+    map: person => ({ fornavnMappedByStub: person.fornavn, fnr: person.fnr })
+}));
 
 const stsclientStub = {
     hentAccessToken: () => Promise.resolve({})
@@ -32,7 +29,7 @@ beforeAll(() => {
 
 test('successful lookup resolves with person object', async () => {
     await expect(personinfolookup.hentPerson('11111')).resolves.toEqual({
-        ...expectedPerson,
+        fornavnMappedByStub: personinfoAsInMockedResponsesFile.fornavn,
         fnr: 2469
     });
 });
