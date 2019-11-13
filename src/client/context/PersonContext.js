@@ -27,13 +27,10 @@ export const PersonProvider = ({ children }) => {
     const hentPerson = value => {
         return fetchPerson(value)
             .then(async response => {
-                const { person } = response.data;
                 const personinfo = await getPersoninfo(value).then(response => ({
-                    navn: response.data?.navn,
-                    kjønn: response.data?.kjønn,
-                    fnr: response.data?.fnr,
-                    fødselsdato: response.data?.fødselsdato
+                    ...response.data
                 }));
+                const person = { ...response.data.person, personinfo };
                 setPersonTilBehandling(personMapper.map(person, personinfo));
                 return person;
             })

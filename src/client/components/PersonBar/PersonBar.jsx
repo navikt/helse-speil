@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import Clipboard from '../Clipboard';
-import { getPersoninfo } from '../../io/http';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
 import './PersonBar.less';
@@ -17,19 +16,12 @@ const finnSykmeldingsgrad = person => finnSøknad(person).soknadsperioder[0].syk
 const PersonBar = () => {
     const { personTilBehandling } = useContext(PersonContext);
     const aktørId = personTilBehandling?.aktørId;
-    const [personinfo, setPersoninfo] = useState(personinfo);
-
-    useEffect(() => {
-        if (aktørId) {
-            getPersoninfo(aktørId)
-                .then(response => setPersoninfo(response.data))
-                .catch(err => {
-                    console.error('Feil ved henting av person.', err);
-                });
-        }
-    }, [aktørId]);
+    const [personinfo, setPersoninfo] = useState(undefined);
 
     const data = useMemo(() => {
+        if (personTilBehandling && !personinfo) {
+            setPersoninfo(personTilBehandling.personinfo);
+        }
         if (!personTilBehandling || !personinfo) {
             return null;
         }
