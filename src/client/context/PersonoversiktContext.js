@@ -9,11 +9,7 @@ const appendPersoninfo = behov => {
     return getPersoninfo(behov.aktørId)
         .then(response => ({
             ...behov,
-            personinfo: {
-                navn: response.data?.navn,
-                kjønn: response.data?.kjønn,
-                fnr: response.data?.fnr
-            }
+            personinfo: { ...response.data }
         }))
         .catch(err => {
             console.error('Feil ved henting av person.', err);

@@ -38,6 +38,9 @@ export default {
 };
 
 export const beregnAlder = (tidspunkt, fødselsdato) => {
+    if (fødselsdato === undefined) {
+        return 'Alder ikke tilgjengelig';
+    }
     const søknadstidspunkt = dayjs(tidspunkt + 'Z'.replace('ZZ', 'Z'));
     const fødselsdag = dayjs(fødselsdato);
     return søknadstidspunkt.diff(fødselsdag, 'year', false);
