@@ -16,7 +16,8 @@ const map = requestBody => {
             tom: linje.tom,
             grad: linje.grad ? linje.grad : 100,
             dagsats: linje.dagsats
-        }))
+        })),
+        utbetalingsreferanse: 'helse-simulering'
     };
 };
 
