@@ -16,7 +16,7 @@ Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette 
 
 ## Kjøre lokalt
 
-### Kun frontend servert av Parcel
+#### Kun frontend servert av Parcel
 
 ```
 npm start
