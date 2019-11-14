@@ -21,7 +21,7 @@ const setup = app => {
             res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
             res.header(
                 'Access-Control-Allow-Headers',
-                'Origin, X-Requested-With, Content-Type, Accept, nav-person-id'
+                'Origin, X-Requested-With, Content-Type, Accept, nav-person-id, innsyn'
             );
             res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
         }

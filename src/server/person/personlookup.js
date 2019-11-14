@@ -29,31 +29,42 @@ const setup = ({
 };
 
 const personSøk = async (req, res) => {
-    const undeterminedPersonId = req.headers[personIdHeaderName];
-    auditLog(req, undeterminedPersonId || 'missing person id');
-    if (!undeterminedPersonId) {
+    const undeterminedId = req.headers[personIdHeaderName];
+
+    auditLog(req, undeterminedId || 'missing person id');
+    if (!undeterminedId) {
         logger.error(`Missing header '${personIdHeaderName}' in request`);
         res.status(400).send(`Påkrevd header '${personIdHeaderName}' mangler`);
         return;
     }
 
-    let aktorId = isValidSsn(undeterminedPersonId)
-        ? await toAktørId(undeterminedPersonId)
-        : undeterminedPersonId;
-    if (!aktorId) {
-        res.status(404).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
-        return;
-    }
+    if (!req.headers['innsyn']) {
+        let aktorId = isValidSsn(undeterminedId) ? await toAktørId(undeterminedId) : undeterminedId;
+        if (!aktorId) {
+            res.status(404).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
+            return;
+        }
 
-    respondWith({
-        res,
-        lookupPromise: onBehalfOf
-            .hentFor(spleisId, req.session.speilToken)
-            .then(token => spleis.hentPerson(aktorId, token)),
-        mapper: response => ({
-            person: response.body
-        })
-    });
+        respondWith({
+            res,
+            lookupPromise: onBehalfOf
+                .hentFor(spleisId, req.session.speilToken)
+                .then(token => spleis.hentPerson(aktorId, token)),
+            mapper: response => ({
+                person: response.body
+            })
+        });
+    } else {
+        respondWith({
+            res,
+            lookupPromise: onBehalfOf
+                .hentFor(spleisId, req.session.speilToken)
+                .then(token => spleis.hentPersonByUtbetalingsref(undeterminedId, token)),
+            mapper: response => ({
+                person: response.body
+            })
+        });
+    }
 };
 
 const behovForPeriode = (req, res) => {

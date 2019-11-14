@@ -3,6 +3,7 @@ import Search from '../Search';
 import { AuthContext } from '../../context/AuthContext';
 import './HeaderBar.less';
 import { Link } from 'react-router-dom';
+import SearchInnsyn from '../SearchInnsyn/SearchInnsyn';
 
 const HeaderBar = () => {
     const { authInfo: { name, isLoggedIn } = {} } = useContext(AuthContext);
@@ -16,7 +17,12 @@ const HeaderBar = () => {
             </Link>
             <div className="divider" />
             <div className="search">
-                <Search />
+                <div>
+                    <Search />
+                </div>
+                <div>
+                    <SearchInnsyn />
+                </div>
             </div>
             <div className="divider" />
             <div id="user" className="user">

@@ -21,6 +21,27 @@ const hentPerson = async (aktørId, onBehalfOfToken) => {
     return request.get(options);
 };
 
+const hentPersonByUtbetalingsref = async (utbetalingsref, onBehalfOfToken) => {
+    if (process.env.NODE_ENV === 'development') {
+        const fromFile = fs.readFileSync('__mock-data__/tidslinjeperson.json', 'utf-8');
+        const person = JSON.parse(fromFile);
+        return Promise.resolve({
+            statusCode: 200,
+            body: person
+        });
+    }
+    const options = {
+        uri: `http://spleis.default.svc.nais.local/api/utbetaling/${utbetalingsref}`,
+        headers: {
+            Authorization: `Bearer ${onBehalfOfToken}`
+        },
+        resolveWithFullResponse: true,
+        json: true
+    };
+    return request.get(options);
+};
+
 module.exports = {
-    hentPerson
+    hentPerson,
+    hentPersonByUtbetalingsref
 };

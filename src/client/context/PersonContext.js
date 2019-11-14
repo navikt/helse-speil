@@ -24,8 +24,8 @@ export const PersonProvider = ({ children }) => {
         }
     }, [aktørIdFromUrl, personTilBehandling]);
 
-    const hentPerson = value => {
-        return fetchPerson(value)
+    const hentPerson = (value, innsyn) => {
+        return fetchPerson(value, innsyn)
             .then(async response => {
                 const personinfo = await getPersoninfo(value).then(response => ({
                     ...response.data

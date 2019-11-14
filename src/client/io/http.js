@@ -53,9 +53,9 @@ export const del = async (url, data) => {
     return response;
 };
 
-export const fetchPerson = async personId => {
+export const fetchPerson = async (personId, innsyn) => {
     return get(`${baseUrl}/person/sok`, {
-        headers: { 'nav-person-id': personId }
+        headers: { 'nav-person-id': personId, innsyn: innsyn }
     });
 };
 
