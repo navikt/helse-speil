@@ -49,6 +49,7 @@ const OppsummeringInfotrygd = () => {
 
     return (
         <span className="OppsummeringInfotrygd">
+            <canvas id="Konfetti" />
             <InfotrygdList>
                 {simuleringContext.error ? (
                     <InfotrygdListItem label={simuleringContext.error} status="!" />
@@ -61,30 +62,34 @@ const OppsummeringInfotrygd = () => {
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
                 til teamet for evaluering.
             </AlertStripeAdvarsel>
-            <span className="Infotrygd__content OppsummeringInfotrygd">
-                {beslutning ? (
-                    <AlertStripeInfo>
-                        {beslutning === Beslutning.GODKJENT
-                            ? 'Utbetalingen er sendt til oppdragsystemet.'
-                            : 'Saken er sendt til behandling i Infotrygd.'}
-                    </AlertStripeInfo>
-                ) : (
-                    <span className="Infotrygd__buttons">
-                        <span>
-                            <button onClick={() => setModalOpen(true)}>UTBETAL</button>
-                            {error && (
-                                <Normaltekst className="skjemaelement__feilmelding">
-                                    {error.message || 'En feil har oppstått.'}
-                                    {error.statusCode === 401 && <a href="/"> Logg inn</a>}
-                                </Normaltekst>
-                            )}
-                        </span>
-                        <Knapp onClick={() => fattVedtak(false)} spinner={isSending && !modalOpen}>
-                            Behandle i Infotrygd
-                        </Knapp>
+            {beslutning ? (
+                <AlertStripeInfo>
+                    {beslutning === Beslutning.GODKJENT
+                        ? 'Utbetalingen er sendt til oppdragsystemet.'
+                        : 'Saken er sendt til behandling i Infotrygd.'}
+                </AlertStripeInfo>
+            ) : (
+                <span className="Infotrygd__buttons">
+                    <span>
+                        <button onClick={() => setModalOpen(true)} tabIndex={2}>
+                            UTBETAL
+                        </button>
+                        {error && (
+                            <Normaltekst className="skjemaelement__feilmelding">
+                                {error.message || 'En feil har oppstått.'}
+                                {error.statusCode === 401 && <a href="/"> Logg inn</a>}
+                            </Normaltekst>
+                        )}
                     </span>
-                )}
-            </span>
+                    <Knapp
+                        onClick={() => fattVedtak(false)}
+                        spinner={isSending && !modalOpen}
+                        tabIndex={3}
+                    >
+                        Behandle i Infotrygd
+                    </Knapp>
+                </span>
+            )}
             {modalOpen && (
                 <InfoModal
                     onClose={() => setModalOpen(false)}
