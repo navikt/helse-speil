@@ -49,7 +49,6 @@ const OppsummeringInfotrygd = () => {
 
     return (
         <span className="OppsummeringInfotrygd">
-            <canvas id="Konfetti" />
             <InfotrygdList>
                 {simuleringContext.error ? (
                     <InfotrygdListItem label={simuleringContext.error} status="!" />
@@ -71,7 +70,11 @@ const OppsummeringInfotrygd = () => {
             ) : (
                 <span className="Infotrygd__buttons">
                     <span>
-                        <button onClick={() => setModalOpen(true)} tabIndex={2}>
+                        <button
+                            className="UtbetalingsoversiktInfotrygd__utbetalingsknapp"
+                            onClick={() => setModalOpen(true)}
+                            tabIndex={2}
+                        >
                             UTBETAL
                         </button>
                         {error && (

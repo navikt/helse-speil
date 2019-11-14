@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import useLinks, { pages as rawPages } from '../../hooks/useLinks';
 import PropTypes from 'prop-types';
 import { Keys } from '../../hooks/useKeyboard';
@@ -63,26 +63,24 @@ const InfotrygdInput = ({ onEnter, history }) => {
     }, [value, onKeyDown, hasFocus]);
 
     useEffect(() => {
-        if (
-            document.activeElement === document.body ||
-            document.activeElement === lastTabRef.current
-        ) {
+        if (document.activeElement === lastTabRef.current) {
             ref.current.focus();
         }
     }, [document.activeElement]);
 
     return (
-        <span
+        <div
             className="InfotrygdInput"
             ref={ref}
             tabIndex={1}
             onFocus={() => setHasFocus(true)}
             onBlur={() => setHasFocus(false)}
+            onClick={() => ref.current.focus()}
         >
             {value?.toUpperCase()}
             {hasFocus && <div className="InfotrygdInput__cursor blink" />}
             <span tabIndex={1000} ref={lastTabRef} />
-        </span>
+        </div>
     );
 };
 

@@ -23,6 +23,7 @@ const SykepengegrunnlagInfotrygd = () => {
                     {item.value}
                 </InfotrygdListItem>
             ))}
+            <InfotrygdListItem />
             <InfotrygdListItem label="A-ordningen må sjekkes manuelt" status="!" />
         </InfotrygdList>
     );

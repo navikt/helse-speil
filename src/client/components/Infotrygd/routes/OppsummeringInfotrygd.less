@@ -1,3 +1,5 @@
+@import '../variables';
+
 .OppsummeringInfotrygd {
   .InfotrygdList {
     margin-bottom: 4rem;
@@ -52,6 +54,15 @@
       > g > path:not(:first-child) {
         fill: #000;
       }
+    }
+  }
+
+  button.UtbetalingsoversiktInfotrygd__utbetalingsknapp {
+    background: green;
+
+    &:before,
+    &:after {
+      content: ' $$$ ';
     }
   }
 }
