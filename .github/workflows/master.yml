@@ -46,7 +46,7 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.GH_REPO_TOKEN }}
       - name: deploy to preprod
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
           NAV_CLUSTER: dev-fss
           SPEIL_FILE: deploy/speil-preprod.json
           REDIS_FILE: deploy/redis.json
@@ -66,7 +66,7 @@ jobs:
              https://api.github.com/repos/$GITHUB_REPOSITORY/deployments
       - name: deploy to prod
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
           NAV_CLUSTER: prod-fss
           SPEIL_FILE: deploy/speil-prod.json
           REDIS_FILE: deploy/redis.json
