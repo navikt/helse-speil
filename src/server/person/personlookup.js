@@ -30,6 +30,7 @@ const setup = ({
 
 const personSøk = async (req, res) => {
     const undeterminedId = req.headers[personIdHeaderName];
+    const innsyn = req.headers['innsyn'] === 'undefined' ? false : req.headers['innsyn'];
 
     auditLog(req, undeterminedId || 'missing person id');
     if (!undeterminedId) {
@@ -38,7 +39,7 @@ const personSøk = async (req, res) => {
         return;
     }
 
-    if (!req.headers['innsyn']) {
+    if (!innsyn) {
         let aktorId = isValidSsn(undeterminedId) ? await toAktørId(undeterminedId) : undeterminedId;
         if (!aktorId) {
             res.status(404).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
