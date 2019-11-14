@@ -16,11 +16,11 @@ import { oppsummeringstekster } from '../../tekster';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './Innrapportering.less';
-import { PersonoversiktContext } from '../../context/PersonoversiktContext';
+import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 
 const Innrapportering = ({ history }) => {
     const { personTilBehandling } = useContext(PersonContext);
-    const { personoversikt } = useContext(PersonoversiktContext);
+    const { saksoversikt } = useContext(SaksoversiktContext);
     const innrapportering = useContext(InnrapporteringContext);
     const authContext = useContext(AuthContext);
     const [error, setError] = useState(undefined);
@@ -33,7 +33,7 @@ const Innrapportering = ({ history }) => {
     }, [innrapportering.kommentarer, innrapportering.godkjent]);
 
     const sendRapporter = () => {
-        const id = personoversikt.find(behov => behov.aktørId === personTilBehandling.aktørId)?.[
+        const id = saksoversikt.find(behov => behov.aktørId === personTilBehandling.aktørId)?.[
             '@id'
         ];
         if (id === undefined) {

@@ -59,7 +59,7 @@ export const fetchPerson = async (personId, innsyn) => {
     });
 };
 
-export const fetchPersonoversikt = async () => {
+export const fetchSaksoversikt = async () => {
     return get(`${baseUrl}/person/`);
 };
 

@@ -10,7 +10,7 @@ import { Route, Switch } from 'react-router-dom';
 import { useLogUserOut } from '../hooks/useLogUserOut';
 import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
-import { PersonoversiktProvider } from '../context/PersonoversiktContext';
+import { SaksoversiktProvider } from '../context/SaksoversiktContext';
 import { InnrapporteringProvider } from '../context/InnrapporteringContext';
 import { PersonContext, PersonProvider } from '../context/PersonContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
@@ -40,7 +40,7 @@ const App = withContextProviders(() => {
 }, [
     InnrapporteringProvider,
     SimuleringProvider,
-    PersonoversiktProvider,
+    SaksoversiktProvider,
     PersonProvider,
     AuthProvider,
     EasterEggProvider,

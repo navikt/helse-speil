@@ -1,9 +1,9 @@
 import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { fetchPersonoversikt, getPersoninfo } from '../io/http';
+import { fetchSaksoversikt, getPersoninfo } from '../io/http';
 
-export const PersonoversiktContext = createContext();
+export const SaksoversiktContext = createContext();
 
 const appendPersoninfo = behov => {
     return getPersoninfo(behov.aktørId)
@@ -17,15 +17,15 @@ const appendPersoninfo = behov => {
         });
 };
 
-export const PersonoversiktProvider = ({ children }) => {
+export const SaksoversiktProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
-    const [personoversikt, setPersonoversikt] = useState([]);
-    const [isFetchingPersonoversikt, setIsFetchingPersonoversikt] = useState(false);
+    const [saksoversikt, setSaksoversikt] = useState([]);
+    const [isFetchingSaksoversikt, setIsFetchingSaksoversikt] = useState(false);
     const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
 
-    const hentPersonoversikt = async () => {
+    const hentSaksoversikt = async () => {
         const oversikt = await hentPersoner();
-        setPersonoversikt(oversikt);
+        setSaksoversikt(oversikt);
         setIsFetchingPersoninfo(true);
         const oversiktWithPersoninfo = await Promise.all(
             oversikt.map(behandling => appendPersoninfo(behandling))
@@ -33,12 +33,12 @@ export const PersonoversiktProvider = ({ children }) => {
         if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
-        setPersonoversikt(oversiktWithPersoninfo);
+        setSaksoversikt(oversiktWithPersoninfo);
     };
 
     const hentPersoner = () => {
-        setIsFetchingPersonoversikt(true);
-        return fetchPersonoversikt()
+        setIsFetchingSaksoversikt(true);
+        return fetchSaksoversikt()
             .then(response => response.data.behov)
             .catch(err => {
                 setError({
@@ -52,15 +52,15 @@ export const PersonoversiktProvider = ({ children }) => {
                 });
                 return [];
             })
-            .finally(() => setIsFetchingPersonoversikt(false));
+            .finally(() => setIsFetchingSaksoversikt(false));
     };
 
     return (
-        <PersonoversiktContext.Provider
+        <SaksoversiktContext.Provider
             value={{
-                personoversikt,
-                hentPersonoversikt,
-                isFetchingPersonoversikt,
+                saksoversikt,
+                hentSaksoversikt,
+                isFetchingSaksoversikt,
                 isFetchingPersoninfo
             }}
         >
@@ -71,10 +71,10 @@ export const PersonoversiktProvider = ({ children }) => {
                     onClose={error.statusCode !== 401 ? () => setError(undefined) : undefined}
                 />
             )}
-        </PersonoversiktContext.Provider>
+        </SaksoversiktContext.Provider>
     );
 };
 
-PersonoversiktProvider.propTypes = {
+SaksoversiktProvider.propTypes = {
     children: PropTypes.node.isRequired
 };

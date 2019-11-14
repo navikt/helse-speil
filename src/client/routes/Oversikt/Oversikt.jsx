@@ -8,7 +8,7 @@ import { withRouter } from 'react-router';
 import { toDateAndTime } from '../../utils/date';
 import { oversikttekster } from '../../tekster';
 import { TildelingerContext } from '../../context/TildelingerContext';
-import { PersonoversiktContext } from '../../context/PersonoversiktContext';
+import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
@@ -33,11 +33,11 @@ const partition = predicate => (acc, cur) =>
 const Oversikt = ({ history }) => {
     const { hentPerson } = useContext(PersonContext);
     const {
-        personoversikt,
-        hentPersonoversikt,
-        isFetchingPersonoversikt,
+        saksoversikt,
+        hentSaksoversikt,
+        isFetchingSaksoversikt,
         isFetchingPersoninfo
-    } = useContext(PersonoversiktContext);
+    } = useContext(SaksoversiktContext);
     const {
         tildelBehandling,
         tildelinger,
@@ -54,24 +54,24 @@ const Oversikt = ({ history }) => {
 
     const [behandledeBehov, ubehandledeBehov] = useMemo(
         () =>
-            personoversikt
+            saksoversikt
                 .map(behov => (behov['@løsning'] ? toBehandletBehov(behov) : behov))
                 .reduce(partition(b => b.behandlet), [[], []]),
-        [feedback, personoversikt]
+        [feedback, saksoversikt]
     );
 
     useEffect(() => {
-        hentPersonoversikt();
+        hentSaksoversikt();
     }, []);
 
     useEffect(() => {
-        fetchTildelinger(personoversikt);
+        fetchTildelinger(saksoversikt);
         const id = window.setInterval(
-            () => fetchTildelinger(personoversikt),
+            () => fetchTildelinger(saksoversikt),
             FETCH_TILDELINGER_INTERVAL_IN_MS
         );
         return () => window.clearInterval(id);
-    }, [personoversikt.length]);
+    }, [saksoversikt.length]);
 
     const velgBehovAndNavigate = behov => {
         hentPerson(behov.aktørId).then(person => {
@@ -87,7 +87,7 @@ const Oversikt = ({ history }) => {
             <div className="Oversikt__container">
                 <Panel border className="Oversikt__neste-behandlinger">
                     <Undertittel className="panel-tittel">{oversikttekster('tittel')}</Undertittel>
-                    {isFetchingPersonoversikt && (
+                    {isFetchingSaksoversikt && (
                         <AlertStripeInfo>
                             Henter personer <NavFrontendSpinner type="XS" />
                         </AlertStripeInfo>

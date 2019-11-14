@@ -24,9 +24,9 @@ export const TildelingerProvider = ({ children }) => {
             });
     };
 
-    const fetchTildelinger = personoversikt => {
-        if (personoversikt.length > 0) {
-            const behovIds = personoversikt.map(b => b['@id']);
+    const fetchTildelinger = saksoversikt => {
+        if (saksoversikt.length > 0) {
+            const behovIds = saksoversikt.map(b => b['@id']);
             getTildelinger(behovIds)
                 .then(result => {
                     const nyeTildelinger = result.data.filter(

@@ -8,7 +8,7 @@ import './OppsummeringInfotrygd.less';
 import { Knapp } from 'nav-frontend-knapper';
 import { postVedtak } from '../../../io/http';
 import { PersonContext } from '../../../context/PersonContext';
-import { PersonoversiktContext } from '../../../context/PersonoversiktContext';
+import { SaksoversiktContext } from '../../../context/SaksoversiktContext';
 import InfoModal from '../../InfoModal';
 import { Normaltekst } from 'nav-frontend-typografi';
 
@@ -19,7 +19,7 @@ const Beslutning = {
 
 const OppsummeringInfotrygd = () => {
     const { personTilBehandling } = useContext(PersonContext);
-    const { personoversikt } = useContext(PersonoversiktContext);
+    const { saksoversikt } = useContext(SaksoversiktContext);
     const [modalOpen, setModalOpen] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState(undefined);
@@ -27,9 +27,9 @@ const OppsummeringInfotrygd = () => {
     const simuleringContext = useContext(SimuleringContext);
 
     const fattVedtak = godkjent => {
-        const behovId = personoversikt.find(
-            behov => behov.aktørId === personTilBehandling.aktørId
-        )?.['@id'];
+        const behovId = saksoversikt.find(behov => behov.aktørId === personTilBehandling.aktørId)?.[
+            '@id'
+        ];
         setIsSending(true);
         postVedtak(behovId, personTilBehandling.aktørId, godkjent)
             .then(() => {

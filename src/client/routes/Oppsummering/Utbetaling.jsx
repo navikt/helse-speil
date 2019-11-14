@@ -4,7 +4,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import React, { useContext, useState } from 'react';
 import { postVedtak } from '../../io/http';
-import { PersonoversiktContext } from '../../context/PersonoversiktContext';
+import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import './Utbetaling.less';
@@ -18,7 +18,7 @@ const TILSTAND = {
 };
 
 const Utbetaling = () => {
-    const { personoversikt } = useContext(PersonoversiktContext);
+    const { saksoversikt } = useContext(SaksoversiktContext);
     const { personTilBehandling, innsyn } = useContext(PersonContext);
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState(undefined);
@@ -27,9 +27,9 @@ const Utbetaling = () => {
     const tilstand = personTilBehandling.arbeidsgivere?.[0].saker?.[0].tilstandType;
 
     const fattVedtak = godkjent => {
-        const behovId = personoversikt.find(
-            behov => behov.aktørId === personTilBehandling.aktørId
-        )?.['@id'];
+        const behovId = saksoversikt.find(behov => behov.aktørId === personTilBehandling.aktørId)?.[
+            '@id'
+        ];
         setIsSending(true);
         postVedtak(behovId, personTilBehandling.aktørId, godkjent)
             .then(() => {

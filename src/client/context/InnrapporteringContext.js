@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { AuthContext } from './AuthContext';
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { PersonContext } from './PersonContext';
-import { PersonoversiktContext } from './PersonoversiktContext';
+import { SaksoversiktContext } from './SaksoversiktContext';
 import { getFeedback, getFeedbackList } from '../io/http';
 
 export const InnrapporteringContext = createContext({
@@ -17,7 +17,7 @@ export const InnrapporteringContext = createContext({
 export const InnrapporteringProvider = ({ children }) => {
     const authContext = useContext(AuthContext);
     const { personTilBehandling } = useContext(PersonContext);
-    const { personoversikt } = useContext(PersonoversiktContext);
+    const { saksoversikt } = useContext(SaksoversiktContext);
     const [feedback, setFeedback] = useState([]);
     const [godkjent, setGodkjent] = useSessionStorage('godkjent');
     const [hasSendt, setHasSendt] = useSessionStorage('harSendtUenigheter');
@@ -28,11 +28,11 @@ export const InnrapporteringProvider = ({ children }) => {
     const [kommentarer, setKommentarer] = useSessionStorage('kommentarer');
 
     useEffect(() => {
-        if (personoversikt.length > 0) {
-            const behovIds = personoversikt.map(b => b['@id']);
+        if (saksoversikt.length > 0) {
+            const behovIds = saksoversikt.map(b => b['@id']);
             fetchFeedbackList(behovIds);
         }
-    }, [personoversikt]);
+    }, [saksoversikt]);
 
     useEffect(() => {
         if (personTilBehandling?.behandlingsId) {
