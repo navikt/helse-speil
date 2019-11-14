@@ -3,7 +3,7 @@ import Search from '../Search';
 import { AuthContext } from '../../context/AuthContext';
 import './HeaderBar.less';
 import { Link } from 'react-router-dom';
-import SearchInnsyn from '../SearchInnsyn/SearchInnsyn';
+import SearchInnsyn from '../SearchInnsyn';
 
 const HeaderBar = () => {
     const { authInfo: { name, isLoggedIn } = {} } = useContext(AuthContext);

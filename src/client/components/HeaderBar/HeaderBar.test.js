@@ -13,6 +13,7 @@ jest.mock('react-router-dom', () => ({
 }));
 jest.mock('../ErrorModal', () => () => <div />);
 jest.mock('../Search', () => () => <div />);
+jest.mock('../SearchInnsyn', () => () => <div />);
 
 test('name of logged in user is retrieved from cookie', async () => {
     const { getByText } = render(<HeaderBar />);

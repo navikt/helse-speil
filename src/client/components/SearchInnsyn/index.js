@@ -1,3 +1,3 @@
-import SearchInnsyn from './SearchInnsyn  ';
+import SearchInnsyn from './SearchInnsyn';
 
 export default SearchInnsyn;
