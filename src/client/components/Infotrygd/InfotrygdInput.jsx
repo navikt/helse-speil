@@ -17,6 +17,7 @@ const InfotrygdInput = ({ onEnter, history }) => {
     const currentView = pages.findIndex(path => history.location.pathname.includes(path)) ?? -1;
     const links = useLinks();
     const ref = useRef();
+    const lastTabRef = useRef();
 
     const onKeyDown = event => {
         switch (event.keyCode) {
@@ -62,10 +63,12 @@ const InfotrygdInput = ({ onEnter, history }) => {
     }, [value, onKeyDown, hasFocus]);
 
     useEffect(() => {
-        if (document.activeElement === document.body) {
+        if (
+            document.activeElement === document.body ||
+            document.activeElement === lastTabRef.current
+        ) {
             ref.current.focus();
         }
-        console.log(document.activeElement);
     }, [document.activeElement]);
 
     return (
@@ -78,6 +81,7 @@ const InfotrygdInput = ({ onEnter, history }) => {
         >
             {value?.toUpperCase()}
             {hasFocus && <div className="InfotrygdInput__cursor blink" />}
+            <span tabIndex={1000} ref={lastTabRef} />
         </span>
     );
 };
