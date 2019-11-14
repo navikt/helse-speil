@@ -10,6 +10,7 @@ export const PersonProvider = ({ children }) => {
     const [error, setError] = useState(undefined);
     const [aktørIdFromUrl, setAktørIdFromUrl] = useState();
     const [personTilBehandling, setPersonTilBehandling] = useState();
+    const [innsyn, setInnsyn] = useState(false);
 
     useEffect(() => {
         const aktørId = /\d{12,15}$/.exec(window.location.pathname);
@@ -25,6 +26,7 @@ export const PersonProvider = ({ children }) => {
     }, [aktørIdFromUrl, personTilBehandling]);
 
     const hentPerson = (value, innsyn) => {
+        setInnsyn(innsyn);
         return fetchPerson(value, innsyn)
             .then(async response => {
                 const personinfo = await getPersoninfo(value).then(response => ({
@@ -49,7 +51,8 @@ export const PersonProvider = ({ children }) => {
         <PersonContext.Provider
             value={{
                 personTilBehandling,
-                hentPerson
+                hentPerson,
+                innsyn
             }}
         >
             {children}

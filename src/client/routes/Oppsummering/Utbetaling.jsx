@@ -14,7 +14,7 @@ const BESLUTNING = { GODKJENT: 'GODKJENT', AVVIST: 'AVVIST' };
 
 const Utbetaling = () => {
     const { personoversikt } = useContext(PersonoversiktContext);
-    const { personTilBehandling } = useContext(PersonContext);
+    const { personTilBehandling, innsyn } = useContext(PersonContext);
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState(undefined);
     const [error, setError] = useState(undefined);
@@ -39,40 +39,47 @@ const Utbetaling = () => {
 
     return (
         <Panel className="Utbetaling">
-            {modalOpen && (
-                <InfoModal
-                    onClose={() => setModalOpen(false)}
-                    onApprove={() => fattVedtak(true)}
-                    isSending={isSending}
-                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet. Dette kan ikke angres."
-                />
-            )}
-            <Undertittel>{oppsummeringstekster('utbetaling')}</Undertittel>
-            <AlertStripeAdvarsel>
-                Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
-                til teamet for evaluering.
-            </AlertStripeAdvarsel>
-            {beslutning ? (
-                <AlertStripeInfo>
-                    {beslutning === BESLUTNING.GODKJENT
-                        ? 'Utbetalingen er sendt til oppdragsystemet.'
-                        : 'Saken er sendt til behandling i Infotrygd.'}
-                </AlertStripeInfo>
-            ) : (
-                <div className="knapperad">
-                    <div className="knapp--utbetaling">
-                        <button onClick={() => setModalOpen(true)}>Utbetal</button>
-                    </div>
-                    <Knapp onClick={() => fattVedtak(false)} spinner={isSending && !modalOpen}>
-                        Behandle i Infotrygd
-                    </Knapp>
-                </div>
-            )}
-            {error && (
-                <Normaltekst className="skjemaelement__feilmelding">
-                    {error.message || 'En feil har oppstått.'}
-                    {error.statusCode === 401 && <a href="/"> Logg inn</a>}
-                </Normaltekst>
+            {!innsyn && (
+                <>
+                    {modalOpen && (
+                        <InfoModal
+                            onClose={() => setModalOpen(false)}
+                            onApprove={() => fattVedtak(true)}
+                            isSending={isSending}
+                            infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet. Dette kan ikke angres."
+                        />
+                    )}
+                    <Undertittel>{oppsummeringstekster('utbetaling')}</Undertittel>
+                    <AlertStripeAdvarsel>
+                        Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes
+                        umiddelbart inn til teamet for evaluering.
+                    </AlertStripeAdvarsel>
+                    {beslutning ? (
+                        <AlertStripeInfo>
+                            {beslutning === BESLUTNING.GODKJENT
+                                ? 'Utbetalingen er sendt til oppdragsystemet.'
+                                : 'Saken er sendt til behandling i Infotrygd.'}
+                        </AlertStripeInfo>
+                    ) : (
+                        <div className="knapperad">
+                            <div className="knapp--utbetaling">
+                                <button onClick={() => setModalOpen(true)}>Utbetal</button>
+                            </div>
+                            <Knapp
+                                onClick={() => fattVedtak(false)}
+                                spinner={isSending && !modalOpen}
+                            >
+                                Behandle i Infotrygd
+                            </Knapp>
+                        </div>
+                    )}
+                    {error && (
+                        <Normaltekst className="skjemaelement__feilmelding">
+                            {error.message || 'En feil har oppstått.'}
+                            {error.statusCode === 401 && <a href="/"> Logg inn</a>}
+                        </Normaltekst>
+                    )}
+                </>
             )}
         </Panel>
     );
