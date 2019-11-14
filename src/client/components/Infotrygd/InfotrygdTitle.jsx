@@ -2,7 +2,12 @@ import React from 'react';
 import { useHistory } from 'react-router';
 
 const titleForPath = path => {
-    return path === '/' ? 'SPEIL HOVEDMENY' : path.slice(1).toUpperCase();
+    return path === '/'
+        ? 'SPEIL HOVEDMENY'
+        : path
+              .slice(1)
+              .split('/')[0]
+              .toUpperCase();
 };
 
 const InfotrygdTitle = () => {

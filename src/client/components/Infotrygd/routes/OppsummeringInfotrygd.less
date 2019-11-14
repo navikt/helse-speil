@@ -1,0 +1,55 @@
+.Infotrygd__content.OppsummeringInfotrygd {
+
+}
+
+.Infotrygd__content.OppsummeringInfotrygd > .alertstripe.alertstripe--info,
+.Infotrygd__content.OppsummeringInfotrygd ~ .alertstripe.alertstripe--advarsel {
+  background: none;
+  margin-bottom: 2rem;
+
+  .typo-normal {
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  svg {
+    height: 2rem;
+    width: 2rem;
+  }
+}
+
+.Infotrygd__content.OppsummeringInfotrygd > .alertstripe.alertstripe--info {
+  border: 2px dashed #66CBEC;
+  height: max-content;
+
+  .typo-normal {
+    color: #66CBEC;
+  }
+
+  svg[kind="info-sirkel-fyll"] {
+    > g > path:first-child {
+      fill: #66CBEC;
+    }
+
+    > g > path:not(:first-child) {
+      fill: #000;
+    }
+  }
+}
+
+.Infotrygd__content.OppsummeringInfotrygd ~ .alertstripe.alertstripe--advarsel {
+  border: 2px dashed #FF9100;
+
+  .typo-normal {
+    color: #FF9100;
+  }
+
+  svg[kind="advarsel-sirkel-fyll"] {
+    > g > path:first-child {
+      fill: #FF9100;
+    }
+
+    > g > path:not(:first-child) {
+      fill: #000;
+    }
+  }
+}

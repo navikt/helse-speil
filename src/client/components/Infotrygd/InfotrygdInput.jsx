@@ -1,39 +1,35 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import useLinks, { pages as rawPages } from '../../hooks/useLinks';
 import PropTypes from 'prop-types';
 import { Keys } from '../../hooks/useKeyboard';
-import './InfotrygdInput.less';
 import { withRouter } from 'react-router';
 import { EasterEggContext } from '../../context/EasterEggContext';
+import './InfotrygdInput.less';
 
 const isOnlyLetters = str => str?.match(/^[a-z]+$/i);
 
-const paths = [
-    '/',
-    '/sykdomsvilkår',
-    '/inngangsvilkår',
-    '/beregning',
-    '/periode',
-    '/utbetaling',
-    '/oppsummering'
-];
+const pages = Object.values(rawPages);
 
 const InfotrygdInput = ({ onEnter, history }) => {
     const { deactivate } = useContext(EasterEggContext);
     const [value, setValue] = useState('');
-    const currentView = paths.findIndex(path => path === history.location.pathname);
+    const currentView = pages.findIndex(path => history.location.pathname.includes(path)) ?? -1;
+    const links = useLinks();
 
     const onKeyDown = useCallback(
         event => {
             switch (event.keyCode) {
                 case Keys.LEFT: {
                     if (currentView > 0) {
-                        history.push(paths[currentView - 1]);
+                        history.push(links[pages[currentView - 1]]);
+                    } else {
+                        history.push('/');
                     }
                     break;
                 }
                 case Keys.RIGHT: {
-                    if (currentView < paths.length - 1) {
-                        history.push(paths[currentView + 1]);
+                    if (currentView < pages.length - 1) {
+                        history.push(links[pages[currentView + 1]]);
                     }
                     break;
                 }
@@ -56,7 +52,7 @@ const InfotrygdInput = ({ onEnter, history }) => {
                 }
             }
         },
-        [history.location.pathname, value]
+        [history.location.pathname, value, links]
     );
 
     useEffect(() => {

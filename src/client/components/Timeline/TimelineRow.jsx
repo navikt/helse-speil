@@ -52,7 +52,6 @@ const dayType = type => {
     );
 };
 const TimelineRow = ({ date, type, hendelse, dagsats, showType, showDagsats }) => {
-    console.log(dagsats);
     return (
         <tr>
             <td>

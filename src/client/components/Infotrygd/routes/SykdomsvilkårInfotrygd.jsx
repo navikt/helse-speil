@@ -8,7 +8,7 @@ const SykdomsvilkårInfotrygd = () => {
             <h2>Sykdomsvilkår</h2>
             <span className="Infotrygd__content">
                 <InfotrygdList>
-                    <InfotrygdListItem label="Sykdomdsvilkår er oppfylt" status="OK" />
+                    <InfotrygdListItem label="Sykdomdsvilkår må vurderes manuelt" status="!" />
                 </InfotrygdList>
             </span>
         </>

@@ -1,33 +1,39 @@
 import React, { useEffect, useState } from 'react';
+import useLinks, { pages } from '../../hooks/useLinks';
 import moment from 'moment';
 import InfotrygdMenu from './InfotrygdMenu';
 import InfotrygdInput from './InfotrygdInput';
-import UtbetalingInfotrygd from './routes/UtbetalingInfotrygd';
+import InfotrygdTitle from './InfotrygdTitle';
+import UtbetalingsoversiktInfotrygd from './routes/UtbetalingsoversiktInfotrygd';
 import OppsummeringInfotrygd from './routes/OppsummeringInfotrygd';
 import SykdomsvilkårInfotrygd from './routes/SykdomsvilkårInfotrygd';
 import InngangsvilkårInfotrygd from './routes/InngangsvilkårInfotrygd';
-import SykepengeperiodeInfotrygd from './routes/SykepengeperiodeInfotrygd';
+import SykmeldingsperiodeInfotrygd from './routes/SykmeldingsperiodeInfotrygd';
 import SykepengegrunnlagInfotrygd from './routes/SykepengegrunnlagInfotrygd';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './Infotrygd.less';
-import InfotrygdTitle from './InfotrygdTitle';
+import InntektskilderInfotrygd from './routes/InntektskilderInfotrygd';
 
-const navigate = (value, history) => {
+const navigate = (value = '', history, links) => {
+    const sanitizedValue = value.toLowerCase();
     const path =
-        (value === '' && '/') ||
-        (value === 'sv' && '/sykdomsvilkår') ||
-        (value === 'iv' && '/inngangsvilkår') ||
-        (value === 'sg' && '/beregning') ||
-        (value === 'sp' && '/periode') ||
-        (value === 'ub' && '/utbetaling') ||
-        (value === 'os' && '/oppsummering');
-    if (path) {
-        history?.push?.(path);
+        (sanitizedValue === 'sp' && pages.SYKMELDINGSPERIODE) ||
+        (sanitizedValue === 'sv' && pages.SYKDOMSVILKÅR) ||
+        (sanitizedValue === 'iv' && pages.INNGANGSVILKÅR) ||
+        (sanitizedValue === 'ik' && pages.INNTEKTSKILDER) ||
+        (sanitizedValue === 'sg' && pages.SYKEPENGEGRUNNLAG) ||
+        (sanitizedValue === 'uo' && pages.UTBETALINGSOVERSIKT) ||
+        (sanitizedValue === 'os' && pages.OPPSUMMERING);
+    if (sanitizedValue === '') {
+        history?.push?.('/');
+    } else if (path) {
+        history?.push?.(links[path]);
     }
 };
 
 const Infotrygd = () => {
     const [currentTime, setCurrentTime] = useState(moment().format('HH:mm'));
+    const links = useLinks();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -51,11 +57,12 @@ const Infotrygd = () => {
                     <hr />
                 </div>
                 <Route exact path="/" component={InfotrygdMenu} />
+                <Route path="/sykmeldingsperiode" component={SykmeldingsperiodeInfotrygd} />
                 <Route path="/sykdomsvilkår" component={SykdomsvilkårInfotrygd} />
                 <Route path="/inngangsvilkår" component={InngangsvilkårInfotrygd} />
-                <Route path="/beregning" component={SykepengegrunnlagInfotrygd} />
-                <Route path="/periode" component={SykepengeperiodeInfotrygd} />
-                <Route path="/utbetaling" component={UtbetalingInfotrygd} />
+                <Route path="/inntektskilder" component={InntektskilderInfotrygd} />
+                <Route path="/sykepengegrunnlag" component={SykepengegrunnlagInfotrygd} />
+                <Route path="/utbetalingsoversikt" component={UtbetalingsoversiktInfotrygd} />
                 <Route path="/oppsummering" component={OppsummeringInfotrygd} />
                 <div className="Infotrygd__footer">
                     <div className="Infotrygd__footer--top">
@@ -64,7 +71,9 @@ const Infotrygd = () => {
                     <div className="Infotrygd__footer--bottom">
                         <span>
                             Rutine/bilde
-                            <InfotrygdInput onEnter={navigate} />
+                            <InfotrygdInput
+                                onEnter={(value, history) => navigate(value, history, links)}
+                            />
                         </span>
                         <div />
                     </div>
