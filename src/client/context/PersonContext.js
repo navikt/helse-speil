@@ -29,7 +29,8 @@ export const PersonProvider = ({ children }) => {
         setInnsyn(innsyn);
         return fetchPerson(value, innsyn)
             .then(async response => {
-                const personinfo = await getPersoninfo(value).then(response => ({
+                const aktørId = response.data.person.aktørId;
+                const personinfo = await getPersoninfo(aktørId).then(response => ({
                     ...response.data
                 }));
                 const person = { ...response.data.person, personinfo };
