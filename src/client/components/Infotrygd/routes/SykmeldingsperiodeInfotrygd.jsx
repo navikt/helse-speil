@@ -7,12 +7,9 @@ const SykmeldingsperiodeInfotrygd = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
 
     return (
-        <>
-            <h2>Sykmeldingsperiode</h2>
-            <span className="Infotrygd__content SykmeldingsperiodeInfotrygd">
-                <Timeline person={person} showDagsats={false} />
-            </span>
-        </>
+        <span className="SykmeldingsperiodeInfotrygd">
+            <Timeline person={person} showDagsats={false} />
+        </span>
     );
 };
 

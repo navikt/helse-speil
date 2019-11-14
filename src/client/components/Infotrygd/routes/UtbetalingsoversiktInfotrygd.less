@@ -1,6 +1,13 @@
 @import './mixins';
 
-.Infotrygd__content.UtbetalingsoversiktInfotrygd {
-  .timeline();
-  margin: 2rem 0;
+.UtbetalingsoversiktInfotrygd {
+  overflow: hidden;
+  .UtbetalingsoversiktInfotrygd__timeline {
+    height: 100%;
+    overflow-y: auto;
+    margin: 1rem;
+    .Timeline.tabell {
+      .timeline();
+    }
+  }
 }

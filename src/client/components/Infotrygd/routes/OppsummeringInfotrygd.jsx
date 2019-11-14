@@ -48,17 +48,14 @@ const OppsummeringInfotrygd = () => {
         : simuleringContext.simulering?.feilMelding ?? 'Ikke tilgjengelig';
 
     return (
-        <>
-            <h2>Oppsummering</h2>
-            <span className="Infotrygd__content OppsummeringInfotrygd">
-                <InfotrygdList>
-                    {simuleringContext.error ? (
-                        <InfotrygdListItem label={simuleringContext.error} status="!" />
-                    ) : (
-                        <InfotrygdListItem label="Simulering">{simulering}</InfotrygdListItem>
-                    )}
-                </InfotrygdList>
-            </span>
+        <span className="OppsummeringInfotrygd">
+            <InfotrygdList>
+                {simuleringContext.error ? (
+                    <InfotrygdListItem label={simuleringContext.error} status="!" />
+                ) : (
+                    <InfotrygdListItem label="Simulering">{simulering}</InfotrygdListItem>
+                )}
+            </InfotrygdList>
             <h2>Utbetaling</h2>
             <AlertStripeAdvarsel>
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
@@ -96,7 +93,7 @@ const OppsummeringInfotrygd = () => {
                     infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet. Dette kan ikke angres."
                 />
             )}
-        </>
+        </span>
     );
 };
 
