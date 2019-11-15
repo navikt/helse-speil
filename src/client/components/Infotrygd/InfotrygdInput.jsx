@@ -21,6 +21,8 @@ const InfotrygdInput = ({ onEnter, history }) => {
 
     const onKeyDown = event => {
         switch (event.keyCode) {
+            case Keys.ESC:
+                return deactivate();
             case Keys.LEFT: {
                 if (currentView > 0) {
                     history.push(links[pages[currentView - 1]]);
@@ -35,20 +37,16 @@ const InfotrygdInput = ({ onEnter, history }) => {
                 }
                 break;
             }
-            case Keys.ESC: {
-                deactivate();
-                break;
-            }
             case Keys.BACKSPACE: {
-                setValue(v => v.slice(0, v.length - 1));
+                if (hasFocus) setValue(v => v.slice(0, v.length - 1));
                 break;
             }
             case Keys.ENTER: {
-                onEnter(value?.toLowerCase(), history);
+                if (hasFocus) onEnter(value?.toLowerCase(), history);
                 break;
             }
             default: {
-                if (isOnlyLetters(event.key) && event.key?.length === 1) {
+                if (hasFocus && isOnlyLetters(event.key) && event.key?.length === 1) {
                     setValue(v => v + event.key);
                 }
             }
@@ -56,10 +54,8 @@ const InfotrygdInput = ({ onEnter, history }) => {
     };
 
     useEffect(() => {
-        if (hasFocus) {
-            window.addEventListener('keydown', onKeyDown);
-            return () => window.removeEventListener('keydown', onKeyDown);
-        }
+        window.addEventListener('keydown', onKeyDown);
+        return () => window.removeEventListener('keydown', onKeyDown);
     }, [value, onKeyDown, hasFocus]);
 
     useEffect(() => {
