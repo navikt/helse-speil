@@ -25,7 +25,8 @@ export const PersonProvider = ({ children }) => {
         }
     }, [aktørIdFromUrl, personTilBehandling]);
 
-    const hentPerson = (value, innsyn) => {
+    const hentPerson = value => {
+        const innsyn = value.length === 26;
         setInnsyn(innsyn);
         return fetchPerson(value, innsyn)
             .then(async response => {

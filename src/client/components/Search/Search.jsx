@@ -8,6 +8,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import './Search.less';
 import { EasterEggContext } from '../../context/EasterEggContext';
+import Hjelpetekst from 'nav-frontend-hjelpetekst';
 
 const Search = ({ history }) => {
     const ref = useRef();
@@ -51,10 +52,18 @@ const Search = ({ history }) => {
 
     return (
         <div className="Search">
-            <input ref={ref} type="text" placeholder="FNR eller aktør" onKeyPress={keyTyped} />
-            <button onClick={() => search(ref.current.value)}>
-                <SearchIcon />
-            </button>
+            <div className="SearchField">
+                <input ref={ref} type="text" placeholder="Søk" onKeyPress={keyTyped} />
+                <button onClick={() => search(ref.current.value)}>
+                    <SearchIcon />
+                </button>
+            </div>
+            <div className="Search__hjelpetekst">
+                <Hjelpetekst tittel="" type="under-hoyre">
+                    Du kan søke på fødselsnummer, aktørId eller utbetalingsreferanse. Søkefeltet
+                    skjønner hva du søker på basert på lengden.
+                </Hjelpetekst>
+            </div>
         </div>
     );
 };
