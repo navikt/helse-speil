@@ -9,32 +9,25 @@ const InngangsvilkårInfotrygd = () => {
 
     const søknadsfristItems = ItemMapper.søknadsfrist(inngangsvilkår.søknadsfrist);
     const dagerIgjenItems = ItemMapper.dagerIgjen(inngangsvilkår.dagerIgjen);
-    const under67ÅrItems = ItemMapper.under67År(inngangsvilkår.dagerIgjen);
+    const under67ÅrItems = ItemMapper.alder(inngangsvilkår.alder);
 
     return (
-        <>
-            <h2>Inngangsvilkår</h2>
-            <span className="Infotrygd__content">
-                <span className="Infotrygd__content--left">
-                    <InfotrygdList>
-                        <InfotrygdListItem label="Dager igjen" status="OK" />
-                        {dagerIgjenItems.map(item => (
-                            <InfotrygdListItem label={item.label}>{item.value}</InfotrygdListItem>
-                        ))}
-                        <InfotrygdListItem />
-                        <InfotrygdListItem label="Under 67 år" status="OK" />
-                        {under67ÅrItems.map(item => (
-                            <InfotrygdListItem label={item.label}>{item.value}</InfotrygdListItem>
-                        ))}
-                        <InfotrygdListItem />
-                        <InfotrygdListItem label="Søknadsfrist" status="OK" />
-                        {søknadsfristItems.map(item => (
-                            <InfotrygdListItem label={item.label}>{item.value}</InfotrygdListItem>
-                        ))}
-                    </InfotrygdList>
-                </span>
-            </span>
-        </>
+        <InfotrygdList>
+            <InfotrygdListItem label="Dager igjen" status="OK" />
+            {dagerIgjenItems.map(item => (
+                <InfotrygdListItem label={item.label}>{item.value}</InfotrygdListItem>
+            ))}
+            <InfotrygdListItem />
+            <InfotrygdListItem label="Under 67 år" status="OK" />
+            {under67ÅrItems.map(item => (
+                <InfotrygdListItem label={item.label}>{item.value}</InfotrygdListItem>
+            ))}
+            <InfotrygdListItem />
+            <InfotrygdListItem label="Søknadsfrist" status="OK" />
+            {søknadsfristItems.map(item => (
+                <InfotrygdListItem label={item.label}>{item.value}</InfotrygdListItem>
+            ))}
+        </InfotrygdList>
     );
 };
 

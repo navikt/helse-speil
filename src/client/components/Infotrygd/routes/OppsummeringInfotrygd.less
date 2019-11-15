@@ -1,55 +1,68 @@
-.Infotrygd__content.OppsummeringInfotrygd {
+@import '../variables';
 
-}
-
-.Infotrygd__content.OppsummeringInfotrygd > .alertstripe.alertstripe--info,
-.Infotrygd__content.OppsummeringInfotrygd ~ .alertstripe.alertstripe--advarsel {
-  background: none;
-  margin-bottom: 2rem;
-
-  .typo-normal {
-    font-family: 'Press Start 2P', cursive;
+.OppsummeringInfotrygd {
+  .InfotrygdList {
+    margin-bottom: 4rem;
+    margin-left: -3rem;
   }
 
-  svg {
-    height: 2rem;
-    width: 2rem;
-  }
-}
+  .alertstripe {
+    background: none;
+    margin-bottom: 2rem;
 
-.Infotrygd__content.OppsummeringInfotrygd > .alertstripe.alertstripe--info {
-  border: 2px dashed #66CBEC;
-  height: max-content;
-
-  .typo-normal {
-    color: #66CBEC;
-  }
-
-  svg[kind="info-sirkel-fyll"] {
-    > g > path:first-child {
-      fill: #66CBEC;
+    .typo-normal {
+      font-family: 'Press Start 2P', cursive;
     }
 
-    > g > path:not(:first-child) {
-      fill: #000;
+    svg {
+      height: 2rem;
+      width: 2rem;
     }
   }
-}
 
-.Infotrygd__content.OppsummeringInfotrygd ~ .alertstripe.alertstripe--advarsel {
-  border: 2px dashed #FF9100;
+  .alertstripe--info {
+    border: 2px dashed #66CBEC;
+    height: max-content;
 
-  .typo-normal {
-    color: #FF9100;
-  }
-
-  svg[kind="advarsel-sirkel-fyll"] {
-    > g > path:first-child {
-      fill: #FF9100;
+    .typo-normal {
+      color: #66CBEC;
     }
 
-    > g > path:not(:first-child) {
-      fill: #000;
+    svg[kind="info-sirkel-fyll"] {
+      > g > path:first-child {
+        fill: #66CBEC;
+      }
+
+      > g > path:not(:first-child) {
+        fill: #000;
+      }
+    }
+  }
+
+  .alertstripe--advarsel {
+    border: 2px dashed #FF9100;
+
+    .typo-normal {
+      color: #FF9100;
+    }
+
+    svg[kind="advarsel-sirkel-fyll"] {
+      > g > path:first-child {
+        fill: #FF9100;
+      }
+
+      > g > path:not(:first-child) {
+        fill: #000;
+      }
+    }
+  }
+
+  button.UtbetalingsoversiktInfotrygd__utbetalingsknapp {
+    background: green;
+
+    &:before,
+    &:after {
+      content: ' $$$ ';
     }
   }
 }

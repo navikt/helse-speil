@@ -10,15 +10,14 @@ const UtbetalingsoversiktInfotrygd = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
 
     return (
-        <>
-            <h2>Utbetaling</h2>
+        <div className="UtbetalingsoversiktInfotrygd">
             <InfotrygdList>
                 <InfotrygdListItem label={utbetalingsoversikttekster('dager')} status="OK" />
             </InfotrygdList>
-            <span className="Infotrygd__content UtbetalingsoversiktInfotrygd">
+            <div className="UtbetalingsoversiktInfotrygd__timeline">
                 <Timeline person={person} showDagsats={true} />
-            </span>
-        </>
+            </div>
+        </div>
     );
 };
 

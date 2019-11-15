@@ -21,18 +21,23 @@ const InntektskilderInfotrygd = () => {
     ];
 
     return (
-        <>
-            <h2>Inntektskilder</h2>
-            <span className="Infotrygd__content">
-                <InfotrygdList>
-                    <InfotrygdListItem label="Hentet fra inntektsmeldingen" status="OK" />
-                    {inntektsmeldingItems.map(item => (
-                        <InfotrygdListItem label={item.label}>{item.value}</InfotrygdListItem>
-                    ))}
-                    <InfotrygdListItem label="A-ordningen må sjekkes manuelt" status="!" />
-                </InfotrygdList>
-            </span>
-        </>
+        <InfotrygdList>
+            <InfotrygdListItem label="Hentet fra inntektsmeldingen" status="OK" />
+            {inntektsmeldingItems.map(item => (
+                <InfotrygdListItem key={item.label} label={item.label}>
+                    {item.value}
+                </InfotrygdListItem>
+            ))}
+            <InfotrygdListItem />
+            <InfotrygdListItem label="A-ordningen må sjekkes manuelt" status="!" />
+            <InfotrygdListItem />
+            <InfotrygdListItem label="Refusjon til arbeidsgiver">
+                {inntektskilder.refusjon}
+            </InfotrygdListItem>
+            <InfotrygdListItem label="Betaler arbeidsgiverperiode">
+                {inntektskilder.forskuttering}
+            </InfotrygdListItem>
+        </InfotrygdList>
     );
 };
 

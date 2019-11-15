@@ -16,18 +16,16 @@ const SykepengegrunnlagInfotrygd = () => {
     ];
 
     return (
-        <>
-            <h2>Sykepengegrunnlag</h2>
-            <span className="Infotrygd__content">
-                <InfotrygdList>
-                    <InfotrygdListItem label="Hentet fra inntektsmeldingen" status="OK" />
-                    {inntektsmeldingItems.map(item => (
-                        <InfotrygdListItem label={item.label}>{item.value}</InfotrygdListItem>
-                    ))}
-                    <InfotrygdListItem label="A-ordningen må sjekkes manuelt" status="!" />
-                </InfotrygdList>
-            </span>
-        </>
+        <InfotrygdList>
+            <InfotrygdListItem label="Hentet fra inntektsmeldingen" status="OK" />
+            {inntektsmeldingItems.map(item => (
+                <InfotrygdListItem key={item.label} label={item.label}>
+                    {item.value}
+                </InfotrygdListItem>
+            ))}
+            <InfotrygdListItem />
+            <InfotrygdListItem label="A-ordningen må sjekkes manuelt" status="!" />
+        </InfotrygdList>
     );
 };
 

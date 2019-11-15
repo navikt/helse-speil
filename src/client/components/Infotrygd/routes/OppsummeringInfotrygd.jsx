@@ -48,46 +48,51 @@ const OppsummeringInfotrygd = () => {
         : simuleringContext.simulering?.feilMelding ?? 'Ikke tilgjengelig';
 
     return (
-        <>
-            <h2>Oppsummering</h2>
-            <span className="Infotrygd__content OppsummeringInfotrygd">
-                <InfotrygdList>
-                    {simuleringContext.error ? (
-                        <InfotrygdListItem label={simuleringContext.error} status="!" />
-                    ) : (
-                        <InfotrygdListItem label="Simulering">{simulering}</InfotrygdListItem>
-                    )}
-                </InfotrygdList>
-            </span>
+        <span className="OppsummeringInfotrygd">
+            <InfotrygdList>
+                {simuleringContext.error ? (
+                    <InfotrygdListItem label={simuleringContext.error} status="!" />
+                ) : (
+                    <InfotrygdListItem label="Simulering">{simulering}</InfotrygdListItem>
+                )}
+            </InfotrygdList>
             <h2>Utbetaling</h2>
             <AlertStripeAdvarsel>
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
                 til teamet for evaluering.
             </AlertStripeAdvarsel>
-            <span className="Infotrygd__content OppsummeringInfotrygd">
-                {beslutning ? (
-                    <AlertStripeInfo>
-                        {beslutning === Beslutning.GODKJENT
-                            ? 'Utbetalingen er sendt til oppdragsystemet.'
-                            : 'Saken er sendt til behandling i Infotrygd.'}
-                    </AlertStripeInfo>
-                ) : (
-                    <span className="Infotrygd__buttons">
-                        <span>
-                            <button onClick={() => setModalOpen(true)}>UTBETAL</button>
-                            {error && (
-                                <Normaltekst className="skjemaelement__feilmelding">
-                                    {error.message || 'En feil har oppstått.'}
-                                    {error.statusCode === 401 && <a href="/"> Logg inn</a>}
-                                </Normaltekst>
-                            )}
-                        </span>
-                        <Knapp onClick={() => fattVedtak(false)} spinner={isSending && !modalOpen}>
-                            Behandle i Infotrygd
-                        </Knapp>
+            {beslutning ? (
+                <AlertStripeInfo>
+                    {beslutning === Beslutning.GODKJENT
+                        ? 'Utbetalingen er sendt til oppdragsystemet.'
+                        : 'Saken er sendt til behandling i Infotrygd.'}
+                </AlertStripeInfo>
+            ) : (
+                <span className="Infotrygd__buttons">
+                    <span>
+                        <button
+                            className="UtbetalingsoversiktInfotrygd__utbetalingsknapp"
+                            onClick={() => setModalOpen(true)}
+                            tabIndex={2}
+                        >
+                            UTBETAL
+                        </button>
+                        {error && (
+                            <Normaltekst className="skjemaelement__feilmelding">
+                                {error.message || 'En feil har oppstått.'}
+                                {error.statusCode === 401 && <a href="/"> Logg inn</a>}
+                            </Normaltekst>
+                        )}
                     </span>
-                )}
-            </span>
+                    <Knapp
+                        onClick={() => fattVedtak(false)}
+                        spinner={isSending && !modalOpen}
+                        tabIndex={3}
+                    >
+                        Behandle i Infotrygd
+                    </Knapp>
+                </span>
+            )}
             {modalOpen && (
                 <InfoModal
                     onClose={() => setModalOpen(false)}
@@ -96,7 +101,7 @@ const OppsummeringInfotrygd = () => {
                     infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet. Dette kan ikke angres."
                 />
             )}
-        </>
+        </span>
     );
 };
 

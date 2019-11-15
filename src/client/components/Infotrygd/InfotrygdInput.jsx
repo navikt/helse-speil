@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import useLinks, { pages as rawPages } from '../../hooks/useLinks';
 import PropTypes from 'prop-types';
 import { Keys } from '../../hooks/useKeyboard';
@@ -13,58 +13,74 @@ const pages = Object.values(rawPages);
 const InfotrygdInput = ({ onEnter, history }) => {
     const { deactivate } = useContext(EasterEggContext);
     const [value, setValue] = useState('');
+    const [hasFocus, setHasFocus] = useState(false);
     const currentView = pages.findIndex(path => history.location.pathname.includes(path)) ?? -1;
     const links = useLinks();
+    const ref = useRef();
+    const lastTabRef = useRef();
 
-    const onKeyDown = useCallback(
-        event => {
-            switch (event.keyCode) {
-                case Keys.LEFT: {
-                    if (currentView > 0) {
-                        history.push(links[pages[currentView - 1]]);
-                    } else {
-                        history.push('/');
-                    }
-                    break;
+    const onKeyDown = event => {
+        switch (event.keyCode) {
+            case Keys.LEFT: {
+                if (currentView > 0) {
+                    history.push(links[pages[currentView - 1]]);
+                } else {
+                    history.push('/');
                 }
-                case Keys.RIGHT: {
-                    if (currentView < pages.length - 1) {
-                        history.push(links[pages[currentView + 1]]);
-                    }
-                    break;
+                break;
+            }
+            case Keys.RIGHT: {
+                if (currentView < pages.length - 1) {
+                    history.push(links[pages[currentView + 1]]);
                 }
-                case Keys.ESC: {
-                    deactivate();
-                    break;
-                }
-                case Keys.BACKSPACE: {
-                    setValue(v => v.slice(0, v.length - 1));
-                    break;
-                }
-                case Keys.ENTER: {
-                    onEnter(value?.toLowerCase(), history);
-                    break;
-                }
-                default: {
-                    if (isOnlyLetters(event.key) && event.key?.length === 1) {
-                        setValue(v => v + event.key);
-                    }
+                break;
+            }
+            case Keys.ESC: {
+                deactivate();
+                break;
+            }
+            case Keys.BACKSPACE: {
+                setValue(v => v.slice(0, v.length - 1));
+                break;
+            }
+            case Keys.ENTER: {
+                onEnter(value?.toLowerCase(), history);
+                break;
+            }
+            default: {
+                if (isOnlyLetters(event.key) && event.key?.length === 1) {
+                    setValue(v => v + event.key);
                 }
             }
-        },
-        [history.location.pathname, value, links]
-    );
+        }
+    };
 
     useEffect(() => {
-        window.addEventListener('keydown', onKeyDown);
-        return () => window.removeEventListener('keydown', onKeyDown);
-    }, [value, onKeyDown]);
+        if (hasFocus) {
+            window.addEventListener('keydown', onKeyDown);
+            return () => window.removeEventListener('keydown', onKeyDown);
+        }
+    }, [value, onKeyDown, hasFocus]);
+
+    useEffect(() => {
+        if (document.activeElement === lastTabRef.current) {
+            ref.current.focus();
+        }
+    }, [document.activeElement]);
 
     return (
-        <span className="InfotrygdInput">
+        <div
+            className="InfotrygdInput"
+            ref={ref}
+            tabIndex={1}
+            onFocus={() => setHasFocus(true)}
+            onBlur={() => setHasFocus(false)}
+            onClick={() => ref.current.focus()}
+        >
             {value?.toUpperCase()}
-            <div className="InfotrygdInput__cursor blink" />
-        </span>
+            {hasFocus && <div className="InfotrygdInput__cursor blink" />}
+            <span tabIndex={1000} ref={lastTabRef} />
+        </div>
     );
 };
 
