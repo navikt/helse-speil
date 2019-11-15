@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React, { Suspense, useContext } from 'react';
 import Oversikt from '../routes/Oversikt/Oversikt';
 import HeaderBar from './HeaderBar';
-import Infotrygd from './Infotrygd';
 import Tilbakemeldinger from '../routes/HentTilbakemeldinger';
 import MainContentWrapper from './MainContentWrapper';
 import { AuthProvider } from '../context/AuthContext';
@@ -15,6 +14,7 @@ import { InnrapporteringProvider } from '../context/InnrapporteringContext';
 import { PersonContext, PersonProvider } from '../context/PersonContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
 import { SimuleringProvider } from '../context/SimuleringContext';
+const Infotrygd = React.lazy(() => import('./Infotrygd'));
 import './App.less';
 import 'reset-css';
 
@@ -24,7 +24,11 @@ const App = withContextProviders(() => {
     const { isActive } = useContext(EasterEggContext);
 
     if (isActive && personTilBehandling) {
-        return <Infotrygd />;
+        return (
+            <Suspense fallback={<div>Loading...</div>}>
+                <Infotrygd />
+            </Suspense>
+        );
     }
 
     return (
