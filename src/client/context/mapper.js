@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { listOfDatesBetween } from '../utils/date';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -11,7 +12,7 @@ export default {
         const mapped = {
             ...person,
             inngangsvilkår: {
-                alder: beregnAlder(finnSøknad(person).sendtNav, personinfo.fødselsdato),
+                alder: beregnAlder(finnSøknad(person).sendtNav, personinfo?.fødselsdato),
                 dagerIgjen: {
                     dagerBrukt: {},
                     førsteFraværsdag: finnInntektsmelding(person).foersteFravaersdag,
@@ -20,17 +21,30 @@ export default {
                     tidligerePerioder: [],
                     yrkesstatus: finnSøknad(person).arbeidssituasjon
                 },
-                sykepengegrunnlag: (parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12).toFixed(2),
+                sykepengegrunnlag: sykepengegrunnlag(person),
                 søknadsfrist: {
                     sendtNav: finnSøknad(person).sendtNav,
                     innen3Mnd: '(Ja)'
                 }
             },
             inntektskilder: {
-                månedsinntekt: parseFloat(finnInntektsmelding(person).beregnetInntekt, 10).toFixed(2),
-                årsinntekt: (parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12).toFixed(2),
+                månedsinntekt: +parseFloat(finnInntektsmelding(person).beregnetInntekt, 10).toFixed(
+                    2
+                ),
+                årsinntekt: +(
+                    parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12
+                ).toFixed(2),
                 refusjon: '(Ja)',
                 forskuttering: '(Ja)'
+            },
+            oppsummering: {
+                sykepengegrunnlag: sykepengegrunnlag(person),
+                dagsats: person.arbeidsgivere[0].saker[0].utbetalingslinjer[0].dagsats,
+                antallDager: antallUtbetalingsdager(person),
+                beløp:
+                    person.arbeidsgivere[0].saker[0].utbetalingslinjer[0].dagsats *
+                    antallUtbetalingsdager(person),
+                mottaker: arbeidsgiver(person)
             }
         };
         return mapped;
@@ -50,6 +64,17 @@ const finnFørsteSykepengedag = person => {
     const utbetalingslinjer = person.arbeidsgivere[0].saker[0].utbetalingslinjer;
     return dayjs.min(utbetalingslinjer.map(linje => dayjs(linje.fom))).format('YYYY-MM-DD');
 };
+
+const sykepengegrunnlag = person =>
+    +(parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12).toFixed(2);
+
+const antallUtbetalingsdager = person =>
+    person.arbeidsgivere[0].saker[0].utbetalingslinjer.reduce((acc, linje) => {
+        acc += listOfDatesBetween(linje.fom, linje.tom).length;
+        return acc;
+    }, 0);
+
+const arbeidsgiver = person => finnSøknad(person).arbeidsgiver;
 
 const hendelsestyper = {
     INNTEKTSMELDING: {
