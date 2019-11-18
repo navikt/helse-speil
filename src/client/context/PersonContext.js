@@ -4,7 +4,7 @@ import ErrorModal from '../components/ErrorModal';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import personMapper from './mapper';
 
-export const PersonContext = createContext();
+export const PersonContext = createContext({});
 
 export const PersonProvider = ({ children }) => {
     const [error, setError] = useState(undefined);

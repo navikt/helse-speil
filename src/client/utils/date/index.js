@@ -16,6 +16,10 @@ export const daysBetween = (firstDate, lastDate) => {
     return Math.abs(first.diff(last, 'days'));
 };
 
+export const daysBetweenInclusive = (firstDate, lastDate) => {
+    return daysBetween(firstDate, lastDate) + 1;
+};
+
 export const listOfDatesBetween = (firstDate, lastDate) => {
     const dates = [];
     let first = dayjs(firstDate);

@@ -13,6 +13,8 @@ export const toLocaleFixedNumberString = (number, decimals, locale = 'nb-NO') =>
 
 export const toKroner = number => Number.parseInt(number).toLocaleString('nb-NO');
 
+export const toKronerOgØre = number => toLocaleFixedNumberString(number, 2);
+
 export const capitalize = string => string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
 
 export const capitalizeName = string => string.replace(/\b[\w']+\b/g, word => capitalize(word));

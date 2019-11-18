@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './FormRow.less';
 
-const FormRow = ({ label, value, bold = true }) => {
+const FormRow = ({ label, value, bold = true, showSeparator = true }) => {
     const className = bold ? 'bold' : '';
     return (
         <>
@@ -11,7 +11,7 @@ const FormRow = ({ label, value, bold = true }) => {
                 <Normaltekst className={className}>{label}</Normaltekst>
                 <Normaltekst className={className}>{value || '-'}</Normaltekst>
             </span>
-            <hr className="RowSeparator" />
+            {showSeparator && <hr className="RowSeparator" />}
         </>
     );
 };
@@ -19,12 +19,8 @@ const FormRow = ({ label, value, bold = true }) => {
 FormRow.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    bold: PropTypes.bool
-};
-
-FormRow.defaultProps = {
-    bold: false,
-    showRightSide: true
+    bold: PropTypes.bool,
+    showSeparator: PropTypes.bool
 };
 
 export default FormRow;

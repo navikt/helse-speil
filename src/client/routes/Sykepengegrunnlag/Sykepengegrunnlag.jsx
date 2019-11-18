@@ -6,11 +6,16 @@ import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
 import { item } from '../../datamapping/mappingUtils';
 import { PersonContext } from '../../context/PersonContext';
-import { toLocaleFixedNumberString } from '../../utils/locale';
+import { toKronerOgØre, toLocaleFixedNumberString } from '../../utils/locale';
 import './Sykepengegrunnlag.less';
+import FormRow from '../../components/Rows/FormRow';
+
+const G = 99858;
 
 const Sykepengegrunnlag = () => {
-    const { inntektskilder } = useContext(PersonContext).personTilBehandling;
+    const { inntektskilder, inngangsvilkår, utbetaling } = useContext(
+        PersonContext
+    ).personTilBehandling;
     const inntektsmeldingItems = inntektskilder && [
         item(
             'Beregnet månedsinntekt',
@@ -30,6 +35,27 @@ const Sykepengegrunnlag = () => {
                     />
                     <IconRow label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
                     <IconRow label="Avvik må sjekkes manuelt" iconType="advarsel" />
+                    <FormRow
+                        label="Sykepengegrunnlag"
+                        value={`${toKronerOgØre(inngangsvilkår.sykepengegrunnlag)} kr`}
+                        bold
+                        showSeparator={false}
+                    />
+                    <FormRow
+                        label="Redusert til 6G"
+                        value={
+                            inngangsvilkår.sykepengegrunnlag > G * 6
+                                ? `${toKronerOgØre(G * 6)} kr`
+                                : '-'
+                        }
+                        bold={false}
+                    />
+                    <FormRow
+                        label="Dagsats"
+                        value={`${toKronerOgØre(utbetaling.dagsats)} kr`}
+                        bold={false}
+                        showSeparator={false}
+                    />
                 </>
             )}
             <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />
