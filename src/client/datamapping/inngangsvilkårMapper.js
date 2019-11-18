@@ -25,15 +25,16 @@ const merEnn05G = sykepengegrunnlag => [
 
 const søknadsfrist = søknadsfrist => [
     item('Sendt NAV', toDate(søknadsfrist.sendtNav)),
-    item('Innen 3 mnd', søknadsfrist.innen3Mnd )
+    item('Søknad TOM', toDate(søknadsfrist.søknadTom)),
+    item('Innen 3 mnd', søknadsfrist.innen3Mnd ? 'Ja' : 'Nei')
 ];
 
 const dagerIgjen = dagerIgjen => [
     item('Første fraværsdag', toDate(dagerIgjen.førsteFraværsdag)),
     item('Første sykepengedag', toDate(dagerIgjen.førsteSykepengedag)),
     item('Yrkesstatus', capitalize(dagerIgjen.yrkesstatus)),
-    item('Dager brukt', `(0)`),
-    item('Dager igjen', `(248)`),
+    item('Dager brukt', dagerIgjen.dagerBrukt),
+    item('Dager igjen', 248 - dagerIgjen.dagerBrukt),
     item('Maks dato', toDate(dagerIgjen.maksdato))
 ];
 

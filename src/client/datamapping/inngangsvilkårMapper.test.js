@@ -41,16 +41,19 @@ test('opptjening', () => {
 test('søknadsfrist', () => {
     const unmapped = {
         sendtNav: '2019-06-11T15:21:29.127Z',
+        søknadTom: '2019-06-12',
         innen3Mnd: '(Ja)'
     };
     expect(Mapper.søknadsfrist(unmapped)).toEqual([
         { label: 'Sendt NAV', value: '11.06.2019' },
-        { label: 'Innen 3 mnd', value: '(Ja)' }
+        { label: 'Søknad TOM', value: '12.06.2019' },
+        { label: 'Innen 3 mnd', value: 'Ja' }
     ]);
 });
 
 test('dagerIgjen', () => {
     const unmapped = {
+        dagerBrukt: 6,
         førsteFraværsdag: '2019-05-09T00:00:00.000Z',
         førsteSykepengedag: '2019-05-09T00:00:00.000Z',
         yrkesstatus: 'ARBEIDSTAKER',
@@ -61,8 +64,8 @@ test('dagerIgjen', () => {
         { label: 'Første fraværsdag', value: '09.05.2019' },
         { label: 'Første sykepengedag', value: '09.05.2019' },
         { label: 'Yrkesstatus', value: 'Arbeidstaker' },
-        { label: 'Dager brukt', value: '(0)' },
-        { label: 'Dager igjen', value: '(248)' },
+        { label: 'Dager brukt', value: 6 },
+        { label: 'Dager igjen', value: 242 },
         { label: 'Maks dato', value: '20.04.2020' }
     ]);
 });

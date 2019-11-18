@@ -16,7 +16,8 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
             sykepengegrunnlag: 7995.96,
             søknadsfrist: {
                 sendtNav: '2019-10-15T00:00:00',
-                innen3Mnd: '(Ja)'
+                søknadTom: '2019-10-05',
+                innen3Mnd: true
             }
         },
         inntektskilder: {
@@ -24,6 +25,12 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
             årsinntekt: 7995.96,
             refusjon: '(Ja)',
             forskuttering: '(Ja)'
+        },
+        sykepengegrunnlag: {
+            månedsinntekt: 666.33,
+            årsinntekt: 7995.96,
+            grunnlag: 7995.96,
+            dagsats: 31
         },
         oppsummering: {
             sykepengegrunnlag: 7995.96,

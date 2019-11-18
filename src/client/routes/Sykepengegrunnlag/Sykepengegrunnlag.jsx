@@ -13,20 +13,21 @@ import FormRow from '../../components/Rows/FormRow';
 const G = 99858;
 
 const Sykepengegrunnlag = () => {
-    const { inntektskilder, inngangsvilkår, utbetaling } = useContext(
-        PersonContext
-    ).personTilBehandling;
-    const inntektsmeldingItems = inntektskilder && [
+    const { sykepengegrunnlag } = useContext(PersonContext).personTilBehandling;
+    const inntektsmeldingItems = sykepengegrunnlag && [
         item(
             'Beregnet månedsinntekt',
-            `${toLocaleFixedNumberString(inntektskilder.månedsinntekt, 2)} kr`
+            `${toLocaleFixedNumberString(sykepengegrunnlag.månedsinntekt, 2)} kr`
         ),
-        item('Omregnet årsinntekt', `${toLocaleFixedNumberString(inntektskilder.årsinntekt, 2)} kr`)
+        item(
+            'Omregnet årsinntekt',
+            `${toLocaleFixedNumberString(sykepengegrunnlag.årsinntekt, 2)} kr`
+        )
     ];
 
     return (
         <Panel className="tekstbolker Sykepengegrunnlag">
-            {inntektskilder && (
+            {sykepengegrunnlag && (
                 <>
                     <ListRow
                         label="Hentet fra inntektsmeldingen"
@@ -37,22 +38,20 @@ const Sykepengegrunnlag = () => {
                     <IconRow label="Avvik må sjekkes manuelt" iconType="advarsel" />
                     <FormRow
                         label="Sykepengegrunnlag"
-                        value={`${toKronerOgØre(inngangsvilkår.sykepengegrunnlag)} kr`}
+                        value={`${toKronerOgØre(sykepengegrunnlag.grunnlag)} kr`}
                         bold
                         showSeparator={false}
                     />
                     <FormRow
                         label="Redusert til 6G"
                         value={
-                            inngangsvilkår.sykepengegrunnlag > G * 6
-                                ? `${toKronerOgØre(G * 6)} kr`
-                                : '-'
+                            sykepengegrunnlag.grunnlag > G * 6 ? `${toKronerOgØre(G * 6)} kr` : '-'
                         }
                         bold={false}
                     />
                     <FormRow
                         label="Dagsats"
-                        value={`${toKronerOgØre(utbetaling.dagsats)} kr`}
+                        value={`${toKronerOgØre(sykepengegrunnlag.dagsats)} kr`}
                         bold={false}
                         showSeparator={false}
                     />
