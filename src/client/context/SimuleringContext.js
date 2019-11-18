@@ -11,15 +11,21 @@ export const SimuleringProvider = ({ children }) => {
     const { authInfo } = useContext(AuthContext);
     const [error, setError] = useState(undefined);
     const [simulering, setSimulering] = useState(undefined);
+    const [arbeidsgiver, setArbeidsgiver] = useState(undefined);
 
     useEffect(() => {
         if (personTilBehandling) {
-            hentSimulering(personTilBehandling.arbeidsgivere?.[0].saker?.[0]);
+            hentSimulering(personTilBehandling.arbeidsgivere?.[0].saker?.[0]).then(simulering =>
+                setArbeidsgiver(
+                    simulering?.simulering?.periodeList[0]?.utbetaling[0].detaljer[0]
+                        .refunderesOrgNr
+                )
+            );
         }
     }, [personTilBehandling]);
 
-    const hentSimulering = sak => {
-        return postSimulering(sak, authInfo.ident)
+    const hentSimulering = async sak => {
+        return await postSimulering(sak, authInfo.ident)
             .then(response => {
                 setSimulering(response.data);
                 return response.data;
@@ -27,6 +33,7 @@ export const SimuleringProvider = ({ children }) => {
             .catch(err => {
                 console.error(err);
                 setError('Kunne ikke hente simulering');
+                return undefined;
             });
     };
 
@@ -34,6 +41,7 @@ export const SimuleringProvider = ({ children }) => {
         <SimuleringContext.Provider
             value={{
                 simulering,
+                arbeidsgiver,
                 error
             }}
         >

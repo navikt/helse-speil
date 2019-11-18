@@ -58,26 +58,16 @@ bokmål.utbetalingsoversikt['utbetalingsoversikt'] = 'Utbetalingsoversikt';
 bokmål.utbetalingsoversikt['forskutterer'] = 'Arbeidsgiver forskutterer';
 
 bokmål.oppsummering['tittel'] = 'Oppsummering';
-bokmål.oppsummering['sykdomsvilkår'] = 'Sykdomsvilkår er oppfylt';
-bokmål.oppsummering['inngangsvilkår'] = 'Inngangsvilkår er oppfylt';
 bokmål.oppsummering['arbeidsgiver'] = 'Arbeidsgiver';
 bokmål.oppsummering['orgnr'] = 'Organisasjonsnummer';
 bokmål.oppsummering['refusjon'] = 'Refusjon til arbeidsgiver';
 bokmål.oppsummering['betaler'] = 'Betaler arb.giverperiode';
-bokmål.oppsummering['fordeling'] = 'Fordeling';
 bokmål.oppsummering['sykepengegrunnlag'] = 'Sykepengegrunnlag';
-bokmål.oppsummering['månedsbeløp'] = 'Månedsbeløp ved 100 % grad';
 bokmål.oppsummering['dagsats'] = 'Dagsats';
 bokmål.oppsummering['antall_utbetalingsdager'] = 'Utbetalingsdager';
-bokmål.oppsummering['fom'] = 'Sykmeldt fra og med';
-bokmål.oppsummering['tom'] = 'Sykmeldt til og med';
-bokmål.oppsummering['sykmeldingsgrad'] = 'Sykmeldingsgrad';
-bokmål.oppsummering['utbetalesFom'] = 'Utbetales fra og med';
-bokmål.oppsummering['utbetalesTom'] = 'Utbetales til og med';
 bokmål.oppsummering['utbetaling'] = 'Utbetaling';
-bokmål.oppsummering['ingen_uenigheter'] = 'Ingen uenigheter';
-bokmål.oppsummering['felter_uten_årsak'] = 'Felter uten oppgitt årsak blir ikke sendt inn.';
-bokmål.oppsummering['oppgi_årsak'] = 'Du bør skrive inn årsak';
+bokmål.oppsummering['beløp'] = 'Beløp til utbetaling';
+bokmål.oppsummering['utbetaling_til'] = 'Utbetaling til';
 
 bokmål.sykmeldingsperiode['dager'] = 'Dagene er riktig kategorisert';
 

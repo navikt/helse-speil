@@ -13,17 +13,27 @@ test('mapper data riktig for inngangsvilkår-siden', () => {
                 maksdato: '2020-09-11',
                 yrkesstatus: expect.anything()
             },
-            sykepengegrunnlag: "7995.96",
+            sykepengegrunnlag: 7995.96,
             søknadsfrist: {
                 sendtNav: '2019-10-15T00:00:00',
                 innen3Mnd: '(Ja)'
             }
         },
         inntektskilder: {
-            månedsinntekt: "666.33",
-            årsinntekt: "7995.96",
+            månedsinntekt: 666.33,
+            årsinntekt: 7995.96,
             refusjon: '(Ja)',
             forskuttering: '(Ja)'
+        },
+        oppsummering: {
+            sykepengegrunnlag: 7995.96,
+            dagsats: 31,
+            antallDager: 6,
+            beløp: 31 * 6,
+            mottaker: {
+                navn: 'Kongehuset',
+                orgnummer: '123456789'
+            }
         }
     };
     const personinfo = { fødselsdato: '1956-12-12' };

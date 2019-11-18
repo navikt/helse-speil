@@ -30,7 +30,7 @@ const setup = ({
 
 const personSøk = async (req, res) => {
     const undeterminedId = req.headers[personIdHeaderName];
-    const innsyn = req.headers['innsyn'] === 'undefined' ? false : req.headers['innsyn'];
+    const innsyn = req.headers['innsyn'] === 'true';
 
     auditLog(req, undeterminedId || 'missing person id');
     if (!undeterminedId) {

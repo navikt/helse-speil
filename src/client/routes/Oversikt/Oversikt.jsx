@@ -1,34 +1,20 @@
-import React, { useContext, useEffect, useMemo, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Oversiktslinje from './Oversiktslinje';
-import OversiktsLenke from './OversiktsLenke';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Panel } from 'nav-frontend-paneler';
 import { withRouter } from 'react-router';
-import { toDateAndTime } from '../../utils/date';
 import { oversikttekster } from '../../tekster';
 import { TildelingerContext } from '../../context/TildelingerContext';
 import { SaksoversiktContext } from '../../context/SaksoversiktContext';
-import { InnrapporteringContext } from '../../context/InnrapporteringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import 'nav-frontend-lenker-style';
 import './Oversikt.less';
 import useLinks, { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 
 const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
-
-const toBehandletBehov = behov => ({
-    ...behov,
-    søkerNavn: behov.personinfo?.navn ?? behov.aktørId,
-    caseWorkerName: extractNameFromEmail('MANGLER BRUKERNAVN'),
-    behandlet: true
-});
-
-const partition = predicate => (acc, cur) =>
-    predicate(cur) ? [[...acc[0], cur], acc[1]] : [acc[0], [...acc[1], cur]];
 
 const Oversikt = ({ history }) => {
     const { hentPerson } = useContext(PersonContext);
@@ -45,20 +31,11 @@ const Oversikt = ({ history }) => {
         fetchTildelinger,
         fjernTildeling
     } = useContext(TildelingerContext);
-    const { feedback } = useContext(InnrapporteringContext);
     const links = useLinks();
     const linksRef = useRef(links);
     useEffect(() => {
         linksRef.current = links;
     }, [links]);
-
-    const [behandledeBehov, ubehandledeBehov] = useMemo(
-        () =>
-            saksoversikt
-                .map(behov => (behov['@løsning'] ? toBehandletBehov(behov) : behov))
-                .reduce(partition(b => b.behandlet), [[], []]),
-        [feedback, saksoversikt]
-    );
 
     useEffect(() => {
         hentSaksoversikt();
@@ -103,7 +80,7 @@ const Oversikt = ({ history }) => {
                             <Normaltekst>{oversikttekster('tidspunkt')}</Normaltekst>
                             <Normaltekst>{oversikttekster('tildeling')}</Normaltekst>
                         </li>
-                        {ubehandledeBehov.map(behov => {
+                        {saksoversikt.map(behov => {
                             const tildeling = tildelinger.find(b => b.behovId === behov['@id']);
                             return (
                                 <Oversiktslinje
@@ -116,25 +93,6 @@ const Oversikt = ({ history }) => {
                                 />
                             );
                         })}
-                    </ul>
-                </Panel>
-                <Panel border className="Oversikt__historikk">
-                    <Undertittel className="panel-tittel">Siste behov</Undertittel>
-                    <ul>
-                        <li className="row" key="header">
-                            <Normaltekst>Søker</Normaltekst>
-                            <Normaltekst>Saksbehandler</Normaltekst>
-                            <Normaltekst>Innsendt</Normaltekst>
-                        </li>
-                        {behandledeBehov.map(behov => (
-                            <li className="row row--info" key={behov['@id']}>
-                                <OversiktsLenke onClick={() => velgBehovAndNavigate(behov)}>
-                                    {behov.søkerNavn}
-                                </OversiktsLenke>
-                                <Normaltekst>{capitalizeName(behov.caseWorkerName)}</Normaltekst>
-                                <Normaltekst>{toDateAndTime(behov.submittedDate)}</Normaltekst>
-                            </li>
-                        ))}
                     </ul>
                 </Panel>
             </div>

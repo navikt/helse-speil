@@ -91,7 +91,7 @@
                                 "klassekode": "aaa",
                                 "klassekodeBeskrivelse": "whatever",
                                 "utbetalingsType": "JUSTERING",
-                                "refunderesOrgNr": "123456"
+                                "refunderesOrgNr": "123456789"
                             }
                         ]
                     }
