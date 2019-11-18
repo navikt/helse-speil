@@ -122,7 +122,7 @@
         "babel-jest": "^24.9.0",
         "cypress": "^3.6.1",
         "deasync": "^0.1.15",
-        "eslint": "^6.5.1",
+        "eslint": "^6.6.0",
         "eslint-config-prettier": "^6.6.0",
         "eslint-config-standard-jsx": "^8.1.0",
         "eslint-plugin-react": "^7.14.3",
