@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import './ListSeparator.less';
 
 const SeparatorType = {
@@ -8,14 +9,14 @@ const SeparatorType = {
     TRANSPARENT: 'transparent'
 };
 
-const ListSeparator = ({ type }) => (
-    <div className="ListSeparator">
-        <hr className={type} />
-    </div>
-);
+const ListSeparator = ({ type }) => <hr className={classNames('ListSeparator', type)} />;
 
 ListSeparator.propTypes = {
     type: PropTypes.oneOf(Object.values(SeparatorType))
+};
+
+ListSeparator.defaultProps = {
+    type: 'solid'
 };
 
 export default ListSeparator;

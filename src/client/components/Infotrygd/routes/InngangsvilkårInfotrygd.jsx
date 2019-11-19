@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import ItemMapper from '../../../datamapping/inngangsvilkårMapper';
 import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
 import { PersonContext } from '../../../context/PersonContext';
@@ -7,9 +6,9 @@ import { PersonContext } from '../../../context/PersonContext';
 const InngangsvilkårInfotrygd = () => {
     const { inngangsvilkår } = useContext(PersonContext).personTilBehandling;
 
-    const søknadsfristItems = ItemMapper.søknadsfrist(inngangsvilkår.søknadsfrist);
-    const dagerIgjenItems = ItemMapper.dagerIgjen(inngangsvilkår.dagerIgjen);
-    const under67ÅrItems = ItemMapper.alder(inngangsvilkår.alder);
+    const søknadsfristItems = []; // ItemMapper.søknadsfrist(inngangsvilkår.søknadsfrist);
+    const dagerIgjenItems = []; ItemMapper.dagerIgjen(inngangsvilkår.dagerIgjen);
+    const under67ÅrItems = []; ItemMapper.alder(inngangsvilkår.alder);
 
     return (
         <InfotrygdList>
