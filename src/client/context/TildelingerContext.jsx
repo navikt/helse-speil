@@ -11,7 +11,7 @@ export const TildelingerProvider = ({ children }) => {
     const tildelBehandling = (behovId, userId) => {
         postTildeling({ behovId, userId })
             .then(() => {
-                setTildelinger(t => [...t, { behandlingsId: behovId, userId }]);
+                setTildelinger(t => [...t, { behovId, userId }]);
                 setError(undefined);
             })
             .catch(error => {
@@ -41,10 +41,10 @@ export const TildelingerProvider = ({ children }) => {
         }
     };
 
-    const fjernTildeling = behandlingsId => {
-        deleteTildeling(behandlingsId)
+    const fjernTildeling = behovId => {
+        deleteTildeling(behovId)
             .then(() => {
-                setTildelinger(tildelinger.filter(t => t.behandlingsId !== behandlingsId));
+                setTildelinger(tildelinger.filter(t => t.behovId !== behovId));
                 setError(undefined);
             })
             .catch(error => {

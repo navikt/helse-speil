@@ -56,7 +56,7 @@ const routes = ({ router }) => {
                     if (assignedUser) {
                         return res.status(409).json({ alreadyAssignedTo: assignedUser });
                     } else {
-                        logger.info(`Error while unassigning case ${behovId}`);
+                        logger.info(`Error while assigning case ${behovId}`);
                         return res.sendStatus(500);
                     }
                 }
