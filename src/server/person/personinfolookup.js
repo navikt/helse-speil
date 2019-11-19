@@ -1,5 +1,7 @@
 'use strict';
 
+const personinfomapping = require('./personinfomapping');
+
 let sparkelClient;
 let stsClient;
 let aktørIdLookup;
@@ -16,7 +18,7 @@ const hentPerson = async aktørId => {
         .then(token => sparkelClient.hentPerson(aktørId, token))
         .then(async person => {
             const fnr = await aktørIdLookup.hentFnr(aktørId);
-            return { ...person, fnr };
+            return personinfomapping.map({ ...person, fnr });
         });
 };
 module.exports = {
