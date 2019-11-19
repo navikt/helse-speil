@@ -6,17 +6,14 @@ import { item } from '../../datamapping/mappingUtils';
 import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
-import { toLocaleFixedNumberString } from '../../utils/locale';
+import { toKronerOgØre } from '../../utils/locale';
 import FormRow from '../../components/Rows/FormRow';
 
 const Inntektskilder = () => {
     const { inntektskilder } = useContext(PersonContext).personTilBehandling;
     const inntektsmeldingItems = inntektskilder && [
-        item(
-            'Beregnet månedsinntekt',
-            `${toLocaleFixedNumberString(inntektskilder.månedsinntekt, 2)} kr`
-        ),
-        item('Omregnet årsinntekt', `${toLocaleFixedNumberString(inntektskilder.årsinntekt, 2)} kr`)
+        item('Beregnet månedsinntekt', `${toKronerOgØre(inntektskilder.månedsinntekt)} kr`),
+        item('Omregnet årsinntekt', `${toKronerOgØre(inntektskilder.årsinntekt)} kr`)
     ];
 
     return (

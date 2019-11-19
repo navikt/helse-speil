@@ -6,7 +6,7 @@ import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
 import { item } from '../../datamapping/mappingUtils';
 import { PersonContext } from '../../context/PersonContext';
-import { toKronerOgØre, toLocaleFixedNumberString } from '../../utils/locale';
+import { toKronerOgØre } from '../../utils/locale';
 import './Sykepengegrunnlag.less';
 import FormRow from '../../components/Rows/FormRow';
 
@@ -15,14 +15,8 @@ const G = 99858;
 const Sykepengegrunnlag = () => {
     const { sykepengegrunnlag } = useContext(PersonContext).personTilBehandling;
     const inntektsmeldingItems = sykepengegrunnlag && [
-        item(
-            'Beregnet månedsinntekt',
-            `${toLocaleFixedNumberString(sykepengegrunnlag.månedsinntekt, 2)} kr`
-        ),
-        item(
-            'Omregnet årsinntekt',
-            `${toLocaleFixedNumberString(sykepengegrunnlag.årsinntekt, 2)} kr`
-        )
+        item('Beregnet månedsinntekt', `${toKronerOgØre(sykepengegrunnlag.månedsinntekt)} kr`),
+        item('Omregnet årsinntekt', `${toKronerOgØre(sykepengegrunnlag.årsinntekt)} kr`)
     ];
 
     return (
