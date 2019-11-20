@@ -116,7 +116,6 @@ const hendelsestyper = {
 
 const finnInntektsmelding = person => findHendelse(person, hendelsestyper.INNTEKTSMELDING);
 const finnSøknad = person => findHendelse(person, hendelsestyper.SYKEPENGESØKNAD);
-const finnSykmelding = person => findHendelse(person, hendelsestyper.SYKMELDING);
 
 const findHendelse = (person, type) =>
     person.arbeidsgivere[0].saker[0].sykdomstidslinje.hendelser.find(h => h.type === type.type)[
