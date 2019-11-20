@@ -1,6 +1,6 @@
 import { item } from './mappingUtils';
 import { toDate } from '../utils/date';
-import { capitalize, toKroner, toLocaleFixedNumberString } from '../utils/locale';
+import { capitalize, toKroner, toKronerOgØre } from '../utils/locale';
 
 const medlemskap = medlemskap => [
     item(
@@ -19,7 +19,7 @@ const opptjening = opptjening => [
 ];
 
 const merEnn05G = sykepengegrunnlag => [
-    item('Sykepengegrunnlaget', `${toLocaleFixedNumberString(sykepengegrunnlag, 2)} kr`),
+    item('Sykepengegrunnlaget', `${toKronerOgØre(sykepengegrunnlag)} kr`),
     item(`0,5G er ${toKroner(99858 / 2)} kr`)
 ];
 

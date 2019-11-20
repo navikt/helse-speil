@@ -3,7 +3,7 @@ import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
 import { SimuleringContext } from '../../../context/SimuleringContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { toLocaleFixedNumberString } from '../../../utils/locale';
+import { toKronerOgØre } from '../../../utils/locale';
 import './OppsummeringInfotrygd.less';
 import { Knapp } from 'nav-frontend-knapper';
 import { postVedtak } from '../../../io/http';
@@ -44,7 +44,7 @@ const OppsummeringInfotrygd = () => {
     };
 
     const simulering = simuleringContext.simulering?.simulering?.totalBelop
-        ? `${toLocaleFixedNumberString(simuleringContext.simulering?.simulering?.totalBelop, 2)} kr`
+        ? `${toKronerOgØre(simuleringContext.simulering?.simulering?.totalBelop)} kr`
         : simuleringContext.simulering?.feilMelding ?? 'Ikke tilgjengelig';
 
     return (

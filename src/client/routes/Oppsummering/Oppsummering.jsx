@@ -9,7 +9,7 @@ import { pages } from '../../hooks/useLinks';
 import Utbetaling from './Utbetaling';
 import { SimuleringContext } from '../../context/SimuleringContext';
 import ListSeparator from '../../components/ListSeparator';
-import { toLocaleFixedNumberString } from '../../utils/locale';
+import { toKronerOgØre } from '../../utils/locale';
 import { PersonContext } from '../../context/PersonContext';
 
 const Oppsummering = () => {
@@ -22,11 +22,11 @@ const Oppsummering = () => {
                 <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
                 <ListItem
                     label={oppsummeringstekster('sykepengegrunnlag')}
-                    value={`${toLocaleFixedNumberString(oppsummering.sykepengegrunnlag, 2)} kr`}
+                    value={`${toKronerOgØre(oppsummering.sykepengegrunnlag)} kr`}
                 />
                 <ListItem
                     label={oppsummeringstekster('dagsats')}
-                    value={`${toLocaleFixedNumberString(oppsummering.dagsats, 2)} kr`}
+                    value={`${toKronerOgØre(oppsummering.dagsats)} kr`}
                 />
                 <ListItem
                     label={oppsummeringstekster('antall_utbetalingsdager')}
@@ -34,7 +34,7 @@ const Oppsummering = () => {
                 />
                 <ListItem
                     label={oppsummeringstekster('beløp')}
-                    value={`${toLocaleFixedNumberString(oppsummering.beløp, 2)} kr`}
+                    value={`${toKronerOgØre(oppsummering.beløp)} kr`}
                 />
                 <ListItem
                     label={oppsummeringstekster('utbetaling_til')}
@@ -50,9 +50,8 @@ const Oppsummering = () => {
                             label="Simulering"
                             value={
                                 simuleringContext.simulering?.simulering?.totalBelop
-                                    ? `${toLocaleFixedNumberString(
-                                          simuleringContext.simulering?.simulering?.totalBelop,
-                                          2
+                                    ? `${toKronerOgØre(
+                                          simuleringContext.simulering?.simulering?.totalBelop
                                       )} kr`
                                     : simuleringContext.simulering?.feilMelding ??
                                       'Ikke tilgjengelig'
