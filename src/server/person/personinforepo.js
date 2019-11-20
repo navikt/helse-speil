@@ -10,7 +10,7 @@ const setup = ({ sparkelClient, aktørIdLookup, stsclient, cache: cacheParam }) 
     cache = cacheParam;
 };
 
-const getPerson = (req, res) => {
+const getPersoninfo = (req, res) => {
     const aktørId = req.params.aktorId;
     cache.get(`person-${aktørId}`, (err, personinfo) => {
         if (err) {
@@ -21,7 +21,7 @@ const getPerson = (req, res) => {
             return res.send(JSON.parse(personinfo));
         } else {
             personInfoLookup
-                .hentPerson(aktørId)
+                .hentPersoninfo(aktørId)
                 .then(personinfo => {
                     cache.setex(`person-${aktørId}`, timeToExpire, JSON.stringify(personinfo));
                     res.send(personinfo);
@@ -36,5 +36,5 @@ const getPerson = (req, res) => {
 
 module.exports = {
     setup,
-    getPerson
+    getPersoninfo
 };

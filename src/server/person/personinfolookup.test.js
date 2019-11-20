@@ -28,12 +28,12 @@ beforeAll(() => {
 });
 
 test('successful lookup resolves with person object', async () => {
-    await expect(personinfolookup.hentPerson('11111')).resolves.toEqual({
+    await expect(personinfolookup.hentPersoninfo('11111')).resolves.toEqual({
         fornavnMappedByStub: personinfoAsInMockedResponsesFile.fornavn,
         fnr: 2469
     });
 });
 
 test('lookup failure -> rejection', async () => {
-    await expect(personinfolookup.hentPerson('22222')).rejects.toMatch('request failed');
+    await expect(personinfolookup.hentPersoninfo('22222')).rejects.toMatch('request failed');
 });

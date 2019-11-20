@@ -1,7 +1,7 @@
 const request = require('request-promise-native');
 
 module.exports = {
-    hentPerson: (aktørId, token) => {
+    hentPersoninfo: (aktørId, token) => {
         const options = {
             uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
             headers: {

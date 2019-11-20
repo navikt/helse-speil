@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const personinforoutes = require('./personinforoutes');
+const personinforepo = require('./personinforepo');
 const personlookup = require('./personlookup');
 
 const setup = ({
@@ -11,7 +11,7 @@ const setup = ({
     config,
     onBehalfOf
 }) => {
-    personinforoutes.setup({ sparkelClient, aktørIdLookup, stsclient, cache });
+    personinforepo.setup({ sparkelClient, aktørIdLookup, stsclient, cache });
     personlookup.setup({ aktørIdLookup, spadeClient, config, onBehalfOf });
     routes(router);
     return router;
@@ -19,7 +19,7 @@ const setup = ({
 const routes = router => {
     router.get('/', personlookup.behovForPeriode);
     router.get('/sok', personlookup.sakSøk);
-    router.get('/:aktorId/info', personinforoutes.getPerson);
+    router.get('/:aktorId/info', personinforepo.getPersoninfo);
 };
 
 module.exports = {

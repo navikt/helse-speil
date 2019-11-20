@@ -12,16 +12,16 @@ const init = ({ stsclient, sparkelclient, aktørIdLookup: aktøridlookup }) => {
     aktørIdLookup = aktøridlookup;
 };
 
-const hentPerson = async aktørId => {
+const hentPersoninfo = async aktørId => {
     return stsClient
         .hentAccessToken()
-        .then(token => sparkelClient.hentPerson(aktørId, token))
+        .then(token => sparkelClient.hentPersoninfo(aktørId, token))
         .then(async person => {
             const fnr = await aktørIdLookup.hentFnr(aktørId);
             return personinfomapping.map({ ...person, fnr });
         });
 };
 module.exports = {
-    init: init,
-    hentPerson: hentPerson
+    init,
+    hentPersoninfo
 };
