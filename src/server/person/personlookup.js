@@ -123,5 +123,6 @@ const respondWith = ({ res, lookupPromise, mapper }) => {
 module.exports = {
     setup,
     sakSøk,
-    behovForPeriode
+    behovForPeriode,
+    personIdHeaderName
 };
