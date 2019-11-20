@@ -18,7 +18,7 @@ const setup = ({
 };
 const routes = router => {
     router.get('/', personlookup.behovForPeriode);
-    router.get('/sok', personlookup.personSøk);
+    router.get('/sok', personlookup.sakSøk);
     router.get('/:aktorId/info', personinforoutes.getPerson);
 };
 

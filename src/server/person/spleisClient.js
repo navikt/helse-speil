@@ -1,7 +1,7 @@
 const request = require('request-promise-native');
 const fs = require('fs');
 
-const hentPerson = async (aktørId, onBehalfOfToken) => {
+const hentSak = async (aktørId, onBehalfOfToken) => {
     if (process.env.NODE_ENV === 'development') {
         const fromFile = fs.readFileSync('__mock-data__/tidslinjeperson.json', 'utf-8');
         const person = JSON.parse(fromFile);
@@ -21,7 +21,7 @@ const hentPerson = async (aktørId, onBehalfOfToken) => {
     return request.get(options);
 };
 
-const hentPersonByUtbetalingsref = async (utbetalingsref, onBehalfOfToken) => {
+const hentSakByUtbetalingsref = async (utbetalingsref, onBehalfOfToken) => {
     if (process.env.NODE_ENV === 'development') {
         const fromFile = fs.readFileSync('__mock-data__/tidslinjeperson.json', 'utf-8');
         const person = JSON.parse(fromFile);
@@ -42,6 +42,6 @@ const hentPersonByUtbetalingsref = async (utbetalingsref, onBehalfOfToken) => {
 };
 
 module.exports = {
-    hentPerson,
-    hentPersonByUtbetalingsref
+    hentSak,
+    hentSakByUtbetalingsref
 };

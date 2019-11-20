@@ -28,7 +28,7 @@ const setup = ({
     onBehalfOf = onbehalfof;
 };
 
-const personSøk = async (req, res) => {
+const sakSøk = async (req, res) => {
     const undeterminedId = req.headers[personIdHeaderName];
     const innsyn = req.headers['innsyn'] === 'true';
 
@@ -50,7 +50,7 @@ const personSøk = async (req, res) => {
             res,
             lookupPromise: onBehalfOf
                 .hentFor(spleisId, req.session.speilToken)
-                .then(token => spleis.hentPerson(aktorId, token)),
+                .then(token => spleis.hentSak(aktorId, token)),
             mapper: response => ({
                 person: response.body
             })
@@ -60,7 +60,7 @@ const personSøk = async (req, res) => {
             res,
             lookupPromise: onBehalfOf
                 .hentFor(spleisId, req.session.speilToken)
-                .then(token => spleis.hentPersonByUtbetalingsref(undeterminedId, token)),
+                .then(token => spleis.hentSakByUtbetalingsref(undeterminedId, token)),
             mapper: response => ({
                 person: response.body
             })
@@ -122,6 +122,6 @@ const respondWith = ({ res, lookupPromise, mapper }) => {
 
 module.exports = {
     setup,
-    personSøk,
+    sakSøk,
     behovForPeriode
 };
