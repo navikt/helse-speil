@@ -31,21 +31,21 @@ const Oppsummering = () => {
             <Panel>
                 <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
                 <List>
-                    <ListItem label={oppsummeringstekster('sykepengegrunnlag')}>{`${toKronerOgØre(
-                        oppsummering.sykepengegrunnlag
-                    )} kr`}</ListItem>
-                    <ListItem label={oppsummeringstekster('dagsats')}>{`${toKronerOgØre(
-                        oppsummering.dagsats
-                    )} kr`}</ListItem>
+                    <ListItem label={oppsummeringstekster('sykepengegrunnlag')}>
+                        {`${toKronerOgØre(oppsummering.sykepengegrunnlag)} kr`}
+                    </ListItem>
+                    <ListItem label={oppsummeringstekster('dagsats')}>
+                        {`${toKronerOgØre(oppsummering.dagsats)} kr`}
+                    </ListItem>
                     <ListItem label={oppsummeringstekster('antall_utbetalingsdager')}>
                         {oppsummering.antallDager}
                     </ListItem>
-                    <ListItem label={oppsummeringstekster('beløp')}>{`${toKronerOgØre(
-                        oppsummering.beløp
-                    )} kr`}</ListItem>
-                    <ListItem
-                        label={oppsummeringstekster('utbetaling_til')}
-                    >{`${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`}</ListItem>
+                    <ListItem label={oppsummeringstekster('beløp')}>
+                        {`${toKronerOgØre(oppsummering.beløp)} kr`}
+                    </ListItem>
+                    <ListItem label={oppsummeringstekster('utbetaling_til')}>
+                        {`${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`}
+                    </ListItem>
                 </List>
                 <ListSeparator type="solid" />
                 {simulering && arbeidsgiver && (

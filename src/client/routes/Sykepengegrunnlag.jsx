@@ -20,12 +20,12 @@ const Sykepengegrunnlag = () => {
             {sykepengegrunnlag && (
                 <>
                     <SubheaderWithList label="Hentet fra inntektsmeldingen">
-                        <ListItem label="Beregnet månedsinntekt">{`${toKronerOgØre(
-                            sykepengegrunnlag.månedsinntekt
-                        )} kr`}</ListItem>
-                        <ListItem label="Omregnet årsinntekt">{`${toKronerOgØre(
-                            sykepengegrunnlag.årsinntekt
-                        )} kr`}</ListItem>
+                        <ListItem label="Beregnet månedsinntekt">
+                            {`${toKronerOgØre(sykepengegrunnlag.månedsinntekt)} kr`}
+                        </ListItem>
+                        <ListItem label="Omregnet årsinntekt">
+                            {`${toKronerOgØre(sykepengegrunnlag.årsinntekt)} kr`}
+                        </ListItem>
                     </SubheaderWithList>
                     <Subheader label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
                     <Subheader label="Avvik må sjekkes manuelt" iconType="advarsel" />

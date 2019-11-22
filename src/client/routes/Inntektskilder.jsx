@@ -16,12 +16,12 @@ const Inntektskilder = () => {
         <Panel className="tekstbolker">
             {inntektskilder && (
                 <SubheaderWithList label="Hentet fra inntektsmeldingen">
-                    <ListItem label="Beregnet månedsinntekt">{`${toKronerOgØre(
-                        inntektskilder.månedsinntekt
-                    )} kr`}</ListItem>
-                    <ListItem label="Omregnet årsinntekt">{`${toKronerOgØre(
-                        inntektskilder.årsinntekt
-                    )} kr`}</ListItem>
+                    <ListItem label="Beregnet månedsinntekt">
+                        {`${toKronerOgØre(inntektskilder.månedsinntekt)} kr`}
+                    </ListItem>
+                    <ListItem label="Omregnet årsinntekt">
+                        {`${toKronerOgØre(inntektskilder.årsinntekt)} kr`}
+                    </ListItem>
                 </SubheaderWithList>
             )}
             <Subheader label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
