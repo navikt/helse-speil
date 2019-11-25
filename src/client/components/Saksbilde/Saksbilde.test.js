@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import Saksbilde from './MainContentWrapper';
+import Saksbilde from './Saksbilde';
 import { MemoryRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
 import { PersonContext } from '../../context/PersonContext';
@@ -31,7 +31,7 @@ jest.mock('nav-frontend-modal', () => ({
     setAppElement: () => {}
 }));
 
-describe('MainContentWrapper', () => {
+describe('Saksbilde', () => {
     it('renders content when a person is selected', () => {
         const { container } = render(
             <PersonContext.Provider
@@ -43,7 +43,7 @@ describe('MainContentWrapper', () => {
                 <Saksbilde />
             </PersonContext.Provider>
         );
-        expect(container.querySelector('.main-content')).toBeTruthy();
+        expect(container.querySelector('.Saksbilde')).toBeTruthy();
     });
 
     it('render empty state view when no person is selected', () => {

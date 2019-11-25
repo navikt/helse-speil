@@ -7,8 +7,8 @@ const InngangsvilkårInfotrygd = () => {
     const { inngangsvilkår } = useContext(PersonContext).personTilBehandling;
 
     const søknadsfristItems = []; // ItemMapper.søknadsfrist(inngangsvilkår.søknadsfrist);
-    const dagerIgjenItems = []; ItemMapper.dagerIgjen(inngangsvilkår.dagerIgjen);
-    const under67ÅrItems = []; ItemMapper.alder(inngangsvilkår.alder);
+    const dagerIgjenItems = []; // ItemMapper.dagerIgjen(inngangsvilkår.dagerIgjen);
+    const under67ÅrItems = []; // ItemMapper.alder(inngangsvilkår.alder);
 
     return (
         <InfotrygdList>
