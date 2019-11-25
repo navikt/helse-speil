@@ -7,7 +7,7 @@ const List = ({ children }) => {
 };
 
 List.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.node)
+    children: PropTypes.node
 };
 
 export default List;
