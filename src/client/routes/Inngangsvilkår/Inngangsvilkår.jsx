@@ -10,7 +10,7 @@ import { pages } from '../../hooks/useLinks';
 import { toDate } from '../../utils/date';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
-import { capitalize, toKroner, toLocaleFixedNumberString } from '../../utils/locale';
+import { capitalize, toKronerOgØre } from '../../utils/locale';
 import './Inngangsvilkår.less';
 
 const Inngangsvilkår = () => {
@@ -31,9 +31,9 @@ const Inngangsvilkår = () => {
                         <Subheader label="Opptjening må vurderes manuelt" iconType="advarsel" />
                         <SubheaderWithList label="Mer enn 0,5G" iconType="ok">
                             <ListItem label="Sykepengegrunnlaget">
-                                {`${toLocaleFixedNumberString(inngangsvilkår.sykepengegrunnlag, 2)} kr`}
+                                {`${toKronerOgØre(inngangsvilkår.sykepengegrunnlag)} kr`}
                             </ListItem>
-                            <Normaltekst>{`0,5G er ${toKroner(99858 / 2)} kr`}</Normaltekst>
+                            <Normaltekst>{`0,5G er ${toKronerOgØre(99858 / 2)} kr`}</Normaltekst>
                         </SubheaderWithList>
                         <SubheaderWithList label="Dager igjen" iconType="ok" labelProp={detaljerKnapp}>
                             <ListItem label="Første fraværsdag">{toDate(inngangsvilkår.dagerIgjen.førsteFraværsdag)}</ListItem>
