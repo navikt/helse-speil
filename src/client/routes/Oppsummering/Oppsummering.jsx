@@ -1,74 +1,61 @@
 import React, { useContext } from 'react';
+import List from '../../components/List';
 import ListItem from '../../components/ListItem';
+import Utbetaling from './Utbetaling';
+import ListSeparator from '../../components/ListSeparator';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
-import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
-import { oppsummeringstekster } from '../../tekster';
-import './Oppsummering.less';
 import { pages } from '../../hooks/useLinks';
-import Utbetaling from './Utbetaling';
-import { SimuleringContext } from '../../context/SimuleringContext';
-import ListSeparator from '../../components/ListSeparator';
 import { toKronerOgØre } from '../../utils/locale';
 import { PersonContext } from '../../context/PersonContext';
+import { SimuleringContext } from '../../context/SimuleringContext';
+import { oppsummeringstekster } from '../../tekster';
+import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
+import './Oppsummering.less';
 
 const Oppsummering = () => {
     const { oppsummering } = useContext(PersonContext).personTilBehandling;
-    const simuleringContext = useContext(SimuleringContext);
+    const { error, simulering, arbeidsgiver } = useContext(SimuleringContext);
+
+    const simuleringsBeløp = simulering?.simulering?.totalBelop
+        ? `${toKronerOgØre(simulering?.simulering?.totalBelop)} kr`
+        : simulering?.feilMelding ?? 'Ikke tilgjengelig';
+
+    const simuleringsArbeidsgiver =
+        arbeidsgiver === oppsummering.mottaker?.orgnummer
+            ? `${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`
+            : `Organisasjonsnummer: ${arbeidsgiver}`;
 
     return (
         <div className="Oppsummering">
             <Panel>
                 <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
-                <ListItem
-                    label={oppsummeringstekster('sykepengegrunnlag')}
-                    value={`${toKronerOgØre(oppsummering.sykepengegrunnlag)} kr`}
-                />
-                <ListItem
-                    label={oppsummeringstekster('dagsats')}
-                    value={`${toKronerOgØre(oppsummering.dagsats)} kr`}
-                />
-                <ListItem
-                    label={oppsummeringstekster('antall_utbetalingsdager')}
-                    value={oppsummering.antallDager}
-                />
-                <ListItem
-                    label={oppsummeringstekster('beløp')}
-                    value={`${toKronerOgØre(oppsummering.beløp)} kr`}
-                />
-                <ListItem
-                    label={oppsummeringstekster('utbetaling_til')}
-                    value={`${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`}
-                />
-
+                <List>
+                    <ListItem label={oppsummeringstekster('sykepengegrunnlag')}>
+                        {`${toKronerOgØre(oppsummering.sykepengegrunnlag)} kr`}
+                    </ListItem>
+                    <ListItem label={oppsummeringstekster('dagsats')}>
+                        {`${toKronerOgØre(oppsummering.dagsats)} kr`}
+                    </ListItem>
+                    <ListItem label={oppsummeringstekster('antall_utbetalingsdager')}>
+                        {oppsummering.antallDager}
+                    </ListItem>
+                    <ListItem label={oppsummeringstekster('beløp')}>
+                        {`${toKronerOgØre(oppsummering.beløp)} kr`}
+                    </ListItem>
+                    <ListItem label={oppsummeringstekster('utbetaling_til')}>
+                        {`${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`}
+                    </ListItem>
+                </List>
                 <ListSeparator type="solid" />
-                {simuleringContext.error ? (
-                    <Normaltekst>{simuleringContext.error}</Normaltekst>
-                ) : (
-                    <>
-                        <ListItem
-                            label="Simulering"
-                            value={
-                                simuleringContext.simulering?.simulering?.totalBelop
-                                    ? `${toKronerOgØre(
-                                          simuleringContext.simulering?.simulering?.totalBelop
-                                      )} kr`
-                                    : simuleringContext.simulering?.feilMelding ??
-                                      'Ikke tilgjengelig'
-                            }
-                        />
-                        <ListItem
-                            label=""
-                            value={
-                                simuleringContext.arbeidsgiver === oppsummering.mottaker?.orgnummer
-                                    ? `${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`
-                                    : `Organisasjonsnummer: ${simuleringContext.arbeidsgiver}`
-                            }
-                        />
-                    </>
+                {simulering && arbeidsgiver && (
+                    <List>
+                        <ListItem label="Simulering">{simuleringsBeløp}</ListItem>
+                        <ListItem label="">{simuleringsArbeidsgiver}</ListItem>
+                    </List>
                 )}
+                {error && <Normaltekst>{error}</Normaltekst>}
                 <ListSeparator type="solid" />
-
                 <Navigasjonsknapper previous={pages.UTBETALINGSOVERSIKT} />
             </Panel>
             <div className="Oppsummering__right-col">

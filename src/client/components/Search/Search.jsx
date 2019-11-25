@@ -1,22 +1,40 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import SearchIcon from './SearchIcon';
-import { Keys } from '../../hooks/useKeyboard';
-import useLinks, { pages } from '../../hooks/useLinks';
-import { withRouter } from 'react-router';
-import { PersonContext } from '../../context/PersonContext';
-import { InnrapporteringContext } from '../../context/InnrapporteringContext';
-import './Search.less';
-import { EasterEggContext } from '../../context/EasterEggContext';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
+import useLinks, { pages } from '../../hooks/useLinks';
+import { Keys } from '../../hooks/useKeyboard';
+import { useHistory } from 'react-router';
+import { PersonContext } from '../../context/PersonContext';
+import { EasterEggContext } from '../../context/EasterEggContext';
+import './Search.less';
 
-const Search = ({ history }) => {
-    const ref = useRef();
-    const [fetchPerformed, setFetchPerformed] = useState(false);
+const useNavigateAfterSearch = () => {
+    const history = useHistory();
     const links = useLinks();
-    const { activate } = useContext(EasterEggContext);
-    const { hentPerson, personTilBehandling } = useContext(PersonContext);
-    const { resetUserFeedback } = useContext(InnrapporteringContext);
+    const { personTilBehandling } = useContext(PersonContext);
+    const [shouldNavigate, setShouldNavigate] = useState(false);
+
+    const doNavigate =
+        personTilBehandling &&
+        links &&
+        shouldNavigate &&
+        history.location.pathname.indexOf(pages.SYKMELDINGSPERIODE) < 0;
+
+    useEffect(() => {
+        if (doNavigate) {
+            history.push(links[pages.SYKMELDINGSPERIODE]);
+            setShouldNavigate(false);
+        }
+    }, [doNavigate]);
+
+    return { setShouldNavigate };
+};
+
+const Search = () => {
+    const ref = useRef();
+    const { activate: activateInfotrygd } = useContext(EasterEggContext);
+    const { hentPerson } = useContext(PersonContext);
+    const { setShouldNavigate } = useNavigateAfterSearch();
 
     const keyTyped = event => {
         const isEnter = (event.charCode || event.keyCode) === Keys.ENTER;
@@ -25,26 +43,13 @@ const Search = ({ history }) => {
         }
     };
 
-    useEffect(() => {
-        if (
-            personTilBehandling &&
-            links &&
-            fetchPerformed &&
-            history.location.pathname.indexOf(pages.SYKMELDINGSPERIODE) < 0
-        ) {
-            history.push(links[pages.SYKMELDINGSPERIODE]);
-            setFetchPerformed(false);
-        }
-    }, [fetchPerformed, links, personTilBehandling]);
-
-    const search = async value => {
+    const search = value => {
         if (value.trim().toLowerCase() === 'infotrygd') {
-            activate();
+            activateInfotrygd();
         } else if (value.trim().length !== 0) {
             hentPerson(value).then(person => {
                 if (person) {
-                    resetUserFeedback();
-                    setFetchPerformed(true);
+                    setShouldNavigate(true);
                 }
             });
         }
@@ -68,12 +73,4 @@ const Search = ({ history }) => {
     );
 };
 
-Search.propTypes = {
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-        location: PropTypes.shape({
-            pathname: PropTypes.string.isRequired
-        }).isRequired
-    }).isRequired
-};
-export default withRouter(Search);
+export default Search;

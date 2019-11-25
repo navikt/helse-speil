@@ -1,0 +1,16 @@
+.SubheaderWithList {
+  display: flex;
+  flex-direction: column;
+
+  .Subheader {
+    width: 100%;
+  }
+
+  .List {
+    margin: 0.5rem 1rem;
+
+    > *:nth-child(2n) {
+      justify-self: end;
+    }
+  }
+}

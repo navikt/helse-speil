@@ -84,40 +84,8 @@ export const post = async (url, data) => {
     };
 };
 
-export const putFeedback = async feedback => {
-    const response = await fetch(baseUrl + '/feedback', {
-        method: 'PUT',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(feedback)
-    });
-
-    if (response.status !== 204) {
-        throw ResponseError(response.status);
-    }
-};
-
-export const getFeedback = async behandlingsId => {
-    return get(`${baseUrl}/feedback/${behandlingsId}`);
-};
-
-export const getFeedbackList = async behandlingsIdList => {
-    return post(`${baseUrl}/feedback/list`, behandlingsIdList);
-};
-
-export const downloadFeedback = params => {
-    const query = params ? `?fraogmed=${params}` : '';
-    window.open(`${baseUrl}/feedback${query}`, { target: '_blank' });
-};
-
 export const getPersoninfo = async aktorId => {
     return get(`${baseUrl}/person/${aktorId}/info`);
-};
-
-export const getTildeling = async behandlingsId => {
-    return get(`${baseUrl}/tildeling/${behandlingsId}`);
 };
 
 export const getTildelinger = async behandlingsIdList => {
