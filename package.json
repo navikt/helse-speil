@@ -97,7 +97,7 @@
         "react-tooltip": "^3.11.1",
         "redis": "^2.8.0",
         "request": "^2.88.0",
-        "request-promise-native": "^1.0.7",
+        "request-promise-native": "^1.0.8",
         "reset-css": "^5.0.1",
         "snyk": "^1.239.0",
         "tunnel": "0.0.6",
