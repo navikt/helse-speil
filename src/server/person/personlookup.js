@@ -39,33 +39,20 @@ const sakSøk = async (req, res) => {
         return;
     }
 
-    if (!innsyn) {
-        let aktorId = isValidSsn(undeterminedId) ? await toAktørId(undeterminedId) : undeterminedId;
-        if (!aktorId) {
-            res.status(404).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
-            return;
-        }
-
-        respondWith({
-            res,
-            lookupPromise: onBehalfOf
-                .hentFor(spleisId, req.session.speilToken)
-                .then(token => spleis.hentSak(aktorId, token)),
-            mapper: response => ({
-                person: response.body
-            })
-        });
-    } else {
-        respondWith({
-            res,
-            lookupPromise: onBehalfOf
-                .hentFor(spleisId, req.session.speilToken)
-                .then(token => spleis.hentSakByUtbetalingsref(undeterminedId, token)),
-            mapper: response => ({
-                person: response.body
-            })
-        });
+    const aktørId = isValidSsn(undeterminedId) ? await toAktørId(undeterminedId) : undeterminedId;
+    if (!aktørId) {
+        return res.status(404).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
     }
+
+    return respondWith({
+        res,
+        lookupPromise: onBehalfOf.hentFor(spleisId, req.session.speilToken).then(token => {
+            return (innsyn ? spleis.hentSakByUtbetalingsref : spleis.hentSak)(aktørId, token);
+        }),
+        mapper: response => ({
+            person: response.body
+        })
+    });
 };
 
 const behovForPeriode = (req, res) => {
@@ -106,7 +93,7 @@ const toAktørId = async fnr => {
 };
 
 const respondWith = ({ res, lookupPromise, mapper }) => {
-    lookupPromise
+    return lookupPromise
         .then(apiResponse => {
             if (apiResponse === undefined) {
                 logger.error('Unexpected error, missing apiResponse value');
