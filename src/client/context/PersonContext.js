@@ -39,6 +39,7 @@ export const PersonProvider = ({ children }) => {
                 return person;
             })
             .catch(err => {
+                if (!err.statusCode) console.error(err);
                 const message =
                     err.statusCode === 401
                         ? 'Du må logge inn på nytt'
