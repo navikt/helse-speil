@@ -1,8 +1,8 @@
 'use strict';
 
-const personinfolookup = require('./personinfolookup');
+const personinfolookupModule = require('./personinfolookup');
 
-const sparkelclient = require('../adapters/sparkelClient');
+const sparkelClient = require('../adapters/sparkelClient');
 
 const personinfoAsInMockedResponsesFile = {
     fornavn: 'BJARNE'
@@ -19,9 +19,10 @@ const aktørIdLookupStub = {
     hentFnr: () => Promise.resolve(2469)
 };
 
+let personinfolookup;
 beforeAll(() => {
-    personinfolookup.init({
-        sparkelclient,
+    personinfolookup = personinfolookupModule.factory({
+        sparkelClient,
         stsclient: stsclientStub,
         aktørIdLookup: aktørIdLookupStub
     });

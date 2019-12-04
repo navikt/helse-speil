@@ -1,12 +1,10 @@
 'use strict';
 
-const personInfoLookup = require('./personinfolookup');
 const logger = require('../logging');
 
 const timeToExpire = 34 * 60 * 60 * 1000;
-const factory = ({ sparkelClient, aktørIdLookup, stsclient, cache }) => {
-    personInfoLookup.init({ sparkelclient: sparkelClient, stsclient, aktørIdLookup });
 
+const factory = ({ personInfoLookup, cache }) => {
     return {
         getPersoninfo: getPersoninfo({ personInfoLookup, cache })
     };
@@ -35,6 +33,7 @@ const getPersoninfo = ({ personInfoLookup, cache }) => (req, res) => {
         }
     });
 };
+
 module.exports = {
     factory
 };

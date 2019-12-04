@@ -13,6 +13,7 @@ const devAktørIdLookup = require('./aktørid/devAktørIdLookup');
 const spadeClient = require('./adapters/spadeClient');
 const devSpadeClient = require('./adapters/devSpadeClient');
 
+const personinfolookupModule = require('./person/personinfolookup');
 const personinforepoModule = require('./person/personinforepo');
 const personlookupModule = require('./person/personlookup');
 
@@ -22,10 +23,13 @@ const getDependencies = app =>
 const getDevDependencies = app => {
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
-    const personinforepo = personinforepoModule.factory({
+    const personInfoLookup = personinfolookupModule.factory({
         sparkelClient: devSparkelClient,
-        aktørIdLookup: devAktørIdLookup,
         stsclient: devStsClient,
+        aktørIdLookup: devAktørIdLookup
+    });
+    const personinforepo = personinforepoModule.factory({
+        personInfoLookup,
         cache: devRedisClient
     });
     const personlookup = personlookupModule.factory({
@@ -46,10 +50,13 @@ const getProdDependencies = app => {
     aktørIdLookup.init(stsclient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
-    const personinforepo = personinforepoModule.factory({
+    const personInfoLookup = personinfolookupModule.factory({
         sparkelClient,
-        aktørIdLookup,
         stsclient,
+        aktørIdLookup
+    });
+    const personinforepo = personinforepoModule.factory({
+        personInfoLookup,
         cache: redisClient
     });
     const personlookup = personlookupModule.factory({

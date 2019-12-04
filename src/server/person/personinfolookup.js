@@ -2,26 +2,19 @@
 
 const personinfomapping = require('./personinfomapping');
 
-let sparkelClient;
-let stsClient;
-let aktørIdLookup;
-
-const init = ({ stsclient, sparkelclient, aktørIdLookup: aktøridlookup }) => {
-    stsClient = stsclient;
-    sparkelClient = sparkelclient;
-    aktørIdLookup = aktøridlookup;
-};
-
-const hentPersoninfo = async aktørId => {
-    return stsClient
-        .hentAccessToken()
-        .then(token => sparkelClient.hentPersoninfo(aktørId, token))
-        .then(async person => {
-            const fnr = await aktørIdLookup.hentFnr(aktørId);
-            return personinfomapping.map({ ...person, fnr });
-        });
+const factory = ({ stsclient, sparkelClient, aktørIdLookup }) => {
+    return {
+        hentPersoninfo: async aktørId => {
+            return stsclient
+                .hentAccessToken()
+                .then(token => sparkelClient.hentPersoninfo(aktørId, token))
+                .then(async person => {
+                    const fnr = await aktørIdLookup.hentFnr(aktørId);
+                    return personinfomapping.map({ ...person, fnr });
+                });
+        }
+    };
 };
 module.exports = {
-    init,
-    hentPersoninfo
+    factory
 };
