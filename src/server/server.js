@@ -141,7 +141,7 @@ app.use('/*', (req, res, next) => {
 });
 
 app.use('/api/tildeling', tildeling.setup(dependencies.redisClient));
-app.use('/api/person', person.setup(dependencies.person));
+app.use('/api/person', person.setup());
 app.use('/api/payments', payments.setup(dependencies.payments));
 
 app.get('/*', (req, res, next) => {

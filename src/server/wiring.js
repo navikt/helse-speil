@@ -13,23 +13,29 @@ const devAktørIdLookup = require('./aktørid/devAktørIdLookup');
 const spadeClient = require('./adapters/spadeClient');
 const devSpadeClient = require('./adapters/devSpadeClient');
 
+const personinforepo = require('./person/personinforepo');
+const personlookup = require('./person/personlookup');
+
 const getDependencies = app =>
     process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
 
 const getDevDependencies = app => {
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
+    personinforepo.setup({
+        sparkelClient: devSparkelClient,
+        aktørIdLookup: devAktørIdLookup,
+        stsclient: devStsClient,
+        cache: devRedisClient
+    });
+    personlookup.setup({
+        aktørIdLookup: devAktørIdLookup,
+        spadeClient: devSpadeClient,
+        config,
+        onBehalfOf
+    });
     return {
-        person: {
-            sparkelClient: devSparkelClient,
-            aktørIdLookup: devAktørIdLookup,
-            spadeClient: devSpadeClient,
-            stsclient: devStsClient,
-            onBehalfOf,
-            cache: devRedisClient,
-            config
-        },
-        payments: { config: config, onBehalfOf },
+        payments: { config, onBehalfOf },
         redisClient: devRedisClient
     };
 };
@@ -39,17 +45,20 @@ const getProdDependencies = app => {
     aktørIdLookup.init(stsclient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
+    personinforepo.setup({
+        sparkelClient,
+        aktørIdLookup,
+        stsclient,
+        cache: redisClient
+    });
+    personlookup.setup({
+        aktørIdLookup,
+        spadeClient,
+        config,
+        onBehalfOf
+    });
     return {
-        person: {
-            sparkelClient,
-            aktørIdLookup,
-            spadeClient,
-            stsclient,
-            onBehalfOf,
-            cache: redisClient,
-            config
-        },
-        payments: { config: config, onBehalfOf },
+        payments: { config, onBehalfOf },
         redisClient
     };
 };
