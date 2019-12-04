@@ -9,26 +9,7 @@ const spleis = require('./spleisClient');
 
 const personIdHeaderName = 'nav-person-id';
 
-let aktørIdLookup;
-let spadeClient;
-let spleisId;
-let spadeId;
-let onBehalfOf;
-
-const setup = ({
-    aktørIdLookup: aktøridlookup,
-    spadeClient: spadeclient,
-    config,
-    onBehalfOf: onbehalfof
-}) => {
-    aktørIdLookup = aktøridlookup;
-    spadeClient = spadeclient;
-    spleisId = config.oidc.clientIDSpleis;
-    spadeId = config.oidc.clientIDSpade;
-    onBehalfOf = onbehalfof;
-};
-
-const sakSøk = async (req, res) => {
+const sakSøk = ({ onBehalfOf, spleisId, toAktørId }) => async (req, res) => {
     const undeterminedId = req.headers[personIdHeaderName];
     const innsyn = req.headers['innsyn'] === 'true';
 
@@ -55,7 +36,7 @@ const sakSøk = async (req, res) => {
     });
 };
 
-const behovForPeriode = (req, res) => {
+const behovForPeriode = ({ onBehalfOf, spadeId, spadeClient }) => (req, res) => {
     auditLog(req);
 
     const today = moment().format('YYYY-MM-DD');
@@ -76,6 +57,21 @@ const behovForPeriode = (req, res) => {
     });
 };
 
+const factory = ({ aktørIdLookup, spadeClient, config, onBehalfOf }) => {
+    const spleisId = config.oidc.clientIDSpleis;
+    const spadeId = config.oidc.clientIDSpade;
+
+    const toAktørId = async fnr =>
+        await aktørIdLookup.hentAktørId(fnr).catch(err => {
+            logger.error(`Could not fetch aktørId. ${err}`);
+        });
+
+    return {
+        sakSøk: sakSøk({ onBehalfOf, spleisId, toAktørId }),
+        behovForPeriode: behovForPeriode({ onBehalfOf, spadeId, spadeClient })
+    };
+};
+
 const auditLog = (request, ...queryParams) => {
     const speilUser = valueFromClaim('name', request.session.speilToken);
     logger.audit(
@@ -84,12 +80,6 @@ const auditLog = (request, ...queryParams) => {
             ''
         )}`
     );
-};
-
-const toAktørId = async fnr => {
-    return await aktørIdLookup.hentAktørId(fnr).catch(err => {
-        logger.error(`Could not fetch aktørId. ${err}`);
-    });
 };
 
 const respondWith = ({ res, lookupPromise, mapper }) => {
@@ -108,8 +98,6 @@ const respondWith = ({ res, lookupPromise, mapper }) => {
 };
 
 module.exports = {
-    setup,
-    sakSøk,
-    behovForPeriode,
+    factory,
     personIdHeaderName
 };

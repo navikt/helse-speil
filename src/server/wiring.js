@@ -13,8 +13,8 @@ const devAktørIdLookup = require('./aktørid/devAktørIdLookup');
 const spadeClient = require('./adapters/spadeClient');
 const devSpadeClient = require('./adapters/devSpadeClient');
 
-const personinforepo = require('./person/personinforepo');
-const personlookup = require('./person/personlookup');
+const personinforepoModule = require('./person/personinforepo');
+const personlookupModule = require('./person/personlookup');
 
 const getDependencies = app =>
     process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
@@ -22,13 +22,13 @@ const getDependencies = app =>
 const getDevDependencies = app => {
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
-    personinforepo.setup({
+    const personinforepo = personinforepoModule.factory({
         sparkelClient: devSparkelClient,
         aktørIdLookup: devAktørIdLookup,
         stsclient: devStsClient,
         cache: devRedisClient
     });
-    personlookup.setup({
+    const personlookup = personlookupModule.factory({
         aktørIdLookup: devAktørIdLookup,
         spadeClient: devSpadeClient,
         config,
@@ -36,6 +36,7 @@ const getDevDependencies = app => {
     });
     return {
         payments: { config, onBehalfOf },
+        person: { personlookup, personinforepo },
         redisClient: devRedisClient
     };
 };
@@ -45,13 +46,13 @@ const getProdDependencies = app => {
     aktørIdLookup.init(stsclient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
-    personinforepo.setup({
+    const personinforepo = personinforepoModule.factory({
         sparkelClient,
         aktørIdLookup,
         stsclient,
         cache: redisClient
     });
-    personlookup.setup({
+    const personlookup = personlookupModule.factory({
         aktørIdLookup,
         spadeClient,
         config,
@@ -59,6 +60,7 @@ const getProdDependencies = app => {
     });
     return {
         payments: { config, onBehalfOf },
+        person: { personlookup, personinforepo },
         redisClient
     };
 };

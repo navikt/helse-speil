@@ -4,13 +4,15 @@ const personInfoLookup = require('./personinfolookup');
 const logger = require('../logging');
 
 const timeToExpire = 34 * 60 * 60 * 1000;
-let cache;
-const setup = ({ sparkelClient, aktørIdLookup, stsclient, cache: cacheParam }) => {
+const factory = ({ sparkelClient, aktørIdLookup, stsclient, cache }) => {
     personInfoLookup.init({ sparkelclient: sparkelClient, stsclient, aktørIdLookup });
-    cache = cacheParam;
+
+    return {
+        getPersoninfo: getPersoninfo({ personInfoLookup, cache })
+    };
 };
 
-const getPersoninfo = (req, res) => {
+const getPersoninfo = ({ personInfoLookup, cache }) => (req, res) => {
     const aktørId = req.params.aktorId;
     cache.get(`person-${aktørId}`, (err, personinfo) => {
         if (err) {
@@ -33,8 +35,6 @@ const getPersoninfo = (req, res) => {
         }
     });
 };
-
 module.exports = {
-    setup,
-    getPersoninfo
+    factory
 };
