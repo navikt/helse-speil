@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useContext } from 'react';
 import { PersonContext } from '../context/PersonContext';
 
 export const pages = {
@@ -23,24 +23,16 @@ const linkBases = {
     [pages.OPPSUMMERING]: '/oppsummering'
 };
 
-const buildLinks = person =>
+export const buildLinks = person =>
     Object.keys(linkBases).reduce((links, key) => {
         links[key] = `${linkBases[key]}/${person.aktørId}`;
         return links;
     }, {});
 
 const useLinks = () => {
-    const [links, setLinks] = useState(undefined);
-
     const { personTilBehandling } = useContext(PersonContext);
 
-    useEffect(() => {
-        if (personTilBehandling !== undefined) {
-            setLinks(buildLinks(personTilBehandling));
-        }
-    }, [personTilBehandling]);
-
-    return links;
+    return personTilBehandling ? buildLinks(personTilBehandling) : undefined;
 };
 
 export default useLinks;

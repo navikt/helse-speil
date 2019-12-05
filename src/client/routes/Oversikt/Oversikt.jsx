@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Oversiktslinje from './Oversiktslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -11,7 +11,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import 'nav-frontend-lenker-style';
 import './Oversikt.less';
-import useLinks, { pages } from '../../hooks/useLinks';
+import { buildLinks, pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 
 const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
@@ -31,11 +31,6 @@ const Oversikt = ({ history }) => {
         fetchTildelinger,
         fjernTildeling
     } = useContext(TildelingerContext);
-    const links = useLinks();
-    const linksRef = useRef(links);
-    useEffect(() => {
-        linksRef.current = links;
-    }, [links]);
 
     useEffect(() => {
         hentSaksoversikt();
@@ -53,7 +48,7 @@ const Oversikt = ({ history }) => {
     const velgBehovAndNavigate = behov => {
         hentPerson(behov.aktørId).then(person => {
             if (person !== undefined) {
-                setTimeout(() => history.push(linksRef.current[pages.SYKMELDINGSPERIODE]), 0);
+                history.push(buildLinks(person)[pages.SYKMELDINGSPERIODE]);
             }
         });
     };
