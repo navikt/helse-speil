@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const hentSak = async (aktørId, onBehalfOfToken) => {
     if (process.env.NODE_ENV === 'development') {
-        const fromFile = fs.readFileSync('__mock-data__/tidslinjeperson.json', 'utf-8');
+        const fromFile = fs.readFileSync(`__mock-data__/${filename(aktørId)}`, 'utf-8');
         const person = JSON.parse(fromFile);
         return Promise.resolve({
             statusCode: 200,
@@ -23,7 +23,7 @@ const hentSak = async (aktørId, onBehalfOfToken) => {
 
 const hentSakByUtbetalingsref = async (utbetalingsref, onBehalfOfToken) => {
     if (process.env.NODE_ENV === 'development') {
-        const fromFile = fs.readFileSync('__mock-data__/tidslinjeperson.json', 'utf-8');
+        const fromFile = fs.readFileSync(`__mock-data__/mock-sak-2.json`, 'utf-8');
         const person = JSON.parse(fromFile);
         return Promise.resolve({
             statusCode: 200,
@@ -40,6 +40,9 @@ const hentSakByUtbetalingsref = async (utbetalingsref, onBehalfOfToken) => {
     };
     return request.get(options);
 };
+
+const filename = aktørId =>
+    aktørId === '0123456789012' || !/[a-z]/.test(aktørId) ? 'mock-sak-1.json' : 'mock-sak-2.json';
 
 module.exports = {
     hentSak,
