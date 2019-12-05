@@ -1,10 +1,18 @@
 [
     {
         "@behov": "GodkjenningFraSaksbehandler",
-        "@id": "ea5d644b-ffb9-4c32-bbd9-f93744554d5e",
+        "@id": "ea5d644b-0000-9999-0000-f93744554d5e",
         "@opprettet": "2019-11-01T08:38:00.728127",
         "aktørId": "0123456789012",
         "organisasjonsnummer": "123456789",
-        "sakskompleksId": "9485bde4-6541-4dcf-aa53-8b466fc4ac87"
+        "sakskompleksId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87"
+    },
+    {
+        "@behov": "GodkjenningFraSaksbehandler",
+        "@id": "f9374455-0000-9999-0000-ea5d644b4d5f",
+        "@opprettet": "2019-12-03T08:38:00.728127",
+        "aktørId": "1000000009871",
+        "organisasjonsnummer": "999888777",
+        "sakskompleksId": "bbbbbbbb-6541-4dcf-aa53-8b466fc4ac87"
     }
 ]

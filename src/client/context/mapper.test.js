@@ -1,4 +1,4 @@
-import behov from '../../../__mock-data__/tidslinjeperson';
+import behov from '../../../__mock-data__/mock-sak-1';
 import personMapper, { beregnAlder } from './mapper';
 
 test('mapper data riktig for inngangsvilkår-siden', () => {
