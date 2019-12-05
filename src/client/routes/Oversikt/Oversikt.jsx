@@ -47,9 +47,7 @@ const Oversikt = ({ history }) => {
 
     const velgBehovAndNavigate = behov => {
         hentPerson(behov.aktørId).then(person => {
-            if (person !== undefined) {
-                history.push(buildLinks(person)[pages.SYKMELDINGSPERIODE]);
-            }
+            history.push(buildLinks(person)[pages.SYKMELDINGSPERIODE]);
         });
     };
 

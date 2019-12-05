@@ -47,6 +47,7 @@ export const PersonProvider = ({ children }) => {
                         ? `Fant ikke data for ${value}`
                         : 'Kunne ikke utføre søket. Prøv igjen senere.';
                 setError({ ...err, message });
+                return Promise.reject();
             });
     };
 

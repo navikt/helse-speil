@@ -47,10 +47,8 @@ const Search = () => {
         if (value.trim().toLowerCase() === 'infotrygd') {
             activateInfotrygd();
         } else if (value.trim().length !== 0) {
-            hentPerson(value).then(person => {
-                if (person) {
-                    setShouldNavigate(true);
-                }
+            hentPerson(value).then(() => {
+                setShouldNavigate(true);
             });
         }
     };
