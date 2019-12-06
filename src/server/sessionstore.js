@@ -11,7 +11,11 @@ const sessionStore = (config, redisClient) => {
 const createMemoryStoreSession = config => {
     logger.info('Setting up MemoryStore session store');
 
-    return expressSession({ secret: config.server.sessionSecret });
+    return expressSession({
+        secret: config.server.sessionSecret,
+        saveUninitialized: false,
+        resave: false
+    });
 };
 
 const createRedisSession = (config, redisClient) => {
