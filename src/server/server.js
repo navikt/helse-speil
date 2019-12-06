@@ -16,7 +16,6 @@ const { sessionStore } = require('./sessionstore');
 
 const headers = require('./headers');
 
-const feedback = require('./feedback/feedbackroutes');
 const person = require('./person/personroutes');
 const tildeling = require('./tildeling/tildelingroutes');
 const payments = require('./payment/paymentroutes');
@@ -143,7 +142,6 @@ app.use('/*', (req, res, next) => {
 
 app.use('/api/tildeling', tildeling.setup(dependencies.redisClient));
 app.use('/api/person', person.setup(dependencies.person));
-app.use('/api/feedback', feedback.setup(dependencies.feedback));
 app.use('/api/payments', payments.setup(dependencies.payments));
 
 app.get('/*', (req, res, next) => {

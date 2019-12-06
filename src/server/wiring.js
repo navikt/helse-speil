@@ -20,7 +20,6 @@ const getDevDependencies = app => {
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
     return {
-        feedback: { config: config.s3, instrumentation },
         person: {
             sparkelClient: devSparkelClient,
             aktørIdLookup: devAktørIdLookup,
@@ -41,7 +40,6 @@ const getProdDependencies = app => {
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
     return {
-        feedback: { config: config.s3, instrumentation },
         person: {
             sparkelClient,
             aktørIdLookup,

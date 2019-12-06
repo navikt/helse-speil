@@ -20,7 +20,6 @@
         "start-express": "npm run build-server && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
         "dev-express": "export NODE_ENV=development && export SESSION_SECRET=whatever && npm run start-express",
         "oppgulp": "nodemon --watch src/server --exec 'npm run dev-express'",
-        "mock-s3": "docker-compose --file __mocks__/s3-docker-compose.yaml up",
         "build": "npm run clean:dist && npm run test && parcel build src/client/index.html --out-dir dist/client --public-url /static --no-source-maps",
         "build-server": "$(npm bin)/babel --config-file ./babel-server.config.json src/server --out-dir dist/server",
         "clean:dist": "rimraf dist",
@@ -45,7 +44,6 @@
         ]
     },
     "dependencies": {
-        "aws-sdk": "^2.585.0",
         "classnames": "^2.2.6",
         "compression": "^1.7.4",
         "connect-redis": "^4.0.3",
@@ -132,7 +130,6 @@
         "jest": "^24.9.0",
         "less": "^3.10.3",
         "lint-staged": "^9.5.0",
-        "mock-http-server": "^1.4.0",
         "nodemon": "^1.19.4",
         "parcel-bundler": "^1.12.4",
         "prettier": "^1.19.1",
