@@ -38,20 +38,6 @@ REDIRECT_URL=http://localhost:3000/callback
 SESSION_SECRET=whatever
 ```
 
-Hvis du vil benytte funksjonaliteten for lagring og henting av feedback for en sak må du tilby et S3-kompatibelt endepunkt, her kan feks [LocalStack](https://hub.docker.com/r/localstack/localstack) benyttes. Følgende må da inn i .env-fila i tillegg til det som er nevnt ovenfor:
-
-```
-S3_URL=http://localhost:4572
-S3_ACCESS_KEY=<key>
-S3_SECRET_KEY=<secret>
-```
-
-Kjør LocalStack:
-
-```
-npm run mock-s3
-```
-
 Bygg/pakk frontend:
 
 ```

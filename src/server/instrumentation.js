@@ -6,7 +6,6 @@ const setup = app => {
     prometheus.collectDefaultMetrics({ timeout: 5000 });
     routes(app);
     return {
-        feedbackCounter: feedbackCounter,
         onBehalfOfCounter
     };
 };
@@ -22,27 +21,6 @@ const onBehalfOfCounter = () => {
         inc: clientId => {
             counter.inc({
                 targetClientId: clientId
-            });
-        }
-    };
-};
-
-const feedbackCounter = () => {
-    const counter = new prometheus.Counter({
-        name: 'feedbacks',
-        help: 'nr of feedbacks submitted',
-        labelNames: ['result']
-    });
-
-    return {
-        agree: () => {
-            counter.inc({
-                result: 'agree'
-            });
-        },
-        disagree: () => {
-            counter.inc({
-                result: 'disagree'
             });
         }
     };
