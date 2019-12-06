@@ -15,4 +15,11 @@ const del = (key, callback) => {
     callback();
 };
 
-module.exports = { get, set, setex, del };
+module.exports = {
+    init: () => ({
+        get,
+        set,
+        setex,
+        del
+    })
+};

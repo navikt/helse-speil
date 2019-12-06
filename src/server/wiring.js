@@ -1,51 +1,21 @@
 const config = require('./config');
-const redisclient = require('./redisclient');
-const devRedisClient = require('./devredisclient');
+const redisclient = require(prod ? './redisclient' : './devredisclient');
 
 const instrumentationModule = require('./instrumentation');
-const stsclient = require('./auth/stsclient');
-const devStsClient = require('./auth/devStsClient');
 const onbehalfof = require('./auth/onbehalfof');
-const sparkelClient = require('./adapters/sparkelClient');
-const devSparkelClient = require('./adapters/devSparkelClient');
-const aktørIdLookup = require('./aktørid/aktøridlookup');
-const devAktørIdLookup = require('./aktørid/devAktørIdLookup');
-const spadeClient = require('./adapters/spadeClient');
-const devSpadeClient = require('./adapters/devSpadeClient');
+
+const spadeClient = require(prod ? './adapters/spadeClient' : './adapters/devSpadeClient');
+const aktørIdLookup = require(prod ? './aktørid/aktøridlookup' : './aktørid/devAktørIdLookup');
+const sparkelClient = require(prod ? './adapters/sparkelClient' : './adapters/devSparkelClient');
+const stsclient = require(prod ? './auth/stsclient' : './auth/devStsClient');
 
 const personinfolookupModule = require('./person/personinfolookup');
 const personinforepoModule = require('./person/personinforepo');
 const personlookupModule = require('./person/personlookup');
 
-const getDependencies = app =>
-    process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
+const prod = process.env.NODE_ENV !== 'development';
 
-const getDevDependencies = app => {
-    const instrumentation = instrumentationModule.setup(app);
-    const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
-    const personInfoLookup = personinfolookupModule.factory({
-        sparkelClient: devSparkelClient,
-        stsclient: devStsClient,
-        aktørIdLookup: devAktørIdLookup
-    });
-    const personinforepo = personinforepoModule.factory({
-        personInfoLookup,
-        cache: devRedisClient
-    });
-    const personlookup = personlookupModule.factory({
-        aktørIdLookup: devAktørIdLookup,
-        spadeClient: devSpadeClient,
-        config,
-        onBehalfOf
-    });
-    return {
-        payments: { config, onBehalfOf },
-        person: { personlookup, personinforepo },
-        redisClient: devRedisClient
-    };
-};
-
-const getProdDependencies = app => {
+const getDependencies = app => {
     const redisClient = redisclient.init({ config: config.redis });
     aktørIdLookup.init(stsclient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
@@ -71,4 +41,5 @@ const getProdDependencies = app => {
         redisClient
     };
 };
+
 module.exports = { getDependencies };
