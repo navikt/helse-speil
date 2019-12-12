@@ -1,5 +1,5 @@
 const config = require('./config');
-const redisclient = require(prod ? './redisclient' : './devredisclient');
+const redisclientModule = require(prod ? './redisclient' : './devredisclient');
 
 const instrumentationModule = require('./instrumentation');
 const onbehalfof = require('./auth/onbehalfof');
@@ -12,11 +12,13 @@ const stsclient = require(prod ? './auth/stsclient' : './auth/devStsClient');
 const personinfolookupModule = require('./person/personinfolookup');
 const personinforepoModule = require('./person/personinforepo');
 const personlookupModule = require('./person/personlookup');
+const storageFactory = require('./tildeling/storage');
 
 const prod = process.env.NODE_ENV !== 'development';
 
 const getDependencies = app => {
-    const redisClient = redisclient.init({ config: config.redis });
+    const redisClient = redisclientModule.init({ config: config.redis });
+    const tildelingStorage = storageFactory.build(redisClient);
     aktørIdLookup.init(stsclient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
     const onBehalfOf = onbehalfof.factory(config.oidc, instrumentation);
@@ -38,6 +40,7 @@ const getDependencies = app => {
     return {
         payments: { config, onBehalfOf },
         person: { personlookup, personinforepo },
+        tildeling: { storage: tildelingStorage },
         redisClient
     };
 };

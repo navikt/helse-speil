@@ -1,15 +1,13 @@
 'use strict';
 const router = require('express').Router();
-const storage = require('./storage');
 const logger = require('../logging');
 
-const setup = redisclient => {
-    storage.init(redisclient);
-    routes({ router });
+const setup = ({ storage }) => {
+    routes({ router, storage });
     return router;
 };
 
-const routes = ({ router }) => {
+const routes = ({ router, storage }) => {
     router.post('/list', (req, res) => {
         const behovIdList = req.body;
         storage
