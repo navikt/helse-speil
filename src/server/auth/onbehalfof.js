@@ -4,7 +4,7 @@ let config;
 let instrumentation;
 let counter;
 
-const factory = (oidcConfig, _instrumentation) => {
+const build = (oidcConfig, _instrumentation) => {
     config = oidcConfig;
     instrumentation = _instrumentation;
     counter = instrumentation.onBehalfOfCounter();
@@ -36,5 +36,5 @@ const hentFor = async (targetClientId, accessToken) => {
 };
 
 module.exports = {
-    factory
+    build
 };

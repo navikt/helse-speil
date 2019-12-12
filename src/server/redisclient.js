@@ -1,6 +1,6 @@
 const redis = require('redis');
 
-const init = ({ config }) => {
+const build = ({ config }) => {
     const redisClient = redis.createClient({
         host: config.host,
         port: config.port,
@@ -17,5 +17,5 @@ const init = ({ config }) => {
 };
 
 module.exports = {
-    init
+    build
 };

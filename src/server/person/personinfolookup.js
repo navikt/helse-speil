@@ -2,7 +2,7 @@
 
 const personinfomapping = require('./personinfomapping');
 
-const factory = ({ stsclient, sparkelClient, aktørIdLookup }) => {
+const build = ({ stsclient, sparkelClient, aktørIdLookup }) => {
     return {
         hentPersoninfo: async aktørId => {
             return stsclient
@@ -16,5 +16,5 @@ const factory = ({ stsclient, sparkelClient, aktørIdLookup }) => {
     };
 };
 module.exports = {
-    factory
+    build
 };

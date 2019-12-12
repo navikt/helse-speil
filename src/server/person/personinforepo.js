@@ -4,7 +4,7 @@ const logger = require('../logging');
 
 const timeToExpire = 34 * 60 * 60 * 1000;
 
-const factory = ({ personInfoLookup, cache }) => {
+const build = ({ personInfoLookup, cache }) => {
     return {
         getPersoninfo: getPersoninfo({ personInfoLookup, cache })
     };
@@ -35,5 +35,5 @@ const getPersoninfo = ({ personInfoLookup, cache }) => (req, res) => {
 };
 
 module.exports = {
-    factory
+    build
 };

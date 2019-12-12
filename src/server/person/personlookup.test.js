@@ -1,4 +1,4 @@
-const personlookupModule = require('./personlookup');
+const personlookupFactory = require('./personlookup');
 const spleisClient = require('./spleisClient');
 
 jest.mock('./spleisClient');
@@ -16,7 +16,7 @@ let hentAktørIdAnswer = Promise.resolve('123');
 let personlookup;
 
 beforeAll(() => {
-    personlookup = personlookupModule.factory({
+    personlookup = personlookupFactory.build({
         aktørIdLookup: { hentAktørId: () => hentAktørIdAnswer },
         spadeClient: {},
         config: { oidc: {} },
@@ -34,7 +34,7 @@ const mockResponse = (() => {
 
 describe('sakSøk', () => {
     const baseReq = {
-        headers: { [personlookupModule.personIdHeaderName]: '123' },
+        headers: { [personlookupFactory.personIdHeaderName]: '123' },
         session: {}
     };
 
@@ -58,7 +58,7 @@ describe('sakSøk', () => {
     describe('oppslag på fødselsnummer', () => {
         const reqWithFnr = {
             ...baseReq,
-            headers: { ...baseReq.headers, [personlookupModule.personIdHeaderName]: '11031888001' }
+            headers: { ...baseReq.headers, [personlookupFactory.personIdHeaderName]: '11031888001' }
         };
         test('slår opp aktørId for fødselsnummer', async () => {
             await personlookup.sakSøk(reqWithFnr, mockResponse);

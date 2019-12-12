@@ -57,7 +57,7 @@ const behovForPeriode = ({ onBehalfOf, spadeId, spadeClient }) => (req, res) => 
     });
 };
 
-const factory = ({ aktørIdLookup, spadeClient, config, onBehalfOf }) => {
+const build = ({ aktørIdLookup, spadeClient, config, onBehalfOf }) => {
     const spleisId = config.oidc.clientIDSpleis;
     const spadeId = config.oidc.clientIDSpade;
 
@@ -98,6 +98,6 @@ const respondWith = ({ res, lookupPromise, mapper }) => {
 };
 
 module.exports = {
-    factory,
+    build,
     personIdHeaderName
 };

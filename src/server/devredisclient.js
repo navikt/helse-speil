@@ -16,7 +16,7 @@ const del = (key, callback) => {
 };
 
 module.exports = {
-    init: () => ({
+    build: () => ({
         get,
         set,
         setex,

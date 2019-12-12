@@ -2,7 +2,7 @@
 
 const prometheus = require('prom-client');
 
-const setup = app => {
+const build = app => {
     prometheus.collectDefaultMetrics({ timeout: 5000 });
     routes(app);
     return {
@@ -34,5 +34,5 @@ const routes = app => {
 };
 
 module.exports = {
-    setup: setup
+    build
 };

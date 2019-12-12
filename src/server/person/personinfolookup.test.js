@@ -1,6 +1,6 @@
 'use strict';
 
-const personinfolookupModule = require('./personinfolookup');
+const personinfolookupFactory = require('./personinfolookup');
 
 const sparkelClient = require('../adapters/sparkelClient');
 
@@ -21,7 +21,7 @@ const aktørIdLookupStub = {
 
 let personinfolookup;
 beforeAll(() => {
-    personinfolookup = personinfolookupModule.factory({
+    personinfolookup = personinfolookupFactory.build({
         sparkelClient,
         stsclient: stsclientStub,
         aktørIdLookup: aktørIdLookupStub
