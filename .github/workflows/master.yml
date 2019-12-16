@@ -39,14 +39,13 @@ jobs:
           docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
       - name: push docker image
         run: |
-          echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin https://docker.pkg.github.com
+          echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin https://docker.pkg.github.com
           docker push $(cat .docker_image):$(cat .docker_tag)
         env:
-          DOCKER_USERNAME: ${{ secrets.GH_REPO_USER }}
-          DOCKER_PASSWORD: ${{ secrets.GH_REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: deploy to preprod
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NAV_CLUSTER: dev-fss
           SPEIL_FILE: deploy/speil-preprod.json
           REDIS_FILE: deploy/redis.json
@@ -66,7 +65,7 @@ jobs:
              https://api.github.com/repos/$GITHUB_REPOSITORY/deployments
       - name: deploy to prod
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NAV_CLUSTER: prod-fss
           SPEIL_FILE: deploy/speil-prod.json
           REDIS_FILE: deploy/redis.json
