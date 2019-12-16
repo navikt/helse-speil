@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Oversiktslinje from './Oversiktslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -13,8 +13,9 @@ import 'nav-frontend-lenker-style';
 import './Oversikt.less';
 import { buildLinks, pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
+import { useInterval } from '../../hooks/useInterval';
 
-const FETCH_TILDELINGER_INTERVAL_IN_MS = 120000;
+const TWO_MINUTES = 120000;
 
 const Oversikt = ({ history }) => {
     const { hentPerson } = useContext(PersonContext);
@@ -36,14 +37,10 @@ const Oversikt = ({ history }) => {
         hentSaksoversikt();
     }, []);
 
-    useEffect(() => {
-        fetchTildelinger(saksoversikt);
-        const id = window.setInterval(
-            () => fetchTildelinger(saksoversikt),
-            FETCH_TILDELINGER_INTERVAL_IN_MS
-        );
-        return () => window.clearInterval(id);
-    }, [saksoversikt.length]);
+    const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(saksoversikt), [
+        saksoversikt
+    ]);
+    useInterval({ callback: intervalledFetchTildelinger, interval: TWO_MINUTES });
 
     const velgBehovAndNavigate = behov => {
         hentPerson(behov.aktørId).then(person => {
