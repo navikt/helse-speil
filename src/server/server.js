@@ -38,23 +38,6 @@ app.use(compression());
 
 headers.setup(app);
 
-const globalLog = require('global-request-logger');
-globalLog.initialize();
-
-globalLog.on('success', function(request, response) {
-    logger.audit(
-        `successful http call: request=${JSON.stringify(request)} response=${JSON.stringify(
-            response
-        )})`
-    );
-});
-
-globalLog.on('error', function(request, response) {
-    logger.audit(
-        `failed http call: request=${JSON.stringify(request)} response=${JSON.stringify(response)})`
-    );
-});
-
 let azureClient = null;
 azure
     .setup(config.oidc)
