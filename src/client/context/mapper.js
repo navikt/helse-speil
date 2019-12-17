@@ -53,7 +53,8 @@ export default {
                 beløp:
                     person.arbeidsgivere[0].saker[0].utbetalingslinjer[0].dagsats *
                     antallUtbetalingsdager(person),
-                mottaker: arbeidsgiver(person)
+                mottaker: arbeidsgiver(person),
+                utbetalingsreferanse: person.arbeidsgivere[0].saker[0].utbetalingsreferanse
             }
         };
         return mapped;

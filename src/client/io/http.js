@@ -107,3 +107,7 @@ export const postVedtak = async (behovId, aktørId, godkjent) => {
 export const postSimulering = async (sak, saksbehandlerIdent) => {
     return post(`${baseUrl}/payments/simulate`, { sak, saksbehandlerIdent });
 };
+
+export const postAnnullering = async (utbetalingsreferanse, aktørId) => {
+    return post(`${baseUrl}/payments/annullering`, { utbetalingsreferanse, aktørId });
+};

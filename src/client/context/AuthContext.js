@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
             document.cookie = `speil=dev-cookie.${btoa(
                 JSON.stringify({
                     name: 'Lokal utvikler',
-                    ident: 'dev-ident',
+                    NAVident: 'dev-ident',
                     email: 'dev@nav.no'
                 })
             )}.ignored-part`;
