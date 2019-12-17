@@ -1,10 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, {ReactChildren, useEffect, useRef, useState} from 'react';
 import ReactTooltip from 'react-tooltip';
 import ClipboardIcon from './ClipboardIcon';
 import { motion, AnimatePresence } from 'framer-motion';
 import { copyContentsToClipboard } from './util';
 import './Clipboard.less';
+
+interface Props {
+    children: ReactChildren
+}
 
 const animation = {
     initial: { y: 5, opacity: 0 },
@@ -15,13 +18,13 @@ const animation = {
     }
 };
 
-const Clipboard = ({ children }) => {
+const Clipboard = ({ children }: Props) => {
     const [didCopy, setDidCopy] = useState(false);
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>(null);
 
     const copy = () => {
         if (!didCopy) {
-            setDidCopy(copyContentsToClipboard(ref.current.firstChild));
+            setDidCopy(copyContentsToClipboard(ref?.current?.firstChild));
         }
     };
 
@@ -49,10 +52,6 @@ const Clipboard = ({ children }) => {
             </button>
         </div>
     );
-};
-
-Clipboard.propTypes = {
-    children: PropTypes.node.isRequired
 };
 
 export default Clipboard;
