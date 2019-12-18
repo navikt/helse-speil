@@ -2,7 +2,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { oppsummeringstekster } from '../../tekster';
 import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { postAnnullering, postVedtak } from '../../io/http';
 import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 import { PersonContext } from '../../context/PersonContext';
@@ -22,11 +22,12 @@ const TILSTAND = {
 
 const Utbetaling = () => {
     const { saksoversikt } = useContext(SaksoversiktContext);
-    const { personTilBehandling, innsyn } = useContext(PersonContext);
+    const { personTilBehandling, innsyn, hentPerson } = useContext(PersonContext);
     const { ident } = useContext(AuthContext).authInfo;
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState(undefined);
     const [sendtAnnullering, setSendtAnnullering] = useState(false);
+    const [senderAnnullering, setSenderAnnullering] = useState(false);
     const [error, setError] = useState(undefined);
     const [modalOpen, setModalOpen] = useState(false);
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
@@ -49,7 +50,13 @@ const Utbetaling = () => {
             });
     };
 
-    const annullerUtbetaling = () => {
+    useEffect(() => {
+        if (annulleringsmodalOpen && senderAnnullering) {
+            sendAnnullering();
+        }
+    }, [personTilBehandling.oppsummering.utbetalingsreferanse]);
+
+    const sendAnnullering = () => {
         postAnnullering(
             personTilBehandling.oppsummering.utbetalingsreferanse,
             personTilBehandling.aktørId
@@ -63,7 +70,15 @@ const Utbetaling = () => {
             })
             .finally(() => {
                 setAnnulleringsmodalOpen(false);
+                setSenderAnnullering(false);
             });
+    };
+
+    const annullerUtbetaling = () => {
+        if (personTilBehandling.oppsummering.utbetalingsreferanse === undefined) {
+            setSenderAnnullering(true);
+            hentPerson(personTilBehandling.aktørId);
+        }
     };
 
     const Annuleringslinje = () => (
@@ -91,6 +106,7 @@ const Utbetaling = () => {
                     onClose={() => setAnnulleringsmodalOpen(false)}
                     onApprove={annullerUtbetaling}
                     faktiskNavIdent={ident}
+                    senderAnnullering={senderAnnullering}
                 />
             )}
             <Undertittel>{oppsummeringstekster('utbetaling')}</Undertittel>
