@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "build/dist",
+        "outDir": "dist",
         "module": "commonjs",
         "target": "es5",
         "lib": ["es6", "dom"],
@@ -22,7 +22,11 @@
         "acceptance-tests",
         "webpack",
         "jest",
-        "src/setupTests.ts"
+        "src/setupTests.ts",
+        "__mock-data__",
+        "__mocks__",
+        "e2e-tests",
+        "dist"
     ],
     "types": ["typePatches"]
 }
