@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import Modal from 'nav-frontend-modal';
 import PropTypes from 'prop-types';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
+import './AnnulleringsModal.less';
+import VisModalButton from '../Inngangsvilkår/VisModalButton';
 
 Modal.setAppElement('#root');
 
-const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose }) => {
+const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose, senderAnnullering }) => {
     const [input, setInput] = useState('');
     const [error, setError] = useState(undefined);
     const onValidering = () => {
@@ -17,6 +19,7 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose }) => {
             onApprove();
         }
     };
+
     return (
         <Modal
             className="AnnulleringsModal"
@@ -25,7 +28,7 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose }) => {
             closeButton={true}
             onRequestClose={onClose}
         >
-            <Systemtittel>Er du sikker på at du vil annullere utbetalingen?</Systemtittel>
+            <Undertittel>Er du sikker på at du vil annullere utbetalingen?</Undertittel>
             <Normaltekst>
                 Hvis du annullerer utbetalingen, vil den fjernes fra oppdragssystemet og du må
                 behandle saken manuelt i Infotrygd.
@@ -33,7 +36,7 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose }) => {
             <Normaltekst>
                 For å gjennomføre annulleringen må du skrive inn din NAV-brukerident i feltet under.
             </Normaltekst>
-            <div>
+            <div className="identinput">
                 <input
                     type="text"
                     placeholder="NAV-brukerident"
@@ -41,8 +44,11 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose }) => {
                     value={input}
                 />
             </div>
-            <div>
-                <Hovedknapp onClick={onValidering}>Annuller</Hovedknapp>
+            <div className="knapperad">
+                <Knapp spinner={senderAnnullering} onClick={onValidering}>
+                    Annuller
+                </Knapp>
+                <VisModalButton onClick={onClose} tekst="Avbryt" />
             </div>
             {error && <Normaltekst className="skjemaelement__feilmelding">{error}</Normaltekst>}
         </Modal>
@@ -52,7 +58,8 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose }) => {
 AnnulleringsModal.propTypes = {
     onApprove: PropTypes.func.isRequired,
     faktiskNavIdent: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    senderAnnullering: PropTypes.bool.isRequired
 };
 
 export default AnnulleringsModal;
