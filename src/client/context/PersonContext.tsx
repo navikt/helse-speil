@@ -1,15 +1,31 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, ReactChild } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { fetchPerson, getPersoninfo } from '../io/http';
 import personMapper from './mapper';
+import { fetchPerson, getPersoninfo } from '../io/http';
+import { Person } from './types';
 
-export const PersonContext = createContext({});
+interface PersonContextType {
+    personTilBehandling?: Person;
+    hentPerson?: (id: string) => void;
+    innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
+}
 
-export const PersonProvider = ({ children }) => {
-    const [error, setError] = useState(undefined);
-    const [aktørIdFromUrl, setAktørIdFromUrl] = useState();
-    const [personTilBehandling, setPersonTilBehandling] = useState();
+interface PersonContextError {
+    message: string;
+    statusCode: number;
+}
+
+interface ProviderProps {
+    children: ReactChild;
+}
+
+export const PersonContext = createContext<PersonContextType>({ innsyn: false });
+
+export const PersonProvider = ({ children }: ProviderProps) => {
+    const [error, setError] = useState<PersonContextError | undefined>();
+    const [aktørIdFromUrl, setAktørIdFromUrl] = useState<string | undefined>();
+    const [personTilBehandling, setPersonTilBehandling] = useState<Person | undefined>();
     const [innsyn, setInnsyn] = useState(false);
 
     useEffect(() => {
@@ -25,7 +41,7 @@ export const PersonProvider = ({ children }) => {
         }
     }, [aktørIdFromUrl, personTilBehandling]);
 
-    const hentPerson = value => {
+    const hentPerson = (value: string) => {
         const innsyn = value.length === 26;
         setInnsyn(innsyn);
         return fetchPerson(value, innsyn)
