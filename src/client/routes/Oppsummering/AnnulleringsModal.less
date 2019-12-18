@@ -1,10 +1,4 @@
-
-
-
 .AnnulleringsModal {
-
-  font-family: 'Source Sans Pro', Arial, sans-serif;
-
   max-width: 30%;
 
   section {
@@ -13,21 +7,20 @@
       padding-top: 1.5rem;
     }
 
-    .identinput {
+    .skjemaelement.AnnulleringsModal__identInput {
       width: 200px;
       input {
-        width: 100%;
+        font-size: 1rem;
       }
     }
 
     .knapperad {
-      &:first-child {
-        margin-right: 1.5rem;
+      margin-top: 2.5rem;
+
+      button:not(:first-child) {
+        margin-left: 1.5rem;
+        text-align: center;
       }
-
-
-
     }
   }
-
 }

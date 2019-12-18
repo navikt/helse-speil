@@ -76,8 +76,11 @@ const Utbetaling = () => {
 
     const annullerUtbetaling = () => {
         if (personTilBehandling.oppsummering.utbetalingsreferanse === undefined) {
+            console.log('mangler utbetalingsreferanse');
             setSenderAnnullering(true);
             hentPerson(personTilBehandling.aktørId);
+        } else {
+            sendAnnullering();
         }
     };
 
@@ -98,7 +101,7 @@ const Utbetaling = () => {
                     onClose={() => setModalOpen(false)}
                     onApprove={() => fattVedtak(true)}
                     isSending={isSending}
-                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet. Dette kan ikke angres."
+                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet."
                 />
             )}
             {annulleringsmodalOpen && (

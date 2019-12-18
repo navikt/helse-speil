@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Modal from 'nav-frontend-modal';
 import PropTypes from 'prop-types';
-import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+import { Input } from 'nav-frontend-skjema';
 import './AnnulleringsModal.less';
-import VisModalButton from '../Inngangsvilkår/VisModalButton';
 
 Modal.setAppElement('#root');
 
@@ -36,19 +36,19 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose, senderAnnuller
             <Normaltekst>
                 For å gjennomføre annulleringen må du skrive inn din NAV-brukerident i feltet under.
             </Normaltekst>
-            <div className="identinput">
-                <input
-                    type="text"
-                    placeholder="NAV-brukerident"
-                    onChange={e => setInput(e.target.value)}
-                    value={input}
-                />
-            </div>
+            <Input
+                label=""
+                aria-label="NAV-brukerident"
+                placeholder="NAV-brukerident"
+                className="AnnulleringsModal__identInput"
+                onChange={e => setInput(e.target.value)}
+                value={input}
+            />
             <div className="knapperad">
                 <Knapp spinner={senderAnnullering} onClick={onValidering}>
                     Annuller
                 </Knapp>
-                <VisModalButton onClick={onClose} tekst="Avbryt" />
+                <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
             </div>
             {error && <Normaltekst className="skjemaelement__feilmelding">{error}</Normaltekst>}
         </Modal>
