@@ -2,7 +2,7 @@
 
 import React from 'react';
 import HeaderBar from './HeaderBar';
-import { AuthProvider } from '../../context/AuthContext';
+import { AuthProvider } from '../../context/AuthContext.tsx';
 import { render, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 

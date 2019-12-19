@@ -1,5 +1,4 @@
-import React, { createContext, ReactChild, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { createContext, ReactChild, useState } from 'react';
 import { extractValues, Keys } from '../utils/cookie';
 
 if (process.env.NODE_ENV === 'development') {
@@ -64,8 +63,4 @@ export const AuthProvider = ({ children }: ProviderProps) => {
             {children}
         </AuthContext.Provider>
     );
-};
-
-AuthProvider.propTypes = {
-    children: PropTypes.node.isRequired
 };
