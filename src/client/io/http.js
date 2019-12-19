@@ -17,6 +17,14 @@ const getData = async response => {
     }
 };
 
+const getErrorMessage = async response => {
+    try {
+        return await response.text();
+    } catch (e) {
+        return undefined;
+    }
+};
+
 const ensureAcceptHeader = (options = {}) => {
     const acceptHeader = {
         Accept: 'application/json'
@@ -72,9 +80,13 @@ export const post = async (url, data) => {
         },
         body: JSON.stringify(data)
     });
-
+    console.log({ response });
     if (response.status !== 200 && response.status !== 204) {
-        const message = await getData(response);
+        console.log({ response });
+
+        const message = await getErrorMessage(response);
+        console.log({ message });
+
         throw ResponseError(response.status, message);
     }
 

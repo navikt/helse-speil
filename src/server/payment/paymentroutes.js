@@ -121,7 +121,7 @@ const devSendVedtak = (req, res) => {
     }
 };
 
-const prodAnnullering = async (req, res) => {
+const prodAnnullering = async (reqode, res) => {
     const onBehalfOfToken = await onBehalfOf.hentFor(
         config.oidc.clientIDSpade,
         req.session.speilToken
@@ -141,7 +141,7 @@ const prodAnnullering = async (req, res) => {
         })
         .catch(err => {
             logger.error(`Feil under annullering: ${err}`);
-            res.status(500).send('Feil under annullering');
+            res.status(err.statusCode || 500).send('Feil under annullering');
         });
 };
 

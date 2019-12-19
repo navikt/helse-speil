@@ -10,7 +10,7 @@ dayjs.extend(isSameOrAfter);
 
 export default {
     map: (person, personinfo) => {
-        const sak = person.arbeidsgivere[0].saker[0];
+        const sak = enesteSak(person);
         const mapped = {
             ...person,
             inngangsvilkår: {
@@ -44,17 +44,16 @@ export default {
                     parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12
                 ).toFixed(2),
                 grunnlag: sykepengegrunnlag(person),
-                dagsats: person.arbeidsgivere[0].saker[0].utbetalingslinjer[0].dagsats
+                dagsats: enesteSak(person).utbetalingslinjer[0].dagsats
             },
             oppsummering: {
                 sykepengegrunnlag: sykepengegrunnlag(person),
-                dagsats: person.arbeidsgivere[0].saker[0].utbetalingslinjer[0].dagsats,
+                dagsats: enesteSak(person).utbetalingslinjer[0].dagsats,
                 antallDager: antallUtbetalingsdager(person),
                 beløp:
-                    person.arbeidsgivere[0].saker[0].utbetalingslinjer[0].dagsats *
-                    antallUtbetalingsdager(person),
+                    enesteSak(person).utbetalingslinjer[0].dagsats * antallUtbetalingsdager(person),
                 mottaker: arbeidsgiver(person),
-                utbetalingsreferanse: person.arbeidsgivere[0].saker[0].utbetalingsreferanse
+                utbetalingsreferanse: utbetalingsreferanse(person)
             }
         };
         return mapped;
@@ -71,7 +70,7 @@ export const beregnAlder = (tidspunkt, fødselsdato) => {
 };
 
 const finnFørsteSykepengedag = person => {
-    const utbetalingslinjer = person.arbeidsgivere[0].saker[0].utbetalingslinjer;
+    const utbetalingslinjer = enesteSak(person).utbetalingslinjer;
     return dayjs.min(utbetalingslinjer.map(linje => dayjs(linje.fom))).format('YYYY-MM-DD');
 };
 
@@ -93,7 +92,7 @@ const søknadsfrist = person => {
 };
 
 const antallUtbetalingsdager = person =>
-    person.arbeidsgivere[0].saker[0].utbetalingslinjer.reduce((acc, linje) => {
+    enesteSak(person).utbetalingslinjer.reduce((acc, linje) => {
         acc += listOfDatesBetween(linje.fom, linje.tom).length;
         return acc;
     }, 0);
@@ -119,6 +118,15 @@ const finnInntektsmelding = person => findHendelse(person, hendelsestyper.INNTEK
 const finnSøknad = person => findHendelse(person, hendelsestyper.SYKEPENGESØKNAD);
 
 const findHendelse = (person, type) =>
-    person.arbeidsgivere[0].saker[0].sykdomstidslinje.hendelser.find(h => h.type === type.type)[
-        type.feltnavn
-    ];
+    enesteSak(person).sykdomstidslinje.hendelser.find(h => h.type === type.type)[type.feltnavn];
+export const utbetalingsreferanse = person => enesteSak(person).utbetalingsreferanse;
+export const enesteSak = person => {
+    if (person.arbeidsgivere.length === 1 && person.arbeidsgivere[0].saker.length === 1)
+        return person.arbeidsgivere[0].saker[0];
+    else {
+        console.error(
+            `Størrelsen til listen over arbeidsgivere er ${person.arbeidsgivere.length} og størrelsen på listen over saker er ${person.arbeidsgivere[0].saker.length}`
+        );
+        throw 'Personen har ikke nøyaktig 1 arbeidsgiver eller nøyaktig 1 sak. Dette er ikke støttet enda.';
+    }
+};

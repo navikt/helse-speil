@@ -3,7 +3,7 @@ import { oppsummeringstekster } from '../../tekster';
 import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import React, { useContext, useEffect, useState } from 'react';
-import { postAnnullering, postVedtak } from '../../io/http';
+import { fetchPerson, postAnnullering, postVedtak } from '../../io/http';
 import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
@@ -12,6 +12,7 @@ import InfoModal from '../../components/InfoModal';
 import VisModalButton from '../Inngangsvilkår/VisModalButton';
 import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
+import { enesteSak, utbetalingsreferanse } from '../../context/mapper';
 
 const BESLUTNING = { GODKJENT: 'GODKJENT', AVVIST: 'AVVIST' };
 const TILSTAND = {
@@ -31,7 +32,7 @@ const Utbetaling = () => {
     const [error, setError] = useState(undefined);
     const [modalOpen, setModalOpen] = useState(false);
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
-    const tilstand = personTilBehandling.arbeidsgivere?.[0].saker?.[0].tilstandType;
+    const tilstand = enesteSak(personTilBehandling).tilstandType;
 
     const fattVedtak = godkjent => {
         const behovId = saksoversikt.find(behov => behov.aktørId === personTilBehandling.aktørId)?.[
@@ -43,22 +44,16 @@ const Utbetaling = () => {
                 setBeslutning(godkjent ? BESLUTNING.GODKJENT : BESLUTNING.AVVIST);
                 setError(undefined);
             })
-            .catch(err => setError(err))
+            .catch(err => setError({ message: 'Feil under fatting av vedtak' }))
             .finally(() => {
                 setIsSending(false);
                 setModalOpen(false);
             });
     };
 
-    useEffect(() => {
-        if (annulleringsmodalOpen && senderAnnullering) {
-            sendAnnullering();
-        }
-    }, [personTilBehandling.oppsummering.utbetalingsreferanse]);
-
-    const sendAnnullering = () => {
+    const sendAnnullering = utbetalingsreferanse => {
         postAnnullering(
-            personTilBehandling.oppsummering.utbetalingsreferanse,
+            utbetalingsreferanse ?? personTilBehandling.oppsummering.utbetalingsreferanse,
             personTilBehandling.aktørId
         )
             .then(() => {
@@ -66,7 +61,12 @@ const Utbetaling = () => {
                 setError(undefined);
             })
             .catch(err => {
-                setError({ message: err.message });
+                console.error({ err });
+                if (err.status === 409) {
+                    setError({ message: 'Denne saken er allerede sendt til annullering.' });
+                } else {
+                    setError({ message: 'Kunne ikke sende annullering. Prøv igjen senere.' });
+                }
             })
             .finally(() => {
                 setAnnulleringsmodalOpen(false);
@@ -75,10 +75,15 @@ const Utbetaling = () => {
     };
 
     const annullerUtbetaling = () => {
+        setSenderAnnullering(true);
         if (personTilBehandling.oppsummering.utbetalingsreferanse === undefined) {
-            console.log('mangler utbetalingsreferanse');
-            setSenderAnnullering(true);
-            hentPerson(personTilBehandling.aktørId);
+            let utbetalingsref;
+            fetchPerson(personTilBehandling.aktørId)
+                .then(response => {
+                    utbetalingsref = utbetalingsreferanse(response.data.person);
+                })
+                .catch(err => console.error(err.message))
+                .finally(() => sendAnnullering(utbetalingsref));
         } else {
             sendAnnullering();
         }
