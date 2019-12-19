@@ -22,7 +22,7 @@ Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette 
 npm start
 ```
 
-Dersom du er på mac OS og ønsker appen startet i Chrome:
+Dersom du er på macOS og ønsker appen startet i Chrome:
 
 ```
 npm run start-mac
