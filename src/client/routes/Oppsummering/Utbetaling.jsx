@@ -2,7 +2,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { oppsummeringstekster } from '../../tekster';
 import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { fetchPerson, postAnnullering, postVedtak } from '../../io/http';
 import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 import { PersonContext } from '../../context/PersonContext';
@@ -23,7 +23,7 @@ const TILSTAND = {
 
 const Utbetaling = () => {
     const { saksoversikt } = useContext(SaksoversiktContext);
-    const { personTilBehandling, innsyn, hentPerson } = useContext(PersonContext);
+    const { personTilBehandling, innsyn } = useContext(PersonContext);
     const { ident } = useContext(AuthContext).authInfo;
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState(undefined);
@@ -44,7 +44,10 @@ const Utbetaling = () => {
                 setBeslutning(godkjent ? BESLUTNING.GODKJENT : BESLUTNING.AVVIST);
                 setError(undefined);
             })
-            .catch(err => setError({ message: 'Feil under fatting av vedtak' }))
+            .catch(err => {
+                console.error({ err });
+                setError({ message: 'Feil under fatting av vedtak' });
+            })
             .finally(() => {
                 setIsSending(false);
                 setModalOpen(false);
