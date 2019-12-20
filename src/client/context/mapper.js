@@ -118,7 +118,7 @@ const finnInntektsmelding = person => findHendelse(person, hendelsestyper.INNTEK
 const finnSøknad = person => findHendelse(person, hendelsestyper.SYKEPENGESØKNAD);
 
 const findHendelse = (person, type) =>
-    enesteSak(person).sykdomstidslinje.hendelser.find(h => h.type === type.type)[type.feltnavn];
+    enesteSak(person).sykdomstidslinje.hendelser.find(h => h.type === type.type)?.[type.feltnavn];
 export const utbetalingsreferanse = person => enesteSak(person).utbetalingsreferanse;
 export const enesteSak = person => {
     if (person.arbeidsgivere.length === 1 && person.arbeidsgivere[0].saker.length === 1)
