@@ -7,11 +7,11 @@ import './PersonBar.less';
 const formatFnr = fnr => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
 const finnSøknad = person =>
-    person.arbeidsgivere[0].saker[0].sykdomstidslinje.hendelser.find(
-        h => h.type === 'SendtSøknadMottatt'
-    ).søknad;
+    person.arbeidsgivere[0].saker[0].sykdomstidslinje.hendelser.find(h => h.type === 'NySøknad')
+        ?.søknad;
 
-const finnSykmeldingsgrad = person => finnSøknad(person).soknadsperioder[0].sykmeldingsgrad;
+const finnSykmeldingsgrad = person =>
+    finnSøknad(person)?.soknadsperioder[0].sykmeldingsgrad ?? '--';
 
 const render = content => <div className="PersonBar">{content}</div>;
 
