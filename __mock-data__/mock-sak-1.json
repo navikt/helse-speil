@@ -391,7 +391,7 @@
                         ],
                         "hendelser": [
                             {
-                                "type": "InntektsmeldingMottatt",
+                                "type": "Inntektsmelding",
                                 "hendelseId": "f8d10337-b0de-4036-ba95-67e5d0f041e4",
                                 "inntektsmelding": {
                                     "status": "GYLDIG",
@@ -424,7 +424,7 @@
                                 }
                             },
                             {
-                                "type": "SendtSøknadMottatt",
+                                "type": "SendtSøknad",
                                 "søknad": {
                                     "id": "e015f4b3-301b-4c5e-8929-93ce07b6b48d",
                                     "fom": "2019-09-16",
@@ -491,7 +491,7 @@
                                 "hendelseId": "426e1dbc-960b-46a7-a65a-cf31cff00b90"
                             },
                             {
-                                "type": "NySøknadMottatt",
+                                "type": "NySøknad",
                                 "søknad": {
                                     "id": "8d9df783-e54c-4dd9-b6f0-ef32cf113d10",
                                     "fom": "2019-09-16",
