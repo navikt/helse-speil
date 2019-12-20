@@ -11,17 +11,17 @@ dayjs.extend(isSameOrAfter);
 export default {
     map: (person, personinfo) => {
         const sak = enesteSak(person);
-        const mapped = {
+        return {
             ...person,
             inngangsvilkår: {
-                alder: beregnAlder(finnSøknad(person).sendtNav, personinfo?.fødselsdato),
+                alder: beregnAlder(finnSøknad(person)?.sendtNav ?? '-', personinfo?.fødselsdato),
                 dagerIgjen: {
                     dagerBrukt: antallUtbetalingsdager(person),
                     førsteFraværsdag: finnInntektsmelding(person).foersteFravaersdag,
                     førsteSykepengedag: finnFørsteSykepengedag(person),
                     maksdato: sak.maksdato,
                     tidligerePerioder: [],
-                    yrkesstatus: finnSøknad(person).arbeidssituasjon
+                    yrkesstatus: finnSøknad(person)?.arbeidssituasjon
                 },
                 sykepengegrunnlag: sykepengegrunnlag(person),
                 søknadsfrist: søknadsfrist(person)
@@ -56,7 +56,6 @@ export default {
                 utbetalingsreferanse: utbetalingsreferanse(person)
             }
         };
-        return mapped;
     }
 };
 
@@ -78,8 +77,8 @@ const sykepengegrunnlag = person =>
     +(parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12).toFixed(2);
 
 const søknadsfrist = person => {
-    const sendtNav = finnSøknad(person).sendtNav;
-    const søknadTom = finnSøknad(person).tom;
+    const sendtNav = finnSøknad(person)?.sendtNav;
+    const søknadTom = finnSøknad(person)?.tom;
     const innen3Mnd = dayjs(søknadTom)
         .add(3, 'month')
         .isSameOrAfter(dayjs(sendtNav));
@@ -97,7 +96,7 @@ const antallUtbetalingsdager = person =>
         return acc;
     }, 0);
 
-const arbeidsgiver = person => finnSøknad(person).arbeidsgiver;
+const arbeidsgiver = person => finnSøknad(person)?.arbeidsgiver;
 
 const hendelsestyper = {
     INNTEKTSMELDING: {
