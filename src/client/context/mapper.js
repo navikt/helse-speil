@@ -27,21 +27,23 @@ export default {
                 søknadsfrist: søknadsfrist(person)
             },
             inntektskilder: {
-                månedsinntekt: +parseFloat(finnInntektsmelding(person).beregnetInntekt, 10).toFixed(
-                    2
-                ),
+                månedsinntekt: +parseFloat(
+                    finnInntektsmelding(person)?.beregnetInntekt,
+                    10
+                ).toFixed(2),
                 årsinntekt: +(
-                    parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12
+                    parseFloat(finnInntektsmelding(person)?.beregnetInntekt, 10) * 12
                 ).toFixed(2),
                 refusjon: '(Ja)',
                 forskuttering: '(Ja)'
             },
             sykepengegrunnlag: {
-                månedsinntekt: +parseFloat(finnInntektsmelding(person).beregnetInntekt, 10).toFixed(
-                    2
-                ),
+                månedsinntekt: +parseFloat(
+                    finnInntektsmelding(person)?.beregnetInntekt,
+                    10
+                ).toFixed(2),
                 årsinntekt: +(
-                    parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12
+                    parseFloat(finnInntektsmelding(person)?.beregnetInntekt, 10) * 12
                 ).toFixed(2),
                 grunnlag: sykepengegrunnlag(person),
                 dagsats: enesteSak(person).utbetalingslinjer[0].dagsats
@@ -74,7 +76,7 @@ const finnFørsteSykepengedag = person => {
 };
 
 const sykepengegrunnlag = person =>
-    +(parseFloat(finnInntektsmelding(person).beregnetInntekt, 10) * 12).toFixed(2);
+    +(parseFloat(finnInntektsmelding(person)?.beregnetInntekt, 10) * 12).toFixed(2);
 
 const søknadsfrist = person => {
     const sendtNav = finnSøknad(person)?.sendtNav;
