@@ -102,15 +102,15 @@ const arbeidsgiver = person => finnSøknad(person)?.arbeidsgiver;
 
 const hendelsestyper = {
     INNTEKTSMELDING: {
-        type: 'InntektsmeldingMottatt',
+        type: 'Inntektsmelding',
         feltnavn: 'inntektsmelding'
     },
     SYKEPENGESØKNAD: {
-        type: 'SendtSøknadMottatt',
+        type: 'SendtSøknad',
         feltnavn: 'søknad'
     },
     SYKMELDING: {
-        type: 'NySøknadMottatt',
+        type: 'NySøknad',
         feltnavn: 'søknad'
     }
 };

@@ -8,11 +8,11 @@ import './Timeline.less';
 
 const hendelseTypeTilUiNavn = type => {
     switch (type) {
-        case 'NySøknadMottatt':
+        case 'NySøknad':
             return 'SM';
-        case 'SendtSøknadMottatt':
+        case 'SendtSøknad':
             return 'SØ';
-        case 'InntektsmeldingMottatt':
+        case 'Inntektsmelding':
             return 'IM';
         default:
             return type;
