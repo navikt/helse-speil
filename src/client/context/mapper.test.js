@@ -1,7 +1,7 @@
 import behov from '../../../__mock-data__/mock-sak-1';
 import personMapper, { beregnAlder } from './mapper';
 
-test('mapper data riktig for inngangsvilkår-siden', () => {
+test('mapper data riktig for inngangsvilkårssiden', () => {
     const expectedPerson = {
         inngangsvilkår: {
             alder: 62,
