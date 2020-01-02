@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import ListItem from '../../components/ListItem';
 import Subheader from '../../components/Subheader';
-import VisModalButton from './VisModalButton';
 import SubheaderWithList from '../../components/SubheaderWithList';
 import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
 import TidligerePerioderModal from './TidligerePerioderModal';
@@ -12,11 +11,13 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
 import { capitalize, toKronerOgØre } from '../../utils/locale';
 import './Inngangsvilkår.less';
+import { Person } from '../../context/types';
+import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 
 const Inngangsvilkår = () => {
-    const { inngangsvilkår } = useContext(PersonContext).personTilBehandling;
+    const { inngangsvilkår } = useContext(PersonContext).personTilBehandling as Person;
     const [visDetaljerModal, setVisDetaljerModal] = useState(false);
-    const detaljerKnapp = <VisModalButton onClick={() => setVisDetaljerModal(true)} />;
+    const detaljerKnapp = <VisDetaljerKnapp onClick={() => setVisDetaljerModal(true)} />;
 
     return (
         <Panel className="tekstbolker Inngangsvilkår">

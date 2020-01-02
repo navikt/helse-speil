@@ -9,11 +9,12 @@ import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../hooks/useLinks';
 import { PersonContext } from '../context/PersonContext';
 import { toKronerOgØre } from '../utils/locale';
+import { Person } from '../context/types';
 
 const G = 99858;
 
 const Sykepengegrunnlag = () => {
-    const { sykepengegrunnlag } = useContext(PersonContext).personTilBehandling;
+    const { sykepengegrunnlag } = useContext(PersonContext).personTilBehandling as Person;
 
     return (
         <Panel className="tekstbolker Sykepengegrunnlag">

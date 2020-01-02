@@ -12,9 +12,10 @@ import { SimuleringContext } from '../../context/SimuleringContext';
 import { oppsummeringstekster } from '../../tekster';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import './Oppsummering.less';
+import { Person } from '../../context/types';
 
 const Oppsummering = () => {
-    const { oppsummering } = useContext(PersonContext).personTilBehandling;
+    const { oppsummering } = useContext(PersonContext).personTilBehandling as Person;
     const { error, simulering, arbeidsgiver } = useContext(SimuleringContext);
 
     const simuleringsBeløp = simulering?.simulering?.totalBelop

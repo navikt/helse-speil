@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Row from '../components/Row/Row';
+import Row from '../components/Row';
 import ListItem from '../components/ListItem';
 import Subheader from '../components/Subheader';
 import SubheaderWithList from '../components/SubheaderWithList';
@@ -8,9 +8,10 @@ import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../hooks/useLinks';
 import { PersonContext } from '../context/PersonContext';
 import { toKronerOgØre } from '../utils/locale';
+import { Person } from '../context/types';
 
 const Inntektskilder = () => {
-    const { inntektskilder } = useContext(PersonContext).personTilBehandling;
+    const { inntektskilder } = useContext(PersonContext).personTilBehandling as Person;
 
     return (
         <Panel className="tekstbolker">
@@ -25,8 +26,8 @@ const Inntektskilder = () => {
                 </SubheaderWithList>
             )}
             <Subheader label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
-            <Row label="Refusjon til arbeidsgiver" value={inntektskilder.refusjon} />
-            <Row label="Betaler arbeidsgiverperiode" value={inntektskilder.forskuttering} />
+            <Row label="Refusjon til arbeidsgiver">{inntektskilder.refusjon}</Row>
+            <Row label="Betaler arbeidsgiverperiode">{inntektskilder.forskuttering}</Row>
             <NavigationButtons previous={pages.INNGANGSVILKÅR} next={pages.SYKEPENGEGRUNNLAG} />
         </Panel>
     );

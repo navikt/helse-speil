@@ -1,10 +1,11 @@
 module.exports = {
-    moduleFileExtensions: ['js', 'jsx', 'json', 'tsx'],
+    moduleFileExtensions: ['js', 'jsx', 'json', 'tsx', 'ts'],
     transform: {
         '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'babel-jest',
         '^.+\\.js$': 'babel-jest',
         '^.+\\.jsx$': 'babel-jest',
-        '^.+\\.tsx$': 'ts-jest'
+        '^.+\\.tsx$': 'ts-jest',
+        '^.+\\.ts$': 'ts-jest'
     },
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',

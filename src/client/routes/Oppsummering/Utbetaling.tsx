@@ -9,39 +9,47 @@ import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
-import VisModalButton from '../Inngangsvilkår/VisModalButton';
 import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
 import { enesteSak, utbetalingsreferanse } from '../../context/mapper';
+import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
+import { Behov } from '../../context/types';
 
-const BESLUTNING = { GODKJENT: 'GODKJENT', AVVIST: 'AVVIST' };
-const TILSTAND = {
-    TIL_GODKJENNING: 'TIL_GODKJENNING',
-    TIL_UTBETALING: 'TIL_UTBETALING',
-    TIL_INFOTRYGD: 'TIL_INFOTRYGD'
-};
+enum Beslutning {
+    Godkjent = 'GODKJENT',
+    Avvist = 'AVVIST'
+}
+
+enum Tilstand {
+    TilGodkjenning = 'TIL_GODKJENNING',
+    TilUtbetaling = 'TIL_UTBETALING',
+    TilInfotrygd = 'TIL_INFOTRYGD',
+    Annullert = 'ANNULLERT'
+}
+
+interface Error {
+    message: string;
+    statusCode?: number;
+}
 
 const Utbetaling = () => {
     const { saksoversikt } = useContext(SaksoversiktContext);
     const { personTilBehandling, innsyn } = useContext(PersonContext);
     const { ident } = useContext(AuthContext).authInfo;
     const [isSending, setIsSending] = useState(false);
-    const [beslutning, setBeslutning] = useState(undefined);
-    const [sendtAnnullering, setSendtAnnullering] = useState(false);
+    const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
     const [senderAnnullering, setSenderAnnullering] = useState(false);
-    const [error, setError] = useState(undefined);
+    const [error, setError] = useState<Error | undefined>(undefined);
     const [modalOpen, setModalOpen] = useState(false);
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
-    const tilstand = enesteSak(personTilBehandling).tilstandType;
+    const [tilstand, setTilstand] = useState(enesteSak(personTilBehandling).tilstandType);
 
-    const fattVedtak = godkjent => {
-        const behovId = saksoversikt.find(behov => behov.aktørId === personTilBehandling.aktørId)?.[
-            '@id'
-        ];
+    const fattVedtak = (godkjent: boolean) => {
+        const behovId = saksoversikt.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
         setIsSending(true);
-        postVedtak(behovId, personTilBehandling.aktørId, godkjent)
+        postVedtak(behovId, personTilBehandling?.aktørId, godkjent)
             .then(() => {
-                setBeslutning(godkjent ? BESLUTNING.GODKJENT : BESLUTNING.AVVIST);
+                setBeslutning(godkjent ? Beslutning.Godkjent : Beslutning.Avvist);
                 setError(undefined);
             })
             .catch(err => {
@@ -54,22 +62,27 @@ const Utbetaling = () => {
             });
     };
 
-    const sendAnnullering = utbetalingsreferanse => {
-        postAnnullering(
-            utbetalingsreferanse ?? personTilBehandling.oppsummering.utbetalingsreferanse,
-            personTilBehandling.aktørId
-        )
+    const fetchUtbetalingsreferanse = () => {
+        return fetchPerson(personTilBehandling?.aktørId)
+            .then(response => utbetalingsreferanse(response.data.person))
+            .catch(err => console.error({ message: 'Kunne ikke hente utbetalingsreferanse' }));
+    };
+
+    const annullerUtbetaling = async () => {
+        const utbetalingsref = personTilBehandling?.oppsummering.utbetalingsreferanse ?? await fetchUtbetalingsreferanse();
+        setSenderAnnullering(true);
+        postAnnullering(utbetalingsref, personTilBehandling?.aktørId)
             .then(() => {
-                setSendtAnnullering(true);
+                setTilstand(Tilstand.Annullert);
                 setError(undefined);
             })
             .catch(err => {
                 console.error({ err });
-                if (err.status === 409) {
-                    setError({ message: 'Denne saken er allerede sendt til annullering.' });
-                } else {
-                    setError({ message: 'Kunne ikke sende annullering. Prøv igjen senere.' });
-                }
+                setError({
+                    message: err.status === 409
+                        ? 'Denne saken er allerede sendt til annullering.'
+                        : 'Kunne ikke sende annullering. Prøv igjen senere.'
+                });
             })
             .finally(() => {
                 setAnnulleringsmodalOpen(false);
@@ -77,63 +90,28 @@ const Utbetaling = () => {
             });
     };
 
-    const annullerUtbetaling = () => {
-        setSenderAnnullering(true);
-        if (personTilBehandling.oppsummering.utbetalingsreferanse === undefined) {
-            let utbetalingsref;
-            fetchPerson(personTilBehandling.aktørId)
-                .then(response => {
-                    utbetalingsref = utbetalingsreferanse(response.data.person);
-                })
-                .catch(err => console.error(err.message))
-                .finally(() => sendAnnullering(utbetalingsref));
-        } else {
-            sendAnnullering();
-        }
-    };
-
-    const Annuleringslinje = () => (
-        <Normaltekst className="Annuleringslinje">
-            Er det feil i utbetalingen er det mulig å{' '}
-            <VisModalButton
-                onClick={() => setAnnulleringsmodalOpen(true)}
-                tekst="annullere utbetalingen fra oppdragssystemet"
-            />
-        </Normaltekst>
-    );
-
     return (
         <Panel className="Utbetaling">
-            {modalOpen && (
-                <InfoModal
-                    onClose={() => setModalOpen(false)}
-                    onApprove={() => fattVedtak(true)}
-                    isSending={isSending}
-                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet."
-                />
-            )}
-            {annulleringsmodalOpen && (
-                <AnnulleringsModal
-                    onClose={() => setAnnulleringsmodalOpen(false)}
-                    onApprove={annullerUtbetaling}
-                    faktiskNavIdent={ident}
-                    senderAnnullering={senderAnnullering}
-                />
-            )}
             <Undertittel>{oppsummeringstekster('utbetaling')}</Undertittel>
             <AlertStripeAdvarsel>
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
                 til teamet for evaluering.
             </AlertStripeAdvarsel>
-            {sendtAnnullering ? (
+            {tilstand === Tilstand.Annullert ? (
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
-            ) : (tilstand === TILSTAND.TIL_GODKJENNING && beslutning === BESLUTNING.GODKJENT) ||
-              tilstand === TILSTAND.TIL_UTBETALING ? (
+            ) : (tilstand === Tilstand.TilGodkjenning && beslutning === Beslutning.Godkjent) ||
+              tilstand === Tilstand.TilUtbetaling ? (
                 <div>
                     <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
-                    <Annuleringslinje />
+                    <Normaltekst>
+                        {'Er det feil i utbetalingen er det mulig å '}
+                        <VisDetaljerKnapp
+                            onClick={() => setAnnulleringsmodalOpen(true)}
+                            tekst="annullere utbetalingen fra oppdragssystemet"
+                        />
+                    </Normaltekst>
                 </div>
-            ) : !innsyn && tilstand === TILSTAND.TIL_GODKJENNING ? (
+            ) : !innsyn && tilstand === Tilstand.TilGodkjenning ? (
                 beslutning ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
                 ) : (
@@ -148,9 +126,9 @@ const Utbetaling = () => {
                 )
             ) : (
                 <AlertStripeInfo>
-                    {tilstand === TILSTAND.TIL_INFOTRYGD
+                    {tilstand === Tilstand.TilInfotrygd
                         ? 'Saken er sendt til behandling i Infotrygd.'
-                        : innsyn && tilstand === TILSTAND.TIL_GODKJENNING
+                        : innsyn && tilstand === Tilstand.TilGodkjenning
                         ? 'Saken står til godkjenning av saksbehandler.'
                         : 'Kunne ikke lese informasjon om sakens tilstand.'}
                 </AlertStripeInfo>
@@ -160,6 +138,22 @@ const Utbetaling = () => {
                     {error.message || 'En feil har oppstått.'}
                     {error.statusCode === 401 && <a href="/"> Logg inn</a>}
                 </Normaltekst>
+            )}
+            {modalOpen && (
+                <InfoModal
+                    onClose={() => setModalOpen(false)}
+                    onApprove={() => fattVedtak(true)}
+                    isSending={isSending}
+                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet."
+                />
+            )}
+            {annulleringsmodalOpen && (
+                <AnnulleringsModal
+                    onClose={() => setAnnulleringsmodalOpen(false)}
+                    onApprove={annullerUtbetaling}
+                    faktiskNavIdent={ident ?? ''}
+                    senderAnnullering={senderAnnullering}
+                />
             )}
         </Panel>
     );

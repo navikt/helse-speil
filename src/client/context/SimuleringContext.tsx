@@ -1,9 +1,9 @@
-import React, { createContext, useState, useEffect, useContext, ReactChild } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { Sak, Utbetalingsdato, Utbetalingsperiode } from './types';
+import { ProviderProps, Sak, Utbetalingsdato, Utbetalingsperiode } from './types';
 
 interface Simulering {
     status: string;
@@ -21,10 +21,6 @@ interface SimuleringContextType {
     simulering?: Simulering;
     arbeidsgiver?: string;
     error?: string;
-}
-
-interface ProviderProps {
-    children: ReactChild;
 }
 
 export const SimuleringContext = createContext<SimuleringContextType>({});

@@ -1,17 +1,31 @@
 import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { deleteTildeling, getTildelinger, postTildeling } from '../io/http';
+import { ProviderProps, Behov, Tildeling } from './types';
 
-export const TildelingerContext = createContext({});
+interface TildelingerContextType {
+    tildelinger: Tildeling[];
+    tildelBehandling: (behovId: string, userId: string) => void;
+    fetchTildelinger: (saksoversikt: Behov[]) => void;
+    fjernTildeling: (behovId: string) => void;
+    tildelingError?: string;
+}
 
-export const TildelingerProvider = ({ children }) => {
-    const [tildelinger, setTildelinger] = useState([]);
+export const TildelingerContext = createContext<TildelingerContextType>({
+    tildelinger: [],
+    tildelBehandling: (behovId, userId) => {},
+    fetchTildelinger: (saksoversikt) => {},
+    fjernTildeling: (behovId: string) => {}
+});
+
+export const TildelingerProvider = ({ children }: ProviderProps) => {
+    const [tildelinger, setTildelinger] = useState<Tildeling[]>([]);
     const [error, setError] = useState();
 
-    const tildelBehandling = (behovId, userId) => {
+    const tildelBehandling = (behovId: string, userId: string) => {
         postTildeling({ behovId, userId })
             .then(() => {
-                setTildelinger(t => [...t, { behovId, userId }]);
+                setTildelinger((t: Tildeling[]) => [...t, { behovId, userId }]);
                 setError(undefined);
             })
             .catch(error => {
@@ -24,14 +38,12 @@ export const TildelingerProvider = ({ children }) => {
             });
     };
 
-    const fetchTildelinger = saksoversikt => {
+    const fetchTildelinger = (saksoversikt: Behov[]) => {
         if (saksoversikt.length > 0) {
             const behovIds = saksoversikt.map(b => b['@id']);
             getTildelinger(behovIds)
                 .then(result => {
-                    const nyeTildelinger = result.data.filter(
-                        behovId => behovId.userId !== undefined
-                    );
+                    const nyeTildelinger = result.data.filter((tildeling: Tildeling) => tildeling.userId !== undefined);
                     setTildelinger(nyeTildelinger);
                 })
                 .catch(err => {
@@ -41,10 +53,10 @@ export const TildelingerProvider = ({ children }) => {
         }
     };
 
-    const fjernTildeling = behovId => {
+    const fjernTildeling = (behovId: string) => {
         deleteTildeling(behovId)
             .then(() => {
-                setTildelinger(tildelinger.filter(t => t.behovId !== behovId));
+                setTildelinger(tildelinger.filter((tildeling: Tildeling) => tildeling.behovId !== behovId));
                 setError(undefined);
             })
             .catch(error => {

@@ -1,15 +1,14 @@
 import React, { Suspense, useContext } from 'react';
-import Oversikt from '../routes/Oversikt/Oversikt';
+import Oversikt from '../routes/Oversikt';
 import HeaderBar from './HeaderBar';
 import Saksbilde from './Saksbilde';
 import { AuthProvider } from '../context/AuthContext';
-import { BrowserRouter } from 'react-router-dom';
-import { Route, Switch } from 'react-router-dom';
 import { useLogUserOut } from '../hooks/useLogUserOut';
 import { SimuleringProvider } from '../context/SimuleringContext';
 import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
 import { SaksoversiktProvider } from '../context/SaksoversiktContext';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from '../context/PersonContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
 import './App.less';

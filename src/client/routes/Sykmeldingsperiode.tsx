@@ -13,7 +13,7 @@ const Sykmeldingsperiode = () => {
 
     return (
         <Panel className="Sykmeldingsperiode">
-            {person.arbeidsgivere ? (
+            {person?.arbeidsgivere ? (
                 <>
                     <Subheader label={sykmeldingsperiodetekster('dager')} iconType="ok" />
                     <Timeline person={person} showDagsats={false} />

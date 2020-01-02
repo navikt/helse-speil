@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Modal from 'nav-frontend-modal';
-import PropTypes from 'prop-types';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Input } from 'nav-frontend-skjema';
@@ -8,12 +7,20 @@ import './AnnulleringsModal.less';
 
 Modal.setAppElement('#root');
 
-const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose, senderAnnullering }) => {
+interface Props {
+    onApprove: () => void;
+    onClose: () => void;
+    senderAnnullering: boolean;
+    faktiskNavIdent?: string;
+}
+
+const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose, senderAnnullering }: Props) => {
     const [input, setInput] = useState('');
-    const [error, setError] = useState(undefined);
+    const [error, setError] = useState<string | undefined>(undefined);
+
     const onValidering = () => {
         console.log(faktiskNavIdent);
-        if (input.toLowerCase() !== faktiskNavIdent.toLowerCase()) {
+        if (input.toLowerCase() !== faktiskNavIdent?.toLowerCase()) {
             setError('Du må skrive inn riktig NAV-brukerident.');
         } else {
             onApprove();
@@ -53,13 +60,6 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose, senderAnnuller
             {error && <Normaltekst className="skjemaelement__feilmelding">{error}</Normaltekst>}
         </Modal>
     );
-};
-
-AnnulleringsModal.propTypes = {
-    onApprove: PropTypes.func.isRequired,
-    faktiskNavIdent: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired,
-    senderAnnullering: PropTypes.bool.isRequired
 };
 
 export default AnnulleringsModal;

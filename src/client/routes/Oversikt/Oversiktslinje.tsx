@@ -1,13 +1,21 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import OversiktsLenke from './OversiktsLenke';
 import { toDate } from '../../utils/date';
 import { AuthContext } from '../../context/AuthContext';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
+import { Behov, Tildeling } from '../../context/types';
 
-const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSelectCase }) => {
+interface Props {
+    behov: Behov;
+    onUnassignCase: (id: string) => void;
+    onAssignCase: (id: string, email?: string) => void;
+    onSelectCase: (behov: Behov) => void;
+    tildeling?: Tildeling;
+}
+
+const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
     const { authInfo } = useContext(AuthContext);
 
     const tildelingsCelle = tildeling ? (
@@ -34,19 +42,6 @@ const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSele
             <span className="row__tildeling">{tildelingsCelle}</span>
         </li>
     );
-};
-
-Oversiktslinje.propTypes = {
-    behov: PropTypes.shape({
-        '@id': PropTypes.string.isRequired,
-        '@opprettet': PropTypes.string.isRequired,
-        personinfo: PropTypes.object,
-        aktørId: PropTypes.string.isRequired
-    }),
-    tildeling: PropTypes.shape({ userId: PropTypes.string }),
-    onAssignCase: PropTypes.func,
-    onUnassignCase: PropTypes.func,
-    onSelectCase: PropTypes.func
 };
 
 export default Oversiktslinje;

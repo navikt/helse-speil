@@ -13,7 +13,7 @@ const Utbetalingsoversikt = () => {
 
     return (
         <Panel className="Utbetalingsoversikt">
-            {person.arbeidsgivere ? (
+            {person?.arbeidsgivere ? (
                 <>
                     <Subheader label={utbetalingsoversikttekster('dager')} iconType="ok" />
                     <Timeline person={person} showDagsats={true} />

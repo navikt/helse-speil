@@ -1,14 +1,20 @@
 'use strict';
 import React from 'react';
 import Modal from 'nav-frontend-modal';
-import PropTypes from 'prop-types';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './TidligerePerioderModal.less';
 import { first26WeeksInterval, workdaysBetween } from '../../utils/date';
+import { Periode } from '../../context/types';
 
 document && document.getElementById('#root') && Modal.setAppElement('#root');
 
-const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }) => {
+interface Props {
+    perioder: Periode[];
+    onClose: () => void;
+    førsteFraværsdag: string;
+}
+
+const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }: Props) => {
     const første26UkersMellomromIndex = first26WeeksInterval(perioder, førsteFraværsdag);
 
     return (
@@ -52,12 +58,6 @@ const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }) => {
             )}
         </Modal>
     );
-};
-
-TidligerePerioderModal.propTypes = {
-    perioder: PropTypes.arrayOf(PropTypes.any).isRequired,
-    onClose: PropTypes.func.isRequired,
-    førsteFraværsdag: PropTypes.string.isRequired
 };
 
 export default TidligerePerioderModal;

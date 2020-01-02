@@ -1,9 +1,8 @@
 import React, { useCallback, useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Oversiktslinje from './Oversiktslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Panel } from 'nav-frontend-paneler';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router';
 import { oversikttekster } from '../../tekster';
 import { TildelingerContext } from '../../context/TildelingerContext';
 import { SaksoversiktContext } from '../../context/SaksoversiktContext';
@@ -14,10 +13,12 @@ import './Oversikt.less';
 import { buildLinks, pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import { useInterval } from '../../hooks/useInterval';
+import { Behov, Person } from '../../context/types';
 
 const TWO_MINUTES = 120000;
 
-const Oversikt = ({ history }) => {
+const Oversikt = () => {
+    const history = useHistory();
     const { hentPerson } = useContext(PersonContext);
     const {
         saksoversikt,
@@ -37,13 +38,11 @@ const Oversikt = ({ history }) => {
         hentSaksoversikt();
     }, []);
 
-    const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(saksoversikt), [
-        saksoversikt
-    ]);
+    const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(saksoversikt), [saksoversikt]);
     useInterval({ callback: intervalledFetchTildelinger, interval: TWO_MINUTES });
 
-    const velgBehovAndNavigate = behov => {
-        hentPerson(behov.aktørId).then(person => {
+    const velgBehovAndNavigate = (behov: Behov) => {
+        hentPerson(behov.aktørId).then((person: Person) => {
             history.push(buildLinks(person)[pages.SYKMELDINGSPERIODE]);
         });
     };
@@ -70,8 +69,8 @@ const Oversikt = ({ history }) => {
                             <Normaltekst>{oversikttekster('tidspunkt')}</Normaltekst>
                             <Normaltekst>{oversikttekster('tildeling')}</Normaltekst>
                         </li>
-                        {saksoversikt.map(behov => {
-                            const tildeling = tildelinger.find(b => b.behovId === behov['@id']);
+                        {saksoversikt.map((behov: Behov) => {
+                            const tildeling = tildelinger.find(t => t.behovId === behov['@id']);
                             return (
                                 <Oversiktslinje
                                     behov={behov}
@@ -90,10 +89,4 @@ const Oversikt = ({ history }) => {
     );
 };
 
-Oversikt.propTypes = {
-    history: PropTypes.shape({
-        push: PropTypes.func.isRequired
-    }).isRequired
-};
-
-export default withRouter(Oversikt);
+export default Oversikt;

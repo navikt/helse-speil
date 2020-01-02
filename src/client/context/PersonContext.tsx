@@ -7,7 +7,7 @@ import { Person } from './types';
 
 interface PersonContextType {
     personTilBehandling?: Person;
-    hentPerson?: (id: string) => void;
+    hentPerson: (id: string) => Promise<Person | undefined>;
     innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
 }
 
@@ -20,7 +20,10 @@ interface ProviderProps {
     children: ReactChild;
 }
 
-export const PersonContext = createContext<PersonContextType>({ innsyn: false });
+export const PersonContext = createContext<PersonContextType>({
+    innsyn: false,
+    hentPerson: (id: string) => Promise.resolve(undefined)
+});
 
 export const PersonProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<PersonContextError | undefined>();

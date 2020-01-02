@@ -1,5 +1,8 @@
 import { useContext } from 'react';
 import { PersonContext } from '../context/PersonContext';
+import { Person } from '../context/types';
+
+type Links = { [key: string]: string }
 
 export const pages = {
     SYKMELDINGSPERIODE: 'sykmeldingsperiode',
@@ -23,8 +26,8 @@ const linkBases = {
     [pages.OPPSUMMERING]: '/oppsummering'
 };
 
-export const buildLinks = person =>
-    Object.keys(linkBases).reduce((links, key) => {
+export const buildLinks = (person: Person) =>
+    Object.keys(linkBases).reduce((links: Links, key) => {
         links[key] = `${linkBases[key]}/${person.aktørId}`;
         return links;
     }, {});

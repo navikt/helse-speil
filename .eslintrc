@@ -1,11 +1,11 @@
 {
-   "parser": "babel-eslint",
+   "parser": "@typescript-eslint/parser",
    "parserOptions": {
-      "ecmaVersion": 2018,
+      "ecmaVersion": 2020,
+      "sourceType": "module",
       "ecmaFeatures": {
          "jsx": true
-      },
-      "sourceType": "module"
+      }
    },
    "settings": {
       "react": {
@@ -68,7 +68,7 @@
       "react/no-unused-prop-types": "error",
       "react/prop-types": "error",
       "react/react-in-jsx-scope": "error",
-      "no-unused-vars": ["warn", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+      "no-unused-vars": ["off"],
       "indent": "off",
       "react/jsx-indent": "off",
       "react/jsx-indent-props": "off",

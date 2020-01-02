@@ -1,4 +1,6 @@
-interface Periode {
+import { ReactChild } from 'react';
+
+export interface Periode {
     fom: string;
     tom: string;
 }
@@ -218,4 +220,23 @@ export interface Person {
     personinfo: Personinfo;
     skjemaVersjon: number;
     sykepengegrunnlag: Sykepengegrunnlag;
+}
+
+export interface Behov {
+    '@behov': string;
+    '@id': string;
+    '@opprettet': string;
+    aktørId: string;
+    organisasjonsnummer: string;
+    personinfo: Personinfo;
+    sakskompleksId: string;
+}
+
+export interface ProviderProps {
+    children: ReactChild;
+}
+
+export interface Tildeling {
+    behovId: string;
+    userId: string;
 }

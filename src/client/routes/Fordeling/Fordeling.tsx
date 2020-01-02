@@ -4,9 +4,9 @@ import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { pages } from '../../hooks/useLinks';
 
-const Periode = () => {
+const Fordeling = () => {
     return (
-        <Panel className="Periode">
+        <Panel>
             <Normaltekst>Ingen data</Normaltekst>
             <NavigationButtons
                 previous={pages.SYKEPENGEGRUNNLAG}
@@ -16,4 +16,4 @@ const Periode = () => {
     );
 };
 
-export default Periode;
+export default Fordeling;
