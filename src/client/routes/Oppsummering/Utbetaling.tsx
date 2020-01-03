@@ -11,7 +11,7 @@ import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
 import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
-import { enesteSak, utbetalingsreferanse } from '../../context/mapper';
+import { utbetalingsreferanse } from '../../context/mapper';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import { Behov } from '../../context/types';
 
@@ -34,7 +34,7 @@ interface Error {
 
 const Utbetaling = () => {
     const { saksoversikt } = useContext(SaksoversiktContext);
-    const { personTilBehandling, innsyn } = useContext(PersonContext);
+    const { personTilBehandling, innsyn, enesteSak } = useContext(PersonContext);
     const { ident } = useContext(AuthContext).authInfo;
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
@@ -42,7 +42,7 @@ const Utbetaling = () => {
     const [error, setError] = useState<Error | undefined>(undefined);
     const [modalOpen, setModalOpen] = useState(false);
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
-    const [tilstand, setTilstand] = useState(enesteSak(personTilBehandling).tilstandType);
+    const [tilstand, setTilstand] = useState(enesteSak?.tilstandType);
 
     const fattVedtak = (godkjent: boolean) => {
         const behovId = saksoversikt.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];

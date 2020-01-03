@@ -12,7 +12,7 @@ const ListItem = ({ label, children }) => (
 
 ListItem.propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]).isRequired
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
 };
 
 export default ListItem;

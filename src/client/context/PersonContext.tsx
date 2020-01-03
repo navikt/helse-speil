@@ -1,14 +1,15 @@
 import React, { createContext, useState, useEffect, ReactChild } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import personMapper from './mapper';
+import personMapper, { enesteSak } from './mapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Person } from './types';
+import { Optional, Person, Sak } from './types';
 
 interface PersonContextType {
     personTilBehandling?: Person;
     hentPerson: (id: string) => Promise<Person | undefined>;
     innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
+    enesteSak?: Sak;
 }
 
 interface PersonContextError {
@@ -26,10 +27,12 @@ export const PersonContext = createContext<PersonContextType>({
 });
 
 export const PersonProvider = ({ children }: ProviderProps) => {
-    const [error, setError] = useState<PersonContextError | undefined>();
+    const [personTilBehandling, setPersonTilBehandling] = useState<Optional<Person>>();
     const [aktørIdFromUrl, setAktørIdFromUrl] = useState<string | undefined>();
-    const [personTilBehandling, setPersonTilBehandling] = useState<Person | undefined>();
+    const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
+
+    const sak = personTilBehandling ? enesteSak(personTilBehandling) : undefined;
 
     useEffect(() => {
         const aktørId = /\d{12,15}$/.exec(window.location.pathname);
@@ -75,7 +78,8 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             value={{
                 personTilBehandling,
                 hentPerson,
-                innsyn
+                innsyn,
+                enesteSak: sak
             }}
         >
             {children}

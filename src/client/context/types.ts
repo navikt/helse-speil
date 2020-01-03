@@ -1,5 +1,7 @@
 import { ReactChild } from 'react';
 
+export type Optional<T> = T | undefined;
+
 export interface Periode {
     fom: string;
     tom: string;
@@ -22,7 +24,7 @@ interface Refusjon {
     opphoersdato?: string;
 }
 
-interface Inntektsmelding {
+export interface Inntektsmelding {
     status: string;
     refusjon: Refusjon;
     mottattDato: string;
@@ -33,7 +35,7 @@ interface Inntektsmelding {
     arbeidsgivertype: string;
     virksomhetsnummer: string;
     inntektsmeldingId: string;
-    foersteFravaersdag: string;
+    førsteFraværsdag: string;
     endringIRefusjoner: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
     arbeidstakerAktorId: string;
     arbeidsgiverperioder: Periode[];
@@ -55,7 +57,7 @@ interface ArbeidsgiverISøknad {
     orgnummer: string;
 }
 
-interface Søknad extends Periode {
+export interface Søknad extends Periode {
     id: string;
     type: string;
     status: string;
@@ -91,8 +93,8 @@ interface Dag {
     hendelseId: string;
 }
 
-interface Hendelse {
-    type: 'InntektsmeldingMottatt' | 'SendSøknadMottatt' | 'NySøknadMottatt';
+export interface Hendelse {
+    type: 'Inntektsmelding' | 'SendSøknad' | 'NySøknad';
     hendelseId: string;
     inntektsmelding?: Inntektsmelding;
     søknad?: Søknad;
@@ -152,9 +154,10 @@ export interface Sak {
     maksdato: string;
     tilstandType: string;
     sykdomstidslinje: Sykdomstidslinje;
-    utbetalingslinjers: Utbetalingslinje[];
+    utbetalingslinjer: Utbetalingslinje[];
     organisasjonsnummer: string;
     godkjentAv?: string;
+    utbetalingsreferanse?: string;
 }
 
 export interface Utbetalingsperiode {
@@ -164,31 +167,31 @@ export interface Utbetalingsperiode {
 }
 
 interface Inngangsvilkår {
-    alder: number;
-    sykepengegrunnlag: number;
     dagerIgjen: {
         dagerBrukt: number;
         førsteFraværsdag: string;
         førsteSykepengedag: string;
         maksdato: string;
         tidligerePerioder: Periode[];
-        yrkesstatus: string;
+        yrkesstatus?: string;
     };
     søknadsfrist: {
         innen3Mnd: boolean;
-        sendtNav: string;
-        søknadTom: string;
+        søknadTom?: string;
+        sendtNav?: string;
     }
+    sykepengegrunnlag?: number;
+    alder?: number;
 }
 
 interface Sykepengegrunnlag {
     dagsats: number;
-    grunnlag: number;
-    månedsinntekt: number;
-    årsinntekt: number;
+    grunnlag?: number;
+    årsinntekt?: number;
+    månedsinntekt?: number;
 }
 
-interface Personinfo {
+export interface Personinfo {
     fnr: string;
     fødselsdato: string;
     kjønn: string;
@@ -197,17 +200,17 @@ interface Personinfo {
 
 interface Inntektskilder {
     forskuttering: string;
-    månedsinntekt: number;
     refusjon: string;
-    årsinntekt: number;
+    årsinntekt?: number;
+    månedsinntekt?: number;
 }
 
 interface Oppsummering {
     antallDager: number;
     beløp: number;
     dagsats: number;
-    mottaker: ArbeidsgiverISøknad;
-    sykepengegrunnlag: number;
+    mottaker?: ArbeidsgiverISøknad;
+    sykepengegrunnlag?: number;
     utbetalingsreferanse?: string;
 }
 
