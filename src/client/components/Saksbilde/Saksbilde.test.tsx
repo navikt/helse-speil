@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import Saksbilde from './Saksbilde';
 import { MemoryRouter } from 'react-router-dom';
@@ -9,7 +7,10 @@ import '@testing-library/jest-dom/extend-expect';
 
 afterEach(cleanup);
 
-const person = { behandlingsId: '123', originalSøknad: { fom: '2019-05-10', tom: '2019-05-20' } };
+const person = {
+    behandlingsId: '123',
+    originalSøknad: { fom: '2019-05-10', tom: '2019-05-20' }
+};
 
 const wrapperProps = {
     personTilBehandling: undefined
@@ -37,6 +38,7 @@ describe('Saksbilde', () => {
             <PersonContext.Provider
                 value={{
                     ...wrapperProps,
+                    // @ts-ignore
                     personTilBehandling: { ...person }
                 }}
             >
@@ -49,11 +51,8 @@ describe('Saksbilde', () => {
     it('render empty state view when no person is selected', () => {
         const { getByText } = render(
             <MemoryRouter>
-                <PersonContext.Provider
-                    value={{
-                        ...wrapperProps
-                    }}
-                >
+               // @ts-ignore
+                <PersonContext.Provider value={{ ...wrapperProps }}>
                     <Saksbilde />
                 </PersonContext.Provider>
             </MemoryRouter>

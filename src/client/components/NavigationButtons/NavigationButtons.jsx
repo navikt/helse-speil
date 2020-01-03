@@ -27,8 +27,8 @@ const NavigationButtons = ({ history, previous, next }) => {
     };
 
     useKeyboard([
-        { keyCode: Keys.LEFT, action: clickPrevious, ignoreIfModifiers: true },
-        { keyCode: Keys.RIGHT, action: clickNext, ignoreIfModifiers: true }
+        { key: Keys.LEFT, action: clickPrevious, ignoreIfModifiers: true },
+        { key: Keys.RIGHT, action: clickNext, ignoreIfModifiers: true }
     ]);
 
     return (

@@ -1,9 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import './Rows.less';
 
-const Row = ({ label, children, labelProp }) => {
+interface Props {
+    label: string;
+    children: string | number;
+    labelProp: ReactNode;
+}
+
+const Row = ({ label, children, labelProp }: Props) => {
     return (
         <span className="Row">
             <Normaltekst>
@@ -13,16 +18,6 @@ const Row = ({ label, children, labelProp }) => {
             {children && <Normaltekst>{children}</Normaltekst>}
         </span>
     );
-};
-
-Row.propTypes = {
-    label: PropTypes.string.isRequired,
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    labelProp: PropTypes.node
-};
-
-Row.defaultProps = {
-    bold: false
 };
 
 export default Row;

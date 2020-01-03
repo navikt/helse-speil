@@ -1,6 +1,7 @@
-'use strict';
+import { Sak, Tildeling } from '../context/types';
+import { Options } from './types';
 
-export const ResponseError = (statusCode, message) => ({
+export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
     message
 });
@@ -9,7 +10,7 @@ export const ResponseError = (statusCode, message) => ({
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
 /* eslint-enable */
 
-const getData = async response => {
+const getData = async (response: Response) => {
     try {
         return await response.json();
     } catch (e) {
@@ -17,7 +18,7 @@ const getData = async response => {
     }
 };
 
-const getErrorMessage = async response => {
+const getErrorMessage = async (response: Response) => {
     try {
         return await response.text();
     } catch (e) {
@@ -25,18 +26,17 @@ const getErrorMessage = async response => {
     }
 };
 
-const ensureAcceptHeader = (options = {}) => {
-    const acceptHeader = {
-        Accept: 'application/json'
-    };
+const ensureAcceptHeader = (options: Options = {}): RequestInit | undefined => {
+    const acceptHeader = { Accept: 'application/json' };
     if (!options?.headers) {
         return { ...options, headers: acceptHeader };
     } else if (!options.headers.Accept || !options.headers.accept) {
         return { ...options, headers: { ...acceptHeader, ...options.headers } };
     }
+    return undefined;
 };
 
-const get = async (url, options) => {
+const get = async (url: string, options?: Options) => {
     const response = await fetch(url, ensureAcceptHeader(options));
 
     if (response.status >= 400) {
@@ -49,7 +49,7 @@ const get = async (url, options) => {
     };
 };
 
-export const del = async (url, data) => {
+export const del = async (url: string, data?: any) => {
     const response = await fetch(url, {
         method: 'DELETE',
         body: JSON.stringify(data)
@@ -61,7 +61,7 @@ export const del = async (url, data) => {
     return response;
 };
 
-export const fetchPerson = async (personId, innsyn) => {
+export const fetchPerson = async (personId?: string, innsyn?: boolean) => {
     return get(`${baseUrl}/person/sok`, {
         headers: { 'nav-person-id': personId, innsyn: innsyn }
     });
@@ -71,7 +71,7 @@ export const fetchSaksoversikt = async () => {
     return get(`${baseUrl}/person/`);
 };
 
-export const post = async (url, data) => {
+export const post = async (url: string, data: any) => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -95,30 +95,30 @@ export const post = async (url, data) => {
     };
 };
 
-export const getPersoninfo = async aktorId => {
+export const getPersoninfo = async (aktorId: string) => {
     return get(`${baseUrl}/person/${aktorId}/info`);
 };
 
-export const getTildelinger = async behandlingsIdList => {
+export const getTildelinger = async (behandlingsIdList: string[]) => {
     return post(`${baseUrl}/tildeling/list`, behandlingsIdList);
 };
 
-export const postTildeling = async tildeling => {
+export const postTildeling = async (tildeling: Tildeling) => {
     return post(`${baseUrl}/tildeling`, tildeling);
 };
 
-export const deleteTildeling = async behandlingsId => {
+export const deleteTildeling = async (behandlingsId: string) => {
     return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };
 
-export const postVedtak = async (behovId, aktørId, godkjent) => {
+export const postVedtak = async (behovId: string, aktørId?: string, godkjent?: boolean) => {
     return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent });
 };
 
-export const postSimulering = async (sak, saksbehandlerIdent) => {
+export const postSimulering = async (sak: Sak, saksbehandlerIdent?: string) => {
     return post(`${baseUrl}/payments/simulate`, { sak, saksbehandlerIdent });
 };
 
-export const postAnnullering = async (utbetalingsreferanse, aktørId) => {
+export const postAnnullering = async (utbetalingsreferanse?: string, aktørId?: string) => {
     return post(`${baseUrl}/payments/annullering`, { utbetalingsreferanse, aktørId });
 };

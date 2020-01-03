@@ -9,7 +9,7 @@ export const useLogUserOut = () => {
         fetchIntercept.register({
             response: res => {
                 if (res.status === 401) {
-                    setUserLoggedOut();
+                    setUserLoggedOut?.();
                 }
                 return res;
             }

@@ -22,6 +22,7 @@
         "acceptance-tests",
         "webpack",
         "jest",
+        "jest.config.js",
         "src/setupTests.ts",
         "__mock-data__",
         "__mocks__",

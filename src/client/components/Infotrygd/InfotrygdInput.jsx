@@ -20,7 +20,7 @@ const InfotrygdInput = ({ onEnter, history }) => {
     const lastTabRef = useRef();
 
     const onKeyDown = event => {
-        switch (event.keyCode) {
+        switch (event.code) {
             case Keys.ESC:
                 return deactivate();
             case Keys.LEFT: {

@@ -5,7 +5,8 @@ import './HeaderBar.less';
 import { Link } from 'react-router-dom';
 
 const HeaderBar = () => {
-    const { authInfo: { name, isLoggedIn } = {} } = useContext(AuthContext);
+    const { authInfo } = useContext(AuthContext);
+    const { name, isLoggedIn } = authInfo;
 
     const username = isLoggedIn ? name : 'Ikke pålogget';
 

@@ -13,7 +13,7 @@ import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
 import { utbetalingsreferanse } from '../../context/mapper';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
-import { Behov } from '../../context/types';
+import { Behov, Optional } from '../../context/types';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
@@ -71,7 +71,7 @@ const Utbetaling = () => {
     const annullerUtbetaling = async () => {
         const utbetalingsref = personTilBehandling?.oppsummering.utbetalingsreferanse ?? await fetchUtbetalingsreferanse();
         setSenderAnnullering(true);
-        postAnnullering(utbetalingsref, personTilBehandling?.aktørId)
+        postAnnullering(utbetalingsref as Optional<string>, personTilBehandling?.aktørId)
             .then(() => {
                 setTilstand(Tilstand.Annullert);
                 setError(undefined);

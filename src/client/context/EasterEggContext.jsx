@@ -2,7 +2,9 @@ import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const EasterEggContext = createContext({
-    isActive: false
+    isActive: false,
+    activate: () => {},
+    deactivate: () => {}
 });
 
 export const EasterEggProvider = ({ children }) => {

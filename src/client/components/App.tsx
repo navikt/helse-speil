@@ -2,6 +2,7 @@ import React, { Suspense, useContext } from 'react';
 import Oversikt from '../routes/Oversikt';
 import HeaderBar from './HeaderBar';
 import Saksbilde from './Saksbilde';
+import { hot } from 'react-hot-loader';
 import { AuthProvider } from '../context/AuthContext';
 import { useLogUserOut } from '../hooks/useLogUserOut';
 import { SimuleringProvider } from '../context/SimuleringContext';
@@ -47,4 +48,4 @@ const App = withContextProviders(() => {
     TildelingerProvider
 ]);
 
-export default App;
+export default hot(module)(App);
