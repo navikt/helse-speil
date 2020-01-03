@@ -6,8 +6,8 @@ import { fetchPerson, getPersoninfo } from '../io/http';
 import { Optional, Person, Sak } from './types';
 
 interface PersonContextType {
-    personTilBehandling?: Person;
-    hentPerson: (id: string) => Promise<Person | undefined>;
+    personTilBehandling: Optional<Person>;
+    hentPerson: (id: string) => Promise<Optional<Person>>;
     innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
     enesteSak?: Sak;
 }
@@ -22,6 +22,7 @@ interface ProviderProps {
 }
 
 export const PersonContext = createContext<PersonContextType>({
+    personTilBehandling: undefined,
     innsyn: false,
     hentPerson: (id: string) => Promise.resolve(undefined)
 });
@@ -86,7 +87,10 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             {error && (
                 <ErrorModal
                     errorMessage={error.message}
-                    onClose={error.statusCode !== 401 ? () => setError(undefined) : undefined}
+                    onClose={error.statusCode !== 401
+                        ? () => setError(undefined)
+                        : () => {}
+                    }
                 />
             )}
         </PersonContext.Provider>

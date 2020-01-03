@@ -1,17 +1,22 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 import { Knapp } from 'nav-frontend-knapper';
-import { withRouter } from 'react-router';
+import { useHistory } from 'react-router';
 import { useKeyboard, Keys } from '../../hooks/useKeyboard';
 import useLinks from '../../hooks/useLinks';
 import './NavigationButtons.less';
 
+interface Props {
+    previous?: string;
+    next?: string;
+}
+
 const tooltip = (direction = 'right') =>
     `<span class="typo-normal NavigationButtons__tooltip ${direction}">Hurtigtast: </span>`;
 
-const NavigationButtons = ({ history, previous, next }) => {
+const NavigationButtons = ({ previous, next }: Props) => {
     const links = useLinks();
+    const history = useHistory();
 
     const linksRef = useRef(links);
     useEffect(() => {
@@ -19,11 +24,11 @@ const NavigationButtons = ({ history, previous, next }) => {
     }, [links]);
 
     const clickPrevious = () => {
-        previous && history.push(linksRef.current[previous]);
+        previous && linksRef.current && history.push(linksRef.current[previous]);
     };
 
     const clickNext = () => {
-        next && history.push(linksRef.current[next]);
+        next && linksRef.current && history.push(linksRef.current[next]);
     };
 
     useKeyboard([
@@ -50,12 +55,4 @@ const NavigationButtons = ({ history, previous, next }) => {
     );
 };
 
-NavigationButtons.propTypes = {
-    history: PropTypes.shape({
-        push: PropTypes.func
-    }).isRequired,
-    previous: PropTypes.string,
-    next: PropTypes.string
-};
-
-export default withRouter(NavigationButtons);
+export default NavigationButtons;

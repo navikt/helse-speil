@@ -1,6 +1,6 @@
 import { ReactChild } from 'react';
 
-export type Optional<T> = T | undefined;
+export type Optional<T> = T | undefined | null;
 
 export interface Periode {
     fom: string;
@@ -69,7 +69,7 @@ export interface Søknad extends Periode {
     ettersending: boolean;
     arbeidsgiver: ArbeidsgiverISøknad;
     egenmeldinger: Periode[];
-    søknadsperioder: Søknadsperiode[];
+    soknadsperioder: Søknadsperiode[];
     arbeidssituasjon: string;
     startSyketilfelle: string;
     sendtArbeidsgiver: string;
@@ -180,15 +180,15 @@ interface Inngangsvilkår {
         søknadTom?: string;
         sendtNav?: string;
     }
-    sykepengegrunnlag?: number;
-    alder?: number;
+    sykepengegrunnlag: Optional<number>;
+    alder: Optional<number>;
 }
 
 interface Sykepengegrunnlag {
     dagsats: number;
-    grunnlag?: number;
-    årsinntekt?: number;
-    månedsinntekt?: number;
+    grunnlag: Optional<number>;
+    årsinntekt: Optional<number>;
+    månedsinntekt: Optional<number>;
 }
 
 export interface Personinfo {
@@ -201,8 +201,8 @@ export interface Personinfo {
 interface Inntektskilder {
     forskuttering: string;
     refusjon: string;
-    årsinntekt?: number;
-    månedsinntekt?: number;
+    årsinntekt: Optional<number>;
+    månedsinntekt?: Optional<number>;
 }
 
 interface Oppsummering {
@@ -210,8 +210,8 @@ interface Oppsummering {
     beløp: number;
     dagsats: number;
     mottaker?: ArbeidsgiverISøknad;
-    sykepengegrunnlag?: number;
-    utbetalingsreferanse?: string;
+    sykepengegrunnlag: Optional<number>;
+    utbetalingsreferanse: Optional<string>;
 }
 
 export interface Person {

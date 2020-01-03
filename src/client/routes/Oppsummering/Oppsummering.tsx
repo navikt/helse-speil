@@ -48,7 +48,7 @@ const Oppsummering = () => {
                         {`${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`}
                     </ListItem>
                 </List>
-                <ListSeparator type="solid" />
+                <ListSeparator />
                 {simulering && arbeidsgiver && (
                     <List>
                         <ListItem label="Simulering">{simuleringsBeløp}</ListItem>
@@ -56,7 +56,7 @@ const Oppsummering = () => {
                     </List>
                 )}
                 {error && <Normaltekst>{error}</Normaltekst>}
-                <ListSeparator type="solid" />
+                <ListSeparator />
                 <Navigasjonsknapper previous={pages.UTBETALINGSOVERSIKT} />
             </Panel>
             <div className="Oppsummering__right-col">

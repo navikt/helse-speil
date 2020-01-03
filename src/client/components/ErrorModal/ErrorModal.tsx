@@ -1,13 +1,17 @@
 import React from 'react';
 import Modal from 'nav-frontend-modal';
-import PropTypes from 'prop-types';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import './ErrorModal.css';
 import { Knapp } from 'nav-frontend-knapper';
 
 Modal.setAppElement('#root');
 
-const ErrorModal = ({ errorMessage, onClose }) => (
+interface Props {
+    errorMessage: string;
+    onClose: () => void;
+}
+
+const ErrorModal = ({ errorMessage, onClose }: Props) => (
     <Modal
         className="ErrorModal"
         isOpen={true}
@@ -30,14 +34,5 @@ const ErrorModal = ({ errorMessage, onClose }) => (
         </Knapp>
     </Modal>
 );
-
-ErrorModal.propTypes = {
-    errorMessage: PropTypes.string.isRequired,
-    onClose: PropTypes.func
-};
-
-ErrorModal.defaultProps = {
-    onClose: undefined
-};
 
 export default ErrorModal;

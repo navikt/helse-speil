@@ -2,12 +2,19 @@ import React from 'react';
 import Modal from 'nav-frontend-modal';
 import PropTypes from 'prop-types';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import './InfoModal.less';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import './InfoModal.less';
 
 Modal.setAppElement('#root');
 
-const InfoModal = ({ infoMessage, isSending, onApprove, onClose }) => (
+interface Props {
+    infoMessage: string;
+    isSending: boolean;
+    onApprove: () => void;
+    onClose: () => void;
+}
+
+const InfoModal = ({ infoMessage, isSending, onApprove, onClose }: Props) => (
     <Modal
         className="InfoModal"
         isOpen={true}

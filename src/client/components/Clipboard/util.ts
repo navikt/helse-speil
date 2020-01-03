@@ -1,4 +1,6 @@
-export const copyContentsToClipboard = node => {
+import { Optional } from '../../context/types';
+
+export const copyContentsToClipboard = (node: Optional<HTMLElement>) => {
     let didCopy = false;
 
     if (node) {

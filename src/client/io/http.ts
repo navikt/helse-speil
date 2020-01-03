@@ -1,4 +1,4 @@
-import { Sak, Tildeling } from '../context/types';
+import { Optional, Sak, Tildeling } from '../context/types';
 import { Options } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
@@ -119,6 +119,6 @@ export const postSimulering = async (sak: Sak, saksbehandlerIdent?: string) => {
     return post(`${baseUrl}/payments/simulate`, { sak, saksbehandlerIdent });
 };
 
-export const postAnnullering = async (utbetalingsreferanse?: string, aktørId?: string) => {
+export const postAnnullering = async (utbetalingsreferanse: Optional<string>, aktørId?: string) => {
     return post(`${baseUrl}/payments/annullering`, { utbetalingsreferanse, aktørId });
 };

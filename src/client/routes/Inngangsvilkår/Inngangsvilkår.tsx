@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { ReactChild, useContext, useState } from 'react';
 import ListItem from '../../components/ListItem';
 import Subheader from '../../components/Subheader';
 import SubheaderWithList from '../../components/SubheaderWithList';
@@ -45,7 +45,7 @@ const Inngangsvilkår = () => {
                             <ListItem label="Maks dato">{toDate(inngangsvilkår.dagerIgjen.maksdato)}</ListItem>
                         </SubheaderWithList>
                         <SubheaderWithList label="Under 67 år" iconType="ok">
-                            <ListItem label="Alder">{inngangsvilkår.alder}</ListItem>
+                            <ListItem label="Alder">{inngangsvilkår.alder as ReactChild}</ListItem>
                         </SubheaderWithList>
                         <SubheaderWithList label="Søknadsfrist" iconType="ok">
                             <ListItem label="Sendt Nav">{toDate(inngangsvilkår.søknadsfrist.sendtNav)}</ListItem>

@@ -118,10 +118,12 @@ const arbeidsgiver = (person: Person) => finnSøknad(person)?.arbeidsgiver;
 
 const finnInntektsmelding = (person: Person): Optional<Inntektsmelding> => findHendelse(person, hendelsestyper.INNTEKTSMELDING) as Inntektsmelding;
 
-const finnSøknad = (person: Person): Optional<Søknad> => findHendelse(person, hendelsestyper.SYKEPENGESØKNAD) as Søknad;
-
 const findHendelse = (person: Person, type: Hendelsetype): Optional<Inntektsmelding | Søknad> =>
     enesteSak(person).sykdomstidslinje.hendelser.find(h => h.type === type.type)?.[type.feltnavn];
+
+export const finnSøknad = (person: Person): Optional<Søknad> => findHendelse(person, hendelsestyper.SYKEPENGESØKNAD) as Søknad;
+
+export const finnSykmeldingsgrad = (person: Person): Optional<number> => finnSøknad(person)?.soknadsperioder[0].sykmeldingsgrad;
 
 export const utbetalingsreferanse = (person: Person): Optional<string> => enesteSak(person).utbetalingsreferanse;
 

@@ -36,7 +36,7 @@ const Sykepengegrunnlag = () => {
                     <Row label="Redusert til 6G">
                         {(sykepengegrunnlag?.grunnlag ?? 0) > G * 6 ? `${toKronerOgØre(G * 6)} kr` : '-'}
                     </Row>
-                    <ListSeparator type="solid" />
+                    <ListSeparator />
                     <Row label="Dagsats">{`${toKronerOgØre(sykepengegrunnlag.dagsats)} kr`}</Row>
                 </>
             )}
