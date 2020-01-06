@@ -6,14 +6,14 @@ import { HendelsestypeUINavn } from './Timeline';
 
 interface Props {
     date: string;
-    type?: Dagtype;
-    hendelse?: Optional<HendelsestypeUINavn>;
+    type?: Dagtype | string;
+    hendelse?: Optional<HendelsestypeUINavn | string>;
     dagsats?: number;
     showType?: boolean;
     showDagsats?: boolean;
 }
 
-const displayDagtype = (type: Dagtype) => {
+const displayDagtype = (type: Dagtype | string) => {
     switch (type) {
         case Dagtype.SYKEDAG: return 'Sykedag';
         case Dagtype.FERIEDAG: return 'Feriedag';
@@ -24,10 +24,11 @@ const displayDagtype = (type: Dagtype) => {
         case Dagtype.UTENLANDSDAG: return 'Utenlandsdag';
         case Dagtype.PERMISJONSDAG: return 'Permisjonsdag';
         case Dagtype.EGENMELDINGSDAG: return 'Egenmeldingsdag';
+        default: return '';
     }
 };
 
-const cssDagtype = (type: Dagtype) => {
+const cssDagtype = (type: Dagtype | string) => {
     switch (type) {
         case Dagtype.SYKEDAG: return 'sykedag';
         case Dagtype.FERIEDAG: return 'feriedag';
@@ -38,6 +39,7 @@ const cssDagtype = (type: Dagtype) => {
         case Dagtype.UTENLANDSDAG: return 'utenlandsdag';
         case Dagtype.PERMISJONSDAG: return 'permisjonsdag';
         case Dagtype.EGENMELDINGSDAG: return 'egenmeldingsdag';
+        default: return '';
     }
 };
 

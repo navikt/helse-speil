@@ -15,7 +15,7 @@ interface Props {
     showDagsats: boolean;
 }
 
-const hendelseTypeTilUiNavn = (type?: Hendelsetype): Optional<HendelsestypeUINavn> => {
+const hendelseTypeTilUiNavn = (type?: Hendelsetype | string): Optional<HendelsestypeUINavn | string> => {
     switch (type) {
         case 'NySøknad':
             return 'SM';
