@@ -1,5 +1,8 @@
-import React, { createContext, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { createContext, ReactChild, useState } from 'react';
+
+interface ProviderProps {
+    children: ReactChild | ReactChild[];
+}
 
 export const EasterEggContext = createContext({
     isActive: false,
@@ -7,7 +10,7 @@ export const EasterEggContext = createContext({
     deactivate: () => {}
 });
 
-export const EasterEggProvider = ({ children }) => {
+export const EasterEggProvider = ({ children }: ProviderProps) => {
     const [isActive, setIsActive] = useState(false);
 
     return (
@@ -21,8 +24,4 @@ export const EasterEggProvider = ({ children }) => {
             {children}
         </EasterEggContext.Provider>
     );
-};
-
-EasterEggProvider.propTypes = {
-    children: PropTypes.node
 };

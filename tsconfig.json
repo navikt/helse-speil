@@ -3,7 +3,7 @@
         "outDir": "dist",
         "module": "commonjs",
         "target": "es5",
-        "lib": ["es6", "dom"],
+        "lib": ["es2019", "dom"],
         "sourceMap": true,
         "allowJs": true,
         "jsx": "react",
@@ -13,7 +13,8 @@
         "noImplicitThis": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "resolveJsonModule": true
     },
     "exclude": [
         "node_modules",

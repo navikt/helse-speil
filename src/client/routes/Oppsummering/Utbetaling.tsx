@@ -47,12 +47,12 @@ const Utbetaling = () => {
     const fattVedtak = (godkjent: boolean) => {
         const behovId = saksoversikt.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
         setIsSending(true);
-        postVedtak(behovId, personTilBehandling?.aktørId, godkjent)
+        postVedtak(behovId!, personTilBehandling?.aktørId, godkjent)
             .then(() => {
                 setBeslutning(godkjent ? Beslutning.Godkjent : Beslutning.Avvist);
                 setError(undefined);
             })
-            .catch(err => {
+            .catch((err: Error) => {
                 console.error({ err });
                 setError({ message: 'Feil under fatting av vedtak' });
             })

@@ -8,7 +8,7 @@ Modal.setAppElement('#root');
 
 interface Props {
     errorMessage: string;
-    onClose: () => void;
+    onClose?: () => void;
 }
 
 const ErrorModal = ({ errorMessage, onClose }: Props) => (

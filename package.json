@@ -14,7 +14,7 @@
         "test": "jest",
         "tdd": "jest --watch",
         "pretest": "npm run test:eslint",
-        "start": "NODE_ENV=development parcel src/client/index.html --open",
+        "start": "NODE_ENV=development parcel src/client/index.html",
         "start-no-browser": "NODE_ENV=development parcel src/client/index.html",
         "start-mac": "NODE_ENV=development parcel src/client/index.html --open 'Google Chrome'",
         "start-express": "npm run build-server && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",

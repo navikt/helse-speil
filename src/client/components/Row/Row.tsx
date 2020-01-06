@@ -4,7 +4,7 @@ import './Rows.less';
 
 interface Props {
     label: string;
-    children: string | number;
+    children?: string | number;
     labelProp?: ReactNode;
 }
 

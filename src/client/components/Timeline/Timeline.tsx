@@ -1,12 +1,21 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import TimelineRow from './TimelineRow';
 import { guid } from 'nav-frontend-js-utils';
 import { listOfDatesBetween } from '../../utils/date';
+import { Hendelsetype, Optional, Person, Utbetalingslinje } from '../../context/types';
 import 'nav-frontend-tabell-style';
 import './Timeline.less';
 
-const hendelseTypeTilUiNavn = type => {
+type DagsatsDict = { [key: string]: number };
+
+export type HendelsestypeUINavn = 'SM' | 'SØ' | 'IM';
+
+interface Props {
+    person: Person;
+    showDagsats: boolean;
+}
+
+const hendelseTypeTilUiNavn = (type?: Hendelsetype): Optional<HendelsestypeUINavn> => {
     switch (type) {
         case 'NySøknad':
             return 'SM';
@@ -19,8 +28,8 @@ const hendelseTypeTilUiNavn = type => {
     }
 };
 
-const buildDagsatserDictionary = utbetalingslinjer => {
-    const dagsatser = {};
+const buildDagsatserDictionary = (utbetalingslinjer: Utbetalingslinje[]): DagsatsDict => {
+    const dagsatser: DagsatsDict = {};
     utbetalingslinjer
         .flatMap(periode =>
             listOfDatesBetween(periode.fom, periode.tom).map(dag => ({
@@ -32,11 +41,11 @@ const buildDagsatserDictionary = utbetalingslinjer => {
     return dagsatser;
 };
 
-const sumDagsatser = dagsatser => {
+const sumDagsatser = (dagsatser: DagsatsDict) => {
     return Object.values(dagsatser).reduce((sum, dagsats) => sum + dagsats, 0);
 };
 
-const Timeline = ({ person, showDagsats }) => {
+const Timeline = ({ person, showDagsats }: Props) => {
     const { sykdomstidslinje: tidslinje, utbetalingslinjer } = person.arbeidsgivere[0].saker[0];
     const hendelser = tidslinje.hendelser;
     const dagsatser = showDagsats ? buildDagsatserDictionary(utbetalingslinjer) : {};
@@ -45,7 +54,7 @@ const Timeline = ({ person, showDagsats }) => {
     const dager = tidslinje.dager.map(dag => ({
         date: dag.dato,
         type: dag.type,
-        hendelse: hendelseTypeTilUiNavn(hendelser.find(h => h.hendelseId === dag.hendelseId).type),
+        hendelse: hendelseTypeTilUiNavn(hendelser.find(h => h.hendelseId === dag.hendelseId)?.type),
         dagsats: dagsatser?.[dag.dato]
     }));
 
@@ -82,11 +91,6 @@ const Timeline = ({ person, showDagsats }) => {
             )}
         </table>
     );
-};
-
-Timeline.propTypes = {
-    person: PropTypes.object,
-    showDagsats: PropTypes.bool
 };
 
 export const _buildDagsatserDictionary = buildDagsatserDictionary;

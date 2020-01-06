@@ -1,8 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import './SourceLink.less';
 
-const SourceLink = ({ label }) => {
+interface Props {
+    label: string;
+}
+
+const SourceLink = ({ label }: Props) => {
     return (
         <a className="SourceLink" href="#">
             {label.toUpperCase()}
@@ -20,10 +23,6 @@ const SourceLink = ({ label }) => {
             </svg>
         </a>
     );
-};
-
-SourceLink.propTypes = {
-    label: PropTypes.string.isRequired
 };
 
 export default SourceLink;

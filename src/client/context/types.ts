@@ -2,6 +2,20 @@ import { ReactChild } from 'react';
 
 export type Optional<T> = T | undefined | null;
 
+export type Hendelsetype = 'Inntektsmelding' | 'SendtSøknad' | 'NySøknad';
+
+export enum Dagtype {
+    SYKEDAG = 'SYKEDAG',
+    FERIEDAG = 'FERIEDAG',
+    STUDIEDAG = 'STUDIEDAG',
+    ARBEIDSDAG = 'ARBEIDSDAG',
+    UBESTEMTDAG = 'UBESTEMTDAG',
+    SYK_HELGEDAG = 'SYK_HELGEDAG',
+    UTENLANDSDAG = 'UTENLANDSDAG',
+    PERMISJONSDAG = 'PERMISJONSDAG',
+    EGENMELDINGSDAG = 'EGENMELDINGSDAG'
+}
+
 export interface Periode {
     fom: string;
     tom: string;
@@ -88,13 +102,13 @@ export interface Søknad extends Periode {
 
 interface Dag {
     dato: string;
-    type: string;
+    type: Dagtype | string;
     erstatter: Dag[];
     hendelseId: string;
 }
 
 export interface Hendelse {
-    type: 'Inntektsmelding' | 'SendSøknad' | 'NySøknad';
+    type: Hendelsetype | string;
     hendelseId: string;
     inntektsmelding?: Inntektsmelding;
     søknad?: Søknad;
@@ -105,7 +119,7 @@ interface Sykdomstidslinje {
     hendelser: Hendelse[];
 }
 
-interface Utbetalingslinje {
+export interface Utbetalingslinje {
     dagsats: number;
     fom: string;
     tom: string;
@@ -214,14 +228,17 @@ interface Oppsummering {
     utbetalingsreferanse: Optional<string>;
 }
 
-export interface Person {
+export interface UnmappedPerson {
     aktørId: string;
     arbeidsgivere: Arbeidsgiver[];
+    skjemaVersjon: number;
+}
+
+export interface Person extends UnmappedPerson {
     inngangsvilkår: Inngangsvilkår;
     inntektskilder: Inntektskilder;
     oppsummering: Oppsummering;
     personinfo: Personinfo;
-    skjemaVersjon: number;
     sykepengegrunnlag: Sykepengegrunnlag;
 }
 
@@ -231,8 +248,8 @@ export interface Behov {
     '@opprettet': string;
     aktørId: string;
     organisasjonsnummer: string;
-    personinfo: Personinfo;
     sakskompleksId: string;
+    personinfo?: Personinfo;
 }
 
 export interface ProviderProps {

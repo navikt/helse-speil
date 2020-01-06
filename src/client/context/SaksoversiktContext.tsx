@@ -1,11 +1,33 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, ReactChild, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { fetchSaksoversikt, getPersoninfo } from '../io/http';
+import { Behov, Optional } from './types';
 
-export const SaksoversiktContext = createContext();
+interface Error {
+    message: string;
+    statusCode?: number;
+}
 
-const appendPersoninfo = behov => {
+interface ProviderProps {
+    children: ReactChild | ReactChild[];
+}
+
+interface SaksoversiktContextType {
+    saksoversikt: Behov[];
+    hentSaksoversikt: () => void;
+    isFetchingSaksoversikt: boolean;
+    isFetchingPersoninfo: boolean;
+}
+
+export const SaksoversiktContext = createContext<SaksoversiktContextType>({
+    saksoversikt: [],
+    hentSaksoversikt: () => {},
+    isFetchingSaksoversikt: false,
+    isFetchingPersoninfo: false
+});
+
+const appendPersoninfo = (behov: Behov) => {
     return getPersoninfo(behov.aktørId)
         .then(response => ({
             ...behov,
@@ -17,20 +39,21 @@ const appendPersoninfo = behov => {
         });
 };
 
-export const SaksoversiktProvider = ({ children }) => {
-    const [error, setError] = useState(undefined);
-    const [saksoversikt, setSaksoversikt] = useState([]);
+export const SaksoversiktProvider = ({ children }: ProviderProps) => {
+    const [error, setError] = useState<Optional<Error>>(undefined);
+    const [saksoversikt, setSaksoversikt] = useState<Behov[]>([]);
     const [isFetchingSaksoversikt, setIsFetchingSaksoversikt] = useState(false);
     const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
 
     const hentSaksoversikt = async () => {
-        const oversikt = await hentPersoner();
+        const oversikt: Behov[] = await hentPersoner();
         setSaksoversikt(oversikt);
         setIsFetchingPersoninfo(true);
-        const oversiktWithPersoninfo = await Promise.all(
-            oversikt.map(behandling => appendPersoninfo(behandling))
-        ).finally(() => setIsFetchingPersoninfo(false));
-        if (oversiktWithPersoninfo.find(behandling => behandling.personinfo === undefined)) {
+        const oversiktWithPersoninfo: Behov[] = await Promise
+            .all(oversikt.map((behandling: Behov) => appendPersoninfo(behandling)))
+            .finally(() => setIsFetchingPersoninfo(false));
+        const finnesBehovUtenPersoninfo = oversiktWithPersoninfo.find((behandling: Behov) => behandling.personinfo === undefined);
+        if (finnesBehovUtenPersoninfo) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
         setSaksoversikt(oversiktWithPersoninfo);

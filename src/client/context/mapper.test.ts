@@ -1,4 +1,4 @@
-import behov from '../../../__mock-data__/mock-sak-1';
+import behov from '../../../__mock-data__/mock-sak-1.json';
 import personMapper, { beregnAlder } from './mapper';
 
 test('mapper data riktig for inngangsvilkårssiden', () => {
@@ -43,7 +43,7 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
             }
         }
     };
-    const personinfo = { fødselsdato: '1956-12-12' };
+    const personinfo = { fødselsdato: '1956-12-12', fnr: '123', kjønn: 'mann', navn: 'Sjaman Durek' };
     expect(personMapper.map(behov, personinfo)).toEqual(expect.objectContaining(expectedPerson));
 });
 

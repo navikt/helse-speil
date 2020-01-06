@@ -1,12 +1,14 @@
 import { fetchPerson } from './http';
 import '@testing-library/jest-dom/extend-expect';
 
+const globalAny: any = global;
+
 afterEach(() => {
-    global.fetch = undefined;
+    globalAny.fetch = undefined;
 });
 
 test('behandlinger funnet', async () => {
-    global.fetch = jest.fn().mockImplementation(() => {
+    globalAny.fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve({
             status: 200,
             json: () => {
@@ -14,13 +16,13 @@ test('behandlinger funnet', async () => {
             }
         });
     });
-    const response = await fetchPerson(12345);
+    const response = await fetchPerson('12345');
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(response).toEqual({ data: 'yup', status: 200 });
 });
 
 test('behandlinger ikke funnet', async () => {
-    global.fetch = jest.fn().mockImplementation(() => {
+    globalAny.fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve({
             status: 404,
             json: () => {
@@ -28,7 +30,7 @@ test('behandlinger ikke funnet', async () => {
             }
         });
     });
-    const response = await fetchPerson(12345).catch(err => {
+    const response = await fetchPerson('12345').catch(err => {
         expect(err).toEqual({
             message: undefined,
             statusCode: 404
