@@ -1,14 +1,20 @@
 import { fetchPerson } from './http';
 import '@testing-library/jest-dom/extend-expect';
 
-const globalAny: any = global;
+declare global {
+    namespace NodeJS {
+        interface Global {
+            fetch: jest.MockedFunction<any>
+        }
+    }
+}
 
 afterEach(() => {
-    globalAny.fetch = undefined;
+    global.fetch = undefined;
 });
 
 test('behandlinger funnet', async () => {
-    globalAny.fetch = jest.fn().mockImplementation(() => {
+    global.fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve({
             status: 200,
             json: () => {
@@ -22,7 +28,7 @@ test('behandlinger funnet', async () => {
 });
 
 test('behandlinger ikke funnet', async () => {
-    globalAny.fetch = jest.fn().mockImplementation(() => {
+    global.fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve({
             status: 404,
             json: () => {
