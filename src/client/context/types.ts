@@ -26,16 +26,16 @@ interface Fravær extends Periode {
 }
 
 interface Søknadsperiode extends Periode {
+    avtaltTimer: Optional<string | number>; // TODO: Finn ut av hvordan denne ser ut.
+    faktiskGrad: Optional<string | number>; // TODO: Finn ut av hvordan denne ser ut.
+    faktiskTimer: Optional<string | number>; // TODO: Finn ut av hvordan denne ser ut.
     sykmeldingsgrad: number;
-    avtaltTimer?: string | number; // TODO: Finn ut av hvordan denne ser ut.
-    faktiskGrad?: string | number; // TODO: Finn ut av hvordan denne ser ut.
-    faktiskTimer?: string | number; // TODO: Finn ut av hvordan denne ser ut.
-    sykmeldingstype?: string; // TODO: Finn ut av hvordan denne ser ut.
+    sykmeldingstype: Optional<string>; // TODO: Finn ut av hvordan denne ser ut.
 }
 
 interface Refusjon {
-    beloepPrMnd?: number | string;
-    opphoersdato?: string;
+    beloepPrMnd: Optional<number | string>;
+    opphoersdato: Optional<string>;
 }
 
 export interface Inntektsmelding {
@@ -44,20 +44,20 @@ export interface Inntektsmelding {
     mottattDato: string;
     ferieperioder: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
     arkivreferanse: string;
+    arbeidsgiverFnr: Optional<string>;
     arbeidstakerFnr: string;
     beregnetInntekt: string;
+    arbeidsforholdId: Optional<string>;
     arbeidsgivertype: string;
-    virksomhetsnummer: string;
     inntektsmeldingId: string;
-    førsteFraværsdag: string;
+    virksomhetsnummer: string;
     endringIRefusjoner: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
+    førsteFraværsdag: string;
+    arbeidsgiverAktorId: Optional<string>;
     arbeidstakerAktorId: string;
     arbeidsgiverperioder: Periode[];
-    opphoerAvNaturalutelser: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
+    opphoerAvNaturalytelser: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
     gjenopptakelseNaturalytelser: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
-    arbeidsgiverFnr?: string;
-    arbeidsforholdId?: string;
-    arbeidsgiverAktorId?: string;
 }
 
 interface Arbeidsgiver {
@@ -67,48 +67,48 @@ interface Arbeidsgiver {
 }
 
 interface ArbeidsgiverISøknad {
-    navn: string;
     orgnummer: string;
+    navn: Optional<string>;
 }
 
 export interface Søknad extends Periode {
     id: string;
     type: string;
-    status: string;
     fravar: Fravær[];
+    status: string;
     aktorId: string;
+    mottaker: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
     sendtNav: string;
+    sporsmal: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
     opprettet: string;
-    sykmeldingId: string;
-    ettersending: boolean;
+    korrigerer: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
+    korrigertAv: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
     arbeidsgiver: ArbeidsgiverISøknad;
+    avsendertype: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
+    ettersending: boolean;
+    sykmeldingId: string;
     egenmeldinger: Periode[];
     soknadsperioder: Søknadsperiode[];
     arbeidssituasjon: string;
-    startSyketilfelle: string;
+    arbeidGjenopptatt: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
+    papirsykmeldinger: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
     sendtArbeidsgiver: string;
-    arbeidsgiverForskutterer: 'JA' | 'NEI';
-    sporsmål?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    mottaker?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    korrigerer?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    korrigertAv?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    avsendertype?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    sykmeldingSkrevet?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    papirsykmeldinger?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    arbeidsGjenopptatt?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    andreInntektskilder?: undefined; // TODO: Finn ut av hvordan denne ser ut.
-    soktUtenlandsopphold?: boolean; // TODO: Finn ut av hvordan denne ser ut.
+    startSyketilfelle: string;
+    sykmeldingSkrevet: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
+    andreInntektskilder: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
+    soktUtenlandsopphold: Optional<boolean>; // TODO: Finn ut av hvordan denne ser ut.
+    arbeidsgiverForskutterer: string;
 }
 
 interface Dag {
     dato: string;
-    type: Dagtype | string;
+    type: string;
     erstatter: Dag[];
     hendelseId: string;
 }
 
 export interface Hendelse {
-    type: Hendelsetype | string;
+    type: string;
     hendelseId: string;
     inntektsmelding?: Inntektsmelding;
     søknad?: Søknad;
@@ -119,10 +119,8 @@ interface Sykdomstidslinje {
     hendelser: Hendelse[];
 }
 
-export interface Utbetalingslinje {
+export interface Utbetalingslinje extends Periode {
     dagsats: number;
-    fom: string;
-    tom: string;
 }
 
 interface Utbetalingsdetaljer {
@@ -166,11 +164,11 @@ export interface Sak {
     id: string;
     aktørId: string;
     maksdato: string;
+    godkjentAv: Optional<string>;
     tilstandType: string;
     sykdomstidslinje: Sykdomstidslinje;
     utbetalingslinjer: Utbetalingslinje[];
     organisasjonsnummer: string;
-    godkjentAv?: string;
     utbetalingsreferanse?: string;
 }
 
@@ -187,12 +185,12 @@ interface Inngangsvilkår {
         førsteSykepengedag: string;
         maksdato: string;
         tidligerePerioder: Periode[];
-        yrkesstatus?: string;
+        yrkesstatus: Optional<string>;
     };
     søknadsfrist: {
         innen3Mnd: boolean;
-        søknadTom?: string;
-        sendtNav?: string;
+        søknadTom: Optional<string>;
+        sendtNav: Optional<string>;
     }
     sykepengegrunnlag: Optional<number>;
     alder: Optional<number>;
@@ -216,14 +214,14 @@ interface Inntektskilder {
     forskuttering: string;
     refusjon: string;
     årsinntekt: Optional<number>;
-    månedsinntekt?: Optional<number>;
+    månedsinntekt: Optional<number>;
 }
 
 interface Oppsummering {
     antallDager: number;
     beløp: number;
     dagsats: number;
-    mottaker?: ArbeidsgiverISøknad;
+    mottaker: Optional<ArbeidsgiverISøknad>;
     sykepengegrunnlag: Optional<number>;
     utbetalingsreferanse: Optional<string>;
 }
@@ -249,7 +247,7 @@ export interface Behov {
     aktørId: string;
     organisasjonsnummer: string;
     sakskompleksId: string;
-    personinfo?: Personinfo;
+    personinfo: Optional<Personinfo>;
 }
 
 export interface ProviderProps {

@@ -3,7 +3,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { listOfDatesBetween } from '../utils/date';
-import { Inntektsmelding, Optional, Person, Personinfo, Sak, Søknad, UnmappedPerson } from './types';
+import { Dagtype, Inntektsmelding, Optional, Person, Personinfo, Sak, Søknad, UnmappedPerson } from './types';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -31,7 +31,8 @@ const hendelsestyper: { [key: string]: Hendelse } = {
 
 export default {
     map: (person: UnmappedPerson, personinfo: Personinfo): Person => {
-        const sak = enesteSak(person);
+        const sak = filtrerPaddedeArbeidsdager((enesteSak(person)));
+
         const inntektsmelding = finnInntektsmelding(person);
         const månedsinntekt = inntektsmelding && +parseFloat(inntektsmelding?.beregnetInntekt).toFixed(2);
         const årsinntekt = inntektsmelding && +(parseFloat(inntektsmelding.beregnetInntekt) * 12).toFixed(2);
@@ -127,6 +128,21 @@ export const finnSøknad = (person: UnmappedPerson): Optional<Søknad> => findHe
 export const finnSykmeldingsgrad = (person: UnmappedPerson): Optional<number> => finnSøknad(person)?.soknadsperioder[0].sykmeldingsgrad;
 
 export const utbetalingsreferanse = (person: UnmappedPerson): Optional<string> => enesteSak(person).utbetalingsreferanse;
+
+export const filtrerPaddedeArbeidsdager = (sak: Sak): Sak => {
+    const førsteArbeidsdag = sak.sykdomstidslinje.dager.findIndex((dag) => dag.type === Dagtype.ARBEIDSDAG);
+    if(førsteArbeidsdag === -1 || førsteArbeidsdag !== 0) return sak;
+
+    const førsteIkkeArbeidsdag = sak.sykdomstidslinje.dager.findIndex((dag ) => dag.type !== Dagtype.ARBEIDSDAG);
+
+    return {
+        ...sak,
+        sykdomstidslinje: {
+            ...sak.sykdomstidslinje,
+            dager: sak.sykdomstidslinje.dager.slice(førsteIkkeArbeidsdag)
+        }
+    };
+};
 
 export const enesteSak = (person: UnmappedPerson): Sak => {
     if (person.arbeidsgivere.length !== 1 || person.arbeidsgivere[0].saker.length !== 1) {

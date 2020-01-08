@@ -1,5 +1,6 @@
 import behov from '../../../__mock-data__/mock-sak-1.json';
-import personMapper, { beregnAlder } from './mapper';
+import personMapper, { beregnAlder, enesteSak, filtrerPaddedeArbeidsdager } from './mapper';
+import { Dagtype, Sak, UnmappedPerson } from './types';
 
 test('mapper data riktig for inngangsvilkårssiden', () => {
     const expectedPerson = {
@@ -45,6 +46,60 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
     };
     const personinfo = { fødselsdato: '1956-12-12', fnr: '123', kjønn: 'mann', navn: 'Sjaman Durek' };
     expect(personMapper.map(behov, personinfo)).toEqual(expect.objectContaining(expectedPerson));
+});
+
+test('filtrerer vekk paddede arbeidsdager', () => {
+    const paddedeArbeidsdager = [
+        {
+            "dato": "2019-09-08",
+            "type": "ARBEIDSDAG",
+            "erstatter": [],
+            "hendelseId": "f8d10337-b0de-4036-ba95-67e5d0f041e4"
+        },
+        {
+            "dato": "2019-09-09",
+            "type": "ARBEIDSDAG",
+            "erstatter": [],
+            "hendelseId": "f8d10337-b0de-4036-ba95-67e5d0f041e4"
+        }
+    ];
+
+    const personMedPaddedeArbeidsdager: UnmappedPerson = {
+        ...behov,
+        arbeidsgivere: [
+            {
+                ...behov.arbeidsgivere[0],
+                saker: [
+                    {
+                        ...behov.arbeidsgivere[0].saker[0],
+                        sykdomstidslinje: {
+                            hendelser: [],
+                            dager: [
+                                ...paddedeArbeidsdager,
+                                ...behov.arbeidsgivere[0].saker[0].sykdomstidslinje.dager
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
+    };
+
+    const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(enesteSak(personMedPaddedeArbeidsdager));
+    const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[0];
+
+    expect(førsteDag.type !== Dagtype.ARBEIDSDAG).toBeTruthy();
+});
+
+test('fjerner ingen dager dersom første dag ikke er ARBEIDSDAG', () => {
+    const unmappedPerson: UnmappedPerson = {...behov};
+    const opprinneligSak: Sak = enesteSak(unmappedPerson);
+    const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(enesteSak(unmappedPerson));
+
+    opprinneligSak.sykdomstidslinje.dager.forEach((dag, i) => {
+        const ikkePaddetDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[i];
+        expect(ikkePaddetDag.type).toBe(dag.type);
+    });
 });
 
 test('beregner alder riktig', () => {
