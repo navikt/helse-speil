@@ -226,6 +226,7 @@ interface Oppsummering {
     mottaker?: ArbeidsgiverISøknad;
     sykepengegrunnlag: Optional<number>;
     utbetalingsreferanse: Optional<string>;
+    sakskompleksId: string;
 }
 
 export interface UnmappedPerson {

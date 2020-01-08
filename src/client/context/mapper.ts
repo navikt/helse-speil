@@ -71,7 +71,8 @@ export default {
                 antallDager: antallUtbetalingsdager(person),
                 beløp: dagsats * antallUtbetalingsdager(person),
                 mottaker: arbeidsgiver(person),
-                utbetalingsreferanse: utbetalingsreferanse(person)
+                utbetalingsreferanse: utbetalingsreferanse(person),
+                sakskompleksId: enesteSak(person).id
             }
         };
     }
