@@ -224,7 +224,7 @@ interface Oppsummering {
     mottaker: Optional<ArbeidsgiverISøknad>;
     sykepengegrunnlag: Optional<number>;
     utbetalingsreferanse: Optional<string>;
-    sakskompleksId: string;
+    vedtaksperiodeId: string;
 }
 
 export interface UnmappedPerson {
