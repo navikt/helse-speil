@@ -46,8 +46,9 @@ const Utbetaling = () => {
 
     const fattVedtak = (godkjent: boolean) => {
         const behovId = saksoversikt.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
+        const sakskompleksId = personTilBehandling?.oppsummering.sakskompleksId;
         setIsSending(true);
-        postVedtak(behovId!, personTilBehandling?.aktørId, godkjent)
+        postVedtak(behovId, personTilBehandling?.aktørId, godkjent, sakskompleksId)
             .then(() => {
                 setBeslutning(godkjent ? Beslutning.Godkjent : Beslutning.Avvist);
                 setError(undefined);
