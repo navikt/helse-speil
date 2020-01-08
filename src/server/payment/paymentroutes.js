@@ -39,12 +39,12 @@ const routes = ({ router }) => {
     const vedtakHandler = {
         handle: (req, res) => {
             if (
-                !(req.body.behovId || req.body.sakskompleksId) ||
+                !(req.body.behovId || req.body.vedtaksperiodeId) ||
                 !req.body.aktørId ||
                 req.body.godkjent === undefined
             ) {
                 res.status(400).send(
-                    'BehovId eller sakskompleksId, aktørId og godkjent-verdi må være tilstede'
+                    'BehovId eller vedtaksperiodeId, aktørId og godkjent-verdi må være tilstede'
                 );
                 return;
             }
