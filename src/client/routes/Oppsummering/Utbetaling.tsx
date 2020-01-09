@@ -94,7 +94,7 @@ const Utbetaling = () => {
 
     return (
         <Panel className="Utbetaling">
-            <Undertittel>{t('utbetaling.utbetaling')}</Undertittel>
+            <Undertittel>{t('oppsummering.utbetaling')}</Undertittel>
             <AlertStripeAdvarsel>
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
                 til teamet for evaluering.
