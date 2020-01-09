@@ -12,6 +12,7 @@ export enum Dagtype {
     UBESTEMTDAG = 'UBESTEMTDAG',
     SYK_HELGEDAG = 'SYK_HELGEDAG',
     UTENLANDSDAG = 'UTENLANDSDAG',
+    IMPLISITT_DAG = 'IMPLISITT_DAG',
     PERMISJONSDAG = 'PERMISJONSDAG',
     EGENMELDINGSDAG = 'EGENMELDINGSDAG'
 }
@@ -100,7 +101,7 @@ export interface Søknad extends Periode {
     arbeidsgiverForskutterer: string;
 }
 
-interface Dag {
+export interface Dag {
     dato: string;
     type: string;
     erstatter: Dag[];

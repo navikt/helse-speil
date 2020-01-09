@@ -3,7 +3,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { listOfDatesBetween } from '../utils/date';
-import { Dagtype, Inntektsmelding, Optional, Person, Personinfo, Sak, Søknad, UnmappedPerson } from './types';
+import { Dag, Dagtype, Inntektsmelding, Optional, Person, Personinfo, Sak, Søknad, UnmappedPerson } from './types';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -42,6 +42,10 @@ export default {
         return {
             ...person,
             personinfo,
+            arbeidsgivere: person.arbeidsgivere.map(arbeidsgiver => ({
+                ...arbeidsgiver,
+                saker: arbeidsgiver.saker.map(s => filtrerPaddedeArbeidsdager(s))
+            })),
             inngangsvilkår: {
                 alder: beregnAlder(finnSøknad(person)?.sendtNav, personinfo?.fødselsdato),
                 dagerIgjen: {
@@ -133,10 +137,11 @@ export const finnSykmeldingsgrad = (person: UnmappedPerson): Optional<number> =>
 export const utbetalingsreferanse = (person: UnmappedPerson): Optional<string> => enesteSak(person).utbetalingsreferanse;
 
 export const filtrerPaddedeArbeidsdager = (sak: Sak): Sak => {
-    const førsteArbeidsdag = sak.sykdomstidslinje.dager.findIndex((dag) => dag.type === Dagtype.ARBEIDSDAG);
+    const arbeidsdagEllerImplisittDag = (dag: Dag) => dag.type === Dagtype.ARBEIDSDAG || dag.type === Dagtype.IMPLISITT_DAG;
+    const førsteArbeidsdag = sak.sykdomstidslinje.dager.findIndex(arbeidsdagEllerImplisittDag);
     if(førsteArbeidsdag === -1 || førsteArbeidsdag !== 0) return sak;
 
-    const førsteIkkeArbeidsdag = sak.sykdomstidslinje.dager.findIndex((dag ) => dag.type !== Dagtype.ARBEIDSDAG);
+    const førsteIkkeArbeidsdag = sak.sykdomstidslinje.dager.findIndex((dag ) => dag.type !== Dagtype.ARBEIDSDAG && dag.type !== Dagtype.IMPLISITT_DAG);
 
     return {
         ...sak,
