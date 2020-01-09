@@ -111,8 +111,8 @@ export const deleteTildeling = async (behandlingsId: string) => {
     return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };
 
-export const postVedtak = async (behovId?: string, aktørId?: string, godkjent?: boolean, sakskompleksId?: string) => {
-    return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, sakskompleksId });
+export const postVedtak = async (behovId?: string, aktørId?: string, godkjent?: boolean, vedtaksperiodeId?: string) => {
+    return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, vedtaksperiodeId });
 };
 
 export const postSimulering = async (sak: Sak, saksbehandlerIdent?: string) => {

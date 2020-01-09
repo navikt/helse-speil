@@ -42,7 +42,7 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
                 navn: 'Kongehuset',
                 orgnummer: '123456789'
             },
-            sakskompleksId: 'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87'
+            vedtaksperiodeId: 'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87'
         }
     };
     const personinfo = { fødselsdato: '1956-12-12', fnr: '123', kjønn: 'mann', navn: 'Sjaman Durek' };
