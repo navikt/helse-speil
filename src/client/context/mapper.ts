@@ -36,7 +36,8 @@ export default {
         const inntektsmelding = finnInntektsmelding(person);
         const månedsinntekt = inntektsmelding && +parseFloat(inntektsmelding?.beregnetInntekt).toFixed(2);
         const årsinntekt = inntektsmelding && +(parseFloat(inntektsmelding.beregnetInntekt) * 12).toFixed(2);
-        const dagsats = enesteSak(person).utbetalingslinjer[0].dagsats;
+        const dagsats = enesteSak(person).utbetalingslinjer?.[0].dagsats;
+        const utbetalingsdager = antallUtbetalingsdager(person) ?? 0;
 
         return {
             ...person,
@@ -44,7 +45,7 @@ export default {
             inngangsvilkår: {
                 alder: beregnAlder(finnSøknad(person)?.sendtNav, personinfo?.fødselsdato),
                 dagerIgjen: {
-                    dagerBrukt: antallUtbetalingsdager(person),
+                    dagerBrukt: utbetalingsdager,
                     førsteFraværsdag: inntektsmelding?.førsteFraværsdag ?? '-',
                     førsteSykepengedag: finnFørsteSykepengedag(person),
                     maksdato: sak.maksdato,
@@ -69,8 +70,8 @@ export default {
             oppsummering: {
                 sykepengegrunnlag: sykepengegrunnlag(person),
                 dagsats,
-                antallDager: antallUtbetalingsdager(person),
-                beløp: dagsats * antallUtbetalingsdager(person),
+                antallDager: utbetalingsdager,
+                beløp: dagsats !== undefined ? dagsats * utbetalingsdager : 0,
                 mottaker: arbeidsgiver(person),
                 utbetalingsreferanse: utbetalingsreferanse(person),
                 sakskompleksId: enesteSak(person).id
@@ -89,6 +90,7 @@ export const beregnAlder = (tidspunkt?: string, fødselsdato?: string): Optional
 
 const finnFørsteSykepengedag = (person: UnmappedPerson) => {
     const utbetalingslinjer = enesteSak(person).utbetalingslinjer;
+    if (utbetalingslinjer === undefined || utbetalingslinjer === null) return null;
     return dayjs.min(utbetalingslinjer.map(linje => dayjs(linje.fom))).format('YYYY-MM-DD');
 };
 
@@ -112,7 +114,7 @@ const søknadsfrist = (person: UnmappedPerson) => {
 };
 
 const antallUtbetalingsdager = (person: UnmappedPerson) =>
-    enesteSak(person).utbetalingslinjer.reduce((acc, linje) => {
+    enesteSak(person).utbetalingslinjer?.reduce((acc, linje) => {
         acc += listOfDatesBetween(linje.fom, linje.tom).length;
         return acc;
     }, 0);

@@ -9,14 +9,15 @@ import { pages } from '../../hooks/useLinks';
 import { toKronerOgØre } from '../../utils/locale';
 import { PersonContext } from '../../context/PersonContext';
 import { SimuleringContext } from '../../context/SimuleringContext';
-import { oppsummeringstekster } from '../../tekster';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import './Oppsummering.less';
 import { Person } from '../../context/types';
+import { useTranslation } from 'react-i18next';
 
 const Oppsummering = () => {
     const { oppsummering } = useContext(PersonContext).personTilBehandling as Person;
     const { error, simulering, arbeidsgiver } = useContext(SimuleringContext);
+    const { t } = useTranslation();
 
     const simuleringsBeløp = simulering?.simulering?.totalBelop
         ? `${toKronerOgØre(simulering?.simulering?.totalBelop)} kr`
@@ -30,21 +31,21 @@ const Oppsummering = () => {
     return (
         <div className="Oppsummering">
             <Panel>
-                <Undertittel>{oppsummeringstekster('tittel')}</Undertittel>
+                <Undertittel>{t('oppsummering.tittel')}</Undertittel>
                 <List>
-                    <ListItem label={oppsummeringstekster('sykepengegrunnlag')}>
+                    <ListItem label={t('oppsummering.sykepengegrunnlag')}>
                         {`${toKronerOgØre(oppsummering.sykepengegrunnlag)} kr`}
                     </ListItem>
-                    <ListItem label={oppsummeringstekster('dagsats')}>
+                    <ListItem label={t('oppsummering.dagsats')}>
                         {`${toKronerOgØre(oppsummering.dagsats)} kr`}
                     </ListItem>
-                    <ListItem label={oppsummeringstekster('antall_utbetalingsdager')}>
+                    <ListItem label={t('oppsummering.antall_utbetalingsdager')}>
                         {oppsummering.antallDager}
                     </ListItem>
-                    <ListItem label={oppsummeringstekster('beløp')}>
+                    <ListItem label={t('oppsummering.beløp')}>
                         {`${toKronerOgØre(oppsummering.beløp)} kr`}
                     </ListItem>
-                    <ListItem label={oppsummeringstekster('utbetaling_til')}>
+                    <ListItem label={t('oppsummering.utbetaling_til')}>
                         {`${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`}
                     </ListItem>
                 </List>

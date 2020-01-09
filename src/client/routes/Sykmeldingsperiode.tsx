@@ -6,16 +6,17 @@ import { pages } from '../hooks/useLinks';
 import { Panel } from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../context/PersonContext';
-import { sykmeldingsperiodetekster } from '../tekster';
+import { useTranslation } from 'react-i18next';
 
 const Sykmeldingsperiode = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
+    const { t } = useTranslation();
 
     return (
         <Panel className="Sykmeldingsperiode">
             {person?.arbeidsgivere ? (
                 <>
-                    <Subheader label={sykmeldingsperiodetekster('dager')} iconType="ok" />
+                    <Subheader label={t('sykmeldingsperiode.dager')} iconType="ok" />
                     <Timeline person={person} showDagsats={false} />
                 </>
             ) : (

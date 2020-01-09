@@ -1,7 +1,7 @@
 import React from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import { tekster } from '../tekster';
 import { Panel } from 'nav-frontend-paneler';
+import { useTranslation } from 'react-i18next';
 
 const styles = {
     margin: '1.5rem',
@@ -10,9 +10,11 @@ const styles = {
 };
 
 const EmptyStateView = () => {
+    const { t } = useTranslation();
+
     return (
         <Panel border style={styles}>
-            <Undertittel>{tekster('empty_state_message')}</Undertittel>
+            <Undertittel>{t('empty_state_message')}</Undertittel>
         </Panel>
     );
 };

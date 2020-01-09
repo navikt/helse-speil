@@ -1,5 +1,4 @@
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { oppsummeringstekster } from '../../tekster';
 import { Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import React, { useContext, useState } from 'react';
@@ -14,6 +13,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { utbetalingsreferanse } from '../../context/mapper';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import { Behov, Optional } from '../../context/types';
+import { useTranslation } from 'react-i18next';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
@@ -43,6 +43,7 @@ const Utbetaling = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
     const [tilstand, setTilstand] = useState(enesteSak?.tilstandType);
+    const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {
         const behovId = saksoversikt.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
@@ -93,7 +94,7 @@ const Utbetaling = () => {
 
     return (
         <Panel className="Utbetaling">
-            <Undertittel>{oppsummeringstekster('utbetaling')}</Undertittel>
+            <Undertittel>{t('utbetaling.utbetaling')}</Undertittel>
             <AlertStripeAdvarsel>
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
                 til teamet for evaluering.

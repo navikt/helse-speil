@@ -3,7 +3,6 @@ import Oversiktslinje from './Oversiktslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Panel } from 'nav-frontend-paneler';
 import { useHistory } from 'react-router';
-import { oversikttekster } from '../../tekster';
 import { TildelingerContext } from '../../context/TildelingerContext';
 import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
@@ -14,11 +13,13 @@ import { buildLinks, pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import { useInterval } from '../../hooks/useInterval';
 import { Behov, Person } from '../../context/types';
+import { useTranslation } from 'react-i18next';
 
 const TWO_MINUTES = 120000;
 
 const Oversikt = () => {
     const history = useHistory();
+    const { t } = useTranslation();
     const { hentPerson } = useContext(PersonContext);
     const {
         saksoversikt,
@@ -52,7 +53,7 @@ const Oversikt = () => {
             {tildelingError && <AlertStripeAdvarsel>{tildelingError}</AlertStripeAdvarsel>}
             <div className="Oversikt__container">
                 <Panel border className="Oversikt__neste-behandlinger">
-                    <Undertittel className="panel-tittel">{oversikttekster('tittel')}</Undertittel>
+                    <Undertittel className="panel-tittel">{t('oversikt.tittel')}</Undertittel>
                     {isFetchingSaksoversikt && (
                         <AlertStripeInfo>
                             Henter personer <NavFrontendSpinner type="XS" />
@@ -65,9 +66,9 @@ const Oversikt = () => {
                     )}
                     <ul>
                         <li className="row">
-                            <Normaltekst>{oversikttekster('søker')}</Normaltekst>
-                            <Normaltekst>{oversikttekster('tidspunkt')}</Normaltekst>
-                            <Normaltekst>{oversikttekster('tildeling')}</Normaltekst>
+                            <Normaltekst>{t('oversikt.søker')}</Normaltekst>
+                            <Normaltekst>{t('oversikt.tidspunkt')}</Normaltekst>
+                            <Normaltekst>{t('oversikt.tildeling')}</Normaltekst>
                         </li>
                         {saksoversikt.map((behov: Behov) => {
                             const tildeling = tildelinger.find(t => t.behovId === behov['@id']);

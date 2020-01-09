@@ -167,7 +167,7 @@ export interface Sak {
     godkjentAv: Optional<string>;
     tilstandType: string;
     sykdomstidslinje: Sykdomstidslinje;
-    utbetalingslinjer: Utbetalingslinje[];
+    utbetalingslinjer?: Utbetalingslinje[];
     organisasjonsnummer: string;
     utbetalingsreferanse?: string;
 }
@@ -182,7 +182,7 @@ interface Inngangsvilkår {
     dagerIgjen: {
         dagerBrukt: number;
         førsteFraværsdag: string;
-        førsteSykepengedag: string;
+        førsteSykepengedag: Optional<string>;
         maksdato: string;
         tidligerePerioder: Periode[];
         yrkesstatus: Optional<string>;
@@ -197,7 +197,7 @@ interface Inngangsvilkår {
 }
 
 interface Sykepengegrunnlag {
-    dagsats: number;
+    dagsats?: number;
     grunnlag: Optional<number>;
     årsinntekt: Optional<number>;
     månedsinntekt: Optional<number>;
@@ -220,7 +220,7 @@ interface Inntektskilder {
 interface Oppsummering {
     antallDager: number;
     beløp: number;
-    dagsats: number;
+    dagsats?: number;
     mottaker: Optional<ArbeidsgiverISøknad>;
     sykepengegrunnlag: Optional<number>;
     utbetalingsreferanse: Optional<string>;

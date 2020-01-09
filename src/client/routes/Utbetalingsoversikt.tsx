@@ -6,16 +6,17 @@ import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../hooks/useLinks';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../context/PersonContext';
-import { utbetalingsoversikttekster } from '../tekster';
+import { useTranslation } from 'react-i18next';
 
 const Utbetalingsoversikt = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
+    const { t } = useTranslation();
 
     return (
         <Panel className="Utbetalingsoversikt">
             {person?.arbeidsgivere ? (
                 <>
-                    <Subheader label={utbetalingsoversikttekster('dager')} iconType="ok" />
+                    <Subheader label={t('utbetalingsoversikt.dager')} iconType="ok" />
                     <Timeline person={person} showDagsats={true} />
                 </>
             ) : (

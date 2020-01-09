@@ -10,34 +10,36 @@ import { pages } from '../hooks/useLinks';
 import { PersonContext } from '../context/PersonContext';
 import { toKronerOgØre } from '../utils/locale';
 import { Person } from '../context/types';
+import { useTranslation } from 'react-i18next';
 
 const G = 99858;
 
 const Sykepengegrunnlag = () => {
     const { sykepengegrunnlag } = useContext(PersonContext).personTilBehandling as Person;
+    const { t } = useTranslation();
 
     return (
         <Panel className="tekstbolker Sykepengegrunnlag">
             {sykepengegrunnlag && (
                 <>
-                    <SubheaderWithList label="Hentet fra inntektsmeldingen">
-                        <ListItem label="Beregnet månedsinntekt">
+                    <SubheaderWithList label={t('sykepengegrunnlag.inntektsmeldinger')}>
+                        <ListItem label={t('sykepengegrunnlag.månedsinntekt')}>
                             {`${toKronerOgØre(sykepengegrunnlag.månedsinntekt)} kr`}
                         </ListItem>
-                        <ListItem label="Omregnet årsinntekt">
+                        <ListItem label={t('sykepengegrunnlag.årsinntekt')}>
                             {`${toKronerOgØre(sykepengegrunnlag.årsinntekt)} kr`}
                         </ListItem>
                     </SubheaderWithList>
-                    <Subheader label="A-ordningen må sjekkes manuelt" iconType="advarsel" />
-                    <Subheader label="Avvik må sjekkes manuelt" iconType="advarsel" />
-                    <Row label="Sykepengegrunnlag">
+                    <Subheader label={t('sykepengegrunnlag.aordningen')} iconType="advarsel" />
+                    <Subheader label={t('sykepengegrunnlag.avvik')} iconType="advarsel" />
+                    <Row label={t('sykepengegrunnlag.sykepengegrunnlag')}>
                         {`${toKronerOgØre(sykepengegrunnlag.grunnlag)} kr`}
                     </Row>
-                    <Row label="Redusert til 6G">
+                    <Row label={t('sykepengegrunnlag.redusert')}>
                         {(sykepengegrunnlag?.grunnlag ?? 0) > G * 6 ? `${toKronerOgØre(G * 6)} kr` : '-'}
                     </Row>
                     <ListSeparator />
-                    <Row label="Dagsats">{`${toKronerOgØre(sykepengegrunnlag.dagsats)} kr`}</Row>
+                    <Row label={t('sykepengegrunnlag.dagsats')}>{`${toKronerOgØre(sykepengegrunnlag.dagsats)} kr`}</Row>
                 </>
             )}
             <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />
