@@ -32,8 +32,11 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     const [aktørIdFromUrl, setAktørIdFromUrl] = useState<string | undefined>();
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
+    const [sak, setSak] = useState(personTilBehandling ? enesteSak(personTilBehandling) : undefined);
 
-    const sak = personTilBehandling ? enesteSak(personTilBehandling) : undefined;
+    useEffect(() => {
+        personTilBehandling && setSak(enesteSak(personTilBehandling));
+    }, [personTilBehandling]);
 
     useEffect(() => {
         const aktørId = /\d{12,15}$/.exec(window.location.pathname);

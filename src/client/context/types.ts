@@ -53,7 +53,7 @@ export interface Inntektsmelding {
     inntektsmeldingId: string;
     virksomhetsnummer: string;
     endringIRefusjoner: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
-    førsteFraværsdag: string;
+    foersteFravaersdag: string;
     arbeidsgiverAktorId: Optional<string>;
     arbeidstakerAktorId: string;
     arbeidsgiverperioder: Periode[];

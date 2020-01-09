@@ -50,7 +50,7 @@ export default {
                 alder: beregnAlder(finnSøknad(person)?.sendtNav, personinfo?.fødselsdato),
                 dagerIgjen: {
                     dagerBrukt: utbetalingsdager,
-                    førsteFraværsdag: inntektsmelding?.førsteFraværsdag ?? '-',
+                    førsteFraværsdag: inntektsmelding?.foersteFravaersdag ?? '-',
                     førsteSykepengedag: finnFørsteSykepengedag(person),
                     maksdato: sak.maksdato,
                     tidligerePerioder: [],

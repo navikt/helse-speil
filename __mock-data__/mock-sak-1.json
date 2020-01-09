@@ -410,7 +410,7 @@
                                     "inntektsmeldingId": "",
                                     "virksomhetsnummer": "123456789",
                                     "endringIRefusjoner": [],
-                                    "førsteFraværsdag": "2019-09-10",
+                                    "foersteFravaersdag": "2019-09-10",
                                     "arbeidsgiverAktorId": null,
                                     "arbeidstakerAktorId": "0123456789012",
                                     "arbeidsgiverperioder": [

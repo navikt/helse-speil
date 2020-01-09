@@ -92,7 +92,7 @@ test('filtrerer vekk paddede arbeidsdager', () => {
     expect(førsteDag.type !== Dagtype.ARBEIDSDAG).toBeTruthy();
 });
 
-test('fjerner ingen dager dersom første dag ikke er ARBEIDSDAG', () => {
+test('fjerner ingen dager dersom første dag ikke er ARBEIDSDAG eller IMPLISITT_DAG', () => {
     const unmappedPerson: UnmappedPerson = {...behov};
     const opprinneligSak: Sak = enesteSak(unmappedPerson);
     const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(enesteSak(unmappedPerson));
