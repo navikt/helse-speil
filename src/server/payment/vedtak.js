@@ -2,13 +2,20 @@
 
 const request = require('request-promise-native');
 
-const vedtak = async ({ behovId, aktørId, saksbehandlerIdent, godkjent, accessToken }) => {
+const vedtak = async ({
+    behovId,
+    aktørId,
+    saksbehandlerIdent,
+    vedtaksperiodeId,
+    godkjent,
+    accessToken
+}) => {
     const options = {
         uri: `http://spade.default.svc.nais.local/api/vedtak`,
         headers: {
             Authorization: `Bearer ${accessToken}`
         },
-        body: { behovId, aktørId, saksbehandlerIdent, godkjent },
+        body: { behovId, aktørId, saksbehandlerIdent, godkjent, vedtaksperiodeId },
         json: true
     };
 
