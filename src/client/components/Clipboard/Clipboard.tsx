@@ -24,7 +24,7 @@ const Clipboard = ({ children }: Props) => {
 
     const copy = () => {
         if (!didCopy) {
-            setDidCopy(copyContentsToClipboard(ref?.current));
+            setDidCopy(copyContentsToClipboard(ref?.current?.firstChild as HTMLElement));
         }
     };
 
