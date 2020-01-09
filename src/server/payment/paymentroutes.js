@@ -106,6 +106,7 @@ const prodSendVedtak = async (req, res) => {
         .vedtak({
             behovId: req.body.behovId,
             aktørId: req.body.aktørId,
+            vedtaksperiodeId: req.body.vedtaksperiodeId,
             saksbehandlerIdent: req.session.user,
             accessToken: onBehalfOfToken,
             godkjent: req.body.godkjent
