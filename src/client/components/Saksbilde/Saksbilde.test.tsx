@@ -49,7 +49,7 @@ describe('Saksbilde', () => {
     });
 
     it('render empty state view when no person is selected', () => {
-        const { getByText } = render(
+        const { container } = render(
             <MemoryRouter>
                // @ts-ignore
                 <PersonContext.Provider value={{ ...wrapperProps }}>
@@ -58,9 +58,7 @@ describe('Saksbilde', () => {
             </MemoryRouter>
         );
         expect(
-            getByText(
-                'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over'
-            )
+            container.getElementsByClassName('EmptyStateView')
         ).toBeDefined();
     });
 });

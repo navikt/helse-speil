@@ -46,7 +46,7 @@ const sumDagsatser = (dagsatser: DagsatsDict) => {
 };
 
 const Timeline = ({ person, showDagsats }: Props) => {
-    const { sykdomstidslinje: tidslinje, utbetalingslinjer } = person.arbeidsgivere[0].saker[0];
+    const { sykdomstidslinje: tidslinje, utbetalingslinjer = [] } = person.arbeidsgivere[0].saker[0];
     const hendelser = tidslinje.hendelser;
     const dagsatser = showDagsats ? buildDagsatserDictionary(utbetalingslinjer) : {};
     const dagsatserSummed = showDagsats && sumDagsatser(dagsatser);

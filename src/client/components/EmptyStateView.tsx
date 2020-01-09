@@ -13,7 +13,7 @@ const EmptyStateView = () => {
     const { t } = useTranslation();
 
     return (
-        <Panel border style={styles}>
+        <Panel border style={styles} className="EmptyStateView">
             <Undertittel>{t('empty_state_message')}</Undertittel>
         </Panel>
     );
