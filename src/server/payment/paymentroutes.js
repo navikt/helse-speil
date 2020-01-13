@@ -137,9 +137,8 @@ const prodAnnullering = async (req, res) => {
         .annullering({
             utbetalingsreferanse: req.body.utbetalingsreferanse,
             aktørId: req.body.aktørId,
-            saksbehandler: req.session.user,
-            accessToken: onBehalfOfToken
-        })
+            saksbehandler: req.session.user
+        }, onBehalfOfToken)
         .then(() => {
             logger.info(
                 `Annullering for sak med utbetalingsreferanse ${req.body.utbetalingsreferanse} sendt inn av ${req.session.user}`
