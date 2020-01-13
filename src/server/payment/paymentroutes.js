@@ -130,7 +130,7 @@ const devSendVedtak = (req, res) => {
 
 const prodAnnullering = async (req, res) => {
     const onBehalfOfToken = await onBehalfOf.hentFor(
-        config.oidc.clientIDSpade,
+        config.oidc.clientIDSpenn,
         req.session.speilToken
     );
     annullering
