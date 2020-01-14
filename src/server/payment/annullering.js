@@ -13,8 +13,6 @@ const setup = navConfig => {
 };
 
 const annullering = async (body, accessToken) => {
-    body.saksbehandler = authSupport.valueFromClaim('NAVident', accessToken);
-
     const options = {
         uri: `${config.spennUrl}/api/v1/opphor`,
         headers: {
