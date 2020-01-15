@@ -1,12 +1,11 @@
-import { RedisClient } from 'redis';
-
 import personInfoLookup from './personinfoLookup';
 import logger from '../logging';
-import { Request, Response } from 'express';
-import { Personinfo } from '../../types';
-import { SparkelClient } from '../adapters/sparkelClient';
-import { AktørIdLookup } from '../aktørid/aktøridlookup';
 import { StsClient } from '../auth/stsClient';
+import { Personinfo } from '../../types';
+import { RedisClient } from 'redis';
+import { SparkelClient } from '../adapters/sparkelClient';
+import { AktørIdLookup } from '../aktørid/aktørIdLookup';
+import { Request, Response } from 'express';
 
 interface SetupParameters {
     sparkelClient: SparkelClient;

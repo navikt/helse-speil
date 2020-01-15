@@ -1,6 +1,6 @@
 import config from './config';
-import redisclient from './redisclient';
-import devRedisClient from './devredisclient';
+import redisClient from './redisClient';
+import devRedisClient from './devRedisClient';
 
 import instrumentationModule from './instrumentation';
 import stsClient from './auth/stsClient';
@@ -8,7 +8,7 @@ import devStsClient from './auth/devStsClient';
 import onBehalfOf from './auth/onbehalfof';
 import sparkelClient from './adapters/sparkelClient';
 import devSparkelClient from './adapters/devSparkelClient';
-import aktørIdLookup from './aktørid/aktøridlookup';
+import aktørIdLookup from './aktørid/aktørIdLookup';
 import devAktørIdLookup from './aktørid/devAktørIdLookup';
 import spadeClient from './adapters/spadeClient';
 import devSpadeClient from './adapters/devSpadeClient';
@@ -37,7 +37,7 @@ const getDevDependencies = (app: Express) => {
 };
 
 const getProdDependencies = (app: Express) => {
-    const redisClient: RedisClient = redisclient.init(config.redis);
+    const _redisClient: RedisClient = redisClient.init(config.redis);
     aktørIdLookup.init(stsClient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf.factory(config.oidc, instrumentation);
@@ -48,11 +48,11 @@ const getProdDependencies = (app: Express) => {
             spadeClient,
             stsClient: stsClient,
             onBehalfOf: _onBehalfOf,
-            cache: redisClient,
+            cache: _redisClient,
             config
         },
         payments: { config: config, onBehalfOf: _onBehalfOf },
-        redisClient
+        redisClient: _redisClient
     };
 };
 

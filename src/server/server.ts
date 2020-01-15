@@ -8,16 +8,16 @@ import config from './config';
 import wiring from './wiring';
 import logger from './logging';
 import headers from './headers';
-import { sessionStore } from './sessionstore';
+import { sessionStore } from './sessionStore';
 import { ipAddressFromRequest } from './requestData';
 
 import azure from './auth/azure';
 import auth from './auth/authSupport';
-import stsclient from './auth/stsclient';
+import stsclient from './auth/stsClient';
 
 import person from './person/personRoutes';
-import payments from './payment/paymentroutes';
-import tildeling from './tildeling/tildelingroutes';
+import payments from './payment/paymentRoutes';
+import tildeling from './tildeling/tildelingRoutes';
 
 const app = express();
 const port = config.server.port;

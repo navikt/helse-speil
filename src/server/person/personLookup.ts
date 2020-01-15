@@ -3,7 +3,7 @@ import logger from '../logging';
 import moment from 'moment';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import spleis from './spleisClient';
-import { AktørIdLookup } from '../aktørid/aktøridlookup';
+import { AktørIdLookup } from '../aktørid/aktørIdLookup';
 import { SpadeClient } from '../adapters/spadeClient';
 import { AppConfig, OnBehalfOf } from '../types';
 import { Request, Response } from 'express';

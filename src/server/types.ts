@@ -2,8 +2,8 @@ import { ResponseType } from 'openid-client';
 import { RedisClient } from 'redis';
 import { SparkelClient } from './adapters/sparkelClient';
 import { SpadeClient } from './adapters/spadeClient';
-import { StsClient } from './auth/stsclient';
-import { AktørIdLookup } from './aktørid/aktøridlookup';
+import { StsClient } from './auth/stsClient';
+import { AktørIdLookup } from './aktørid/aktørIdLookup';
 
 export interface OidcConfig {
     providerBaseUrl: string;

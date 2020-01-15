@@ -1,7 +1,7 @@
 import personinfoMapping from './personinfoMapping';
 import { SparkelClient } from '../adapters/sparkelClient';
 import { StsClient } from '../auth/stsClient';
-import { AktørIdLookup } from '../aktørid/aktøridLookup';
+import { AktørIdLookup } from '../aktørid/aktørIdLookup';
 import { UnmappedPersoninfo } from '../../types';
 
 interface PersoninfoLookupParameters {
