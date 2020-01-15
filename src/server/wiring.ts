@@ -5,7 +5,7 @@ import devRedisClient from './devRedisClient';
 import instrumentationModule from './instrumentation';
 import stsClient from './auth/stsClient';
 import devStsClient from './auth/devStsClient';
-import onBehalfOf from './auth/onbehalfof';
+import onBehalfOf from './auth/onBehalfOf';
 import sparkelClient from './adapters/sparkelClient';
 import devSparkelClient from './adapters/devSparkelClient';
 import aktørIdLookup from './aktørid/aktørIdLookup';

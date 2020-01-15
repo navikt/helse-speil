@@ -2,7 +2,7 @@ import request from 'request-promise-native';
 import logger from '../logging';
 import uuid from 'uuid/v4';
 import { NavConfig } from '../types';
-import { StsClient } from '../auth/stsclient';
+import { StsClient } from '../auth/stsClient';
 
 export interface AktørIdLookup {
     init: (stsclient: StsClient, config: NavConfig) => void;
