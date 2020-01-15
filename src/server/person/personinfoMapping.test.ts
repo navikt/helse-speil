@@ -1,4 +1,4 @@
-import personMapping from './personinfomapping';
+import personMapping from './personinfoMapping';
 
 const sparkelResponse = {
     fdato: '1995-01-01',

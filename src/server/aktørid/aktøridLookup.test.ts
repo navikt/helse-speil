@@ -1,5 +1,5 @@
 // @ts-nocheck
-import sut from './aktøridlookup';
+import aktørIdLookup from './aktørIdLookup';
 import requestMock from 'request-promise-native';
 
 describe('calling Aktørregisteret', () => {
@@ -9,7 +9,7 @@ describe('calling Aktørregisteret', () => {
     const config = {
         aktoerregisterUrl: ''
     };
-    sut.init(stsClient, config);
+    aktørIdLookup.init(stsClient, config);
 
     test('hentAktørId works', async () => {
         const nnin = '123';
@@ -26,7 +26,7 @@ describe('calling Aktørregisteret', () => {
             }
         });
 
-        const resultingAktørId = await sut.hentAktørId(nnin);
+        const resultingAktørId = await aktørIdLookup.hentAktørId(nnin);
         expect(resultingAktørId).toEqual(expectedAktørId);
     });
 
@@ -45,7 +45,7 @@ describe('calling Aktørregisteret', () => {
             }
         });
 
-        const resultingNnin = await sut.hentFnr(aktørId);
+        const resultingNnin = await aktørIdLookup.hentFnr(aktørId);
         expect(resultingNnin).toEqual(expectedNnin);
     });
 
@@ -57,7 +57,7 @@ describe('calling Aktørregisteret', () => {
             }
         });
 
-        await expect(sut.hentAktørId(aktørId)).rejects.toEqual('AktørId not found');
+        await expect(aktørIdLookup.hentAktørId(aktørId)).rejects.toEqual('AktørId not found');
     });
 
     test('hentFnr rejects on error in response', async () => {
@@ -68,7 +68,7 @@ describe('calling Aktørregisteret', () => {
             }
         });
 
-        await expect(sut.hentFnr(nnin)).rejects.toEqual('NNIN not found');
+        await expect(aktørIdLookup.hentFnr(nnin)).rejects.toEqual('NNIN not found');
     });
 });
 
@@ -76,6 +76,6 @@ describe('identifier masking', () => {
     test('obfuscates input', () => {
         const input = '01019512345';
         const result = '0101****345';
-        expect(sut._maskIdentifier(input)).toEqual(result);
+        expect(aktørIdLookup._maskIdentifier(input)).toEqual(result);
     });
 });

@@ -1,6 +1,6 @@
 import { NavConfig } from '../types';
 
-import auth from './authsupport';
+import auth from './authSupport';
 import request from 'request-promise-native';
 
 export interface StsClient {

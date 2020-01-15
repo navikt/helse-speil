@@ -4,11 +4,7 @@ import sparkelClient from '../adapters/sparkelClient';
 import { StsClient } from '../auth/stsClient';
 import { NavConfig } from '../types';
 
-const personinfoAsInMockedResponsesFile = {
-    fornavn: 'BJARNE'
-};
-
-jest.mock('./personinfomapping', () => ({
+jest.mock('./personinfoMapping', () => ({
     map: person => ({ fornavnMappedByStub: person.fornavn, fnr: person.fnr })
 }));
 
@@ -32,8 +28,10 @@ beforeAll(() => {
 
 test('successful lookup resolves with person object', async () => {
     await expect(personinfoLookup.hentPersoninfo('11111')).resolves.toEqual({
-        fornavnMappedByStub: personinfoAsInMockedResponsesFile.fornavn,
-        fnr: '2469'
+        navn: 'BJARNE BETJENT',
+        fnr: '2469',
+        fødselsdato: '1995-01-01',
+        kjønn: 'MANN'
     });
 });
 

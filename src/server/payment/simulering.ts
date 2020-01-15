@@ -1,5 +1,5 @@
 import request from 'request-promise-native';
-import auth from '../auth/authsupport';
+import auth from '../auth/authSupport';
 import { NavConfig } from '../types';
 import { Utbetalingsvedtak } from '../../types';
 import { Response } from 'express';

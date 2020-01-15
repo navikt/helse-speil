@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { cleanup } from '@testing-library/react';
-import inputHandler from './inputhandler';
+import inputHandler from './inputHandler';
 
 afterEach(cleanup);
 
