@@ -5,7 +5,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
-import { Behov, Tildeling } from '../../context/types';
+import { Tildeling } from '../../context/types';
+import { Behov } from '../../../types';
 
 interface Props {
     behov: Behov;
@@ -15,7 +16,13 @@ interface Props {
     tildeling?: Tildeling;
 }
 
-const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
+const Oversiktslinje = ({
+    behov,
+    tildeling,
+    onUnassignCase,
+    onAssignCase,
+    onSelectCase
+}: Props) => {
     const { authInfo } = useContext(AuthContext);
 
     const tildelingsCelle = tildeling ? (

@@ -15,31 +15,51 @@ interface Props {
 
 const displayDagtype = (type: Dagtype | string) => {
     switch (type) {
-        case Dagtype.SYKEDAG: return 'Sykedag';
-        case Dagtype.FERIEDAG: return 'Feriedag';
-        case Dagtype.STUDIEDAG: return 'Studiedag';
-        case Dagtype.ARBEIDSDAG: return 'Arbeidsdag';
-        case Dagtype.UBESTEMTDAG: return 'Ubestemtdag';
-        case Dagtype.SYK_HELGEDAG: return 'Syk helgedag';
-        case Dagtype.UTENLANDSDAG: return 'Utenlandsdag';
-        case Dagtype.PERMISJONSDAG: return 'Permisjonsdag';
-        case Dagtype.EGENMELDINGSDAG: return 'Egenmeldingsdag';
-        default: return '';
+        case Dagtype.SYKEDAG:
+            return 'Sykedag';
+        case Dagtype.FERIEDAG:
+            return 'Feriedag';
+        case Dagtype.STUDIEDAG:
+            return 'Studiedag';
+        case Dagtype.ARBEIDSDAG:
+            return 'Arbeidsdag';
+        case Dagtype.UBESTEMTDAG:
+            return 'Ubestemtdag';
+        case Dagtype.SYK_HELGEDAG:
+            return 'Syk helgedag';
+        case Dagtype.UTENLANDSDAG:
+            return 'Utenlandsdag';
+        case Dagtype.PERMISJONSDAG:
+            return 'Permisjonsdag';
+        case Dagtype.EGENMELDINGSDAG:
+            return 'Egenmeldingsdag';
+        default:
+            return '';
     }
 };
 
 const cssDagtype = (type: Dagtype | string) => {
     switch (type) {
-        case Dagtype.SYKEDAG: return 'sykedag';
-        case Dagtype.FERIEDAG: return 'feriedag';
-        case Dagtype.STUDIEDAG: return 'studiedag';
-        case Dagtype.ARBEIDSDAG: return 'arbeidsdag';
-        case Dagtype.UBESTEMTDAG: return 'ubestemtDag';
-        case Dagtype.SYK_HELGEDAG: return 'sykHelgedag';
-        case Dagtype.UTENLANDSDAG: return 'utenlandsdag';
-        case Dagtype.PERMISJONSDAG: return 'permisjonsdag';
-        case Dagtype.EGENMELDINGSDAG: return 'egenmeldingsdag';
-        default: return '';
+        case Dagtype.SYKEDAG:
+            return 'sykedag';
+        case Dagtype.FERIEDAG:
+            return 'feriedag';
+        case Dagtype.STUDIEDAG:
+            return 'studiedag';
+        case Dagtype.ARBEIDSDAG:
+            return 'arbeidsdag';
+        case Dagtype.UBESTEMTDAG:
+            return 'ubestemtDag';
+        case Dagtype.SYK_HELGEDAG:
+            return 'sykHelgedag';
+        case Dagtype.UTENLANDSDAG:
+            return 'utenlandsdag';
+        case Dagtype.PERMISJONSDAG:
+            return 'permisjonsdag';
+        case Dagtype.EGENMELDINGSDAG:
+            return 'egenmeldingsdag';
+        default:
+            return '';
     }
 };
 

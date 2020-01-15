@@ -36,21 +36,43 @@ const Inngangsvilkår = () => {
                             </ListItem>
                             <Normaltekst>{`0,5G er ${toKronerOgØre(99858 / 2)} kr`}</Normaltekst>
                         </SubheaderWithList>
-                        <SubheaderWithList label="Dager igjen" iconType="ok" labelProp={detaljerKnapp}>
-                            <ListItem label="Første fraværsdag">{toDate(inngangsvilkår.dagerIgjen.førsteFraværsdag)}</ListItem>
-                            <ListItem label="Første sykepengedag">{toDate(inngangsvilkår.dagerIgjen.førsteSykepengedag)}</ListItem>
-                            <ListItem label="Yrkesstatus">{capitalize(inngangsvilkår.dagerIgjen.yrkesstatus)}</ListItem>
-                            <ListItem label="Dager brukt">{inngangsvilkår.dagerIgjen.dagerBrukt}</ListItem>
-                            <ListItem label="Dager igjen">{248 - inngangsvilkår.dagerIgjen.dagerBrukt}</ListItem>
-                            <ListItem label="Maks dato">{toDate(inngangsvilkår.dagerIgjen.maksdato)}</ListItem>
+                        <SubheaderWithList
+                            label="Dager igjen"
+                            iconType="ok"
+                            labelProp={detaljerKnapp}
+                        >
+                            <ListItem label="Første fraværsdag">
+                                {toDate(inngangsvilkår.dagerIgjen.førsteFraværsdag)}
+                            </ListItem>
+                            <ListItem label="Første sykepengedag">
+                                {toDate(inngangsvilkår.dagerIgjen.førsteSykepengedag)}
+                            </ListItem>
+                            <ListItem label="Yrkesstatus">
+                                {capitalize(inngangsvilkår.dagerIgjen.yrkesstatus)}
+                            </ListItem>
+                            <ListItem label="Dager brukt">
+                                {inngangsvilkår.dagerIgjen.dagerBrukt}
+                            </ListItem>
+                            <ListItem label="Dager igjen">
+                                {248 - inngangsvilkår.dagerIgjen.dagerBrukt}
+                            </ListItem>
+                            <ListItem label="Maks dato">
+                                {toDate(inngangsvilkår.dagerIgjen.maksdato)}
+                            </ListItem>
                         </SubheaderWithList>
                         <SubheaderWithList label="Under 67 år" iconType="ok">
                             <ListItem label="Alder">{inngangsvilkår.alder as ReactChild}</ListItem>
                         </SubheaderWithList>
                         <SubheaderWithList label="Søknadsfrist" iconType="ok">
-                            <ListItem label="Sendt Nav">{toDate(inngangsvilkår.søknadsfrist.sendtNav)}</ListItem>
-                            <ListItem label="Søknad t.o.m.">{toDate(inngangsvilkår.søknadsfrist.søknadTom)}</ListItem>
-                            <ListItem label="Innen 3 mnd">{inngangsvilkår.søknadsfrist.innen3Mnd ? 'Ja' : 'Nei'}</ListItem>
+                            <ListItem label="Sendt Nav">
+                                {toDate(inngangsvilkår.søknadsfrist.sendtNav)}
+                            </ListItem>
+                            <ListItem label="Søknad t.o.m.">
+                                {toDate(inngangsvilkår.søknadsfrist.søknadTom)}
+                            </ListItem>
+                            <ListItem label="Innen 3 mnd">
+                                {inngangsvilkår.søknadsfrist.innen3Mnd ? 'Ja' : 'Nei'}
+                            </ListItem>
                         </SubheaderWithList>
 
                         {visDetaljerModal && (

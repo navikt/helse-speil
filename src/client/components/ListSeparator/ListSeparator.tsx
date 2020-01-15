@@ -12,6 +12,8 @@ interface Props {
     type?: SeparatorType;
 }
 
-const ListSeparator = ({ type = SeparatorType.Solid }: Props) => <hr className={classNames('ListSeparator', type)} />;
+const ListSeparator = ({ type = SeparatorType.Solid }: Props) => (
+    <hr className={classNames('ListSeparator', type)} />
+);
 
 export default ListSeparator;

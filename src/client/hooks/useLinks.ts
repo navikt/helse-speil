@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { PersonContext } from '../context/PersonContext';
 import { Person } from '../context/types';
 
-type Links = { [key: string]: string }
+type Links = { [key: string]: string };
 
 export const pages = {
     SYKMELDINGSPERIODE: 'sykmeldingsperiode',

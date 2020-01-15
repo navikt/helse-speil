@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 declare global {
     namespace NodeJS {
         interface Global {
-            fetch: jest.MockedFunction<any>
+            fetch: jest.MockedFunction<any>;
         }
     }
 }

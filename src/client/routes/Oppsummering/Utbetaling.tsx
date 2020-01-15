@@ -12,7 +12,8 @@ import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
 import { utbetalingsreferanse } from '../../context/mapper';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
-import { Behov, Optional } from '../../context/types';
+import { Optional } from '../../context/types';
+import { Behov } from '../../../types';
 import { useTranslation } from 'react-i18next';
 
 enum Beslutning {
@@ -46,7 +47,9 @@ const Utbetaling = () => {
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {
-        const behovId = saksoversikt.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
+        const behovId = saksoversikt.find(
+            (behov: Behov) => behov.aktørId === personTilBehandling?.aktørId
+        )?.['@id'];
         const vedtaksperiodeId = personTilBehandling?.oppsummering.vedtaksperiodeId;
         setIsSending(true);
         postVedtak(behovId, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)
@@ -71,7 +74,9 @@ const Utbetaling = () => {
     };
 
     const annullerUtbetaling = async () => {
-        const utbetalingsref = personTilBehandling?.oppsummering.utbetalingsreferanse ?? await fetchUtbetalingsreferanse();
+        const utbetalingsref =
+            personTilBehandling?.oppsummering.utbetalingsreferanse ??
+            (await fetchUtbetalingsreferanse());
         setSenderAnnullering(true);
         postAnnullering(utbetalingsref as Optional<string>, personTilBehandling?.aktørId)
             .then(() => {
@@ -81,9 +86,10 @@ const Utbetaling = () => {
             .catch(err => {
                 console.error({ err });
                 setError({
-                    message: err.status === 409
-                        ? 'Denne saken er allerede sendt til annullering.'
-                        : 'Kunne ikke sende annullering. Prøv igjen senere.'
+                    message:
+                        err.status === 409
+                            ? 'Denne saken er allerede sendt til annullering.'
+                            : 'Kunne ikke sende annullering. Prøv igjen senere.'
                 });
             })
             .finally(() => {

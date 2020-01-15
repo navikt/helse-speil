@@ -36,10 +36,14 @@ const Sykepengegrunnlag = () => {
                         {`${toKronerOgØre(sykepengegrunnlag.grunnlag)} kr`}
                     </Row>
                     <Row label={t('sykepengegrunnlag.redusert')}>
-                        {(sykepengegrunnlag?.grunnlag ?? 0) > G * 6 ? `${toKronerOgØre(G * 6)} kr` : '-'}
+                        {(sykepengegrunnlag?.grunnlag ?? 0) > G * 6
+                            ? `${toKronerOgØre(G * 6)} kr`
+                            : '-'}
                     </Row>
                     <ListSeparator />
-                    <Row label={t('sykepengegrunnlag.dagsats')}>{`${toKronerOgØre(sykepengegrunnlag.dagsats)} kr`}</Row>
+                    <Row label={t('sykepengegrunnlag.dagsats')}>{`${toKronerOgØre(
+                        sykepengegrunnlag.dagsats
+                    )} kr`}</Row>
                 </>
             )}
             <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />

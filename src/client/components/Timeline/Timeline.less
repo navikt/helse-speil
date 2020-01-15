@@ -14,109 +14,110 @@
 @colorDefault: #c6c2bf;
 
 .Timeline.tabell {
-  color: @darkGrey;
-  width: unset;
+    color: @darkGrey;
+    width: unset;
 
-  th, td {
-    position: relative;
-    padding: 0 1rem;
-    height: 2rem;
-    vertical-align: middle;
-  }
-
-  tfoot {
-    border-bottom: 1px solid #000;
-  }
-
-  .TimelineRow__date,
-  .TimelineRow__type,
-  .TimelineRow__degree,
-  .TimelineRow__dagsats {
-    display: flex;
-    align-items: center;
-    float: left;
-    height: 2rem;
-  }
-
-  .TimelineRow__dagsats {
-    float: right
-  }
-
-  .TimelineRow__date {
-    width: 8rem;
-  }
-
-  .TimelineRow__degree {
-    justify-content: space-between;
-
-    > *:first-child {
-      margin-right: 1rem;
-    }
-  }
-
-  .TimelineRow__type {
-    width: 14rem;
-
-    > span {
-      background: @colorDefault;
-      width: 7rem;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-      padding: 0 1rem;
-      margin-right: 0.75rem;
+    th,
+    td {
+        position: relative;
+        padding: 0 1rem;
+        height: 2rem;
+        vertical-align: middle;
     }
 
-    > p.typo-undertekst {
-      @activeColor: mix(@blue, #fff, 50%);
-      @defaultColor: mix(@lightGrey, @grey, 50%);
-      padding: 0 0.125rem;
-      color: @defaultColor;
-      box-shadow: 0 0 0 0.125rem @defaultColor;
-      border-radius: 0.25rem;
-      min-width: 1.5rem;
-      text-align: center;
-
-      &.active {
-        color: @activeColor;
-        box-shadow: 0 0 0 0.125rem @activeColor;
-      }
+    tfoot {
+        border-bottom: 1px solid #000;
     }
 
-    &.arbeidsdag > span {
-      background: @colorArbeidsdag;
+    .TimelineRow__date,
+    .TimelineRow__type,
+    .TimelineRow__degree,
+    .TimelineRow__dagsats {
+        display: flex;
+        align-items: center;
+        float: left;
+        height: 2rem;
     }
 
-    &.egenmeldingsdag > span {
-      background: @colorEgenmeldingsdag;
+    .TimelineRow__dagsats {
+        float: right;
     }
 
-    &.feriedag > span {
-      background: @colorFeriedag;
+    .TimelineRow__date {
+        width: 8rem;
     }
 
-    &.permisjonsdag > span {
-      background: @colorPermisjonsdag;
+    .TimelineRow__degree {
+        justify-content: space-between;
+
+        > *:first-child {
+            margin-right: 1rem;
+        }
     }
 
-    &.permisstudiedagonsdag > span {
-      background: @colorStudiedag;
-    }
+    .TimelineRow__type {
+        width: 14rem;
 
-    &.sykHelgedag > span {
-      background: @colorSykHelgedag;
-    }
+        > span {
+            background: @colorDefault;
+            width: 7rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            margin-right: 0.75rem;
+        }
 
-    &.sykedag > span {
-      background: @colorSykedag;
-    }
+        > p.typo-undertekst {
+            @activeColor: mix(@blue, #fff, 50%);
+            @defaultColor: mix(@lightGrey, @grey, 50%);
+            padding: 0 0.125rem;
+            color: @defaultColor;
+            box-shadow: 0 0 0 0.125rem @defaultColor;
+            border-radius: 0.25rem;
+            min-width: 1.5rem;
+            text-align: center;
 
-    &.ubestemtDag > span {
-      background: @colorUbestemtdag;
-    }
+            &.active {
+                color: @activeColor;
+                box-shadow: 0 0 0 0.125rem @activeColor;
+            }
+        }
 
-    &.utenlandsdag > span {
-      background: @colorUtenlandsdag;
+        &.arbeidsdag > span {
+            background: @colorArbeidsdag;
+        }
+
+        &.egenmeldingsdag > span {
+            background: @colorEgenmeldingsdag;
+        }
+
+        &.feriedag > span {
+            background: @colorFeriedag;
+        }
+
+        &.permisjonsdag > span {
+            background: @colorPermisjonsdag;
+        }
+
+        &.permisstudiedagonsdag > span {
+            background: @colorStudiedag;
+        }
+
+        &.sykHelgedag > span {
+            background: @colorSykHelgedag;
+        }
+
+        &.sykedag > span {
+            background: @colorSykedag;
+        }
+
+        &.ubestemtDag > span {
+            background: @colorUbestemtdag;
+        }
+
+        &.utenlandsdag > span {
+            background: @colorUtenlandsdag;
+        }
     }
-  }
 }

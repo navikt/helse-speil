@@ -15,7 +15,9 @@ interface Props {
     showDagsats: boolean;
 }
 
-const hendelseTypeTilUiNavn = (type?: Hendelsetype | string): Optional<HendelsestypeUINavn | string> => {
+const hendelseTypeTilUiNavn = (
+    type?: Hendelsetype | string
+): Optional<HendelsestypeUINavn | string> => {
     switch (type) {
         case 'NySøknad':
             return 'SM';
@@ -46,7 +48,10 @@ const sumDagsatser = (dagsatser: DagsatsDict) => {
 };
 
 const Timeline = ({ person, showDagsats }: Props) => {
-    const { sykdomstidslinje: tidslinje, utbetalingslinjer = [] } = person.arbeidsgivere[0].saker[0];
+    const {
+        sykdomstidslinje: tidslinje,
+        utbetalingslinjer = []
+    } = person.arbeidsgivere[0].saker[0];
     const hendelser = tidslinje.hendelser;
     const dagsatser = showDagsats ? buildDagsatserDictionary(utbetalingslinjer) : {};
     const dagsatserSummed = showDagsats && sumDagsatser(dagsatser);

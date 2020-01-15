@@ -1,0 +1,58 @@
+import request from 'request-promise-native';
+import fs from 'fs';
+import { Behov } from '../../types';
+
+export interface SpleisClient {
+    hentSak: (aktørId: string, onBehalfOfToken: string) => Promise<Behov>;
+    hentSakByUtbetalingsref: (utbetalingsref: string, onBehalfOfToken: string) => Promise<Behov>;
+}
+
+const hentSakByAktørId = async (aktørId: string, onBehalfOfToken: string) => {
+    if (process.env.NODE_ENV === 'development') {
+        const fromFile = fs.readFileSync(`__mock-data__/${filename(aktørId)}`, 'utf-8');
+        const person = JSON.parse(fromFile);
+        return Promise.resolve({
+            statusCode: 200,
+            body: person
+        });
+    }
+    const options = {
+        uri: `http://spleis.default.svc.nais.local/api/sak/${aktørId}`,
+        headers: {
+            Authorization: `Bearer ${onBehalfOfToken}`
+        },
+        resolveWithFullResponse: true,
+        json: true
+    };
+    return request.get(options);
+};
+
+const hentSakByUtbetalingsref = async (utbetalingsref: string, onBehalfOfToken: string) => {
+    if (process.env.NODE_ENV === 'development') {
+        const fromFile = fs.readFileSync(`__mock-data__/mock-sak-2.json`, 'utf-8');
+        const person = JSON.parse(fromFile);
+        return Promise.resolve({
+            statusCode: 200,
+            body: person
+        });
+    }
+    const options = {
+        uri: `http://spleis.default.svc.nais.local/api/utbetaling/${utbetalingsref}`,
+        headers: {
+            Authorization: `Bearer ${onBehalfOfToken}`
+        },
+        resolveWithFullResponse: true,
+        json: true
+    };
+    return request.get(options);
+};
+
+const filename = (aktørId: string) =>
+    aktørId === '0123456789012' || !/[a-z]/.test(aktørId) ? 'mock-sak-1.json' : 'mock-sak-2.json';
+
+const spleisClient: SpleisClient = {
+    hentSak: hentSakByAktørId,
+    hentSakByUtbetalingsref
+};
+
+export default spleisClient;

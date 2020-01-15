@@ -32,7 +32,9 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     const [aktørIdFromUrl, setAktørIdFromUrl] = useState<string | undefined>();
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
-    const [sak, setSak] = useState(personTilBehandling ? enesteSak(personTilBehandling) : undefined);
+    const [sak, setSak] = useState(
+        personTilBehandling ? enesteSak(personTilBehandling) : undefined
+    );
 
     useEffect(() => {
         personTilBehandling && setSak(enesteSak(personTilBehandling));
@@ -90,10 +92,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             {error && (
                 <ErrorModal
                     errorMessage={error.message}
-                    onClose={error.statusCode !== 401
-                        ? () => setError(undefined)
-                        : () => {}
-                    }
+                    onClose={error.statusCode !== 401 ? () => setError(undefined) : () => {}}
                 />
             )}
         </PersonContext.Provider>

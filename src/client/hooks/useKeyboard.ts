@@ -29,8 +29,12 @@ export const useKeyboard = (actions: Action[]) => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
         const action = map[event.code];
-        if (!action || shouldDisableKeyboard() ||
-            (action.ignoreIfModifiers && (event.getModifierState('Meta') || event.getModifierState('Alt')))) {
+        if (
+            !action ||
+            shouldDisableKeyboard() ||
+            (action.ignoreIfModifiers &&
+                (event.getModifierState('Meta') || event.getModifierState('Alt')))
+        ) {
             return;
         }
         map[event.code]?.action();

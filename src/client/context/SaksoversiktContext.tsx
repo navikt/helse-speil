@@ -2,7 +2,8 @@ import React, { createContext, ReactChild, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { fetchSaksoversikt, getPersoninfo } from '../io/http';
-import { Behov, Optional } from './types';
+import { Optional } from './types';
+import { Behov } from '../../types';
 
 interface Error {
     message: string;
@@ -49,10 +50,12 @@ export const SaksoversiktProvider = ({ children }: ProviderProps) => {
         const oversikt: Behov[] = await hentPersoner();
         setSaksoversikt(oversikt);
         setIsFetchingPersoninfo(true);
-        const oversiktWithPersoninfo: Behov[] = await Promise
-            .all(oversikt.map((behandling: Behov) => appendPersoninfo(behandling)))
-            .finally(() => setIsFetchingPersoninfo(false));
-        const finnesBehovUtenPersoninfo = oversiktWithPersoninfo.find((behandling: Behov) => behandling.personinfo === undefined);
+        const oversiktWithPersoninfo: Behov[] = await Promise.all(
+            oversikt.map((behandling: Behov) => appendPersoninfo(behandling))
+        ).finally(() => setIsFetchingPersoninfo(false));
+        const finnesBehovUtenPersoninfo = oversiktWithPersoninfo.find(
+            (behandling: Behov) => behandling.personinfo === undefined
+        );
         if (finnesBehovUtenPersoninfo) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }

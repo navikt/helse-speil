@@ -12,8 +12,9 @@ import './Oversikt.less';
 import { buildLinks, pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import { useInterval } from '../../hooks/useInterval';
-import { Behov, Person } from '../../context/types';
+import { Person } from '../../context/types';
 import { useTranslation } from 'react-i18next';
+import { Behov } from '../../../types';
 
 const TWO_MINUTES = 120000;
 
@@ -39,7 +40,9 @@ const Oversikt = () => {
         hentSaksoversikt();
     }, []);
 
-    const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(saksoversikt), [saksoversikt]);
+    const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(saksoversikt), [
+        saksoversikt
+    ]);
     useInterval({ callback: intervalledFetchTildelinger, interval: TWO_MINUTES });
 
     const velgBehovAndNavigate = (behov: Behov) => {

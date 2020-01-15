@@ -30,7 +30,8 @@ const resources: Resource = {
         translation: {
             mvp: 'Gjeldende kriterier for automatisk saksbehandling',
             neste: 'Neste',
-            empty_state_message: 'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over',
+            empty_state_message:
+                'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over',
             'informasjon ikke tilgjengelig': 'Ikke klart',
             oversikt: {
                 tittel: 'Neste saker',
@@ -94,13 +95,12 @@ const resources: Resource = {
     }
 };
 
-i18n.use(initReactI18next)
-    .init({
-        resources,
-        lng: 'no',
-        interpolation: {
-            escapeValue: false
-        }
-    });
+i18n.use(initReactI18next).init({
+    resources,
+    lng: 'no',
+    interpolation: {
+        escapeValue: false
+    }
+});
 
 export default i18n;

@@ -1,38 +1,38 @@
 .timeline() {
-  overflow-y: auto;
-  margin-bottom: 2rem;
+    overflow-y: auto;
+    margin-bottom: 2rem;
 
-  * {
-    font-size: 0.75rem;
-    font-family: 'Press Start 2P', cursive;
-  }
-
-  tr {
-    color: #fff;
-    border-bottom: 0.25rem solid transparent;
-  }
-
-  .TimelineRow__date {
-    width: 11rem;
-  }
-
-  .TimelineRow__type {
-    width: 20rem;
-
-    > span {
-      width: 15rem;
+    * {
+        font-size: 0.75rem;
+        font-family: 'Press Start 2P', cursive;
     }
 
-    &.egenmeldingsdag > span {
-      background: #005991;
+    tr {
+        color: #fff;
+        border-bottom: 0.25rem solid transparent;
     }
 
-    &.sykedag > span {
-      background: #6eab4e;
+    .TimelineRow__date {
+        width: 11rem;
     }
 
-    &.sykHelgedag > span {
-      background: #00b7b4;
+    .TimelineRow__type {
+        width: 20rem;
+
+        > span {
+            width: 15rem;
+        }
+
+        &.egenmeldingsdag > span {
+            background: #005991;
+        }
+
+        &.sykedag > span {
+            background: #6eab4e;
+        }
+
+        &.sykHelgedag > span {
+            background: #00b7b4;
+        }
     }
-  }
 }

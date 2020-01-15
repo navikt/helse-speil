@@ -1,4 +1,5 @@
 import { ReactChild } from 'react';
+import { Personinfo } from '../../types';
 
 export type Optional<T> = T | undefined | null;
 
@@ -158,7 +159,7 @@ export interface Utbetalingsdato {
     dayOfYear: number;
     monthValue: number;
     dayOfMonth: number;
-    chronology: { id: string; calendarType: string; };
+    chronology: { id: string; calendarType: string };
 }
 
 export interface Sak {
@@ -192,7 +193,7 @@ interface Inngangsvilkår {
         innen3Mnd: boolean;
         søknadTom: Optional<string>;
         sendtNav: Optional<string>;
-    }
+    };
     sykepengegrunnlag: Optional<number>;
     alder: Optional<number>;
 }
@@ -202,13 +203,6 @@ interface Sykepengegrunnlag {
     grunnlag: Optional<number>;
     årsinntekt: Optional<number>;
     månedsinntekt: Optional<number>;
-}
-
-export interface Personinfo {
-    fnr: string;
-    fødselsdato: string;
-    kjønn: string;
-    navn: string;
 }
 
 interface Inntektskilder {
@@ -240,16 +234,6 @@ export interface Person extends UnmappedPerson {
     oppsummering: Oppsummering;
     personinfo: Personinfo;
     sykepengegrunnlag: Sykepengegrunnlag;
-}
-
-export interface Behov {
-    '@behov': string;
-    '@id': string;
-    '@opprettet': string;
-    aktørId: string;
-    organisasjonsnummer: string;
-    sakskompleksId: string;
-    personinfo: Optional<Personinfo>;
 }
 
 export interface ProviderProps {

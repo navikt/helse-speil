@@ -1,3 +1,4 @@
+// @ts-nocheck
 import behov from '../../../__mock-data__/mock-sak-1.json';
 import personMapper, { beregnAlder, enesteSak, filtrerPaddedeArbeidsdager } from './mapper';
 import { Dagtype, Sak, UnmappedPerson } from './types';
@@ -45,23 +46,28 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
             vedtaksperiodeId: 'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87'
         }
     };
-    const personinfo = { fødselsdato: '1956-12-12', fnr: '123', kjønn: 'mann', navn: 'Sjaman Durek' };
+    const personinfo = {
+        fødselsdato: '1956-12-12',
+        fnr: '123',
+        kjønn: 'mann',
+        navn: 'Sjaman Durek'
+    };
     expect(personMapper.map(behov, personinfo)).toEqual(expect.objectContaining(expectedPerson));
 });
 
 test('filtrerer vekk paddede arbeidsdager', () => {
     const paddedeArbeidsdager = [
         {
-            "dato": "2019-09-08",
-            "type": "ARBEIDSDAG",
-            "erstatter": [],
-            "hendelseId": "f8d10337-b0de-4036-ba95-67e5d0f041e4"
+            dato: '2019-09-08',
+            type: 'ARBEIDSDAG',
+            erstatter: [],
+            hendelseId: 'f8d10337-b0de-4036-ba95-67e5d0f041e4'
         },
         {
-            "dato": "2019-09-09",
-            "type": "ARBEIDSDAG",
-            "erstatter": [],
-            "hendelseId": "f8d10337-b0de-4036-ba95-67e5d0f041e4"
+            dato: '2019-09-09',
+            type: 'ARBEIDSDAG',
+            erstatter: [],
+            hendelseId: 'f8d10337-b0de-4036-ba95-67e5d0f041e4'
         }
     ];
 
@@ -86,14 +92,16 @@ test('filtrerer vekk paddede arbeidsdager', () => {
         ]
     };
 
-    const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(enesteSak(personMedPaddedeArbeidsdager));
+    const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(
+        enesteSak(personMedPaddedeArbeidsdager)
+    );
     const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[0];
 
     expect(førsteDag.type !== Dagtype.ARBEIDSDAG).toBeTruthy();
 });
 
 test('fjerner ingen dager dersom første dag ikke er ARBEIDSDAG eller IMPLISITT_DAG', () => {
-    const unmappedPerson: UnmappedPerson = {...behov};
+    const unmappedPerson: UnmappedPerson = { ...behov };
     const opprinneligSak: Sak = enesteSak(unmappedPerson);
     const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(enesteSak(unmappedPerson));
 

@@ -10,7 +10,7 @@ const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 const PersonBar = () => {
     const { personTilBehandling } = useContext(PersonContext);
 
-    if (!personTilBehandling) return <div className="PersonBar"/>;
+    if (!personTilBehandling) return <div className="PersonBar" />;
 
     const { aktørId } = personTilBehandling;
     const personinfo = personTilBehandling.personinfo;

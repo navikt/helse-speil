@@ -1,7 +1,8 @@
 import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { deleteTildeling, getTildelinger, postTildeling } from '../io/http';
-import { ProviderProps, Behov, Tildeling } from './types';
+import { ProviderProps, Tildeling } from './types';
+import { Behov } from '../../types';
 
 interface TildelingerContextType {
     tildelinger: Tildeling[];
@@ -14,7 +15,7 @@ interface TildelingerContextType {
 export const TildelingerContext = createContext<TildelingerContextType>({
     tildelinger: [],
     tildelBehandling: (behovId, userId) => {},
-    fetchTildelinger: (saksoversikt) => {},
+    fetchTildelinger: saksoversikt => {},
     fjernTildeling: (behovId: string) => {}
 });
 
@@ -43,7 +44,9 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             const behovIds = saksoversikt.map(b => b['@id']);
             getTildelinger(behovIds)
                 .then(result => {
-                    const nyeTildelinger = result.data.filter((tildeling: Tildeling) => tildeling.userId !== undefined);
+                    const nyeTildelinger = result.data.filter(
+                        (tildeling: Tildeling) => tildeling.userId !== undefined
+                    );
                     setTildelinger(nyeTildelinger);
                 })
                 .catch(err => {
@@ -56,7 +59,9 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const fjernTildeling = (behovId: string) => {
         deleteTildeling(behovId)
             .then(() => {
-                setTildelinger(tildelinger.filter((tildeling: Tildeling) => tildeling.behovId !== behovId));
+                setTildelinger(
+                    tildelinger.filter((tildeling: Tildeling) => tildeling.behovId !== behovId)
+                );
                 setError(undefined);
             })
             .catch(error => {

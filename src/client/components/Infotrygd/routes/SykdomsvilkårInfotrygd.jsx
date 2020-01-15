@@ -7,7 +7,7 @@ const SykdomsvilkårInfotrygd = () => {
         <InfotrygdList>
             <InfotrygdListItem label="Sykdomdsvilkår må vurderes manuelt" status="!" />
         </InfotrygdList>
-    )
+    );
 };
 
 export default SykdomsvilkårInfotrygd;

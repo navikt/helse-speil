@@ -6,9 +6,10 @@ interface Props {
     tekst?: string;
 }
 
-const VisDetaljerKnapp = ({ onClick, tekst = 'Vis detaljer' }: Props) =>
+const VisDetaljerKnapp = ({ onClick, tekst = 'Vis detaljer' }: Props) => (
     <button className="VisDetaljerKnapp" onClick={onClick} tabIndex={0}>
         {tekst}
-    </button>;
+    </button>
+);
 
 export default VisDetaljerKnapp;

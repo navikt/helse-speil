@@ -3,7 +3,6 @@ import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
 
 const InngangsvilkårInfotrygd = () => {
-
     const søknadsfristItems = []; // ItemMapper.søknadsfrist(inngangsvilkår.søknadsfrist);
     const dagerIgjenItems = []; // ItemMapper.dagerIgjen(inngangsvilkår.dagerIgjen);
     const under67ÅrItems = []; // ItemMapper.alder(inngangsvilkår.alder);

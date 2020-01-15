@@ -51,14 +51,12 @@ describe('Saksbilde', () => {
     it('render empty state view when no person is selected', () => {
         const { container } = render(
             <MemoryRouter>
-               // @ts-ignore
+                // @ts-ignore
                 <PersonContext.Provider value={{ ...wrapperProps }}>
                     <Saksbilde />
                 </PersonContext.Provider>
             </MemoryRouter>
         );
-        expect(
-            container.getElementsByClassName('EmptyStateView')
-        ).toBeDefined();
+        expect(container.getElementsByClassName('EmptyStateView')).toBeDefined();
     });
 });

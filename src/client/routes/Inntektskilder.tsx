@@ -29,7 +29,9 @@ const Inntektskilder = () => {
             )}
             <Subheader label={t('inntektskilder.aordningen')} iconType="advarsel" />
             <Row label={t('inntektskilder.refusjon')}>{inntektskilder.refusjon}</Row>
-            <Row label={t('inntektskilder.arbeidsgiverperiode')}>{inntektskilder.forskuttering}</Row>
+            <Row label={t('inntektskilder.arbeidsgiverperiode')}>
+                {inntektskilder.forskuttering}
+            </Row>
             <NavigationButtons previous={pages.INNGANGSVILKÅR} next={pages.SYKEPENGEGRUNNLAG} />
         </Panel>
     );
