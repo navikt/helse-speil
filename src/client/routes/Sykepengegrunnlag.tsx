@@ -24,16 +24,16 @@ const Sykepengegrunnlag = () => {
                 <>
                     <SubheaderWithList label={t('sykepengegrunnlag.inntektsmeldinger')}>
                         <ListItem label={t('sykepengegrunnlag.månedsinntekt')}>
-                            {`${toKronerOgØre(sykepengegrunnlag.månedsinntekt)} kr`}
+                            {`${toKronerOgØre(sykepengegrunnlag.månedsinntekt!)} kr`}
                         </ListItem>
                         <ListItem label={t('sykepengegrunnlag.årsinntekt')}>
-                            {`${toKronerOgØre(sykepengegrunnlag.årsinntekt)} kr`}
+                            {`${toKronerOgØre(sykepengegrunnlag.årsinntekt!)} kr`}
                         </ListItem>
                     </SubheaderWithList>
                     <Subheader label={t('sykepengegrunnlag.aordningen')} iconType="advarsel" />
                     <Subheader label={t('sykepengegrunnlag.avvik')} iconType="advarsel" />
                     <Row label={t('sykepengegrunnlag.sykepengegrunnlag')}>
-                        {`${toKronerOgØre(sykepengegrunnlag.grunnlag)} kr`}
+                        {`${toKronerOgØre(sykepengegrunnlag.grunnlag!)} kr`}
                     </Row>
                     <Row label={t('sykepengegrunnlag.redusert')}>
                         {(sykepengegrunnlag?.grunnlag ?? 0) > G * 6
@@ -41,9 +41,7 @@ const Sykepengegrunnlag = () => {
                             : '-'}
                     </Row>
                     <ListSeparator />
-                    <Row label={t('sykepengegrunnlag.dagsats')}>{`${toKronerOgØre(
-                        sykepengegrunnlag.dagsats
-                    )} kr`}</Row>
+                    <Row label={t('sykepengegrunnlag.dagsats')}>{`${toKronerOgØre(sykepengegrunnlag.dagsats!)} kr`}</Row>
                 </>
             )}
             <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />

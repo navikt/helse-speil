@@ -1,5 +1,5 @@
 import React from 'react';
-import useLinks, { pages } from '../../hooks/useLinks';
+import useLinks, { Links, pages } from '../../hooks/useLinks';
 import moment from 'moment';
 import InfotrygdMenu from './InfotrygdMenu';
 import InfotrygdInput from './InfotrygdInput';
@@ -11,10 +11,11 @@ import InntektskilderInfotrygd from './routes/InntektskilderInfotrygd';
 import SykepengegrunnlagInfotrygd from './routes/SykepengegrunnlagInfotrygd';
 import SykmeldingsperiodeInfotrygd from './routes/SykmeldingsperiodeInfotrygd';
 import UtbetalingsoversiktInfotrygd from './routes/UtbetalingsoversiktInfotrygd';
+import { History } from 'history';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './Infotrygd.less';
 
-const navigate = (value = '', history, links) => {
+const navigate = (value = '', history: History, links: Links) => {
     const sanitizedValue = value.toLowerCase();
     const path =
         (sanitizedValue === 'sp' && pages.SYKMELDINGSPERIODE) ||
@@ -56,7 +57,7 @@ const Infotrygd = () => {
                         <span>
                             Rutine/bilde
                             <InfotrygdInput
-                                onEnter={(value, history) => navigate(value, history, links)}
+                                onEnter={(value: string, history: History) => navigate(value, history, links!)}
                             />
                         </span>
                         <div />

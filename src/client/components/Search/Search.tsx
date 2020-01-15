@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from 'react';
 import SearchIcon from './SearchIcon';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
-import { Keys } from '../../hooks/useKeyboard';
+import { Key } from '../../hooks/useKeyboard';
 import { PersonContext } from '../../context/PersonContext';
 import { EasterEggContext } from '../../context/EasterEggContext';
 import { useNavigateAfterSearch } from './useNavigateAfterSearch';
@@ -16,7 +16,7 @@ const Search = () => {
 
     const keyTyped = (event: React.KeyboardEvent) => {
         const target = event.target as HTMLInputElement;
-        if (event.key === Keys.ENTER && target.value) {
+        if (event.key === Key.Enter && target.value) {
             search(target.value);
         }
     };

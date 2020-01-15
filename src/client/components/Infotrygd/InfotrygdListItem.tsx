@@ -1,7 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactChild, ReactChildren } from 'react';
 
-const InfotrygdListItem = ({ label, status, children }) => {
+interface Props {
+    label?: string;
+    status?: string;
+    children?: ReactChild | ReactChildren;
+}
+
+const InfotrygdListItem = ({ label, status, children }: Props) => {
     return (
         <>
             <span className="InfotrygdListItem__status">{status ?? ''}</span>
@@ -9,12 +14,6 @@ const InfotrygdListItem = ({ label, status, children }) => {
             <span className="InfotrygdListItem__children">{children}</span>
         </>
     );
-};
-
-InfotrygdListItem.propTypes = {
-    label: PropTypes.string,
-    status: PropTypes.string,
-    children: PropTypes.node
 };
 
 export default InfotrygdListItem;

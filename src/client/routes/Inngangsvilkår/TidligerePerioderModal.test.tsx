@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 import TidligerePerioderModal from './TidligerePerioderModal';

@@ -34,10 +34,10 @@ const Oppsummering = () => {
                 <Undertittel>{t('oppsummering.tittel')}</Undertittel>
                 <List>
                     <ListItem label={t('oppsummering.sykepengegrunnlag')}>
-                        {`${toKronerOgØre(oppsummering.sykepengegrunnlag)} kr`}
+                        {`${toKronerOgØre(oppsummering.sykepengegrunnlag!)} kr`}
                     </ListItem>
                     <ListItem label={t('oppsummering.dagsats')}>
-                        {`${toKronerOgØre(oppsummering.dagsats)} kr`}
+                        {`${toKronerOgØre(oppsummering.dagsats!)} kr`}
                     </ListItem>
                     <ListItem label={t('oppsummering.antall_utbetalingsdager')}>
                         {oppsummering.antallDager}

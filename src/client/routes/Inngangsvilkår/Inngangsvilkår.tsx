@@ -32,7 +32,7 @@ const Inngangsvilkår = () => {
                         <Subheader label="Opptjening må vurderes manuelt" iconType="advarsel" />
                         <SubheaderWithList label="Mer enn 0,5G" iconType="ok">
                             <ListItem label="Sykepengegrunnlaget">
-                                {`${toKronerOgØre(inngangsvilkår.sykepengegrunnlag)} kr`}
+                                {`${toKronerOgØre(inngangsvilkår.sykepengegrunnlag!)} kr`}
                             </ListItem>
                             <Normaltekst>{`0,5G er ${toKronerOgØre(99858 / 2)} kr`}</Normaltekst>
                         </SubheaderWithList>
@@ -45,10 +45,10 @@ const Inngangsvilkår = () => {
                                 {toDate(inngangsvilkår.dagerIgjen.førsteFraværsdag)}
                             </ListItem>
                             <ListItem label="Første sykepengedag">
-                                {toDate(inngangsvilkår.dagerIgjen.førsteSykepengedag)}
+                                {toDate(inngangsvilkår.dagerIgjen.førsteSykepengedag!)}
                             </ListItem>
                             <ListItem label="Yrkesstatus">
-                                {capitalize(inngangsvilkår.dagerIgjen.yrkesstatus)}
+                                {capitalize(inngangsvilkår.dagerIgjen.yrkesstatus!)}
                             </ListItem>
                             <ListItem label="Dager brukt">
                                 {inngangsvilkår.dagerIgjen.dagerBrukt}
@@ -65,10 +65,10 @@ const Inngangsvilkår = () => {
                         </SubheaderWithList>
                         <SubheaderWithList label="Søknadsfrist" iconType="ok">
                             <ListItem label="Sendt Nav">
-                                {toDate(inngangsvilkår.søknadsfrist.sendtNav)}
+                                {toDate(inngangsvilkår.søknadsfrist.sendtNav!)}
                             </ListItem>
                             <ListItem label="Søknad t.o.m.">
-                                {toDate(inngangsvilkår.søknadsfrist.søknadTom)}
+                                {toDate(inngangsvilkår.søknadsfrist.søknadTom!)}
                             </ListItem>
                             <ListItem label="Innen 3 mnd">
                                 {inngangsvilkår.søknadsfrist.innen3Mnd ? 'Ja' : 'Nei'}

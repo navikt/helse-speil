@@ -3,19 +3,20 @@ import Timeline from '../../Timeline';
 import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
 import { PersonContext } from '../../../context/PersonContext';
-import { utbetalingsoversikttekster } from '../../../tekster';
 import './UtbetalingsoversiktInfotrygd.less';
+import { useTranslation } from 'react-i18next';
 
 const UtbetalingsoversiktInfotrygd = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
+    const { t } = useTranslation();
 
     return (
         <div className="UtbetalingsoversiktInfotrygd">
             <InfotrygdList>
-                <InfotrygdListItem label={utbetalingsoversikttekster('dager')} status="OK" />
+                <InfotrygdListItem label={t('utbetalingsoversikt.dager')} status="OK" />
             </InfotrygdList>
             <div className="UtbetalingsoversiktInfotrygd__timeline">
-                <Timeline person={person} showDagsats={true} />
+                <Timeline person={person!} showDagsats={true} />
             </div>
         </div>
     );

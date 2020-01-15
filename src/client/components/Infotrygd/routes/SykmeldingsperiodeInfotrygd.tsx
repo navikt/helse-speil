@@ -5,10 +5,9 @@ import './SykmeldingsperiodeInfotrygd.less';
 
 const SykmeldingsperiodeInfotrygd = () => {
     const { personTilBehandling: person } = useContext(PersonContext);
-
     return (
         <span className="SykmeldingsperiodeInfotrygd">
-            <Timeline person={person} showDagsats={false} />
+            <Timeline person={person!} showDagsats={false} />
         </span>
     );
 };

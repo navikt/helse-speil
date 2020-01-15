@@ -12,6 +12,11 @@ import { SaksoversiktContext } from '../../../context/SaksoversiktContext';
 import InfoModal from '../../InfoModal';
 import { Normaltekst } from 'nav-frontend-typografi';
 
+interface Error {
+    message: string;
+    statusCode: number;
+}
+
 const Beslutning = {
     GODKJENT: 'GODKJENT',
     AVVIST: 'AVVIST'
@@ -22,16 +27,14 @@ const OppsummeringInfotrygd = () => {
     const { saksoversikt } = useContext(SaksoversiktContext);
     const [modalOpen, setModalOpen] = useState(false);
     const [isSending, setIsSending] = useState(false);
-    const [beslutning, setBeslutning] = useState(undefined);
-    const [error, setError] = useState(undefined);
+    const [beslutning, setBeslutning] = useState<string | undefined>(undefined);
+    const [error, setError] = useState<Error | undefined>(undefined);
     const simuleringContext = useContext(SimuleringContext);
 
-    const fattVedtak = godkjent => {
-        const behovId = saksoversikt.find(behov => behov.aktørId === personTilBehandling.aktørId)?.[
-            '@id'
-        ];
+    const fattVedtak = (godkjent: boolean) => {
+        const behovId = saksoversikt.find(behov => behov.aktørId === personTilBehandling!.aktørId)?.['@id'];
         setIsSending(true);
-        postVedtak(behovId, personTilBehandling.aktørId, godkjent)
+        postVedtak(behovId, personTilBehandling!.aktørId, godkjent)
             .then(() => {
                 setBeslutning(godkjent ? Beslutning.GODKJENT : Beslutning.AVVIST);
                 setError(undefined);
@@ -79,8 +82,8 @@ const OppsummeringInfotrygd = () => {
                         </button>
                         {error && (
                             <Normaltekst className="skjemaelement__feilmelding">
-                                {error.message || 'En feil har oppstått.'}
-                                {error.statusCode === 401 && <a href="/"> Logg inn</a>}
+                                {error!.message || 'En feil har oppstått.'}
+                                {error!.statusCode === 401 && <a href="/"> Logg inn</a>}
                             </Normaltekst>
                         )}
                     </span>

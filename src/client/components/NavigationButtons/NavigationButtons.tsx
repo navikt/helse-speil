@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import ReactTooltip from 'react-tooltip';
 import { Knapp } from 'nav-frontend-knapper';
 import { useHistory } from 'react-router';
-import { useKeyboard, Keys } from '../../hooks/useKeyboard';
+import { useKeyboard, Key } from '../../hooks/useKeyboard';
 import useLinks from '../../hooks/useLinks';
 import './NavigationButtons.less';
 
@@ -31,10 +31,10 @@ const NavigationButtons = ({ previous, next }: Props) => {
         next && linksRef.current && history.push(linksRef.current[next]);
     };
 
-    useKeyboard([
-        { key: Keys.LEFT, action: clickPrevious, ignoreIfModifiers: true },
-        { key: Keys.RIGHT, action: clickNext, ignoreIfModifiers: true }
-    ]);
+    useKeyboard({
+        [Key.Left]: { action: clickPrevious, ignoreIfModifiers: true },
+        [Key.Right]: { action: clickNext, ignoreIfModifiers: true }
+    });
 
     return (
         <>

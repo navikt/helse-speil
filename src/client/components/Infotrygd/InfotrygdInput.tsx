@@ -1,47 +1,51 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import useLinks, { pages as rawPages } from '../../hooks/useLinks';
-import PropTypes from 'prop-types';
-import { Keys } from '../../hooks/useKeyboard';
-import { withRouter } from 'react-router';
+import { Key } from '../../hooks/useKeyboard';
+import { useHistory } from 'react-router';
+import { History } from 'history';
 import { EasterEggContext } from '../../context/EasterEggContext';
 import './InfotrygdInput.less';
 
-const isOnlyLetters = str => str?.match(/^[a-z]+$/i);
+interface Props {
+    onEnter: (url: string, history: History) => void;
+}
+
+const isOnlyLetters = (value: string) => value?.match(/^[a-z]+$/i);
 
 const pages = Object.values(rawPages);
 
-const InfotrygdInput = ({ onEnter, history }) => {
-    const { deactivate } = useContext(EasterEggContext);
+const InfotrygdInput = ({ onEnter }: Props) => {
+    const history = useHistory();
     const [value, setValue] = useState('');
     const [hasFocus, setHasFocus] = useState(false);
     const currentView = pages.findIndex(path => history.location.pathname.includes(path)) ?? -1;
+    const lastTabRef = useRef<HTMLSpanElement>(null);
     const links = useLinks();
-    const ref = useRef();
-    const lastTabRef = useRef();
+    const ref = useRef<HTMLDivElement>(null);
+    const { deactivate } = useContext(EasterEggContext);
 
-    const onKeyDown = event => {
-        switch (event.code) {
-            case Keys.ESC:
-                return deactivate();
-            case Keys.LEFT: {
-                if (currentView > 0) {
+    const onKeyDown = (event: KeyboardEvent) => {
+        switch (event.key) {
+            case Key.Escape: return deactivate();
+            case Key.Left: {
+                if (currentView > 0 && links) {
                     history.push(links[pages[currentView - 1]]);
                 } else {
                     history.push('/');
                 }
                 break;
             }
-            case Keys.RIGHT: {
-                if (currentView < pages.length - 1) {
+            case Key.Right: {
+                if (currentView < pages.length - 1 && links) {
                     history.push(links[pages[currentView + 1]]);
                 }
                 break;
             }
-            case Keys.BACKSPACE: {
+            case Key.Backspace: {
                 if (hasFocus) setValue(v => v.slice(0, v.length - 1));
                 break;
             }
-            case Keys.ENTER: {
+            case Key.Enter: {
                 if (hasFocus) onEnter(value?.toLowerCase(), history);
                 break;
             }
@@ -60,7 +64,7 @@ const InfotrygdInput = ({ onEnter, history }) => {
 
     useEffect(() => {
         if (document.activeElement === lastTabRef.current) {
-            ref.current.focus();
+            ref.current?.focus();
         }
     }, [document.activeElement]);
 
@@ -71,7 +75,7 @@ const InfotrygdInput = ({ onEnter, history }) => {
             tabIndex={1}
             onFocus={() => setHasFocus(true)}
             onBlur={() => setHasFocus(false)}
-            onClick={() => ref.current.focus()}
+            onClick={() => ref.current?.focus()}
         >
             {value?.toUpperCase()}
             {hasFocus && <div className="InfotrygdInput__cursor blink" />}
@@ -80,14 +84,4 @@ const InfotrygdInput = ({ onEnter, history }) => {
     );
 };
 
-InfotrygdInput.propTypes = {
-    onEnter: PropTypes.func,
-    history: PropTypes.shape({
-        push: PropTypes.func,
-        location: PropTypes.shape({
-            pathname: PropTypes.string
-        })
-    })
-};
-
-export default withRouter(InfotrygdInput);
+export default InfotrygdInput;

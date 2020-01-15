@@ -4,12 +4,16 @@ export const Keys = {
     EMAIL: 'email'
 };
 
-const decode = cookie => {
-    const token = cookie
-        .split('=')[1]
-        .split('.')[1]
-        .replace(/%3D/g, '=')
-        .replace(/%3d/g, '=');
+export enum CookieKey {
+    Name = 'name',
+    Ident = 'NAVident',
+    Email = 'email'
+}
+
+const extractToken = (cookie: string) => cookie.split('=')[1].split('.')[1].replace(/%3D/g, '=').replace(/%3d/g, '=');
+
+const decode = (cookie: string) => {
+    const token = extractToken(cookie);
     try {
         return JSON.parse(atob(token));
     } catch (err) {
@@ -18,7 +22,7 @@ const decode = cookie => {
     }
 };
 
-export const extractValues = values => {
+export const extractValues = (values: ArrayLike<any>) => {
     const decodedCookie = document.cookie
         .split(';')
         .filter(item => item.trim().startsWith('speil='))
@@ -29,5 +33,5 @@ export const extractValues = values => {
 };
 
 export const extractName = () => {
-    return extractValues([Keys.NAME]);
+    return extractValues([CookieKey.Name]);
 };

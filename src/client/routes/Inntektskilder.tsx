@@ -20,10 +20,10 @@ const Inntektskilder = () => {
             {inntektskilder && (
                 <SubheaderWithList label={t('inntektskilder.inntektsmeldinger')}>
                     <ListItem label={t('inntektskilder.månedsinntekt')}>
-                        {`${toKronerOgØre(inntektskilder.månedsinntekt)} kr`}
+                        {`${toKronerOgØre(inntektskilder.månedsinntekt!)} kr`}
                     </ListItem>
                     <ListItem label={t('inntektskilder.årsinntekt')}>
-                        {`${toKronerOgØre(inntektskilder.årsinntekt)} kr`}
+                        {`${toKronerOgØre(inntektskilder.årsinntekt!)} kr`}
                     </ListItem>
                 </SubheaderWithList>
             )}
