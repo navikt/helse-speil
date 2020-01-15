@@ -13,7 +13,7 @@
         "test:eslint": "eslint src/ --ext .js --ext .jsx --ext .tsx --ext .ts",
         "test": "jest",
         "tdd": "jest --watch",
-        "pretest": "npm run test:eslint",
+        "pretest": "npm run test:eslint && npx jest --clearCache",
         "start": "NODE_ENV=development parcel src/client/index.html",
         "start-mac": "NODE_ENV=development parcel src/client/index.html --open 'Google Chrome'",
         "start-express": "npm run build-server && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
