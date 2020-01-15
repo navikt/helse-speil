@@ -28,10 +28,8 @@ beforeAll(() => {
 
 test('successful lookup resolves with person object', async () => {
     await expect(personinfoLookup.hentPersoninfo('11111')).resolves.toEqual({
-        navn: 'BJARNE BETJENT',
-        fnr: '2469',
-        fødselsdato: '1995-01-01',
-        kjønn: 'MANN'
+        fornavnMappedByStub: 'BJARNE',
+        fnr: '2469'
     });
 });
 
