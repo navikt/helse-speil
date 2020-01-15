@@ -137,16 +137,18 @@ const devSendVedtak = (req: Request, res: Response) => {
 
 const prodAnnullering = async (req: Request, res: Response) => {
     const onBehalfOfToken = await onBehalfOf.hentFor(
-        config.oidc.clientIDSpade,
+        config.oidc.clientIDSpenn,
         req.session!.speilToken
     );
     annullering
-        .annuller({
-            utbetalingsreferanse: req.body.utbetalingsreferanse,
-            aktørId: req.body.aktørId,
-            saksbehandler: req.session!.user,
-            accessToken: onBehalfOfToken
-        })
+        .annuller(
+            {
+                utbetalingsreferanse: req.body.utbetalingsreferanse,
+                aktørId: req.body.aktørId,
+                saksbehandler: req.session!.user
+            },
+            onBehalfOfToken
+        )
         .then(() => {
             logger.info(
                 `Annullering for sak med utbetalingsreferanse ${
