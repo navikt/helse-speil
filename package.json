@@ -20,7 +20,7 @@
         "dev-express": "export NODE_ENV=development && export SESSION_SECRET=whatever && ts-node-dev --respawn --transpileOnly ./src/server/server.ts",
         "oppgulp": "npm run dev-express",
         "build": "npm run clean:dist && npm run test && parcel build src/client/index.html --out-dir dist/client --public-url /static --no-source-maps",
-        "build-server": "tsc src/server/server.ts --outDir dist/server --esModuleInterop",
+        "build-server": "tsc src/server/server.ts --outDir dist --esModuleInterop",
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"src/**/*.{jsx,js,css,less,ts,tsx}\"",
         "snyk-protect": "snyk protect",
