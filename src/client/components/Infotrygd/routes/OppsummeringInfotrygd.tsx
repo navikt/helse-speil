@@ -32,7 +32,9 @@ const OppsummeringInfotrygd = () => {
     const simuleringContext = useContext(SimuleringContext);
 
     const fattVedtak = (godkjent: boolean) => {
-        const behovId = saksoversikt.find(behov => behov.aktørId === personTilBehandling!.aktørId)?.['@id'];
+        const behovId = saksoversikt.find(
+            behov => behov.aktørId === personTilBehandling!.aktørId
+        )?.['@id'];
         setIsSending(true);
         postVedtak(behovId, personTilBehandling!.aktørId, godkjent)
             .then(() => {

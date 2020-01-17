@@ -26,7 +26,8 @@ const InfotrygdInput = ({ onEnter }: Props) => {
 
     const onKeyDown = (event: KeyboardEvent) => {
         switch (event.key) {
-            case Key.Escape: return deactivate();
+            case Key.Escape:
+                return deactivate();
             case Key.Left: {
                 if (currentView > 0 && links) {
                     history.push(links[pages[currentView - 1]]);

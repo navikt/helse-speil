@@ -33,11 +33,11 @@
         }
     },
     "lint-staged": {
-        "*.{js,jsx,css,json,md}": [
+        "*.{js,jsx,ts,tsx,css,json,md}": [
             "prettier --write",
             "git add"
         ],
-        "*.{js,jsx}": [
+        "*.{js,jsx,ts,tsx}": [
             "eslint --fix --rule react-hooks/exhaustive-deps:off",
             "git add"
         ]

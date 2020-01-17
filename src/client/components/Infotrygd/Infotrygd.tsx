@@ -57,7 +57,9 @@ const Infotrygd = () => {
                         <span>
                             Rutine/bilde
                             <InfotrygdInput
-                                onEnter={(value: string, history: History) => navigate(value, history, links!)}
+                                onEnter={(value: string, history: History) =>
+                                    navigate(value, history, links!)
+                                }
                             />
                         </span>
                         <div />

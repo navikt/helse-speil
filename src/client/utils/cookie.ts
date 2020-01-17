@@ -10,7 +10,12 @@ export enum CookieKey {
     Email = 'email'
 }
 
-const extractToken = (cookie: string) => cookie.split('=')[1].split('.')[1].replace(/%3D/g, '=').replace(/%3d/g, '=');
+const extractToken = (cookie: string) =>
+    cookie
+        .split('=')[1]
+        .split('.')[1]
+        .replace(/%3D/g, '=')
+        .replace(/%3d/g, '=');
 
 const decode = (cookie: string) => {
     const token = extractToken(cookie);

@@ -7,7 +7,7 @@ interface Props {
 }
 
 const InfotrygdMenuItem = ({ abbreviation, label, disabled }: Props) => {
-    const style = disabled && { color: 'grey' } || {};
+    const style = (disabled && { color: 'grey' }) || {};
     return (
         <li style={style}>
             <span>{abbreviation}</span>

@@ -31,7 +31,7 @@ const validVedtak = {
         {
             fom: '2019-09-27',
             tom: '2019-09-28',
-            dagsats: 12345,
+            dagsats: 12345
         }
     ],
     maksdato: '2019-10-27'

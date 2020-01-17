@@ -30,9 +30,7 @@ const SykepengegrunnlagInfotrygd = () => {
                 {`${toKronerOgØre(sykepengegrunnlag.grunnlag!)} kr`}
             </InfotrygdListItem>
             <InfotrygdListItem label={t('sykepengegrunnlag.redusert')}>
-                {(sykepengegrunnlag?.grunnlag ?? 0) > G * 6
-                    ? `${toKronerOgØre(G * 6)} kr`
-                    : '-'}
+                {(sykepengegrunnlag?.grunnlag ?? 0) > G * 6 ? `${toKronerOgØre(G * 6)} kr` : '-'}
             </InfotrygdListItem>
             <InfotrygdListItem />
             <InfotrygdListItem label={t('sykepengegrunnlag.dagsats')}>

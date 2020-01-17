@@ -41,7 +41,9 @@ const Sykepengegrunnlag = () => {
                             : '-'}
                     </Row>
                     <ListSeparator />
-                    <Row label={t('sykepengegrunnlag.dagsats')}>{`${toKronerOgØre(sykepengegrunnlag.dagsats!)} kr`}</Row>
+                    <Row label={t('sykepengegrunnlag.dagsats')}>{`${toKronerOgØre(
+                        sykepengegrunnlag.dagsats!
+                    )} kr`}</Row>
                 </>
             )}
             <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />
