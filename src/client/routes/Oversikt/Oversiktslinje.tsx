@@ -25,7 +25,7 @@ const Oversiktslinje = ({
 }: Props) => {
     const { authInfo } = useContext(AuthContext);
 
-    const tildelingsCelle = tildeling ? (
+    const tildelingsCelle = tildeling?.userId ? (
         <>
             <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
             {tildeling.userId === authInfo.email && (
