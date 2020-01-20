@@ -461,7 +461,12 @@
                         { "fom": "2019-11-01", "tom": "2019-11-17", "dagsats": 293 }
                     ],
                     "godkjentAv": null,
-                    "utbetalingsreferanse": null
+                    "utbetalingsreferanse": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntekt": 304123,
+                        "avviksprosent": 2
+                    }
                 }
             ]
         }

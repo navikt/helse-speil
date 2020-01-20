@@ -162,6 +162,12 @@ export interface Utbetalingsdato {
     chronology: { id: string; calendarType: string };
 }
 
+export interface DataForVilkårsvurdering {
+    erEgenAnsatt: boolean;
+    beregnetÅrsinntekt: number;
+    avviksprosent: number;
+}
+
 export interface Sak {
     id: string;
     aktørId: string;
@@ -172,6 +178,7 @@ export interface Sak {
     utbetalingslinjer?: Utbetalingslinje[];
     organisasjonsnummer: string;
     utbetalingsreferanse?: string;
+    dataForVilkårsvurdering?: DataForVilkårsvurdering;
 }
 
 export interface Utbetalingsperiode {
@@ -198,11 +205,11 @@ interface Inngangsvilkår {
     alder: Optional<number>;
 }
 
-interface Sykepengegrunnlag {
+export interface Sykepengegrunnlag {
     dagsats?: number;
-    grunnlag: Optional<number>;
-    årsinntekt: Optional<number>;
-    månedsinntekt: Optional<number>;
+    avviksprosent?: number;
+    årsinntektFraAording?: number;
+    årsinntektFraInntektsmelding: Optional<number>;
 }
 
 interface Inntektskilder {

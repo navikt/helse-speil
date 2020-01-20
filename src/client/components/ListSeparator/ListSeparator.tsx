@@ -10,10 +10,11 @@ enum SeparatorType {
 
 interface Props {
     type?: SeparatorType;
+    className?: string;
 }
 
-const ListSeparator = ({ type = SeparatorType.Solid }: Props) => (
-    <hr className={classNames('ListSeparator', type)} />
+const ListSeparator = ({ className, type = SeparatorType.Solid }: Props) => (
+    <hr className={classNames('ListSeparator', className, type)} />
 );
 
 export default ListSeparator;

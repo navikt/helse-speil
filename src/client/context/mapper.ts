@@ -50,6 +50,8 @@ export default {
             inntektsmelding && +(parseFloat(inntektsmelding.beregnetInntekt) * 12).toFixed(2);
         const dagsats = enesteSak(person).utbetalingslinjer?.[0].dagsats;
         const utbetalingsdager = antallUtbetalingsdager(person) ?? 0;
+        const årsinntektFraAording = sak.dataForVilkårsvurdering?.beregnetÅrsinntekt;
+        const avviksprosent = sak.dataForVilkårsvurdering?.avviksprosent;
 
         return {
             ...person,
@@ -78,9 +80,9 @@ export default {
                 forskuttering: '(Ja)'
             },
             sykepengegrunnlag: {
-                månedsinntekt,
-                årsinntekt,
-                grunnlag: sykepengegrunnlag(person),
+                årsinntektFraAording,
+                årsinntektFraInntektsmelding: sykepengegrunnlag(person),
+                avviksprosent,
                 dagsats
             },
             oppsummering: {

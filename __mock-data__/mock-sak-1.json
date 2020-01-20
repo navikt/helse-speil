@@ -404,7 +404,7 @@
                                     "arkivreferanse": "",
                                     "arbeidsgiverFnr": null,
                                     "arbeidstakerFnr": "",
-                                    "beregnetInntekt": "666.33",
+                                    "beregnetInntekt": "24836.67",
                                     "arbeidsforholdId": null,
                                     "arbeidsgivertype": "VIRKSOMHET",
                                     "inntektsmeldingId": "",
@@ -571,7 +571,12 @@
                             "dagsats": 31
                         }
                     ],
-                    "organisasjonsnummer": "123456789"
+                    "organisasjonsnummer": "123456789",
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntekt": 304123,
+                        "avviksprosent": 2
+                    }
                 }
             ],
             "organisasjonsnummer": "123456789"

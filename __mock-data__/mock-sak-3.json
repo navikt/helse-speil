@@ -695,12 +695,14 @@
                     "maksdato": null,
                     "utbetalingslinjer": null,
                     "godkjentAv": null,
-                    "utbetalingsreferanse": null
+                    "utbetalingsreferanse": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntekt": 304123,
+                        "avviksprosent": 2
+                    }
                 }
-            ],
-            "inntektHistorie": {
-                "inntekter": []
-            }
+            ]
         }
     ]
 }
