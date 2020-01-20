@@ -100,7 +100,7 @@
         "reset-css": "^5.0.1",
         "snyk": "^1.274.0",
         "tunnel": "0.0.6",
-        "uuid": "^3.3.3",
+        "uuid": "^3.4.0",
         "winston": "^3.2.1"
     },
     "devDependencies": {
