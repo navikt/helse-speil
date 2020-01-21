@@ -3,6 +3,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import React from 'react';
 import ListSeparator from '../../components/ListSeparator';
 import { somPenger } from '../../utils/locale';
+import Kildelenke from '../../components/Kildelenke';
 
 interface Props {
     inntektskilde: string;
@@ -24,8 +25,14 @@ const Inntektssammenligning = ({
             <Normaltekst>Omregnet årsinntekt</Normaltekst>
             <Normaltekst>Rapportert årsinntekt</Normaltekst>
             <Normaltekst>{inntektskilde}</Normaltekst>
-            <Normaltekst>{somPenger(årsinntektInntektsmelding)}</Normaltekst>
-            <Normaltekst>{somPenger(årsinntektAordning)}</Normaltekst>
+            <div className="inntektssammenligning__flex">
+                <Normaltekst>{somPenger(årsinntektInntektsmelding)}</Normaltekst>
+                <Kildelenke label="IM" disabled />
+            </div>
+            <div className="inntektssammenligning__flex">
+                <Normaltekst>{somPenger(årsinntektAordning)}</Normaltekst>
+                <Kildelenke label="AO" disabled />
+            </div>
             <ListSeparator />
             <Element>Total</Element>
             <Element>{somPenger(årsinntektInntektsmelding)}</Element>
