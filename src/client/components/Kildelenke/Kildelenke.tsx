@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { ReactChild } from 'react';
 import classNames from 'classnames';
 import './Kildelenke.less';
 
+type WrapperProps = { children: ReactChild | ReactChild[] };
+
 interface Props {
     label: string;
-    disabled?: boolean;
+    link?: string;
 }
 
-const Kildelenke = ({ label, disabled = false }: Props) => {
-    return (
-        <a className={classNames('Kildelenke', disabled && 'disabled')} href="#">
+const Kildelenke = ({ label, link }: Props) => {
+    const content = (
+        <>
             {label.toUpperCase()}
-            {!disabled && (
+            {link && (
                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24">
                     <g
                         stroke="#0067c5"
@@ -25,7 +27,14 @@ const Kildelenke = ({ label, disabled = false }: Props) => {
                     </g>
                 </svg>
             )}
+        </>
+    );
+    return link ? (
+        <a className={classNames('Kildelenke')} href={link}>
+            {content}
         </a>
+    ) : (
+        <div className={classNames('Kildelenke', 'disabled')}>{content}</div>
     );
 };
 

@@ -27,11 +27,11 @@ const Inntektssammenligning = ({
             <Normaltekst>{inntektskilde}</Normaltekst>
             <div className="inntektssammenligning__flex">
                 <Normaltekst>{somPenger(årsinntektInntektsmelding)}</Normaltekst>
-                <Kildelenke label="IM" disabled />
+                <Kildelenke label="IM" />
             </div>
             <div className="inntektssammenligning__flex">
                 <Normaltekst>{somPenger(årsinntektAordning)}</Normaltekst>
-                <Kildelenke label="AO" disabled />
+                <Kildelenke label="AO" />
             </div>
             <ListSeparator />
             <Element>Total</Element>
