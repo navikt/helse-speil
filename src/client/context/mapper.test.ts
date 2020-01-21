@@ -15,7 +15,7 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
                 maksdato: '2020-09-11',
                 yrkesstatus: expect.anything()
             },
-            sykepengegrunnlag: 7995.96,
+            sykepengegrunnlag: 298040.04,
             søknadsfrist: {
                 sendtNav: '2019-10-15T00:00:00',
                 søknadTom: '2019-10-05',
@@ -23,19 +23,19 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
             }
         },
         inntektskilder: {
-            månedsinntekt: 666.33,
-            årsinntekt: 7995.96,
+            månedsinntekt: 24836.67,
+            årsinntekt: 298040.04,
             refusjon: '(Ja)',
             forskuttering: '(Ja)'
         },
         sykepengegrunnlag: {
-            månedsinntekt: 666.33,
-            årsinntekt: 7995.96,
-            grunnlag: 7995.96,
+            avviksprosent: 2,
+            årsinntektFraAording: 304123,
+            årsinntektFraInntektsmelding: 298040.04,
             dagsats: 31
         },
         oppsummering: {
-            sykepengegrunnlag: 7995.96,
+            sykepengegrunnlag: 298040.04,
             dagsats: 31,
             antallDager: 6,
             beløp: 31 * 6,
