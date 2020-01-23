@@ -2,7 +2,7 @@ import React from 'react';
 import TimelineRow from './TimelineRow';
 import { guid } from 'nav-frontend-js-utils';
 import { listOfDatesBetween } from '../../utils/date';
-import { Hendelsetype, Optional, Person, Utbetalingslinje } from '../../context/types';
+import { Hendelsetype, Optional, Sak, Utbetalingslinje } from '../../context/types';
 import 'nav-frontend-tabell-style';
 import './Timeline.less';
 
@@ -11,7 +11,7 @@ type DagsatsDict = { [key: string]: number };
 export type HendelsestypeUINavn = 'SM' | 'SØ' | 'IM';
 
 interface Props {
-    person: Person;
+    sak: Sak;
     showDagsats: boolean;
 }
 
@@ -30,10 +30,10 @@ const hendelseTypeTilUiNavn = (
     }
 };
 
-const buildDagsatserDictionary = (utbetalingslinjer: Utbetalingslinje[]): DagsatsDict => {
+const buildDagsatserDictionary = (utbetalingslinjer?: Utbetalingslinje[]): DagsatsDict => {
     const dagsatser: DagsatsDict = {};
     utbetalingslinjer
-        .flatMap(periode =>
+        ?.flatMap((periode: Utbetalingslinje) =>
             listOfDatesBetween(periode.fom, periode.tom).map(dag => ({
                 dag,
                 dagsats: periode.dagsats
@@ -47,16 +47,13 @@ const sumDagsatser = (dagsatser: DagsatsDict) => {
     return Object.values(dagsatser).reduce((sum, dagsats) => sum + dagsats, 0);
 };
 
-const Timeline = ({ person, showDagsats }: Props) => {
-    const {
-        sykdomstidslinje: tidslinje,
-        utbetalingslinjer = []
-    } = person.arbeidsgivere[0].saker[0];
-    const hendelser = tidslinje.hendelser;
+const Timeline = ({ sak, showDagsats }: Props) => {
+    const { sykdomstidslinje, utbetalingslinjer } = sak;
+    const hendelser = sykdomstidslinje.hendelser;
     const dagsatser = showDagsats ? buildDagsatserDictionary(utbetalingslinjer) : {};
     const dagsatserSummed = showDagsats && sumDagsatser(dagsatser);
 
-    const dager = tidslinje.dager.map(dag => ({
+    const dager = sykdomstidslinje.dager.map(dag => ({
         date: dag.dato,
         type: dag.type,
         hendelse: hendelseTypeTilUiNavn(hendelser.find(h => h.hendelseId === dag.hendelseId)?.type),

@@ -9,15 +9,15 @@ import { PersonContext } from '../context/PersonContext';
 import { useTranslation } from 'react-i18next';
 
 const Utbetalingsoversikt = () => {
-    const { personTilBehandling: person } = useContext(PersonContext);
+    const { enesteSak } = useContext(PersonContext);
     const { t } = useTranslation();
 
     return (
         <Panel className="Utbetalingsoversikt">
-            {person?.arbeidsgivere ? (
+            {enesteSak ? (
                 <>
                     <Subheader label={t('utbetalingsoversikt.dager')} iconType="ok" />
-                    <Timeline person={person} showDagsats={true} />
+                    <Timeline sak={enesteSak} showDagsats={true} />
                 </>
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
