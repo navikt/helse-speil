@@ -1,5 +1,5 @@
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import React, { useContext, useState } from 'react';
 import { fetchPerson, postAnnullering, postVedtak } from '../../io/http';
@@ -15,6 +15,7 @@ import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import { Optional } from '../../context/types';
 import { Behov } from '../../../types';
 import { useTranslation } from 'react-i18next';
+import { RequestError } from 'request-promise-native/errors';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
@@ -59,7 +60,10 @@ const Utbetaling = () => {
             })
             .catch((err: Error) => {
                 console.error({ err });
-                setError({ message: 'Feil under fatting av vedtak' });
+                setError({
+                    message: `Feil under fatting av vedtak. Kontakt en utvikler. (statuskode: ${err.statusCode ??
+                        'ukjent'}`
+                });
             })
             .finally(() => {
                 setIsSending(false);
@@ -83,13 +87,14 @@ const Utbetaling = () => {
                 setTilstand(Tilstand.Annullert);
                 setError(undefined);
             })
-            .catch(err => {
+            .catch((err: Error) => {
                 console.error({ err });
                 setError({
                     message:
-                        err.status === 409
+                        err.statusCode === 409
                             ? 'Denne saken er allerede sendt til annullering.'
-                            : 'Kunne ikke sende annullering. Prøv igjen senere.'
+                            : `Feil under annullering av utbetaling. Kontakt en utvikler. (statuskode: ${err.statusCode ??
+                                  'ukjent'}`
                 });
             })
             .finally(() => {
@@ -124,9 +129,7 @@ const Utbetaling = () => {
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
                 ) : (
                     <div className="knapperad">
-                        <div className="knapp--utbetaling">
-                            <button onClick={() => setModalOpen(true)}>Utbetal</button>
-                        </div>
+                        <Hovedknapp onClick={() => setModalOpen(true)}>Utbetal</Hovedknapp>
                         <Knapp onClick={() => fattVedtak(false)} spinner={isSending && !modalOpen}>
                             Behandle i Infotrygd
                         </Knapp>

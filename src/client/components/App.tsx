@@ -14,6 +14,8 @@ import { PersonContext, PersonProvider } from '../context/PersonContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
 import './App.less';
 import 'reset-css';
+import ProtectedRoute from './ProtectedRoute';
+import IkkeLoggetInn from './IkkeLoggetInn';
 
 const Infotrygd = React.lazy(() => import('./Infotrygd'));
 
@@ -34,8 +36,9 @@ const App = withContextProviders(() => {
         <BrowserRouter>
             <HeaderBar />
             <Switch>
-                <Route path={'/'} exact component={Oversikt} />
-                <Route component={Saksbilde} />
+                <Route path={'/uautorisert'} component={IkkeLoggetInn} />
+                <ProtectedRoute path={'/'} exact component={Oversikt} />
+                <ProtectedRoute component={Saksbilde} />
             </Switch>
         </BrowserRouter>
     );
