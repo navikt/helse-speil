@@ -29,13 +29,13 @@ jobs:
         run: npm run build
       - name: build server
         run: npm run build-server
-      - name: run e2e-test
-        run: npm run e2e-test
-      - name: Archive Cypress artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: videos
-          path: e2e-tests/cypress/videos
+      # - name: run e2e-test
+      #  run: npm run e2e-test
+      # - name: Archive Cypress artifacts
+      #  uses: actions/upload-artifact@v1
+      #  with:
+      #    name: videos
+      #    path: e2e-tests/cypress/videos
       - name: create docker tag
         env:
           DOCKER_IMAGE: docker.pkg.github.com/navikt/helse-speil/speil
