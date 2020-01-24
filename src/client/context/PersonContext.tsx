@@ -68,13 +68,13 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             })
             .catch(err => {
                 if (!err.statusCode) console.error(err);
-                const message =
-                    err.statusCode === 401
-                        ? 'Du må logge inn på nytt'
-                        : err.statusCode === 404
-                        ? `Fant ikke data for ${value}`
-                        : 'Kunne ikke utføre søket. Prøv igjen senere.';
-                setError({ ...err, message });
+                if (err.statusCode !== 401) {
+                    const message =
+                        err.statusCode === 404
+                            ? `Fant ikke data for ${value}`
+                            : 'Kunne ikke utføre søket. Prøv igjen senere.';
+                    setError({ ...err, message });
+                }
                 return Promise.reject();
             });
     };

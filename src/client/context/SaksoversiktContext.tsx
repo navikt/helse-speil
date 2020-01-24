@@ -67,15 +67,14 @@ export const SaksoversiktProvider = ({ children }: ProviderProps) => {
         return fetchSaksoversikt()
             .then(response => response.data.behov)
             .catch(err => {
-                setError({
-                    ...err,
-                    message:
-                        err.statusCode === 401
-                            ? 'Du må logge inn på nytt'
-                            : err.statusCode === 404
+                if (!err.statusCode) console.error(err);
+                if (err.statusCode !== 401) {
+                    const message =
+                        err.statusCode === 404
                             ? 'Fant ingen behandlinger mellom i går og i dag.'
-                            : 'Kunne ikke hente behandlinger. Prøv igjen senere.'
-                });
+                            : 'Kunne ikke hente behandlinger. Prøv igjen senere.';
+                    setError({ ...err, message });
+                }
                 return [];
             })
             .finally(() => setIsFetchingSaksoversikt(false));

@@ -68,7 +68,3 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
         </SimuleringContext.Provider>
     );
 };
-
-SimuleringProvider.propTypes = {
-    children: PropTypes.node.isRequired
-};
