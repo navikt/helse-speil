@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import Search from '../Search';
 import { AuthContext } from '../../context/AuthContext';
 import './HeaderBar.less';
-import { Link } from 'react-router-dom';
 
 const HeaderBar = () => {
     const { authInfo } = useContext(AuthContext);
@@ -12,9 +11,9 @@ const HeaderBar = () => {
 
     return (
         <header className="HeaderBar">
-            <Link to={'/'} className="title">
+            <a href={'/'} className="title">
                 <h1>NAV Sykepenger</h1>
-            </Link>
+            </a>
             <div className="divider" />
             <div className="search">
                 <div>
