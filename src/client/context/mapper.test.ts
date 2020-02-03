@@ -1,7 +1,7 @@
 // @ts-nocheck
-import behov from '../../../__mock-data__/mock-sak-1.json';
+import behov from '../../../__mock-data__/mock-person_til-godkjenning.json';
 import personMapper, { beregnAlder, enesteSak, filtrerPaddedeArbeidsdager } from './mapper';
-import { Dagtype, Sak, UnmappedPerson } from './types';
+import { Dagtype, Vedtaksperiode, UnmappedPerson } from './types';
 
 test('mapper data riktig for inngangsvilkårssiden', () => {
     const expectedPerson = {
@@ -92,7 +92,7 @@ test('filtrerer vekk paddede arbeidsdager', () => {
         ]
     };
 
-    const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(
+    const sakUtenPaddedeArbeidsdager: Vedtaksperiode = filtrerPaddedeArbeidsdager(
         enesteSak(personMedPaddedeArbeidsdager)
     );
     const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[0];
@@ -102,8 +102,10 @@ test('filtrerer vekk paddede arbeidsdager', () => {
 
 test('fjerner ingen dager dersom første dag ikke er ARBEIDSDAG eller IMPLISITT_DAG', () => {
     const unmappedPerson: UnmappedPerson = { ...behov };
-    const opprinneligSak: Sak = enesteSak(unmappedPerson);
-    const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(enesteSak(unmappedPerson));
+    const opprinneligSak: Vedtaksperiode = enesteSak(unmappedPerson);
+    const sakUtenPaddedeArbeidsdager: Vedtaksperiode = filtrerPaddedeArbeidsdager(
+        enesteSak(unmappedPerson)
+    );
 
     opprinneligSak.sykdomstidslinje.dager.forEach((dag, i) => {
         const ikkePaddetDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[i];

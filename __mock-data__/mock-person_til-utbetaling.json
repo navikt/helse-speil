@@ -1,0 +1,705 @@
+{
+    "aktørId": "12345",
+    "fødselsnummer": "12020052345",
+    "hendelser": [
+        {
+            "type": "NySøknad",
+            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+            "fnr": "12020052345",
+            "aktørId": "12345",
+            "orgnummer": "987654321",
+            "rapportertdato": "2020-02-03T13:26:01.609472",
+            "sykeperioder": [
+                {
+                    "fom": "2018-01-01",
+                    "tom": "2018-01-31",
+                    "sykdomsgrad": 100
+                }
+            ]
+        },
+        {
+            "type": "SendtSøknad",
+            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+            "fnr": "12020052345",
+            "aktørId": "12345",
+            "orgnummer": "987654321",
+            "rapportertdato": "2020-02-03T13:26:01.635814",
+            "perioder": [
+                {
+                    "fom": "2018-01-01",
+                    "tom": "2018-01-31",
+                    "type": "Sykdom",
+                    "grad": 100,
+                    "faktiskGrad": 100.0
+                }
+            ]
+        },
+        {
+            "type": "Inntektsmelding",
+            "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+            "refusjon": {
+                "opphørsdato": "2018-07-01",
+                "beløpPrMåned": 1000.0,
+                "endringerIRefusjon": []
+            },
+            "orgnummer": "987654321",
+            "fødselsnummer": "12020052345",
+            "aktørId": "12345",
+            "mottattDato": "2018-02-01T00:00:00",
+            "førsteFraværsdag": "2018-01-01",
+            "beregnetInntekt": 1000.0,
+            "arbeidsgiverperioder": [
+                {
+                    "fom": "2018-01-01",
+                    "tom": "2018-01-16"
+                }
+            ],
+            "ferieperioder": []
+        },
+        {
+            "type": "Vilkårsgrunnlag",
+            "hendelseId": "d27a1199-1c6d-41fb-b5d2-d8fba592abf4",
+            "vedtaksperiodeId": "b9bcf8e5-074b-438f-b835-4f965b5f3529",
+            "orgnummer": "987654321",
+            "rapportertDato": "2020-02-03T13:26:01.686372",
+            "inntektsmåneder": [
+                {
+                    "årMåned": "2018-01",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-02",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-03",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-04",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-05",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-06",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-07",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-08",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-09",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-10",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-11",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                },
+                {
+                    "årMåned": "2018-12",
+                    "inntektsliste": [
+                        {
+                            "beløp": 1000.0
+                        }
+                    ]
+                }
+            ],
+            "erEgenAnsatt": false
+        },
+        {
+            "type": "ManuellSaksbehandling",
+            "hendelseId": "dd581e9d-9471-401c-9b14-ae973e3ff7c4",
+            "organisasjonsnummer": "987654321",
+            "vedtaksperiodeId": "b9bcf8e5-074b-438f-b835-4f965b5f3529",
+            "saksbehandler": "en_saksbehandler_ident",
+            "utbetalingGodkjent": true,
+            "rapportertdato": "2020-02-03T13:26:01.709072"
+        }
+    ],
+    "arbeidsgivere": [
+        {
+            "organisasjonsnummer": "987654321",
+            "id": "7745c743-53b0-4ff7-948c-1659d6d7f4ba",
+            "vedtaksperioder": [
+                {
+                    "id": "b9bcf8e5-074b-438f-b835-4f965b5f3529",
+                    "maksdato": "2018-12-28",
+                    "godkjentAv": "en_saksbehandler_ident",
+                    "utbetalingsreferanse": "XG6PRZIHJNBY7OBVJ6LFWXZVFE",
+                    "førsteFraværsdag": "2018-01-01",
+                    "inntektFraInntektsmelding": 1000.0,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 12000.0,
+                        "avviksprosent": 0.0
+                    },
+                    "tilstand": "TIL_UTBETALING",
+                    "sykdomstidslinje": [
+                        {
+                            "dagen": "2018-01-01",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-01",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-01",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-02",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-02",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-02",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-03",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-03",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-03",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-04",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-04",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-04",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-05",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-05",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-05",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-06",
+                            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                            "type": "SYK_HELGEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-06",
+                                    "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                                    "type": "SYK_HELGEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-06",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-07",
+                            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                            "type": "SYK_HELGEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-07",
+                                    "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                                    "type": "SYK_HELGEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-07",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-08",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-08",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-08",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-09",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-09",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-09",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-10",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-10",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-10",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-11",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-11",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-11",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-12",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-12",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-12",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-13",
+                            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                            "type": "SYK_HELGEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-13",
+                                    "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                                    "type": "SYK_HELGEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-13",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-14",
+                            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                            "type": "SYK_HELGEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-14",
+                                    "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                                    "type": "SYK_HELGEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-14",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-15",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-15",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-15",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-16",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-16",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                },
+                                {
+                                    "dagen": "2018-01-16",
+                                    "hendelseId": "14e41300-5c28-42a4-9c3b-ed5c99b6aeae",
+                                    "type": "EGENMELDINGSDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-17",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-17",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-18",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-18",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-19",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-19",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-20",
+                            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                            "type": "SYK_HELGEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-20",
+                                    "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                                    "type": "SYK_HELGEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-21",
+                            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                            "type": "SYK_HELGEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-21",
+                                    "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                                    "type": "SYK_HELGEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-22",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-22",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-23",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-23",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-24",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-24",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-25",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-25",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-26",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-26",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-27",
+                            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                            "type": "SYK_HELGEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-27",
+                                    "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                                    "type": "SYK_HELGEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-28",
+                            "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                            "type": "SYK_HELGEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-28",
+                                    "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                                    "type": "SYK_HELGEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-29",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-29",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-30",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-30",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        },
+                        {
+                            "dagen": "2018-01-31",
+                            "hendelseId": "8e7ddd11-f598-4ee4-83d5-1cf8dd80f177",
+                            "type": "SYKEDAG",
+                            "erstatter": [
+                                {
+                                    "dagen": "2018-01-31",
+                                    "hendelseId": "f3f62ac4-229c-494f-898c-efc9f0fa610c",
+                                    "type": "SYKEDAG",
+                                    "erstatter": []
+                                }
+                            ]
+                        }
+                    ],
+                    "utbetalingslinjer": [
+                        {
+                            "fom": "2018-01-17",
+                            "tom": "2018-01-31",
+                            "dagsats": 1000
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

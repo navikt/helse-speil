@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import personMapper, { enesteSak } from './mapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Optional, Person, Sak } from './types';
+import { Optional, Person, Vedtaksperiode } from './types';
 
 interface PersonContextType {
     personTilBehandling: Optional<Person>;
     hentPerson: (id: string) => Promise<Optional<Person>>;
     innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
-    enesteSak?: Sak;
+    enesteSak?: Vedtaksperiode;
 }
 
 interface PersonContextError {

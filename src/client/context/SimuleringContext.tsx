@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, Sak, Utbetalingsdato, Utbetalingsperiode } from './types';
+import { ProviderProps, Vedtaksperiode, Utbetalingsdato, Utbetalingsperiode } from './types';
 
 interface Simulering {
     status: string;
@@ -43,7 +43,7 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
         }
     }, [personTilBehandling]);
 
-    const hentSimulering = async (sak: Sak) => {
+    const hentSimulering = async (sak: Vedtaksperiode) => {
         return await postSimulering(sak, authInfo.ident)
             .then(response => {
                 setSimulering(response.data);

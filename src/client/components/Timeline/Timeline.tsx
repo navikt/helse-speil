@@ -2,7 +2,7 @@ import React from 'react';
 import TimelineRow from './TimelineRow';
 import { guid } from 'nav-frontend-js-utils';
 import { listOfDatesBetween } from '../../utils/date';
-import { Hendelsetype, Optional, Sak, Utbetalingslinje } from '../../context/types';
+import { Hendelsetype, Optional, Vedtaksperiode, Utbetalingslinje } from '../../context/types';
 import 'nav-frontend-tabell-style';
 import './Timeline.less';
 
@@ -11,7 +11,7 @@ type DagsatsDict = { [key: string]: number };
 export type HendelsestypeUINavn = 'SM' | 'SØ' | 'IM';
 
 interface Props {
-    sak: Sak;
+    sak: Vedtaksperiode;
     showDagsats: boolean;
 }
 
