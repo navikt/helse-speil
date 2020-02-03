@@ -209,7 +209,7 @@ interface Oppsummering {
     antallDager: number;
     beløp: number;
     dagsats?: number;
-    mottaker: Optional<ArbeidsgiverISøknad>;
+    mottakerOrgnr: Optional<string>;
     sykepengegrunnlag: Optional<number>;
     utbetalingsreferanse: Optional<string>;
     vedtaksperiodeId: string;

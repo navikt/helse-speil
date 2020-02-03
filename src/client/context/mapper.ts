@@ -117,8 +117,7 @@ const sykepengegrunnlag = (person: UnmappedPerson): Optional<number> => {
     return beregnetMånedsinntekt ? +(parseFloat(beregnetMånedsinntekt) * 12).toFixed(2) : undefined;
 };
 
-const søknadsfrist = undefined;
-/* (person: UnmappedPerson) => { // TODO: Mangler disse feltene fra Spleis.
+const søknadsfrist = (person: UnmappedPerson) => {
     const sendtNav = finnSøknad(person)?.sendtNav;
     const søknadTom = finnSøknad(person)?.tom;
     const innen3Mnd =
@@ -133,7 +132,7 @@ const søknadsfrist = undefined;
         søknadTom,
         innen3Mnd
     };
-}; */
+};
 
 const antallUtbetalingsdager = (person: UnmappedPerson) =>
     enesteSak(person).utbetalingslinjer?.reduce((acc, linje) => {

@@ -10,7 +10,6 @@ import {
     Optional,
     Person,
     Vedtaksperiode,
-    Søknad,
     UnmappedPerson,
     Hendelse,
     SendtSøknad
@@ -25,27 +24,13 @@ interface HendelseType {
     type: 'SendtSøknad' | 'Inntektsmelding' | 'NySøknad';
 }
 
-const hendelsestyper: { [key: string]: HendelseType } = {
-    INNTEKTSMELDING: {
-        type: 'Inntektsmelding'
-    },
-    SYKEPENGESØKNAD: {
-        type: 'SendtSøknad'
-    },
-    SYKMELDING: {
-        type: 'NySøknad'
-    }
-};
-
 export default {
     map: (person: UnmappedPerson, personinfo: Personinfo): Person => {
         const sak = filtrerPaddedeArbeidsdager(enesteVedtaksperiode(person));
 
         const inntektsmelding = finnInntektsmelding(person);
-        const månedsinntekt =
-            inntektsmelding && +parseFloat(inntektsmelding?.beregnetInntekt).toFixed(2);
-        const årsinntekt =
-            inntektsmelding && +(parseFloat(inntektsmelding.beregnetInntekt) * 12).toFixed(2);
+        const månedsinntekt = inntektsmelding && +(inntektsmelding?.beregnetInntekt).toFixed(2);
+        const årsinntekt = inntektsmelding && (inntektsmelding.beregnetInntekt * 12).toFixed(2);
         const dagsats = enesteVedtaksperiode(person).utbetalingslinjer?.[0].dagsats;
         const utbetalingsdager = antallUtbetalingsdager(person) ?? 0;
         const årsinntektFraAording = sak.dataForVilkårsvurdering?.beregnetÅrsinntekt;
@@ -64,7 +49,7 @@ export default {
                 alder: beregnAlder(finnSendtSøknad(person)?.sendtNav, personinfo?.fødselsdato),
                 dagerIgjen: {
                     dagerBrukt: utbetalingsdager,
-                    førsteFraværsdag: inntektsmelding?.foersteFravaersdag ?? '-',
+                    førsteFraværsdag: inntektsmelding?.førsteFraværsdag ?? '-',
                     førsteSykepengedag: finnFørsteSykepengedag(person),
                     maksdato: sak.maksdato,
                     tidligerePerioder: [],
@@ -90,7 +75,7 @@ export default {
                 dagsats,
                 antallDager: utbetalingsdager,
                 beløp: dagsats !== undefined ? dagsats * utbetalingsdager : 0,
-                mottaker: enesteArbeidsgiver(person),
+                mottakerOrgnr: orgnummerISøknad(person),
                 utbetalingsreferanse: utbetalingsreferanse(person),
                 vedtaksperiodeId: enesteVedtaksperiode(person).id
             }
@@ -117,9 +102,10 @@ const sykepengegrunnlag = (person: UnmappedPerson): Optional<number> => {
     return beregnetMånedsinntekt ? +(beregnetMånedsinntekt * 12).toFixed(2) : undefined;
 };
 
-const søknadsfrist = (person: UnmappedPerson) => {
-    const sendtNav = finnSendtSøknad(person)?.sendtNav;
-    const søknadTom = finnSendtSøknad(person)?.tom;
+const søknadsfrist = undefined;
+/* (person: UnmappedPerson) => { // TODO: Mangler disse feltene fra Spleis.
+    const sendtNav = finnSøknad(person)?.sendtNav;
+    const søknadTom = finnSøknad(person)?.tom;
     const innen3Mnd =
         (sendtNav &&
             dayjs(søknadTom)
@@ -132,7 +118,7 @@ const søknadsfrist = (person: UnmappedPerson) => {
         søknadTom,
         innen3Mnd
     };
-};
+}; */
 
 const antallUtbetalingsdager = (person: UnmappedPerson) =>
     enesteVedtaksperiode(person).utbetalingslinjer?.reduce((acc, linje) => {
@@ -140,10 +126,7 @@ const antallUtbetalingsdager = (person: UnmappedPerson) =>
         return acc;
     }, 0);
 
-const enesteArbeidsgiver = (person: UnmappedPerson) =>
-    person.arbeidsgivere.find(
-        arb => finnSendtSøknad(person)?.orgnummer === arb.organisasjonsnummer
-    );
+const orgnummerISøknad = (person: UnmappedPerson) => finnSendtSøknad(person)?.orgnummer;
 
 const finnInntektsmelding = (person: UnmappedPerson): Optional<Inntektsmelding> =>
     findHendelse(person, hendelsestyper.INNTEKTSMELDING) as Inntektsmelding;
