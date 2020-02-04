@@ -15,7 +15,6 @@ import {
     SendtSøknad
 } from './types';
 import { Personinfo } from '../../types';
-import { createLogger } from 'winston';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);

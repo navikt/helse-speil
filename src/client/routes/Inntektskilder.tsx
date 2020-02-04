@@ -27,7 +27,6 @@ const Inntektskilder = () => {
                     </ListItem>
                 </SubheaderWithList>
             )}
-            <Subheader label={t('inntektskilder.aordningen')} iconType="advarsel" />
             <Row label={t('inntektskilder.refusjon')}>{inntektskilder.refusjon}</Row>
             <Row label={t('inntektskilder.arbeidsgiverperiode')}>
                 {inntektskilder.forskuttering}

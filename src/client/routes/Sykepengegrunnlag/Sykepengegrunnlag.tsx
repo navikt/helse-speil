@@ -26,18 +26,22 @@ const Sykepengegrunnlag = () => {
                         årsinntektInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding!}
                     />
                     <ListSeparator />
-                    {sykepengegrunnlag.avviksprosent && sykepengegrunnlag.årsinntektFraAording && (
-                        <>
-                            <Avvikssammenligning
-                                avvik={sykepengegrunnlag.avviksprosent}
-                                totalOmregnetÅrsinntekt={
-                                    sykepengegrunnlag.årsinntektFraInntektsmelding!
-                                }
-                                totalRapportertÅrsinntekt={sykepengegrunnlag.årsinntektFraAording}
-                            />
-                            <ListSeparator />
-                        </>
-                    )}
+                    {sykepengegrunnlag.avviksprosent
+                        ? sykepengegrunnlag.årsinntektFraAording && (
+                              <>
+                                  <Avvikssammenligning
+                                      avvik={sykepengegrunnlag.avviksprosent}
+                                      totalOmregnetÅrsinntekt={
+                                          sykepengegrunnlag.årsinntektFraInntektsmelding!
+                                      }
+                                      totalRapportertÅrsinntekt={
+                                          sykepengegrunnlag.årsinntektFraAording
+                                      }
+                                  />
+                                  <ListSeparator />
+                              </>
+                          )
+                        : null}
                     <div className="Sykepengegrunnlag__oppsummering">
                         <Element>Sykepengegrunnlag</Element>
                         <Element>
