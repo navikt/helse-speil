@@ -1,15 +1,15 @@
 import React, { createContext, useState, useEffect, ReactChild } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import personMapper, { enesteSak } from './mapper';
+import personMapper, { enesteVedtaksperiode } from './mapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Optional, Person, Sak } from './types';
+import { Optional, Person, Vedtaksperiode } from './types';
 
 interface PersonContextType {
     personTilBehandling: Optional<Person>;
     hentPerson: (id: string) => Promise<Optional<Person>>;
     innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
-    enesteSak?: Sak;
+    enesteVedtaksperiode?: Vedtaksperiode;
 }
 
 interface PersonContextError {
@@ -33,11 +33,11 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
     const [sak, setSak] = useState(
-        personTilBehandling ? enesteSak(personTilBehandling) : undefined
+        personTilBehandling ? enesteVedtaksperiode(personTilBehandling) : undefined
     );
 
     useEffect(() => {
-        personTilBehandling && setSak(enesteSak(personTilBehandling));
+        personTilBehandling && setSak(enesteVedtaksperiode(personTilBehandling));
     }, [personTilBehandling]);
 
     useEffect(() => {
@@ -85,7 +85,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                 personTilBehandling,
                 hentPerson,
                 innsyn,
-                enesteSak: sak
+                enesteVedtaksperiode: sak
             }}
         >
             {children}

@@ -1,4 +1,4 @@
-import { Optional, Sak, Tildeling } from '../context/types';
+import { Optional, Vedtaksperiode, Tildeling } from '../context/types';
 import { Options } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
@@ -120,7 +120,7 @@ export const postVedtak = async (
     return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, vedtaksperiodeId });
 };
 
-export const postSimulering = async (sak: Sak, saksbehandlerIdent?: string) => {
+export const postSimulering = async (sak: Vedtaksperiode, saksbehandlerIdent?: string) => {
     return post(`${baseUrl}/payments/simulate`, { sak, saksbehandlerIdent });
 };
 

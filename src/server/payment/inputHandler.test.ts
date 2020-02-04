@@ -32,7 +32,7 @@ test('sak with missing required field in sub-level is not ok', () => {
 });
 
 const validSak = {
-    sakskompleksId: '9485bde4-6541-4dcf-aa53-8b466fc4ac87',
+    vedtaksperiodeId: '9485bde4-6541-4dcf-aa53-8b466fc4ac87',
     aktørId: '0123456789012',
     organisasjonsnummer: '123456789',
     utbetalingslinjer: [

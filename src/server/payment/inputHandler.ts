@@ -8,7 +8,7 @@ interface Utbetalingsbody extends Body {
 const map = (body: Utbetalingsbody) => {
     const { sak, saksbehandlerIdent } = body;
     return {
-        sakskompleksId: sak.id,
+        vedtaksperiodeId: sak.id,
         aktørId: sak.aktørId,
         organisasjonsnummer: sak.organisasjonsnummer,
         maksdato: sak.maksdato,
@@ -39,7 +39,7 @@ const fieldIsValid = (field: any, validType: string) =>
 
 const isValid = (sak: Utbetalingsvedtak): sak is Utbetalingsvedtak => {
     return (
-        fieldIsValid(sak.sakskompleksId, 'string') &&
+        fieldIsValid(sak.vedtaksperiodeId, 'string') &&
         fieldIsValid(sak.organisasjonsnummer, 'string') &&
         fieldIsValid(sak.maksdato, 'string') &&
         fieldIsValid(sak.aktørId, 'string') &&

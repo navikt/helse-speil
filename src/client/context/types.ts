@@ -23,49 +23,42 @@ export interface Periode {
     tom: string;
 }
 
+export interface Sykeperiode extends Periode {
+    sykdomsgrad: number;
+}
+
 interface Fravær extends Periode {
     type: string;
 }
 
 interface Søknadsperiode extends Periode {
-    avtaltTimer: Optional<string | number>; // TODO: Finn ut av hvordan denne ser ut.
-    faktiskGrad: Optional<string | number>; // TODO: Finn ut av hvordan denne ser ut.
-    faktiskTimer: Optional<string | number>; // TODO: Finn ut av hvordan denne ser ut.
-    sykmeldingsgrad: number;
-    sykmeldingstype: Optional<string>; // TODO: Finn ut av hvordan denne ser ut.
+    faktiskGrad: number;
+    grad: number;
+    type: string;
 }
 
 interface Refusjon {
-    beloepPrMnd: Optional<number | string>;
-    opphoersdato: Optional<string>;
+    beløpPrMåned: Optional<number | string>;
+    opphørsdato: Optional<string>;
+    endringerIRefusjon?: string[];
 }
 
-export interface Inntektsmelding {
-    status: string;
+export interface Inntektsmelding extends Hendelse {
     refusjon: Refusjon;
     mottattDato: string;
     ferieperioder: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
-    arkivreferanse: string;
-    arbeidsgiverFnr: Optional<string>;
-    arbeidstakerFnr: string;
-    beregnetInntekt: string;
-    arbeidsforholdId: Optional<string>;
-    arbeidsgivertype: string;
-    inntektsmeldingId: string;
-    virksomhetsnummer: string;
-    endringIRefusjoner: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
-    foersteFravaersdag: string;
-    arbeidsgiverAktorId: Optional<string>;
-    arbeidstakerAktorId: string;
+    fødselsnummer: string;
+    aktørId: string;
+    beregnetInntekt: number;
+    orgnummer: string;
+    førsteFraværsdag: string;
     arbeidsgiverperioder: Periode[];
-    opphoerAvNaturalytelser: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
-    gjenopptakelseNaturalytelser: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
 }
 
 interface Arbeidsgiver {
     id: string;
     organisasjonsnummer: string;
-    saker: Sak[];
+    vedtaksperioder: Vedtaksperiode[];
 }
 
 interface ArbeidsgiverISøknad {
@@ -73,37 +66,32 @@ interface ArbeidsgiverISøknad {
     navn: Optional<string>;
 }
 
-export interface Søknad extends Periode {
-    id: string;
-    type: string;
-    fravar: Fravær[];
-    status: string;
-    aktorId: string;
-    mottaker: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
+export interface Søknad extends Hendelse {
+    fnr: string;
+    aktørId: string;
+    orgnummer: string;
+    rapportertdato: string;
+    sykeperioder: Sykeperiode[];
+}
+
+export interface SendtSøknad extends Søknad {
+    fnr: string;
+    aktørId: string;
+    orgnummer: string;
     sendtNav: string;
-    sporsmal: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
-    opprettet: string;
-    korrigerer: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
-    korrigertAv: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
-    arbeidsgiver: ArbeidsgiverISøknad;
-    avsendertype: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
-    ettersending: boolean;
-    sykmeldingId: string;
-    egenmeldinger: Periode[];
-    soknadsperioder: Søknadsperiode[];
-    arbeidssituasjon: string;
-    arbeidGjenopptatt: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
-    papirsykmeldinger: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
-    sendtArbeidsgiver: string;
-    startSyketilfelle: string;
-    sykmeldingSkrevet: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
-    andreInntektskilder: Optional<any>; // TODO: Finn ut av hvordan denne ser ut.
-    soktUtenlandsopphold: Optional<boolean>; // TODO: Finn ut av hvordan denne ser ut.
-    arbeidsgiverForskutterer: string;
+    perioder: Søknadsperiode[];
+    tom: string;
+}
+
+export interface NySøknad extends Søknad {
+    fnr: string;
+    aktørId: string;
+    orgnummer: string;
+    rapportertdato: string;
 }
 
 export interface Dag {
-    dato: string;
+    dagen: string;
     type: string;
     erstatter: Dag[];
     hendelseId: string;
@@ -112,13 +100,6 @@ export interface Dag {
 export interface Hendelse {
     type: string;
     hendelseId: string;
-    inntektsmelding?: Inntektsmelding;
-    søknad?: Søknad;
-}
-
-interface Sykdomstidslinje {
-    dager: Dag[];
-    hendelser: Hendelse[];
 }
 
 export interface Utbetalingslinje extends Periode {
@@ -164,21 +145,23 @@ export interface Utbetalingsdato {
 
 export interface DataForVilkårsvurdering {
     erEgenAnsatt: boolean;
-    beregnetÅrsinntekt: number;
+    beregnetÅrsinntektFraInntektskomponenten: number;
     avviksprosent: number;
 }
 
-export interface Sak {
+export interface Vedtaksperiode {
     id: string;
     aktørId: string;
     maksdato: string;
-    godkjentAv: Optional<string>;
-    tilstandType: string;
-    sykdomstidslinje: Sykdomstidslinje;
+    godkjentAv?: string;
+    tilstand: string;
+    sykdomstidslinje: Dag[];
     utbetalingslinjer?: Utbetalingslinje[];
     organisasjonsnummer: string;
     utbetalingsreferanse?: string;
     dataForVilkårsvurdering?: DataForVilkårsvurdering;
+    førsteFraværsdag: string;
+    inntektFraInntektsmelding: number;
 }
 
 export interface Utbetalingsperiode {
@@ -194,12 +177,11 @@ interface Inngangsvilkår {
         førsteSykepengedag: Optional<string>;
         maksdato: string;
         tidligerePerioder: Periode[];
-        yrkesstatus: Optional<string>;
     };
     søknadsfrist: {
         innen3Mnd: boolean;
-        søknadTom: Optional<string>;
-        sendtNav: Optional<string>;
+        søknadTom: string;
+        sendtNav: string;
     };
     sykepengegrunnlag: Optional<number>;
     alder: Optional<number>;
@@ -223,7 +205,7 @@ interface Oppsummering {
     antallDager: number;
     beløp: number;
     dagsats?: number;
-    mottaker: Optional<ArbeidsgiverISøknad>;
+    mottakerOrgnr: Optional<string>;
     sykepengegrunnlag: Optional<number>;
     utbetalingsreferanse: Optional<string>;
     vedtaksperiodeId: string;
@@ -233,6 +215,7 @@ export interface UnmappedPerson {
     aktørId: string;
     arbeidsgivere: Arbeidsgiver[];
     skjemaVersjon: number;
+    hendelser: Hendelse[];
 }
 
 export interface Person extends UnmappedPerson {

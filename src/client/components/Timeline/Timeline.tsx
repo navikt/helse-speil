@@ -1,17 +1,18 @@
 import React from 'react';
 import TimelineRow from './TimelineRow';
 import { guid } from 'nav-frontend-js-utils';
-import { listOfDatesBetween } from '../../utils/date';
-import { Hendelsetype, Optional, Sak, Utbetalingslinje } from '../../context/types';
+import { listOfDatesBetween, listOfWorkdaysBetween } from '../../utils/date';
+import { Hendelsetype, Optional, Utbetalingslinje, Person } from '../../context/types';
 import 'nav-frontend-tabell-style';
 import './Timeline.less';
+import { enesteVedtaksperiode } from '../../context/mapper';
 
 type DagsatsDict = { [key: string]: number };
 
 export type HendelsestypeUINavn = 'SM' | 'SØ' | 'IM';
 
 interface Props {
-    sak: Sak;
+    person: Person;
     showDagsats: boolean;
 }
 
@@ -34,7 +35,7 @@ const buildDagsatserDictionary = (utbetalingslinjer?: Utbetalingslinje[]): Dagsa
     const dagsatser: DagsatsDict = {};
     utbetalingslinjer
         ?.flatMap((periode: Utbetalingslinje) =>
-            listOfDatesBetween(periode.fom, periode.tom).map(dag => ({
+            listOfWorkdaysBetween(periode.fom, periode.tom).map(dag => ({
                 dag,
                 dagsats: periode.dagsats
             }))
@@ -47,17 +48,17 @@ const sumDagsatser = (dagsatser: DagsatsDict) => {
     return Object.values(dagsatser).reduce((sum, dagsats) => sum + dagsats, 0);
 };
 
-const Timeline = ({ sak, showDagsats }: Props) => {
-    const { sykdomstidslinje, utbetalingslinjer } = sak;
-    const hendelser = sykdomstidslinje.hendelser;
+const Timeline = ({ person, showDagsats }: Props) => {
+    const { sykdomstidslinje, utbetalingslinjer } = enesteVedtaksperiode(person);
+    const hendelser = person.hendelser;
     const dagsatser = showDagsats ? buildDagsatserDictionary(utbetalingslinjer) : {};
     const dagsatserSummed = showDagsats && sumDagsatser(dagsatser);
 
-    const dager = sykdomstidslinje.dager.map(dag => ({
-        date: dag.dato,
+    const dager = sykdomstidslinje.map(dag => ({
+        date: dag.dagen,
         type: dag.type,
         hendelse: hendelseTypeTilUiNavn(hendelser.find(h => h.hendelseId === dag.hendelseId)?.type),
-        dagsats: dagsatser?.[dag.dato]
+        dagsats: dagsatser?.[dag.dagen]
     }));
 
     return (

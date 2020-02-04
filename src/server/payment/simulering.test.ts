@@ -24,7 +24,7 @@ const createToken = (claims: { name: string }) => {
 };
 
 const validVedtak = {
-    sakskompleksId: '1234-1234-1234-1234',
+    vedtaksperiodeId: '1234-1234-1234-1234',
     aktørId: '123456',
     organisasjonsnummer: '987654321',
     utbetalingslinjer: [

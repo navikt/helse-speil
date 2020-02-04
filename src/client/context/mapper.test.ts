@@ -1,49 +1,50 @@
 // @ts-nocheck
-import behov from '../../../__mock-data__/mock-sak-1.json';
-import personMapper, { beregnAlder, enesteSak, filtrerPaddedeArbeidsdager } from './mapper';
-import { Dagtype, Sak, UnmappedPerson } from './types';
+import behov from '../../../__mock-data__/mock-person_til-godkjenning.json';
+import personMapper, {
+    beregnAlder,
+    enesteVedtaksperiode,
+    filtrerPaddedeArbeidsdager
+} from './mapper';
+import { Dagtype, Vedtaksperiode, UnmappedPerson } from './types';
 
 test('mapper data riktig for inngangsvilkårssiden', () => {
     const expectedPerson = {
         inngangsvilkår: {
-            alder: 62,
+            alder: 61,
             dagerIgjen: {
-                dagerBrukt: expect.anything(),
+                dagerBrukt: 11,
                 tidligerePerioder: [],
-                førsteFraværsdag: '2019-09-10',
-                førsteSykepengedag: '2019-09-26',
-                maksdato: '2020-09-11',
-                yrkesstatus: expect.anything()
+                førsteFraværsdag: '2018-01-01',
+                førsteSykepengedag: '2018-01-17',
+                maksdato: '2018-12-28'
             },
-            sykepengegrunnlag: 298040.04,
+            sykepengegrunnlag: 12000,
             søknadsfrist: {
-                sendtNav: '2019-10-15T00:00:00',
-                søknadTom: '2019-10-05',
+                sendtNav: '2018-02-04T11:03:11.432718',
+                søknadTom: '2018-01-31',
                 innen3Mnd: true
             }
         },
         inntektskilder: {
-            månedsinntekt: 24836.67,
-            årsinntekt: 298040.04,
+            månedsinntekt: 1000,
+            årsinntekt: 12000,
             refusjon: '(Ja)',
             forskuttering: '(Ja)'
         },
         sykepengegrunnlag: {
-            avviksprosent: 2,
-            årsinntektFraAording: 304123,
-            årsinntektFraInntektsmelding: 298040.04,
-            dagsats: 31
+            avviksprosent: 0,
+            årsinntektFraAording: 12000,
+            årsinntektFraInntektsmelding: 12000,
+            dagsats: 1000
         },
         oppsummering: {
-            sykepengegrunnlag: 298040.04,
-            dagsats: 31,
-            antallDager: 6,
-            beløp: 31 * 6,
-            mottaker: {
-                navn: 'Kongehuset',
-                orgnummer: '123456789'
-            },
-            vedtaksperiodeId: 'aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87'
+            sykepengegrunnlag: 12000,
+            dagsats: 1000,
+            antallDager: 11,
+            beløp: 1000 * 11,
+            mottakerOrgnr: '987654321',
+            vedtaksperiodeId: 'a89647ae-4586-42aa-b87a-9aae048e53c5',
+            utbetalingsreferanse: null
         }
     };
     const personinfo = {
@@ -78,35 +79,34 @@ test('filtrerer vekk paddede arbeidsdager', () => {
                 ...behov.arbeidsgivere[0],
                 saker: [
                     {
-                        ...behov.arbeidsgivere[0].saker[0],
-                        sykdomstidslinje: {
-                            hendelser: [],
-                            dager: [
-                                ...paddedeArbeidsdager,
-                                ...behov.arbeidsgivere[0].saker[0].sykdomstidslinje.dager
-                            ]
-                        }
+                        ...behov.arbeidsgivere[0].vedtaksperioder[0],
+                        sykdomstidslinje: [
+                            ...paddedeArbeidsdager,
+                            ...behov.arbeidsgivere[0].vedtaksperioder[0].sykdomstidslinje
+                        ]
                     }
                 ]
             }
         ]
     };
 
-    const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(
-        enesteSak(personMedPaddedeArbeidsdager)
+    const sakUtenPaddedeArbeidsdager: Vedtaksperiode = filtrerPaddedeArbeidsdager(
+        enesteVedtaksperiode(personMedPaddedeArbeidsdager)
     );
-    const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[0];
+    const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje[0];
 
     expect(førsteDag.type !== Dagtype.ARBEIDSDAG).toBeTruthy();
 });
 
 test('fjerner ingen dager dersom første dag ikke er ARBEIDSDAG eller IMPLISITT_DAG', () => {
     const unmappedPerson: UnmappedPerson = { ...behov };
-    const opprinneligSak: Sak = enesteSak(unmappedPerson);
-    const sakUtenPaddedeArbeidsdager: Sak = filtrerPaddedeArbeidsdager(enesteSak(unmappedPerson));
+    const opprinneligSak: Vedtaksperiode = enesteVedtaksperiode(unmappedPerson);
+    const sakUtenPaddedeArbeidsdager: Vedtaksperiode = filtrerPaddedeArbeidsdager(
+        enesteVedtaksperiode(unmappedPerson)
+    );
 
-    opprinneligSak.sykdomstidslinje.dager.forEach((dag, i) => {
-        const ikkePaddetDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[i];
+    opprinneligSak.sykdomstidslinje.forEach((dag, i) => {
+        const ikkePaddetDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje[i];
         expect(ikkePaddetDag.type).toBe(dag.type);
     });
 });

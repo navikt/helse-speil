@@ -1,5 +1,11 @@
 import '@testing-library/jest-dom/extend-expect';
-import { daysBetween, toDate } from './index';
+import {
+    daysBetween,
+    findLatest,
+    listOfDatesBetween,
+    listOfWorkdaysBetween,
+    toDate
+} from './index';
 
 test('toDate', () => {
     expect(toDate('notadate')).toEqual('Invalid date');
@@ -10,4 +16,20 @@ test('toDate', () => {
 test('daysBetween', () => {
     expect(daysBetween(toDate('12.4.2019'), toDate('15.4.2019'))).toEqual(3);
     expect(daysBetween(toDate('1.3.2019'), toDate('1.4.2019'))).toEqual(31);
+});
+
+test('findLatest', () => {
+    const dates = ['2018-01-31', '2018-02-26', '2018-02-27', '2017-01-31'];
+    expect(findLatest(dates)).toEqual('2018-02-27');
+});
+
+test('listOfWorkdaysBetween', () => {
+    const first = '2018-01-03';
+    const last = '2018-01-08';
+    expect(listOfWorkdaysBetween(first, last)).toEqual([
+        '2018-01-03',
+        '2018-01-04',
+        '2018-01-05',
+        '2018-01-08'
+    ]);
 });
