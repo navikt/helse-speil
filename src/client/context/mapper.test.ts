@@ -1,6 +1,10 @@
 // @ts-nocheck
 import behov from '../../../__mock-data__/mock-person_til-godkjenning.json';
-import personMapper, { beregnAlder, enesteSak, filtrerPaddedeArbeidsdager } from './mapperNy';
+import personMapper, {
+    beregnAlder,
+    enesteVedtaksperiode,
+    filtrerPaddedeArbeidsdager
+} from './mapper';
 import { Dagtype, Vedtaksperiode, UnmappedPerson } from './types';
 
 test('mapper data riktig for inngangsvilkårssiden', () => {
@@ -8,7 +12,7 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
         inngangsvilkår: {
             alder: 61,
             dagerIgjen: {
-                dagerBrukt: 15,
+                dagerBrukt: 11,
                 tidligerePerioder: [],
                 førsteFraværsdag: '2018-01-01',
                 førsteSykepengedag: '2018-01-17',
@@ -36,8 +40,8 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
         oppsummering: {
             sykepengegrunnlag: 12000,
             dagsats: 1000,
-            antallDager: 15,
-            beløp: 1000 * 15,
+            antallDager: 11,
+            beløp: 1000 * 11,
             mottakerOrgnr: '987654321',
             vedtaksperiodeId: 'a89647ae-4586-42aa-b87a-9aae048e53c5',
             utbetalingsreferanse: null
@@ -75,14 +79,11 @@ test('filtrerer vekk paddede arbeidsdager', () => {
                 ...behov.arbeidsgivere[0],
                 saker: [
                     {
-                        ...behov.arbeidsgivere[0].saker[0],
-                        sykdomstidslinje: {
-                            hendelser: [],
-                            dager: [
-                                ...paddedeArbeidsdager,
-                                ...behov.arbeidsgivere[0].saker[0].sykdomstidslinje.dager
-                            ]
-                        }
+                        ...behov.arbeidsgivere[0].vedtaksperioder[0],
+                        sykdomstidslinje: [
+                            ...paddedeArbeidsdager,
+                            ...behov.arbeidsgivere[0].vedtaksperioder[0].sykdomstidslinje
+                        ]
                     }
                 ]
             }
@@ -90,22 +91,22 @@ test('filtrerer vekk paddede arbeidsdager', () => {
     };
 
     const sakUtenPaddedeArbeidsdager: Vedtaksperiode = filtrerPaddedeArbeidsdager(
-        enesteSak(personMedPaddedeArbeidsdager)
+        enesteVedtaksperiode(personMedPaddedeArbeidsdager)
     );
-    const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[0];
+    const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje[0];
 
     expect(førsteDag.type !== Dagtype.ARBEIDSDAG).toBeTruthy();
 });
 
 test('fjerner ingen dager dersom første dag ikke er ARBEIDSDAG eller IMPLISITT_DAG', () => {
     const unmappedPerson: UnmappedPerson = { ...behov };
-    const opprinneligSak: Vedtaksperiode = enesteSak(unmappedPerson);
+    const opprinneligSak: Vedtaksperiode = enesteVedtaksperiode(unmappedPerson);
     const sakUtenPaddedeArbeidsdager: Vedtaksperiode = filtrerPaddedeArbeidsdager(
-        enesteSak(unmappedPerson)
+        enesteVedtaksperiode(unmappedPerson)
     );
 
-    opprinneligSak.sykdomstidslinje.dager.forEach((dag, i) => {
-        const ikkePaddetDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje.dager[i];
+    opprinneligSak.sykdomstidslinje.forEach((dag, i) => {
+        const ikkePaddetDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje[i];
         expect(ikkePaddetDag.type).toBe(dag.type);
     });
 });

@@ -177,7 +177,6 @@ interface Inngangsvilkår {
         førsteSykepengedag: Optional<string>;
         maksdato: string;
         tidligerePerioder: Periode[];
-        yrkesstatus: Optional<string>;
     };
     søknadsfrist: {
         innen3Mnd: boolean;

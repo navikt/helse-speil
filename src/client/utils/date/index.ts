@@ -38,6 +38,19 @@ export const listOfDatesBetween = (firstDate: string, lastDate: string) => {
     return [...dates, last.format('YYYY-MM-DD')];
 };
 
+export const listOfWorkdaysBetween = (firstDate: string, lastDate: string) => {
+    const dates = [];
+    let first = dayjs(firstDate);
+    const last = dayjs(lastDate);
+    while (!first.isAfter(last)) {
+        if (first.day() >= 1 && first.day() < 6) {
+            dates.push(first.format('YYYY-MM-DD'));
+        }
+        first = first.add(1, 'day');
+    }
+    return dates;
+};
+
 export const first26WeeksInterval = (periods: Periode[], firstDay: string) => {
     return periods.findIndex((period, i) => {
         const firstDayPreviousPeriod = i === 0 ? firstDay : periods[i - 1].fom;

@@ -20,7 +20,7 @@ export interface Behov {
     '@opprettet': string;
     aktørId: string;
     organisasjonsnummer: string;
-    sakskompleksId: string;
+    vedtaksperiodeId: string;
     personinfo: Optional<Personinfo>;
 }
 
@@ -58,7 +58,7 @@ export interface UnmappedUtbetalingsvedtak {
 export interface Utbetalingsvedtak {
     aktørId: string;
     maksdato: string;
-    sakskompleksId: string;
+    vedtaksperiodeId: string;
     organisasjonsnummer: string;
     saksbehandler?: string;
     utbetalingslinjer?: Utbetalingslinje[];

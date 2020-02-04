@@ -48,7 +48,7 @@ const Inngangsvilkår = () => {
                                 {toDate(inngangsvilkår.dagerIgjen.førsteSykepengedag!)}
                             </ListItem>
                             <ListItem label="Yrkesstatus">
-                                {capitalize(inngangsvilkår.dagerIgjen.yrkesstatus!)}
+                                Mangler informasjon om yrkesstatus
                             </ListItem>
                             <ListItem label="Dager brukt">
                                 {inngangsvilkår.dagerIgjen.dagerBrukt}

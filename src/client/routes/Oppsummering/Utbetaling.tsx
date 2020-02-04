@@ -10,12 +10,11 @@ import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
 import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
-import { utbetalingsreferanse } from '../../context/mapperGammel';
+import { utbetalingsreferanse } from '../../context/mapper';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import { Optional } from '../../context/types';
 import { Behov } from '../../../types';
 import { useTranslation } from 'react-i18next';
-import { RequestError } from 'request-promise-native/errors';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
@@ -36,7 +35,7 @@ interface Error {
 
 const Utbetaling = () => {
     const { saksoversikt } = useContext(SaksoversiktContext);
-    const { personTilBehandling, innsyn, enesteSak } = useContext(PersonContext);
+    const { personTilBehandling, innsyn, enesteVedtaksperiode } = useContext(PersonContext);
     const { ident } = useContext(AuthContext).authInfo;
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
@@ -44,7 +43,7 @@ const Utbetaling = () => {
     const [error, setError] = useState<Error | undefined>(undefined);
     const [modalOpen, setModalOpen] = useState(false);
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
-    const [tilstand, setTilstand] = useState(enesteSak?.tilstandType);
+    const [tilstand, setTilstand] = useState(enesteVedtaksperiode?.tilstand);
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {

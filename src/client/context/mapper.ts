@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { findLatest, listOfDatesBetween } from '../utils/date';
+import { findLatest, listOfDatesBetween, listOfWorkdaysBetween } from '../utils/date';
 import {
     Dag,
     Dagtype,
@@ -61,8 +61,7 @@ export default {
                     førsteFraværsdag: inntektsmelding?.førsteFraværsdag ?? '-',
                     førsteSykepengedag: finnFørsteSykepengedag(person),
                     maksdato: vedtaksperiode.maksdato,
-                    tidligerePerioder: [],
-                    yrkesstatus: undefined
+                    tidligerePerioder: []
                 },
                 sykepengegrunnlag: sykepengegrunnlag(person),
                 søknadsfrist: søknadsfrist(person)!
@@ -130,7 +129,7 @@ const søknadsfrist = (person: UnmappedPerson) => {
 
 const antallUtbetalingsdager = (person: UnmappedPerson) =>
     enesteVedtaksperiode(person).utbetalingslinjer?.reduce((acc, linje) => {
-        acc += listOfDatesBetween(linje.fom, linje.tom).length;
+        acc += listOfWorkdaysBetween(linje.fom, linje.tom).length;
         return acc;
     }, 0);
 

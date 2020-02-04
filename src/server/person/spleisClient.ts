@@ -29,7 +29,7 @@ const hentSakByAktørId = async (aktørId: string, onBehalfOfToken: string) => {
 
 const hentSakByUtbetalingsref = async (utbetalingsref: string, onBehalfOfToken: string) => {
     if (process.env.NODE_ENV === 'development') {
-        const fromFile = fs.readFileSync(`__mock-data__/mock-sak-2.json`, 'utf-8');
+        const fromFile = fs.readFileSync(`__mock-data__/mock-person_til-godkjenning.json`, 'utf-8');
         const person = JSON.parse(fromFile);
         return Promise.resolve({
             statusCode: 200,
@@ -48,7 +48,9 @@ const hentSakByUtbetalingsref = async (utbetalingsref: string, onBehalfOfToken: 
 };
 
 const filename = (aktørId: string) =>
-    aktørId === '0123456789012' || !/[a-z]/.test(aktørId) ? 'mock-sak-1.json' : 'mock-sak-2.json';
+    aktørId === '0123456789012' || !/[a-z]/.test(aktørId)
+        ? 'mock-person_til-godkjenning.json'
+        : 'mock-person_til-utbetaling.json';
 
 const spleisClient: SpleisClient = {
     hentSak: hentSakByAktørId,

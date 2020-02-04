@@ -23,10 +23,7 @@ const Oppsummering = () => {
         ? `${toKronerOgØre(simulering?.simulering?.totalBelop)} kr`
         : simulering?.feilMelding ?? 'Ikke tilgjengelig';
 
-    const simuleringsArbeidsgiver =
-        arbeidsgiver === oppsummering.mottaker?.orgnummer
-            ? `${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`
-            : `Organisasjonsnummer: ${arbeidsgiver}`;
+    const simuleringsArbeidsgiver = `Organisasjonsnummer: ${arbeidsgiver}`;
 
     return (
         <div className="Oppsummering">
@@ -46,7 +43,7 @@ const Oppsummering = () => {
                         {`${toKronerOgØre(oppsummering.beløp)} kr`}
                     </ListItem>
                     <ListItem label={t('oppsummering.utbetaling_til')}>
-                        {`${oppsummering.mottaker?.navn} (${oppsummering.mottaker?.orgnummer})`}
+                        {`Organisasjonsnummer: ${arbeidsgiver}`}
                     </ListItem>
                 </List>
                 <ListSeparator />

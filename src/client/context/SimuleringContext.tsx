@@ -34,12 +34,14 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
 
     useEffect(() => {
         if (personTilBehandling) {
-            hentSimulering(personTilBehandling.arbeidsgivere?.[0].saker?.[0]).then(simulering => {
-                const arbeidsgiver =
-                    simulering?.simulering?.periodeList[0]?.utbetaling[0].detaljer[0]
-                        .refunderesOrgNr;
-                setArbeidsgiver(arbeidsgiver);
-            });
+            hentSimulering(personTilBehandling.arbeidsgivere?.[0].vedtaksperioder?.[0]).then(
+                simulering => {
+                    const arbeidsgiver =
+                        simulering?.simulering?.periodeList[0]?.utbetaling[0].detaljer[0]
+                            .refunderesOrgNr;
+                    setArbeidsgiver(arbeidsgiver);
+                }
+            );
         }
     }, [personTilBehandling]);
 

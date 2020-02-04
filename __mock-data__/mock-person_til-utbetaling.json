@@ -1,12 +1,12 @@
 {
-    "aktørId": "12345",
+    "aktørId": "67890",
     "fødselsnummer": "12020052345",
     "hendelser": [
         {
             "type": "NySøknad",
             "hendelseId": "65afb908-47f9-44b0-8f8b-7f105c5e577a",
             "fnr": "12020052345",
-            "aktørId": "12345",
+            "aktørId": "67890",
             "orgnummer": "987654321",
             "rapportertdato": "2020-02-04T11:02:28.567025",
             "sykeperioder": [
@@ -21,7 +21,7 @@
             "type": "SendtSøknad",
             "hendelseId": "7fc846a3-284b-4b1c-9ba8-5de7dabbbfeb",
             "fnr": "12020052345",
-            "aktørId": "12345",
+            "aktørId": "67890",
             "orgnummer": "987654321",
             "sendtNav": "2020-02-04T11:02:28.625595",
             "perioder": [
@@ -44,7 +44,7 @@
             },
             "orgnummer": "987654321",
             "fødselsnummer": "12020052345",
-            "aktørId": "12345",
+            "aktørId": "67890",
             "mottattDato": "2018-02-01T00:00:00",
             "førsteFraværsdag": "2018-01-01",
             "beregnetInntekt": 1000.0,
