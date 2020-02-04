@@ -10,6 +10,13 @@ export const toDate = (date: string) => {
     return moment(date, ['DD.MM.YYYY', 'YYYY-MM-DD', moment.ISO_8601]).format('DD.MM.YYYY');
 };
 
+export const findLatest = (dates: string[]) => {
+    const sorted = dates
+        .map(date => moment(date))
+        .sort((a, b) => (b.isAfter(a) ? -1 : a.isAfter(b) ? 1 : 0));
+    return sorted.pop()!.format('YYYY-MM-DD');
+};
+
 export const daysBetween = (firstDate: string, lastDate: string) => {
     const first = moment(firstDate, ['DD.MM.YYYY', 'YYYY-MM-DD']);
     const last = moment(lastDate, ['DD.MM.YYYY', 'YYYY-MM-DD']);

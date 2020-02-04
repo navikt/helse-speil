@@ -78,8 +78,9 @@ export interface SendtSøknad extends Søknad {
     fnr: string;
     aktørId: string;
     orgnummer: string;
-    rapportertdato: string;
+    sendtNav: string;
     perioder: Søknadsperiode[];
+    tom: string;
 }
 
 export interface NySøknad extends Søknad {
@@ -99,10 +100,6 @@ export interface Dag {
 export interface Hendelse {
     type: string;
     hendelseId: string;
-}
-
-interface Sykdomstidslinje {
-    dager: Dag[];
 }
 
 export interface Utbetalingslinje extends Periode {
@@ -148,7 +145,7 @@ export interface Utbetalingsdato {
 
 export interface DataForVilkårsvurdering {
     erEgenAnsatt: boolean;
-    beregnetÅrsinntekt: number;
+    beregnetÅrsinntektFraInntektskomponenten: number;
     avviksprosent: number;
 }
 
@@ -158,7 +155,7 @@ export interface Vedtaksperiode {
     maksdato: string;
     godkjentAv?: string;
     tilstand: string;
-    sykdomstidslinje: Sykdomstidslinje;
+    sykdomstidslinje: Dag[];
     utbetalingslinjer?: Utbetalingslinje[];
     organisasjonsnummer: string;
     utbetalingsreferanse?: string;
@@ -184,8 +181,8 @@ interface Inngangsvilkår {
     };
     søknadsfrist: {
         innen3Mnd: boolean;
-        søknadTom: Optional<string>;
-        sendtNav: Optional<string>;
+        søknadTom: string;
+        sendtNav: string;
     };
     sykepengegrunnlag: Optional<number>;
     alder: Optional<number>;

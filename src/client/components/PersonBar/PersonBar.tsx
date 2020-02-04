@@ -3,7 +3,7 @@ import Clipboard from '../Clipboard';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
 import './PersonBar.less';
-import { finnSykmeldingsgrad, finnSøknad } from '../../context/mapper';
+import { finnSykmeldingsgrad, finnSøknad } from '../../context/mapperGammel';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 

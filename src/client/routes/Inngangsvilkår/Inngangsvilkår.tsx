@@ -63,7 +63,10 @@ const Inngangsvilkår = () => {
                         <SubheaderWithList label="Under 67 år" iconType="ok">
                             <ListItem label="Alder">{inngangsvilkår.alder as ReactChild}</ListItem>
                         </SubheaderWithList>
-                        <SubheaderWithList label="Søknadsfrist" iconType="ok">
+                        <SubheaderWithList
+                            label="Søknadsfrist"
+                            iconType={inngangsvilkår.søknadsfrist.innen3Mnd ? 'ok' : 'advarsel'}
+                        >
                             <ListItem label="Sendt Nav">
                                 {toDate(inngangsvilkår.søknadsfrist.sendtNav!)}
                             </ListItem>

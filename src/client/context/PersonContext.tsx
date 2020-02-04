@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, ReactChild } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import personMapper, { enesteSak } from './mapper';
+import personMapper, { enesteSak } from './mapperGammel';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import { Optional, Person, Vedtaksperiode } from './types';
 

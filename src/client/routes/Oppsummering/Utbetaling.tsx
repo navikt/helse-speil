@@ -10,7 +10,7 @@ import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
 import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
-import { utbetalingsreferanse } from '../../context/mapper';
+import { utbetalingsreferanse } from '../../context/mapperGammel';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import { Optional } from '../../context/types';
 import { Behov } from '../../../types';
