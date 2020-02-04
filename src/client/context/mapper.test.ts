@@ -28,8 +28,8 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
         inntektskilder: {
             månedsinntekt: 1000,
             årsinntekt: 12000,
-            refusjon: '(Ja)',
-            forskuttering: '(Ja)'
+            refusjon: 'Ja',
+            forskuttering: 'Ja'
         },
         sykepengegrunnlag: {
             avviksprosent: 0,
