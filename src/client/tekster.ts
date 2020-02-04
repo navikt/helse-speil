@@ -47,12 +47,24 @@ const resources: Resource = {
                 medlemskap: 'Medlemskap'
             },
             inntektskilder: {
-                inntektsmeldinger: 'Hentet fra inntektsmelding',
-                månedsinntekt: 'Beregnet månedsinntekt',
-                årsinntekt: 'Omregnet årsinntekt',
+                inntektsmeldinger: 'Fra inntektsmelding',
+                månedsinntekt: 'Månedsbeløp',
+                årsinntekt: 'Omregnet årsinntekt som legges til grunn',
                 aordningen: 'A-Ordningen må sjekkes manuelt',
                 refusjon: 'Refusjon til arbeidsgiver',
-                arbeidsgiverperiode: 'Betaler arbeidsgiverperiode'
+                arbeidsgiverperiode: 'Betaler arbeidsgiverperiode',
+                inntekt: 'Inntekt',
+                relasjon: 'Nær relasjon',
+                kilder: 'Inntektskilder som må sjekkes manuelt',
+                sjekket_ytelser: 'Ytelser som er sjekket',
+                ikke_sjekket_ytelser: 'Ytelser som må sjekkes manuelt',
+                frilans: 'Frilansinntekt',
+                næring: 'Næringsinntekt',
+                foreldrepenger: 'Ingen foreldrepenger',
+                svangerskapspenger: 'Ingen svangerskapspenger',
+                aap: 'Arbeidsavklaringspenger',
+                dagpenger: 'Dagpenger',
+                pleiepenger: 'Pleiepenger'
             },
             sykepengegrunnlag: {
                 inntektsmeldinger: 'Hentet fra inntektsmelding',

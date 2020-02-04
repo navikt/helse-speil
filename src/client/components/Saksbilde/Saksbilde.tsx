@@ -6,7 +6,7 @@ import Oppsummering from '../../routes/Oppsummering';
 import Sykdomsvilkår from '../../routes/Sykdomsvilkår';
 import Inngangsvilkår from '../../routes/Inngangsvilkår';
 import EmptyStateView from '../EmptyStateView';
-import Inntektskilder from '../../routes/Inntektskilder';
+import Inntektskilder from '../../routes/Inntektskilder/Inntektskilder';
 import Sykepengegrunnlag from '../../routes/Sykepengegrunnlag';
 import Sykmeldingsperiode from '../../routes/Sykmeldingsperiode';
 import Utbetalingsoversikt from '../../routes/Utbetalingsoversikt';

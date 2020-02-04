@@ -68,8 +68,8 @@ export default {
             inntektskilder: {
                 månedsinntekt,
                 årsinntekt,
-                refusjon: '(Ja)',
-                forskuttering: '(Ja)'
+                refusjon: 'Ja',
+                forskuttering: 'Ja'
             },
             sykepengegrunnlag: {
                 årsinntektFraAording,
