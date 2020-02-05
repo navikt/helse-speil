@@ -3,7 +3,13 @@ import { Personinfo } from '../../types';
 
 export type Optional<T> = T | undefined | null;
 
-export type Hendelsetype = 'Inntektsmelding' | 'SendtSøknad' | 'NySøknad';
+export type Hendelsetype = 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
+
+export const HendelsetypeMap = {
+    Inntektsmelding: 'Inntektsmelding',
+    Sykmelding: 'NySøknad',
+    Søknad: 'SendtSøknad'
+};
 
 export enum Dagtype {
     SYKEDAG = 'SYKEDAG',
@@ -61,11 +67,6 @@ export interface Arbeidsgiver {
     vedtaksperioder: Vedtaksperiode[];
 }
 
-interface ArbeidsgiverISøknad {
-    orgnummer: string;
-    navn: Optional<string>;
-}
-
 export interface Søknad extends Hendelse {
     fnr: string;
     aktørId: string;
@@ -93,8 +94,7 @@ export interface NySøknad extends Søknad {
 export interface Dag {
     dagen: string;
     type: string;
-    erstatter: Dag[];
-    hendelseId: string;
+    hendelseType: Hendelsetype;
 }
 
 export interface Hendelse {
@@ -211,8 +211,8 @@ interface Oppsummering {
 
 export interface UnmappedPerson {
     aktørId: string;
+    fødselsnummer: string;
     arbeidsgivere: Arbeidsgiver[];
-    skjemaVersjon: number;
     hendelser: Hendelse[];
 }
 

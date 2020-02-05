@@ -2,7 +2,14 @@ import React from 'react';
 import TimelineRow from './TimelineRow';
 import { guid } from 'nav-frontend-js-utils';
 import { listOfDatesBetween, listOfWorkdaysBetween } from '../../utils/date';
-import { Hendelsetype, Optional, Utbetalingslinje, Person } from '../../context/types';
+import {
+    Hendelsetype,
+    Optional,
+    Utbetalingslinje,
+    Person,
+    Hendelse,
+    HendelsetypeMap
+} from '../../context/types';
 import 'nav-frontend-tabell-style';
 import './Timeline.less';
 import { enesteVedtaksperiode } from '../../context/mapper';
@@ -31,6 +38,11 @@ const hendelseTypeTilUiNavn = (
     }
 };
 
+const finnMatchendeHendelse = (hendelser: Hendelse[], hendelsetype: Hendelsetype) => {
+    const hendelseNavn = HendelsetypeMap[hendelsetype];
+    return hendelser.find(h => h.type === hendelseNavn)?.type;
+};
+
 const buildDagsatserDictionary = (utbetalingslinjer?: Utbetalingslinje[]): DagsatsDict => {
     const dagsatser: DagsatsDict = {};
     utbetalingslinjer
@@ -57,7 +69,7 @@ const Timeline = ({ person, showDagsats }: Props) => {
     const dager = sykdomstidslinje.map(dag => ({
         date: dag.dagen,
         type: dag.type,
-        hendelse: hendelseTypeTilUiNavn(hendelser.find(h => h.hendelseId === dag.hendelseId)?.type),
+        hendelse: hendelseTypeTilUiNavn(finnMatchendeHendelse(hendelser, dag.hendelseType)),
         dagsats: dagsatser?.[dag.dagen]
     }));
 
