@@ -55,7 +55,7 @@ export interface Inntektsmelding extends Hendelse {
     arbeidsgiverperioder: Periode[];
 }
 
-interface Arbeidsgiver {
+export interface Arbeidsgiver {
     id: string;
     organisasjonsnummer: string;
     vedtaksperioder: Vedtaksperiode[];
@@ -151,13 +151,11 @@ export interface DataForVilkårsvurdering {
 
 export interface Vedtaksperiode {
     id: string;
-    aktørId: string;
     maksdato: string;
     godkjentAv?: string;
     tilstand: string;
     sykdomstidslinje: Dag[];
     utbetalingslinjer?: Utbetalingslinje[];
-    organisasjonsnummer: string;
     utbetalingsreferanse?: string;
     dataForVilkårsvurdering?: DataForVilkårsvurdering;
     førsteFraværsdag: string;

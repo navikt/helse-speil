@@ -120,8 +120,13 @@ export const postVedtak = async (
     return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, vedtaksperiodeId });
 };
 
-export const postSimulering = async (sak: Vedtaksperiode, saksbehandlerIdent?: string) => {
-    return post(`${baseUrl}/payments/simulate`, { sak, saksbehandlerIdent });
+export const postSimulering = async (
+    sak: Vedtaksperiode,
+    aktørId: string,
+    orgnr: string,
+    saksbehandlerIdent?: string
+) => {
+    return post(`${baseUrl}/payments/simulate`, { sak, saksbehandlerIdent, aktørId, orgnr });
 };
 
 export const postAnnullering = async (utbetalingsreferanse: Optional<string>, aktørId?: string) => {

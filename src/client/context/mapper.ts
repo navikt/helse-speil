@@ -12,7 +12,8 @@ import {
     Vedtaksperiode,
     UnmappedPerson,
     Hendelse,
-    SendtSøknad
+    SendtSøknad,
+    Arbeidsgiver
 } from './types';
 import { Personinfo } from '../../types';
 
@@ -175,4 +176,14 @@ export const enesteVedtaksperiode = (person: UnmappedPerson): Vedtaksperiode => 
         throw 'Personen har ikke nøyaktig 1 arbeidsgiver eller nøyaktig 1 vedtaksperiode. Dette er ikke støttet enda.';
     }
     return person.arbeidsgivere[0].vedtaksperioder[0];
+};
+
+export const enesteArbeidsgiver = (person: UnmappedPerson): Arbeidsgiver => {
+    if (person.arbeidsgivere.length !== 1) {
+        console.error(
+            `Forventer kun én arbeidsgiver. Fant antall = ${person.arbeidsgivere.length}`
+        );
+        throw 'Personen har ikke nøyaktig 1 arbeidsgiver. Dette er ikke støttet enda.';
+    }
+    return person.arbeidsgivere[0];
 };

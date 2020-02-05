@@ -3,19 +3,21 @@ import { UnmappedUtbetalingsvedtak, Utbetalingslinje, Utbetalingsvedtak } from '
 interface Utbetalingsbody extends Body {
     sak: UnmappedUtbetalingsvedtak;
     saksbehandlerIdent: string;
+    aktorId: string;
+    organisasjonsnummer: string;
 }
 
 const map = (body: Utbetalingsbody) => {
-    const { sak, saksbehandlerIdent } = body;
+    const { sak, saksbehandlerIdent, aktorId, organisasjonsnummer } = body;
     return {
         vedtaksperiodeId: sak.id,
-        aktørId: sak.aktørId,
-        organisasjonsnummer: sak.organisasjonsnummer,
+        aktørId: aktorId,
+        organisasjonsnummer: organisasjonsnummer,
         maksdato: sak.maksdato,
         saksbehandler: saksbehandlerIdent,
         utbetalingslinjer: sak.utbetalingslinjer?.map(linje => ({
             ...linje,
-            grad: linje.grad ? linje.grad : 100
+            grad: 100 //TODO: Fiks dette når det ikke alltid er 100% sykmeldt lenger
         })),
         utbetalingsreferanse: 'helse-simulering'
     };

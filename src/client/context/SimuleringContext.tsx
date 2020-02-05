@@ -1,9 +1,9 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, Vedtaksperiode, Utbetalingsdato, Utbetalingsperiode } from './types';
+import { ProviderProps, Utbetalingsdato, Utbetalingsperiode, Vedtaksperiode } from './types';
+import { enesteArbeidsgiver, enesteVedtaksperiode } from './mapper';
 
 interface Simulering {
     status: string;
@@ -34,19 +34,22 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
 
     useEffect(() => {
         if (personTilBehandling) {
-            hentSimulering(personTilBehandling.arbeidsgivere?.[0].vedtaksperioder?.[0]).then(
-                simulering => {
-                    const arbeidsgiver =
-                        simulering?.simulering?.periodeList[0]?.utbetaling[0].detaljer[0]
-                            .refunderesOrgNr;
-                    setArbeidsgiver(arbeidsgiver);
-                }
-            );
+            hentSimulering(enesteVedtaksperiode(personTilBehandling)).then(simulering => {
+                const arbeidsgiver =
+                    simulering?.simulering?.periodeList[0]?.utbetaling[0].detaljer[0]
+                        .refunderesOrgNr;
+                setArbeidsgiver(arbeidsgiver);
+            });
         }
     }, [personTilBehandling]);
 
-    const hentSimulering = async (sak: Vedtaksperiode) => {
-        return await postSimulering(sak, authInfo.ident)
+    const hentSimulering = async (vedtaksperiode: Vedtaksperiode) => {
+        return await postSimulering(
+            vedtaksperiode,
+            personTilBehandling!.aktørId,
+            enesteArbeidsgiver(personTilBehandling!).organisasjonsnummer,
+            authInfo.ident
+        )
             .then(response => {
                 setSimulering(response.data);
                 return response.data;
