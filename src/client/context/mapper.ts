@@ -101,7 +101,12 @@ export const beregnAlder = (tidspunkt?: string, fødselsdato?: string): Optional
 
 const finnFørsteSykepengedag = (person: UnmappedPerson) => {
     const utbetalingslinjer = enesteVedtaksperiode(person).utbetalingslinjer;
-    if (utbetalingslinjer === undefined || utbetalingslinjer === null) return null;
+    if (
+        utbetalingslinjer === undefined ||
+        utbetalingslinjer === null ||
+        utbetalingslinjer.length === 0
+    )
+        return null;
     return dayjs.min(utbetalingslinjer.map(linje => dayjs(linje.fom))).format('YYYY-MM-DD');
 };
 

@@ -45,7 +45,9 @@ const Inngangsvilkår = () => {
                                 {toDate(inngangsvilkår.dagerIgjen.førsteFraværsdag)}
                             </ListItem>
                             <ListItem label="Første sykepengedag">
-                                {toDate(inngangsvilkår.dagerIgjen.førsteSykepengedag!)}
+                                {inngangsvilkår.dagerIgjen.førsteSykepengedag
+                                    ? toDate(inngangsvilkår.dagerIgjen.førsteSykepengedag)
+                                    : 'Ikke funnet'}
                             </ListItem>
                             <ListItem label="Yrkesstatus">Arbeidstaker</ListItem>
                             <ListItem label="Dager brukt">
