@@ -23,10 +23,15 @@ enum Beslutning {
 
 enum Tilstand {
     TilGodkjenning = 'TIL_GODKJENNING',
+    AvventerGodkjenning = 'AVVENTER_GODKJENNING',
     TilUtbetaling = 'TIL_UTBETALING',
     TilInfotrygd = 'TIL_INFOTRYGD',
     Annullert = 'ANNULLERT'
 }
+
+const tilGodkjenning = (tilstand: string) => {
+    return tilstand === Tilstand.TilGodkjenning || tilstand === Tilstand.AvventerGodkjenning;
+};
 
 interface Error {
     message: string;
@@ -43,7 +48,7 @@ const Utbetaling = () => {
     const [error, setError] = useState<Error | undefined>(undefined);
     const [modalOpen, setModalOpen] = useState(false);
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
-    const [tilstand, setTilstand] = useState(enesteVedtaksperiode?.tilstand);
+    const [tilstand, setTilstand] = useState(enesteVedtaksperiode!.tilstand);
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {
@@ -111,7 +116,7 @@ const Utbetaling = () => {
             </AlertStripeAdvarsel>
             {tilstand === Tilstand.Annullert ? (
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
-            ) : (tilstand === Tilstand.TilGodkjenning && beslutning === Beslutning.Godkjent) ||
+            ) : (tilGodkjenning(tilstand) && beslutning === Beslutning.Godkjent) ||
               tilstand === Tilstand.TilUtbetaling ? (
                 <div>
                     <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
@@ -123,7 +128,7 @@ const Utbetaling = () => {
                         />
                     </Normaltekst>
                 </div>
-            ) : !innsyn && tilstand === Tilstand.TilGodkjenning ? (
+            ) : !innsyn && tilGodkjenning(tilstand) ? (
                 beslutning ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
                 ) : (
@@ -138,7 +143,7 @@ const Utbetaling = () => {
                 <AlertStripeInfo>
                     {tilstand === Tilstand.TilInfotrygd
                         ? 'Saken er sendt til behandling i Infotrygd.'
-                        : innsyn && tilstand === Tilstand.TilGodkjenning
+                        : innsyn && tilGodkjenning(tilstand)
                         ? 'Saken står til godkjenning av saksbehandler.'
                         : 'Kunne ikke lese informasjon om sakens tilstand.'}
                 </AlertStripeInfo>
