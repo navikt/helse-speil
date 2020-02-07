@@ -5,7 +5,7 @@ import { Dagtype, Optional } from '../../context/types';
 import { HendelsestypeUINavn } from './Timeline';
 
 interface Props {
-    date: string;
+    dato: string;
     type?: Dagtype | string;
     hendelse?: Optional<HendelsestypeUINavn | string>;
     dagsats?: number;
@@ -63,11 +63,11 @@ const cssDagtype = (type: Dagtype | string) => {
     }
 };
 
-const TimelineRow = ({ date, type, hendelse, dagsats, showType, showDagsats }: Props) => {
+const TimelineRow = ({ dato, type, hendelse, dagsats, showType, showDagsats }: Props) => {
     return (
         <tr>
             <td>
-                <div className="TimelineRow__date">{dayjs(date).format('DD.MM.YYYY')}</div>
+                <div className="TimelineRow__date">{dayjs(dato).format('DD.MM.YYYY')}</div>
                 {type && (
                     <div className={`TimelineRow__type ${cssDagtype(type)}`}>
                         <span>{showType && displayDagtype(type)}</span>

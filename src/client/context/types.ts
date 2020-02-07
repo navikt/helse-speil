@@ -65,6 +65,17 @@ export interface Arbeidsgiver {
     id: string;
     organisasjonsnummer: string;
     vedtaksperioder: Vedtaksperiode[];
+    utbetalingstidslinjer: Utbetalingstidslinje[];
+}
+
+export interface Utbetalingsdag {
+    type: string;
+    inntekt: number;
+    dato: string;
+}
+
+export interface Utbetalingstidslinje {
+    dager: Utbetalingsdag[];
 }
 
 export interface Søknad extends Hendelse {
