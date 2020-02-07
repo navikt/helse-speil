@@ -4,11 +4,11 @@
     "hendelser": [
         {
             "type": "NySøknad",
-            "hendelseId": "8c9a9ca5-e06b-4eea-a248-b4502ee0ac9c",
+            "hendelseId": "172b81bf-c07c-46c0-be98-ffb6e8fe3066",
             "fnr": "12020052345",
             "aktørId": "12345",
             "orgnummer": "987654321",
-            "rapportertdato": "2020-02-04T11:03:11.401852",
+            "rapportertdato": "2020-02-07T14:28:46.156607",
             "sykeperioder": [
                 {
                     "fom": "2018-01-01",
@@ -19,11 +19,11 @@
         },
         {
             "type": "SendtSøknad",
-            "hendelseId": "7fa0ebcd-2b15-4610-8b19-7c9459181646",
+            "hendelseId": "90198d90-4a8e-4a3d-8afc-d87390d8f9e2",
             "fnr": "12020052345",
             "aktørId": "12345",
             "orgnummer": "987654321",
-            "sendtNav": "2018-02-04T11:03:11.432718",
+            "sendtNav": "2020-02-07T14:28:46.193689",
             "perioder": [
                 {
                     "fom": "2018-01-01",
@@ -36,10 +36,10 @@
         },
         {
             "type": "Inntektsmelding",
-            "hendelseId": "0530c2af-a5c6-4049-8cd0-2c7cb6eabc30",
+            "hendelseId": "09ff74bf-4eee-4ee3-b1be-8f33ba96c030",
             "refusjon": {
                 "opphørsdato": "2018-07-01",
-                "beløpPrMåned": 1000.0,
+                "beløpPrMåned": 31000.0,
                 "endringerIRefusjon": []
             },
             "orgnummer": "987654321",
@@ -47,7 +47,7 @@
             "aktørId": "12345",
             "mottattDato": "2018-02-01T00:00:00",
             "førsteFraværsdag": "2018-01-01",
-            "beregnetInntekt": 1000.0,
+            "beregnetInntekt": 31000.0,
             "arbeidsgiverperioder": [
                 {
                     "fom": "2018-01-01",
@@ -58,16 +58,16 @@
         },
         {
             "type": "Vilkårsgrunnlag",
-            "hendelseId": "aa6ebad7-a845-46ac-a9bf-29bee619743a",
-            "vedtaksperiodeId": "a89647ae-4586-42aa-b87a-9aae048e53c5",
+            "hendelseId": "a8b6af6e-e4d3-40f9-825a-6a348f0e28be",
+            "vedtaksperiodeId": "bd475cc6-0c81-4377-98c7-94850537468d",
             "orgnummer": "987654321",
-            "rapportertDato": "2018-02-04T11:03:11.602641",
+            "rapportertDato": "2020-02-07T14:28:46.375489",
             "inntektsmåneder": [
                 {
                     "årMåned": "2018-01",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -75,7 +75,7 @@
                     "årMåned": "2018-02",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -83,7 +83,7 @@
                     "årMåned": "2018-03",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -91,7 +91,7 @@
                     "årMåned": "2018-04",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -99,7 +99,7 @@
                     "årMåned": "2018-05",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -107,7 +107,7 @@
                     "årMåned": "2018-06",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -115,7 +115,7 @@
                     "årMåned": "2018-07",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -123,7 +123,7 @@
                     "årMåned": "2018-08",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -131,7 +131,7 @@
                     "årMåned": "2018-09",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -139,7 +139,7 @@
                     "årMåned": "2018-10",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -147,7 +147,7 @@
                     "årMåned": "2018-11",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 },
@@ -155,7 +155,7 @@
                     "årMåned": "2018-12",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 31000.0
                         }
                     ]
                 }
@@ -166,21 +166,23 @@
     "arbeidsgivere": [
         {
             "organisasjonsnummer": "987654321",
-            "id": "80ee95f1-524d-471c-9665-b896605e1fc9",
+            "id": "2e8a2331-2205-4786-a05f-6807a2e3b4ea",
             "vedtaksperioder": [
                 {
-                    "id": "a89647ae-4586-42aa-b87a-9aae048e53c5",
+                    "id": "bd475cc6-0c81-4377-98c7-94850537468d",
                     "maksdato": "2018-12-28",
                     "godkjentAv": null,
                     "utbetalingsreferanse": null,
                     "førsteFraværsdag": "2018-01-01",
-                    "inntektFraInntektsmelding": 1000.0,
+                    "inntektFraInntektsmelding": 31000.0,
                     "dataForVilkårsvurdering": {
                         "erEgenAnsatt": false,
-                        "beregnetÅrsinntektFraInntektskomponenten": 12000.0,
-                        "avviksprosent": 0.0
+                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
+                        "avviksprosent": 0.0,
+                        "antallOpptjeningsdagerErMinst": 365,
+                        "harOpptjening": true
                     },
-                    "tilstand": "TIL_GODKJENNING",
+                    "tilstand": "AVVENTER_GODKJENNING",
                     "sykdomstidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -342,7 +344,7 @@
                         {
                             "fom": "2018-01-17",
                             "tom": "2018-01-31",
-                            "dagsats": 1000
+                            "dagsats": 1431
                         }
                     ]
                 }
