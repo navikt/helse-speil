@@ -4,11 +4,11 @@
     "hendelser": [
         {
             "type": "NySøknad",
-            "hendelseId": "8c9a9ca5-e06b-4eea-a248-b4502ee0ac9c",
+            "hendelseId": "a166d34a-e824-43f1-bd99-48b222b73a6c",
             "fnr": "12020052345",
             "aktørId": "12345",
             "orgnummer": "987654321",
-            "rapportertdato": "2020-02-04T11:03:11.401852",
+            "rapportertdato": "2020-02-07T13:01:25.120985",
             "sykeperioder": [
                 {
                     "fom": "2018-01-01",
@@ -19,11 +19,11 @@
         },
         {
             "type": "SendtSøknad",
-            "hendelseId": "7fa0ebcd-2b15-4610-8b19-7c9459181646",
+            "hendelseId": "d7eba643-d336-4025-a4f8-d5cf6d4cc4af",
             "fnr": "12020052345",
             "aktørId": "12345",
             "orgnummer": "987654321",
-            "sendtNav": "2018-02-04T11:03:11.432718",
+            "sendtNav": "2020-02-07T13:01:25.177261",
             "perioder": [
                 {
                     "fom": "2018-01-01",
@@ -36,10 +36,10 @@
         },
         {
             "type": "Inntektsmelding",
-            "hendelseId": "0530c2af-a5c6-4049-8cd0-2c7cb6eabc30",
+            "hendelseId": "74cb73fb-b01d-45f5-97b0-f823e86c20a2",
             "refusjon": {
                 "opphørsdato": "2018-07-01",
-                "beløpPrMåned": 1000.0,
+                "beløpPrMåned": 30000.0,
                 "endringerIRefusjon": []
             },
             "orgnummer": "987654321",
@@ -47,7 +47,7 @@
             "aktørId": "12345",
             "mottattDato": "2018-02-01T00:00:00",
             "førsteFraværsdag": "2018-01-01",
-            "beregnetInntekt": 1000.0,
+            "beregnetInntekt": 30000.0,
             "arbeidsgiverperioder": [
                 {
                     "fom": "2018-01-01",
@@ -58,16 +58,16 @@
         },
         {
             "type": "Vilkårsgrunnlag",
-            "hendelseId": "aa6ebad7-a845-46ac-a9bf-29bee619743a",
-            "vedtaksperiodeId": "a89647ae-4586-42aa-b87a-9aae048e53c5",
+            "hendelseId": "bad64f21-741f-42e5-b003-c39a1054431d",
+            "vedtaksperiodeId": "70cd0cd0-f364-432d-adb2-243c0b25be23",
             "orgnummer": "987654321",
-            "rapportertDato": "2018-02-04T11:03:11.602641",
+            "rapportertDato": "2020-02-07T13:01:25.439206",
             "inntektsmåneder": [
                 {
                     "årMåned": "2018-01",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -75,7 +75,7 @@
                     "årMåned": "2018-02",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -83,7 +83,7 @@
                     "årMåned": "2018-03",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -91,7 +91,7 @@
                     "årMåned": "2018-04",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -99,7 +99,7 @@
                     "årMåned": "2018-05",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -107,7 +107,7 @@
                     "årMåned": "2018-06",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -115,7 +115,7 @@
                     "årMåned": "2018-07",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -123,7 +123,7 @@
                     "årMåned": "2018-08",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -131,7 +131,7 @@
                     "årMåned": "2018-09",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -139,7 +139,7 @@
                     "årMåned": "2018-10",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -147,7 +147,7 @@
                     "årMåned": "2018-11",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 },
@@ -155,7 +155,7 @@
                     "årMåned": "2018-12",
                     "inntektsliste": [
                         {
-                            "beløp": 1000.0
+                            "beløp": 30000.0
                         }
                     ]
                 }
@@ -166,21 +166,193 @@
     "arbeidsgivere": [
         {
             "organisasjonsnummer": "987654321",
-            "id": "80ee95f1-524d-471c-9665-b896605e1fc9",
+            "id": "dd7bbc20-d70c-4658-9701-714ff75e1b33",
+            "utbetalingstidslinjer": [
+                {
+                    "dager": [
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-01"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-02"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-03"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-04"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-05"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-06"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-07"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-08"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-09"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-10"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-11"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-12"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-13"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-14"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-15"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-16"
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-17",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-18",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-19",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0.0,
+                            "dato": "2018-01-20"
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0.0,
+                            "dato": "2018-01-21"
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-22",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-23",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-24",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-25",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-26",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0.0,
+                            "dato": "2018-01-27"
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0.0,
+                            "dato": "2018-01-28"
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-29",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-30",
+                            "utbetaling": 1385
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1384.62,
+                            "dato": "2018-01-31",
+                            "utbetaling": 1385
+                        }
+                    ]
+                }
+            ],
             "vedtaksperioder": [
                 {
-                    "id": "a89647ae-4586-42aa-b87a-9aae048e53c5",
+                    "id": "70cd0cd0-f364-432d-adb2-243c0b25be23",
                     "maksdato": "2018-12-28",
                     "godkjentAv": null,
                     "utbetalingsreferanse": null,
                     "førsteFraværsdag": "2018-01-01",
-                    "inntektFraInntektsmelding": 1000.0,
+                    "inntektFraInntektsmelding": 30000.0,
                     "dataForVilkårsvurdering": {
                         "erEgenAnsatt": false,
-                        "beregnetÅrsinntektFraInntektskomponenten": 12000.0,
+                        "beregnetÅrsinntektFraInntektskomponenten": 360000.0,
                         "avviksprosent": 0.0
                     },
-                    "tilstand": "TIL_GODKJENNING",
+                    "tilstand": "AVVENTER_GODKJENNING",
                     "sykdomstidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -342,7 +514,7 @@
                         {
                             "fom": "2018-01-17",
                             "tom": "2018-01-31",
-                            "dagsats": 1000
+                            "dagsats": 1385
                         }
                     ]
                 }

@@ -67,7 +67,7 @@ const Timeline = ({ person, showDagsats }: Props) => {
     const dagsatserSummed = showDagsats && sumDagsatser(dagsatser);
 
     const dager = sykdomstidslinje.map(dag => ({
-        date: dag.dagen,
+        dato: dag.dagen,
         type: dag.type,
         hendelse: hendelseTypeTilUiNavn(finnMatchendeHendelse(hendelser, dag.hendelseType)),
         dagsats: dagsatser?.[dag.dagen]
