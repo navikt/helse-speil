@@ -1,9 +1,8 @@
 import React from 'react';
 import { guid } from 'nav-frontend-js-utils';
-import { Optional, Person, Utbetalingsdag, Utbetalingsdagtype } from '../../context/types';
+import { Person, Utbetalingsdag } from '../../context/types';
 import 'nav-frontend-tabell-style';
 import { enesteArbeidsgiver } from '../../context/mapper';
-import TimelineRow from '../Timeline/TimelineRow';
 import '../Timeline/Timeline.less';
 import UtbetalingstidslinjeRow from './UtbetalingstidslinjeRow';
 
