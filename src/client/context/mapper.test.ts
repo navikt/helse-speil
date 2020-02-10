@@ -18,7 +18,11 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
                 førsteSykepengedag: '2018-01-17',
                 maksdato: '2018-12-28'
             },
-            sykepengegrunnlag: 12000,
+            opptjening: {
+                antallOpptjeningsdagerErMinst: 365,
+                harOpptjening: true
+            },
+            sykepengegrunnlag: 372000,
             søknadsfrist: {
                 sendtNav: '2018-02-04T11:03:11.432718',
                 søknadTom: '2018-01-31',
@@ -26,24 +30,24 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
             }
         },
         inntektskilder: {
-            månedsinntekt: 1000,
-            årsinntekt: 12000,
+            månedsinntekt: 31000.0,
+            årsinntekt: 372000.0,
             refusjon: 'Ja',
             forskuttering: 'Ja'
         },
         sykepengegrunnlag: {
             avviksprosent: 0,
-            årsinntektFraAording: 12000,
-            årsinntektFraInntektsmelding: 12000,
-            dagsats: 1000
+            årsinntektFraAording: 372000,
+            årsinntektFraInntektsmelding: 372000,
+            dagsats: 1431
         },
         oppsummering: {
-            sykepengegrunnlag: 12000,
-            dagsats: 1000,
+            sykepengegrunnlag: 372000,
+            dagsats: 1431,
             antallDager: 11,
-            beløp: 1000 * 11,
+            beløp: 1431 * 11,
             mottakerOrgnr: '987654321',
-            vedtaksperiodeId: 'a89647ae-4586-42aa-b87a-9aae048e53c5',
+            vedtaksperiodeId: 'bd475cc6-0c81-4377-98c7-94850537468d',
             utbetalingsreferanse: null
         }
     };
@@ -77,7 +81,7 @@ test('filtrerer vekk paddede arbeidsdager', () => {
         arbeidsgivere: [
             {
                 ...behov.arbeidsgivere[0],
-                saker: [
+                vedtaksperioder: [
                     {
                         ...behov.arbeidsgivere[0].vedtaksperioder[0],
                         sykdomstidslinje: [
@@ -90,12 +94,48 @@ test('filtrerer vekk paddede arbeidsdager', () => {
         ]
     };
 
+    expect(enesteVedtaksperiode(personMedPaddedeArbeidsdager).sykdomstidslinje).toEqual(
+        expect.objectContaining(paddedeArbeidsdager)
+    );
+
     const sakUtenPaddedeArbeidsdager: Vedtaksperiode = filtrerPaddedeArbeidsdager(
         enesteVedtaksperiode(personMedPaddedeArbeidsdager)
     );
-    const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje[0];
 
+    const førsteDag = sakUtenPaddedeArbeidsdager.sykdomstidslinje[0];
     expect(førsteDag.type !== Dagtype.ARBEIDSDAG).toBeTruthy();
+});
+
+test('Opptjening er undefined dersom felter er satt til null', () => {
+    const personUtenOpptjeningsinfo: UnmappedPerson = {
+        ...behov,
+        arbeidsgivere: [
+            {
+                ...behov.arbeidsgivere[0],
+                vedtaksperioder: [
+                    {
+                        ...behov.arbeidsgivere[0].vedtaksperioder[0],
+                        dataForVilkårsvurdering: {
+                            ...behov.arbeidsgivere[0].vedtaksperioder[0].dataForVilkårsvurdering,
+                            antallOpptjeningsdagerErMinst: null,
+                            harOpptjening: null
+                        }
+                    }
+                ]
+            }
+        ]
+    };
+
+    const personinfo = {
+        fødselsdato: '1956-12-12',
+        fnr: '123',
+        kjønn: 'mann',
+        navn: 'Sjaman Durek'
+    };
+    expect(
+        personMapper.map(personUtenOpptjeningsinfo, personinfo).inngangsvilkår.opptjening
+    ).toBeUndefined();
+    expect(personMapper.map(behov, personinfo).inngangsvilkår.opptjening).toBeDefined();
 });
 
 test('fjerner ingen dager dersom første dag ikke er ARBEIDSDAG eller IMPLISITT_DAG', () => {

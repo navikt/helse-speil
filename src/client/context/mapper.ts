@@ -63,6 +63,16 @@ export default {
                     maksdato: vedtaksperiode.maksdato,
                     tidligerePerioder: []
                 },
+                opptjening:
+                    vedtaksperiode.dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst &&
+                    vedtaksperiode.dataForVilkårsvurdering?.harOpptjening !== undefined
+                        ? {
+                              antallOpptjeningsdagerErMinst:
+                                  vedtaksperiode.dataForVilkårsvurdering
+                                      ?.antallOpptjeningsdagerErMinst,
+                              harOpptjening: vedtaksperiode.dataForVilkårsvurdering?.harOpptjening
+                          }
+                        : undefined,
                 sykepengegrunnlag: sykepengegrunnlag(person),
                 søknadsfrist: søknadsfrist(person)!
             },

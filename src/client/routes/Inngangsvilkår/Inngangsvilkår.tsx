@@ -29,6 +29,7 @@ const Inngangsvilkår = () => {
                     />
                     <Panel>
                         <Subheader label="Medlemsskap må vurderes manuelt" iconType="advarsel" />
+
                         <Subheader label="Opptjening må vurderes manuelt" iconType="advarsel" />
                         <SubheaderWithList label="Mer enn 0,5G" iconType="ok">
                             <ListItem label="Sykepengegrunnlaget">

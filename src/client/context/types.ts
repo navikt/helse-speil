@@ -147,6 +147,8 @@ export interface DataForVilkårsvurdering {
     erEgenAnsatt: boolean;
     beregnetÅrsinntektFraInntektskomponenten: number;
     avviksprosent: number;
+    antallOpptjeningsdagerErMinst: number;
+    harOpptjening: boolean;
 }
 
 export interface Vedtaksperiode {
@@ -180,6 +182,10 @@ interface Inngangsvilkår {
         innen3Mnd: boolean;
         søknadTom: string;
         sendtNav: string;
+    };
+    opptjening?: {
+        antallOpptjeningsdagerErMinst: number;
+        harOpptjening: boolean;
     };
     sykepengegrunnlag: Optional<number>;
     alder: Optional<number>;
