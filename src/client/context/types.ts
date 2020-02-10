@@ -24,6 +24,16 @@ export enum Dagtype {
     EGENMELDINGSDAG = 'EGENMELDINGSDAG'
 }
 
+export enum Utbetalingsdagtype {
+    ARBEIDSGIVERPERIODE = 'ArbeidsgiverperiodeDag',
+    NAVDAG = 'NavDag',
+    NAVHELG = 'NavHelgDag',
+    ARBEIDSDAG = 'Arbeidsdag',
+    FRIDAG = 'Fridag',
+    UKJENTDAG = 'UkjentDag',
+    AVVISTDAG = 'AvvistDag'
+}
+
 export interface Periode {
     fom: string;
     tom: string;
@@ -69,9 +79,9 @@ export interface Arbeidsgiver {
 }
 
 export interface Utbetalingsdag {
-    type: string;
-    inntekt: number;
+    type: Utbetalingsdagtype;
     dato: string;
+    utbetaling: number;
 }
 
 export interface Utbetalingstidslinje {

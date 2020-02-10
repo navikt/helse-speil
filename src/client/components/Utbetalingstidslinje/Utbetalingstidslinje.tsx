@@ -1,10 +1,11 @@
 import React from 'react';
 import { guid } from 'nav-frontend-js-utils';
-import { Person, Utbetalingsdag } from '../../context/types';
+import { Optional, Person, Utbetalingsdag, Utbetalingsdagtype } from '../../context/types';
 import 'nav-frontend-tabell-style';
 import { enesteArbeidsgiver } from '../../context/mapper';
 import TimelineRow from '../Timeline/TimelineRow';
 import '../Timeline/Timeline.less';
+import UtbetalingstidslinjeRow from './UtbetalingstidslinjeRow';
 
 interface Props {
     person: Person;
@@ -12,7 +13,10 @@ interface Props {
 }
 
 const sumDagsatser = (utbetalingsdager: Utbetalingsdag[]) => {
-    return utbetalingsdager.reduce((sum, utbetalingsdag) => sum + utbetalingsdag.inntekt, 0); // TODO: Filtrer ut ikke-NavDager
+    return utbetalingsdager.reduce(
+        (sum, utbetalingsdag) => sum + (utbetalingsdag.utbetaling ?? 0),
+        0
+    );
 };
 
 const Utbetalingstidslinje = ({ person, showDagsats }: Props) => {
@@ -31,13 +35,14 @@ const Utbetalingstidslinje = ({ person, showDagsats }: Props) => {
             <tbody>
                 {dager
                     .map(item => ({ ...item, key: guid() }))
-                    .map(item => {
+                    .map((item, i, array) => {
+                        const showType = i === 0 || array[i - 1].type !== item.type;
                         return (
-                            <TimelineRow
+                            <UtbetalingstidslinjeRow
                                 {...item}
                                 key={item.key}
-                                showType={true}
-                                showDagsats={true}
+                                showType={showType}
+                                dagsats={item.utbetaling}
                             />
                         );
                     })}

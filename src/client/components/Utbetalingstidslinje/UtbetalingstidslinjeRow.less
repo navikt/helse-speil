@@ -1,0 +1,96 @@
+@import '../../variables';
+
+@yPadding: 0.25rem;
+
+@colorArbeidsdag: #c6c2bf;
+@colorFeriedag: #c6c2bf;
+@colorNavHelgedag: #e0f5fb;
+@colorNavdag: #ecefcc;
+@colorUkjentdag: #FFD399;
+@colorAvvistdag: #D6897D;
+@colorArbeidsgiverdag: #E9E7E7;
+@colorDefault: #c6c2bf;
+
+
+.UtbetalingstidslinjeRow__date,
+.UtbetalingstidslinjeRow__type,
+.UtbetalingstidslinjeRow__degree,
+.UtbetalingstidslinjeRow__dagsats {
+  display: flex;
+  align-items: center;
+  float: left;
+  height: 2rem;
+}
+
+.UtbetalingstidslinjeRow__dagsats {
+  float: right;
+}
+
+.UtbetalingstidslinjeRow__date {
+  width: 8rem;
+}
+
+.UtbetalingstidslinjeRow__degree {
+  justify-content: space-between;
+
+  > *:first-child {
+    margin-right: 1rem;
+  }
+}
+
+.UtbetalingstidslinjeRow__type {
+
+  > span {
+    background: @colorDefault;
+    width: 9rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    margin-right: 0.75rem;
+  }
+
+  > p.typo-undertekst {
+    @activeColor: mix(@blue, #fff, 50%);
+    @defaultColor: mix(@lightGrey, @grey, 50%);
+    padding: 0 0.125rem;
+    color: @defaultColor;
+    box-shadow: 0 0 0 0.125rem @defaultColor;
+    border-radius: 0.25rem;
+    min-width: 1.5rem;
+    text-align: center;
+
+    &.active {
+      color: @activeColor;
+      box-shadow: 0 0 0 0.125rem @activeColor;
+    }
+  }
+
+  &.arbeidsgiverdag > span {
+    background: @colorArbeidsgiverdag;
+  }
+
+  &.arbeidsdag > span {
+    background: @colorArbeidsdag;
+  }
+
+  &.feriedag > span {
+    background: @colorFeriedag;
+  }
+
+  &.navhelg-dag > span {
+    background: @colorNavHelgedag;
+  }
+
+  &.navdag > span {
+    background: @colorNavdag;
+  }
+
+  &.ukjent-dag > span {
+    background: @colorUkjentdag;
+  }
+
+  &.avvist-dag > span {
+    background: @colorAvvistdag;
+  }
+}
