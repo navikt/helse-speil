@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { findLatest, listOfDatesBetween, listOfWorkdaysBetween } from '../utils/date';
+import { findLatest, listOfDatesBetween, listOfWorkdaysBetween, toDate } from '../utils/date';
 import {
     Dag,
     Dagtype,
@@ -16,6 +16,7 @@ import {
     Arbeidsgiver
 } from './types';
 import { Personinfo } from '../../types';
+import moment from 'moment';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -70,7 +71,18 @@ export default {
                               antallOpptjeningsdagerErMinst:
                                   vedtaksperiode.dataForVilkårsvurdering
                                       ?.antallOpptjeningsdagerErMinst,
-                              harOpptjening: vedtaksperiode.dataForVilkårsvurdering?.harOpptjening
+                              harOpptjening: vedtaksperiode.dataForVilkårsvurdering?.harOpptjening,
+                              opptjeningFra: moment(vedtaksperiode.førsteFraværsdag, [
+                                  'DD.MM.YYYY',
+                                  'YYYY-MM-DD',
+                                  moment.ISO_8601
+                              ])
+                                  .subtract(
+                                      vedtaksperiode.dataForVilkårsvurdering
+                                          ?.antallOpptjeningsdagerErMinst,
+                                      'days'
+                                  )
+                                  .format('DD.MM.YYYY')
                           }
                         : undefined,
                 sykepengegrunnlag: sykepengegrunnlag(person),

@@ -30,7 +30,26 @@ const Inngangsvilkår = () => {
                     <Panel>
                         <Subheader label="Medlemsskap må vurderes manuelt" iconType="advarsel" />
 
-                        <Subheader label="Opptjening må vurderes manuelt" iconType="advarsel" />
+                        {inngangsvilkår.opptjening ? (
+                            <SubheaderWithList
+                                label="Opptjeningstid"
+                                iconType={
+                                    inngangsvilkår.opptjening.harOpptjening ? 'ok' : 'advarsel'
+                                }
+                            >
+                                <ListItem label="Første sykdomsdag">
+                                    {toDate(inngangsvilkår.dagerIgjen.førsteFraværsdag)}
+                                </ListItem>
+                                <ListItem label="Opptjening fra">
+                                    {inngangsvilkår.opptjening.opptjeningFra}
+                                </ListItem>
+                                <ListItem label="Antall dager (>28)">
+                                    {`${inngangsvilkår.opptjening.antallOpptjeningsdagerErMinst}`}
+                                </ListItem>
+                            </SubheaderWithList>
+                        ) : (
+                            <Subheader label="Opptjening må vurderes manuelt" iconType="advarsel" />
+                        )}
                         <SubheaderWithList label="Mer enn 0,5G" iconType="ok">
                             <ListItem label="Sykepengegrunnlaget">
                                 {`${toKronerOgØre(inngangsvilkår.sykepengegrunnlag!)} kr`}

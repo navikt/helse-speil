@@ -20,7 +20,8 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
             },
             opptjening: {
                 antallOpptjeningsdagerErMinst: 365,
-                harOpptjening: true
+                harOpptjening: true,
+                opptjeningFra: '01.01.2017'
             },
             sykepengegrunnlag: 372000,
             søknadsfrist: {

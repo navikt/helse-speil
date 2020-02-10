@@ -185,6 +185,7 @@ interface Inngangsvilkår {
     };
     opptjening?: {
         antallOpptjeningsdagerErMinst: number;
+        opptjeningFra: string;
         harOpptjening: boolean;
     };
     sykepengegrunnlag: Optional<number>;
