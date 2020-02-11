@@ -24,22 +24,6 @@ export interface Behov {
     personinfo: Optional<Personinfo>;
 }
 
-interface Vedtaksperiode {
-    fom: string;
-    tom: string;
-    dagsats: number;
-    grad: number;
-    fordeling: { mottager: string; andel: number }[];
-}
-
-export interface Vedtak {
-    soknadId: string;
-    aktorId: string;
-    maksDato: string;
-    saksbehandler?: string;
-    vedtaksperioder: Vedtaksperiode[];
-}
-
 export type Utbetalingslinje = {
     fom: string;
     tom: string;

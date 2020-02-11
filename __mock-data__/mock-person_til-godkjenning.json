@@ -3,164 +3,22 @@
     "fødselsnummer": "12020052345",
     "hendelser": [
         {
-            "type": "NySøknad",
-            "hendelseId": "172b81bf-c07c-46c0-be98-ffb6e8fe3066",
-            "fnr": "12020052345",
-            "aktørId": "12345",
-            "orgnummer": "987654321",
-            "rapportertdato": "2020-02-07T14:28:46.156607",
-            "sykeperioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-31",
-                    "sykdomsgrad": 100
-                }
-            ]
+            "rapportertdato": "2018-01-01T14:42:31.394258",
+            "fom": "2018-01-01",
+            "tom": "2018-01-31",
+            "type": "NY_SØKNAD"
         },
         {
-            "type": "SendtSøknad",
-            "hendelseId": "90198d90-4a8e-4a3d-8afc-d87390d8f9e2",
-            "fnr": "12020052345",
-            "aktørId": "12345",
-            "orgnummer": "987654321",
+            "rapportertdato": "2018-01-01T14:42:32.47278",
             "sendtNav": "2018-02-04T11:03:11.432718",
-            "perioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-31",
-                    "type": "Sykdom",
-                    "grad": 100,
-                    "faktiskGrad": 100.0
-                }
-            ]
+            "fom": "2018-01-01",
+            "tom": "2018-01-31",
+            "type": "SENDT_SØKNAD"
         },
         {
-            "type": "Inntektsmelding",
-            "hendelseId": "09ff74bf-4eee-4ee3-b1be-8f33ba96c030",
-            "refusjon": {
-                "opphørsdato": "2018-07-01",
-                "beløpPrMåned": 31000.0,
-                "endringerIRefusjon": []
-            },
-            "orgnummer": "987654321",
-            "fødselsnummer": "12020052345",
-            "aktørId": "12345",
-            "mottattDato": "2018-02-01T00:00:00",
-            "førsteFraværsdag": "2018-01-01",
             "beregnetInntekt": 31000.0,
-            "arbeidsgiverperioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-16"
-                }
-            ],
-            "ferieperioder": []
-        },
-        {
-            "type": "Vilkårsgrunnlag",
-            "hendelseId": "a8b6af6e-e4d3-40f9-825a-6a348f0e28be",
-            "vedtaksperiodeId": "bd475cc6-0c81-4377-98c7-94850537468d",
-            "orgnummer": "987654321",
-            "rapportertDato": "2020-02-07T14:28:46.375489",
-            "inntektsmåneder": [
-                {
-                    "årMåned": "2018-01",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-02",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-03",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-04",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-05",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-06",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-07",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-08",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-09",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-10",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-11",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-12",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                }
-            ],
-            "erEgenAnsatt": false
+            "førsteFraværsdag": "2018-01-01",
+            "type": "INNTEKTSMELDING"
         }
     ],
     "arbeidsgivere": [

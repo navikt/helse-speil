@@ -23,9 +23,9 @@ dayjs.extend(minMax);
 dayjs.extend(isSameOrAfter);
 
 enum HendelseType {
-    SENDTSØKNAD = 'SendtSøknad',
-    INNTEKTSMELDING = 'Inntektsmelding',
-    NYSØKNAD = 'NySøknad'
+    SENDTSØKNAD = 'SENDT_SØKNAD',
+    INNTEKTSMELDING = 'INNTEKTSMELDING',
+    NYSØKNAD = 'NY_SØKNAD'
 }
 
 export default {
@@ -105,7 +105,7 @@ export default {
                 dagsats,
                 antallDager: utbetalingsdager,
                 beløp: dagsats !== undefined ? dagsats * utbetalingsdager : 0,
-                mottakerOrgnr: orgnummerISøknad(person),
+                mottakerOrgnr: enesteArbeidsgiver(person).organisasjonsnummer,
                 utbetalingsreferanse: utbetalingsreferanse(person),
                 vedtaksperiodeId: enesteVedtaksperiode(person).id
             }
@@ -160,8 +160,6 @@ const antallUtbetalingsdager = (person: UnmappedPerson) =>
         return acc;
     }, 0);
 
-const orgnummerISøknad = (person: UnmappedPerson) => finnSendtSøknad(person)?.orgnummer;
-
 const finnInntektsmelding = (person: UnmappedPerson): Optional<Inntektsmelding> =>
     findHendelse(person, HendelseType.INNTEKTSMELDING) as Inntektsmelding;
 
@@ -169,12 +167,10 @@ const findHendelse = (person: UnmappedPerson, type: HendelseType): Optional<Hend
     person.hendelser.find(h => h.type === type.valueOf());
 
 export const finnSendtSøknad = (person: UnmappedPerson): Optional<SendtSøknad> => {
-    const sendtSøknad = findHendelse(person, HendelseType.SENDTSØKNAD) as SendtSøknad;
-    return { ...sendtSøknad, tom: findLatest(sendtSøknad.perioder.map(periode => periode.tom)) };
+    return findHendelse(person, HendelseType.SENDTSØKNAD) as SendtSøknad;
 };
 
-export const finnSykmeldingsgrad = (person: UnmappedPerson): Optional<number> =>
-    finnSendtSøknad(person)?.perioder[0].grad; //TODO: grad eller faktiskGrad?
+export const finnHardkodetSykmeldingsgrad = (): number => 100;
 
 export const utbetalingsreferanse = (person: UnmappedPerson): Optional<string> =>
     enesteVedtaksperiode(person).utbetalingsreferanse;

@@ -3,173 +3,22 @@
     "fødselsnummer": "12020052345",
     "hendelser": [
         {
-            "type": "NySøknad",
-            "hendelseId": "373eadde-0191-4869-90f8-1e23073f27ae",
-            "fnr": "12020052345",
-            "aktørId": "12345",
-            "orgnummer": "987654321",
-            "rapportertdato": "2020-02-07T14:27:46.179581",
-            "sykeperioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-31",
-                    "sykdomsgrad": 100
-                }
-            ]
+            "rapportertdato": "2018-01-01T14:42:31.394258",
+            "fom": "2018-01-01",
+            "tom": "2018-01-31",
+            "type": "NY_SØKNAD"
         },
         {
-            "type": "SendtSøknad",
-            "hendelseId": "f8610cd9-dde9-4ac5-af04-5723cc98915b",
-            "fnr": "12020052345",
-            "aktørId": "12345",
-            "orgnummer": "987654321",
-            "sendtNav": "2020-02-07T14:27:46.216485",
-            "perioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-31",
-                    "type": "Sykdom",
-                    "grad": 100,
-                    "faktiskGrad": 100.0
-                }
-            ]
+            "rapportertdato": "2018-01-01T14:42:32.47278",
+            "sendtNav": "2018-02-04T11:03:11.432718",
+            "fom": "2018-01-01",
+            "tom": "2018-01-31",
+            "type": "SENDT_SØKNAD"
         },
         {
-            "type": "Inntektsmelding",
-            "hendelseId": "3a8f6092-87d7-460f-93db-980f8ffc120a",
-            "refusjon": {
-                "opphørsdato": "2018-07-01",
-                "beløpPrMåned": 31000.0,
-                "endringerIRefusjon": []
-            },
-            "orgnummer": "987654321",
-            "fødselsnummer": "12020052345",
-            "aktørId": "12345",
-            "mottattDato": "2018-02-01T00:00:00",
-            "førsteFraværsdag": "2018-01-01",
             "beregnetInntekt": 31000.0,
-            "arbeidsgiverperioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-16"
-                }
-            ],
-            "ferieperioder": []
-        },
-        {
-            "type": "Vilkårsgrunnlag",
-            "hendelseId": "d6072988-f7fc-4ea9-bfba-f3a2a09d5e86",
-            "vedtaksperiodeId": "7877564a-2e6c-4055-9f3e-4e43ca29ff0e",
-            "orgnummer": "987654321",
-            "rapportertDato": "2020-02-07T14:27:46.390946",
-            "inntektsmåneder": [
-                {
-                    "årMåned": "2018-01",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-02",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-03",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-04",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-05",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-06",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-07",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-08",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-09",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-10",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-11",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-12",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                }
-            ],
-            "erEgenAnsatt": false
-        },
-        {
-            "type": "ManuellSaksbehandling",
-            "hendelseId": "db495fb0-b7e3-45db-89ed-b95c81b5b5e1",
-            "organisasjonsnummer": "987654321",
-            "vedtaksperiodeId": "7877564a-2e6c-4055-9f3e-4e43ca29ff0e",
-            "saksbehandler": "en_saksbehandler_ident",
-            "utbetalingGodkjent": true,
-            "rapportertdato": "2020-02-07T14:27:46.413373"
+            "førsteFraværsdag": "2018-01-01",
+            "type": "INNTEKTSMELDING"
         }
     ],
     "arbeidsgivere": [

@@ -37,28 +37,9 @@ interface Fravær extends Periode {
     type: string;
 }
 
-interface Søknadsperiode extends Periode {
-    faktiskGrad: number;
-    grad: number;
-    type: string;
-}
-
-interface Refusjon {
-    beløpPrMåned: Optional<number | string>;
-    opphørsdato: Optional<string>;
-    endringerIRefusjon?: string[];
-}
-
 export interface Inntektsmelding extends Hendelse {
-    refusjon: Refusjon;
-    mottattDato: string;
-    ferieperioder: undefined[]; // TODO: Finn ut av hvordan denne ser ut.
-    fødselsnummer: string;
-    aktørId: string;
     beregnetInntekt: number;
-    orgnummer: string;
     førsteFraværsdag: string;
-    arbeidsgiverperioder: Periode[];
 }
 
 export interface Arbeidsgiver {
@@ -68,28 +49,16 @@ export interface Arbeidsgiver {
 }
 
 export interface Søknad extends Hendelse {
-    fnr: string;
-    aktørId: string;
-    orgnummer: string;
+    fom: string;
+    tom: string;
     rapportertdato: string;
-    sykeperioder: Sykeperiode[];
 }
 
 export interface SendtSøknad extends Søknad {
-    fnr: string;
-    aktørId: string;
-    orgnummer: string;
     sendtNav: string;
-    perioder: Søknadsperiode[];
-    tom: string;
 }
 
-export interface NySøknad extends Søknad {
-    fnr: string;
-    aktørId: string;
-    orgnummer: string;
-    rapportertdato: string;
-}
+export interface NySøknad extends Søknad {}
 
 export interface Dag {
     dagen: string;
@@ -99,7 +68,6 @@ export interface Dag {
 
 export interface Hendelse {
     type: string;
-    hendelseId: string;
 }
 
 export interface Utbetalingslinje extends Periode {
