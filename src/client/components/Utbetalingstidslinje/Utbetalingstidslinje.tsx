@@ -2,7 +2,7 @@ import React from 'react';
 import { guid } from 'nav-frontend-js-utils';
 import { Person, Utbetalingsdag } from '../../context/types';
 import 'nav-frontend-tabell-style';
-import { enesteArbeidsgiver } from '../../context/mapper';
+import { enesteArbeidsgiver, enesteVedtaksperiode } from '../../context/mapper';
 import '../Timeline/Timeline.less';
 import UtbetalingstidslinjeRow from './UtbetalingstidslinjeRow';
 
@@ -19,8 +19,8 @@ const sumDagsatser = (utbetalingsdager: Utbetalingsdag[]) => {
 };
 
 const Utbetalingstidslinje = ({ person, showDagsats }: Props) => {
-    const { utbetalingstidslinjer } = enesteArbeidsgiver(person);
-    const dager = utbetalingstidslinjer[0].dager;
+    const { utbetalingstidslinje } = enesteVedtaksperiode(person);
+    const dager = utbetalingstidslinje;
     const dagsatserSummed = showDagsats && sumDagsatser(dager);
 
     return (

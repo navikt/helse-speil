@@ -48,7 +48,7 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
             antallDager: 11,
             beløp: 1431 * 11,
             mottakerOrgnr: '987654321',
-            vedtaksperiodeId: 'bd475cc6-0c81-4377-98c7-94850537468d',
+            vedtaksperiodeId: '8dee480f-806e-4942-8f0a-15d76261d772',
             utbetalingsreferanse: null
         }
     };

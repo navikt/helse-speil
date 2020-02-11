@@ -75,17 +75,12 @@ export interface Arbeidsgiver {
     id: string;
     organisasjonsnummer: string;
     vedtaksperioder: Vedtaksperiode[];
-    utbetalingstidslinjer: Utbetalingstidslinje[];
 }
 
 export interface Utbetalingsdag {
     type: Utbetalingsdagtype;
     dato: string;
     utbetaling: number;
-}
-
-export interface Utbetalingstidslinje {
-    dager: Utbetalingsdag[];
 }
 
 export interface Søknad extends Hendelse {
@@ -183,6 +178,7 @@ export interface Vedtaksperiode {
     dataForVilkårsvurdering?: DataForVilkårsvurdering;
     førsteFraværsdag: string;
     inntektFraInntektsmelding: number;
+    utbetalingstidslinje: Utbetalingsdag[];
 }
 
 export interface Utbetalingsperiode {

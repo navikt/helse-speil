@@ -4,11 +4,11 @@
     "hendelser": [
         {
             "type": "NySøknad",
-            "hendelseId": "373eadde-0191-4869-90f8-1e23073f27ae",
+            "hendelseId": "176be59d-408c-42a5-a1d0-fe8deee78882",
             "fnr": "12020052345",
             "aktørId": "12345",
             "orgnummer": "987654321",
-            "rapportertdato": "2020-02-07T14:27:46.179581",
+            "rapportertdato": "2020-02-11T14:11:43.040838",
             "sykeperioder": [
                 {
                     "fom": "2018-01-01",
@@ -19,11 +19,11 @@
         },
         {
             "type": "SendtSøknad",
-            "hendelseId": "f8610cd9-dde9-4ac5-af04-5723cc98915b",
+            "hendelseId": "2fdb1ce2-a46b-4497-813f-abe4c6408653",
             "fnr": "12020052345",
             "aktørId": "12345",
             "orgnummer": "987654321",
-            "sendtNav": "2020-02-07T14:27:46.216485",
+            "sendtNav": "2018-02-04T11:03:11.432718",
             "perioder": [
                 {
                     "fom": "2018-01-01",
@@ -36,7 +36,7 @@
         },
         {
             "type": "Inntektsmelding",
-            "hendelseId": "3a8f6092-87d7-460f-93db-980f8ffc120a",
+            "hendelseId": "525cbfdf-e947-4f89-adc1-9f406830b695",
             "refusjon": {
                 "opphørsdato": "2018-07-01",
                 "beløpPrMåned": 31000.0,
@@ -58,10 +58,10 @@
         },
         {
             "type": "Vilkårsgrunnlag",
-            "hendelseId": "d6072988-f7fc-4ea9-bfba-f3a2a09d5e86",
-            "vedtaksperiodeId": "7877564a-2e6c-4055-9f3e-4e43ca29ff0e",
+            "hendelseId": "3c157c46-878e-4b35-974f-048e04fda93e",
+            "vedtaksperiodeId": "4fa6fabf-4e21-400e-9cf4-0ae00a07b819",
             "orgnummer": "987654321",
-            "rapportertDato": "2020-02-07T14:27:46.390946",
+            "rapportertDato": "2020-02-11T14:11:43.257714",
             "inntektsmåneder": [
                 {
                     "årMåned": "2018-01",
@@ -164,24 +164,24 @@
         },
         {
             "type": "ManuellSaksbehandling",
-            "hendelseId": "db495fb0-b7e3-45db-89ed-b95c81b5b5e1",
+            "hendelseId": "a0633688-9eed-49c2-ba51-c0a85fa62592",
             "organisasjonsnummer": "987654321",
-            "vedtaksperiodeId": "7877564a-2e6c-4055-9f3e-4e43ca29ff0e",
+            "vedtaksperiodeId": "4fa6fabf-4e21-400e-9cf4-0ae00a07b819",
             "saksbehandler": "en_saksbehandler_ident",
             "utbetalingGodkjent": true,
-            "rapportertdato": "2020-02-07T14:27:46.413373"
+            "rapportertdato": "2020-02-11T14:11:43.280683"
         }
     ],
     "arbeidsgivere": [
         {
             "organisasjonsnummer": "987654321",
-            "id": "3a047edd-6bfe-48c1-ac00-44dc629d69c9",
+            "id": "e3f0145a-fe74-4533-ad10-a69cdb026ca3",
             "vedtaksperioder": [
                 {
-                    "id": "7877564a-2e6c-4055-9f3e-4e43ca29ff0e",
+                    "id": "4fa6fabf-4e21-400e-9cf4-0ae00a07b819",
                     "maksdato": "2018-12-28",
                     "godkjentAv": "en_saksbehandler_ident",
-                    "utbetalingsreferanse": "PB3VMSRONRAFLHZ6JZB4UKP7BY",
+                    "utbetalingsreferanse": "J6TPVP2OEFAA5HHUBLQAUB5YDE",
                     "førsteFraværsdag": "2018-01-01",
                     "inntektFraInntektsmelding": 31000.0,
                     "dataForVilkårsvurdering": {
@@ -354,6 +354,174 @@
                             "fom": "2018-01-17",
                             "tom": "2018-01-31",
                             "dagsats": 1431
+                        }
+                    ],
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-01"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-02"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-03"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-04"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-05"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-06"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-07"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-08"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-09"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-10"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-11"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-12"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-13"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-14"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-15"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-16"
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-17",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-18",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-19",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0.0,
+                            "dato": "2018-01-20"
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0.0,
+                            "dato": "2018-01-21"
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-22",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-23",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-24",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-25",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-26",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0.0,
+                            "dato": "2018-01-27"
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0.0,
+                            "dato": "2018-01-28"
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-29",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-30",
+                            "utbetaling": 1431
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2018-01-31",
+                            "utbetaling": 1431
                         }
                     ]
                 }
