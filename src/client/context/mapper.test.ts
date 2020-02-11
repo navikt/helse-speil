@@ -10,23 +10,23 @@ import { Dagtype, Vedtaksperiode, UnmappedPerson } from './types';
 test('mapper data riktig for inngangsvilkårssiden', () => {
     const expectedPerson = {
         inngangsvilkår: {
-            alder: 61,
+            alder: 62,
             dagerIgjen: {
-                dagerBrukt: 11,
+                dagerBrukt: 3,
                 tidligerePerioder: [],
-                førsteFraværsdag: '2018-01-01',
-                førsteSykepengedag: '2018-01-17',
-                maksdato: '2018-12-28'
+                førsteFraværsdag: '2019-09-10',
+                førsteSykepengedag: '2019-09-26',
+                maksdato: '2020-09-07'
             },
             opptjening: {
-                antallOpptjeningsdagerErMinst: 365,
+                antallOpptjeningsdagerErMinst: 3539,
                 harOpptjening: true,
-                opptjeningFra: '01.01.2017'
+                opptjeningFra: '01.01.2010'
             },
             sykepengegrunnlag: 372000,
             søknadsfrist: {
-                sendtNav: '2018-02-04T11:03:11.432718',
-                søknadTom: '2018-01-31',
+                sendtNav: '2019-10-15T00:00:00',
+                søknadTom: '2019-10-05',
                 innen3Mnd: true
             }
         },
@@ -45,10 +45,10 @@ test('mapper data riktig for inngangsvilkårssiden', () => {
         oppsummering: {
             sykepengegrunnlag: 372000,
             dagsats: 1431,
-            antallDager: 11,
-            beløp: 1431 * 11,
-            mottakerOrgnr: '987654321',
-            vedtaksperiodeId: '8dee480f-806e-4942-8f0a-15d76261d772',
+            antallDager: 3,
+            beløp: 1431 * 3,
+            mottakerOrgnr: '123456789',
+            vedtaksperiodeId: '67b222be-cb16-4213-8c4f-0c34d560f28f',
             utbetalingsreferanse: null
         }
     };

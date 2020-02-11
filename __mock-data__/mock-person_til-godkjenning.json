@@ -1,349 +1,163 @@
 {
-    "aktørId": "12345",
-    "fødselsnummer": "12020052345",
-    "hendelser": [
-        {
-            "type": "NySøknad",
-            "hendelseId": "db2743dc-4ff0-4fa0-b9b9-2b1e1ae40b49",
-            "fnr": "12020052345",
-            "aktørId": "12345",
-            "orgnummer": "987654321",
-            "rapportertdato": "2020-02-11T14:11:43.914641",
-            "sykeperioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-31",
-                    "sykdomsgrad": 100
-                }
-            ]
-        },
-        {
-            "type": "SendtSøknad",
-            "hendelseId": "a79c83e9-135b-4692-996c-402b84b894df",
-            "fnr": "12020052345",
-            "aktørId": "12345",
-            "orgnummer": "987654321",
-            "sendtNav": "2018-02-04T11:03:11.432718",
-            "perioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-31",
-                    "type": "Sykdom",
-                    "grad": 100,
-                    "faktiskGrad": 100.0
-                }
-            ]
-        },
-        {
-            "type": "Inntektsmelding",
-            "hendelseId": "fc238cdf-ca38-4211-8fcc-96cb889521b4",
-            "refusjon": {
-                "opphørsdato": "2018-07-01",
-                "beløpPrMåned": 31000.0,
-                "endringerIRefusjon": []
-            },
-            "orgnummer": "987654321",
-            "fødselsnummer": "12020052345",
-            "aktørId": "12345",
-            "mottattDato": "2018-02-01T00:00:00",
-            "førsteFraværsdag": "2018-01-01",
-            "beregnetInntekt": 31000.0,
-            "arbeidsgiverperioder": [
-                {
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-16"
-                }
-            ],
-            "ferieperioder": []
-        },
-        {
-            "type": "Vilkårsgrunnlag",
-            "hendelseId": "c69a1356-d673-4af1-b59c-22db371ed79b",
-            "vedtaksperiodeId": "8dee480f-806e-4942-8f0a-15d76261d772",
-            "orgnummer": "987654321",
-            "rapportertDato": "2020-02-11T14:11:43.916607",
-            "inntektsmåneder": [
-                {
-                    "årMåned": "2018-01",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-02",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-03",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-04",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-05",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-06",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-07",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-08",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-09",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-10",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-11",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                },
-                {
-                    "årMåned": "2018-12",
-                    "inntektsliste": [
-                        {
-                            "beløp": 31000.0
-                        }
-                    ]
-                }
-            ],
-            "erEgenAnsatt": false
-        }
-    ],
+    "aktørId": "87654321962",
+    "fødselsnummer": "01017000000",
     "arbeidsgivere": [
         {
-            "organisasjonsnummer": "987654321",
-            "id": "17688dd2-68c5-43d0-8ad1-c62b7fce63b9",
+            "organisasjonsnummer": "123456789",
+            "id": "e6f5185e-4566-4bdd-bcf5-c40d03a148ff",
+            "utbetalingsreferanse": 1581432706575,
             "vedtaksperioder": [
                 {
-                    "id": "8dee480f-806e-4942-8f0a-15d76261d772",
-                    "maksdato": "2018-12-28",
+                    "id": "67b222be-cb16-4213-8c4f-0c34d560f28f",
+                    "maksdato": "2020-09-07",
                     "godkjentAv": null,
                     "utbetalingsreferanse": null,
-                    "førsteFraværsdag": "2018-01-01",
+                    "førsteFraværsdag": "2019-09-10",
                     "inntektFraInntektsmelding": 31000.0,
                     "dataForVilkårsvurdering": {
                         "erEgenAnsatt": false,
                         "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
                         "avviksprosent": 0.0,
-                        "antallOpptjeningsdagerErMinst": 365,
+                        "antallOpptjeningsdagerErMinst": 3539,
                         "harOpptjening": true
                     },
                     "tilstand": "AVVENTER_GODKJENNING",
                     "sykdomstidslinje": [
                         {
-                            "dagen": "2018-01-01",
+                            "dagen": "2019-09-10",
+                            "hendelseType": "Inntektsmelding",
+                            "type": "EGENMELDINGSDAG"
+                        },
+                        {
+                            "dagen": "2019-09-11",
+                            "hendelseType": "Inntektsmelding",
+                            "type": "EGENMELDINGSDAG"
+                        },
+                        {
+                            "dagen": "2019-09-12",
+                            "hendelseType": "Inntektsmelding",
+                            "type": "EGENMELDINGSDAG"
+                        },
+                        {
+                            "dagen": "2019-09-13",
+                            "hendelseType": "Inntektsmelding",
+                            "type": "EGENMELDINGSDAG"
+                        },
+                        {
+                            "dagen": "2019-09-14",
+                            "hendelseType": "Inntektsmelding",
+                            "type": "EGENMELDINGSDAG"
+                        },
+                        {
+                            "dagen": "2019-09-15",
+                            "hendelseType": "Inntektsmelding",
+                            "type": "EGENMELDINGSDAG"
+                        },
+                        {
+                            "dagen": "2019-09-16",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-02",
+                            "dagen": "2019-09-17",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-03",
+                            "dagen": "2019-09-18",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-04",
+                            "dagen": "2019-09-19",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-05",
+                            "dagen": "2019-09-20",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-06",
+                            "dagen": "2019-09-21",
                             "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
-                            "dagen": "2018-01-07",
+                            "dagen": "2019-09-22",
                             "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
-                            "dagen": "2018-01-08",
+                            "dagen": "2019-09-23",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-09",
+                            "dagen": "2019-09-24",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-10",
+                            "dagen": "2019-09-25",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-11",
+                            "dagen": "2019-09-26",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-12",
+                            "dagen": "2019-09-27",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-13",
+                            "dagen": "2019-09-28",
                             "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
-                            "dagen": "2018-01-14",
+                            "dagen": "2019-09-29",
                             "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
-                            "dagen": "2018-01-15",
+                            "dagen": "2019-09-30",
                             "hendelseType": "Sykmelding",
                             "type": "SYKEDAG"
                         },
                         {
-                            "dagen": "2018-01-16",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "dagen": "2019-10-01",
+                            "hendelseType": "Søknad",
+                            "type": "FERIEDAG"
                         },
                         {
-                            "dagen": "2018-01-17",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "dagen": "2019-10-02",
+                            "hendelseType": "Søknad",
+                            "type": "FERIEDAG"
                         },
                         {
-                            "dagen": "2018-01-18",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "dagen": "2019-10-03",
+                            "hendelseType": "Søknad",
+                            "type": "FERIEDAG"
                         },
                         {
-                            "dagen": "2018-01-19",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "dagen": "2019-10-04",
+                            "hendelseType": "Søknad",
+                            "type": "FERIEDAG"
                         },
                         {
-                            "dagen": "2018-01-20",
+                            "dagen": "2019-10-05",
                             "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-21",
-                            "hendelseType": "Søknad",
-                            "type": "SYK_HELGEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-22",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-23",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-24",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-25",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-26",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-27",
-                            "hendelseType": "Søknad",
-                            "type": "SYK_HELGEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-28",
-                            "hendelseType": "Søknad",
-                            "type": "SYK_HELGEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-29",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-30",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
-                        },
-                        {
-                            "dagen": "2018-01-31",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
                         }
                     ],
                     "utbetalingslinjer": [
                         {
-                            "fom": "2018-01-17",
-                            "tom": "2018-01-31",
+                            "fom": "2019-09-26",
+                            "tom": "2019-09-30",
                             "dagsats": 1431
                         }
                     ],
@@ -351,172 +165,159 @@
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-01"
+                            "dato": "2019-09-10"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-02"
+                            "dato": "2019-09-11"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-03"
+                            "dato": "2019-09-12"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-04"
+                            "dato": "2019-09-13"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-05"
+                            "dato": "2019-09-14"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-06"
+                            "dato": "2019-09-15"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-07"
+                            "dato": "2019-09-16"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-08"
+                            "dato": "2019-09-17"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-09"
+                            "dato": "2019-09-18"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-10"
+                            "dato": "2019-09-19"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-11"
+                            "dato": "2019-09-20"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-12"
+                            "dato": "2019-09-21"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-13"
+                            "dato": "2019-09-22"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-14"
+                            "dato": "2019-09-23"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-15"
+                            "dato": "2019-09-24"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-16"
+                            "dato": "2019-09-25"
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-17",
+                            "dato": "2019-09-26",
                             "utbetaling": 1431
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-18",
-                            "utbetaling": 1431
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-19",
+                            "dato": "2019-09-27",
                             "utbetaling": 1431
                         },
                         {
                             "type": "NavHelgDag",
                             "inntekt": 0.0,
-                            "dato": "2018-01-20"
+                            "dato": "2019-09-28"
                         },
                         {
                             "type": "NavHelgDag",
                             "inntekt": 0.0,
-                            "dato": "2018-01-21"
+                            "dato": "2019-09-29"
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-22",
+                            "dato": "2019-09-30",
                             "utbetaling": 1431
                         },
                         {
-                            "type": "NavDag",
+                            "type": "Fridag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-23",
-                            "utbetaling": 1431
+                            "dato": "2019-10-01"
                         },
                         {
-                            "type": "NavDag",
+                            "type": "Fridag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-24",
-                            "utbetaling": 1431
+                            "dato": "2019-10-02"
                         },
                         {
-                            "type": "NavDag",
+                            "type": "Fridag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-25",
-                            "utbetaling": 1431
+                            "dato": "2019-10-03"
                         },
                         {
-                            "type": "NavDag",
+                            "type": "Fridag",
                             "inntekt": 1430.77,
-                            "dato": "2018-01-26",
-                            "utbetaling": 1431
+                            "dato": "2019-10-04"
                         },
                         {
                             "type": "NavHelgDag",
                             "inntekt": 0.0,
-                            "dato": "2018-01-27"
-                        },
-                        {
-                            "type": "NavHelgDag",
-                            "inntekt": 0.0,
-                            "dato": "2018-01-28"
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-29",
-                            "utbetaling": 1431
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-30",
-                            "utbetaling": 1431
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-31",
-                            "utbetaling": 1431
+                            "dato": "2019-10-05"
                         }
                     ]
                 }
             ]
+        }
+    ],
+    "hendelser": [
+        {
+            "rapportertdato": "2020-02-11T15:51:43.194354",
+            "fom": "2019-09-16",
+            "tom": "2019-10-05",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "rapportertdato": "2020-02-11T15:51:52.373631",
+            "sendtNav": "2019-10-15T00:00:00",
+            "fom": "2019-09-16",
+            "tom": "2019-10-05",
+            "type": "SENDT_SØKNAD"
+        },
+        {
+            "beregnetInntekt": 31000.0,
+            "førsteFraværsdag": "2019-09-10",
+            "type": "INNTEKTSMELDING"
         }
     ]
 }
