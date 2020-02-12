@@ -17,7 +17,7 @@ const hentSakByAktørId = async (aktørId: string, onBehalfOfToken: string) => {
         });
     }
     const options = {
-        uri: `http://spleis.default.svc.nais.local/api/sak/${aktørId}`,
+        uri: `http://spleis.default.svc.nais.local/api/person/${aktørId}`,
         headers: {
             Authorization: `Bearer ${onBehalfOfToken}`
         },
