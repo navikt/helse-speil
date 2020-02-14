@@ -1,13 +1,12 @@
 import React from 'react';
 import { guid } from 'nav-frontend-js-utils';
-import { Person, Utbetalingsdag } from '../../context/types';
-import 'nav-frontend-tabell-style';
-import { enesteArbeidsgiver, enesteVedtaksperiode } from '../../context/mapper';
-import '../Timeline/Timeline.less';
+import { MappedVedtaksperiode, Utbetalingsdag } from '../../context/types';
 import UtbetalingstidslinjeRow from './UtbetalingstidslinjeRow';
+import 'nav-frontend-tabell-style';
+import './Utbetalingstidslinje.less';
 
 interface Props {
-    person: Person;
+    vedtaksperiode: MappedVedtaksperiode;
     showDagsats: boolean;
 }
 
@@ -18,17 +17,17 @@ const sumDagsatser = (utbetalingsdager: Utbetalingsdag[]) => {
     );
 };
 
-const Utbetalingstidslinje = ({ person, showDagsats }: Props) => {
-    const { utbetalingstidslinje } = enesteVedtaksperiode(person);
-    const dager = utbetalingstidslinje;
+const Utbetalingstidslinje = ({ vedtaksperiode, showDagsats }: Props) => {
+    const dager = vedtaksperiode.utbetalingstidslinje;
     const dagsatserSummed = showDagsats && sumDagsatser(dager);
 
     return (
         <table className="Timeline tabell">
             <thead>
                 <tr>
-                    <th>Utbetalingsoversikt</th>
-                    <th>Dagsats</th>
+                    <th>Sykmeldingsperiode</th>
+                    <th>Gradering</th>
+                    <th>Utbetaling</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,7 +48,8 @@ const Utbetalingstidslinje = ({ person, showDagsats }: Props) => {
             {dagsatserSummed && (
                 <tfoot>
                     <tr>
-                        <th>SUM</th>
+                        <th>TOTAL</th>
+                        <th />
                         <th>{`${dagsatserSummed} kr`}</th>
                     </tr>
                 </tfoot>

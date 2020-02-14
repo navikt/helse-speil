@@ -5,7 +5,6 @@ import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import { toKronerOgØre } from '../../utils/locale';
-import { Person } from '../../context/types';
 import { useTranslation } from 'react-i18next';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import './Inntektskilder.less';
@@ -13,8 +12,11 @@ import ListSeparator from '../../components/ListSeparator';
 import IconRow from '../../components/IconRow/IconRow';
 import Kildelenke from '../../components/Kildelenke';
 
+// TODO: 2 kolonner
+// TODO: Orgnr + ikon i topp
+
 const Inntektskilder = () => {
-    const { inntektskilder } = useContext(PersonContext).personTilBehandling as Person;
+    const { inntektskilder } = useContext(PersonContext).aktivVedtaksperiode!;
     const { t } = useTranslation();
 
     return (

@@ -1,19 +1,17 @@
 import React from 'react';
-import Subheader from '../components/Subheader';
 import Navigasjonsknapper from '../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../hooks/useLinks';
 import { useTranslation } from 'react-i18next';
 
-const Sykdomsvilkår = () => {
+const Oppfølging = () => {
     const { t } = useTranslation();
 
     return (
-        <Panel className="Sykdomsvilkår">
-            <Subheader label={t('sykdomsvilkår.sykdomsvilkår')} iconType="advarsel" />
+        <Panel className="Oppfølging">
             <Navigasjonsknapper previous={pages.SYKMELDINGSPERIODE} next={pages.INNGANGSVILKÅR} />
         </Panel>
     );
 };
 
-export default Sykdomsvilkår;
+export default Oppfølging;

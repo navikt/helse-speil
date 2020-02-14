@@ -1,11 +1,11 @@
 // @ts-nocheck
-import behov from '../../../__mock-data__/mock-person_til-godkjenning.json';
+import behov from '../../../../__mock-data__/mock-person_til-godkjenning.json';
 import personMapper, {
     beregnAlder,
     enesteVedtaksperiode,
     filtrerPaddedeArbeidsdager
-} from './mapper';
-import { Dagtype, Vedtaksperiode, UnmappedPerson } from './types';
+} from './personmapper';
+import { Dagtype, Vedtaksperiode, UnmappedPerson } from '../types';
 
 test('mapper data riktig for inngangsvilkårssiden', () => {
     const expectedPerson = {

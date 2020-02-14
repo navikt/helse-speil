@@ -49,7 +49,7 @@ const hentSakByUtbetalingsref = async (utbetalingsref: string, onBehalfOfToken: 
 
 const filename = (aktørId: string) =>
     aktørId === '0123456789012' || !/[a-z]/.test(aktørId)
-        ? 'mock-person_til-godkjenning.json'
+        ? 'mock-person_2perioder.json'
         : 'mock-person_til-utbetaling.json';
 
 const spleisClient: SpleisClient = {

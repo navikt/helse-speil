@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import Timeline from '../../Timeline';
 import InfotrygdList from '../InfotrygdList';
 import InfotrygdListItem from '../InfotrygdListItem';
 import { PersonContext } from '../../../context/PersonContext';
@@ -15,9 +14,7 @@ const UtbetalingsoversiktInfotrygd = () => {
             <InfotrygdList>
                 <InfotrygdListItem label={t('utbetalingsoversikt.dager')} status="OK" />
             </InfotrygdList>
-            <div className="UtbetalingsoversiktInfotrygd__timeline">
-                <Timeline person={person!} showDagsats={true} />
-            </div>
+            <div className="UtbetalingsoversiktInfotrygd__timeline"></div>
         </div>
     );
 };

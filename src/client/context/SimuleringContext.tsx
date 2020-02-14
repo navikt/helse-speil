@@ -3,7 +3,6 @@ import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
 import { ProviderProps, Utbetalingsdato, Utbetalingsperiode, Vedtaksperiode } from './types';
-import { enesteArbeidsgiver, enesteVedtaksperiode } from './mapper';
 
 interface Simulering {
     status: string;
@@ -26,28 +25,28 @@ interface SimuleringContextType {
 export const SimuleringContext = createContext<SimuleringContextType>({});
 
 export const SimuleringProvider = ({ children }: ProviderProps) => {
-    const { personTilBehandling } = useContext(PersonContext);
+    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
     const { authInfo } = useContext(AuthContext);
     const [error, setError] = useState<string | undefined>(undefined);
     const [simulering, setSimulering] = useState(undefined);
     const [arbeidsgiver, setArbeidsgiver] = useState(undefined);
 
     useEffect(() => {
-        if (personTilBehandling) {
-            hentSimulering(enesteVedtaksperiode(personTilBehandling)).then(simulering => {
+        if (aktivVedtaksperiode) {
+            hentSimulering(aktivVedtaksperiode.rawData).then(simulering => {
                 const arbeidsgiver =
                     simulering?.simulering?.periodeList[0]?.utbetaling[0].detaljer[0]
                         .refunderesOrgNr;
                 setArbeidsgiver(arbeidsgiver);
             });
         }
-    }, [personTilBehandling]);
+    }, [aktivVedtaksperiode]);
 
     const hentSimulering = async (vedtaksperiode: Vedtaksperiode) => {
         return await postSimulering(
             vedtaksperiode,
             personTilBehandling!.aktørId,
-            enesteArbeidsgiver(personTilBehandling!).organisasjonsnummer,
+            personTilBehandling!.arbeidsgivere[0].organisasjonsnummer,
             authInfo.ident
         )
             .then(response => {

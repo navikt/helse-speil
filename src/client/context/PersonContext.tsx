@@ -1,15 +1,16 @@
-import React, { createContext, useState, useEffect, ReactChild } from 'react';
+import React, { createContext, useState, useEffect, ReactChild, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import personMapper, { enesteVedtaksperiode } from './mapper';
+import { mapPerson } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Optional, Person, Vedtaksperiode } from './types';
+import { MappedVedtaksperiode, Optional, Person } from './types';
 
 interface PersonContextType {
     personTilBehandling: Optional<Person>;
     hentPerson: (id: string) => Promise<Optional<Person>>;
     innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
-    enesteVedtaksperiode?: Vedtaksperiode;
+    aktivVedtaksperiode?: MappedVedtaksperiode;
+    aktiverVedtaksperiode: (periodeId: string) => void;
 }
 
 interface PersonContextError {
@@ -24,20 +25,22 @@ interface ProviderProps {
 export const PersonContext = createContext<PersonContextType>({
     personTilBehandling: undefined,
     innsyn: false,
-    hentPerson: (id: string) => Promise.resolve(undefined)
+    hentPerson: _ => Promise.resolve(undefined),
+    aktiverVedtaksperiode: _ => null
 });
 
 export const PersonProvider = ({ children }: ProviderProps) => {
-    const [personTilBehandling, setPersonTilBehandling] = useState<Optional<Person>>();
+    const [personTilBehandling, setPersonTilBehandling] = useState<Person>();
     const [aktørIdFromUrl, setAktørIdFromUrl] = useState<string | undefined>();
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
-    const [sak, setSak] = useState(
-        personTilBehandling ? enesteVedtaksperiode(personTilBehandling) : undefined
-    );
+    const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<MappedVedtaksperiode>();
 
     useEffect(() => {
-        personTilBehandling && setSak(enesteVedtaksperiode(personTilBehandling));
+        if (personTilBehandling) {
+            const defaultVedtaksperiode = personTilBehandling.arbeidsgivere[0].vedtaksperioder[0];
+            setAktivVedtaksperiode(defaultVedtaksperiode);
+        }
     }, [personTilBehandling]);
 
     useEffect(() => {
@@ -63,7 +66,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                     ...response.data
                 }));
                 const person = { ...response.data.person, personinfo };
-                setPersonTilBehandling(personMapper.map(person, personinfo));
+                setPersonTilBehandling(mapPerson(person, personinfo));
                 return person;
             })
             .catch(err => {
@@ -79,13 +82,24 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             });
     };
 
+    const aktiverVedtaksperiode = useCallback(
+        (periodeId: string) => {
+            const vedtaksperiode = personTilBehandling?.arbeidsgivere[0].vedtaksperioder.find(
+                periode => periode.id === periodeId
+            );
+            vedtaksperiode && setAktivVedtaksperiode(vedtaksperiode);
+        },
+        [personTilBehandling]
+    );
+
     return (
         <PersonContext.Provider
             value={{
                 personTilBehandling,
                 hentPerson,
                 innsyn,
-                enesteVedtaksperiode: sak
+                aktivVedtaksperiode,
+                aktiverVedtaksperiode
             }}
         >
             {children}

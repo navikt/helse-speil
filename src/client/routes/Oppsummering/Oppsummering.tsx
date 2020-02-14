@@ -11,11 +11,11 @@ import { PersonContext } from '../../context/PersonContext';
 import { SimuleringContext } from '../../context/SimuleringContext';
 import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
 import './Oppsummering.less';
-import { Person } from '../../context/types';
 import { useTranslation } from 'react-i18next';
 
 const Oppsummering = () => {
-    const { oppsummering } = useContext(PersonContext).personTilBehandling as Person;
+    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
+    const { oppsummering, sykepengegrunnlag } = aktivVedtaksperiode!;
     const { error, simulering, arbeidsgiver } = useContext(SimuleringContext);
     const { t } = useTranslation();
 
@@ -23,7 +23,7 @@ const Oppsummering = () => {
         ? `${toKronerOgØre(simulering?.simulering?.totalBelop)} kr`
         : simulering?.feilMelding ?? 'Ikke tilgjengelig';
 
-    const simuleringsArbeidsgiver = `Organisasjonsnummer: ${oppsummering.mottakerOrgnr}`;
+    const simuleringsArbeidsgiver = `Organisasjonsnummer: ${personTilBehandling?.arbeidsgivere[0].organisasjonsnummer}`;
 
     return (
         <div className="Oppsummering">
@@ -31,16 +31,16 @@ const Oppsummering = () => {
                 <Undertittel>{t('oppsummering.tittel')}</Undertittel>
                 <List>
                     <ListItem label={t('oppsummering.sykepengegrunnlag')}>
-                        {`${toKronerOgØre(oppsummering.sykepengegrunnlag!)} kr`}
+                        {`${toKronerOgØre(sykepengegrunnlag.årsinntektFraInntektsmelding!)} kr`}
                     </ListItem>
                     <ListItem label={t('oppsummering.dagsats')}>
-                        {`${toKronerOgØre(oppsummering.dagsats!)} kr`}
+                        {`${toKronerOgØre(sykepengegrunnlag.dagsats!)} kr`}
                     </ListItem>
                     <ListItem label={t('oppsummering.antall_utbetalingsdager')}>
-                        {oppsummering.antallDager}
+                        {oppsummering.antallUtbetalingsdager}
                     </ListItem>
                     <ListItem label={t('oppsummering.beløp')}>
-                        {`${toKronerOgØre(oppsummering.beløp)} kr`}
+                        {`${toKronerOgØre(oppsummering.totaltTilUtbetaling)} kr`}
                     </ListItem>
                     <ListItem label={t('oppsummering.utbetaling_til')}>
                         {simuleringsArbeidsgiver}

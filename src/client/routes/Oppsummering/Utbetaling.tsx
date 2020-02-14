@@ -10,7 +10,7 @@ import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
 import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
-import { utbetalingsreferanse } from '../../context/mapper';
+import { utbetalingsreferanse } from '../../context/mapping/personmapper';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import { Optional } from '../../context/types';
 import { Behov } from '../../../types';
@@ -40,7 +40,7 @@ interface Error {
 
 const Utbetaling = () => {
     const { saksoversikt } = useContext(SaksoversiktContext);
-    const { personTilBehandling, innsyn, enesteVedtaksperiode } = useContext(PersonContext);
+    const { personTilBehandling, innsyn, aktivVedtaksperiode } = useContext(PersonContext);
     const { ident } = useContext(AuthContext).authInfo;
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
@@ -48,7 +48,7 @@ const Utbetaling = () => {
     const [error, setError] = useState<Error | undefined>(undefined);
     const [modalOpen, setModalOpen] = useState(false);
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
-    const [tilstand, setTilstand] = useState(enesteVedtaksperiode!.tilstand);
+    const [tilstand, setTilstand] = useState(aktivVedtaksperiode!.tilstand);
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {

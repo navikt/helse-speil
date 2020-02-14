@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import Nav from '../Nav';
 import PersonBar from '../PersonBar';
 import Fordeling from '../../routes/Fordeling';
+import Oppfølging from '../../routes/Oppfølging';
 import Oppsummering from '../../routes/Oppsummering';
-import Sykdomsvilkår from '../../routes/Sykdomsvilkår';
 import Inngangsvilkår from '../../routes/Inngangsvilkår';
 import EmptyStateView from '../EmptyStateView';
 import Inntektskilder from '../../routes/Inntektskilder/Inntektskilder';
@@ -14,6 +14,9 @@ import { Route } from 'react-router-dom';
 import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import './Saksbilde.less';
+import Tidslinje from '../Tidslinje';
+
+// TODO: Legg til tom høyremenu og la innhold strekkes
 
 const Saksbilde = () => {
     const { personTilBehandling } = useContext(PersonContext);
@@ -21,6 +24,7 @@ const Saksbilde = () => {
     return (
         <>
             <PersonBar />
+            <Tidslinje />
             <div className="Saksbilde">
                 <Nav active={personTilBehandling !== undefined} />
                 {personTilBehandling ? (
@@ -29,10 +33,7 @@ const Saksbilde = () => {
                             path={`/${pages.SYKMELDINGSPERIODE}/:aktoerId`}
                             component={Sykmeldingsperiode}
                         />
-                        <Route
-                            path={`/${pages.SYKDOMSVILKÅR}/:aktoerId`}
-                            component={Sykdomsvilkår}
-                        />
+                        <Route path={`/${pages.OPPFØLGING}/:aktoerId`} component={Oppfølging} />
                         <Route
                             path={`/${pages.INNGANGSVILKÅR}/:aktoerId`}
                             component={Inngangsvilkår}

@@ -19,11 +19,11 @@ const Nav = ({ active }: Props) => {
             >
                 <Normaltekst>Sykmeldingsperiode</Normaltekst>
             </Link>
-            <Link id="nav-link-sykdomsvilkår" to={links?.[pages.SYKDOMSVILKÅR]} active={active}>
-                <Normaltekst>Sykdomsvilkår</Normaltekst>
-            </Link>
             <Link id="nav-link-inngangsvilkår" to={links?.[pages.INNGANGSVILKÅR]} active={active}>
                 <Normaltekst>Inngangsvilkår</Normaltekst>
+            </Link>
+            <Link active={active} id="nav-link-oppfølging">
+                <Normaltekst>Oppfølging</Normaltekst>
             </Link>
             <Link id="nav-link-inntektskilder" to={links?.[pages.INNTEKTSKILDER]} active={active}>
                 <Normaltekst>Inntektskilder</Normaltekst>
