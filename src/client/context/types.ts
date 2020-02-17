@@ -1,5 +1,5 @@
 import { ReactChild } from 'react';
-import { Personinfo } from '../../types';
+import { Personinfo, VedtaksperiodeTilstand } from '../../types';
 
 export type Optional<T> = T | undefined | null;
 
@@ -165,16 +165,15 @@ interface Inngangsvilkår {
     };
     søknadsfrist: {
         innen3Mnd: boolean;
-        søknadTom: string;
-        sendtNav: string;
+        søknadTom?: string;
+        sendtNav?: string;
     };
-    opptjening?: {
-        antallOpptjeningsdagerErMinst: number;
-        opptjeningFra: string;
-        harOpptjening: boolean;
+    opptjening: {
+        antallOpptjeningsdagerErMinst?: number;
+        opptjeningFra?: string;
+        harOpptjening?: boolean;
     };
-    sykepengegrunnlag: Optional<number>;
-    alder: Optional<number>;
+    alderISykmeldingsperioden: Optional<number>;
 }
 
 export interface Sykepengegrunnlag {
@@ -192,13 +191,23 @@ interface Inntektskilder {
 }
 
 interface Oppsummering {
-    antallDager: number;
-    beløp: number;
-    dagsats?: number;
-    mottakerOrgnr: Optional<string>;
-    sykepengegrunnlag: Optional<number>;
-    utbetalingsreferanse: Optional<string>;
-    vedtaksperiodeId: string;
+    antallUtbetalingsdager: number;
+    totaltTilUtbetaling: number;
+}
+
+export interface MappedVedtaksperiode {
+    id: string;
+    fom: string;
+    tom: string;
+    tilstand: VedtaksperiodeTilstand;
+    inngangsvilkår: Inngangsvilkår;
+    utbetalingstidslinje: Utbetalingsdag[];
+    sykdomstidslinje: Dag[];
+    sykepengegrunnlag: Sykepengegrunnlag;
+    inntektskilder: Inntektskilder;
+    oppsummering: Oppsummering;
+    utbetalingsreferanse?: string;
+    rawData: Vedtaksperiode;
 }
 
 export interface UnmappedPerson {
@@ -208,12 +217,16 @@ export interface UnmappedPerson {
     hendelser: Hendelse[];
 }
 
-export interface Person extends UnmappedPerson {
-    inngangsvilkår: Inngangsvilkår;
-    inntektskilder: Inntektskilder;
-    oppsummering: Oppsummering;
+export interface Person {
+    aktørId: string;
+    arbeidsgivere: {
+        id: string;
+        organisasjonsnummer: string;
+        vedtaksperioder: MappedVedtaksperiode[];
+    }[];
     personinfo: Personinfo;
-    sykepengegrunnlag: Sykepengegrunnlag;
+    sendtSøknad?: SendtSøknad;
+    inntektsmelding?: Inntektsmelding;
 }
 
 export interface ProviderProps {

@@ -3,7 +3,6 @@ import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
-import { Person } from '../../context/types';
 import { useTranslation } from 'react-i18next';
 import Inntektssammenligning from './Inntektssammenligning';
 import './Sykepengegrunnlag.less';
@@ -12,8 +11,10 @@ import Avvikssammenligning from './Avvikssammenligning';
 import { somPenger } from '../../utils/locale';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 
+// TODO: Border-farge, mørk grå
+
 const Sykepengegrunnlag = () => {
-    const { sykepengegrunnlag } = useContext(PersonContext).personTilBehandling as Person;
+    const { sykepengegrunnlag } = useContext(PersonContext).aktivVedtaksperiode!;
     const { t } = useTranslation();
 
     return (

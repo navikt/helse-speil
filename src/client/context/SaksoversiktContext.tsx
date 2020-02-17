@@ -35,7 +35,7 @@ const appendPersoninfo = (behov: Behov) => {
             personinfo: { ...response.data }
         }))
         .catch(err => {
-            console.error('Feil ved henting av person.', err);
+            console.error('Feil ved henting av vedtaksperiode.', err);
             return behov;
         });
 };

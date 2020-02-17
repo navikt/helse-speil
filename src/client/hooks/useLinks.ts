@@ -6,8 +6,8 @@ export type Links = { [key: string]: string };
 
 export const pages = {
     SYKMELDINGSPERIODE: 'sykmeldingsperiode',
-    SYKDOMSVILKÅR: 'sykdomsvilkår',
     INNGANGSVILKÅR: 'inngangsvilkår',
+    OPPFØLGING: 'oppfølging',
     INNTEKTSKILDER: 'inntektskilder',
     SYKEPENGEGRUNNLAG: 'sykepengegrunnlag',
     FORDELING: 'fordeling',
@@ -17,8 +17,8 @@ export const pages = {
 
 const linkBases = {
     [pages.SYKMELDINGSPERIODE]: '/sykmeldingsperiode',
-    [pages.SYKDOMSVILKÅR]: '/sykdomsvilkår',
     [pages.INNGANGSVILKÅR]: '/inngangsvilkår',
+    [pages.OPPFØLGING]: '/oppfølging',
     [pages.INNTEKTSKILDER]: '/inntektskilder',
     [pages.SYKEPENGEGRUNNLAG]: '/sykepengegrunnlag',
     [pages.FORDELING]: '/fordeling',

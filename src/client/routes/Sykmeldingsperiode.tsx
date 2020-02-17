@@ -1,29 +1,63 @@
 import React, { useContext } from 'react';
-import Timeline from '../components/Timeline';
 import Subheader from '../components/Subheader';
 import Navigasjonsknapper from '../components/NavigationButtons';
 import { pages } from '../hooks/useLinks';
-import { Panel } from 'nav-frontend-paneler';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../context/PersonContext';
 import { useTranslation } from 'react-i18next';
+import { Dagtype } from '../context/types';
+import { Periodetabell } from '@navikt/helse-frontend-tabell/dist';
+import { Dagtype as PeriodetabellDagtype } from '@navikt/helse-frontend-tabell/dist/periodetabell';
+import styled from '@emotion/styled';
+
+const dagType = (type: Dagtype): PeriodetabellDagtype => {
+    switch (type) {
+        case Dagtype.SYKEDAG:
+            return PeriodetabellDagtype.Syk;
+        case Dagtype.PERMISJONSDAG:
+        case Dagtype.FERIEDAG:
+            return PeriodetabellDagtype.Ferie;
+        case Dagtype.UTENLANDSDAG:
+        case Dagtype.UBESTEMTDAG:
+        case Dagtype.STUDIEDAG:
+            return PeriodetabellDagtype.Ubestemt;
+        case Dagtype.IMPLISITT_DAG:
+        case Dagtype.ARBEIDSDAG:
+            return PeriodetabellDagtype.Arbeidsdag;
+        case Dagtype.SYK_HELGEDAG:
+            return PeriodetabellDagtype.Helg;
+        case Dagtype.EGENMELDINGSDAG:
+            return PeriodetabellDagtype.Egenmelding;
+    }
+};
+
+const Container = styled.div`
+    max-width: max-content;
+    padding: 1.5rem 2rem;
+    td {
+        vertical-align: middle;
+    }
+
+    .NavigationButtons {
+        margin-top: 2.5rem;
+    }
+`;
 
 const Sykmeldingsperiode = () => {
-    const { personTilBehandling: person } = useContext(PersonContext);
+    const { aktivVedtaksperiode } = useContext(PersonContext);
     const { t } = useTranslation();
 
+    const dager =
+        aktivVedtaksperiode?.sykdomstidslinje.map(dag => ({
+            type: dagType(dag.type as Dagtype),
+            dato: dag.dagen,
+            gradering: 100
+        })) ?? [];
+
     return (
-        <Panel className="Sykmeldingsperiode">
-            {person ? (
-                <>
-                    <Subheader label={t('sykmeldingsperiode.dager')} iconType="ok" />
-                    <Timeline person={person} showDagsats={false} />
-                </>
-            ) : (
-                <Normaltekst>Ingen data</Normaltekst>
-            )}
-            <Navigasjonsknapper next={pages.SYKDOMSVILKÅR} />
-        </Panel>
+        <Container>
+            <Periodetabell dager={dager} />
+            <Navigasjonsknapper next={pages.OPPFØLGING} />
+        </Container>
     );
 };
 

@@ -3,11 +3,6 @@ import Clipboard from '../Clipboard';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
 import './PersonBar.less';
-import {
-    enesteArbeidsgiver,
-    finnHardkodetSykmeldingsgrad,
-    finnSendtSøknad
-} from '../../context/mapper';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
@@ -18,14 +13,12 @@ const PersonBar = () => {
 
     const { aktørId } = personTilBehandling;
     const personinfo = personTilBehandling.personinfo;
-    const arbeidsgiverOrgnr = enesteArbeidsgiver(personTilBehandling).organisasjonsnummer;
-    const sykmeldingsgrad = finnHardkodetSykmeldingsgrad();
+    const arbeidsgiverOrgnr = personTilBehandling.arbeidsgivere[0]?.organisasjonsnummer;
 
     return (
         <div className="PersonBar">
             <Normaltekst>Organisasjonsnummer: {arbeidsgiverOrgnr}</Normaltekst>
             <Normaltekst>{' / '}</Normaltekst>
-            <Normaltekst>{sykmeldingsgrad}%</Normaltekst>
             <span className="PersonBar__separator" />
             <figure
                 id="PersonBar__gender"

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import Subheader from '../components/Subheader';
 import Navigasjonsknapper from '../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../hooks/useLinks';
@@ -9,16 +8,13 @@ import { useTranslation } from 'react-i18next';
 import Utbetalingstidslinje from '../components/Utbetalingstidslinje/Utbetalingstidslinje';
 
 const Utbetalingsoversikt = () => {
-    const { personTilBehandling: person } = useContext(PersonContext);
+    const { aktivVedtaksperiode } = useContext(PersonContext);
     const { t } = useTranslation();
 
     return (
         <Panel className="Utbetalingsoversikt">
-            {person ? (
-                <>
-                    <Subheader label={t('utbetalingsoversikt.dager')} iconType="ok" />
-                    <Utbetalingstidslinje person={person} showDagsats={true} />
-                </>
+            {aktivVedtaksperiode ? (
+                <Utbetalingstidslinje vedtaksperiode={aktivVedtaksperiode} showDagsats={true} />
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
             )}

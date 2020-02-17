@@ -31,7 +31,7 @@ const resources: Resource = {
             mvp: 'Gjeldende kriterier for automatisk saksbehandling',
             neste: 'Neste',
             empty_state_message:
-                'Gjør oppslag på en person ved å skrive inn fødselsnummer eller aktør-ID i feltet over',
+                'Gjør oppslag på en vedtaksperiode ved å skrive inn fødselsnummer eller aktør-ID i feltet over',
             'informasjon ikke tilgjengelig': 'Ikke klart',
             oversikt: {
                 tittel: 'Neste saker',

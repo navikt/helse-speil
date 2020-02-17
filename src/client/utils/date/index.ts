@@ -38,7 +38,7 @@ export const listOfDatesBetween = (firstDate: string, lastDate: string) => {
     return [...dates, last.format('YYYY-MM-DD')];
 };
 
-export const listOfWorkdaysBetween = (firstDate: string, lastDate: string) => {
+export const arbeidsdagerMellom = (firstDate: string, lastDate: string) => {
     const dates = [];
     let first = dayjs(firstDate);
     const last = dayjs(lastDate);

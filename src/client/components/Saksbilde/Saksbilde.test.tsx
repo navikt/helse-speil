@@ -3,14 +3,12 @@ import Saksbilde from './Saksbilde';
 import { MemoryRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
 import { PersonContext } from '../../context/PersonContext';
+import mockperson from '../../../../__mock-data__/mock-person_2perioder.json';
 import '@testing-library/jest-dom/extend-expect';
 
 afterEach(cleanup);
 
-const person = {
-    behandlingsId: '123',
-    originalSøknad: { fom: '2019-05-10', tom: '2019-05-20' }
-};
+const person = mockperson;
 
 const wrapperProps = {
     personTilBehandling: undefined
@@ -33,7 +31,7 @@ jest.mock('nav-frontend-modal', () => ({
 }));
 
 describe('Saksbilde', () => {
-    it('renders content when a person is selected', () => {
+    it('renders content when a vedtaksperiode is selected', () => {
         const { container } = render(
             <PersonContext.Provider
                 value={{
@@ -48,7 +46,7 @@ describe('Saksbilde', () => {
         expect(container.querySelector('.Saksbilde')).toBeTruthy();
     });
 
-    it('render empty state view when no person is selected', () => {
+    it('render empty state view when no vedtaksperiode is selected', () => {
         const { container } = render(
             <MemoryRouter>
                 // @ts-ignore

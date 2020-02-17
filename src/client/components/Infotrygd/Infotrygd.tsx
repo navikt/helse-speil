@@ -19,7 +19,7 @@ const navigate = (value = '', history: History, links: Links) => {
     const sanitizedValue = value.toLowerCase();
     const path =
         (sanitizedValue === 'sp' && pages.SYKMELDINGSPERIODE) ||
-        (sanitizedValue === 'sv' && pages.SYKDOMSVILKÅR) ||
+        (sanitizedValue === 'sv' && pages.OPPFØLGING) ||
         (sanitizedValue === 'iv' && pages.INNGANGSVILKÅR) ||
         (sanitizedValue === 'ik' && pages.INNTEKTSKILDER) ||
         (sanitizedValue === 'sg' && pages.SYKEPENGEGRUNNLAG) ||

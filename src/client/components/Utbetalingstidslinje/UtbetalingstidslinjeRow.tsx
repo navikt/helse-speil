@@ -50,6 +50,7 @@ const UtbetalingstidslinjeRow = ({ dato, type, dagsats, showType }: Props) => {
                     </div>
                 )}
             </td>
+            <td>100%</td>
             <td>
                 <div className="UtbetalingstidslinjeRow__dagsats">
                     {dagsats && <span>{dagsats} kr</span>}
