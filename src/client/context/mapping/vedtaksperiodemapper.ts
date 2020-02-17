@@ -39,7 +39,7 @@ export const mapVedtaksperiode = (
             : null;
 
     const opptjeningFra =
-        (periode.dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst !== undefined &&
+        (periode.dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst &&
             dayjs(periode.førsteFraværsdag, 'YYYY-MM-DD')
                 .subtract(periode.dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst, 'day')
                 .format('DD.MM.YYYY')) ||
