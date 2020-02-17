@@ -1,7 +1,11 @@
 import Tidslinje from '@navikt/helse-frontend-tidslinje';
 import styled from '@emotion/styled';
 import React, { useContext } from 'react';
-import { EnkelTidslinje, VedtaksperiodeStatus } from '@navikt/helse-frontend-tidslinje/dist/types';
+import {
+    EnkelTidslinje,
+    Vedtaksperiode,
+    VedtaksperiodeStatus
+} from '@navikt/helse-frontend-tidslinje/dist/types';
 import { PersonContext } from '../../context/PersonContext';
 import { VedtaksperiodeTilstand } from '../../../types';
 
@@ -32,12 +36,19 @@ const periodeStatus = (tilstand: VedtaksperiodeTilstand) => {
     }
 };
 
+interface Intervall {
+    id: string;
+    fom: string;
+    tom: string;
+    status: VedtaksperiodeStatus;
+}
+
 const TidslinjeWrapper = () => {
     const { personTilBehandling, aktiverVedtaksperiode } = useContext(PersonContext);
 
     const tidslinjer = personTilBehandling?.arbeidsgivere.map(arbeidsgiver => ({
         id: arbeidsgiver.id,
-        inntektsnavn: '',
+        inntektsnavn: `Org: ${arbeidsgiver.organisasjonsnummer}`,
         inntektstype: 'arbeidsgiver',
         vedtaksperioder: arbeidsgiver.vedtaksperioder.map(periode => ({
             id: periode.id,
@@ -47,14 +58,26 @@ const TidslinjeWrapper = () => {
         }))
     }));
 
+    const vedtaksperiodeForIntervall = (intervall: Intervall) => {
+        return tidslinjer
+            ?.reduce(
+                (perioder: Vedtaksperiode[], tidslinje) =>
+                    perioder.concat(tidslinje.vedtaksperioder),
+                []
+            )
+            .find(periode => periode.fom === intervall.fom);
+    };
+
+    const onSelect = (intervall: Intervall) => {
+        const periode = vedtaksperiodeForIntervall(intervall);
+        aktiverVedtaksperiode(periode!.id);
+    };
+
     if (!tidslinjer) return null;
 
     return (
         <Container>
-            <Tidslinje
-                tidslinjer={tidslinjer as EnkelTidslinje[]}
-                onSelect={periode => aktiverVedtaksperiode(periode!.id)}
-            />
+            <Tidslinje tidslinjer={tidslinjer as EnkelTidslinje[]} onSelect={onSelect} />
         </Container>
     );
 };
