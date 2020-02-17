@@ -2,7 +2,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import React, { useContext, useState } from 'react';
-import { fetchPerson, postAnnullering, postVedtak } from '../../io/http';
+import { postAnnullering, postVedtak } from '../../io/http';
 import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
@@ -10,10 +10,9 @@ import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
 import AnnulleringsModal from './AnnulleringsModal';
 import { AuthContext } from '../../context/AuthContext';
-import { utbetalingsreferanse } from '../../context/mapping/personmapper';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import { Optional } from '../../context/types';
-import { Behov } from '../../../types';
+import { Behov, VedtaksperiodeTilstand } from '../../../types';
 import { useTranslation } from 'react-i18next';
 
 enum Beslutning {
@@ -55,7 +54,7 @@ const Utbetaling = () => {
         const behovId = saksoversikt.find(
             (behov: Behov) => behov.aktørId === personTilBehandling?.aktørId
         )?.['@id'];
-        const vedtaksperiodeId = personTilBehandling?.oppsummering.vedtaksperiodeId;
+        const vedtaksperiodeId = aktivVedtaksperiode?.id;
         setIsSending(true);
         postVedtak(behovId, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)
             .then(() => {
@@ -75,20 +74,12 @@ const Utbetaling = () => {
             });
     };
 
-    const fetchUtbetalingsreferanse = () => {
-        return fetchPerson(personTilBehandling?.aktørId)
-            .then(response => utbetalingsreferanse(response.data.person))
-            .catch(err => console.error({ message: 'Kunne ikke hente utbetalingsreferanse' }));
-    };
-
     const annullerUtbetaling = async () => {
-        const utbetalingsref =
-            personTilBehandling?.oppsummering.utbetalingsreferanse ??
-            (await fetchUtbetalingsreferanse());
+        const utbetalingsref = aktivVedtaksperiode?.id;
         setSenderAnnullering(true);
         postAnnullering(utbetalingsref as Optional<string>, personTilBehandling?.aktørId)
             .then(() => {
-                setTilstand(Tilstand.Annullert);
+                setTilstand(VedtaksperiodeTilstand.ANNULLERT);
                 setError(undefined);
             })
             .catch((err: Error) => {
@@ -114,10 +105,10 @@ const Utbetaling = () => {
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
                 til teamet for evaluering.
             </AlertStripeAdvarsel>
-            {tilstand === Tilstand.Annullert ? (
+            {tilstand === VedtaksperiodeTilstand.ANNULLERT ? (
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
             ) : (tilGodkjenning(tilstand) && beslutning === Beslutning.Godkjent) ||
-              tilstand === Tilstand.TilUtbetaling ? (
+              tilstand === VedtaksperiodeTilstand.TIL_UTBETALING ? (
                 <div>
                     <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
                     <Normaltekst>
@@ -141,7 +132,7 @@ const Utbetaling = () => {
                 )
             ) : (
                 <AlertStripeInfo>
-                    {tilstand === Tilstand.TilInfotrygd
+                    {tilstand === VedtaksperiodeTilstand.TIL_INFOTRYGD
                         ? 'Saken er sendt til behandling i Infotrygd.'
                         : innsyn && tilGodkjenning(tilstand)
                         ? 'Saken står til godkjenning av saksbehandler.'

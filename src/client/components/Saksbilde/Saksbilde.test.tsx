@@ -3,14 +3,12 @@ import Saksbilde from './Saksbilde';
 import { MemoryRouter } from 'react-router-dom';
 import { render, cleanup } from '@testing-library/react';
 import { PersonContext } from '../../context/PersonContext';
+import mockperson from '../../../../__mock-data__/mock-person_2perioder.json';
 import '@testing-library/jest-dom/extend-expect';
 
 afterEach(cleanup);
 
-const person = {
-    behandlingsId: '123',
-    originalSøknad: { fom: '2019-05-10', tom: '2019-05-20' }
-};
+const person = mockperson;
 
 const wrapperProps = {
     personTilBehandling: undefined

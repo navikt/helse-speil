@@ -27,6 +27,8 @@ const periodeStatus = (tilstand: VedtaksperiodeTilstand) => {
         case VedtaksperiodeTilstand.AVVENTER_HISTORIKK:
         case VedtaksperiodeTilstand.TIL_INFOTRYGD:
             return VedtaksperiodeStatus.Venter;
+        case VedtaksperiodeTilstand.ANNULLERT:
+            return VedtaksperiodeStatus.Avslag;
     }
 };
 
