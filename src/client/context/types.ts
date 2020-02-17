@@ -227,6 +227,7 @@ export interface Person {
     personinfo: Personinfo;
     sendtSøknad?: SendtSøknad;
     inntektsmelding?: Inntektsmelding;
+    fødselsnummer: string;
 }
 
 export interface ProviderProps {

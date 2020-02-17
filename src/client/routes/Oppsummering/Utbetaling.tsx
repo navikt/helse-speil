@@ -77,7 +77,11 @@ const Utbetaling = () => {
     const annullerUtbetaling = async () => {
         const utbetalingsref = aktivVedtaksperiode?.id;
         setSenderAnnullering(true);
-        postAnnullering(utbetalingsref as Optional<string>, personTilBehandling?.aktørId)
+        postAnnullering(
+            personTilBehandling!.fødselsnummer,
+            utbetalingsref as Optional<string>,
+            personTilBehandling?.aktørId
+        )
             .then(() => {
                 setTilstand(VedtaksperiodeTilstand.ANNULLERT);
                 setError(undefined);

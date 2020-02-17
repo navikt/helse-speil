@@ -47,6 +47,7 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
             vedtaksperiode,
             personTilBehandling!.aktørId,
             personTilBehandling!.arbeidsgivere[0].organisasjonsnummer,
+            personTilBehandling!.fødselsnummer,
             authInfo.ident
         )
             .then(response => {

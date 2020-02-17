@@ -145,7 +145,8 @@ const prodAnnullering = async (req: Request, res: Response) => {
             {
                 utbetalingsreferanse: req.body.utbetalingsreferanse,
                 aktørId: req.body.aktørId,
-                saksbehandler: req.session!.user
+                saksbehandler: req.session!.user,
+                fødselsnummer: req.body.fødselsnummer
             },
             onBehalfOfToken
         )

@@ -1,5 +1,4 @@
 import request from 'request-promise-native';
-import auth from '../auth/authSupport';
 import { NavConfig } from '../types';
 import { Utbetalingsvedtak } from '../../types';
 import { Response } from 'express';
@@ -16,8 +15,6 @@ const setup = (_config: NavConfig) => {
 };
 
 const simuler = async (vedtak: Utbetalingsvedtak, accessToken: string) => {
-    vedtak.saksbehandler = auth.valueFromClaim('name', accessToken);
-
     const options = {
         uri: `${config.spennUrl}/api/v1/simulering`,
         headers: {

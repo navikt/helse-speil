@@ -5,10 +5,11 @@ interface Utbetalingsbody extends Body {
     saksbehandlerIdent: string;
     aktorId: string;
     organisasjonsnummer: string;
+    fødselsnummer: string;
 }
 
 const map = (body: Utbetalingsbody) => {
-    const { sak, saksbehandlerIdent, aktorId, organisasjonsnummer } = body;
+    const { sak, saksbehandlerIdent, fødselsnummer, aktorId, organisasjonsnummer } = body;
     return {
         vedtaksperiodeId: sak.id,
         aktørId: aktorId,
@@ -19,7 +20,8 @@ const map = (body: Utbetalingsbody) => {
             ...linje,
             grad: 100 //TODO: Fiks dette når det ikke alltid er 100% sykmeldt lenger
         })),
-        utbetalingsreferanse: 'helse-simulering'
+        utbetalingsreferanse: 'helse-simulering',
+        fødselsnummer: fødselsnummer
     };
 };
 

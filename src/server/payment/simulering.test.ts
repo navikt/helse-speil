@@ -34,5 +34,6 @@ const validVedtak = {
             dagsats: 12345
         }
     ],
-    maksdato: '2019-10-27'
+    maksdato: '2019-10-27',
+    fødselsnummer: '01108054366'
 };

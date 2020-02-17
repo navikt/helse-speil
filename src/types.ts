@@ -44,6 +44,7 @@ export interface Utbetalingsvedtak {
     maksdato: string;
     vedtaksperiodeId: string;
     organisasjonsnummer: string;
+    fødselsnummer: string;
     saksbehandler?: string;
     utbetalingslinjer?: Utbetalingslinje[];
 }

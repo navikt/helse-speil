@@ -385,6 +385,7 @@ const personInfo = {
 };
 
 const mappetPerson = {
+    fødselsnummer: '01019000123',
     aktørId: '1211109876233',
     arbeidsgivere: [
         {

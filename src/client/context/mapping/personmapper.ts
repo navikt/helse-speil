@@ -33,7 +33,8 @@ export const mapPerson = (unmappedPerson: UnmappedPerson, personinfo: Personinfo
         personinfo,
         arbeidsgivere,
         inntektsmelding,
-        sendtSøknad
+        sendtSøknad,
+        fødselsnummer: unmappedPerson.fødselsnummer
     };
 };
 
