@@ -114,7 +114,7 @@ const Inngangsvilkår = () => {
             )}
             <Subheader label="Yrkesskade må vurderes manuelt" iconType="advarsel" />
 
-            <NavigationButtons previous={pages.OPPFØLGING} next={pages.INNTEKTSKILDER} />
+            <NavigationButtons previous={pages.SYKMELDINGSPERIODE} next={pages.INNTEKTSKILDER} />
         </Panel>
     );
 };
