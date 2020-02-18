@@ -17,9 +17,6 @@ const PersonBar = () => {
 
     return (
         <div className="PersonBar">
-            <Normaltekst>Organisasjonsnummer: {arbeidsgiverOrgnr}</Normaltekst>
-            <Normaltekst>{' / '}</Normaltekst>
-            <span className="PersonBar__separator" />
             <figure
                 id="PersonBar__gender"
                 aria-label={`Kjønn: ${personinfo?.kjønn ?? 'Ikke tilgjengelig'}`}

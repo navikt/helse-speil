@@ -12,9 +12,6 @@ import ListSeparator from '../../components/ListSeparator';
 import IconRow from '../../components/IconRow/IconRow';
 import Kildelenke from '../../components/Kildelenke';
 
-// TODO: 2 kolonner
-// TODO: Orgnr + ikon i topp
-
 const Inntektskilder = () => {
     const { inntektskilder } = useContext(PersonContext).aktivVedtaksperiode!;
     const { t } = useTranslation();

@@ -15,8 +15,14 @@ import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import './Saksbilde.less';
 import Tidslinje from '../Tidslinje';
+import styled from '@emotion/styled';
 
-// TODO: Legg til tom høyremenu og la innhold strekkes
+const Høyremeny = styled.div`
+    flex: 1;
+    width: 16rem;
+    max-width: 16rem;
+    border-left: 1px solid #c6c2bf;
+`;
 
 const Saksbilde = () => {
     const { personTilBehandling } = useContext(PersonContext);
@@ -56,6 +62,7 @@ const Saksbilde = () => {
                 ) : (
                     <EmptyStateView />
                 )}
+                <Høyremeny />
             </div>
         </>
     );

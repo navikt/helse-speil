@@ -11,8 +11,6 @@ import Avvikssammenligning from './Avvikssammenligning';
 import { somPenger } from '../../utils/locale';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 
-// TODO: Border-farge, mørk grå
-
 const Sykepengegrunnlag = () => {
     const { sykepengegrunnlag } = useContext(PersonContext).aktivVedtaksperiode!;
     const { t } = useTranslation();

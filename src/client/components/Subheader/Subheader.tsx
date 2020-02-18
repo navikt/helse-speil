@@ -4,18 +4,32 @@ import Row from '../Row';
 import Icon from 'nav-frontend-ikoner-assets';
 import ListSeparator from '../ListSeparator';
 import './Subheader.less';
+import classNames from 'classnames';
+import IkonSjekk from '../Ikon/IkonSjekk';
+
+type Ikontype = 'ok' | 'advarsel';
 
 interface Props {
     label: string;
-    iconType?: 'ok' | 'advarsel';
+    ikontype?: Ikontype;
     labelProp?: ReactChild;
+    className?: string;
 }
 
-const Subheader = ({ label, iconType, labelProp }: Props) => {
+const ikon = (type: Ikontype) => {
+    switch (type) {
+        case 'ok':
+            return <IkonSjekk />;
+        case 'advarsel':
+            return <Icon kind={`advarsel-sirkel-fyll`} size={20} />;
+    }
+};
+
+const Subheader = ({ label, ikontype, labelProp, className }: Props) => {
     return (
-        <div className="Subheader">
+        <div className={classNames('Subheader', className)}>
             <span>
-                {iconType && <Icon kind={`${iconType}-sirkel-fyll`} size={20} />}
+                {ikontype && ikon(ikontype)}
                 <Row label={label} labelProp={labelProp} />
             </span>
             <ListSeparator />

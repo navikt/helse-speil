@@ -5,16 +5,18 @@ import { useHistory } from 'react-router';
 import { useKeyboard, Key } from '../../hooks/useKeyboard';
 import useLinks from '../../hooks/useLinks';
 import './NavigationButtons.less';
+import classNames from 'classnames';
 
 interface Props {
     previous?: string;
     next?: string;
+    className?: string;
 }
 
 const tooltip = (direction = 'right') =>
     `<span class="typo-normal NavigationButtons__tooltip ${direction}">Hurtigtast: </span>`;
 
-const NavigationButtons = ({ previous, next }: Props) => {
+const NavigationButtons = ({ previous, next, className }: Props) => {
     const links = useLinks();
     const history = useHistory();
 
@@ -39,7 +41,7 @@ const NavigationButtons = ({ previous, next }: Props) => {
     return (
         <>
             <ReactTooltip html={true} place="bottom" />
-            <div className="NavigationButtons">
+            <div className={classNames('NavigationButtons', className)}>
                 {previous && (
                     <div data-tip={tooltip('left')}>
                         <Knapp onClick={clickPrevious}>FORRIGE</Knapp>

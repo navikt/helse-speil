@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import Subheader from '../components/Subheader';
 import Navigasjonsknapper from '../components/NavigationButtons';
 import { pages } from '../hooks/useLinks';
 import { PersonContext } from '../context/PersonContext';
@@ -31,8 +30,8 @@ const dagType = (type: Dagtype): PeriodetabellDagtype => {
 };
 
 const Container = styled.div`
-    max-width: max-content;
     padding: 1.5rem 2rem;
+
     td {
         vertical-align: middle;
     }

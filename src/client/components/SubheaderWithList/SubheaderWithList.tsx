@@ -13,7 +13,7 @@ interface Props {
 const SubheaderWithList = ({ label, labelProp, iconType, children }: Props) => {
     return (
         <div className="SubheaderWithList">
-            <Subheader label={label} iconType={iconType} labelProp={labelProp} />
+            <Subheader label={label} ikontype={iconType} labelProp={labelProp} />
             <List>{children}</List>
         </div>
     );

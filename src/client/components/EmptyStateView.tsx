@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 const styles = {
     margin: '1.5rem',
     display: 'inline-block',
-    height: 'max-content'
+    height: 'max-content',
+    flex: 1
 };
 
 const EmptyStateView = () => {
