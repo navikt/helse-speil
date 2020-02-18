@@ -2,7 +2,7 @@
     "name": "helse-speil",
     "version": "1.0.0",
     "main": "src/client/index.js",
-    "author": "Jan-Kåre Solbakken <jan-kare.solbakken@nav.no>",
+    "author": "Team Bømlo",
     "description": "Innsyn i saksbehandling av sykepenger",
     "repository": {
         "type": "git",
@@ -13,7 +13,7 @@
         "test:eslint": "eslint src/ --ext .js --ext .jsx --ext .tsx --ext .ts",
         "test": "jest",
         "tdd": "jest --watch",
-        "pretest": "npm run test:eslint && npx jest --clearCache",
+        "pretest": "npm run test:eslint",
         "start": "NODE_ENV=development parcel src/client/index.html",
         "start-mac": "NODE_ENV=development parcel src/client/index.html --open 'Google Chrome'",
         "start-express": "npm run build-server && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
@@ -24,7 +24,8 @@
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"src/**/*.{jsx,js,css,less,ts,tsx}\"",
         "snyk-protect": "snyk protect",
-        "e2e-test": "e2e-tests/run.sh"
+        "e2e-test": "e2e-tests/run.sh",
+        "e2e-test-local": "npm run build && e2e-tests/run.sh"
     },
     "husky": {
         "hooks": {

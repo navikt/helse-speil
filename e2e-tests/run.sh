@@ -1,11 +1,13 @@
 #!/bin/bash
 
 set -e
+set -x
 
 declare NPM_PID
+export SPEIL_BACKEND_PORT=4000
 
 function node_pid {
-    echo $(lsof -i :3000 -t)
+    echo $(lsof -i :$SPEIL_BACKEND_PORT -t)
 }
 
 function cleanup {
@@ -20,7 +22,7 @@ npm run dev-express &
 NPM_PID=$!
 
 echo "Started Node, waiting for it to accept connections..."
-timeout 10 bash -c 'while [[ "$(curl -L -s -o /dev/null -w ''%{http_code}'' localhost:3000)" != "200" ]]; do sleep 1; done' || false
+timeout 10 bash -c 'while [[ "$(curl -L -s -o /dev/null -w ''%{http_code}'' localhost:'$SPEIL_BACKEND_PORT')" != "200" ]]; do sleep 1; done' || false
 
 NODE_PID=$(node_pid)
 if [ -z "NODE_PID" ]

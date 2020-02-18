@@ -21,7 +21,7 @@ const oidc: OidcConfig = {
 };
 
 const server: ServerConfig = {
-    port: 3000,
+    port: process.env.SPEIL_BACKEND_PORT ? parseInt(process.env.SPEIL_BACKEND_PORT) : 3000,
     sessionSecret: process.env.SESSION_SECRET
 };
 

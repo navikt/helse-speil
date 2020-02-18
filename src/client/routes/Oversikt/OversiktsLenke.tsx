@@ -13,7 +13,7 @@ const OversiktsLenke = ({ onClick, children }: Props) => {
     };
 
     return (
-        <a className="lenke" onClick={onClick} onKeyPress={simulateOnClick} tabIndex={0}>
+        <a className="lenke" onClick={onClick} onKeyPress={simulateOnClick} href="#">
             {children}
         </a>
     );

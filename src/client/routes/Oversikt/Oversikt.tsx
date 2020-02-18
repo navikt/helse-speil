@@ -15,6 +15,7 @@ import { useInterval } from '../../hooks/useInterval';
 import { Person } from '../../context/types';
 import { useTranslation } from 'react-i18next';
 import { Behov } from '../../../types';
+import OversiktsLenke from './OversiktsLenke';
 
 const TWO_MINUTES = 120000;
 
