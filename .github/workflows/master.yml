@@ -29,9 +29,9 @@ jobs:
         run: npm run build
       - name: build server
         run: npm run build-server
-       - name: run e2e-test
+      - name: run e2e-test
         run: npm run e2e-test
-       - name: Archive Cypress artifacts
+      - name: Archive Cypress artifacts
         uses: actions/upload-artifact@v1
         with:
           name: videos
