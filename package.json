@@ -24,7 +24,6 @@
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"src/**/*.{jsx,js,css,less,ts,tsx}\"",
         "snyk-protect": "snyk protect",
-        "prepare": "npm run snyk-protect",
         "e2e-test": "e2e-tests/run.sh"
     },
     "husky": {
@@ -143,7 +142,7 @@
         "autoprefixer": "^9.7.3",
         "babel-eslint": "^10.0.3",
         "babel-jest": "^24.9.0",
-        "cypress": "^3.8.1",
+        "cypress": "^3.8.3",
         "deasync": "^0.1.19",
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.9.0",
