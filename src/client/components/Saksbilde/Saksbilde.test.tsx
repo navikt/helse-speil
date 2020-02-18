@@ -5,10 +5,11 @@ import { render, cleanup } from '@testing-library/react';
 import { PersonContext } from '../../context/PersonContext';
 import mockperson from '../../../../__mock-data__/mock-person_2perioder.json';
 import '@testing-library/jest-dom/extend-expect';
+import { mapPerson } from '../../context/mapping/personmapper';
 
 afterEach(cleanup);
 
-const person = mockperson;
+const person = mapPerson(mockperson, {});
 
 const wrapperProps = {
     personTilBehandling: undefined
@@ -34,9 +35,9 @@ describe('Saksbilde', () => {
     it('renders content when a vedtaksperiode is selected', () => {
         const { container } = render(
             <PersonContext.Provider
+                // @ts-ignore
                 value={{
                     ...wrapperProps,
-                    // @ts-ignore
                     personTilBehandling: { ...person }
                 }}
             >
