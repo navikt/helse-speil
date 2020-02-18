@@ -5,7 +5,7 @@
         {
             "organisasjonsnummer": "987654321",
             "id": "b6d38b8a-7f88-43b8-adb7-efc5cd2175d3",
-            "utbetalingsreferanse": 1581432020359,
+            "utbetalingsreferanse": 15814320203591581432020359,
             "vedtaksperioder": [
                 {
                     "id": "5cdbec29-9673-45a9-972c-6fc3f5040a41",
@@ -356,6 +356,26 @@
                     ]
                 }
             ]
+        }
+    ],
+    "hendelser": [
+        {
+            "rapportertdato": "2020-02-11T15:51:43.194354",
+            "fom": "2019-09-16",
+            "tom": "2019-10-05",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "rapportertdato": "2020-02-11T15:51:52.373631",
+            "sendtNav": "2019-10-15T00:00:00",
+            "fom": "2019-09-16",
+            "tom": "2019-10-05",
+            "type": "SENDT_SØKNAD"
+        },
+        {
+            "beregnetInntekt": 31000.0,
+            "førsteFraværsdag": "2019-09-10",
+            "type": "INNTEKTSMELDING"
         }
     ]
 }

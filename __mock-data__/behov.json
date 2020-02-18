@@ -3,7 +3,7 @@
         "@behov": "GodkjenningFraSaksbehandler",
         "@id": "ea5d644b-0000-9999-0000-f93744554d5e",
         "@opprettet": "2018-02-27T08:38:00.728127",
-        "aktørId": "12345",
+        "aktørId": "1000000009871",
         "organisasjonsnummer": "987654321",
         "vetdaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87"
     },
@@ -11,7 +11,7 @@
         "@behov": "GodkjenningFraSaksbehandler",
         "@id": "f9374455-0000-9999-0000-ea5d644b4d5f",
         "@opprettet": "2018-02-10T08:38:00.728127",
-        "aktørId": "67890",
+        "aktørId": "87654321962123",
         "organisasjonsnummer": "987654321",
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171"
     }
