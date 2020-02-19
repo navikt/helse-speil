@@ -16,6 +16,7 @@ const Container = styled.div`
 
 const periodeStatus = (tilstand: VedtaksperiodeTilstand) => {
     switch (tilstand) {
+        case VedtaksperiodeTilstand.TIL_GODKJENNING:
         case VedtaksperiodeTilstand.AVVENTER_GODKJENNING:
             return VedtaksperiodeStatus.Oppgaver;
         case VedtaksperiodeTilstand.TIL_UTBETALING:
