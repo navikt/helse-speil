@@ -24,7 +24,7 @@ const Beslutning = {
 
 const OppsummeringInfotrygd = () => {
     const { personTilBehandling } = useContext(PersonContext);
-    const { saksoversikt } = useContext(SaksoversiktContext);
+    const { behovoversikt } = useContext(SaksoversiktContext);
     const [modalOpen, setModalOpen] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [beslutning, setBeslutning] = useState<string | undefined>(undefined);
@@ -32,7 +32,7 @@ const OppsummeringInfotrygd = () => {
     const simuleringContext = useContext(SimuleringContext);
 
     const fattVedtak = (godkjent: boolean) => {
-        const behovId = saksoversikt.find(
+        const behovId = behovoversikt.find(
             behov => behov.aktørId === personTilBehandling!.aktørId
         )?.['@id'];
         setIsSending(true);

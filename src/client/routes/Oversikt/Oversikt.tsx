@@ -24,9 +24,9 @@ const Oversikt = () => {
     const { t } = useTranslation();
     const { hentPerson } = useContext(PersonContext);
     const {
-        saksoversikt,
-        hentSaksoversikt,
-        isFetchingSaksoversikt,
+        behovoversikt,
+        hentBehovoversikt,
+        isFetchingBehovoversikt,
         isFetchingPersoninfo
     } = useContext(SaksoversiktContext);
     const {
@@ -38,11 +38,11 @@ const Oversikt = () => {
     } = useContext(TildelingerContext);
 
     useEffect(() => {
-        hentSaksoversikt();
+        hentBehovoversikt();
     }, []);
 
-    const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(saksoversikt), [
-        saksoversikt
+    const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(behovoversikt), [
+        behovoversikt
     ]);
     useInterval({ callback: intervalledFetchTildelinger, interval: TWO_MINUTES });
 
@@ -58,7 +58,7 @@ const Oversikt = () => {
             <div className="Oversikt__container">
                 <Panel border className="Oversikt__neste-behandlinger">
                     <Undertittel className="panel-tittel">{t('oversikt.tittel')}</Undertittel>
-                    {isFetchingSaksoversikt && (
+                    {isFetchingBehovoversikt && (
                         <AlertStripeInfo>
                             Henter personer <NavFrontendSpinner type="XS" />
                         </AlertStripeInfo>
@@ -74,7 +74,7 @@ const Oversikt = () => {
                             <Normaltekst>{t('oversikt.tidspunkt')}</Normaltekst>
                             <Normaltekst>{t('oversikt.tildeling')}</Normaltekst>
                         </li>
-                        {saksoversikt.map((behov: Behov) => {
+                        {behovoversikt.map((behov: Behov) => {
                             const tildeling = tildelinger.find(t => t.behovId === behov['@id']);
                             return (
                                 <Oversiktslinje

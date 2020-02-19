@@ -5,12 +5,6 @@ export type Optional<T> = T | undefined | null;
 
 export type Hendelsetype = 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
 
-export const HendelsetypeMap = {
-    Inntektsmelding: 'Inntektsmelding',
-    Sykmelding: 'NySøknad',
-    Søknad: 'SendtSøknad'
-};
-
 export enum Dagtype {
     SYKEDAG = 'SYKEDAG',
     FERIEDAG = 'FERIEDAG',
@@ -37,14 +31,6 @@ export enum Utbetalingsdagtype {
 export interface Periode {
     fom: string;
     tom: string;
-}
-
-export interface Sykeperiode extends Periode {
-    sykdomsgrad: number;
-}
-
-interface Fravær extends Periode {
-    type: string;
 }
 
 export interface Inntektsmelding extends Hendelse {

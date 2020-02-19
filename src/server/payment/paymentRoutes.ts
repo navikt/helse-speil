@@ -66,8 +66,8 @@ const routes = (router: Router) => {
 
     const annulleringHandler = {
         handle: (req: Request, res: Response) => {
-            if (!req.body.utbetalingsreferanse || !req.body.aktørId) {
-                res.status(400).send('Både utbetalingsreferanse og aktørId må være tilstede');
+            if (!req.body.utbetalingsreferanse || !req.body.aktørId || !req.body.fødselsnummer) {
+                res.status(400).send('Både utbetalingsreferanse, aktørId og fnr må være tilstede');
                 return;
             }
             if (process.env.NODE_ENV === 'development') {

@@ -1,7 +1,7 @@
 import React, { createContext, ReactChild, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { fetchSaksoversikt, getPersoninfo } from '../io/http';
+import { fetchBehovoversikt, getPersoninfo } from '../io/http';
 import { Optional } from './types';
 import { Behov } from '../../types';
 
@@ -14,17 +14,17 @@ interface ProviderProps {
     children: ReactChild | ReactChild[];
 }
 
-interface SaksoversiktContextType {
-    saksoversikt: Behov[];
-    hentSaksoversikt: () => void;
-    isFetchingSaksoversikt: boolean;
+interface BehovoversiktContextType {
+    behovoversikt: Behov[];
+    hentBehovoversikt: () => void;
+    isFetchingBehovoversikt: boolean;
     isFetchingPersoninfo: boolean;
 }
 
-export const SaksoversiktContext = createContext<SaksoversiktContextType>({
-    saksoversikt: [],
-    hentSaksoversikt: () => {},
-    isFetchingSaksoversikt: false,
+export const SaksoversiktContext = createContext<BehovoversiktContextType>({
+    behovoversikt: [],
+    hentBehovoversikt: () => {},
+    isFetchingBehovoversikt: false,
     isFetchingPersoninfo: false
 });
 
@@ -40,15 +40,15 @@ const appendPersoninfo = (behov: Behov) => {
         });
 };
 
-export const SaksoversiktProvider = ({ children }: ProviderProps) => {
+export const BehovoversiktProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<Optional<Error>>(undefined);
-    const [saksoversikt, setSaksoversikt] = useState<Behov[]>([]);
-    const [isFetchingSaksoversikt, setIsFetchingSaksoversikt] = useState(false);
+    const [behovoversikt, setBehovoversikt] = useState<Behov[]>([]);
+    const [isFetchingBehovoversikt, setIsFetchingBehovoversikt] = useState(false);
     const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);
 
-    const hentSaksoversikt = async () => {
-        const oversikt: Behov[] = await hentPersoner();
-        setSaksoversikt(oversikt);
+    const hentBehovoversikt = async () => {
+        const oversikt: Behov[] = await hentBehov();
+        setBehovoversikt(oversikt);
         setIsFetchingPersoninfo(true);
         const oversiktWithPersoninfo: Behov[] = await Promise.all(
             oversikt.map((behandling: Behov) => appendPersoninfo(behandling))
@@ -59,33 +59,33 @@ export const SaksoversiktProvider = ({ children }: ProviderProps) => {
         if (finnesBehovUtenPersoninfo) {
             setError({ message: 'Kunne ikke hente navn for en eller flere saker. Viser aktørId' });
         }
-        setSaksoversikt(oversiktWithPersoninfo);
+        setBehovoversikt(oversiktWithPersoninfo);
     };
 
-    const hentPersoner = () => {
-        setIsFetchingSaksoversikt(true);
-        return fetchSaksoversikt()
+    const hentBehov = () => {
+        setIsFetchingBehovoversikt(true);
+        return fetchBehovoversikt()
             .then(response => response.data.behov)
             .catch(err => {
                 if (!err.statusCode) console.error(err);
                 if (err.statusCode !== 401) {
                     const message =
                         err.statusCode === 404
-                            ? 'Fant ingen behandlinger mellom i går og i dag.'
-                            : 'Kunne ikke hente behandlinger. Prøv igjen senere.';
+                            ? 'Fant ingen saker mellom i går og i dag.'
+                            : 'Kunne ikke hente saker. Prøv igjen senere.';
                     setError({ ...err, message });
                 }
                 return [];
             })
-            .finally(() => setIsFetchingSaksoversikt(false));
+            .finally(() => setIsFetchingBehovoversikt(false));
     };
 
     return (
         <SaksoversiktContext.Provider
             value={{
-                saksoversikt,
-                hentSaksoversikt,
-                isFetchingSaksoversikt,
+                behovoversikt: behovoversikt,
+                hentBehovoversikt: hentBehovoversikt,
+                isFetchingBehovoversikt: isFetchingBehovoversikt,
                 isFetchingPersoninfo
             }}
         >
@@ -100,6 +100,6 @@ export const SaksoversiktProvider = ({ children }: ProviderProps) => {
     );
 };
 
-SaksoversiktProvider.propTypes = {
+BehovoversiktProvider.propTypes = {
     children: PropTypes.node.isRequired
 };

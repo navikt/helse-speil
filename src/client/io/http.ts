@@ -67,7 +67,7 @@ export const fetchPerson = async (personId?: string, innsyn?: boolean) => {
     });
 };
 
-export const fetchSaksoversikt = async () => {
+export const fetchBehovoversikt = async () => {
     return get(`${baseUrl}/person/`);
 };
 
@@ -138,9 +138,11 @@ export const postSimulering = async (
 
 export const postAnnullering = async (
     fødselsnummer: string,
-    utbetalingsreferanse: Optional<string>,
+    utbetalingsreferanse: string,
     aktørId?: string
 ) => {
+    console.log({ fødselsnummer }, { utbetalingsreferanse });
+
     return post(`${baseUrl}/payments/annullering`, {
         utbetalingsreferanse,
         aktørId,

@@ -8,7 +8,7 @@ import { useLogUserOut } from '../hooks/useLogUserOut';
 import { SimuleringProvider } from '../context/SimuleringContext';
 import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
-import { SaksoversiktProvider } from '../context/SaksoversiktContext';
+import { BehovoversiktProvider } from '../context/SaksoversiktContext';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from '../context/PersonContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
@@ -44,7 +44,7 @@ const App = withContextProviders(() => {
     );
 }, [
     SimuleringProvider,
-    SaksoversiktProvider,
+    BehovoversiktProvider,
     PersonProvider,
     AuthProvider,
     EasterEggProvider,

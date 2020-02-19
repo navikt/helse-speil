@@ -1,0 +1,94 @@
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { Normaltekst } from 'nav-frontend-typografi';
+import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
+import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
+import AnnulleringsModal from './AnnulleringsModal';
+import { postAnnullering } from '../../io/http';
+import { Person } from '../../context/types';
+import { Error, VedtaksperiodeTilstand } from '../../../types';
+import { AuthContext } from '../../context/AuthContext';
+import { PersonContext } from '../../context/PersonContext';
+
+interface StatusUtbetaltProps {
+    setTilstand: Dispatch<SetStateAction<VedtaksperiodeTilstand>>;
+    setError: Dispatch<SetStateAction<Error | undefined>>;
+    personTilBehandling: Person;
+    utbetalingsreferanse: string;
+}
+
+const StatusUtbetalt = ({
+    setTilstand,
+    setError,
+    personTilBehandling,
+    utbetalingsreferanse
+}: StatusUtbetaltProps) => {
+    const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
+    const [senderAnnullering, setSenderAnnullering] = useState(false);
+    const { ident } = useContext(AuthContext).authInfo;
+    const { oppdaterPerson } = useContext(PersonContext);
+
+    const annuller = () =>
+        postAnnullering(
+            personTilBehandling!.fødselsnummer,
+            utbetalingsreferanse,
+            personTilBehandling?.aktørId
+        )
+            .then(() => {
+                setTilstand(VedtaksperiodeTilstand.ANNULLERT);
+                setError(undefined);
+            })
+            .catch((err: Error) => {
+                setAnnulleringsmodalOpen(false);
+                setSenderAnnullering(false);
+                setError({
+                    message:
+                        err.statusCode === 409
+                            ? 'Denne saken er allerede sendt til annullering.'
+                            : `Feil under annullering av utbetaling. Kontakt en utvikler. (statuskode: ${err.statusCode ??
+                                  'ukjent)'}`
+                });
+            });
+
+    const annullerUtbetaling = async () => {
+        setSenderAnnullering(true);
+        if (!utbetalingsreferanse) {
+            oppdaterPerson(personTilBehandling.aktørId)
+                .then(person => {
+                    annuller();
+                })
+                .catch(err => {
+                    setAnnulleringsmodalOpen(false);
+                    setSenderAnnullering(false);
+                    setError({
+                        message:
+                            'Kunne ikke sende saken til annullering. Mangler utbetalingsreferanse. Kontakt en utvikler.'
+                    });
+                });
+        } else {
+            annuller();
+        }
+    };
+
+    return (
+        <div>
+            <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
+            <Normaltekst>
+                {'Er det feil i utbetalingen er det mulig å '}
+                <VisDetaljerKnapp
+                    onClick={() => setAnnulleringsmodalOpen(true)}
+                    tekst="annullere utbetalingen fra oppdragssystemet"
+                />
+            </Normaltekst>
+            {annulleringsmodalOpen && (
+                <AnnulleringsModal
+                    onClose={() => setAnnulleringsmodalOpen(false)}
+                    onApprove={annullerUtbetaling}
+                    faktiskNavIdent={ident ?? ''}
+                    senderAnnullering={senderAnnullering}
+                />
+            )}
+        </div>
+    );
+};
+
+export default StatusUtbetalt;

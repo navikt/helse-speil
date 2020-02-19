@@ -62,5 +62,11 @@ export enum VedtaksperiodeTilstand {
     AVVENTER_GODKJENNING = 'AVVENTER_GODKJENNING',
     TIL_UTBETALING = 'TIL_UTBETALING',
     TIL_INFOTRYGD = 'TIL_INFOTRYGD',
-    ANNULLERT = 'ANNULLERT' // Finnes foreløpig kun i speil
+    ANNULLERT = 'ANNULLERT', // Finnes foreløpig kun i speil
+    TIL_GODKJENNING = 'TIL_GODKJENNING' //Gammel tilstand
+}
+
+export interface Error {
+    message: string;
+    statusCode?: number;
 }
