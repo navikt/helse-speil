@@ -32,6 +32,17 @@ test('Opptjening er undefined dersom felter er satt til null', () => {
     expect(vedtaksperiode.inngangsvilkår.opptjening.opptjeningFra).toBeUndefined();
 });
 
+test('Filtrerer vekk uønskede vedtaksperioder', () => {
+    const person = mapPerson(
+        enPerson([enArbeidsgiver([vedtaksperiodeSomVenterPåTidligere(), enVedtaksperiode()])]),
+        personInfo
+    );
+
+    const vedtaksperioder = person.arbeidsgivere[0].vedtaksperioder;
+    expect(vedtaksperioder.length).toBe(1);
+    expect(vedtaksperioder[0].tilstand === 'AVVENTER_TIDLIGERE_PERIODE');
+});
+
 const enPerson = (arbeidsgivere = [enArbeidsgiver()]) => {
     return {
         aktørId: '1211109876233',
@@ -343,6 +354,40 @@ const enVedtaksperiode = (ekstraDager = [], _vilkårsvurdering = vilkårsvurderi
                 type: 'NavHelgDag',
                 inntekt: 0.0,
                 dato: '2019-10-05'
+            }
+        ]
+    };
+};
+
+const vedtaksperiodeSomVenterPåTidligere = () => {
+    return {
+        id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
+        maksdato: '2020-09-07',
+        godkjentAv: null,
+        utbetalingsreferanse: null,
+        førsteFraværsdag: '2019-09-10',
+        inntektFraInntektsmelding: 31000.0,
+        dataForVilkårsvurdering: vilkårsvurdering(),
+        tilstand: 'AVVENTER_TIDLIGERE_PERIODE',
+        sykdomstidslinje: [
+            {
+                dagen: '2019-09-11',
+                hendelseType: 'Inntektsmelding',
+                type: 'EGENMELDINGSDAG'
+            }
+        ],
+        utbetalingslinjer: [
+            {
+                fom: '2019-09-26',
+                tom: '2019-09-30',
+                dagsats: 1431
+            }
+        ],
+        utbetalingstidslinje: [
+            {
+                type: 'ArbeidsgiverperiodeDag',
+                inntekt: 1430.77,
+                dato: '2019-09-10'
             }
         ]
     };
