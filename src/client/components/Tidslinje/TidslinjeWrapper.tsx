@@ -1,11 +1,10 @@
-import Tidslinje from '@navikt/helse-frontend-tidslinje';
-import styled from '@emotion/styled';
 import React, { useContext } from 'react';
-import {
-    EnkelTidslinje,
+import Tidslinje, {
+    VedtaksperiodeStatus,
     Vedtaksperiode,
-    VedtaksperiodeStatus
-} from '@navikt/helse-frontend-tidslinje/dist/types';
+    EnkelTidslinje
+} from '@navikt/helse-frontend-tidslinje';
+import styled from '@emotion/styled';
 import { PersonContext } from '../../context/PersonContext';
 import { VedtaksperiodeTilstand } from '../../../types';
 
