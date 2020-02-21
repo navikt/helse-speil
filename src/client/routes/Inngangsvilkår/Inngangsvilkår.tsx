@@ -29,11 +29,13 @@ const Footer = styled(NavigationButtons)`
 `;
 
 const Inngangsvilkår = () => {
-    const { inngangsvilkår, sykepengegrunnlag } = useContext(PersonContext).aktivVedtaksperiode!;
+    const { aktivVedtaksperiode } = useContext(PersonContext);
     const [visDetaljerModal, setVisDetaljerModal] = useState(false);
     const detaljerKnapp = <VisDetaljerKnapp onClick={() => setVisDetaljerModal(true)} />;
 
-    if (!inngangsvilkår) return null;
+    if (!aktivVedtaksperiode?.inngangsvilkår) return null;
+
+    const { inngangsvilkår, sykepengegrunnlag } = aktivVedtaksperiode;
 
     return (
         <>
