@@ -14,7 +14,7 @@ import './Inngangsvilkår.less';
 import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import styled from '@emotion/styled';
 import Grid from '../../components/Grid';
-import Varsel from '@navikt/helse-frontend-varsel/dist';
+import Varsel from '@navikt/helse-frontend-varsel';
 
 const Toppvarsel = styled(Varsel)`
     border-radius: 0;
