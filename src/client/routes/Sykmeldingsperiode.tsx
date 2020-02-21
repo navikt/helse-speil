@@ -46,12 +46,12 @@ const hendelseType = (type: Dagtype) => {
         case Dagtype.PERMISJONSDAG_SØKNAD:
         case Dagtype.SYKEDAG_SØKNAD:
         case Dagtype.STUDIEDAG:
-        case Dagtype.UBESTEMTDAG:
         case Dagtype.UTENLANDSDAG:
             return 'SØ';
         case Dagtype.SYKEDAG_SYKMELDING:
             return 'SM';
         case Dagtype.SYK_HELGEDAG:
+        case Dagtype.UBESTEMTDAG:
         case Dagtype.IMPLISITT_DAG:
         case Dagtype.PERMISJONSDAG_AAREG:
             return undefined;
@@ -75,16 +75,16 @@ const Sykmeldingsperiode = () => {
     const { t } = useTranslation();
 
     function forrigeSykedagsKilde(dag: Dag, index: number) {
+        let gjeldendeDagtype;
         while (index > 0) {
             index--;
+            gjeldendeDagtype = aktivVedtaksperiode?.sykdomstidslinje[index].type;
             if (
-                aktivVedtaksperiode?.sykdomstidslinje[index].type === Dagtype.SYKEDAG_SØKNAD ||
-                aktivVedtaksperiode?.sykdomstidslinje[index].type === Dagtype.SYKEDAG_SYKMELDING
+                gjeldendeDagtype === Dagtype.SYKEDAG_SØKNAD ||
+                gjeldendeDagtype === Dagtype.SYKEDAG_SYKMELDING
             ) {
                 return {
-                    label: hendelseType(
-                        aktivVedtaksperiode?.sykdomstidslinje[index].type as Dagtype
-                    ) as kildeLabel,
+                    label: hendelseType(gjeldendeDagtype as Dagtype) as kildeLabel,
                     link: ''
                 };
             }
@@ -104,7 +104,7 @@ const Sykmeldingsperiode = () => {
                     ? { label: hendelseType(dag.type as Dagtype) as kildeLabel, link: '' }
                     : undefined
         })) ?? [];
-    console.log({ dager });
+
     return (
         <Container>
             <Periodetabell dager={dager} />

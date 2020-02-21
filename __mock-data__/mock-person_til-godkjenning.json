@@ -108,23 +108,23 @@
                         },
                         {
                             "dagen": "2019-10-01",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "FERIEDAG_INNTEKTSMELDING"
                         },
                         {
                             "dagen": "2019-10-02",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "FERIEDAG_INNTEKTSMELDING"
                         },
                         {
                             "dagen": "2019-10-03",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "FERIEDAG_INNTEKTSMELDING"
                         },
                         {
                             "dagen": "2019-10-04",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "FERIEDAG_INNTEKTSMELDING"
                         },
                         {
                             "dagen": "2019-10-05",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYK_HELGEDAG"
                         }
                     ],
                     "utbetalingslinjer": [
