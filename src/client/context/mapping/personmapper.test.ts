@@ -396,8 +396,7 @@ const vedtaksperiodeSomVenterPåTidligere = () => {
 const enArbeidsdag = dato => {
     return {
         dato: dato,
-        type: 'ARBEIDSDAG',
-        hendelseId: 'f8d10337-b0de-4036-ba95-67e5d0f041e4'
+        type: 'ARBEIDSDAG_INNTEKTSMELDING'
     };
 };
 

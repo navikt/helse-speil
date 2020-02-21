@@ -4,14 +4,13 @@
     "arbeidsgivere": [
         {
             "organisasjonsnummer": "987654321",
-            "id": "b6d38b8a-7f88-43b8-adb7-efc5cd2175d3",
-            "utbetalingsreferanse": 15814320203591581432020359,
+            "id": "fdbe696a-3b99-4df5-b653-4490b0b2e4be",
             "vedtaksperioder": [
                 {
-                    "id": "5cdbec29-9673-45a9-972c-6fc3f5040a41",
+                    "id": "7ecd544b-5864-4732-bd23-4c2d9bcfd066",
                     "maksdato": "2018-12-28",
                     "godkjentAv": "en_saksbehandler_ident",
-                    "utbetalingsreferanse": "1581432020359",
+                    "utbetalingsreferanse": "1582286438741",
                     "førsteFraværsdag": "2018-01-01",
                     "inntektFraInntektsmelding": 31000.0,
                     "dataForVilkårsvurdering": {
@@ -25,158 +24,127 @@
                     "sykdomstidslinje": [
                         {
                             "dagen": "2018-01-01",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-02",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-03",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-04",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-05",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-06",
-                            "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
                             "dagen": "2018-01-07",
-                            "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
                             "dagen": "2018-01-08",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-09",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-10",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-11",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-12",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-13",
-                            "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
                             "dagen": "2018-01-14",
-                            "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
                             "dagen": "2018-01-15",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-16",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-17",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-18",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-19",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-20",
-                            "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
                             "dagen": "2018-01-21",
-                            "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
                             "dagen": "2018-01-22",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-23",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-24",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-25",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-26",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-27",
-                            "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
                             "dagen": "2018-01-28",
-                            "hendelseType": "Søknad",
                             "type": "SYK_HELGEDAG"
                         },
                         {
                             "dagen": "2018-01-29",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-30",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-31",
-                            "hendelseType": "Sykmelding",
-                            "type": "SYKEDAG"
+                            "type": "SYKEDAG_SYKMELDING"
                         }
                     ],
                     "utbetalingslinjer": [
@@ -356,26 +324,6 @@
                     ]
                 }
             ]
-        }
-    ],
-    "hendelser": [
-        {
-            "rapportertdato": "2020-02-11T15:51:43.194354",
-            "fom": "2019-09-16",
-            "tom": "2019-10-05",
-            "type": "NY_SØKNAD"
-        },
-        {
-            "rapportertdato": "2020-02-11T15:51:52.373631",
-            "sendtNav": "2019-10-15T00:00:00",
-            "fom": "2019-09-16",
-            "tom": "2019-10-05",
-            "type": "SENDT_SØKNAD"
-        },
-        {
-            "beregnetInntekt": 31000.0,
-            "førsteFraværsdag": "2019-09-10",
-            "type": "INNTEKTSMELDING"
         }
     ]
 }

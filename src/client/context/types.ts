@@ -3,19 +3,28 @@ import { Personinfo, VedtaksperiodeTilstand } from '../../types';
 
 export type Optional<T> = T | undefined | null;
 
-export type Hendelsetype = 'Inntektsmelding' | 'Sykmelding' | 'Søknad';
+export enum Hendelsetype {
+    INNTEKTSMELDING = 'Inntektsmelding',
+    SYKMELDING = 'Sykmelding',
+    SØKNAD = 'Søknad'
+}
 
 export enum Dagtype {
-    SYKEDAG = 'SYKEDAG',
-    FERIEDAG = 'FERIEDAG',
-    STUDIEDAG = 'STUDIEDAG',
-    ARBEIDSDAG = 'ARBEIDSDAG',
-    UBESTEMTDAG = 'UBESTEMTDAG',
-    SYK_HELGEDAG = 'SYK_HELGEDAG',
-    UTENLANDSDAG = 'UTENLANDSDAG',
+    ARBEIDSDAG_INNTEKTSMELDING = 'ARBEIDSDAG_INNTEKTSMELDING',
+    ARBEIDSDAG_SØKNAD = 'ARBEIDSDAG_SØKNAD',
+    EGENMELDINGSDAG_INNTEKTSMELDING = 'EGENMELDINGSDAG_INNTEKTSMELDING',
+    EGENMELDINGSDAG_SØKNAD = 'EGENMELDINGSDAG_SØKNAD',
+    FERIEDAG_INNTEKTSMELDING = 'FERIEDAG_INNTEKTSMELDING',
+    FERIEDAG_SØKNAD = 'FERIEDAG_SØKNAD',
     IMPLISITT_DAG = 'IMPLISITT_DAG',
-    PERMISJONSDAG = 'PERMISJONSDAG',
-    EGENMELDINGSDAG = 'EGENMELDINGSDAG'
+    PERMISJONSDAG_SØKNAD = 'PERMISJONSDAG_SØKNAD',
+    PERMISJONSDAG_AAREG = 'PERMISJONSDAG_AAREG',
+    STUDIEDAG = 'STUDIEDAG',
+    SYKEDAG_SYKMELDING = 'SYKEDAG_SYKMELDING',
+    SYKEDAG_SØKNAD = 'SYKEDAG_SØKNAD',
+    SYK_HELGEDAG = 'SYK_HELGEDAG',
+    UBESTEMTDAG = 'UBESTEMTDAG',
+    UTENLANDSDAG = 'UTENLANDSDAG'
 }
 
 export enum Utbetalingsdagtype {
@@ -62,10 +71,12 @@ export interface SendtSøknad extends Søknad {
 
 export interface NySøknad extends Søknad {}
 
+export type kildeLabel = 'IM' | 'SØ' | 'SM';
+
 export interface Dag {
     dagen: string;
     type: string;
-    hendelseType: Hendelsetype;
+    kilde: { label: kildeLabel; link: string };
 }
 
 export interface Hendelse {

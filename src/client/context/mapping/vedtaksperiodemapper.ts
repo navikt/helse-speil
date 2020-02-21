@@ -113,12 +113,17 @@ export const mapVedtaksperiode = (
 
 export const filtrerPaddedeArbeidsdager = (vedtaksperiode: Vedtaksperiode): Vedtaksperiode => {
     const arbeidsdagEllerImplisittDag = (dag: Dag) =>
-        dag.type === Dagtype.ARBEIDSDAG || dag.type === Dagtype.IMPLISITT_DAG;
+        dag.type === Dagtype.ARBEIDSDAG_INNTEKTSMELDING ||
+        dag.type === Dagtype.ARBEIDSDAG_SØKNAD ||
+        dag.type === Dagtype.IMPLISITT_DAG;
     const førsteArbeidsdag = vedtaksperiode.sykdomstidslinje.findIndex(arbeidsdagEllerImplisittDag);
     if (førsteArbeidsdag === -1 || førsteArbeidsdag !== 0) return vedtaksperiode;
 
     const førsteIkkeArbeidsdag = vedtaksperiode.sykdomstidslinje.findIndex(
-        dag => dag.type !== Dagtype.ARBEIDSDAG && dag.type !== Dagtype.IMPLISITT_DAG
+        dag =>
+            dag.type !== Dagtype.ARBEIDSDAG_INNTEKTSMELDING &&
+            dag.type !== Dagtype.ARBEIDSDAG_SØKNAD &&
+            dag.type !== Dagtype.IMPLISITT_DAG
     );
 
     return {

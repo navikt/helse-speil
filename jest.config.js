@@ -13,7 +13,7 @@ module.exports = {
         '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
         'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js'
     },
-    transformIgnorePatterns: ['<rootDir>/node_modules/'],
+    transformIgnorePatterns: ['<rootDir>/node_modules/(?!(@navikt/helse-frontend-tidslinje))'],
     watchPathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/node_modules'],
     setupFilesAfterEnv: ['<rootDir>/__mocks__/jest-setup.js']
 };
