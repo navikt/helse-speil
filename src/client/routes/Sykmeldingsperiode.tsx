@@ -3,9 +3,9 @@ import Navigasjonsknapper from '../components/NavigationButtons';
 import { pages } from '../hooks/useLinks';
 import { PersonContext } from '../context/PersonContext';
 import { useTranslation } from 'react-i18next';
-import { Dag, Dagtype, kildeLabel } from '../context/types';
-import { Periodetabell } from '@navikt/helse-frontend-tabell/dist';
-import { Dagtype as PeriodetabellDagtype } from '@navikt/helse-frontend-tabell/dist/periodetabell';
+import { Dag, Dagtype, Kildelabel } from '../context/types';
+import { Periodetabell } from '@navikt/helse-frontend-tabell';
+import { Dagtype as PeriodetabellDagtype } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 
 const dagType = (type: Dagtype): PeriodetabellDagtype => {
@@ -84,7 +84,7 @@ const Sykmeldingsperiode = () => {
                 gjeldendeDagtype === Dagtype.SYKEDAG_SYKMELDING
             ) {
                 return {
-                    label: hendelseType(gjeldendeDagtype as Dagtype) as kildeLabel,
+                    label: hendelseType(gjeldendeDagtype as Dagtype) as Kildelabel,
                     link: ''
                 };
             }
@@ -101,7 +101,7 @@ const Sykmeldingsperiode = () => {
                 dag.type === Dagtype.SYK_HELGEDAG
                     ? forrigeSykedagsKilde(dag, index)
                     : hendelseType(dag.type as Dagtype)
-                    ? { label: hendelseType(dag.type as Dagtype) as kildeLabel, link: '' }
+                    ? { label: hendelseType(dag.type as Dagtype) as Kildelabel, link: '' }
                     : undefined
         })) ?? [];
 

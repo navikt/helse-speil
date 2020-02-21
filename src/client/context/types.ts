@@ -71,12 +71,12 @@ export interface SendtSøknad extends Søknad {
 
 export interface NySøknad extends Søknad {}
 
-export type kildeLabel = 'IM' | 'SØ' | 'SM';
+export type Kildelabel = 'IM' | 'SØ' | 'SM';
 
 export interface Dag {
     dagen: string;
     type: string;
-    kilde: { label: kildeLabel; link: string };
+    kilde: { label: Kildelabel; link: string };
 }
 
 export interface Hendelse {
