@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { cleanup } from '@testing-library/react';
 import inputHandler from './inputHandler';
+import { Utbetalingsvedtak } from '../../types';
 
 afterEach(cleanup);
 
@@ -31,10 +32,11 @@ test('sak with missing required field in sub-level is not ok', () => {
     expect(inputHandler.isValid(sak)).toBeFalsy();
 });
 
-const validSak = {
+const validSak: Utbetalingsvedtak = {
     vedtaksperiodeId: '9485bde4-6541-4dcf-aa53-8b466fc4ac87',
     aktørId: '0123456789012',
     organisasjonsnummer: '123456789',
+    utbetalingsreferanse: 'banan',
     utbetalingslinjer: [
         {
             fom: '2019-05-09',

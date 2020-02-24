@@ -26,6 +26,7 @@ const createToken = (claims: { name: string }) => {
 const validVedtak = {
     vedtaksperiodeId: '1234-1234-1234-1234',
     aktørId: '123456',
+    utbetalingsreferanse: 'banan',
     organisasjonsnummer: '987654321',
     utbetalingslinjer: [
         {

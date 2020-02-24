@@ -121,14 +121,14 @@ export const postVedtak = async (
 };
 
 export const postSimulering = async (
-    sak: Vedtaksperiode,
+    vedtaksperiode: Vedtaksperiode,
     aktørId: string,
     orgnr: string,
     fødselsnummer: string,
     saksbehandlerIdent?: string
 ) => {
     return post(`${baseUrl}/payments/simulate`, {
-        sak,
+        vedtaksperiode,
         saksbehandlerIdent,
         fødselsnummer,
         aktørId,

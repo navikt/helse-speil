@@ -36,6 +36,7 @@ export interface UnmappedUtbetalingsvedtak {
     aktørId: string;
     organisasjonsnummer: string;
     maksdato: string;
+    utbetalingsreferanse: string;
     utbetalingslinjer?: Utbetalingslinje[];
 }
 
@@ -43,6 +44,7 @@ export interface Utbetalingsvedtak {
     aktørId: string;
     maksdato: string;
     vedtaksperiodeId: string;
+    utbetalingsreferanse: string;
     organisasjonsnummer: string;
     fødselsnummer: string;
     saksbehandler?: string;

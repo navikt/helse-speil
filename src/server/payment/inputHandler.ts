@@ -1,26 +1,26 @@
 import { UnmappedUtbetalingsvedtak, Utbetalingslinje, Utbetalingsvedtak } from '../../types';
 
 interface Utbetalingsbody extends Body {
-    sak: UnmappedUtbetalingsvedtak;
+    vedtaksperiode: UnmappedUtbetalingsvedtak;
     saksbehandlerIdent: string;
-    aktorId: string;
-    organisasjonsnummer: string;
+    aktørId: string;
+    orgnr: string;
     fødselsnummer: string;
 }
 
-const map = (body: Utbetalingsbody) => {
-    const { sak, saksbehandlerIdent, fødselsnummer, aktorId, organisasjonsnummer } = body;
+const map = (body: Utbetalingsbody): Utbetalingsvedtak => {
+    const { vedtaksperiode, saksbehandlerIdent, fødselsnummer, aktørId, orgnr } = body;
     return {
-        vedtaksperiodeId: sak.id,
-        aktørId: aktorId,
-        organisasjonsnummer: organisasjonsnummer,
-        maksdato: sak.maksdato,
+        vedtaksperiodeId: vedtaksperiode.id,
+        aktørId: aktørId,
+        organisasjonsnummer: orgnr,
+        maksdato: vedtaksperiode.maksdato,
         saksbehandler: saksbehandlerIdent,
-        utbetalingslinjer: sak.utbetalingslinjer?.map(linje => ({
+        utbetalingslinjer: vedtaksperiode.utbetalingslinjer?.map(linje => ({
             ...linje,
             grad: 100 //TODO: Fiks dette når det ikke alltid er 100% sykmeldt lenger
         })),
-        utbetalingsreferanse: 'helse-simulering',
+        utbetalingsreferanse: vedtaksperiode.utbetalingsreferanse,
         fødselsnummer: fødselsnummer
     };
 };
@@ -47,6 +47,7 @@ const isValid = (sak: Utbetalingsvedtak): sak is Utbetalingsvedtak => {
         fieldIsValid(sak.organisasjonsnummer, 'string') &&
         fieldIsValid(sak.maksdato, 'string') &&
         fieldIsValid(sak.aktørId, 'string') &&
+        fieldIsValid(sak.utbetalingsreferanse, 'string') &&
         utbetalingslinjerIsValid(sak.utbetalingslinjer)
     );
 };
