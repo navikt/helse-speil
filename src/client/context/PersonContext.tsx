@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { mapPerson } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { MappedVedtaksperiode, Optional, Person } from './types';
+import { Vedtaksperiode, Optional, Person } from './types';
 
 interface PersonContextType {
     personTilBehandling: Optional<Person>;
     hentPerson: (id: string) => Promise<Optional<Person>>;
     innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
-    aktivVedtaksperiode?: MappedVedtaksperiode;
+    aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
     oppdaterPerson: (aktørId: string) => Promise<Optional<Person>>;
 }
@@ -36,7 +36,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     const [aktørIdFromUrl, setAktørIdFromUrl] = useState<string | undefined>();
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
-    const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<MappedVedtaksperiode>();
+    const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
 
     useEffect(() => {
         if (personTilBehandling) {

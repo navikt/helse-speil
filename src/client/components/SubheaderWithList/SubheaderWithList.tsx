@@ -1,6 +1,6 @@
 import React, { ReactChild } from 'react';
 import List from '../List';
-import Subheader from '../Subheader';
+import Vilkårsgruppe from '../Vilkårsgruppe';
 import './SubheaderWithList.less';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 const SubheaderWithList = ({ label, labelProp, iconType, children }: Props) => {
     return (
         <div className="SubheaderWithList">
-            <Subheader label={label} ikontype={iconType} labelProp={labelProp} />
+            <Vilkårsgruppe tittel={label} ikontype={iconType} labelProp={labelProp} />
             <List>{children}</List>
         </div>
     );

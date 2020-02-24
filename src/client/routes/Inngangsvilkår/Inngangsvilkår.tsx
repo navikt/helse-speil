@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react';
-import ListItem from '../../components/ListItem';
-import Subheader from '../../components/Subheader';
-import SubheaderWithList from '../../components/SubheaderWithList';
+import Vilkårsgruppe from '../../components/Vilkårsgruppe';
 import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
 import TidligerePerioderModal from './TidligerePerioderModal';
 import { Panel } from 'nav-frontend-paneler';
@@ -15,6 +13,7 @@ import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import styled from '@emotion/styled';
 import Grid from '../../components/Grid';
 import Varsel from '@navikt/helse-frontend-varsel';
+import Vilkårsgrupperad from '../../components/Vilkårsgruppe/Vilkårsgrupperad';
 
 const Toppvarsel = styled(Varsel)`
     border-radius: 0;
@@ -42,74 +41,92 @@ const Inngangsvilkår = () => {
             <Toppvarsel text="Enkelte inngangsvilkår må vurderes manuelt" type="advarsel" />
             <Container kolonner={2}>
                 <Panel>
-                    <Subheader label="Arbeidsuførhet må vurderes manuelt" ikontype="advarsel" />
-                    <Subheader label="Medlemskap må vurderes manuelt" ikontype="advarsel" />
-                    <SubheaderWithList label="Under 70 år" iconType="ok">
-                        <ListItem label="Alder">
+                    <Vilkårsgruppe
+                        tittel="Arbeidsuførhet må vurderes manuelt"
+                        paragraf="§8-4"
+                        ikontype="advarsel"
+                    />
+                    <Vilkårsgruppe
+                        tittel="Medlemskap må vurderes manuelt"
+                        paragraf="§2"
+                        ikontype="advarsel"
+                    />
+                    <Vilkårsgruppe tittel="Under 70 år" paragraf="§8-51" ikontype="ok">
+                        <Vilkårsgrupperad label="Alder">
                             {inngangsvilkår.alderISykmeldingsperioden}
-                        </ListItem>
-                    </SubheaderWithList>
-                    <SubheaderWithList
-                        label="Søknadsfrist"
-                        iconType={inngangsvilkår.søknadsfrist.innen3Mnd ? 'ok' : 'advarsel'}
+                        </Vilkårsgrupperad>
+                    </Vilkårsgruppe>
+                    <Vilkårsgruppe
+                        tittel="Søknadsfrist"
+                        paragraf="§8-X"
+                        ikontype={inngangsvilkår.søknadsfrist.innen3Mnd ? 'ok' : 'advarsel'}
                     >
-                        <ListItem label="Sendt NAV">
+                        <Vilkårsgrupperad label="Sendt NAV">
                             {toDate(inngangsvilkår.søknadsfrist.sendtNav!)}
-                        </ListItem>
-                        <ListItem label="Siste sykepengedag">
+                        </Vilkårsgrupperad>
+                        <Vilkårsgrupperad label="Siste sykepengedag">
                             {toDate(inngangsvilkår.søknadsfrist.søknadTom!)}
-                        </ListItem>
-                        <ListItem label="Innen 3 mnd">
+                        </Vilkårsgrupperad>
+                        <Vilkårsgrupperad label="Innen 3 mnd">
                             {inngangsvilkår.søknadsfrist.innen3Mnd ? 'Ja' : 'Nei'}
-                        </ListItem>
-                    </SubheaderWithList>
+                        </Vilkårsgrupperad>
+                    </Vilkårsgruppe>
 
                     {inngangsvilkår.opptjening ? (
-                        <SubheaderWithList
-                            label="Opptjeningstid"
-                            iconType={inngangsvilkår.opptjening.harOpptjening ? 'ok' : 'advarsel'}
+                        <Vilkårsgruppe
+                            tittel="Opptjeningstid"
+                            paragraf="§8-2"
+                            ikontype={inngangsvilkår.opptjening.harOpptjening ? 'ok' : 'advarsel'}
                         >
-                            <ListItem label="Første sykdomsdag">
+                            <Vilkårsgrupperad label="Første sykdomsdag">
                                 {toDate(inngangsvilkår.dagerIgjen.førsteFraværsdag)}
-                            </ListItem>
-                            <ListItem label="Opptjening fra">
+                            </Vilkårsgrupperad>
+                            <Vilkårsgrupperad label="Opptjening fra">
                                 {inngangsvilkår.opptjening.opptjeningFra || '-'}
-                            </ListItem>
-                            <ListItem label="Antall dager (>28)">
+                            </Vilkårsgrupperad>
+                            <Vilkårsgrupperad label="Antall dager (>28)">
                                 {`${inngangsvilkår.opptjening.antallOpptjeningsdagerErMinst}`}
-                            </ListItem>
-                        </SubheaderWithList>
+                            </Vilkårsgrupperad>
+                        </Vilkårsgruppe>
                     ) : (
-                        <Subheader label="Opptjening må vurderes manuelt" ikontype="advarsel" />
+                        <Vilkårsgruppe
+                            tittel="Opptjening må vurderes manuelt"
+                            ikontype="advarsel"
+                            paragraf="§8-2"
+                        />
                     )}
                 </Panel>
                 <Panel>
-                    <SubheaderWithList label="Krav til minste sykepengegrunnlag" iconType="ok">
-                        <ListItem label="Sykepengegrunnlaget">
+                    <Vilkårsgruppe
+                        tittel="Krav til minste sykepengegrunnlag"
+                        paragraf="§8-X"
+                        ikontype="ok"
+                    >
+                        <Vilkårsgrupperad label="Sykepengegrunnlaget">
                             {`${toKronerOgØre(sykepengegrunnlag.årsinntektFraInntektsmelding!)} kr`}
-                        </ListItem>
+                        </Vilkårsgrupperad>
                         <Normaltekst>{`0,5G er ${toKronerOgØre(99858 / 2)} kr`}</Normaltekst>
-                    </SubheaderWithList>
-                    <SubheaderWithList label="Dager igjen" iconType="ok" labelProp={detaljerKnapp}>
-                        <ListItem label="Første fraværsdag">
+                    </Vilkårsgruppe>
+                    <Vilkårsgruppe tittel="Dager igjen" paragraf="§8-11" ikontype="ok">
+                        <Vilkårsgrupperad label="Første fraværsdag">
                             {toDate(inngangsvilkår.dagerIgjen.førsteFraværsdag)}
-                        </ListItem>
-                        <ListItem label="Første sykepengedag">
+                        </Vilkårsgrupperad>
+                        <Vilkårsgrupperad label="Første sykepengedag">
                             {inngangsvilkår.dagerIgjen.førsteSykepengedag
                                 ? toDate(inngangsvilkår.dagerIgjen.førsteSykepengedag)
                                 : 'Ikke funnet'}
-                        </ListItem>
-                        <ListItem label="Yrkesstatus">Arbeidstaker</ListItem>
-                        <ListItem label="Dager brukt">
+                        </Vilkårsgrupperad>
+                        <Vilkårsgrupperad label="Yrkesstatus">Arbeidstaker</Vilkårsgrupperad>
+                        <Vilkårsgrupperad label="Dager brukt">
                             {inngangsvilkår.dagerIgjen.dagerBrukt}
-                        </ListItem>
-                        <ListItem label="Dager igjen">
+                        </Vilkårsgrupperad>
+                        <Vilkårsgrupperad label="Dager igjen">
                             {248 - inngangsvilkår.dagerIgjen.dagerBrukt}
-                        </ListItem>
-                        <ListItem label="Maks dato">
+                        </Vilkårsgrupperad>
+                        <Vilkårsgrupperad label="Maks dato">
                             {toDate(inngangsvilkår.dagerIgjen.maksdato)}
-                        </ListItem>
-                    </SubheaderWithList>
+                        </Vilkårsgrupperad>
+                    </Vilkårsgruppe>
 
                     {visDetaljerModal && (
                         <TidligerePerioderModal
@@ -121,7 +138,7 @@ const Inngangsvilkår = () => {
                 </Panel>
             </Container>
             <Container>
-                <Subheader label="Yrkesskade må vurderes manuelt" ikontype="advarsel" />
+                <Vilkårsgruppe tittel="Yrkesskade må vurderes manuelt" ikontype="advarsel" />
             </Container>
             <Footer previous={pages.SYKMELDINGSPERIODE} next={pages.INNTEKTSKILDER} />
         </>

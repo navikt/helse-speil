@@ -50,7 +50,7 @@ export interface Inntektsmelding extends Hendelse {
 export interface Arbeidsgiver {
     id: string;
     organisasjonsnummer: string;
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: SpleisVedtaksperiode[];
 }
 
 export interface Utbetalingsdag {
@@ -132,14 +132,15 @@ export interface DataForVilkårsvurdering {
     harOpptjening: boolean;
 }
 
-export interface Vedtaksperiode {
+export interface SpleisVedtaksperiode {
     id: string;
     maksdato: string;
     godkjentAv?: string;
+    godkjentTidspunkt?: string;
     tilstand: string;
     sykdomstidslinje: Dag[];
     utbetalingslinjer?: Utbetalingslinje[];
-    utbetalingsreferanse?: string;
+    utbetalingsreferanse: string;
     dataForVilkårsvurdering?: DataForVilkårsvurdering;
     førsteFraværsdag: string;
     inntektFraInntektsmelding: number;
@@ -192,7 +193,7 @@ interface Oppsummering {
     totaltTilUtbetaling: number;
 }
 
-export interface MappedVedtaksperiode {
+export interface Vedtaksperiode {
     id: string;
     fom: string;
     tom: string;
@@ -203,8 +204,10 @@ export interface MappedVedtaksperiode {
     sykepengegrunnlag: Sykepengegrunnlag;
     inntektskilder: Inntektskilder;
     oppsummering: Oppsummering;
-    utbetalingsreferanse?: string;
-    rawData: Vedtaksperiode;
+    utbetalingsreferanse: string;
+    rawData: SpleisVedtaksperiode;
+    godkjentAv?: string;
+    godkjentTidspunkt?: string;
 }
 
 export interface UnmappedPerson {
@@ -219,7 +222,7 @@ export interface Person {
     arbeidsgivere: {
         id: string;
         organisasjonsnummer: string;
-        vedtaksperioder: MappedVedtaksperiode[];
+        vedtaksperioder: Vedtaksperiode[];
     }[];
     personinfo: Personinfo;
     sendtSøknad?: SendtSøknad;

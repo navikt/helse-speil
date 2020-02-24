@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, Utbetalingsdato, Utbetalingsperiode, Vedtaksperiode } from './types';
+import { ProviderProps, Utbetalingsdato, Utbetalingsperiode, SpleisVedtaksperiode } from './types';
 
 interface Simulering {
     status: string;
@@ -42,7 +42,7 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
         }
     }, [aktivVedtaksperiode]);
 
-    const hentSimulering = async (vedtaksperiode: Vedtaksperiode) => {
+    const hentSimulering = async (vedtaksperiode: SpleisVedtaksperiode) => {
         const erUtvidelse =
             (
                 personTilBehandling?.arbeidsgivere[0].vedtaksperioder.map(

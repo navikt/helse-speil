@@ -2,21 +2,21 @@ import {
     Dag,
     Dagtype,
     Inntektsmelding,
-    MappedVedtaksperiode,
+    Vedtaksperiode,
     Optional,
     SendtSøknad,
-    Vedtaksperiode
+    SpleisVedtaksperiode
 } from '../types';
 import { Personinfo, VedtaksperiodeTilstand } from '../../../types';
 import { arbeidsdagerMellom } from '../../utils/date';
 import dayjs from 'dayjs';
 
 export const mapVedtaksperiode = (
-    unmappedPeriode: Vedtaksperiode,
+    unmappedPeriode: SpleisVedtaksperiode,
     personinfo: Personinfo,
     sendtSøknad?: SendtSøknad,
     inntektsmelding?: Inntektsmelding
-): MappedVedtaksperiode => {
+): Vedtaksperiode => {
     const periode = filtrerPaddedeArbeidsdager(unmappedPeriode);
     const førsteFraværsdag = inntektsmelding?.førsteFraværsdag ?? '-';
     const sisteSykdomsdag = [...periode.sykdomstidslinje].pop()?.dagen;
@@ -70,6 +70,8 @@ export const mapVedtaksperiode = (
         utbetalingsreferanse: periode.utbetalingsreferanse,
         utbetalingstidslinje: periode.utbetalingstidslinje,
         sykdomstidslinje: periode.sykdomstidslinje,
+        godkjentAv: periode.godkjentAv,
+        godkjentTidspunkt: periode.godkjentTidspunkt,
         inngangsvilkår: {
             alderISykmeldingsperioden: beregnAlder(sisteSykdomsdag, personinfo.fødselsdato),
             dagerIgjen: {
@@ -111,7 +113,9 @@ export const mapVedtaksperiode = (
     };
 };
 
-export const filtrerPaddedeArbeidsdager = (vedtaksperiode: Vedtaksperiode): Vedtaksperiode => {
+export const filtrerPaddedeArbeidsdager = (
+    vedtaksperiode: SpleisVedtaksperiode
+): SpleisVedtaksperiode => {
     const arbeidsdagEllerImplisittDag = (dag: Dag) =>
         dag.type === Dagtype.ARBEIDSDAG_INNTEKTSMELDING ||
         dag.type === Dagtype.ARBEIDSDAG_SØKNAD ||

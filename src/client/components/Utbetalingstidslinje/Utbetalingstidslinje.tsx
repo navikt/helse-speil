@@ -1,12 +1,12 @@
 import React from 'react';
 import { guid } from 'nav-frontend-js-utils';
-import { MappedVedtaksperiode, Utbetalingsdag } from '../../context/types';
+import { Vedtaksperiode, Utbetalingsdag } from '../../context/types';
 import UtbetalingstidslinjeRow from './UtbetalingstidslinjeRow';
 import 'nav-frontend-tabell-style';
 import './Utbetalingstidslinje.less';
 
 interface Props {
-    vedtaksperiode: MappedVedtaksperiode;
+    vedtaksperiode: Vedtaksperiode;
     showDagsats: boolean;
 }
 

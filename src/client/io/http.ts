@@ -1,4 +1,4 @@
-import { Optional, Vedtaksperiode, Tildeling } from '../context/types';
+import { Optional, SpleisVedtaksperiode, Tildeling } from '../context/types';
 import { Options } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
