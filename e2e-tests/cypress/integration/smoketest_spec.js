@@ -8,7 +8,7 @@ describe('Oversiktssiden', function() {
     });
 
     it('viser navnet på innlogget bruker', function() {
-        cy.get('#user').contains('S. A. Ksbehandler');
+        cy.contains('S. A. Ksbehandler');
     });
 
     it('kan navigere til sykmeldingsperiode', function() {
