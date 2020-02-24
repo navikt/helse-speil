@@ -44,5 +44,6 @@ const validSak: Utbetalingsvedtak = {
             dagsats: 1603
         }
     ],
-    maksdato: '2019-05-27'
+    maksdato: '2019-05-27',
+    erUtvidelse: false
 };

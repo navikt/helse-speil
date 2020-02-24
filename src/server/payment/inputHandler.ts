@@ -6,10 +6,11 @@ interface Utbetalingsbody extends Body {
     aktørId: string;
     orgnr: string;
     fødselsnummer: string;
+    erUtvidelse: boolean;
 }
 
 const map = (body: Utbetalingsbody): Utbetalingsvedtak => {
-    const { vedtaksperiode, saksbehandlerIdent, fødselsnummer, aktørId, orgnr } = body;
+    const { vedtaksperiode, saksbehandlerIdent, fødselsnummer, aktørId, orgnr, erUtvidelse } = body;
     return {
         vedtaksperiodeId: vedtaksperiode.id,
         aktørId: aktørId,
@@ -21,7 +22,8 @@ const map = (body: Utbetalingsbody): Utbetalingsvedtak => {
             grad: 100 //TODO: Fiks dette når det ikke alltid er 100% sykmeldt lenger
         })),
         utbetalingsreferanse: vedtaksperiode.utbetalingsreferanse,
-        fødselsnummer: fødselsnummer
+        fødselsnummer: fødselsnummer,
+        erUtvidelse
     };
 };
 
@@ -48,6 +50,7 @@ const isValid = (sak: Utbetalingsvedtak): sak is Utbetalingsvedtak => {
         fieldIsValid(sak.maksdato, 'string') &&
         fieldIsValid(sak.aktørId, 'string') &&
         fieldIsValid(sak.utbetalingsreferanse, 'string') &&
+        fieldIsValid(sak.erUtvidelse, 'boolean') &&
         utbetalingslinjerIsValid(sak.utbetalingslinjer)
     );
 };

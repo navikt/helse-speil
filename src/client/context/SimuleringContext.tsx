@@ -43,11 +43,18 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
     }, [aktivVedtaksperiode]);
 
     const hentSimulering = async (vedtaksperiode: Vedtaksperiode) => {
+        const erUtvidelse =
+            (
+                personTilBehandling?.arbeidsgivere[0].vedtaksperioder.map(
+                    periode => periode.utbetalingsreferanse === vedtaksperiode.utbetalingsreferanse
+                ) || []
+            ).length > 1;
         return await postSimulering(
             vedtaksperiode,
             personTilBehandling!.aktørId,
             personTilBehandling!.arbeidsgivere[0].organisasjonsnummer,
             personTilBehandling!.fødselsnummer,
+            erUtvidelse,
             authInfo.ident
         )
             .then(response => {

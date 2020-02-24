@@ -125,6 +125,7 @@ export const postSimulering = async (
     aktørId: string,
     orgnr: string,
     fødselsnummer: string,
+    erUtvidelse: boolean,
     saksbehandlerIdent?: string
 ) => {
     return post(`${baseUrl}/payments/simulate`, {
@@ -132,7 +133,8 @@ export const postSimulering = async (
         saksbehandlerIdent,
         fødselsnummer,
         aktørId,
-        orgnr
+        orgnr,
+        erUtvidelse
     });
 };
 

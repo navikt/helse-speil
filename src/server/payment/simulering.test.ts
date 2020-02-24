@@ -36,5 +36,6 @@ const validVedtak = {
         }
     ],
     maksdato: '2019-10-27',
-    fødselsnummer: '01108054366'
+    fødselsnummer: '01108054366',
+    erUtvidelse: false
 };
