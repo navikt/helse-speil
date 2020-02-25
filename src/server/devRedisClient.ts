@@ -5,7 +5,7 @@ type Cache = { [key: string]: any };
 const cache: Cache = {};
 
 const get = (key: string, callback: Callback<string>): boolean => {
-    callback(null, cache[key]);
+    callback(null, cache[key] || null);
     return true;
 };
 

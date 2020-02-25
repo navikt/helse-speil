@@ -26,7 +26,11 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const tildelBehandling = (behovId: string, userId: string) => {
         postTildeling({ behovId, userId })
             .then(() => {
-                setTildelinger((t: Tildeling[]) => [...t, { behovId, userId }]);
+                setTildelinger((t: Tildeling[]) =>
+                    t.map(tildeling =>
+                        tildeling.behovId === behovId ? { behovId, userId } : tildeling
+                    )
+                );
                 setError(undefined);
             })
             .catch(error => {
