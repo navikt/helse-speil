@@ -9,8 +9,8 @@
                 {
                     "id": "67b222be-cb16-4213-8c4f-0c34d560f28f",
                     "maksdato": "2020-09-07",
-                    "godkjentAv": "Darth Vader",
-                    "godkjentTidspunkt": "2020-01-01T00:00:00.000Z",
+                    "godkjentAv": null,
+                    "godkjentTidspunkt": null,
                     "utbetalingsreferanse": "konge",
                     "førsteFraværsdag": "2019-09-10",
                     "inntektFraInntektsmelding": 31000.0,

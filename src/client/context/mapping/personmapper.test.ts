@@ -56,7 +56,7 @@ const enArbeidsgiver = (vedtaksperioder = [enVedtaksperiode()]) => {
     return {
         organisasjonsnummer: '123456789',
         id: '3fb100f2-5d3d-4a89-84cd-e123544a4400',
-        utbetalingsreferanse: 1581678015629,
+        utbetalingsreferanse: '1581678015629',
         vedtaksperioder: vedtaksperioder
     };
 };
@@ -76,7 +76,7 @@ const enVedtaksperiode = (ekstraDager = [], _vilkårsvurdering = vilkårsvurderi
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
         maksdato: '2020-09-07',
         godkjentAv: null,
-        utbetalingsreferanse: null,
+        utbetalingsreferanse: '12345',
         førsteFraværsdag: '2019-09-10',
         inntektFraInntektsmelding: 31000.0,
         dataForVilkårsvurdering: _vilkårsvurdering,
@@ -364,7 +364,7 @@ const vedtaksperiodeSomVenterPåTidligere = () => {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
         maksdato: '2020-09-07',
         godkjentAv: null,
-        utbetalingsreferanse: null,
+        utbetalingsreferanse: '12345',
         førsteFraværsdag: '2019-09-10',
         inntektFraInntektsmelding: 31000.0,
         dataForVilkårsvurdering: vilkårsvurdering(),
@@ -440,6 +440,8 @@ const mappetPerson = {
                     id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                     fom: '2019-09-10',
                     tom: '2019-10-05',
+                    godkjentAv: null,
+                    godkjentTidspunks: undefined,
                     tilstand: 'AVVENTER_GODKJENNING',
                     inngangsvilkår: {
                         dagerIgjen: {
@@ -744,12 +746,12 @@ const mappetPerson = {
                         antallUtbetalingsdager: 3,
                         totaltTilUtbetaling: 4293
                     },
-                    utbetalingsreferanse: null,
+                    utbetalingsreferanse: '12345',
                     rawData: {
                         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                         maksdato: '2020-09-07',
                         godkjentAv: null,
-                        utbetalingsreferanse: null,
+                        utbetalingsreferanse: '12345',
                         førsteFraværsdag: '2019-09-10',
                         inntektFraInntektsmelding: 31000.0,
                         dataForVilkårsvurdering: {

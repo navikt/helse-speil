@@ -1,6 +1,6 @@
 import React, { ReactChild } from 'react';
 import List from '../List';
-import Vilkårsgruppe from '../Vilkårsgruppe';
+import Vilkårsgruppe from '../../routes/Inngangsvilkår/Vilkårsgruppe';
 import './SubheaderWithList.less';
 
 interface Props {

@@ -1,4 +1,4 @@
-import { Optional, SpleisVedtaksperiode, Tildeling } from '../context/types';
+import { SpleisVedtaksperiode, Tildeling } from '../context/types';
 import { Options } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
@@ -121,7 +121,7 @@ export const postVedtak = async (
 };
 
 export const postSimulering = async (
-    vedtaksperiode: Vedtaksperiode,
+    vedtaksperiode: SpleisVedtaksperiode,
     aktørId: string,
     orgnr: string,
     fødselsnummer: string,

@@ -1,0 +1,86 @@
+import React, { useContext } from 'react';
+import {
+    FlexColumn,
+    StyledBehandletInnhold,
+    StyledUbehandletInnhold,
+    YrkesskadeContainer
+} from './Inngangsvilkår.styles';
+import Vilkårsgrupper from './Vilkårsgrupper';
+import Vilkårsgruppe from './Vilkårsgruppe';
+import { Vedtaksperiode } from '../../context/types';
+import dayjs from 'dayjs';
+import { PersonContext } from '../../context/PersonContext';
+
+interface PåfølgendeVedtaksperiodeProps {
+    vedtaksperiode: Vedtaksperiode;
+}
+
+const PåfølgendeVedtaksperiode = ({ vedtaksperiode }: PåfølgendeVedtaksperiodeProps) => {
+    const { godkjentAv, inngangsvilkår, sykepengegrunnlag, utbetalingsreferanse } = vedtaksperiode;
+    const førsteFraværsdag = dayjs(inngangsvilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
+
+    const { personTilBehandling } = useContext(PersonContext);
+
+    const førsteVedtaksperiode = personTilBehandling?.arbeidsgivere
+        .flatMap(arbeidsgiver => arbeidsgiver.vedtaksperioder)
+        .find(
+            periode =>
+                periode.utbetalingsreferanse === utbetalingsreferanse &&
+                periode.sykdomstidslinje[0].dagen === inngangsvilkår.dagerIgjen.førsteFraværsdag
+        );
+
+    return (
+        <>
+            <StyledUbehandletInnhold kolonner={2}>
+                <FlexColumn>
+                    <Vilkårsgrupper.Arbeidsuførhet />
+                    <Vilkårsgrupper.DagerIgjen
+                        førsteFraværsdag={inngangsvilkår.dagerIgjen.førsteFraværsdag}
+                        førsteSykepengedag={inngangsvilkår.dagerIgjen.førsteSykepengedag}
+                        dagerBrukt={inngangsvilkår.dagerIgjen.dagerBrukt}
+                        maksdato={inngangsvilkår.dagerIgjen.maksdato}
+                    />
+                </FlexColumn>
+                <FlexColumn>
+                    <Vilkårsgrupper.Alder alder={inngangsvilkår.alderISykmeldingsperioden} />
+                    <Vilkårsgrupper.Søknadsfrist
+                        innen3Mnd={inngangsvilkår.søknadsfrist.innen3Mnd}
+                        sendtNav={inngangsvilkår.søknadsfrist.sendtNav!}
+                        sisteSykepengedag={inngangsvilkår.søknadsfrist.søknadTom!}
+                    />
+                </FlexColumn>
+            </StyledUbehandletInnhold>
+            <YrkesskadeContainer>
+                <Vilkårsgruppe tittel="Yrkesskade må vurderes manuelt" ikontype="advarsel" />
+            </YrkesskadeContainer>
+            <StyledBehandletInnhold
+                saksbehandler={førsteVedtaksperiode!.godkjentAv!}
+                tittel={`Inngangsvilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
+                vurderingsdato={dayjs(førsteVedtaksperiode!.godkjentTidspunkt).format('DD.MM.YYYY')}
+            >
+                <Vilkårsgrupper.Medlemskap />
+                {inngangsvilkår.opptjening ? (
+                    <Vilkårsgrupper.Opptjeningstid
+                        harOpptjening={inngangsvilkår.opptjening.harOpptjening}
+                        førsteFraværsdag={inngangsvilkår.dagerIgjen.førsteFraværsdag}
+                        fom={inngangsvilkår.opptjening.opptjeningFra}
+                        antallOpptjeningsdagerErMinst={
+                            inngangsvilkår.opptjening.antallOpptjeningsdagerErMinst
+                        }
+                    />
+                ) : (
+                    <Vilkårsgruppe
+                        tittel="Opptjening må vurderes manuelt"
+                        ikontype="advarsel"
+                        paragraf="§8-2"
+                    />
+                )}
+                <Vilkårsgrupper.KravTilSykepengegrunnlag
+                    sykepengegrunnlag={sykepengegrunnlag.årsinntektFraInntektsmelding!}
+                />
+            </StyledBehandletInnhold>
+        </>
+    );
+};
+
+export default PåfølgendeVedtaksperiode;

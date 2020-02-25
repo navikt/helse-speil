@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 // @ts-ignore
 import Icon from 'nav-frontend-ikoner-assets';
-import IkonSjekk from '../Ikon/IkonSjekk';
+import IkonSjekk from '../../../components/Ikon/IkonSjekk';
 import { Undertekst, Undertittel } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
 
@@ -14,6 +14,8 @@ interface Props {
     className?: string;
     children?: ReactNode | ReactNode[];
 }
+
+const marginLeft = '2.5rem';
 
 const OkIkon = styled(IkonSjekk)`
     grid-area: ikon;
@@ -45,39 +47,42 @@ const Paragraf = styled(Undertekst)`
 const Header = styled.span`
     display: flex;
     align-items: center;
-    grid-area: tittel;
+    margin: 1rem 0;
 `;
 
 const Container = styled.div`
-    display: grid;
-    grid-column-gap: 0.5rem;
-    grid-row-gap: 1rem;
-    grid-template-columns: 2rem max-content auto;
-    grid-template-areas: 'ikon tittel tittel' '. body body';
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+
     &:not(:last-child) {
         border-bottom: 1px solid #e7e9e9;
+        margin-bottom: 1rem;
     }
 `;
 
-const Body = styled.span`
+const IkonContainer = styled.span`
+    display: flex;
+    align-items: center;
+    width: ${marginLeft};
+`;
+
+const Grid = styled.span`
     grid-area: body;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 0.5rem;
+    margin: 0 0 1.5rem ${marginLeft};
 `;
 
 const Vilkårsgruppe = ({ tittel, paragraf, ikontype, className, children }: Props) => {
     return (
         <Container>
-            {ikontype && ikon(ikontype)}
             <Header>
+                <IkonContainer>{ikontype && ikon(ikontype)}</IkonContainer>
                 <Tittel>{tittel}</Tittel>
                 <Paragraf>{paragraf}</Paragraf>
             </Header>
-            <Body>{children}</Body>
+            {children && <Grid>{children}</Grid>}
         </Container>
     );
 };
