@@ -21,7 +21,8 @@ const setex = (key: string, _: number, value: string): boolean => {
     return true;
 };
 
-const del = (key: string): boolean => {
+const del = (key: string, callback: Callback<string>): boolean => {
+    callback(null, '');
     delete cache[key];
     return true;
 };
