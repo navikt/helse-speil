@@ -441,7 +441,7 @@ const mappetPerson = {
                     fom: '2019-09-10',
                     tom: '2019-10-05',
                     godkjentAv: null,
-                    godkjentTidspunks: undefined,
+                    godkjentTidspunkt: undefined,
                     tilstand: 'AVVENTER_GODKJENNING',
                     inngangsvilkår: {
                         dagerIgjen: {
@@ -736,12 +736,15 @@ const mappetPerson = {
                         avviksprosent: 0.0,
                         dagsats: 1431
                     },
-                    inntektskilder: {
-                        månedsinntekt: 31000,
-                        årsinntekt: 372000.0,
-                        refusjon: 'Ja',
-                        forskuttering: 'Ja'
-                    },
+                    inntektskilder: [
+                        {
+                            organisasjonsnummer: '123456789',
+                            månedsinntekt: 31000,
+                            årsinntekt: 372000.0,
+                            refusjon: 'Ja',
+                            forskuttering: 'Ja'
+                        }
+                    ],
                     oppsummering: {
                         antallUtbetalingsdager: 3,
                         totaltTilUtbetaling: 4293

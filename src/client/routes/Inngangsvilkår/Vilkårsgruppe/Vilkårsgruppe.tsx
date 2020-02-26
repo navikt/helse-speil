@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 // @ts-ignore
 import Icon from 'nav-frontend-ikoner-assets';
-import IkonSjekk from '../../../components/Ikon/IkonSjekk';
+import Sjekkikon from '../../../components/Ikon/Sjekkikon';
 import styled from '@emotion/styled';
 
 type Ikontype = 'ok' | 'advarsel';
@@ -16,7 +16,7 @@ interface Props {
 
 const marginLeft = '2.5rem';
 
-const OkIkon = styled(IkonSjekk)`
+const OkIkon = styled(Sjekkikon)`
     grid-area: ikon;
 `;
 

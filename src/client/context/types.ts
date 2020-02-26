@@ -181,7 +181,8 @@ export interface Sykepengegrunnlag {
     årsinntektFraInntektsmelding: Optional<number>;
 }
 
-export interface Inntektskilder {
+export interface Inntektskilde {
+    organisasjonsnummer?: string;
     forskuttering: string;
     refusjon: string;
     årsinntekt: Optional<number>;
@@ -202,7 +203,7 @@ export interface Vedtaksperiode {
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Dag[];
     sykepengegrunnlag: Sykepengegrunnlag;
-    inntektskilder: Inntektskilder;
+    inntektskilder: Inntektskilde[];
     oppsummering: Oppsummering;
     utbetalingsreferanse: string;
     rawData: SpleisVedtaksperiode;

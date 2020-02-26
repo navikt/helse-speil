@@ -12,8 +12,8 @@ import { BehovoversiktProvider } from '../context/SaksoversiktContext';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from '../context/PersonContext';
 import { EasterEggProvider, EasterEggContext } from '../context/EasterEggContext';
-import './App.less';
 import 'reset-css';
+import './App.less';
 import ProtectedRoute from './ProtectedRoute';
 import IkkeLoggetInn from './IkkeLoggetInn';
 

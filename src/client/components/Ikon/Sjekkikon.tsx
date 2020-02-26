@@ -1,8 +1,8 @@
 import React from 'react';
 import Ikon from './Ikon';
 
-const IkonSjekk = () => (
-    <Ikon>
+const Sjekkikon = () => (
+    <Ikon viewBoxSize={16}>
         <g
             xmlns="http://www.w3.org/2000/svg"
             stroke="none"
@@ -19,4 +19,4 @@ const IkonSjekk = () => (
     </Ikon>
 );
 
-export default IkonSjekk;
+export default Sjekkikon;

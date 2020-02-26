@@ -5,14 +5,20 @@ import './Kildelenke.less';
 type WrapperProps = { children: ReactChild | ReactChild[] };
 
 interface Props {
-    label: string;
+    label: Kildetype;
     link?: string;
+}
+
+export enum Kildetype {
+    inntektsmelding = 'IM',
+    aareg = 'Aa',
+    aordningen = 'AO'
 }
 
 const Kildelenke = ({ label, link }: Props) => {
     const content = (
         <>
-            {label.toUpperCase()}
+            {label}
             {link && (
                 <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 24 24">
                     <g

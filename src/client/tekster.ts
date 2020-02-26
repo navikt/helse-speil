@@ -55,7 +55,7 @@ const resources: Resource = {
                 arbeidsgiverperiode: 'Betaler arbeidsgiverperiode',
                 inntekt: 'Inntekt',
                 relasjon: 'Nær relasjon',
-                kilder: 'Inntektskilder som må sjekkes manuelt',
+                kilder: 'Inntektskilde som må sjekkes manuelt',
                 sjekket_ytelser: 'Ytelser som er sjekket',
                 ikke_sjekket_ytelser: 'Ytelser som må sjekkes manuelt',
                 frilans: 'Frilansinntekt',

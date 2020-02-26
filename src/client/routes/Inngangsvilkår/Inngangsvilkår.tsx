@@ -4,7 +4,6 @@ import { PersonContext } from '../../context/PersonContext';
 import './Inngangsvilkår.less';
 import styled from '@emotion/styled';
 import Grid from '../../components/Grid';
-import Varsel from '@navikt/helse-frontend-varsel';
 import { AuthContext } from '../../context/AuthContext';
 import BehandletVedtaksperiode from './BehandletVedtaksperiode';
 import UbehandletVedtaksperiode from './UbehandletVedtaksperiode';

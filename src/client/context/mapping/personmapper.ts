@@ -25,7 +25,15 @@ export const mapPerson = (unmappedPerson: UnmappedPerson, personinfo: Personinfo
         organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
         vedtaksperioder: arbeidsgiver.vedtaksperioder
             .filter(vedtaksperiode => vedtaksperiode.tilstand !== 'AVVENTER_TIDLIGERE_PERIODE')
-            .map(periode => mapVedtaksperiode(periode, personinfo, sendtSøknad, inntektsmelding))
+            .map(periode =>
+                mapVedtaksperiode(
+                    periode,
+                    personinfo,
+                    sendtSøknad,
+                    inntektsmelding,
+                    arbeidsgiver.organisasjonsnummer
+                )
+            )
     }));
 
     return {

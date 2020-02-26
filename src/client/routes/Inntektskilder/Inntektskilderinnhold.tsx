@@ -1,81 +1,120 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import Kildelenke from '../../components/Kildelenke';
 import { toKronerOgØre } from '../../utils/locale';
-import Row from '../../components/Row';
-import ListSeparator from '../../components/ListSeparator';
-import IconRow from '../../components/IconRow/IconRow';
-import { Inntektskilder } from '../../context/types';
-import Grid from '../../components/Grid';
+import Ikonrad from '../../components/IconRow/Ikonrad';
+import { Inntektskilde } from '../../context/types';
 import styled from '@emotion/styled';
+import Grid from '../../components/Grid';
+import { FlexColumn } from '../../components/FlexColumn';
+import Arbeidsgiverikon from '../../components/Ikon/Arbeidsgiverikon';
+import { Kildetype } from '../../components/Kildelenke/Kildelenke';
 
 interface InntektskilderinnholdProps {
-    inntektskilder: Inntektskilder;
+    inntektskilder: Inntektskilde[];
 }
 
-export const FlexColumn = styled.div`
+const Arbeidsgivertittel = styled.div`
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: start;
-
-    &:not(:last-child) {
-        margin-right: 2.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    > *:not(:last-child) {
+        margin-right: 1rem;
     }
+`;
+
+const HeaderContainer = styled.div`
+    display: flex;
+    align-items: center;
+
+    > *:not(:last-child) {
+        margin-right: 1rem;
+    }
+`;
+
+const Tittel = styled(Undertittel)`
+    font-size: 18px;
+    color: #3e3832;
+`;
+
+const Tabell = styled.div`
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-column-gap: 1rem;
+    grid-row-gap: 0.5rem;
+    margin: 0.5rem 0 2rem;
+`;
+
+const Divider = styled.hr`
+    border: none;
+    border-top: 1px solid #e7e9e9;
+    margin: 0 0 2rem 0;
+`;
+
+const Liste = styled.ul`
+    margin: 0.5rem 0 2rem;
+`;
+
+const Innhold = styled(Grid)`
+    margin-top: 2rem;
 `;
 
 const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) => {
     const { t } = useTranslation();
 
     return (
-        <Grid kolonner={2}>
+        <Innhold kolonner={2}>
             <FlexColumn>
-                <div className="Inntektskilder_flex">
-                    <Element>{t('inntektskilder.inntekt')}</Element>
-                    <Kildelenke label="IM" />
-                </div>
-                <div className="inntektskilder">
-                    <div>
-                        <Normaltekst>{t('inntektskilder.månedsinntekt')}</Normaltekst>
-                        <Element>{`${toKronerOgØre(inntektskilder.månedsinntekt!)} kr`}</Element>
-                    </div>
-                    <div>
-                        <Normaltekst>{t('inntektskilder.årsinntekt')}</Normaltekst>
-                        <Element>{`${toKronerOgØre(inntektskilder.årsinntekt!)} kr`}</Element>
-                    </div>
-                </div>
-
-                <br />
-                <Element>{t('inntektskilder.inntektsmeldinger')}</Element>
-
-                <div className="fraInntektsmelding">
-                    <Row label={t('inntektskilder.refusjon')}>{inntektskilder.refusjon}</Row>
-                    <Row label={t('inntektskilder.arbeidsgiverperiode')}>
-                        {inntektskilder.forskuttering}
-                    </Row>
-                    <Row label={t('inntektskilder.relasjon')}>Ikke sjekket</Row>
-                </div>
+                <Arbeidsgivertittel>
+                    <Arbeidsgiverikon />
+                    <Tittel>Arbeidsgiver ({inntektskilder[0].organisasjonsnummer})</Tittel>
+                    <Kildelenke label={Kildetype.aareg} />
+                </Arbeidsgivertittel>
+                <HeaderContainer>
+                    <Tittel tag="h3">{t('inntektskilder.inntekt')}</Tittel>
+                    <Kildelenke label={Kildetype.inntektsmelding} />
+                </HeaderContainer>
+                <Tabell>
+                    <Undertekst>{t('inntektskilder.månedsinntekt')}</Undertekst>
+                    <Undertekst>{t('inntektskilder.årsinntekt')}</Undertekst>
+                    <Element>{`${toKronerOgØre(inntektskilder[0].månedsinntekt!)} kr`}</Element>
+                    <Element>{`${toKronerOgØre(inntektskilder[0].årsinntekt!)} kr`}</Element>
+                </Tabell>
+                <Divider />
+                <HeaderContainer>
+                    <Tittel>{t('inntektskilder.inntektsmeldinger')}</Tittel>
+                </HeaderContainer>
+                <Tabell>
+                    <Normaltekst>{t('inntektskilder.refusjon')}</Normaltekst>
+                    <Normaltekst>{inntektskilder[0].refusjon}</Normaltekst>
+                    <Normaltekst>{t('inntektskilder.arbeidsgiverperiode')}</Normaltekst>
+                    <Normaltekst>{inntektskilder[0].forskuttering}</Normaltekst>
+                    <Normaltekst>{t('inntektskilder.relasjon')}</Normaltekst>
+                    <Normaltekst>Ikke sjekket</Normaltekst>
+                </Tabell>
             </FlexColumn>
-
             <FlexColumn>
-                <Element>{t('inntektskilder.kilder')}</Element>
-                <IconRow label={t('inntektskilder.frilans')} iconType="advarsel" />
-                <IconRow label={t('inntektskilder.næring')} iconType="advarsel" />
+                <Tittel tag="h3">{t('inntektskilder.kilder')}</Tittel>
+                <Liste>
+                    <Ikonrad tekst={t('inntektskilder.frilans')} ikontype="advarsel" />
+                    <Ikonrad tekst={t('inntektskilder.næring')} ikontype="advarsel" />
+                </Liste>
+                <Divider />
+                <Tittel tag="h3">{t('inntektskilder.sjekket_ytelser')}</Tittel>
+                <Liste>
+                    <Ikonrad tekst={t('inntektskilder.foreldrepenger')} ikontype="ok" />
+                    <Ikonrad tekst={t('inntektskilder.svangerskapspenger')} ikontype="ok" />
+                </Liste>
 
-                <ListSeparator />
-                <Element>{t('inntektskilder.sjekket_ytelser')}</Element>
-                <IconRow label={t('inntektskilder.foreldrepenger')} iconType="ok" />
-                <IconRow label={t('inntektskilder.svangerskapspenger')} iconType="ok" />
-
-                <br />
-
-                <Element>{t('inntektskilder.ikke_sjekket_ytelser')}</Element>
-                <IconRow label={t('inntektskilder.aap')} iconType="advarsel" />
-                <IconRow label={t('inntektskilder.dagpenger')} iconType="advarsel" />
-                <IconRow label={t('inntektskilder.pleiepenger')} iconType="advarsel" />
+                <Tittel tag="h3">{t('inntektskilder.ikke_sjekket_ytelser')}</Tittel>
+                <Liste>
+                    <Ikonrad tekst={t('inntektskilder.aap')} ikontype="advarsel" />
+                    <Ikonrad tekst={t('inntektskilder.dagpenger')} ikontype="advarsel" />
+                    <Ikonrad tekst={t('inntektskilder.pleiepenger')} ikontype="advarsel" />
+                </Liste>
             </FlexColumn>
-        </Grid>
+        </Innhold>
     );
 };
 

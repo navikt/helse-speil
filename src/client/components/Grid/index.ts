@@ -1,3 +1,3 @@
-import Grid from './GridProps';
+import Grid from './Grid';
 
 export default Grid;

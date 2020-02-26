@@ -1,8 +1,9 @@
 import React from 'react';
-import { FlexColumn, StyledUbehandletInnhold, YrkesskadeContainer } from './Inngangsvilkår.styles';
+import { StyledUbehandletInnhold, YrkesskadeContainer } from './Inngangsvilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
+import { FlexColumn } from '../../components/FlexColumn';
 
 interface UbehandletVedtaksperiodeProps {
     vedtaksperiode: Vedtaksperiode;

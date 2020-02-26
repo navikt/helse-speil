@@ -15,7 +15,8 @@ export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
     personinfo: Personinfo,
     sendtSøknad?: SendtSøknad,
-    inntektsmelding?: Inntektsmelding
+    inntektsmelding?: Inntektsmelding,
+    organisasjonsnummer?: string
 ): Vedtaksperiode => {
     const periode = filtrerPaddedeArbeidsdager(unmappedPeriode);
     const førsteFraværsdag = inntektsmelding?.førsteFraværsdag ?? '-';
@@ -93,12 +94,15 @@ export const mapVedtaksperiode = (
                 innen3Mnd
             }
         },
-        inntektskilder: {
-            månedsinntekt,
-            årsinntekt,
-            refusjon: 'Ja',
-            forskuttering: 'Ja'
-        },
+        inntektskilder: [
+            {
+                organisasjonsnummer,
+                månedsinntekt,
+                årsinntekt,
+                refusjon: 'Ja',
+                forskuttering: 'Ja'
+            }
+        ],
         sykepengegrunnlag: {
             årsinntektFraAording,
             årsinntektFraInntektsmelding,

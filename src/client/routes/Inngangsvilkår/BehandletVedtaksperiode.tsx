@@ -1,14 +1,20 @@
 import React from 'react';
-import { FlexColumn, StyledBehandletInnhold, YrkesskadeContainer } from './Inngangsvilkår.styles';
+import { StyledBehandletInnhold, YrkesskadeContainer } from './Inngangsvilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
-import Grid from '../../components/Grid';
 import dayjs from 'dayjs';
+import { FlexColumn } from '../../components/FlexColumn';
+import styled from '@emotion/styled';
+import Grid from '../../components/Grid';
 
 interface BehandletVedtaksperiodeProps {
     vedtaksperiode: Vedtaksperiode;
 }
+
+const Innhold = styled(Grid)`
+    margin-top: 2rem;
+`;
 
 const BehandletVedtaksperiode = ({ vedtaksperiode }: BehandletVedtaksperiodeProps) => {
     const { godkjentAv, godkjentTidspunkt, inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
@@ -22,7 +28,7 @@ const BehandletVedtaksperiode = ({ vedtaksperiode }: BehandletVedtaksperiodeProp
                 tittel={`Inngangsvilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
                 vurderingsdato={dayjs(godkjentTidspunkt).format('DD.MM.YYYY')}
             >
-                <Grid kolonner={2}>
+                <Innhold kolonner={2}>
                     <FlexColumn>
                         <Vilkårsgrupper.Arbeidsuførhet />
                         <Vilkårsgrupper.Medlemskap />
@@ -60,7 +66,7 @@ const BehandletVedtaksperiode = ({ vedtaksperiode }: BehandletVedtaksperiodeProp
                             maksdato={inngangsvilkår.dagerIgjen.maksdato}
                         />
                     </FlexColumn>
-                </Grid>
+                </Innhold>
             </StyledBehandletInnhold>
             <YrkesskadeContainer>
                 <Vilkårsgruppe tittel="Yrkesskade må vurderes manuelt" ikontype="advarsel" />

@@ -4,6 +4,7 @@ import React from 'react';
 import ListSeparator from '../../components/ListSeparator';
 import { somPenger } from '../../utils/locale';
 import Kildelenke from '../../components/Kildelenke';
+import { Kildetype } from '../../components/Kildelenke/Kildelenke';
 
 interface Props {
     inntektskilde: string;
@@ -27,11 +28,11 @@ const Inntektssammenligning = ({
             <Normaltekst>{inntektskilde}</Normaltekst>
             <div className="inntektssammenligning__flex">
                 <Normaltekst>{somPenger(årsinntektInntektsmelding)}</Normaltekst>
-                <Kildelenke label="IM" />
+                <Kildelenke label={Kildetype.inntektsmelding} />
             </div>
             <div className="inntektssammenligning__flex">
                 <Normaltekst>{somPenger(årsinntektAordning)}</Normaltekst>
-                <Kildelenke label="AO" />
+                <Kildelenke label={Kildetype.aordningen} />
             </div>
             <ListSeparator />
             <Element>Total</Element>

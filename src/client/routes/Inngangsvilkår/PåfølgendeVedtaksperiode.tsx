@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    FlexColumn,
     StyledBehandletInnhold,
     StyledUbehandletInnhold,
     YrkesskadeContainer
@@ -10,6 +9,7 @@ import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
 import dayjs from 'dayjs';
 import { useFørsteVedtaksperiode } from '../../hooks/useFørsteVedtaksperiode';
+import { FlexColumn } from '../../components/FlexColumn';
 
 interface PåfølgendeVedtaksperiodeProps {
     vedtaksperiode: Vedtaksperiode;
