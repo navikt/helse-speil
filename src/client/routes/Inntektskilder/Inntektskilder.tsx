@@ -12,7 +12,7 @@ import dayjs from 'dayjs';
 import Toppvarsel from '../../components/Toppvarsel';
 
 export const StyledBehandletInnhold = styled(BehandletInnhold)`
-    margin: 1.5rem 2rem;
+    margin: 2rem 2rem;
     width: max-content;
 `;
 

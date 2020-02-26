@@ -1,22 +1,40 @@
 import React, { useContext } from 'react';
 import Navigasjonsknapper from '../../components/NavigationButtons';
-import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import { useTranslation } from 'react-i18next';
 import Inntektssammenligning from './Inntektssammenligning';
-import './Sykepengegrunnlag.less';
-import ListSeparator from '../../components/ListSeparator';
 import Avvikssammenligning from './Avvikssammenligning';
 import { somPenger } from '../../utils/locale';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
+import styled from '@emotion/styled';
+
+const Innhold = styled.div`
+    width: max-content;
+    padding: 2rem 2rem;
+`;
+
+const Divider = styled.hr`
+    border: none;
+    border-bottom: 1px solid #e7e9e9;
+    margin-bottom: 2rem;
+`;
+
+const Oppsummering = styled.div`
+    display: grid;
+    grid-template-columns: 15rem max-content;
+
+    > * {
+        margin-bottom: 3rem;
+    }
+`;
 
 const Sykepengegrunnlag = () => {
     const { sykepengegrunnlag } = useContext(PersonContext).aktivVedtaksperiode!;
     const { t } = useTranslation();
 
     return (
-        <Panel className="tekstbolker Sykepengegrunnlag">
+        <Innhold>
             {sykepengegrunnlag && (
                 <>
                     <Inntektssammenligning
@@ -24,8 +42,11 @@ const Sykepengegrunnlag = () => {
                         årsinntektAordning={sykepengegrunnlag.årsinntektFraAording}
                         årsinntektInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding!}
                     />
-                    <ListSeparator />
-                    {sykepengegrunnlag.avviksprosent
+
+                    <Divider />
+
+                    {sykepengegrunnlag.avviksprosent !== undefined &&
+                    sykepengegrunnlag.avviksprosent !== null
                         ? sykepengegrunnlag.årsinntektFraAording && (
                               <>
                                   <Avvikssammenligning
@@ -37,11 +58,11 @@ const Sykepengegrunnlag = () => {
                                           sykepengegrunnlag.årsinntektFraAording
                                       }
                                   />
-                                  <ListSeparator />
+                                  <Divider />
                               </>
                           )
                         : null}
-                    <div className="Sykepengegrunnlag__oppsummering">
+                    <Oppsummering>
                         <Element>Sykepengegrunnlag</Element>
                         <Element>
                             {somPenger(
@@ -50,11 +71,11 @@ const Sykepengegrunnlag = () => {
                         </Element>
                         <Normaltekst>Dagsats</Normaltekst>
                         <Normaltekst>{somPenger(sykepengegrunnlag.dagsats)}</Normaltekst>
-                    </div>
+                    </Oppsummering>
                 </>
             )}
             <Navigasjonsknapper previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />
-        </Panel>
+        </Innhold>
     );
 };
 
