@@ -181,7 +181,7 @@ export interface Sykepengegrunnlag {
     årsinntektFraInntektsmelding: Optional<number>;
 }
 
-interface Inntektskilder {
+export interface Inntektskilder {
     forskuttering: string;
     refusjon: string;
     årsinntekt: Optional<number>;

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
     FlexColumn,
     StyledBehandletInnhold,
@@ -9,7 +9,7 @@ import Vilkårsgrupper from './Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
 import dayjs from 'dayjs';
-import { PersonContext } from '../../context/PersonContext';
+import { useFørsteVedtaksperiode } from '../../hooks/useFørsteVedtaksperiode';
 
 interface PåfølgendeVedtaksperiodeProps {
     vedtaksperiode: Vedtaksperiode;
@@ -18,16 +18,7 @@ interface PåfølgendeVedtaksperiodeProps {
 const PåfølgendeVedtaksperiode = ({ vedtaksperiode }: PåfølgendeVedtaksperiodeProps) => {
     const { godkjentAv, inngangsvilkår, sykepengegrunnlag, utbetalingsreferanse } = vedtaksperiode;
     const førsteFraværsdag = dayjs(inngangsvilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
-
-    const { personTilBehandling } = useContext(PersonContext);
-
-    const førsteVedtaksperiode = personTilBehandling?.arbeidsgivere
-        .flatMap(arbeidsgiver => arbeidsgiver.vedtaksperioder)
-        .find(
-            periode =>
-                periode.utbetalingsreferanse === utbetalingsreferanse &&
-                periode.sykdomstidslinje[0].dagen === inngangsvilkår.dagerIgjen.førsteFraværsdag
-        );
+    const førsteVedtaksperiode = useFørsteVedtaksperiode({ nåværendePeriode: vedtaksperiode });
 
     return (
         <>
