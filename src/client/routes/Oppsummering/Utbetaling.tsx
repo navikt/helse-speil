@@ -18,10 +18,7 @@ enum Beslutning {
 }
 
 const tilGodkjenning = (tilstand: string) => {
-    return (
-        tilstand === VedtaksperiodeTilstand.TIL_GODKJENNING ||
-        tilstand === VedtaksperiodeTilstand.AVVENTER_GODKJENNING
-    );
+    return tilstand === VedtaksperiodeTilstand.AVVENTER_GODKJENNING;
 };
 
 const Utbetaling = () => {
@@ -67,8 +64,11 @@ const Utbetaling = () => {
             </AlertStripeAdvarsel>
             {tilstand === VedtaksperiodeTilstand.ANNULLERT ? (
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
+            ) : tilstand === VedtaksperiodeTilstand.UTBETALING_FEILET ? (
+                <AlertStripeInfo>Utbetalingen feilet.</AlertStripeInfo>
             ) : (tilGodkjenning(tilstand) && beslutning === Beslutning.Godkjent) ||
-              tilstand === VedtaksperiodeTilstand.TIL_UTBETALING ? (
+              tilstand === VedtaksperiodeTilstand.TIL_UTBETALING ||
+                  tilstand === VedtaksperiodeTilstand.UTBETALT ? (
                 <StatusUtbetalt
                     setTilstand={setTilstand}
                     setError={setError}

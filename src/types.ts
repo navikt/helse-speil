@@ -66,7 +66,8 @@ export enum VedtaksperiodeTilstand {
     TIL_UTBETALING = 'TIL_UTBETALING',
     TIL_INFOTRYGD = 'TIL_INFOTRYGD',
     ANNULLERT = 'ANNULLERT', // Finnes foreløpig kun i speil
-    TIL_GODKJENNING = 'TIL_GODKJENNING' //Gammel tilstand
+    UTBETALT = 'UTBETALT',
+    UTBETALING_FEILET = 'UTBETALING_FEILET'
 }
 
 export interface Error {
