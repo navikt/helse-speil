@@ -11,7 +11,7 @@ import { useFørsteVedtaksperiode } from '../../hooks/useFørsteVedtaksperiode';
 import dayjs from 'dayjs';
 import Toppvarsel from '../../components/Toppvarsel';
 
-export const StyledBehandletInnhold = styled(BehandletInnhold)`
+const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
     width: max-content;
 `;
