@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react';
 // @ts-ignore
 import Icon from 'nav-frontend-ikoner-assets';
 import IkonSjekk from '../../../components/Ikon/IkonSjekk';
-import { Undertekst, Undertittel } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
 
 type Ikontype = 'ok' | 'advarsel';
@@ -34,13 +33,20 @@ const ikon = (type: Ikontype) => {
     }
 };
 
-const Tittel = styled(Undertittel)`
+const Tittel = styled.h2`
+    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+    font-weight: 600;
     font-size: 18px;
+    padding: 0;
     color: #3e3832;
-    margin-right: 0.5rem;
+    margin: 0 0.5rem 0 0;
 `;
 
-const Paragraf = styled(Undertekst)`
+const Paragraf = styled.p`
+    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
     color: #78706a;
 `;
 
