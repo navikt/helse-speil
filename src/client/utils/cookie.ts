@@ -17,10 +17,21 @@ const extractToken = (cookie: string) =>
         .replace(/%3D/g, '=')
         .replace(/%3d/g, '=');
 
+const transformToUtf8 = (token: string) =>
+    // First we get the token as binary, then we encode into an URI component string
+    // and finally we decode it into an UTF-8 string.
+    // https://stackoverflow.com/a/30106551
+    decodeURIComponent(
+        atob(token)
+            .split('')
+            .map((char: any) => '%' + ('00' + char.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+    );
+
 const decode = (cookie: string) => {
     const token = extractToken(cookie);
     try {
-        return JSON.parse(atob(token));
+        return JSON.parse(transformToUtf8(token));
     } catch (err) {
         console.warn('error while decoding cookie:', err); // eslint-disable-line no-console
         return null;
