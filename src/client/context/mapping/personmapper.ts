@@ -2,7 +2,14 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Hendelse, Inntektsmelding, Person, SendtSøknad, UnmappedPerson } from '../types';
+import {
+    Hendelse,
+    Inntektsmelding,
+    Person,
+    SendtSøknad,
+    UnmappedPerson,
+    Vedtaksperiode
+} from '../types';
 import { Personinfo } from '../../../types';
 import { mapVedtaksperiode } from './vedtaksperiodemapper';
 
@@ -15,6 +22,9 @@ enum HendelseType {
     INNTEKTSMELDING = 'INNTEKTSMELDING',
     NYSØKNAD = 'NY_SØKNAD'
 }
+
+const reversed = (a: Vedtaksperiode, b: Vedtaksperiode) =>
+    dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
 
 export const mapPerson = (unmappedPerson: UnmappedPerson, personinfo: Personinfo): Person => {
     const inntektsmelding = finnInntektsmelding(unmappedPerson);
@@ -34,6 +44,7 @@ export const mapPerson = (unmappedPerson: UnmappedPerson, personinfo: Personinfo
                     arbeidsgiver.organisasjonsnummer
                 )
             )
+            .sort(reversed)
     }));
 
     return {
@@ -52,6 +63,5 @@ const finnInntektsmelding = (person: UnmappedPerson): Inntektsmelding | undefine
 const findHendelse = (person: UnmappedPerson, type: HendelseType): Hendelse | undefined =>
     person.hendelser.find(h => h.type === type.valueOf());
 
-const finnSendtSøknad = (person: UnmappedPerson): SendtSøknad | undefined => {
-    return findHendelse(person, HendelseType.SENDTSØKNAD) as SendtSøknad;
-};
+const finnSendtSøknad = (person: UnmappedPerson): SendtSøknad | undefined =>
+    findHendelse(person, HendelseType.SENDTSØKNAD) as SendtSøknad;

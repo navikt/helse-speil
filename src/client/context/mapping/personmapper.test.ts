@@ -43,6 +43,28 @@ test('Filtrerer vekk uønskede vedtaksperioder', () => {
     expect(vedtaksperioder[0].tilstand === 'AVVENTER_TIDLIGERE_PERIODE');
 });
 
+test('Vedtaksperioder sorteres på fom i synkende rekkefølge', () => {
+    const person = mapPerson(
+        enPerson([
+            enArbeidsgiver([
+                enVedtaksperiode([
+                    {
+                        dagen: '2019-09-09',
+                        hendelseType: 'Sykmelding',
+                        type: 'SYKEDAG'
+                    }
+                ]),
+                enVedtaksperiode()
+            ])
+        ]),
+        personInfo
+    );
+
+    const vedtaksperioder = person.arbeidsgivere[0].vedtaksperioder;
+    expect(vedtaksperioder[0].fom).toBe('2019-09-10');
+    expect(vedtaksperioder[1].fom).toBe('2019-09-09');
+});
+
 const enPerson = (arbeidsgivere = [enArbeidsgiver()]) => {
     return {
         aktørId: '1211109876233',

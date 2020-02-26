@@ -48,7 +48,7 @@
         "@navikt/helse-frontend-behandlet-innhold": "^1.0.1",
         "@navikt/helse-frontend-header": "^1.1.1",
         "@navikt/helse-frontend-tabell": "^1.1.1",
-        "@navikt/helse-frontend-tidslinje": "^1.2.3",
+        "@navikt/helse-frontend-tidslinje": "^1.2.4",
         "@navikt/helse-frontend-varsel": "^1.0.6",
         "@types/react-router": "^5.1.4",
         "babel-polyfill": "^6.26.0",
