@@ -32,7 +32,7 @@ const Saksbilde = () => {
             <PersonBar />
             <Tidslinje />
             <div className="Saksbilde">
-                <Nav active={personTilBehandling !== undefined} />
+                <Nav />
                 {personTilBehandling ? (
                     <div className="Saksbilde__content">
                         <Route

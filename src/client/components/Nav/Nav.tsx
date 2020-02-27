@@ -1,7 +1,8 @@
-import React from 'react';
-import useLinks, { pages } from '../../hooks/useLinks';
+import React, {useContext} from 'react';
+import useLinks, {pages} from '../../hooks/useLinks';
 import Link from './Link';
 import styled from '@emotion/styled';
+import {PersonContext} from "../../context/PersonContext";
 
 interface Props {
     active?: boolean;
@@ -48,10 +49,14 @@ const StyledNav = styled.nav`
     `};
 `;
 
-const Nav = ({ active }: Props) => {
+const Nav = () => {
     const links = useLinks();
+    const { aktivVedtaksperiode } = useContext(PersonContext);
+
+    const active = aktivVedtaksperiode !== undefined;
+
     return (
-        <StyledNav active={active}>
+        <StyledNav active={aktivVedtaksperiode !== undefined}>
             <Lenke
                 id="nav-link-sykmeldingsperiode"
                 to={links?.[pages.SYKMELDINGSPERIODE]}
@@ -62,7 +67,7 @@ const Nav = ({ active }: Props) => {
             <Lenke id="nav-link-inngangsvilkår" to={links?.[pages.INNGANGSVILKÅR]} active={active}>
                 Inngangsvilkår
             </Lenke>
-            <Lenke active={active} id="nav-link-oppfølging">
+            <Lenke active={false} id="nav-link-oppfølging">
                 Oppfølging
             </Lenke>
             <Lenke id="nav-link-inntektskilder" to={links?.[pages.INNTEKTSKILDER]} active={active}>
