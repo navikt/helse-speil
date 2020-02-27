@@ -39,7 +39,7 @@ const Avvikssammenligning = ({
             <Normaltekst>{somPenger(totalRapportertÅrsinntekt)}</Normaltekst>
             <Divider />
             <Element>Utregnet avvik</Element>
-            <Element>{avvik}%</Element>
+            <Element>{Math.floor(avvik)}%</Element>
         </Sammenligning>
     );
 };
