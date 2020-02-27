@@ -15,9 +15,11 @@ import { useTranslation } from 'react-i18next';
 
 const Oppsummering = () => {
     const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
-    const { oppsummering, sykepengegrunnlag } = aktivVedtaksperiode!;
     const { error, simulering, arbeidsgiver } = useContext(SimuleringContext);
     const { t } = useTranslation();
+    if (!aktivVedtaksperiode) return null;
+
+    const { oppsummering, sykepengegrunnlag } = aktivVedtaksperiode;
 
     const simuleringsBeløp = simulering?.simulering?.totalBelop
         ? `${toKronerOgØre(simulering?.simulering?.totalBelop)} kr`
