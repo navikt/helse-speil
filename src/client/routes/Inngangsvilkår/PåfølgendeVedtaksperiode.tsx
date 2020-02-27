@@ -16,7 +16,7 @@ interface PåfølgendeVedtaksperiodeProps {
 }
 
 const PåfølgendeVedtaksperiode = ({ vedtaksperiode }: PåfølgendeVedtaksperiodeProps) => {
-    const { godkjentAv, inngangsvilkår, sykepengegrunnlag, utbetalingsreferanse } = vedtaksperiode;
+    const { inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
     const førsteFraværsdag = dayjs(inngangsvilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
     const førsteVedtaksperiode = useFørsteVedtaksperiode({ nåværendePeriode: vedtaksperiode });
 

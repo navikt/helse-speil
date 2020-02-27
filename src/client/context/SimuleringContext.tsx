@@ -2,18 +2,20 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, Utbetalingsdato, Utbetalingsperiode, SpleisVedtaksperiode } from './types';
+import { ProviderProps, SpleisVedtaksperiode, Utbetalingsdato, Utbetalingsperiode } from './types';
 
-interface Simulering {
+interface SimuleringResponse {
     status: string;
     feilMelding: string;
-    simulering: {
-        gjelderId: string;
-        totalBelop: number;
-        gjelderNavn: string;
-        periodeList: Utbetalingsperiode[];
-        datoBeregnet: Utbetalingsdato;
-    };
+    simulering: Simulering;
+}
+
+interface Simulering {
+    gjelderId: string;
+    totalBelop: number;
+    gjelderNavn: string;
+    periodeList: Utbetalingsperiode[];
+    datoBeregnet: Utbetalingsdato;
 }
 
 interface SimuleringContextType {
@@ -28,8 +30,8 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
     const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
     const { authInfo } = useContext(AuthContext);
     const [error, setError] = useState<string | undefined>(undefined);
-    const [simulering, setSimulering] = useState(undefined);
-    const [arbeidsgiver, setArbeidsgiver] = useState(undefined);
+    const [simulering, setSimulering] = useState<Simulering | undefined>(undefined);
+    const [arbeidsgiver, setArbeidsgiver] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (aktivVedtaksperiode) {
@@ -57,8 +59,12 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
             erUtvidelse,
             authInfo.ident
         )
-            .then(response => {
-                setSimulering(response.data);
+            .then((response: { data: SimuleringResponse }) => {
+                if (response.data.status === 'FEIL') {
+                    setError(response.data.feilMelding);
+                } else {
+                    setSimulering(response.data.simulering);
+                }
                 return response.data;
             })
             .catch(err => {

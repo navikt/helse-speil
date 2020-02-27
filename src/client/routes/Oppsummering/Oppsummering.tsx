@@ -2,35 +2,54 @@ import React, { useContext } from 'react';
 import List from '../../components/List';
 import ListItem from '../../components/ListItem';
 import Utbetaling from './Utbetaling';
-import ListSeparator from '../../components/ListSeparator';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../../hooks/useLinks';
 import { toKronerOgØre } from '../../utils/locale';
 import { PersonContext } from '../../context/PersonContext';
 import { SimuleringContext } from '../../context/SimuleringContext';
-import { Undertittel, Normaltekst } from 'nav-frontend-typografi';
-import './Oppsummering.less';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { useTranslation } from 'react-i18next';
+import styled from '@emotion/styled';
+
+const Innhold = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+`;
+
+const Divider = styled.hr`
+    border: none;
+    border-bottom: 1px solid #3e3832;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    margin: 1rem 0;
+`;
+
+const StyledPanel = styled(Panel)`
+    flex: 1;
+    overflow-x: hidden;
+    margin-right: 0;
+    min-width: 24rem;
+    max-width: max-content;
+`;
+
+const Oppsummeringstittel = styled(Undertittel)`
+    margin-bottom: 1rem;
+`;
 
 const Oppsummering = () => {
-    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
+    const { aktivVedtaksperiode } = useContext(PersonContext);
     const { error, simulering, arbeidsgiver } = useContext(SimuleringContext);
     const { t } = useTranslation();
     if (!aktivVedtaksperiode) return null;
 
-    const { oppsummering, sykepengegrunnlag } = aktivVedtaksperiode;
-
-    const simuleringsBeløp = simulering?.simulering?.totalBelop
-        ? `${toKronerOgØre(simulering?.simulering?.totalBelop)} kr`
-        : simulering?.feilMelding ?? 'Ikke tilgjengelig';
-
-    const simuleringsArbeidsgiver = `Organisasjonsnummer: ${personTilBehandling?.arbeidsgivere[0].organisasjonsnummer}`;
+    const { oppsummering, sykepengegrunnlag, inntektskilder } = aktivVedtaksperiode;
 
     return (
-        <div className="Oppsummering">
-            <Panel>
-                <Undertittel>{t('oppsummering.tittel')}</Undertittel>
+        <Innhold>
+            <StyledPanel>
+                <Oppsummeringstittel>{t('oppsummering.tittel')}</Oppsummeringstittel>
                 <List>
                     <ListItem label={t('oppsummering.sykepengegrunnlag')}>
                         {`${toKronerOgØre(sykepengegrunnlag.årsinntektFraInntektsmelding!)} kr`}
@@ -45,24 +64,23 @@ const Oppsummering = () => {
                         {`${toKronerOgØre(oppsummering.totaltTilUtbetaling)} kr`}
                     </ListItem>
                     <ListItem label={t('oppsummering.utbetaling_til')}>
-                        {simuleringsArbeidsgiver}
+                        {`Organisasjonsnummer: ${inntektskilder[0].organisasjonsnummer}`}
                     </ListItem>
                 </List>
-                <ListSeparator />
+                <Divider />
                 {simulering && arbeidsgiver && (
                     <List>
-                        <ListItem label="Simulering">{simuleringsBeløp}</ListItem>
-                        <ListItem label="">{simuleringsArbeidsgiver}</ListItem>
+                        <ListItem label="Simulering">
+                            {toKronerOgØre(simulering?.totalBelop)}
+                        </ListItem>
+                        <ListItem label="">{`Organisasjonsnummer: ${arbeidsgiver}`}</ListItem>
                     </List>
                 )}
                 {error && <Normaltekst>{error}</Normaltekst>}
-                <ListSeparator />
                 <Navigasjonsknapper previous={pages.UTBETALINGSOVERSIKT} />
-            </Panel>
-            <div className="Oppsummering__right-col">
-                <Utbetaling />
-            </div>
-        </div>
+            </StyledPanel>
+            <Utbetaling />
+        </Innhold>
     );
 };
 

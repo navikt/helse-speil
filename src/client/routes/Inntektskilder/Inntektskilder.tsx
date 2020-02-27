@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
 import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
-import { useTranslation } from 'react-i18next';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';
@@ -25,7 +24,6 @@ const Inntektskilderpanel = styled.div`
 const Inntektskilder = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const periodeStatus = useVedtaksperiodestatus();
-    const { t } = useTranslation();
 
     const førsteVedtaksperiode = useFørsteVedtaksperiode({ nåværendePeriode: aktivVedtaksperiode });
     if (!aktivVedtaksperiode) return null;
@@ -33,7 +31,7 @@ const Inntektskilder = () => {
         aktivVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
     ).format('DD.MM.YYYY');
 
-    const { godkjentAv, fom, inntektskilder } = aktivVedtaksperiode;
+    const { inntektskilder } = aktivVedtaksperiode;
 
     return (
         <>

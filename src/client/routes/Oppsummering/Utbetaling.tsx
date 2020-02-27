@@ -11,6 +11,8 @@ import InfoModal from '../../components/InfoModal';
 import { Behov, Error, VedtaksperiodeTilstand } from '../../../types';
 import { useTranslation } from 'react-i18next';
 import StatusUtbetalt from './StatusUtbetalt';
+import classNames from 'classnames';
+import styled from '@emotion/styled';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
@@ -21,7 +23,15 @@ const tilGodkjenning = (tilstand: string) => {
     return tilstand === VedtaksperiodeTilstand.AVVENTER_GODKJENNING;
 };
 
-const Utbetaling = () => {
+interface UtbetalingProps {
+    className?: string;
+}
+
+const Utbetalingstittel = styled(Undertittel)`
+    margin-bottom: 1rem;
+`;
+
+const Utbetaling = ({ className }: UtbetalingProps) => {
     const { behovoversikt } = useContext(SaksoversiktContext);
     const { personTilBehandling, innsyn, aktivVedtaksperiode } = useContext(PersonContext);
     const [isSending, setIsSending] = useState(false);
@@ -56,8 +66,8 @@ const Utbetaling = () => {
     };
 
     return (
-        <Panel className="Utbetaling">
-            <Undertittel>{t('oppsummering.utbetaling')}</Undertittel>
+        <Panel className={classNames(className, 'Utbetaling')}>
+            <Utbetalingstittel>{t('oppsummering.utbetaling')}</Utbetalingstittel>
             <AlertStripeAdvarsel>
                 Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
                 til teamet for evaluering.
@@ -68,7 +78,7 @@ const Utbetaling = () => {
                 <AlertStripeInfo>Utbetalingen feilet.</AlertStripeInfo>
             ) : (tilGodkjenning(tilstand) && beslutning === Beslutning.Godkjent) ||
               tilstand === VedtaksperiodeTilstand.TIL_UTBETALING ||
-                  tilstand === VedtaksperiodeTilstand.UTBETALT ? (
+              tilstand === VedtaksperiodeTilstand.UTBETALT ? (
                 <StatusUtbetalt
                     setTilstand={setTilstand}
                     setError={setError}
