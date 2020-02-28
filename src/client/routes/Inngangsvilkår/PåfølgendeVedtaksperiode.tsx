@@ -42,7 +42,11 @@ const PåfølgendeVedtaksperiode = ({ vedtaksperiode }: PåfølgendeVedtaksperio
                 </FlexColumn>
             </StyledUbehandletInnhold>
             <YrkesskadeContainer>
-                <Vilkårsgruppe tittel="Yrkesskade må vurderes manuelt" ikontype="advarsel" />
+                <Vilkårsgruppe
+                    tittel="Yrkesskade må vurderes manuelt"
+                    paragraf="§8-55"
+                    ikontype="advarsel"
+                />
             </YrkesskadeContainer>
             <StyledBehandletInnhold
                 saksbehandler={førsteVedtaksperiode!.godkjentAv!}

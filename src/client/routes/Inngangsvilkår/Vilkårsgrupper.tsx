@@ -15,7 +15,11 @@ const Arbeidsuførhet = () => (
 );
 
 const Medlemskap = () => (
-    <Vilkårsgruppe tittel="Medlemskap må vurderes manuelt" paragraf="§2" ikontype="advarsel" />
+    <Vilkårsgruppe
+        tittel="Medlemskap må vurderes manuelt"
+        paragraf="Kapittel 2"
+        ikontype="advarsel"
+    />
 );
 
 interface AlderProps {
@@ -35,7 +39,7 @@ interface SøknadsfristProps {
 }
 
 const Søknadsfrist = ({ sendtNav, sisteSykepengedag, innen3Mnd }: SøknadsfristProps) => (
-    <Vilkårsgruppe tittel="Søknadsfrist" paragraf="§8-X" ikontype={innen3Mnd ? 'ok' : 'advarsel'}>
+    <Vilkårsgruppe tittel="Søknadsfrist" paragraf="§22-13" ikontype={innen3Mnd ? 'ok' : 'advarsel'}>
         <Vilkårsgrupperad label="Sendt NAV">{toDate(sendtNav)}</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Siste sykepengedag">{toDate(sisteSykepengedag)}</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Innen 3 mnd">{innen3Mnd ? 'Ja' : 'Nei'}</Vilkårsgrupperad>
@@ -73,7 +77,7 @@ interface KravTilSykepengegrunnlagProps {
 }
 
 const KravTilSykepengegrunnlag = ({ sykepengegrunnlag }: KravTilSykepengegrunnlagProps) => (
-    <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" paragraf="§8-X" ikontype="ok">
+    <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" paragraf="§8-3" ikontype="ok">
         <Vilkårsgrupperad label="Sykepengegrunnlaget">
             {`${toKronerOgØre(sykepengegrunnlag)} kr`}
         </Vilkårsgrupperad>
@@ -96,7 +100,7 @@ const DagerIgjen = ({
 }: DagerIgjenProps) => {
     const dagerIgjen = 248 - dagerBrukt;
     return (
-        <Vilkårsgruppe tittel="Dager igjen" paragraf="§8-11" ikontype="ok">
+        <Vilkårsgruppe tittel="Dager igjen" paragraf="§8-11 og §8-12" ikontype="ok">
             <Vilkårsgrupperad label="Første fraværsdag">
                 {toDate(førsteFraværsdag)}
             </Vilkårsgrupperad>
