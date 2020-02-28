@@ -10,7 +10,7 @@ interface UbehandletVedtaksperiodeProps {
 }
 
 const UbehandletVedtaksperiode = ({ vedtaksperiode }: UbehandletVedtaksperiodeProps) => {
-    const { godkjentTidspunkt, inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
+    const { inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
 
     return (
         <>

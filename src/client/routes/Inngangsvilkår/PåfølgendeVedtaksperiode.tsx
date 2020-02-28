@@ -51,7 +51,11 @@ const PåfølgendeVedtaksperiode = ({ vedtaksperiode }: PåfølgendeVedtaksperio
             <StyledBehandletInnhold
                 saksbehandler={førsteVedtaksperiode!.godkjentAv!}
                 tittel={`Inngangsvilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
-                vurderingsdato={dayjs(førsteVedtaksperiode!.godkjentTidspunkt).format('DD.MM.YYYY')}
+                vurderingsdato={
+                    førsteVedtaksperiode?.godkjentTidspunkt
+                        ? dayjs(førsteVedtaksperiode?.godkjentTidspunkt).format('DD.MM.YYYY')
+                        : 'ukjent'
+                }
             >
                 <Vilkårsgrupper.Medlemskap />
                 {inngangsvilkår.opptjening ? (

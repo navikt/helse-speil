@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
 import styled from '@emotion/styled';
 import Grid from '../../components/Grid';
+import { useFørsteVedtaksperiode } from '../../hooks/useFørsteVedtaksperiode';
 
 interface BehandletVedtaksperiodeProps {
     vedtaksperiode: Vedtaksperiode;
@@ -17,8 +18,8 @@ const Innhold = styled(Grid)`
 `;
 
 const BehandletVedtaksperiode = ({ vedtaksperiode }: BehandletVedtaksperiodeProps) => {
-    const { godkjentAv, godkjentTidspunkt, inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
-
+    const { godkjentAv, inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
+    const førsteVedtaksperiode = useFørsteVedtaksperiode({ nåværendePeriode: vedtaksperiode });
     const førsteFraværsdag = dayjs(inngangsvilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
 
     return (
@@ -26,7 +27,11 @@ const BehandletVedtaksperiode = ({ vedtaksperiode }: BehandletVedtaksperiodeProp
             <StyledBehandletInnhold
                 saksbehandler={godkjentAv!}
                 tittel={`Inngangsvilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
-                vurderingsdato={dayjs(godkjentTidspunkt).format('DD.MM.YYYY')}
+                vurderingsdato={
+                    førsteVedtaksperiode?.godkjentTidspunkt
+                        ? dayjs(førsteVedtaksperiode?.godkjentTidspunkt).format('DD.MM.YYYY')
+                        : 'ukjent'
+                }
             >
                 <Innhold kolonner={2}>
                     <FlexColumn>

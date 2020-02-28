@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, SpleisVedtaksperiode, Utbetalingsdato, Utbetalingsperiode } from './types';
+import { ProviderProps, SpleisVedtaksperiode, Utbetalingsperiode } from './types';
 
 interface SimuleringResponse {
     status: string;
@@ -15,7 +15,7 @@ interface Simulering {
     totalBelop: number;
     gjelderNavn: string;
     periodeList: Utbetalingsperiode[];
-    datoBeregnet: Utbetalingsdato;
+    datoBeregnet: string;
 }
 
 interface SimuleringContextType {
