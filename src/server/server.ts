@@ -51,7 +51,7 @@ app.get('/isReady', (req, res) => res.send('ready'));
 const redirectUrl = (req: Request, oidc: OidcConfig) => {
     const hostHeader = req.get('Host');
     if (hostHeader?.startsWith('localhost')) {
-        return 'http:\\\\' + hostHeader + '/callback';
+        return 'http://' + hostHeader + '/callback';
     } else {
         return oidc.redirectUrl;
     }

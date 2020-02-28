@@ -20,7 +20,7 @@ const setup = (config: OidcConfig) => {
                 azureClient = new azure.Client({
                     client_id: config.clientID,
                     client_secret: config.clientSecret,
-                    redirect_uris: [config.redirectUrl],
+                    redirect_uris: [config.redirectUrl, 'http://localhost:3000'],
                     response_types: config.responseType
                 });
 
