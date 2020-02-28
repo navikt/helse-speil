@@ -94,8 +94,8 @@ interface Utbetalingsdetaljer {
     typeSats: string;
     uforegrad: number;
     antallSats: number;
-    faktiskFom: Utbetalingsdato;
-    faktiskTom: Utbetalingsdato;
+    faktiskFom: string;
+    faktiskTom: string;
     klassekode: string;
     tilbakeforing: boolean;
     refunderesOrgNr: string;
@@ -104,24 +104,12 @@ interface Utbetalingsdetaljer {
 }
 
 interface Utbetaling {
-    forfall: Utbetalingsdato;
+    forfall: string;
     detaljer: Utbetalingsdetaljer[];
     feilkonto: boolean;
     fagsystemId: string;
     utbetalesTilId: string;
     utbetalesTilNavn: string;
-}
-
-export interface Utbetalingsdato {
-    era: string;
-    year: number;
-    month: string;
-    learYear: boolean;
-    dayOfWeek: string;
-    dayOfYear: number;
-    monthValue: number;
-    dayOfMonth: number;
-    chronology: { id: string; calendarType: string };
 }
 
 export interface DataForVilkårsvurdering {
@@ -148,8 +136,8 @@ export interface SpleisVedtaksperiode {
 }
 
 export interface Utbetalingsperiode {
-    fom: Utbetalingsdato;
-    tom: Utbetalingsdato;
+    fom: String;
+    tom: String;
     utbetaling: Utbetaling[];
 }
 
