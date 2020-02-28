@@ -29,6 +29,15 @@ const willExpireInLessThan = (seconds: number, token: string) => {
     return timeToTest > expirationTime;
 };
 
+const redirectUrl = (req: Request, oidc: OidcConfig) => {
+    const hostHeader = req.get('Host');
+    if (hostHeader?.startsWith('localhost')) {
+        return 'http://' + hostHeader + '/callback';
+    } else {
+        return oidc.redirectUrl;
+    }
+};
+
 const validateOidcCallback = (req: Request, azureClient: Client, config: OidcConfig) => {
     if (req.body.code === undefined) {
         return Promise.reject('missing data in POST after login');
@@ -38,7 +47,7 @@ const validateOidcCallback = (req: Request, azureClient: Client, config: OidcCon
     const state = req.session!.state;
 
     return azureClient
-        .callback(config.redirectUrl, params, { nonce, state })
+        .callback(redirectUrl(req, config), params, { nonce, state })
         .catch(err => Promise.reject(`error in oidc callback: ${err}`))
         .then((tokenSet: TokenSet) => {
             const accessTokenKey = 'access_token';
@@ -106,6 +115,7 @@ const createTokenForTest = () =>
 export default {
     isValidAt,
     isValidNow,
+    redirectUrl,
     willExpireInLessThan,
     validateOidcCallback,
     isMemberOf,

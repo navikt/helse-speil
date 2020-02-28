@@ -48,22 +48,13 @@ stsclient.init(config.nav);
 app.get('/isAlive', (req, res) => res.send('alive'));
 app.get('/isReady', (req, res) => res.send('ready'));
 
-const redirectUrl = (req: Request, oidc: OidcConfig) => {
-    const hostHeader = req.get('Host');
-    if (hostHeader?.startsWith('localhost')) {
-        return 'http://' + hostHeader + '/callback';
-    } else {
-        return oidc.redirectUrl;
-    }
-};
-
 const setUpAuthentication = () => {
     app.get('/login', (req: Request, res: Response) => {
         req.session!.nonce = generators.nonce();
         req.session!.state = generators.state();
         const url = azureClient!.authorizationUrl({
             scope: config.oidc.scope,
-            redirect_uri: redirectUrl(req, config.oidc),
+            redirect_uri: auth.redirectUrl(req, config.oidc),
             response_type: config.oidc.responseType[0],
             response_mode: 'form_post',
             nonce: req.session!.nonce,
