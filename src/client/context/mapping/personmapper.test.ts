@@ -7,6 +7,51 @@ test('mapper person', () => {
     expect(person).toEqual(mappetPerson);
 });
 
+test('mapper person med flere vedtaksperioder', () => {
+    let person = mapPerson(
+        enPerson([
+            enArbeidsgiver([
+                enVedtaksperiode(),
+                enVedtaksperiode([], vilkårsvurdering(), [
+                    {
+                        type: 'NavDag',
+                        inntekt: 999.5,
+                        dato: '2019-10-06',
+                        utbetaling: 1000.0
+                    },
+                    {
+                        type: 'NavDag',
+                        inntekt: 999.5,
+                        dato: '2019-10-07',
+                        utbetaling: 1000.0
+                    },
+                    {
+                        type: 'NavDag',
+                        inntekt: 999.5,
+                        dato: '2019-10-08',
+                        utbetaling: 1000.0
+                    },
+                    {
+                        type: 'NavDag',
+                        inntekt: 999.5,
+                        dato: '2019-10-09',
+                        utbetaling: 1000.0
+                    }
+                ])
+            ])
+        ]),
+        personInfo
+    );
+
+    expect(person.arbeidsgivere[0].vedtaksperioder[1].oppsummering.totaltTilUtbetaling).toEqual(
+        4000.0
+    );
+
+    expect(person.arbeidsgivere[0].vedtaksperioder[1].oppsummering.antallUtbetalingsdager).toEqual(
+        4
+    );
+});
+
 test('filtrerer vekk paddede arbeidsdager', () => {
     const ledendeArbeidsdager = [enArbeidsdag('2019-09-08'), enArbeidsdag('2019-09-09')];
 
@@ -92,7 +137,11 @@ const vilkårsvurdering = (medOpptjening = true) => {
     };
 };
 
-const enVedtaksperiode = (ekstraDager = [], _vilkårsvurdering = vilkårsvurdering()) => {
+const enVedtaksperiode = (
+    ekstraDager = [],
+    _vilkårsvurdering = vilkårsvurdering(),
+    _utbetalingstidslinje: Utbetalingsdag[] = defaultUtbetalingstidslinje
+) => {
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
         maksdato: '2020-09-07',
@@ -242,143 +291,145 @@ const enVedtaksperiode = (ekstraDager = [], _vilkårsvurdering = vilkårsvurderi
                 dagsats: 1431
             }
         ],
-        utbetalingstidslinje: [
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-10'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-11'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-12'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-13'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-14'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-15'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-16'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-17'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-18'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-19'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-20'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-21'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-22'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-23'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-24'
-            },
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-25'
-            },
-            {
-                type: 'NavDag',
-                inntekt: 1430.77,
-                dato: '2019-09-26',
-                utbetaling: 1431
-            },
-            {
-                type: 'NavDag',
-                inntekt: 1430.77,
-                dato: '2019-09-27',
-                utbetaling: 1431
-            },
-            {
-                type: 'NavHelgDag',
-                inntekt: 0.0,
-                dato: '2019-09-28'
-            },
-            {
-                type: 'NavHelgDag',
-                inntekt: 0.0,
-                dato: '2019-09-29'
-            },
-            {
-                type: 'NavDag',
-                inntekt: 1430.77,
-                dato: '2019-09-30',
-                utbetaling: 1431
-            },
-            {
-                type: 'Fridag',
-                inntekt: 1430.77,
-                dato: '2019-10-01'
-            },
-            {
-                type: 'Fridag',
-                inntekt: 1430.77,
-                dato: '2019-10-02'
-            },
-            {
-                type: 'Fridag',
-                inntekt: 1430.77,
-                dato: '2019-10-03'
-            },
-            {
-                type: 'Fridag',
-                inntekt: 1430.77,
-                dato: '2019-10-04'
-            },
-            {
-                type: 'NavHelgDag',
-                inntekt: 0.0,
-                dato: '2019-10-05'
-            }
-        ]
+        utbetalingstidslinje: _utbetalingstidslinje
     };
 };
+
+const defaultUtbetalingstidslinje = [
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-10'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-11'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-12'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-13'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-14'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-15'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-16'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-17'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-18'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-19'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-20'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-21'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-22'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-23'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-24'
+    },
+    {
+        type: 'ArbeidsgiverperiodeDag',
+        inntekt: 1430.77,
+        dato: '2019-09-25'
+    },
+    {
+        type: 'NavDag',
+        inntekt: 1430.77,
+        dato: '2019-09-26',
+        utbetaling: 1431
+    },
+    {
+        type: 'NavDag',
+        inntekt: 1430.77,
+        dato: '2019-09-27',
+        utbetaling: 1431
+    },
+    {
+        type: 'NavHelgDag',
+        inntekt: 0.0,
+        dato: '2019-09-28'
+    },
+    {
+        type: 'NavHelgDag',
+        inntekt: 0.0,
+        dato: '2019-09-29'
+    },
+    {
+        type: 'NavDag',
+        inntekt: 1430.77,
+        dato: '2019-09-30',
+        utbetaling: 1431
+    },
+    {
+        type: 'Fridag',
+        inntekt: 1430.77,
+        dato: '2019-10-01'
+    },
+    {
+        type: 'Fridag',
+        inntekt: 1430.77,
+        dato: '2019-10-02'
+    },
+    {
+        type: 'Fridag',
+        inntekt: 1430.77,
+        dato: '2019-10-03'
+    },
+    {
+        type: 'Fridag',
+        inntekt: 1430.77,
+        dato: '2019-10-04'
+    },
+    {
+        type: 'NavHelgDag',
+        inntekt: 0.0,
+        dato: '2019-10-05'
+    }
+];
 
 const vedtaksperiodeSomVenterPåTidligere = () => {
     return {
