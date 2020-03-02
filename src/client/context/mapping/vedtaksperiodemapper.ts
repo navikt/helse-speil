@@ -1,31 +1,62 @@
 import {
     Dag,
     Dagtype,
+    DataForVilkårsvurdering,
+    Hendelse,
     Inntektsmelding,
-    Vedtaksperiode,
     Optional,
     SendtSøknad,
     SpleisVedtaksperiode,
-    Utbetalingsdag
+    Vedtaksperiode
 } from '../types';
 import { Personinfo, VedtaksperiodeTilstand } from '../../../types';
-import { arbeidsdagerMellom } from '../../utils/date';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
+
+enum HendelseType {
+    SENDTSØKNAD = 'SENDT_SØKNAD',
+    INNTEKTSMELDING = 'INNTEKTSMELDING',
+    NYSØKNAD = 'NY_SØKNAD'
+}
 
 export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
     personinfo: Personinfo,
-    sendtSøknad?: SendtSøknad,
-    inntektsmelding?: Inntektsmelding,
+    hendelser: Hendelse[],
+    dataForVilkårsvurdering?: DataForVilkårsvurdering,
     organisasjonsnummer?: string
 ): Vedtaksperiode => {
+    const findHendelse = (hendelser: Hendelse[], type: HendelseType): Hendelse | undefined =>
+        hendelser.find(hendelse => hendelse.type === type.valueOf());
+
+    const søknadIPeriode = (søknad: SendtSøknad, fom: Dayjs, tom: Dayjs) =>
+        dayjs(søknad.fom).isSame(fom) && dayjs(søknad.tom).isSame(tom);
+
+    const findSøknadIPeriode = (
+        hendelser: Hendelse[],
+        fom: Dayjs,
+        tom: Dayjs
+    ): SendtSøknad | undefined =>
+        hendelser.find(
+            hendelse =>
+                hendelse.type === HendelseType.SENDTSØKNAD &&
+                søknadIPeriode(hendelse as SendtSøknad, fom, tom)
+        ) as SendtSøknad;
+
+    const inntektsmelding = findHendelse(
+        hendelser,
+        HendelseType.INNTEKTSMELDING
+    ) as Inntektsmelding;
+
     const periode = filtrerPaddedeArbeidsdager(unmappedPeriode);
+    const fom = [...periode.sykdomstidslinje].shift()!.dagen;
+    const tom = [...periode.sykdomstidslinje].pop()!.dagen;
+    const sendtSøknad = findSøknadIPeriode(hendelser, dayjs(fom), dayjs(tom));
+
     const førsteFraværsdag = inntektsmelding?.førsteFraværsdag ?? '-';
     const sisteSykdomsdag = [...periode.sykdomstidslinje].pop()?.dagen;
     const månedsinntekt = inntektsmelding && +(inntektsmelding?.beregnetInntekt).toFixed(2);
+
     const årsinntekt = inntektsmelding && +(inntektsmelding.beregnetInntekt * 12).toFixed(2);
-    const årsinntektFraAording =
-        periode.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten;
 
     const utbetalingsdager = periode.utbetalingstidslinje.filter(dag => dag.utbetaling > 0).length;
 
@@ -36,24 +67,9 @@ export const mapVedtaksperiode = (
                   .format('YYYY-MM-DD')
             : null;
 
-    const opptjeningFra =
-        (periode.dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst &&
-            dayjs(periode.førsteFraværsdag, 'YYYY-MM-DD')
-                .subtract(periode.dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst, 'day')
-                .format('DD.MM.YYYY')) ||
-        undefined;
-
     const årsinntektFraInntektsmelding = inntektsmelding?.beregnetInntekt
         ? +(inntektsmelding.beregnetInntekt * 12).toFixed(2)
         : undefined;
-
-    const innen3Mnd = sendtSøknad?.sendtNav
-        ? dayjs(sendtSøknad.tom)
-              .add(3, 'month')
-              .isSameOrAfter(dayjs(sendtSøknad.sendtNav))
-        : false;
-
-    const avviksprosent = periode.dataForVilkårsvurdering?.avviksprosent;
 
     const dagsats = periode.utbetalingslinjer?.[0]?.dagsats;
 
@@ -62,10 +78,22 @@ export const mapVedtaksperiode = (
         .filter(utbetaling => utbetaling !== undefined)
         .reduce((acc, dagsats) => acc + dagsats, 0);
 
+    const opptjeningFra =
+        (dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst &&
+            dayjs(periode.førsteFraværsdag, 'YYYY-MM-DD')
+                .subtract(dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst, 'day')
+                .format('DD.MM.YYYY')) ||
+        undefined;
+    const innen3Mnd = sendtSøknad?.sendtNav
+        ? dayjs(sendtSøknad.tom)
+              .add(3, 'month')
+              .isSameOrAfter(dayjs(sendtSøknad.sendtNav))
+        : false;
+
     return {
         id: periode.id,
-        fom: [...periode.sykdomstidslinje].shift()!.dagen,
-        tom: [...periode.sykdomstidslinje].pop()!.dagen,
+        fom,
+        tom,
         tilstand: periode.tilstand as VedtaksperiodeTilstand,
         utbetalingsreferanse: periode.utbetalingsreferanse,
         utbetalingstidslinje: periode.utbetalingstidslinje,
@@ -81,11 +109,11 @@ export const mapVedtaksperiode = (
                 maksdato: periode.maksdato,
                 tidligerePerioder: []
             },
-            opptjening: periode.dataForVilkårsvurdering?.harOpptjening
+            opptjening: dataForVilkårsvurdering?.harOpptjening
                 ? {
-                      antallOpptjeningsdagerErMinst: periode.dataForVilkårsvurdering!
+                      antallOpptjeningsdagerErMinst: dataForVilkårsvurdering!
                           .antallOpptjeningsdagerErMinst,
-                      harOpptjening: periode.dataForVilkårsvurdering!.harOpptjening,
+                      harOpptjening: dataForVilkårsvurdering!.harOpptjening,
                       opptjeningFra: opptjeningFra!
                   }
                 : undefined,
@@ -105,9 +133,9 @@ export const mapVedtaksperiode = (
             }
         ],
         sykepengegrunnlag: {
-            årsinntektFraAording,
+            årsinntektFraAording: dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
             årsinntektFraInntektsmelding,
-            avviksprosent,
+            avviksprosent: dataForVilkårsvurdering?.avviksprosent,
             dagsats
         },
         oppsummering: {

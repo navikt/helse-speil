@@ -30,7 +30,7 @@ const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperi
                         <Vilkårsgrupper.Opptjeningstid
                             harOpptjening={inngangsvilkår.opptjening.harOpptjening}
                             førsteFraværsdag={inngangsvilkår.dagerIgjen.førsteFraværsdag}
-                            fom={inngangsvilkår.opptjening.opptjeningFra}
+                            opptjeningFra={inngangsvilkår.opptjening.opptjeningFra}
                             antallOpptjeningsdagerErMinst={
                                 inngangsvilkår.opptjening.antallOpptjeningsdagerErMinst
                             }

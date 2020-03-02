@@ -8,7 +8,6 @@ import Vilkårsgrupper from './Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
 import dayjs from 'dayjs';
-import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import { FlexColumn } from '../../components/FlexColumn';
 
 interface PåfølgendeVedtaksperiodeProps {
@@ -69,7 +68,7 @@ const PåfølgendeVedtaksperiode = ({
                         førsteFraværsdag={
                             førsteVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
                         }
-                        fom={førsteVedtaksperiode.inngangsvilkår.opptjening.opptjeningFra}
+                        opptjeningFra={førsteVedtaksperiode.inngangsvilkår.opptjening.opptjeningFra}
                         antallOpptjeningsdagerErMinst={
                             førsteVedtaksperiode.inngangsvilkår.opptjening
                                 .antallOpptjeningsdagerErMinst

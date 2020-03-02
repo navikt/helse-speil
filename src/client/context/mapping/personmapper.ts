@@ -3,10 +3,8 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {
-    Hendelse,
-    Inntektsmelding,
+    DataForVilkårsvurdering,
     Person,
-    SendtSøknad,
     SpleisVedtaksperiode,
     UnmappedPerson,
     Vedtaksperiode
@@ -18,12 +16,6 @@ dayjs.extend(relativeTime);
 dayjs.extend(minMax);
 dayjs.extend(isSameOrAfter);
 
-enum HendelseType {
-    SENDTSØKNAD = 'SENDT_SØKNAD',
-    INNTEKTSMELDING = 'INNTEKTSMELDING',
-    NYSØKNAD = 'NY_SØKNAD'
-}
-
 const klarTilBehandling = (vedtaksperiode: SpleisVedtaksperiode) =>
     ![
         VedtaksperiodeTilstand.AVVENTER_TIDLIGERE_PERIODE,
@@ -34,25 +26,26 @@ const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) =>
     dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
 
 export const mapPerson = (unmappedPerson: UnmappedPerson, personinfo: Personinfo): Person => {
-    const inntektsmelding = finnInntektsmelding(unmappedPerson);
-    const sendtSøknad = finnSendtSøknad(unmappedPerson);
-
     const arbeidsgivere = unmappedPerson.arbeidsgivere.map(arbeidsgiver => {
+        const perioderKlareTilBehanding = arbeidsgiver.vedtaksperioder.filter(klarTilBehandling);
+        const dataForVilkårsvurdering:
+            | DataForVilkårsvurdering
+            | undefined = perioderKlareTilBehanding
+            .map(periode => periode.dataForVilkårsvurdering)
+            .find(data => data !== undefined && data !== null);
+
         const tilVedtaksperiode = (periode: SpleisVedtaksperiode) =>
             mapVedtaksperiode(
                 periode,
                 personinfo,
-                sendtSøknad,
-                inntektsmelding,
+                unmappedPerson.hendelser,
+                dataForVilkårsvurdering,
                 arbeidsgiver.organisasjonsnummer
             );
         return {
             id: arbeidsgiver.id,
             organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-            vedtaksperioder: arbeidsgiver.vedtaksperioder
-                .filter(klarTilBehandling)
-                .map(tilVedtaksperiode)
-                .sort(reversert)
+            vedtaksperioder: perioderKlareTilBehanding.map(tilVedtaksperiode).sort(reversert)
         };
     });
 
@@ -60,17 +53,6 @@ export const mapPerson = (unmappedPerson: UnmappedPerson, personinfo: Personinfo
         aktørId: unmappedPerson.aktørId,
         personinfo,
         arbeidsgivere,
-        inntektsmelding,
-        sendtSøknad,
         fødselsnummer: unmappedPerson.fødselsnummer
     };
 };
-
-const finnInntektsmelding = (person: UnmappedPerson): Inntektsmelding | undefined =>
-    findHendelse(person, HendelseType.INNTEKTSMELDING) as Inntektsmelding;
-
-const findHendelse = (person: UnmappedPerson, type: HendelseType): Hendelse | undefined =>
-    person.hendelser.find(h => h.type === type.valueOf());
-
-const finnSendtSøknad = (person: UnmappedPerson): SendtSøknad | undefined =>
-    findHendelse(person, HendelseType.SENDTSØKNAD) as SendtSøknad;

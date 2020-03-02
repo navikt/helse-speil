@@ -7,7 +7,6 @@ import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
 import styled from '@emotion/styled';
 import Grid from '../../components/Grid';
-import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 
 interface BehandletVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
@@ -61,7 +60,9 @@ const BehandletVedtaksperiode = ({
                                 førsteFraværsdag={
                                     førsteVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
                                 }
-                                fom={førsteVedtaksperiode.inngangsvilkår.opptjening.opptjeningFra}
+                                opptjeningFra={
+                                    førsteVedtaksperiode.inngangsvilkår.opptjening.opptjeningFra
+                                }
                                 antallOpptjeningsdagerErMinst={
                                     førsteVedtaksperiode.inngangsvilkår.opptjening
                                         .antallOpptjeningsdagerErMinst

@@ -48,15 +48,15 @@ const Søknadsfrist = ({ sendtNav, sisteSykepengedag, innen3Mnd }: Søknadsfrist
 
 interface OpptjeningstidProps {
     førsteFraværsdag: string;
-    fom?: string;
+    opptjeningFra: string;
     harOpptjening?: boolean;
-    antallOpptjeningsdagerErMinst?: number;
+    antallOpptjeningsdagerErMinst: number;
 }
 
 const Opptjeningstid = ({
     harOpptjening,
     førsteFraværsdag,
-    fom,
+    opptjeningFra,
     antallOpptjeningsdagerErMinst
 }: OpptjeningstidProps) => (
     <Vilkårsgruppe
@@ -65,7 +65,7 @@ const Opptjeningstid = ({
         ikontype={harOpptjening ? 'ok' : 'advarsel'}
     >
         <Vilkårsgrupperad label="Første sykdomsdag">{toDate(førsteFraværsdag)}</Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Opptjening fra">{fom || '-'}</Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Opptjening fra">{opptjeningFra}</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Antall dager (>28)">
             {`${antallOpptjeningsdagerErMinst}`}
         </Vilkårsgrupperad>

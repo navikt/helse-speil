@@ -482,7 +482,7 @@ const hendelser = [
     {
         rapportertdato: '2020-02-14T12:00:15.730199',
         sendtNav: '2019-10-15T00:00:00',
-        fom: '2019-09-16',
+        fom: '2019-09-10',
         tom: '2019-10-05',
         type: 'SENDT_SØKNAD'
     },
@@ -1121,17 +1121,5 @@ const mappetPerson = {
         kjønn: 'Mannebjørn',
         fødselsdato: '1956-12-12',
         fnr: '01019000123'
-    },
-    sendtSøknad: {
-        fom: '2019-09-16',
-        tom: '2019-10-05',
-        rapportertdato: '2020-02-14T12:00:15.730199',
-        sendtNav: '2019-10-15T00:00:00',
-        type: 'SENDT_SØKNAD'
-    },
-    inntektsmelding: {
-        beregnetInntekt: 31000.0,
-        førsteFraværsdag: '2019-09-10',
-        type: 'INNTEKTSMELDING'
     }
 };

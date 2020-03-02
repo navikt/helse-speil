@@ -215,8 +215,6 @@ export interface Person {
         vedtaksperioder: Vedtaksperiode[];
     }[];
     personinfo: Personinfo;
-    sendtSøknad?: SendtSøknad;
-    inntektsmelding?: Inntektsmelding;
     fødselsnummer: string;
 }
 
