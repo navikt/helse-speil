@@ -7,7 +7,6 @@ import './Utbetalingstidslinje.less';
 
 interface Props {
     vedtaksperiode: Vedtaksperiode;
-    showDagsats: boolean;
 }
 
 const sumDagsatser = (utbetalingsdager: Utbetalingsdag[]) => {
@@ -17,9 +16,9 @@ const sumDagsatser = (utbetalingsdager: Utbetalingsdag[]) => {
     );
 };
 
-const Utbetalingstidslinje = ({ vedtaksperiode, showDagsats }: Props) => {
+const Utbetalingstidslinje = ({ vedtaksperiode }: Props) => {
     const dager = vedtaksperiode.utbetalingstidslinje;
-    const dagsatserSummed = showDagsats && sumDagsatser(dager);
+    const dagsatserSummed: number = sumDagsatser(dager);
 
     return (
         <table className="Timeline tabell">
@@ -45,15 +44,13 @@ const Utbetalingstidslinje = ({ vedtaksperiode, showDagsats }: Props) => {
                         );
                     })}
             </tbody>
-            {dagsatserSummed && (
-                <tfoot>
-                    <tr>
-                        <th>TOTAL</th>
-                        <th />
-                        <th>{`${dagsatserSummed} kr`}</th>
-                    </tr>
-                </tfoot>
-            )}
+            <tfoot>
+                <tr>
+                    <th>TOTAL</th>
+                    <th />
+                    <th>{`${dagsatserSummed} kr`}</th>
+                </tr>
+            </tfoot>
         </table>
     );
 };

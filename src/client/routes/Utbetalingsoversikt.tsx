@@ -4,17 +4,15 @@ import { Panel } from 'nav-frontend-paneler';
 import { pages } from '../hooks/useLinks';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../context/PersonContext';
-import { useTranslation } from 'react-i18next';
 import Utbetalingstidslinje from '../components/Utbetalingstidslinje/Utbetalingstidslinje';
 
 const Utbetalingsoversikt = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
-    const { t } = useTranslation();
 
     return (
         <Panel className="Utbetalingsoversikt">
             {aktivVedtaksperiode ? (
-                <Utbetalingstidslinje vedtaksperiode={aktivVedtaksperiode} showDagsats={true} />
+                <Utbetalingstidslinje vedtaksperiode={aktivVedtaksperiode} />
             ) : (
                 <Normaltekst>Ingen data</Normaltekst>
             )}
