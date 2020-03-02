@@ -6,7 +6,7 @@ import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVe
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
-import { useFørsteVedtaksperiode } from '../../hooks/useFørsteVedtaksperiode';
+import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import dayjs from 'dayjs';
 import Toppvarsel from '../../components/Toppvarsel';
 
@@ -22,11 +22,11 @@ const Inntektskilderpanel = styled.div`
 `;
 
 const Inntektskilder = () => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const periodeStatus = useVedtaksperiodestatus();
+    if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
-    const førsteVedtaksperiode = useFørsteVedtaksperiode({ nåværendePeriode: aktivVedtaksperiode });
-    if (!aktivVedtaksperiode) return null;
+    const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
     const førsteFraværsdag = dayjs(
         aktivVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
     ).format('DD.MM.YYYY');

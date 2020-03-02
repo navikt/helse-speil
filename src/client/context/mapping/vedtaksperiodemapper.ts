@@ -81,12 +81,14 @@ export const mapVedtaksperiode = (
                 maksdato: periode.maksdato,
                 tidligerePerioder: []
             },
-            opptjening: {
-                antallOpptjeningsdagerErMinst:
-                    periode.dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst,
-                harOpptjening: periode.dataForVilkårsvurdering?.harOpptjening,
-                opptjeningFra
-            },
+            opptjening: periode.dataForVilkårsvurdering?.harOpptjening
+                ? {
+                      antallOpptjeningsdagerErMinst: periode.dataForVilkårsvurdering!
+                          .antallOpptjeningsdagerErMinst,
+                      harOpptjening: periode.dataForVilkårsvurdering!.harOpptjening,
+                      opptjeningFra: opptjeningFra!
+                  }
+                : undefined,
             søknadsfrist: {
                 sendtNav: sendtSøknad?.sendtNav,
                 søknadTom: sendtSøknad?.tom,

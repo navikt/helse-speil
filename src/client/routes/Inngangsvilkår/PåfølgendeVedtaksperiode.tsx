@@ -8,17 +8,22 @@ import Vilkårsgrupper from './Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
 import dayjs from 'dayjs';
-import { useFørsteVedtaksperiode } from '../../hooks/useFørsteVedtaksperiode';
+import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import { FlexColumn } from '../../components/FlexColumn';
 
 interface PåfølgendeVedtaksperiodeProps {
-    vedtaksperiode: Vedtaksperiode;
+    aktivVedtaksperiode: Vedtaksperiode;
+    førsteVedtaksperiode: Vedtaksperiode;
 }
 
-const PåfølgendeVedtaksperiode = ({ vedtaksperiode }: PåfølgendeVedtaksperiodeProps) => {
-    const { inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
-    const førsteFraværsdag = dayjs(inngangsvilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
-    const førsteVedtaksperiode = useFørsteVedtaksperiode({ nåværendePeriode: vedtaksperiode });
+const PåfølgendeVedtaksperiode = ({
+    aktivVedtaksperiode,
+    førsteVedtaksperiode
+}: PåfølgendeVedtaksperiodeProps) => {
+    const { inngangsvilkår } = aktivVedtaksperiode;
+    const førsteFraværsdag = dayjs(
+        førsteVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
+    ).format('DD.MM.YYYY');
 
     return (
         <>
@@ -49,22 +54,25 @@ const PåfølgendeVedtaksperiode = ({ vedtaksperiode }: PåfølgendeVedtaksperio
                 />
             </YrkesskadeContainer>
             <StyledBehandletInnhold
-                saksbehandler={førsteVedtaksperiode!.godkjentAv!}
+                saksbehandler={førsteVedtaksperiode.godkjentAv!}
                 tittel={`Inngangsvilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
                 vurderingsdato={
-                    førsteVedtaksperiode?.godkjentTidspunkt
-                        ? dayjs(førsteVedtaksperiode?.godkjentTidspunkt).format('DD.MM.YYYY')
+                    førsteVedtaksperiode.godkjentTidspunkt
+                        ? dayjs(førsteVedtaksperiode.godkjentTidspunkt).format('DD.MM.YYYY')
                         : 'ukjent'
                 }
             >
                 <Vilkårsgrupper.Medlemskap />
-                {inngangsvilkår.opptjening ? (
+                {førsteVedtaksperiode.inngangsvilkår.opptjening ? (
                     <Vilkårsgrupper.Opptjeningstid
-                        harOpptjening={inngangsvilkår.opptjening.harOpptjening}
-                        førsteFraværsdag={inngangsvilkår.dagerIgjen.førsteFraværsdag}
-                        fom={inngangsvilkår.opptjening.opptjeningFra}
+                        harOpptjening={førsteVedtaksperiode.inngangsvilkår.opptjening.harOpptjening}
+                        førsteFraværsdag={
+                            førsteVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
+                        }
+                        fom={førsteVedtaksperiode.inngangsvilkår.opptjening.opptjeningFra}
                         antallOpptjeningsdagerErMinst={
-                            inngangsvilkår.opptjening.antallOpptjeningsdagerErMinst
+                            førsteVedtaksperiode.inngangsvilkår.opptjening
+                                .antallOpptjeningsdagerErMinst
                         }
                     />
                 ) : (
@@ -75,7 +83,9 @@ const PåfølgendeVedtaksperiode = ({ vedtaksperiode }: PåfølgendeVedtaksperio
                     />
                 )}
                 <Vilkårsgrupper.KravTilSykepengegrunnlag
-                    sykepengegrunnlag={sykepengegrunnlag.årsinntektFraInntektsmelding!}
+                    sykepengegrunnlag={
+                        førsteVedtaksperiode.sykepengegrunnlag.årsinntektFraInntektsmelding!
+                    }
                 />
             </StyledBehandletInnhold>
         </>

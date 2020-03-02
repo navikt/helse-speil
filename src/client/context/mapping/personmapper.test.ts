@@ -28,8 +28,7 @@ test('Opptjening er undefined dersom felter er satt til null', () => {
         personInfo
     );
     const vedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0];
-    expect(vedtaksperiode.inngangsvilkår.opptjening.harOpptjening).toBeNull();
-    expect(vedtaksperiode.inngangsvilkår.opptjening.opptjeningFra).toBeUndefined();
+    expect(vedtaksperiode.inngangsvilkår.opptjening).toBeUndefined();
 });
 
 test('Filtrerer vekk uønskede vedtaksperioder', () => {

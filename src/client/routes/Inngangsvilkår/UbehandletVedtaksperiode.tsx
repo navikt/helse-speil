@@ -6,11 +6,11 @@ import { Vedtaksperiode } from '../../context/types';
 import { FlexColumn } from '../../components/FlexColumn';
 
 interface UbehandletVedtaksperiodeProps {
-    vedtaksperiode: Vedtaksperiode;
+    aktivVedtaksperiode: Vedtaksperiode;
 }
 
-const UbehandletVedtaksperiode = ({ vedtaksperiode }: UbehandletVedtaksperiodeProps) => {
-    const { inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
+const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperiodeProps) => {
+    const { inngangsvilkår, sykepengegrunnlag } = aktivVedtaksperiode;
 
     return (
         <>

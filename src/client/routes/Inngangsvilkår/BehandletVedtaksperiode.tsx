@@ -7,25 +7,29 @@ import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
 import styled from '@emotion/styled';
 import Grid from '../../components/Grid';
-import { useFørsteVedtaksperiode } from '../../hooks/useFørsteVedtaksperiode';
+import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 
 interface BehandletVedtaksperiodeProps {
-    vedtaksperiode: Vedtaksperiode;
+    aktivVedtaksperiode: Vedtaksperiode;
+    førsteVedtaksperiode: Vedtaksperiode;
 }
 
 const Innhold = styled(Grid)`
     margin-top: 2rem;
 `;
 
-const BehandletVedtaksperiode = ({ vedtaksperiode }: BehandletVedtaksperiodeProps) => {
-    const { godkjentAv, inngangsvilkår, sykepengegrunnlag } = vedtaksperiode;
-    const førsteVedtaksperiode = useFørsteVedtaksperiode({ nåværendePeriode: vedtaksperiode });
-    const førsteFraværsdag = dayjs(inngangsvilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
+const BehandletVedtaksperiode = ({
+    aktivVedtaksperiode,
+    førsteVedtaksperiode
+}: BehandletVedtaksperiodeProps) => {
+    const førsteFraværsdag = dayjs(
+        førsteVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
+    ).format('DD.MM.YYYY');
 
     return (
         <>
             <StyledBehandletInnhold
-                saksbehandler={godkjentAv!}
+                saksbehandler={aktivVedtaksperiode.godkjentAv!}
                 tittel={`Inngangsvilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
                 vurderingsdato={
                     førsteVedtaksperiode?.godkjentTidspunkt
@@ -37,21 +41,30 @@ const BehandletVedtaksperiode = ({ vedtaksperiode }: BehandletVedtaksperiodeProp
                     <FlexColumn>
                         <Vilkårsgrupper.Arbeidsuførhet />
                         <Vilkårsgrupper.Medlemskap />
-                        <Vilkårsgrupper.Alder alder={inngangsvilkår.alderISykmeldingsperioden} />
+                        <Vilkårsgrupper.Alder
+                            alder={aktivVedtaksperiode.inngangsvilkår.alderISykmeldingsperioden}
+                        />
                         <Vilkårsgrupper.Søknadsfrist
-                            innen3Mnd={inngangsvilkår.søknadsfrist.innen3Mnd}
-                            sendtNav={inngangsvilkår.søknadsfrist.sendtNav!}
-                            sisteSykepengedag={inngangsvilkår.søknadsfrist.søknadTom!}
+                            innen3Mnd={aktivVedtaksperiode.inngangsvilkår.søknadsfrist.innen3Mnd}
+                            sendtNav={aktivVedtaksperiode.inngangsvilkår.søknadsfrist.sendtNav!}
+                            sisteSykepengedag={
+                                aktivVedtaksperiode.inngangsvilkår.søknadsfrist.søknadTom!
+                            }
                         />
                     </FlexColumn>
                     <FlexColumn>
-                        {inngangsvilkår.opptjening ? (
+                        {førsteVedtaksperiode.inngangsvilkår.opptjening ? (
                             <Vilkårsgrupper.Opptjeningstid
-                                harOpptjening={inngangsvilkår.opptjening.harOpptjening}
-                                førsteFraværsdag={inngangsvilkår.dagerIgjen.førsteFraværsdag}
-                                fom={inngangsvilkår.opptjening.opptjeningFra}
+                                harOpptjening={
+                                    førsteVedtaksperiode.inngangsvilkår.opptjening.harOpptjening
+                                }
+                                førsteFraværsdag={
+                                    førsteVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
+                                }
+                                fom={førsteVedtaksperiode.inngangsvilkår.opptjening.opptjeningFra}
                                 antallOpptjeningsdagerErMinst={
-                                    inngangsvilkår.opptjening.antallOpptjeningsdagerErMinst
+                                    førsteVedtaksperiode.inngangsvilkår.opptjening
+                                        .antallOpptjeningsdagerErMinst
                                 }
                             />
                         ) : (
@@ -62,13 +75,19 @@ const BehandletVedtaksperiode = ({ vedtaksperiode }: BehandletVedtaksperiodeProp
                             />
                         )}
                         <Vilkårsgrupper.KravTilSykepengegrunnlag
-                            sykepengegrunnlag={sykepengegrunnlag.årsinntektFraInntektsmelding!}
+                            sykepengegrunnlag={
+                                aktivVedtaksperiode.sykepengegrunnlag.årsinntektFraInntektsmelding!
+                            }
                         />
                         <Vilkårsgrupper.DagerIgjen
-                            førsteFraværsdag={inngangsvilkår.dagerIgjen.førsteFraværsdag}
-                            førsteSykepengedag={inngangsvilkår.dagerIgjen.førsteSykepengedag}
-                            dagerBrukt={inngangsvilkår.dagerIgjen.dagerBrukt}
-                            maksdato={inngangsvilkår.dagerIgjen.maksdato}
+                            førsteFraværsdag={
+                                aktivVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
+                            }
+                            førsteSykepengedag={
+                                aktivVedtaksperiode.inngangsvilkår.dagerIgjen.førsteSykepengedag
+                            }
+                            dagerBrukt={aktivVedtaksperiode.inngangsvilkår.dagerIgjen.dagerBrukt}
+                            maksdato={aktivVedtaksperiode.inngangsvilkår.dagerIgjen.maksdato}
                         />
                     </FlexColumn>
                 </Innhold>

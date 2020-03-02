@@ -5,7 +5,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { useTranslation } from 'react-i18next';
 import NavigationButtons from '../../components/NavigationButtons';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
-import { useFørsteVedtaksperiode } from '../../hooks/useFørsteVedtaksperiode';
+import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import dayjs from 'dayjs';
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
@@ -22,12 +22,13 @@ const Sykepengegrunnlagpanel = styled.div`
 `;
 
 const Sykepengegrunnlag = () => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const periodeStatus = useVedtaksperiodestatus();
-    const førsteVedtaksperiode = useFørsteVedtaksperiode({ nåværendePeriode: aktivVedtaksperiode });
     const { t } = useTranslation();
 
-    if (!aktivVedtaksperiode) return null;
+    if (!aktivVedtaksperiode || !personTilBehandling) return null;
+
+    const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
 
     const førsteFraværsdag = dayjs(
         aktivVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
@@ -40,8 +41,8 @@ const Sykepengegrunnlag = () => {
             ) : (
                 <StyledBehandletInnhold
                     tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
-                    saksbehandler={førsteVedtaksperiode!.godkjentAv!}
-                    vurderingsdato={førsteVedtaksperiode!.godkjentTidspunkt!}
+                    saksbehandler={førsteVedtaksperiode.godkjentAv!}
+                    vurderingsdato={førsteVedtaksperiode.godkjentTidspunkt!}
                 >
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                 </StyledBehandletInnhold>

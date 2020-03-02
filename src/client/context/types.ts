@@ -155,10 +155,10 @@ interface Inngangsvilkår {
         søknadTom?: string;
         sendtNav?: string;
     };
-    opptjening: {
-        antallOpptjeningsdagerErMinst?: number;
-        opptjeningFra?: string;
-        harOpptjening?: boolean;
+    opptjening?: {
+        antallOpptjeningsdagerErMinst: number;
+        opptjeningFra: string;
+        harOpptjening: boolean;
     };
     alderISykmeldingsperioden: Optional<number>;
 }
