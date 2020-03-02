@@ -26,7 +26,8 @@ const dagType = (type: Dagtype): PeriodetabellDagtype => {
         case Dagtype.ARBEIDSDAG_SØKNAD:
         case Dagtype.ARBEIDSDAG_INNTEKTSMELDING:
             return PeriodetabellDagtype.Arbeidsdag;
-        case Dagtype.SYK_HELGEDAG:
+        case Dagtype.SYK_HELGEDAG_SYKMELDING:
+        case Dagtype.SYK_HELGEDAG_SØKNAD:
             return PeriodetabellDagtype.Helg;
         case Dagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
         case Dagtype.EGENMELDINGSDAG_SØKNAD:
@@ -45,12 +46,13 @@ const hendelseType = (type: Dagtype) => {
         case Dagtype.FERIEDAG_SØKNAD:
         case Dagtype.PERMISJONSDAG_SØKNAD:
         case Dagtype.SYKEDAG_SØKNAD:
+        case Dagtype.SYK_HELGEDAG_SØKNAD:
         case Dagtype.STUDIEDAG:
         case Dagtype.UTENLANDSDAG:
             return 'SØ';
+        case Dagtype.SYK_HELGEDAG_SYKMELDING:
         case Dagtype.SYKEDAG_SYKMELDING:
             return 'SM';
-        case Dagtype.SYK_HELGEDAG:
         case Dagtype.UBESTEMTDAG:
         case Dagtype.IMPLISITT_DAG:
         case Dagtype.PERMISJONSDAG_AAREG:
@@ -74,35 +76,14 @@ const Sykmeldingsperiode = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const { t } = useTranslation();
 
-    function forrigeSykedagsKilde(dag: Dag, index: number) {
-        let gjeldendeDagtype;
-        while (index > 0) {
-            index--;
-            gjeldendeDagtype = aktivVedtaksperiode?.sykdomstidslinje[index].type;
-            if (
-                gjeldendeDagtype === Dagtype.SYKEDAG_SØKNAD ||
-                gjeldendeDagtype === Dagtype.SYKEDAG_SYKMELDING
-            ) {
-                return {
-                    label: hendelseType(gjeldendeDagtype as Dagtype) as Kildelabel,
-                    link: ''
-                };
-            }
-        }
-        return undefined;
-    }
-
     const dager =
         aktivVedtaksperiode?.sykdomstidslinje.map((dag, index) => ({
             type: dagType(dag.type as Dagtype),
             dato: dag.dagen,
             gradering: 100,
-            kilde:
-                dag.type === Dagtype.SYK_HELGEDAG
-                    ? forrigeSykedagsKilde(dag, index)
-                    : hendelseType(dag.type as Dagtype)
-                    ? { label: hendelseType(dag.type as Dagtype) as Kildelabel, link: '' }
-                    : undefined
+            kilde: hendelseType(dag.type as Dagtype)
+                ? { label: hendelseType(dag.type as Dagtype) as Kildelabel, link: '' }
+                : undefined
         })) ?? [];
 
     return (

@@ -163,12 +163,12 @@ const enVedtaksperiode = (ekstraDager = [], _vilkårsvurdering = vilkårsvurderi
             {
                 dagen: '2019-09-21',
                 hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG'
+                type: 'SYK_HELGEDAG_SØKNAD'
             },
             {
                 dagen: '2019-09-22',
                 hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG'
+                type: 'SYK_HELGEDAG_SØKNAD'
             },
             {
                 dagen: '2019-09-23',
@@ -198,12 +198,12 @@ const enVedtaksperiode = (ekstraDager = [], _vilkårsvurdering = vilkårsvurderi
             {
                 dagen: '2019-09-28',
                 hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG'
+                type: 'SYK_HELGEDAG_SØKNAD'
             },
             {
                 dagen: '2019-09-29',
                 hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG'
+                type: 'SYK_HELGEDAG_SØKNAD'
             },
             {
                 dagen: '2019-09-30',
@@ -233,7 +233,7 @@ const enVedtaksperiode = (ekstraDager = [], _vilkårsvurdering = vilkårsvurderi
             {
                 dagen: '2019-10-05',
                 hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG'
+                type: 'SYK_HELGEDAG_SØKNAD'
             }
         ],
         utbetalingslinjer: [
@@ -679,12 +679,12 @@ const mappetPerson = {
                         {
                             dagen: '2019-09-21',
                             hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG'
+                            type: 'SYK_HELGEDAG_SØKNAD'
                         },
                         {
                             dagen: '2019-09-22',
                             hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG'
+                            type: 'SYK_HELGEDAG_SØKNAD'
                         },
                         {
                             dagen: '2019-09-23',
@@ -714,12 +714,12 @@ const mappetPerson = {
                         {
                             dagen: '2019-09-28',
                             hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG'
+                            type: 'SYK_HELGEDAG_SØKNAD'
                         },
                         {
                             dagen: '2019-09-29',
                             hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG'
+                            type: 'SYK_HELGEDAG_SØKNAD'
                         },
                         {
                             dagen: '2019-09-30',
@@ -749,7 +749,7 @@ const mappetPerson = {
                         {
                             dagen: '2019-10-05',
                             hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG'
+                            type: 'SYK_HELGEDAG_SØKNAD'
                         }
                     ],
                     sykepengegrunnlag: {
@@ -846,12 +846,12 @@ const mappetPerson = {
                             {
                                 dagen: '2019-09-21',
                                 hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG'
+                                type: 'SYK_HELGEDAG_SØKNAD'
                             },
                             {
                                 dagen: '2019-09-22',
                                 hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG'
+                                type: 'SYK_HELGEDAG_SØKNAD'
                             },
                             {
                                 dagen: '2019-09-23',
@@ -881,12 +881,12 @@ const mappetPerson = {
                             {
                                 dagen: '2019-09-28',
                                 hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG'
+                                type: 'SYK_HELGEDAG_SØKNAD'
                             },
                             {
                                 dagen: '2019-09-29',
                                 hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG'
+                                type: 'SYK_HELGEDAG_SØKNAD'
                             },
                             {
                                 dagen: '2019-09-30',
@@ -916,7 +916,7 @@ const mappetPerson = {
                             {
                                 dagen: '2019-10-05',
                                 hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG'
+                                type: 'SYK_HELGEDAG_SØKNAD'
                             }
                         ],
                         utbetalingslinjer: [

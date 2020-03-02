@@ -44,11 +44,11 @@
                         },
                         {
                             "dagen": "2018-01-06",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-07",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2018-01-08",
@@ -72,11 +72,11 @@
                         },
                         {
                             "dagen": "2018-01-13",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2018-01-14",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2018-01-15",
@@ -100,11 +100,11 @@
                         },
                         {
                             "dagen": "2018-01-20",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2018-01-21",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2018-01-22",
@@ -128,11 +128,11 @@
                         },
                         {
                             "dagen": "2018-01-27",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2018-01-28",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2018-01-29",

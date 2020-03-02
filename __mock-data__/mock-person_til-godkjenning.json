@@ -45,11 +45,11 @@
                         },
                         {
                             "dagen": "2019-09-15",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2019-09-16",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SYKMELDING"
                         },
                         {
                             "dagen": "2019-09-17",
@@ -73,11 +73,11 @@
                         },
                         {
                             "dagen": "2019-09-22",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2019-09-23",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2019-09-24",
@@ -101,11 +101,11 @@
                         },
                         {
                             "dagen": "2019-09-29",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2019-09-30",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         },
                         {
                             "dagen": "2019-10-01",
@@ -125,7 +125,7 @@
                         },
                         {
                             "dagen": "2019-10-05",
-                            "type": "SYK_HELGEDAG"
+                            "type": "SYK_HELGEDAG_SØKNAD"
                         }
                     ],
                     "utbetalingslinjer": [
