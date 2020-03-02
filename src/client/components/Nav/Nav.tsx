@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
-import useLinks, {pages} from '../../hooks/useLinks';
+import React, { useContext } from 'react';
+import useLinks, { pages } from '../../hooks/useLinks';
 import Link from './Link';
 import styled from '@emotion/styled';
-import {PersonContext} from "../../context/PersonContext";
+import { PersonContext } from '../../context/PersonContext';
 
 interface Props {
     active?: boolean;

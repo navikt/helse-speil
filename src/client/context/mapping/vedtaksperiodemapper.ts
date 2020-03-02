@@ -5,7 +5,8 @@ import {
     Vedtaksperiode,
     Optional,
     SendtSøknad,
-    SpleisVedtaksperiode
+    SpleisVedtaksperiode,
+    Utbetalingsdag
 } from '../types';
 import { Personinfo, VedtaksperiodeTilstand } from '../../../types';
 import { arbeidsdagerMellom } from '../../utils/date';
@@ -26,11 +27,7 @@ export const mapVedtaksperiode = (
     const årsinntektFraAording =
         periode.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten;
 
-    const utbetalingsdager =
-        periode.utbetalingslinjer?.reduce(
-            (antallDager, linje) => antallDager + arbeidsdagerMellom(linje.fom, linje.tom).length,
-            0
-        ) ?? 0;
+    const utbetalingsdager = periode.utbetalingstidslinje.filter(dag => dag.utbetaling > 0).length;
 
     const førsteSykepengedag =
         periode.utbetalingslinjer && periode.utbetalingslinjer.length > 0
@@ -60,8 +57,10 @@ export const mapVedtaksperiode = (
 
     const dagsats = periode.utbetalingslinjer?.[0]?.dagsats;
 
-    const totaltTilUtbetaling =
-        dagsats !== undefined && utbetalingsdager !== undefined ? dagsats * utbetalingsdager : 0;
+    const totaltTilUtbetaling = periode.utbetalingstidslinje
+        .map(dag => dag.utbetaling)
+        .filter(utbetaling => utbetaling !== undefined)
+        .reduce((acc, dagsats) => acc + dagsats, 0);
 
     return {
         id: periode.id,
@@ -76,7 +75,7 @@ export const mapVedtaksperiode = (
         inngangsvilkår: {
             alderISykmeldingsperioden: beregnAlder(sisteSykdomsdag, personinfo.fødselsdato),
             dagerIgjen: {
-                dagerBrukt: utbetalingsdager,
+                dagerBrukt: utbetalingsdager, //TODO: Dager brukt
                 førsteFraværsdag,
                 førsteSykepengedag,
                 maksdato: periode.maksdato,
