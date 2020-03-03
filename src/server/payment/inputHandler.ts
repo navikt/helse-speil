@@ -43,19 +43,39 @@ const utbetalingslinjerIsValid = (linjer?: Utbetalingslinje[]) => {
 const fieldIsValid = (field: any, validType: string) =>
     field !== undefined && typeof field === validType;
 
-const isValid = (sak: Utbetalingsvedtak): sak is Utbetalingsvedtak => {
-    return (
-        fieldIsValid(sak.vedtaksperiodeId, 'string') &&
-        fieldIsValid(sak.organisasjonsnummer, 'string') &&
-        fieldIsValid(sak.maksdato, 'string') &&
-        fieldIsValid(sak.aktørId, 'string') &&
-        fieldIsValid(sak.utbetalingsreferanse, 'string') &&
-        fieldIsValid(sak.erUtvidelse, 'boolean') &&
-        utbetalingslinjerIsValid(sak.utbetalingslinjer)
-    );
+const validate = (sak: Utbetalingsvedtak): SimulationValidationResult => {
+    const validations = {
+        vedtaksperiodeId: 'string',
+        organisasjonsnummer: 'string',
+        maksdato: 'string',
+        aktørId: 'string',
+        utbetalingsreferanse: 'string',
+        erUtvidelse: 'boolean'
+    };
+
+    const errors = Object.entries(validations).map(([key, value]) => {
+        return !fieldIsValid(sak[key], value)
+            ? `Forventet å motta feltet '${key}' av type ${value}.`
+            : '';
+    });
+
+    if (!utbetalingslinjerIsValid(sak.utbetalingslinjer)) {
+        errors.push(`Forventet å motta utbetalingslinjer med 'fom', 'tom' og 'dagsats'.`);
+    }
+
+    const onlyActualErrors = errors.filter(errorMessage => errorMessage.trim().length > 0);
+    return {
+        result: onlyActualErrors.length === 0,
+        errors: onlyActualErrors
+    };
 };
 
+interface SimulationValidationResult {
+    result: boolean;
+    errors: string[];
+}
+
 export default {
-    isValid,
+    validate,
     map
 };

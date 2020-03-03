@@ -32,8 +32,12 @@ const routes = (router: Router) => {
     const simulationHandler = {
         handle: (req: Request, res: Response) => {
             const sak = input.map(req.body);
-            if (!input.isValid(sak)) {
-                res.status(400).send('Invalid sak supplied');
+            const validationResult = input.validate(sak);
+            if (!validationResult.result) {
+                logger.info(
+                    `Valideringsfeil ved forsøk på simulering: ${validationResult.errors.join(' ')}`
+                );
+                res.status(400).send({ valideringsfeil: validationResult.errors });
                 return;
             }
             if (process.env.NODE_ENV === 'development') {

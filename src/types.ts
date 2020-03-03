@@ -50,6 +50,7 @@ export interface Utbetalingsvedtak {
     saksbehandler?: string;
     utbetalingslinjer?: Utbetalingslinje[];
     erUtvidelse: boolean;
+    [key: string]: any;
 }
 
 export enum VedtaksperiodeTilstand {
