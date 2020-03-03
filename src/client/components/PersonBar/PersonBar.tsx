@@ -11,9 +11,7 @@ const PersonBar = () => {
 
     if (!personTilBehandling) return <div className="PersonBar" />;
 
-    const { aktørId } = personTilBehandling;
-    const personinfo = personTilBehandling.personinfo;
-    const arbeidsgiverOrgnr = personTilBehandling.arbeidsgivere[0]?.organisasjonsnummer;
+    const { aktørId, personinfo } = personTilBehandling;
 
     return (
         <div className="PersonBar">
