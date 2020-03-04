@@ -9,7 +9,7 @@ export interface Simulering {
 
 let config: NavConfig;
 
-const setup = (_config: NavConfig) => {
+const setup = (_config: NavConfig): Simulering => {
     config = _config;
     return { simuler };
 };

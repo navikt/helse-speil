@@ -48,9 +48,9 @@ const OppsummeringInfotrygd = () => {
             });
     };
 
-    const simulering = simuleringContext.simulering?.simulering?.totalBelop
-        ? `${toKronerOgØre(simuleringContext.simulering?.simulering?.totalBelop)} kr`
-        : simuleringContext.simulering?.feilMelding ?? 'Ikke tilgjengelig';
+    const simulering = simuleringContext.simulering?.totalBelop
+        ? `${toKronerOgØre(simuleringContext.simulering?.totalBelop)} kr`
+        : simuleringContext.error ?? 'Ikke tilgjengelig';
 
     return (
         <span className="OppsummeringInfotrygd">
