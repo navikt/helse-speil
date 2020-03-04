@@ -48,7 +48,7 @@ export interface Inntektsmelding extends Hendelse {
     førsteFraværsdag: string;
 }
 
-export interface Arbeidsgiver {
+export interface SpleisArbeidsgiver {
     id: string;
     organisasjonsnummer: string;
     vedtaksperioder: SpleisVedtaksperiode[];
@@ -200,20 +200,22 @@ export interface Vedtaksperiode {
     godkjentTidspunkt?: string;
 }
 
-export interface UnmappedPerson {
+export interface SpleisPerson {
     aktørId: string;
     fødselsnummer: string;
-    arbeidsgivere: Arbeidsgiver[];
+    arbeidsgivere: SpleisArbeidsgiver[];
     hendelser: Hendelse[];
+}
+
+export interface Arbeidsgiver {
+    id: string;
+    organisasjonsnummer: string;
+    vedtaksperioder: Vedtaksperiode[];
 }
 
 export interface Person {
     aktørId: string;
-    arbeidsgivere: {
-        id: string;
-        organisasjonsnummer: string;
-        vedtaksperioder: Vedtaksperiode[];
-    }[];
+    arbeidsgivere: Arbeidsgiver[];
     personinfo: Personinfo;
     fødselsnummer: string;
 }

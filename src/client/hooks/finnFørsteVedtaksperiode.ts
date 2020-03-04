@@ -1,6 +1,4 @@
-import { useContext } from 'react';
-import { PersonContext } from '../context/PersonContext';
-import { Arbeidsgiver, Person, Vedtaksperiode } from '../context/types';
+import { Person, Vedtaksperiode } from '../context/types';
 import dayjs from 'dayjs';
 
 /**

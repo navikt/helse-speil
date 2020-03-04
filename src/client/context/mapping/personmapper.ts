@@ -6,7 +6,7 @@ import {
     DataForVilkårsvurdering,
     Person,
     SpleisVedtaksperiode,
-    UnmappedPerson,
+    SpleisPerson,
     Vedtaksperiode
 } from '../types';
 import { Personinfo, VedtaksperiodeTilstand } from '../../../types';
@@ -25,7 +25,7 @@ const klarTilBehandling = (vedtaksperiode: SpleisVedtaksperiode) =>
 const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) =>
     dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
 
-export const mapPerson = (unmappedPerson: UnmappedPerson, personinfo: Personinfo): Person => {
+export const mapPerson = (unmappedPerson: SpleisPerson, personinfo: Personinfo): Person => {
     const arbeidsgivere = unmappedPerson.arbeidsgivere.map(arbeidsgiver => {
         const perioderKlareTilBehanding = arbeidsgiver.vedtaksperioder.filter(klarTilBehandling);
         const dataForVilkårsvurdering:
