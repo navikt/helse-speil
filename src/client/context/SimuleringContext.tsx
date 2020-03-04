@@ -52,42 +52,44 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
 
     useEffect(() => {
         if (aktivVedtaksperiode) {
-            hentSimulering(korrigérVedtaksperiodeForSimulering(aktivVedtaksperiode)).then(data => {
-                const arbeidsgiver =
-                    data?.simulering?.periodeList[0]?.utbetaling[0].detaljer[0].refunderesOrgNr;
-                setArbeidsgiver(arbeidsgiver);
-            });
+            setError(undefined);
+            setSimulering(undefined);
+            setArbeidsgiver(undefined);
+            hentSimulering(korrigérVedtaksperiodeForSimulering(aktivVedtaksperiode));
         }
     }, [aktivVedtaksperiode]);
 
-    const hentSimulering = async (vedtaksperiode: SpleisVedtaksperiode) => {
+    const hentSimulering = async (vedtaksperiode: SpleisVedtaksperiode): Promise<void> => {
         const erUtvidelse =
             (
                 personTilBehandling?.arbeidsgivere[0].vedtaksperioder.map(
                     periode => periode.utbetalingsreferanse === vedtaksperiode.utbetalingsreferanse
                 ) || []
             ).length > 1;
-        return await postSimulering(
-            vedtaksperiode,
-            personTilBehandling!.aktørId,
-            personTilBehandling!.arbeidsgivere[0].organisasjonsnummer,
-            personTilBehandling!.fødselsnummer,
-            erUtvidelse,
-            authInfo.ident
-        )
-            .then((response: { data: SimuleringResponse }) => {
-                if (response.data.status === 'FEIL') {
-                    setError(response.data.feilMelding);
-                } else {
-                    setSimulering(response.data.simulering);
-                }
-                return response.data;
-            })
-            .catch(err => {
-                console.error(err);
-                setError('Kunne ikke hente simulering');
-                return undefined;
-            });
+
+        try {
+            const { data }: { data: SimuleringResponse } = await postSimulering(
+                vedtaksperiode,
+                personTilBehandling!.aktørId,
+                personTilBehandling!.arbeidsgivere[0].organisasjonsnummer,
+                personTilBehandling!.fødselsnummer,
+                erUtvidelse,
+                authInfo.ident
+            );
+            if (data.status === 'FEIL') {
+                setError(data.feilMelding);
+            } else if (!data.simulering) {
+                throw Error('Mangler simulering i svar fra backend');
+            } else {
+                setSimulering(data.simulering);
+                const arbeidsgiver =
+                    data.simulering.periodeList[0]?.utbetaling[0].detaljer[0].refunderesOrgNr;
+                setArbeidsgiver(arbeidsgiver);
+            }
+        } catch (err) {
+            console.error(err);
+            setError('Kunne ikke hente simulering');
+        }
     };
 
     return (
