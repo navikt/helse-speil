@@ -55,7 +55,9 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
             setError(undefined);
             setSimulering(undefined);
             setArbeidsgiver(undefined);
-            hentSimulering(korrigérVedtaksperiodeForSimulering(aktivVedtaksperiode));
+            if (!aktivVedtaksperiode.godkjentAv) {
+                hentSimulering(korrigérVedtaksperiodeForSimulering(aktivVedtaksperiode));
+            }
         }
     }, [aktivVedtaksperiode]);
 
