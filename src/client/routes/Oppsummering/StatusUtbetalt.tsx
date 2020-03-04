@@ -1,6 +1,5 @@
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Normaltekst } from 'nav-frontend-typografi';
-import VisDetaljerKnapp from '../../components/VisDetaljerKnapp';
 import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import AnnulleringsModal from './AnnulleringsModal';
 import { postAnnullering } from '../../io/http';
@@ -8,6 +7,7 @@ import { Person } from '../../context/types';
 import { Error, VedtaksperiodeTilstand } from '../../../types';
 import { AuthContext } from '../../context/AuthContext';
 import { PersonContext } from '../../context/PersonContext';
+import Lenkeknapp from '../../components/Lenkeknapp';
 
 interface StatusUtbetaltProps {
     setTilstand: Dispatch<SetStateAction<VedtaksperiodeTilstand>>;
@@ -74,10 +74,9 @@ const StatusUtbetalt = ({
             <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
             <Normaltekst>
                 {'Er det feil i utbetalingen er det mulig å '}
-                <VisDetaljerKnapp
-                    onClick={() => setAnnulleringsmodalOpen(true)}
-                    tekst="annullere utbetalingen fra oppdragssystemet"
-                />
+                <Lenkeknapp onClick={() => setAnnulleringsmodalOpen(true)}>
+                    annullere utbetalingen fra oppdragssystemet
+                </Lenkeknapp>
             </Normaltekst>
             {annulleringsmodalOpen && (
                 <AnnulleringsModal

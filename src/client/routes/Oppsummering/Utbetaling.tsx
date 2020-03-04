@@ -42,6 +42,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {
+        // TODO: Sjekk at denne oppfører seg riktig. Fatter vedtak på første behov/vedtaksperiode.
         const behovId = behovoversikt.find(
             (behov: Behov) => behov.aktørId === personTilBehandling?.aktørId
         )?.['@id'];

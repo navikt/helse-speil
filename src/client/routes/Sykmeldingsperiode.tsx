@@ -9,10 +9,6 @@ import { sykdomstidslinje } from '../context/mapping/dagmapper';
 const Container = styled.div`
     padding: 1.5rem 2rem;
 
-    td {
-        vertical-align: middle;
-    }
-
     .NavigationButtons {
         margin-top: 2.5rem;
     }
