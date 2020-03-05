@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, SpleisVedtaksperiode, Utbetalingsperiode, Vedtaksperiode } from './types';
+import { ProviderProps, SpleisVedtaksperiode, Utbetalingsperiode } from './types';
 
 interface SimuleringResponse {
     status: string;
@@ -26,23 +26,6 @@ interface SimuleringContextType {
 
 export const SimuleringContext = createContext<SimuleringContextType>({});
 
-/**
- * Hack warning
- *
- * Fordi Spleis setter første fraværsdag som FOM på utbetalingslinjer må vi korrigere ved å sette
- * riktig FOM før vi kaller Spenn.
- */
-const korrigérVedtaksperiodeForSimulering = ({
-    fom,
-    rawData
-}: Vedtaksperiode): SpleisVedtaksperiode => {
-    const korrigerteUtbetalingslinjer = rawData.utbetalingslinjer?.map(linje => ({
-        ...linje,
-        fom
-    }));
-    return { ...rawData, utbetalingslinjer: korrigerteUtbetalingslinjer };
-};
-
 export const SimuleringProvider = ({ children }: ProviderProps) => {
     const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
     const { authInfo } = useContext(AuthContext);
@@ -56,7 +39,7 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
             setSimulering(undefined);
             setArbeidsgiver(undefined);
             if (!aktivVedtaksperiode.godkjentAv) {
-                hentSimulering(korrigérVedtaksperiodeForSimulering(aktivVedtaksperiode));
+                hentSimulering(aktivVedtaksperiode.rawData);
             }
         }
     }, [aktivVedtaksperiode]);
