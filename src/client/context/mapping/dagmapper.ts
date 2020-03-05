@@ -75,7 +75,7 @@ export const sykdomstidslinje = (vedtaksperiode?: Vedtaksperiode) =>
     vedtaksperiode?.sykdomstidslinje.map((dag, index) => ({
         type: sykdomstidslinjedag(dag.type as Dagtype),
         dato: dag.dagen,
-        gradering: 100,
+        gradering: dag.grad,
         kilde: hendelseType(dag.type as Dagtype)
             ? { label: hendelseType(dag.type as Dagtype) as Kildelabel, link: '' }
             : undefined
@@ -85,6 +85,6 @@ export const utbetalingstidslinje = (vedtaksperiode?: Vedtaksperiode) =>
     vedtaksperiode?.utbetalingstidslinje.map((dag, index) => ({
         type: utbetalingstidslinjedag(dag.type as Utbetalingsdagtype),
         dato: dag.dato,
-        gradering: 100,
+        gradering: dag.grad,
         utbetaling: dag.utbetaling
     })) ?? [];

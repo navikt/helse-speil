@@ -58,6 +58,7 @@ export interface Utbetalingsdag {
     type: Utbetalingsdagtype;
     dato: string;
     utbetaling: number;
+    grad?: number;
 }
 
 export interface Søknad extends Hendelse {
@@ -78,6 +79,7 @@ export interface Dag {
     dagen: string;
     type: string;
     kilde: { label: Kildelabel; link: string };
+    grad?: number;
 }
 
 export interface Hendelse {
