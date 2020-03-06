@@ -32,6 +32,21 @@
                                 "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
                                 "utbetalingsType": "YTELSE",
                                 "refunderesOrgNr": "12345678"
+                            },
+                            {
+                                "faktiskFom": "2020-01-17",
+                                "faktiskTom": "2020-01-31",
+                                "konto": "8490172",
+                                "belop": 12694,
+                                "tilbakeforing": false,
+                                "sats": 1154,
+                                "typeSats": "DAGLIG",
+                                "antallSats": 11,
+                                "uforegrad": 100,
+                                "klassekode": "SPREFAG-IOP",
+                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                "utbetalingsType": "YTELSE",
+                                "refunderesOrgNr": "12345678"
                             }
                         ]
                     }

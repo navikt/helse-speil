@@ -10,7 +10,7 @@ interface SimuleringResponse {
     simulering: Simulering;
 }
 
-interface Simulering {
+export interface Simulering {
     gjelderId: string;
     totalBelop: number;
     gjelderNavn: string;

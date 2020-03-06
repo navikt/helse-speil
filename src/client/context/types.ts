@@ -90,7 +90,7 @@ export interface Utbetalingslinje extends Periode {
     dagsats: number;
 }
 
-interface Utbetalingsdetaljer {
+export interface Utbetalingsdetalj {
     sats: number;
     konto: string;
     belop: number;
@@ -106,11 +106,11 @@ interface Utbetalingsdetaljer {
     klassekodeBeskrivelse: string;
 }
 
-interface Utbetaling {
+export interface Utbetaling {
     forfall: string;
-    detaljer: Utbetalingsdetaljer[];
+    detaljer: Utbetalingsdetalj[];
     feilkonto: boolean;
-    fagsystemId: string;
+    fagSystemId: string;
     utbetalesTilId: string;
     utbetalesTilNavn: string;
 }
@@ -139,8 +139,8 @@ export interface SpleisVedtaksperiode {
 }
 
 export interface Utbetalingsperiode {
-    fom: String;
-    tom: String;
+    fom: string;
+    tom: string;
     utbetaling: Utbetaling[];
 }
 
