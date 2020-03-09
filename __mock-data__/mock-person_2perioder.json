@@ -204,127 +204,158 @@
                     "sykdomstidslinje": [
                         {
                             "dagen": "2020-01-01",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-02",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-03",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-04",
-                            "type": "SYK_HELGEDAG_SYKMELDING"
+                            "type": "SYK_HELGEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-05",
-                            "type": "SYK_HELGEDAG_SYKMELDING"
+                            "type": "SYK_HELGEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-06",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-07",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-08",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-09",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-10",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-11",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-12",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-13",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-14",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-15",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-16",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-17",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-18",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-19",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-20",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-21",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-22",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-23",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-24",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-25",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-26",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-27",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-28",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-29",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-30",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2020-01-31",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         }
                     ],
                     "utbetalingslinjer": [
@@ -440,59 +471,73 @@
                     "sykdomstidslinje": [
                         {
                             "dagen": "2020-02-01",
-                            "type": "SYK_HELGEDAG_SYKMELDING"
+                            "type": "SYK_HELGEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-02",
-                            "type": "SYK_HELGEDAG_SYKMELDING"
+                            "type": "SYK_HELGEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-03",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-04",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-05",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-06",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-07",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-08",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-09",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-10",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-11",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-12",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-13",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         },
                         {
                             "dagen": "2020-02-14",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 50
                         }
                     ],
                     "utbetalingslinjer": [

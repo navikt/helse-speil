@@ -53,6 +53,7 @@ export const mapPerson = (unmappedPerson: SpleisPerson, personinfo: Personinfo):
         aktørId: unmappedPerson.aktørId,
         personinfo,
         arbeidsgivere,
-        fødselsnummer: unmappedPerson.fødselsnummer
+        fødselsnummer: unmappedPerson.fødselsnummer,
+        hendelser: unmappedPerson.hendelser
     };
 };

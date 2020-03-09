@@ -83,7 +83,10 @@ export interface Dag {
 }
 
 export interface Hendelse {
+    fom: string;
+    tom: string;
     type: string;
+    rapportertdato?: string;
 }
 
 export interface Utbetalingslinje extends Periode {
@@ -220,6 +223,7 @@ export interface Person {
     arbeidsgivere: Arbeidsgiver[];
     personinfo: Personinfo;
     fødselsnummer: string;
+    hendelser: Hendelse[];
 }
 
 export interface ProviderProps {

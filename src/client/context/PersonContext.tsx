@@ -6,12 +6,12 @@ import { fetchPerson, getPersoninfo } from '../io/http';
 import { Vedtaksperiode, Optional, Person } from './types';
 
 interface PersonContextType {
-    personTilBehandling: Optional<Person>;
     hentPerson: (id: string) => Promise<Optional<Person>>;
     innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
     aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
     oppdaterPerson: (aktørId: string) => Promise<Optional<Person>>;
+    personTilBehandling?: Person;
 }
 
 interface PersonContextError {

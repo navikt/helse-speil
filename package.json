@@ -48,6 +48,7 @@
         "@navikt/helse-frontend-behandlet-innhold": "^1.0.2",
         "@navikt/helse-frontend-header": "^1.1.1",
         "@navikt/helse-frontend-hendelsesoversikt": "^1.0.2",
+        "@navikt/helse-frontend-sakslinje": "^1.0.3",
         "@navikt/helse-frontend-tabell": "^1.2.3",
         "@navikt/helse-frontend-tidslinje": "^1.2.5",
         "@navikt/helse-frontend-varsel": "^1.0.6",
