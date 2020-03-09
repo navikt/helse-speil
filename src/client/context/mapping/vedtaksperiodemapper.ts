@@ -103,7 +103,7 @@ export const mapVedtaksperiode = (
         inngangsvilkår: {
             alderISykmeldingsperioden: beregnAlder(sisteSykdomsdag, personinfo.fødselsdato),
             dagerIgjen: {
-                dagerBrukt: utbetalingsdager, //TODO: Dager brukt
+                dagerBrukt: periode.forbrukteSykedager,
                 førsteFraværsdag,
                 førsteSykepengedag,
                 maksdato: periode.maksdato,

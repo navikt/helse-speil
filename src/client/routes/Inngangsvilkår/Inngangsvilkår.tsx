@@ -21,7 +21,10 @@ const Inngangsvilkår = () => {
 
     if (!aktivVedtaksperiode?.inngangsvilkår) return null;
 
-    const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
+    const førsteVedtaksperiode = finnFørsteVedtaksperiode(
+        aktivVedtaksperiode,
+        personTilBehandling!
+    );
 
     return (
         <>

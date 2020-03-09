@@ -145,6 +145,7 @@ const enVedtaksperiode = (
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
         maksdato: '2020-09-07',
+        forbrukteSykedager: 3,
         godkjentAv: null,
         utbetalingsreferanse: '12345',
         førsteFraværsdag: '2019-09-10',
@@ -435,6 +436,7 @@ const vedtaksperiodeSomVenterPåTidligere = () => {
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
         maksdato: '2020-09-07',
+        forbrukteSykedager: 4,
         godkjentAv: null,
         utbetalingsreferanse: '12345',
         førsteFraværsdag: '2019-09-10',
@@ -825,6 +827,7 @@ const mappetPerson = {
                     rawData: {
                         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                         maksdato: '2020-09-07',
+                        forbrukteSykedager: 3,
                         godkjentAv: null,
                         utbetalingsreferanse: '12345',
                         førsteFraværsdag: '2019-09-10',

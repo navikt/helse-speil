@@ -129,6 +129,7 @@ export interface DataForVilkårsvurdering {
 export interface SpleisVedtaksperiode {
     id: string;
     maksdato: string;
+    forbrukteSykedager: number;
     godkjentAv?: string;
     godkjentTidspunkt?: string;
     tilstand: string;
