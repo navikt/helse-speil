@@ -35,17 +35,7 @@ export const buildLinks = (person: Person) =>
 const useLinks = () => {
     const { personTilBehandling } = useContext(PersonContext);
 
-    const links =
-        personTilBehandling &&
-        Object.keys(linkBases).reduce(
-            (links: Links, key) => ({
-                ...links,
-                [key]: `${linkBases[key]}/${personTilBehandling.aktørId}`
-            }),
-            {}
-        );
-
-    return personTilBehandling && buildLinks(personTilBehandling);
+    return personTilBehandling ? buildLinks(personTilBehandling) : undefined;
 };
 
 export default useLinks;
