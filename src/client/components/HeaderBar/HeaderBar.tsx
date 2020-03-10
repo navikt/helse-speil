@@ -8,6 +8,11 @@ import { useNavigateAfterSearch } from './useNavigateAfterSearch';
 const Container = styled.div`
     flex-shrink: 0;
     height: max-content;
+    width: 100%;
+
+    > div {
+        max-width: 100%;
+    }
 `;
 
 const HeaderBar = () => {

@@ -18,8 +18,6 @@ const Sykmeldingsperiode = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const dager = sykdomstidslinje(aktivVedtaksperiode);
 
-    console.log(aktivVedtaksperiode);
-
     return (
         <Container>
             <Sykmeldingstabell dager={dager} />
