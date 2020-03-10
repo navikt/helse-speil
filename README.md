@@ -28,12 +28,6 @@ Dersom du er på macOS og ønsker appen startet i Chrome:
 npm run start-mac
 ```
 
-Uten å åpne nettsiden:
-
-```
-npm run start-no-browser
-```
-
 ### Backend som server både API og frontend som statiske filer
 
 Lag en .env-fil med følgende innhold i rotkatalogen:
