@@ -13,9 +13,12 @@ const Container = styled.div`
     border-bottom: 1px solid #c6c2bf;
 `;
 
-const periodeStatus = (tilstand: VedtaksperiodeTilstand) => {
+const periodeStatus = (
+    tilstand: VedtaksperiodeTilstand
+): VedtaksperiodeStatus | VedtaksperiodeTilstand => {
     switch (tilstand) {
         case VedtaksperiodeTilstand.UTBETALT:
+        case VedtaksperiodeTilstand.AVSLUTTET:
             return VedtaksperiodeStatus.Utbetalt;
         case VedtaksperiodeTilstand.AVVENTER_GODKJENNING:
             return VedtaksperiodeStatus.Oppgaver;
@@ -35,6 +38,8 @@ const periodeStatus = (tilstand: VedtaksperiodeTilstand) => {
             return VedtaksperiodeStatus.Venter;
         case VedtaksperiodeTilstand.ANNULLERT:
             return VedtaksperiodeStatus.Avslag;
+        default:
+            return tilstand;
     }
 };
 
@@ -57,7 +62,7 @@ const TidslinjeWrapper = () => {
                 id: periode.id,
                 fom: periode.fom,
                 tom: periode.tom,
-                status: periodeStatus(periode.tilstand)
+                status: periodeStatus(periode.tilstand) as VedtaksperiodeStatus
             }))
         })
     );
