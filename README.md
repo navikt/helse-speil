@@ -50,7 +50,7 @@ Start:
 npm run dev-express
 ```
 
-Appen er nå tilgjengelig på http://localhost:3000
+Appen er nå tilgjengelig på http://localhost:3000.
 
 ## Henvendelser
 
