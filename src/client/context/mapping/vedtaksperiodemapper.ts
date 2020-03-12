@@ -90,10 +90,20 @@ export const mapVedtaksperiode = (
               .isSameOrAfter(dayjs(sendtSøknad.sendtNav))
         : false;
 
+    const kanVelges =
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_HISTORIKK &&
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_INNTEKTSMELDING &&
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_SENDT_SØKNAD &&
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_TIDLIGERE_PERIODE &&
+        periode.tilstand !==
+            VedtaksperiodeTilstand.AVVENTER_TIDLIGERE_PERIODE_ELLER_INNTEKTSMELDING &&
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_VILKÅRSPRØVING;
+
     return {
         id: periode.id,
         fom,
         tom,
+        kanVelges,
         tilstand: periode.tilstand as VedtaksperiodeTilstand,
         utbetalingsreferanse: periode.utbetalingsreferanse,
         utbetalingstidslinje: periode.utbetalingstidslinje,

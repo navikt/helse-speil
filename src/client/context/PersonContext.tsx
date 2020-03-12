@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { mapPerson } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Vedtaksperiode, Optional, Person } from './types';
+import { Optional, Person, Vedtaksperiode } from './types';
+import { VedtaksperiodeTilstand } from '../../types';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Optional<Person>>;
@@ -40,7 +41,10 @@ export const PersonProvider = ({ children }: ProviderProps) => {
 
     useEffect(() => {
         if (personTilBehandling) {
-            const defaultVedtaksperiode = personTilBehandling.arbeidsgivere[0].vedtaksperioder[0];
+            const klarTilBehandling = (vedtaksperiode: Vedtaksperiode) => vedtaksperiode.kanVelges;
+            const defaultVedtaksperiode = personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(
+                klarTilBehandling
+            );
             setAktivVedtaksperiode(defaultVedtaksperiode);
         }
     }, [personTilBehandling]);

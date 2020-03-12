@@ -193,6 +193,7 @@ export interface Vedtaksperiode {
     id: string;
     fom: string;
     tom: string;
+    kanVelges: boolean;
     tilstand: VedtaksperiodeTilstand;
     inngangsvilkår: Inngangsvilkår;
     utbetalingstidslinje: Utbetalingsdag[];

@@ -56,13 +56,14 @@ const TidslinjeWrapper = () => {
     const tidslinjer: EnkelTidslinje[] | undefined = personTilBehandling?.arbeidsgivere.map(
         arbeidsgiver => ({
             id: arbeidsgiver.id,
-            inntektsnavn: `Org: ${arbeidsgiver.organisasjonsnummer}`,
+            inntektsnavn: arbeidsgiver.organisasjonsnummer,
             inntektstype: 'arbeidsgiver',
             vedtaksperioder: arbeidsgiver.vedtaksperioder.map(periode => ({
                 id: periode.id,
                 fom: periode.fom,
                 tom: periode.tom,
-                status: periodeStatus(periode.tilstand) as VedtaksperiodeStatus
+                status: periodeStatus(periode.tilstand) as VedtaksperiodeStatus,
+                disabled: !periode.kanVelges
             }))
         })
     );
