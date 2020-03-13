@@ -76,17 +76,6 @@ test('Opptjening er undefined dersom felter er satt til null', () => {
     expect(vedtaksperiode.inngangsvilkår.opptjening).toBeUndefined();
 });
 
-test('Filtrerer vekk uønskede vedtaksperioder', () => {
-    const person = mapPerson(
-        enPerson([enArbeidsgiver([vedtaksperiodeSomVenterPåTidligere(), enVedtaksperiode()])]),
-        personInfo
-    );
-
-    const vedtaksperioder = person.arbeidsgivere[0].vedtaksperioder;
-    expect(vedtaksperioder.length).toBe(1);
-    expect(vedtaksperioder[0].tilstand === 'AVVENTER_TIDLIGERE_PERIODE');
-});
-
 test('Vedtaksperioder sorteres på fom i synkende rekkefølge', () => {
     const person = mapPerson(
         enPerson([
@@ -517,6 +506,7 @@ const mappetPerson = {
                     godkjentAv: null,
                     godkjentTidspunkt: undefined,
                     tilstand: 'AVVENTER_GODKJENNING',
+                    kanVelges: true,
                     inngangsvilkår: {
                         dagerIgjen: {
                             dagerBrukt: 3,
