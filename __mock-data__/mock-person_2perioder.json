@@ -366,6 +366,7 @@
         {
             "beregnetInntekt": 25000,
             "førsteFraværsdag": "2020-01-01",
+            "mottattDato": "2020-01-05",
             "type": "INNTEKTSMELDING"
         },
         {

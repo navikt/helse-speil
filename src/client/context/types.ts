@@ -46,6 +46,7 @@ export interface Periode {
 export interface Inntektsmelding extends Hendelse {
     beregnetInntekt: number;
     førsteFraværsdag: string;
+    mottattDato: string;
 }
 
 export interface SpleisArbeidsgiver {
@@ -62,8 +63,6 @@ export interface Utbetalingsdag {
 }
 
 export interface Søknad extends Hendelse {
-    fom: string;
-    tom: string;
     rapportertdato: string;
 }
 
@@ -87,6 +86,7 @@ export interface Hendelse {
     tom: string;
     type: string;
     rapportertdato?: string;
+    mottattDato?: string;
 }
 
 export interface Utbetalingslinje extends Periode {

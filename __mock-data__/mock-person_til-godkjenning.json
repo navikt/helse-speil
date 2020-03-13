@@ -9,6 +9,7 @@
                 {
                     "id": "67b222be-cb16-4213-8c4f-0c34d560f28f",
                     "maksdato": "2020-09-07",
+                    "forbrukteSykedager": 3,
                     "godkjentAv": null,
                     "godkjentTidspunkt": null,
                     "utbetalingsreferanse": "konge",
@@ -284,13 +285,14 @@
         {
             "rapportertdato": "2020-02-11T15:51:52.373631",
             "sendtNav": "2019-10-15T00:00:00",
-            "fom": "2019-09-16",
+            "fom": "2019-09-09",
             "tom": "2019-10-05",
             "type": "SENDT_SØKNAD"
         },
         {
             "beregnetInntekt": 31000.0,
             "førsteFraværsdag": "2019-09-10",
+            "mottattDato": "2019-09-14",
             "type": "INNTEKTSMELDING"
         }
     ]

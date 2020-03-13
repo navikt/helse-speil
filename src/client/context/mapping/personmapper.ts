@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Person, SpleisPerson, SpleisVedtaksperiode, Vedtaksperiode } from '../types';
@@ -9,6 +10,7 @@ import { mapVedtaksperiode } from './vedtaksperiodemapper';
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
 dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) =>
     dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();

@@ -41,8 +41,10 @@ const navnForHendelse = (hendelse: Hendelse) => {
     }
 };
 
-const datoForHendelse = (hendelse: Hendelse) =>
-    hendelse.rapportertdato ? dayjs(hendelse.rapportertdato).format('DD.MM.YYYY') : 'Ukjent dato';
+const datoForHendelse = (hendelse: Hendelse) => {
+    const dato = hendelse.rapportertdato || hendelse.mottattDato;
+    return dato ? dayjs(dato).format('DD.MM.YYYY') : 'Ukjent dato';
+};
 
 const Høyremeny = () => {
     const { personTilBehandling } = useContext(PersonContext);

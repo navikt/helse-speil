@@ -29,7 +29,7 @@ export const mapVedtaksperiode = (
         hendelser.find(hendelse => hendelse.type === type.valueOf());
 
     const søknadIPeriode = (søknad: SendtSøknad, fom: Dayjs, tom: Dayjs) =>
-        dayjs(søknad.fom).isSame(fom) && dayjs(søknad.tom).isSame(tom);
+        dayjs(søknad.fom).isSameOrBefore(fom) && dayjs(søknad.tom).isSameOrAfter(tom);
 
     const findSøknadIPeriode = (
         hendelser: Hendelse[],
