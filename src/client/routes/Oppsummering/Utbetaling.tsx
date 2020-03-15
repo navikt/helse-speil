@@ -1,7 +1,7 @@
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { postVedtak } from '../../io/http';
 import { SaksoversiktContext } from '../../context/SaksoversiktContext';
 import { PersonContext } from '../../context/PersonContext';
@@ -41,6 +41,10 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const [tilstand, setTilstand] = useState(aktivVedtaksperiode!.tilstand);
     const { t } = useTranslation();
 
+    useEffect(() => {
+        setTilstand(aktivVedtaksperiode!.tilstand);
+    }, [aktivVedtaksperiode]);
+
     const fattVedtak = (godkjent: boolean) => {
         // TODO: Sjekk at denne oppfører seg riktig. Fatter vedtak på første behov/vedtaksperiode.
         const behovId = behovoversikt.find(
@@ -69,10 +73,6 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     return (
         <Panel className={classNames(className, 'Utbetaling')}>
             <Utbetalingstittel>{t('oppsummering.utbetaling')}</Utbetalingstittel>
-            <AlertStripeAdvarsel>
-                Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
-                til teamet for evaluering.
-            </AlertStripeAdvarsel>
             {tilstand === VedtaksperiodeTilstand.ANNULLERT ? (
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
             ) : tilstand === VedtaksperiodeTilstand.UTBETALING_FEILET ? (
@@ -91,12 +91,21 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 beslutning ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
                 ) : (
-                    <div className="knapperad">
-                        <Hovedknapp onClick={() => setModalOpen(true)}>Utbetal</Hovedknapp>
-                        <Knapp onClick={() => fattVedtak(false)} spinner={isSending && !modalOpen}>
-                            Behandle i Infotrygd
-                        </Knapp>
-                    </div>
+                    <>
+                        <AlertStripeAdvarsel>
+                            Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes
+                            umiddelbart inn til teamet for evaluering.
+                        </AlertStripeAdvarsel>
+                        <div className="knapperad">
+                            <Hovedknapp onClick={() => setModalOpen(true)}>Utbetal</Hovedknapp>
+                            <Knapp
+                                onClick={() => fattVedtak(false)}
+                                spinner={isSending && !modalOpen}
+                            >
+                                Behandle i Infotrygd
+                            </Knapp>
+                        </div>
+                    </>
                 )
             ) : (
                 <AlertStripeInfo>
