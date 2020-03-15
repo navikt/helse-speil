@@ -185,7 +185,7 @@
                         "antallOpptjeningsdagerErMinst": 1095,
                         "harOpptjening": true
                     },
-                    "tilstand": "AVSLUTTET",
+                    "tilstand": "TIL_UTBETALING",
                     "sykdomstidslinje": [
                         { "dagen": "2020-01-01", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
                         { "dagen": "2020-01-02", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
@@ -313,7 +313,7 @@
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 3.1e4,
                     "dataForVilkårsvurdering": null,
-                    "tilstand": "AVVENTER_TIDLIGERE_PERIODE",
+                    "tilstand": "AVVENTER_GODKJENNING",
                     "sykdomstidslinje": [
                         {
                             "dagen": "2020-02-01",
