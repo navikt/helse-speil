@@ -57,7 +57,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
           ENVIRONMENT: dev-fss
-          RESOURCE: deploy/dev.yml deploy/alerts-dev.yml deploy/redis.yml
+          RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis.yml
           WAIT: false
           VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"
       - name: deploy to prod
@@ -66,6 +66,6 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
           ENVIRONMENT: prod-fss
-          RESOURCE: deploy/prod.yml deploy/alerts-prod.yml deploy/redis.yml
+          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis.yml
           WAIT: false
           VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"
