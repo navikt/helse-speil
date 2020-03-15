@@ -46,9 +46,8 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     }, [aktivVedtaksperiode]);
 
     const fattVedtak = (godkjent: boolean) => {
-        // TODO: Sjekk at denne oppfører seg riktig. Fatter vedtak på første behov/vedtaksperiode.
         const behovId = behovoversikt.find(
-            (behov: Behov) => behov.aktørId === personTilBehandling?.aktørId
+            (behov: Behov) => behov.vedtaksperiodeId === aktivVedtaksperiode?.id
         )?.['@id'];
         const vedtaksperiodeId = aktivVedtaksperiode?.id;
         setIsSending(true);
@@ -87,9 +86,13 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                     personTilBehandling={personTilBehandling!}
                     utbetalingsreferanse={aktivVedtaksperiode!.utbetalingsreferanse!}
                 />
-            ) : !innsyn && tilGodkjenning(tilstand) ? (
+            ) : tilGodkjenning(tilstand) && !innsyn ? (
                 beslutning ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
+                ) : behovoversikt.length === 0 ? (
+                    <AlertStripeInfo>
+                        Du må velge saken på nytt fra oversiktsiden for å kunne behandle den.
+                    </AlertStripeInfo>
                 ) : (
                     <>
                         <AlertStripeAdvarsel>
@@ -111,7 +114,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 <AlertStripeInfo>
                     {tilstand === VedtaksperiodeTilstand.TIL_INFOTRYGD
                         ? 'Saken er sendt til behandling i Infotrygd.'
-                        : innsyn && tilGodkjenning(tilstand)
+                        : tilGodkjenning(tilstand) && innsyn
                         ? 'Saken står til godkjenning av saksbehandler.'
                         : 'Kunne ikke lese informasjon om sakens tilstand.'}
                 </AlertStripeInfo>
