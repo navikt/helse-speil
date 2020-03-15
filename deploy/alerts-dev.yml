@@ -9,7 +9,7 @@ spec:
     slack:
       channel: "#team-bømlo-alerts"
   alerts:
-    - alert: {{app} har ingen aktive pods
+    - alert: {{app}} har ingen aktive pods
       expr: up{app=~"{{app}}",job="kubernetes-pods"} == 0
       for: 2m
       description: {{app}} mangler aktive pods i preprod!
