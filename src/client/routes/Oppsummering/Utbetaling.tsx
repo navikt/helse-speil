@@ -35,7 +35,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const { behovoversikt } = useContext(SaksoversiktContext);
     const { personTilBehandling, innsyn, aktivVedtaksperiode } = useContext(PersonContext);
     const [isSending, setIsSending] = useState(false);
-    const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
+    const [beslutninger, setBeslutninger] = useState<Record<string, Beslutning>>({});
     const [error, setError] = useState<Error | undefined>(undefined);
     const [modalOpen, setModalOpen] = useState(false);
     const [tilstand, setTilstand] = useState(aktivVedtaksperiode!.tilstand);
@@ -53,7 +53,10 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
         setIsSending(true);
         postVedtak(behovId, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)
             .then(() => {
-                setBeslutning(godkjent ? Beslutning.Godkjent : Beslutning.Avvist);
+                setBeslutninger(prev => {
+                    const beslutning = godkjent ? Beslutning.Godkjent : Beslutning.Avvist;
+                    return { ...prev, [vedtaksperiodeId!]: beslutning };
+                });
                 setError(undefined);
             })
             .catch((err: Error) => {
@@ -76,7 +79,8 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
             ) : tilstand === VedtaksperiodeTilstand.UTBETALING_FEILET ? (
                 <AlertStripeInfo>Utbetalingen feilet.</AlertStripeInfo>
-            ) : (tilGodkjenning(tilstand) && beslutning === Beslutning.Godkjent) ||
+            ) : (tilGodkjenning(tilstand) &&
+                  beslutninger[aktivVedtaksperiode!.id] === Beslutning.Godkjent) ||
               tilstand === VedtaksperiodeTilstand.TIL_UTBETALING ||
               tilstand === VedtaksperiodeTilstand.UTBETALT ||
               tilstand === VedtaksperiodeTilstand.AVSLUTTET ? (
@@ -87,7 +91,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                     utbetalingsreferanse={aktivVedtaksperiode!.utbetalingsreferanse!}
                 />
             ) : tilGodkjenning(tilstand) && !innsyn ? (
-                beslutning ? (
+                beslutninger[aktivVedtaksperiode!.id] ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
                 ) : behovoversikt.length === 0 ? (
                     <AlertStripeInfo>
