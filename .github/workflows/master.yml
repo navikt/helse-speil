@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - master
-
+env:
+  APP: speil
+  TEAM: tbd
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/speil
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,58 +40,32 @@ jobs:
           name: videos
           path: e2e-tests/cypress/videos
       - name: create docker tag
-        env:
-          DOCKER_IMAGE: docker.pkg.github.com/navikt/helse-speil/speil
-        run: |
-          echo $DOCKER_IMAGE > .docker_image
-          git rev-parse HEAD | cut -c1-7 > .docker_tag
+        run: echo ::set-env name=TAG::$(echo ${{ github.sha }} | cut -c1-7)
       - name: build docker image
         run: |
           rm -rf node_modules && npm install --only=production
-          docker build . --pull -t $(cat .docker_image):$(cat .docker_tag)
+          docker build . --pull -t ${{ env.IMAGE }}:${{ env.TAG }}
       - name: push docker image
         run: |
           echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin https://docker.pkg.github.com
-          docker push $(cat .docker_image):$(cat .docker_tag)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-      - name: deploy to preprod
+          docker push ${{ env.IMAGE }}:${{ env.TAG }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NAV_CLUSTER: dev-fss
-          SPEIL_FILE: deploy/speil-preprod.json
-          REDIS_FILE: deploy/redis.json
-          ALERTS_FILE: deploy/alerts-preprod.json
-        run: |
-          SPEIL=$(jq '.spec.image = "'$(cat .docker_image)':'$(cat .docker_tag)'"' -c $SPEIL_FILE )
-          REDIS=$(jq '' -c $REDIS_FILE)
-          ALERTS=$(jq '' -c $ALERTS_FILE)
-          DEPLOY_PAYLOAD=$(jq ".payload.kubernetes.resources += [$SPEIL, $REDIS, $ALERTS]" deploy/deployreq.json)
-          DEPLOY_PAYLOAD=$(echo $DEPLOY_PAYLOAD | jq '.environment = "'$NAV_CLUSTER'"')
-          DEPLOY_PAYLOAD=$(echo $DEPLOY_PAYLOAD | jq '.ref = "'$(cat .docker_tag)'"')
-          curl -i -n --fail \
-             -X POST \
-             -u x-access-token:$GITHUB_TOKEN \
-             -d "$DEPLOY_PAYLOAD" \
-             -H "Accept: application/vnd.github.ant-man-preview+json" \
-             https://api.github.com/repos/$GITHUB_REPOSITORY/deployments
+      - name: deploy to dev
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-fss
+          ENVIRONMENT: dev-fss
+          RESOURCE: deploy/dev.yml deploy/alerts-dev.yml deploy/redis.yml
+          WAIT: false
+          VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"
       - name: deploy to prod
+        uses: nais/deploy/actions/deploy@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NAV_CLUSTER: prod-fss
-          SPEIL_FILE: deploy/speil-prod.json
-          REDIS_FILE: deploy/redis.json
-          ALERTS_FILE: deploy/alerts-prod.json
-        run: |
-          SPEIL=$(jq '.spec.image = "'$(cat .docker_image)':'$(cat .docker_tag)'"' -c $SPEIL_FILE )
-          REDIS=$(jq '' -c $REDIS_FILE)
-          ALERTS=$(jq '' -c $ALERTS_FILE)
-          DEPLOY_PAYLOAD=$(jq ".payload.kubernetes.resources += [$SPEIL, $REDIS, $ALERTS]" deploy/deployreq.json)
-          DEPLOY_PAYLOAD=$(echo $DEPLOY_PAYLOAD | jq '.environment = "'$NAV_CLUSTER'"')
-          DEPLOY_PAYLOAD=$(echo $DEPLOY_PAYLOAD | jq '.ref = "'$(cat .docker_tag)'"')
-          curl -i -n --fail \
-             -X POST \
-             -u x-access-token:$GITHUB_TOKEN \
-             -d "$DEPLOY_PAYLOAD" \
-             -H "Accept: application/vnd.github.ant-man-preview+json" \
-             https://api.github.com/repos/$GITHUB_REPOSITORY/deployments
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-fss
+          ENVIRONMENT: prod-fss
+          RESOURCE: deploy/prod.yml deploy/alerts-prod.yml deploy/redis.yml
+          WAIT: false
+          VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"
