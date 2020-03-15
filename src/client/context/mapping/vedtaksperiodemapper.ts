@@ -29,7 +29,7 @@ export const mapVedtaksperiode = (
         hendelser.find(hendelse => hendelse.type === type.valueOf());
 
     const søknadIPeriode = (søknad: SendtSøknad, fom: Dayjs, tom: Dayjs) =>
-        dayjs(søknad.fom).isSameOrBefore(fom) && dayjs(søknad.tom).isSameOrAfter(tom);
+        dayjs(søknad.fom).isSameOfBefore(fom) && dayjs(søknad.tom).isSameOrAfter(tom);
 
     const findSøknadIPeriode = (
         hendelser: Hendelse[],
@@ -90,15 +90,14 @@ export const mapVedtaksperiode = (
               .isSameOrAfter(dayjs(sendtSøknad.sendtNav))
         : false;
 
-    const kanVelges = [
-        VedtaksperiodeTilstand.AVVENTER_GODKJENNING,
-        VedtaksperiodeTilstand.TIL_UTBETALING,
-        VedtaksperiodeTilstand.TIL_INFOTRYGD,
-        VedtaksperiodeTilstand.ANNULLERT,
-        VedtaksperiodeTilstand.UTBETALT,
-        VedtaksperiodeTilstand.UTBETALING_FEILET,
-        VedtaksperiodeTilstand.AVSLUTTET
-    ].includes(periode.tilstand as VedtaksperiodeTilstand);
+    const kanVelges =
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_HISTORIKK &&
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_INNTEKTSMELDING &&
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_SENDT_SØKNAD &&
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_TIDLIGERE_PERIODE &&
+        periode.tilstand !==
+            VedtaksperiodeTilstand.AVVENTER_TIDLIGERE_PERIODE_ELLER_INNTEKTSMELDING &&
+        periode.tilstand !== VedtaksperiodeTilstand.AVVENTER_VILKÅRSPRØVING;
 
     return {
         id: periode.id,
