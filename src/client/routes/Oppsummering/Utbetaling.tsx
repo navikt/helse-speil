@@ -79,7 +79,6 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 <AlertStripeInfo>Utbetalingen feilet.</AlertStripeInfo>
             ) : (tilGodkjenning(tilstand) && beslutning === Beslutning.Godkjent) ||
               tilstand === VedtaksperiodeTilstand.TIL_UTBETALING ||
-              tilstand === VedtaksperiodeTilstand.UTBETALT ||
               tilstand === VedtaksperiodeTilstand.AVSLUTTET ? (
                 <StatusUtbetalt
                     setTilstand={setTilstand}

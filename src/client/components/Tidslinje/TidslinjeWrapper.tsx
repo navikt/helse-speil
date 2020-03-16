@@ -14,11 +14,14 @@ const Container = styled.div`
 `;
 
 const periodeStatus = (
-    tilstand: VedtaksperiodeTilstand
+    tilstand: VedtaksperiodeTilstand,
+    totaltTilUtbetaling: number
 ): VedtaksperiodeStatus | VedtaksperiodeTilstand => {
     switch (tilstand) {
         case VedtaksperiodeTilstand.AVSLUTTET:
-            return VedtaksperiodeStatus.Utbetalt;
+            return totaltTilUtbetaling > 0
+                ? VedtaksperiodeStatus.Utbetalt
+                : VedtaksperiodeStatus.IngenUtbetaling;
         case VedtaksperiodeTilstand.AVVENTER_GODKJENNING:
             return VedtaksperiodeStatus.Oppgaver;
         case VedtaksperiodeTilstand.TIL_UTBETALING:
@@ -68,7 +71,10 @@ const TidslinjeWrapper = () => {
                 id: periode.id,
                 fom: periode.fom,
                 tom: periode.tom,
-                status: periodeStatus(periode.tilstand) as VedtaksperiodeStatus,
+                status: periodeStatus(
+                    periode.tilstand,
+                    periode.oppsummering.totaltTilUtbetaling
+                ) as VedtaksperiodeStatus,
                 disabled: !periode.kanVelges
             }))
         })
