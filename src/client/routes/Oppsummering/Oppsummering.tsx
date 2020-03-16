@@ -48,6 +48,10 @@ const Oppsummering = () => {
 
     const { oppsummering, sykepengegrunnlag, inntektskilder } = aktivVedtaksperiode;
 
+    const dagsats = sykepengegrunnlag.dagsats
+        ? `${toKronerOgØre(sykepengegrunnlag.dagsats)} kr`
+        : 'Ingen dagsats';
+
     return (
         <Innhold>
             <StyledPanel>
@@ -56,9 +60,7 @@ const Oppsummering = () => {
                     <ListItem label={t('oppsummering.sykepengegrunnlag')}>
                         {`${toKronerOgØre(sykepengegrunnlag.årsinntektFraInntektsmelding!)} kr`}
                     </ListItem>
-                    <ListItem label={t('oppsummering.dagsats')}>
-                        {`${toKronerOgØre(sykepengegrunnlag.dagsats!)} kr`}
-                    </ListItem>
+                    <ListItem label={t('oppsummering.dagsats')}>{dagsats}</ListItem>
                     <ListItem label={t('oppsummering.antall_utbetalingsdager')}>
                         {oppsummering.antallUtbetalingsdager}
                     </ListItem>

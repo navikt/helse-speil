@@ -5,7 +5,6 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { somPenger } from '../../utils/locale';
 import React from 'react';
 import styled from '@emotion/styled';
-import Grid from '../../components/Grid';
 
 interface SykepengegrunnlaginnholdProps {
     sykepengegrunnlag: Sykepengegrunnlag;
@@ -57,7 +56,9 @@ const Sykepengegrunnlaginnhold = ({ sykepengegrunnlag }: Sykepengegrunnlaginnhol
                 {somPenger(sykepengegrunnlag.årsinntektFraInntektsmelding as number | undefined)}
             </Element>
             <Normaltekst>Dagsats</Normaltekst>
-            <Normaltekst>{somPenger(sykepengegrunnlag.dagsats)}</Normaltekst>
+            <Normaltekst>
+                {sykepengegrunnlag.dagsats ? somPenger(sykepengegrunnlag.dagsats) : 'Ingen dagsats'}
+            </Normaltekst>
         </Oppsummering>
     </Innhold>
 );
