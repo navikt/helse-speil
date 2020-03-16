@@ -31,21 +31,12 @@ export const mapVedtaksperiode = (
     const søknadIPeriode = (søknad: SendtSøknad, fom: Dayjs, tom: Dayjs) =>
         dayjs(søknad.fom).isSameOrBefore(fom) && dayjs(søknad.tom).isSameOrAfter(tom);
 
-    const findSøknadIPeriode = (
-        hendelser: Hendelse[],
-        fom: Dayjs,
-        tom: Dayjs
-    ): SendtSøknad | undefined =>
+    const findSøknadIPeriode = (hendelser: Hendelse[], fom: Dayjs, tom: Dayjs): SendtSøknad | undefined =>
         hendelser.find(
-            hendelse =>
-                hendelse.type === HendelseType.SENDTSØKNAD &&
-                søknadIPeriode(hendelse as SendtSøknad, fom, tom)
+            hendelse => hendelse.type === HendelseType.SENDTSØKNAD && søknadIPeriode(hendelse as SendtSøknad, fom, tom)
         ) as SendtSøknad;
 
-    const inntektsmelding = findHendelse(
-        hendelser,
-        HendelseType.INNTEKTSMELDING
-    ) as Inntektsmelding;
+    const inntektsmelding = findHendelse(hendelser, HendelseType.INNTEKTSMELDING) as Inntektsmelding;
 
     const periode = filtrerPaddedeArbeidsdager(unmappedPeriode);
     const fom = [...periode.sykdomstidslinje].shift()!.dagen;
@@ -62,9 +53,7 @@ export const mapVedtaksperiode = (
 
     const førsteSykepengedag =
         periode.utbetalingslinjer && periode.utbetalingslinjer.length > 0
-            ? dayjs
-                  .min(periode.utbetalingslinjer.map(linje => dayjs(linje.fom)))
-                  .format('YYYY-MM-DD')
+            ? dayjs.min(periode.utbetalingslinjer.map(linje => dayjs(linje.fom))).format('YYYY-MM-DD')
             : null;
 
     const årsinntektFraInntektsmelding = inntektsmelding?.beregnetInntekt
@@ -90,14 +79,16 @@ export const mapVedtaksperiode = (
               .isSameOrAfter(dayjs(sendtSøknad.sendtNav))
         : false;
 
-    const kanVelges = [
-        VedtaksperiodeTilstand.AVVENTER_GODKJENNING,
-        VedtaksperiodeTilstand.TIL_UTBETALING,
-        VedtaksperiodeTilstand.TIL_INFOTRYGD,
-        VedtaksperiodeTilstand.ANNULLERT,
-        VedtaksperiodeTilstand.UTBETALING_FEILET,
-        VedtaksperiodeTilstand.AVSLUTTET
-    ].includes(periode.tilstand as VedtaksperiodeTilstand);
+    const kanVelges =
+        [
+            VedtaksperiodeTilstand.AVVENTER_GODKJENNING,
+            VedtaksperiodeTilstand.TIL_UTBETALING,
+            VedtaksperiodeTilstand.TIL_INFOTRYGD,
+            VedtaksperiodeTilstand.ANNULLERT,
+            VedtaksperiodeTilstand.UTBETALING_FEILET,
+            VedtaksperiodeTilstand.AVSLUTTET
+        ].includes(periode.tilstand as VedtaksperiodeTilstand) ||
+        (periode.tilstand === VedtaksperiodeTilstand.AVSLUTTET && totaltTilUtbetaling > 0);
 
     return {
         id: periode.id,
@@ -121,8 +112,7 @@ export const mapVedtaksperiode = (
             },
             opptjening: dataForVilkårsvurdering?.harOpptjening
                 ? {
-                      antallOpptjeningsdagerErMinst: dataForVilkårsvurdering!
-                          .antallOpptjeningsdagerErMinst,
+                      antallOpptjeningsdagerErMinst: dataForVilkårsvurdering!.antallOpptjeningsdagerErMinst,
                       harOpptjening: dataForVilkårsvurdering!.harOpptjening,
                       opptjeningFra: opptjeningFra!
                   }
@@ -156,9 +146,7 @@ export const mapVedtaksperiode = (
     };
 };
 
-export const filtrerPaddedeArbeidsdager = (
-    vedtaksperiode: SpleisVedtaksperiode
-): SpleisVedtaksperiode => {
+export const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpleisVedtaksperiode): SpleisVedtaksperiode => {
     const arbeidsdagEllerImplisittDag = (dag: Dag) =>
         dag.type === Dagtype.ARBEIDSDAG_INNTEKTSMELDING ||
         dag.type === Dagtype.ARBEIDSDAG_SØKNAD ||
