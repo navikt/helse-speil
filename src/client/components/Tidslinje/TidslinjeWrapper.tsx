@@ -17,7 +17,6 @@ const periodeStatus = (
     tilstand: VedtaksperiodeTilstand
 ): VedtaksperiodeStatus | VedtaksperiodeTilstand => {
     switch (tilstand) {
-        case VedtaksperiodeTilstand.UTBETALT:
         case VedtaksperiodeTilstand.AVSLUTTET:
             return VedtaksperiodeStatus.Utbetalt;
         case VedtaksperiodeTilstand.AVVENTER_GODKJENNING:
@@ -26,13 +25,20 @@ const periodeStatus = (
             return VedtaksperiodeStatus.TilUtbetaling;
         case VedtaksperiodeTilstand.UTBETALING_FEILET:
         case VedtaksperiodeTilstand.START:
-        case VedtaksperiodeTilstand.MOTTATT_NY_SØKNAD:
-        case VedtaksperiodeTilstand.AVVENTER_SENDT_SØKNAD:
-        case VedtaksperiodeTilstand.AVVENTER_TIDLIGERE_PERIODE_ELLER_INNTEKTSMELDING:
-        case VedtaksperiodeTilstand.AVVENTER_TIDLIGERE_PERIODE:
-        case VedtaksperiodeTilstand.UNDERSØKER_HISTORIKK:
-        case VedtaksperiodeTilstand.AVVENTER_INNTEKTSMELDING:
-        case VedtaksperiodeTilstand.AVVENTER_VILKÅRSPRØVING:
+        case VedtaksperiodeTilstand.MOTTATT_SYKMELDING_FERDIG_FORLENGELSE:
+        case VedtaksperiodeTilstand.MOTTATT_SYKMELDING_UFERDIG_FORLENGELSE:
+        case VedtaksperiodeTilstand.MOTTATT_SYKMELDING_FERDIG_GAP:
+        case VedtaksperiodeTilstand.MOTTATT_SYKMELDING_UFERDIG_GAP:
+        case VedtaksperiodeTilstand.AVVENTER_SØKNAD_FERDIG_GAP:
+        case VedtaksperiodeTilstand.AVVENTER_SØKNAD_UFERDIG_GAP:
+        case VedtaksperiodeTilstand.AVVENTER_VILKÅRSPRØVING_GAP:
+        case VedtaksperiodeTilstand.AVVENTER_GAP:
+        case VedtaksperiodeTilstand.AVVENTER_INNTEKTSMELDING_FERDIG_GAP:
+        case VedtaksperiodeTilstand.AVVENTER_INNTEKTSMELDING_UFERDIG_GAP:
+        case VedtaksperiodeTilstand.AVVENTER_UFERDIG_GAP:
+        case VedtaksperiodeTilstand.AVVENTER_INNTEKTSMELDING_UFERDIG_FORLENGELSE:
+        case VedtaksperiodeTilstand.AVVENTER_SØKNAD_UFERDIG_FORLENGELSE:
+        case VedtaksperiodeTilstand.AVVENTER_UFERDIG_FORLENGELSE:
         case VedtaksperiodeTilstand.AVVENTER_HISTORIKK:
         case VedtaksperiodeTilstand.TIL_INFOTRYGD:
             return VedtaksperiodeStatus.Venter;

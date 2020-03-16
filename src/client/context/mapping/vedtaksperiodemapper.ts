@@ -95,7 +95,6 @@ export const mapVedtaksperiode = (
         VedtaksperiodeTilstand.TIL_UTBETALING,
         VedtaksperiodeTilstand.TIL_INFOTRYGD,
         VedtaksperiodeTilstand.ANNULLERT,
-        VedtaksperiodeTilstand.UTBETALT,
         VedtaksperiodeTilstand.UTBETALING_FEILET,
         VedtaksperiodeTilstand.AVSLUTTET
     ].includes(periode.tilstand as VedtaksperiodeTilstand);
