@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, SpleisVedtaksperiode, Utbetalingsperiode } from './types';
+import { ProviderProps, SpleisVedtaksperiode, Utbetalingsperiode, Vedtaksperiode } from './types';
 
 interface SimuleringResponse {
     status: string;
@@ -45,12 +45,13 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
     }, [aktivVedtaksperiode]);
 
     const hentSimulering = async (vedtaksperiode: SpleisVedtaksperiode): Promise<void> => {
+        if (!personTilBehandling) return;
+
+        const sammeUtbetalingsreferanse = (periode: Vedtaksperiode) =>
+            periode.utbetalingsreferanse === vedtaksperiode.utbetalingsreferanse;
+
         const erUtvidelse =
-            (
-                personTilBehandling?.arbeidsgivere[0].vedtaksperioder.map(
-                    periode => periode.utbetalingsreferanse === vedtaksperiode.utbetalingsreferanse
-                ) || []
-            ).length > 1;
+            personTilBehandling.arbeidsgivere[0].vedtaksperioder.filter(sammeUtbetalingsreferanse).length > 1;
 
         try {
             const { data }: { data: SimuleringResponse } = await postSimulering(
@@ -67,8 +68,7 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
                 throw Error('Mangler simulering i svar fra backend');
             } else {
                 setSimulering(data.simulering);
-                const arbeidsgiver =
-                    data.simulering.periodeList[0]?.utbetaling[0].detaljer[0].refunderesOrgNr;
+                const arbeidsgiver = data.simulering.periodeList[0]?.utbetaling[0].detaljer[0].refunderesOrgNr;
                 setArbeidsgiver(arbeidsgiver);
             }
         } catch (err) {
