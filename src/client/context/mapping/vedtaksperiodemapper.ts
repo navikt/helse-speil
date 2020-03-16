@@ -85,8 +85,7 @@ export const mapVedtaksperiode = (
             VedtaksperiodeTilstand.TIL_UTBETALING,
             VedtaksperiodeTilstand.TIL_INFOTRYGD,
             VedtaksperiodeTilstand.ANNULLERT,
-            VedtaksperiodeTilstand.UTBETALING_FEILET,
-            VedtaksperiodeTilstand.AVSLUTTET
+            VedtaksperiodeTilstand.UTBETALING_FEILET
         ].includes(periode.tilstand as VedtaksperiodeTilstand) ||
         (periode.tilstand === VedtaksperiodeTilstand.AVSLUTTET && totaltTilUtbetaling > 0);
 
