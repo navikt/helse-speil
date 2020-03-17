@@ -16,6 +16,8 @@ Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette 
 
 ## Kjøre lokalt
 
+Lokalt serveres frontend (det som kjører i browser) og backend (det som står for autentisering, sesjon og kommunikasjon med baksystem) hver for seg.
+
 #### Kun frontend servert av Parcel
 
 ```
@@ -38,16 +40,24 @@ REDIRECT_URL=http://localhost:3000/callback
 SESSION_SECRET=whatever
 ```
 
-Bygg/pakk frontend:
+Starte backend:
+
+```
+npm run dev-express
+```
+
+### Bygge bundles
+
+For å bygge/pakke frontend:
 
 ```
 npm run build
 ```
 
-Start:
+For å bygge/pakke backend:
 
 ```
-npm run dev-express
+npm run build-server
 ```
 
 Appen er nå tilgjengelig på http://localhost:3000.
