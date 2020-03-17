@@ -148,25 +148,31 @@ export interface Utbetalingsperiode {
     utbetaling: Utbetaling[];
 }
 
-interface Vilkår {
-    dagerIgjen: {
-        dagerBrukt: number;
-        førsteFraværsdag: string;
-        førsteSykepengedag: Optional<string>;
-        maksdato: string;
-        tidligerePerioder: Periode[];
-    };
-    søknadsfrist: {
-        innen3Mnd: boolean;
-        søknadTom?: string;
-        sendtNav?: string;
-    };
-    opptjening?: {
-        antallOpptjeningsdagerErMinst: number;
-        opptjeningFra: string;
-        harOpptjening: boolean;
-    };
-    alderISykmeldingsperioden: Optional<number>;
+export interface DagerIgjen {
+    dagerBrukt: number;
+    førsteFraværsdag: string;
+    førsteSykepengedag: Optional<string>;
+    maksdato: string;
+    tidligerePerioder: Periode[];
+}
+
+export interface Søknadsfrist {
+    innen3Mnd: boolean;
+    søknadTom?: string;
+    sendtNav?: string;
+}
+
+export interface Opptjening {
+    antallOpptjeningsdagerErMinst: number;
+    opptjeningFra: string;
+    harOpptjening: boolean;
+}
+
+export interface Vilkår {
+    dagerIgjen?: DagerIgjen;
+    søknadsfrist?: Søknadsfrist;
+    opptjening?: Opptjening;
+    alderISykmeldingsperioden?: number;
 }
 
 export interface Sykepengegrunnlag {

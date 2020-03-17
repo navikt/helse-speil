@@ -1,22 +1,19 @@
 import {
     Dag,
+    DagerIgjen,
     Dagtype,
     DataForVilkårsvurdering,
     Hendelse,
+    Inntektskilde,
     Inntektsmelding,
-    Optional,
+    Opptjening,
     SendtSøknad,
     SpleisVedtaksperiode,
+    Søknadsfrist,
     Vedtaksperiode
 } from '../types';
 import { Personinfo, VedtaksperiodeTilstand } from '../../../types';
 import dayjs, { Dayjs } from 'dayjs';
-
-enum HendelseType {
-    SENDTSØKNAD = 'SENDT_SØKNAD',
-    INNTEKTSMELDING = 'INNTEKTSMELDING',
-    NYSØKNAD = 'NY_SØKNAD'
-}
 
 export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
@@ -25,60 +22,23 @@ export const mapVedtaksperiode = (
     dataForVilkårsvurdering?: DataForVilkårsvurdering,
     organisasjonsnummer?: string
 ): Vedtaksperiode => {
-    const findHendelse = (hendelser: Hendelse[], type: HendelseType): Hendelse | undefined =>
-        hendelser.find(hendelse => hendelse.type === type.valueOf());
+    const somDato = (dato: string): Dayjs => dayjs(dato, 'YYYY-MM-DD');
+    const somProsent = (avviksprosent?: number): number | undefined =>
+        avviksprosent !== undefined ? avviksprosent * 100 : undefined;
+    const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined =>
+        inntekt ? +(inntekt * måneder).toFixed(2) : undefined;
+    const somÅrsinntekt = (inntekt?: number): number | undefined => somInntekt(inntekt, 12);
 
-    const søknadIPeriode = (søknad: SendtSøknad, fom: Dayjs, tom: Dayjs) =>
-        dayjs(søknad.fom).isSameOrBefore(fom) && dayjs(søknad.tom).isSameOrAfter(tom);
-
-    const findSøknadIPeriode = (hendelser: Hendelse[], fom: Dayjs, tom: Dayjs): SendtSøknad | undefined =>
-        hendelser.find(
-            hendelse => hendelse.type === HendelseType.SENDTSØKNAD && søknadIPeriode(hendelse as SendtSøknad, fom, tom)
-        ) as SendtSøknad;
-
-    const inntektsmelding = findHendelse(hendelser, HendelseType.INNTEKTSMELDING) as Inntektsmelding;
-
+    const inntektsmelding = hendelser.find(hendelse => hendelse.type === 'INNTEKTSMELDING') as Inntektsmelding;
     const periode = filtrerPaddedeArbeidsdager(unmappedPeriode);
-    const fom = [...periode.sykdomstidslinje].shift()!.dagen;
-    const tom = [...periode.sykdomstidslinje].pop()!.dagen;
-    const sendtSøknad = findSøknadIPeriode(hendelser, dayjs(fom), dayjs(tom));
-
-    const førsteFraværsdag = inntektsmelding?.førsteFraværsdag ?? '-';
-    const sisteSykdomsdag = [...periode.sykdomstidslinje].pop()?.dagen;
-    const månedsinntekt = inntektsmelding && +(inntektsmelding?.beregnetInntekt).toFixed(2);
-
-    const årsinntekt = inntektsmelding && +(inntektsmelding.beregnetInntekt * 12).toFixed(2);
-
-    const utbetalingsdager = periode.utbetalingstidslinje.filter(dag => dag.utbetaling > 0).length;
-
-    const førsteSykepengedag =
-        periode.utbetalingslinjer && periode.utbetalingslinjer.length > 0
-            ? dayjs.min(periode.utbetalingslinjer.map(linje => dayjs(linje.fom))).format('YYYY-MM-DD')
-            : null;
-
-    const årsinntektFraInntektsmelding = inntektsmelding?.beregnetInntekt
-        ? +(inntektsmelding.beregnetInntekt * 12).toFixed(2)
-        : undefined;
-
-    const dagsats = periode.utbetalingslinjer?.[0]?.dagsats;
 
     const totaltTilUtbetaling = periode.utbetalingstidslinje
         .map(dag => dag.utbetaling)
         .filter(utbetaling => utbetaling !== undefined)
         .reduce((acc, dagsats) => acc + dagsats, 0);
 
-    const opptjeningFra =
-        (dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst &&
-            dayjs(periode.førsteFraværsdag, 'YYYY-MM-DD')
-                .subtract(dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst, 'day')
-                .format('DD.MM.YYYY')) ||
-        undefined;
-    const innen3Mnd = sendtSøknad?.sendtNav
-        ? dayjs(sendtSøknad.tom)
-              .add(3, 'month')
-              .isSameOrAfter(dayjs(sendtSøknad.sendtNav))
-        : false;
-
+    const fom = [...periode.sykdomstidslinje].shift()!.dagen;
+    const tom = [...periode.sykdomstidslinje].pop()!.dagen;
     const kanVelges =
         [
             VedtaksperiodeTilstand.AVVENTER_GODKJENNING,
@@ -88,6 +48,84 @@ export const mapVedtaksperiode = (
             VedtaksperiodeTilstand.UTBETALING_FEILET
         ].includes(periode.tilstand as VedtaksperiodeTilstand) ||
         (periode.tilstand === VedtaksperiodeTilstand.AVSLUTTET && totaltTilUtbetaling > 0);
+
+    const dagsats = periode.utbetalingslinjer?.[0]?.dagsats;
+
+    const alderISykmeldingsperioden = (): number | undefined => {
+        const sisteSykedag = [...periode.sykdomstidslinje].pop()?.dagen;
+        if (sisteSykedag === undefined || personinfo.fødselsdato === undefined) return undefined;
+
+        return somDato(sisteSykedag).diff(somDato(personinfo.fødselsdato), 'year', false);
+    };
+
+    const dagerIgjen = (): DagerIgjen => {
+        const førsteSykepengedag =
+            periode.utbetalingslinjer && periode.utbetalingslinjer.length > 0
+                ? dayjs.min(periode.utbetalingslinjer.map(linje => somDato(linje.fom))).format('YYYY-MM-DD')
+                : undefined;
+        return {
+            dagerBrukt: periode.forbrukteSykedager,
+            førsteFraværsdag: inntektsmelding?.førsteFraværsdag,
+            førsteSykepengedag: førsteSykepengedag,
+            maksdato: periode.maksdato,
+            tidligerePerioder: []
+        };
+    };
+
+    const opptjening = (): Opptjening | undefined => {
+        if (!dataForVilkårsvurdering?.harOpptjening) return undefined;
+
+        const antallOpptjeningsdagerErMinst: number = dataForVilkårsvurdering.antallOpptjeningsdagerErMinst;
+        return {
+            antallOpptjeningsdagerErMinst: antallOpptjeningsdagerErMinst,
+            harOpptjening: dataForVilkårsvurdering.harOpptjening,
+            opptjeningFra: somDato(periode.førsteFraværsdag)
+                .subtract(antallOpptjeningsdagerErMinst, 'day')
+                .format('DD.MM.YYYY')
+        };
+    };
+
+    const søknadsfrist = (): Søknadsfrist | undefined => {
+        const sendtSøknad = hendelser.find(
+            hendelse =>
+                hendelse.type === 'SENDT_SØKNAD' &&
+                dayjs(hendelse.fom).isSameOrBefore(dayjs(fom)) &&
+                dayjs(hendelse.tom).isSameOrAfter(dayjs(tom))
+        ) as SendtSøknad;
+        if (sendtSøknad === undefined) return undefined;
+        return {
+            sendtNav: sendtSøknad.sendtNav,
+            søknadTom: sendtSøknad.tom,
+            innen3Mnd:
+                sendtSøknad.sendtNav && sendtSøknad.tom
+                    ? somDato(sendtSøknad.tom)
+                          .add(3, 'month')
+                          .isSameOrAfter(somDato(sendtSøknad.sendtNav))
+                    : false
+        };
+    };
+
+    const inntektskilder: Inntektskilde[] = [
+        {
+            organisasjonsnummer,
+            månedsinntekt: somInntekt(inntektsmelding?.beregnetInntekt),
+            årsinntekt: somÅrsinntekt(inntektsmelding?.beregnetInntekt),
+            refusjon: 'Ja',
+            forskuttering: 'Ja'
+        }
+    ];
+
+    const sykepengegrunnlag = {
+        årsinntektFraAording: dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
+        årsinntektFraInntektsmelding: somÅrsinntekt(inntektsmelding?.beregnetInntekt),
+        avviksprosent: somProsent(dataForVilkårsvurdering?.avviksprosent),
+        dagsats
+    };
+
+    const oppsummering = {
+        antallUtbetalingsdager: periode.utbetalingstidslinje.filter(dag => dag.utbetaling > 0).length,
+        totaltTilUtbetaling
+    };
 
     return {
         id: periode.id,
@@ -101,57 +139,25 @@ export const mapVedtaksperiode = (
         godkjentAv: periode.godkjentAv,
         godkjentTidspunkt: periode.godkjentTidspunkt,
         vilkår: {
-            alderISykmeldingsperioden: beregnAlder(sisteSykdomsdag, personinfo.fødselsdato),
-            dagerIgjen: {
-                dagerBrukt: periode.forbrukteSykedager,
-                førsteFraværsdag,
-                førsteSykepengedag,
-                maksdato: periode.maksdato,
-                tidligerePerioder: []
-            },
-            opptjening: dataForVilkårsvurdering?.harOpptjening
-                ? {
-                      antallOpptjeningsdagerErMinst: dataForVilkårsvurdering!.antallOpptjeningsdagerErMinst,
-                      harOpptjening: dataForVilkårsvurdering!.harOpptjening,
-                      opptjeningFra: opptjeningFra!
-                  }
-                : undefined,
-            søknadsfrist: {
-                sendtNav: sendtSøknad?.sendtNav,
-                søknadTom: sendtSøknad?.tom,
-                innen3Mnd
-            }
+            alderISykmeldingsperioden: alderISykmeldingsperioden(),
+            dagerIgjen: dagerIgjen(),
+            opptjening: opptjening(),
+            søknadsfrist: søknadsfrist()
         },
-        inntektskilder: [
-            {
-                organisasjonsnummer,
-                månedsinntekt,
-                årsinntekt,
-                refusjon: 'Ja',
-                forskuttering: 'Ja'
-            }
-        ],
-        sykepengegrunnlag: {
-            årsinntektFraAording: dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
-            årsinntektFraInntektsmelding,
-            avviksprosent: dataForVilkårsvurdering?.avviksprosent,
-            dagsats
-        },
-        oppsummering: {
-            antallUtbetalingsdager: utbetalingsdager,
-            totaltTilUtbetaling
-        },
+        inntektskilder: inntektskilder,
+        sykepengegrunnlag: sykepengegrunnlag,
+        oppsummering: oppsummering,
         rawData: unmappedPeriode
     };
 };
 
-export const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpleisVedtaksperiode): SpleisVedtaksperiode => {
+const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpleisVedtaksperiode): SpleisVedtaksperiode => {
     const arbeidsdagEllerImplisittDag = (dag: Dag) =>
         dag.type === Dagtype.ARBEIDSDAG_INNTEKTSMELDING ||
         dag.type === Dagtype.ARBEIDSDAG_SØKNAD ||
         dag.type === Dagtype.IMPLISITT_DAG;
     const førsteArbeidsdag = vedtaksperiode.sykdomstidslinje.findIndex(arbeidsdagEllerImplisittDag);
-    if (førsteArbeidsdag === -1 || førsteArbeidsdag !== 0) return vedtaksperiode;
+    if (førsteArbeidsdag !== 0) return vedtaksperiode;
 
     const førsteIkkeArbeidsdag = vedtaksperiode.sykdomstidslinje.findIndex(
         dag =>
@@ -164,11 +170,4 @@ export const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpleisVedtaksperiode)
         ...vedtaksperiode,
         sykdomstidslinje: [...vedtaksperiode.sykdomstidslinje.slice(førsteIkkeArbeidsdag)]
     };
-};
-
-export const beregnAlder = (tidspunkt?: string, fødselsdato?: string): Optional<number> => {
-    if (fødselsdato === undefined) return;
-    const søknadstidspunkt = dayjs(tidspunkt);
-    const fødselsdag = dayjs(fødselsdato);
-    return søknadstidspunkt.diff(fødselsdag, 'year', false);
 };
