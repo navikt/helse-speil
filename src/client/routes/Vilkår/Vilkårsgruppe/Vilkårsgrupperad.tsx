@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Navn = styled(Normaltekst)`
-    min-width: max-content;
+    min-width: 9rem;
 `;
 
 const Verdi = styled(Normaltekst)`

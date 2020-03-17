@@ -6,14 +6,6 @@ import { toDate } from '../../utils/date';
 import { toKronerOgØre } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-const Arbeidsuførhet = () => (
-    <Vilkårsgruppe tittel="Arbeidsuførhet må vurderes manuelt" paragraf="§8-4" ikontype="advarsel" />
-);
-
-const Medlemskap = () => (
-    <Vilkårsgruppe tittel="Medlemskap må vurderes manuelt" paragraf="Kapittel 2" ikontype="advarsel" />
-);
-
 interface AlderProps {
     alder: Optional<number>;
 }
@@ -93,8 +85,6 @@ const DagerIgjen = ({ førsteFraværsdag, førsteSykepengedag, dagerBrukt, maksd
 };
 
 export default {
-    Arbeidsuførhet,
-    Medlemskap,
     Alder,
     Søknadsfrist,
     Opptjeningstid,

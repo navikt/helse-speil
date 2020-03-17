@@ -8,6 +8,8 @@ import PåfølgendeVedtaksperiode from './PåfølgendeVedtaksperiode';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import Toppvarsel from '../../components/Toppvarsel';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
+import { StyledIkkeVurderteVilkår } from './Vilkår.styles';
+import IkkeVurderteVilkår from './IkkeVurderteVilkår';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
@@ -24,6 +26,7 @@ const Vilkår = () => {
     return (
         <>
             <Toppvarsel text="Enkelte vilkår må vurderes manuelt" type="advarsel" />
+            <IkkeVurderteVilkår />
             {periodeStatus === VedtaksperiodeStatus.Behandlet ? (
                 <BehandletVedtaksperiode
                     aktivVedtaksperiode={aktivVedtaksperiode}

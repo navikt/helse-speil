@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledBehandletInnhold, StyledUbehandletInnhold, YrkesskadeContainer } from './Vilkår.styles';
+import { StyledBehandletInnhold, StyledUbehandletInnhold } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
@@ -36,9 +36,6 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                     />
                 </FlexColumn>
             </StyledUbehandletInnhold>
-            <YrkesskadeContainer>
-                <Vilkårsgruppe tittel="Yrkesskade må vurderes manuelt" paragraf="§8-55" ikontype="advarsel" />
-            </YrkesskadeContainer>
             <StyledBehandletInnhold
                 saksbehandler={førsteVedtaksperiode.godkjentAv!}
                 tittel={`Vilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}

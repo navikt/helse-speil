@@ -1,23 +1,31 @@
 import React from 'react';
-import { StyledUbehandletInnhold, YrkesskadeContainer } from './Vilkår.styles';
+import { StyledUbehandletInnhold } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
 import { FlexColumn } from '../../components/FlexColumn';
+import { Deloverskrift } from './components';
+import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
+import styled from '@emotion/styled';
 
 interface UbehandletVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
 }
+
+const Overskrift = styled.div`
+    margin-left: 1.5rem;
+`;
 
 const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperiodeProps) => {
     const { vilkår, sykepengegrunnlag } = aktivVedtaksperiode;
 
     return (
         <>
+            <Overskrift>
+                <Deloverskrift tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} />
+            </Overskrift>
             <StyledUbehandletInnhold kolonner={2}>
                 <FlexColumn>
-                    <Vilkårsgrupper.Arbeidsuførhet />
-                    <Vilkårsgrupper.Medlemskap />
                     <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} />
                     <Vilkårsgrupper.Søknadsfrist
                         innen3Mnd={vilkår.søknadsfrist.innen3Mnd}
@@ -47,9 +55,6 @@ const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperi
                     />
                 </FlexColumn>
             </StyledUbehandletInnhold>
-            <YrkesskadeContainer>
-                <Vilkårsgruppe tittel="Yrkesskade må vurderes manuelt" ikontype="advarsel" />
-            </YrkesskadeContainer>
         </>
     );
 };
