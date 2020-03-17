@@ -100,7 +100,7 @@ export const mapVedtaksperiode = (
         sykdomstidslinje: periode.sykdomstidslinje,
         godkjentAv: periode.godkjentAv,
         godkjentTidspunkt: periode.godkjentTidspunkt,
-        inngangsvilkår: {
+        vilkår: {
             alderISykmeldingsperioden: beregnAlder(sisteSykdomsdag, personinfo.fødselsdato),
             dagerIgjen: {
                 dagerBrukt: periode.forbrukteSykedager,

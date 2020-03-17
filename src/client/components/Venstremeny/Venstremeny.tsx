@@ -73,45 +73,22 @@ const Venstremeny = () => {
         <Container>
             <Topplinje />
             <Nav active={aktivVedtaksperiode !== undefined}>
-                <Lenke
-                    id="nav-link-sykmeldingsperiode"
-                    to={links?.[pages.SYKMELDINGSPERIODE]}
-                    active={active}
-                >
+                <Lenke id="nav-link-sykmeldingsperiode" to={links?.[pages.SYKMELDINGSPERIODE]} active={active}>
                     Sykmeldingsperiode
                 </Lenke>
-                <Lenke
-                    id="nav-link-inngangsvilkår"
-                    to={links?.[pages.INNGANGSVILKÅR]}
-                    active={active}
-                >
-                    Inngangsvilkår
+                <Lenke id="nav-link-vilkår" to={links?.[pages.VILKÅR]} active={active}>
+                    Vilkår
                 </Lenke>
-                <Lenke active={false} id="nav-link-oppfølging">
-                    Oppfølging
-                </Lenke>
-                <Lenke
-                    id="nav-link-inntektskilder"
-                    to={links?.[pages.INNTEKTSKILDER]}
-                    active={active}
-                >
+                <Lenke id="nav-link-inntektskilder" to={links?.[pages.INNTEKTSKILDER]} active={active}>
                     Inntektskilder
                 </Lenke>
-                <Lenke
-                    id="nav-link-sykepengegrunnlag"
-                    to={links?.[pages.SYKEPENGEGRUNNLAG]}
-                    active={active}
-                >
+                <Lenke id="nav-link-sykepengegrunnlag" to={links?.[pages.SYKEPENGEGRUNNLAG]} active={active}>
                     Sykepengegrunnlag
                 </Lenke>
                 <Lenke id="nav-link-fordeling" to={links?.[pages.FORDELING]} active={false}>
                     Fordeling
                 </Lenke>
-                <Lenke
-                    id="nav-link-utbetaling"
-                    to={links?.[pages.UTBETALINGSOVERSIKT]}
-                    active={active}
-                >
+                <Lenke id="nav-link-utbetaling" to={links?.[pages.UTBETALINGSOVERSIKT]} active={active}>
                     Utbetalingsoversikt
                 </Lenke>
                 <Lenke id="nav-link-oppsummering" to={links?.[pages.OPPSUMMERING]} active={active}>

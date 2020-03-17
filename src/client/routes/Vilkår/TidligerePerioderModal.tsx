@@ -40,12 +40,9 @@ const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }: Props
                         </div>
                         {perioder.map((item, i) => (
                             <React.Fragment key={`${item.fom}-${item.tom}-${i}`}>
-                                {første26UkersMellomromIndex > 0 &&
-                                    i === første26UkersMellomromIndex && (
-                                        <Element className="periode">
-                                            Første 26-ukers mellomrom
-                                        </Element>
-                                    )}
+                                {første26UkersMellomromIndex > 0 && i === første26UkersMellomromIndex && (
+                                    <Element className="periode">Første 26-ukers mellomrom</Element>
+                                )}
                                 <div className="periode" key={JSON.stringify(item)}>
                                     <Normaltekst>{item.fom}</Normaltekst>
                                     <Normaltekst>{item.tom}</Normaltekst>

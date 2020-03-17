@@ -30,9 +30,7 @@ const Sykepengegrunnlag = () => {
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
 
-    const førsteFraværsdag = dayjs(
-        aktivVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
-    ).format('DD.MM.YYYY');
+    const førsteFraværsdag = dayjs(aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
     const { sykepengegrunnlag } = aktivVedtaksperiode;
     return (
         <Sykepengegrunnlagpanel>

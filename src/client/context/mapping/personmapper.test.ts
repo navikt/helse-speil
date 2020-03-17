@@ -43,22 +43,15 @@ test('mapper person med flere vedtaksperioder', () => {
         personInfo
     );
 
-    expect(person.arbeidsgivere[0].vedtaksperioder[1].oppsummering.totaltTilUtbetaling).toEqual(
-        4000.0
-    );
+    expect(person.arbeidsgivere[0].vedtaksperioder[1].oppsummering.totaltTilUtbetaling).toEqual(4000.0);
 
-    expect(person.arbeidsgivere[0].vedtaksperioder[1].oppsummering.antallUtbetalingsdager).toEqual(
-        4
-    );
+    expect(person.arbeidsgivere[0].vedtaksperioder[1].oppsummering.antallUtbetalingsdager).toEqual(4);
 });
 
 test('filtrerer vekk paddede arbeidsdager', () => {
     const ledendeArbeidsdager = [enArbeidsdag('2019-09-08'), enArbeidsdag('2019-09-09')];
 
-    const person = mapPerson(
-        enPerson([enArbeidsgiver([enVedtaksperiode(ledendeArbeidsdager)])]),
-        personInfo
-    );
+    const person = mapPerson(enPerson([enArbeidsgiver([enVedtaksperiode(ledendeArbeidsdager)])]), personInfo);
 
     expect(person.arbeidsgivere[0].vedtaksperioder[0].sykdomstidslinje[0]).toEqual({
         dagen: '2019-09-10',
@@ -68,12 +61,9 @@ test('filtrerer vekk paddede arbeidsdager', () => {
 });
 
 test('Opptjening er undefined dersom felter er satt til null', () => {
-    const person = mapPerson(
-        enPerson([enArbeidsgiver([enVedtaksperiode([], vilkårsvurdering(false))])]),
-        personInfo
-    );
+    const person = mapPerson(enPerson([enArbeidsgiver([enVedtaksperiode([], vilkårsvurdering(false))])]), personInfo);
     const vedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0];
-    expect(vedtaksperiode.inngangsvilkår.opptjening).toBeUndefined();
+    expect(vedtaksperiode.vilkår.opptjening).toBeUndefined();
 });
 
 test('Vedtaksperioder sorteres på fom i synkende rekkefølge', () => {
@@ -507,7 +497,7 @@ const mappetPerson = {
                     godkjentTidspunkt: undefined,
                     tilstand: 'AVVENTER_GODKJENNING',
                     kanVelges: true,
-                    inngangsvilkår: {
+                    vilkår: {
                         dagerIgjen: {
                             dagerBrukt: 3,
                             førsteFraværsdag: '2019-09-10',

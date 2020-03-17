@@ -21,7 +21,7 @@ const Sykmeldingsperiode = () => {
     return (
         <Container>
             <Sykmeldingstabell dager={dager} />
-            <Navigasjonsknapper next={pages.INNGANGSVILKÅR} />
+            <Navigasjonsknapper next={pages.VILKÅR} />
         </Container>
     );
 };

@@ -16,9 +16,9 @@ describe('Oversiktssiden', function() {
         cy.get('.NavigationButtons').should('be.visible');
     });
 
-    it('kan navigere til inngangsvilkår', function() {
+    it('kan navigere til vilkår', function() {
         cy.contains('Dronning Sonja').click();
-        cy.get('#nav-link-inngangsvilkår').click();
+        cy.get('#nav-link-vilkår').click();
         cy.get('.NavigationButtons').should('be.visible');
     });
 

@@ -148,7 +148,7 @@ export interface Utbetalingsperiode {
     utbetaling: Utbetaling[];
 }
 
-interface Inngangsvilkår {
+interface Vilkår {
     dagerIgjen: {
         dagerBrukt: number;
         førsteFraværsdag: string;
@@ -195,7 +195,7 @@ export interface Vedtaksperiode {
     tom: string;
     kanVelges: boolean;
     tilstand: VedtaksperiodeTilstand;
-    inngangsvilkår: Inngangsvilkår;
+    vilkår: Vilkår;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Dag[];
     sykepengegrunnlag: Sykepengegrunnlag;

@@ -7,19 +7,11 @@ import { toKronerOgØre } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 const Arbeidsuførhet = () => (
-    <Vilkårsgruppe
-        tittel="Arbeidsuførhet må vurderes manuelt"
-        paragraf="§8-4"
-        ikontype="advarsel"
-    />
+    <Vilkårsgruppe tittel="Arbeidsuførhet må vurderes manuelt" paragraf="§8-4" ikontype="advarsel" />
 );
 
 const Medlemskap = () => (
-    <Vilkårsgruppe
-        tittel="Medlemskap må vurderes manuelt"
-        paragraf="Kapittel 2"
-        ikontype="advarsel"
-    />
+    <Vilkårsgruppe tittel="Medlemskap må vurderes manuelt" paragraf="Kapittel 2" ikontype="advarsel" />
 );
 
 interface AlderProps {
@@ -59,16 +51,10 @@ const Opptjeningstid = ({
     opptjeningFra,
     antallOpptjeningsdagerErMinst
 }: OpptjeningstidProps) => (
-    <Vilkårsgruppe
-        tittel="Opptjeningstid"
-        paragraf="§8-2"
-        ikontype={harOpptjening ? 'ok' : 'advarsel'}
-    >
+    <Vilkårsgruppe tittel="Opptjeningstid" paragraf="§8-2" ikontype={harOpptjening ? 'ok' : 'advarsel'}>
         <Vilkårsgrupperad label="Første sykdomsdag">{toDate(førsteFraværsdag)}</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Opptjening fra">{opptjeningFra}</Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Antall dager (>28)">
-            {`${antallOpptjeningsdagerErMinst}`}
-        </Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Antall dager (>28)">{`${antallOpptjeningsdagerErMinst}`}</Vilkårsgrupperad>
     </Vilkårsgruppe>
 );
 
@@ -78,9 +64,7 @@ interface KravTilSykepengegrunnlagProps {
 
 const KravTilSykepengegrunnlag = ({ sykepengegrunnlag }: KravTilSykepengegrunnlagProps) => (
     <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" paragraf="§8-3" ikontype="ok">
-        <Vilkårsgrupperad label="Sykepengegrunnlaget">
-            {`${toKronerOgØre(sykepengegrunnlag)} kr`}
-        </Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Sykepengegrunnlaget">{`${toKronerOgØre(sykepengegrunnlag)} kr`}</Vilkårsgrupperad>
         <Normaltekst>{`0,5G er ${toKronerOgØre(99858 / 2)} kr`}</Normaltekst>
     </Vilkårsgruppe>
 );
@@ -92,18 +76,11 @@ interface DagerIgjenProps {
     førsteSykepengedag: Optional<string>;
 }
 
-const DagerIgjen = ({
-    førsteFraværsdag,
-    førsteSykepengedag,
-    dagerBrukt,
-    maksdato
-}: DagerIgjenProps) => {
+const DagerIgjen = ({ førsteFraværsdag, førsteSykepengedag, dagerBrukt, maksdato }: DagerIgjenProps) => {
     const dagerIgjen = 248 - dagerBrukt;
     return (
         <Vilkårsgruppe tittel="Dager igjen" paragraf="§8-11 og §8-12" ikontype="ok">
-            <Vilkårsgrupperad label="Første fraværsdag">
-                {toDate(førsteFraværsdag)}
-            </Vilkårsgrupperad>
+            <Vilkårsgrupperad label="Første fraværsdag">{toDate(førsteFraværsdag)}</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Første sykepengedag">
                 {førsteSykepengedag ? toDate(førsteSykepengedag) : 'Ikke funnet'}
             </Vilkårsgrupperad>

@@ -27,9 +27,7 @@ const Inntektskilder = () => {
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
-    const førsteFraværsdag = dayjs(
-        aktivVedtaksperiode.inngangsvilkår.dagerIgjen.førsteFraværsdag
-    ).format('DD.MM.YYYY');
+    const førsteFraværsdag = dayjs(aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
 
     const { inntektskilder } = aktivVedtaksperiode;
 
@@ -48,7 +46,7 @@ const Inntektskilder = () => {
                         <Inntektskilderinnhold inntektskilder={inntektskilder} />
                     </StyledBehandletInnhold>
                 )}
-                <NavigationButtons previous={pages.INNGANGSVILKÅR} next={pages.SYKEPENGEGRUNNLAG} />
+                <NavigationButtons previous={pages.VILKÅR} next={pages.SYKEPENGEGRUNNLAG} />
             </Inntektskilderpanel>
         </>
     );

@@ -10,7 +10,7 @@ interface Translation {
     fordeling: ResourceKey;
     oppsummering: ResourceKey;
     sykdomsvilkår: ResourceKey;
-    inngangsvilkår: ResourceKey;
+    vilkår: ResourceKey;
     inntektskilder: ResourceKey;
     sykepengegrunnlag: ResourceKey;
     sykmeldingsperiode: ResourceKey;
@@ -42,8 +42,8 @@ const resources: Resource = {
             sykdomsvilkår: {
                 sykdomsvilkår: 'Sykdomsvilkår må vurderes manuelt'
             },
-            inngangsvilkår: {
-                inngangsvilkår_oppfylt: 'Inngangsvilkår oppfylt',
+            vilkår: {
+                vilkår_oppfylt: 'Vilkår oppfylt',
                 medlemskap: 'Medlemskap'
             },
             inntektskilder: {

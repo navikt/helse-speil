@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import Venstremeny from './Venstremeny';
 import PersonBar from './PersonBar';
 import Fordeling from '../routes/Fordeling';
-import Oppfølging from '../routes/Oppfølging';
 import Oppsummering from '../routes/Oppsummering';
-import Inngangsvilkår from '../routes/Inngangsvilkår';
+import Vilkår from '../routes/Vilkår';
 import EmptyStateView from './EmptyStateView';
 import Inntektskilder from '../routes/Inntektskilder/Inntektskilder';
 import Sykepengegrunnlag from '../routes/Sykepengegrunnlag';
@@ -54,26 +53,13 @@ const Saksbilde = () => {
             <Container>
                 <Venstremeny />
                 <Hovedinnhold>
-                    <Vedtaksperiodeinfo
-                        periode={aktivVedtaksperiode}
-                        person={personTilBehandling}
-                    />
-                    <Route
-                        path={`/${pages.SYKMELDINGSPERIODE}/:aktoerId`}
-                        component={Sykmeldingsperiode}
-                    />
-                    <Route path={`/${pages.OPPFØLGING}/:aktoerId`} component={Oppfølging} />
-                    <Route path={`/${pages.INNGANGSVILKÅR}/:aktoerId`} component={Inngangsvilkår} />
+                    <Vedtaksperiodeinfo periode={aktivVedtaksperiode} person={personTilBehandling} />
+                    <Route path={`/${pages.SYKMELDINGSPERIODE}/:aktoerId`} component={Sykmeldingsperiode} />
+                    <Route path={`/${pages.VILKÅR}/:aktoerId`} component={Vilkår} />
                     <Route path={`/${pages.INNTEKTSKILDER}/:aktoerId`} component={Inntektskilder} />
-                    <Route
-                        path={`/${pages.SYKEPENGEGRUNNLAG}/:aktoerId`}
-                        component={Sykepengegrunnlag}
-                    />
+                    <Route path={`/${pages.SYKEPENGEGRUNNLAG}/:aktoerId`} component={Sykepengegrunnlag} />
                     <Route path={`/${pages.FORDELING}/:aktoerId`} component={Fordeling} />
-                    <Route
-                        path={`/${pages.UTBETALINGSOVERSIKT}/:aktoerId`}
-                        component={Utbetalingsoversikt}
-                    />
+                    <Route path={`/${pages.UTBETALINGSOVERSIKT}/:aktoerId`} component={Utbetalingsoversikt} />
                     <Route path={`/${pages.OPPSUMMERING}/:aktoerId`} component={Oppsummering} />
                 </Hovedinnhold>
                 <Høyremeny />
