@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, SpleisVedtaksperiode, Utbetalingsperiode, Vedtaksperiode } from './types';
+import { ProviderProps, SpleisVedtaksperiode, Utbetalingsdagtype, Utbetalingsperiode, Vedtaksperiode } from './types';
 
 interface SimuleringResponse {
     status: string;
@@ -50,8 +50,15 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
         const sammeUtbetalingsreferanse = (periode: Vedtaksperiode) =>
             periode.utbetalingsreferanse === vedtaksperiode.utbetalingsreferanse;
 
+        const harUtbetalingslinjer = (periode: Vedtaksperiode) =>
+            periode.utbetalingstidslinje.filter(
+                dag => dag.type === Utbetalingsdagtype.NAVDAG || dag.type === Utbetalingsdagtype.NAVHELG
+            ).length > 0;
+
         const erUtvidelse =
-            personTilBehandling.arbeidsgivere[0].vedtaksperioder.filter(sammeUtbetalingsreferanse).length > 1;
+            personTilBehandling.arbeidsgivere[0].vedtaksperioder.filter(
+                sammeUtbetalingsreferanse && harUtbetalingslinjer
+            ).length > 1;
 
         try {
             const { data }: { data: SimuleringResponse } = await postSimulering(

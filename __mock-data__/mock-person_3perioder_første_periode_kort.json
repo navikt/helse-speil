@@ -1,0 +1,275 @@
+{
+    "aktørId": "87654321962124",
+    "fødselsnummer": "12020052346",
+    "arbeidsgivere": [
+        {
+            "organisasjonsnummer": "987654321",
+            "id": "06f06948-2cb0-4061-b5a8-a77cd84ea49e",
+            "vedtaksperioder": [
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-01"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-02"
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-03"
+                        }
+                    ],
+                    "id": "02011154-5d09-4895-b4bc-fb86d3661216",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 11,
+                    "godkjentAv": "en_saksbehandler_ident",
+                    "godkjenttidspunkt": "2020-03-09T12:14:59.013932",
+                    "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 3.1e4,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
+                        "avviksprosent": 0.24,
+                        "antallOpptjeningsdagerErMinst": 1095,
+                        "harOpptjening": true
+                    },
+                    "tilstand": "AVSLUTTET",
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-01-01", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-02", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-03", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
+                    ],
+                    "utbetalingslinjer": []
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-04",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-05",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-05",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-06",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-07",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-08",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-09",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-10",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-11",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-12",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-13",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-14",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-15",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-16",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-17",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-18",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        }
+                    ],
+                    "id": "b288b1a7-36c5-47d7-a736-0d1ef707538d",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 17,
+                    "godkjentAv": null,
+                    "godkjenttidspunkt": null,
+                    "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 3.1e4,
+                    "dataForVilkårsvurdering": null,
+                    "tilstand": "AVSLUTTET",
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-01-04", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-05", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-06", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-07", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-08", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-09", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-10", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-11", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-12", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-13", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-14", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-15", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-16", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-17", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-18", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
+                    ]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-19",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1430.77,
+                            "dato": "2020-01-20",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        }
+                    ],
+                    "id": "b288b1a7-36c5-47d7-a736-0d1ef707538e",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 17,
+                    "godkjentAv": null,
+                    "godkjenttidspunkt": null,
+                    "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 3.1e4,
+                    "dataForVilkårsvurdering": null,
+                    "tilstand": "AVVENTER_GODKJENNING",
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-01-19", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-20", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
+                    ]
+                }
+            ]
+        }
+    ],
+    "hendelser": [
+        {
+            "rapportertdato": "2020-01-01T00:00:00",
+            "fom": "2020-01-01",
+            "tom": "2020-01-03",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "rapportertdato": "2020-01-01T00:00:00",
+            "fom": "2020-01-04",
+            "tom": "2020-01-18",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "rapportertdato": "2020-01-01T00:00:00",
+            "fom": "2020-01-19",
+            "tom": "2020-01-20",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "rapportertdato": "2020-01-01T00:00:00",
+            "sendtNav": "2020-02-01T00:00:00",
+            "fom": "2020-01-01",
+            "tom": "2020-01-03",
+            "type": "SENDT_SØKNAD"
+        },
+        {
+            "rapportertdato": "2020-01-01T00:00:00",
+            "sendtNav": "2020-02-01T00:00:00",
+            "fom": "2020-01-04",
+            "tom": "2020-01-18",
+            "type": "SENDT_SØKNAD"
+        },
+        {
+            "rapportertdato": "2020-01-01T00:00:00",
+            "sendtNav": "2020-02-01T00:00:00",
+            "fom": "2020-01-19",
+            "tom": "2020-01-20",
+            "type": "SENDT_SØKNAD"
+        },
+        {
+            "beregnetInntekt": 25000,
+            "førsteFraværsdag": "2020-01-01",
+            "mottattDato": "2020-01-05",
+            "type": "INNTEKTSMELDING"
+        }
+    ]
+}

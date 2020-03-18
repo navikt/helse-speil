@@ -14,5 +14,13 @@
         "aktørId": "87654321962123",
         "organisasjonsnummer": "987654321",
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171"
+    },
+    {
+        "@behov": "GodkjenningFraSaksbehandler",
+        "@id": "f9374455-0000-9999-0000-ea5d644b4d5g",
+        "@opprettet": "2018-02-10T08:38:00.728127",
+        "aktørId": "87654321962124",
+        "organisasjonsnummer": "987654321",
+        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172"
     }
 ]
