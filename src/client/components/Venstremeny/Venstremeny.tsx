@@ -56,13 +56,8 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     border-right: 1px solid #c6c2bf;
+    width: 250px;
 `;
-
-const Topplinje = styled(Sakslinje)`
-    border-top: none;
-    border-left: none;
-`;
-
 const Venstremeny = () => {
     const links = useLinks();
     const { aktivVedtaksperiode } = useContext(PersonContext);
@@ -71,7 +66,6 @@ const Venstremeny = () => {
 
     return (
         <Container>
-            <Topplinje />
             <Nav active={aktivVedtaksperiode !== undefined}>
                 <Lenke id="nav-link-sykmeldingsperiode" to={links?.[pages.SYKMELDINGSPERIODE]} active={active}>
                     Sykmeldingsperiode
