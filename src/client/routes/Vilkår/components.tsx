@@ -30,3 +30,7 @@ export const Deloverskrift = ({ tittel, ikon, paragraf }: { tittel: string; ikon
         {paragraf && <Paragraf>${paragraf}</Paragraf>}
     </Vilkårsoverskrift>
 );
+
+export const Overskrift = styled.div`
+    margin-left: 1.5rem;
+`;

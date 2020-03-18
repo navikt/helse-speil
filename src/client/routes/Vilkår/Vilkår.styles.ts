@@ -23,4 +23,8 @@ export const StyledUbehandletInnhold = styled(Grid)`
 export const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 4rem;
     width: max-content;
+
+    div > *:not(:last-child) {
+        margin-right: 11.1rem;
+    }
 `;

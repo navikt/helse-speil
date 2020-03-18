@@ -4,17 +4,12 @@ import Vilkårsgrupper from './Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
 import { FlexColumn } from '../../components/FlexColumn';
-import { Deloverskrift } from './components';
+import { Deloverskrift, Overskrift } from './components';
 import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
-import styled from '@emotion/styled';
 
 interface UbehandletVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
 }
-
-const Overskrift = styled.div`
-    margin-left: 1.5rem;
-`;
 
 const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperiodeProps) => {
     const { vilkår, sykepengegrunnlag } = aktivVedtaksperiode;
