@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { Knapp } from 'nav-frontend-knapper';
-import { useHistory } from 'react-router';
-import { useKeyboard, Key } from '../../hooks/useKeyboard';
-import useLinks from '../../hooks/useLinks';
+import { Key, useKeyboard } from '../../hooks/useKeyboard';
 import './NavigationButtons.less';
 import classNames from 'classnames';
+import { useNavigation } from '../../hooks/useNavigation';
 
 interface Props {
     previous?: string;
@@ -14,23 +13,17 @@ interface Props {
 }
 
 const tooltip = (direction = 'right') =>
-    `<span class="typo-normal NavigationButtons__tooltip ${direction}">Hurtigtast: </span>`;
+    `<p class="typo-normal NavigationButtons__tooltip ${direction}">Hurtigtast: </p>`;
 
-const NavigationButtons = ({ previous, next, className }: Props) => {
-    const links = useLinks();
-    const history = useHistory();
-
-    const linksRef = useRef(links);
-    useEffect(() => {
-        linksRef.current = links;
-    }, [links]);
+const NavigationButtons = ({ className }: Props) => {
+    const { navigateToNext, navigateToPrevious } = useNavigation();
 
     const clickPrevious = () => {
-        previous && linksRef.current && history.push(linksRef.current[previous]);
+        navigateToPrevious?.();
     };
 
     const clickNext = () => {
-        next && linksRef.current && history.push(linksRef.current[next]);
+        navigateToNext?.();
     };
 
     useKeyboard({
@@ -42,16 +35,16 @@ const NavigationButtons = ({ previous, next, className }: Props) => {
         <>
             <ReactTooltip html={true} place="bottom" />
             <div className={classNames('NavigationButtons', className)}>
-                {previous && (
-                    <div data-tip={tooltip('left')}>
-                        <Knapp onClick={clickPrevious}>FORRIGE</Knapp>
-                    </div>
-                )}
-                {next && (
-                    <div data-tip={tooltip()}>
-                        <Knapp onClick={clickNext}>NESTE</Knapp>
-                    </div>
-                )}
+                <div data-tip={navigateToPrevious && tooltip('left')}>
+                    <Knapp disabled={!navigateToPrevious} onClick={clickPrevious}>
+                        FORRIGE
+                    </Knapp>
+                </div>
+                <div data-tip={navigateToNext && tooltip()}>
+                    <Knapp disabled={!navigateToNext} onClick={clickNext}>
+                        NESTE
+                    </Knapp>
+                </div>
             </div>
         </>
     );

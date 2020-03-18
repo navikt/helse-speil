@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import useLinks, { pages } from '../../hooks/useLinks';
 import Link from './Link';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../context/PersonContext';
-import Sakslinje from '@navikt/helse-frontend-sakslinje';
+import { Location, useNavigation } from '../../hooks/useNavigation';
 
 interface Props {
     active?: boolean;
@@ -59,33 +58,36 @@ const Container = styled.div`
     width: 250px;
 `;
 const Venstremeny = () => {
-    const links = useLinks();
+    const { pathForLocation } = useNavigation();
     const { aktivVedtaksperiode } = useContext(PersonContext);
-
     const active = aktivVedtaksperiode !== undefined;
 
     return (
         <Container>
             <Nav active={aktivVedtaksperiode !== undefined}>
-                <Lenke id="nav-link-sykmeldingsperiode" to={links?.[pages.SYKMELDINGSPERIODE]} active={active}>
+                <Lenke
+                    id="nav-link-sykmeldingsperiode"
+                    to={pathForLocation(Location.Sykmeldingsperiode)}
+                    active={active}
+                >
                     Sykmeldingsperiode
                 </Lenke>
-                <Lenke id="nav-link-vilkår" to={links?.[pages.VILKÅR]} active={active}>
+                <Lenke id="nav-link-vilkår" to={pathForLocation(Location.Vilkår)} active={active}>
                     Vilkår
                 </Lenke>
-                <Lenke id="nav-link-inntektskilder" to={links?.[pages.INNTEKTSKILDER]} active={active}>
+                <Lenke id="nav-link-inntektskilder" to={pathForLocation(Location.Inntektskilder)} active={active}>
                     Inntektskilder
                 </Lenke>
-                <Lenke id="nav-link-sykepengegrunnlag" to={links?.[pages.SYKEPENGEGRUNNLAG]} active={active}>
+                <Lenke id="nav-link-sykepengegrunnlag" to={pathForLocation(Location.Sykepengegrunnlag)} active={active}>
                     Sykepengegrunnlag
                 </Lenke>
-                <Lenke id="nav-link-fordeling" to={links?.[pages.FORDELING]} active={false}>
+                <Lenke id="nav-link-fordeling" active={false}>
                     Fordeling
                 </Lenke>
-                <Lenke id="nav-link-utbetaling" to={links?.[pages.UTBETALINGSOVERSIKT]} active={active}>
+                <Lenke id="nav-link-utbetaling" to={pathForLocation(Location.Utbetalingsoversikt)} active={active}>
                     Utbetalingsoversikt
                 </Lenke>
-                <Lenke id="nav-link-oppsummering" to={links?.[pages.OPPSUMMERING]} active={active}>
+                <Lenke id="nav-link-oppsummering" to={pathForLocation(Location.Oppsummering)} active={active}>
                     Oppsummering
                 </Lenke>
             </Nav>

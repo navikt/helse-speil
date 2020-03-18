@@ -14,12 +14,12 @@ import Vedtaksperiodeinfo from './Vedtaksperiodeinfo';
 import Sykmeldingsperiode from '../routes/Sykmeldingsperiode';
 import Utbetalingsoversikt from '../routes/Utbetalingsoversikt';
 import { Route } from 'react-router-dom';
-import { pages } from '../hooks/useLinks';
 import { PersonContext } from '../context/PersonContext';
 import styled from '@emotion/styled';
 import { Hendelse } from '../context/types';
 import { Hendelsetype, LoggHeader, LoggProvider } from '@navikt/helse-frontend-logg';
 import dayjs from 'dayjs';
+import { Location, useNavigation } from '../hooks/useNavigation';
 
 const Container = styled.div`
     display: flex;
@@ -74,6 +74,7 @@ const datoForHendelse = (hendelse: Hendelse) => {
 };
 
 const Saksbilde = () => {
+    const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
     const hendelser = personTilBehandling?.hendelser.map(hendelsen => ({
@@ -111,13 +112,21 @@ const Saksbilde = () => {
                 <Container>
                     <Venstremeny />
                     <Hovedinnhold>
-                        <Route path={`/${pages.SYKMELDINGSPERIODE}/:aktoerId`} component={Sykmeldingsperiode} />
-                        <Route path={`/${pages.VILKÅR}/:aktoerId`} component={Vilkår} />
-                        <Route path={`/${pages.INNTEKTSKILDER}/:aktoerId`} component={Inntektskilder} />
-                        <Route path={`/${pages.SYKEPENGEGRUNNLAG}/:aktoerId`} component={Sykepengegrunnlag} />
-                        <Route path={`/${pages.FORDELING}/:aktoerId`} component={Fordeling} />
-                        <Route path={`/${pages.UTBETALINGSOVERSIKT}/:aktoerId`} component={Utbetalingsoversikt} />
-                        <Route path={`/${pages.OPPSUMMERING}/:aktoerId`} component={Oppsummering} />
+                        <Route
+                            path={`${toString(Location.Sykmeldingsperiode)}/:aktoerId`}
+                            component={Sykmeldingsperiode}
+                        />
+                        <Route path={`${toString(Location.Vilkår)}/:aktoerId`} component={Vilkår} />
+                        <Route path={`${toString(Location.Inntektskilder)}/:aktoerId`} component={Inntektskilder} />
+                        <Route
+                            path={`${toString(Location.Sykepengegrunnlag)}/:aktoerId`}
+                            component={Sykepengegrunnlag}
+                        />
+                        <Route
+                            path={`${toString(Location.Utbetalingsoversikt)}/:aktoerId`}
+                            component={Utbetalingsoversikt}
+                        />
+                        <Route path={`${toString(Location.Oppsummering)}/:aktoerId`} component={Oppsummering} />
                     </Hovedinnhold>
                     <Høyremeny />
                 </Container>

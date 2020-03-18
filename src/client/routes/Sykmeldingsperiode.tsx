@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import Navigasjonsknapper from '../components/NavigationButtons';
-import { pages } from '../hooks/useLinks';
 import { PersonContext } from '../context/PersonContext';
 import { Sykmeldingstabell } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
@@ -21,7 +20,7 @@ const Sykmeldingsperiode = () => {
     return (
         <Container>
             <Sykmeldingstabell dager={dager} />
-            <Navigasjonsknapper next={pages.VILKÅR} />
+            <Navigasjonsknapper />
         </Container>
     );
 };

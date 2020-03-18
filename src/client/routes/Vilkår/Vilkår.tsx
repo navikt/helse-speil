@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import BehandletVedtaksperiode from './BehandletVedtaksperiode';
 import UbehandletVedtaksperiode from './UbehandletVedtaksperiode';
 import PåfølgendeVedtaksperiode from './PåfølgendeVedtaksperiode';
-import { pages } from '../../hooks/useLinks';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import Toppvarsel from '../../components/Toppvarsel';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
@@ -38,7 +37,7 @@ const Vilkår = () => {
                     førsteVedtaksperiode={førsteVedtaksperiode}
                 />
             )}
-            <Footer previous={pages.SYKMELDINGSPERIODE} next={pages.INNTEKTSKILDER} />
+            <Footer />
         </>
     );
 };

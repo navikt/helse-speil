@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
-import { pages } from '../../hooks/useLinks';
 import { PersonContext } from '../../context/PersonContext';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
@@ -27,7 +26,9 @@ const Inntektskilder = () => {
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
-    const førsteFraværsdag = dayjs(aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
+    const førsteFraværsdag = aktivVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag
+        ? dayjs(aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY')
+        : 'Ukjent dato';
 
     const { inntektskilder } = aktivVedtaksperiode;
 
@@ -46,7 +47,7 @@ const Inntektskilder = () => {
                         <Inntektskilderinnhold inntektskilder={inntektskilder} />
                     </StyledBehandletInnhold>
                 )}
-                <NavigationButtons previous={pages.VILKÅR} next={pages.SYKEPENGEGRUNNLAG} />
+                <NavigationButtons />
             </Inntektskilderpanel>
         </>
     );

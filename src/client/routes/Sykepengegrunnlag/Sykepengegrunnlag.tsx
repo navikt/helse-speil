@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { pages } from '../../hooks/useLinks';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../context/PersonContext';
 import { useTranslation } from 'react-i18next';
@@ -29,9 +28,12 @@ const Sykepengegrunnlag = () => {
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
+    const førsteFraværsdag = aktivVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag
+        ? dayjs(aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY')
+        : 'Ukjent dato';
 
-    const førsteFraværsdag = dayjs(aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
     const { sykepengegrunnlag } = aktivVedtaksperiode;
+
     return (
         <Sykepengegrunnlagpanel>
             {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
@@ -45,7 +47,7 @@ const Sykepengegrunnlag = () => {
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                 </StyledBehandletInnhold>
             )}
-            <NavigationButtons previous={pages.INNTEKTSKILDER} next={pages.UTBETALINGSOVERSIKT} />
+            <NavigationButtons />
         </Sykepengegrunnlagpanel>
     );
 };
