@@ -1,19 +1,31 @@
 import {
-    Dag,
     DagerIgjen,
-    Dagtype,
-    DataForVilkårsvurdering,
     Hendelse,
+    Hendelsestype,
     Inntektskilde,
     Inntektsmelding,
     Opptjening,
-    SendtSøknad,
-    SpleisVedtaksperiode,
+    Personinfo,
+    Sykmelding,
+    Søknad,
     Søknadsfrist,
-    Vedtaksperiode
+    Vedtaksperiode,
+    Vedtaksperiodetilstand
 } from '../types';
-import { Personinfo, VedtaksperiodeTilstand } from '../../../types';
+import { SpleisVedtaksperiodetilstand } from '../../../types';
 import dayjs, { Dayjs } from 'dayjs';
+import {
+    DataForVilkårsvurdering,
+    SpleisSykdomsdag,
+    SpleisSykdomsdagtype,
+    SpleisVedtaksperiode
+} from './external.types';
+import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
+import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
+
+export const somDato = (dato: string): Dayjs => dayjs(dato, ISO_DATOFORMAT);
+export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
+export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
 
 export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
@@ -22,52 +34,71 @@ export const mapVedtaksperiode = (
     dataForVilkårsvurdering?: DataForVilkårsvurdering,
     organisasjonsnummer?: string
 ): Vedtaksperiode => {
-    const somDato = (dato: string): Dayjs => dayjs(dato, 'YYYY-MM-DD');
     const somProsent = (avviksprosent?: number): number | undefined =>
         avviksprosent !== undefined ? avviksprosent * 100 : undefined;
     const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined =>
         inntekt ? +(inntekt * måneder).toFixed(2) : undefined;
     const somÅrsinntekt = (inntekt?: number): number | undefined => somInntekt(inntekt, 12);
+    const spleisPeriode = filtrerPaddedeArbeidsdager(unmappedPeriode);
 
-    const inntektsmelding = hendelser.find(hendelse => hendelse.type === 'INNTEKTSMELDING') as Inntektsmelding;
-    const periode = filtrerPaddedeArbeidsdager(unmappedPeriode);
+    const sykdomstidslinje = tilSykdomstidslinje(spleisPeriode.sykdomstidslinje);
+    const utbetalingstidslinje = tilUtbetalingstidslinje(spleisPeriode.utbetalingstidslinje);
+    const utbetalingslinjer = spleisPeriode.utbetalingslinjer;
 
-    const totaltTilUtbetaling = periode.utbetalingstidslinje
-        .map(dag => dag.utbetaling)
-        .filter(utbetaling => utbetaling !== undefined)
-        .reduce((acc, dagsats) => acc + dagsats, 0);
+    const totaltTilUtbetaling: number =
+        utbetalingstidslinje
+            .map(dag => dag.utbetaling)
+            .filter(utbetaling => utbetaling !== undefined)
+            .reduce((acc: number, dagsats: number) => acc + dagsats, 0) ?? 0;
+    const fom = [...sykdomstidslinje].shift()!.dato;
+    const tom = [...sykdomstidslinje].pop()!.dato;
 
-    const fom = [...periode.sykdomstidslinje].shift()!.dagen;
-    const tom = [...periode.sykdomstidslinje].pop()!.dagen;
+    const inntektsmelding: Inntektsmelding | undefined = hendelser.find(
+        hendelse => hendelse.type === Hendelsestype.Inntektsmelding
+    ) as Inntektsmelding;
+
+    const søknad = hendelser.find(
+        hendelse =>
+            hendelse.type === Hendelsestype.Søknad &&
+            hendelse.fom.isSameOrBefore(fom) &&
+            hendelse.tom.isSameOrAfter(tom)
+    ) as Søknad;
+    const sykmelding = hendelser.find(
+        hendelse =>
+            hendelse.type === Hendelsestype.Sykmelding &&
+            hendelse.fom.isSameOrBefore(fom) &&
+            hendelse.tom.isSameOrAfter(tom)
+    ) as Sykmelding;
+
     const kanVelges =
         [
-            VedtaksperiodeTilstand.AVVENTER_GODKJENNING,
-            VedtaksperiodeTilstand.TIL_UTBETALING,
-            VedtaksperiodeTilstand.TIL_INFOTRYGD,
-            VedtaksperiodeTilstand.ANNULLERT,
-            VedtaksperiodeTilstand.UTBETALING_FEILET
-        ].includes(periode.tilstand as VedtaksperiodeTilstand) ||
-        (periode.tilstand === VedtaksperiodeTilstand.AVSLUTTET && totaltTilUtbetaling > 0);
+            SpleisVedtaksperiodetilstand.AVVENTER_GODKJENNING,
+            SpleisVedtaksperiodetilstand.TIL_UTBETALING,
+            SpleisVedtaksperiodetilstand.TIL_INFOTRYGD,
+            SpleisVedtaksperiodetilstand.ANNULLERT,
+            SpleisVedtaksperiodetilstand.UTBETALING_FEILET
+        ].includes(spleisPeriode.tilstand as SpleisVedtaksperiodetilstand) ||
+        (spleisPeriode.tilstand === SpleisVedtaksperiodetilstand.AVSLUTTET && totaltTilUtbetaling > 0);
 
-    const dagsats = periode.utbetalingslinjer?.[0]?.dagsats;
+    const dagsats = utbetalingslinjer?.[0]?.dagsats;
 
     const alderISykmeldingsperioden = (): number | undefined => {
-        const sisteSykedag = [...periode.sykdomstidslinje].pop()?.dagen;
+        const sisteSykedag: Dayjs | undefined = [...sykdomstidslinje].pop()?.dato;
         if (sisteSykedag === undefined || personinfo.fødselsdato === undefined) return undefined;
 
-        return somDato(sisteSykedag).diff(somDato(personinfo.fødselsdato), 'year', false);
+        return sisteSykedag.diff(personinfo.fødselsdato, 'year', false);
     };
 
     const dagerIgjen = (): DagerIgjen => {
         const førsteSykepengedag =
-            periode.utbetalingslinjer && periode.utbetalingslinjer.length > 0
-                ? dayjs.min(periode.utbetalingslinjer.map(linje => somDato(linje.fom))).format('YYYY-MM-DD')
+            spleisPeriode.utbetalingslinjer && spleisPeriode.utbetalingslinjer.length > 0
+                ? dayjs.min(spleisPeriode.utbetalingslinjer.map(linje => somDato(linje.fom)))
                 : undefined;
         return {
-            dagerBrukt: periode.forbrukteSykedager,
+            dagerBrukt: spleisPeriode.forbrukteSykedager,
             førsteFraværsdag: inntektsmelding?.førsteFraværsdag,
             førsteSykepengedag: førsteSykepengedag,
-            maksdato: periode.maksdato,
+            maksdato: somDato(spleisPeriode.maksdato),
             tidligerePerioder: []
         };
     };
@@ -79,29 +110,16 @@ export const mapVedtaksperiode = (
         return {
             antallOpptjeningsdagerErMinst: antallOpptjeningsdagerErMinst,
             harOpptjening: dataForVilkårsvurdering.harOpptjening,
-            opptjeningFra: somDato(periode.førsteFraværsdag)
-                .subtract(antallOpptjeningsdagerErMinst, 'day')
-                .format('DD.MM.YYYY')
+            opptjeningFra: somDato(spleisPeriode.førsteFraværsdag).subtract(antallOpptjeningsdagerErMinst, 'day')
         };
     };
 
     const søknadsfrist = (): Søknadsfrist | undefined => {
-        const sendtSøknad = hendelser.find(
-            hendelse =>
-                hendelse.type === 'SENDT_SØKNAD' &&
-                dayjs(hendelse.fom).isSameOrBefore(dayjs(fom)) &&
-                dayjs(hendelse.tom).isSameOrAfter(dayjs(tom))
-        ) as SendtSøknad;
-        if (sendtSøknad === undefined) return undefined;
+        if (søknad === undefined) return undefined;
         return {
-            sendtNav: sendtSøknad.sendtNav,
-            søknadTom: sendtSøknad.tom,
-            innen3Mnd:
-                sendtSøknad.sendtNav && sendtSøknad.tom
-                    ? somDato(sendtSøknad.tom)
-                          .add(3, 'month')
-                          .isSameOrAfter(somDato(sendtSøknad.sendtNav))
-                    : false
+            sendtNav: søknad.sendtNav,
+            søknadTom: søknad.tom,
+            innen3Mnd: søknad.sendtNav && søknad.tom ? søknad.tom.add(3, 'month').isSameOrAfter(søknad.sendtNav) : false
         };
     };
 
@@ -110,8 +128,8 @@ export const mapVedtaksperiode = (
             organisasjonsnummer,
             månedsinntekt: somInntekt(inntektsmelding?.beregnetInntekt),
             årsinntekt: somÅrsinntekt(inntektsmelding?.beregnetInntekt),
-            refusjon: 'Ja',
-            forskuttering: 'Ja'
+            refusjon: true,
+            forskuttering: true
         }
     ];
 
@@ -123,21 +141,61 @@ export const mapVedtaksperiode = (
     };
 
     const oppsummering = {
-        antallUtbetalingsdager: periode.utbetalingstidslinje.filter(dag => dag.utbetaling > 0).length,
+        antallUtbetalingsdager: spleisPeriode.utbetalingstidslinje.filter(dag => dag.utbetaling > 0).length,
         totaltTilUtbetaling
     };
 
+    const mapTilstand = (
+        tilstand: SpleisVedtaksperiodetilstand,
+        totaltTilUtbetaling: number
+    ): Vedtaksperiodetilstand => {
+        switch (tilstand) {
+            case SpleisVedtaksperiodetilstand.AVSLUTTET:
+                return totaltTilUtbetaling > 0
+                    ? Vedtaksperiodetilstand.Utbetalt
+                    : Vedtaksperiodetilstand.IngenUtbetaling;
+            case SpleisVedtaksperiodetilstand.AVVENTER_GODKJENNING:
+                return Vedtaksperiodetilstand.Oppgaver;
+            case SpleisVedtaksperiodetilstand.TIL_UTBETALING:
+                return Vedtaksperiodetilstand.TilUtbetaling;
+            case SpleisVedtaksperiodetilstand.UTBETALING_FEILET:
+                return Vedtaksperiodetilstand.Feilet;
+            case SpleisVedtaksperiodetilstand.START:
+            case SpleisVedtaksperiodetilstand.MOTTATT_SYKMELDING_FERDIG_FORLENGELSE:
+            case SpleisVedtaksperiodetilstand.MOTTATT_SYKMELDING_UFERDIG_FORLENGELSE:
+            case SpleisVedtaksperiodetilstand.MOTTATT_SYKMELDING_FERDIG_GAP:
+            case SpleisVedtaksperiodetilstand.MOTTATT_SYKMELDING_UFERDIG_GAP:
+            case SpleisVedtaksperiodetilstand.AVVENTER_SØKNAD_FERDIG_GAP:
+            case SpleisVedtaksperiodetilstand.AVVENTER_SØKNAD_UFERDIG_GAP:
+            case SpleisVedtaksperiodetilstand.AVVENTER_VILKÅRSPRØVING_GAP:
+            case SpleisVedtaksperiodetilstand.AVVENTER_GAP:
+            case SpleisVedtaksperiodetilstand.AVVENTER_INNTEKTSMELDING_FERDIG_GAP:
+            case SpleisVedtaksperiodetilstand.AVVENTER_INNTEKTSMELDING_UFERDIG_GAP:
+            case SpleisVedtaksperiodetilstand.AVVENTER_UFERDIG_GAP:
+            case SpleisVedtaksperiodetilstand.AVVENTER_INNTEKTSMELDING_UFERDIG_FORLENGELSE:
+            case SpleisVedtaksperiodetilstand.AVVENTER_SØKNAD_UFERDIG_FORLENGELSE:
+            case SpleisVedtaksperiodetilstand.AVVENTER_UFERDIG_FORLENGELSE:
+            case SpleisVedtaksperiodetilstand.AVVENTER_HISTORIKK:
+            case SpleisVedtaksperiodetilstand.TIL_INFOTRYGD:
+                return Vedtaksperiodetilstand.Venter;
+            case SpleisVedtaksperiodetilstand.ANNULLERT:
+                return Vedtaksperiodetilstand.Avslag;
+            default:
+                return Vedtaksperiodetilstand.Ukjent;
+        }
+    };
+
     return {
-        id: periode.id,
+        id: spleisPeriode.id,
         fom,
         tom,
         kanVelges,
-        tilstand: periode.tilstand as VedtaksperiodeTilstand,
-        utbetalingsreferanse: periode.utbetalingsreferanse,
-        utbetalingstidslinje: periode.utbetalingstidslinje,
-        sykdomstidslinje: periode.sykdomstidslinje,
-        godkjentAv: periode.godkjentAv,
-        godkjentTidspunkt: periode.godkjenttidspunkt,
+        tilstand: mapTilstand(spleisPeriode.tilstand as SpleisVedtaksperiodetilstand, oppsummering.totaltTilUtbetaling),
+        utbetalingsreferanse: spleisPeriode.utbetalingsreferanse,
+        utbetalingstidslinje: utbetalingstidslinje,
+        sykdomstidslinje: sykdomstidslinje,
+        godkjentAv: spleisPeriode.godkjentAv,
+        godkjentTidspunkt: somKanskjeDato(spleisPeriode.godkjentTidspunkt),
         vilkår: {
             alderISykmeldingsperioden: alderISykmeldingsperioden(),
             dagerIgjen: dagerIgjen(),
@@ -147,23 +205,28 @@ export const mapVedtaksperiode = (
         inntektskilder: inntektskilder,
         sykepengegrunnlag: sykepengegrunnlag,
         oppsummering: oppsummering,
-        rawData: unmappedPeriode
+        rawData: unmappedPeriode,
+        dokumenter: {
+            søknad: søknad,
+            sykmelding: sykmelding,
+            inntektsmelding: inntektsmelding
+        }
     };
 };
 
 const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpleisVedtaksperiode): SpleisVedtaksperiode => {
-    const arbeidsdagEllerImplisittDag = (dag: Dag) =>
-        dag.type === Dagtype.ARBEIDSDAG_INNTEKTSMELDING ||
-        dag.type === Dagtype.ARBEIDSDAG_SØKNAD ||
-        dag.type === Dagtype.IMPLISITT_DAG;
+    const arbeidsdagEllerImplisittDag = (dag: SpleisSykdomsdag) =>
+        dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING ||
+        dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD ||
+        dag.type === SpleisSykdomsdagtype.IMPLISITT_DAG;
     const førsteArbeidsdag = vedtaksperiode.sykdomstidslinje.findIndex(arbeidsdagEllerImplisittDag);
     if (førsteArbeidsdag !== 0) return vedtaksperiode;
 
     const førsteIkkeArbeidsdag = vedtaksperiode.sykdomstidslinje.findIndex(
         dag =>
-            dag.type !== Dagtype.ARBEIDSDAG_INNTEKTSMELDING &&
-            dag.type !== Dagtype.ARBEIDSDAG_SØKNAD &&
-            dag.type !== Dagtype.IMPLISITT_DAG
+            dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING &&
+            dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD &&
+            dag.type !== SpleisSykdomsdagtype.IMPLISITT_DAG
     );
 
     return {

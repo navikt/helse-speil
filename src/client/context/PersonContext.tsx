@@ -1,17 +1,16 @@
 import React, { createContext, ReactChild, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { mapPerson } from './mapping/personmapper';
+import { tilPerson, tilPersonMedInfo } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Optional, Person, Vedtaksperiode } from './types';
-import { VedtaksperiodeTilstand } from '../../types';
+import { Person, Vedtaksperiode } from './types';
 
 interface PersonContextType {
-    hentPerson: (id: string) => Promise<Optional<Person>>;
-    innsyn: boolean; // TODO: Rename denne til noe som gir mer mening.
+    hentPerson: (id: string) => Promise<Person | undefined>;
+    innsyn: boolean;
     aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
-    oppdaterPerson: (aktørId: string) => Promise<Optional<Person>>;
+    oppdaterPerson: (aktørId: string) => Promise<Person | undefined>;
     personTilBehandling?: Person;
 }
 
@@ -42,9 +41,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     useEffect(() => {
         if (personTilBehandling) {
             const klarTilBehandling = (vedtaksperiode: Vedtaksperiode) => vedtaksperiode.kanVelges;
-            const defaultVedtaksperiode = personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(
-                klarTilBehandling
-            );
+            const defaultVedtaksperiode = personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(klarTilBehandling);
             setAktivVedtaksperiode(defaultVedtaksperiode);
         }
     }, [personTilBehandling]);
@@ -72,7 +69,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                     ...response.data
                 }));
                 const person = { ...response.data.person, personinfo };
-                setPersonTilBehandling(mapPerson(person, personinfo));
+                setPersonTilBehandling(tilPerson(person, personinfo));
                 return person;
             })
             .catch(err => {
@@ -91,10 +88,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     const oppdaterPerson = (aktørId: string) => {
         return fetchPerson(aktørId, false)
             .then(response => {
-                const oppdatertPerson = mapPerson(
-                    response.data.person,
-                    personTilBehandling!.personinfo
-                );
+                const oppdatertPerson = tilPersonMedInfo(response.data.person, personTilBehandling!.personinfo);
                 setPersonTilBehandling(oppdatertPerson);
                 return oppdatertPerson;
             })

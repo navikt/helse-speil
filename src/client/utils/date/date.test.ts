@@ -1,29 +1,24 @@
 import '@testing-library/jest-dom/extend-expect';
-import { daysBetween, findLatest, listOfDatesBetween, arbeidsdagerMellom, toDate } from './index';
-
-test('toDate', () => {
-    expect(toDate('notadate')).toEqual('Invalid date');
-    expect(toDate('12.4.2019')).toEqual('12.04.2019');
-    expect(toDate('2019-05-09T00:00:00.000Z')).toEqual('09.05.2019');
-});
+import { arbeidsdagerMellom, daysBetween, findLatest } from './index';
+import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 
 test('daysBetween', () => {
-    expect(daysBetween(toDate('12.4.2019'), toDate('15.4.2019'))).toEqual(3);
-    expect(daysBetween(toDate('1.3.2019'), toDate('1.4.2019'))).toEqual(31);
+    expect(daysBetween(somDato('2019-04-12'), somDato('2019-04-15'))).toEqual(3);
+    expect(daysBetween(somDato('2019-03-01'), somDato('2019-04-01'))).toEqual(31);
 });
 
 test('findLatest', () => {
-    const dates = ['2018-01-31', '2018-02-26', '2018-02-27', '2017-01-31'];
-    expect(findLatest(dates)).toEqual('2018-02-27');
+    const dates = [somDato('2018-01-31'), somDato('2018-02-26'), somDato('2018-02-27'), somDato('2017-01-31')];
+    expect(findLatest(dates)).toEqual(somDato('2018-02-27'));
 });
 
 test('listOfWorkdaysBetween', () => {
-    const first = '2018-01-03';
-    const last = '2018-01-08';
+    const first = somDato('2018-01-03');
+    const last = somDato('2018-01-08');
     expect(arbeidsdagerMellom(first, last)).toEqual([
-        '2018-01-03',
-        '2018-01-04',
-        '2018-01-05',
-        '2018-01-08'
+        somDato('2018-01-03'),
+        somDato('2018-01-04'),
+        somDato('2018-01-05'),
+        somDato('2018-01-08')
     ]);
 });

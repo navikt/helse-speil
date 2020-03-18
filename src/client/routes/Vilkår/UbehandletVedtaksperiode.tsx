@@ -23,14 +23,14 @@ const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperi
                 <FlexColumn>
                     <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} />
                     <Vilkårsgrupper.Søknadsfrist
-                        innen3Mnd={vilkår.søknadsfrist.innen3Mnd}
-                        sendtNav={vilkår.søknadsfrist.sendtNav!}
-                        sisteSykepengedag={vilkår.søknadsfrist.søknadTom!}
+                        innen3Mnd={vilkår.søknadsfrist?.innen3Mnd}
+                        sendtNav={vilkår.søknadsfrist?.sendtNav!}
+                        sisteSykepengedag={vilkår.søknadsfrist?.søknadTom!}
                     />
                     {vilkår.opptjening ? (
                         <Vilkårsgrupper.Opptjeningstid
                             harOpptjening={vilkår.opptjening.harOpptjening}
-                            førsteFraværsdag={vilkår.dagerIgjen.førsteFraværsdag}
+                            førsteFraværsdag={vilkår.dagerIgjen?.førsteFraværsdag}
                             opptjeningFra={vilkår.opptjening.opptjeningFra}
                             antallOpptjeningsdagerErMinst={vilkår.opptjening.antallOpptjeningsdagerErMinst}
                         />
@@ -43,10 +43,10 @@ const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperi
                         sykepengegrunnlag={sykepengegrunnlag.årsinntektFraInntektsmelding!}
                     />
                     <Vilkårsgrupper.DagerIgjen
-                        førsteFraværsdag={vilkår.dagerIgjen.førsteFraværsdag}
-                        førsteSykepengedag={vilkår.dagerIgjen.førsteSykepengedag}
-                        dagerBrukt={vilkår.dagerIgjen.dagerBrukt}
-                        maksdato={vilkår.dagerIgjen.maksdato}
+                        førsteFraværsdag={vilkår.dagerIgjen?.førsteFraværsdag}
+                        førsteSykepengedag={vilkår.dagerIgjen?.førsteSykepengedag}
+                        dagerBrukt={vilkår.dagerIgjen?.dagerBrukt}
+                        maksdato={vilkår.dagerIgjen?.maksdato}
                     />
                 </FlexColumn>
             </StyledUbehandletInnhold>

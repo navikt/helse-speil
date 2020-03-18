@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import Navigasjonsknapper from '../components/NavigationButtons';
-import { PersonContext } from '../context/PersonContext';
-import { Sykmeldingstabell } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
-import { sykdomstidslinje } from '../context/mapping/dagmapper';
+import Navigasjonsknapper from '../components/NavigationButtons';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { PersonContext } from '../context/PersonContext';
+import { NORSK_DATOFORMAT } from '../utils/date';
+import { Dag, Dagtype, Sykmeldingstabell } from '@navikt/helse-frontend-tabell';
 
 const Container = styled.div`
     padding: 1.5rem 2rem;
@@ -15,11 +16,19 @@ const Container = styled.div`
 
 const Sykmeldingsperiode = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
-    const dager = sykdomstidslinje(aktivVedtaksperiode);
+
+    const dager: Dag[] | undefined = aktivVedtaksperiode?.sykdomstidslinje.map(dag => ({
+        dato: dag.dato.format(NORSK_DATOFORMAT),
+        type: dag.type as Dagtype,
+        gradering: dag.gradering,
+        kilde: {
+            label: dag.kilde!
+        }
+    }));
 
     return (
         <Container>
-            <Sykmeldingstabell dager={dager} />
+            {dager ? <Sykmeldingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}
             <Navigasjonsknapper />
         </Container>
     );

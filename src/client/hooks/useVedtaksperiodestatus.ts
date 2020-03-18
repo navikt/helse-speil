@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 import { PersonContext } from '../context/PersonContext';
+import { somDato } from '../context/mapping/vedtaksperiodemapper';
+import { NORSK_DATOFORMAT } from '../utils/date';
 
 export enum VedtaksperiodeStatus {
     Ubehandlet = 'ubehandlet',
@@ -13,11 +15,10 @@ export const useVedtaksperiodestatus = (): VedtaksperiodeStatus | undefined => {
     if (!aktivVedtaksperiode) return undefined;
 
     const erFørstePeriode =
-        aktivVedtaksperiode.rawData.førsteFraværsdag ===
-        aktivVedtaksperiode.sykdomstidslinje[0].dagen;
+        somDato(aktivVedtaksperiode.rawData.førsteFraværsdag).format(NORSK_DATOFORMAT) ===
+        aktivVedtaksperiode.sykdomstidslinje[0].dato.format(NORSK_DATOFORMAT);
     const erGodkjent =
-        aktivVedtaksperiode.rawData.godkjentAv !== null &&
-        aktivVedtaksperiode.rawData.godkjentAv !== undefined;
+        aktivVedtaksperiode.rawData.godkjentAv !== null && aktivVedtaksperiode.rawData.godkjentAv !== undefined;
 
     if (erGodkjent) {
         return VedtaksperiodeStatus.Behandlet;

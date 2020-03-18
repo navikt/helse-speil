@@ -25,7 +25,7 @@ const Vilkår = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const periodeStatus = useVedtaksperiodestatus();
 
-    if (!aktivVedtaksperiode?.vilkår) return null;
+    if (!aktivVedtaksperiode?.vilkår || personTilBehandling === undefined) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 

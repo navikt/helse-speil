@@ -1,8 +1,9 @@
 import React from 'react';
-import { render, cleanup } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import TidligerePerioderModal from './TidligerePerioderModal';
 import ReactModal from 'react-modal';
 import '@testing-library/jest-dom/extend-expect';
+import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 
 afterEach(cleanup);
 
@@ -10,12 +11,12 @@ ReactModal.setAppElement('*'); // suppresses modal-related test warnings.
 
 const modalProps = {
     perioder: [
-        { fom: '2019-04-02', tom: '2019-04-13' },
-        { fom: '2019-02-02', tom: '2019-02-13' },
-        { fom: '2018-04-02', tom: '2018-04-13' }
+        { fom: somDato('2019-04-02'), tom: somDato('2019-04-13') },
+        { fom: somDato('2019-02-02'), tom: somDato('2019-02-13') },
+        { fom: somDato('2018-04-02'), tom: somDato('2018-04-13') }
     ],
     onClose: jest.fn().mockImplementation(() => {}),
-    førsteFraværsdag: '2019-07-23'
+    førsteFraværsdag: somDato('2019-07-23')
 };
 
 test('list of periods with 26 weeks interval', async () => {
@@ -33,9 +34,9 @@ test('list of periods without 26 weeks interval', async () => {
         <TidligerePerioderModal
             {...modalProps}
             perioder={[
-                { fom: '2019-04-02', tom: '2019-04-13' },
-                { fom: '2019-02-02', tom: '2019-02-13' },
-                { fom: '2019-01-02', tom: '2019-01-13' }
+                { fom: somDato('2019-04-02'), tom: somDato('2019-04-13') },
+                { fom: somDato('2019-02-02'), tom: somDato('2019-02-13') },
+                { fom: somDato('2019-01-02'), tom: somDato('2019-01-13') }
             ]}
         />
     );
@@ -47,9 +48,9 @@ test('list of periods with 26 weeks interval at the beginning', async () => {
         <TidligerePerioderModal
             {...modalProps}
             perioder={[
-                { fom: '2018-04-02', tom: '2018-04-13' },
-                { fom: '2018-02-02', tom: '2018-02-13' },
-                { fom: '2017-04-02', tom: '2017-04-13' }
+                { fom: somDato('2018-04-02'), tom: somDato('2018-04-13') },
+                { fom: somDato('2018-02-02'), tom: somDato('2018-02-13') },
+                { fom: somDato('2017-04-02'), tom: somDato('2017-04-13') }
             ]}
         />
     );

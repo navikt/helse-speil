@@ -26,107 +26,133 @@
                     "sykdomstidslinje": [
                         {
                             "dagen": "2019-09-10",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-11",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-12",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-13",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-14",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-15",
-                            "type": "SYK_HELGEDAG_SYKMELDING"
+                            "type": "SYK_HELGEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-16",
-                            "type": "SYK_HELGEDAG_SYKMELDING"
+                            "type": "SYK_HELGEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-17",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-18",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-19",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-20",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-21",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-22",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-23",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-24",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-25",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-26",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-27",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-28",
-                            "type": "SYKEDAG_SYKMELDING"
+                            "type": "SYKEDAG_SYKMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-29",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-09-30",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-10-01",
-                            "type": "FERIEDAG_INNTEKTSMELDING"
+                            "type": "FERIEDAG_INNTEKTSMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-10-02",
-                            "type": "FERIEDAG_INNTEKTSMELDING"
+                            "type": "FERIEDAG_INNTEKTSMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-10-03",
-                            "type": "FERIEDAG_INNTEKTSMELDING"
+                            "type": "FERIEDAG_INNTEKTSMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-10-04",
-                            "type": "FERIEDAG_INNTEKTSMELDING"
+                            "type": "FERIEDAG_INNTEKTSMELDING",
+                            "grad": 100
                         },
                         {
                             "dagen": "2019-10-05",
-                            "type": "SYK_HELGEDAG_SØKNAD"
+                            "type": "SYK_HELGEDAG_SØKNAD",
+                            "grad": 100
                         }
                     ],
                     "utbetalingslinjer": [
@@ -140,135 +166,161 @@
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-10"
+                            "dato": "2019-09-10",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-11"
+                            "dato": "2019-09-11",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-12"
+                            "dato": "2019-09-12",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-13"
+                            "dato": "2019-09-13",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-14"
+                            "dato": "2019-09-14",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-15"
+                            "dato": "2019-09-15",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-16"
+                            "dato": "2019-09-16",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-17"
+                            "dato": "2019-09-17",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-18"
+                            "dato": "2019-09-18",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-19"
+                            "dato": "2019-09-19",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-20"
+                            "dato": "2019-09-20",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-21"
+                            "dato": "2019-09-21",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-22"
+                            "dato": "2019-09-22",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-23"
+                            "dato": "2019-09-23",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-24"
+                            "dato": "2019-09-24",
+                            "grad": 100
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 1430.77,
-                            "dato": "2019-09-25"
+                            "dato": "2019-09-25",
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2019-09-26",
+                            "grad": 100,
                             "utbetaling": 1431
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2019-09-27",
+                            "grad": 100,
                             "utbetaling": 1431
                         },
                         {
                             "type": "NavHelgDag",
                             "inntekt": 0.0,
-                            "dato": "2019-09-28"
+                            "dato": "2019-09-28",
+                            "grad": 100
                         },
                         {
                             "type": "NavHelgDag",
                             "inntekt": 0.0,
-                            "dato": "2019-09-29"
+                            "dato": "2019-09-29",
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2019-09-30",
+                            "grad": 100,
                             "utbetaling": 1431
                         },
                         {
                             "type": "Fridag",
                             "inntekt": 1430.77,
-                            "dato": "2019-10-01"
+                            "dato": "2019-10-01",
+                            "grad": 100
                         },
                         {
                             "type": "Fridag",
                             "inntekt": 1430.77,
-                            "dato": "2019-10-02"
+                            "dato": "2019-10-02",
+                            "grad": 100
                         },
                         {
                             "type": "Fridag",
                             "inntekt": 1430.77,
-                            "dato": "2019-10-03"
+                            "dato": "2019-10-03",
+                            "grad": 100
                         },
                         {
                             "type": "Fridag",
                             "inntekt": 1430.77,
-                            "dato": "2019-10-04"
+                            "dato": "2019-10-04",
+                            "grad": 100
                         },
                         {
                             "type": "NavHelgDag",
                             "inntekt": 0.0,
-                            "dato": "2019-10-05"
+                            "dato": "2019-10-05",
+                            "grad": 100
                         }
                     ]
                 }

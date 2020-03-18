@@ -6,7 +6,8 @@ import { Simulering } from '../../context/SimuleringContext';
 import ListItem from '../../components/ListItem';
 import { toKronerOgØre } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Utbetalingsdetalj } from '../../context/types';
+import { NORSK_DATOFORMAT } from '../../utils/date';
+import { Utbetalingsdetalj } from '../../context/mapping/external.types';
 
 const Underliste = styled(List)`
     &:not(:last-child) {
@@ -14,7 +15,7 @@ const Underliste = styled(List)`
     }
 `;
 
-const formaterDato = (forfall: string) => dayjs(forfall).format('DD.MM.YYYY');
+const formaterDato = (forfall: string) => dayjs(forfall).format(NORSK_DATOFORMAT);
 
 interface SimuleringProps {
     simulering: Simulering;

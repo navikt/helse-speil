@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import OversiktsLenke from './OversiktsLenke';
-import { toDate } from '../../utils/date';
 import { AuthContext } from '../../context/AuthContext';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { Tildeling } from '../../context/types';
 import { Behov } from '../../../types';
+import { somDato } from '../../context/mapping/vedtaksperiodemapper';
+import { NORSK_DATOFORMAT } from '../../utils/date';
 
 interface Props {
     behov: Behov;
@@ -16,13 +17,7 @@ interface Props {
     tildeling?: Tildeling;
 }
 
-const Oversiktslinje = ({
-    behov,
-    tildeling,
-    onUnassignCase,
-    onAssignCase,
-    onSelectCase
-}: Props) => {
+const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
     const { authInfo } = useContext(AuthContext);
 
     const tildelingsCelle = tildeling?.userId ? (
@@ -45,7 +40,7 @@ const Oversiktslinje = ({
             <OversiktsLenke onClick={() => onSelectCase(behov)}>
                 {behov.personinfo?.navn ?? behov.aktørId}
             </OversiktsLenke>
-            <Normaltekst>{`${toDate(behov['@opprettet'])}`}</Normaltekst>
+            <Normaltekst>{`${somDato(behov['@opprettet']).format(NORSK_DATOFORMAT)}`}</Normaltekst>
             <span className="row__tildeling">{tildelingsCelle}</span>
         </li>
     );

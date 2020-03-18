@@ -1,359 +1,2460 @@
 {
-    "aktørId": "87654321962123",
+    "aktørId": "1808454582341",
     "fødselsnummer": "12020052345",
     "arbeidsgivere": [
         {
-            "organisasjonsnummer": "987654321",
-            "id": "06f06948-2cb0-4061-b5a8-a77cd84ea49e",
+            "organisasjonsnummer": "982708672",
+            "id": "788c4c0a-61c1-4f74-bc93-52bdd49e000c",
             "vedtaksperioder": [
                 {
                     "utbetalingstidslinje": [
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-01"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-02"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-03"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-04"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-05"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-06"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-07"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-08"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-09"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-10"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-11"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-12"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-13"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-14"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-15"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-16"
-                        },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-01" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-02" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-03" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-04" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-05" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-06" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-07" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-08" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-09" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-10" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-11" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-12" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-13" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-14" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-15" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1153.85, "dato": "2020-01-16" },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-17",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
-                        { "type": "NavHelgDag", "inntekt": 0.0, "dato": "2020-01-18" },
-                        { "type": "NavHelgDag", "inntekt": 0.0, "dato": "2020-01-19" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-01-18" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-01-19" },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-20",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-21",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-22",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-23",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-24",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
-                        { "type": "NavHelgDag", "inntekt": 0.0, "dato": "2020-01-25" },
-                        { "type": "NavHelgDag", "inntekt": 0.0, "dato": "2020-01-26" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-01-25" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-01-26" },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-27",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-28",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-29",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-30",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-01-31",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         }
                     ],
-                    "id": "02011154-5d09-4895-b4bc-fb86d3661216",
+                    "id": "5980b451-9a13-4a1c-9219-d9105c5b7415",
                     "maksdato": "2020-12-29",
                     "forbrukteSykedager": 11,
-                    "godkjentAv": "en_saksbehandler_ident",
-                    "godkjenttidspunkt": "2020-03-09T12:14:59.013932",
-                    "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
+                    "godkjentAv": "R154509",
+                    "godkjentTidspunkt": "2020-03-18T13:18:51.787411",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
-                    "inntektFraInntektsmelding": 3.1e4,
+                    "inntektFraInntektsmelding": 25000,
                     "dataForVilkårsvurdering": {
                         "erEgenAnsatt": false,
-                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
-                        "avviksprosent": 0.24,
-                        "antallOpptjeningsdagerErMinst": 1095,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
                         "harOpptjening": true
                     },
-                    "tilstand": "TIL_UTBETALING",
                     "sykdomstidslinje": [
-                        { "dagen": "2020-01-01", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-02", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-03", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        {
-                            "dagen": "2020-01-04",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        {
-                            "dagen": "2020-01-05",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        { "dagen": "2020-01-06", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-07", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-08", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-09", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-10", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        {
-                            "dagen": "2020-01-11",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        {
-                            "dagen": "2020-01-12",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        { "dagen": "2020-01-13", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-14", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-15", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-16", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-17", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        {
-                            "dagen": "2020-01-18",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        {
-                            "dagen": "2020-01-19",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        { "dagen": "2020-01-20", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-21", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-22", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-23", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-24", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        {
-                            "dagen": "2020-01-25",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        {
-                            "dagen": "2020-01-26",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        { "dagen": "2020-01-27", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-28", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-29", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-30", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-31", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
+                        { "dagen": "2020-01-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-04", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-05", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-08", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-11", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-12", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-15", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-18", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-19", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-22", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-25", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-26", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-01-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
-                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-01-31", "dagsats": 1431 }]
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-01-31", "dagsats": 1154 }]
                 },
                 {
                     "utbetalingstidslinje": [
-                        { "type": "NavHelgDag", "inntekt": 0.0, "dato": "2020-02-01" },
-                        { "type": "NavHelgDag", "inntekt": 0.0, "dato": "2020-02-02" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-01" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-02" },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-02-03",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-02-04",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-02-05",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-02-06",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-02-07",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
                         },
-                        { "type": "NavHelgDag", "inntekt": 0.0, "dato": "2020-02-08" },
-                        { "type": "NavHelgDag", "inntekt": 0.0, "dato": "2020-02-09" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-08" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-09" },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "inntekt": 1153.85,
                             "dato": "2020-02-10",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-11",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-12",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-13",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-14",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-15" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-16" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-18",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-19",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-20",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-21",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-22" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-23" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-25",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-26",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-27",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-02-28",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-02-29" }
+                    ],
+                    "id": "5b1eb5f0-3a46-438b-8833-7f37cb738954",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 31,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:19:36.516553",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-02-01", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-02", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-04", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-05", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-08", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-09", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-11", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-12", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-15", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-16", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-18", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-19", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-22", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-23", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-25", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-26", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-02-29", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-02-28", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-01" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-02",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-03",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-04",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-05",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-06",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-07" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-08" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-09",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-10",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-11",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-12",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-13",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-14" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-15" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-16",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-18",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-19",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-20",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-21" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-22" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-23",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-25",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-26",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-27",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-28" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-29" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-30",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-03-31",
+                            "utbetaling": 1154,
+                            "grad": 100
                         }
                     ],
-                    "id": "b288b1a7-36c5-47d7-a736-0d1ef707538d",
+                    "id": "62540cd0-9e43-41de-97c5-c1decaa646c5",
                     "maksdato": "2020-12-29",
-                    "forbrukteSykedager": 17,
+                    "forbrukteSykedager": 53,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:20:16.644914",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-03-01", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-04", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-05", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-07", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-08", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-11", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-12", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-14", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-15", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-18", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-19", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-21", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-22", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-25", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-26", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-28", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-29", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-03-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-03-31", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-01",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-02",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-03",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-04" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-05" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-06",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-07",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-08",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-09",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-10",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-11" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-12" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-13",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-14",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-15",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-16",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-18" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-19" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-20",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-21",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-22",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-23",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-25" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-26" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-27",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-28",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-29",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-04-30",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        }
+                    ],
+                    "id": "e4547e56-7633-4ca3-8e59-6ef883983f93",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 75,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:21:19.083511",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-04-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-04", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-05", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-08", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-11", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-12", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-15", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-18", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-19", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-22", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-25", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-26", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-04-30", "type": "SYKEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-04-30", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-01",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-02" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-03" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-04",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-05",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-06",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-07",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-08",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-09" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-10" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-11",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-12",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-13",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-14",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-15",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-16" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-17" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-18",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-19",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-20",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-21",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-22",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-23" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-24" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-25",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-26",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-27",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-28",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-05-29",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-30" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-05-31" }
+                    ],
+                    "id": "b9b7b2bc-4ace-4511-b3dc-aeeaac217179",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 96,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:21:25.682194",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-05-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-02", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-03", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-04", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-05", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-08", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-09", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-10", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-11", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-12", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-15", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-16", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-17", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-18", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-19", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-22", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-23", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-24", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-25", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-26", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-30", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-05-31", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-05-29", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-01",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-02",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-03",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-04",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-05",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-06-06" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-06-07" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-08",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-09",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-10",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-11",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-12",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-06-13" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-06-14" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-15",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-16",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-18",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-19",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-06-20" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-06-21" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-22",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-23",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-25",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-26",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-06-27" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-06-28" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-29",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-06-30",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        }
+                    ],
+                    "id": "7dee3a00-8e14-473e-b840-d8f2617b0448",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 118,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:21:29.897164",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-06-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-04", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-05", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-06", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-07", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-08", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-11", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-12", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-13", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-14", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-15", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-18", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-19", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-20", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-21", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-22", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-25", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-26", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-27", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-28", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-06-30", "type": "SYKEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-06-30", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-01",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-02",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-03",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-07-04" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-07-05" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-06",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-07",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-08",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-09",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-10",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-07-11" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-07-12" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-13",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-14",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-15",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-16",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-07-18" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-07-19" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-20",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-21",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-22",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-23",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-07-25" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-07-26" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-27",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-28",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-29",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-30",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-07-31",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        }
+                    ],
+                    "id": "d4a7939f-799e-433a-a4a9-51550f14a8b1",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 141,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:23:06.053293",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-07-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-04", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-05", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-08", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-11", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-12", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-15", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-18", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-19", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-22", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-25", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-26", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-07-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-07-31", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-01" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-02" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-03",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-04",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-05",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-06",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-07",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-08" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-09" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-10",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-11",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-12",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-13",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-14",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-15" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-16" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-18",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-19",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-20",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-21",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-22" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-23" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-25",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-26",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-27",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-28",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-29" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-08-30" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-08-31",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        }
+                    ],
+                    "id": "dde28be1-b9db-4bf7-9d3b-f13037d8d332",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 162,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:23:10.402506",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-08-01", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-02", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-04", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-05", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-08", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-09", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-11", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-12", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-15", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-16", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-18", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-19", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-22", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-23", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-25", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-26", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-29", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-30", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-08-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-08-31", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-01",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-02",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-03",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-04",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-09-05" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-09-06" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-07",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-08",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-09",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-10",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-11",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-09-12" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-09-13" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-14",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-15",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-16",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-18",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-09-19" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-09-20" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-21",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-22",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-23",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-25",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-09-26" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-09-27" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-28",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-29",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-09-30",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        }
+                    ],
+                    "id": "df916bcc-72a7-4dd1-9231-4b24250a5695",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 184,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:23:28.282005",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-09-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-04", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-05", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-06", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-08", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-11", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-12", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-13", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-15", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-18", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-19", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-20", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-22", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-25", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-26", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-27", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-09-30", "type": "SYKEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-09-30", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-01",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-02",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-03" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-04" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-05",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-06",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-07",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-08",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-09",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-10" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-11" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-12",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-13",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-14",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-15",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-16",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-17" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-18" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-19",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-20",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-21",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-22",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-23",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-24" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-25" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-26",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-27",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-28",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-29",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-10-30",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-10-31" }
+                    ],
+                    "id": "427749d4-d9d2-4447-8e00-c51e52ff7a24",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 206,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:23:33.097516",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-10-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-03", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-04", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-05", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-08", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-10", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-11", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-12", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-15", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-17", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-18", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-19", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-22", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-24", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-25", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-26", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-10-31", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-10-30", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-01" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-02",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-03",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-04",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-05",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-06",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-07" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-08" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-09",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-10",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-11",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-12",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-13",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-14" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-15" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-16",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-18",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-19",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-20",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-21" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-22" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-23",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-25",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-26",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-27",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-28" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-11-29" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-11-30",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        }
+                    ],
+                    "id": "f08ad321-e911-4723-a86b-0d032442ee51",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 227,
+                    "godkjentAv": "R154509",
+                    "godkjenttidspunkt": "2020-03-18T13:23:56.207499",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 25000,
+                    "dataForVilkårsvurdering": null,
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-11-01", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-04", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-05", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-06", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-07", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-08", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-11", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-12", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-13", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-14", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-15", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-18", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-19", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-20", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-21", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-22", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-25", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-26", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-27", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-28", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-29", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-11-30", "type": "SYKEDAG_SØKNAD", "grad": 100 }
+                    ],
+                    "tilstand": "AVSLUTTET",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-11-30", "dagsats": 1154 }]
+                },
+                {
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-01",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-02",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-03",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-04",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-12-05" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-12-06" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-07",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-08",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-09",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-10",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-11",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-12-12" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-12-13" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-14",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-15",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-16",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-17",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-18",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-12-19" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-12-20" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-21",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-22",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-23",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-24",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-25",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-12-26" },
+                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-12-27" },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-28",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1153.85,
+                            "dato": "2020-12-29",
+                            "utbetaling": 1154,
+                            "grad": 100
+                        },
+                        {
+                            "type": "AvvistDag",
+                            "inntekt": 0,
+                            "dato": "2020-12-30",
+                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "grad": "NaN"
+                        },
+                        {
+                            "type": "AvvistDag",
+                            "inntekt": 0,
+                            "dato": "2020-12-31",
+                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "grad": "NaN"
+                        }
+                    ],
+                    "id": "0ce8f135-bd26-4e58-a02b-9e5554679532",
+                    "maksdato": "2020-12-29",
+                    "forbrukteSykedager": 248,
                     "godkjentAv": null,
                     "godkjenttidspunkt": null,
-                    "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
+                    "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
-                    "inntektFraInntektsmelding": 3.1e4,
+                    "inntektFraInntektsmelding": 25000,
                     "dataForVilkårsvurdering": null,
-                    "tilstand": "AVVENTER_GODKJENNING",
                     "sykdomstidslinje": [
-                        {
-                            "dagen": "2020-02-01",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        {
-                            "dagen": "2020-02-02",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        { "dagen": "2020-02-03", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-02-04", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-02-05", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-02-06", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-02-07", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        {
-                            "dagen": "2020-02-08",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        {
-                            "dagen": "2020-02-09",
-                            "type": "SYK_HELGEDAG_SØKNAD",
-                            "grad": 100.0
-                        },
-                        { "dagen": "2020-02-10", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
+                        { "dagen": "2020-12-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-03", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-04", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-05", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-06", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-07", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-08", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-09", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-10", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-11", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-12", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-13", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-14", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-15", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-16", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-17", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-18", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-19", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-20", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-21", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-22", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-23", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-24", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-25", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-26", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-27", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
+                        { "dagen": "2020-12-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
-                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-02-10", "dagsats": 1431 }]
+                    "tilstand": "AVVENTER_GODKJENNING",
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-12-29", "dagsats": 1154 }]
                 }
             ]
         }
     ],
     "hendelser": [
+        { "rapportertdato": "2020-01-01T00:00:00", "fom": "2020-01-01", "tom": "2020-01-31", "type": "NY_SØKNAD" },
         {
-            "rapportertdato": "2020-01-01T00:00:00",
-            "fom": "2020-01-01",
-            "tom": "2020-01-31",
-            "type": "NY_SØKNAD"
-        },
-        {
-            "rapportertdato": "2020-01-01T00:00:00",
+            "rapportertdato": "2020-02-01T00:00:00",
             "sendtNav": "2020-02-01T00:00:00",
             "fom": "2020-01-01",
             "tom": "2020-01-31",
@@ -362,20 +2463,95 @@
         {
             "beregnetInntekt": 25000,
             "førsteFraværsdag": "2020-01-01",
-            "mottattDato": "2020-01-05",
+            "mottattDato": "2020-01-01T00:00:00",
             "type": "INNTEKTSMELDING"
         },
         {
-            "rapportertdato": "2020-02-01T00:00:00",
-            "fom": "2020-02-01",
-            "tom": "2020-02-10",
-            "type": "NY_SØKNAD"
+            "rapportertdato": "2020-05-01T00:00:00",
+            "sendtNav": "2020-05-01T00:00:00",
+            "fom": "2020-04-01",
+            "tom": "2020-04-30",
+            "type": "SENDT_SØKNAD"
         },
+        { "rapportertdato": "2020-02-01T00:00:00", "fom": "2020-02-01", "tom": "2020-02-29", "type": "NY_SØKNAD" },
         {
-            "rapportertdato": "2020-02-01T00:00:00",
-            "sendtNav": "2020-02-15T00:00:00",
+            "rapportertdato": "2020-03-01T00:00:00",
+            "sendtNav": "2020-03-01T00:00:00",
             "fom": "2020-02-01",
-            "tom": "2020-02-10",
+            "tom": "2020-02-29",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-03-01T00:00:00", "fom": "2020-03-01", "tom": "2020-03-31", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2020-04-01T00:00:00",
+            "sendtNav": "2020-04-01T00:00:00",
+            "fom": "2020-03-01",
+            "tom": "2020-03-31",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-04-01T00:00:00", "fom": "2020-04-01", "tom": "2020-04-30", "type": "NY_SØKNAD" },
+        { "rapportertdato": "2020-05-01T00:00:00", "fom": "2020-05-01", "tom": "2020-05-31", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2020-06-01T00:00:00",
+            "sendtNav": "2020-06-01T00:00:00",
+            "fom": "2020-05-01",
+            "tom": "2020-05-31",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-06-01T00:00:00", "fom": "2020-06-01", "tom": "2020-06-30", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2020-07-01T00:00:00",
+            "sendtNav": "2020-07-01T00:00:00",
+            "fom": "2020-06-01",
+            "tom": "2020-06-30",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-07-01T00:00:00", "fom": "2020-07-01", "tom": "2020-07-31", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2020-08-01T00:00:00",
+            "sendtNav": "2020-08-01T00:00:00",
+            "fom": "2020-07-01",
+            "tom": "2020-07-31",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-08-01T00:00:00", "fom": "2020-08-01", "tom": "2020-08-31", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2020-09-01T00:00:00",
+            "sendtNav": "2020-09-01T00:00:00",
+            "fom": "2020-08-01",
+            "tom": "2020-08-31",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-09-01T00:00:00", "fom": "2020-09-01", "tom": "2020-09-30", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2020-10-01T00:00:00",
+            "sendtNav": "2020-10-01T00:00:00",
+            "fom": "2020-09-01",
+            "tom": "2020-09-30",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-10-01T00:00:00", "fom": "2020-10-01", "tom": "2020-10-31", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2020-11-01T00:00:00",
+            "sendtNav": "2020-11-01T00:00:00",
+            "fom": "2020-10-01",
+            "tom": "2020-10-31",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-11-01T00:00:00", "fom": "2020-11-01", "tom": "2020-11-30", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2020-12-01T00:00:00",
+            "sendtNav": "2020-12-01T00:00:00",
+            "fom": "2020-11-01",
+            "tom": "2020-11-30",
+            "type": "SENDT_SØKNAD"
+        },
+        { "rapportertdato": "2020-12-01T00:00:00", "fom": "2020-12-01", "tom": "2020-12-31", "type": "NY_SØKNAD" },
+        {
+            "rapportertdato": "2021-01-01T00:00:00",
+            "sendtNav": "2021-01-01T00:00:00",
+            "fom": "2020-12-01",
+            "tom": "2020-12-31",
             "type": "SENDT_SØKNAD"
         }
     ]

@@ -1,5 +1,6 @@
-import { SpleisVedtaksperiode, Tildeling } from '../context/types';
+import { Tildeling } from '../context/types';
 import { Options } from './types';
+import { SpleisVedtaksperiode } from '../context/mapping/external.types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -111,12 +112,7 @@ export const deleteTildeling = async (behandlingsId: string) => {
     return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };
 
-export const postVedtak = async (
-    behovId?: string,
-    aktørId?: string,
-    godkjent?: boolean,
-    vedtaksperiodeId?: string
-) => {
+export const postVedtak = async (behovId?: string, aktørId?: string, godkjent?: boolean, vedtaksperiodeId?: string) => {
     return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, vedtaksperiodeId });
 };
 
@@ -138,11 +134,7 @@ export const postSimulering = async (
     });
 };
 
-export const postAnnullering = async (
-    fødselsnummer: string,
-    utbetalingsreferanse: string,
-    aktørId?: string
-) => {
+export const postAnnullering = async (fødselsnummer: string, utbetalingsreferanse: string, aktørId?: string) => {
     console.log({ fødselsnummer }, { utbetalingsreferanse });
 
     return post(`${baseUrl}/payments/annullering`, {
