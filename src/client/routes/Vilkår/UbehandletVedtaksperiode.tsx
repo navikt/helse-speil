@@ -32,8 +32,6 @@ const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperi
                         sendtNav={vilkår.søknadsfrist.sendtNav!}
                         sisteSykepengedag={vilkår.søknadsfrist.søknadTom!}
                     />
-                </FlexColumn>
-                <FlexColumn>
                     {vilkår.opptjening ? (
                         <Vilkårsgrupper.Opptjeningstid
                             harOpptjening={vilkår.opptjening.harOpptjening}
@@ -44,6 +42,8 @@ const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperi
                     ) : (
                         <Vilkårsgruppe tittel="Opptjening må vurderes manuelt" ikontype="advarsel" paragraf="§8-2" />
                     )}
+                </FlexColumn>
+                <FlexColumn>
                     <Vilkårsgrupper.KravTilSykepengegrunnlag
                         sykepengegrunnlag={sykepengegrunnlag.årsinntektFraInntektsmelding!}
                     />

@@ -23,7 +23,7 @@ export const Tittel = styled(Undertittel)`
     color: #3e3832;
 `;
 
-export const Deloverskrift = ({ tittel, ikon, paragraf }: { tittel: string; ikon: object; paragraf?: string }) => (
+export const Deloverskrift = ({ tittel, ikon, paragraf }: { tittel: string; ikon?: object; paragraf?: string }) => (
     <Vilkårsoverskrift>
         {ikon}
         <Tittel>{tittel}</Tittel>

@@ -14,9 +14,8 @@ const Yrkesskadetekst = styled.span`
 `;
 
 export const Innhold = styled(Grid)`
-    margin: 1rem 1.5rem;
+    padding: 1rem 1.5rem;
     justify-content: start;
-    border-bottom: 1px solid #c6c2bf;
     > div:not(:last-child) {
         margin-right: 14.5rem;
     }

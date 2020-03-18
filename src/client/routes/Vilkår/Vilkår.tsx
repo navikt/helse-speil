@@ -8,11 +8,17 @@ import PåfølgendeVedtaksperiode from './PåfølgendeVedtaksperiode';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import Toppvarsel from '../../components/Toppvarsel';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
-import { StyledIkkeVurderteVilkår } from './Vilkår.styles';
 import IkkeVurderteVilkår from './IkkeVurderteVilkår';
+import Aktivitetsplikt from './Aktivitetsplikt';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
+`;
+
+const Innhold = styled.div`
+    .delinnhold:not(:last-of-type) {
+        border-bottom: 1px solid #c6c2bf;
+    }
 `;
 
 const Vilkår = () => {
@@ -25,21 +31,30 @@ const Vilkår = () => {
 
     return (
         <>
-            <Toppvarsel text="Enkelte vilkår må vurderes manuelt" type="advarsel" />
-            <IkkeVurderteVilkår />
-            {periodeStatus === VedtaksperiodeStatus.Behandlet ? (
-                <BehandletVedtaksperiode
-                    aktivVedtaksperiode={aktivVedtaksperiode}
-                    førsteVedtaksperiode={førsteVedtaksperiode}
-                />
-            ) : periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
-                <UbehandletVedtaksperiode aktivVedtaksperiode={aktivVedtaksperiode} />
-            ) : (
-                <PåfølgendeVedtaksperiode
-                    aktivVedtaksperiode={aktivVedtaksperiode}
-                    førsteVedtaksperiode={førsteVedtaksperiode}
-                />
-            )}
+            <Innhold>
+                <Toppvarsel text="Enkelte vilkår må vurderes manuelt" type="advarsel" />
+                <div className="delinnhold">
+                    <IkkeVurderteVilkår />
+                </div>
+                <div className="delinnhold">
+                    {periodeStatus === VedtaksperiodeStatus.Behandlet ? (
+                        <BehandletVedtaksperiode
+                            aktivVedtaksperiode={aktivVedtaksperiode}
+                            førsteVedtaksperiode={førsteVedtaksperiode}
+                        />
+                    ) : periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
+                        <UbehandletVedtaksperiode aktivVedtaksperiode={aktivVedtaksperiode} />
+                    ) : (
+                        <PåfølgendeVedtaksperiode
+                            aktivVedtaksperiode={aktivVedtaksperiode}
+                            førsteVedtaksperiode={førsteVedtaksperiode}
+                        />
+                    )}
+                </div>
+                <div className="delinnhold">
+                    <Aktivitetsplikt />
+                </div>
+            </Innhold>
             <Footer />
         </>
     );
