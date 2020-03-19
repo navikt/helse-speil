@@ -7,13 +7,19 @@ import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
 import { Deloverskrift, Overskrift } from './components';
 import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
-import './PåfølgendeVedtaksperiode.less';
 import TwoColumnGrid from '../../components/TwoColumnGrid';
+import styled from '@emotion/styled';
 
 interface PåfølgendeVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
     førsteVedtaksperiode: Vedtaksperiode;
 }
+
+const Strek = styled.hr`
+    border: 0;
+    height: 0;
+    border-top: 1px solid #c6c2bf;
+`;
 
 const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }: PåfølgendeVedtaksperiodeProps) => {
     const { vilkår } = aktivVedtaksperiode;
@@ -24,7 +30,7 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
             <Overskrift>
                 <Deloverskrift tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} />
             </Overskrift>
-            <StyledUbehandletInnhold className="understrek" kolonner={2}>
+            <StyledUbehandletInnhold kolonner={2}>
                 <FlexColumn>
                     <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} />
                     <Vilkårsgrupper.Søknadsfrist
@@ -42,6 +48,7 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                     />
                 </FlexColumn>
             </StyledUbehandletInnhold>
+            <Strek />
             <StyledBehandletInnhold
                 saksbehandler={førsteVedtaksperiode.godkjentAv!}
                 tittel={`Vilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
