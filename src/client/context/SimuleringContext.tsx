@@ -56,9 +56,9 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
             ).length > 0;
 
         const erUtvidelse =
-            personTilBehandling.arbeidsgivere[0].vedtaksperioder.filter(
-                sammeUtbetalingsreferanse && harUtbetalingslinjer
-            ).length > 1;
+            personTilBehandling.arbeidsgivere[0].vedtaksperioder
+                .filter(sammeUtbetalingsreferanse)
+                .filter(harUtbetalingslinjer).length > 1;
 
         try {
             const { data }: { data: SimuleringResponse } = await postSimulering(
