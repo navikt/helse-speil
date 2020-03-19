@@ -24,6 +24,11 @@ interface SimuleringContextType {
     error?: string;
 }
 
+const harUtbetalingslinjer = (periode: Vedtaksperiode) =>
+    periode.utbetalingstidslinje.filter(
+        dag => dag.type === Utbetalingsdagtype.NAVDAG || dag.type === Utbetalingsdagtype.NAVHELG
+    ).length > 0;
+
 export const SimuleringContext = createContext<SimuleringContextType>({});
 
 export const SimuleringProvider = ({ children }: ProviderProps) => {
@@ -38,7 +43,7 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
             setError(undefined);
             setSimulering(undefined);
             setArbeidsgiver(undefined);
-            if (!aktivVedtaksperiode.godkjentAv) {
+            if (!aktivVedtaksperiode.godkjentAv && harUtbetalingslinjer(aktivVedtaksperiode)) {
                 hentSimulering(aktivVedtaksperiode.rawData);
             }
         }
@@ -49,11 +54,6 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
 
         const sammeUtbetalingsreferanse = (periode: Vedtaksperiode) =>
             periode.utbetalingsreferanse === vedtaksperiode.utbetalingsreferanse;
-
-        const harUtbetalingslinjer = (periode: Vedtaksperiode) =>
-            periode.utbetalingstidslinje.filter(
-                dag => dag.type === Utbetalingsdagtype.NAVDAG || dag.type === Utbetalingsdagtype.NAVHELG
-            ).length > 0;
 
         const erUtvidelse =
             personTilBehandling.arbeidsgivere[0].vedtaksperioder
