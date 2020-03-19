@@ -28,7 +28,6 @@ const Vilkår = () => {
     if (!aktivVedtaksperiode?.vilkår) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
-    console.log(førsteVedtaksperiode);
 
     return (
         <>
