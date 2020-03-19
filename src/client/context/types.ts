@@ -131,7 +131,7 @@ export interface SpleisVedtaksperiode {
     maksdato: string;
     forbrukteSykedager: number;
     godkjentAv?: string;
-    godkjentTidspunkt?: string;
+    godkjenttidspunkt?: string;
     tilstand: string;
     sykdomstidslinje: Dag[];
     utbetalingslinjer?: Utbetalingslinje[];

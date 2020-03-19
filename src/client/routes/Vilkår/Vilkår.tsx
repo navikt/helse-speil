@@ -28,29 +28,34 @@ const Vilkår = () => {
     if (!aktivVedtaksperiode?.vilkår) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
+    console.log(førsteVedtaksperiode);
 
     return (
         <>
             <Innhold>
-                <Toppvarsel text="Enkelte vilkår må vurderes manuelt" type="advarsel" />
-                <div className="delinnhold">
-                    <IkkeVurderteVilkår />
-                </div>
-                <div className="delinnhold">
-                    {periodeStatus === VedtaksperiodeStatus.Behandlet ? (
-                        <BehandletVedtaksperiode
-                            aktivVedtaksperiode={aktivVedtaksperiode}
-                            førsteVedtaksperiode={førsteVedtaksperiode}
-                        />
-                    ) : periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
-                        <UbehandletVedtaksperiode aktivVedtaksperiode={aktivVedtaksperiode} />
-                    ) : (
-                        <PåfølgendeVedtaksperiode
-                            aktivVedtaksperiode={aktivVedtaksperiode}
-                            førsteVedtaksperiode={førsteVedtaksperiode}
-                        />
-                    )}
-                </div>
+                {periodeStatus === VedtaksperiodeStatus.Behandlet ? (
+                    <BehandletVedtaksperiode
+                        aktivVedtaksperiode={aktivVedtaksperiode}
+                        førsteVedtaksperiode={førsteVedtaksperiode}
+                    />
+                ) : (
+                    <>
+                        <Toppvarsel text="Enkelte vilkår må vurderes manuelt" type="advarsel" />
+                        <div className="delinnhold">
+                            <IkkeVurderteVilkår />
+                        </div>
+                        <div className="delinnhold">
+                            {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
+                                <UbehandletVedtaksperiode aktivVedtaksperiode={aktivVedtaksperiode} />
+                            ) : (
+                                <PåfølgendeVedtaksperiode
+                                    aktivVedtaksperiode={aktivVedtaksperiode}
+                                    førsteVedtaksperiode={førsteVedtaksperiode}
+                                />
+                            )}
+                        </div>
+                    </>
+                )}
                 <div className="delinnhold">
                     <Aktivitetsplikt />
                 </div>

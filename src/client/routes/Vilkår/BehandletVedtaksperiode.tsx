@@ -33,6 +33,9 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
             >
                 <Innhold firstColumnWidth={'35rem'}>
                     <FlexColumn>
+                        <Vilkårsgruppe tittel="Arbeidsuførhet" paragraf="§8-4" ikontype="ok" />
+                        <Vilkårsgruppe tittel="Medlemskap" paragraf="§2" ikontype="ok" />
+                        <Vilkårsgruppe tittel="Medvirkning" paragraf="§8-8" ikontype="ok" />
                         <Vilkårsgrupper.Alder alder={aktivVedtaksperiode.vilkår.alderISykmeldingsperioden} />
                         <Vilkårsgrupper.Søknadsfrist
                             innen3Mnd={aktivVedtaksperiode.vilkår.søknadsfrist.innen3Mnd}
