@@ -1,15 +1,13 @@
 import React from 'react';
 import Ikon from './Ikon';
 
-const Advarselikon = ({
-    height = 20,
-    width = 20,
-    viewBoxSize
-}: {
+interface AdvarselikonProps {
     height?: number;
     width?: number;
     viewBoxSize?: number;
-}) => (
+}
+
+const Advarselikon = ({ height = 20, width = 20, viewBoxSize }: AdvarselikonProps) => (
     <Ikon height={height} width={width} viewBoxSize={viewBoxSize}>
         <g fill="none" fillRule="evenodd">
             <path

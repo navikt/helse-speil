@@ -39,8 +39,8 @@ const Sykepengegrunnlag = () => {
             ) : (
                 <StyledBehandletInnhold
                     tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
-                    saksbehandler={førsteVedtaksperiode.godkjentAv!}
-                    vurderingsdato={førsteVedtaksperiode.godkjentTidspunkt!.format(NORSK_DATOFORMAT)}
+                    saksbehandler={førsteVedtaksperiode?.godkjentAv!}
+                    vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
                 >
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                 </StyledBehandletInnhold>

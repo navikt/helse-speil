@@ -195,7 +195,7 @@ export const mapVedtaksperiode = (
         utbetalingstidslinje: utbetalingstidslinje,
         sykdomstidslinje: sykdomstidslinje,
         godkjentAv: spleisPeriode.godkjentAv,
-        godkjentTidspunkt: somKanskjeDato(spleisPeriode.godkjentTidspunkt),
+        godkjenttidspunkt: somKanskjeDato(spleisPeriode.godkjenttidspunkt),
         vilkår: {
             alderISykmeldingsperioden: alderISykmeldingsperioden(),
             dagerIgjen: dagerIgjen(),

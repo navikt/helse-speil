@@ -3,7 +3,7 @@ import { cleanup, render } from '@testing-library/react';
 import TidligerePerioderModal from './TidligerePerioderModal';
 import ReactModal from 'react-modal';
 import '@testing-library/jest-dom/extend-expect';
-import { somDato } from '../../context/mapping/vedtaksperiodemapper';
+import { somDato } from '../../../context/mapping/vedtaksperiodemapper';
 
 afterEach(cleanup);
 

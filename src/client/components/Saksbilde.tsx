@@ -57,9 +57,9 @@ const typeForHendelse = (hendelse: Hendelse) => {
 const navnForHendelse = (hendelse: Hendelse) => {
     switch (hendelse.type) {
         case Hendelsestype.Inntektsmelding:
-            return 'SpleisInntektsmelding mottatt';
+            return 'Inntektsmelding mottatt';
         case Hendelsestype.Søknad:
-            return 'SpleisSøknad mottatt';
+            return 'Søknad mottatt';
         case Hendelsestype.Sykmelding:
             return 'Sykmelding mottatt';
         default:

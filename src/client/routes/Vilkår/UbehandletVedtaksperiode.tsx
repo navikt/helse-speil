@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyledUbehandletInnhold } from './Vilkår.styles';
-import Vilkårsgrupper from './Vilkårsgrupper';
-import Vilkårsgruppe from './Vilkårsgruppe';
+import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
+import Vilkårsgruppe from './Vilkårsgrupper/Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
 import { FlexColumn } from '../../components/FlexColumn';
-import { Deloverskrift, Overskrift } from './components';
-import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
+import VurderteVilkår from './Vilkårsgrupper/VurderteVilkår';
 
 interface UbehandletVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
@@ -16,9 +15,7 @@ const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperi
 
     return (
         <>
-            <Overskrift>
-                <Deloverskrift tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} />
-            </Overskrift>
+            <VurderteVilkår />
             <StyledUbehandletInnhold kolonner={2}>
                 <FlexColumn>
                     <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} />

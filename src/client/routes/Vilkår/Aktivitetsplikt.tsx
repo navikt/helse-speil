@@ -1,40 +1,33 @@
 import React from 'react';
-// @ts-ignore
 import styled from '@emotion/styled';
 import { FlexColumn } from '../../components/FlexColumn';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Container } from './Vilkårsgruppe/Vilkårsgruppe';
-import { Deloverskrift } from './components';
-import Grid from '../../components/Grid';
+import Vilkårstittel from './Vilkårstittel';
 
 const Aktivitetstekst = styled(Normaltekst)`
     padding-left: 2.5rem;
 `;
 
-const Aktivitetsoverskrift = styled.div`
+const Aktivitetsoverskrift = styled(Vilkårstittel)`
     padding-left: 2.5rem;
 `;
 
-export const Innhold = styled(Grid)`
+export const Container = styled.div`
     padding: 1rem 1.5rem;
 `;
 
-const Aktivitetspliktinfo = () => (
-    <Container>
-        <Aktivitetsoverskrift>
-            <Deloverskrift tittel="Aktivitetsplikt" paragraf="8-4" />
-        </Aktivitetsoverskrift>
-        <Aktivitetstekst>Aktivitetsplikt vurderes fra og med 8 ukers sammenhengende sykefravær.</Aktivitetstekst>
-    </Container>
-);
-
-const Aktivitetsplikt = ({ className }: { className?: string }) => {
+const Aktivitetsplikt = () => {
     return (
-        <Innhold kolonner={1} className={className}>
+        <Container>
             <FlexColumn>
-                <Aktivitetspliktinfo />
+                <Aktivitetsoverskrift størrelse="m" paragraf="8-4">
+                    Aktivitetsplikt
+                </Aktivitetsoverskrift>
+                <Aktivitetstekst>
+                    Aktivitetsplikt vurderes fra og med 8 ukers sammenhengende sykefravær.
+                </Aktivitetstekst>
             </FlexColumn>
-        </Innhold>
+        </Container>
     );
 };
 

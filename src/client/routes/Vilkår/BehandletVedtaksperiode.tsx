@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyledBehandletInnhold } from './Vilkår.styles';
-import Vilkårsgrupper from './Vilkårsgrupper';
-import Vilkårsgruppe from './Vilkårsgruppe';
+import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
+import Vilkårsgruppe from './Vilkårsgrupper/Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
 import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
@@ -28,8 +28,8 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                 saksbehandler={aktivVedtaksperiode.godkjentAv!}
                 tittel={`Vilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
                 vurderingsdato={
-                    førsteVedtaksperiode?.godkjentTidspunkt
-                        ? dayjs(førsteVedtaksperiode?.godkjentTidspunkt).format(NORSK_DATOFORMAT)
+                    førsteVedtaksperiode?.godkjenttidspunkt
+                        ? dayjs(førsteVedtaksperiode?.godkjenttidspunkt).format(NORSK_DATOFORMAT)
                         : 'ukjent'
                 }
             >

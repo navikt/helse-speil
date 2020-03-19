@@ -1,10 +1,10 @@
 import React from 'react';
 import Vilkårsgruppe from './Vilkårsgruppe';
-import Vilkårsgrupperad from './Vilkårsgruppe/Vilkårsgrupperad';
-import { toKronerOgØre } from '../../utils/locale';
+import Vilkårsgrupperad from './Vilkårsgrupperad';
+import { toKronerOgØre } from '../../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Dayjs } from 'dayjs';
-import { NORSK_DATOFORMAT } from '../../utils/date';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 interface AlderProps {
     alder: number | undefined;

@@ -436,7 +436,7 @@ const mappetPerson = {
                     fom: somDato('2019-09-10'),
                     tom: somDato('2019-10-05'),
                     godkjentAv: null,
-                    godkjentTidspunkt: undefined,
+                    godkjenttidspunkt: undefined,
                     tilstand: Vedtaksperiodetilstand.Oppgaver,
                     kanVelges: true,
                     vilkår: {

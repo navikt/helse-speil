@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyledBehandletInnhold, StyledUbehandletInnhold } from './Vilkår.styles';
-import Vilkårsgrupper from './Vilkårsgrupper';
-import Vilkårsgruppe from './Vilkårsgruppe';
+import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
+import Vilkårsgruppe from './Vilkårsgrupper/Vilkårsgrupper';
 import { Vedtaksperiode } from '../../context/types';
 import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
-import { Deloverskrift, Overskrift } from './components';
-import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
 import TwoColumnGrid from '../../components/TwoColumnGrid';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import Vilkårstittel from './Vilkårstittel';
+import VurderteVilkår from './Vilkårsgrupper/VurderteVilkår';
 
 interface PåfølgendeVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
@@ -22,13 +22,15 @@ const Strek = styled.hr`
     border-top: 1px solid #c6c2bf;
 `;
 
+const VurderteVilkårstittel = styled(Vilkårstittel)`
+    margin-left: 2rem;
+`;
+
 const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }: PåfølgendeVedtaksperiodeProps) => {
     const { vilkår } = aktivVedtaksperiode;
     return (
         <>
-            <Overskrift>
-                <Deloverskrift tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} />
-            </Overskrift>
+            <VurderteVilkår />
             <StyledUbehandletInnhold kolonner={2}>
                 <FlexColumn>
                     <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} />
@@ -54,8 +56,8 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                     NORSK_DATOFORMAT
                 ) ?? 'Ikke funnet'}`}
                 vurderingsdato={
-                    førsteVedtaksperiode.godkjentTidspunkt
-                        ? dayjs(førsteVedtaksperiode.godkjentTidspunkt).format(NORSK_DATOFORMAT)
+                    førsteVedtaksperiode.godkjenttidspunkt
+                        ? dayjs(førsteVedtaksperiode.godkjenttidspunkt).format(NORSK_DATOFORMAT)
                         : 'ukjent'
                 }
             >

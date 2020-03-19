@@ -140,7 +140,7 @@ export interface Vedtaksperiode {
     utbetalingsreferanse: string;
     rawData: SpleisVedtaksperiode;
     godkjentAv?: string;
-    godkjentTidspunkt?: Dayjs;
+    godkjenttidspunkt?: Dayjs;
     dokumenter: {
         søknad: Søknad;
         sykmelding: Sykmelding;

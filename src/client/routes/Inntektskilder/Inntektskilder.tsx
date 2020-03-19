@@ -43,7 +43,7 @@ const Inntektskilder = () => {
                     <StyledBehandletInnhold
                         tittel={`Inntekt vurdert første sykdomsdag - ${førsteFraværsdag}`}
                         saksbehandler={førsteVedtaksperiode?.godkjentAv!}
-                        vurderingsdato={førsteVedtaksperiode?.godkjentTidspunkt?.format(NORSK_DATOFORMAT)}
+                        vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
                     >
                         <Inntektskilderinnhold inntektskilder={inntektskilder} />
                     </StyledBehandletInnhold>
