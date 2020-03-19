@@ -56,9 +56,9 @@ const Yrkeskadeinfo = () => (
     </Container>
 );
 
-const IkkeVurderteVilkår = () => {
+const IkkeVurderteVilkår = ({ className }: { className?: string }) => {
     return (
-        <Innhold>
+        <Innhold className={className}>
             <FlexColumn>
                 <VilkårSystemetIkkeVurderer />
             </FlexColumn>

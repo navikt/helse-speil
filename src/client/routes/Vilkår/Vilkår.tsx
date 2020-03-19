@@ -33,16 +33,17 @@ const Vilkår = () => {
         <>
             <Innhold>
                 {periodeStatus === VedtaksperiodeStatus.Behandlet ? (
-                    <BehandletVedtaksperiode
-                        aktivVedtaksperiode={aktivVedtaksperiode}
-                        førsteVedtaksperiode={førsteVedtaksperiode}
-                    />
+                    <div className="delinnhold">
+                        <BehandletVedtaksperiode
+                            aktivVedtaksperiode={aktivVedtaksperiode}
+                            førsteVedtaksperiode={førsteVedtaksperiode}
+                        />
+                    </div>
                 ) : (
                     <>
                         <Toppvarsel text="Enkelte vilkår må vurderes manuelt" type="advarsel" />
-                        <div className="delinnhold">
-                            <IkkeVurderteVilkår />
-                        </div>
+
+                        <IkkeVurderteVilkår className="delinnhold" />
                         <div className="delinnhold">
                             {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
                                 <UbehandletVedtaksperiode aktivVedtaksperiode={aktivVedtaksperiode} />
@@ -55,9 +56,7 @@ const Vilkår = () => {
                         </div>
                     </>
                 )}
-                <div className="delinnhold">
-                    <Aktivitetsplikt />
-                </div>
+                <Aktivitetsplikt className="delinnhold" />
             </Innhold>
             <Footer />
         </>

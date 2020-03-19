@@ -28,9 +28,9 @@ const Aktivitetspliktinfo = () => (
     </Container>
 );
 
-const Aktivitetsplikt = () => {
+const Aktivitetsplikt = ({ className }: { className?: string }) => {
     return (
-        <Innhold kolonner={1}>
+        <Innhold kolonner={1} className={className}>
             <FlexColumn>
                 <Aktivitetspliktinfo />
             </FlexColumn>
