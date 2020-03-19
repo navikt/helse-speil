@@ -2,8 +2,8 @@ import React from 'react';
 import Modal from 'nav-frontend-modal';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './TidligerePerioderModal.less';
-import { first26WeeksInterval, NORSK_DATOFORMAT, workdaysBetween } from '../../utils/date';
-import { Periode } from '../../context/types';
+import { first26WeeksInterval, NORSK_DATOFORMAT, workdaysBetween } from '../../../utils/date';
+import { Periode } from '../../../context/types';
 import { Dayjs } from 'dayjs';
 
 document && document.getElementById('#root') && Modal.setAppElement('#root');
