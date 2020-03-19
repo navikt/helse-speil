@@ -87,9 +87,9 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 </HeaderContainer>
                 <Tabell>
                     <Normaltekst>{t('inntektskilder.refusjon')}</Normaltekst>
-                    <Normaltekst>{inntektskilder[0].refusjon}</Normaltekst>
+                    <Normaltekst>{inntektskilder[0].refusjon ? 'Ja' : 'Nei'}</Normaltekst>
                     <Normaltekst>{t('inntektskilder.arbeidsgiverperiode')}</Normaltekst>
-                    <Normaltekst>{inntektskilder[0].forskuttering}</Normaltekst>
+                    <Normaltekst>{inntektskilder[0].forskuttering ? 'Ja' : 'Nei'}</Normaltekst>
                     <Normaltekst>{t('inntektskilder.relasjon')}</Normaltekst>
                     <Normaltekst>Ikke sjekket</Normaltekst>
                 </Tabell>
