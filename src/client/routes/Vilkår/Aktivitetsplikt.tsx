@@ -20,7 +20,7 @@ const Aktivitetsplikt = () => {
     return (
         <Container>
             <FlexColumn>
-                <Aktivitetsoverskrift størrelse="m" paragraf="8-4">
+                <Aktivitetsoverskrift størrelse="m" paragraf="§8-4">
                     Aktivitetsplikt
                 </Aktivitetsoverskrift>
                 <Aktivitetstekst>

@@ -15,6 +15,12 @@ const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
 `;
 
+export const Strek = styled.hr`
+    border: 0;
+    height: 0;
+    border-top: 1px solid #c6c2bf;
+`;
+
 const Vilkår = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const periodeStatus = useVedtaksperiodestatus();
@@ -44,6 +50,7 @@ const Vilkår = () => {
                     )}
                 </>
             )}
+            <Strek />
             <Aktivitetsplikt />
             <Footer />
         </>

@@ -30,12 +30,6 @@ const Container = styled.div`
     margin: 0.5rem;
 `;
 
-interface OverskriftProps {
-    tittel: string;
-    ikon?: ReactNode;
-    paragraf?: string;
-}
-
 const VilkårSystemetIkkeVurderer = () => (
     <Container>
         <Vilkårstittel størrelse="m" ikon={<Advarselikon />}>
