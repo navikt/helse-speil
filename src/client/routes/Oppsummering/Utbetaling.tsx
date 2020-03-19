@@ -8,20 +8,17 @@ import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
-import { Behov, Error, VedtaksperiodeTilstand } from '../../../types';
+import { Behov, Error } from '../../../types';
 import { useTranslation } from 'react-i18next';
 import StatusUtbetalt from './StatusUtbetalt';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
+import { Vedtaksperiodetilstand } from '../../context/types';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
     Avvist = 'AVVIST'
 }
-
-const tilGodkjenning = (tilstand: string) => {
-    return tilstand === VedtaksperiodeTilstand.AVVENTER_GODKJENNING;
-};
 
 interface UtbetalingProps {
     className?: string;
@@ -34,18 +31,16 @@ const Utbetalingstittel = styled(Undertittel)`
 const Utbetaling = ({ className }: UtbetalingProps) => {
     const { behovoversikt } = useContext(SaksoversiktContext);
     const { personTilBehandling, innsyn, aktivVedtaksperiode } = useContext(PersonContext);
-    const [isSending, setIsSending] = useState(false);
+    const [isSending, setIsSending] = useState<boolean>(false);
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [tilstand, setTilstand] = useState(aktivVedtaksperiode!.tilstand);
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [tilstand, setTilstand] = useState<Vedtaksperiodetilstand>(aktivVedtaksperiode!.tilstand);
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {
         // TODO: Sjekk at denne oppfører seg riktig. Fatter vedtak på første behov/vedtaksperiode.
-        const behovId = behovoversikt.find(
-            (behov: Behov) => behov.aktørId === personTilBehandling?.aktørId
-        )?.['@id'];
+        const behovId = behovoversikt.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
         const vedtaksperiodeId = aktivVedtaksperiode?.id;
         setIsSending(true);
         postVedtak(behovId, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)
@@ -70,23 +65,23 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
         <Panel className={classNames(className, 'Utbetaling')}>
             <Utbetalingstittel>{t('oppsummering.utbetaling')}</Utbetalingstittel>
             <AlertStripeAdvarsel>
-                Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn
-                til teamet for evaluering.
+                Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn til teamet for
+                evaluering.
             </AlertStripeAdvarsel>
-            {tilstand === VedtaksperiodeTilstand.ANNULLERT ? (
+            {tilstand === Vedtaksperiodetilstand.Avslag ? (
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
-            ) : tilstand === VedtaksperiodeTilstand.UTBETALING_FEILET ? (
+            ) : tilstand === Vedtaksperiodetilstand.Feilet ? (
                 <AlertStripeInfo>Utbetalingen feilet.</AlertStripeInfo>
-            ) : (tilGodkjenning(tilstand) && beslutning === Beslutning.Godkjent) ||
-              tilstand === VedtaksperiodeTilstand.TIL_UTBETALING ||
-              tilstand === VedtaksperiodeTilstand.AVSLUTTET ? (
+            ) : (tilstand === Vedtaksperiodetilstand.Oppgaver && beslutning === Beslutning.Godkjent) ||
+              tilstand === Vedtaksperiodetilstand.TilUtbetaling ||
+              tilstand === Vedtaksperiodetilstand.Utbetalt ? (
                 <StatusUtbetalt
                     setTilstand={setTilstand}
                     setError={setError}
                     personTilBehandling={personTilBehandling!}
                     utbetalingsreferanse={aktivVedtaksperiode!.utbetalingsreferanse!}
                 />
-            ) : !innsyn && tilGodkjenning(tilstand) ? (
+            ) : !innsyn && tilstand === Vedtaksperiodetilstand.Oppgaver ? (
                 beslutning ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
                 ) : (
@@ -99,9 +94,9 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 )
             ) : (
                 <AlertStripeInfo>
-                    {tilstand === VedtaksperiodeTilstand.TIL_INFOTRYGD
+                    {tilstand === Vedtaksperiodetilstand.Venter
                         ? 'Saken er sendt til behandling i Infotrygd.'
-                        : innsyn && tilGodkjenning(tilstand)
+                        : innsyn && tilstand === Vedtaksperiodetilstand.Oppgaver
                         ? 'Saken står til godkjenning av saksbehandler.'
                         : 'Kunne ikke lese informasjon om sakens tilstand.'}
                 </AlertStripeInfo>

@@ -3,7 +3,6 @@ import Vilkår from '../routes/Vilkår';
 import PersonBar from './PersonBar';
 import Tidslinje from './Tidslinje';
 import Høyremeny from './Høyremeny';
-import Fordeling from '../routes/Fordeling';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import Venstremeny from './Venstremeny';
 import Oppsummering from '../routes/Oppsummering';
@@ -16,10 +15,10 @@ import Utbetalingsoversikt from '../routes/Utbetalingsoversikt';
 import { Route } from 'react-router-dom';
 import { PersonContext } from '../context/PersonContext';
 import styled from '@emotion/styled';
-import { Hendelse } from '../context/types';
+import { Hendelse, Hendelsestype } from '../context/types';
 import { Hendelsetype, LoggHeader, LoggProvider } from '@navikt/helse-frontend-logg';
-import dayjs from 'dayjs';
 import { Location, useNavigation } from '../hooks/useNavigation';
+import { NORSK_DATOFORMAT } from '../utils/date';
 
 const Container = styled.div`
     display: flex;
@@ -46,9 +45,9 @@ const StyledSakslinje = styled(Sakslinje)`
 
 const typeForHendelse = (hendelse: Hendelse) => {
     switch (hendelse.type) {
-        case 'INNTEKTSMELDING':
-        case 'SENDT_SØKNAD':
-        case 'NY_SØKNAD':
+        case Hendelsestype.Sykmelding:
+        case Hendelsestype.Inntektsmelding:
+        case Hendelsestype.Søknad:
             return Hendelsetype.Dokumenter;
         default:
             return Hendelsetype.Historikk;
@@ -57,20 +56,23 @@ const typeForHendelse = (hendelse: Hendelse) => {
 
 const navnForHendelse = (hendelse: Hendelse) => {
     switch (hendelse.type) {
-        case 'INNTEKTSMELDING':
-            return 'Inntektsmelding mottatt';
-        case 'SENDT_SØKNAD':
-            return 'Søknad mottatt';
-        case 'NY_SØKNAD':
+        case Hendelsestype.Inntektsmelding:
+            return 'SpleisInntektsmelding mottatt';
+        case Hendelsestype.Søknad:
+            return 'SpleisSøknad mottatt';
+        case Hendelsestype.Sykmelding:
             return 'Sykmelding mottatt';
         default:
             return 'Hendelse';
     }
 };
 
+const hendelseFørsteDato = (hendelse: Hendelse) =>
+    hendelse.type === Hendelsestype.Inntektsmelding ? hendelse.mottattTidspunkt : hendelse.rapportertDato;
+
 const datoForHendelse = (hendelse: Hendelse) => {
-    const dato = hendelse.rapportertdato || hendelse.mottattDato;
-    return dato ? dayjs(dato).format('DD.MM.YYYY') : 'Ukjent dato';
+    const dato = hendelseFørsteDato(hendelse);
+    return dato ? dato.format(NORSK_DATOFORMAT) : 'Ukjent dato';
 };
 
 const Saksbilde = () => {
@@ -78,7 +80,7 @@ const Saksbilde = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
     const hendelser = personTilBehandling?.hendelser.map(hendelsen => ({
-        id: `${hendelsen.type}-${hendelsen.fom}`,
+        id: `${hendelsen.type}-${hendelseFørsteDato(hendelsen)}`,
         dato: datoForHendelse(hendelsen),
         navn: navnForHendelse(hendelsen),
         type: typeForHendelse(hendelsen)

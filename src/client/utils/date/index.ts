@@ -1,78 +1,61 @@
-/* eslint-disable no-console */
-import moment from 'moment';
-
-moment.locale = () => 'nb-NO';
-
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Periode } from '../../context/types';
+import isoWeek from 'dayjs/plugin/isoWeek';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
-export const toDate = (date: string) => {
-    return moment(date, ['DD.MM.YYYY', 'YYYY-MM-DD', moment.ISO_8601]).format('DD.MM.YYYY');
+dayjs.extend(isoWeek);
+dayjs.extend(isSameOrBefore);
+
+export const NORSK_DATOFORMAT = 'DD.MM.YYYY';
+export const ISO_DATOFORMAT = 'YYYY-MM-DD';
+export const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
+
+export const findLatest = (dates: Dayjs[]): Dayjs => {
+    const sorted = dates.map(date => date).sort((a, b) => (b.isAfter(a) ? -1 : a.isAfter(b) ? 1 : 0));
+    return sorted.pop()!;
 };
 
-export const findLatest = (dates: string[]) => {
-    const sorted = dates
-        .map(date => moment(date))
-        .sort((a, b) => (b.isAfter(a) ? -1 : a.isAfter(b) ? 1 : 0));
-    return sorted.pop()!.format('YYYY-MM-DD');
-};
+export const daysBetween = (startdato: Dayjs, sluttdato: Dayjs): number => Math.abs(startdato.diff(sluttdato, 'day'));
 
-export const daysBetween = (firstDate: string, lastDate: string) => {
-    const first = moment(firstDate, ['DD.MM.YYYY', 'YYYY-MM-DD']);
-    const last = moment(lastDate, ['DD.MM.YYYY', 'YYYY-MM-DD']);
-    return Math.abs(first.diff(last, 'days'));
-};
+export const daysBetweenInclusive = (startdato: Dayjs, sluttdato: Dayjs): number =>
+    daysBetween(startdato, sluttdato) + 1;
 
-export const daysBetweenInclusive = (firstDate: string, lastDate: string) => {
-    return daysBetween(firstDate, lastDate) + 1;
-};
-
-export const listOfDatesBetween = (firstDate: string, lastDate: string) => {
+export const listOfDatesBetween = (startdato: Dayjs, sluttdato: Dayjs): Dayjs[] => {
     const dates = [];
-    let first = dayjs(firstDate);
-    const last = dayjs(lastDate);
-    while (first.isBefore(last)) {
-        dates.push(first.format('YYYY-MM-DD'));
-        first = first.add(1, 'day');
+    let tempDate = startdato.clone();
+    while (tempDate.isBefore(sluttdato)) {
+        dates.push(tempDate);
+        tempDate = tempDate.add(1, 'day');
     }
-    return [...dates, last.format('YYYY-MM-DD')];
+    return [...dates, sluttdato];
 };
 
-export const arbeidsdagerMellom = (firstDate: string, lastDate: string) => {
-    const dates = [];
-    let first = dayjs(firstDate);
-    const last = dayjs(lastDate);
-    while (!first.isAfter(last)) {
-        if (first.day() >= 1 && first.day() < 6) {
-            dates.push(first.format('YYYY-MM-DD'));
+export const arbeidsdagerMellom = (startdato: Dayjs, sluttdato: Dayjs): Dayjs[] => {
+    const datoer = [];
+    while (!startdato.isAfter(sluttdato)) {
+        if (startdato.day() >= 1 && startdato.day() < 6) {
+            datoer.push(startdato);
         }
-        first = first.add(1, 'day');
+        startdato = startdato.add(1, 'day');
     }
-    return dates;
+    return datoer;
 };
 
-export const first26WeeksInterval = (periods: Periode[], firstDay: string) => {
-    return periods.findIndex((period, i) => {
-        const firstDayPreviousPeriod = i === 0 ? firstDay : periods[i - 1].fom;
-        const lastDayCurrentPeriod = period.tom;
-        return (
-            Math.abs(moment(firstDayPreviousPeriod).diff(moment(lastDayCurrentPeriod), 'weeks')) >=
-            26
-        );
+export const first26WeeksInterval = (perioder: Periode[], førsteDag: Dayjs): number =>
+    perioder.findIndex((period, index) => {
+        const førsteDagForrigePeriode = index === 0 ? førsteDag : perioder[index - 1].fom;
+        const sisteDagNåværendePeriode = period.tom;
+        return Math.abs(førsteDagForrigePeriode.diff(sisteDagNåværendePeriode, 'week')) >= 26;
     });
-};
 
-export const workdaysBetween = (firstDate: string, lastDate: string) => {
-    const _firstDate = moment(firstDate);
-    const _lastDate = moment(lastDate);
-
-    const tempDate = _firstDate.clone();
-    let numberOfDays = 0;
-    while (tempDate <= _lastDate) {
+export const workdaysBetween = (startdato: Dayjs, sluttdato: Dayjs): number => {
+    let tempDate = startdato.clone();
+    let dagteller = 0;
+    while (tempDate.isSameOrBefore(sluttdato)) {
         if (tempDate.isoWeekday() <= 5) {
-            numberOfDays++;
+            dagteller++;
         }
-        tempDate.add(1, 'days');
+        tempDate = tempDate.add(1, 'day');
     }
-    return numberOfDays;
+    return dagteller;
 };

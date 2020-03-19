@@ -1,5 +1,3 @@
-import { Optional } from './client/context/types';
-
 export interface UnmappedPersoninfo {
     fdato: string;
     kjønn: string;
@@ -21,7 +19,7 @@ export interface Behov {
     aktørId: string;
     organisasjonsnummer: string;
     vedtaksperiodeId: string;
-    personinfo: Optional<Personinfo>;
+    personinfo?: Personinfo | null;
 }
 
 export type Utbetalingslinje = {
@@ -53,7 +51,7 @@ export interface Utbetalingsvedtak {
     [key: string]: any;
 }
 
-export enum VedtaksperiodeTilstand {
+export enum SpleisVedtaksperiodetilstand {
     AVVENTER_HISTORIKK = 'AVVENTER_HISTORIKK',
     AVVENTER_GODKJENNING = 'AVVENTER_GODKJENNING',
     TIL_UTBETALING = 'TIL_UTBETALING',

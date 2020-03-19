@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../context/PersonContext';
-import { useTranslation } from 'react-i18next';
 import NavigationButtons from '../../components/NavigationButtons';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
-import dayjs from 'dayjs';
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
+import { NORSK_DATOFORMAT } from '../../utils/date';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
@@ -23,13 +22,12 @@ const Sykepengegrunnlagpanel = styled.div`
 const Sykepengegrunnlag = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const periodeStatus = useVedtaksperiodestatus();
-    const { t } = useTranslation();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
     const førsteFraværsdag = aktivVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag
-        ? dayjs(aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY')
+        ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
 
     const { sykepengegrunnlag } = aktivVedtaksperiode;
@@ -42,7 +40,7 @@ const Sykepengegrunnlag = () => {
                 <StyledBehandletInnhold
                     tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
                     saksbehandler={førsteVedtaksperiode.godkjentAv!}
-                    vurderingsdato={førsteVedtaksperiode.godkjentTidspunkt!}
+                    vurderingsdato={førsteVedtaksperiode.godkjentTidspunkt!.format(NORSK_DATOFORMAT)}
                 >
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                 </StyledBehandletInnhold>

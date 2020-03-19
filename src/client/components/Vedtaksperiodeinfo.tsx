@@ -3,7 +3,7 @@ import { Person, Vedtaksperiode } from '../context/types';
 import { arbeidsgiverForVedtaksperiode } from '../hooks/arbeidsgiverForVedtaksperiode';
 import styled from '@emotion/styled';
 import Sakslinje, { Arbeidsgiver } from '@navikt/helse-frontend-sakslinje';
-import dayjs from 'dayjs';
+import { NORSK_DATOFORMAT } from '../utils/date';
 
 interface VedtaksperiodeinfoProps {
     periode?: Vedtaksperiode;
@@ -21,8 +21,8 @@ const Vedtaksperiodeinfo = ({ periode, person }: VedtaksperiodeinfoProps) => {
 
     const tekster = [
         arbeidsgiver?.organisasjonsnummer ?? 'Ukjent arbeidsgiver',
-        `${periode?.sykdomstidslinje[0].grad ?? 100}%`,
-        `${dayjs(periode?.fom).format('DD.MM.YYYY')} - ${dayjs(periode?.tom).format('DD.MM.YYYY')}`
+        `${periode?.sykdomstidslinje[0].gradering ?? 100}%`,
+        `${periode?.fom.format(NORSK_DATOFORMAT)} - ${periode?.tom.format(NORSK_DATOFORMAT)}`
     ];
 
     return <Container venstre={arbeidsgiver && <Arbeidsgiver tekst={tekster} />} />;

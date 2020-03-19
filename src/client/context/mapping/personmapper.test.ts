@@ -1,14 +1,17 @@
 // @ts-nocheck
-import { mapPerson } from './personmapper';
-import { Inntektsmelding } from '../types';
+import { tilPerson } from './personmapper';
+import { Dagtype, Hendelsestype, Kildetype, Kjønn, Vedtaksperiodetilstand } from '../types';
+import { somDato, somTidspunkt } from './vedtaksperiodemapper';
+import { SpleisHendelse, SpleisHendelsetype, SpleisSykdomsdagtype, SpleisVedtaksperiode } from './external.types';
+import { Personinfo as SpleisPersoninfo, SpleisVedtaksperiodetilstand } from '../../../types';
 
 test('mapper person', () => {
-    let person = mapPerson(enPerson(), personInfo);
+    let person = tilPerson(enPerson(), personInfo);
     expect(person).toEqual(mappetPerson);
 });
 
 test('mapper person med flere vedtaksperioder', () => {
-    let person = mapPerson(
+    let person = tilPerson(
         enPerson([
             enArbeidsgiver([
                 enVedtaksperiode(),
@@ -51,23 +54,24 @@ test('mapper person med flere vedtaksperioder', () => {
 test('filtrerer vekk paddede arbeidsdager', () => {
     const ledendeArbeidsdager = [enArbeidsdag('2019-09-08'), enArbeidsdag('2019-09-09')];
 
-    const person = mapPerson(enPerson([enArbeidsgiver([enVedtaksperiode(ledendeArbeidsdager)])]), personInfo);
+    const person = tilPerson(enPerson([enArbeidsgiver([enVedtaksperiode(ledendeArbeidsdager)])]), personInfo);
 
     expect(person.arbeidsgivere[0].vedtaksperioder[0].sykdomstidslinje[0]).toEqual({
-        dagen: '2019-09-10',
-        hendelseType: 'Inntektsmelding',
-        type: 'EGENMELDINGSDAG'
+        dato: somDato('2019-09-10'),
+        type: Dagtype.Egenmelding,
+        kilde: Kildetype.Inntektsmelding,
+        gradering: undefined
     });
 });
 
 test('Opptjening er undefined dersom felter er satt til null', () => {
-    const person = mapPerson(enPerson([enArbeidsgiver([enVedtaksperiode([], vilkårsvurdering(false))])]), personInfo);
+    const person = tilPerson(enPerson([enArbeidsgiver([enVedtaksperiode([], vilkårsvurdering(false))])]), personInfo);
     const vedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0];
     expect(vedtaksperiode.vilkår.opptjening).toBeUndefined();
 });
 
 test('Vedtaksperioder sorteres på fom i synkende rekkefølge', () => {
-    const person = mapPerson(
+    const person = tilPerson(
         enPerson([
             enArbeidsgiver([
                 enVedtaksperiode([
@@ -84,8 +88,8 @@ test('Vedtaksperioder sorteres på fom i synkende rekkefølge', () => {
     );
 
     const vedtaksperioder = person.arbeidsgivere[0].vedtaksperioder;
-    expect(vedtaksperioder[0].fom).toBe('2019-09-10');
-    expect(vedtaksperioder[1].fom).toBe('2019-09-09');
+    expect(vedtaksperioder[0].fom).toStrictEqual(somDato('2019-09-10'));
+    expect(vedtaksperioder[1].fom).toStrictEqual(somDato('2019-09-09'));
 });
 
 const enPerson = (arbeidsgivere = [enArbeidsgiver()]) => {
@@ -120,7 +124,7 @@ const enVedtaksperiode = (
     ekstraDager = [],
     _vilkårsvurdering = vilkårsvurdering(),
     _utbetalingstidslinje: Utbetalingsdag[] = defaultUtbetalingstidslinje
-) => {
+): SpleisVedtaksperiode => {
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
         maksdato: '2020-09-07',
@@ -135,133 +139,107 @@ const enVedtaksperiode = (
             ...ekstraDager,
             {
                 dagen: '2019-09-10',
-                hendelseType: 'Inntektsmelding',
-                type: 'EGENMELDINGSDAG'
+                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
             },
             {
                 dagen: '2019-09-11',
-                hendelseType: 'Inntektsmelding',
-                type: 'EGENMELDINGSDAG'
+                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
             },
             {
                 dagen: '2019-09-12',
-                hendelseType: 'Inntektsmelding',
-                type: 'EGENMELDINGSDAG'
+                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
             },
             {
                 dagen: '2019-09-13',
-                hendelseType: 'Inntektsmelding',
-                type: 'EGENMELDINGSDAG'
+                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
             },
             {
                 dagen: '2019-09-14',
-                hendelseType: 'Inntektsmelding',
-                type: 'EGENMELDINGSDAG'
+                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
             },
             {
                 dagen: '2019-09-15',
-                hendelseType: 'Inntektsmelding',
-                type: 'EGENMELDINGSDAG'
+                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
             },
             {
                 dagen: '2019-09-16',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-17',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-18',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-19',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-20',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-21',
-                hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG_SØKNAD'
+                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
             },
             {
                 dagen: '2019-09-22',
-                hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG_SØKNAD'
+                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
             },
             {
                 dagen: '2019-09-23',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-24',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-25',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-26',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-27',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-09-28',
-                hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG_SØKNAD'
+                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
             },
             {
                 dagen: '2019-09-29',
-                hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG_SØKNAD'
+                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
             },
             {
                 dagen: '2019-09-30',
-                hendelseType: 'Sykmelding',
-                type: 'SYKEDAG'
+                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
             },
             {
                 dagen: '2019-10-01',
-                hendelseType: 'Søknad',
-                type: 'FERIEDAG'
+                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
             },
             {
                 dagen: '2019-10-02',
-                hendelseType: 'Søknad',
-                type: 'FERIEDAG'
+                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
             },
             {
                 dagen: '2019-10-03',
-                hendelseType: 'Søknad',
-                type: 'FERIEDAG'
+                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
             },
             {
                 dagen: '2019-10-04',
-                hendelseType: 'Søknad',
-                type: 'FERIEDAG'
+                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
             },
             {
                 dagen: '2019-10-05',
-                hendelseType: 'Søknad',
-                type: 'SYK_HELGEDAG_SØKNAD'
+                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
             }
         ],
         utbetalingslinjer: [
@@ -411,70 +389,34 @@ const defaultUtbetalingstidslinje = [
     }
 ];
 
-const vedtaksperiodeSomVenterPåTidligere = () => {
-    return {
-        id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
-        maksdato: '2020-09-07',
-        forbrukteSykedager: 4,
-        godkjentAv: null,
-        utbetalingsreferanse: '12345',
-        førsteFraværsdag: '2019-09-10',
-        inntektFraInntektsmelding: 31000.0,
-        dataForVilkårsvurdering: vilkårsvurdering(),
-        tilstand: 'AVVENTER_TIDLIGERE_PERIODE',
-        sykdomstidslinje: [
-            {
-                dagen: '2019-09-11',
-                hendelseType: 'Inntektsmelding',
-                type: 'EGENMELDINGSDAG'
-            }
-        ],
-        utbetalingslinjer: [
-            {
-                fom: '2019-09-26',
-                tom: '2019-09-30',
-                dagsats: 1431
-            }
-        ],
-        utbetalingstidslinje: [
-            {
-                type: 'ArbeidsgiverperiodeDag',
-                inntekt: 1430.77,
-                dato: '2019-09-10'
-            }
-        ]
-    };
-};
+const enArbeidsdag = dato => ({
+    dato: dato,
+    type: 'ARBEIDSDAG_INNTEKTSMELDING'
+});
 
-const enArbeidsdag = dato => {
-    return {
-        dato: dato,
-        type: 'ARBEIDSDAG_INNTEKTSMELDING'
-    };
-};
-
-const hendelser = [
+const hendelser: SpleisHendelse[] = [
     {
-        rapportertdato: '2020-02-14T12:00:15.515707',
-        fom: '2019-09-16',
-        tom: '2019-10-05',
-        type: 'NY_SØKNAD'
+        rapportertdato: '2020-02-14',
+        fom: '2019-09-01',
+        tom: '2019-10-10',
+        type: SpleisHendelsetype.SYKMELDING
     },
     {
-        rapportertdato: '2020-02-14T12:00:15.730199',
-        sendtNav: '2019-10-15T00:00:00',
-        fom: '2019-09-10',
-        tom: '2019-10-05',
-        type: 'SENDT_SØKNAD'
+        rapportertdato: '2020-02-14',
+        sendtNav: '2019-10-15',
+        fom: '2019-09-01',
+        tom: '2019-10-10',
+        type: SpleisHendelsetype.SØKNAD
     },
     {
         beregnetInntekt: 31000.0,
-        førsteFraværsdag: '2019-09-10',
-        type: 'INNTEKTSMELDING'
+        førsteFraværsdag: '2019-09-01',
+        mottattDato: '2019-10-15T00:00:00',
+        type: SpleisHendelsetype.INNTEKTSMELDING
     }
 ];
 
-const personInfo = {
+const personInfo: SpleisPersoninfo = {
     navn: 'Ole Brum',
     kjønn: 'Mannebjørn',
     fødselsdato: '1956-12-12',
@@ -491,297 +433,345 @@ const mappetPerson = {
             vedtaksperioder: [
                 {
                     id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
-                    fom: '2019-09-10',
-                    tom: '2019-10-05',
+                    fom: somDato('2019-09-10'),
+                    tom: somDato('2019-10-05'),
                     godkjentAv: null,
                     godkjentTidspunkt: undefined,
-                    tilstand: 'AVVENTER_GODKJENNING',
+                    tilstand: Vedtaksperiodetilstand.Oppgaver,
                     kanVelges: true,
                     vilkår: {
                         dagerIgjen: {
                             dagerBrukt: 3,
-                            førsteFraværsdag: '2019-09-10',
-                            førsteSykepengedag: '2019-09-26',
-                            maksdato: '2020-09-07',
+                            førsteFraværsdag: somDato('2019-09-01'),
+                            førsteSykepengedag: somDato('2019-09-26'),
+                            maksdato: somDato('2020-09-07'),
                             tidligerePerioder: []
                         },
                         søknadsfrist: {
                             innen3Mnd: true,
-                            søknadTom: '2019-10-05',
-                            sendtNav: '2019-10-15T00:00:00'
+                            søknadTom: somDato('2019-10-10'),
+                            sendtNav: somTidspunkt('2019-10-15T00:00:00')
                         },
                         opptjening: {
                             antallOpptjeningsdagerErMinst: 3539,
-                            opptjeningFra: '01.01.2010',
+                            opptjeningFra: somDato('2010-01-01'),
                             harOpptjening: true
                         },
                         alderISykmeldingsperioden: 62
                     },
                     utbetalingstidslinje: [
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-10'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-10'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-11'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-11'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-12'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-12'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-13'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-13'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-14'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-14'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-15'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-15'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-16'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-16'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-17'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-17'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-18'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-18'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-19'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-19'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-20'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-20'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-21'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-21'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-22'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-22'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-23'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-23'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-24'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-24'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'ArbeidsgiverperiodeDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-25'
+                            type: 'Arbeidsgiverperiode',
+                            dato: somDato('2019-09-25'),
+                            gradering: undefined,
+                            utbetaling: undefined
                         },
                         {
-                            type: 'NavDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-26',
+                            type: Dagtype.Syk,
+                            dato: somDato('2019-09-26'),
+                            gradering: undefined,
                             utbetaling: 1431
                         },
                         {
-                            type: 'NavDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-27',
+                            type: Dagtype.Syk,
+                            dato: somDato('2019-09-27'),
+                            gradering: undefined,
                             utbetaling: 1431
                         },
                         {
-                            type: 'NavHelgDag',
-                            inntekt: 0.0,
-                            dato: '2019-09-28'
+                            type: Dagtype.Helg,
+                            gradering: undefined,
+                            dato: somDato('2019-09-28'),
+                            utbetaling: undefined
                         },
                         {
-                            type: 'NavHelgDag',
-                            inntekt: 0.0,
-                            dato: '2019-09-29'
+                            type: Dagtype.Helg,
+                            gradering: undefined,
+                            dato: somDato('2019-09-29'),
+                            utbetaling: undefined
                         },
                         {
-                            type: 'NavDag',
-                            inntekt: 1430.77,
-                            dato: '2019-09-30',
+                            type: Dagtype.Syk,
+                            gradering: undefined,
+                            dato: somDato('2019-09-30'),
                             utbetaling: 1431
                         },
                         {
-                            type: 'Fridag',
-                            inntekt: 1430.77,
-                            dato: '2019-10-01'
+                            type: Dagtype.Ferie,
+                            gradering: undefined,
+                            dato: somDato('2019-10-01')
                         },
                         {
-                            type: 'Fridag',
-                            inntekt: 1430.77,
-                            dato: '2019-10-02'
+                            type: Dagtype.Ferie,
+                            gradering: undefined,
+                            dato: somDato('2019-10-02'),
+                            utbetaling: undefined
                         },
                         {
-                            type: 'Fridag',
-                            inntekt: 1430.77,
-                            dato: '2019-10-03'
+                            type: Dagtype.Ferie,
+                            gradering: undefined,
+                            dato: somDato('2019-10-03'),
+                            utbetaling: undefined
                         },
                         {
-                            type: 'Fridag',
-                            inntekt: 1430.77,
-                            dato: '2019-10-04'
+                            type: Dagtype.Ferie,
+                            gradering: undefined,
+                            dato: somDato('2019-10-04'),
+                            utbetaling: undefined
                         },
                         {
-                            type: 'NavHelgDag',
-                            inntekt: 0.0,
-                            dato: '2019-10-05'
+                            type: Dagtype.Helg,
+                            gradering: undefined,
+                            dato: somDato('2019-10-05'),
+                            utbetaling: undefined
                         }
                     ],
                     sykdomstidslinje: [
                         {
-                            dagen: '2019-09-10',
-                            hendelseType: 'Inntektsmelding',
-                            type: 'EGENMELDINGSDAG'
+                            dato: somDato('2019-09-10'),
+                            type: Dagtype.Egenmelding,
+                            kilde: Kildetype.Inntektsmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-11',
-                            hendelseType: 'Inntektsmelding',
-                            type: 'EGENMELDINGSDAG'
+                            dato: somDato('2019-09-11'),
+                            type: Dagtype.Egenmelding,
+                            kilde: Kildetype.Inntektsmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-12',
-                            hendelseType: 'Inntektsmelding',
-                            type: 'EGENMELDINGSDAG'
+                            dato: somDato('2019-09-12'),
+                            type: Dagtype.Egenmelding,
+                            kilde: Kildetype.Inntektsmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-13',
-                            hendelseType: 'Inntektsmelding',
-                            type: 'EGENMELDINGSDAG'
+                            dato: somDato('2019-09-13'),
+                            type: Dagtype.Egenmelding,
+                            kilde: Kildetype.Inntektsmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-14',
-                            hendelseType: 'Inntektsmelding',
-                            type: 'EGENMELDINGSDAG'
+                            dato: somDato('2019-09-14'),
+                            type: Dagtype.Egenmelding,
+                            kilde: Kildetype.Inntektsmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-15',
-                            hendelseType: 'Inntektsmelding',
-                            type: 'EGENMELDINGSDAG'
+                            dato: somDato('2019-09-15'),
+                            type: Dagtype.Egenmelding,
+                            kilde: Kildetype.Inntektsmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-16',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-16'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-17',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-17'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-18',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-18'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-19',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-19'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-20',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-20'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-21',
-                            hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG_SØKNAD'
+                            dato: somDato('2019-09-21'),
+                            type: Dagtype.Helg,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-22',
-                            hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG_SØKNAD'
+                            dato: somDato('2019-09-22'),
+                            type: Dagtype.Helg,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-23',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-23'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-24',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-24'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-25',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-25'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-26',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-26'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-27',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-27'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-28',
-                            hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG_SØKNAD'
+                            dato: somDato('2019-09-28'),
+                            type: Dagtype.Helg,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-29',
-                            hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG_SØKNAD'
+                            dato: somDato('2019-09-29'),
+                            type: Dagtype.Helg,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-09-30',
-                            hendelseType: 'Sykmelding',
-                            type: 'SYKEDAG'
+                            dato: somDato('2019-09-30'),
+                            type: Dagtype.Syk,
+                            kilde: Kildetype.Sykmelding,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-10-01',
-                            hendelseType: 'Søknad',
-                            type: 'FERIEDAG'
+                            dato: somDato('2019-10-01'),
+                            type: Dagtype.Ferie,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-10-02',
-                            hendelseType: 'Søknad',
-                            type: 'FERIEDAG'
+                            dato: somDato('2019-10-02'),
+                            type: Dagtype.Ferie,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-10-03',
-                            hendelseType: 'Søknad',
-                            type: 'FERIEDAG'
+                            dato: somDato('2019-10-03'),
+                            type: Dagtype.Ferie,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-10-04',
-                            hendelseType: 'Søknad',
-                            type: 'FERIEDAG'
+                            dato: somDato('2019-10-04'),
+                            type: Dagtype.Ferie,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         },
                         {
-                            dagen: '2019-10-05',
-                            hendelseType: 'Søknad',
-                            type: 'SYK_HELGEDAG_SØKNAD'
+                            dato: somDato('2019-10-05'),
+                            type: Dagtype.Helg,
+                            kilde: Kildetype.Søknad,
+                            gradering: undefined
                         }
                     ],
                     sykepengegrunnlag: {
@@ -795,8 +785,8 @@ const mappetPerson = {
                             organisasjonsnummer: '123456789',
                             månedsinntekt: 31000,
                             årsinntekt: 372000.0,
-                            refusjon: 'Ja',
-                            forskuttering: 'Ja'
+                            refusjon: true,
+                            forskuttering: true
                         }
                     ],
                     oppsummering: {
@@ -819,137 +809,111 @@ const mappetPerson = {
                             antallOpptjeningsdagerErMinst: 3539,
                             harOpptjening: true
                         },
-                        tilstand: 'AVVENTER_GODKJENNING',
+                        tilstand: SpleisVedtaksperiodetilstand.AVVENTER_GODKJENNING,
                         sykdomstidslinje: [
                             {
                                 dagen: '2019-09-10',
-                                hendelseType: 'Inntektsmelding',
-                                type: 'EGENMELDINGSDAG'
+                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
                             },
                             {
                                 dagen: '2019-09-11',
-                                hendelseType: 'Inntektsmelding',
-                                type: 'EGENMELDINGSDAG'
+                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
                             },
                             {
                                 dagen: '2019-09-12',
-                                hendelseType: 'Inntektsmelding',
-                                type: 'EGENMELDINGSDAG'
+                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
                             },
                             {
                                 dagen: '2019-09-13',
-                                hendelseType: 'Inntektsmelding',
-                                type: 'EGENMELDINGSDAG'
+                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
                             },
                             {
                                 dagen: '2019-09-14',
-                                hendelseType: 'Inntektsmelding',
-                                type: 'EGENMELDINGSDAG'
+                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
                             },
                             {
                                 dagen: '2019-09-15',
-                                hendelseType: 'Inntektsmelding',
-                                type: 'EGENMELDINGSDAG'
+                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
                             },
                             {
                                 dagen: '2019-09-16',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-17',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-18',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-19',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-20',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-21',
-                                hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG_SØKNAD'
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-09-22',
-                                hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG_SØKNAD'
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-09-23',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-24',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-25',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-26',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-27',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-09-28',
-                                hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG_SØKNAD'
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-09-29',
-                                hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG_SØKNAD'
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-09-30',
-                                hendelseType: 'Sykmelding',
-                                type: 'SYKEDAG'
+                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
                             },
                             {
                                 dagen: '2019-10-01',
-                                hendelseType: 'Søknad',
-                                type: 'FERIEDAG'
+                                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-10-02',
-                                hendelseType: 'Søknad',
-                                type: 'FERIEDAG'
+                                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-10-03',
-                                hendelseType: 'Søknad',
-                                type: 'FERIEDAG'
+                                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-10-04',
-                                hendelseType: 'Søknad',
-                                type: 'FERIEDAG'
+                                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-10-05',
-                                hendelseType: 'Søknad',
-                                type: 'SYK_HELGEDAG_SØKNAD'
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
                             }
                         ],
                         utbetalingslinjer: [
@@ -1094,6 +1058,27 @@ const mappetPerson = {
                                 dato: '2019-10-05'
                             }
                         ]
+                    },
+                    dokumenter: {
+                        inntektsmelding: {
+                            beregnetInntekt: 31000,
+                            førsteFraværsdag: somDato('2019-09-01'),
+                            mottattTidspunkt: somTidspunkt('2019-10-15T00:00:00'),
+                            type: Hendelsestype.Inntektsmelding
+                        },
+                        sykmelding: {
+                            fom: somDato('2019-09-01'),
+                            tom: somDato('2019-10-10'),
+                            rapportertDato: somDato('2020-02-14'),
+                            type: Hendelsestype.Sykmelding
+                        },
+                        søknad: {
+                            fom: somDato('2019-09-01'),
+                            tom: somDato('2019-10-10'),
+                            rapportertDato: somDato('2020-02-14'),
+                            sendtNav: somDato('2019-10-15'),
+                            type: Hendelsestype.Søknad
+                        }
                     }
                 }
             ]
@@ -1101,28 +1086,29 @@ const mappetPerson = {
     ],
     hendelser: [
         {
-            rapportertdato: '2020-02-14T12:00:15.515707',
-            fom: '2019-09-16',
-            tom: '2019-10-05',
-            type: 'NY_SØKNAD'
+            rapportertDato: somDato('2020-02-14'),
+            fom: somDato('2019-09-01'),
+            tom: somDato('2019-10-10'),
+            type: Hendelsestype.Sykmelding
         },
         {
-            rapportertdato: '2020-02-14T12:00:15.730199',
-            sendtNav: '2019-10-15T00:00:00',
-            fom: '2019-09-10',
-            tom: '2019-10-05',
-            type: 'SENDT_SØKNAD'
+            rapportertDato: somDato('2020-02-14'),
+            sendtNav: somDato('2019-10-15'),
+            fom: somDato('2019-09-01'),
+            tom: somDato('2019-10-10'),
+            type: Hendelsestype.Søknad
         },
         {
             beregnetInntekt: 31000.0,
-            førsteFraværsdag: '2019-09-10',
-            type: 'INNTEKTSMELDING'
+            førsteFraværsdag: somDato('2019-09-01'),
+            mottattTidspunkt: somTidspunkt('2019-10-15T00:00:00'),
+            type: Hendelsestype.Inntektsmelding
         }
     ],
     personinfo: {
         navn: 'Ole Brum',
-        kjønn: 'Mannebjørn',
-        fødselsdato: '1956-12-12',
+        kjønn: 'Mannebjørn' as Kjønn,
+        fødselsdato: somDato('1956-12-12'),
         fnr: '01019000123'
     }
 };

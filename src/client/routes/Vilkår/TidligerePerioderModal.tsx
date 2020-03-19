@@ -1,17 +1,17 @@
-'use strict';
 import React from 'react';
 import Modal from 'nav-frontend-modal';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import './TidligerePerioderModal.less';
-import { first26WeeksInterval, workdaysBetween } from '../../utils/date';
+import { first26WeeksInterval, NORSK_DATOFORMAT, workdaysBetween } from '../../utils/date';
 import { Periode } from '../../context/types';
+import { Dayjs } from 'dayjs';
 
 document && document.getElementById('#root') && Modal.setAppElement('#root');
 
 interface Props {
     perioder: Periode[];
     onClose: () => void;
-    førsteFraværsdag: string;
+    førsteFraværsdag: Dayjs;
 }
 
 const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }: Props) => {
@@ -44,8 +44,8 @@ const TidligerePerioderModal = ({ perioder, onClose, førsteFraværsdag }: Props
                                     <Element className="periode">Første 26-ukers mellomrom</Element>
                                 )}
                                 <div className="periode" key={JSON.stringify(item)}>
-                                    <Normaltekst>{item.fom}</Normaltekst>
-                                    <Normaltekst>{item.tom}</Normaltekst>
+                                    <Normaltekst>{item.fom.format(NORSK_DATOFORMAT)}</Normaltekst>
+                                    <Normaltekst>{item.tom.format(NORSK_DATOFORMAT)}</Normaltekst>
                                     <Normaltekst>{workdaysBetween(item.fom, item.tom)}</Normaltekst>
                                 </div>
                             </React.Fragment>

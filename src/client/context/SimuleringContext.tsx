@@ -2,7 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { postSimulering } from '../io/http';
 import { AuthContext } from './AuthContext';
 import { PersonContext } from './PersonContext';
-import { ProviderProps, SpleisVedtaksperiode, Utbetalingsdagtype, Utbetalingsperiode, Vedtaksperiode } from './types';
+import { Dagtype, ProviderProps, Vedtaksperiode } from './types';
+import { SpleisVedtaksperiode, Utbetalingsperiode } from './mapping/external.types';
 
 interface SimuleringResponse {
     status: string;
@@ -25,9 +26,7 @@ interface SimuleringContextType {
 }
 
 const harUtbetalingslinjer = (periode: Vedtaksperiode) =>
-    periode.utbetalingstidslinje.filter(
-        dag => dag.type === Utbetalingsdagtype.NAVDAG || dag.type === Utbetalingsdagtype.NAVHELG
-    ).length > 0;
+    periode.utbetalingstidslinje.filter(dag => dag.type === Dagtype.Syk).length > 0;
 
 export const SimuleringContext = createContext<SimuleringContextType>({});
 

@@ -21,15 +21,13 @@ export const TildelingerContext = createContext<TildelingerContextType>({
 
 export const TildelingerProvider = ({ children }: ProviderProps) => {
     const [tildelinger, setTildelinger] = useState<Tildeling[]>([]);
-    const [error, setError] = useState();
+    const [error, setError] = useState<string | undefined>(undefined);
 
     const tildelBehandling = (behovId: string, userId: string) => {
         postTildeling({ behovId, userId })
             .then(() => {
                 setTildelinger((t: Tildeling[]) =>
-                    t.map(tildeling =>
-                        tildeling.behovId === behovId ? { behovId, userId } : tildeling
-                    )
+                    t.map(tildeling => (tildeling.behovId === behovId ? { behovId, userId } : tildeling))
                 );
                 setError(undefined);
             })
@@ -48,9 +46,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             const behovIds = saksoversikt.map(b => b['@id']);
             getTildelinger(behovIds)
                 .then(result => {
-                    const nyeTildelinger = result.data.filter(
-                        (tildeling: Tildeling) => tildeling.userId !== undefined
-                    );
+                    const nyeTildelinger = result.data.filter((tildeling: Tildeling) => tildeling.userId !== undefined);
                     setTildelinger(nyeTildelinger);
                 })
                 .catch(err => {
@@ -63,9 +59,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const fjernTildeling = (behovId: string) => {
         deleteTildeling(behovId)
             .then(() => {
-                setTildelinger(
-                    tildelinger.filter((tildeling: Tildeling) => tildeling.behovId !== behovId)
-                );
+                setTildelinger(tildelinger.filter((tildeling: Tildeling) => tildeling.behovId !== behovId));
                 setError(undefined);
             })
             .catch(error => {

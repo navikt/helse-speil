@@ -47,7 +47,7 @@ const resources: Resource = {
                 medlemskap: 'Medlemskap'
             },
             inntektskilder: {
-                inntektsmeldinger: 'Fra inntektsmelding',
+                inntektsmeldinger: 'Fra Inntektsmelding',
                 månedsinntekt: 'Månedsbeløp',
                 årsinntekt: 'Omregnet årsinntekt som legges til grunn',
                 aordningen: 'A-Ordningen må sjekkes manuelt',
@@ -67,7 +67,7 @@ const resources: Resource = {
                 pleiepenger: 'Pleiepenger'
             },
             sykepengegrunnlag: {
-                inntektsmeldinger: 'Hentet fra inntektsmelding',
+                inntektsmeldinger: 'Hentet fra Inntektsmelding',
                 månedsinntekt: 'Beregnet månedsinntekt',
                 årsinntekt: 'Omregnet årsinntekt',
                 aordningen: 'A-Ordningen må sjekkes manuelt',

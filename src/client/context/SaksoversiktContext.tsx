@@ -2,7 +2,6 @@ import React, { createContext, ReactChild, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { fetchBehovoversikt, getPersoninfo } from '../io/http';
-import { Optional } from './types';
 import { Behov } from '../../types';
 
 interface Error {
@@ -41,7 +40,7 @@ const appendPersoninfo = (behov: Behov) => {
 };
 
 export const BehovoversiktProvider = ({ children }: ProviderProps) => {
-    const [error, setError] = useState<Optional<Error>>(undefined);
+    const [error, setError] = useState<Error | undefined>(undefined);
     const [behovoversikt, setBehovoversikt] = useState<Behov[]>([]);
     const [isFetchingBehovoversikt, setIsFetchingBehovoversikt] = useState(false);
     const [isFetchingPersoninfo, setIsFetchingPersoninfo] = useState(false);

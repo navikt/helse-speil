@@ -6,6 +6,7 @@ import { Vedtaksperiode } from '../../context/types';
 import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
 import styled from '@emotion/styled';
+import { NORSK_DATOFORMAT } from '../../utils/date';
 import TwoColumnGrid from '../../components/TwoColumnGrid';
 
 interface BehandletVedtaksperiodeProps {
@@ -18,7 +19,8 @@ const Innhold = styled(TwoColumnGrid)`
 `;
 
 const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }: BehandletVedtaksperiodeProps) => {
-    const førsteFraværsdag = dayjs(førsteVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag).format('DD.MM.YYYY');
+    const førsteFraværsdag =
+        førsteVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag.format(NORSK_DATOFORMAT) ?? 'Ukjent dato';
 
     return (
         <>
@@ -27,7 +29,7 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                 tittel={`Vilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
                 vurderingsdato={
                     førsteVedtaksperiode?.godkjentTidspunkt
-                        ? dayjs(førsteVedtaksperiode?.godkjentTidspunkt).format('DD.MM.YYYY')
+                        ? dayjs(førsteVedtaksperiode?.godkjentTidspunkt).format(NORSK_DATOFORMAT)
                         : 'ukjent'
                 }
             >
@@ -38,16 +40,16 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                         <Vilkårsgruppe tittel="Medvirkning" paragraf="§8-8" ikontype="ok" />
                         <Vilkårsgrupper.Alder alder={aktivVedtaksperiode.vilkår.alderISykmeldingsperioden} />
                         <Vilkårsgrupper.Søknadsfrist
-                            innen3Mnd={aktivVedtaksperiode.vilkår.søknadsfrist.innen3Mnd}
-                            sendtNav={aktivVedtaksperiode.vilkår.søknadsfrist.sendtNav!}
-                            sisteSykepengedag={aktivVedtaksperiode.vilkår.søknadsfrist.søknadTom!}
+                            innen3Mnd={aktivVedtaksperiode.vilkår.søknadsfrist?.innen3Mnd}
+                            sendtNav={aktivVedtaksperiode.vilkår.søknadsfrist?.sendtNav}
+                            sisteSykepengedag={aktivVedtaksperiode.vilkår.søknadsfrist?.søknadTom!}
                         />
                     </FlexColumn>
                     <FlexColumn>
                         {førsteVedtaksperiode.vilkår.opptjening ? (
                             <Vilkårsgrupper.Opptjeningstid
                                 harOpptjening={førsteVedtaksperiode.vilkår.opptjening.harOpptjening}
-                                førsteFraværsdag={førsteVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag}
+                                førsteFraværsdag={førsteVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag}
                                 opptjeningFra={førsteVedtaksperiode.vilkår.opptjening.opptjeningFra}
                                 antallOpptjeningsdagerErMinst={
                                     førsteVedtaksperiode.vilkår.opptjening.antallOpptjeningsdagerErMinst
@@ -64,10 +66,10 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                             sykepengegrunnlag={aktivVedtaksperiode.sykepengegrunnlag.årsinntektFraInntektsmelding!}
                         />
                         <Vilkårsgrupper.DagerIgjen
-                            førsteFraværsdag={aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag}
-                            førsteSykepengedag={aktivVedtaksperiode.vilkår.dagerIgjen.førsteSykepengedag}
-                            dagerBrukt={aktivVedtaksperiode.vilkår.dagerIgjen.dagerBrukt}
-                            maksdato={aktivVedtaksperiode.vilkår.dagerIgjen.maksdato}
+                            førsteFraværsdag={aktivVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag}
+                            førsteSykepengedag={aktivVedtaksperiode.vilkår.dagerIgjen?.førsteSykepengedag}
+                            dagerBrukt={aktivVedtaksperiode.vilkår.dagerIgjen?.dagerBrukt}
+                            maksdato={aktivVedtaksperiode.vilkår.dagerIgjen?.maksdato}
                         />
                     </FlexColumn>
                 </Innhold>
