@@ -7,18 +7,15 @@ import { Container } from './Vilkårsgruppe/Vilkårsgruppe';
 import Advarselikon from '../../components/Ikon/Advarselikon';
 import Vilkårsgrupperad from './Vilkårsgruppe/Vilkårsgrupperad';
 import { Deloverskrift, Ikon } from './components';
-import Grid from '../../components/Grid';
+import TwoColumnGrid from '../../components/TwoColumnGrid';
 
 const Yrkesskadetekst = styled.span`
     padding-left: 2.5rem;
 `;
 
-export const Innhold = styled(Grid)`
+export const Innhold = styled(TwoColumnGrid)`
     padding: 1rem 1.5rem;
     justify-content: start;
-    > div:not(:last-child) {
-        margin-right: 14.5rem;
-    }
 `;
 
 const IkkeVurderingGrid = styled.span`
@@ -61,7 +58,7 @@ const Yrkeskadeinfo = () => (
 
 const IkkeVurderteVilkår = () => {
     return (
-        <Innhold kolonner={2}>
+        <Innhold>
             <FlexColumn>
                 <VilkårSystemetIkkeVurderer />
             </FlexColumn>

@@ -6,14 +6,14 @@ import { Vedtaksperiode } from '../../context/types';
 import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
 import styled from '@emotion/styled';
-import Grid from '../../components/Grid';
+import TwoColumnGrid from '../../components/TwoColumnGrid';
 
 interface BehandletVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
     førsteVedtaksperiode: Vedtaksperiode;
 }
 
-const Innhold = styled(Grid)`
+const Innhold = styled(TwoColumnGrid)`
     margin-top: 2rem;
 `;
 
@@ -31,10 +31,8 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                         : 'ukjent'
                 }
             >
-                <Innhold kolonner={2}>
+                <Innhold firstColumnWidth={'35rem'}>
                     <FlexColumn>
-                        <Vilkårsgrupper.Arbeidsuførhet />
-                        <Vilkårsgrupper.Medlemskap />
                         <Vilkårsgrupper.Alder alder={aktivVedtaksperiode.vilkår.alderISykmeldingsperioden} />
                         <Vilkårsgrupper.Søknadsfrist
                             innen3Mnd={aktivVedtaksperiode.vilkår.søknadsfrist.innen3Mnd}

@@ -8,7 +8,7 @@ import { FlexColumn } from '../../components/FlexColumn';
 import { Deloverskrift, Overskrift } from './components';
 import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
 import './PåfølgendeVedtaksperiode.less';
-import Grid from '../../components/Grid';
+import TwoColumnGrid from '../../components/TwoColumnGrid';
 
 interface PåfølgendeVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
@@ -51,7 +51,7 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                         : 'ukjent'
                 }
             >
-                <Grid kolonner={2}>
+                <TwoColumnGrid firstColumnWidth={'35rem'}>
                     <FlexColumn>
                         {førsteVedtaksperiode.vilkår.opptjening ? (
                             <Vilkårsgrupper.Opptjeningstid
@@ -75,7 +75,7 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                             sykepengegrunnlag={førsteVedtaksperiode.sykepengegrunnlag.årsinntektFraInntektsmelding!}
                         />
                     </FlexColumn>
-                </Grid>
+                </TwoColumnGrid>
             </StyledBehandletInnhold>
         </>
     );
