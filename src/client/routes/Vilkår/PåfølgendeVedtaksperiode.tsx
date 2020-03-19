@@ -18,7 +18,7 @@ interface PåfølgendeVedtaksperiodeProps {
 const Strek = styled.hr`
     border: 0;
     height: 0;
-    border-top: 1.5px solid #c6c2bf;
+    border-top: 1px solid #c6c2bf;
 `;
 
 const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }: PåfølgendeVedtaksperiodeProps) => {
