@@ -8,11 +8,11 @@ interface Props {
 }
 
 const Navn = styled(Normaltekst)`
-    min-width: 9rem;
+    min-width: 15rem;
 `;
 
 const Verdi = styled(Normaltekst)`
-    text-align: right;
+    text-align: left;
 `;
 
 const Vilkårsgrupperad = ({ label, children }: Props) => (
