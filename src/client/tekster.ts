@@ -37,7 +37,7 @@ const resources: Resource = {
                 tittel: 'Neste saker',
                 søker: 'Søker',
                 tildeling: 'Tildelt',
-                tidspunkt: 'Tidspunkt'
+                opprettet: 'Opprettet'
             },
             sykdomsvilkår: {
                 sykdomsvilkår: 'Sykdomsvilkår må vurderes manuelt'

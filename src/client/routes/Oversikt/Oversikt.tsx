@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Oversiktslinje from './Oversiktslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Panel } from 'nav-frontend-paneler';
@@ -14,10 +14,26 @@ import { Person } from '../../context/types';
 import { useTranslation } from 'react-i18next';
 import { Behov } from '../../../types';
 import { Location, useNavigation } from '../../hooks/useNavigation';
+import dayjs from 'dayjs';
+import { NedChevron, OppChevron } from 'nav-frontend-chevron';
+import styled from '@emotion/styled';
+
+const SorterPil = styled.span`
+    margin-left: 0.25rem;
+    cursor: pointer;
+`;
 
 const TWO_MINUTES = 120000;
 
+enum SortDirection {
+    DESC,
+    ASC
+}
+
 const Oversikt = () => {
+    const [behovsliste, setBehovsliste] = useState<Behov[]>([]);
+    const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.ASC);
+
     const { navigateTo } = useNavigation();
     const { t } = useTranslation();
     const { hentPerson } = useContext(PersonContext);
@@ -29,8 +45,18 @@ const Oversikt = () => {
     );
 
     useEffect(() => {
+        if (behovoversikt !== undefined) {
+            setBehovsliste(sorter(behovoversikt).reverse());
+        }
+    }, [behovoversikt]);
+
+    useEffect(() => {
         hentBehovoversikt();
     }, []);
+
+    useEffect(() => {
+        setBehovsliste(prevState => [...prevState].reverse());
+    }, [sortDirection]);
 
     const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(behovoversikt), [behovoversikt]);
     useInterval({ callback: intervalledFetchTildelinger, interval: TWO_MINUTES });
@@ -39,6 +65,14 @@ const Oversikt = () => {
         hentPerson(behov.aktørId).then((person: Person) => {
             navigateTo(Location.Sykmeldingsperiode, person);
         });
+    };
+
+    const sorter = (liste: Behov[]) => {
+        return [...liste].sort((a, b) => (dayjs(a['@opprettet']).isBefore(b['@opprettet']) ? -1 : 1));
+    };
+
+    const sorterBehov = () => {
+        setSortDirection(prevState => (prevState === SortDirection.DESC ? SortDirection.ASC : SortDirection.DESC));
     };
 
     return (
@@ -60,10 +94,19 @@ const Oversikt = () => {
                     <ul>
                         <li className="row">
                             <Normaltekst>{t('oversikt.søker')}</Normaltekst>
-                            <Normaltekst>{t('oversikt.tidspunkt')}</Normaltekst>
+                            <Normaltekst role={'columnheader'}>
+                                {t('oversikt.opprettet')}
+                                <SorterPil onClick={sorterBehov}>
+                                    {sortDirection === SortDirection.ASC ? (
+                                        <OppChevron aria-sort="descending" />
+                                    ) : (
+                                        <NedChevron aria-sort="ascending" />
+                                    )}
+                                </SorterPil>
+                            </Normaltekst>
                             <Normaltekst>{t('oversikt.tildeling')}</Normaltekst>
                         </li>
-                        {behovoversikt.map((behov: Behov) => {
+                        {behovsliste.map((behov: Behov) => {
                             const tildeling = tildelinger.find(t => t.behovId === behov['@id']);
                             return (
                                 <Oversiktslinje
