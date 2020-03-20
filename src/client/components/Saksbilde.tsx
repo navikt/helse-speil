@@ -87,8 +87,8 @@ const Saksbilde = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
     const dokumenter = aktivVedtaksperiode ? Object.values(aktivVedtaksperiode?.dokumenter) : [];
-    const hendelser = personTilBehandling?.hendelser.map((hendelse: Hendelse) => ({
-        id: `${hendelse.type}-${hendelseFørsteDato(hendelse)}`,
+    const hendelser = personTilBehandling?.hendelser.map((hendelse: Hendelse, i: number) => ({
+        id: `${hendelse.type}-${hendelseFørsteDato(hendelse)}-${i}`,
         dato: datoForHendelse(hendelse),
         navn: navnForHendelse(hendelse),
         type: dokumenter.includes(hendelse) ? LoggHendelsestype.Dokumenter : LoggHendelsestype.Historikk
