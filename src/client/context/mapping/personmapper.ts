@@ -3,7 +3,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Hendelse, Hendelsestype, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types';
+import { Hendelse, Hendelsestype, Inntektsmelding, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types';
 import { Personinfo as SpleisPersoninfo } from '../../../types';
 import { mapVedtaksperiode, somDato, somKanskjeDato, somTidspunkt } from './vedtaksperiodemapper';
 import {
@@ -53,20 +53,39 @@ const mapHendelser = (hendelser: SpleisHendelse[]): Hendelse[] =>
         }
     });
 
+const finnGjeldendeInntektsmelding = (gjeldendeUtbetalingsreferanse: string, person: SpleisPerson): Inntektsmelding => {
+    const førsteVedtaksperiodehendelser: string[] = person.arbeidsgivere
+        .flatMap(arbeidsgiver => arbeidsgiver.vedtaksperioder)
+        .filter(periode => periode.utbetalingsreferanse === gjeldendeUtbetalingsreferanse)
+        .sort((a, b) =>
+            somDato(a.sykdomstidslinje[0].dagen).isAfter(somDato(b.sykdomstidslinje[0].dagen)) ? 1 : -1
+        )[0].hendelser;
+    const inntektsmeldinghendelser = person.hendelser.filter(
+        hendelse =>
+            førsteVedtaksperiodehendelser.includes(hendelse.hendelseId) &&
+            hendelse.type === SpleisHendelsetype.INNTEKTSMELDING
+    );
+    return mapHendelser(inntektsmeldinghendelser)[0] as Inntektsmelding;
+};
+
 const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelser: Hendelse[]) =>
     person.arbeidsgivere.map(arbeidsgiver => {
         const dataForVilkårsvurdering = arbeidsgiver.vedtaksperioder
             .map(periode => periode.dataForVilkårsvurdering)
             .find(data => data !== undefined && data !== null);
 
-        const tilVedtaksperiode = (periode: SpleisVedtaksperiode) =>
-            mapVedtaksperiode(
+        const tilVedtaksperiode = (periode: SpleisVedtaksperiode) => {
+            const gjeldendeInntektsmelding = finnGjeldendeInntektsmelding(periode.utbetalingsreferanse, person);
+
+            return mapVedtaksperiode(
                 periode,
                 personinfo,
                 hendelser.filter(hendelse => periode.hendelser.includes(hendelse.id)),
+                gjeldendeInntektsmelding,
                 dataForVilkårsvurdering,
                 arbeidsgiver.organisasjonsnummer
             );
+        };
 
         return {
             id: arbeidsgiver.id,

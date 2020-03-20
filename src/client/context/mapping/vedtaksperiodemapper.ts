@@ -31,6 +31,7 @@ export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
     personinfo: Personinfo,
     hendelserForPerson: Hendelse[],
+    gjeldendeInntektsmelding: Inntektsmelding,
     dataForVilkårsvurdering?: DataForVilkårsvurdering,
     organisasjonsnummer?: string
 ): Vedtaksperiode => {
@@ -53,7 +54,7 @@ export const mapVedtaksperiode = (
     const fom = [...sykdomstidslinje].shift()!.dato;
     const tom = [...sykdomstidslinje].pop()!.dato;
 
-    const inntektsmelding: Inntektsmelding | undefined = hendelserForPerson.find(
+    const inntektsmelding: Inntektsmelding = hendelserForPerson.find(
         hendelse => hendelse.type === Hendelsestype.Inntektsmelding
     ) as Inntektsmelding;
 
@@ -86,7 +87,7 @@ export const mapVedtaksperiode = (
                 : undefined;
         return {
             dagerBrukt: spleisPeriode.forbrukteSykedager,
-            førsteFraværsdag: inntektsmelding?.førsteFraværsdag,
+            førsteFraværsdag: gjeldendeInntektsmelding.førsteFraværsdag,
             førsteSykepengedag: førsteSykepengedag,
             maksdato: somDato(spleisPeriode.maksdato),
             tidligerePerioder: []
@@ -116,8 +117,8 @@ export const mapVedtaksperiode = (
     const inntektskilder: Inntektskilde[] = [
         {
             organisasjonsnummer,
-            månedsinntekt: somInntekt(inntektsmelding?.beregnetInntekt),
-            årsinntekt: somÅrsinntekt(inntektsmelding?.beregnetInntekt),
+            månedsinntekt: somInntekt(gjeldendeInntektsmelding.beregnetInntekt),
+            årsinntekt: somÅrsinntekt(gjeldendeInntektsmelding.beregnetInntekt),
             refusjon: true,
             forskuttering: true
         }
@@ -125,7 +126,7 @@ export const mapVedtaksperiode = (
 
     const sykepengegrunnlag = {
         årsinntektFraAording: dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
-        årsinntektFraInntektsmelding: somÅrsinntekt(inntektsmelding?.beregnetInntekt),
+        årsinntektFraInntektsmelding: somÅrsinntekt(gjeldendeInntektsmelding.beregnetInntekt),
         avviksprosent: somProsent(dataForVilkårsvurdering?.avviksprosent),
         dagsats
     };
