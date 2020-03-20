@@ -154,6 +154,11 @@
                         { "dagen": "2020-01-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-01-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": [
+                        "c4d33cde-f889-4c5a-9a74-da727a495fe8",
+                        "1b3b8e2a-3576-4d12-9d06-a2882a71e7a5",
+                        "bd0a8194-2b82-47ac-b7d4-152762833467"
+                    ],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-01-31", "dagsats": 1154 }]
                 },
@@ -349,6 +354,7 @@
                         { "dagen": "2020-02-28", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-02-29", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["a5f30d36-9b73-4a46-bbd5-9cfb349e29a9", "492572e2-4fcb-4cf4-a54b-70f2b2d88e02"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-02-28", "dagsats": 1154 }]
                 },
@@ -560,6 +566,7 @@
                         { "dagen": "2020-03-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-03-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["83b7e3bb-cba9-4a45-93ea-e6b6d63ba69d", "bc7de25b-0555-42b5-a8a3-b402fc42a2b9"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-03-31", "dagsats": 1154 }]
                 },
@@ -769,6 +776,7 @@
                         { "dagen": "2020-04-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-04-30", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["bd0a8194-2b82-47ac-b7d4-152762833467", "366bbfa5-b71f-4e38-84d6-213ba29a1d9d"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-04-30", "dagsats": 1154 }]
                 },
@@ -974,6 +982,7 @@
                         { "dagen": "2020-05-30", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-05-31", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["0a2a78a0-c2fe-429a-873e-8bb1148a178e", "fffa0cd7-f1db-4b5e-a82e-ed74d596dceb"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-05-29", "dagsats": 1154 }]
                 },
@@ -1183,6 +1192,7 @@
                         { "dagen": "2020-06-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-06-30", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["e9808fbb-3ace-4c19-a321-7deaffc0c1cb", "8d87be91-d8c5-4c09-a430-d77327cd58da"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-06-30", "dagsats": 1154 }]
                 },
@@ -1400,6 +1410,7 @@
                         { "dagen": "2020-07-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-07-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["8ec065a3-664c-4de9-aae4-596811290f28", "79564e27-71c7-4069-b08d-e0283c7abee2"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-07-31", "dagsats": 1154 }]
                 },
@@ -1605,6 +1616,7 @@
                         { "dagen": "2020-08-30", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-08-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["2b2b72b0-50ee-4ea2-b82d-9dc8b2e51307", "e51015f2-3b5a-4f2f-ad40-1439d79ee0c0"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-08-31", "dagsats": 1154 }]
                 },
@@ -1814,6 +1826,7 @@
                         { "dagen": "2020-09-29", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-09-30", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["00d33e99-9ca5-4326-91c4-2034d248b23b", "af937825-4b8e-44f4-93bd-b42c205f5efb"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-09-30", "dagsats": 1154 }]
                 },
@@ -2025,6 +2038,7 @@
                         { "dagen": "2020-10-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-10-31", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["68803815-051c-48ef-bcb4-8dfe716bda28", "5fccfe18-dfb4-4bbb-8c8e-2b41e6cedef2"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-10-30", "dagsats": 1154 }]
                 },
@@ -2228,6 +2242,7 @@
                         { "dagen": "2020-11-29", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-11-30", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["79297e1d-e5a2-410c-b866-2e6634791819", "d602df65-0614-47d7-9494-d106ccf2a78e"],
                     "tilstand": "AVSLUTTET",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-11-30", "dagsats": 1154 }]
                 },
@@ -2445,6 +2460,7 @@
                         { "dagen": "2020-12-30", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-12-31", "type": "SYKEDAG_SØKNAD", "grad": 100 }
                     ],
+                    "hendelser": ["46132914-2425-4fa3-a3c0-81e8d9d47be6", "0d8424d8-5ece-45dd-83da-cbb68809ce0a"],
                     "tilstand": "AVVENTER_GODKJENNING",
                     "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-12-29", "dagsats": 1154 }]
                 }
@@ -2452,7 +2468,13 @@
         }
     ],
     "hendelser": [
-        { "rapportertdato": "2020-01-01T00:00:00", "fom": "2020-01-01", "tom": "2020-01-31", "type": "NY_SØKNAD" },
+        {
+            "hendelseId": "c4d33cde-f889-4c5a-9a74-da727a495fe8",
+            "rapportertdato": "2020-01-01T00:00:00",
+            "fom": "2020-01-01",
+            "tom": "2020-01-31",
+            "type": "NY_SØKNAD"
+        },
         {
             "rapportertdato": "2020-02-01T00:00:00",
             "sendtNav": "2020-02-01T00:00:00",
@@ -2461,93 +2483,171 @@
             "type": "SENDT_SØKNAD"
         },
         {
+            "hendelseId": "1b3b8e2a-3576-4d12-9d06-a2882a71e7a5",
             "beregnetInntekt": 25000,
             "førsteFraværsdag": "2020-01-01",
             "mottattDato": "2020-01-01T00:00:00",
             "type": "INNTEKTSMELDING"
         },
         {
+            "hendelseId": "bd0a8194-2b82-47ac-b7d4-152762833467",
             "rapportertdato": "2020-05-01T00:00:00",
             "sendtNav": "2020-05-01T00:00:00",
             "fom": "2020-04-01",
             "tom": "2020-04-30",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-02-01T00:00:00", "fom": "2020-02-01", "tom": "2020-02-29", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "a5f30d36-9b73-4a46-bbd5-9cfb349e29a9",
+            "rapportertdato": "2020-02-01T00:00:00",
+            "fom": "2020-02-01",
+            "tom": "2020-02-29",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "492572e2-4fcb-4cf4-a54b-70f2b2d88e02",
             "rapportertdato": "2020-03-01T00:00:00",
             "sendtNav": "2020-03-01T00:00:00",
             "fom": "2020-02-01",
             "tom": "2020-02-29",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-03-01T00:00:00", "fom": "2020-03-01", "tom": "2020-03-31", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "83b7e3bb-cba9-4a45-93ea-e6b6d63ba69d",
+            "rapportertdato": "2020-03-01T00:00:00",
+            "fom": "2020-03-01",
+            "tom": "2020-03-31",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "bc7de25b-0555-42b5-a8a3-b402fc42a2b9",
             "rapportertdato": "2020-04-01T00:00:00",
             "sendtNav": "2020-04-01T00:00:00",
             "fom": "2020-03-01",
             "tom": "2020-03-31",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-04-01T00:00:00", "fom": "2020-04-01", "tom": "2020-04-30", "type": "NY_SØKNAD" },
-        { "rapportertdato": "2020-05-01T00:00:00", "fom": "2020-05-01", "tom": "2020-05-31", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "366bbfa5-b71f-4e38-84d6-213ba29a1d9d",
+            "rapportertdato": "2020-04-01T00:00:00",
+            "fom": "2020-04-01",
+            "tom": "2020-04-30",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "0a2a78a0-c2fe-429a-873e-8bb1148a178e",
+            "rapportertdato": "2020-05-01T00:00:00",
+            "fom": "2020-05-01",
+            "tom": "2020-05-31",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "fffa0cd7-f1db-4b5e-a82e-ed74d596dceb",
             "rapportertdato": "2020-06-01T00:00:00",
             "sendtNav": "2020-06-01T00:00:00",
             "fom": "2020-05-01",
             "tom": "2020-05-31",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-06-01T00:00:00", "fom": "2020-06-01", "tom": "2020-06-30", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "e9808fbb-3ace-4c19-a321-7deaffc0c1cb",
+            "rapportertdato": "2020-06-01T00:00:00",
+            "fom": "2020-06-01",
+            "tom": "2020-06-30",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "8d87be91-d8c5-4c09-a430-d77327cd58da",
             "rapportertdato": "2020-07-01T00:00:00",
             "sendtNav": "2020-07-01T00:00:00",
             "fom": "2020-06-01",
             "tom": "2020-06-30",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-07-01T00:00:00", "fom": "2020-07-01", "tom": "2020-07-31", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "8ec065a3-664c-4de9-aae4-596811290f28",
+            "rapportertdato": "2020-07-01T00:00:00",
+            "fom": "2020-07-01",
+            "tom": "2020-07-31",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "79564e27-71c7-4069-b08d-e0283c7abee2",
             "rapportertdato": "2020-08-01T00:00:00",
             "sendtNav": "2020-08-01T00:00:00",
             "fom": "2020-07-01",
             "tom": "2020-07-31",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-08-01T00:00:00", "fom": "2020-08-01", "tom": "2020-08-31", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "2b2b72b0-50ee-4ea2-b82d-9dc8b2e51307",
+            "rapportertdato": "2020-08-01T00:00:00",
+            "fom": "2020-08-01",
+            "tom": "2020-08-31",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "e51015f2-3b5a-4f2f-ad40-1439d79ee0c0",
             "rapportertdato": "2020-09-01T00:00:00",
             "sendtNav": "2020-09-01T00:00:00",
             "fom": "2020-08-01",
             "tom": "2020-08-31",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-09-01T00:00:00", "fom": "2020-09-01", "tom": "2020-09-30", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "00d33e99-9ca5-4326-91c4-2034d248b23b",
+            "rapportertdato": "2020-09-01T00:00:00",
+            "fom": "2020-09-01",
+            "tom": "2020-09-30",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "af937825-4b8e-44f4-93bd-b42c205f5efb",
             "rapportertdato": "2020-10-01T00:00:00",
             "sendtNav": "2020-10-01T00:00:00",
             "fom": "2020-09-01",
             "tom": "2020-09-30",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-10-01T00:00:00", "fom": "2020-10-01", "tom": "2020-10-31", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "68803815-051c-48ef-bcb4-8dfe716bda28",
+            "rapportertdato": "2020-10-01T00:00:00",
+            "fom": "2020-10-01",
+            "tom": "2020-10-31",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "5fccfe18-dfb4-4bbb-8c8e-2b41e6cedef2",
             "rapportertdato": "2020-11-01T00:00:00",
             "sendtNav": "2020-11-01T00:00:00",
             "fom": "2020-10-01",
             "tom": "2020-10-31",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-11-01T00:00:00", "fom": "2020-11-01", "tom": "2020-11-30", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "79297e1d-e5a2-410c-b866-2e6634791819",
+            "rapportertdato": "2020-11-01T00:00:00",
+            "fom": "2020-11-01",
+            "tom": "2020-11-30",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "d602df65-0614-47d7-9494-d106ccf2a78e",
             "rapportertdato": "2020-12-01T00:00:00",
             "sendtNav": "2020-12-01T00:00:00",
             "fom": "2020-11-01",
             "tom": "2020-11-30",
             "type": "SENDT_SØKNAD"
         },
-        { "rapportertdato": "2020-12-01T00:00:00", "fom": "2020-12-01", "tom": "2020-12-31", "type": "NY_SØKNAD" },
         {
+            "hendelseId": "46132914-2425-4fa3-a3c0-81e8d9d47be6",
+            "rapportertdato": "2020-12-01T00:00:00",
+            "fom": "2020-12-01",
+            "tom": "2020-12-31",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "0d8424d8-5ece-45dd-83da-cbb68809ce0a",
             "rapportertdato": "2021-01-01T00:00:00",
             "sendtNav": "2021-01-01T00:00:00",
             "fom": "2020-12-01",

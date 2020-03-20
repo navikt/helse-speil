@@ -30,7 +30,7 @@ export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFO
 export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
     personinfo: Personinfo,
-    hendelser: Hendelse[],
+    hendelserForPerson: Hendelse[],
     dataForVilkårsvurdering?: DataForVilkårsvurdering,
     organisasjonsnummer?: string
 ): Vedtaksperiode => {
@@ -53,22 +53,12 @@ export const mapVedtaksperiode = (
     const fom = [...sykdomstidslinje].shift()!.dato;
     const tom = [...sykdomstidslinje].pop()!.dato;
 
-    const inntektsmelding: Inntektsmelding | undefined = hendelser.find(
+    const inntektsmelding: Inntektsmelding | undefined = hendelserForPerson.find(
         hendelse => hendelse.type === Hendelsestype.Inntektsmelding
     ) as Inntektsmelding;
 
-    const søknad = hendelser.find(
-        hendelse =>
-            hendelse.type === Hendelsestype.Søknad &&
-            hendelse.fom.isSameOrBefore(fom) &&
-            hendelse.tom.isSameOrAfter(tom)
-    ) as Søknad;
-    const sykmelding = hendelser.find(
-        hendelse =>
-            hendelse.type === Hendelsestype.Sykmelding &&
-            hendelse.fom.isSameOrBefore(fom) &&
-            hendelse.tom.isSameOrAfter(tom)
-    ) as Sykmelding;
+    const søknad = hendelserForPerson.find(hendelse => hendelse.type === Hendelsestype.Søknad) as Søknad;
+    const sykmelding = hendelserForPerson.find(hendelse => hendelse.type === Hendelsestype.Sykmelding) as Sykmelding;
 
     const kanVelges =
         [

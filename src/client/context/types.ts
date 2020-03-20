@@ -61,6 +61,7 @@ export enum Hendelsestype {
 }
 
 export interface Søknad {
+    hendelseId: string;
     type: Hendelsestype.Søknad;
     fom: Dayjs;
     tom: Dayjs;
@@ -69,6 +70,7 @@ export interface Søknad {
 }
 
 export interface Sykmelding {
+    hendelseId: string;
     type: Hendelsestype.Sykmelding;
     fom: Dayjs;
     tom: Dayjs;
@@ -76,6 +78,7 @@ export interface Sykmelding {
 }
 
 export interface Inntektsmelding {
+    hendelseId: string;
     type: Hendelsestype.Inntektsmelding;
     beregnetInntekt: number;
     førsteFraværsdag: Dayjs;

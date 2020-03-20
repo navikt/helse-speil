@@ -27,6 +27,7 @@ const mapHendelser = (hendelser: SpleisHendelse[]): Hendelse[] =>
         switch (hendelse.type) {
             case SpleisHendelsetype.INNTEKTSMELDING:
                 return {
+                    hendelseId: hendelse.hendelseId,
                     type: Hendelsestype.Inntektsmelding,
                     beregnetInntekt: (hendelse as SpleisInntektsmelding).beregnetInntekt,
                     førsteFraværsdag: somDato((hendelse as SpleisInntektsmelding).førsteFraværsdag),
@@ -34,6 +35,7 @@ const mapHendelser = (hendelser: SpleisHendelse[]): Hendelse[] =>
                 };
             case SpleisHendelsetype.SØKNAD:
                 return {
+                    hendelseId: hendelse.hendelseId,
                     type: Hendelsestype.Søknad,
                     fom: somDato(hendelse.fom),
                     tom: somDato(hendelse.tom),
@@ -42,6 +44,7 @@ const mapHendelser = (hendelser: SpleisHendelse[]): Hendelse[] =>
                 };
             case SpleisHendelsetype.SYKMELDING:
                 return {
+                    hendelseId: hendelse.hendelseId,
                     type: Hendelsestype.Sykmelding,
                     fom: somDato(hendelse.fom),
                     tom: somDato(hendelse.tom),
@@ -60,7 +63,7 @@ const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelse
             mapVedtaksperiode(
                 periode,
                 personinfo,
-                hendelser,
+                hendelser.filter(hendelse => periode.hendelser.includes(hendelse.hendelseId)),
                 dataForVilkårsvurdering,
                 arbeidsgiver.organisasjonsnummer
             );

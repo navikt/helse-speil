@@ -86,6 +86,7 @@ export enum SpleisHendelsetype {
 }
 
 export interface SpleisHendelse {
+    hendelseId: string;
     fom: string;
     tom: string;
     type: SpleisHendelsetype;
@@ -137,6 +138,7 @@ export interface SpleisVedtaksperiode {
     godkjentAv?: string;
     godkjenttidspunkt?: string;
     tilstand: string;
+    hendelser: string[];
     sykdomstidslinje: SpleisSykdomsdag[];
     utbetalingslinjer?: Utbetalingslinje[];
     utbetalingsreferanse: string;

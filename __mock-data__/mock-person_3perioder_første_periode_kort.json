@@ -39,6 +39,11 @@
                         "antallOpptjeningsdagerErMinst": 1095,
                         "harOpptjening": true
                     },
+                    "hendelser": [
+                        "b357b1e3-cabe-4750-85ea-b796a0f60100",
+                        "e6e20997-cc8d-407e-9731-98f85ffe910b",
+                        "c5fad2b9-d488-485c-bbf3-a7d4e7559a61"
+                    ],
                     "tilstand": "AVSLUTTET",
                     "sykdomstidslinje": [
                         { "dagen": "2020-01-01", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
@@ -172,6 +177,11 @@
                     "inntektFraInntektsmelding": 3.1e4,
                     "dataForVilkårsvurdering": null,
                     "tilstand": "AVSLUTTET",
+                    "hendelser": [
+                        "fd1335be-3974-429d-97cb-de92011f75b6",
+                        "6483658c-b0c9-4549-87ca-57d465cb3f5a",
+                        "c5fad2b9-d488-485c-bbf3-a7d4e7559a61"
+                    ],
                     "sykdomstidslinje": [
                         { "dagen": "2020-01-04", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
                         { "dagen": "2020-01-05", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
@@ -216,6 +226,7 @@
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 3.1e4,
                     "dataForVilkårsvurdering": null,
+                    "hendelser": ["0910af7f-49f8-497b-887b-c1623448bb78", "271d8015-a2f7-4c4e-a940-99463b0a6d27"],
                     "tilstand": "AVVENTER_GODKJENNING",
                     "sykdomstidslinje": [
                         { "dagen": "2020-01-19", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
@@ -227,24 +238,28 @@
     ],
     "hendelser": [
         {
+            "hendelseId": "b357b1e3-cabe-4750-85ea-b796a0f60100",
             "rapportertdato": "2020-01-01T00:00:00",
             "fom": "2020-01-01",
             "tom": "2020-01-03",
             "type": "NY_SØKNAD"
         },
         {
+            "hendelseId": "fd1335be-3974-429d-97cb-de92011f75b6",
             "rapportertdato": "2020-01-01T00:00:00",
             "fom": "2020-01-04",
             "tom": "2020-01-18",
             "type": "NY_SØKNAD"
         },
         {
+            "hendelseId": "0910af7f-49f8-497b-887b-c1623448bb78",
             "rapportertdato": "2020-01-01T00:00:00",
             "fom": "2020-01-19",
             "tom": "2020-01-20",
             "type": "NY_SØKNAD"
         },
         {
+            "hendelseId": "e6e20997-cc8d-407e-9731-98f85ffe910b",
             "rapportertdato": "2020-01-01T00:00:00",
             "sendtNav": "2020-02-01T00:00:00",
             "fom": "2020-01-01",
@@ -252,6 +267,7 @@
             "type": "SENDT_SØKNAD"
         },
         {
+            "hendelseId": "6483658c-b0c9-4549-87ca-57d465cb3f5a",
             "rapportertdato": "2020-01-01T00:00:00",
             "sendtNav": "2020-02-01T00:00:00",
             "fom": "2020-01-04",
@@ -259,6 +275,7 @@
             "type": "SENDT_SØKNAD"
         },
         {
+            "hendelseId": "271d8015-a2f7-4c4e-a940-99463b0a6d27",
             "rapportertdato": "2020-01-01T00:00:00",
             "sendtNav": "2020-02-01T00:00:00",
             "fom": "2020-01-19",
@@ -266,6 +283,7 @@
             "type": "SENDT_SØKNAD"
         },
         {
+            "hendelseId": "c5fad2b9-d488-485c-bbf3-a7d4e7559a61",
             "beregnetInntekt": 25000,
             "førsteFraværsdag": "2020-01-01",
             "mottattDato": "2020-01-05",
