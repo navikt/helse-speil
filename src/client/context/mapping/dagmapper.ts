@@ -13,10 +13,11 @@ const utbetalingstidslinjedag = (dag: Utbetalingsdagtype): Dagtype => {
         case Utbetalingsdagtype.FRIDAG:
             return Dagtype.Ferie;
         case Utbetalingsdagtype.UKJENTDAG:
-        case Utbetalingsdagtype.AVVISTDAG:
             return Dagtype.Ubestemt;
         case Utbetalingsdagtype.ARBEIDSDAG:
             return Dagtype.Arbeidsdag;
+        case Utbetalingsdagtype.AVVISTDAG:
+            return Dagtype.Avvist;
     }
 };
 
