@@ -86,13 +86,14 @@ const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
-    const dokumenter = aktivVedtaksperiode ? Object.values(aktivVedtaksperiode?.dokumenter) : [];
-    const hendelser = personTilBehandling?.hendelser.map((hendelse: Hendelse, i: number) => ({
-        id: `${hendelse.type}-${hendelseFørsteDato(hendelse)}-${i}`,
-        dato: datoForHendelse(hendelse),
-        navn: navnForHendelse(hendelse),
-        type: dokumenter.includes(hendelse) ? LoggHendelsestype.Dokumenter : LoggHendelsestype.Historikk
-    }));
+    const dokumenter = aktivVedtaksperiode
+        ? aktivVedtaksperiode.dokumenter.map((hendelse: Hendelse) => ({
+              id: hendelse.id,
+              dato: datoForHendelse(hendelse),
+              navn: navnForHendelse(hendelse),
+              type: LoggHendelsestype.Dokumenter
+          }))
+        : [];
 
     if (!personTilBehandling) {
         return (
@@ -113,7 +114,7 @@ const Saksbilde = () => {
         <>
             <PersonBar />
             <Tidslinje />
-            <LoggProvider hendelser={hendelser}>
+            <LoggProvider hendelser={dokumenter}>
                 <StyledSakslinje
                     venstre={<div />}
                     midt={<Vedtaksperiodeinfo periode={aktivVedtaksperiode} person={personTilBehandling} />}

@@ -175,6 +175,8 @@ export const mapVedtaksperiode = (
         }
     };
 
+    const dokumenter = [søknad, sykmelding, inntektsmelding].filter(hendelse => hendelse !== undefined);
+
     return {
         id: spleisPeriode.id,
         fom,
@@ -196,11 +198,7 @@ export const mapVedtaksperiode = (
         sykepengegrunnlag: sykepengegrunnlag,
         oppsummering: oppsummering,
         rawData: unmappedPeriode,
-        dokumenter: {
-            søknad: søknad,
-            sykmelding: sykmelding,
-            inntektsmelding: inntektsmelding
-        }
+        dokumenter: dokumenter
     };
 };
 

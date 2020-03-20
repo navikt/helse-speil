@@ -1,8 +1,6 @@
 import { Person, Vedtaksperiode } from '../context/types';
 
-/**
- * Finner første vedtaksperiode i en serie av sammenhengende vedtaksperioder
- */
+// Finner første vedtaksperiode i en serie av sammenhengende vedtaksperioder
 export const finnFørsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person: Person): Vedtaksperiode => {
     return person.arbeidsgivere
         .flatMap(arbeidsgiver => arbeidsgiver.vedtaksperioder)

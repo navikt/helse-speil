@@ -61,7 +61,7 @@ export enum Hendelsestype {
 }
 
 export interface Søknad {
-    hendelseId: string;
+    id: string;
     type: Hendelsestype.Søknad;
     fom: Dayjs;
     tom: Dayjs;
@@ -70,7 +70,7 @@ export interface Søknad {
 }
 
 export interface Sykmelding {
-    hendelseId: string;
+    id: string;
     type: Hendelsestype.Sykmelding;
     fom: Dayjs;
     tom: Dayjs;
@@ -78,7 +78,7 @@ export interface Sykmelding {
 }
 
 export interface Inntektsmelding {
-    hendelseId: string;
+    id: string;
     type: Hendelsestype.Inntektsmelding;
     beregnetInntekt: number;
     førsteFraværsdag: Dayjs;
@@ -144,11 +144,7 @@ export interface Vedtaksperiode {
     rawData: SpleisVedtaksperiode;
     godkjentAv?: string;
     godkjenttidspunkt?: Dayjs;
-    dokumenter: {
-        søknad: Søknad;
-        sykmelding: Sykmelding;
-        inntektsmelding?: Inntektsmelding;
-    };
+    dokumenter: Hendelse[];
 }
 
 export interface Arbeidsgiver {
