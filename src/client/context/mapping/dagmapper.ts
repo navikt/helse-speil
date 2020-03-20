@@ -47,6 +47,8 @@ const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dagtype => {
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_SØKNAD:
             return Dagtype.Egenmelding;
+        case SpleisSykdomsdagtype.KUN_ARBEIDSGIVER_SYKEDAG:
+            return Dagtype.Foreldet;
     }
 };
 
@@ -68,6 +70,7 @@ const hendelseType = (type: SpleisSykdomsdagtype): Kildetype | undefined => {
         case SpleisSykdomsdagtype.SYK_HELGEDAG_SYKMELDING:
         case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:
             return Kildetype.Sykmelding;
+        case SpleisSykdomsdagtype.KUN_ARBEIDSGIVER_SYKEDAG:
         case SpleisSykdomsdagtype.UBESTEMTDAG:
         case SpleisSykdomsdagtype.IMPLISITT_DAG:
         case SpleisSykdomsdagtype.PERMISJONSDAG_AAREG:
