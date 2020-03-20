@@ -31,19 +31,23 @@ const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSele
             .catch(() => setFetchFailedText('(Kunne ikke hente navn)'));
     }, [behov.aktørId]);
 
-    const tildelingsCelle = tildeling?.userId ? (
-        <>
-            <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
-            {tildeling.userId === authInfo.email && (
-                <Flatknapp className="knapp--avmeld" onClick={() => onUnassignCase(behov['@id'])}>
-                    Meld av
-                </Flatknapp>
-            )}
-        </>
+    const tildelingsCelle = tildeling ? (
+        tildeling.userId ? (
+            <>
+                <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
+                {tildeling.userId === authInfo.email && (
+                    <Flatknapp className="knapp--avmeld" onClick={() => onUnassignCase(behov['@id'])}>
+                        Meld av
+                    </Flatknapp>
+                )}
+            </>
+        ) : (
+            <Knapp mini onClick={() => onAssignCase(behov['@id'], authInfo.email)}>
+                Tildel til meg
+            </Knapp>
+        )
     ) : (
-        <Knapp mini onClick={() => onAssignCase(behov['@id'], authInfo.email)}>
-            Tildel til meg
-        </Knapp>
+        <span>Henter</span>
     );
 
     return (

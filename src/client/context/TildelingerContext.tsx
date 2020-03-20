@@ -26,8 +26,8 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const tildelBehandling = (behovId: string, userId: string) => {
         postTildeling({ behovId, userId })
             .then(() => {
-                setTildelinger((t: Tildeling[]) =>
-                    t.map(tildeling => (tildeling.behovId === behovId ? { behovId, userId } : tildeling))
+                setTildelinger(prev =>
+                    prev.map(tildeling => (tildeling.behovId === behovId ? { behovId, userId } : tildeling))
                 );
                 setError(undefined);
             })
@@ -44,22 +44,35 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const fetchTildelinger = (saksoversikt: Behov[]) => {
         if (saksoversikt.length > 0) {
             const behovIds = saksoversikt.map(b => b['@id']);
-            getTildelinger(behovIds)
-                .then(result => {
-                    const nyeTildelinger = result.data.filter((tildeling: Tildeling) => tildeling.userId !== undefined);
-                    setTildelinger(nyeTildelinger);
-                })
-                .catch(err => {
-                    setError('Kunne ikke hente tildelingsinformasjon.');
-                    console.error(err);
-                });
+
+            let limit = 500;
+            let i = 0,
+                n = behovIds.length;
+
+            while (i < n) {
+                getTildelinger(behovIds.slice(i, (i += limit)))
+                    .then(result => {
+                        const nyeTildelinger = result.data;
+                        setTildelinger(prev => [...prev, ...nyeTildelinger]);
+                    })
+                    .catch(err => {
+                        setError('Kunne ikke hente tildelingsinformasjon.');
+                        console.error(err);
+                    });
+            }
         }
     };
 
     const fjernTildeling = (behovId: string) => {
         deleteTildeling(behovId)
             .then(() => {
-                setTildelinger(tildelinger.filter((tildeling: Tildeling) => tildeling.behovId !== behovId));
+                setTildelinger(prev =>
+                    prev.map(tildeling =>
+                        tildeling.behovId === behovId
+                            ? (({ ...tildeling, userId: null } as unknown) as Tildeling)
+                            : tildeling
+                    )
+                );
                 setError(undefined);
             })
             .catch(error => {
