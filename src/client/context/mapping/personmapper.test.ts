@@ -1072,44 +1072,44 @@ const mappetPerson = {
                             }
                         ]
                     },
-                    dokumenter: {
-                        sykmelding: {
-                            hendelseId: 'c554ee9b-30ca-4c7f-adce-c0224108e83a',
-                            fom: somDato('2019-09-01'),
-                            tom: somDato('2019-10-10'),
-                            rapportertDato: somDato('2020-02-14'),
-                            type: Hendelsestype.Sykmelding
-                        },
-                        søknad: {
-                            hendelseId: '726e57d9-7844-4a28-886b-8485dbdbd4d2',
+                    dokumenter: [
+                        {
+                            id: '726e57d9-7844-4a28-886b-8485dbdbd4d2',
                             fom: somDato('2019-09-01'),
                             tom: somDato('2019-10-10'),
                             rapportertDato: somDato('2020-02-14'),
                             sendtNav: somDato('2019-10-15'),
                             type: Hendelsestype.Søknad
                         },
-                        inntektsmelding: {
-                            hendelseId: '09851096-bcba-4c7a-8dc0-a1617a744f1f',
+                        {
+                            id: 'c554ee9b-30ca-4c7f-adce-c0224108e83a',
+                            fom: somDato('2019-09-01'),
+                            tom: somDato('2019-10-10'),
+                            rapportertDato: somDato('2020-02-14'),
+                            type: Hendelsestype.Sykmelding
+                        },
+                        {
+                            id: '09851096-bcba-4c7a-8dc0-a1617a744f1f',
                             beregnetInntekt: 31000,
                             førsteFraværsdag: somDato('2019-09-01'),
                             mottattTidspunkt: somTidspunkt('2019-10-15T00:00:00'),
                             type: Hendelsestype.Inntektsmelding
                         }
-                    }
+                    ]
                 }
             ]
         }
     ],
     hendelser: [
         {
-            hendelseId: 'c554ee9b-30ca-4c7f-adce-c0224108e83a',
+            id: 'c554ee9b-30ca-4c7f-adce-c0224108e83a',
             rapportertDato: somDato('2020-02-14'),
             fom: somDato('2019-09-01'),
             tom: somDato('2019-10-10'),
             type: Hendelsestype.Sykmelding
         },
         {
-            hendelseId: '726e57d9-7844-4a28-886b-8485dbdbd4d2',
+            id: '726e57d9-7844-4a28-886b-8485dbdbd4d2',
             rapportertDato: somDato('2020-02-14'),
             sendtNav: somDato('2019-10-15'),
             fom: somDato('2019-09-01'),
@@ -1117,7 +1117,7 @@ const mappetPerson = {
             type: Hendelsestype.Søknad
         },
         {
-            hendelseId: '09851096-bcba-4c7a-8dc0-a1617a744f1f',
+            id: '09851096-bcba-4c7a-8dc0-a1617a744f1f',
             beregnetInntekt: 31000.0,
             førsteFraværsdag: somDato('2019-09-01'),
             mottattTidspunkt: somTidspunkt('2019-10-15T00:00:00'),
