@@ -164,7 +164,8 @@
                         {
                             "fom": "2019-09-26",
                             "tom": "2019-09-30",
-                            "dagsats": 1431
+                            "dagsats": 1431,
+                            "grad": 100.0
                         }
                     ],
                     "utbetalingstidslinje": [

@@ -18,6 +18,8 @@ const utbetalingstidslinjedag = (dag: Utbetalingsdagtype): Dagtype => {
             return Dagtype.Arbeidsdag;
         case Utbetalingsdagtype.AVVISTDAG:
             return Dagtype.Avvist;
+        case Utbetalingsdagtype.FORELDETDAG:
+            return Dagtype.Foreldet;
     }
 };
 

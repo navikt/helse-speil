@@ -151,7 +151,8 @@
                         {
                             "fom": "2018-01-17",
                             "tom": "2018-01-31",
-                            "dagsats": 1431
+                            "dagsats": 1431,
+                            "grad": 100
                         }
                     ],
                     "utbetalingstidslinje": [

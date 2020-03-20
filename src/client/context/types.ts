@@ -94,7 +94,8 @@ export enum Dagtype {
     Avvist = 'Avvist',
     Ubestemt = 'Ubestemt',
     Arbeidsdag = 'Arbeidsdag',
-    Egenmelding = 'Egenmelding'
+    Egenmelding = 'Egenmelding',
+    Foreldet = 'Foreldet'
 }
 
 export enum Kildetype {

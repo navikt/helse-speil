@@ -160,7 +160,7 @@
                         "bd0a8194-2b82-47ac-b7d4-152762833467"
                     ],
                     "tilstand": "AVSLUTTET",
-                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-01-31", "dagsats": 1154 }]
+                    "utbetalingslinjer": [{ "fom": "2020-01-17", "tom": "2020-01-31", "dagsats": 1154, "grad": 100.0 }]
                 },
                 {
                     "utbetalingstidslinje": [

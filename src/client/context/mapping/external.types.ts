@@ -29,6 +29,7 @@ export interface Utbetalingslinje {
     fom: string;
     tom: string;
     dagsats: number;
+    grad: number;
 }
 
 export interface Utbetalingsperiode {
@@ -44,7 +45,8 @@ export enum Utbetalingsdagtype {
     ARBEIDSDAG = 'Arbeidsdag',
     FRIDAG = 'Fridag',
     UKJENTDAG = 'UkjentDag',
-    AVVISTDAG = 'AvvistDag'
+    AVVISTDAG = 'AvvistDag',
+    FORELDETDAG = 'ForeldetDag'
 }
 
 export interface SpleisUtbetalingsdag {
