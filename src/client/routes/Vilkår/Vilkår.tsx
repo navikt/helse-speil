@@ -10,15 +10,10 @@ import Toppvarsel from '../../components/Toppvarsel';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import IkkeVurderteVilkår from './Vilkårsgrupper/IkkeVurderteVilkår';
 import Aktivitetsplikt from './Aktivitetsplikt';
+import { Strek } from './Vilkår.styles';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
-`;
-
-export const Strek = styled.hr`
-    border: 0;
-    height: 0;
-    border-top: 1px solid #c6c2bf;
 `;
 
 const Vilkår = () => {

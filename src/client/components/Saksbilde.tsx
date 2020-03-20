@@ -16,7 +16,7 @@ import { Route } from 'react-router-dom';
 import { PersonContext } from '../context/PersonContext';
 import styled from '@emotion/styled';
 import { Hendelse, Hendelsestype } from '../context/types';
-import { Hendelsetype, LoggHeader, LoggProvider } from '@navikt/helse-frontend-logg';
+import { Hendelsetype as LoggHendelsestype, LoggHeader, LoggProvider } from '@navikt/helse-frontend-logg';
 import { Location, useNavigation } from '../hooks/useNavigation';
 import { NORSK_DATOFORMAT } from '../utils/date';
 
@@ -35,10 +35,10 @@ const Hovedinnhold = styled.div`
 const StyledSakslinje = styled(Sakslinje)`
     border: none;
     border-bottom: 1px solid #c6c2bf;
-    > *:first-child {
+    > div:first-of-type {
         width: 250px;
     }
-    > *:last-child {
+    > div:last-of-type {
         width: 210px;
     }
 `;
@@ -48,9 +48,9 @@ const typeForHendelse = (hendelse: Hendelse) => {
         case Hendelsestype.Sykmelding:
         case Hendelsestype.Inntektsmelding:
         case Hendelsestype.Søknad:
-            return Hendelsetype.Dokumenter;
+            return LoggHendelsestype.Dokumenter;
         default:
-            return Hendelsetype.Historikk;
+            return LoggHendelsestype.Historikk;
     }
 };
 
@@ -75,15 +75,23 @@ const datoForHendelse = (hendelse: Hendelse) => {
     return dato ? dato.format(NORSK_DATOFORMAT) : 'Ukjent dato';
 };
 
+const mapLoggHendelse = (hendelse: Hendelse, type: LoggHendelsestype) => ({
+    id: `${hendelse.type}-${hendelseFørsteDato(hendelse)}`,
+    dato: datoForHendelse(hendelse),
+    navn: navnForHendelse(hendelse),
+    type: type
+});
+
 const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
-    const hendelser = personTilBehandling?.hendelser.map(hendelsen => ({
-        id: `${hendelsen.type}-${hendelseFørsteDato(hendelsen)}`,
-        dato: datoForHendelse(hendelsen),
-        navn: navnForHendelse(hendelsen),
-        type: typeForHendelse(hendelsen)
+    const dokumenter = aktivVedtaksperiode ? Object.values(aktivVedtaksperiode?.dokumenter) : [];
+    const hendelser = personTilBehandling?.hendelser.map((hendelse: Hendelse) => ({
+        id: `${hendelse.type}-${hendelseFørsteDato(hendelse)}`,
+        dato: datoForHendelse(hendelse),
+        navn: navnForHendelse(hendelse),
+        type: dokumenter.includes(hendelse) ? LoggHendelsestype.Dokumenter : LoggHendelsestype.Historikk
     }));
 
     if (!personTilBehandling) {

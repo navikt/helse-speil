@@ -11,3 +11,9 @@ export const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 4rem;
     width: max-content;
 `;
+
+export const Strek = styled.hr`
+    border: 0;
+    height: 0;
+    border-top: 1px solid #c6c2bf;
+`;
