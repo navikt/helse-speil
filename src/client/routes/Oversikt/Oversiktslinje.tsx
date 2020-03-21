@@ -9,7 +9,6 @@ import { Behov } from '../../../types';
 import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { getPersoninfo } from '../../io/http';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 
 interface Props {
     behov: Behov;
@@ -48,7 +47,7 @@ const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSele
             </Knapp>
         )
     ) : (
-        <NavFrontendSpinner type="XS" />
+        <span className="ventetekst">Henter informasjon..</span>
     );
 
     return (
