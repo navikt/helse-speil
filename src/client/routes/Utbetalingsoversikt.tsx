@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { Utbetalingsdag } from '../context/types';
 import { Dayjs } from 'dayjs';
-import Toppvarsel from '../components/Toppvarsel';
+import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Container = styled.div`
     padding: 1.5rem 2rem;
@@ -54,7 +54,7 @@ const Utbetalingsoversikt = () => {
     return (
         <>
             {maksdatoOverskrides && (
-                <Toppvarsel type="feil" text={`Vilkår er ikke oppfylt fra ${maksdato!.format(NORSK_DATOFORMAT)}`} />
+                <Varsel type={Varseltype.Feil}>Vilkår er ikke oppfylt fra {maksdato!.format(NORSK_DATOFORMAT)}</Varsel>
             )}
             <Container>
                 {dager ? <Utbetalingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}

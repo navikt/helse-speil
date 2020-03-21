@@ -6,11 +6,11 @@ import BehandletVedtaksperiode from './BehandletVedtaksperiode';
 import UbehandletVedtaksperiode from './UbehandletVedtaksperiode';
 import PåfølgendeVedtaksperiode from './PåfølgendeVedtaksperiode';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
-import Toppvarsel from '../../components/Toppvarsel';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import IkkeVurderteVilkår from './Vilkårsgrupper/IkkeVurderteVilkår';
 import Aktivitetsplikt from './Aktivitetsplikt';
 import { Strek } from './Vilkår.styles';
+import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
@@ -33,7 +33,7 @@ const Vilkår = () => {
             )}
             {periodeStatus !== VedtaksperiodeStatus.Behandlet && (
                 <>
-                    <Toppvarsel text="Enkelte vilkår må vurderes manuelt" type="advarsel" />
+                    <Varsel type={Varseltype.Advarsel}>Enkelte vilkår må vurderes manuelt</Varsel>
                     <IkkeVurderteVilkår />
                     {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
                         <UbehandletVedtaksperiode aktivVedtaksperiode={aktivVedtaksperiode} />
