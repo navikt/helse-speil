@@ -21,6 +21,11 @@
                         "harOpptjening": true
                     },
                     "tilstand": "TIL_UTBETALING",
+                    "hendelser": [
+                        "33333333-0332-4f12-9760-0451ba480149",
+                        "55555555-ae2d-4dd9-9a4c-59e8494da067",
+                        "22222222-49b2-4a05-8401-06d4b65e184e"
+                    ],
                     "sykdomstidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -325,6 +330,30 @@
                     ]
                 }
             ]
+        }
+    ],
+    "hendelser": [
+        {
+            "hendelseId": "33333333-0332-4f12-9760-0451ba480149",
+            "rapportertdato": "2020-02-11T15:51:43.194354",
+            "fom": "2019-09-16",
+            "tom": "2019-10-05",
+            "type": "NY_SØKNAD"
+        },
+        {
+            "hendelseId": "55555555-ae2d-4dd9-9a4c-59e8494da067",
+            "rapportertdato": "2020-02-11T15:51:52.373631",
+            "sendtNav": "2019-10-15T00:00:00",
+            "fom": "2019-09-09",
+            "tom": "2019-10-05",
+            "type": "SENDT_SØKNAD"
+        },
+        {
+            "hendelseId": "22222222-49b2-4a05-8401-06d4b65e184e",
+            "beregnetInntekt": 31000.0,
+            "førsteFraværsdag": "2019-09-10",
+            "mottattDato": "2019-09-14",
+            "type": "INNTEKTSMELDING"
         }
     ]
 }
