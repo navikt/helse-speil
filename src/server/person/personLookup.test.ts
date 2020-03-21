@@ -1,13 +1,12 @@
 // @ts-nocheck
 import personLookup from './personLookup';
-import spleisClient from './spleisClient';
-
-jest.mock('./spleisClient');
-spleisClient.hentPerson.mockResolvedValue({ statusCode: 200 });
-spleisClient.hentSakByUtbetalingsref.mockResolvedValue({ statusCode: 200 });
 afterEach(() => {
     jest.clearAllMocks();
 });
+const spleisClient = {
+    hentPerson: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('plain person') }),
+    hentSakByUtbetalingsref: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('utbetalt person') })
+};
 
 const onBehalfOfStub = {
     hentFor: () => Promise.resolve()
@@ -39,21 +38,19 @@ describe('finnPerson', () => {
         session: {}
     };
 
-    test('finnPerson uten innsyn-header kaller spleisClient.hentSak', async () => {
+    test('finnPerson uten innsyn-header kaller spleisClient.hentPerson', async () => {
         await personLookup.finnPerson(baseReq, mockResponse);
 
-        expect(spleisClient.hentPerson.mock.calls.length).toBe(1);
-        expect(spleisClient.hentSakByUtbetalingsref.mock.calls.length).toBe(0);
-        assertResponseStatusCode(200);
+        const response = await mockResponse.send.mock.calls[0][0].person;
+        expect(response).toBe('plain person');
     });
 
     test('finnPerson med innsyn-header kaller spleisClient.hentSakByUtbet...', async () => {
         const reqWithInnsynHeader = { ...baseReq, headers: { ...baseReq.headers, innsyn: 'true' } };
         await personLookup.finnPerson(reqWithInnsynHeader, mockResponse);
 
-        expect(spleisClient.hentPerson.mock.calls.length).toBe(0);
-        expect(spleisClient.hentSakByUtbetalingsref.mock.calls.length).toBe(1);
-        assertResponseStatusCode(200);
+        const response = await mockResponse.send.mock.calls[0][0].person;
+        expect(response).toBe('utbetalt person');
     });
 
     describe('oppslag på fødselsnummer', () => {
