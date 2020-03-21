@@ -3,7 +3,7 @@ import personLookup from './personLookup';
 import spleisClient from './spleisClient';
 
 jest.mock('./spleisClient');
-spleisClient.hentSak.mockResolvedValue({ statusCode: 200 });
+spleisClient.hentPerson.mockResolvedValue({ statusCode: 200 });
 spleisClient.hentSakByUtbetalingsref.mockResolvedValue({ statusCode: 200 });
 afterEach(() => {
     jest.clearAllMocks();
@@ -32,25 +32,25 @@ const mockResponse = (() => {
     return res;
 })();
 
-describe('sakSøk', () => {
+describe('finnPerson', () => {
     const baseReq = {
         headers: { [personLookup.personIdHeaderName]: '123' },
         session: {}
     };
 
-    test('sakSøk uten innsyn-header kaller spleisClient.hentSak', async () => {
-        await personLookup.sakSøk(baseReq, mockResponse);
+    test('finnPerson uten innsyn-header kaller spleisClient.hentSak', async () => {
+        await personLookup.finnPerson(baseReq, mockResponse);
 
-        expect(spleisClient.hentSak.mock.calls.length).toBe(1);
+        expect(spleisClient.hentPerson.mock.calls.length).toBe(1);
         expect(spleisClient.hentSakByUtbetalingsref.mock.calls.length).toBe(0);
         assertResponseStatusCode(200);
     });
 
-    test('sakSøk med innsyn-header kaller spleisClient.hentSakByUtbet...', async () => {
+    test('finnPerson med innsyn-header kaller spleisClient.hentSakByUtbet...', async () => {
         const reqWithInnsynHeader = { ...baseReq, headers: { ...baseReq.headers, innsyn: 'true' } };
-        await personLookup.sakSøk(reqWithInnsynHeader, mockResponse);
+        await personLookup.finnPerson(reqWithInnsynHeader, mockResponse);
 
-        expect(spleisClient.hentSak.mock.calls.length).toBe(0);
+        expect(spleisClient.hentPerson.mock.calls.length).toBe(0);
         expect(spleisClient.hentSakByUtbetalingsref.mock.calls.length).toBe(1);
         assertResponseStatusCode(200);
     });
@@ -61,7 +61,7 @@ describe('sakSøk', () => {
             headers: { ...baseReq.headers, [personLookup.personIdHeaderName]: '11031888001' }
         };
         test('slår opp aktørId for fødselsnummer', async () => {
-            await personLookup.sakSøk(reqWithFnr, mockResponse);
+            await personLookup.finnPerson(reqWithFnr, mockResponse);
 
             assertResponseStatusCode(200);
         });
@@ -69,7 +69,7 @@ describe('sakSøk', () => {
         test('returnerer 404 for ikke funnet fødselsnummer', async () => {
             hentAktørIdAnswer = Promise.reject();
 
-            await personLookup.sakSøk(reqWithFnr, mockResponse);
+            await personLookup.finnPerson(reqWithFnr, mockResponse);
 
             assertResponseStatusCode(404);
         });

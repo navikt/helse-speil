@@ -3,11 +3,11 @@ import fs from 'fs';
 import { Behov } from '../../types';
 
 export interface SpleisClient {
-    hentSak: (aktørId: string, onBehalfOfToken: string) => Promise<Behov>;
+    hentPerson: (aktørId: string, onBehalfOfToken: string) => Promise<Behov>;
     hentSakByUtbetalingsref: (utbetalingsref: string, onBehalfOfToken: string) => Promise<Behov>;
 }
 
-const hentSakByAktørId = async (aktørId: string, onBehalfOfToken: string) => {
+const hentPersonByAktørId = async (aktørId: string, onBehalfOfToken: string) => {
     if (process.env.NODE_ENV === 'development') {
         const fromFile = fs.readFileSync(`__mock-data__/${filename(aktørId)}`, 'utf-8');
         const person = JSON.parse(fromFile);
@@ -59,7 +59,7 @@ const filename = (aktørId: string) => {
 };
 
 const spleisClient: SpleisClient = {
-    hentSak: hentSakByAktørId,
+    hentPerson: hentPersonByAktørId,
     hentSakByUtbetalingsref
 };
 

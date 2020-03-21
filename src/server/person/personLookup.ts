@@ -47,7 +47,7 @@ const setup = ({
     onBehalfOf = _onBehalfOf;
 };
 
-const sakSøk = async (req: Request, res: Response) => {
+const finnPerson = async (req: Request, res: Response) => {
     const undeterminedId = req.headers[personIdHeaderName] as string;
     const innsyn = req.headers['innsyn'] === 'true';
 
@@ -58,20 +58,16 @@ const sakSøk = async (req: Request, res: Response) => {
         return;
     }
 
-    const aktørId = erGyldigFødselsnummer(undeterminedId)
-        ? await toAktørId(undeterminedId)
-        : undeterminedId;
+    const aktørId = erGyldigFødselsnummer(undeterminedId) ? await toAktørId(undeterminedId) : undeterminedId;
     if (!aktørId) {
         return res.status(404).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
     }
 
     return respondWith({
         res,
-        lookupPromise: onBehalfOf
-            .hentFor(spleisId, req.session!.speilToken)
-            .then((token: string) => {
-                return (innsyn ? spleis.hentSakByUtbetalingsref : spleis.hentSak)(aktørId, token);
-            }),
+        lookupPromise: onBehalfOf.hentFor(spleisId, req.session!.speilToken).then((token: string) => {
+            return (innsyn ? spleis.hentSakByUtbetalingsref : spleis.hentPerson)(aktørId, token);
+        }),
         mapper: (response: Body) => ({
             person: response.body
         })
@@ -90,9 +86,7 @@ const behovForPeriode = (req: Request, res: Response) => {
         res,
         lookupPromise: onBehalfOf
             .hentFor(spadeId, req.session!.speilToken)
-            .then(behalfOfToken =>
-                spadeClient.behandlingerForPeriode(yesterday, today, behalfOfToken)
-            ),
+            .then(behalfOfToken => spadeClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
         mapper: (response: Body) => ({
             behov: response.body
         })
@@ -133,14 +127,14 @@ const respondWith = ({ res, lookupPromise, mapper }: RespondWithParameters) => {
 
 module.exports = {
     setup,
-    sakSøk,
+    finnPerson,
     behovForPeriode,
     personIdHeaderName
 };
 
 export default {
     setup,
-    sakSøk,
+    finnPerson,
     behovForPeriode,
     personIdHeaderName
 };

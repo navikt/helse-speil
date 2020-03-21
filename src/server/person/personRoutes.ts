@@ -22,7 +22,7 @@ const setup = ({
 
 const routes = (router: Router) => {
     router.get('/', personLookup.behovForPeriode);
-    router.get('/sok', personLookup.sakSøk);
+    router.get('/sok', personLookup.finnPerson);
     router.get('/:aktorId/info', personinfoRepo.getPersoninfo);
 };
 
