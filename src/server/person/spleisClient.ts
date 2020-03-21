@@ -29,17 +29,6 @@ const hentSakByUtbetalingsref = async (utbetalingsref: string, onBehalfOfToken: 
     return request.get(options);
 };
 
-const filename = (aktørId: string) => {
-    switch (aktørId) {
-        case '1000000009871':
-            return 'mock-person_til-godkjenning.json';
-        case '87654321962123':
-            return 'mock-person_2perioder.json';
-        default:
-            return 'mock-person_3perioder_første_periode_kort.json';
-    }
-};
-
 const spleisClient: SpleisClient = {
     hentPerson: hentPersonByAktørId,
     hentSakByUtbetalingsref
