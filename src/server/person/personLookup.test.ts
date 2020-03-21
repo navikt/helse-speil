@@ -18,6 +18,7 @@ let hentAktørIdAnswer = Promise.resolve('123');
 beforeAll(() => {
     personLookup.setup({
         aktørIdLookup: { hentAktørId: () => hentAktørIdAnswer },
+        spleisClient,
         spadeClient: {},
         config: { oidc: {} },
         onBehalfOf: onBehalfOfStub

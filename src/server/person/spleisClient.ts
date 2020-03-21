@@ -1,21 +1,11 @@
 import request from 'request-promise-native';
-import fs from 'fs';
-import { Behov } from '../../types';
 
 export interface SpleisClient {
-    hentPerson: (aktørId: string, onBehalfOfToken: string) => Promise<Behov>;
-    hentSakByUtbetalingsref: (utbetalingsref: string, onBehalfOfToken: string) => Promise<Behov>;
+    hentPerson: (aktørId: string, onBehalfOfToken: string) => Promise<Response>;
+    hentSakByUtbetalingsref: (utbetalingsref: string, onBehalfOfToken: string) => Promise<Response>;
 }
 
 const hentPersonByAktørId = async (aktørId: string, onBehalfOfToken: string) => {
-    if (process.env.NODE_ENV === 'development') {
-        const fromFile = fs.readFileSync(`__mock-data__/${filename(aktørId)}`, 'utf-8');
-        const person = JSON.parse(fromFile);
-        return Promise.resolve({
-            statusCode: 200,
-            body: person
-        });
-    }
     const options = {
         uri: `http://spleis.default.svc.nais.local/api/person/${aktørId}`,
         headers: {
@@ -28,14 +18,6 @@ const hentPersonByAktørId = async (aktørId: string, onBehalfOfToken: string) =
 };
 
 const hentSakByUtbetalingsref = async (utbetalingsref: string, onBehalfOfToken: string) => {
-    if (process.env.NODE_ENV === 'development') {
-        const fromFile = fs.readFileSync(`__mock-data__/mock-person_til-utbetaling.json`, 'utf-8');
-        const person = JSON.parse(fromFile);
-        return Promise.resolve({
-            statusCode: 200,
-            body: person
-        });
-    }
     const options = {
         uri: `http://spleis.default.svc.nais.local/api/utbetaling/${utbetalingsref}`,
         headers: {

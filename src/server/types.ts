@@ -4,6 +4,7 @@ import { SparkelClient } from './adapters/sparkelClient';
 import { SpadeClient } from './adapters/spadeClient';
 import { StsClient } from './auth/stsClient';
 import { AktørIdLookup } from './aktørid/aktørIdLookup';
+import { SpleisClient } from './person/spleisClient';
 
 export interface OidcConfig {
     providerBaseUrl: string;
@@ -49,6 +50,7 @@ export interface NavConfig {
 export type OnBehalfOf = { hentFor: (tjenesteId: string, token: string) => Promise<string> };
 
 export interface PersonDependencies {
+    spleisClient: SpleisClient;
     sparkelClient: SparkelClient;
     aktørIdLookup: AktørIdLookup;
     spadeClient: SpadeClient;

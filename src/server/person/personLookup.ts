@@ -2,7 +2,7 @@ import authSupport from '../auth/authSupport';
 import logger from '../logging';
 import moment from 'moment';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
-import spleis from './spleisClient';
+import { SpleisClient } from './spleisClient';
 import { AktørIdLookup } from '../aktørid/aktørIdLookup';
 import { SpadeClient } from '../adapters/spadeClient';
 import { AppConfig, OnBehalfOf } from '../types';
@@ -21,6 +21,7 @@ interface RespondWithParameters {
 
 interface SetupParameters {
     aktørIdLookup: AktørIdLookup;
+    spleisClient: SpleisClient;
     spadeClient: SpadeClient;
     config: AppConfig;
     onBehalfOf: OnBehalfOf;
@@ -28,6 +29,7 @@ interface SetupParameters {
 
 const personIdHeaderName = 'nav-person-id';
 let aktørIdLookup: AktørIdLookup;
+let spleisClient: SpleisClient;
 let spadeClient: SpadeClient;
 let spleisId: string;
 let spadeId: string;
@@ -36,11 +38,13 @@ let onBehalfOf: OnBehalfOf;
 
 const setup = ({
     aktørIdLookup: _aktørIdLookup,
+    spleisClient: _spleisClient,
     spadeClient: _spadeClient,
     config,
     onBehalfOf: _onBehalfOf
 }: SetupParameters) => {
     aktørIdLookup = _aktørIdLookup;
+    spleisClient = _spleisClient;
     spadeClient = _spadeClient;
     spleisId = config.oidc.clientIDSpleis;
     spadeId = config.oidc.clientIDSpade;
@@ -66,7 +70,7 @@ const finnPerson = async (req: Request, res: Response) => {
     return respondWith({
         res,
         lookupPromise: onBehalfOf.hentFor(spleisId, req.session!.speilToken).then((token: string) => {
-            return (innsyn ? spleis.hentSakByUtbetalingsref : spleis.hentPerson)(aktørId, token);
+            return (innsyn ? spleisClient.hentSakByUtbetalingsref : spleisClient.hentPerson)(aktørId, token);
         }),
         mapper: (response: Body) => ({
             person: response.body

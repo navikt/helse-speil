@@ -8,6 +8,8 @@ import devStsClient from './auth/devStsClient';
 import onBehalfOf from './auth/onBehalfOf';
 import sparkelClient from './adapters/sparkelClient';
 import devSparkelClient from './adapters/devSparkelClient';
+import spleisClient from './person/spleisClient';
+import devSpleisClient from './person/devSpleisClient';
 import aktørIdLookup from './aktørid/aktørIdLookup';
 import devAktørIdLookup from './aktørid/devAktørIdLookup';
 import spadeClient from './adapters/spadeClient';
@@ -23,6 +25,7 @@ const getDevDependencies = (app: Express) => {
     const _onBehalfOf = onBehalfOf.factory(config.oidc, instrumentation);
     return {
         person: {
+            spleisClient: devSpleisClient,
             sparkelClient: devSparkelClient,
             aktørIdLookup: devAktørIdLookup,
             spadeClient: devSpadeClient,
@@ -43,6 +46,7 @@ const getProdDependencies = (app: Express) => {
     const _onBehalfOf = onBehalfOf.factory(config.oidc, instrumentation);
     return {
         person: {
+            spleisClient,
             sparkelClient,
             aktørIdLookup,
             spadeClient,
