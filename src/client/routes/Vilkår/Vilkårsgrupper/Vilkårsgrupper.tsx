@@ -23,7 +23,7 @@ interface SøknadsfristProps {
 }
 
 const Søknadsfrist = ({ sendtNav, sisteSykepengedag, innen3Mnd }: SøknadsfristProps) => (
-    <Vilkårsgruppe tittel="Søknadsfrist" paragraf="§22-13" ikontype={innen3Mnd ? 'ok' : 'advarsel'}>
+    <Vilkårsgruppe tittel="Søknadsfrist" paragraf="§22-13" ikontype={innen3Mnd ? 'ok' : 'kryss'}>
         <Vilkårsgrupperad label="Sendt NAV">{sendtNav?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'}</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Siste sykepengedag">{sisteSykepengedag.format(NORSK_DATOFORMAT)}</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Innen 3 mnd">{innen3Mnd ? 'Ja' : 'Nei'}</Vilkårsgrupperad>

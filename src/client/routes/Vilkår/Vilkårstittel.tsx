@@ -1,12 +1,18 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 
+type Størrelse = 's' | 'm';
+
 interface VilkårstittelProps {
     children: ReactNode | ReactNode[];
-    størrelse?: 's' | 'm';
+    størrelse?: Størrelse;
     ikon?: ReactNode;
     paragraf?: string;
     className?: string;
+}
+
+interface IkonContainerProps {
+    størrelse: Størrelse;
 }
 
 const Header = styled.div`
@@ -28,15 +34,22 @@ const Tittel = styled.h2<VilkårstittelProps>`
                 return 'font-size: 20px;';
             case 's':
             default:
-                return 'font-size: 18px;';
+                return 'font-size: 18px;> svg { padding-left: 7px };';
         }
     }}
 `;
 
-const IkonContainer = styled.div`
+const IkonContainer = styled.div<IkonContainerProps>`
     display: flex;
     align-items: center;
     width: 2rem;
+
+    ${(props: IkonContainerProps) => {
+        if (props.størrelse === 's') {
+            return '> svg { padding-left: 3px };';
+        }
+        return '';
+    }}
 `;
 
 const Paragraf = styled.p`
@@ -47,14 +60,12 @@ const Paragraf = styled.p`
     color: #78706a;
 `;
 
-const Vilkårstittel = ({ children, ikon, paragraf, className, størrelse = 's' }: VilkårstittelProps) => {
-    return (
-        <Header className={className}>
-            {ikon && <IkonContainer>{ikon}</IkonContainer>}
-            <Tittel størrelse={størrelse}>{children}</Tittel>
-            <Paragraf>{paragraf}</Paragraf>
-        </Header>
-    );
-};
+const Vilkårstittel = ({ children, ikon, paragraf, className, størrelse = 's' }: VilkårstittelProps) => (
+    <Header className={className}>
+        {ikon && <IkonContainer størrelse={størrelse}>{ikon}</IkonContainer>}
+        <Tittel størrelse={størrelse}>{children}</Tittel>
+        <Paragraf>{paragraf}</Paragraf>
+    </Header>
+);
 
 export default Vilkårstittel;

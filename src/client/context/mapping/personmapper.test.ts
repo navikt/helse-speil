@@ -64,12 +64,6 @@ test('filtrerer vekk paddede arbeidsdager', () => {
     });
 });
 
-test('Opptjening er undefined dersom felter er satt til null', () => {
-    const person = tilPerson(enPerson([enArbeidsgiver([enVedtaksperiode([], vilkårsvurdering(false))])]), personInfo);
-    const vedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0];
-    expect(vedtaksperiode.vilkår.opptjening).toBeUndefined();
-});
-
 test('Vedtaksperioder sorteres på fom i synkende rekkefølge', () => {
     const person = tilPerson(
         enPerson([

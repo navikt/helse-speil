@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
-import TwoColumnGrid from '../../components/TwoColumnGrid';
+import Grid from '../../components/Grid';
 
-export const StyledUbehandletInnhold = styled(TwoColumnGrid)`
+export const StyledUbehandletInnhold = styled(Grid)`
     margin: 1rem 2rem;
     justify-content: start;
 `;

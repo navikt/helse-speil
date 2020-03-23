@@ -126,7 +126,7 @@ export interface SpleisPerson {
     hendelser: SpleisHendelse[];
 }
 
-export interface DataForVilkårsvurdering {
+export interface SpleisDataForVilkårsvurdering {
     erEgenAnsatt: boolean;
     beregnetÅrsinntektFraInntektskomponenten: number;
     avviksprosent: number;
@@ -145,7 +145,7 @@ export interface SpleisVedtaksperiode {
     sykdomstidslinje: SpleisSykdomsdag[];
     utbetalingslinjer?: Utbetalingslinje[];
     utbetalingsreferanse: string;
-    dataForVilkårsvurdering?: DataForVilkårsvurdering;
+    dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;
     førsteFraværsdag: string;
     inntektFraInntektsmelding: number;
     utbetalingstidslinje: SpleisUtbetalingsdag[];

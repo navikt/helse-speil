@@ -15,12 +15,7 @@ import {
 } from '../types';
 import { SpleisVedtaksperiodetilstand } from '../../../types';
 import dayjs, { Dayjs } from 'dayjs';
-import {
-    DataForVilkårsvurdering,
-    SpleisSykdomsdag,
-    SpleisSykdomsdagtype,
-    SpleisVedtaksperiode
-} from './external.types';
+import { SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisVedtaksperiode } from './external.types';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 
@@ -41,7 +36,6 @@ export const mapVedtaksperiode = (
     personinfo: Personinfo,
     hendelserForPerson: Hendelse[],
     gjeldendeInntektsmelding: Inntektsmelding,
-    dataForVilkårsvurdering?: DataForVilkårsvurdering,
     organisasjonsnummer?: string
 ): Vedtaksperiode => {
     const somProsent = (avviksprosent?: number): number | undefined =>
@@ -93,13 +87,12 @@ export const mapVedtaksperiode = (
         };
     };
 
-    const opptjening = (): Opptjening | undefined => {
-        if (!dataForVilkårsvurdering?.harOpptjening) return undefined;
-
-        const antallOpptjeningsdagerErMinst: number = dataForVilkårsvurdering.antallOpptjeningsdagerErMinst;
+    const opptjening = (): Opptjening => {
+        const antallOpptjeningsdagerErMinst: number =
+            spleisPeriode.dataForVilkårsvurdering.antallOpptjeningsdagerErMinst;
         return {
             antallOpptjeningsdagerErMinst: antallOpptjeningsdagerErMinst,
-            harOpptjening: dataForVilkårsvurdering.harOpptjening,
+            harOpptjening: spleisPeriode.dataForVilkårsvurdering.harOpptjening,
             opptjeningFra: somDato(spleisPeriode.førsteFraværsdag).subtract(antallOpptjeningsdagerErMinst, 'day')
         };
     };
@@ -124,9 +117,9 @@ export const mapVedtaksperiode = (
     ];
 
     const sykepengegrunnlag = {
-        årsinntektFraAording: dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
+        årsinntektFraAording: spleisPeriode.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
         årsinntektFraInntektsmelding: somÅrsinntekt(gjeldendeInntektsmelding.beregnetInntekt),
-        avviksprosent: somProsent(dataForVilkårsvurdering?.avviksprosent),
+        avviksprosent: somProsent(spleisPeriode.dataForVilkårsvurdering?.avviksprosent),
         dagsats
     };
 

@@ -6,18 +6,27 @@ import { Vedtaksperiode } from '../../context/types';
 import { FlexColumn } from '../../components/FlexColumn';
 import TwoColumnGrid from '../../components/TwoColumnGrid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import VurderteVilkår from './Vilkårsgrupper/VurderteVilkår';
+import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
+import Vilkårstittel from './Vilkårstittel';
+import styled from '@emotion/styled';
 
 interface PåfølgendeVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
     førsteVedtaksperiode: Vedtaksperiode;
 }
 
+const VurderteVilkårstittel = styled(Vilkårstittel)`
+    margin-top: 2rem;
+    margin-left: 2rem;
+`;
+
 const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }: PåfølgendeVedtaksperiodeProps) => {
     const { vilkår } = aktivVedtaksperiode;
     return (
         <>
-            <VurderteVilkår />
+            <VurderteVilkårstittel størrelse="m" ikon={<GrøntSjekkikon />}>
+                Vurderte vilkår
+            </VurderteVilkårstittel>
             <StyledUbehandletInnhold>
                 <FlexColumn>
                     <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} />
@@ -74,6 +83,7 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                     </FlexColumn>
                 </TwoColumnGrid>
             </StyledBehandletInnhold>
+            <Strek />
         </>
     );
 };

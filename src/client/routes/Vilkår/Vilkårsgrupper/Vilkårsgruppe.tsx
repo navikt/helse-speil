@@ -4,8 +4,9 @@ import Advarselikon from '../../../components/Ikon/Advarselikon';
 import styled from '@emotion/styled';
 import Infoikon from '../../../components/Ikon/Infoikon';
 import Vilkårstittel from '../Vilkårstittel';
+import Kryssikon from '../../../components/Ikon/Kryssikon';
 
-type Ikontype = 'ok' | 'advarsel' | 'info';
+type Ikontype = 'ok' | 'advarsel' | 'info' | 'kryss';
 
 interface Props {
     tittel: string;
@@ -22,6 +23,8 @@ const ikon = (type?: Ikontype) => {
             return <Advarselikon />;
         case 'info':
             return <Infoikon />;
+        case 'kryss':
+            return <Kryssikon />;
         default:
             return undefined;
     }
