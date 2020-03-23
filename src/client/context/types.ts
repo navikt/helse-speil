@@ -129,6 +129,14 @@ export enum Vedtaksperiodetilstand {
     Ukjent = 'ukjent'
 }
 
+export interface UferdigVedtaksperiode {
+    id: string;
+    fom: Dayjs;
+    tom: Dayjs;
+    kanVelges: boolean;
+    tilstand: Vedtaksperiodetilstand;
+}
+
 export interface Vedtaksperiode {
     id: string;
     fom: Dayjs;
@@ -151,7 +159,7 @@ export interface Vedtaksperiode {
 export interface Arbeidsgiver {
     id: string;
     organisasjonsnummer: string;
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: (Vedtaksperiode | UferdigVedtaksperiode)[];
 }
 
 export type Kjønn = 'Mann' | 'Kvinne' | 'Ukjent';

@@ -16,7 +16,7 @@ const UbehandletVedtaksperiode = ({ aktivVedtaksperiode }: UbehandletVedtaksperi
     return (
         <>
             <VurderteVilkår />
-            <StyledUbehandletInnhold kolonner={2}>
+            <StyledUbehandletInnhold>
                 <FlexColumn>
                     <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} />
                     <Vilkårsgrupper.Søknadsfrist

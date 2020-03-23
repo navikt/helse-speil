@@ -42,7 +42,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         if (personTilBehandling) {
             const klarTilBehandling = (vedtaksperiode: Vedtaksperiode) => vedtaksperiode.kanVelges;
             const defaultVedtaksperiode = personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(klarTilBehandling);
-            setAktivVedtaksperiode(defaultVedtaksperiode);
+            setAktivVedtaksperiode(defaultVedtaksperiode as Vedtaksperiode);
         }
     }, [personTilBehandling]);
 
@@ -110,7 +110,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             const vedtaksperiode = personTilBehandling?.arbeidsgivere[0].vedtaksperioder.find(
                 periode => periode.id === periodeId
             );
-            vedtaksperiode && setAktivVedtaksperiode(vedtaksperiode);
+            vedtaksperiode && setAktivVedtaksperiode(vedtaksperiode as Vedtaksperiode);
         },
         [personTilBehandling]
     );

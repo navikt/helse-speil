@@ -9,6 +9,7 @@ import {
     Sykmelding,
     Søknad,
     Søknadsfrist,
+    UferdigVedtaksperiode,
     Vedtaksperiode,
     Vedtaksperiodetilstand
 } from '../types';
@@ -26,6 +27,14 @@ import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 export const somDato = (dato: string): Dayjs => dayjs(dato, ISO_DATOFORMAT);
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
 export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
+
+export const mapUferdigVedtaksperiode = ({ id, sykdomstidslinje }: SpleisVedtaksperiode): UferdigVedtaksperiode => ({
+    id,
+    fom: dayjs(sykdomstidslinje[0]!.dagen),
+    tom: dayjs(sykdomstidslinje[sykdomstidslinje.length - 1]!.dagen),
+    kanVelges: false,
+    tilstand: Vedtaksperiodetilstand.Ukjent
+});
 
 export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
@@ -60,16 +69,6 @@ export const mapVedtaksperiode = (
 
     const søknad = hendelserForPerson.find(hendelse => hendelse.type === Hendelsestype.Søknad) as Søknad;
     const sykmelding = hendelserForPerson.find(hendelse => hendelse.type === Hendelsestype.Sykmelding) as Sykmelding;
-
-    const kanVelges =
-        [
-            SpleisVedtaksperiodetilstand.AVVENTER_GODKJENNING,
-            SpleisVedtaksperiodetilstand.TIL_UTBETALING,
-            SpleisVedtaksperiodetilstand.TIL_INFOTRYGD,
-            SpleisVedtaksperiodetilstand.ANNULLERT,
-            SpleisVedtaksperiodetilstand.UTBETALING_FEILET
-        ].includes(spleisPeriode.tilstand as SpleisVedtaksperiodetilstand) ||
-        (spleisPeriode.tilstand === SpleisVedtaksperiodetilstand.AVSLUTTET && totaltTilUtbetaling > 0);
 
     const dagsats = utbetalingslinjer?.[0]?.dagsats;
 
@@ -182,7 +181,7 @@ export const mapVedtaksperiode = (
         id: spleisPeriode.id,
         fom,
         tom,
-        kanVelges,
+        kanVelges: totaltTilUtbetaling > 0,
         tilstand: mapTilstand(spleisPeriode.tilstand as SpleisVedtaksperiodetilstand, oppsummering.totaltTilUtbetaling),
         utbetalingsreferanse: spleisPeriode.utbetalingsreferanse,
         utbetalingstidslinje: utbetalingstidslinje,

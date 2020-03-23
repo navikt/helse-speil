@@ -4,8 +4,14 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Hendelse, Hendelsestype, Inntektsmelding, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types';
-import { Personinfo as SpleisPersoninfo } from '../../../types';
-import { mapVedtaksperiode, somDato, somKanskjeDato, somTidspunkt } from './vedtaksperiodemapper';
+import { Personinfo as SpleisPersoninfo, SpleisVedtaksperiodetilstand } from '../../../types';
+import {
+    mapUferdigVedtaksperiode,
+    mapVedtaksperiode,
+    somDato,
+    somKanskjeDato,
+    somTidspunkt
+} from './vedtaksperiodemapper';
 import {
     SpleisHendelse,
     SpleisHendelsetype,
@@ -67,6 +73,14 @@ const finnGjeldendeInntektsmelding = (gjeldendeUtbetalingsreferanse: string, per
     )[0] as Inntektsmelding;
 };
 
+const kanVises = (vedtaksperiodeType: SpleisVedtaksperiodetilstand) =>
+    [
+        SpleisVedtaksperiodetilstand.AVSLUTTET,
+        SpleisVedtaksperiodetilstand.UTBETALING_FEILET,
+        SpleisVedtaksperiodetilstand.ANNULLERT,
+        SpleisVedtaksperiodetilstand.AVVENTER_GODKJENNING
+    ].includes(vedtaksperiodeType);
+
 const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelser: Hendelse[]) =>
     person.arbeidsgivere.map(arbeidsgiver => {
         const dataForVilkårsvurdering = arbeidsgiver.vedtaksperioder
@@ -76,14 +90,18 @@ const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelse
         const tilVedtaksperiode = (periode: SpleisVedtaksperiode) => {
             const gjeldendeInntektsmelding = finnGjeldendeInntektsmelding(periode.utbetalingsreferanse, person);
 
-            return mapVedtaksperiode(
-                periode,
-                personinfo,
-                hendelser.filter(hendelse => periode.hendelser.includes(hendelse.id)),
-                gjeldendeInntektsmelding,
-                dataForVilkårsvurdering,
-                arbeidsgiver.organisasjonsnummer
-            );
+            if (kanVises(periode.tilstand as SpleisVedtaksperiodetilstand)) {
+                return mapVedtaksperiode(
+                    periode,
+                    personinfo,
+                    hendelser.filter(hendelse => periode.hendelser.includes(hendelse.id)),
+                    gjeldendeInntektsmelding,
+                    dataForVilkårsvurdering,
+                    arbeidsgiver.organisasjonsnummer
+                );
+            } else {
+                return mapUferdigVedtaksperiode(periode);
+            }
         };
 
         return {
