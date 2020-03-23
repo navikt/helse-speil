@@ -7,7 +7,7 @@ interface AdvarselikonProps {
     viewBoxSize?: number;
 }
 
-const Advarselikon = ({ height = 20, width = 20, viewBoxSize }: AdvarselikonProps) => (
+const Advarselikon = ({ height = 24, width = 24, viewBoxSize }: AdvarselikonProps) => (
     <Ikon height={height} width={width} viewBoxSize={viewBoxSize}>
         <g fill="none" fillRule="evenodd">
             <path

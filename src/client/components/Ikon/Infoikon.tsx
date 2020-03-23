@@ -6,7 +6,7 @@ interface InfoikonProps {
     height?: number;
 }
 
-const Infoikon = ({ width = 20, height = 20 }: InfoikonProps) => (
+const Infoikon = ({ width = 24, height = 24 }: InfoikonProps) => (
     <Ikon width={height} height={height} viewBoxSize={24}>
         <g fill="none">
             <path d="M12 0C5.382 0 0 5.382 0 12s5.382 12 12 12c6.617 0 12-5.382 12-12S18.617 0 12 0z" fill="#337C9B" />

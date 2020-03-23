@@ -7,7 +7,7 @@ interface GrøntSjekkikonProps {
     viewBox?: number;
 }
 
-const GrøntSjekkikon = ({ width = 20, height = 20, viewBox = 25 }: GrøntSjekkikonProps) => (
+const GrøntSjekkikon = ({ width = 24, height = 24, viewBox = 25 }: GrøntSjekkikonProps) => (
     <Ikon width={width} height={height} viewBoxSize={viewBox}>
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g fillRule="nonzero">
