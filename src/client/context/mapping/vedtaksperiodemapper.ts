@@ -47,7 +47,6 @@ export const mapVedtaksperiode = (
 
     const sykdomstidslinje = tilSykdomstidslinje(spleisPeriode.sykdomstidslinje);
     const utbetalingstidslinje = tilUtbetalingstidslinje(spleisPeriode.utbetalingstidslinje);
-    const utbetalingslinjer = spleisPeriode.utbetalingslinjer;
 
     const totaltTilUtbetaling: number =
         utbetalingstidslinje
@@ -63,8 +62,6 @@ export const mapVedtaksperiode = (
 
     const søknad = hendelserForPerson.find(hendelse => hendelse.type === Hendelsestype.Søknad) as Søknad;
     const sykmelding = hendelserForPerson.find(hendelse => hendelse.type === Hendelsestype.Sykmelding) as Sykmelding;
-
-    const dagsats = utbetalingslinjer?.[0]?.dagsats;
 
     const alderISykmeldingsperioden = (): number | undefined => {
         const sisteSykedag: Dayjs | undefined = [...sykdomstidslinje].pop()?.dato;
@@ -119,8 +116,7 @@ export const mapVedtaksperiode = (
     const sykepengegrunnlag = {
         årsinntektFraAording: spleisPeriode.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
         årsinntektFraInntektsmelding: somÅrsinntekt(gjeldendeInntektsmelding.beregnetInntekt),
-        avviksprosent: somProsent(spleisPeriode.dataForVilkårsvurdering?.avviksprosent),
-        dagsats
+        avviksprosent: somProsent(spleisPeriode.dataForVilkårsvurdering?.avviksprosent)
     };
 
     const oppsummering = {

@@ -35,7 +35,6 @@ export interface Vilkår {
 }
 
 export interface Sykepengegrunnlag {
-    dagsats?: number;
     avviksprosent?: number;
     årsinntektFraAording?: number;
     årsinntektFraInntektsmelding?: number;

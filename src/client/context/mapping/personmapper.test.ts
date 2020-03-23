@@ -779,8 +779,7 @@ const mappetPerson = {
                     sykepengegrunnlag: {
                         årsinntektFraAording: 372000.0,
                         årsinntektFraInntektsmelding: 372000.0,
-                        avviksprosent: 0.0,
-                        dagsats: 1431
+                        avviksprosent: 0.0
                     },
                     inntektskilder: [
                         {

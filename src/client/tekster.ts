@@ -74,14 +74,12 @@ const resources: Resource = {
                 sammenligningsgrunnlag: 'Sammenligningsgrunnlag',
                 avvik: 'Avvik må sjekkes manuelt',
                 redusert: 'Redusert til 6G',
-                sykepengegrunnlag: 'Sykepengegrunnlag',
-                dagsats: 'Dagsats'
+                sykepengegrunnlag: 'Sykepengegrunnlag'
             },
             utbetalingsoversikt: {
                 refusjon: 'Refusjon til arbeidsgiver',
                 betaler: 'Betaler arbeidsgiverperiode',
                 sykepengegrunnlag: 'Sykepengegrunnlag',
-                dagsats: 'Dagsats',
                 dager: 'Utbetalingen blir korrekt',
                 sykmeldingsgrad: 'Sykmeldingsgrad',
                 utbetalingsoversikt: 'Utbetalingsoversikt',
@@ -94,7 +92,6 @@ const resources: Resource = {
                 refusjon: 'Refusjon til arbeidsgiver',
                 betaler: 'Betaler arb.giverperiode',
                 sykepengegrunnlag: 'Sykepengegrunnlag',
-                dagsats: 'Dagsats',
                 antall_utbetalingsdager: 'Utbetalingsdager',
                 utbetaling: 'Utbetaling',
                 beløp: 'Beløp til utbetaling',

@@ -52,13 +52,7 @@ const Sykepengegrunnlaginnhold = ({ sykepengegrunnlag }: Sykepengegrunnlaginnhol
             : null}
         <Oppsummering>
             <Element>Sykepengegrunnlag</Element>
-            <Element>
-                {somPenger(sykepengegrunnlag.årsinntektFraInntektsmelding as number | undefined)}
-            </Element>
-            <Normaltekst>Dagsats</Normaltekst>
-            <Normaltekst>
-                {sykepengegrunnlag.dagsats ? somPenger(sykepengegrunnlag.dagsats) : 'Ingen dagsats'}
-            </Normaltekst>
+            <Element>{somPenger(sykepengegrunnlag.årsinntektFraInntektsmelding as number | undefined)}</Element>
         </Oppsummering>
     </Innhold>
 );
