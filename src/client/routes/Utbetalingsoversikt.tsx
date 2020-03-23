@@ -5,7 +5,7 @@ import { PersonContext } from '../context/PersonContext';
 import { Dag, Dagstatus, Utbetalingstabell } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../utils/date';
-import { Utbetalingsdag } from '../context/types';
+import { Dagtype, Sykdomsdag, Utbetalingsdag } from '../context/types';
 import { Dayjs } from 'dayjs';
 import { useMaksdato } from '../hooks/useMaksdato';
 
@@ -17,13 +17,27 @@ const Container = styled.div`
     }
 `;
 
-const gradering = (dag: Utbetalingsdag, maksdato?: Dayjs) =>
-    maksdato && dag.dato.isAfter(maksdato) ? undefined : dag.gradering;
+type ValueOf<T> = T[keyof T];
 
-const utbetaling = (dag: Utbetalingsdag, maksdato?: Dayjs) =>
+const verdiFraTilsvarendeSykdomsdag = (
+    utbetalingsdag: Utbetalingsdag,
+    sykdomstidslinje: Sykdomsdag[],
+    nøkkel: keyof (Utbetalingsdag | Sykdomsdag)
+): ValueOf<Sykdomsdag | Utbetalingsdag> =>
+    sykdomstidslinje.find(sykdomsdag => utbetalingsdag.dato.isSame(sykdomsdag.dato))![nøkkel];
+
+const type = (dag: Utbetalingsdag, sykdomstidslinje: Sykdomsdag[]): Dagtype =>
+    dag.type === Dagtype.Avvist ? (verdiFraTilsvarendeSykdomsdag(dag, sykdomstidslinje, 'type') as Dagtype) : dag.type;
+
+const gradering = (dag: Utbetalingsdag, sykdomstidslinje: Sykdomsdag[], maksdato?: Dayjs): number | undefined =>
+    maksdato && dag.dato.isAfter(maksdato)
+        ? (verdiFraTilsvarendeSykdomsdag(dag, sykdomstidslinje, 'gradering') as number)
+        : dag.gradering;
+
+const utbetaling = (dag: Utbetalingsdag, maksdato?: Dayjs): string | number | undefined =>
     maksdato && dag.dato.isAfter(maksdato) ? 'Ingen utbetaling' : dag.utbetaling;
 
-const status = (dag: Utbetalingsdag, maksdato?: Dayjs) =>
+const status = (dag: Utbetalingsdag, maksdato?: Dayjs): Dagstatus | undefined =>
     maksdato && dag.dato.isSame(maksdato, 'day')
         ? Dagstatus.Feil
         : maksdato && dag.dato.isAfter(maksdato)
@@ -39,12 +53,14 @@ const Utbetalingsoversikt = () => {
 
     const dager: Dag[] | undefined = aktivVedtaksperiode?.utbetalingstidslinje.map(dag => ({
         dato: dag.dato.format(NORSK_DATOFORMAT),
-        type: dag.type,
-        gradering: gradering(dag, maksdato),
+        type: type(dag, aktivVedtaksperiode?.sykdomstidslinje),
+        gradering: gradering(dag, aktivVedtaksperiode.sykdomstidslinje, maksdato),
         utbetaling: utbetaling(dag, maksdato),
         status: status(dag, maksdato),
         feilmelding: feilmelding(dag, maksdato)
     }));
+
+    console.log(aktivVedtaksperiode?.sykdomstidslinje);
 
     return (
         <Container>
