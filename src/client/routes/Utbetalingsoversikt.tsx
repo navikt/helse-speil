@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { Utbetalingsdag } from '../context/types';
 import { Dayjs } from 'dayjs';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
+import { useMaksdato } from '../hooks/useMaksdato';
 
 const Container = styled.div`
     padding: 1.5rem 2rem;
@@ -35,12 +35,7 @@ const feilmelding = (dag: Utbetalingsdag, maksdato?: Dayjs) =>
 
 const Utbetalingsoversikt = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
-
-    const maksdato = aktivVedtaksperiode?.vilkår.dagerIgjen?.maksdato;
-
-    const maksdatoOverskrides =
-        maksdato &&
-        aktivVedtaksperiode?.utbetalingstidslinje.find(dag => dag.dato.isSameOrAfter(maksdato)) !== undefined;
+    const { maksdato } = useMaksdato();
 
     const dager: Dag[] | undefined = aktivVedtaksperiode?.utbetalingstidslinje.map(dag => ({
         dato: dag.dato.format(NORSK_DATOFORMAT),
@@ -52,15 +47,10 @@ const Utbetalingsoversikt = () => {
     }));
 
     return (
-        <>
-            {maksdatoOverskrides && (
-                <Varsel type={Varseltype.Feil}>Vilkår er ikke oppfylt fra {maksdato!.format(NORSK_DATOFORMAT)}</Varsel>
-            )}
-            <Container>
-                {dager ? <Utbetalingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}
-                <Navigasjonsknapper />
-            </Container>
-        </>
+        <Container>
+            {dager ? <Utbetalingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}
+            <Navigasjonsknapper />
+        </Container>
     );
 };
 

@@ -19,6 +19,8 @@ import { Hendelse, Hendelsestype } from '../context/types';
 import { Hendelsetype as LoggHendelsestype, LoggHeader, LoggProvider } from '@navikt/helse-frontend-logg';
 import { Location, useNavigation } from '../hooks/useNavigation';
 import { NORSK_DATOFORMAT } from '../utils/date';
+import { useMaksdato } from '../hooks/useMaksdato';
+import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Container = styled.div`
     display: flex;
@@ -85,6 +87,7 @@ const mapLoggHendelse = (hendelse: Hendelse, type: LoggHendelsestype) => ({
 const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    const { maksdato, maksdatoOverskrides } = useMaksdato();
 
     const dokumenter = aktivVedtaksperiode
         ? aktivVedtaksperiode.dokumenter.map((hendelse: Hendelse) => ({
@@ -123,6 +126,11 @@ const Saksbilde = () => {
                 <Container>
                     <Venstremeny />
                     <Hovedinnhold>
+                        {maksdatoOverskrides && (
+                            <Varsel type={Varseltype.Feil}>
+                                Vilkår er ikke oppfylt fra {maksdato!.format(NORSK_DATOFORMAT)}
+                            </Varsel>
+                        )}
                         <Route
                             path={`${toString(Location.Sykmeldingsperiode)}/:aktoerId`}
                             component={Sykmeldingsperiode}
