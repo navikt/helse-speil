@@ -7,7 +7,7 @@ export interface SpleisClient {
 
 const hentPersonByAktørId = async (aktørId: string, onBehalfOfToken: string) => {
     const options = {
-        uri: `http://spleis.default.svc.nais.local/api/person/${aktørId}`,
+        uri: `http://spleis-api.default.svc.nais.local/api/person/${aktørId}`,
         headers: {
             Authorization: `Bearer ${onBehalfOfToken}`
         },
@@ -19,7 +19,7 @@ const hentPersonByAktørId = async (aktørId: string, onBehalfOfToken: string) =
 
 const hentSakByUtbetalingsref = async (utbetalingsref: string, onBehalfOfToken: string) => {
     const options = {
-        uri: `http://spleis.default.svc.nais.local/api/utbetaling/${utbetalingsref}`,
+        uri: `http://spleis-api.default.svc.nais.local/api/utbetaling/${utbetalingsref}`,
         headers: {
             Authorization: `Bearer ${onBehalfOfToken}`
         },
