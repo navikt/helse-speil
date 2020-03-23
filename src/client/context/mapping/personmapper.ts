@@ -23,49 +23,48 @@ dayjs.extend(isSameOrBefore);
 const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
 
 const mapHendelser = (hendelser: SpleisHendelse[]): Hendelse[] =>
-    hendelser.map(hendelse => {
-        switch (hendelse.type) {
-            case SpleisHendelsetype.INNTEKTSMELDING:
-                return {
-                    id: hendelse.hendelseId,
-                    type: Hendelsestype.Inntektsmelding,
-                    beregnetInntekt: (hendelse as SpleisInntektsmelding).beregnetInntekt,
-                    førsteFraværsdag: somDato((hendelse as SpleisInntektsmelding).førsteFraværsdag),
-                    mottattTidspunkt: somTidspunkt((hendelse as SpleisInntektsmelding).mottattDato)
-                };
-            case SpleisHendelsetype.SØKNAD:
-                return {
-                    id: hendelse.hendelseId,
-                    type: Hendelsestype.Søknad,
-                    fom: somDato(hendelse.fom),
-                    tom: somDato(hendelse.tom),
-                    sendtNav: somDato((hendelse as SpleisSendtSøknad).sendtNav),
-                    rapportertDato: somKanskjeDato(hendelse.rapportertdato)
-                };
-            case SpleisHendelsetype.SYKMELDING:
-                return {
-                    id: hendelse.hendelseId,
-                    type: Hendelsestype.Sykmelding,
-                    fom: somDato(hendelse.fom),
-                    tom: somDato(hendelse.tom),
-                    rapportertDato: somKanskjeDato(hendelse.rapportertdato)
-                };
-        }
-    });
+    hendelser
+        .map(hendelse => {
+            switch (hendelse.type) {
+                case SpleisHendelsetype.INNTEKTSMELDING:
+                    return {
+                        id: hendelse.hendelseId,
+                        type: Hendelsestype.Inntektsmelding,
+                        beregnetInntekt: (hendelse as SpleisInntektsmelding).beregnetInntekt,
+                        førsteFraværsdag: somDato((hendelse as SpleisInntektsmelding).førsteFraværsdag),
+                        mottattTidspunkt: somTidspunkt((hendelse as SpleisInntektsmelding).mottattDato)
+                    };
+                case SpleisHendelsetype.SØKNAD:
+                    return {
+                        id: hendelse.hendelseId,
+                        type: Hendelsestype.Søknad,
+                        fom: somDato(hendelse.fom),
+                        tom: somDato(hendelse.tom),
+                        sendtNav: somDato((hendelse as SpleisSendtSøknad).sendtNav),
+                        rapportertDato: somKanskjeDato(hendelse.rapportertdato)
+                    };
+                case SpleisHendelsetype.SYKMELDING:
+                    return {
+                        id: hendelse.hendelseId,
+                        type: Hendelsestype.Sykmelding,
+                        fom: somDato(hendelse.fom),
+                        tom: somDato(hendelse.tom),
+                        rapportertDato: somKanskjeDato(hendelse.rapportertdato)
+                    };
+            }
+        })
+        .filter(hendelse => hendelse) as Hendelse[];
 
 const finnGjeldendeInntektsmelding = (gjeldendeUtbetalingsreferanse: string, person: SpleisPerson): Inntektsmelding => {
-    const førsteVedtaksperiodehendelser: string[] = person.arbeidsgivere
+    const hendelserForUtbetalingsreferanser = person.arbeidsgivere
         .flatMap(arbeidsgiver => arbeidsgiver.vedtaksperioder)
         .filter(periode => periode.utbetalingsreferanse === gjeldendeUtbetalingsreferanse)
-        .sort((a, b) =>
-            somDato(a.sykdomstidslinje[0].dagen).isAfter(somDato(b.sykdomstidslinje[0].dagen)) ? 1 : -1
-        )[0].hendelser;
-    const inntektsmeldinghendelser = person.hendelser.filter(
-        hendelse =>
-            førsteVedtaksperiodehendelser.includes(hendelse.hendelseId) &&
-            hendelse.type === SpleisHendelsetype.INNTEKTSMELDING
-    );
-    return mapHendelser(inntektsmeldinghendelser)[0] as Inntektsmelding;
+        .flatMap(periode => periode.hendelser);
+    return mapHendelser(
+        person.hendelser
+            .filter(hendelse => hendelserForUtbetalingsreferanser.includes(hendelse.hendelseId))
+            .filter(hendelse => hendelse.type == SpleisHendelsetype.INNTEKTSMELDING)
+    )[0] as Inntektsmelding;
 };
 
 const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelser: Hendelse[]) =>
