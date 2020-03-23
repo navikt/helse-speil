@@ -322,7 +322,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-02-01", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-02-02", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
@@ -532,7 +538,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-03-01", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-03-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
@@ -743,7 +755,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-04-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-04-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
@@ -948,7 +966,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-05-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-05-02", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
@@ -1159,7 +1183,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-06-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-06-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
@@ -1376,7 +1406,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-07-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-07-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
@@ -1582,7 +1618,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-08-01", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-08-02", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
@@ -1793,7 +1835,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-09-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-09-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
@@ -2004,7 +2052,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-10-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-10-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
@@ -2209,7 +2263,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-11-01", "type": "SYK_HELGEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-11-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },
@@ -2426,7 +2486,13 @@
                     "utbetalingsreferanse": "LGALIUM2CNFBZEQZ3EIFYW3UCU",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 25000,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 275000,
+                        "avviksprosent": 0.09090909090909091,
+                        "antallOpptjeningsdagerErMinst": 839,
+                        "harOpptjening": true
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-12-01", "type": "SYKEDAG_SØKNAD", "grad": 100 },
                         { "dagen": "2020-12-02", "type": "SYKEDAG_SØKNAD", "grad": 100 },

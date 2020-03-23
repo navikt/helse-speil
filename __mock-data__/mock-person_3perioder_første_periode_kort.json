@@ -175,7 +175,13 @@
                     "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 3.1e4,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
+                        "avviksprosent": 0.24,
+                        "antallOpptjeningsdagerErMinst": 1095,
+                        "harOpptjening": true
+                    },
                     "tilstand": "AVSLUTTET",
                     "hendelser": [
                         "fd1335be-3974-429d-97cb-de92011f75b6",
@@ -225,7 +231,13 @@
                     "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
                     "førsteFraværsdag": "2020-01-01",
                     "inntektFraInntektsmelding": 3.1e4,
-                    "dataForVilkårsvurdering": null,
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
+                        "avviksprosent": 0.24,
+                        "antallOpptjeningsdagerErMinst": 1095,
+                        "harOpptjening": true
+                    },
                     "hendelser": ["0910af7f-49f8-497b-887b-c1623448bb78", "271d8015-a2f7-4c4e-a940-99463b0a6d27"],
                     "tilstand": "AVVENTER_GODKJENNING",
                     "sykdomstidslinje": [
