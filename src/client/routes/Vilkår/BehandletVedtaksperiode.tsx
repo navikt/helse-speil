@@ -7,14 +7,14 @@ import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import TwoColumnGrid from '../../components/TwoColumnGrid';
+import Grid from '../../components/Grid';
 
 interface BehandletVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;
     førsteVedtaksperiode: Vedtaksperiode;
 }
 
-const Innhold = styled(TwoColumnGrid)`
+const Innhold = styled(Grid)`
     margin-top: 2rem;
 `;
 
@@ -33,27 +33,31 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                         : 'ukjent'
                 }
             >
-                <Innhold firstColumnWidth={'35rem'}>
+                <Innhold kolonner={2}>
                     <FlexColumn>
                         <Vilkårsgruppe tittel="Arbeidsuførhet" paragraf="§8-4" ikontype="ok" />
                         <Vilkårsgruppe tittel="Medlemskap" paragraf="§2" ikontype="ok" />
                         <Vilkårsgruppe tittel="Medvirkning" paragraf="§8-8" ikontype="ok" />
-                        <Vilkårsgrupper.Alder alder={aktivVedtaksperiode.vilkår.alderISykmeldingsperioden} />
+                        <Vilkårsgrupper.Alder
+                            alder={aktivVedtaksperiode.vilkår.alderISykmeldingsperioden}
+                            oppfylt={true}
+                        />
                         <Vilkårsgrupper.Søknadsfrist
                             innen3Mnd={aktivVedtaksperiode.vilkår.søknadsfrist?.innen3Mnd}
                             sendtNav={aktivVedtaksperiode.vilkår.søknadsfrist?.sendtNav}
                             sisteSykepengedag={aktivVedtaksperiode.vilkår.søknadsfrist?.søknadTom!}
+                            oppfylt={true}
                         />
                     </FlexColumn>
                     <FlexColumn>
                         {førsteVedtaksperiode.vilkår.opptjening ? (
                             <Vilkårsgrupper.Opptjeningstid
-                                harOpptjening={førsteVedtaksperiode.vilkår.opptjening.harOpptjening}
                                 førsteFraværsdag={førsteVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag}
                                 opptjeningFra={førsteVedtaksperiode.vilkår.opptjening.opptjeningFra}
                                 antallOpptjeningsdagerErMinst={
                                     førsteVedtaksperiode.vilkår.opptjening.antallOpptjeningsdagerErMinst
                                 }
+                                oppfylt={true}
                             />
                         ) : (
                             <Vilkårsgruppe
@@ -64,12 +68,14 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                         )}
                         <Vilkårsgrupper.KravTilSykepengegrunnlag
                             sykepengegrunnlag={aktivVedtaksperiode.sykepengegrunnlag.årsinntektFraInntektsmelding!}
+                            oppfylt={true}
                         />
                         <Vilkårsgrupper.DagerIgjen
                             førsteFraværsdag={aktivVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag}
                             førsteSykepengedag={aktivVedtaksperiode.vilkår.dagerIgjen?.førsteSykepengedag}
                             dagerBrukt={aktivVedtaksperiode.vilkår.dagerIgjen?.dagerBrukt}
                             maksdato={aktivVedtaksperiode.vilkår.dagerIgjen?.maksdato}
+                            oppfylt={true}
                         />
                     </FlexColumn>
                 </Innhold>

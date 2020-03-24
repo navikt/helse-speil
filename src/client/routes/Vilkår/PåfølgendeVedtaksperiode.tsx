@@ -27,13 +27,14 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
             <VurderteVilkårstittel størrelse="m" ikon={<GrøntSjekkikon />}>
                 Vurderte vilkår
             </VurderteVilkårstittel>
-            <StyledUbehandletInnhold>
+            <StyledUbehandletInnhold firstColumnWidth={'37rem'}>
                 <FlexColumn>
-                    <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} />
+                    <Vilkårsgrupper.Alder alder={vilkår.alderISykmeldingsperioden} oppfylt={true} />
                     <Vilkårsgrupper.Søknadsfrist
                         innen3Mnd={vilkår.søknadsfrist?.innen3Mnd}
                         sendtNav={vilkår.søknadsfrist?.sendtNav!}
                         sisteSykepengedag={vilkår.søknadsfrist?.søknadTom!}
+                        oppfylt={true}
                     />
                 </FlexColumn>
                 <FlexColumn>
@@ -42,6 +43,7 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                         førsteSykepengedag={vilkår.dagerIgjen?.førsteSykepengedag}
                         dagerBrukt={vilkår.dagerIgjen?.dagerBrukt}
                         maksdato={vilkår.dagerIgjen?.maksdato}
+                        oppfylt={true}
                     />
                 </FlexColumn>
             </StyledUbehandletInnhold>
@@ -61,12 +63,12 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                     <FlexColumn>
                         {førsteVedtaksperiode.vilkår.opptjening ? (
                             <Vilkårsgrupper.Opptjeningstid
-                                harOpptjening={førsteVedtaksperiode.vilkår.opptjening.harOpptjening}
                                 førsteFraværsdag={førsteVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag}
                                 opptjeningFra={førsteVedtaksperiode.vilkår.opptjening.opptjeningFra}
                                 antallOpptjeningsdagerErMinst={
                                     førsteVedtaksperiode.vilkår.opptjening.antallOpptjeningsdagerErMinst
                                 }
+                                oppfylt={true}
                             />
                         ) : (
                             <Vilkårsgruppe
@@ -79,6 +81,7 @@ const PåfølgendeVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode
                     <FlexColumn>
                         <Vilkårsgrupper.KravTilSykepengegrunnlag
                             sykepengegrunnlag={førsteVedtaksperiode.sykepengegrunnlag.årsinntektFraInntektsmelding!}
+                            oppfylt={true}
                         />
                     </FlexColumn>
                 </TwoColumnGrid>

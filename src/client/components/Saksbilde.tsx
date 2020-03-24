@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import Vilkår from '../routes/Vilkår';
 import PersonBar from './PersonBar';
 import Tidslinje from './Tidslinje';
@@ -19,8 +19,15 @@ import { Hendelse, Hendelsestype } from '../context/types';
 import { Hendelsetype as LoggHendelsestype, LoggHeader, LoggProvider } from '@navikt/helse-frontend-logg';
 import { Location, useNavigation } from '../hooks/useNavigation';
 import { NORSK_DATOFORMAT } from '../utils/date';
-import { useMaksdato } from '../hooks/useMaksdato';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
+import { mapVilkår, Vilkårstype, VurdertVilkår } from '../routes/Vilkår/vilkårsmapper';
+import {
+    alder,
+    dagerIgjen,
+    kravTilSykepengegrunnlag,
+    opptjeningstid,
+    søknadsfrist
+} from '../routes/Vilkår/Vilkårsgrupper/Vilkårsgrupper';
 
 const Container = styled.div`
     display: flex;
@@ -45,17 +52,6 @@ const StyledSakslinje = styled(Sakslinje)`
     }
 `;
 
-const typeForHendelse = (hendelse: Hendelse) => {
-    switch (hendelse.type) {
-        case Hendelsestype.Sykmelding:
-        case Hendelsestype.Inntektsmelding:
-        case Hendelsestype.Søknad:
-            return LoggHendelsestype.Dokumenter;
-        default:
-            return LoggHendelsestype.Historikk;
-    }
-};
-
 const navnForHendelse = (hendelse: Hendelse) => {
     switch (hendelse.type) {
         case Hendelsestype.Inntektsmelding:
@@ -77,17 +73,11 @@ const datoForHendelse = (hendelse: Hendelse) => {
     return dato ? dato.format(NORSK_DATOFORMAT) : 'Ukjent dato';
 };
 
-const mapLoggHendelse = (hendelse: Hendelse, type: LoggHendelsestype) => ({
-    id: `${hendelse.type}-${hendelseFørsteDato(hendelse)}`,
-    dato: datoForHendelse(hendelse),
-    navn: navnForHendelse(hendelse),
-    type: type
-});
-
 const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const { maksdato, maksdatoOverskrides } = useMaksdato();
+
+    if (aktivVedtaksperiode === undefined || personTilBehandling === undefined) return null;
 
     const dokumenter = aktivVedtaksperiode
         ? aktivVedtaksperiode.dokumenter.map((hendelse: Hendelse) => ({
@@ -113,6 +103,26 @@ const Saksbilde = () => {
         );
     }
 
+    const { vilkår, sykepengegrunnlag } = aktivVedtaksperiode!;
+    const tilVilkårsgruppe = (vurdertVilkår: VurdertVilkår): ReactNode => {
+        switch (vurdertVilkår.vilkår) {
+            case Vilkårstype.Alder:
+                return alder(vilkår, vurdertVilkår.oppfylt);
+            case Vilkårstype.Søknadsfrist:
+                return søknadsfrist(vilkår, vurdertVilkår.oppfylt);
+            case Vilkårstype.Opptjeningstid:
+                return opptjeningstid(vilkår, vurdertVilkår.oppfylt);
+            case Vilkårstype.KravTilSykepengegrunnalg:
+                return kravTilSykepengegrunnlag(sykepengegrunnlag, vurdertVilkår.oppfylt);
+            case Vilkårstype.DagerIgjen:
+                return dagerIgjen(vilkår, vurdertVilkår.oppfylt);
+        }
+    };
+
+    const vurderteVilkår = mapVilkår(vilkår, sykepengegrunnlag);
+    const ikkeOppfylteVilkår = vurderteVilkår.filter(vilkår => !vilkår.oppfylt).map(tilVilkårsgruppe);
+    const oppfylteVilkår = vurderteVilkår.filter(vilkår => vilkår.oppfylt).map(tilVilkårsgruppe);
+
     return (
         <>
             <PersonBar />
@@ -126,16 +136,19 @@ const Saksbilde = () => {
                 <Container>
                     <Venstremeny />
                     <Hovedinnhold>
-                        {maksdatoOverskrides && (
-                            <Varsel type={Varseltype.Feil}>
-                                Vilkår er ikke oppfylt fra {maksdato!.format(NORSK_DATOFORMAT)}
-                            </Varsel>
+                        {ikkeOppfylteVilkår.length > 0 && (
+                            <Varsel type={Varseltype.Feil}>Vilkår er ikke oppfylt i deler av perioden</Varsel>
                         )}
                         <Route
                             path={`${toString(Location.Sykmeldingsperiode)}/:aktoerId`}
                             component={Sykmeldingsperiode}
                         />
-                        <Route path={`${toString(Location.Vilkår)}/:aktoerId`} component={Vilkår} />
+                        <Route
+                            path={`${toString(Location.Vilkår)}/:aktoerId`}
+                            component={() => (
+                                <Vilkår ikkeOppfylteVilkår={ikkeOppfylteVilkår} oppfylteVilkår={oppfylteVilkår} />
+                            )}
+                        />
                         <Route path={`${toString(Location.Inntektskilder)}/:aktoerId`} component={Inntektskilder} />
                         <Route
                             path={`${toString(Location.Sykepengegrunnlag)}/:aktoerId`}
