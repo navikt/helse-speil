@@ -5,7 +5,7 @@ import { somDato } from './vedtaksperiodemapper';
 const utbetalingstidslinjedag = (dag: Utbetalingsdagtype): Dagtype => {
     switch (dag) {
         case Utbetalingsdagtype.ARBEIDSGIVERPERIODE:
-            return 'Arbeidsgiverperiode' as Dagtype;
+            return Dagtype.Arbeidsgiverperiode;
         case Utbetalingsdagtype.NAVDAG:
             return Dagtype.Syk;
         case Utbetalingsdagtype.NAVHELG:
