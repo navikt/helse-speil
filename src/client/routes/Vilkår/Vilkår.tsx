@@ -20,13 +20,31 @@ const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
 `;
 
-const Vilkår = ({ ikkeOppfylteVilkår, oppfylteVilkår }: VilkårProps) => {
+export interface Vilkårdata {
+    oppfylt: boolean;
+    type: Vilkårstype;
+    komponent: ReactNode;
+}
+
+interface VilkårProps {
+    vilkår: Vilkårdata[];
+}
+
+const filtrerBehandledeVilkår = (vilkår: Vilkårdata): boolean =>
+    ![Vilkårstype.Opptjeningstid, Vilkårstype.KravTilSykepengegrunnlag].includes(vilkår.type);
+
+const tilKomponent = (vilkår: Vilkårdata): ReactNode => vilkår.komponent;
+
+const Vilkår = ({ vilkår }: VilkårProps) => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const periodeStatus = useVedtaksperiodestatus();
 
     if (!aktivVedtaksperiode?.vilkår || personTilBehandling === undefined) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
+
+    const ikkeOppfylteVilkår = vilkår.filter(vilkår => !vilkår.oppfylt);
+    const oppfylteVilkår = vilkår.filter(vilkår => vilkår.oppfylt);
 
     return (
         <>
@@ -45,22 +63,24 @@ const Vilkår = ({ ikkeOppfylteVilkår, oppfylteVilkår }: VilkårProps) => {
                                 <Vilkårsvisning
                                     tittel="Ikke oppfylte vilkår"
                                     ikon={<Feilikon />}
-                                    vilkår={ikkeOppfylteVilkår}
+                                    vilkår={ikkeOppfylteVilkår.map(tilKomponent)}
                                 />
                             )}
                             <IkkeVurderteVilkår />
                             <Vilkårsvisning
                                 tittel="Vurderte vilkår"
                                 ikon={<GrøntSjekkikon />}
-                                vilkår={oppfylteVilkår}
+                                vilkår={oppfylteVilkår.map(tilKomponent)}
                             />
                         </>
                     ) : (
                         <>
-                            <IkkeVurderteVilkår />
                             <PåfølgendeVedtaksperiode
-                                aktivVedtaksperiode={aktivVedtaksperiode}
                                 førsteVedtaksperiode={førsteVedtaksperiode}
+                                ikkeOppfylteVilkår={ikkeOppfylteVilkår
+                                    .filter(filtrerBehandledeVilkår)
+                                    .map(tilKomponent)}
+                                oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                             />
                         </>
                     )}
