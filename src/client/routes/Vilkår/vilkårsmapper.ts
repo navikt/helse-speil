@@ -5,7 +5,7 @@ export enum Vilkårstype {
     Alder,
     Søknadsfrist,
     Opptjeningstid,
-    KravTilSykepengegrunnalg,
+    KravTilSykepengegrunnlag,
     DagerIgjen
 }
 
@@ -16,10 +16,12 @@ export interface VurdertVilkår {
 
 const erYngreEnn70År = (vilkår: Vilkår): boolean => vilkår.alderISykmeldingsperioden! < 70;
 const søknadsfristOppholdt = (vilkår: Vilkår): boolean => vilkår.søknadsfrist?.innen3Mnd!;
-const harOpptjeningOppfyldt = (vilkår: Vilkår): boolean => vilkår.opptjening.harOpptjening;
+const harOpptjeningOppfylt = (vilkår: Vilkår): boolean => vilkår.opptjening.harOpptjening;
 const er67EllerEldre = (vilkår: Vilkår): boolean => vilkår.alderISykmeldingsperioden! >= 67;
+const årsinntektStørreEnnHalvG = (sykepengegrunnlag: Sykepengegrunnlag): boolean =>
+    sykepengegrunnlag.årsinntektFraInntektsmelding! > 0.5 * GRUNNBELØP;
 const årsinntektStørreEnn2G = (sykepengegrunnlag: Sykepengegrunnlag): boolean =>
-    sykepengegrunnlag.årsinntektFraAording! > 2 * GRUNNBELØP;
+    sykepengegrunnlag.årsinntektFraInntektsmelding! > 2 * GRUNNBELØP;
 const harBruktUnder248Dager = (vilkår: Vilkår): boolean => vilkår.dagerIgjen?.dagerBrukt! < 248;
 const harBruktMindreEnn60Dager = (vilkår: Vilkår): boolean => vilkår.dagerIgjen?.dagerBrukt! < 60;
 
@@ -34,11 +36,13 @@ export const mapVilkår = (vilkår: Vilkår, sykepengegrunnlag: Sykepengegrunnla
     },
     {
         vilkår: Vilkårstype.Opptjeningstid,
-        oppfylt: harOpptjeningOppfyldt(vilkår)
+        oppfylt: harOpptjeningOppfylt(vilkår)
     },
     {
-        vilkår: Vilkårstype.KravTilSykepengegrunnalg,
-        oppfylt: er67EllerEldre(vilkår) && årsinntektStørreEnn2G(sykepengegrunnlag)
+        vilkår: Vilkårstype.KravTilSykepengegrunnlag,
+        oppfylt:
+            (er67EllerEldre(vilkår) && årsinntektStørreEnn2G(sykepengegrunnlag)) ||
+            årsinntektStørreEnnHalvG(sykepengegrunnlag)
     },
     {
         vilkår: Vilkårstype.DagerIgjen,

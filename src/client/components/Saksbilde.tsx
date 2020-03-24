@@ -112,7 +112,7 @@ const Saksbilde = () => {
                 return søknadsfrist(vilkår, vurdertVilkår.oppfylt);
             case Vilkårstype.Opptjeningstid:
                 return opptjeningstid(vilkår, vurdertVilkår.oppfylt);
-            case Vilkårstype.KravTilSykepengegrunnalg:
+            case Vilkårstype.KravTilSykepengegrunnlag:
                 return kravTilSykepengegrunnlag(sykepengegrunnlag, vurdertVilkår.oppfylt);
             case Vilkårstype.DagerIgjen:
                 return dagerIgjen(vilkår, vurdertVilkår.oppfylt);

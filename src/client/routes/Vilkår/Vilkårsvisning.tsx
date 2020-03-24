@@ -25,7 +25,7 @@ const Vilkårsvisning = ({ tittel, ikon, vilkår }: VilkårsvisningProps) => {
             <Tittel størrelse="m" ikon={ikon}>
                 {tittel}
             </Tittel>
-            <StyledUbehandletInnhold kolonner={2}>
+            <StyledUbehandletInnhold>
                 <FlexColumn>{venstre}</FlexColumn>
                 <FlexColumn>{høyre}</FlexColumn>
             </StyledUbehandletInnhold>
