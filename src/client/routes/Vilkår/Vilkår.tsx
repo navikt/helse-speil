@@ -12,17 +12,13 @@ import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import Vilkårsvisning from './Vilkårsvisning';
 import Feilikon from '../../components/Ikon/Feilikon';
 import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
+import { Vilkårstype } from './vilkårsmapper';
 
 export const GRUNNBELØP = 99858;
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
 `;
-
-interface VilkårProps {
-    ikkeOppfylteVilkår: ReactNode[];
-    oppfylteVilkår: ReactNode[];
-}
 
 const Vilkår = ({ ikkeOppfylteVilkår, oppfylteVilkår }: VilkårProps) => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);

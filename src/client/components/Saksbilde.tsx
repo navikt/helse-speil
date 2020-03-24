@@ -28,6 +28,7 @@ import {
     opptjeningstid,
     søknadsfrist
 } from '../routes/Vilkår/Vilkårsgrupper/Vilkårsgrupper';
+import { Vilkårdata } from '../routes/Vilkår/Vilkår';
 
 const Container = styled.div`
     display: flex;
@@ -119,9 +120,11 @@ const Saksbilde = () => {
         }
     };
 
-    const vurderteVilkår = mapVilkår(vilkår, sykepengegrunnlag);
-    const ikkeOppfylteVilkår = vurderteVilkår.filter(vilkår => !vilkår.oppfylt).map(tilVilkårsgruppe);
-    const oppfylteVilkår = vurderteVilkår.filter(vilkår => vilkår.oppfylt).map(tilVilkårsgruppe);
+    const vurderteVilkår: Vilkårdata[] = mapVilkår(vilkår, sykepengegrunnlag).map(vilkår => ({
+        type: vilkår.vilkår,
+        komponent: tilVilkårsgruppe(vilkår),
+        oppfylt: vilkår.oppfylt
+    }));
 
     return (
         <>
@@ -136,7 +139,7 @@ const Saksbilde = () => {
                 <Container>
                     <Venstremeny />
                     <Hovedinnhold>
-                        {ikkeOppfylteVilkår.length > 0 && (
+                        {vurderteVilkår.filter(vilkår => !vilkår.oppfylt).length > 0 && (
                             <Varsel type={Varseltype.Feil}>Vilkår er ikke oppfylt i deler av perioden</Varsel>
                         )}
                         <Route
@@ -145,9 +148,7 @@ const Saksbilde = () => {
                         />
                         <Route
                             path={`${toString(Location.Vilkår)}/:aktoerId`}
-                            component={() => (
-                                <Vilkår ikkeOppfylteVilkår={ikkeOppfylteVilkår} oppfylteVilkår={oppfylteVilkår} />
-                            )}
+                            component={() => <Vilkår vilkår={vurderteVilkår} />}
                         />
                         <Route path={`${toString(Location.Inntektskilder)}/:aktoerId`} component={Inntektskilder} />
                         <Route
