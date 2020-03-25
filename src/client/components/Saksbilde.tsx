@@ -78,7 +78,14 @@ const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
-    if (aktivVedtaksperiode === undefined || personTilBehandling === undefined) return null;
+    if (aktivVedtaksperiode === undefined || personTilBehandling === undefined) {
+        console.warn(
+            'Aktiv vedtaksperiode eller personTilBehandling er undefined',
+            aktivVedtaksperiode,
+            personTilBehandling
+        );
+        return null;
+    }
 
     const dokumenter = aktivVedtaksperiode
         ? aktivVedtaksperiode.dokumenter.map((hendelse: Hendelse) => ({

@@ -176,7 +176,7 @@ export const mapVedtaksperiode = (
         id: spleisPeriode.id,
         fom,
         tom,
-        kanVelges: totaltTilUtbetaling > 0,
+        kanVelges: spleisPeriode.tilstand !== SpleisVedtaksperiodetilstand.AVSLUTTET || totaltTilUtbetaling > 0,
         tilstand: mapTilstand(spleisPeriode.tilstand as SpleisVedtaksperiodetilstand, oppsummering.totaltTilUtbetaling),
         utbetalingsreferanse: spleisPeriode.utbetalingsreferanse,
         utbetalingstidslinje: utbetalingstidslinje,
