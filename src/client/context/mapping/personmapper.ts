@@ -4,7 +4,7 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { Hendelse, Hendelsestype, Inntektsmelding, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types';
-import { Personinfo as SpleisPersoninfo, SpleisVedtaksperiodetilstand } from '../../../types';
+import { Personinfo as SpleisPersoninfo } from '../../../types';
 import {
     mapUferdigVedtaksperiode,
     mapVedtaksperiode,
@@ -18,7 +18,8 @@ import {
     SpleisInntektsmelding,
     SpleisPerson,
     SpleisSendtSøknad,
-    SpleisVedtaksperiode
+    SpleisVedtaksperiode,
+    VedtaksperiodetilstandDTO
 } from './external.types';
 
 dayjs.extend(relativeTime);
@@ -73,12 +74,12 @@ const finnGjeldendeInntektsmelding = (gjeldendeUtbetalingsreferanse: string, per
     )[0] as Inntektsmelding;
 };
 
-const kanVises = (vedtaksperiodeType: SpleisVedtaksperiodetilstand) =>
+const kanVises = (vedtaksperiodeType: VedtaksperiodetilstandDTO) =>
     [
-        SpleisVedtaksperiodetilstand.AVSLUTTET,
-        SpleisVedtaksperiodetilstand.UTBETALING_FEILET,
-        SpleisVedtaksperiodetilstand.ANNULLERT,
-        SpleisVedtaksperiodetilstand.AVVENTER_GODKJENNING
+        VedtaksperiodetilstandDTO.IngenUtbetaling,
+        VedtaksperiodetilstandDTO.Utbetalt,
+        VedtaksperiodetilstandDTO.Feilet,
+        VedtaksperiodetilstandDTO.Oppgaver
     ].includes(vedtaksperiodeType);
 
 const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelser: Hendelse[]) =>
@@ -89,7 +90,7 @@ const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelse
         const tilVedtaksperiode = (periode: SpleisVedtaksperiode) => {
             const gjeldendeInntektsmelding = finnGjeldendeInntektsmelding(periode.utbetalingsreferanse, person);
 
-            if (kanVises(periode.tilstand as SpleisVedtaksperiodetilstand)) {
+            if (kanVises(periode.tilstand)) {
                 return mapVedtaksperiode(
                     periode,
                     personinfo,

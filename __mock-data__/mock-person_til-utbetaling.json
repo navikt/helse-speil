@@ -20,7 +20,7 @@
                         "antallOpptjeningsdagerErMinst": 365,
                         "harOpptjening": true
                     },
-                    "tilstand": "TIL_UTBETALING",
+                    "tilstand": "TilUtbetaling",
                     "hendelser": [
                         "33333333-0332-4f12-9760-0451ba480149",
                         "55555555-ae2d-4dd9-9a4c-59e8494da067",

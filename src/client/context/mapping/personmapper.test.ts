@@ -2,7 +2,13 @@
 import { tilPerson } from './personmapper';
 import { Dagtype, Hendelsestype, Kildetype, Kjønn, Vedtaksperiodetilstand } from '../types';
 import { somDato, somTidspunkt } from './vedtaksperiodemapper';
-import { SpleisHendelse, SpleisHendelsetype, SpleisSykdomsdagtype, SpleisVedtaksperiode } from './external.types';
+import {
+    SpleisHendelse,
+    SpleisHendelsetype,
+    SpleisSykdomsdagtype,
+    SpleisVedtaksperiode,
+    VedtaksperiodetilstandDTO
+} from './external.types';
 import { Personinfo as SpleisPersoninfo, SpleisVedtaksperiodetilstand } from '../../../types';
 
 test('mapper person', () => {
@@ -128,7 +134,7 @@ const enVedtaksperiode = (
         førsteFraværsdag: '2019-09-10',
         inntektFraInntektsmelding: 31000.0,
         dataForVilkårsvurdering: _vilkårsvurdering,
-        tilstand: 'AVVENTER_GODKJENNING',
+        tilstand: 'Oppgaver',
         hendelser: [
             '726e57d9-7844-4a28-886b-8485dbdbd4d2',
             '09851096-bcba-4c7a-8dc0-a1617a744f1f',
@@ -815,7 +821,7 @@ const mappetPerson = {
                             '09851096-bcba-4c7a-8dc0-a1617a744f1f',
                             'c554ee9b-30ca-4c7f-adce-c0224108e83a'
                         ],
-                        tilstand: SpleisVedtaksperiodetilstand.AVVENTER_GODKJENNING,
+                        tilstand: VedtaksperiodetilstandDTO.Oppgaver,
                         sykdomstidslinje: [
                             {
                                 dagen: '2019-09-10',

@@ -13,13 +13,13 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand
 } from '../types';
-import { SpleisVedtaksperiodetilstand } from '../../../types';
 import dayjs, { Dayjs } from 'dayjs';
 import {
     SpleisDataForVilkårsvurdering,
     SpleisSykdomsdag,
     SpleisSykdomsdagtype,
-    SpleisVedtaksperiode
+    SpleisVedtaksperiode,
+    VedtaksperiodetilstandDTO
 } from './external.types';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
@@ -130,44 +130,10 @@ export const mapVedtaksperiode = (
         totaltTilUtbetaling
     };
 
-    const mapTilstand = (
-        tilstand: SpleisVedtaksperiodetilstand,
-        totaltTilUtbetaling: number
-    ): Vedtaksperiodetilstand => {
-        switch (tilstand) {
-            case SpleisVedtaksperiodetilstand.AVSLUTTET:
-                return totaltTilUtbetaling > 0
-                    ? Vedtaksperiodetilstand.Utbetalt
-                    : Vedtaksperiodetilstand.IngenUtbetaling;
-            case SpleisVedtaksperiodetilstand.AVVENTER_GODKJENNING:
-                return Vedtaksperiodetilstand.Oppgaver;
-            case SpleisVedtaksperiodetilstand.TIL_UTBETALING:
-                return Vedtaksperiodetilstand.TilUtbetaling;
-            case SpleisVedtaksperiodetilstand.UTBETALING_FEILET:
-                return Vedtaksperiodetilstand.Feilet;
-            case SpleisVedtaksperiodetilstand.START:
-            case SpleisVedtaksperiodetilstand.MOTTATT_SYKMELDING_FERDIG_FORLENGELSE:
-            case SpleisVedtaksperiodetilstand.MOTTATT_SYKMELDING_UFERDIG_FORLENGELSE:
-            case SpleisVedtaksperiodetilstand.MOTTATT_SYKMELDING_FERDIG_GAP:
-            case SpleisVedtaksperiodetilstand.MOTTATT_SYKMELDING_UFERDIG_GAP:
-            case SpleisVedtaksperiodetilstand.AVVENTER_SØKNAD_FERDIG_GAP:
-            case SpleisVedtaksperiodetilstand.AVVENTER_SØKNAD_UFERDIG_GAP:
-            case SpleisVedtaksperiodetilstand.AVVENTER_VILKÅRSPRØVING_GAP:
-            case SpleisVedtaksperiodetilstand.AVVENTER_GAP:
-            case SpleisVedtaksperiodetilstand.AVVENTER_INNTEKTSMELDING_FERDIG_GAP:
-            case SpleisVedtaksperiodetilstand.AVVENTER_INNTEKTSMELDING_UFERDIG_GAP:
-            case SpleisVedtaksperiodetilstand.AVVENTER_UFERDIG_GAP:
-            case SpleisVedtaksperiodetilstand.AVVENTER_INNTEKTSMELDING_UFERDIG_FORLENGELSE:
-            case SpleisVedtaksperiodetilstand.AVVENTER_SØKNAD_UFERDIG_FORLENGELSE:
-            case SpleisVedtaksperiodetilstand.AVVENTER_UFERDIG_FORLENGELSE:
-            case SpleisVedtaksperiodetilstand.AVVENTER_HISTORIKK:
-            case SpleisVedtaksperiodetilstand.TIL_INFOTRYGD:
-                return Vedtaksperiodetilstand.Venter;
-            case SpleisVedtaksperiodetilstand.ANNULLERT:
-                return Vedtaksperiodetilstand.Avslag;
-            default:
-                return Vedtaksperiodetilstand.Ukjent;
-        }
+    const mapTilstand = (tilstand: VedtaksperiodetilstandDTO): Vedtaksperiodetilstand => {
+        const vedtaksperiodeTilstand = Vedtaksperiodetilstand[tilstand];
+        if (vedtaksperiodeTilstand === undefined) return Vedtaksperiodetilstand.Ukjent;
+        else return vedtaksperiodeTilstand;
     };
 
     const dokumenter = [søknad, sykmelding, inntektsmelding].filter(hendelse => hendelse !== undefined);
@@ -176,8 +142,11 @@ export const mapVedtaksperiode = (
         id: spleisPeriode.id,
         fom,
         tom,
-        kanVelges: spleisPeriode.tilstand !== SpleisVedtaksperiodetilstand.AVSLUTTET || totaltTilUtbetaling > 0,
-        tilstand: mapTilstand(spleisPeriode.tilstand as SpleisVedtaksperiodetilstand, oppsummering.totaltTilUtbetaling),
+        kanVelges:
+            ![VedtaksperiodetilstandDTO.IngenUtbetaling, VedtaksperiodetilstandDTO.Utbetalt].includes(
+                spleisPeriode.tilstand
+            ) || totaltTilUtbetaling > 0,
+        tilstand: mapTilstand(spleisPeriode.tilstand),
         utbetalingsreferanse: spleisPeriode.utbetalingsreferanse,
         utbetalingstidslinje: utbetalingstidslinje,
         sykdomstidslinje: sykdomstidslinje,

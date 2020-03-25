@@ -44,7 +44,7 @@
                         "e6e20997-cc8d-407e-9731-98f85ffe910b",
                         "c5fad2b9-d488-485c-bbf3-a7d4e7559a61"
                     ],
-                    "tilstand": "AVSLUTTET",
+                    "tilstand": "IngenUtbetaling",
                     "sykdomstidslinje": [
                         { "dagen": "2020-01-01", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
                         { "dagen": "2020-01-02", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
@@ -182,7 +182,7 @@
                         "antallOpptjeningsdagerErMinst": 1095,
                         "harOpptjening": true
                     },
-                    "tilstand": "AVSLUTTET",
+                    "tilstand": "IngenUtbetalinger",
                     "hendelser": [
                         "fd1335be-3974-429d-97cb-de92011f75b6",
                         "6483658c-b0c9-4549-87ca-57d465cb3f5a",
@@ -239,7 +239,7 @@
                         "harOpptjening": true
                     },
                     "hendelser": ["0910af7f-49f8-497b-887b-c1623448bb78", "271d8015-a2f7-4c4e-a940-99463b0a6d27"],
-                    "tilstand": "AVVENTER_GODKJENNING",
+                    "tilstand": "Oppgaver",
                     "sykdomstidslinje": [
                         { "dagen": "2020-01-19", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
                         { "dagen": "2020-01-20", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }

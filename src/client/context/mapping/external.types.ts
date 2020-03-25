@@ -1,3 +1,5 @@
+import { Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
+
 export type Kildelabel = 'IM' | 'SØ' | 'SM';
 
 export interface Utbetalingsdetalj {
@@ -134,13 +136,22 @@ export interface SpleisDataForVilkårsvurdering {
     harOpptjening: boolean;
 }
 
+export enum VedtaksperiodetilstandDTO {
+    TilUtbetaling = 'TilUtbetaling',
+    Utbetalt = 'Utbetalt',
+    Oppgaver = 'Oppgaver',
+    Venter = 'Venter',
+    IngenUtbetaling = 'IngenUtbetaling',
+    Feilet = 'Feilet'
+}
+
 export interface SpleisVedtaksperiode {
     id: string;
     maksdato: string;
     forbrukteSykedager: number;
     godkjentAv?: string;
     godkjenttidspunkt?: string;
-    tilstand: string;
+    tilstand: VedtaksperiodetilstandDTO;
     hendelser: string[];
     sykdomstidslinje: SpleisSykdomsdag[];
     utbetalingslinjer?: Utbetalingslinje[];
