@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyledBehandletInnhold } from './Vilkår.styles';
+import { Strek, StyledBehandletInnhold } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper/Vilkårsgruppe';
 import { Vedtaksperiode } from '../../context/types';
@@ -80,6 +80,7 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                     </FlexColumn>
                 </Innhold>
             </StyledBehandletInnhold>
+            <Strek />
         </>
     );
 };

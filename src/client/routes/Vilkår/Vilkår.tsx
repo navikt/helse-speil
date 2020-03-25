@@ -6,13 +6,9 @@ import BehandletVedtaksperiode from './BehandletVedtaksperiode';
 import PåfølgendeVedtaksperiode from './PåfølgendeVedtaksperiode';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
-import IkkeVurderteVilkår from './Vilkårsgrupper/IkkeVurderteVilkår';
 import Aktivitetsplikt from './Aktivitetsplikt';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
-import Vilkårsvisning from './Vilkårsvisning';
-import Feilikon from '../../components/Ikon/Feilikon';
-import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
 import { Vilkårstype } from './vilkårsmapper';
+import UbehandletVedtaksperiode from './UbehandletVedtaksperiode';
 
 export const GRUNNBELØP = 99858;
 
@@ -43,49 +39,39 @@ const Vilkår = ({ vilkår }: VilkårProps) => {
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 
-    const ikkeOppfylteVilkår = vilkår.filter(vilkår => !vilkår.oppfylt);
-    const oppfylteVilkår = vilkår.filter(vilkår => vilkår.oppfylt);
+    const ikkeOppfylteVilkår: Vilkårdata[] = vilkår.filter(it => !it.oppfylt);
+    const oppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it.oppfylt);
+
+    const vedtaksperiodevisning = (periodestatus: VedtaksperiodeStatus): ReactNode => {
+        switch (periodestatus) {
+            case VedtaksperiodeStatus.Behandlet:
+                return (
+                    <BehandletVedtaksperiode
+                        aktivVedtaksperiode={aktivVedtaksperiode}
+                        førsteVedtaksperiode={førsteVedtaksperiode}
+                    />
+                );
+            case VedtaksperiodeStatus.Ubehandlet:
+                return (
+                    <UbehandletVedtaksperiode
+                        ikkeOppfylteVilkår={ikkeOppfylteVilkår.map(tilKomponent)}
+                        oppfylteVilkår={oppfylteVilkår.map(tilKomponent)}
+                    />
+                );
+            case VedtaksperiodeStatus.Påfølgende:
+                return (
+                    <PåfølgendeVedtaksperiode
+                        førsteVedtaksperiode={førsteVedtaksperiode}
+                        ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
+                        oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
+                    />
+                );
+        }
+    };
 
     return (
         <>
-            {periodeStatus === VedtaksperiodeStatus.Behandlet && (
-                <BehandletVedtaksperiode
-                    aktivVedtaksperiode={aktivVedtaksperiode}
-                    førsteVedtaksperiode={førsteVedtaksperiode}
-                />
-            )}
-            {periodeStatus !== VedtaksperiodeStatus.Behandlet && (
-                <>
-                    <Varsel type={Varseltype.Advarsel}>Enkelte vilkår må vurderes manuelt</Varsel>
-                    {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
-                        <>
-                            {ikkeOppfylteVilkår.length > 0 && (
-                                <Vilkårsvisning
-                                    tittel="Ikke oppfylte vilkår"
-                                    ikon={<Feilikon />}
-                                    vilkår={ikkeOppfylteVilkår.map(tilKomponent)}
-                                />
-                            )}
-                            <IkkeVurderteVilkår />
-                            <Vilkårsvisning
-                                tittel="Vurderte vilkår"
-                                ikon={<GrøntSjekkikon />}
-                                vilkår={oppfylteVilkår.map(tilKomponent)}
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <PåfølgendeVedtaksperiode
-                                førsteVedtaksperiode={førsteVedtaksperiode}
-                                ikkeOppfylteVilkår={ikkeOppfylteVilkår
-                                    .filter(filtrerBehandledeVilkår)
-                                    .map(tilKomponent)}
-                                oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
-                            />
-                        </>
-                    )}
-                </>
-            )}
+            {periodeStatus && vedtaksperiodevisning(periodeStatus)}
             <Aktivitetsplikt />
             <Footer />
         </>
