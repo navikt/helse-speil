@@ -145,7 +145,7 @@ export interface SpleisVedtaksperiode {
     sykdomstidslinje: SpleisSykdomsdag[];
     utbetalingslinjer?: Utbetalingslinje[];
     utbetalingsreferanse: string;
-    dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;
+    dataForVilkårsvurdering?: SpleisDataForVilkårsvurdering;
     førsteFraværsdag: string;
     inntektFraInntektsmelding: number;
     utbetalingstidslinje: SpleisUtbetalingsdag[];

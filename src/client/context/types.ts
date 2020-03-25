@@ -30,7 +30,7 @@ export interface Opptjening {
 export interface Vilkår {
     dagerIgjen?: DagerIgjen;
     søknadsfrist?: Søknadsfrist;
-    opptjening: Opptjening;
+    opptjening?: Opptjening;
     alderISykmeldingsperioden?: number;
 }
 

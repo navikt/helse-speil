@@ -15,7 +15,12 @@ import {
 } from '../types';
 import { SpleisVedtaksperiodetilstand } from '../../../types';
 import dayjs, { Dayjs } from 'dayjs';
-import { SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisVedtaksperiode } from './external.types';
+import {
+    SpleisDataForVilkårsvurdering,
+    SpleisSykdomsdag,
+    SpleisSykdomsdagtype,
+    SpleisVedtaksperiode
+} from './external.types';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 
@@ -36,7 +41,8 @@ export const mapVedtaksperiode = (
     personinfo: Personinfo,
     hendelserForPerson: Hendelse[],
     gjeldendeInntektsmelding: Inntektsmelding,
-    organisasjonsnummer?: string
+    organisasjonsnummer?: string,
+    dataForVilkårsvurdering?: SpleisDataForVilkårsvurdering
 ): Vedtaksperiode => {
     const somProsent = (avviksprosent?: number): number | undefined =>
         avviksprosent !== undefined ? avviksprosent * 100 : undefined;
@@ -84,12 +90,12 @@ export const mapVedtaksperiode = (
         };
     };
 
-    const opptjening = (): Opptjening => {
-        const antallOpptjeningsdagerErMinst: number =
-            spleisPeriode.dataForVilkårsvurdering.antallOpptjeningsdagerErMinst;
+    const opptjening = (): Opptjening | undefined => {
+        if (dataForVilkårsvurdering === undefined) return undefined;
+        const antallOpptjeningsdagerErMinst: number = dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst;
         return {
             antallOpptjeningsdagerErMinst: antallOpptjeningsdagerErMinst,
-            harOpptjening: spleisPeriode.dataForVilkårsvurdering.harOpptjening,
+            harOpptjening: dataForVilkårsvurdering.harOpptjening,
             opptjeningFra: somDato(spleisPeriode.førsteFraværsdag).subtract(antallOpptjeningsdagerErMinst, 'day')
         };
     };

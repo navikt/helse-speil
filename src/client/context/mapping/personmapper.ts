@@ -83,6 +83,9 @@ const kanVises = (vedtaksperiodeType: SpleisVedtaksperiodetilstand) =>
 
 const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelser: Hendelse[]) =>
     person.arbeidsgivere.map(arbeidsgiver => {
+        const dataForVilkårsvurdering = arbeidsgiver.vedtaksperioder
+            .map(periode => periode.dataForVilkårsvurdering)
+            .find(data => data !== undefined && data !== null);
         const tilVedtaksperiode = (periode: SpleisVedtaksperiode) => {
             const gjeldendeInntektsmelding = finnGjeldendeInntektsmelding(periode.utbetalingsreferanse, person);
 
@@ -92,7 +95,8 @@ const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo, hendelse
                     personinfo,
                     hendelser.filter(hendelse => periode.hendelser.includes(hendelse.id)),
                     gjeldendeInntektsmelding,
-                    arbeidsgiver.organisasjonsnummer
+                    arbeidsgiver.organisasjonsnummer,
+                    dataForVilkårsvurdering
                 );
             } else {
                 return mapUferdigVedtaksperiode(periode);
