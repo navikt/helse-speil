@@ -74,7 +74,7 @@ const setUpAuthentication = () => {
                 });
                 req.session!.speilToken = accessToken;
                 req.session!.user = auth.valueFromClaim('NAVident', idToken);
-                res.redirect('/');
+                res.redirect(303, '/');
             })
             .catch((err: Error) => {
                 logger.error(err.message, err);
@@ -99,9 +99,10 @@ app.use('/*', (req, res, next) => {
             next();
         } else {
             logger.info(
-                `no valid session found for ${ipAddressFromRequest(
-                    req
-                )}, username ${auth.valueFromClaim('name', req.session!.speilToken)}`
+                `no valid session found for ${ipAddressFromRequest(req)}, username ${auth.valueFromClaim(
+                    'name',
+                    req.session!.speilToken
+                )}`
             );
             if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
                 res.redirect('/login');
