@@ -84,35 +84,45 @@ const Oversikt = () => {
                             Henter personer <NavFrontendSpinner type="XS" />
                         </AlertStripeInfo>
                     )}
-                    <ul>
-                        <li className="row">
-                            <Normaltekst>{t('oversikt.søker')}</Normaltekst>
-                            <Normaltekst role={'columnheader'}>
-                                {t('oversikt.opprettet')}
-                                <SorterPil onClick={sorterBehov}>
-                                    {sortDirection === SortDirection.ASC ? (
-                                        <OppChevron aria-sort="descending" />
-                                    ) : (
-                                        <NedChevron aria-sort="ascending" />
-                                    )}
-                                </SorterPil>
-                            </Normaltekst>
-                            <Normaltekst>{t('oversikt.tildeling')}</Normaltekst>
-                        </li>
-                        {behovsliste.map((behov: Behov) => {
-                            const tildeling = tildelinger.find(t => t.behovId === behov['@id']);
-                            return (
-                                <Oversiktslinje
-                                    behov={behov}
-                                    tildeling={tildeling}
-                                    onAssignCase={tildelBehandling}
-                                    onUnassignCase={fjernTildeling}
-                                    onSelectCase={velgBehovAndNavigate}
-                                    key={behov['@id']}
-                                />
-                            );
-                        })}
-                    </ul>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>
+                                    <Normaltekst>{t('oversikt.søker')}</Normaltekst>
+                                </th>
+                                <th>
+                                    <Normaltekst role={'columnheader'}>
+                                        {t('oversikt.opprettet')}
+                                        <SorterPil onClick={sorterBehov}>
+                                            {sortDirection === SortDirection.ASC ? (
+                                                <OppChevron aria-sort="descending" />
+                                            ) : (
+                                                <NedChevron aria-sort="ascending" />
+                                            )}
+                                        </SorterPil>
+                                    </Normaltekst>
+                                </th>
+                                <th>
+                                    <Normaltekst>{t('oversikt.tildeling')}</Normaltekst>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {behovsliste.map((behov: Behov) => {
+                                const tildeling = tildelinger.find(t => t.behovId === behov['@id']);
+                                return (
+                                    <Oversiktslinje
+                                        behov={behov}
+                                        tildeling={tildeling}
+                                        onAssignCase={tildelBehandling}
+                                        onUnassignCase={fjernTildeling}
+                                        onSelectCase={velgBehovAndNavigate}
+                                        key={behov['@id']}
+                                    />
+                                );
+                            })}
+                        </tbody>
+                    </table>
                 </Panel>
             </div>
         </div>

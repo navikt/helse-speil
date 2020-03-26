@@ -51,13 +51,19 @@ const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSele
     );
 
     return (
-        <li className="row row--info">
-            <span>
-                <OversiktsLenke onClick={() => onSelectCase(behov)}>{søkernavn}</OversiktsLenke> {fetchFailedText}
-            </span>
-            <Normaltekst>{`${somDato(behov['@opprettet']).format(NORSK_DATOFORMAT)}`}</Normaltekst>
-            <span className="row__tildeling">{tildelingsCelle}</span>
-        </li>
+        <tr className="row row--info">
+            <td>
+                <span>
+                    <OversiktsLenke onClick={() => onSelectCase(behov)}>{søkernavn}</OversiktsLenke> {fetchFailedText}
+                </span>
+            </td>
+            <td>
+                <Normaltekst>{`${somDato(behov['@opprettet']).format(NORSK_DATOFORMAT)}`}</Normaltekst>
+            </td>
+            <td>
+                <span className="row__tildeling">{tildelingsCelle}</span>
+            </td>
+        </tr>
     );
 };
 
