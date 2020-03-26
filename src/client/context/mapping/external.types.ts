@@ -142,7 +142,8 @@ export enum VedtaksperiodetilstandDTO {
     Oppgaver = 'Oppgaver',
     Venter = 'Venter',
     IngenUtbetaling = 'IngenUtbetaling',
-    Feilet = 'Feilet'
+    Feilet = 'Feilet',
+    TilInfotrygd = 'TilInfotrygd'
 }
 
 export interface SpleisVedtaksperiode {
