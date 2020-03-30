@@ -3,11 +3,9 @@ import {
     Hendelse,
     Hendelsestype,
     Inntektskilde,
-    Inntektsmelding,
+    Oppsummering,
     Opptjening,
     Personinfo,
-    Sykmelding,
-    Søknad,
     Søknadsfrist,
     UferdigVedtaksperiode,
     Vedtaksperiode,
@@ -15,11 +13,15 @@ import {
 } from '../types';
 import dayjs, { Dayjs } from 'dayjs';
 import {
-    SpleisDataForVilkårsvurdering,
+    SpleisHendelse,
+    SpleisHendelsetype,
+    SpleisInntektsmelding,
     SpleisSykdomsdag,
     SpleisSykdomsdagtype,
+    SpleisSykmelding,
+    SpleisSøknad,
     SpleisVedtaksperiode,
-    VedtaksperiodetilstandDTO
+    SpleisVedtaksperiodetilstand
 } from './external.types';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
@@ -36,13 +38,39 @@ export const mapUferdigVedtaksperiode = ({ id, sykdomstidslinje }: SpleisVedtaks
     tilstand: Vedtaksperiodetilstand.Ukjent
 });
 
+export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
+    switch (hendelse.type) {
+        case SpleisHendelsetype.INNTEKTSMELDING:
+            return {
+                id: hendelse.id,
+                type: Hendelsestype.Inntektsmelding,
+                beregnetInntekt: (hendelse as SpleisInntektsmelding).beregnetInntekt,
+                mottattTidspunkt: somTidspunkt((hendelse as SpleisInntektsmelding).mottattDato)
+            };
+        case SpleisHendelsetype.SØKNAD:
+            return {
+                id: (hendelse as SpleisSøknad).id,
+                type: Hendelsestype.Søknad,
+                fom: somDato((hendelse as SpleisSøknad).fom),
+                tom: somDato((hendelse as SpleisSøknad).tom),
+                sendtNav: somDato(((hendelse as SpleisSøknad) as SpleisSøknad).sendtNav),
+                rapportertDato: somKanskjeDato((hendelse as SpleisSøknad).rapportertdato)
+            };
+        case SpleisHendelsetype.SYKMELDING:
+            return {
+                id: (hendelse as SpleisSykmelding).id,
+                type: Hendelsestype.Sykmelding,
+                fom: somDato((hendelse as SpleisSykmelding).fom),
+                tom: somDato((hendelse as SpleisSykmelding).tom),
+                rapportertDato: somKanskjeDato((hendelse as SpleisSykmelding).rapportertdato)
+            };
+    }
+};
+
 export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
     personinfo: Personinfo,
-    hendelserForPerson: Hendelse[],
-    gjeldendeInntektsmelding: Inntektsmelding,
-    organisasjonsnummer?: string,
-    dataForVilkårsvurdering?: SpleisDataForVilkårsvurdering
+    organisasjonsnummer?: string
 ): Vedtaksperiode => {
     const somProsent = (avviksprosent?: number): number | undefined =>
         avviksprosent !== undefined ? avviksprosent * 100 : undefined;
@@ -54,106 +82,81 @@ export const mapVedtaksperiode = (
     const sykdomstidslinje = tilSykdomstidslinje(spleisPeriode.sykdomstidslinje);
     const utbetalingstidslinje = tilUtbetalingstidslinje(spleisPeriode.utbetalingstidslinje);
 
-    const totaltTilUtbetaling: number =
-        utbetalingstidslinje
-            .map(dag => dag.utbetaling)
-            .filter(utbetaling => utbetaling !== undefined)
-            .reduce((acc: number, dagsats: number) => acc + dagsats, 0) ?? 0;
-    const fom = [...sykdomstidslinje].shift()!.dato;
-    const tom = [...sykdomstidslinje].pop()!.dato;
+    const vilkår = unmappedPeriode.vilkår;
 
-    const inntektsmelding: Inntektsmelding = hendelserForPerson.find(
-        hendelse => hendelse.type === Hendelsestype.Inntektsmelding
-    ) as Inntektsmelding;
-
-    const søknad = hendelserForPerson.find(hendelse => hendelse.type === Hendelsestype.Søknad) as Søknad;
-    const sykmelding = hendelserForPerson.find(hendelse => hendelse.type === Hendelsestype.Sykmelding) as Sykmelding;
-
-    const alderISykmeldingsperioden = (): number | undefined => {
-        const sisteSykedag: Dayjs | undefined = [...sykdomstidslinje].pop()?.dato;
-        if (sisteSykedag === undefined || personinfo.fødselsdato === undefined) return undefined;
-
-        return sisteSykedag.diff(personinfo.fødselsdato, 'year', false);
-    };
-
-    const dagerIgjen = (): DagerIgjen => {
-        const førsteSykepengedag =
-            spleisPeriode.utbetalingslinjer && spleisPeriode.utbetalingslinjer.length > 0
-                ? dayjs.min(spleisPeriode.utbetalingslinjer.map(linje => somDato(linje.fom)))
-                : undefined;
+    const dagerIgjen = (): DagerIgjen | undefined => {
+        const sykepengedager = vilkår.sykepengedager;
         return {
-            dagerBrukt: spleisPeriode.forbrukteSykedager,
-            førsteFraværsdag: gjeldendeInntektsmelding.førsteFraværsdag,
-            førsteSykepengedag: førsteSykepengedag,
-            maksdato: somDato(spleisPeriode.maksdato),
+            dagerBrukt: sykepengedager.forbrukteSykedager!,
+            førsteFraværsdag: somDato(sykepengedager.førsteFraværsdag!),
+            førsteSykepengedag: somDato(sykepengedager.førsteSykepengedag!),
+            maksdato: somDato(sykepengedager.maksdato!),
             tidligerePerioder: []
         };
     };
 
     const opptjening = (): Opptjening | undefined => {
-        if (dataForVilkårsvurdering === undefined) return undefined;
-        const antallOpptjeningsdagerErMinst: number = dataForVilkårsvurdering?.antallOpptjeningsdagerErMinst;
+        const opptjening = vilkår.opptjening;
+        if (opptjening === undefined) return undefined;
         return {
-            antallOpptjeningsdagerErMinst: antallOpptjeningsdagerErMinst,
-            harOpptjening: dataForVilkårsvurdering.harOpptjening,
-            opptjeningFra: somDato(spleisPeriode.førsteFraværsdag).subtract(antallOpptjeningsdagerErMinst, 'day')
+            antallOpptjeningsdagerErMinst: opptjening.antallKjenteOpptjeningsdager!,
+            harOpptjening: opptjening.oppfylt!,
+            opptjeningFra: somDato(opptjening.fom!)
         };
     };
 
     const søknadsfrist = (): Søknadsfrist | undefined => {
-        if (søknad === undefined) return undefined;
+        const søknadsfrist = vilkår.søknadsfrist;
+        if (søknadsfrist === undefined) return undefined;
         return {
-            sendtNav: søknad.sendtNav,
-            søknadTom: søknad.tom,
-            innen3Mnd: søknad.sendtNav && søknad.tom ? søknad.tom.add(3, 'month').isSameOrAfter(søknad.sendtNav) : false
+            sendtNav: somDato(søknadsfrist.sendtNav),
+            søknadTom: somDato(søknadsfrist.søknadTom),
+            // TODO: oppfylt undefined burde legge kravet i liste over ting vi ikke har sjekket
+            innen3Mnd: søknadsfrist.oppfylt ?? false
         };
     };
 
     const inntektskilder: Inntektskilde[] = [
         {
             organisasjonsnummer,
-            månedsinntekt: somInntekt(gjeldendeInntektsmelding.beregnetInntekt),
-            årsinntekt: somÅrsinntekt(gjeldendeInntektsmelding.beregnetInntekt),
+            månedsinntekt: somInntekt(unmappedPeriode.inntektFraInntektsmelding),
+            årsinntekt: somÅrsinntekt(unmappedPeriode.inntektFraInntektsmelding),
             refusjon: true,
             forskuttering: true
         }
     ];
 
     const sykepengegrunnlag = {
-        årsinntektFraAording: spleisPeriode.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
-        årsinntektFraInntektsmelding: somÅrsinntekt(gjeldendeInntektsmelding.beregnetInntekt),
-        avviksprosent: somProsent(spleisPeriode.dataForVilkårsvurdering?.avviksprosent)
+        årsinntektFraAording: unmappedPeriode.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
+        årsinntektFraInntektsmelding: somÅrsinntekt(unmappedPeriode.inntektFraInntektsmelding),
+        avviksprosent: somProsent(unmappedPeriode.dataForVilkårsvurdering?.avviksprosent)
     };
 
-    const oppsummering = {
-        antallUtbetalingsdager: spleisPeriode.utbetalingstidslinje.filter(dag => dag.utbetaling > 0).length,
-        totaltTilUtbetaling
+    const oppsummering: Oppsummering = {
+        antallUtbetalingsdager: unmappedPeriode.utbetalingstidslinje.filter(dag => dag.utbetaling && dag.utbetaling > 0)
+            .length,
+        totaltTilUtbetaling: unmappedPeriode.totalbeløpArbeidstaker
     };
 
-    const mapTilstand = (tilstand: VedtaksperiodetilstandDTO): Vedtaksperiodetilstand => {
+    const mapTilstand = (tilstand: SpleisVedtaksperiodetilstand): Vedtaksperiodetilstand => {
         const vedtaksperiodeTilstand = Vedtaksperiodetilstand[tilstand];
         if (vedtaksperiodeTilstand === undefined) return Vedtaksperiodetilstand.Ukjent;
         else return vedtaksperiodeTilstand;
     };
 
-    const dokumenter = [søknad, sykmelding, inntektsmelding].filter(hendelse => hendelse !== undefined);
-
     return {
-        id: spleisPeriode.id,
-        fom,
-        tom,
-        kanVelges:
-            ![VedtaksperiodetilstandDTO.IngenUtbetaling, VedtaksperiodetilstandDTO.Utbetalt].includes(
-                spleisPeriode.tilstand
-            ) || totaltTilUtbetaling > 0,
-        tilstand: mapTilstand(spleisPeriode.tilstand),
-        utbetalingsreferanse: spleisPeriode.utbetalingsreferanse,
+        id: unmappedPeriode.id,
+        fom: somDato(unmappedPeriode.fom),
+        tom: somDato(unmappedPeriode.tom),
+        kanVelges: unmappedPeriode.fullstending,
+        tilstand: mapTilstand(unmappedPeriode.tilstand),
+        utbetalingsreferanse: unmappedPeriode.utbetalingsreferanse,
         utbetalingstidslinje: utbetalingstidslinje,
         sykdomstidslinje: sykdomstidslinje,
-        godkjentAv: spleisPeriode.godkjentAv,
-        godkjenttidspunkt: somKanskjeDato(spleisPeriode.godkjenttidspunkt),
+        godkjentAv: unmappedPeriode.godkjentAv,
+        godkjenttidspunkt: somKanskjeDato(unmappedPeriode.godkjenttidspunkt),
         vilkår: {
-            alderISykmeldingsperioden: alderISykmeldingsperioden(),
+            alderISykmeldingsperioden: unmappedPeriode.vilkår.alder.alderSisteSykedag,
             dagerIgjen: dagerIgjen(),
             opptjening: opptjening(),
             søknadsfrist: søknadsfrist()
@@ -161,8 +164,8 @@ export const mapVedtaksperiode = (
         inntektskilder: inntektskilder,
         sykepengegrunnlag: sykepengegrunnlag,
         oppsummering: oppsummering,
-        rawData: unmappedPeriode,
-        dokumenter: dokumenter
+        dokumenter: unmappedPeriode.hendelser.map(tilHendelse),
+        rawData: unmappedPeriode
     };
 };
 

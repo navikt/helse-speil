@@ -48,7 +48,7 @@ export interface Inntektskilde {
     månedsinntekt?: number;
 }
 
-interface Oppsummering {
+export interface Oppsummering {
     antallUtbetalingsdager: number;
     totaltTilUtbetaling: number;
 }
@@ -80,7 +80,6 @@ export interface Inntektsmelding {
     id: string;
     type: Hendelsestype.Inntektsmelding;
     beregnetInntekt: number;
-    førsteFraværsdag: Dayjs;
     mottattTidspunkt: Dayjs;
 }
 
@@ -142,24 +141,24 @@ export interface Vedtaksperiode {
     id: string;
     fom: Dayjs;
     tom: Dayjs;
-    kanVelges: boolean;
     tilstand: Vedtaksperiodetilstand;
-    vilkår: Vilkår;
+    kanVelges: boolean;
+    utbetalingsreferanse: string;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
+    godkjentAv?: string;
+    godkjenttidspunkt?: Dayjs;
+    vilkår: Vilkår;
     sykepengegrunnlag: Sykepengegrunnlag;
     inntektskilder: Inntektskilde[];
     oppsummering: Oppsummering;
-    utbetalingsreferanse: string;
-    rawData: SpleisVedtaksperiode;
-    godkjentAv?: string;
-    godkjenttidspunkt?: Dayjs;
     dokumenter: Hendelse[];
+    rawData: SpleisVedtaksperiode;
 }
 
 export interface Arbeidsgiver {
-    id: string;
     organisasjonsnummer: string;
+    id: string;
     vedtaksperioder: (Vedtaksperiode | UferdigVedtaksperiode)[];
 }
 
@@ -177,7 +176,6 @@ export interface Person {
     arbeidsgivere: Arbeidsgiver[];
     personinfo: Personinfo;
     fødselsnummer: string;
-    hendelser: Hendelse[];
 }
 
 export interface ProviderProps {

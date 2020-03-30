@@ -1,5 +1,3 @@
-import { Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
-
 export type Kildelabel = 'IM' | 'SØ' | 'SM';
 
 export interface Utbetalingsdetalj {
@@ -40,7 +38,7 @@ export interface Utbetalingsperiode {
     utbetaling: Utbetaling[];
 }
 
-export enum Utbetalingsdagtype {
+export enum SpleisUtbetalingsdagtype {
     ARBEIDSGIVERPERIODE = 'ArbeidsgiverperiodeDag',
     NAVDAG = 'NavDag',
     NAVHELG = 'NavHelgDag',
@@ -52,10 +50,12 @@ export enum Utbetalingsdagtype {
 }
 
 export interface SpleisUtbetalingsdag {
-    type: Utbetalingsdagtype;
+    type: SpleisUtbetalingsdagtype;
+    inntekt: number;
     dato: string;
-    utbetaling: number;
+    utbetaling?: number;
     grad?: number;
+    begrunnelse?: string;
 }
 
 export enum SpleisSykdomsdagtype {
@@ -91,28 +91,26 @@ export enum SpleisHendelsetype {
 }
 
 export interface SpleisHendelse {
-    hendelseId: string;
-    fom: string;
-    tom: string;
+    id: string;
     type: SpleisHendelsetype;
-    rapportertdato?: string;
-    mottattDato?: string;
 }
 
 export interface SpleisSøknad extends SpleisHendelse {
-    rapportertdato: string;
+    fom: string;
+    tom: string;
+    rapportertdato: string; // date time
+    sendtNav: string; // date time
 }
 
-export interface SpleisSendtSøknad extends SpleisSøknad {
-    sendtNav: string;
+export interface SpleisSykmelding extends SpleisHendelse {
+    fom: string;
+    tom: string;
+    rapportertdato: string; // date time
 }
-
-export interface SpleisNySøknad extends SpleisSøknad {}
 
 export interface SpleisInntektsmelding extends SpleisHendelse {
+    mottattDato: string; // date time
     beregnetInntekt: number;
-    førsteFraværsdag: string;
-    mottattDato: string;
 }
 
 export interface SpleisArbeidsgiver {
@@ -125,7 +123,6 @@ export interface SpleisPerson {
     aktørId: string;
     fødselsnummer: string;
     arbeidsgivere: SpleisArbeidsgiver[];
-    hendelser: SpleisHendelse[];
 }
 
 export interface SpleisDataForVilkårsvurdering {
@@ -136,7 +133,7 @@ export interface SpleisDataForVilkårsvurdering {
     harOpptjening: boolean;
 }
 
-export enum VedtaksperiodetilstandDTO {
+export enum SpleisVedtaksperiodetilstand {
     TilUtbetaling = 'TilUtbetaling',
     Utbetalt = 'Utbetalt',
     Oppgaver = 'Oppgaver',
@@ -146,19 +143,62 @@ export enum VedtaksperiodetilstandDTO {
     TilInfotrygd = 'TilInfotrygd'
 }
 
+export interface SpleisVilkår {
+    sykepengedager: SpleisSykepengedager;
+    alder: SpleisAlder;
+    opptjening?: SpleisOpptjening;
+    søknadsfrist: SpleisSøknadsfrist;
+    sykepengegrunnlag: SpleisSykepengegrunnlag;
+}
+
+export interface SpleisSykepengedager {
+    forbrukteSykedager?: number;
+    førsteFraværsdag: string;
+    førsteSykepengedag?: string;
+    maksdato?: string;
+    oppfylt?: boolean;
+}
+
+interface SpleisAlder {
+    alderSisteSykedag: number;
+    oppfylt?: boolean;
+}
+
+interface SpleisOpptjening {
+    antallKjenteOpptjeningsdager?: number;
+    fom?: string;
+    oppfylt?: boolean;
+}
+
+interface SpleisSøknadsfrist {
+    sendtNav: string; // date time
+    søknadFom: string;
+    søknadTom: string;
+    oppfylt?: boolean;
+}
+
+interface SpleisSykepengegrunnlag {
+    sykepengegrunnlag?: number;
+    grunnbeløp: number;
+    oppfylt?: boolean;
+}
+
 export interface SpleisVedtaksperiode {
     id: string;
-    maksdato: string;
-    forbrukteSykedager: number;
+    fom: string;
+    tom: string;
+    tilstand: SpleisVedtaksperiodetilstand;
+    fullstending: boolean;
+    utbetalingsreferanse: string;
+    utbetalingstidslinje: SpleisUtbetalingsdag[];
+    sykdomstidslinje: SpleisSykdomsdag[];
     godkjentAv?: string;
     godkjenttidspunkt?: string;
-    tilstand: VedtaksperiodetilstandDTO;
-    hendelser: string[];
-    sykdomstidslinje: SpleisSykdomsdag[];
-    utbetalingslinjer?: Utbetalingslinje[];
-    utbetalingsreferanse: string;
-    dataForVilkårsvurdering?: SpleisDataForVilkårsvurdering;
+    vilkår: SpleisVilkår;
     førsteFraværsdag: string;
     inntektFraInntektsmelding: number;
-    utbetalingstidslinje: SpleisUtbetalingsdag[];
+    totalbeløpArbeidstaker: number;
+    dataForVilkårsvurdering?: SpleisDataForVilkårsvurdering;
+    hendelser: SpleisHendelse[];
+    utbetalingslinjer?: Utbetalingslinje[];
 }

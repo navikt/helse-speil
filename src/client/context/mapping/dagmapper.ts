@@ -1,24 +1,29 @@
-import { SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisUtbetalingsdag, Utbetalingsdagtype } from './external.types';
+import {
+    SpleisSykdomsdag,
+    SpleisSykdomsdagtype,
+    SpleisUtbetalingsdag,
+    SpleisUtbetalingsdagtype
+} from './external.types';
 import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../types';
 import { somDato } from './vedtaksperiodemapper';
 
-const utbetalingstidslinjedag = (dag: Utbetalingsdagtype): Dagtype => {
+const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
     switch (dag) {
-        case Utbetalingsdagtype.ARBEIDSGIVERPERIODE:
+        case SpleisUtbetalingsdagtype.ARBEIDSGIVERPERIODE:
             return Dagtype.Arbeidsgiverperiode;
-        case Utbetalingsdagtype.NAVDAG:
+        case SpleisUtbetalingsdagtype.NAVDAG:
             return Dagtype.Syk;
-        case Utbetalingsdagtype.NAVHELG:
+        case SpleisUtbetalingsdagtype.NAVHELG:
             return Dagtype.Helg;
-        case Utbetalingsdagtype.FRIDAG:
+        case SpleisUtbetalingsdagtype.FRIDAG:
             return Dagtype.Ferie;
-        case Utbetalingsdagtype.UKJENTDAG:
+        case SpleisUtbetalingsdagtype.UKJENTDAG:
             return Dagtype.Ubestemt;
-        case Utbetalingsdagtype.ARBEIDSDAG:
+        case SpleisUtbetalingsdagtype.ARBEIDSDAG:
             return Dagtype.Arbeidsdag;
-        case Utbetalingsdagtype.AVVISTDAG:
+        case SpleisUtbetalingsdagtype.AVVISTDAG:
             return Dagtype.Avvist;
-        case Utbetalingsdagtype.FORELDETDAG:
+        case SpleisUtbetalingsdagtype.FORELDETDAG:
             return Dagtype.Foreldet;
     }
 };
@@ -88,7 +93,7 @@ export const tilSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdo
 
 export const tilUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsdag[]): Utbetalingsdag[] =>
     utbetalingstidslinje.map(dag => ({
-        type: utbetalingstidslinjedag(dag.type as Utbetalingsdagtype),
+        type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
         dato: somDato(dag.dato),
         gradering: dag.grad,
         utbetaling: dag.utbetaling
