@@ -84,7 +84,7 @@ const DagerIgjen = ({ førsteFraværsdag, førsteSykepengedag, dagerBrukt, maksd
                 {førsteFraværsdag?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
             </Vilkårsgrupperad>
             <Vilkårsgrupperad label="Første sykepengedag">
-                {førsteSykepengedag?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
+                {førsteSykepengedag?.format(NORSK_DATOFORMAT) ?? 'Ingen sykepengedager'}
             </Vilkårsgrupperad>
             <Vilkårsgrupperad label="Yrkesstatus">Arbeidstaker</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Dager brukt">{dagerBrukt ?? 'Ikke funnet'}</Vilkårsgrupperad>
