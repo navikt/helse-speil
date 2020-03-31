@@ -79,7 +79,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                     setTilstand={setTilstand}
                     setError={setError}
                     personTilBehandling={personTilBehandling!}
-                    utbetalingsreferanse={aktivVedtaksperiode!.utbetalingsreferanse!}
+                    utbetalingsreferanse={aktivVedtaksperiode!.utbetalingsreferanse}
                 />
             ) : !innsyn && tilstand === Vedtaksperiodetilstand.Oppgaver ? (
                 beslutning ? (

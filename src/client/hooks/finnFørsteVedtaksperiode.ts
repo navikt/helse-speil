@@ -6,5 +6,5 @@ export const finnFørsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, pe
         .flatMap(arbeidsgiver => arbeidsgiver.vedtaksperioder)
         .filter(periode => periode.kanVelges)
         .map(periode => periode as Vedtaksperiode)
-        .filter(periode => periode.utbetalingsreferanse === nåværendePeriode.utbetalingsreferanse)
+        .filter(periode => periode.gruppeId === nåværendePeriode.gruppeId)
         .sort((a, b) => (a.sykdomstidslinje[0].dato.isAfter(b.sykdomstidslinje[0].dato) ? 1 : -1))[0];

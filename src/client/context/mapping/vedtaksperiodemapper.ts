@@ -71,10 +71,9 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
 export const mapVedtaksperiode = (
     unmappedPeriode: SpleisVedtaksperiode,
     personinfo: Personinfo,
-    organisasjonsnummer?: string
+    organisasjonsnummer: string
 ): Vedtaksperiode => {
-    const somProsent = (avviksprosent?: number): number | undefined =>
-        avviksprosent !== undefined ? avviksprosent * 100 : undefined;
+    const somProsent = (avviksprosent: number): number => avviksprosent * 100;
     const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined =>
         inntekt ? +(inntekt * måneder).toFixed(2) : undefined;
     const somÅrsinntekt = (inntekt?: number): number | undefined => somInntekt(inntekt, 12);
@@ -149,6 +148,7 @@ export const mapVedtaksperiode = (
         id: unmappedPeriode.id,
         fom: somDato(unmappedPeriode.fom),
         tom: somDato(unmappedPeriode.tom),
+        gruppeId: unmappedPeriode.gruppeId,
         kanVelges:
             ![SpleisVedtaksperiodetilstand.IngenUtbetaling, SpleisVedtaksperiodetilstand.Utbetalt].includes(
                 spleisPeriode.tilstand

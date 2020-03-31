@@ -147,7 +147,7 @@ export enum SpleisVedtaksperiodetilstand {
 export interface SpleisVilkår {
     sykepengedager: SpleisSykepengedager;
     alder: SpleisAlder;
-    opptjening?: SpleisOpptjening;
+    opptjening: SpleisOpptjening;
     søknadsfrist: SpleisSøknadsfrist;
     sykepengegrunnlag: SpleisSykepengegrunnlag;
 }
@@ -188,9 +188,10 @@ export interface SpleisVedtaksperiode {
     id: string;
     fom: string;
     tom: string;
+    gruppeId: string;
     tilstand: SpleisVedtaksperiodetilstand;
     fullstendig: boolean;
-    utbetalingsreferanse: string;
+    utbetalingsreferanse?: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
     sykdomstidslinje: SpleisSykdomsdag[];
     godkjentAv?: string;
@@ -199,7 +200,7 @@ export interface SpleisVedtaksperiode {
     førsteFraværsdag: string;
     inntektFraInntektsmelding: number;
     totalbeløpArbeidstaker: number;
-    dataForVilkårsvurdering?: SpleisDataForVilkårsvurdering;
+    dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;
     hendelser: SpleisHendelse[];
     utbetalingslinjer?: Utbetalingslinje[];
 }

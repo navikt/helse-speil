@@ -41,7 +41,7 @@ export interface Sykepengegrunnlag {
 }
 
 export interface Inntektskilde {
-    organisasjonsnummer?: string;
+    organisasjonsnummer: string;
     forskuttering: boolean;
     refusjon: boolean;
     årsinntekt?: number;
@@ -141,9 +141,10 @@ export interface Vedtaksperiode {
     id: string;
     fom: Dayjs;
     tom: Dayjs;
+    gruppeId: string;
     tilstand: Vedtaksperiodetilstand;
     kanVelges: boolean;
-    utbetalingsreferanse: string;
+    utbetalingsreferanse?: string;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
     godkjentAv?: string;

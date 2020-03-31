@@ -18,8 +18,7 @@ const map = (body: Utbetalingsbody): Utbetalingsvedtak => {
         maksdato: vedtaksperiode.maksdato,
         saksbehandler: saksbehandlerIdent,
         utbetalingslinjer: vedtaksperiode.utbetalingslinjer?.map(linje => ({
-            ...linje,
-            grad: 100 //TODO: Fiks dette når det ikke alltid er 100% sykmeldt lenger
+            ...linje
         })),
         utbetalingsreferanse: vedtaksperiode.utbetalingsreferanse,
         fødselsnummer: fødselsnummer,

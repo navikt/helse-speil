@@ -26,7 +26,7 @@ export type Utbetalingslinje = {
     fom: string;
     tom: string;
     dagsats: number;
-    grad?: number;
+    grad: number;
 };
 
 export interface UnmappedUtbetalingsvedtak {

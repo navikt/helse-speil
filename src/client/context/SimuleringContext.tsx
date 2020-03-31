@@ -51,13 +51,11 @@ export const SimuleringProvider = ({ children }: ProviderProps) => {
     const hentSimulering = async (vedtaksperiode: SpleisVedtaksperiode): Promise<void> => {
         if (!personTilBehandling) return;
 
-        const sammeUtbetalingsreferanse = (periode: Vedtaksperiode) =>
-            periode.utbetalingsreferanse === vedtaksperiode.utbetalingsreferanse;
+        const sammesammeGruppeId = (periode: Vedtaksperiode) => periode.gruppeId === vedtaksperiode.gruppeId;
 
         const erUtvidelse =
-            personTilBehandling.arbeidsgivere[0].vedtaksperioder
-                .filter(sammeUtbetalingsreferanse)
-                .filter(harUtbetalingslinjer).length > 1;
+            personTilBehandling.arbeidsgivere[0].vedtaksperioder.filter(sammesammeGruppeId).filter(harUtbetalingslinjer)
+                .length > 1;
 
         try {
             const { data }: { data: SimuleringResponse } = await postSimulering(

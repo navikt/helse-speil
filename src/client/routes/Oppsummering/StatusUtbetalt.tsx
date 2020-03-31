@@ -13,7 +13,7 @@ interface StatusUtbetaltProps {
     setTilstand: Dispatch<SetStateAction<Vedtaksperiodetilstand>>;
     setError: Dispatch<SetStateAction<Error | undefined>>;
     personTilBehandling: Person;
-    utbetalingsreferanse: string;
+    utbetalingsreferanse?: string;
 }
 
 const StatusUtbetalt = ({ setTilstand, setError, personTilBehandling, utbetalingsreferanse }: StatusUtbetaltProps) => {
@@ -23,7 +23,7 @@ const StatusUtbetalt = ({ setTilstand, setError, personTilBehandling, utbetaling
     const { oppdaterPerson } = useContext(PersonContext);
 
     const annuller = () =>
-        postAnnullering(personTilBehandling!.fødselsnummer, utbetalingsreferanse, personTilBehandling?.aktørId)
+        postAnnullering(personTilBehandling!.fødselsnummer, utbetalingsreferanse!, personTilBehandling?.aktørId)
             .then(() => {
                 setTilstand(Vedtaksperiodetilstand.Avslag);
                 setError(undefined);
