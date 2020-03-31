@@ -13,9 +13,9 @@ const simulering = simuleringInit.setup({
 afterEach(cleanup);
 
 test('simulation with valid input runs ok', async () => {
-    await expect(
-        simulering.simuler(validVedtak, createToken({ name: 'Navn Navnesen' }))
-    ).resolves.toMatch('Navn Navnesen');
+    await expect(simulering.simuler(validVedtak, createToken({ name: 'Navn Navnesen' }))).resolves.toMatch(
+        'Navn Navnesen'
+    );
 });
 
 const createToken = (claims: { name: string }) => {

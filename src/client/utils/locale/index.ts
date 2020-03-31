@@ -8,11 +8,9 @@ export const toKronerOgØre = (value: string | number, decimals = 2, locale = 'n
 
 export const toKroner = (value: string): string => Number.parseInt(value).toLocaleString('nb-NO');
 
-export const capitalize = (value: string): string =>
-    value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+export const capitalize = (value: string): string => value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 
-export const capitalizeName = (value: string): string =>
-    value.replace(/\b[\w']+\b/g, word => capitalize(word));
+export const capitalizeName = (value: string): string => value.replace(/\b[\w']+\b/g, word => capitalize(word));
 
 export const extractNameFromEmail = (email: string): string =>
     email

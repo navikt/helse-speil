@@ -34,9 +34,7 @@ const routes = (router: Router) => {
             const sak = input.map(req.body);
             const validationResult = input.validate(sak);
             if (!validationResult.result) {
-                logger.info(
-                    `Valideringsfeil ved forsøk på simulering: ${validationResult.errors.join(' ')}`
-                );
+                logger.info(`Valideringsfeil ved forsøk på simulering: ${validationResult.errors.join(' ')}`);
                 res.status(400).send({ valideringsfeil: validationResult.errors });
                 return;
             }
@@ -55,9 +53,7 @@ const routes = (router: Router) => {
                 !req.body.aktørId ||
                 req.body.godkjent === undefined
             ) {
-                res.status(400).send(
-                    'BehovId eller vedtaksperiodeId, aktørId og godkjent-verdi må være tilstede'
-                );
+                res.status(400).send('BehovId eller vedtaksperiodeId, aktørId og godkjent-verdi må være tilstede');
                 return;
             }
             if (process.env.NODE_ENV === 'development') {
@@ -88,10 +84,7 @@ const routes = (router: Router) => {
 };
 
 const prodSimulation = async (req: Request, res: Response, vedtak: Utbetalingsvedtak) => {
-    const onBehalfOfToken = await onBehalfOf.hentFor(
-        config.oidc.clientIDSpenn,
-        req.session!.speilToken
-    );
+    const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpenn, req.session!.speilToken);
     simulering
         .simuler(vedtak, onBehalfOfToken)
         .then(reply => {
@@ -110,10 +103,7 @@ const devSimulation = (req: Request, res: Response) => {
 };
 
 const prodSendVedtak = async (req: Request, res: Response) => {
-    const onBehalfOfToken = await onBehalfOf.hentFor(
-        config.oidc.clientIDSpade,
-        req.session!.speilToken
-    );
+    const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpade, req.session!.speilToken);
     postVedtak({
         behovId: req.body.behovId,
         aktørId: req.body.aktørId,
@@ -140,10 +130,7 @@ const devSendVedtak = (req: Request, res: Response) => {
 };
 
 const prodAnnullering = async (req: Request, res: Response) => {
-    const onBehalfOfToken = await onBehalfOf.hentFor(
-        config.oidc.clientIDSpenn,
-        req.session!.speilToken
-    );
+    const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpenn, req.session!.speilToken);
     annullering
         .annuller(
             {
@@ -156,9 +143,9 @@ const prodAnnullering = async (req: Request, res: Response) => {
         )
         .then(() => {
             logger.info(
-                `Annullering for sak med utbetalingsreferanse ${
-                    req.body.utbetalingsreferanse
-                } sendt inn av ${req.session!.user}`
+                `Annullering for sak med utbetalingsreferanse ${req.body.utbetalingsreferanse} sendt inn av ${
+                    req.session!.user
+                }`
             );
             res.status(204).send();
         })

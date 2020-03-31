@@ -8,11 +8,7 @@ interface Props {
 }
 
 const ClipboardIcon = ({ type, size = 20 }: Props) => {
-    return type === 'check' ? (
-        <CheckIcon height={size} width={size} />
-    ) : (
-        <CopyIcon height={size} width={size} />
-    );
+    return type === 'check' ? <CheckIcon height={size} width={size} /> : <CopyIcon height={size} width={size} />;
 };
 
 export default ClipboardIcon;

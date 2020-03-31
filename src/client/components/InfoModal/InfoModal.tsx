@@ -15,13 +15,7 @@ interface Props {
 }
 
 const InfoModal = ({ infoMessage, isSending, onApprove, onClose }: Props) => (
-    <Modal
-        className="InfoModal"
-        isOpen={true}
-        contentLabel="Feilmelding"
-        closeButton={true}
-        onRequestClose={onClose}
-    >
+    <Modal className="InfoModal" isOpen={true} contentLabel="Feilmelding" closeButton={true} onRequestClose={onClose}>
         <Systemtittel>Er du sikker?</Systemtittel>
         <Normaltekst>{infoMessage}</Normaltekst>
         <div>

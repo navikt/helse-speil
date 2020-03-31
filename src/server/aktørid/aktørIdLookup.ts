@@ -10,12 +10,6 @@ export interface AktørIdLookup {
     hentFnr: (aktørId: string) => Promise<string>;
 }
 
-interface AktørIdLookupTestFunctions {
-    _mapToAktørId: (resposne: IdentResponseMap, fnr: string) => Ident;
-    _mapToFnr: (resposne: IdentResponseMap, aktørId: string) => Ident;
-    _maskIdentifier: (identifier: string) => string;
-}
-
 interface IdentResponse {
     identer: Ident[];
     feilmelding?: string;
@@ -79,9 +73,7 @@ const mapToIdentType = (response: IdentResponseMap, value: string, identType: Id
         logger.error(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
         return Promise.reject(`${identType.name} not found`);
     } else {
-        const ident = identer
-            .filter(ident => ident.identgruppe === identType.key)
-            .map(ident => ident.ident)[0];
+        const ident = identer.filter(ident => ident.identgruppe === identType.key).map(ident => ident.ident)[0];
         logger.info(
             `Retrieved ${identType.name} '${maskIdentifier(ident)}' for ${
                 identType.name === 'NNIN' ? 'AktørId' : 'NNIN'

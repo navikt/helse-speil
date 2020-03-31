@@ -19,18 +19,13 @@ export enum Key {
 }
 
 const shouldDisableKeyboard = () =>
-    document.activeElement instanceof HTMLTextAreaElement ||
-    document.activeElement instanceof HTMLInputElement;
+    document.activeElement instanceof HTMLTextAreaElement || document.activeElement instanceof HTMLInputElement;
 
 export const useKeyboard = (actions: ActionMap) => {
     const handleKeyDown = (event: KeyboardEvent) => {
         const action = actions[event.code];
         const hasActiveModifiers = event.getModifierState('Meta') || event.getModifierState('Alt');
-        if (
-            !action ||
-            shouldDisableKeyboard() ||
-            (action?.ignoreIfModifiers && hasActiveModifiers)
-        ) {
+        if (!action || shouldDisableKeyboard() || (action?.ignoreIfModifiers && hasActiveModifiers)) {
             return;
         }
         actions[event.code]?.action();
