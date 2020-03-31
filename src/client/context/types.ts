@@ -13,6 +13,7 @@ export interface DagerIgjen {
     førsteSykepengedag?: Dayjs;
     maksdato: Dayjs;
     oppfylt?: boolean;
+    gjenståendeDager?: number;
     tidligerePerioder: Periode[];
 }
 

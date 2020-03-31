@@ -64,8 +64,6 @@ const Utbetalingsoversikt = () => {
         };
     });
 
-    console.log(aktivVedtaksperiode?.sykdomstidslinje);
-
     return (
         <Container>
             {dager ? <Utbetalingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}

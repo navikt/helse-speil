@@ -92,6 +92,7 @@ export const mapVedtaksperiode = (
             førsteSykepengedag: somDato(sykepengedager.førsteSykepengedag!),
             maksdato: somDato(sykepengedager.maksdato!),
             oppfylt: sykepengedager.oppfylt,
+            gjenståendeDager: sykepengedager.gjenståendeDager,
             tidligerePerioder: []
         };
     };

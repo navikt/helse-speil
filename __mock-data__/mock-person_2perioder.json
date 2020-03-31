@@ -361,11 +361,12 @@
                             "førsteFraværsdag": "2018-01-01",
                             "førsteSykepengedag": "2018-01-17",
                             "maksdato": "2018-12-28",
-                            "oppfylt": false
+                            "gjenståendeDager": 237,
+                            "oppfylt": true
                         },
                         "alder": {
                             "alderSisteSykedag": 17,
-                            "oppfylt": false
+                            "oppfylt": true
                         },
                         "opptjening": {
                             "antallKjenteOpptjeningsdager": 365,
@@ -609,11 +610,12 @@
                             "førsteFraværsdag": "2018-01-01",
                             "førsteSykepengedag": "2018-02-01",
                             "maksdato": "2018-12-28",
-                            "oppfylt": false
+                            "gjenståendeDager": 227,
+                            "oppfylt": true
                         },
                         "alder": {
                             "alderSisteSykedag": 17,
-                            "oppfylt": false
+                            "oppfylt": true
                         },
                         "opptjening": {
                             "antallKjenteOpptjeningsdager": 365,

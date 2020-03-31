@@ -74,10 +74,17 @@ interface DagerIgjenProps {
     maksdato?: Dayjs;
     førsteSykepengedag?: Dayjs;
     oppfylt: boolean;
+    gjenståendeDager?: number;
 }
 
-const DagerIgjen = ({ førsteFraværsdag, førsteSykepengedag, dagerBrukt, maksdato, oppfylt }: DagerIgjenProps) => {
-    const dagerIgjen: number | undefined = dagerBrukt !== undefined ? 248 - dagerBrukt : undefined;
+const DagerIgjen = ({
+    førsteFraværsdag,
+    førsteSykepengedag,
+    dagerBrukt,
+    maksdato,
+    oppfylt,
+    gjenståendeDager
+}: DagerIgjenProps) => {
     return (
         <Vilkårsgruppe tittel="Dager igjen" paragraf="§8-11 og §8-12" ikontype={oppfylt ? 'ok' : 'kryss'}>
             <Vilkårsgrupperad label="Første fraværsdag">
@@ -88,7 +95,7 @@ const DagerIgjen = ({ førsteFraværsdag, førsteSykepengedag, dagerBrukt, maksd
             </Vilkårsgrupperad>
             <Vilkårsgrupperad label="Yrkesstatus">Arbeidstaker</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Dager brukt">{dagerBrukt ?? 'Ikke funnet'}</Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Dager igjen">{dagerIgjen ?? 'Ikke funnet'}</Vilkårsgrupperad>
+            <Vilkårsgrupperad label="Dager igjen">{gjenståendeDager ?? 'Ikke funnet'}</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Maks dato">{maksdato?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}</Vilkårsgrupperad>
         </Vilkårsgruppe>
     );
@@ -128,6 +135,7 @@ export const dagerIgjen = (vilkår: VilkårData, oppfylt: boolean) => (
         førsteSykepengedag={vilkår.dagerIgjen?.førsteSykepengedag}
         dagerBrukt={vilkår.dagerIgjen?.dagerBrukt}
         maksdato={vilkår.dagerIgjen?.maksdato}
+        gjenståendeDager={vilkår.dagerIgjen?.gjenståendeDager}
         oppfylt={oppfylt}
         key="dagerigjen"
     />

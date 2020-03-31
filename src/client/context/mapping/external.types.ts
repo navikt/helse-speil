@@ -158,6 +158,7 @@ export interface SpleisSykepengedager {
     førsteFraværsdag: string;
     førsteSykepengedag?: string;
     maksdato?: string;
+    gjenståendeDager?: number;
     oppfylt?: boolean;
 }
 
