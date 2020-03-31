@@ -19,7 +19,7 @@ export const enVedtaksperiode = (
     ekstraDager: SpleisSykdomsdag[] = [],
     _utbetalingstidslinje: SpleisUtbetalingsdag[] = defaultUtbetalingstidslinje
 ): SpleisVedtaksperiode => {
-    const søknad = defaultHendelser.find(it => it.type === SpleisHendelsetype.SØKNAD) as SpleisSøknad;
+    const søknad = defaultHendelser.find(it => it.type === SpleisHendelsetype.SØKNAD_NAV) as SpleisSøknad;
     const sykdomstidslinje = [...ekstraDager, ...defaultSykdomstidslinje];
     const fom = sykdomstidslinje.map(it => it.dagen)[0];
     return {
@@ -27,7 +27,7 @@ export const enVedtaksperiode = (
         fom: fom,
         tom: dayjsMax(sykdomstidslinje.map(it => somDato(it.dagen))).format(ISO_DATOFORMAT),
         tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
-        fullstending: true,
+        fullstendig: true,
         utbetalingsreferanse: '12345',
         utbetalingstidslinje: _utbetalingstidslinje,
         sykdomstidslinje: sykdomstidslinje,

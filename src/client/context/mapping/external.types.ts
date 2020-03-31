@@ -87,7 +87,8 @@ export interface SpleisSykdomsdag {
 export enum SpleisHendelsetype {
     INNTEKTSMELDING = 'INNTEKTSMELDING',
     SYKMELDING = 'NY_SØKNAD',
-    SØKNAD = 'SENDT_SØKNAD'
+    SØKNAD_NAV = 'SENDT_SØKNAD_NAV',
+    SØKNAD_ARBEIDSGIVER = 'SENDT_SØKNAD_ARBEIDSGIVER'
 }
 
 export interface SpleisHendelse {
@@ -188,7 +189,7 @@ export interface SpleisVedtaksperiode {
     fom: string;
     tom: string;
     tilstand: SpleisVedtaksperiodetilstand;
-    fullstending: boolean;
+    fullstendig: boolean;
     utbetalingsreferanse: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
     sykdomstidslinje: SpleisSykdomsdag[];

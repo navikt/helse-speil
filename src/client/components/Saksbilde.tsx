@@ -88,7 +88,7 @@ const Saksbilde = () => {
     }
 
     const dokumenter = aktivVedtaksperiode
-        ? aktivVedtaksperiode.dokumenter.map((hendelse: Hendelse) => ({
+        ? aktivVedtaksperiode.hendelser.map((hendelse: Hendelse) => ({
               id: hendelse.id,
               dato: datoForHendelse(hendelse),
               navn: navnForHendelse(hendelse),

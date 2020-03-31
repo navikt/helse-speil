@@ -16,16 +16,14 @@ test('input with extra field is ok', () => {
 
 test('input with wrongly typed field in root level is not ok', () => {
     const vedtak = { ...validUtbetalingsvedtak };
-    vedtak.maksdato = 123;
+    vedtak.vedtaksperiodeId = 123;
     expect(inputHandler.validate(vedtak).result).toBe(false);
 });
 
 test('returns relevant error message', () => {
     const vedtak = { ...validUtbetalingsvedtak };
     delete vedtak.erUtvidelse;
-    expect(inputHandler.validate(vedtak).errors).toContain(
-        "Forventet å motta feltet 'erUtvidelse' av type boolean."
-    );
+    expect(inputHandler.validate(vedtak).errors).toContain("Forventet å motta feltet 'erUtvidelse' av type boolean.");
 });
 
 describe('utbetalingslinjer', () => {

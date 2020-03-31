@@ -20,7 +20,7 @@ export const defaultHendelser: SpleisHendelse[] = [
         sendtNav: '2019-10-15',
         fom: '2019-09-01',
         tom: '2019-10-10',
-        type: SpleisHendelsetype.SØKNAD
+        type: SpleisHendelsetype.SØKNAD_NAV
     } as SpleisSøknad,
     {
         id: '09851096-bcba-4c7a-8dc0-a1617a744f1f',

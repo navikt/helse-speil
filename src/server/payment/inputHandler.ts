@@ -40,23 +40,19 @@ const utbetalingslinjerIsValid = (linjer?: Utbetalingslinje[]) => {
     );
 };
 
-const fieldIsValid = (field: any, validType: string) =>
-    field !== undefined && typeof field === validType;
+const fieldIsValid = (field: any, validType: string) => field !== undefined && typeof field === validType;
 
 const validate = (sak: Utbetalingsvedtak): SimulationValidationResult => {
     const validations = {
         vedtaksperiodeId: 'string',
         organisasjonsnummer: 'string',
-        maksdato: 'string',
         aktørId: 'string',
         utbetalingsreferanse: 'string',
         erUtvidelse: 'boolean'
     };
 
     const errors = Object.entries(validations).map(([key, value]) => {
-        return !fieldIsValid(sak[key], value)
-            ? `Forventet å motta feltet '${key}' av type ${value}.`
-            : '';
+        return !fieldIsValid(sak[key], value) ? `Forventet å motta feltet '${key}' av type ${value}.` : '';
     });
 
     if (!utbetalingslinjerIsValid(sak.utbetalingslinjer)) {

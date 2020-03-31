@@ -6,7 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { Kjønn, Person, Personinfo, Vedtaksperiode } from '../types';
 import { Personinfo as SpleisPersoninfo } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
-import { SpleisPerson, SpleisVedtaksperiode, SpleisVedtaksperiodetilstand } from './external.types';
+import { SpleisPerson, SpleisVedtaksperiode } from './external.types';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -15,18 +15,10 @@ dayjs.extend(isSameOrBefore);
 
 const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
 
-const kanVises = (vedtaksperiodeType: SpleisVedtaksperiodetilstand) =>
-    [
-        SpleisVedtaksperiodetilstand.IngenUtbetaling,
-        SpleisVedtaksperiodetilstand.Utbetalt,
-        SpleisVedtaksperiodetilstand.Feilet,
-        SpleisVedtaksperiodetilstand.Oppgaver
-    ].includes(vedtaksperiodeType);
-
 const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo) =>
     person.arbeidsgivere.map(arbeidsgiver => {
         const tilVedtaksperiode = (periode: SpleisVedtaksperiode) => {
-            if (kanVises(periode.tilstand)) {
+            if (periode.fullstendig) {
                 return mapVedtaksperiode(periode, personinfo, arbeidsgiver.organisasjonsnummer);
             } else {
                 return mapUferdigVedtaksperiode(periode);

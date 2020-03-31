@@ -374,7 +374,7 @@ export const mappetPerson: Person = {
                         antallUtbetalingsdager: 3,
                         totaltTilUtbetaling: 4293
                     },
-                    dokumenter: [
+                    hendelser: [
                         {
                             id: 'c554ee9b-30ca-4c7f-adce-c0224108e83a',
                             rapportertDato: somDato('2020-02-14'),
@@ -402,7 +402,7 @@ export const mappetPerson: Person = {
                         fom: '2019-09-10',
                         tom: '2019-10-05',
                         tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
-                        fullstending: true,
+                        fullstendig: true,
                         utbetalingsreferanse: '12345',
                         utbetalingstidslinje: [
                             {

@@ -152,7 +152,7 @@ export interface Vedtaksperiode {
     sykepengegrunnlag: Sykepengegrunnlag;
     inntektskilder: Inntektskilde[];
     oppsummering: Oppsummering;
-    dokumenter: Hendelse[];
+    hendelser: Hendelse[];
     rawData: SpleisVedtaksperiode;
 }
 

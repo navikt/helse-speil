@@ -47,7 +47,8 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
                 beregnetInntekt: (hendelse as SpleisInntektsmelding).beregnetInntekt,
                 mottattTidspunkt: somTidspunkt((hendelse as SpleisInntektsmelding).mottattDato)
             };
-        case SpleisHendelsetype.SØKNAD:
+        case SpleisHendelsetype.SØKNAD_ARBEIDSGIVER:
+        case SpleisHendelsetype.SØKNAD_NAV:
             return {
                 id: (hendelse as SpleisSøknad).id,
                 type: Hendelsestype.Søknad,
@@ -148,7 +149,10 @@ export const mapVedtaksperiode = (
         id: unmappedPeriode.id,
         fom: somDato(unmappedPeriode.fom),
         tom: somDato(unmappedPeriode.tom),
-        kanVelges: unmappedPeriode.fullstending,
+        kanVelges:
+            ![SpleisVedtaksperiodetilstand.IngenUtbetaling, SpleisVedtaksperiodetilstand.Utbetalt].includes(
+                spleisPeriode.tilstand
+            ) || unmappedPeriode.totalbeløpArbeidstaker > 0,
         tilstand: mapTilstand(unmappedPeriode.tilstand),
         utbetalingsreferanse: unmappedPeriode.utbetalingsreferanse,
         utbetalingstidslinje: utbetalingstidslinje,
@@ -164,7 +168,7 @@ export const mapVedtaksperiode = (
         inntektskilder: inntektskilder,
         sykepengegrunnlag: sykepengegrunnlag,
         oppsummering: oppsummering,
-        dokumenter: unmappedPeriode.hendelser.map(tilHendelse),
+        hendelser: unmappedPeriode.hendelser.map(tilHendelse),
         rawData: unmappedPeriode
     };
 };
