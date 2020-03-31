@@ -77,7 +77,7 @@ interface DagerIgjenProps {
 }
 
 const DagerIgjen = ({ førsteFraværsdag, førsteSykepengedag, dagerBrukt, maksdato, oppfylt }: DagerIgjenProps) => {
-    const dagerIgjen: number | undefined = dagerBrukt ? 248 - dagerBrukt : undefined;
+    const dagerIgjen: number | undefined = dagerBrukt !== undefined ? 248 - dagerBrukt : undefined;
     return (
         <Vilkårsgruppe tittel="Dager igjen" paragraf="§8-11 og §8-12" ikontype={oppfylt ? 'ok' : 'kryss'}>
             <Vilkårsgrupperad label="Første fraværsdag">
