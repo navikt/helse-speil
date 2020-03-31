@@ -93,7 +93,7 @@ export enum Dagtype {
     Ubestemt = 'Ubestemt',
     Arbeidsdag = 'Arbeidsdag',
     Egenmelding = 'Egenmelding',
-    Foreldet = 'Foreldet sykedag',
+    Foreldet = 'Foreldet',
     Arbeidsgiverperiode = 'Arbeidsgiverperiode'
 }
 

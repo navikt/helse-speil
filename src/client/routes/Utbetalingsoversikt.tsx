@@ -26,22 +26,11 @@ const verdiFraTilsvarendeSykdomsdag = (
 ): ValueOf<Sykdomsdag | Utbetalingsdag> =>
     sykdomstidslinje.find(sykdomsdag => utbetalingsdag.dato.isSame(sykdomsdag.dato))![nøkkel];
 
-const type = (dag: Utbetalingsdag, sykdomstidslinje: Sykdomsdag[]): Dagtype =>
-    dag.type === Dagtype.Avvist ? (verdiFraTilsvarendeSykdomsdag(dag, sykdomstidslinje, 'type') as Dagtype) : dag.type;
-
-const gradering = (dag: Utbetalingsdag, sykdomstidslinje: Sykdomsdag[], maksdato?: Dayjs): number | undefined =>
-    maksdato && dag.dato.isAfter(maksdato)
-        ? (verdiFraTilsvarendeSykdomsdag(dag, sykdomstidslinje, 'gradering') as number)
-        : dag.gradering;
-
-const utbetaling = (dag: Utbetalingsdag, maksdato?: Dayjs): string | number | undefined =>
-    maksdato && dag.dato.isAfter(maksdato) ? 'Ingen utbetaling' : dag.utbetaling;
-
 const status = (dag: Utbetalingsdag, maksdato?: Dayjs): Dagstatus | undefined =>
-    maksdato && dag.dato.isSame(maksdato, 'day')
-        ? Dagstatus.Feil
-        : maksdato && dag.dato.isAfter(maksdato)
+    [Dagtype.Avvist, Dagtype.Foreldet].includes(dag.type)
         ? Dagstatus.Inaktiv
+        : maksdato && dag.dato.isSame(maksdato, 'day')
+        ? Dagstatus.Feil
         : undefined;
 
 const feilmelding = (dag: Utbetalingsdag, maksdato?: Dayjs) =>
@@ -51,14 +40,29 @@ const Utbetalingsoversikt = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const { maksdato } = useMaksdato();
 
-    const dager: Dag[] | undefined = aktivVedtaksperiode?.utbetalingstidslinje.map(dag => ({
-        dato: dag.dato.format(NORSK_DATOFORMAT),
-        type: type(dag, aktivVedtaksperiode?.sykdomstidslinje),
-        gradering: gradering(dag, aktivVedtaksperiode.sykdomstidslinje, maksdato),
-        utbetaling: utbetaling(dag, maksdato),
-        status: status(dag, maksdato),
-        feilmelding: feilmelding(dag, maksdato)
-    }));
+    const dager: Dag[] | undefined = aktivVedtaksperiode?.utbetalingstidslinje.map(dag => {
+        if (dag.type === Dagtype.Avvist) {
+            const tilsvarendeDag = aktivVedtaksperiode?.sykdomstidslinje.find(sykdomsdag =>
+                dag.dato.isSame(sykdomsdag.dato)
+            )!;
+            return {
+                dato: dag.dato.format(NORSK_DATOFORMAT),
+                type: tilsvarendeDag.type,
+                gradering: tilsvarendeDag.gradering,
+                utbetaling: 'Ingen utbetaling',
+                status: status(dag, maksdato),
+                feilmelding: feilmelding(dag, maksdato)
+            };
+        }
+        return {
+            dato: dag.dato.format(NORSK_DATOFORMAT),
+            type: dag.type,
+            gradering: dag.gradering,
+            utbetaling: dag.utbetaling,
+            status: status(dag, maksdato),
+            feilmelding: feilmelding(dag, maksdato)
+        };
+    });
 
     console.log(aktivVedtaksperiode?.sykdomstidslinje);
 
