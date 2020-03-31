@@ -58,7 +58,9 @@ const Oppsummering = () => {
                         {oppsummering.antallUtbetalingsdager}
                     </ListItem>
                     <ListItem label={t('oppsummering.beløp')}>
-                        {`${toKronerOgØre(oppsummering.totaltTilUtbetaling)} kr`}
+                        {oppsummering.totaltTilUtbetaling > 0
+                            ? `${toKronerOgØre(oppsummering.totaltTilUtbetaling)} kr`
+                            : 'Ingen utbetaling'}
                     </ListItem>
                     <ListItem label={t('oppsummering.utbetaling_til')}>
                         {`Organisasjonsnummer: ${inntektskilder[0].organisasjonsnummer}`}
