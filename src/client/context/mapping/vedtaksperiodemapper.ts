@@ -30,10 +30,10 @@ export const somDato = (dato: string): Dayjs => dayjs(dato, ISO_DATOFORMAT);
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
 export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
 
-export const mapUferdigVedtaksperiode = ({ id, sykdomstidslinje }: SpleisVedtaksperiode): UferdigVedtaksperiode => ({
-    id,
-    fom: dayjs(sykdomstidslinje[0]!.dagen),
-    tom: dayjs(sykdomstidslinje[sykdomstidslinje.length - 1]!.dagen),
+export const mapUferdigVedtaksperiode = (periode: SpleisVedtaksperiode): UferdigVedtaksperiode => ({
+    id: periode.id,
+    fom: dayjs(periode.fom),
+    tom: dayjs(periode.tom),
     kanVelges: false,
     tilstand: Vedtaksperiodetilstand.Ukjent
 });
