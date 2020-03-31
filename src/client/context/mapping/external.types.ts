@@ -43,7 +43,8 @@ export enum SpleisUtbetalingsdagtype {
     NAVDAG = 'NavDag',
     NAVHELG = 'NavHelgDag',
     ARBEIDSDAG = 'Arbeidsdag',
-    FRIDAG = 'Fridag',
+    FERIEDAG = 'Feriedag',
+    HELGEDAG = 'Helgedag',
     UKJENTDAG = 'UkjentDag',
     AVVISTDAG = 'AvvistDag',
     FORELDETDAG = 'ForeldetDag'

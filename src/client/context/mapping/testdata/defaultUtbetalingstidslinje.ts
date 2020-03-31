@@ -110,22 +110,22 @@ export const defaultUtbetalingstidslinje: SpleisUtbetalingsdag[] = [
         utbetaling: 1431
     },
     {
-        type: SpleisUtbetalingsdagtype.FRIDAG,
+        type: SpleisUtbetalingsdagtype.FERIEDAG,
         inntekt: 1430.77,
         dato: '2019-10-01'
     },
     {
-        type: SpleisUtbetalingsdagtype.FRIDAG,
+        type: SpleisUtbetalingsdagtype.FERIEDAG,
         inntekt: 1430.77,
         dato: '2019-10-02'
     },
     {
-        type: SpleisUtbetalingsdagtype.FRIDAG,
+        type: SpleisUtbetalingsdagtype.FERIEDAG,
         inntekt: 1430.77,
         dato: '2019-10-03'
     },
     {
-        type: SpleisUtbetalingsdagtype.FRIDAG,
+        type: SpleisUtbetalingsdagtype.FERIEDAG,
         inntekt: 1430.77,
         dato: '2019-10-04'
     },

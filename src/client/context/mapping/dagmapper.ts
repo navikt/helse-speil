@@ -13,9 +13,10 @@ const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
             return Dagtype.Arbeidsgiverperiode;
         case SpleisUtbetalingsdagtype.NAVDAG:
             return Dagtype.Syk;
+        case SpleisUtbetalingsdagtype.HELGEDAG:
         case SpleisUtbetalingsdagtype.NAVHELG:
             return Dagtype.Helg;
-        case SpleisUtbetalingsdagtype.FRIDAG:
+        case SpleisUtbetalingsdagtype.FERIEDAG:
             return Dagtype.Ferie;
         case SpleisUtbetalingsdagtype.UKJENTDAG:
             return Dagtype.Ubestemt;
