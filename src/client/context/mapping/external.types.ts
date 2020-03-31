@@ -167,9 +167,9 @@ interface SpleisAlder {
 }
 
 interface SpleisOpptjening {
-    antallKjenteOpptjeningsdager?: number;
-    fom?: string;
-    oppfylt?: boolean;
+    antallKjenteOpptjeningsdager: number;
+    fom: string;
+    oppfylt: boolean;
 }
 
 interface SpleisSøknadsfrist {

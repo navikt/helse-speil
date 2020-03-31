@@ -10,7 +10,7 @@ import { Dayjs } from 'dayjs';
 import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
 import Vilkårsvisning from './Vilkårsvisning';
 import Feilikon from '../../components/Ikon/Feilikon';
-import IkkeVurderteVilkår from './Vilkårsgrupper/IkkeVurderteVilkår';
+import IkkeVurderteVilkår, { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const formatterDato = (dato?: Dayjs) => dato?.format(NORSK_DATOFORMAT) ?? 'Dato ikke funnet';
@@ -63,12 +63,14 @@ interface PåfølgendeVedtaksperiodeProps {
     førsteVedtaksperiode: Vedtaksperiode;
     ikkeOppfylteVilkår: ReactNode[];
     oppfylteVilkår: ReactNode[];
+    ikkeVurderteVilkår: IkkeVurdertVilkår[];
 }
 
 const PåfølgendeVedtaksperiode = ({
     førsteVedtaksperiode,
     ikkeOppfylteVilkår,
-    oppfylteVilkår
+    oppfylteVilkår,
+    ikkeVurderteVilkår
 }: PåfølgendeVedtaksperiodeProps) => {
     return (
         <>
@@ -76,7 +78,7 @@ const PåfølgendeVedtaksperiode = ({
             {ikkeOppfylteVilkår.length > 0 && (
                 <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={ikkeOppfylteVilkår} />
             )}
-            <IkkeVurderteVilkår />
+            <IkkeVurderteVilkår ikkeVurderteVilkår={ikkeVurderteVilkår} />
             <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={oppfylteVilkår} />
             <FerdigbehandledeVilkår vedtaksperiode={førsteVedtaksperiode} />
             <Strek />

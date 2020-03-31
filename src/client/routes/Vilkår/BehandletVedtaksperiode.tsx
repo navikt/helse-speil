@@ -43,7 +43,7 @@ const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }:
                             oppfylt={true}
                         />
                         <Vilkårsgrupper.Søknadsfrist
-                            innen3Mnd={aktivVedtaksperiode.vilkår.søknadsfrist?.innen3Mnd}
+                            innen3Mnd={aktivVedtaksperiode.vilkår.søknadsfrist?.oppfylt}
                             sendtNav={aktivVedtaksperiode.vilkår.søknadsfrist?.sendtNav}
                             sisteSykepengedag={aktivVedtaksperiode.vilkår.søknadsfrist?.søknadTom!}
                             oppfylt={true}

@@ -12,11 +12,12 @@ export interface DagerIgjen {
     førsteFraværsdag: Dayjs;
     førsteSykepengedag?: Dayjs;
     maksdato: Dayjs;
+    oppfylt?: boolean;
     tidligerePerioder: Periode[];
 }
 
 export interface Søknadsfrist {
-    innen3Mnd: boolean;
+    oppfylt?: boolean;
     søknadTom?: Dayjs;
     sendtNav?: Dayjs;
 }
@@ -24,7 +25,7 @@ export interface Søknadsfrist {
 export interface Opptjening {
     antallOpptjeningsdagerErMinst: number;
     opptjeningFra: Dayjs;
-    harOpptjening: boolean;
+    oppfylt?: boolean;
 }
 
 export interface Vilkår {

@@ -343,17 +343,18 @@ export const mappetPerson: Person = {
                             førsteFraværsdag: somDato('2019-09-10'),
                             førsteSykepengedag: somDato('2019-09-26'),
                             maksdato: somDato('2020-09-07'),
+                            oppfylt: true,
                             tidligerePerioder: []
                         },
                         søknadsfrist: {
-                            innen3Mnd: true,
+                            oppfylt: true,
                             søknadTom: somDato('2019-10-10'),
                             sendtNav: somTidspunkt('2019-10-15T00:00:00')
                         },
                         opptjening: {
                             antallOpptjeningsdagerErMinst: 3539,
                             opptjeningFra: somDato('2010-01-01'),
-                            harOpptjening: true
+                            oppfylt: true
                         },
                         alderISykmeldingsperioden: 28
                     },

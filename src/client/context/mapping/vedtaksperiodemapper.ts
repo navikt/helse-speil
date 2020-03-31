@@ -91,6 +91,7 @@ export const mapVedtaksperiode = (
             førsteFraværsdag: somDato(sykepengedager.førsteFraværsdag!),
             førsteSykepengedag: somDato(sykepengedager.førsteSykepengedag!),
             maksdato: somDato(sykepengedager.maksdato!),
+            oppfylt: sykepengedager.oppfylt,
             tidligerePerioder: []
         };
     };
@@ -99,9 +100,9 @@ export const mapVedtaksperiode = (
         const opptjening = vilkår.opptjening;
         if (opptjening === undefined) return undefined;
         return {
-            antallOpptjeningsdagerErMinst: opptjening.antallKjenteOpptjeningsdager!,
-            harOpptjening: opptjening.oppfylt!,
-            opptjeningFra: somDato(opptjening.fom!)
+            antallOpptjeningsdagerErMinst: opptjening.antallKjenteOpptjeningsdager,
+            oppfylt: opptjening.oppfylt,
+            opptjeningFra: somDato(opptjening.fom)
         };
     };
 
@@ -112,7 +113,7 @@ export const mapVedtaksperiode = (
             sendtNav: somDato(søknadsfrist.sendtNav),
             søknadTom: somDato(søknadsfrist.søknadTom),
             // TODO: oppfylt undefined burde legge kravet i liste over ting vi ikke har sjekket
-            innen3Mnd: søknadsfrist.oppfylt ?? false
+            oppfylt: søknadsfrist.oppfylt
         };
     };
 

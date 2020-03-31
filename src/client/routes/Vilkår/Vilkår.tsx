@@ -9,6 +9,7 @@ import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode
 import Aktivitetsplikt from './Aktivitetsplikt';
 import { Vilkårstype } from './vilkårsmapper';
 import UbehandletVedtaksperiode from './UbehandletVedtaksperiode';
+import { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
 
 export const GRUNNBELØP = 99858;
 
@@ -39,8 +40,24 @@ const Vilkår = ({ vilkår }: VilkårProps) => {
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 
-    const ikkeOppfylteVilkår: Vilkårdata[] = vilkår.filter(it => !it.oppfylt);
+    const ikkeOppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it !== undefined && !it.oppfylt);
     const oppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it.oppfylt);
+    const ikkeVurderteVilkår: IkkeVurdertVilkår[] = vilkår
+        .filter(it => it.oppfylt === undefined)
+        .map(it => {
+            switch (it.type) {
+                case Vilkårstype.Alder:
+                    return { label: 'Under 70 år', paragraf: '§8-51' };
+                case Vilkårstype.Søknadsfrist:
+                    return { label: 'Søknadsfrist', paragraf: '§22-13' };
+                case Vilkårstype.Opptjeningstid:
+                    return { label: 'Opptjening', paragraf: '§8-2' };
+                case Vilkårstype.KravTilSykepengegrunnlag:
+                    return { label: 'Krav til minste sykepengegrunnlag', paragraf: '§8-3' };
+                case Vilkårstype.DagerIgjen:
+                    return { label: 'Dager igjen', paragraf: '§8-11 og §8-12' };
+            }
+        });
 
     const vedtaksperiodevisning = (periodestatus: VedtaksperiodeStatus): ReactNode => {
         switch (periodestatus) {
@@ -56,6 +73,7 @@ const Vilkår = ({ vilkår }: VilkårProps) => {
                     <UbehandletVedtaksperiode
                         ikkeOppfylteVilkår={ikkeOppfylteVilkår.map(tilKomponent)}
                         oppfylteVilkår={oppfylteVilkår.map(tilKomponent)}
+                        ikkeVurderteVilkår={ikkeVurderteVilkår}
                     />
                 );
             case VedtaksperiodeStatus.Påfølgende:
@@ -64,6 +82,7 @@ const Vilkår = ({ vilkår }: VilkårProps) => {
                         førsteVedtaksperiode={førsteVedtaksperiode}
                         ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                         oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
+                        ikkeVurderteVilkår={ikkeVurderteVilkår}
                     />
                 );
         }

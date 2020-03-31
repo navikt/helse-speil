@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { FlexColumn } from '../../../components/FlexColumn';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -30,7 +30,16 @@ const Container = styled.div`
     margin: 0.5rem;
 `;
 
-const VilkårSystemetIkkeVurderer = () => (
+export interface IkkeVurdertVilkår {
+    label: string;
+    paragraf: string;
+}
+
+interface VilkårSystemetIkkeVurdererProps {
+    ikkeVurderteVilkår: IkkeVurdertVilkår[];
+}
+
+const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår }: VilkårSystemetIkkeVurdererProps) => (
     <Container>
         <Vilkårstittel størrelse="m" ikon={<Advarselikon />}>
             Vilkår systemet ikke vurderer
@@ -39,6 +48,9 @@ const VilkårSystemetIkkeVurderer = () => (
             <Vilkårsgrupperad label="Arbeidsuførhet">§8-4</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Medlemskap">§2</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Medvirkning">§8-8</Vilkårsgrupperad>
+            {ikkeVurderteVilkår.map(v => (
+                <Vilkårsgrupperad label={v.label}>{v.paragraf}</Vilkårsgrupperad>
+            ))}
         </Grid>
     </Container>
 );
@@ -54,11 +66,16 @@ const Yrkeskadeinfo = () => (
     </Container>
 );
 
-const IkkeVurderteVilkår = ({ className }: { className?: string }) => {
+interface IkkeVurderteVilkårProps {
+    className?: string;
+    ikkeVurderteVilkår: IkkeVurdertVilkår[];
+}
+
+const IkkeVurderteVilkår = ({ className, ikkeVurderteVilkår }: IkkeVurderteVilkårProps) => {
     return (
         <Innhold className={className}>
             <FlexColumn>
-                <VilkårSystemetIkkeVurderer />
+                <VilkårSystemetIkkeVurderer ikkeVurderteVilkår={ikkeVurderteVilkår} />
             </FlexColumn>
             <FlexColumn>
                 <Yrkeskadeinfo />

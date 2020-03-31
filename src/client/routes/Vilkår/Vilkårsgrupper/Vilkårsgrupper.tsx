@@ -99,7 +99,7 @@ export const alder = (vilkår: VilkårData, oppfylt: boolean) => (
 );
 export const søknadsfrist = (vilkår: VilkårData, oppfylt: boolean) => (
     <Søknadsfrist
-        innen3Mnd={vilkår.søknadsfrist?.innen3Mnd}
+        innen3Mnd={vilkår.søknadsfrist?.oppfylt}
         sendtNav={vilkår.søknadsfrist?.sendtNav!}
         sisteSykepengedag={vilkår.søknadsfrist?.søknadTom!}
         oppfylt={oppfylt}
