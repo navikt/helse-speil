@@ -26,11 +26,7 @@ const Divider = styled.hr`
     margin: 0.25rem 0;
 `;
 
-const Avvikssammenligning = ({
-    avvik,
-    totalOmregnetÅrsinntekt,
-    totalRapportertÅrsinntekt
-}: Props) => {
+const Avvikssammenligning = ({ avvik, totalOmregnetÅrsinntekt, totalRapportertÅrsinntekt }: Props) => {
     return (
         <Sammenligning>
             <Normaltekst>Total omregnet årsinntekt</Normaltekst>

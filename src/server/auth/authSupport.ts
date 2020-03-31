@@ -52,11 +52,7 @@ const validateOidcCallback = (req: Request, azureClient: Client, config: OidcCon
         .then((tokenSet: TokenSet) => {
             const accessTokenKey = 'access_token';
             const idTokenKey = 'id_token';
-            const errorMessages = checkAzureResponseContainsTokens(
-                tokenSet,
-                accessTokenKey,
-                idTokenKey
-            );
+            const errorMessages = checkAzureResponseContainsTokens(tokenSet, accessTokenKey, idTokenKey);
             if (errorMessages.length > 0) {
                 return Promise.reject(`Access denied: ${errorMessages.join(' ')}`);
             }
@@ -66,16 +62,10 @@ const validateOidcCallback = (req: Request, azureClient: Client, config: OidcCon
             const requiredGroup = config.requiredGroup;
             const username = valueFromClaim('name', idToken);
             if (accessToken && isMemberOf(accessToken, requiredGroup)) {
-                logger.info(
-                    `User ${username} has been authenticated, from IP address ${ipAddressFromRequest(
-                        req
-                    )}`
-                );
+                logger.info(`User ${username} has been authenticated, from IP address ${ipAddressFromRequest(req)}`);
                 return [accessToken, idToken];
             } else {
-                return Promise.reject(
-                    `'${username}' is not member of '${requiredGroup}', denying access`
-                );
+                return Promise.reject(`'${username}' is not member of '${requiredGroup}', denying access`);
             }
         });
 };

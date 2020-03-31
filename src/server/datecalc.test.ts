@@ -77,8 +77,6 @@ describe('workdays between', () => {
     test('string input (ISO-8601) is accepted', () => {
         const fom = '2020-01-03';
         const tom = '2020-01-12';
-        expect(datecalc.workdaysBetween(fom, tom)).toEqual(
-            datecalc.workdaysBetween(moment(fom), moment(tom))
-        );
+        expect(datecalc.workdaysBetween(fom, tom)).toEqual(datecalc.workdaysBetween(moment(fom), moment(tom)));
     });
 });

@@ -28,9 +28,7 @@ const hentAccessToken = async () => {
         headers: {
             Authorization:
                 'Basic ' +
-                Buffer.from(
-                    `${authConfig.serviceUserName}:${authConfig.serviceUserPassword}`
-                ).toString('base64')
+                Buffer.from(`${authConfig.serviceUserName}:${authConfig.serviceUserPassword}`).toString('base64')
         },
         json: true
     };

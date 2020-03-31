@@ -3,8 +3,7 @@
 import winston from 'winston';
 import fs from 'fs';
 
-const auditLogPath = () =>
-    fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log';
+const auditLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log');
 
 const stdoutLogger = winston.createLogger({
     level: 'info',

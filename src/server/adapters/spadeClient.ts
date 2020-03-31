@@ -7,11 +7,7 @@ export interface SpadeResponse {
 }
 
 export interface SpadeClient {
-    behandlingerForPeriode: (
-        fom: string,
-        tom: string,
-        accessToken: string
-    ) => Promise<SpadeResponse>;
+    behandlingerForPeriode: (fom: string, tom: string, accessToken: string) => Promise<SpadeResponse>;
 }
 
 export const spadeClient: SpadeClient = {

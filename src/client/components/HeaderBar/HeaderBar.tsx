@@ -21,9 +21,7 @@ const HeaderBar = () => {
     const { setShouldNavigate } = useNavigateAfterSearch();
     const { name, ident, isLoggedIn } = authInfo;
 
-    const brukerinfo = isLoggedIn
-        ? { navn: name, ident: ident ?? '' }
-        : { navn: 'Ikke pålogget', ident: '' };
+    const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
     const onSøk = (value: string) => {
         hentPerson(value).then(() => {

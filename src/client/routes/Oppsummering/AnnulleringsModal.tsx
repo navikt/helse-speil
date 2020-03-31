@@ -37,8 +37,8 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose, senderAnnuller
         >
             <Undertittel>Er du sikker på at du vil annullere utbetalingen?</Undertittel>
             <Normaltekst>
-                Hvis du annullerer utbetalingen, vil den fjernes fra oppdragssystemet og du må
-                behandle saken manuelt i Infotrygd.
+                Hvis du annullerer utbetalingen, vil den fjernes fra oppdragssystemet og du må behandle saken manuelt i
+                Infotrygd.
             </Normaltekst>
             <Normaltekst>
                 For å gjennomføre annulleringen må du skrive inn din NAV-brukerident i feltet under.

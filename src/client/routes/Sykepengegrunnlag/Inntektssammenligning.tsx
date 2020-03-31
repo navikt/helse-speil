@@ -46,11 +46,7 @@ const Divider = styled.hr`
     margin: 0.25rem 0;
 `;
 
-const Inntektssammenligning = ({
-    inntektskilde,
-    årsinntektAordning,
-    årsinntektInntektsmelding
-}: Props) => {
+const Inntektssammenligning = ({ inntektskilde, årsinntektAordning, årsinntektInntektsmelding }: Props) => {
     return (
         <Sammenligning>
             <div />
