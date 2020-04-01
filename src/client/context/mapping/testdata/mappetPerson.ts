@@ -685,7 +685,7 @@ export const mappetPerson: Person = {
                             sykepengegrunnlag: {
                                 grunnbeløp: 99858,
                                 oppfylt: true,
-                                sykepengegrunnlag: 31000
+                                sykepengegrunnlag: 372000
                             }
                         },
                         førsteFraværsdag: '2019-09-10',
