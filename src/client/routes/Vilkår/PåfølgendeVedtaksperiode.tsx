@@ -34,8 +34,8 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
                 </FlexColumn>
                 <FlexColumn>
                     <Vilkårsgrupper.KravTilSykepengegrunnlag
-                        sykepengegrunnlag={vedtaksperiode.sykepengegrunnlag.årsinntektFraInntektsmelding!}
-                        oppfylt={true}
+                        sykepengegrunnlagVilkår={vedtaksperiode.vilkår.sykepengegrunnlag}
+                        alderSisteSykedag={vedtaksperiode.vilkår.alder.alderSisteSykedag}
                     />
                 </FlexColumn>
             </TwoColumnGrid>
@@ -50,10 +50,8 @@ interface OpptionalOpptjeningstidProps {
 const OptionalOpptjeningstid = ({ vedtaksperiode }: OpptionalOpptjeningstidProps) =>
     vedtaksperiode.vilkår.opptjening ? (
         <Vilkårsgrupper.Opptjeningstid
+            opptjeningVilkår={vedtaksperiode.vilkår.opptjening}
             førsteFraværsdag={vedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag}
-            opptjeningFra={vedtaksperiode.vilkår.opptjening.opptjeningFra}
-            antallOpptjeningsdagerErMinst={vedtaksperiode.vilkår.opptjening.antallOpptjeningsdagerErMinst}
-            oppfylt={true}
         />
     ) : (
         <Vilkårsgruppe tittel="Opptjening må vurderes manuelt" ikontype="advarsel" paragraf="§8-2" />

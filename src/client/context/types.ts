@@ -29,11 +29,23 @@ export interface Opptjening {
     oppfylt?: boolean;
 }
 
+export interface Alder {
+    alderSisteSykedag: number;
+    oppfylt: boolean;
+}
+
 export interface Vilkår {
     dagerIgjen?: DagerIgjen;
     søknadsfrist?: Søknadsfrist;
     opptjening?: Opptjening;
-    alderISykmeldingsperioden?: number;
+    alder: Alder;
+    sykepengegrunnlag: SykepengegrunnlagVilkår;
+}
+
+export interface SykepengegrunnlagVilkår {
+    sykepengegrunnlag?: number;
+    oppfylt?: boolean;
+    grunnebeløp: number;
 }
 
 export interface Sykepengegrunnlag {

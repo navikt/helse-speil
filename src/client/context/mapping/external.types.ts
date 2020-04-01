@@ -164,7 +164,7 @@ export interface SpleisSykepengedager {
 
 interface SpleisAlder {
     alderSisteSykedag: number;
-    oppfylt?: boolean;
+    oppfylt: boolean;
 }
 
 interface SpleisOpptjening {

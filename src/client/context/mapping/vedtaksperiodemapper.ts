@@ -1,4 +1,5 @@
 import {
+    Alder,
     DagerIgjen,
     Hendelse,
     Hendelsestype,
@@ -6,6 +7,7 @@ import {
     Oppsummering,
     Opptjening,
     Personinfo,
+    SykepengegrunnlagVilkår,
     Søknadsfrist,
     UferdigVedtaksperiode,
     Vedtaksperiode,
@@ -118,6 +120,17 @@ export const mapVedtaksperiode = (
         };
     };
 
+    const alder = (): Alder => ({
+        alderSisteSykedag: vilkår.alder.alderSisteSykedag,
+        oppfylt: vilkår.alder.oppfylt
+    });
+
+    const sykepengegrunnlagVilkår = (): SykepengegrunnlagVilkår => ({
+        sykepengegrunnlag: vilkår.sykepengegrunnlag.sykepengegrunnlag,
+        oppfylt: vilkår.sykepengegrunnlag.oppfylt,
+        grunnebeløp: vilkår.sykepengegrunnlag.grunnbeløp
+    });
+
     const inntektskilder: Inntektskilde[] = [
         {
             organisasjonsnummer,
@@ -162,10 +175,11 @@ export const mapVedtaksperiode = (
         godkjentAv: unmappedPeriode.godkjentAv,
         godkjenttidspunkt: somKanskjeDato(unmappedPeriode.godkjenttidspunkt),
         vilkår: {
-            alderISykmeldingsperioden: unmappedPeriode.vilkår.alder.alderSisteSykedag,
+            alder: alder(),
             dagerIgjen: dagerIgjen(),
             opptjening: opptjening(),
-            søknadsfrist: søknadsfrist()
+            søknadsfrist: søknadsfrist(),
+            sykepengegrunnlag: sykepengegrunnlagVilkår()
         },
         inntektskilder: inntektskilder,
         sykepengegrunnlag: sykepengegrunnlag,

@@ -11,8 +11,6 @@ import { Vilkårstype } from './vilkårsmapper';
 import UbehandletVedtaksperiode from './UbehandletVedtaksperiode';
 import { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
 
-export const GRUNNBELØP = 99858;
-
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
 `;
@@ -40,7 +38,7 @@ const Vilkår = ({ vilkår }: VilkårProps) => {
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 
-    const ikkeOppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it != undefined && !it.oppfylt);
+    const ikkeOppfylteVilkår: Vilkårdata[] = vilkår.filter(it => !it.oppfylt);
     const oppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it.oppfylt);
     const ikkeVurderteVilkår: IkkeVurdertVilkår[] = vilkår
         .filter(it => it.oppfylt == undefined)

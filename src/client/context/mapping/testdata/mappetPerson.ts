@@ -338,12 +338,17 @@ export const mappetPerson: Person = {
                     godkjentAv: undefined,
                     godkjenttidspunkt: undefined,
                     vilkår: {
+                        alder: {
+                            alderSisteSykedag: 28,
+                            oppfylt: true
+                        },
                         dagerIgjen: {
                             dagerBrukt: 3,
                             førsteFraværsdag: somDato('2019-09-10'),
                             førsteSykepengedag: somDato('2019-09-26'),
                             maksdato: somDato('2020-09-07'),
                             oppfylt: true,
+                            gjenståendeDager: undefined,
                             tidligerePerioder: []
                         },
                         søknadsfrist: {
@@ -351,12 +356,16 @@ export const mappetPerson: Person = {
                             søknadTom: somDato('2019-10-10'),
                             sendtNav: somTidspunkt('2019-10-15T00:00:00')
                         },
+                        sykepengegrunnlag: {
+                            sykepengegrunnlag: 372000.0,
+                            grunnebeløp: 99858,
+                            oppfylt: true
+                        },
                         opptjening: {
                             antallOpptjeningsdagerErMinst: 3539,
                             opptjeningFra: somDato('2010-01-01'),
                             oppfylt: true
-                        },
-                        alderISykmeldingsperioden: 28
+                        }
                     },
                     inntektskilder: [
                         {

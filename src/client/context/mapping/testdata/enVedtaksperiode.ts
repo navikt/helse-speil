@@ -13,8 +13,6 @@ import { defaultUtbetalingstidslinje } from './defaultUtbetalingstidslinje';
 import { defaultSykdomstidslinje } from './defaultSykdomstidslinje';
 import { defaultHendelser } from './defaultHendelser';
 
-const GRUNNBELØP = 99858;
-
 export const enVedtaksperiode = (
     ekstraDager: SpleisSykdomsdag[] = [],
     _utbetalingstidslinje: SpleisUtbetalingsdag[] = defaultUtbetalingstidslinje
@@ -60,8 +58,8 @@ export const enVedtaksperiode = (
                 oppfylt: true
             },
             sykepengegrunnlag: {
-                sykepengegrunnlag: 31000.0,
-                grunnbeløp: GRUNNBELØP,
+                sykepengegrunnlag: 372000.0,
+                grunnbeløp: 99858,
                 oppfylt: true
             }
         },

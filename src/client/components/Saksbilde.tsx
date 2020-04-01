@@ -111,27 +111,33 @@ const Saksbilde = () => {
         );
     }
 
-    const { vilkår, sykepengegrunnlag } = aktivVedtaksperiode!;
+    const { vilkår } = aktivVedtaksperiode!;
+
+    console.log('vilkår', vilkår);
     const tilVilkårsgruppe = (vurdertVilkår: VurdertVilkår): ReactNode => {
         switch (vurdertVilkår.vilkår) {
             case Vilkårstype.Alder:
-                return alder(vilkår, vurdertVilkår.oppfylt);
+                return alder(vilkår.alder);
             case Vilkårstype.Søknadsfrist:
-                return søknadsfrist(vilkår, vurdertVilkår.oppfylt);
+                return vilkår.søknadsfrist !== undefined ? søknadsfrist(vilkår.søknadsfrist) : undefined;
             case Vilkårstype.Opptjeningstid:
-                return opptjeningstid(vilkår, vurdertVilkår.oppfylt);
+                return vilkår.opptjening !== undefined
+                    ? opptjeningstid(vilkår.opptjening, vilkår.dagerIgjen?.førsteFraværsdag)
+                    : undefined;
             case Vilkårstype.KravTilSykepengegrunnlag:
-                return kravTilSykepengegrunnlag(sykepengegrunnlag, vurdertVilkår.oppfylt);
+                return kravTilSykepengegrunnlag(vilkår.sykepengegrunnlag, vilkår.alder.alderSisteSykedag);
             case Vilkårstype.DagerIgjen:
-                return dagerIgjen(vilkår, vurdertVilkår.oppfylt);
+                return vilkår.dagerIgjen !== undefined ? dagerIgjen(vilkår.dagerIgjen) : undefined;
         }
     };
 
-    const vurderteVilkår: Vilkårdata[] = mapVilkår(vilkår, sykepengegrunnlag).map(vilkår => ({
+    const vurderteVilkår: Vilkårdata[] = mapVilkår(vilkår).map(vilkår => ({
         type: vilkår.vilkår,
         komponent: tilVilkårsgruppe(vilkår),
         oppfylt: vilkår.oppfylt
     }));
+
+    const alleVilkårOppfylt = () => Object.values(vilkår).find(v => !v.oppfylt) === undefined;
 
     return (
         <>
@@ -146,7 +152,7 @@ const Saksbilde = () => {
                 <Container>
                     <Venstremeny />
                     <Hovedinnhold>
-                        {vurderteVilkår.filter(vilkår => !vilkår.oppfylt).length > 0 && (
+                        {!alleVilkårOppfylt() && (
                             <Varsel type={Varseltype.Feil}>Vilkår er ikke oppfylt i deler av perioden</Varsel>
                         )}
                         <Route
