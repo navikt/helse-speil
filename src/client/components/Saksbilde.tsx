@@ -113,7 +113,6 @@ const Saksbilde = () => {
 
     const { vilkår } = aktivVedtaksperiode!;
 
-    console.log('vilkår', vilkår);
     const tilVilkårsgruppe = (vurdertVilkår: VurdertVilkår): ReactNode => {
         switch (vurdertVilkår.vilkår) {
             case Vilkårstype.Alder:
