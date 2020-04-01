@@ -40,10 +40,10 @@ const Vilkår = ({ vilkår }: VilkårProps) => {
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 
-    const ikkeOppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it !== undefined && !it.oppfylt);
+    const ikkeOppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it != undefined && !it.oppfylt);
     const oppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it.oppfylt);
     const ikkeVurderteVilkår: IkkeVurdertVilkår[] = vilkår
-        .filter(it => it.oppfylt === undefined)
+        .filter(it => it.oppfylt == undefined)
         .map(it => {
             switch (it.type) {
                 case Vilkårstype.Alder:
