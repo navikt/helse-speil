@@ -20,10 +20,8 @@ const Sykmeldingsperiode = () => {
     const dager: Dag[] | undefined = aktivVedtaksperiode?.sykdomstidslinje.map(dag => ({
         dato: dag.dato.format(NORSK_DATOFORMAT),
         type: dag.type as Dagtype,
-        gradering: dag.gradering,
-        kilde: {
-            label: dag.kilde!
-        }
+        gradering: dag.type === Dagtype.Helg ? undefined : dag.gradering,
+        kilde: dag.type === Dagtype.Helg ? undefined : { label: dag.kilde! }
     }));
 
     return (

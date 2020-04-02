@@ -79,11 +79,6 @@ const Saksbilde = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
     if (aktivVedtaksperiode === undefined || personTilBehandling === undefined) {
-        console.warn(
-            'Aktiv vedtaksperiode eller personTilBehandling er undefined',
-            aktivVedtaksperiode,
-            personTilBehandling
-        );
         return null;
     }
 
