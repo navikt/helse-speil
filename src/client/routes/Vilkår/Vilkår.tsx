@@ -7,9 +7,16 @@ import PåfølgendeVedtaksperiode from './PåfølgendeVedtaksperiode';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import Aktivitetsplikt from './Aktivitetsplikt';
-import { Vilkårstype } from './vilkårsmapper';
+import { mapVilkår, Vilkårstype, VurdertVilkår } from '../../context/mapping/vilkårsmapper';
 import UbehandletVedtaksperiode from './UbehandletVedtaksperiode';
 import { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
+import {
+    alder,
+    dagerIgjen,
+    kravTilSykepengegrunnlag,
+    opptjeningstid,
+    søknadsfrist
+} from './Vilkårsgrupper/Vilkårsgrupper';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
@@ -21,26 +28,46 @@ export interface Vilkårdata {
     komponent: ReactNode;
 }
 
-interface VilkårProps {
-    vilkår: Vilkårdata[];
-}
-
 const filtrerBehandledeVilkår = (vilkår: Vilkårdata): boolean =>
     ![Vilkårstype.Opptjeningstid, Vilkårstype.KravTilSykepengegrunnlag].includes(vilkår.type);
 
 const tilKomponent = (vilkår: Vilkårdata): ReactNode => vilkår.komponent;
 
-const Vilkår = ({ vilkår }: VilkårProps) => {
+const Vilkår = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const periodeStatus = useVedtaksperiodestatus();
 
     if (!aktivVedtaksperiode?.vilkår || personTilBehandling === undefined) return null;
+    const { vilkår } = aktivVedtaksperiode;
+
+    const tilVilkårsgruppe = (vurdertVilkår: VurdertVilkår): ReactNode => {
+        switch (vurdertVilkår.vilkår) {
+            case Vilkårstype.Alder:
+                return alder(vilkår.alder);
+            case Vilkårstype.Søknadsfrist:
+                return vilkår.søknadsfrist !== undefined ? søknadsfrist(vilkår.søknadsfrist) : undefined;
+            case Vilkårstype.Opptjeningstid:
+                return vilkår.opptjening
+                    ? opptjeningstid(vilkår.opptjening, vilkår.dagerIgjen.førsteFraværsdag)
+                    : undefined;
+            case Vilkårstype.KravTilSykepengegrunnlag:
+                return kravTilSykepengegrunnlag(vilkår.sykepengegrunnlag!, vilkår.alder.alderSisteSykedag);
+            case Vilkårstype.DagerIgjen:
+                return vilkår.dagerIgjen !== undefined ? dagerIgjen(vilkår.dagerIgjen) : undefined;
+        }
+    };
+
+    const vurderteVilkår: Vilkårdata[] = mapVilkår(vilkår).map(vilkår => ({
+        type: vilkår.vilkår,
+        komponent: tilVilkårsgruppe(vilkår),
+        oppfylt: vilkår.oppfylt
+    }));
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 
-    const ikkeOppfylteVilkår: Vilkårdata[] = vilkår.filter(it => !it.oppfylt);
-    const oppfylteVilkår: Vilkårdata[] = vilkår.filter(it => it.oppfylt);
-    const ikkeVurderteVilkår: IkkeVurdertVilkår[] = vilkår
+    const ikkeOppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => !it.oppfylt);
+    const oppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => it.oppfylt);
+    const ikkeVurderteVilkår: IkkeVurdertVilkår[] = vurderteVilkår
         .filter(it => it.oppfylt == undefined)
         .map(it => {
             switch (it.type) {

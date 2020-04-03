@@ -35,11 +35,11 @@ export interface Alder {
 }
 
 export interface Vilkår {
-    dagerIgjen?: DagerIgjen;
-    søknadsfrist?: Søknadsfrist;
-    opptjening?: Opptjening;
     alder: Alder;
+    dagerIgjen: DagerIgjen;
     sykepengegrunnlag: SykepengegrunnlagVilkår;
+    opptjening?: Opptjening;
+    søknadsfrist?: Søknadsfrist;
 }
 
 export interface SykepengegrunnlagVilkår {
@@ -163,7 +163,7 @@ export interface Vedtaksperiode {
     sykdomstidslinje: Sykdomsdag[];
     godkjentAv?: string;
     godkjenttidspunkt?: Dayjs;
-    vilkår: Vilkår;
+    vilkår?: Vilkår;
     sykepengegrunnlag: Sykepengegrunnlag;
     inntektskilder: Inntektskilde[];
     oppsummering: Oppsummering;

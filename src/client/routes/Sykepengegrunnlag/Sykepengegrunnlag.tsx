@@ -26,7 +26,7 @@ const Sykepengegrunnlag = () => {
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
-    const førsteFraværsdag = aktivVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag
+    const førsteFraværsdag = aktivVedtaksperiode.vilkår?.dagerIgjen?.førsteFraværsdag
         ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
 

@@ -198,7 +198,7 @@ export interface SpleisVedtaksperiode {
     sykdomstidslinje: SpleisSykdomsdag[];
     godkjentAv?: string;
     godkjenttidspunkt?: string;
-    vilkår: SpleisVilkår;
+    vilkår: SpleisVilkår | null;
     førsteFraværsdag: string;
     inntektFraInntektsmelding: number;
     totalbeløpArbeidstaker: number;

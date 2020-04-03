@@ -1,14 +1,9 @@
 import {
-    Alder,
-    DagerIgjen,
     Hendelse,
     Hendelsestype,
     Inntektskilde,
     Oppsummering,
-    Opptjening,
     Personinfo,
-    SykepengegrunnlagVilkår,
-    Søknadsfrist,
     UferdigVedtaksperiode,
     Vedtaksperiode,
     Vedtaksperiodetilstand
@@ -27,6 +22,13 @@ import {
 } from './external.types';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
+import {
+    aldersVilkår,
+    dagerIgjenVilkår,
+    opptjeningsVilkår,
+    sykepengegrunnlagsVilkår,
+    søknadsfristVilkår
+} from './vilkårsmapper';
 
 export const somDato = (dato: string): Dayjs => dayjs(dato, ISO_DATOFORMAT);
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
@@ -84,52 +86,7 @@ export const mapVedtaksperiode = (
     const sykdomstidslinje = tilSykdomstidslinje(spleisPeriode.sykdomstidslinje);
     const utbetalingstidslinje = tilUtbetalingstidslinje(spleisPeriode.utbetalingstidslinje);
 
-    const vilkår = unmappedPeriode.vilkår;
-
-    const dagerIgjen = (): DagerIgjen | undefined => {
-        const sykepengedager = vilkår.sykepengedager;
-        return {
-            dagerBrukt: sykepengedager.forbrukteSykedager!,
-            førsteFraværsdag: somDato(sykepengedager.førsteFraværsdag!),
-            førsteSykepengedag: somDato(sykepengedager.førsteSykepengedag!),
-            maksdato: somDato(sykepengedager.maksdato!),
-            oppfylt: sykepengedager.oppfylt,
-            gjenståendeDager: sykepengedager.gjenståendeDager,
-            tidligerePerioder: []
-        };
-    };
-
-    const opptjening = (): Opptjening | undefined => {
-        const opptjening = vilkår.opptjening;
-        if (opptjening === undefined) return undefined;
-        return {
-            antallOpptjeningsdagerErMinst: opptjening.antallKjenteOpptjeningsdager,
-            oppfylt: opptjening.oppfylt,
-            opptjeningFra: somDato(opptjening.fom)
-        };
-    };
-
-    const søknadsfrist = (): Søknadsfrist | undefined => {
-        const søknadsfrist = vilkår.søknadsfrist;
-        if (søknadsfrist === undefined) return undefined;
-        return {
-            sendtNav: somDato(søknadsfrist.sendtNav),
-            søknadTom: somDato(søknadsfrist.søknadTom),
-            // TODO: oppfylt undefined burde legge kravet i liste over ting vi ikke har sjekket
-            oppfylt: søknadsfrist.oppfylt
-        };
-    };
-
-    const alder = (): Alder => ({
-        alderSisteSykedag: vilkår.alder.alderSisteSykedag,
-        oppfylt: vilkår.alder.oppfylt
-    });
-
-    const sykepengegrunnlagVilkår = (): SykepengegrunnlagVilkår => ({
-        sykepengegrunnlag: vilkår.sykepengegrunnlag.sykepengegrunnlag,
-        oppfylt: vilkår.sykepengegrunnlag.oppfylt,
-        grunnebeløp: vilkår.sykepengegrunnlag.grunnbeløp
-    });
+    const { vilkår } = unmappedPeriode;
 
     const inntektskilder: Inntektskilde[] = [
         {
@@ -174,13 +131,16 @@ export const mapVedtaksperiode = (
         sykdomstidslinje: sykdomstidslinje,
         godkjentAv: unmappedPeriode.godkjentAv,
         godkjenttidspunkt: somKanskjeDato(unmappedPeriode.godkjenttidspunkt),
-        vilkår: {
-            alder: alder(),
-            dagerIgjen: dagerIgjen(),
-            opptjening: opptjening(),
-            søknadsfrist: søknadsfrist(),
-            sykepengegrunnlag: sykepengegrunnlagVilkår()
-        },
+        vilkår:
+            vilkår !== null
+                ? {
+                      alder: aldersVilkår(vilkår),
+                      dagerIgjen: dagerIgjenVilkår(vilkår),
+                      opptjening: opptjeningsVilkår(vilkår),
+                      søknadsfrist: søknadsfristVilkår(vilkår),
+                      sykepengegrunnlag: sykepengegrunnlagsVilkår(vilkår)
+                  }
+                : undefined,
         inntektskilder: inntektskilder,
         sykepengegrunnlag: sykepengegrunnlag,
         oppsummering: oppsummering,

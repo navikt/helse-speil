@@ -20,7 +20,7 @@ import { Hendelsetype as LoggHendelsestype, LoggHeader, LoggProvider } from '@na
 import { Location, useNavigation } from '../hooks/useNavigation';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
-import { mapVilkår, Vilkårstype, VurdertVilkår } from '../routes/Vilkår/vilkårsmapper';
+import { mapVilkår, Vilkårstype, VurdertVilkår } from '../context/mapping/vilkårsmapper';
 import {
     alder,
     dagerIgjen,
@@ -106,32 +106,9 @@ const Saksbilde = () => {
         );
     }
 
-    const { vilkår } = aktivVedtaksperiode!;
+    const { vilkår } = aktivVedtaksperiode;
 
-    const tilVilkårsgruppe = (vurdertVilkår: VurdertVilkår): ReactNode => {
-        switch (vurdertVilkår.vilkår) {
-            case Vilkårstype.Alder:
-                return alder(vilkår.alder);
-            case Vilkårstype.Søknadsfrist:
-                return vilkår.søknadsfrist !== undefined ? søknadsfrist(vilkår.søknadsfrist) : undefined;
-            case Vilkårstype.Opptjeningstid:
-                return vilkår.opptjening !== undefined
-                    ? opptjeningstid(vilkår.opptjening, vilkår.dagerIgjen?.førsteFraværsdag)
-                    : undefined;
-            case Vilkårstype.KravTilSykepengegrunnlag:
-                return kravTilSykepengegrunnlag(vilkår.sykepengegrunnlag, vilkår.alder.alderSisteSykedag);
-            case Vilkårstype.DagerIgjen:
-                return vilkår.dagerIgjen !== undefined ? dagerIgjen(vilkår.dagerIgjen) : undefined;
-        }
-    };
-
-    const vurderteVilkår: Vilkårdata[] = mapVilkår(vilkår).map(vilkår => ({
-        type: vilkår.vilkår,
-        komponent: tilVilkårsgruppe(vilkår),
-        oppfylt: vilkår.oppfylt
-    }));
-
-    const alleVilkårOppfylt = () => Object.values(vilkår).find(v => !v.oppfylt) === undefined;
+    const alleVilkårOppfylt = () => vilkår === undefined || Object.values(vilkår).find(v => !v.oppfylt) === undefined;
 
     return (
         <>
@@ -153,10 +130,7 @@ const Saksbilde = () => {
                             path={`${toString(Location.Sykmeldingsperiode)}/:aktoerId`}
                             component={Sykmeldingsperiode}
                         />
-                        <Route
-                            path={`${toString(Location.Vilkår)}/:aktoerId`}
-                            component={() => <Vilkår vilkår={vurderteVilkår} />}
-                        />
+                        <Route path={`${toString(Location.Vilkår)}/:aktoerId`} component={() => <Vilkår />} />
                         <Route path={`${toString(Location.Inntektskilder)}/:aktoerId`} component={Inntektskilder} />
                         <Route
                             path={`${toString(Location.Sykepengegrunnlag)}/:aktoerId`}
