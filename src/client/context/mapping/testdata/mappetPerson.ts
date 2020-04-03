@@ -408,6 +408,7 @@ export const mappetPerson: Person = {
                             type: Hendelsestype.Inntektsmelding
                         }
                     ],
+                    aktivitetslog: [],
                     rawData: {
                         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                         fom: '2019-09-10',
@@ -706,7 +707,8 @@ export const mappetPerson: Person = {
                                 dagsats: 1431,
                                 grad: 100
                             }
-                        ]
+                        ],
+                        aktivitetslogg: []
                     }
                 }
             ]

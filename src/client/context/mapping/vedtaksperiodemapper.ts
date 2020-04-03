@@ -1,4 +1,5 @@
 import {
+    Aktivitet,
     Hendelse,
     Hendelsestype,
     Inntektskilde,
@@ -116,6 +117,12 @@ export const mapVedtaksperiode = (
         else return vedtaksperiodeTilstand;
     };
 
+    const aktivitetslogg: Aktivitet[] = unmappedPeriode.aktivitetslogg.map(aktivitet => ({
+        melding: aktivitet.melding,
+        alvorlighetsgrad: aktivitet.alvorlighetsgrad,
+        tidsstempel: somTidspunkt(aktivitet.tidsstempel)
+    }));
+
     return {
         id: unmappedPeriode.id,
         fom: somDato(unmappedPeriode.fom),
@@ -145,6 +152,7 @@ export const mapVedtaksperiode = (
         sykepengegrunnlag: sykepengegrunnlag,
         oppsummering: oppsummering,
         hendelser: unmappedPeriode.hendelser.map(tilHendelse),
+        aktivitetslog: aktivitetslogg,
         rawData: unmappedPeriode
     };
 };

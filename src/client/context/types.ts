@@ -168,8 +168,17 @@ export interface Vedtaksperiode {
     inntektskilder: Inntektskilde[];
     oppsummering: Oppsummering;
     hendelser: Hendelse[];
+    aktivitetslog: Aktivitet[];
     rawData: SpleisVedtaksperiode;
 }
+
+export interface Aktivitet {
+    melding: string;
+    alvorlighetsgrad: Alvorlighetsgrad;
+    tidsstempel: Dayjs;
+}
+
+type Alvorlighetsgrad = 'W';
 
 export interface Arbeidsgiver {
     organisasjonsnummer: string;

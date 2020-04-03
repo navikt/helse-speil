@@ -1,17 +1,40 @@
 import { tilPerson } from './personmapper';
-import { Dagtype, Kildetype, Vedtaksperiode } from '../types';
-import { somDato } from './vedtaksperiodemapper';
+import { Aktivitet, Dagtype, Kildetype, Vedtaksperiode } from '../types';
+import { somDato, somTidspunkt } from './vedtaksperiodemapper';
 import { SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisUtbetalingsdagtype } from './external.types';
 import { enVedtaksperiode } from './testdata/enVedtaksperiode';
 import { enArbeidsgiver } from './testdata/enArbeidsgiver';
 import { enPerson } from './testdata/enPerson';
 import { mappetPerson } from './testdata/mappetPerson';
 import { defaultPersonInfo } from './testdata/defaultPersonInfo';
+import { enAktivitet } from './testdata/enAktivitetslogg';
 
 describe('personmapper', () => {
     test('mapper person', () => {
-        let person = tilPerson(enPerson(), defaultPersonInfo);
+        const person = tilPerson(enPerson(), defaultPersonInfo);
         expect(person).toEqual(mappetPerson);
+    });
+
+    test('mapper aktivitetslogg', () => {
+        const melding = 'Aktivitetsvarsel';
+        const tidsstempel = '2020-01-01T13:37:00.000Z';
+        const alvorlighetsgrad = 'W';
+        const spleisAktivitet = enAktivitet(melding, tidsstempel, alvorlighetsgrad);
+
+        const person = tilPerson(
+            enPerson([enArbeidsgiver([enVedtaksperiode([], [], [spleisAktivitet])])]),
+            defaultPersonInfo
+        );
+
+        const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
+
+        expect(aktivitetslog).toHaveLength(1);
+        const expectedAktivitet: Aktivitet = {
+            melding: melding,
+            alvorlighetsgrad: alvorlighetsgrad,
+            tidsstempel: somTidspunkt(tidsstempel)
+        };
+        expect(aktivitetslog).toContainEqual(expectedAktivitet);
     });
 
     test('mapper person med flere vedtaksperioder', () => {

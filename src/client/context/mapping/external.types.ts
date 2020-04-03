@@ -1,5 +1,3 @@
-export type Kildelabel = 'IM' | 'SØ' | 'SM';
-
 export interface Utbetalingsdetalj {
     sats: number;
     konto: string;
@@ -186,6 +184,15 @@ interface SpleisSykepengegrunnlag {
     oppfylt?: boolean;
 }
 
+export type SpleisAlvorlighetsgrad = 'W';
+
+export interface SpleisAktivitet {
+    vedtaksperiodeId: string;
+    alvorlighetsgrad: SpleisAlvorlighetsgrad;
+    melding: string;
+    tidsstempel: string;
+}
+
 export interface SpleisVedtaksperiode {
     id: string;
     fom: string;
@@ -205,4 +212,5 @@ export interface SpleisVedtaksperiode {
     dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;
     hendelser: SpleisHendelse[];
     utbetalingslinjer?: Utbetalingslinje[];
+    aktivitetslogg: SpleisAktivitet[];
 }

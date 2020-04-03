@@ -1,4 +1,5 @@
 import {
+    SpleisAktivitet,
     SpleisHendelsetype,
     SpleisSykdomsdag,
     SpleisSøknad,
@@ -15,7 +16,8 @@ import { defaultHendelser } from './defaultHendelser';
 
 export const enVedtaksperiode = (
     ekstraDager: SpleisSykdomsdag[] = [],
-    _utbetalingstidslinje: SpleisUtbetalingsdag[] = defaultUtbetalingstidslinje
+    _utbetalingstidslinje: SpleisUtbetalingsdag[] = defaultUtbetalingstidslinje,
+    aktivitetslogg: SpleisAktivitet[] = []
 ): SpleisVedtaksperiode => {
     const søknad = defaultHendelser.find(it => it.type === SpleisHendelsetype.SØKNAD_NAV) as SpleisSøknad;
     const sykdomstidslinje = [...ekstraDager, ...defaultSykdomstidslinje];
@@ -84,6 +86,7 @@ export const enVedtaksperiode = (
                 dagsats: 1431,
                 grad: 100
             }
-        ]
+        ],
+        aktivitetslogg: aktivitetslogg
     };
 };
