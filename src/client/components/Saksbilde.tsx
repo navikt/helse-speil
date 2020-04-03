@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { useContext } from 'react';
 import Vilkår from '../routes/Vilkår';
 import PersonBar from './PersonBar';
 import Tidslinje from './Tidslinje';
@@ -20,15 +20,6 @@ import { Hendelsetype as LoggHendelsestype, LoggHeader, LoggProvider } from '@na
 import { Location, useNavigation } from '../hooks/useNavigation';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
-import { mapVilkår, Vilkårstype, VurdertVilkår } from '../context/mapping/vilkårsmapper';
-import {
-    alder,
-    dagerIgjen,
-    kravTilSykepengegrunnlag,
-    opptjeningstid,
-    søknadsfrist
-} from '../routes/Vilkår/Vilkårsgrupper/Vilkårsgrupper';
-import { Vilkårdata } from '../routes/Vilkår/Vilkår';
 
 const Container = styled.div`
     display: flex;
@@ -106,7 +97,7 @@ const Saksbilde = () => {
         );
     }
 
-    const { vilkår } = aktivVedtaksperiode;
+    const { vilkår, aktivitetslog } = aktivVedtaksperiode;
 
     const alleVilkårOppfylt = () => vilkår === undefined || Object.values(vilkår).find(v => !v.oppfylt) === undefined;
 
@@ -126,6 +117,12 @@ const Saksbilde = () => {
                         {!alleVilkårOppfylt() && (
                             <Varsel type={Varseltype.Feil}>Vilkår er ikke oppfylt i deler av perioden</Varsel>
                         )}
+                        {aktivitetslog.length > 0 &&
+                            aktivitetslog.map((aktivitet, index) => (
+                                <Varsel type={Varseltype.Advarsel} key={index}>
+                                    {aktivitet.melding}
+                                </Varsel>
+                            ))}
                         <Route
                             path={`${toString(Location.Sykmeldingsperiode)}/:aktoerId`}
                             component={Sykmeldingsperiode}
