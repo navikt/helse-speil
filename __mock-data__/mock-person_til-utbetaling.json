@@ -425,7 +425,8 @@
                             "dagsats": 1431,
                             "grad": 100.0
                         }
-                    ]
+                    ],
+                    "aktivitetslogg": []
                 },
                 {
                     "id": "3e93bfad-5422-46d7-9d26-64cd1f5350a9",
@@ -668,7 +669,8 @@
                             "dagsats": 1431,
                             "grad": 100.0
                         }
-                    ]
+                    ],
+                    "aktivitetslogg": []
                 }
             ]
         }

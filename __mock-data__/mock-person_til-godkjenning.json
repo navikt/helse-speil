@@ -425,6 +425,13 @@
                             "dagsats": 1431,
                             "grad": 100.0
                         }
+                    ],
+                    "aktivitetslogg": [
+                        {
+                            "alvorlighetsgrad": "W",
+                            "melding": "Forventet ikke sykmelding i TIL_GODKJENNING",
+                            "tidsstempel": "2020-04-03 09:00:59.434"
+                        }
                     ]
                 }
             ]
