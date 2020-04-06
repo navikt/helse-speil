@@ -6,6 +6,7 @@ import {
 } from './external.types';
 import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../types';
 import { somDato } from './vedtaksperiodemapper';
+import dayjs from 'dayjs';
 
 const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
     switch (dag) {
@@ -49,6 +50,8 @@ const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dagtype => {
             return Dagtype.Arbeidsdag;
         case SpleisSykdomsdagtype.SYK_HELGEDAG_SYKMELDING:
         case SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD:
+        case SpleisSykdomsdagtype.FRISK_HELGEDAG_INNTEKTSMELDING:
+        case SpleisSykdomsdagtype.FRISK_HELGEDAG_SØKNAD:
             return Dagtype.Helg;
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_SØKNAD:
@@ -63,10 +66,12 @@ const hendelseType = (type: SpleisSykdomsdagtype): Kildetype | undefined => {
         case SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.FERIEDAG_INNTEKTSMELDING:
+        case SpleisSykdomsdagtype.FRISK_HELGEDAG_INNTEKTSMELDING:
             return Kildetype.Inntektsmelding;
         case SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD:
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_SØKNAD:
         case SpleisSykdomsdagtype.FERIEDAG_SØKNAD:
+        case SpleisSykdomsdagtype.FRISK_HELGEDAG_SØKNAD:
         case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
         case SpleisSykdomsdagtype.SYKEDAG_SØKNAD:
         case SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD:
@@ -86,7 +91,7 @@ const hendelseType = (type: SpleisSykdomsdagtype): Kildetype | undefined => {
 
 export const tilSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdomsdag[] =>
     sykdomstidslinje.map(dag => ({
-        type: sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype),
+        type: finnDagtype(dag),
         dato: somDato(dag.dagen),
         gradering: dag.grad,
         kilde: hendelseType(dag.type as SpleisSykdomsdagtype)
@@ -99,3 +104,8 @@ export const tilUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsd
         gradering: dag.grad,
         utbetaling: dag.utbetaling
     }));
+
+const finnDagtype = (dag: SpleisSykdomsdag): Dagtype =>
+    dayjs(dag.dagen).isoWeekday() > 5 && dag.type === SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+        ? Dagtype.Helg
+        : sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype);

@@ -204,13 +204,13 @@ export const mappetPerson: Person = {
                         },
                         {
                             dato: somDato('2019-09-14'),
-                            type: Dagtype.Egenmelding,
+                            type: Dagtype.Helg,
                             kilde: Kildetype.Inntektsmelding,
                             gradering: undefined
                         },
                         {
                             dato: somDato('2019-09-15'),
-                            type: Dagtype.Egenmelding,
+                            type: Dagtype.Helg,
                             kilde: Kildetype.Inntektsmelding,
                             gradering: undefined
                         },
