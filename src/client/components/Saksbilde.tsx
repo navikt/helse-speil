@@ -99,7 +99,7 @@ const Saksbilde = () => {
 
     const { vilkår, aktivitetslog } = aktivVedtaksperiode;
 
-    const alleVilkårOppfylt = () => vilkår === undefined || Object.values(vilkår).find(v => !v.oppfylt) === undefined;
+    const alleVilkårOppfylt = () => vilkår === undefined || Object.values(vilkår).find(v => !v?.oppfylt) === undefined;
 
     return (
         <>

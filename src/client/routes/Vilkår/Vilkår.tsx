@@ -65,7 +65,7 @@ const Vilkår = () => {
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 
-    const ikkeOppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => !it.oppfylt);
+    const ikkeOppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => it.oppfylt === false);
     const oppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => it.oppfylt);
     const ikkeVurderteVilkår: IkkeVurdertVilkår[] = vurderteVilkår
         .filter(it => it.oppfylt == undefined)
