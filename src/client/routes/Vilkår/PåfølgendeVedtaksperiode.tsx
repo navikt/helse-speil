@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Strek, StyledBehandletInnhold } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper';
-import { Vedtaksperiode } from '../../context/types';
+import { Opptjening, Vedtaksperiode } from '../../context/types';
 import { FlexColumn } from '../../components/FlexColumn';
 import TwoColumnGrid from '../../components/TwoColumnGrid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
@@ -11,7 +11,6 @@ import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
 import Vilkårsvisning from './Vilkårsvisning';
 import Feilikon from '../../components/Ikon/Feilikon';
 import IkkeVurderteVilkår, { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const formatterDato = (dato?: Dayjs) => dato?.format(NORSK_DATOFORMAT) ?? 'Dato ikke funnet';
 
@@ -24,7 +23,7 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
         <StyledBehandletInnhold
             saksbehandler={vedtaksperiode.godkjentAv!}
             tittel={`Vilkår vurdert første sykdomsdag - ${formatterDato(
-                vedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag
+                vedtaksperiode.vilkår!.dagerIgjen?.førsteFraværsdag
             )}`}
             vurderingsdato={formatterDato(vedtaksperiode.godkjenttidspunkt)}
         >
@@ -34,8 +33,8 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
                 </FlexColumn>
                 <FlexColumn>
                     <Vilkårsgrupper.KravTilSykepengegrunnlag
-                        sykepengegrunnlagVilkår={vedtaksperiode.vilkår.sykepengegrunnlag}
-                        alderSisteSykedag={vedtaksperiode.vilkår.alder.alderSisteSykedag}
+                        sykepengegrunnlagVilkår={vedtaksperiode.vilkår!.sykepengegrunnlag}
+                        alderSisteSykedag={vedtaksperiode.vilkår!.alder.alderSisteSykedag}
                     />
                 </FlexColumn>
             </TwoColumnGrid>
@@ -48,10 +47,10 @@ interface OpptionalOpptjeningstidProps {
 }
 
 const OptionalOpptjeningstid = ({ vedtaksperiode }: OpptionalOpptjeningstidProps) =>
-    vedtaksperiode.vilkår.opptjening ? (
+    vedtaksperiode.vilkår?.opptjening ?? false ? (
         <Vilkårsgrupper.Opptjeningstid
-            opptjeningVilkår={vedtaksperiode.vilkår.opptjening}
-            førsteFraværsdag={vedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag}
+            opptjeningVilkår={vedtaksperiode.vilkår!.opptjening as Opptjening}
+            førsteFraværsdag={vedtaksperiode.vilkår!.dagerIgjen?.førsteFraværsdag}
         />
     ) : (
         <Vilkårsgruppe tittel="Opptjening må vurderes manuelt" ikontype="advarsel" paragraf="§8-2" />
@@ -72,7 +71,6 @@ const PåfølgendeVedtaksperiode = ({
 }: PåfølgendeVedtaksperiodeProps) => {
     return (
         <>
-            <Varsel type={Varseltype.Advarsel}>Enkelte vilkår må vurderes manuelt</Varsel>
             {ikkeOppfylteVilkår.length > 0 && (
                 <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={ikkeOppfylteVilkår} />
             )}

@@ -3,7 +3,6 @@ import Vilkårsvisning from './Vilkårsvisning';
 import Feilikon from '../../components/Ikon/Feilikon';
 import IkkeVurderteVilkår, { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
 import GrøntSjekkikon from '../../components/Ikon/GrøntSjekkikon';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 
 interface UbehandletVedtaksperiodeProps {
     ikkeOppfylteVilkår: ReactNode[];
@@ -17,7 +16,6 @@ const UbehandletVedtaksperiode = ({
     ikkeVurderteVilkår
 }: UbehandletVedtaksperiodeProps) => (
     <>
-        <Varsel type={Varseltype.Advarsel}>Enkelte vilkår må vurderes manuelt</Varsel>
         {ikkeOppfylteVilkår.length > 0 && (
             <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={ikkeOppfylteVilkår} />
         )}

@@ -7,7 +7,6 @@ import styled from '@emotion/styled';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
@@ -35,7 +34,6 @@ const Inntektskilder = () => {
 
     return (
         <>
-            <Varsel type={Varseltype.Advarsel}>Enkelte inntektskilder må sjekkes manuelt</Varsel>
             <Inntektskilderpanel>
                 {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
                     <Inntektskilderinnhold inntektskilder={inntektskilder} />
