@@ -6,7 +6,6 @@ import {
 } from './external.types';
 import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../types';
 import { somDato } from './vedtaksperiodemapper';
-import dayjs from 'dayjs';
 
 const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
     switch (dag) {
@@ -91,7 +90,7 @@ const hendelseType = (type: SpleisSykdomsdagtype): Kildetype | undefined => {
 
 export const tilSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdomsdag[] =>
     sykdomstidslinje.map(dag => ({
-        type: finnDagtype(dag),
+        type: sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype),
         dato: somDato(dag.dagen),
         gradering: dag.grad,
         kilde: hendelseType(dag.type as SpleisSykdomsdagtype)
@@ -104,8 +103,3 @@ export const tilUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsd
         gradering: dag.grad,
         utbetaling: dag.utbetaling
     }));
-
-const finnDagtype = (dag: SpleisSykdomsdag): Dagtype =>
-    dayjs(dag.dagen).isoWeekday() > 5 && dag.type === SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
-        ? Dagtype.Helg
-        : sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype);

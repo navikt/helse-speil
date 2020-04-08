@@ -19,11 +19,11 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
     },
     {
         dagen: '2019-09-14',
-        type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+        type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
     },
     {
         dagen: '2019-09-15',
-        type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+        type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
     },
     {
         dagen: '2019-09-16',

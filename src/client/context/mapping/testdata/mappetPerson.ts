@@ -205,13 +205,13 @@ export const mappetPerson: Person = {
                         {
                             dato: somDato('2019-09-14'),
                             type: Dagtype.Helg,
-                            kilde: Kildetype.Inntektsmelding,
+                            kilde: Kildetype.Søknad,
                             gradering: undefined
                         },
                         {
                             dato: somDato('2019-09-15'),
                             type: Dagtype.Helg,
-                            kilde: Kildetype.Inntektsmelding,
+                            kilde: Kildetype.Søknad,
                             gradering: undefined
                         },
                         {
@@ -571,11 +571,11 @@ export const mappetPerson: Person = {
                             },
                             {
                                 dagen: '2019-09-14',
-                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-09-15',
-                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
                             },
                             {
                                 dagen: '2019-09-16',
