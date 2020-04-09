@@ -56,6 +56,7 @@ const setUpAuthentication = () => {
             scope: config.oidc.scope,
             redirect_uri: auth.redirectUrl(req, config.oidc),
             response_type: config.oidc.responseType[0],
+            prompt: 'select_account',
             response_mode: 'form_post',
             nonce: req.session!.nonce,
             state: req.session!.state
