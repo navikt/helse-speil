@@ -103,14 +103,14 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 <Divider />
                 <Tittel tag="h3">{t('inntektskilder.sjekket_ytelser')}</Tittel>
                 <Liste>
+                    <Ikonrad tekst={t('inntektskilder.aap')} ikontype="ok" />
+                    <Ikonrad tekst={t('inntektskilder.dagpenger')} ikontype="ok" />
                     <Ikonrad tekst={t('inntektskilder.foreldrepenger')} ikontype="ok" />
                     <Ikonrad tekst={t('inntektskilder.svangerskapspenger')} ikontype="ok" />
                 </Liste>
 
                 <Tittel tag="h3">{t('inntektskilder.ikke_sjekket_ytelser')}</Tittel>
                 <Liste>
-                    <Ikonrad tekst={t('inntektskilder.aap')} ikontype="advarsel" />
-                    <Ikonrad tekst={t('inntektskilder.dagpenger')} ikontype="advarsel" />
                     <Ikonrad tekst={t('inntektskilder.pleiepenger')} ikontype="advarsel" />
                 </Liste>
             </FlexColumn>
