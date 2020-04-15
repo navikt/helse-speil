@@ -40,4 +40,4 @@ echo "Node is running as $NODE_PID, in process group $PGID, executing tests"
 $(npm bin)/cypress run --project e2e-tests
 
 echo "Done, stopping processes in group $PGID"
-$(kill -- -$PGID)
+$(kill -- -$PGID) || exit 0
