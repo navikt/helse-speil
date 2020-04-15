@@ -7,17 +7,10 @@ function node_pid {
     echo $(lsof -i :$SPEIL_BACKEND_PORT -t)
 }
 
-function process_group {
-    server_pid=$(node_pid)
-    [[ -z "$server_pid" ]] && echo "No PID found for the express server" && exit 1
-    echo $(ps o pgid -p $server_pid | tail -n 1)
-}
-
 function cleanup {
     local -r exit_code=$?
     echo "Something errored, with exit code $exit_code. Stopping processes"
-    PGID=$(process_group)
-    [[ "$PGID" =~ ^[0-9]+$ ]] && kill -- -$PGID || kill $NPM_PID
+    kill $NPM_PID
     exit $exit_code
 }
 trap cleanup ERR
@@ -34,10 +27,8 @@ if [[ ! "$NODE_PID" =~ ^[0-9]+$ ]]; then
     exit 1
 fi
 
-PGID=$(process_group)
-echo "Node is running as $NODE_PID, in process group $PGID, executing tests"
+echo "Node is running as pid $NODE_PID, executing tests"
 
 $(npm bin)/cypress run --project e2e-tests
 
-echo "Done, stopping processes in group $PGID"
-$(kill -- -$PGID) || exit 0
+echo "Done"
