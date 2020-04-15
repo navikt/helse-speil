@@ -16,7 +16,7 @@ import auth from './auth/authSupport';
 import stsclient from './auth/stsClient';
 
 import person from './person/personRoutes';
-import payments from './payment/paymentRoutes';
+import paymentRoutes from './payment/paymentRoutes';
 import tildeling from './tildeling/tildelingRoutes';
 
 const app = express();
@@ -117,7 +117,7 @@ app.use('/*', (req, res, next) => {
 
 app.use('/api/tildeling', tildeling.setup(dependencies.redisClient));
 app.use('/api/person', person.setup(dependencies.person));
-app.use('/api/payments', payments.setup(dependencies.payments));
+app.use('/api/payments', paymentRoutes(dependencies.payments));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {
