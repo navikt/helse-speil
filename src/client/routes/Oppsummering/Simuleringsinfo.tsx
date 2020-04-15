@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import List from '../../components/List';
 import dayjs from 'dayjs';
-import { Simulering } from '../../context/SimuleringContext';
+import { Simulering } from '../../context/types';
 import ListItem from '../../components/ListItem';
 import { toKronerOgØre } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -24,19 +24,18 @@ interface SimuleringProps {
 const Simuleringsinfo = ({ simulering }: SimuleringProps) => (
     <>
         <List>
-            <ListItem label="Totalbeløp simulering">{toKronerOgØre(simulering.totalBelop)} kr</ListItem>
+            <ListItem label="Totalbeløp simulering">{toKronerOgØre(simulering.totalbeløp)} kr</ListItem>
         </List>
         <>
-            {simulering.periodeList.map((periode, index) => (
+            {simulering.perioder.map((periode, index) => (
                 <Underliste key={`periode-${index}`}>
                     <ListItem label="~~~~~~~~~~~~">~~~~~~~~~~~~</ListItem>
                     <Normaltekst>Periode</Normaltekst>
                     <Normaltekst>{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</Normaltekst>
                     <>
-                        {periode.utbetaling.map((utbetaling, index) => (
+                        {periode.utbetalinger.map((utbetaling, index) => (
                             <React.Fragment key={`utbetaling-${index}`}>
                                 {index > 0 && <ListItem label="-------------------">-------------------</ListItem>}
-                                <ListItem label="Fagsystem-ID">{utbetaling.fagSystemId}</ListItem>
                                 <ListItem label="Utbetales til ID">{utbetaling.utbetalesTilId}</ListItem>
                                 <ListItem label="Utbetales til navn">{utbetaling.utbetalesTilNavn}</ListItem>
                                 <ListItem label="Forfall">{formaterDato(utbetaling.forfall)}</ListItem>

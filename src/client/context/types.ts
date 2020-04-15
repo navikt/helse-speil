@@ -1,6 +1,6 @@
 import { ReactChild } from 'react';
 import { Dayjs } from 'dayjs';
-import { SpleisVedtaksperiode } from './mapping/external.types';
+import { SpleisVedtaksperiode, Utbetalingsperiode } from './mapping/external.types';
 
 export interface Periode {
     fom: Dayjs;
@@ -167,9 +167,15 @@ export interface Vedtaksperiode {
     sykepengegrunnlag: Sykepengegrunnlag;
     inntektskilder: Inntektskilde[];
     oppsummering: Oppsummering;
+    simuleringsdata?: Simulering;
     hendelser: Hendelse[];
     aktivitetslog: Aktivitet[];
     rawData: SpleisVedtaksperiode;
+}
+
+export interface Simulering {
+    totalbeløp: number;
+    perioder: Utbetalingsperiode[];
 }
 
 export interface Aktivitet {

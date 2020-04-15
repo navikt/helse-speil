@@ -18,7 +18,6 @@ export interface Utbetaling {
     forfall: string;
     detaljer: Utbetalingsdetalj[];
     feilkonto: boolean;
-    fagSystemId: string;
     utbetalesTilId: string;
     utbetalesTilNavn: string;
 }
@@ -33,7 +32,7 @@ export interface Utbetalingslinje {
 export interface Utbetalingsperiode {
     fom: string;
     tom: string;
-    utbetaling: Utbetaling[];
+    utbetalinger: Utbetaling[];
 }
 
 export enum SpleisUtbetalingsdagtype {
@@ -135,6 +134,41 @@ export interface SpleisDataForVilkårsvurdering {
     harOpptjening: boolean;
 }
 
+export interface SpleisDataForSimulering {
+    totalbeløp: number;
+    perioder: SpleisSimuleringperiode[];
+}
+
+export interface SpleisSimuleringperiode {
+    fom: string;
+    tom: string;
+    utbetalinger: SpleisSimuleringutbetaling[];
+}
+
+export interface SpleisSimuleringutbetaling {
+    detaljer: SpleisSimuleringutbetalingDetaljer[];
+    feilkonto: boolean;
+    forfall: string;
+    utbetalesTilId: string;
+    utbetalesTilNavn: string;
+}
+
+export interface SpleisSimuleringutbetalingDetaljer {
+    antallSats: number;
+    beløp: number;
+    faktiskFom: string;
+    faktiskTom: string;
+    klassekode: string;
+    klassekodeBeskrivelse: string;
+    konto: string;
+    refunderesOrgNr: string;
+    sats: number;
+    tilbakeføring: boolean;
+    typeSats: string;
+    uføregrad: number;
+    utbetalingstype: string;
+}
+
 export enum SpleisVedtaksperiodetilstand {
     TilUtbetaling = 'TilUtbetaling',
     Utbetalt = 'Utbetalt',
@@ -212,6 +246,7 @@ export interface SpleisVedtaksperiode {
     inntektFraInntektsmelding: number;
     totalbeløpArbeidstaker: number;
     dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;
+    simuleringsdata?: SpleisDataForSimulering;
     hendelser: SpleisHendelse[];
     utbetalingslinjer?: Utbetalingslinje[];
     aktivitetslogg: SpleisAktivitet[];

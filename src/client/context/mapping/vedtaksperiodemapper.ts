@@ -5,21 +5,29 @@ import {
     Inntektskilde,
     Oppsummering,
     Personinfo,
+    Simulering,
     UferdigVedtaksperiode,
     Vedtaksperiode,
     Vedtaksperiodetilstand
 } from '../types';
 import dayjs, { Dayjs } from 'dayjs';
 import {
+    SpleisDataForSimulering,
     SpleisHendelse,
     SpleisHendelsetype,
     SpleisInntektsmelding,
+    SpleisSimuleringperiode,
+    SpleisSimuleringutbetaling,
+    SpleisSimuleringutbetalingDetaljer,
     SpleisSykdomsdag,
     SpleisSykdomsdagtype,
     SpleisSykmelding,
     SpleisSøknad,
     SpleisVedtaksperiode,
-    SpleisVedtaksperiodetilstand
+    SpleisVedtaksperiodetilstand,
+    Utbetaling,
+    Utbetalingsdetalj,
+    Utbetalingsperiode
 } from './external.types';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
@@ -151,11 +159,54 @@ export const mapVedtaksperiode = (
         inntektskilder: inntektskilder,
         sykepengegrunnlag: sykepengegrunnlag,
         oppsummering: oppsummering,
+        simuleringsdata: unmappedPeriode.simuleringsdata
+            ? mapSimuleringsdata(unmappedPeriode.simuleringsdata)
+            : undefined,
         hendelser: unmappedPeriode.hendelser.map(tilHendelse),
         aktivitetslog: aktivitetslogg,
         rawData: unmappedPeriode
     };
 };
+
+const mapSimuleringsdata = (data: SpleisDataForSimulering): Simulering => ({
+    totalbeløp: data.totalbeløp,
+    perioder: mapSimuleringsperioder(data.perioder)
+});
+
+const mapSimuleringsperioder = (perioder: SpleisSimuleringperiode[]): Utbetalingsperiode[] =>
+    perioder.map(spleisPeriode => ({
+        fom: spleisPeriode.fom,
+        tom: spleisPeriode.tom,
+        utbetalinger: mapSimuleringsutbetalinger(spleisPeriode.utbetalinger)
+    }));
+
+const mapSimuleringsutbetalinger = (utbetalinger: SpleisSimuleringutbetaling[]): Utbetaling[] =>
+    utbetalinger.map(spleisSimuleringsutbetaling => ({
+        detaljer: mapSimuleringsutbetalingDetaljer(spleisSimuleringsutbetaling.detaljer),
+        feilkonto: spleisSimuleringsutbetaling.feilkonto,
+        forfall: spleisSimuleringsutbetaling.forfall,
+        utbetalesTilId: spleisSimuleringsutbetaling.utbetalesTilId,
+        utbetalesTilNavn: spleisSimuleringsutbetaling.utbetalesTilNavn
+    }));
+
+const mapSimuleringsutbetalingDetaljer = (
+    spleisSimuleringsutbetalingDetaljer: SpleisSimuleringutbetalingDetaljer[]
+): Utbetalingsdetalj[] =>
+    spleisSimuleringsutbetalingDetaljer.map(spleisDetaljer => ({
+        antallSats: spleisDetaljer.antallSats,
+        belop: spleisDetaljer.beløp,
+        faktiskFom: spleisDetaljer.faktiskFom,
+        faktiskTom: spleisDetaljer.faktiskTom,
+        klassekode: spleisDetaljer.klassekode,
+        klassekodeBeskrivelse: spleisDetaljer.klassekodeBeskrivelse,
+        konto: spleisDetaljer.konto,
+        refunderesOrgNr: spleisDetaljer.refunderesOrgNr,
+        sats: spleisDetaljer.sats,
+        tilbakeforing: spleisDetaljer.tilbakeføring,
+        typeSats: spleisDetaljer.typeSats,
+        uforegrad: spleisDetaljer.uføregrad,
+        utbetalingsType: spleisDetaljer.utbetalingstype
+    }));
 
 const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpleisVedtaksperiode): SpleisVedtaksperiode => {
     const arbeidsdagEllerImplisittDag = (dag: SpleisSykdomsdag) =>

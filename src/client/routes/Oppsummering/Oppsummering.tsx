@@ -6,7 +6,6 @@ import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Panel } from 'nav-frontend-paneler';
 import { toKronerOgØre } from '../../utils/locale';
 import { PersonContext } from '../../context/PersonContext';
-import { SimuleringContext } from '../../context/SimuleringContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
@@ -38,13 +37,16 @@ const Oppsummeringstittel = styled(Undertittel)`
     margin-bottom: 1rem;
 `;
 
+const Infotekst = styled(Normaltekst)`
+    margin-bottom: 1rem;
+`;
+
 const Oppsummering = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
-    const { error, simulering, arbeidsgiver } = useContext(SimuleringContext);
     const { t } = useTranslation();
     if (!aktivVedtaksperiode) return null;
 
-    const { oppsummering, sykepengegrunnlag, inntektskilder } = aktivVedtaksperiode;
+    const { oppsummering, simuleringsdata, sykepengegrunnlag, inntektskilder } = aktivVedtaksperiode;
 
     return (
         <Innhold>
@@ -67,8 +69,11 @@ const Oppsummering = () => {
                     </ListItem>
                 </List>
                 <Divider />
-                {simulering && arbeidsgiver && <Simuleringsinfo simulering={simulering} />}
-                {error && <Normaltekst>{error}</Normaltekst>}
+                {simuleringsdata ? (
+                    <Simuleringsinfo simulering={simuleringsdata} />
+                ) : (
+                    <Infotekst>Ingen simulering</Infotekst>
+                )}
                 <Navigasjonsknapper />
             </StyledPanel>
             <Utbetaling />

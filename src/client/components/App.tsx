@@ -5,7 +5,6 @@ import Saksbilde from './Saksbilde';
 import { hot } from 'react-hot-loader';
 import { AuthProvider } from '../context/AuthContext';
 import { useLogUserOut } from '../hooks/useLogUserOut';
-import { SimuleringProvider } from '../context/SimuleringContext';
 import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
 import { BehovoversiktProvider } from '../context/SaksoversiktContext';
@@ -29,6 +28,6 @@ const App = withContextProviders(() => {
             </Switch>
         </BrowserRouter>
     );
-}, [SimuleringProvider, BehovoversiktProvider, PersonProvider, AuthProvider, TildelingerProvider]);
+}, [BehovoversiktProvider, PersonProvider, AuthProvider, TildelingerProvider]);
 
 export default hot(module)(App);

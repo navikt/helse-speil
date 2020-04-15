@@ -1,6 +1,5 @@
 import { Tildeling } from '../context/types';
 import { Options } from './types';
-import { SpleisVedtaksperiode } from '../context/mapping/external.types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -114,24 +113,6 @@ export const deleteTildeling = async (behandlingsId: string) => {
 
 export const postVedtak = async (behovId?: string, aktørId?: string, godkjent?: boolean, vedtaksperiodeId?: string) => {
     return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, vedtaksperiodeId });
-};
-
-export const postSimulering = async (
-    vedtaksperiode: SpleisVedtaksperiode,
-    aktørId: string,
-    orgnr: string,
-    fødselsnummer: string,
-    erUtvidelse: boolean,
-    saksbehandlerIdent?: string
-) => {
-    return post(`${baseUrl}/payments/simulate`, {
-        vedtaksperiode,
-        saksbehandlerIdent,
-        fødselsnummer,
-        aktørId,
-        orgnr,
-        erUtvidelse
-    });
 };
 
 export const postAnnullering = async (fødselsnummer: string, utbetalingsreferanse: string, aktørId?: string) => {
