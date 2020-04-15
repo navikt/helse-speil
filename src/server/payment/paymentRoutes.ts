@@ -1,21 +1,24 @@
 import logger from '../logging';
 import annulleringInit, { Annullering } from './annuller';
-import { postVedtak } from './vedtak';
+import { VedtakClient } from './vedtakClient';
 import { Request, Response, Router } from 'express';
 import { AppConfig, OnBehalfOf } from '../types';
 
 interface SetupOptions {
     config: AppConfig;
     onBehalfOf: OnBehalfOf;
+    vedtakClient: VedtakClient;
 }
 
 const router = Router();
 let annullering: Annullering;
+let vedtakClient: VedtakClient;
 let onBehalfOf: OnBehalfOf;
 let config: AppConfig;
 
-const setup = ({ config: _config, onBehalfOf: _onBehalfOf }: SetupOptions) => {
+const setup = ({ config: _config, onBehalfOf: _onBehalfOf, vedtakClient: _vedtakClient }: SetupOptions) => {
     annullering = annulleringInit.setup(_config.nav);
+    vedtakClient = _vedtakClient;
     routes(router);
     onBehalfOf = _onBehalfOf;
     config = _config;
@@ -33,11 +36,20 @@ const routes = (router: Router) => {
                 res.status(400).send('BehovId eller vedtaksperiodeId, aktørId og godkjent-verdi må være tilstede');
                 return;
             }
-            if (process.env.NODE_ENV === 'development') {
-                devSendVedtak(req, res);
-            } else {
-                prodSendVedtak(req, res);
-            }
+            vedtakClient
+                .postVedtak({
+                    behovId: req.body.behovId,
+                    aktørId: req.body.aktørId,
+                    vedtaksperiodeId: req.body.vedtaksperiodeId,
+                    saksbehandlerIdent: req.session!.user,
+                    godkjent: req.body.godkjent,
+                    speilToken: req.session!.speilToken
+                })
+                .then(() => res.sendStatus(204))
+                .catch(err => {
+                    logger.error(`Feil under fatting av vedtak: ${err}`);
+                    res.status(500).send('Feil under fatting av vedtak');
+                });
         }
     };
 
@@ -57,33 +69,6 @@ const routes = (router: Router) => {
 
     router.post('/vedtak', vedtakHandler.handle);
     router.post('/annullering', annulleringHandler.handle);
-};
-
-const prodSendVedtak = async (req: Request, res: Response) => {
-    const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpade, req.session!.speilToken);
-    postVedtak({
-        behovId: req.body.behovId,
-        aktørId: req.body.aktørId,
-        vedtaksperiodeId: req.body.vedtaksperiodeId,
-        saksbehandlerIdent: req.session!.user,
-        accessToken: onBehalfOfToken,
-        godkjent: req.body.godkjent
-    })
-        .then(() => {
-            res.status(204).send();
-        })
-        .catch(err => {
-            logger.error(`Feil under fatting av vedtak: ${err}`);
-            res.status(500).send('Feil under fatting av vedtak');
-        });
-};
-
-const devSendVedtak = (req: Request, res: Response) => {
-    if (Math.random() > 0.5) {
-        res.status(204).send();
-    } else {
-        res.status(500).send('Feil under fatting av vedtak');
-    }
 };
 
 const prodAnnullering = async (req: Request, res: Response) => {
@@ -112,7 +97,7 @@ const prodAnnullering = async (req: Request, res: Response) => {
         });
 };
 
-const devAnnullering = (req: Request, res: Response) => {
+const devAnnullering = (_req: Request, res: Response) => {
     if (Math.random() > 0.5) {
         res.status(204).send();
     } else {

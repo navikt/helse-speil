@@ -18,7 +18,6 @@ import stsclient from './auth/stsClient';
 import person from './person/personRoutes';
 import payments from './payment/paymentRoutes';
 import tildeling from './tildeling/tildelingRoutes';
-import { OidcConfig } from './types';
 
 const app = express();
 const port = config.server.port;
