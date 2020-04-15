@@ -12,6 +12,8 @@ import spleisClient from './person/spleisClient';
 import devSpleisClient from './person/devSpleisClient';
 import vedtakClient from './payment/vedtakClient';
 import devVedtakClient from './payment/devVedtakClient';
+import annulleringClient from './payment/annulleringClient';
+import devAnnulleringClient from './payment/devAnnulleringClient';
 import aktørIdLookup from './aktørid/aktørIdLookup';
 import devAktørIdLookup from './aktørid/devAktørIdLookup';
 import spadeClient from './adapters/spadeClient';
@@ -36,7 +38,7 @@ const getDevDependencies = (app: Express) => {
             cache: devRedisClient,
             config
         },
-        payments: { config: config, onBehalfOf: _onBehalfOf, vedtakClient: devVedtakClient },
+        payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
         redisClient: devRedisClient
     };
 };
@@ -47,6 +49,7 @@ const getProdDependencies = (app: Express) => {
     const instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf.factory(config.oidc, instrumentation);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
+    const _annulleringClient = annulleringClient(config, _onBehalfOf);
     return {
         person: {
             spleisClient,
@@ -58,7 +61,7 @@ const getProdDependencies = (app: Express) => {
             cache: _redisClient,
             config
         },
-        payments: { config: config, onBehalfOf: _onBehalfOf, vedtakClient: _vedtakClient },
+        payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
         redisClient: _redisClient
     };
 };
