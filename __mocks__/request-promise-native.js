@@ -1,7 +1,5 @@
 'use strict';
 
-const fs = require('fs');
-
 const rpn = jest.genMockFromModule('request-promise-native');
 
 const testPerson = {
@@ -35,10 +33,6 @@ rpn.get = options => {
     }
 };
 
-rpn.post = options => {
-    return Promise.resolve(mockSpennData());
-};
-
 const handleAktørregisteretRequest = () => {
     return Promise.resolve(aktørregisteretResponse);
 };
@@ -52,7 +46,5 @@ const createToken = claims => {
     const header = { alg: 'HS256', typ: 'JWT' };
     return `${btoa(JSON.stringify(header))}.${btoa(JSON.stringify(claims))}.bogussignature`;
 };
-
-const mockSpennData = () => fs.readFileSync('__mock-data__/spenn-reply.json', 'utf-8');
 
 module.exports = rpn;

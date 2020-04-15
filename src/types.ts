@@ -29,28 +29,6 @@ export type Utbetalingslinje = {
     grad: number;
 };
 
-export interface UnmappedUtbetalingsvedtak {
-    id: string;
-    aktørId: string;
-    organisasjonsnummer: string;
-    maksdato: string;
-    utbetalingsreferanse: string;
-    utbetalingslinjer?: Utbetalingslinje[];
-}
-
-export interface Utbetalingsvedtak {
-    aktørId: string;
-    maksdato: string;
-    vedtaksperiodeId: string;
-    utbetalingsreferanse: string;
-    organisasjonsnummer: string;
-    fødselsnummer: string;
-    saksbehandler?: string;
-    utbetalingslinjer?: Utbetalingslinje[];
-    erUtvidelse: boolean;
-    [key: string]: any;
-}
-
 export interface Error {
     message: string;
     statusCode?: number;
