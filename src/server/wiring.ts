@@ -6,6 +6,7 @@ import instrumentationModule from './instrumentation';
 import stsClient from './auth/stsClient';
 import devStsClient from './auth/devStsClient';
 import onBehalfOf from './auth/onBehalfOf';
+import devOnBehalfOf from './auth/devOnBehalfOf';
 import sparkelClient from './adapters/sparkelClient';
 import devSparkelClient from './adapters/devSparkelClient';
 import spleisClient from './person/spleisClient';
@@ -22,11 +23,9 @@ import { Express } from 'express';
 import { RedisClient } from 'redis';
 
 const getDependencies = (app: Express) =>
-    process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
+    process.env.NODE_ENV === 'development' ? getDevDependencies() : getProdDependencies(app);
 
-const getDevDependencies = (app: Express) => {
-    const instrumentation = instrumentationModule.setup(app);
-    const _onBehalfOf = onBehalfOf.factory(config.oidc, instrumentation);
+const getDevDependencies = () => {
     return {
         person: {
             spleisClient: devSpleisClient,
@@ -34,7 +33,7 @@ const getDevDependencies = (app: Express) => {
             aktørIdLookup: devAktørIdLookup,
             spadeClient: devSpadeClient,
             stsClient: devStsClient,
-            onBehalfOf: _onBehalfOf,
+            onBehalfOf: devOnBehalfOf,
             cache: devRedisClient,
             config
         },
@@ -47,7 +46,7 @@ const getProdDependencies = (app: Express) => {
     const _redisClient: RedisClient = redisClient.init(config.redis);
     aktørIdLookup.init(stsClient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
-    const _onBehalfOf = onBehalfOf.factory(config.oidc, instrumentation);
+    const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     return {

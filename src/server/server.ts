@@ -44,27 +44,29 @@ azure
 stsclient.init(config.nav);
 
 // Unprotected routes
-app.get('/isAlive', (req, res) => res.send('alive'));
-app.get('/isReady', (req, res) => res.send('ready'));
+app.get('/isAlive', (_, res) => res.send('alive'));
+app.get('/isReady', (_, res) => res.send('ready'));
 
 const setUpAuthentication = () => {
     app.get('/login', (req: Request, res: Response) => {
-        req.session!.nonce = generators.nonce();
-        req.session!.state = generators.state();
+        const session = req.session!;
+        session.nonce = generators.nonce();
+        session.state = generators.state();
         const url = azureClient!.authorizationUrl({
             scope: config.oidc.scope,
             redirect_uri: auth.redirectUrl(req, config.oidc),
             response_type: config.oidc.responseType[0],
             prompt: 'select_account',
             response_mode: 'form_post',
-            nonce: req.session!.nonce,
-            state: req.session!.state
+            nonce: session.nonce,
+            state: session.state
         });
         res.redirect(url);
     });
 
     app.use(bodyParser.urlencoded({ extended: false }));
     app.post('/callback', (req, res) => {
+        const session = req.session!;
         auth.validateOidcCallback(req, azureClient!, config.oidc)
             .then((tokens: string[]) => {
                 const [accessToken, idToken] = tokens;
@@ -72,13 +74,13 @@ const setUpAuthentication = () => {
                     secure: true,
                     sameSite: true
                 });
-                req.session!.speilToken = accessToken;
-                req.session!.user = auth.valueFromClaim('NAVident', idToken);
+                session.speilToken = accessToken;
+                session.user = auth.valueFromClaim('NAVident', idToken);
                 res.redirect(303, '/');
             })
             .catch((err: Error) => {
                 logger.error(err.message, err);
-                req.session!.destroy(() => {});
+                session.destroy(() => {});
                 res.sendStatus(403);
             });
     });
