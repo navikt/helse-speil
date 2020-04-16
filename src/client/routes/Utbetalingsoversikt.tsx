@@ -36,6 +36,9 @@ const status = (dag: Utbetalingsdag, maksdato?: Dayjs): Dagstatus | undefined =>
 const feilmelding = (dag: Utbetalingsdag, maksdato?: Dayjs) =>
     maksdato && dag.dato.isSame(maksdato, 'day') ? 'Siste utbetalingsdag for sykepenger' : undefined;
 
+const gradering = (dag: Utbetalingsdag): number | undefined =>
+    (dag.type !== Dagtype.Helg && dag.type !== Dagtype.Ferie && dag.gradering) || undefined;
+
 const Utbetalingsoversikt = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const { maksdato } = useMaksdato();
@@ -57,7 +60,7 @@ const Utbetalingsoversikt = () => {
         return {
             dato: dag.dato.format(NORSK_DATOFORMAT),
             type: dag.type,
-            gradering: dag.gradering,
+            gradering: gradering(dag),
             utbetaling: dag.utbetaling,
             status: status(dag, maksdato),
             feilmelding: feilmelding(dag, maksdato)
