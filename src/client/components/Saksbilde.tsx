@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { Route } from 'react-router-dom';
 import Vilkår from '../routes/Vilkår';
-import PersonBar from './PersonBar';
 import Tidslinje from './Tidslinje';
 import Høyremeny from './Høyremeny';
 import Sakslinje from './Sakslinje';
+import Personlinje from './Personlinje';
 import Venstremeny from './Venstremeny';
 import Oppsummering from '../routes/Oppsummering';
 import EmptyStateView from './EmptyStateView';
@@ -32,7 +32,7 @@ const Hovedinnhold = styled.div`
 
 const TomtSaksbilde = () => (
     <>
-        <PersonBar />
+        <Personlinje />
         <Tidslinje />
         <Sakslinje />
         <Container>
@@ -51,7 +51,7 @@ const Saksbilde = () => {
 
     return (
         <>
-            <PersonBar />
+            <Personlinje />
             <Tidslinje />
             <LoggProvider>
                 <Sakslinje />
