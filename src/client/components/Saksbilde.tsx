@@ -16,7 +16,7 @@ import Utbetalingsoversikt from '../routes/Utbetalingsoversikt';
 import LoggProvider from '../context/LoggProvider';
 import { PersonContext } from '../context/PersonContext';
 import { Location, useNavigation } from '../hooks/useNavigation';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
+import Toppvarsler from './Toppvarsler';
 
 const Container = styled.div`
     display: flex;
@@ -47,11 +47,7 @@ const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
-    if (!personTilBehandling || !aktivVedtaksperiode) return TomtSaksbilde;
-
-    const { vilkår, aktivitetslog } = aktivVedtaksperiode;
-
-    const alleVilkårOppfylt = () => vilkår === undefined || Object.values(vilkår).find(v => !v?.oppfylt) === undefined;
+    if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde />;
 
     return (
         <>
@@ -62,15 +58,7 @@ const Saksbilde = () => {
                 <Container>
                     <Venstremeny />
                     <Hovedinnhold>
-                        {!alleVilkårOppfylt() && (
-                            <Varsel type={Varseltype.Feil}>Vilkår er ikke oppfylt i deler av perioden</Varsel>
-                        )}
-                        {aktivitetslog.length > 0 &&
-                            aktivitetslog.map((aktivitet, index) => (
-                                <Varsel type={Varseltype.Advarsel} key={index}>
-                                    {aktivitet.melding}
-                                </Varsel>
-                            ))}
+                        <Toppvarsler />
                         <Route
                             path={`${toString(Location.Sykmeldingsperiode)}/:aktoerId`}
                             component={Sykmeldingsperiode}
