@@ -1,6 +1,6 @@
 import React from 'react';
 import Oversikt from '../routes/Oversikt';
-import HeaderBar from './HeaderBar';
+import Header from './Header';
 import Saksbilde from './Saksbilde';
 import { hot } from 'react-hot-loader';
 import { AuthProvider } from '../context/AuthContext';
@@ -20,7 +20,7 @@ const App = withContextProviders(() => {
 
     return (
         <BrowserRouter>
-            <HeaderBar />
+            <Header />
             <Switch>
                 <Route path={'/uautorisert'} component={IkkeLoggetInn} />
                 <ProtectedRoute path={'/'} exact component={Oversikt} />

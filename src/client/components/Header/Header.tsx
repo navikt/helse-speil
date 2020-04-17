@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import { HeaderEnkel as Header, Søk } from '@navikt/helse-frontend-header';
 import styled from '@emotion/styled';
+import { AuthContext } from '../../context/AuthContext';
 import { PersonContext } from '../../context/PersonContext';
+import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
 import { useNavigateAfterSearch } from './useNavigateAfterSearch';
 
 const Container = styled.div`
@@ -15,7 +15,7 @@ const Container = styled.div`
     }
 `;
 
-const HeaderBar = () => {
+const Header = () => {
     const { authInfo } = useContext(AuthContext);
     const { hentPerson } = useContext(PersonContext);
     const { setShouldNavigate } = useNavigateAfterSearch();
@@ -31,11 +31,11 @@ const HeaderBar = () => {
 
     return (
         <Container>
-            <Header tittel="NAV Sykepenger" brukerinfo={brukerinfo}>
+            <HeaderEnkel tittel="NAV Sykepenger" brukerinfo={brukerinfo}>
                 <Søk onSøk={onSøk} />
-            </Header>
+            </HeaderEnkel>
         </Container>
     );
 };
 
-export default HeaderBar;
+export default Header;
