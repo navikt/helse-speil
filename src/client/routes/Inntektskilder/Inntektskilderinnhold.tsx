@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import Kildelenke from '../../components/Kildelenke';
 import { toKronerOgØre } from '../../utils/locale';
-import Ikonrad from '../../components/IconRow/Ikonrad';
+import Ikonrad from '../../components/Ikonrad';
 import { Inntektskilde } from '../../context/types';
 import styled from '@emotion/styled';
 import Grid from '../../components/Grid';

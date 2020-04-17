@@ -1,6 +1,6 @@
 import React from 'react';
-import Sjekkikon from '../Ikon/Sjekkikon';
-import Advarselikon from '../Ikon/Advarselikon';
+import Sjekkikon from './Ikon/Sjekkikon';
+import Advarselikon from './Ikon/Advarselikon';
 import styled from '@emotion/styled';
 import { Normaltekst } from 'nav-frontend-typografi';
 
