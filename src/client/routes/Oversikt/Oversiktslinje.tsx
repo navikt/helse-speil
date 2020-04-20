@@ -30,6 +30,7 @@ const Tildelingsalternativ = styled(AlternativerKnapp)`
 `;
 
 const MeldAvKnapp = styled.button`
+    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     padding: 1rem;
     cursor: pointer;
     background: none;

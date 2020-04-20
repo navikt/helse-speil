@@ -1,7 +1,8 @@
 import React, { ReactNode, useRef, useState } from 'react';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
-import { useClickOutside } from '../hooks/onClickOutside';
+import { useClickOutside } from '../hooks/useClickOutside';
+import { useFocusOutside } from '../hooks/useFocusOutside';
 
 interface AlternativerKnappProps {
     onClick?: (event: React.MouseEvent) => void;
@@ -47,7 +48,14 @@ const Alternativer = styled.ul`
 
 const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappProps) => {
     const [ekspandert, setEkspandert] = useState(false);
+    const containerRef = useRef<HTMLSpanElement>(null);
     const knappRef = useRef<HTMLButtonElement>(null);
+
+    useFocusOutside({
+        ref: containerRef,
+        active: ekspandert,
+        onFocusOutside: () => setEkspandert(e => !e)
+    });
 
     useClickOutside({
         ref: knappRef,
@@ -61,7 +69,7 @@ const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappPr
     };
 
     return (
-        <Container>
+        <Container ref={containerRef}>
             <Knapp ref={knappRef} onClick={onClickWrapper} className={classNames(className)}>
                 <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20">
                     <path d="M0 0h24v24H0z" fill="none" />
