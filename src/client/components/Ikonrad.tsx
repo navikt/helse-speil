@@ -20,13 +20,11 @@ const Rad = styled.li`
     }
 `;
 
-const Ikonrad = ({ tekst, ikontype }: IkonradProps) => {
-    return (
-        <Rad>
-            {ikontype === 'ok' ? <Sjekkikon /> : <Advarselikon />}
-            <Normaltekst>{tekst}</Normaltekst>
-        </Rad>
-    );
-};
+const Ikonrad = ({ tekst, ikontype }: IkonradProps) => (
+    <Rad>
+        {ikontype === 'ok' ? <Sjekkikon /> : <Advarselikon />}
+        <Normaltekst>{tekst}</Normaltekst>
+    </Rad>
+);
 
 export default Ikonrad;

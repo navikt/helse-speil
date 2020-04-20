@@ -7,7 +7,7 @@ import { AuthProvider } from '../context/AuthContext';
 import { useLogUserOut } from '../hooks/useLogUserOut';
 import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
-import { BehovoversiktProvider } from '../context/SaksoversiktContext';
+import { BehovProvider } from '../context/BehovContext';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonProvider } from '../context/PersonContext';
 import 'reset-css';
@@ -28,6 +28,6 @@ const App = withContextProviders(() => {
             </Switch>
         </BrowserRouter>
     );
-}, [BehovoversiktProvider, PersonProvider, AuthProvider, TildelingerProvider]);
+}, [BehovProvider, PersonProvider, AuthProvider, TildelingerProvider]);
 
 export default hot(module)(App);

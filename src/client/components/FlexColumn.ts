@@ -5,8 +5,4 @@ export const FlexColumn = styled.div`
     flex-direction: column;
     flex-wrap: wrap;
     align-content: start;
-
-    &:not(:last-child) {
-        margin-right: 6rem;
-    }
 `;

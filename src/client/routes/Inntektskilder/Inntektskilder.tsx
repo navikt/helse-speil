@@ -30,25 +30,21 @@ const Inntektskilder = () => {
         ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
 
-    const { inntektskilder } = aktivVedtaksperiode;
-
     return (
-        <>
-            <Inntektskilderpanel>
-                {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
-                    <Inntektskilderinnhold inntektskilder={inntektskilder} />
-                ) : (
-                    <StyledBehandletInnhold
-                        tittel={`Inntekt vurdert første sykdomsdag - ${førsteFraværsdag}`}
-                        saksbehandler={førsteVedtaksperiode?.godkjentAv!}
-                        vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
-                    >
-                        <Inntektskilderinnhold inntektskilder={inntektskilder} />
-                    </StyledBehandletInnhold>
-                )}
-                <NavigationButtons />
-            </Inntektskilderpanel>
-        </>
+        <Inntektskilderpanel>
+            {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
+                <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
+            ) : (
+                <StyledBehandletInnhold
+                    tittel={`Inntekt vurdert første sykdomsdag - ${førsteFraværsdag}`}
+                    saksbehandler={førsteVedtaksperiode?.godkjentAv!}
+                    vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
+                >
+                    <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
+                </StyledBehandletInnhold>
+            )}
+            <NavigationButtons />
+        </Inntektskilderpanel>
     );
 };
 

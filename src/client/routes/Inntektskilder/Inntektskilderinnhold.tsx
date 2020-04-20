@@ -11,7 +11,7 @@ import { FlexColumn } from '../../components/FlexColumn';
 import Arbeidsgiverikon from '../../components/Ikon/Arbeidsgiverikon';
 import { Kildetype } from '../../components/Kildelenke/Kildelenke';
 
-interface InntektskilderinnholdProps {
+export interface InntektskilderinnholdProps {
     inntektskilder: Inntektskilde[];
 }
 
@@ -58,6 +58,7 @@ const Liste = styled.ul`
 
 const Innhold = styled(Grid)`
     margin-top: 2rem;
+    grid-column-gap: 6rem;
 `;
 
 const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) => {

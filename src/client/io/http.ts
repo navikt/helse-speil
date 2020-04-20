@@ -67,7 +67,7 @@ export const fetchPerson = async (personId?: string, innsyn?: boolean) => {
     });
 };
 
-export const fetchBehovoversikt = async () => {
+export const fetchBehov = async () => {
     return get(`${baseUrl}/person/`);
 };
 

@@ -3,7 +3,7 @@ import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import React, { useContext, useState } from 'react';
 import { postVedtak } from '../../io/http';
-import { SaksoversiktContext } from '../../context/SaksoversiktContext';
+import { BehovContext } from '../../context/BehovContext';
 import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import './Utbetaling.less';
@@ -29,7 +29,7 @@ const Utbetalingstittel = styled(Undertittel)`
 `;
 
 const Utbetaling = ({ className }: UtbetalingProps) => {
-    const { behovoversikt } = useContext(SaksoversiktContext);
+    const { behov } = useContext(BehovContext);
     const { personTilBehandling, innsyn, aktivVedtaksperiode } = useContext(PersonContext);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
@@ -40,9 +40,13 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
 
     const fattVedtak = (godkjent: boolean) => {
         // TODO: Sjekk at denne oppfører seg riktig. Fatter vedtak på første behov/vedtaksperiode.
+<<<<<<< HEAD
         const behovId = behovoversikt.find(
             (behov: Oppgave) => behov.fødselsnummer === personTilBehandling?.fødselsnummer
         )?.spleisbehovId;
+=======
+        const behovId = behov.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
+>>>>>>> Saksoversiktcontext -> BehovContext
         const vedtaksperiodeId = aktivVedtaksperiode?.id;
         setIsSending(true);
         postVedtak(behovId, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)

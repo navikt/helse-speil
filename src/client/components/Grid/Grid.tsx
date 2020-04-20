@@ -16,12 +16,10 @@ const GridContainer = styled.div`
     grid-template-columns: repeat(${(props: GridContainerProps) => props.kolonner}, auto);
 `;
 
-const Grid = ({ children, className = 'Grid', kolonner = 1 }: GridProps) => {
-    return (
-        <GridContainer kolonner={kolonner} className={className}>
-            {children}
-        </GridContainer>
-    );
-};
+const Grid = ({ children, className = 'Grid', kolonner = 1 }: GridProps) => (
+    <GridContainer kolonner={kolonner} className={className}>
+        {children}
+    </GridContainer>
+);
 
 export default Grid;
