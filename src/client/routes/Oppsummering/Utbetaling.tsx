@@ -40,13 +40,8 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
 
     const fattVedtak = (godkjent: boolean) => {
         // TODO: Sjekk at denne oppfører seg riktig. Fatter vedtak på første behov/vedtaksperiode.
-<<<<<<< HEAD
-        const behovId = behovoversikt.find(
-            (behov: Oppgave) => behov.fødselsnummer === personTilBehandling?.fødselsnummer
-        )?.spleisbehovId;
-=======
-        const behovId = behov.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
->>>>>>> Saksoversiktcontext -> BehovContext
+        const behovId = behov.find((behov: Oppgave) => behov.fødselsnummer === personTilBehandling?.fødselsnummer)
+            ?.spleisbehovId;
         const vedtaksperiodeId = aktivVedtaksperiode?.id;
         setIsSending(true);
         postVedtak(behovId, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)
