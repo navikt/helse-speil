@@ -13,7 +13,7 @@ export interface SpesialistClient {
 export const spesialistClient: SpesialistClient = {
     behandlingerForPeriode: (fom, tom, accessToken) => {
         const options = {
-            uri: `http://spesialist/api/oppgaver`,
+            uri: `http://spesialist.default.svc.nais.local/api/oppgaver`,
             headers: {
                 Authorization: `Bearer ${accessToken}`
             },
