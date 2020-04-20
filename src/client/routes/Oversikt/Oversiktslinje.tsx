@@ -29,10 +29,14 @@ const Tildelingsalternativ = styled(AlternativerKnapp)`
     margin-left: 0.5rem;
 `;
 
-const MeldAvKnapp = styled.li`
+const MeldAvKnapp = styled.button`
     padding: 1rem;
     cursor: pointer;
+    background: none;
+    border: none;
     border-radius: 0.25rem;
+    outline: none;
+    font-size: 1rem;
 
     &:hover,
     &:focus {
@@ -43,45 +47,34 @@ const MeldAvKnapp = styled.li`
 const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
     const { authInfo } = useContext(AuthContext);
 
-    const formaterNavn = () => {
-        if (oppgave.navn.mellomnavn) {
-            return `${oppgave.navn.fornavn} ${oppgave.navn.mellomnavn} ${oppgave.navn.etternavn}`;
-        } else {
-            return `${oppgave.navn.fornavn} ${oppgave.navn.etternavn}`;
-        }
-    };
+    const formatertNavn = `${oppgave.navn.fornavn} ${oppgave.navn.mellomnavn || ''} ${oppgave.navn.etternavn}`;
 
-    const tildelingsCelle = tildeling ? (
-        tildeling.userId ? (
-            <FlexContainer>
-                <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
-                {tildeling.userId === authInfo.email && (
-                    <Tildelingsalternativ>
-                        <MeldAvKnapp onClick={() => onUnassignCase(oppgave.spleisbehovId)}>Meld av</MeldAvKnapp>
-                    </Tildelingsalternativ>
-                    // <Avmeldingsknapp mini onClick={() => onUnassignCase(behov['@id'])}>
-                    //     Meld av
-                    // </Avmeldingsknapp>
-                )}
-            </FlexContainer>
-        ) : (
-            <Knapp mini onClick={() => onAssignCase(oppgave.spleisbehovId, authInfo.email)}>
-                Tildel til meg
-            </Knapp>
-        )
+    const tildelingsCelle = tildeling?.userId ? (
+        <FlexContainer>
+            <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
+            {tildeling.userId === authInfo.email && (
+                <Tildelingsalternativ>
+                    <MeldAvKnapp tabIndex={0} onClick={() => onUnassignCase(oppgave.spleisbehovId)}>
+                        Meld av
+                    </MeldAvKnapp>
+                </Tildelingsalternativ>
+            )}
+        </FlexContainer>
     ) : (
-        <Normaltekst>Henter informasjon..</Normaltekst>
+        <Knapp mini onClick={() => onAssignCase(oppgave.spleisbehovId, authInfo.email)}>
+            Tildel til meg
+        </Knapp>
     );
 
     return (
         <Row>
             <Cell>
-                <OversiktsLenke onClick={() => onSelectCase(oppgave)}>{formaterNavn()}</OversiktsLenke>
+                <OversiktsLenke onClick={() => onSelectCase(oppgave)}>{formatertNavn}</OversiktsLenke>
             </Cell>
             <Cell>
                 <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
             </Cell>
-            <Cell>{tildelingsCelle}</Cell>
+            <Cell>{tildeling ? tildelingsCelle : <Normaltekst>Henter informasjon..</Normaltekst>}</Cell>
         </Row>
     );
 };

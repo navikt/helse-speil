@@ -4,7 +4,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Panel } from 'nav-frontend-paneler';
 import { TildelingerContext } from '../../context/TildelingerContext';
 import { BehovContext } from '../../context/BehovContext';
-import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
+import { Undertekst, Undertittel } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
 import { useInterval } from '../../hooks/useInterval';
 import { Person } from '../../context/types';
@@ -28,11 +28,6 @@ const SorterPil = styled.span`
 `;
 
 const TWO_MINUTES = 120000;
-
-enum SortDirection {
-    DESC,
-    ASC
-}
 
 const ascending = (a: Oppgave, b: Oppgave) => (dayjs(a['oppdatert']).isBefore(b['oppdatert']) ? -1 : 1);
 const descending = (a: Oppgave, b: Oppgave) => (dayjs(a['oppdatert']).isBefore(b['oppdatert']) ? 1 : -1);

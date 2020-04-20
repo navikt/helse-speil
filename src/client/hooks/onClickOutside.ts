@@ -11,7 +11,7 @@ export const useClickOutside = ({ ref, active, onClickOutside }: UseClickOutside
         const onClickWrapper = (event: MouseEvent) => {
             if (active && !ref.current?.contains(event.target as HTMLElement)) onClickOutside();
         };
-        document.addEventListener('mousedown', onClickWrapper);
-        return () => document.removeEventListener('mousedown', onClickWrapper);
+        document.addEventListener('click', onClickWrapper);
+        return () => document.removeEventListener('click', onClickWrapper);
     }, [ref.current, active]);
 };
