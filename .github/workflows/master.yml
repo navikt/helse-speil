@@ -60,12 +60,12 @@ jobs:
           RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis.yml
           WAIT: false
           VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"
-      - name: deploy to prod
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: prod-fss
-          ENVIRONMENT: prod-fss
-          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis.yml
-          WAIT: false
-          VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"
+#      - name: deploy to prod
+#        uses: nais/deploy/actions/deploy@v1
+#        env:
+#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+#          CLUSTER: prod-fss
+#          ENVIRONMENT: prod-fss
+#          RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis.yml
+#          WAIT: false
+#          VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"

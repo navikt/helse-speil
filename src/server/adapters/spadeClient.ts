@@ -1,9 +1,9 @@
 import request from 'request-promise-native';
-import { Behov } from '../../types';
+import { Oppgave } from '../../types';
 
 export interface SpadeResponse {
     statusCode: number;
-    body: Behov;
+    body: Oppgave;
 }
 
 export interface SpadeClient {

@@ -12,7 +12,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { useInterval } from '../../hooks/useInterval';
 import { Person } from '../../context/types';
 import { useTranslation } from 'react-i18next';
-import { Behov } from '../../../types';
+import { Oppgave } from '../../../types';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import dayjs from 'dayjs';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
@@ -31,7 +31,7 @@ enum SortDirection {
 }
 
 const Oversikt = () => {
-    const [behovsliste, setBehovsliste] = useState<Behov[]>([]);
+    const [behovsliste, setBehovsliste] = useState<Oppgave[]>([]);
     const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.ASC);
 
     const { navigateTo } = useNavigation();
@@ -59,14 +59,14 @@ const Oversikt = () => {
     const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(behovoversikt), [behovoversikt]);
     useInterval({ callback: intervalledFetchTildelinger, interval: TWO_MINUTES });
 
-    const velgBehovAndNavigate = (behov: Behov) => {
-        hentPerson(behov.aktørId).then((person: Person) => {
+    const velgBehovAndNavigate = (behov: Oppgave) => {
+        hentPerson(behov.fødselsnummer).then((person: Person) => {
             navigateTo(Location.Sykmeldingsperiode, person);
         });
     };
 
-    const sorter = (liste: Behov[]) => {
-        return [...liste].sort((a, b) => (dayjs(a['@opprettet']).isBefore(b['@opprettet']) ? -1 : 1));
+    const sorter = (liste: Oppgave[]) => {
+        return [...liste].sort((a, b) => (dayjs(a['oppdatert']).isBefore(b['oppdatert']) ? -1 : 1));
     };
 
     const sorterBehov = () => {
@@ -108,16 +108,16 @@ const Oversikt = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {behovsliste.map((behov: Behov) => {
-                                const tildeling = tildelinger.find(t => t.behovId === behov['@id']);
+                            {behovsliste.map((behov: Oppgave) => {
+                                const tildeling = tildelinger.find(t => t.behovId === behov.spleisbehovId);
                                 return (
                                     <Oversiktslinje
-                                        behov={behov}
+                                        oppgave={behov}
                                         tildeling={tildeling}
                                         onAssignCase={tildelBehandling}
                                         onUnassignCase={fjernTildeling}
                                         onSelectCase={velgBehovAndNavigate}
-                                        key={behov['@id']}
+                                        key={behov.spleisbehovId}
                                     />
                                 );
                             })}

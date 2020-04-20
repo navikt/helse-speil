@@ -2,12 +2,12 @@ import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { deleteTildeling, getTildelinger, postTildeling } from '../io/http';
 import { ProviderProps, Tildeling } from './types';
-import { Behov } from '../../types';
+import { Oppgave } from '../../types';
 
 interface TildelingerContextType {
     tildelinger: Tildeling[];
     tildelBehandling: (behovId: string, userId: string) => void;
-    fetchTildelinger: (saksoversikt: Behov[]) => void;
+    fetchTildelinger: (saksoversikt: Oppgave[]) => void;
     fjernTildeling: (behovId: string) => void;
     tildelingError?: string;
 }
@@ -41,9 +41,9 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             });
     };
 
-    const fetchTildelinger = (saksoversikt: Behov[]) => {
+    const fetchTildelinger = (saksoversikt: Oppgave[]) => {
         if (saksoversikt.length > 0) {
-            const behovIds = saksoversikt.map(b => b['@id']);
+            const behovIds = saksoversikt.map(b => b.spleisbehovId);
 
             let limit = 500;
             let i = 0,

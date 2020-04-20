@@ -1,48 +1,45 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import OversiktsLenke from './OversiktsLenke';
 import { AuthContext } from '../../context/AuthContext';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { Tildeling } from '../../context/types';
-import { Behov } from '../../../types';
+import { Oppgave } from '../../../types';
 import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import { getPersoninfo } from '../../io/http';
 
 interface Props {
-    behov: Behov;
+    oppgave: Oppgave;
     onUnassignCase: (id: string) => void;
     onAssignCase: (id: string, email?: string) => void;
-    onSelectCase: (behov: Behov) => void;
+    onSelectCase: (oppgave: Oppgave) => void;
     tildeling?: Tildeling;
 }
 
-const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
+const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
     const { authInfo } = useContext(AuthContext);
-    const [søkernavn, setSøkernavn] = useState(behov.aktørId);
-    const [fetchFailedText, setFetchFailedText] = useState<string>();
 
-    useEffect(() => {
-        getPersoninfo(behov.aktørId)
-            .then(personinfo => {
-                setSøkernavn(personinfo.data?.navn);
-            })
-            .catch(() => setFetchFailedText('(Kunne ikke hente navn)'));
-    }, [behov.aktørId]);
+    const formaterNavn = () => {
+        if (oppgave.navn.mellomnavn) {
+            return `${oppgave.navn.fornavn} ${oppgave.navn.mellomnavn} ${oppgave.navn.etternavn}`;
+        } else {
+            return `${oppgave.navn.fornavn} ${oppgave.navn.etternavn}`;
+        }
+    };
 
     const tildelingsCelle = tildeling ? (
         tildeling.userId ? (
             <>
                 <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
                 {tildeling.userId === authInfo.email && (
-                    <Flatknapp className="knapp--avmeld" onClick={() => onUnassignCase(behov['@id'])}>
+                    <Flatknapp className="knapp--avmeld" onClick={() => onUnassignCase(oppgave.spleisbehovId)}>
                         Meld av
                     </Flatknapp>
                 )}
             </>
         ) : (
-            <Knapp mini onClick={() => onAssignCase(behov['@id'], authInfo.email)}>
+            <Knapp mini onClick={() => onAssignCase(oppgave.spleisbehovId, authInfo.email)}>
                 Tildel til meg
             </Knapp>
         )
@@ -54,11 +51,11 @@ const Oversiktslinje = ({ behov, tildeling, onUnassignCase, onAssignCase, onSele
         <tr className="row row--info">
             <td>
                 <span>
-                    <OversiktsLenke onClick={() => onSelectCase(behov)}>{søkernavn}</OversiktsLenke> {fetchFailedText}
+                    <OversiktsLenke onClick={() => onSelectCase(oppgave)}>{formaterNavn()}</OversiktsLenke>
                 </span>
             </td>
             <td>
-                <Normaltekst>{`${somDato(behov['@opprettet']).format(NORSK_DATOFORMAT)}`}</Normaltekst>
+                <Normaltekst>{`${somDato(oppgave['oppdatert']).format(NORSK_DATOFORMAT)}`}</Normaltekst>
             </td>
             <td>
                 <span className="row__tildeling">{tildelingsCelle}</span>

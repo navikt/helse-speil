@@ -12,14 +12,18 @@ export interface Personinfo {
     fnr?: string;
 }
 
-export interface Behov {
-    '@behov': string;
-    '@id': string;
-    '@opprettet': string;
-    aktørId: string;
-    organisasjonsnummer: string;
+export interface PersonNavn {
+    fornavn: string;
+    mellomnavn: string | null;
+    etternavn: string;
+}
+
+export interface Oppgave {
+    spleisbehovId: string;
+    oppdatert: string;
+    fødselsnummer: string;
     vedtaksperiodeId: string;
-    personinfo?: Personinfo | null;
+    navn: PersonNavn;
 }
 
 export type Utbetalingslinje = {

@@ -1,0 +1,32 @@
+[
+    {
+        "spleisbehovId": "ea5d644b-0000-9999-0000-f93744554d5e",
+        "oppdatert": "2018-02-27T08:38:00.728127",
+        "fødselsnummer": "1000000009871",
+        "navn": {
+            "fornavn": "Kong",
+            "etternavn": "Harald"
+        },
+        "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87"
+    },
+    {
+        "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5f",
+        "oppdatert": "2018-02-10T08:38:00.728127",
+        "fødselsnummer": "87654321962123",
+        "navn": {
+            "fornavn": "Dronning",
+            "etternavn": "Sonja"
+        },
+        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171"
+    },
+    {
+        "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5g",
+        "oppdatert": "2018-02-10T09:38:00.728127",
+        "fødselsnummer": "87654321962124",
+        "navn": {
+            "fornavn": "Kronprins",
+            "etternavn": "Håkon"
+        },
+        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172"
+    }
+]

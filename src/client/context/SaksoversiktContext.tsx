@@ -2,7 +2,7 @@ import React, { createContext, ReactChild, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { fetchBehovoversikt } from '../io/http';
-import { Behov } from '../../types';
+import { Oppgave } from '../../types';
 
 interface Error {
     message: string;
@@ -14,7 +14,7 @@ interface ProviderProps {
 }
 
 interface BehovoversiktContextType {
-    behovoversikt: Behov[];
+    behovoversikt: Oppgave[];
     hentBehovoversikt: () => void;
     isFetchingBehovoversikt: boolean;
 }
@@ -27,11 +27,11 @@ export const SaksoversiktContext = createContext<BehovoversiktContextType>({
 
 export const BehovoversiktProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<Error | undefined>(undefined);
-    const [behovoversikt, setBehovoversikt] = useState<Behov[]>([]);
+    const [behovoversikt, setBehovoversikt] = useState<Oppgave[]>([]);
     const [isFetchingBehovoversikt, setIsFetchingBehovoversikt] = useState(false);
 
     const hentBehovoversikt = async () => {
-        const oversikt: Behov[] = await hentBehov();
+        const oversikt: Oppgave[] = await hentBehov();
         setBehovoversikt(oversikt);
     };
 

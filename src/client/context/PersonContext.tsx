@@ -33,7 +33,7 @@ export const PersonContext = createContext<PersonContextType>({
 
 export const PersonProvider = ({ children }: ProviderProps) => {
     const [personTilBehandling, setPersonTilBehandling] = useState<Person>();
-    const [aktørIdFromUrl, setAktørIdFromUrl] = useState<string | undefined>();
+    const [personIdentFraUrl, setPersonIdentFraUrl] = useState<string | undefined>();
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
     const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
@@ -47,17 +47,17 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     }, [personTilBehandling]);
 
     useEffect(() => {
-        const aktørId = /\d{12,15}$/.exec(window.location.pathname);
-        if (!aktørIdFromUrl && aktørId) {
-            setAktørIdFromUrl(aktørId[0]);
+        const personIdent = /\/(\d{11,15})$/.exec(window.location.pathname);
+        if (!personIdentFraUrl && personIdent) {
+            setPersonIdentFraUrl(personIdent[1]);
         }
     }, []);
 
     useEffect(() => {
-        if (aktørIdFromUrl && !personTilBehandling) {
-            hentPerson(aktørIdFromUrl);
+        if (personIdentFraUrl && !personTilBehandling) {
+            hentPerson(personIdentFraUrl);
         }
-    }, [aktørIdFromUrl, personTilBehandling]);
+    }, [personIdentFraUrl, personTilBehandling]);
 
     const hentPerson = (value: string) => {
         const innsyn = value.length === 26;

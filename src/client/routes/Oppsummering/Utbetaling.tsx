@@ -8,7 +8,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
-import { Behov, Error } from '../../../types';
+import { Oppgave, Error } from '../../../types';
 import { useTranslation } from 'react-i18next';
 import StatusUtbetalt from './StatusUtbetalt';
 import classNames from 'classnames';
@@ -40,7 +40,9 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
 
     const fattVedtak = (godkjent: boolean) => {
         // TODO: Sjekk at denne oppfører seg riktig. Fatter vedtak på første behov/vedtaksperiode.
-        const behovId = behovoversikt.find((behov: Behov) => behov.aktørId === personTilBehandling?.aktørId)?.['@id'];
+        const behovId = behovoversikt.find(
+            (behov: Oppgave) => behov.fødselsnummer === personTilBehandling?.fødselsnummer
+        )?.spleisbehovId;
         const vedtaksperiodeId = aktivVedtaksperiode?.id;
         setIsSending(true);
         postVedtak(behovId, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)

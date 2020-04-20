@@ -60,20 +60,23 @@ const Saksbilde = () => {
                     <Hovedinnhold>
                         <Toppvarsler />
                         <Route
-                            path={`${toString(Location.Sykmeldingsperiode)}/:aktoerId`}
+                            path={`${toString(Location.Sykmeldingsperiode)}/:fodselsnummer`}
                             component={Sykmeldingsperiode}
                         />
-                        <Route path={`${toString(Location.Vilkår)}/:aktoerId`} component={() => <Vilkår />} />
-                        <Route path={`${toString(Location.Inntektskilder)}/:aktoerId`} component={Inntektskilder} />
+                        <Route path={`${toString(Location.Vilkår)}/:fodselsnummer`} component={() => <Vilkår />} />
                         <Route
-                            path={`${toString(Location.Sykepengegrunnlag)}/:aktoerId`}
+                            path={`${toString(Location.Inntektskilder)}/:fodselsnummer`}
+                            component={Inntektskilder}
+                        />
+                        <Route
+                            path={`${toString(Location.Sykepengegrunnlag)}/:fodselsnummer`}
                             component={Sykepengegrunnlag}
                         />
                         <Route
-                            path={`${toString(Location.Utbetalingsoversikt)}/:aktoerId`}
+                            path={`${toString(Location.Utbetalingsoversikt)}/:fodselsnummer`}
                             component={Utbetalingsoversikt}
                         />
-                        <Route path={`${toString(Location.Oppsummering)}/:aktoerId`} component={Oppsummering} />
+                        <Route path={`${toString(Location.Oppsummering)}/:fodselsnummer`} component={Oppsummering} />
                     </Hovedinnhold>
                     <Høyremeny />
                 </Container>
