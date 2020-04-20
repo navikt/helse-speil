@@ -29,8 +29,8 @@ const SorterPil = styled.span`
 
 const TWO_MINUTES = 120000;
 
-const ascending = (a: Oppgave, b: Oppgave) => (dayjs(a['oppdatert']).isBefore(b['oppdatert']) ? -1 : 1);
-const descending = (a: Oppgave, b: Oppgave) => (dayjs(a['oppdatert']).isBefore(b['oppdatert']) ? 1 : -1);
+const ascending = (a: Oppgave, b: Oppgave) => (dayjs(a.opprettet).isBefore(b.opprettet) ? -1 : 1);
+const descending = (a: Oppgave, b: Oppgave) => (dayjs(a.opprettet).isBefore(b.opprettet) ? 1 : -1);
 
 const Oversikt = () => {
     const { t } = useTranslation();
@@ -93,7 +93,7 @@ const Oversikt = () => {
                         </Row>
                     </thead>
                     <tbody>
-                        {behov.sort(ascending).map((oppgave: Oppgave) => {
+                        {behov.sort(sortDirection).map((oppgave: Oppgave) => {
                             const tildeling = tildelinger.find(t => t.behovId === oppgave.spleisbehovId);
                             return (
                                 <Oversiktslinje
