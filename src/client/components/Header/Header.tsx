@@ -16,10 +16,9 @@ const Container = styled.div`
 `;
 
 const Header = () => {
-    const { authInfo } = useContext(AuthContext);
+    const { name, ident, isLoggedIn } = useContext(AuthContext);
     const { hentPerson } = useContext(PersonContext);
     const { setShouldNavigate } = useNavigateAfterSearch();
-    const { name, ident, isLoggedIn } = authInfo;
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 

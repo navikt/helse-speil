@@ -19,7 +19,7 @@ interface StatusUtbetaltProps {
 const StatusUtbetalt = ({ setTilstand, setError, personTilBehandling, utbetalingsreferanse }: StatusUtbetaltProps) => {
     const [annulleringsmodalOpen, setAnnulleringsmodalOpen] = useState(false);
     const [senderAnnullering, setSenderAnnullering] = useState(false);
-    const { ident } = useContext(AuthContext).authInfo;
+    const { ident } = useContext(AuthContext);
     const { oppdaterPerson } = useContext(PersonContext);
 
     const annuller = () =>

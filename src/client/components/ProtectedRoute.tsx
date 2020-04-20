@@ -6,13 +6,10 @@ import { AuthContext } from '../context/AuthContext';
 import { Redirect, Route, RouteProps } from 'react-router';
 
 const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => {
-    const { authInfo } = useContext(AuthContext);
+    const { isLoggedIn } = useContext(AuthContext);
 
     return (
-        <Route
-            {...rest}
-            render={props => (authInfo.isLoggedIn ? <Component {...props} /> : <Redirect to="/uautorisert" />)}
-        />
+        <Route {...rest} render={props => (isLoggedIn ? <Component {...props} /> : <Redirect to="/uautorisert" />)} />
     );
 };
 

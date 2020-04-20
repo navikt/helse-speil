@@ -10,6 +10,16 @@ export enum CookieKey {
     Email = 'email'
 }
 
+if (process.env.NODE_ENV === 'development') {
+    document.cookie = `speil=dev-cookie.${btoa(
+        JSON.stringify({
+            name: 'Lokal utvikler',
+            NAVident: 'dev-ident',
+            email: 'dev@nav.no'
+        })
+    )}.ignored-part`;
+}
+
 const extractToken = (cookie: string) =>
     cookie
         .split('=')[1]

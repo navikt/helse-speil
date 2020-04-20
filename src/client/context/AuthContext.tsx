@@ -1,25 +1,11 @@
 import React, { createContext, ReactChild, useState } from 'react';
 import { extractValues, Keys } from '../utils/cookie';
 
-if (process.env.NODE_ENV === 'development') {
-    document.cookie = `speil=dev-cookie.${btoa(
-        JSON.stringify({
-            name: 'Lokal utvikler',
-            NAVident: 'dev-ident',
-            email: 'dev@nav.no'
-        })
-    )}.ignored-part`;
-}
-
-interface AuthInfo {
+interface AuthContextType {
     name: string;
     isLoggedIn: boolean;
     email?: string;
     ident?: string;
-}
-
-interface AuthContextType {
-    authInfo: AuthInfo;
     setUserLoggedOut?: () => void;
 }
 
@@ -34,7 +20,7 @@ const notLoggedInUser = {
     isLoggedIn: false
 };
 
-export const AuthContext = createContext<AuthContextType>({ authInfo: notLoggedInUser });
+export const AuthContext = createContext<AuthContextType>({ ...notLoggedInUser });
 
 export const AuthProvider = ({ children }: ProviderProps) => {
     const [authInfo, setAuthInfo] = useState(notLoggedInUser);
@@ -56,7 +42,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
     return (
         <AuthContext.Provider
             value={{
-                authInfo,
+                ...authInfo,
                 setUserLoggedOut
             }}
         >

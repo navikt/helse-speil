@@ -1,6 +1,5 @@
 import React from 'react';
 import { Person, Vedtaksperiode } from '../context/types';
-import { arbeidsgiverForVedtaksperiode } from '../hooks/arbeidsgiverForVedtaksperiode';
 import styled from '@emotion/styled';
 import Sakslinje, { Arbeidsgiver } from '@navikt/helse-frontend-sakslinje';
 import { NORSK_DATOFORMAT } from '../utils/date';
@@ -17,7 +16,9 @@ const Container = styled(Sakslinje)`
 `;
 
 const Vedtaksperiodeinfo = ({ periode, person }: VedtaksperiodeinfoProps) => {
-    const arbeidsgiver = arbeidsgiverForVedtaksperiode(periode, person);
+    const arbeidsgiver = person?.arbeidsgivere.find(arbeidsgiveren =>
+        arbeidsgiveren.vedtaksperioder.find(perioden => perioden.id === periode?.id)
+    );
 
     const tekster = [
         arbeidsgiver?.organisasjonsnummer ?? 'Ukjent arbeidsgiver',

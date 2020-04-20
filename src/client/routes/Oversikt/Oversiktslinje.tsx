@@ -47,14 +47,14 @@ const MeldAvKnapp = styled.button`
 `;
 
 const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
-    const { authInfo } = useContext(AuthContext);
-
-    const formatertNavn = `${oppgave.navn.fornavn} ${oppgave.navn.mellomnavn || ''} ${oppgave.navn.etternavn}`;
+    const { email } = useContext(AuthContext);
+    const { fornavn, mellomnavn, etternavn } = oppgave.navn;
+    const formatertNavn = [fornavn, mellomnavn, etternavn].filter(n => n).join(' ');
 
     const tildelingsCelle = tildeling?.userId ? (
         <FlexContainer>
             <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
-            {tildeling.userId === authInfo.email && (
+            {tildeling.userId === email && (
                 <Tildelingsalternativ>
                     <MeldAvKnapp tabIndex={0} onClick={() => onUnassignCase(oppgave.spleisbehovId)}>
                         Meld av
@@ -63,7 +63,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
             )}
         </FlexContainer>
     ) : (
-        <Knapp mini onClick={() => onAssignCase(oppgave.spleisbehovId, authInfo.email)}>
+        <Knapp mini onClick={() => onAssignCase(oppgave.spleisbehovId, email)}>
             Tildel til meg
         </Knapp>
     );
