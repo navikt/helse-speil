@@ -20,7 +20,7 @@ export interface PersonNavn {
 
 export interface Oppgave {
     spleisbehovId: string;
-    oppdatert: string;
+    opprettet: string;
     fødselsnummer: string;
     vedtaksperiodeId: string;
     navn: PersonNavn;

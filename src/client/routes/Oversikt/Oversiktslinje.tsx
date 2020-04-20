@@ -55,7 +55,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
                 </span>
             </td>
             <td>
-                <Normaltekst>{`${somDato(oppgave['oppdatert']).format(NORSK_DATOFORMAT)}`}</Normaltekst>
+                <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
             </td>
             <td>
                 <span className="row__tildeling">{tildelingsCelle}</span>

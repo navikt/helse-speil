@@ -66,7 +66,7 @@ const Oversikt = () => {
     };
 
     const sorter = (liste: Oppgave[]) => {
-        return [...liste].sort((a, b) => (dayjs(a['oppdatert']).isBefore(b['oppdatert']) ? -1 : 1));
+        return [...liste].sort((a, b) => (dayjs(a.opprettet).isBefore(b.opprettet) ? -1 : 1));
     };
 
     const sorterBehov = () => {
