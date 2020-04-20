@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { SpadeClient } from './spadeClient';
+import { SpesialistClient } from './spesialistClient';
 
 const behandlingerForPeriode = (_fom: string, _tom: string, _accessToken: string) => {
     const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
@@ -10,6 +10,6 @@ const behandlingerForPeriode = (_fom: string, _tom: string, _accessToken: string
     });
 };
 
-const devSpadeClient: SpadeClient = { behandlingerForPeriode };
+const devSpesialistClient: SpesialistClient = { behandlingerForPeriode };
 
-export default devSpadeClient;
+export default devSpesialistClient;

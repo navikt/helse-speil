@@ -6,14 +6,14 @@ export interface SpadeResponse {
     body: Oppgave;
 }
 
-export interface SpadeClient {
+export interface SpesialistClient {
     behandlingerForPeriode: (fom: string, tom: string, accessToken: string) => Promise<SpadeResponse>;
 }
 
-export const spadeClient: SpadeClient = {
+export const spesialistClient: SpesialistClient = {
     behandlingerForPeriode: (fom, tom, accessToken) => {
         const options = {
-            uri: `http://spade.default.svc.nais.local/api/behov/periode?fom=${fom}&tom=${tom}`,
+            uri: `http://spesialist/api/oppgaver`,
             headers: {
                 Authorization: `Bearer ${accessToken}`
             },
@@ -24,4 +24,4 @@ export const spadeClient: SpadeClient = {
     }
 };
 
-export default spadeClient;
+export default spesialistClient;

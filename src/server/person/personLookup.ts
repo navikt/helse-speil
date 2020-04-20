@@ -4,7 +4,7 @@ import moment from 'moment';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { SpleisClient } from './spleisClient';
 import { AktørIdLookup } from '../aktørid/aktørIdLookup';
-import { SpadeClient } from '../adapters/spadeClient';
+import { SpesialistClient } from '../adapters/spesialistClient';
 import { AppConfig, OnBehalfOf } from '../types';
 import { Request, Response } from 'express';
 
@@ -22,7 +22,7 @@ interface RespondWithParameters {
 interface SetupParameters {
     aktørIdLookup: AktørIdLookup;
     spleisClient: SpleisClient;
-    spadeClient: SpadeClient;
+    spesialistClient: SpesialistClient;
     config: AppConfig;
     onBehalfOf: OnBehalfOf;
 }
@@ -30,7 +30,7 @@ interface SetupParameters {
 const personIdHeaderName = 'nav-person-id';
 let aktørIdLookup: AktørIdLookup;
 let spleisClient: SpleisClient;
-let spadeClient: SpadeClient;
+let spesialistClient: SpesialistClient;
 let spleisId: string;
 let spadeId: string;
 
@@ -39,13 +39,13 @@ let onBehalfOf: OnBehalfOf;
 const setup = ({
     aktørIdLookup: _aktørIdLookup,
     spleisClient: _spleisClient,
-    spadeClient: _spadeClient,
+    spesialistClient: _spesialistClient,
     config,
     onBehalfOf: _onBehalfOf
 }: SetupParameters) => {
     aktørIdLookup = _aktørIdLookup;
     spleisClient = _spleisClient;
-    spadeClient = _spadeClient;
+    spesialistClient = _spesialistClient;
     spleisId = config.oidc.clientIDSpleis;
     spadeId = config.oidc.clientIDSpade;
     onBehalfOf = _onBehalfOf;
@@ -90,7 +90,7 @@ const behovForPeriode = (req: Request, res: Response) => {
         res,
         lookupPromise: onBehalfOf
             .hentFor(spadeId, req.session!.speilToken)
-            .then(behalfOfToken => spadeClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
+            .then(behalfOfToken => spesialistClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
         mapper: (response: Body) => ({
             behov: response.body
         })

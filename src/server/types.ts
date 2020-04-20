@@ -1,7 +1,7 @@
 import { ResponseType } from 'openid-client';
 import { RedisClient } from 'redis';
 import { SparkelClient } from './adapters/sparkelClient';
-import { SpadeClient } from './adapters/spadeClient';
+import { SpesialistClient } from './adapters/spesialistClient';
 import { StsClient } from './auth/stsClient';
 import { AktørIdLookup } from './aktørid/aktørIdLookup';
 import { SpleisClient } from './person/spleisClient';
@@ -53,7 +53,7 @@ export interface PersonDependencies {
     spleisClient: SpleisClient;
     sparkelClient: SparkelClient;
     aktørIdLookup: AktørIdLookup;
-    spadeClient: SpadeClient;
+    spesialistClient: SpesialistClient;
     stsClient: StsClient;
     onBehalfOf: OnBehalfOf;
     cache: RedisClient;

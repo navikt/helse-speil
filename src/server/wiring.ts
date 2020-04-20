@@ -17,8 +17,8 @@ import annulleringClient from './payment/annulleringClient';
 import devAnnulleringClient from './payment/devAnnulleringClient';
 import aktørIdLookup from './aktørid/aktørIdLookup';
 import devAktørIdLookup from './aktørid/devAktørIdLookup';
-import spadeClient from './adapters/spadeClient';
-import devSpadeClient from './adapters/devSpadeClient';
+import spesialistClient from './adapters/spesialistClient';
+import devSpesialistClient from './adapters/devSpesialistClient';
 import { Express } from 'express';
 import { RedisClient } from 'redis';
 
@@ -31,7 +31,7 @@ const getDevDependencies = () => {
             spleisClient: devSpleisClient,
             sparkelClient: devSparkelClient,
             aktørIdLookup: devAktørIdLookup,
-            spadeClient: devSpadeClient,
+            spesialistClient: devSpesialistClient,
             stsClient: devStsClient,
             onBehalfOf: devOnBehalfOf,
             cache: devRedisClient,
@@ -54,7 +54,7 @@ const getProdDependencies = (app: Express) => {
             spleisClient,
             sparkelClient,
             aktørIdLookup,
-            spadeClient,
+            spesialistClient,
             stsClient: stsClient,
             onBehalfOf: _onBehalfOf,
             cache: _redisClient,

@@ -18,7 +18,7 @@ beforeAll(() => {
     personLookup.setup({
         aktørIdLookup: { hentAktørId: () => hentAktørIdAnswer },
         spleisClient,
-        spadeClient: {},
+        spesialistClient: {},
         config: { oidc: {} },
         onBehalfOf: onBehalfOfStub
     });
