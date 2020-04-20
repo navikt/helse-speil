@@ -17,11 +17,10 @@ export const Header = styled.th`
 `;
 
 export const Row = styled.tr`
+    height: 50px;
     border-bottom: 1px solid #b7b1a9;
 `;
 
 export const Cell = styled.td`
     padding: 0.5rem 0;
-    min-height: 2rem;
-    white-space: nowrap;
 `;

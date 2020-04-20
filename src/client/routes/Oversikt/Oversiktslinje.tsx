@@ -38,6 +38,7 @@ const MeldAvKnapp = styled.button`
     border-radius: 0.25rem;
     outline: none;
     font-size: 1rem;
+    white-space: nowrap;
 
     &:hover,
     &:focus {

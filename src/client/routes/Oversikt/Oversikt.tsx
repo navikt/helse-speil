@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { Oppgave } from '../../../types';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import dayjs from 'dayjs';
-import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import styled from '@emotion/styled';
 import { Header, Row, Tabell } from './Oversikt.styles';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
@@ -20,11 +19,52 @@ import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 const Container = styled(Panel)`
     margin: 1rem;
     padding: 1rem;
+    color: #3e3832;
 `;
 
-const SorterPil = styled.span`
-    margin-left: 0.25rem;
+const Sorteringsknapp = styled.button`
+    padding: 0 1rem 0 0;
+    background: none;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+`;
+
+const Sorteringspiler = styled.div<{ direction: string }>`
+    pointer-events: none;
+    position: relative;
+    height: 0.75rem;
+    margin-left: 0.5rem;
+
+    &:before,
+    &:after {
+        pointer-events: none;
+        content: '';
+        border-left: 0.25rem solid white;
+        border-right: 0.25rem solid white;
+        position: absolute;
+        transition: all 0.1s ease;
+    }
+
+    &:before {
+        border-bottom: 0.25rem solid #b7b1a9;
+        transition: all 0.1s ease;
+    }
+
+    &:after {
+        border-top: 0.25rem solid #3e3832;
+        bottom: 0;
+        transition: all 0.1s ease;
+    }
+
+    ${props =>
+        props.direction === 'descending' &&
+        `
+        &:after { transform: translateY(-0.5rem) rotate(180deg); }
+        &:before { transform: translateY(0.5rem) rotate(180deg); }
+    `}
 `;
 
 const TWO_MINUTES = 120000;
@@ -68,7 +108,7 @@ const Oversikt = () => {
                 </Varsel>
             )}
             <Container border>
-                <Undertittel className="panel-tittel">{t('oversikt.tittel')}</Undertittel>
+                <Undertittel>{t('oversikt.tittel')}</Undertittel>
                 <Tabell>
                     <thead>
                         <Row>
@@ -76,16 +116,12 @@ const Oversikt = () => {
                                 <Undertekst>{t('oversikt.søker')}</Undertekst>
                             </Header>
                             <Header>
-                                <Undertekst role={'columnheader'}>
-                                    {t('oversikt.opprettet')}
-                                    <SorterPil onClick={toggleSortDirection}>
-                                        {sortDirection === descending ? (
-                                            <OppChevron aria-sort="descending" />
-                                        ) : (
-                                            <NedChevron aria-sort="ascending" />
-                                        )}
-                                    </SorterPil>
-                                </Undertekst>
+                                <Sorteringsknapp onClick={toggleSortDirection}>
+                                    <Undertekst role={'columnheader'}>{t('oversikt.opprettet')}</Undertekst>
+                                    <Sorteringspiler
+                                        direction={sortDirection === descending ? 'descending' : 'ascending'}
+                                    />
+                                </Sorteringsknapp>
                             </Header>
                             <Header>
                                 <Undertekst>{t('oversikt.tildeling')}</Undertekst>
