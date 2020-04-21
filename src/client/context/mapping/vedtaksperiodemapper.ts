@@ -23,7 +23,7 @@ import {
     SpleisSykdomsdagtype,
     SpleisSykmelding,
     SpleisSøknad,
-    SpleisVedtaksperiode,
+    SpesialistVedtaksperiode,
     SpleisVedtaksperiodetilstand,
     Utbetaling,
     Utbetalingsdetalj,
@@ -43,7 +43,7 @@ export const somDato = (dato: string): Dayjs => dayjs(dato, ISO_DATOFORMAT);
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
 export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
 
-export const mapUferdigVedtaksperiode = (periode: SpleisVedtaksperiode): UferdigVedtaksperiode => ({
+export const mapUferdigVedtaksperiode = (periode: SpesialistVedtaksperiode): UferdigVedtaksperiode => ({
     id: periode.id,
     fom: dayjs(periode.fom),
     tom: dayjs(periode.tom),
@@ -82,7 +82,7 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
 };
 
 export const mapVedtaksperiode = (
-    unmappedPeriode: SpleisVedtaksperiode,
+    unmappedPeriode: SpesialistVedtaksperiode,
     personinfo: Personinfo,
     organisasjonsnummer: string
 ): Vedtaksperiode => {
@@ -208,7 +208,7 @@ const mapSimuleringsutbetalingDetaljer = (
         utbetalingsType: spleisDetaljer.utbetalingstype
     }));
 
-const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpleisVedtaksperiode): SpleisVedtaksperiode => {
+const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpesialistVedtaksperiode): SpesialistVedtaksperiode => {
     const arbeidsdagEllerImplisittDag = (dag: SpleisSykdomsdag) =>
         dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING ||
         dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD ||

@@ -44,12 +44,12 @@ const Personlinje = () => {
 
     if (!personTilBehandling) return <Container />;
 
-    const { aktørId, personinfo } = personTilBehandling;
+    const { aktørId, personinfo, navn } = personTilBehandling;
 
     return (
         <Container>
             <Kjønnsikon kjønn={personinfo.kjønn} />
-            <Element>{personinfo.navn}</Element>
+            <Element>{`${navn.fornavn} ${navn.mellomnavn ? `${navn.mellomnavn} ` : ' '}${navn.etternavn}`}</Element>
             <Separator>/</Separator>
             {personinfo.fnr ? (
                 <Clipboard>

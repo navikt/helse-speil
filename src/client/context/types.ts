@@ -1,6 +1,7 @@
 import { ReactChild } from 'react';
 import { Dayjs } from 'dayjs';
-import { SpleisVedtaksperiode, Utbetalingsperiode } from './mapping/external.types';
+import { SpesialistVedtaksperiode, Utbetalingsperiode } from './mapping/external.types';
+import { PersonNavn } from '../../types';
 
 export interface Periode {
     fom: Dayjs;
@@ -170,7 +171,7 @@ export interface Vedtaksperiode {
     simuleringsdata?: Simulering;
     hendelser: Hendelse[];
     aktivitetslog: Aktivitet[];
-    rawData: SpleisVedtaksperiode;
+    rawData: SpesialistVedtaksperiode;
 }
 
 export interface Simulering {
@@ -189,13 +190,13 @@ type Alvorlighetsgrad = 'W';
 export interface Arbeidsgiver {
     organisasjonsnummer: string;
     id: string;
+    navn: string;
     vedtaksperioder: (Vedtaksperiode | UferdigVedtaksperiode)[];
 }
 
 export type Kjønn = 'Mann' | 'Kvinne' | 'Ukjent';
 
 export interface Personinfo {
-    navn: string;
     kjønn: Kjønn;
     fødselsdato: Dayjs;
     fnr?: string;
@@ -203,6 +204,7 @@ export interface Personinfo {
 
 export interface Person {
     aktørId: string;
+    navn: PersonNavn;
     arbeidsgivere: Arbeidsgiver[];
     personinfo: Personinfo;
     fødselsnummer: string;

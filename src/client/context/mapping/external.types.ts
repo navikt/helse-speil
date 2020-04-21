@@ -1,3 +1,5 @@
+import { PersonNavn } from '../../../types';
+
 export interface Utbetalingsdetalj {
     sats: number;
     konto: string;
@@ -117,13 +119,27 @@ export interface SpleisInntektsmelding extends SpleisHendelse {
 export interface SpleisArbeidsgiver {
     id: string;
     organisasjonsnummer: string;
-    vedtaksperioder: SpleisVedtaksperiode[];
+    vedtaksperioder: SpesialistVedtaksperiode[];
 }
 
 export interface SpleisPerson {
     aktørId: string;
     fødselsnummer: string;
     arbeidsgivere: SpleisArbeidsgiver[];
+}
+
+export interface SpesialistPerson {
+    aktørId: string;
+    fødselsnummer: string;
+    arbeidsgivere: SpesialistArbeidsgiver[];
+    navn: PersonNavn;
+}
+
+export interface SpesialistArbeidsgiver {
+    id: string;
+    organisasjonsnummer: string;
+    vedtaksperioder: SpesialistVedtaksperiode[];
+    navn: string;
 }
 
 export interface SpleisDataForVilkårsvurdering {
@@ -229,7 +245,7 @@ export interface SpleisAktivitet {
     tidsstempel: string;
 }
 
-export interface SpleisVedtaksperiode {
+export interface SpesialistVedtaksperiode {
     id: string;
     fom: string;
     tom: string;

@@ -6,7 +6,6 @@ export interface UnmappedPersoninfo {
 }
 
 export interface Personinfo {
-    navn: string;
     kjønn: string;
     fødselsdato: string;
     fnr?: string;
@@ -17,6 +16,8 @@ export interface PersonNavn {
     mellomnavn: string | null;
     etternavn: string;
 }
+
+export interface PersonFraSpesialist {}
 
 export interface Oppgave {
     spleisbehovId: string;

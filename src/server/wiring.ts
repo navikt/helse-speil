@@ -9,15 +9,13 @@ import onBehalfOf from './auth/onBehalfOf';
 import devOnBehalfOf from './auth/devOnBehalfOf';
 import sparkelClient from './adapters/sparkelClient';
 import devSparkelClient from './adapters/devSparkelClient';
-import spleisClient from './person/spleisClient';
-import devSpleisClient from './person/devSpleisClient';
 import vedtakClient from './payment/vedtakClient';
 import devVedtakClient from './payment/devVedtakClient';
 import annulleringClient from './payment/annulleringClient';
 import devAnnulleringClient from './payment/devAnnulleringClient';
 import aktørIdLookup from './aktørid/aktørIdLookup';
 import devAktørIdLookup from './aktørid/devAktørIdLookup';
-import spesialistClient from './adapters/spesialistClient';
+import spesialistClient from './person/spesialistClient';
 import devSpesialistClient from './adapters/devSpesialistClient';
 import { Express } from 'express';
 import { RedisClient } from 'redis';
@@ -28,7 +26,6 @@ const getDependencies = (app: Express) =>
 const getDevDependencies = () => {
     return {
         person: {
-            spleisClient: devSpleisClient,
             sparkelClient: devSparkelClient,
             aktørIdLookup: devAktørIdLookup,
             spesialistClient: devSpesialistClient,
@@ -51,7 +48,6 @@ const getProdDependencies = (app: Express) => {
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     return {
         person: {
-            spleisClient,
             sparkelClient,
             aktørIdLookup,
             spesialistClient,

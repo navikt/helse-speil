@@ -1,10 +1,14 @@
 // @ts-nocheck
 import personLookup from './personLookup';
+import { OppgaveResponse } from './spesialistClient';
 afterEach(() => {
     jest.clearAllMocks();
 });
-const spleisClient = {
-    hentPerson: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('plain person') }),
+
+const spesialistClient = {
+    hentPersonByAktørId: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('plain person aktørId') }),
+    hentPersonByFødselsnummer: () =>
+        Promise.resolve({ statusCode: 200, body: Promise.resolve('plain person fødselsnummer') }),
     hentSakByUtbetalingsref: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('utbetalt person') })
 };
 
@@ -17,8 +21,7 @@ let hentAktørIdAnswer = Promise.resolve('123');
 beforeAll(() => {
     personLookup.setup({
         aktørIdLookup: { hentAktørId: () => hentAktørIdAnswer },
-        spleisClient,
-        spesialistClient: {},
+        spesialistClient,
         config: { oidc: {} },
         onBehalfOf: onBehalfOfStub
     });
@@ -38,14 +41,14 @@ describe('finnPerson', () => {
         session: {}
     };
 
-    test('finnPerson uten innsyn-header kaller spleisClient.hentPerson', async () => {
+    test('finnPerson uten innsyn-header kaller spesialistClient.hentPersonByAktørId', async () => {
         await personLookup.finnPerson(baseReq, mockResponse);
 
         const response = await mockResponse.send.mock.calls[0][0].person;
-        expect(response).toBe('plain person');
+        expect(response).toBe('plain person aktørId');
     });
 
-    test('finnPerson med innsyn-header kaller spleisClient.hentSakByUtbet...', async () => {
+    test('finnPerson med innsyn-header kaller spesialistClient.hentSakByUtbetalingsref...', async () => {
         const reqWithInnsynHeader = { ...baseReq, headers: { ...baseReq.headers, innsyn: 'true' } };
         await personLookup.finnPerson(reqWithInnsynHeader, mockResponse);
 
@@ -58,18 +61,11 @@ describe('finnPerson', () => {
             ...baseReq,
             headers: { ...baseReq.headers, [personLookup.personIdHeaderName]: '11031888001' }
         };
-        test('slår opp aktørId for fødselsnummer', async () => {
+        test('finnPerson med fødselsnummer kaller spesialistClient.hentPersonByFødselsnummer', async () => {
             await personLookup.finnPerson(reqWithFnr, mockResponse);
 
-            assertResponseStatusCode(200);
-        });
-
-        test('returnerer 404 for ikke funnet fødselsnummer', async () => {
-            hentAktørIdAnswer = Promise.reject();
-
-            await personLookup.finnPerson(reqWithFnr, mockResponse);
-
-            assertResponseStatusCode(404);
+            const response = await mockResponse.send.mock.calls[0][0].person;
+            expect(response).toBe('plain person fødselsnummer');
         });
     });
 });

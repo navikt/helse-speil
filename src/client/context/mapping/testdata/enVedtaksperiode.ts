@@ -4,7 +4,7 @@ import {
     SpleisSykdomsdag,
     SpleisSøknad,
     SpleisUtbetalingsdag,
-    SpleisVedtaksperiode,
+    SpesialistVedtaksperiode,
     SpleisVedtaksperiodetilstand
 } from '../external.types';
 import { max as dayjsMax } from 'dayjs';
@@ -18,7 +18,7 @@ export const enVedtaksperiode = (
     ekstraDager: SpleisSykdomsdag[] = [],
     _utbetalingstidslinje: SpleisUtbetalingsdag[] = defaultUtbetalingstidslinje,
     aktivitetslogg: SpleisAktivitet[] = []
-): SpleisVedtaksperiode => {
+): SpesialistVedtaksperiode => {
     const søknad = defaultHendelser.find(it => it.type === SpleisHendelsetype.SØKNAD_NAV) as SpleisSøknad;
     const sykdomstidslinje = [...ekstraDager, ...defaultSykdomstidslinje];
     const fom = sykdomstidslinje.map(it => it.dagen)[0];

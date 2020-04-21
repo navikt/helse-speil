@@ -1,10 +1,16 @@
 {
     "aktørId": "87654321962124",
     "fødselsnummer": "12020052346",
+    "navn": {
+        "fornavn": "Leah",
+        "mellomnavn": null,
+        "etternavn": "Isadora"
+    },
     "arbeidsgivere": [
         {
             "organisasjonsnummer": "987654321",
             "id": "06f06948-2cb0-4061-b5a8-a77cd84ea49e",
+            "navn": "Vårt Fedreland",
             "vedtaksperioder": [
                 {
                     "utbetalingstidslinje": [

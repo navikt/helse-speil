@@ -2,9 +2,8 @@ import authSupport from '../auth/authSupport';
 import logger from '../logging';
 import moment from 'moment';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
-import { SpleisClient } from './spleisClient';
 import { AktørIdLookup } from '../aktørid/aktørIdLookup';
-import { SpesialistClient } from '../adapters/spesialistClient';
+import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf } from '../types';
 import { Request, Response } from 'express';
 
@@ -21,7 +20,6 @@ interface RespondWithParameters {
 
 interface SetupParameters {
     aktørIdLookup: AktørIdLookup;
-    spleisClient: SpleisClient;
     spesialistClient: SpesialistClient;
     config: AppConfig;
     onBehalfOf: OnBehalfOf;
@@ -29,24 +27,19 @@ interface SetupParameters {
 
 const personIdHeaderName = 'nav-person-id';
 let aktørIdLookup: AktørIdLookup;
-let spleisClient: SpleisClient;
 let spesialistClient: SpesialistClient;
-let spleisId: string;
 let spadeId: string;
 
 let onBehalfOf: OnBehalfOf;
 
 const setup = ({
     aktørIdLookup: _aktørIdLookup,
-    spleisClient: _spleisClient,
     spesialistClient: _spesialistClient,
     config,
     onBehalfOf: _onBehalfOf
 }: SetupParameters) => {
     aktørIdLookup = _aktørIdLookup;
-    spleisClient = _spleisClient;
     spesialistClient = _spesialistClient;
-    spleisId = config.oidc.clientIDSpleis;
     spadeId = config.oidc.clientIDSpade;
     onBehalfOf = _onBehalfOf;
 };
@@ -62,15 +55,16 @@ const finnPerson = async (req: Request, res: Response) => {
         return;
     }
 
-    const aktørId = erGyldigFødselsnummer(undeterminedId) ? await toAktørId(undeterminedId) : undeterminedId;
-    if (!aktørId) {
-        return res.status(404).send('Kunne ikke finne aktør-ID for oppgitt fødselsnummer');
-    }
+    const lookupPromise = innsyn
+        ? spesialistClient.hentSakByUtbetalingsref
+        : erGyldigFødselsnummer(undeterminedId)
+        ? spesialistClient.hentPersonByFødselsnummer
+        : spesialistClient.hentPersonByAktørId;
 
     return respondWith({
         res,
-        lookupPromise: onBehalfOf.hentFor(spleisId, req.session!.speilToken).then((token: string) => {
-            return (innsyn ? spleisClient.hentSakByUtbetalingsref : spleisClient.hentPerson)(aktørId, token);
+        lookupPromise: onBehalfOf.hentFor(spadeId, req.session!.speilToken).then((token: string) => {
+            return lookupPromise(undeterminedId, token);
         }),
         mapper: (response: Body) => ({
             person: response.body

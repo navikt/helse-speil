@@ -1,10 +1,9 @@
 import { ResponseType } from 'openid-client';
 import { RedisClient } from 'redis';
 import { SparkelClient } from './adapters/sparkelClient';
-import { SpesialistClient } from './adapters/spesialistClient';
+import { SpesialistClient } from './person/spesialistClient';
 import { StsClient } from './auth/stsClient';
 import { AktørIdLookup } from './aktørid/aktørIdLookup';
-import { SpleisClient } from './person/spleisClient';
 
 export interface OidcConfig {
     providerBaseUrl: string;
@@ -50,7 +49,6 @@ export interface NavConfig {
 export type OnBehalfOf = { hentFor: (tjenesteId: string, token: string) => Promise<string> };
 
 export interface PersonDependencies {
-    spleisClient: SpleisClient;
     sparkelClient: SparkelClient;
     aktørIdLookup: AktørIdLookup;
     spesialistClient: SpesialistClient;

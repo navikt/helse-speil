@@ -1,10 +1,16 @@
 {
     "aktørId": "1234",
     "fødselsnummer": "01010025678",
+    "navn": {
+        "fornavn": "Kronprins",
+        "mellomnavn": null,
+        "etternavn": "Haakon"
+    },
     "arbeidsgivere": [
         {
             "organisasjonsnummer": "987654321",
             "id": "300061b8-77ec-43f5-be5f-c788eb067a9a",
+            "navn": "Vårt Fedreland",
             "vedtaksperioder": [
                 {
                     "id": "956189c8-a904-40e7-b1e1-eab46e997ddb",

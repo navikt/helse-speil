@@ -6,10 +6,16 @@ import { defaultHendelser } from './defaultHendelser';
 export const mappetPerson: Person = {
     fødselsnummer: '01019000123',
     aktørId: '1211109876233',
+    navn: {
+        fornavn: 'Kringle',
+        mellomnavn: null,
+        etternavn: 'Krangel'
+    },
     arbeidsgivere: [
         {
             organisasjonsnummer: '123456789',
             id: '3fb100f2-5d3d-4a89-84cd-e123544a4400',
+            navn: 'Potetsekk AS',
             vedtaksperioder: [
                 {
                     id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
@@ -715,7 +721,6 @@ export const mappetPerson: Person = {
         }
     ],
     personinfo: {
-        navn: 'Ole Brum',
         kjønn: 'Mannebjørn' as Kjønn,
         fødselsdato: somDato('1956-12-12'),
         fnr: '01019000123'

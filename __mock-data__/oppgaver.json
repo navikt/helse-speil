@@ -6,6 +6,7 @@
         "fødselsnummer": "1000000009871",
         "navn": {
             "fornavn": "Kong",
+            "mellomnavn": null,
             "etternavn": "Harald"
         },
         "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87"
@@ -17,6 +18,7 @@
         "fødselsnummer": "87654321962123",
         "navn": {
             "fornavn": "Dronning",
+            "mellomnavn": null,
             "etternavn": "Sonja"
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171"
@@ -28,7 +30,8 @@
         "fødselsnummer": "87654321962124",
         "navn": {
             "fornavn": "Kronprins",
-            "etternavn": "Håkon"
+            "mellomnavn": null,
+            "etternavn": "Haakon"
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172"
     }

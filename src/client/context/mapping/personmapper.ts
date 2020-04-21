@@ -6,7 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { Kjønn, Person, Personinfo, Vedtaksperiode } from '../types';
 import { Personinfo as SpleisPersoninfo } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
-import { SpleisPerson, SpleisVedtaksperiode } from './external.types';
+import { SpesialistPerson, SpleisPerson, SpesialistVedtaksperiode } from './external.types';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -15,9 +15,9 @@ dayjs.extend(isSameOrBefore);
 
 const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
 
-const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo) =>
+const tilArbeidsgivere = (person: SpesialistPerson, personinfo: Personinfo) =>
     person.arbeidsgivere.map(arbeidsgiver => {
-        const tilVedtaksperiode = (periode: SpleisVedtaksperiode) => {
+        const tilVedtaksperiode = (periode: SpesialistVedtaksperiode) => {
             if (periode.fullstendig) {
                 return mapVedtaksperiode(periode, personinfo, arbeidsgiver.organisasjonsnummer);
             } else {
@@ -26,6 +26,7 @@ const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo) =>
         };
 
         return {
+            navn: arbeidsgiver.navn,
             id: arbeidsgiver.id,
             organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
             vedtaksperioder: arbeidsgiver.vedtaksperioder.map(tilVedtaksperiode).sort(reversert)
@@ -34,17 +35,17 @@ const tilArbeidsgivere = (person: SpleisPerson, personinfo: Personinfo) =>
 
 export const mapPersoninfo = (spleisPersoninfo: SpleisPersoninfo): Personinfo => ({
     fnr: spleisPersoninfo.fnr,
-    navn: spleisPersoninfo.navn,
     kjønn: spleisPersoninfo.kjønn as Kjønn,
     fødselsdato: somDato(spleisPersoninfo.fødselsdato)
 });
 
-export const tilPerson = (spleisPerson: SpleisPerson, spleisPersoninfo: SpleisPersoninfo): Person =>
-    tilPersonMedInfo(spleisPerson, mapPersoninfo(spleisPersoninfo));
+export const tilPerson = (spesialistPerson: SpesialistPerson, spleisPersoninfo: SpleisPersoninfo): Person =>
+    tilPersonMedInfo(spesialistPerson, mapPersoninfo(spleisPersoninfo));
 
-export const tilPersonMedInfo = (spleisPerson: SpleisPerson, personinfo: Personinfo) => ({
-    aktørId: spleisPerson.aktørId,
-    fødselsnummer: spleisPerson.fødselsnummer,
-    arbeidsgivere: tilArbeidsgivere(spleisPerson, personinfo),
+export const tilPersonMedInfo = (spesialistPerson: SpesialistPerson, personinfo: Personinfo) => ({
+    aktørId: spesialistPerson.aktørId,
+    fødselsnummer: spesialistPerson.fødselsnummer,
+    navn: spesialistPerson.navn,
+    arbeidsgivere: tilArbeidsgivere(spesialistPerson, personinfo),
     personinfo: personinfo
 });
