@@ -17,7 +17,6 @@ const inputTilMapper = { ...sparkelResponse, fnr: aktørregisterResponse };
 
 const expectedPerson = {
     kjønn: 'MANN',
-    navn: 'BJARNE BETJENT',
     fødselsdato: '1995-01-01',
     fnr: aktørregisterResponse
 };
