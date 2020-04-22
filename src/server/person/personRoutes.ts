@@ -6,7 +6,6 @@ import { PersonDependencies } from '../types';
 const router = Router();
 
 const setup = ({
-    spleisClient,
     sparkelClient,
     aktørIdLookup,
     spesialistClient,
@@ -16,7 +15,7 @@ const setup = ({
     onBehalfOf
 }: PersonDependencies) => {
     personinfoRepo.setup({ sparkelClient, aktørIdLookup, stsClient, cache });
-    personLookup.setup({ aktørIdLookup, spleisClient, spesialistClient, config, onBehalfOf });
+    personLookup.setup({ aktørIdLookup, spesialistClient, config, onBehalfOf });
     routes(router);
     return router;
 };
