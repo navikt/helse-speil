@@ -29,7 +29,7 @@ export const spesialistClient: SpesialistClient = {
 
     hentPersonByAktørId: async (aktørId, onBehalfOfToken) => {
         const options = {
-            uri: `http://spesialist.default.svc.nais.local/api/oppgaver/api/person/aktorId/${aktørId}`,
+            uri: `http://spesialist.default.svc.nais.local/api/person/aktorId/${aktørId}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`
             },
@@ -41,7 +41,7 @@ export const spesialistClient: SpesialistClient = {
 
     hentPersonByFødselsnummer: async (fødselsnummer, onBehalfOfToken) => {
         const options = {
-            uri: `http://spesialist.default.svc.nais.local/api/oppgaver/api/person/fnr/${fødselsnummer}`,
+            uri: `http://spesialist.default.svc.nais.local/api/person/fnr/${fødselsnummer}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`
             },
