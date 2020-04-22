@@ -9,8 +9,7 @@ export interface OidcConfig {
     providerBaseUrl: string;
     clientID: string;
     clientIDSpade: string;
-    clientIDSpleis: string;
-    clientIDSpenn: string;
+    clientIDSpesialist: string;
     responseType: ResponseType[];
     redirectUrl: string;
     clientSecret: string;

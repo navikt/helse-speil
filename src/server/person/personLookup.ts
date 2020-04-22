@@ -28,7 +28,7 @@ interface SetupParameters {
 const personIdHeaderName = 'nav-person-id';
 let aktørIdLookup: AktørIdLookup;
 let spesialistClient: SpesialistClient;
-let spadeId: string;
+let spesialistId: string;
 
 let onBehalfOf: OnBehalfOf;
 
@@ -40,7 +40,7 @@ const setup = ({
 }: SetupParameters) => {
     aktørIdLookup = _aktørIdLookup;
     spesialistClient = _spesialistClient;
-    spadeId = config.oidc.clientIDSpade;
+    spesialistId = config.oidc.clientIDSpesialist;
     onBehalfOf = _onBehalfOf;
 };
 
@@ -63,7 +63,7 @@ const finnPerson = async (req: Request, res: Response) => {
 
     return respondWith({
         res,
-        lookupPromise: onBehalfOf.hentFor(spadeId, req.session!.speilToken).then((token: string) => {
+        lookupPromise: onBehalfOf.hentFor(spesialistId, req.session!.speilToken).then((token: string) => {
             return lookupPromise(undeterminedId, token);
         }),
         mapper: (response: Body) => ({
@@ -83,7 +83,7 @@ const behovForPeriode = (req: Request, res: Response) => {
     respondWith({
         res,
         lookupPromise: onBehalfOf
-            .hentFor(spadeId, req.session!.speilToken)
+            .hentFor(spesialistId, req.session!.speilToken)
             .then(behalfOfToken => spesialistClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
         mapper: (response: Body) => ({
             behov: response.body

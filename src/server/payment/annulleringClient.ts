@@ -14,7 +14,7 @@ interface AnnulleringBody {
 
 export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
     annuller: async (body: AnnulleringBody, speilToken: string) => {
-        const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpenn, speilToken);
+        const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpesialist, speilToken);
         const options = {
             uri: `${config.nav.spennUrl}/api/v1/opphor`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
