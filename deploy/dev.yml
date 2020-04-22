@@ -10,6 +10,7 @@ spec:
   port: 3000
   ingresses:
     - https://speil.nais.preprod.local
+    - https://speil.dev-fss.nais.io
   liveness:
     failureThreshold: 10
     initialDelay: 20
