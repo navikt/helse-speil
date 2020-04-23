@@ -5,6 +5,7 @@ interface PostVedtakOptions {
     behovId: string;
     godkjent: boolean;
     speilToken: string;
+    saksbehandlerIdent: string;
 }
 
 export interface VedtakClient {
@@ -12,14 +13,14 @@ export interface VedtakClient {
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf) => ({
-    postVedtak: async ({ behovId, godkjent, speilToken }: PostVedtakOptions) => {
+    postVedtak: async ({ behovId, godkjent, speilToken, saksbehandlerIdent }: PostVedtakOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/vedtak`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`
             },
-            body: { behovId, godkjent },
+            body: { behovId, godkjent, saksbehandlerIdent },
             json: true
         };
 

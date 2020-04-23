@@ -20,7 +20,8 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
             .postVedtak({
                 behovId: req.body.behovId,
                 godkjent: req.body.godkjent,
-                speilToken: req.session!.speilToken
+                speilToken: req.session!.speilToken,
+                saksbehandlerIdent: req.session!.user
             })
             .then(() => res.sendStatus(204))
             .catch(err => {
