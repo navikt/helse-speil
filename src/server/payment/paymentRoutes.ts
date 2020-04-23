@@ -12,16 +12,13 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/vedtak', (req: Request, res: Response) => {
-        if (!(req.body.behovId || req.body.vedtaksperiodeId) || !req.body.aktørId || req.body.godkjent === undefined) {
-            res.status(400).send('BehovId eller vedtaksperiodeId, aktørId og godkjent-verdi må være tilstede');
+        if (!req.body.behovId || req.body.godkjent === undefined) {
+            res.status(400).send('BehovId og godkjent-verdi må være tilstede');
             return;
         }
         vedtakClient
             .postVedtak({
                 behovId: req.body.behovId,
-                aktørId: req.body.aktørId,
-                vedtaksperiodeId: req.body.vedtaksperiodeId,
-                saksbehandlerIdent: req.session!.user,
                 godkjent: req.body.godkjent,
                 speilToken: req.session!.speilToken
             })
