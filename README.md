@@ -32,7 +32,7 @@ npm run start-mac
 
 ### Backend som server både API og frontend som statiske filer
 
-Lag en .env-fil med følgende innhold i rotkatalogen:
+Lag en `.env`-fil med følgende innhold i rotkatalogen:
 
 ```
 TENANT_ID=<Azure tenant id>
