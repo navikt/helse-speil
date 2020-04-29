@@ -98,6 +98,30 @@ const Oversikt = () => {
     const toggleSortDirection = () =>
         setSortDirection(sortDirection === descending ? () => ascending : () => descending);
 
+    const Søker = () => (
+        <Header>
+            <Undertekst>{t('oversikt.søker')}</Undertekst>
+        </Header>
+    );
+    const Opprettet = () => (
+        <Header>
+            <Sorteringsknapp onClick={toggleSortDirection}>
+                <Undertekst role={'columnheader'}>{t('oversikt.opprettet')}</Undertekst>
+                <Sorteringspiler direction={sortDirection === descending ? 'descending' : 'ascending'} />
+            </Sorteringsknapp>
+        </Header>
+    );
+    const Tildeling = () => (
+        <Header>
+            <Undertekst>{t('oversikt.tildeling')}</Undertekst>
+        </Header>
+    );
+    const Status = () => (
+        <Header>
+            <Undertekst>Status</Undertekst>
+        </Header>
+    );
+
     return (
         <>
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
@@ -112,20 +136,10 @@ const Oversikt = () => {
                 <Tabell>
                     <thead>
                         <Row>
-                            <Header>
-                                <Undertekst>{t('oversikt.søker')}</Undertekst>
-                            </Header>
-                            <Header>
-                                <Sorteringsknapp onClick={toggleSortDirection}>
-                                    <Undertekst role={'columnheader'}>{t('oversikt.opprettet')}</Undertekst>
-                                    <Sorteringspiler
-                                        direction={sortDirection === descending ? 'descending' : 'ascending'}
-                                    />
-                                </Sorteringsknapp>
-                            </Header>
-                            <Header>
-                                <Undertekst>{t('oversikt.tildeling')}</Undertekst>
-                            </Header>
+                            <Søker />
+                            <Opprettet />
+                            <Tildeling />
+                            <Status />
                         </Row>
                     </thead>
                     <tbody>
@@ -139,6 +153,7 @@ const Oversikt = () => {
                                     onUnassignCase={fjernTildeling}
                                     onSelectCase={velgBehovAndNavigate}
                                     key={oppgave.spleisbehovId}
+                                    antallVarsler={oppgave.antallVarsler}
                                 />
                             );
                         })}

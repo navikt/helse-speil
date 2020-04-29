@@ -9,7 +9,8 @@
             "mellomnavn": null,
             "etternavn": "Harald"
         },
-        "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87"
+        "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87",
+        "antallVarsler": 2
     },
     {
         "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5f",
@@ -33,6 +34,7 @@
             "mellomnavn": null,
             "etternavn": "Haakon"
         },
-        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172"
+        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172",
+        "antallVarsler": 0
     }
 ]

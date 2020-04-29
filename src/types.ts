@@ -17,14 +17,13 @@ export interface PersonNavn {
     etternavn: string;
 }
 
-export interface PersonFraSpesialist {}
-
 export interface Oppgave {
     spleisbehovId: string;
     opprettet: string;
-    fødselsnummer: string;
     vedtaksperiodeId: string;
     navn: PersonNavn;
+    fødselsnummer: string;
+    antallVarsler: number;
 }
 
 export type Utbetalingslinje = {

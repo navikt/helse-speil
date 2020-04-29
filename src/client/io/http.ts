@@ -61,15 +61,12 @@ export const del = async (url: string, data?: any) => {
     return response;
 };
 
-export const fetchPerson = async (personId?: string, innsyn?: boolean) => {
-    return get(`${baseUrl}/person/sok`, {
+export const fetchPerson = async (personId?: string, innsyn?: boolean) =>
+    get(`${baseUrl}/person/sok`, {
         headers: { 'nav-person-id': personId, innsyn: innsyn }
     });
-};
 
-export const fetchBehov = async () => {
-    return get(`${baseUrl}/person/`);
-};
+export const fetchBehov = async () => get(`${baseUrl}/person/`);
 
 export const post = async (url: string, data: any) => {
     const response = await fetch(url, {

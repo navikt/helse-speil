@@ -1,28 +1,21 @@
 import request from 'request-promise-native';
-import { Oppgave } from '../../types';
-import { SpesialistPerson } from '../../client/context/mapping/external.types';
-
-export interface OppgaveResponse {
-    statusCode: number;
-    body: Oppgave;
-}
 
 export interface SpesialistClient {
-    behandlingerForPeriode: (fom: string, tom: string, accessToken: string) => Promise<OppgaveResponse>;
+    behandlingerForPeriode: (fom: string, tom: string, onBehalfOfToken: string) => Promise<Response>;
     hentPersonByAktørId: (aktørId: string, onBehalfOfToken: string) => Promise<Response>;
     hentPersonByFødselsnummer: (fødselsnummer: string, onBehalfOfToken: string) => Promise<Response>;
     hentSakByUtbetalingsref: (utbetalingsref: string, onBehalfOfToken: string) => Promise<Response>;
 }
 
 export const spesialistClient: SpesialistClient = {
-    behandlingerForPeriode: (fom, tom, accessToken) => {
+    behandlingerForPeriode: async (fom, tom, onBehalfOfToken) => {
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/oppgaver`,
             headers: {
-                Authorization: `Bearer ${accessToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`
             },
-            json: true,
-            resolveWithFullResponse: true
+            resolveWithFullResponse: true,
+            json: true
         };
         return request.get(options);
     },

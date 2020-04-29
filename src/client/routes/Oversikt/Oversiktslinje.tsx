@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import OversiktsLenke from './OversiktsLenke';
 import { AuthContext } from '../../context/AuthContext';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { Tildeling } from '../../context/types';
@@ -18,6 +18,7 @@ interface Props {
     onAssignCase: (id: string, email?: string) => void;
     onSelectCase: (oppgave: Oppgave) => void;
     tildeling?: Tildeling;
+    antallVarsler: number;
 }
 
 const FlexContainer = styled.span`
@@ -46,7 +47,7 @@ const MeldAvKnapp = styled.button`
     }
 `;
 
-const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSelectCase }: Props) => {
+const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSelectCase, antallVarsler }: Props) => {
     const { email } = useContext(AuthContext);
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter(n => n).join(' ');
@@ -64,19 +65,50 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
         </FlexContainer>
     ) : (
         <Knapp mini onClick={() => onAssignCase(oppgave.spleisbehovId, email)}>
-            Tildel til meg
+            Tildel meg
         </Knapp>
+    );
+
+    const Søkernavn = () => (
+        <Cell>
+            <OversiktsLenke onClick={() => onSelectCase(oppgave)}>{formatertNavn}</OversiktsLenke>
+        </Cell>
+    );
+
+    const Dato = () => (
+        <Cell>
+            <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
+        </Cell>
+    );
+
+    const Tildeling = () => (
+        <Cell>{tildeling ? tildelingsCelle : <Normaltekst>Henter informasjon..</Normaltekst>}</Cell>
+    );
+
+    const varseltekst = (antallVarsler: number) => {
+        switch (antallVarsler) {
+            case 0:
+            case null:
+            case undefined:
+                return '';
+            case 1:
+                return '1 varsel';
+            default:
+                return `${antallVarsler} varsler`;
+        }
+    };
+    const Status = () => (
+        <Cell>
+            <Element>{varseltekst(antallVarsler)}</Element>
+        </Cell>
     );
 
     return (
         <Row>
-            <Cell>
-                <OversiktsLenke onClick={() => onSelectCase(oppgave)}>{formatertNavn}</OversiktsLenke>
-            </Cell>
-            <Cell>
-                <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
-            </Cell>
-            <Cell>{tildeling ? tildelingsCelle : <Normaltekst>Henter informasjon..</Normaltekst>}</Cell>
+            <Søkernavn />
+            <Dato />
+            <Tildeling />
+            <Status />
         </Row>
     );
 };
