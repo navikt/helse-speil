@@ -20,9 +20,9 @@ const Innhold = styled(Grid)`
 
 const BehandletVedtaksperiode = ({ aktivVedtaksperiode, førsteVedtaksperiode }: BehandletVedtaksperiodeProps) => {
     const førsteFraværsdag =
-        førsteVedtaksperiode.vilkår.dagerIgjen?.førsteFraværsdag.format(NORSK_DATOFORMAT) ?? 'Ukjent dato';
+        førsteVedtaksperiode.vilkår?.dagerIgjen?.førsteFraværsdag.format(NORSK_DATOFORMAT) ?? 'Ukjent dato';
 
-    const vilkår = aktivVedtaksperiode.vilkår;
+    const vilkår = aktivVedtaksperiode.vilkår!!;
 
     return (
         <>

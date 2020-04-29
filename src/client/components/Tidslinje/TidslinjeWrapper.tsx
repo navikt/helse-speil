@@ -32,11 +32,10 @@ const TidslinjeWrapper = () => {
         }))
     }));
 
-    const vedtaksperiodeForIntervall = (intervall: Intervall) => {
-        return tidslinjer
+    const vedtaksperiodeForIntervall = (intervall: Intervall) =>
+        tidslinjer
             ?.reduce((perioder: Vedtaksperiode[], tidslinje) => perioder.concat(tidslinje.vedtaksperioder), [])
             .find(periode => periode.fom === intervall.fom);
-    };
 
     const onSelect = (intervall: Intervall): void => {
         const periode = vedtaksperiodeForIntervall(intervall);
