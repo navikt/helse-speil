@@ -49,7 +49,6 @@ const Alternativer = styled.ul`
 const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappProps) => {
     const [ekspandert, setEkspandert] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
-    const knappRef = useRef<HTMLButtonElement>(null);
 
     useFocusOutside({
         ref: containerRef,
@@ -58,7 +57,7 @@ const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappPr
     });
 
     useClickOutside({
-        ref: knappRef,
+        ref: containerRef,
         active: ekspandert,
         onClickOutside: () => setEkspandert(e => !e)
     });
@@ -70,10 +69,10 @@ const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappPr
 
     return (
         <Container ref={containerRef}>
-            <Knapp ref={knappRef} onClick={onClickWrapper} className={classNames(className)}>
+            <Knapp onClick={onClickWrapper} className={classNames(className)}>
                 <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20">
                     <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                    <path d="m4 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm16 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-8 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
                 </svg>
             </Knapp>
             {ekspandert && <Alternativer>{children}</Alternativer>}

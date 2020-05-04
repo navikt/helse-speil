@@ -4,6 +4,7 @@ import Vedtaksperiodeinfo from './Vedtaksperiodeinfo';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import { LoggHeader } from '@navikt/helse-frontend-logg';
 import { PersonContext } from '../context/PersonContext';
+import Verktøylinje from './Verktøylinje';
 
 const StyledSakslinje = styled(Sakslinje)`
     border: none;
@@ -18,12 +19,11 @@ const StyledSakslinje = styled(Sakslinje)`
 
 export default () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-
     if (!personTilBehandling) return <Sakslinje />;
 
     return (
         <StyledSakslinje
-            venstre={<div />}
+            venstre={<Verktøylinje />}
             midt={<Vedtaksperiodeinfo periode={aktivVedtaksperiode} person={personTilBehandling} />}
             høyre={<LoggHeader />}
         />

@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from 'nav-frontend-modal';
-import PropTypes from 'prop-types';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import './InfoModal.less';
@@ -15,7 +14,14 @@ interface Props {
 }
 
 const InfoModal = ({ infoMessage, isSending, onApprove, onClose }: Props) => (
-    <Modal className="InfoModal" isOpen={true} contentLabel="Feilmelding" closeButton={true} onRequestClose={onClose}>
+    <Modal
+        id="modal"
+        className="InfoModal"
+        isOpen={true}
+        contentLabel="Feilmelding"
+        closeButton={true}
+        onRequestClose={onClose}
+    >
         <Systemtittel>Er du sikker?</Systemtittel>
         <Normaltekst>{infoMessage}</Normaltekst>
         <div>
@@ -26,12 +32,5 @@ const InfoModal = ({ infoMessage, isSending, onApprove, onClose }: Props) => (
         </div>
     </Modal>
 );
-
-InfoModal.propTypes = {
-    infoMessage: PropTypes.string.isRequired,
-    isSending: PropTypes.bool.isRequired,
-    onApprove: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
-};
 
 export default InfoModal;

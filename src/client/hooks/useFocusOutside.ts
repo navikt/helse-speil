@@ -9,7 +9,13 @@ interface UseFocusOutsideOptions {
 export const useFocusOutside = ({ ref, active, onFocusOutside }: UseFocusOutsideOptions) => {
     useEffect(() => {
         const onFocusWrapper = (event: FocusEvent) => {
-            if (active && !ref.current?.contains(event.target as HTMLElement)) onFocusOutside();
+            const modal = document.getElementById('modal');
+            if (
+                active &&
+                !ref.current?.contains(event.target as HTMLElement) &&
+                !modal?.contains(event.target as HTMLElement)
+            )
+                onFocusOutside();
         };
         document.addEventListener('focusin', onFocusWrapper);
         return () => document.removeEventListener('focusin', onFocusWrapper);
