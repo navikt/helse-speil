@@ -22,7 +22,8 @@
             "mellomnavn": null,
             "etternavn": "Sonja"
         },
-        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171"
+        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171",
+        "antallVarsler": 0
     },
     {
         "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5g",
@@ -35,6 +36,6 @@
             "etternavn": "Haakon"
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172",
-        "antallVarsler": 0
+        "antallVarsler": 1
     }
 ]

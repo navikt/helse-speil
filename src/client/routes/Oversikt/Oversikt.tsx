@@ -11,7 +11,6 @@ import { Person } from '../../context/types';
 import { useTranslation } from 'react-i18next';
 import { Oppgave } from '../../../types';
 import { Location, useNavigation } from '../../hooks/useNavigation';
-import dayjs from 'dayjs';
 import styled from '@emotion/styled';
 import { Header, Row, Tabell } from './Oversikt.styles';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
@@ -69,8 +68,8 @@ const Sorteringspiler = styled.div<{ direction: string }>`
 
 const TWO_MINUTES = 120000;
 
-const ascending = (a: Oppgave, b: Oppgave) => (dayjs(a.opprettet).isBefore(b.opprettet) ? -1 : 1);
-const descending = (a: Oppgave, b: Oppgave) => (dayjs(a.opprettet).isBefore(b.opprettet) ? 1 : -1);
+const ascending = (a: Oppgave, b: Oppgave) => a.antallVarsler - b.antallVarsler;
+const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler;
 
 const Oversikt = () => {
     const { t } = useTranslation();
@@ -105,10 +104,7 @@ const Oversikt = () => {
     );
     const Opprettet = () => (
         <Header>
-            <Sorteringsknapp onClick={toggleSortDirection}>
-                <Undertekst role={'columnheader'}>{t('oversikt.opprettet')}</Undertekst>
-                <Sorteringspiler direction={sortDirection === descending ? 'descending' : 'ascending'} />
-            </Sorteringsknapp>
+            <Undertekst role={'columnheader'}>{t('oversikt.opprettet')}</Undertekst>
         </Header>
     );
     const Tildeling = () => (
@@ -118,7 +114,10 @@ const Oversikt = () => {
     );
     const Status = () => (
         <Header>
-            <Undertekst>Status</Undertekst>
+            <Sorteringsknapp onClick={toggleSortDirection}>
+                <Undertekst>Status</Undertekst>
+                <Sorteringspiler direction={sortDirection === descending ? 'descending' : 'ascending'} />
+            </Sorteringsknapp>
         </Header>
     );
 
