@@ -59,7 +59,7 @@ const Sorteringspiler = styled.div<{ direction: string }>`
     }
 
     ${props =>
-        props.direction === 'descending' &&
+        props.direction === 'ascending' &&
         `
         &:after { transform: translateY(-0.5rem) rotate(180deg); }
         &:before { transform: translateY(0.5rem) rotate(180deg); }
