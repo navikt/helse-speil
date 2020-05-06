@@ -2,9 +2,9 @@
     "aktørId": "87654321962124",
     "fødselsnummer": "12020052346",
     "navn": {
-        "fornavn": "Leah",
+        "fornavn": "Kronprins",
         "mellomnavn": null,
-        "etternavn": "Isadora"
+        "etternavn": "Haakon"
     },
     "arbeidsgivere": [
         {
@@ -13,187 +13,56 @@
             "navn": "Vårt Fedreland",
             "vedtaksperioder": [
                 {
-                    "utbetalingstidslinje": [
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-01"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-02"
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-03"
-                        }
-                    ],
                     "id": "02011154-5d09-4895-b4bc-fb86d3661216",
-                    "maksdato": "2020-12-29",
-                    "forbrukteSykedager": 11,
-                    "godkjentAv": "en_saksbehandler_ident",
-                    "godkjenttidspunkt": "2020-03-09T12:14:59.013932",
-                    "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
-                    "førsteFraværsdag": "2020-01-01",
-                    "inntektFraInntektsmelding": 3.1e4,
-                    "dataForVilkårsvurdering": {
-                        "erEgenAnsatt": false,
-                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
-                        "avviksprosent": 0.24,
-                        "antallOpptjeningsdagerErMinst": 1095,
-                        "harOpptjening": true
-                    },
-                    "hendelser": [
-                        "b357b1e3-cabe-4750-85ea-b796a0f60100",
-                        "e6e20997-cc8d-407e-9731-98f85ffe910b",
-                        "c5fad2b9-d488-485c-bbf3-a7d4e7559a61"
-                    ],
+                    "gruppeId": "aaaabbbb-36c5-47d7-a736-0d1ef707538d",
+                    "fom": "2020-01-01",
+                    "tom": "2020-01-16",
                     "tilstand": "IngenUtbetaling",
-                    "sykdomstidslinje": [
-                        { "dagen": "2020-01-01", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-02", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-03", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
-                    ],
-                    "utbetalingslinjer": []
+                    "fullstendig": false
                 },
                 {
-                    "utbetalingstidslinje": [
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-04",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-05",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-05",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-06",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-07",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-08",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-09",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-10",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-11",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-12",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-13",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-14",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-15",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-16",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-17",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2020-01-18",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        }
-                    ],
                     "id": "b288b1a7-36c5-47d7-a736-0d1ef707538d",
-                    "maksdato": "2020-12-29",
-                    "forbrukteSykedager": 17,
-                    "godkjentAv": null,
-                    "godkjenttidspunkt": null,
+                    "gruppeId": "aaaabbbb-36c5-47d7-a736-0d1ef707538d",
+                    "fom": "2020-01-17",
+                    "tom": "2020-01-18",
+                    "tilstand": "Utbetalt",
+                    "fullstendig": true,
                     "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
-                    "førsteFraværsdag": "2020-01-01",
-                    "inntektFraInntektsmelding": 3.1e4,
-                    "dataForVilkårsvurdering": {
-                        "erEgenAnsatt": false,
-                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
-                        "avviksprosent": 0.24,
-                        "antallOpptjeningsdagerErMinst": 1095,
-                        "harOpptjening": true
-                    },
-                    "tilstand": "IngenUtbetalinger",
-                    "hendelser": [
-                        "fd1335be-3974-429d-97cb-de92011f75b6",
-                        "6483658c-b0c9-4549-87ca-57d465cb3f5a",
-                        "c5fad2b9-d488-485c-bbf3-a7d4e7559a61"
+                    "utbetalingstidslinje": [
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-04" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-05" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-05" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-06" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-07" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-08" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-09" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-10" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-11" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-12" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-13" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-14" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-15" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-16" },
+                        { "type": "NavDag", "inntekt": 1431, "dato": "2020-01-17", "utbetaling": 1431, "grad": 100.0 },
+                        { "type": "NavDag", "inntekt": 1431, "dato": "2020-01-18", "utbetaling": 1431, "grad": 100.0 }
                     ],
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": {
+                            "linjer": [
+                                {
+                                    "fom": "2020-01-17",
+                                    "tom": "2020-01-18",
+                                    "dagsats": 1431,
+                                    "grad": 100
+                                }
+                            ],
+                            "fagsystemId": "6CFURRBEWJF3VGP5Q4BUTO6ABM"
+                        },
+                        "personUtbetaling": {
+                            "linjer": [],
+                            "fagsystemId": "AZIVK7IPEJGF7CQ56AVQJILLFE"
+                        }
+                    },
                     "sykdomstidslinje": [
                         { "dagen": "2020-01-04", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
                         { "dagen": "2020-01-05", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
@@ -210,9 +79,124 @@
                         { "dagen": "2020-01-16", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
                         { "dagen": "2020-01-17", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
                         { "dagen": "2020-01-18", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
+                    ],
+                    "godkjentAv": null,
+                    "godkjenttidspunkt": null,
+                    "vilkår": {
+                        "sykepengedager": {
+                            "forbrukteSykedager": 2,
+                            "førsteFraværsdag": "2020-01-01",
+                            "førsteSykepengedag": "2020-01-17",
+                            "maksdato": "2020-12-29",
+                            "gjenståendeDager": 239,
+                            "oppfylt": true
+                        },
+                        "alder": {
+                            "alderSisteSykedag": 62,
+                            "oppfylt": true
+                        },
+                        "opptjening": {
+                            "antallKjenteOpptjeningsdager": 7210,
+                            "fom": "2000-04-05",
+                            "oppfylt": true
+                        },
+                        "søknadsfrist": {
+                            "sendtNav": "2020-02-01T00:00:00",
+                            "søknadFom": "2020-01-01",
+                            "søknadTom": "2020-01-25",
+                            "oppfylt": true
+                        },
+                        "sykepengegrunnlag": {
+                            "sykepengegrunnlag": 250260,
+                            "grunnbeløp": 99858,
+                            "oppfylt": true
+                        }
+                    },
+                    "førsteFraværsdag": "2020-01-01",
+                    "inntektFraInntektsmelding": 31050,
+                    "totalbeløpArbeidstaker": 2862,
+                    "hendelser": [
+                        {
+                            "id": "c5fad2b9-d488-485c-bbf3-a7d4e7559a61",
+                            "mottattDato": "2020-01-05",
+                            "beregnetInntekt": 25000,
+                            "type": "INNTEKTSMELDING"
+                        },
+                        {
+                            "id": "6483658c-b0c9-4549-87ca-57d465cb3f5a",
+                            "fom": "2020-01-04",
+                            "tom": "2020-01-18",
+                            "rapportertdato": "2020-01-01T00:00:00",
+                            "sendtNav": "2020-02-01T00:00:00",
+                            "type": "SENDT_SØKNAD_NAV"
+                        },
+                        {
+                            "id": "fd1335be-3974-429d-97cb-de92011f75b6",
+                            "fom": "2020-01-04",
+                            "tom": "2020-01-18",
+                            "rapportertdato": "2020-01-01T00:00:00",
+                            "type": "NY_SØKNAD"
+                        }
+                    ],
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
+                        "avviksprosent": 0.24,
+                        "antallOpptjeningsdagerErMinst": 1095,
+                        "harOpptjening": true,
+                        "medlemskapstatus": "VET_IKKE"
+                    },
+                    "simuleringsdata": {
+                        "totalbeløp": 2862,
+                        "perioder": [
+                            {
+                                "fom": "2020-01-17",
+                                "tom": "2020-01-31",
+                                "utbetalinger": [
+                                    {
+                                        "utbetalesTilId": "810825472",
+                                        "utbetalesTilNavn": "",
+                                        "forfall": "2020-05-06",
+                                        "feilkonto": false,
+                                        "detaljer": [
+                                            {
+                                                "faktiskFom": "2020-01-17",
+                                                "faktiskTom": "2020-01-31",
+                                                "konto": "2338020",
+                                                "beløp": 2862,
+                                                "tilbakeføring": false,
+                                                "sats": 1431,
+                                                "typeSats": "DAG",
+                                                "antallSats": 11,
+                                                "uføregrad": 100,
+                                                "klassekode": "SPREFAG-IOP",
+                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                "utbetalingstype": "YTEL",
+                                                "refunderesOrgNr": "910825526"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "aktivitetslogg": [
+                        {
+                            "vedtaksperiodeId": "1ef5e870-b684-43c9-85b7-a06d4623e4ac",
+                            "alvorlighetsgrad": "W",
+                            "melding": "Lovvalg og medlemskap må vurderes manuelt",
+                            "tidsstempel": "2020-05-06 16:06:40.649"
+                        }
                     ]
                 },
                 {
+                    "id": "b288b1a7-36c5-47d7-a736-0d1ef707538e",
+                    "gruppeId": "aaaabbbb-36c5-47d7-a736-0d1ef707538d",
+                    "fom": "2020-01-19",
+                    "tom": "2020-01-20",
+                    "tilstand": "Oppgaver",
+                    "fullstendig": true,
+                    "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
                     "utbetalingstidslinje": [
                         {
                             "type": "NavDag",
@@ -229,14 +213,79 @@
                             "grad": 100.0
                         }
                     ],
-                    "id": "b288b1a7-36c5-47d7-a736-0d1ef707538e",
-                    "maksdato": "2020-12-29",
-                    "forbrukteSykedager": 17,
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": {
+                            "linjer": [
+                                {
+                                    "fom": "2020-01-19",
+                                    "tom": "2020-01-20",
+                                    "dagsats": 1431,
+                                    "grad": 100
+                                }
+                            ],
+                            "fagsystemId": "6CFURRBEWJF3VGP5Q4BUTO6ABM"
+                        },
+                        "personUtbetaling": {
+                            "linjer": [],
+                            "fagsystemId": "AZIVK7IPEJGF7CQ56AVQJILLFE"
+                        }
+                    },
+                    "sykdomstidslinje": [
+                        { "dagen": "2020-01-19", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
+                        { "dagen": "2020-01-20", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
+                    ],
                     "godkjentAv": null,
                     "godkjenttidspunkt": null,
-                    "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
+                    "vilkår": {
+                        "sykepengedager": {
+                            "forbrukteSykedager": 2,
+                            "førsteFraværsdag": "2020-01-18",
+                            "førsteSykepengedag": "2020-01-20",
+                            "maksdato": "2020-12-29",
+                            "gjenståendeDager": 237,
+                            "oppfylt": true
+                        },
+                        "alder": {
+                            "alderSisteSykedag": 62,
+                            "oppfylt": true
+                        },
+                        "opptjening": {
+                            "antallKjenteOpptjeningsdager": 7210,
+                            "fom": "2000-04-05",
+                            "oppfylt": true
+                        },
+                        "søknadsfrist": {
+                            "sendtNav": "2020-02-01T00:00:00",
+                            "søknadFom": "2020-01-01",
+                            "søknadTom": "2020-01-31",
+                            "oppfylt": true
+                        },
+                        "sykepengegrunnlag": {
+                            "sykepengegrunnlag": 250260,
+                            "grunnbeløp": 99858,
+                            "oppfylt": true
+                        }
+                    },
                     "førsteFraværsdag": "2020-01-01",
-                    "inntektFraInntektsmelding": 3.1e4,
+                    "inntektFraInntektsmelding": 25000,
+                    "totalbeløpArbeidstaker": 2862,
+                    "hendelser": [
+                        {
+                            "id": "271d8015-a2f7-4c4e-a940-99463b0a6d27",
+                            "fom": "2020-01-19",
+                            "tom": "2020-01-20",
+                            "rapportertdato": "2020-01-01T00:00:00",
+                            "sendtNav": "2020-02-01T00:00:00",
+                            "type": "SENDT_SØKNAD_NAV"
+                        },
+                        {
+                            "id": "0910af7f-49f8-497b-887b-c1623448bb78",
+                            "fom": "2020-01-19",
+                            "tom": "2020-01-20",
+                            "rapportertdato": "2020-01-01T00:00:00",
+                            "type": "NY_SØKNAD"
+                        }
+                    ],
                     "dataForVilkårsvurdering": {
                         "erEgenAnsatt": false,
                         "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
@@ -244,68 +293,50 @@
                         "antallOpptjeningsdagerErMinst": 1095,
                         "harOpptjening": true
                     },
-                    "hendelser": ["0910af7f-49f8-497b-887b-c1623448bb78", "271d8015-a2f7-4c4e-a940-99463b0a6d27"],
-                    "tilstand": "Oppgaver",
-                    "sykdomstidslinje": [
-                        { "dagen": "2020-01-19", "type": "SYKEDAG_SØKNAD", "grad": 100.0 },
-                        { "dagen": "2020-01-20", "type": "SYKEDAG_SØKNAD", "grad": 100.0 }
+                    "simuleringsdata": {
+                        "totalbeløp": 2862,
+                        "perioder": [
+                            {
+                                "fom": "2020-01-17",
+                                "tom": "2020-01-31",
+                                "utbetalinger": [
+                                    {
+                                        "utbetalesTilId": "810825472",
+                                        "utbetalesTilNavn": "",
+                                        "forfall": "2020-05-06",
+                                        "feilkonto": false,
+                                        "detaljer": [
+                                            {
+                                                "faktiskFom": "2020-01-17",
+                                                "faktiskTom": "2020-01-31",
+                                                "konto": "2338020",
+                                                "beløp": 2862,
+                                                "tilbakeføring": false,
+                                                "sats": 1431,
+                                                "typeSats": "DAG",
+                                                "antallSats": 11,
+                                                "uføregrad": 100,
+                                                "klassekode": "SPREFAG-IOP",
+                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                "utbetalingstype": "YTEL",
+                                                "refunderesOrgNr": "910825526"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "aktivitetslogg": [
+                        {
+                            "vedtaksperiodeId": "1ef5e870-b684-43c9-85b7-a06d4623e4ac",
+                            "alvorlighetsgrad": "W",
+                            "melding": "Lovvalg og medlemskap må vurderes manuelt",
+                            "tidsstempel": "2020-05-06 16:06:40.649"
+                        }
                     ]
                 }
             ]
-        }
-    ],
-    "hendelser": [
-        {
-            "hendelseId": "b357b1e3-cabe-4750-85ea-b796a0f60100",
-            "rapportertdato": "2020-01-01T00:00:00",
-            "fom": "2020-01-01",
-            "tom": "2020-01-03",
-            "type": "NY_SØKNAD"
-        },
-        {
-            "hendelseId": "fd1335be-3974-429d-97cb-de92011f75b6",
-            "rapportertdato": "2020-01-01T00:00:00",
-            "fom": "2020-01-04",
-            "tom": "2020-01-18",
-            "type": "NY_SØKNAD"
-        },
-        {
-            "hendelseId": "0910af7f-49f8-497b-887b-c1623448bb78",
-            "rapportertdato": "2020-01-01T00:00:00",
-            "fom": "2020-01-19",
-            "tom": "2020-01-20",
-            "type": "NY_SØKNAD"
-        },
-        {
-            "hendelseId": "e6e20997-cc8d-407e-9731-98f85ffe910b",
-            "rapportertdato": "2020-01-01T00:00:00",
-            "sendtNav": "2020-02-01T00:00:00",
-            "fom": "2020-01-01",
-            "tom": "2020-01-03",
-            "type": "SENDT_SØKNAD"
-        },
-        {
-            "hendelseId": "6483658c-b0c9-4549-87ca-57d465cb3f5a",
-            "rapportertdato": "2020-01-01T00:00:00",
-            "sendtNav": "2020-02-01T00:00:00",
-            "fom": "2020-01-04",
-            "tom": "2020-01-18",
-            "type": "SENDT_SØKNAD"
-        },
-        {
-            "hendelseId": "271d8015-a2f7-4c4e-a940-99463b0a6d27",
-            "rapportertdato": "2020-01-01T00:00:00",
-            "sendtNav": "2020-02-01T00:00:00",
-            "fom": "2020-01-19",
-            "tom": "2020-01-20",
-            "type": "SENDT_SØKNAD"
-        },
-        {
-            "hendelseId": "c5fad2b9-d488-485c-bbf3-a7d4e7559a61",
-            "beregnetInntekt": 25000,
-            "førsteFraværsdag": "2020-01-01",
-            "mottattDato": "2020-01-05",
-            "type": "INNTEKTSMELDING"
         }
     ]
 }

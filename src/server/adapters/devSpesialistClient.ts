@@ -44,7 +44,7 @@ const filename = (aktørId: string) => {
         case '87654321962123':
             return 'mock-person_2perioder.json';
         default:
-            return 'mock-person_til-utbetaling.json';
+            return 'mock-person_3perioder_første_periode_kort.json';
     }
 };
 
