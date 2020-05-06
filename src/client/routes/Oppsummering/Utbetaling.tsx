@@ -52,8 +52,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
             .catch((err: Error) => {
                 console.error({ err });
                 setError({
-                    message: `Feil under fatting av vedtak. Kontakt en utvikler. (statuskode: ${err.statusCode ??
-                        'ukjent)'}`
+                    message: `Kunne ikke fatte vedtak: ${err.message} (statuskode: ${err.statusCode ?? 'ukjent'})`
                 });
             })
             .finally(() => {
