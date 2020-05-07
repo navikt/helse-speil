@@ -32,7 +32,15 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
 
     router.post('/annullering', (req: Request, res: Response) => {
         annulleringClient
-            .annuller(req.body)
+            .annuller({
+                aktørId: req.body.aktørId,
+                fødselsnummer: req.body.fødselsnummer,
+                organisasjonsnummer: req.body.organisasjonsnummer,
+                fagsystemId: req.body.fagsystemId,
+                saksbehandlerIdent: req.session!.user,
+                speilToken: req.session!.speilToken,
+                vedtaksperiodeId: req.body.vedtaksperiodeId
+            })
             .then(() => {
                 res.sendStatus(204);
             })

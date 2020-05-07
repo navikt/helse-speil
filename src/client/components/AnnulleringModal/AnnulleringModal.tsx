@@ -103,8 +103,7 @@ export const AnnulleringModal = ({ isSending, onApprove, onClose, ident, feilmel
                 fødselsnummer,
                 organisasjonsnummer,
                 fagsystemId: vedtaksperiode.utbetalinger!.personUtbetaling!.fagsystemId,
-                vedtaksperiodeId: vedtaksperiode.id,
-                saksbehandlerIdent: ident
+                vedtaksperiodeId: vedtaksperiode.id
             });
 
         if (arbeidsgiverChecked && navidentGyldig)
@@ -113,8 +112,7 @@ export const AnnulleringModal = ({ isSending, onApprove, onClose, ident, feilmel
                 fødselsnummer,
                 organisasjonsnummer,
                 fagsystemId: vedtaksperiode.utbetalinger!.arbeidsgiverUtbetaling!.fagsystemId,
-                vedtaksperiodeId: vedtaksperiode.id,
-                saksbehandlerIdent: ident
+                vedtaksperiodeId: vedtaksperiode.id
             });
     };
 

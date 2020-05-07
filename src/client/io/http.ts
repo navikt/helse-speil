@@ -113,7 +113,14 @@ export const postVedtak = async (behovId?: string, aktørId?: string, godkjent?:
 };
 
 export const postAnnullering = async (annullering: AnnulleringDTO) => {
-    return post(`${baseUrl}/payments/annullering`, annullering);
+    const { aktørId, fødselsnummer, organisasjonsnummer, fagsystemId, vedtaksperiodeId } = annullering;
+    return post(`${baseUrl}/payments/annullering`, {
+        aktørId,
+        fødselsnummer,
+        organisasjonsnummer,
+        fagsystemId,
+        vedtaksperiodeId
+    });
 };
 
 export interface AnnulleringDTO {
@@ -121,6 +128,5 @@ export interface AnnulleringDTO {
     fødselsnummer: string;
     organisasjonsnummer: string;
     fagsystemId: string;
-    saksbehandlerIdent: string;
     vedtaksperiodeId: string;
 }

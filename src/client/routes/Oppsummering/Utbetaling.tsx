@@ -35,7 +35,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [tilstand, setTilstand] = useState<Vedtaksperiodetilstand>(aktivVedtaksperiode!.tilstand);
+    const [tilstand] = useState<Vedtaksperiodetilstand>(aktivVedtaksperiode!.tilstand);
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {
@@ -75,12 +75,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
             ) : (tilstand === Vedtaksperiodetilstand.Oppgaver && beslutning === Beslutning.Godkjent) ||
               tilstand === Vedtaksperiodetilstand.TilUtbetaling ||
               tilstand === Vedtaksperiodetilstand.Utbetalt ? (
-                <StatusUtbetalt
-                    setTilstand={setTilstand}
-                    setError={setError}
-                    personTilBehandling={personTilBehandling!}
-                    utbetalingsreferanse={aktivVedtaksperiode!.utbetalingsreferanse}
-                />
+                <StatusUtbetalt />
             ) : !innsyn && tilstand === Vedtaksperiodetilstand.Oppgaver ? (
                 beslutning ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
