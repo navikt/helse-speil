@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import AlternativerKnapp from './AlternativerKnapp';
 import Annullering from './Annullering';
+import { PersonContext } from '../context/PersonContext';
+import { Utbetalinger } from '../context/types';
 
 const Container = styled(Sakslinje)`
     border-top: none;
@@ -20,7 +22,14 @@ const Alternativer = styled(AlternativerKnapp)`
     width: 2rem;
 `;
 
-const Verktøylinje = () => <Container høyre={<Dropdown />} />;
+const Verktøylinje = () => {
+    const personContext = useContext(PersonContext);
+    const utbetalinger: Utbetalinger | undefined = personContext.aktivVedtaksperiode?.utbetalinger;
+
+    return (
+        <Container høyre={(utbetalinger?.arbeidsgiverUtbetaling || utbetalinger?.personUtbetaling) && <Dropdown />} />
+    );
+};
 
 const Dropdown = () => (
     <Alternativer>

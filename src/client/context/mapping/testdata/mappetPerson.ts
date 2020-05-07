@@ -30,6 +30,30 @@ export const mappetPerson: Person = {
                     kanVelges: true,
                     tilstand: Vedtaksperiodetilstand.Oppgaver,
                     utbetalingsreferanse: '12345',
+                    utbetalinger: {
+                        arbeidsgiverUtbetaling: {
+                            fagsystemId: '81549300',
+                            linjer: [
+                                {
+                                    fom: somDato('2019-09-26'),
+                                    tom: somDato('2019-09-30'),
+                                    dagsats: 1431,
+                                    grad: 100
+                                }
+                            ]
+                        },
+                        personUtbetaling: {
+                            fagsystemId: '81549301',
+                            linjer: [
+                                {
+                                    fom: somDato('2019-09-26'),
+                                    tom: somDato('2019-09-30'),
+                                    dagsats: 1431,
+                                    grad: 100
+                                }
+                            ]
+                        }
+                    },
                     utbetalingstidslinje: [
                         {
                             type: Dagtype.Arbeidsgiverperiode,
@@ -563,6 +587,30 @@ export const mappetPerson: Person = {
                                 dato: '2019-10-05'
                             }
                         ],
+                        utbetalinger: {
+                            arbeidsgiverUtbetaling: {
+                                fagsystemId: '81549300',
+                                linjer: [
+                                    {
+                                        fom: '2019-09-26',
+                                        tom: '2019-09-30',
+                                        dagsats: 1431,
+                                        grad: 100
+                                    }
+                                ]
+                            },
+                            personUtbetaling: {
+                                fagsystemId: '81549301',
+                                linjer: [
+                                    {
+                                        fom: '2019-09-26',
+                                        tom: '2019-09-30',
+                                        dagsats: 1431,
+                                        grad: 100
+                                    }
+                                ]
+                            }
+                        },
                         sykdomstidslinje: [
                             {
                                 dagen: '2019-09-10',

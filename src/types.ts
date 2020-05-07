@@ -26,13 +26,6 @@ export interface Oppgave {
     antallVarsler: number;
 }
 
-export type Utbetalingslinje = {
-    fom: string;
-    tom: string;
-    dagsats: number;
-    grad: number;
-};
-
 export interface Error {
     message: string;
     statusCode?: number;

@@ -31,27 +31,12 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
     });
 
     router.post('/annullering', (req: Request, res: Response) => {
-        if (!req.body.utbetalingsreferanse || !req.body.aktørId || !req.body.fødselsnummer) {
-            res.status(400).send('Både utbetalingsreferanse, aktørId og fnr må være tilstede');
-            return;
-        }
         annulleringClient
-            .annuller({
-                utbetalingsreferanse: req.body.utbetalingsreferanse,
-                aktørId: req.body.aktørId,
-                saksbehandler: req.session!.user,
-                fødselsnummer: req.body.fødselsnummer
-            })
+            .annuller(req.body)
             .then(() => {
-                logger.info(
-                    `Annullering for sak med utbetalingsreferanse ${req.body.utbetalingsreferanse} sendt inn av ${
-                        req.session!.user
-                    }`
-                );
                 res.sendStatus(204);
             })
             .catch(err => {
-                logger.error(`Feil under annullering: ${err}`);
                 res.status(err.statusCode || 500).send('Feil under annullering');
             });
     });

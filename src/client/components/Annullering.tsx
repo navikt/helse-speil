@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
-import InfoModal from './InfoModal';
+import { AnnulleringModal } from './AnnulleringModal/AnnulleringModal';
+import { AnnulleringDTO, postAnnullering } from '../io/http';
+import { AuthContext } from '../context/AuthContext';
 
 const AnnullerKnapp = styled.button`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
@@ -25,18 +27,30 @@ const AnnullerKnapp = styled.button`
 
 const Annullering = () => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
-    console.log(modalOpen);
+    const [isSending, setIsSending] = useState<boolean>(false);
+    const [feilmelding, setFeilmelding] = useState<string>();
+    const authContext = useContext(AuthContext);
+    const sendAnnullering = (annullering: AnnulleringDTO) => {
+        setIsSending(true);
+        setFeilmelding(undefined);
+        postAnnullering(annullering)
+            .then(() => setModalOpen(false))
+            .catch(() => setFeilmelding('Noe gikk galt. Kontakt en utvikler.'))
+            .finally(() => setIsSending(false));
+    };
+
     return (
         <>
             <AnnullerKnapp tabIndex={0} onClick={() => setModalOpen(verdi => !verdi)}>
                 Annuller
             </AnnullerKnapp>
             {modalOpen && (
-                <InfoModal
+                <AnnulleringModal
                     onClose={() => setModalOpen(verdi => !verdi)}
-                    onApprove={() => null}
-                    isSending={false}
-                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet."
+                    onApprove={sendAnnullering}
+                    isSending={isSending}
+                    ident={authContext.ident!}
+                    feilmelding={feilmelding}
                 />
             )}
         </>

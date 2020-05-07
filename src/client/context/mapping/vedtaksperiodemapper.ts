@@ -27,7 +27,8 @@ import {
     SpleisVedtaksperiodetilstand,
     Utbetaling,
     Utbetalingsdetalj,
-    Utbetalingsperiode
+    Utbetalingsperiode,
+    SpleisUtbetalingslinje
 } from './external.types';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
@@ -143,6 +144,16 @@ export const mapVedtaksperiode = (
         tilstand: mapTilstand(unmappedPeriode.tilstand),
         utbetalingsreferanse: unmappedPeriode.utbetalingsreferanse,
         utbetalingstidslinje: utbetalingstidslinje,
+        utbetalinger: unmappedPeriode.utbetalinger && {
+            arbeidsgiverUtbetaling: unmappedPeriode.utbetalinger.arbeidsgiverUtbetaling && {
+                fagsystemId: unmappedPeriode.utbetalinger.arbeidsgiverUtbetaling.fagsystemId,
+                linjer: unmappedPeriode.utbetalinger.arbeidsgiverUtbetaling.linjer.map(somUtbetalingslinje)
+            },
+            personUtbetaling: unmappedPeriode.utbetalinger.personUtbetaling && {
+                fagsystemId: unmappedPeriode.utbetalinger.personUtbetaling.fagsystemId,
+                linjer: unmappedPeriode.utbetalinger.personUtbetaling.linjer.map(somUtbetalingslinje)
+            }
+        },
         sykdomstidslinje: sykdomstidslinje,
         godkjentAv: unmappedPeriode.godkjentAv,
         godkjenttidspunkt: somKanskjeDato(unmappedPeriode.godkjenttidspunkt),
@@ -167,6 +178,13 @@ export const mapVedtaksperiode = (
         rawData: unmappedPeriode
     };
 };
+
+const somUtbetalingslinje = (value: SpleisUtbetalingslinje) => ({
+    fom: somDato(value.fom),
+    tom: somDato(value.tom),
+    dagsats: value.dagsats,
+    grad: value.grad
+});
 
 const mapSimuleringsdata = (data: SpleisDataForSimulering): Simulering => ({
     totalbeløp: data.totalbeløp,

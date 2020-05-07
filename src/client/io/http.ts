@@ -112,12 +112,15 @@ export const postVedtak = async (behovId?: string, aktørId?: string, godkjent?:
     return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, vedtaksperiodeId });
 };
 
-export const postAnnullering = async (fødselsnummer: string, utbetalingsreferanse: string, aktørId?: string) => {
-    console.log({ fødselsnummer }, { utbetalingsreferanse });
-
-    return post(`${baseUrl}/payments/annullering`, {
-        utbetalingsreferanse,
-        aktørId,
-        fødselsnummer
-    });
+export const postAnnullering = async (annullering: AnnulleringDTO) => {
+    return post(`${baseUrl}/payments/annullering`, annullering);
 };
+
+export interface AnnulleringDTO {
+    aktørId: string;
+    fødselsnummer: string;
+    organisasjonsnummer: string;
+    fagsystemId: string;
+    saksbehandlerIdent: string;
+    vedtaksperiodeId: string;
+}

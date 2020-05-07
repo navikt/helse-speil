@@ -18,6 +18,36 @@
                     "tom": "2018-01-31",
                     "tilstand": "Utbetalt",
                     "fullstendig": true,
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": {
+                            "fagsystemId": "1234",
+                            "linjer": [
+                                {
+                                    "fom": "2018-01-01",
+                                    "tom": "2018-01-31",
+                                    "dagsats": 1431,
+                                    "grad": 100.0
+                                },
+                                {
+                                    "fom": "2018-02-01",
+                                    "tom": "2018-02-28",
+                                    "dagsats": 1300,
+                                    "grad": 100.0
+                                }
+                            ]
+                        },
+                        "personUtbetaling": {
+                            "fagsystemId": "1234",
+                            "linjer": [
+                                {
+                                    "fom": "2018-01-01",
+                                    "tom": "2018-01-31",
+                                    "dagsats": 1500,
+                                    "grad": 100.0
+                                }
+                            ]
+                        }
+                    },
                     "utbetalingsreferanse": "SVQYTSFJARAOPMPB5K2G5GL53M",
                     "utbetalingstidslinje": [
                         {
@@ -533,6 +563,36 @@
                     "tom": "2018-02-14",
                     "tilstand": "Oppgaver",
                     "fullstendig": true,
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": {
+                            "fagsystemId": "1234",
+                            "linjer": [
+                                {
+                                    "fom": "2018-01-01",
+                                    "tom": "2018-01-31",
+                                    "dagsats": 1431,
+                                    "grad": 100.0
+                                },
+                                {
+                                    "fom": "2018-02-01",
+                                    "tom": "2018-02-28",
+                                    "dagsats": 1300,
+                                    "grad": 100.0
+                                }
+                            ]
+                        },
+                        "personUtbetaling": {
+                            "fagsystemId": "1234",
+                            "linjer": [
+                                {
+                                    "fom": "2018-01-01",
+                                    "tom": "2018-01-31",
+                                    "dagsats": 1500,
+                                    "grad": 100.0
+                                }
+                            ]
+                        }
+                    },
                     "utbetalingsreferanse": "SVQYTSFJARAOPMPB5K2G5GL53M",
                     "utbetalingstidslinje": [
                         {

@@ -1,10 +1,10 @@
 import {
+    SpesialistVedtaksperiode,
     SpleisAktivitet,
     SpleisHendelsetype,
     SpleisSykdomsdag,
     SpleisSøknad,
     SpleisUtbetalingsdag,
-    SpesialistVedtaksperiode,
     SpleisVedtaksperiodetilstand
 } from '../external.types';
 import { max as dayjsMax } from 'dayjs';
@@ -31,6 +31,30 @@ export const enVedtaksperiode = (
         fullstendig: true,
         utbetalingsreferanse: '12345',
         utbetalingstidslinje: _utbetalingstidslinje,
+        utbetalinger: {
+            arbeidsgiverUtbetaling: {
+                fagsystemId: '81549300',
+                linjer: [
+                    {
+                        fom: '2019-09-26',
+                        tom: '2019-09-30',
+                        dagsats: 1431,
+                        grad: 100
+                    }
+                ]
+            },
+            personUtbetaling: {
+                fagsystemId: '81549301',
+                linjer: [
+                    {
+                        fom: '2019-09-26',
+                        tom: '2019-09-30',
+                        dagsats: 1431,
+                        grad: 100
+                    }
+                ]
+            }
+        },
         sykdomstidslinje: sykdomstidslinje,
         godkjentAv: undefined,
         godkjenttidspunkt: undefined,

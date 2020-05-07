@@ -24,7 +24,7 @@ export interface Utbetaling {
     utbetalesTilNavn: string;
 }
 
-export interface Utbetalingslinje {
+export interface SpleisUtbetalingslinje {
     fom: string;
     tom: string;
     dagsats: number;
@@ -264,6 +264,16 @@ export interface SpleisAktivitet {
     tidsstempel: string;
 }
 
+interface SpleisUtbetalinger {
+    arbeidsgiverUtbetaling?: SpleisUtbetaling;
+    personUtbetaling?: SpleisUtbetaling;
+}
+
+interface SpleisUtbetaling {
+    fagsystemId: string;
+    linjer: SpleisUtbetalingslinje[];
+}
+
 export interface SpesialistVedtaksperiode {
     id: string;
     fom: string;
@@ -273,6 +283,7 @@ export interface SpesialistVedtaksperiode {
     fullstendig: boolean;
     utbetalingsreferanse?: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
+    utbetalinger?: SpleisUtbetalinger;
     sykdomstidslinje: SpleisSykdomsdag[];
     godkjentAv?: string;
     godkjenttidspunkt?: string;
@@ -283,6 +294,6 @@ export interface SpesialistVedtaksperiode {
     dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;
     simuleringsdata?: SpleisDataForSimulering;
     hendelser: SpleisHendelse[];
-    utbetalingslinjer?: Utbetalingslinje[];
+    utbetalingslinjer?: SpleisUtbetalingslinje[];
     aktivitetslogg: SpleisAktivitet[];
 }

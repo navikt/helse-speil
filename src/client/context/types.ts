@@ -161,11 +161,29 @@ export interface Vedtaksperiode {
     vilkår?: Vilkår;
     sykepengegrunnlag: Sykepengegrunnlag;
     inntektskilder: Inntektskilde[];
+    utbetalinger?: Utbetalinger;
     oppsummering: Oppsummering;
     simuleringsdata?: Simulering;
     hendelser: Hendelse[];
     aktivitetslog: Aktivitet[];
     rawData: SpesialistVedtaksperiode;
+}
+
+export interface Utbetalinger {
+    arbeidsgiverUtbetaling?: Utbetaling;
+    personUtbetaling?: Utbetaling;
+}
+
+export interface Utbetaling {
+    fagsystemId: string;
+    linjer: Utbetalingslinje[];
+}
+
+export interface Utbetalingslinje {
+    fom: Dayjs;
+    tom: Dayjs;
+    dagsats: number;
+    grad: number;
 }
 
 export interface Simulering {
