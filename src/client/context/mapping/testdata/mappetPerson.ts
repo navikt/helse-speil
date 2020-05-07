@@ -1,6 +1,11 @@
 import { somDato, somTidspunkt } from '../vedtaksperiodemapper';
-import { Dagtype, Hendelsestype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types';
-import { SpleisSykdomsdagtype, SpleisUtbetalingsdagtype, SpleisVedtaksperiodetilstand } from '../external.types';
+import { Dagtype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types';
+import {
+    SpleisSykdomsdagtype,
+    SpleisUtbetalingsdagtype,
+    SpleisVedtaksperiodetilstand,
+    SpleisSykdomsdagkildeType
+} from '../external.types';
 import { defaultHendelser } from './defaultHendelser';
 
 export const mappetPerson: Person = {
@@ -397,7 +402,7 @@ export const mappetPerson: Person = {
                             rapportertDato: somDato('2020-02-14'),
                             fom: somDato('2019-09-01'),
                             tom: somDato('2019-10-10'),
-                            type: Hendelsestype.Sykmelding
+                            type: Kildetype.Sykmelding
                         },
                         {
                             id: '726e57d9-7844-4a28-886b-8485dbdbd4d2',
@@ -405,13 +410,13 @@ export const mappetPerson: Person = {
                             sendtNav: somDato('2019-10-15'),
                             fom: somDato('2019-09-01'),
                             tom: somDato('2019-10-10'),
-                            type: Hendelsestype.Søknad
+                            type: Kildetype.Søknad
                         },
                         {
                             id: '09851096-bcba-4c7a-8dc0-a1617a744f1f',
                             beregnetInntekt: 31000.0,
                             mottattTidspunkt: somTidspunkt('2019-10-15T00:00:00'),
-                            type: Hendelsestype.Inntektsmelding
+                            type: Kildetype.Inntektsmelding
                         }
                     ],
                     aktivitetslog: [],
@@ -561,107 +566,185 @@ export const mappetPerson: Person = {
                         sykdomstidslinje: [
                             {
                                 dagen: '2019-09-10',
-                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+                                type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-11',
-                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+                                type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-12',
-                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+                                type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-13',
-                                type: SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING
+                                type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-14',
-                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-09-15',
-                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-09-16',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-17',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-18',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-19',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-20',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-21',
-                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-09-22',
-                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-09-23',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-24',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-25',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-26',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-27',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-09-28',
-                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-09-29',
-                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-09-30',
-                                type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                                type: SpleisSykdomsdagtype.SYKEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SYKMELDING
+                                }
                             },
                             {
                                 dagen: '2019-10-01',
-                                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.FERIEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-10-02',
-                                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.FERIEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-10-03',
-                                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.FERIEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-10-04',
-                                type: SpleisSykdomsdagtype.FERIEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.FERIEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             },
                             {
                                 dagen: '2019-10-05',
-                                type: SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD
+                                type: SpleisSykdomsdagtype.SYK_HELGEDAG,
+                                kilde: {
+                                    type: SpleisSykdomsdagkildeType.SØKNAD
+                                }
                             }
                         ],
                         godkjentAv: undefined,

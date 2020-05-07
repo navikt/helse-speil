@@ -6,7 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { Kjønn, Person, Personinfo, Vedtaksperiode } from '../types';
 import { Personinfo as SpleisPersoninfo } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
-import { SpesialistPerson, SpleisPerson, SpesialistVedtaksperiode } from './external.types';
+import { SpesialistPerson, SpesialistVedtaksperiode } from './external.types';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);

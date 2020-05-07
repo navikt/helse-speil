@@ -1,7 +1,12 @@
 import { tilPerson } from './personmapper';
 import { Aktivitet, Dagtype, Kildetype, Vedtaksperiode } from '../types';
 import { somDato, somTidspunkt } from './vedtaksperiodemapper';
-import { SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisUtbetalingsdagtype } from './external.types';
+import {
+    SpleisSykdomsdag,
+    SpleisSykdomsdagtype,
+    SpleisUtbetalingsdagtype,
+    SpleisSykdomsdagkildeType
+} from './external.types';
 import { enVedtaksperiode } from './testdata/enVedtaksperiode';
 import { enArbeidsgiver } from './testdata/enArbeidsgiver';
 import { enPerson } from './testdata/enPerson';
@@ -85,12 +90,18 @@ describe('personmapper', () => {
         const ledendeArbeidsdager: SpleisSykdomsdag[] = [
             {
                 dagen: '2019-09-08',
-                type: SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING,
+                type: SpleisSykdomsdagtype.ARBEIDSDAG,
+                kilde: {
+                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING
+                },
                 grad: 100.0
             },
             {
                 dagen: '2019-09-09',
-                type: SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING,
+                type: SpleisSykdomsdagtype.ARBEIDSDAG,
+                kilde: {
+                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING
+                },
                 grad: 100.0
             }
         ];
@@ -115,7 +126,10 @@ describe('personmapper', () => {
                     enVedtaksperiode([
                         {
                             dagen: '2019-09-09',
-                            type: SpleisSykdomsdagtype.SYKEDAG_SYKMELDING
+                            type: SpleisSykdomsdagtype.SYKEDAG,
+                            kilde: {
+                                type: SpleisSykdomsdagkildeType.SYKMELDING
+                            }
                         }
                     ]),
                     enVedtaksperiode()

@@ -68,7 +68,7 @@ export interface Oppsummering {
     totaltTilUtbetaling: number;
 }
 
-export enum Hendelsestype {
+export enum Kildetype {
     Sykmelding = 'Sykmelding',
     Søknad = 'Søknad',
     Inntektsmelding = 'Inntektsmelding'
@@ -76,7 +76,7 @@ export enum Hendelsestype {
 
 export interface Søknad {
     id: string;
-    type: Hendelsestype.Søknad;
+    type: Kildetype.Søknad;
     fom: Dayjs;
     tom: Dayjs;
     rapportertDato?: Dayjs;
@@ -85,7 +85,7 @@ export interface Søknad {
 
 export interface Sykmelding {
     id: string;
-    type: Hendelsestype.Sykmelding;
+    type: Kildetype.Sykmelding;
     fom: Dayjs;
     tom: Dayjs;
     rapportertDato?: Dayjs;
@@ -93,7 +93,7 @@ export interface Sykmelding {
 
 export interface Inntektsmelding {
     id: string;
-    type: Hendelsestype.Inntektsmelding;
+    type: Kildetype.Inntektsmelding;
     beregnetInntekt: number;
     mottattTidspunkt: Dayjs;
 }
@@ -110,12 +110,6 @@ export enum Dagtype {
     Egenmelding = 'Egenmelding',
     Foreldet = 'Foreldet',
     Arbeidsgiverperiode = 'Arbeidsgiverperiode'
-}
-
-export enum Kildetype {
-    Søknad = 'SØ',
-    Sykmelding = 'SM',
-    Inntektsmelding = 'IM'
 }
 
 export interface Sykdomsdag {

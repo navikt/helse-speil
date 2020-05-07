@@ -1,7 +1,7 @@
 import {
     Aktivitet,
     Hendelse,
-    Hendelsestype,
+    Kildetype,
     Inntektskilde,
     Oppsummering,
     Personinfo,
@@ -56,7 +56,7 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
         case SpleisHendelsetype.INNTEKTSMELDING:
             return {
                 id: hendelse.id,
-                type: Hendelsestype.Inntektsmelding,
+                type: Kildetype.Inntektsmelding,
                 beregnetInntekt: (hendelse as SpleisInntektsmelding).beregnetInntekt,
                 mottattTidspunkt: somTidspunkt((hendelse as SpleisInntektsmelding).mottattDato)
             };
@@ -64,7 +64,7 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
         case SpleisHendelsetype.SØKNAD_NAV:
             return {
                 id: (hendelse as SpleisSøknad).id,
-                type: Hendelsestype.Søknad,
+                type: Kildetype.Søknad,
                 fom: somDato((hendelse as SpleisSøknad).fom),
                 tom: somDato((hendelse as SpleisSøknad).tom),
                 sendtNav: somDato(((hendelse as SpleisSøknad) as SpleisSøknad).sendtNav),
@@ -73,7 +73,7 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
         case SpleisHendelsetype.SYKMELDING:
             return {
                 id: (hendelse as SpleisSykmelding).id,
-                type: Hendelsestype.Sykmelding,
+                type: Kildetype.Sykmelding,
                 fom: somDato((hendelse as SpleisSykmelding).fom),
                 tom: somDato((hendelse as SpleisSykmelding).tom),
                 rapportertDato: somKanskjeDato((hendelse as SpleisSykmelding).rapportertdato)
@@ -212,7 +212,8 @@ const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpesialistVedtaksperiode): S
     const arbeidsdagEllerImplisittDag = (dag: SpleisSykdomsdag) =>
         dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING ||
         dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD ||
-        dag.type === SpleisSykdomsdagtype.IMPLISITT_DAG;
+        dag.type === SpleisSykdomsdagtype.IMPLISITT_DAG ||
+        dag.type === SpleisSykdomsdagtype.ARBEIDSDAG;
     const førsteArbeidsdag = vedtaksperiode.sykdomstidslinje.findIndex(arbeidsdagEllerImplisittDag);
     if (førsteArbeidsdag !== 0) return vedtaksperiode;
 
@@ -220,7 +221,8 @@ const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpesialistVedtaksperiode): S
         dag =>
             dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING &&
             dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD &&
-            dag.type !== SpleisSykdomsdagtype.IMPLISITT_DAG
+            dag.type !== SpleisSykdomsdagtype.IMPLISITT_DAG &&
+            dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG
     );
 
     return {

@@ -2,9 +2,11 @@ import {
     SpleisSykdomsdag,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdag,
-    SpleisUtbetalingsdagtype
+    SpleisUtbetalingsdagtype,
+    SpleisSykdomsdagkildeType,
+    SpleisSykdomsdagkilde
 } from './external.types';
-import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../types';
+import { Dagtype, Sykdomsdag, Utbetalingsdag, Kildetype } from '../types';
 import { somDato } from './vedtaksperiodemapper';
 
 const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
@@ -33,25 +35,32 @@ const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dagtype => {
     switch (dag) {
         case SpleisSykdomsdagtype.SYKEDAG_SØKNAD:
         case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:
+        case SpleisSykdomsdagtype.SYKEDAG:
             return Dagtype.Syk;
         case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
         case SpleisSykdomsdagtype.PERMISJONSDAG_AAREG:
         case SpleisSykdomsdagtype.FERIEDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.FERIEDAG_SØKNAD:
+        case SpleisSykdomsdagtype.PERMISJONSDAG:
+        case SpleisSykdomsdagtype.FERIEDAG:
             return Dagtype.Ferie;
         case SpleisSykdomsdagtype.UTENLANDSDAG:
         case SpleisSykdomsdagtype.UBESTEMTDAG:
         case SpleisSykdomsdagtype.STUDIEDAG:
             return Dagtype.Ubestemt;
         case SpleisSykdomsdagtype.IMPLISITT_DAG:
+        case SpleisSykdomsdagtype.ARBEIDSDAG:
         case SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD:
         case SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING:
             return Dagtype.Arbeidsdag;
+        case SpleisSykdomsdagtype.SYK_HELGEDAG:
+        case SpleisSykdomsdagtype.FRISK_HELGEDAG:
         case SpleisSykdomsdagtype.SYK_HELGEDAG_SYKMELDING:
         case SpleisSykdomsdagtype.SYK_HELGEDAG_SØKNAD:
         case SpleisSykdomsdagtype.FRISK_HELGEDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.FRISK_HELGEDAG_SØKNAD:
             return Dagtype.Helg;
+        case SpleisSykdomsdagtype.ARBEIDSGIVERDAG:
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_SØKNAD:
             return Dagtype.Egenmelding;
@@ -60,7 +69,7 @@ const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dagtype => {
     }
 };
 
-const hendelseType = (type: SpleisSykdomsdagtype): Kildetype | undefined => {
+const hendelseTypeGammel = (type: SpleisSykdomsdagtype): Kildetype | undefined => {
     switch (type) {
         case SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.EGENMELDINGSDAG_INNTEKTSMELDING:
@@ -85,6 +94,29 @@ const hendelseType = (type: SpleisSykdomsdagtype): Kildetype | undefined => {
         case SpleisSykdomsdagtype.IMPLISITT_DAG:
         case SpleisSykdomsdagtype.PERMISJONSDAG_AAREG:
             return undefined;
+
+        // For å slippe typescript-warning om ufullstendig code path defineres de nye typene også
+        case SpleisSykdomsdagtype.ARBEIDSDAG:
+        case SpleisSykdomsdagtype.ARBEIDSGIVERDAG:
+        case SpleisSykdomsdagtype.FERIEDAG:
+        case SpleisSykdomsdagtype.FRISK_HELGEDAG:
+        case SpleisSykdomsdagtype.PERMISJONSDAG:
+        case SpleisSykdomsdagtype.SYKEDAG:
+        case SpleisSykdomsdagtype.SYK_HELGEDAG:
+            return undefined;
+    }
+};
+
+const hendelseType = (kilde: SpleisSykdomsdagkilde | undefined): Kildetype | undefined => {
+    switch (kilde?.type) {
+        case SpleisSykdomsdagkildeType.INNTEKTSMELDING:
+            return Kildetype.Inntektsmelding;
+        case SpleisSykdomsdagkildeType.SØKNAD:
+            return Kildetype.Søknad;
+        case SpleisSykdomsdagkildeType.SYKMELDING:
+            return Kildetype.Sykmelding;
+        default:
+            return undefined;
     }
 };
 
@@ -93,7 +125,7 @@ export const tilSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdo
         type: sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype),
         dato: somDato(dag.dagen),
         gradering: dag.grad,
-        kilde: hendelseType(dag.type as SpleisSykdomsdagtype)
+        kilde: dag.kilde ? hendelseType(dag.kilde) : hendelseTypeGammel(dag.type)
     }));
 
 export const tilUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsdag[]): Utbetalingsdag[] =>

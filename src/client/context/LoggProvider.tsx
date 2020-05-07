@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext } from 'react';
-import { Hendelse, Hendelsestype } from './types';
+import { Hendelse, Kildetype } from './types';
 import { PersonContext } from './PersonContext';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { LoggProvider, Hendelsetype as LoggType } from '@navikt/helse-frontend-logg';
@@ -10,11 +10,11 @@ interface LoggProviderProps {
 
 const navnForHendelse = (hendelse: Hendelse) => {
     switch (hendelse.type) {
-        case Hendelsestype.Inntektsmelding:
+        case Kildetype.Inntektsmelding:
             return 'Inntektsmelding mottatt';
-        case Hendelsestype.Søknad:
+        case Kildetype.Søknad:
             return 'Søknad mottatt';
-        case Hendelsestype.Sykmelding:
+        case Kildetype.Sykmelding:
             return 'Sykmelding mottatt';
         default:
             return 'Hendelse';
@@ -22,7 +22,7 @@ const navnForHendelse = (hendelse: Hendelse) => {
 };
 
 const hendelseFørsteDato = (hendelse: Hendelse) =>
-    hendelse.type === Hendelsestype.Inntektsmelding ? hendelse.mottattTidspunkt : hendelse.rapportertDato;
+    hendelse.type === Kildetype.Inntektsmelding ? hendelse.mottattTidspunkt : hendelse.rapportertDato;
 
 const datoForHendelse = (hendelse: Hendelse) => {
     const dato = hendelseFørsteDato(hendelse);
