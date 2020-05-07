@@ -5,6 +5,7 @@ import AlternativerKnapp from './AlternativerKnapp';
 import Annullering from './Annullering';
 import { PersonContext } from '../context/PersonContext';
 import { Utbetalinger } from '../context/types';
+import { isDevelopment } from '../utils/awesomeHack';
 
 const Container = styled(Sakslinje)`
     border-top: none;
@@ -27,7 +28,12 @@ const Verktøylinje = () => {
     const utbetalinger: Utbetalinger | undefined = personContext.aktivVedtaksperiode?.utbetalinger;
 
     return (
-        <Container høyre={(utbetalinger?.arbeidsgiverUtbetaling || utbetalinger?.personUtbetaling) && <Dropdown />} />
+        <Container
+            høyre={
+                isDevelopment() &&
+                (utbetalinger?.arbeidsgiverUtbetaling || utbetalinger?.personUtbetaling) && <Dropdown />
+            }
+        />
     );
 };
 
