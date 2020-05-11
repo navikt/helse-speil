@@ -141,7 +141,8 @@ export enum Vedtaksperiodetilstand {
     IngenUtbetaling = 'ingenUtbetaling',
     Feilet = 'feilet',
     Ukjent = 'ukjent',
-    TilInfotrygd = 'tilInfotrygd'
+    TilInfotrygd = 'tilInfotrygd',
+    Annullert = 'annullert'
 }
 
 export interface UferdigVedtaksperiode {

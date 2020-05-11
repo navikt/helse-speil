@@ -1,3 +1,3 @@
-import TidslinjeWrapper from './TidslinjeWrapper';
+import { Tidslinje } from './Tidslinje';
 
-export default TidslinjeWrapper;
+export { Tidslinje };
