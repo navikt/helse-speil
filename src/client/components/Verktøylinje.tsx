@@ -28,12 +28,7 @@ const Verktøylinje = () => {
     const utbetalinger: Utbetalinger | undefined = personContext.aktivVedtaksperiode?.utbetalinger;
 
     return (
-        <Container
-            høyre={
-                isDevelopment() &&
-                (utbetalinger?.arbeidsgiverUtbetaling || utbetalinger?.personUtbetaling) && <Dropdown />
-            }
-        />
+        <Container høyre={(utbetalinger?.arbeidsgiverUtbetaling || utbetalinger?.personUtbetaling) && <Dropdown />} />
     );
 };
 
