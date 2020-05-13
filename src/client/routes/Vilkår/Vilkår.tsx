@@ -17,6 +17,7 @@ import {
     opptjeningstid,
     søknadsfrist
 } from './Vilkårsgrupper/Vilkårsgrupper';
+import { ForlengelseFraInfotrygd } from '../../context/types';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
@@ -65,7 +66,7 @@ const Vilkår = () => {
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 
-    const ikkeOppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => it.oppfylt === false);
+    const ikkeOppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => !it.oppfylt);
     const oppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => it.oppfylt);
     const ikkeVurderteVilkår: IkkeVurdertVilkår[] = vurderteVilkår
         .filter(it => it.oppfylt == undefined)
@@ -108,6 +109,9 @@ const Vilkår = () => {
                         ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                         oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                         ikkeVurderteVilkår={ikkeVurderteVilkår}
+                        forlengelseFraInfotrygd={
+                            aktivVedtaksperiode?.forlengelseFraInfotrygd === ForlengelseFraInfotrygd.JA
+                        }
                     />
                 );
         }

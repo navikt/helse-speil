@@ -42,6 +42,13 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
     </>
 );
 
+const VilkårVurdertIInfotrygd = ({ vedtaksperiode }: FerdigbehandledeVilkårProps) => (
+    <StyledBehandletInnhold saksbehandler={``} tittel={`Inngangsvilkår vurdert i Infotrygd`}>
+        <Vilkårsgruppe tittel="Opptjeningstid" ikontype="ok" paragraf="§8-2" />
+        <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" ikontype="ok" paragraf="§8-3" />
+    </StyledBehandletInnhold>
+);
+
 interface OpptionalOpptjeningstidProps {
     vedtaksperiode: Vedtaksperiode;
 }
@@ -61,13 +68,15 @@ interface PåfølgendeVedtaksperiodeProps {
     ikkeOppfylteVilkår: ReactNode[];
     oppfylteVilkår: ReactNode[];
     ikkeVurderteVilkår: IkkeVurdertVilkår[];
+    forlengelseFraInfotrygd: boolean;
 }
 
 const PåfølgendeVedtaksperiode = ({
     førsteVedtaksperiode,
     ikkeOppfylteVilkår,
     oppfylteVilkår,
-    ikkeVurderteVilkår
+    ikkeVurderteVilkår,
+    forlengelseFraInfotrygd
 }: PåfølgendeVedtaksperiodeProps) => {
     return (
         <>
@@ -76,7 +85,11 @@ const PåfølgendeVedtaksperiode = ({
             )}
             <IkkeVurderteVilkår ikkeVurderteVilkår={ikkeVurderteVilkår} />
             <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={oppfylteVilkår} />
-            <FerdigbehandledeVilkår vedtaksperiode={førsteVedtaksperiode} />
+            {forlengelseFraInfotrygd ? (
+                <VilkårVurdertIInfotrygd vedtaksperiode={førsteVedtaksperiode} />
+            ) : (
+                <FerdigbehandledeVilkår vedtaksperiode={førsteVedtaksperiode} />
+            )}
             <Strek />
         </>
     );
