@@ -1,10 +1,11 @@
 import { somDato, somTidspunkt } from '../vedtaksperiodemapper';
-import { Dagtype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types';
+import { Dagtype, ForlengelseFraInfotrygd, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types';
 import {
+    SpleisForlengelseFraInfotrygd,
+    SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
-    SpleisVedtaksperiodetilstand,
-    SpleisSykdomsdagkildeType
+    SpleisVedtaksperiodetilstand
 } from '../external.types';
 import { defaultHendelser } from './defaultHendelser';
 
@@ -444,6 +445,7 @@ export const mappetPerson: Person = {
                         }
                     ],
                     aktivitetslog: [],
+                    forlengelseFraInfotrygd: ForlengelseFraInfotrygd.NEI,
                     rawData: {
                         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                         fom: '2019-09-10',
@@ -845,7 +847,8 @@ export const mappetPerson: Person = {
                                 grad: 100
                             }
                         ],
-                        aktivitetslogg: []
+                        aktivitetslogg: [],
+                        forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.NEI
                     }
                 }
             ]

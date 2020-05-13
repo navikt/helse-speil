@@ -151,6 +151,7 @@ export interface Vedtaksperiode {
     fom: Dayjs;
     tom: Dayjs;
     gruppeId: string;
+    forlengelseFraInfotrygd: ForlengelseFraInfotrygd;
     tilstand: Vedtaksperiodetilstand;
     kanVelges: boolean;
     utbetalingsreferanse?: string;
@@ -167,6 +168,12 @@ export interface Vedtaksperiode {
     hendelser: Hendelse[];
     aktivitetslog: Aktivitet[];
     rawData: SpesialistVedtaksperiode;
+}
+
+export enum ForlengelseFraInfotrygd {
+    IKKE_ETTERSPURT = 'IKKE_ETTERSPURT',
+    JA = 'JA',
+    NEI = 'NEI'
 }
 
 export interface Utbetalinger {

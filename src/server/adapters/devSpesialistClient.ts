@@ -43,6 +43,8 @@ const filename = (aktørId: string) => {
             return 'mock-person_til-godkjenning.json';
         case '87654321962123':
             return 'mock-person_2perioder.json';
+        case '87650000962123':
+            return 'mock-person_infotrygd-forlengelse.json';
         default:
             return 'mock-person_3perioder_første_periode_kort.json';
     }

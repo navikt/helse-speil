@@ -1,8 +1,9 @@
 import {
     Aktivitet,
+    ForlengelseFraInfotrygd,
     Hendelse,
-    Kildetype,
     Inntektskilde,
+    Kildetype,
     Oppsummering,
     Personinfo,
     Simulering,
@@ -12,7 +13,9 @@ import {
 } from '../types';
 import dayjs, { Dayjs } from 'dayjs';
 import {
+    SpesialistVedtaksperiode,
     SpleisDataForSimulering,
+    SpleisForlengelseFraInfotrygd,
     SpleisHendelse,
     SpleisHendelsetype,
     SpleisInntektsmelding,
@@ -23,12 +26,11 @@ import {
     SpleisSykdomsdagtype,
     SpleisSykmelding,
     SpleisSøknad,
-    SpesialistVedtaksperiode,
+    SpleisUtbetalingslinje,
     SpleisVedtaksperiodetilstand,
     Utbetaling,
     Utbetalingsdetalj,
-    Utbetalingsperiode,
-    SpleisUtbetalingslinje
+    Utbetalingsperiode
 } from './external.types';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
@@ -137,6 +139,7 @@ export const mapVedtaksperiode = (
         fom: somDato(unmappedPeriode.fom),
         tom: somDato(unmappedPeriode.tom),
         gruppeId: unmappedPeriode.gruppeId,
+        forlengelseFraInfotrygd: forlengelseFraInfotrygd(unmappedPeriode.forlengelseFraInfotrygd),
         kanVelges:
             ![SpleisVedtaksperiodetilstand.IngenUtbetaling, SpleisVedtaksperiodetilstand.Utbetalt].includes(
                 spleisPeriode.tilstand
@@ -177,6 +180,17 @@ export const mapVedtaksperiode = (
         aktivitetslog: aktivitetslogg,
         rawData: unmappedPeriode
     };
+};
+
+const forlengelseFraInfotrygd = (value: SpleisForlengelseFraInfotrygd): ForlengelseFraInfotrygd => {
+    switch (value) {
+        case SpleisForlengelseFraInfotrygd.IKKE_ETTERSPURT:
+            return ForlengelseFraInfotrygd.IKKE_ETTERSPURT;
+        case SpleisForlengelseFraInfotrygd.JA:
+            return ForlengelseFraInfotrygd.JA;
+        case SpleisForlengelseFraInfotrygd.NEI:
+            return ForlengelseFraInfotrygd.NEI;
+    }
 };
 
 const somUtbetalingslinje = (value: SpleisUtbetalingslinje) => ({

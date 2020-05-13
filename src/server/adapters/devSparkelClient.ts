@@ -11,6 +11,9 @@ const hentPersoninfo = (aktørId: string, _: string): Promise<UnmappedPersoninfo
         case '87654321962123':
             response = { fornavn: 'Dronning', etternavn: 'Sonja', kjønn: 'kvinne', fdato: '2000-02-12' };
             break;
+        case '87650000962123':
+            response = { fornavn: 'Ingrid', etternavn: 'Alexandra', kjønn: 'kvinne', fdato: '2000-02-12' };
+            break;
         default:
             response = { fornavn: 'Kronprins', etternavn: 'Haakon', kjønn: 'mann', fdato: '2000-02-12' };
             break;

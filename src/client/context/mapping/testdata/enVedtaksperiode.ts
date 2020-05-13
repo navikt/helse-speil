@@ -1,6 +1,7 @@
 import {
     SpesialistVedtaksperiode,
     SpleisAktivitet,
+    SpleisForlengelseFraInfotrygd,
     SpleisHendelsetype,
     SpleisSykdomsdag,
     SpleisSøknad,
@@ -111,6 +112,7 @@ export const enVedtaksperiode = (
                 grad: 100
             }
         ],
-        aktivitetslogg: aktivitetslogg
+        aktivitetslogg: aktivitetslogg,
+        forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.NEI
     };
 };
