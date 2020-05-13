@@ -1,6 +1,6 @@
 describe('Oversiktssiden', function() {
     beforeEach(() => {
-        cy.visit('/');
+        cy.visit('/').wait(200);
     });
 
     it('rendres', function() {
