@@ -7,6 +7,8 @@ import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import { ForlengelseFraInfotrygd } from '../../context/types';
+import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
@@ -30,19 +32,25 @@ const Sykepengegrunnlag = () => {
         ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
 
-    const { sykepengegrunnlag } = aktivVedtaksperiode;
+    const { forlengelseFraInfotrygd, sykepengegrunnlag } = aktivVedtaksperiode;
 
     return (
         <Sykepengegrunnlagpanel>
             {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
                 <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
-            ) : (
+            ) : forlengelseFraInfotrygd !== ForlengelseFraInfotrygd.JA ? (
                 <StyledBehandletInnhold
                     tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
                     saksbehandler={førsteVedtaksperiode?.godkjentAv!}
                     vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
                 >
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
+                </StyledBehandletInnhold>
+            ) : (
+                <StyledBehandletInnhold tittel={`Sykepengegrunnlag satt i Infotrygd`} saksbehandler={''}>
+                    <SykepengegrunnlagInfotrygd
+                        årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding}
+                    />
                 </StyledBehandletInnhold>
             )}
             <NavigationButtons />
