@@ -2,6 +2,7 @@ apiVersion: nais.io/v1
 kind: Alert
 metadata:
   name: {{app}}
+  namespace: default
   labels:
     team: {{team}}
 spec:
