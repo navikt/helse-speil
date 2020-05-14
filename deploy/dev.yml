@@ -36,6 +36,11 @@ spec:
     enabled: true
   vault:
     enabled: true
+    paths:
+      - mountPath: /var/run/secrets/nais.io/vault
+        kvPath: /kv/preprod/fss/speil/default
+      - mountPath: /var/run/secrets/nais.io/azure
+        kvPath: /azuread/data/dev/creds/speil
   webproxy: true
   secureLogs:
     enabled: true
