@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Strek, StyledBehandletInnhold } from './Vilkår.styles';
+import { Strek, StyledBehandletInnhold, StyledBehandletAvInfotrygd } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper';
 import { Opptjening, Vedtaksperiode } from '../../context/types';
@@ -42,11 +42,11 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
     </>
 );
 
-const VilkårVurdertIInfotrygd = ({ vedtaksperiode }: FerdigbehandledeVilkårProps) => (
-    <StyledBehandletInnhold saksbehandler={``} tittel={`Inngangsvilkår vurdert i Infotrygd`}>
+const VilkårVurdertIInfotrygd = () => (
+    <StyledBehandletAvInfotrygd tittel={`Inngangsvilkår vurdert i Infotrygd`}>
         <Vilkårsgruppe tittel="Opptjeningstid" ikontype="ok" paragraf="§8-2" />
         <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" ikontype="ok" paragraf="§8-3" />
-    </StyledBehandletInnhold>
+    </StyledBehandletAvInfotrygd>
 );
 
 interface OpptionalOpptjeningstidProps {
@@ -86,7 +86,7 @@ const PåfølgendeVedtaksperiode = ({
             <IkkeVurderteVilkår ikkeVurderteVilkår={ikkeVurderteVilkår} />
             <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={oppfylteVilkår} />
             {forlengelseFraInfotrygd ? (
-                <VilkårVurdertIInfotrygd vedtaksperiode={førsteVedtaksperiode} />
+                <VilkårVurdertIInfotrygd />
             ) : (
                 <FerdigbehandledeVilkår vedtaksperiode={førsteVedtaksperiode} />
             )}

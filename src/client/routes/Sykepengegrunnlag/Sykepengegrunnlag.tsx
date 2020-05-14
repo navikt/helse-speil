@@ -5,12 +5,18 @@ import NavigationButtons from '../../components/NavigationButtons';
 import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
+import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { ForlengelseFraInfotrygd } from '../../context/types';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
+    margin: 2rem 2rem;
+    width: max-content;
+`;
+
+const StyledBehandletAvInfotrygd = styled(BehandletAvInfotrygd)`
     margin: 2rem 2rem;
     width: max-content;
 `;
@@ -47,11 +53,11 @@ const Sykepengegrunnlag = () => {
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                 </StyledBehandletInnhold>
             ) : (
-                <StyledBehandletInnhold tittel={`Sykepengegrunnlag satt i Infotrygd`} saksbehandler={''}>
+                <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
                     <SykepengegrunnlagInfotrygd
                         årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding}
                     />
-                </StyledBehandletInnhold>
+                </StyledBehandletAvInfotrygd>
             )}
             <NavigationButtons />
         </Sykepengegrunnlagpanel>

@@ -46,6 +46,7 @@
         "@emotion/core": "^10.0.28",
         "@emotion/styled": "^10.0.27",
         "@navikt/fnrvalidator": "^1.1.2",
+        "@navikt/helse-frontend-behandlet-av-infotrygd": "^1.0.1",
         "@navikt/helse-frontend-behandlet-innhold": "^1.0.2",
         "@navikt/helse-frontend-header": "^1.1.1",
         "@navikt/helse-frontend-logg": "0.0.2",
