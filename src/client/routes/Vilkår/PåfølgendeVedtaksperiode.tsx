@@ -68,7 +68,7 @@ interface PåfølgendeVedtaksperiodeProps {
     ikkeOppfylteVilkår: ReactNode[];
     oppfylteVilkår: ReactNode[];
     ikkeVurderteVilkår: IkkeVurdertVilkår[];
-    forlengelseFraInfotrygd: boolean;
+    forlengelseFraInfotrygd?: boolean;
 }
 
 const PåfølgendeVedtaksperiode = ({

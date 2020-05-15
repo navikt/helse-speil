@@ -455,9 +455,9 @@
                             "oppfylt": true
                         },
                         "opptjening": {
-                            "antallKjenteOpptjeningsdager": 425,
+                            "antallKjenteOpptjeningsdager": 0,
                             "fom": "2018-11-21",
-                            "oppfylt": true
+                            "oppfylt": false
                         },
                         "søknadsfrist": {
                             "sendtNav": "2020-04-16T00:00:00",

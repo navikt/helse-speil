@@ -15,12 +15,12 @@ export interface VurdertVilkår {
     vilkår: Vilkårstype;
 }
 
-export const aldersVilkår = (vilkår: SpleisVilkår): Alder => ({
+export const alderVilkår = (vilkår: SpleisVilkår): Alder => ({
     alderSisteSykedag: vilkår.alder.alderSisteSykedag,
     oppfylt: vilkår.alder.oppfylt
 });
 
-export const sykepengegrunnlagsVilkår = (vilkår: SpleisVilkår): SykepengegrunnlagVilkår => ({
+export const sykepengegrunnlagVilkår = (vilkår: SpleisVilkår): SykepengegrunnlagVilkår => ({
     sykepengegrunnlag: vilkår.sykepengegrunnlag.sykepengegrunnlag,
     oppfylt: vilkår.sykepengegrunnlag.oppfylt,
     grunnebeløp: vilkår.sykepengegrunnlag.grunnbeløp
@@ -46,7 +46,7 @@ export const søknadsfristVilkår = (vilkår: SpleisVilkår): Søknadsfrist | un
           }
         : undefined;
 
-export const opptjeningsVilkår = (vilkår: SpleisVilkår): Opptjening | undefined =>
+export const opptjeningVilkår = (vilkår: SpleisVilkår): Opptjening | undefined =>
     vilkår.opptjening !== undefined && vilkår.opptjening !== null
         ? {
               antallOpptjeningsdagerErMinst: vilkår.opptjening.antallKjenteOpptjeningsdager,
@@ -58,7 +58,7 @@ export const opptjeningsVilkår = (vilkår: SpleisVilkår): Opptjening | undefin
 export const mapVilkår = (vilkår: Vilkår): VurdertVilkår[] => [
     {
         vilkår: Vilkårstype.Alder,
-        oppfylt: vilkår.alder.oppfylt
+        oppfylt: vilkår.alder.oppfylt!
     },
     {
         vilkår: Vilkårstype.Søknadsfrist,

@@ -17,7 +17,6 @@ import {
     opptjeningstid,
     søknadsfrist
 } from './Vilkårsgrupper/Vilkårsgrupper';
-import { ForlengelseFraInfotrygd } from '../../context/types';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
@@ -109,9 +108,7 @@ const Vilkår = () => {
                         ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                         oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                         ikkeVurderteVilkår={ikkeVurderteVilkår}
-                        forlengelseFraInfotrygd={
-                            aktivVedtaksperiode?.forlengelseFraInfotrygd === ForlengelseFraInfotrygd.JA
-                        }
+                        forlengelseFraInfotrygd={aktivVedtaksperiode?.forlengelseFraInfotrygd}
                     />
                 );
         }

@@ -3,7 +3,6 @@ import Link from './Link';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../context/PersonContext';
 import { Location, useNavigation } from '../../hooks/useNavigation';
-import { ForlengelseFraInfotrygd } from '../../context/types';
 
 interface Props {
     active?: boolean;
@@ -62,7 +61,7 @@ const Venstremeny = () => {
     const { pathForLocation } = useNavigation();
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const active = aktivVedtaksperiode !== undefined;
-    const erForlengelseFraInfotrygd = aktivVedtaksperiode?.forlengelseFraInfotrygd === ForlengelseFraInfotrygd.JA;
+    const forlengelseFraInfotrygd = aktivVedtaksperiode?.forlengelseFraInfotrygd;
 
     return (
         <Container>
@@ -80,7 +79,7 @@ const Venstremeny = () => {
                 <Lenke
                     id="nav-link-inntektskilder"
                     to={pathForLocation(Location.Inntektskilder)}
-                    active={!erForlengelseFraInfotrygd}
+                    active={!forlengelseFraInfotrygd}
                 >
                     Inntektskilder
                 </Lenke>

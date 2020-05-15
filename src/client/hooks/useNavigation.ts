@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { PersonContext } from '../context/PersonContext';
-import { ForlengelseFraInfotrygd, Person } from '../context/types';
+import { Person } from '../context/types';
 
 export interface Navigation {
     toString: (location: Location) => string;
@@ -37,16 +37,12 @@ const locationFromCurrentPath = (path: string, locations: string[]) => {
 export const useNavigation = (): Navigation => {
     const history = useHistory();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const [availableLocations, setAvailableLocations] = useState(locations);
-    const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), availableLocations);
 
-    useEffect(() => {
-        if (aktivVedtaksperiode?.forlengelseFraInfotrygd === ForlengelseFraInfotrygd.JA) {
-            setAvailableLocations(locations.filter(l => l !== locations[Location.Inntektskilder]));
-        } else {
-            setAvailableLocations(locations);
-        }
-    }, [aktivVedtaksperiode]);
+    const availableLocations = aktivVedtaksperiode?.forlengelseFraInfotrygd
+        ? locations.filter(l => l !== locations[Location.Inntektskilder])
+        : locations;
+
+    const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), availableLocations);
 
     const navigateTo = (location: Location, person: Person | undefined = personTilBehandling) => {
         history.push(`${availableLocations[location]}/${person?.aktørId}`);

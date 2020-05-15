@@ -8,7 +8,6 @@ import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import { ForlengelseFraInfotrygd } from '../../context/types';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
@@ -44,7 +43,13 @@ const Sykepengegrunnlag = () => {
         <Sykepengegrunnlagpanel>
             {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
                 <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
-            ) : forlengelseFraInfotrygd !== ForlengelseFraInfotrygd.JA ? (
+            ) : forlengelseFraInfotrygd ? (
+                <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
+                    <SykepengegrunnlagInfotrygd
+                        årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding}
+                    />
+                </StyledBehandletAvInfotrygd>
+            ) : (
                 <StyledBehandletInnhold
                     tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
                     saksbehandler={førsteVedtaksperiode?.godkjentAv!}
@@ -52,12 +57,6 @@ const Sykepengegrunnlag = () => {
                 >
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                 </StyledBehandletInnhold>
-            ) : (
-                <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
-                    <SykepengegrunnlagInfotrygd
-                        årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding}
-                    />
-                </StyledBehandletAvInfotrygd>
             )}
             <NavigationButtons />
         </Sykepengegrunnlagpanel>

@@ -1,5 +1,5 @@
 import { somDato, somTidspunkt } from '../vedtaksperiodemapper';
-import { Dagtype, ForlengelseFraInfotrygd, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types';
+import { Dagtype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types';
 import {
     SpleisForlengelseFraInfotrygd,
     SpleisSykdomsdagkildeType,
@@ -445,7 +445,7 @@ export const mappetPerson: Person = {
                         }
                     ],
                     aktivitetslog: [],
-                    forlengelseFraInfotrygd: ForlengelseFraInfotrygd.NEI,
+                    forlengelseFraInfotrygd: false,
                     rawData: {
                         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                         fom: '2019-09-10',

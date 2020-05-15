@@ -8,38 +8,38 @@ export interface Periode {
     tom: Dayjs;
 }
 
-export interface DagerIgjen {
+interface Basisvilkår {
+    oppfylt?: boolean;
+}
+
+export interface DagerIgjen extends Basisvilkår {
     dagerBrukt: number;
     førsteFraværsdag: Dayjs;
     førsteSykepengedag?: Dayjs;
     maksdato: Dayjs;
-    oppfylt?: boolean;
     gjenståendeDager?: number;
     tidligerePerioder: Periode[];
 }
 
-export interface Søknadsfrist {
-    oppfylt?: boolean;
+export interface Søknadsfrist extends Basisvilkår {
     søknadTom?: Dayjs;
     sendtNav?: Dayjs;
 }
 
-export interface Opptjening {
+export interface Opptjening extends Basisvilkår {
     antallOpptjeningsdagerErMinst: number;
     opptjeningFra: Dayjs;
-    oppfylt?: boolean;
 }
 
-export interface Alder {
+export interface Alder extends Basisvilkår {
     alderSisteSykedag: number;
-    oppfylt: boolean;
 }
 
 export interface Vilkår {
     alder: Alder;
     dagerIgjen: DagerIgjen;
     sykepengegrunnlag: SykepengegrunnlagVilkår;
-    opptjening?: Opptjening;
+    opptjening?: Opptjening | Basisvilkår;
     søknadsfrist?: Søknadsfrist;
 }
 
@@ -151,7 +151,7 @@ export interface Vedtaksperiode {
     fom: Dayjs;
     tom: Dayjs;
     gruppeId: string;
-    forlengelseFraInfotrygd: ForlengelseFraInfotrygd;
+    forlengelseFraInfotrygd?: boolean;
     tilstand: Vedtaksperiodetilstand;
     kanVelges: boolean;
     utbetalingsreferanse?: string;
@@ -168,12 +168,6 @@ export interface Vedtaksperiode {
     hendelser: Hendelse[];
     aktivitetslog: Aktivitet[];
     rawData: SpesialistVedtaksperiode;
-}
-
-export enum ForlengelseFraInfotrygd {
-    IKKE_ETTERSPURT = 'IKKE_ETTERSPURT',
-    JA = 'JA',
-    NEI = 'NEI'
 }
 
 export interface Utbetalinger {

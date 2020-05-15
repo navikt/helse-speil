@@ -1,6 +1,5 @@
 import {
     Aktivitet,
-    ForlengelseFraInfotrygd,
     Hendelse,
     Inntektskilde,
     Kildetype,
@@ -35,10 +34,10 @@ import {
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 import {
-    aldersVilkår,
+    alderVilkår,
     dagerIgjenVilkår,
-    opptjeningsVilkår,
-    sykepengegrunnlagsVilkår,
+    opptjeningVilkår,
+    sykepengegrunnlagVilkår,
     søknadsfristVilkår
 } from './vilkårsmapper';
 
@@ -134,12 +133,14 @@ export const mapVedtaksperiode = (
         tidsstempel: somTidspunkt(aktivitet.tidsstempel)
     }));
 
+    const forlengelseFraInfotrygd = mapForlengelseFraInfotrygd(unmappedPeriode.forlengelseFraInfotrygd);
+
     return {
         id: unmappedPeriode.id,
         fom: somDato(unmappedPeriode.fom),
         tom: somDato(unmappedPeriode.tom),
         gruppeId: unmappedPeriode.gruppeId,
-        forlengelseFraInfotrygd: forlengelseFraInfotrygd(unmappedPeriode.forlengelseFraInfotrygd),
+        forlengelseFraInfotrygd,
         kanVelges:
             ![SpleisVedtaksperiodetilstand.IngenUtbetaling, SpleisVedtaksperiodetilstand.Utbetalt].includes(
                 spleisPeriode.tilstand
@@ -163,11 +164,11 @@ export const mapVedtaksperiode = (
         vilkår:
             vilkår !== null
                 ? {
-                      alder: aldersVilkår(vilkår),
+                      alder: alderVilkår(vilkår),
                       dagerIgjen: dagerIgjenVilkår(vilkår),
-                      opptjening: opptjeningsVilkår(vilkår),
+                      opptjening: forlengelseFraInfotrygd ? { oppfylt: true } : opptjeningVilkår(vilkår),
                       søknadsfrist: søknadsfristVilkår(vilkår),
-                      sykepengegrunnlag: sykepengegrunnlagsVilkår(vilkår)
+                      sykepengegrunnlag: sykepengegrunnlagVilkår(vilkår)
                   }
                 : undefined,
         inntektskilder: inntektskilder,
@@ -182,14 +183,14 @@ export const mapVedtaksperiode = (
     };
 };
 
-const forlengelseFraInfotrygd = (value: SpleisForlengelseFraInfotrygd): ForlengelseFraInfotrygd => {
+const mapForlengelseFraInfotrygd = (value: SpleisForlengelseFraInfotrygd): boolean | undefined => {
     switch (value) {
-        case SpleisForlengelseFraInfotrygd.IKKE_ETTERSPURT:
-            return ForlengelseFraInfotrygd.IKKE_ETTERSPURT;
         case SpleisForlengelseFraInfotrygd.JA:
-            return ForlengelseFraInfotrygd.JA;
+            return true;
         case SpleisForlengelseFraInfotrygd.NEI:
-            return ForlengelseFraInfotrygd.NEI;
+            return false;
+        case SpleisForlengelseFraInfotrygd.IKKE_ETTERSPURT:
+            return undefined;
     }
 };
 
