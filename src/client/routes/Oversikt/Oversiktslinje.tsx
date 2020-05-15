@@ -15,7 +15,7 @@ import { Cell, Row } from './Oversikt.styles';
 interface Props {
     oppgave: Oppgave;
     onUnassignCase: (id: string) => void;
-    onAssignCase: (id: string, email?: string) => void;
+    onAssignCase: (id: string, email?: string) => Promise<void>;
     onSelectCase: (oppgave: Oppgave) => void;
     tildeling?: Tildeling;
     antallVarsler: number;
@@ -52,6 +52,10 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter(n => n).join(' ');
 
+    const onTildeling = () => {
+        onAssignCase(oppgave.spleisbehovId, email).then(() => onSelectCase(oppgave));
+    };
+
     const tildelingsCelle = tildeling?.userId ? (
         <FlexContainer>
             <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
@@ -64,7 +68,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
             )}
         </FlexContainer>
     ) : (
-        <Knapp mini onClick={() => onAssignCase(oppgave.spleisbehovId, email)}>
+        <Knapp mini onClick={onTildeling}>
             Tildel meg
         </Knapp>
     );
@@ -97,6 +101,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
                 return `${antallVarsler} varsler`;
         }
     };
+
     const Status = () => (
         <Cell>
             <Element>{varseltekst(antallVarsler)}</Element>

@@ -6,7 +6,7 @@ import { Oppgave } from '../../types';
 
 interface TildelingerContextType {
     tildelinger: Tildeling[];
-    tildelBehandling: (behovId: string, userId: string) => void;
+    tildelBehandling: (behovId: string, userId: string) => Promise<void>;
     fetchTildelinger: (saksoversikt: Oppgave[]) => void;
     fjernTildeling: (behovId: string) => void;
     tildelingError?: string;
@@ -14,7 +14,7 @@ interface TildelingerContextType {
 
 export const TildelingerContext = createContext<TildelingerContextType>({
     tildelinger: [],
-    tildelBehandling: (behovId, userId) => {},
+    tildelBehandling: (behovId, userId) => Promise.resolve(),
     fetchTildelinger: saksoversikt => {},
     fjernTildeling: (behovId: string) => {}
 });
@@ -24,7 +24,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<string | undefined>(undefined);
 
     const tildelBehandling = (behovId: string, userId: string) => {
-        postTildeling({ behovId, userId })
+        return postTildeling({ behovId, userId })
             .then(() => {
                 setTildelinger(prev =>
                     prev.map(tildeling => (tildeling.behovId === behovId ? { behovId, userId } : tildeling))
