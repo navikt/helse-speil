@@ -3,8 +3,8 @@ import {
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdag,
     SpleisUtbetalingsdagtype
-} from './external.types';
-import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../types';
+} from './types.external';
+import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../types.internal';
 import { somDato } from './vedtaksperiodemapper';
 
 const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {

@@ -1,12 +1,15 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { ChangeEvent, useContext, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../context/PersonContext';
-import { Person, Vedtaksperiodetilstand } from '../../context/types';
 import { Sykepengetidslinje } from '@navikt/helse-frontend-tidslinje';
 import Vinduvelger from './Vinduvelger';
-import dayjs, { Dayjs } from 'dayjs';
-import { Tidslinjevindu } from './Tidslinje.types';
-import { EnkelSykepengetidslinje } from '@navikt/helse-frontend-tidslinje/dist/components/sykepengetidslinje/Sykepengetidslinje';
+import { useTidslinjevinduer } from './useTidslinjevinduer';
+import { useTidslinjerader } from './useTidslinjerader';
+import Arbeidsgiverikon from '../Ikon/Arbeidsgiverikon';
+import { useIntervaller } from './useIntervaller';
+import dayjs from 'dayjs';
+import { NORSK_DATOFORMAT } from '../../utils/date';
+import { Select } from '../Select';
 
 const Container = styled.div`
     display: flex;
@@ -15,83 +18,99 @@ const Container = styled.div`
     border-bottom: 1px solid #c6c2bf;
 `;
 
-interface Intervall {
-    id: string;
-    fom: string;
-    tom: string;
-    status: Vedtaksperiodetilstand;
-}
+const FlexRow = styled.div`
+    display: flex;
+`;
 
-const useTidslinjerader = (person?: Person): EnkelSykepengetidslinje[] =>
-    useMemo(
-        () =>
-            person?.arbeidsgivere.map(arbeidsgiver => ({
-                perioder: arbeidsgiver.vedtaksperioder.map(periode => ({
-                    id: periode.id,
-                    fom: periode.fom.toDate(),
-                    tom: periode.tom.toDate(),
-                    status: periode.tilstand,
-                    disabled: !periode.kanVelges
-                }))
-            })) ?? [],
-        [person]
-    );
+const FlexColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 
-const useSenesteTidslinjedato = (person?: Person): Dayjs =>
-    useMemo(
-        () =>
-            person?.arbeidsgivere
-                .flatMap(arbeidsgiver => arbeidsgiver.vedtaksperioder)
-                .reduce(
-                    (senesteDato, periode) => (periode.tom.isAfter(senesteDato) ? periode.tom : senesteDato),
-                    dayjs(0)
-                )
-                .endOf('day') ?? dayjs().endOf('day'),
-        [person]
-    );
+const SelectContainer = styled.div`
+    padding-top: 12px;
+    height: 44px;
+    width: 250px;
+`;
+
+const Labels = styled.div`
+    padding: 14px 0;
+`;
+
+const Radnavn = styled.p`
+    height: 24px;
+    margin: 0.25rem 0;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #3e3832;
+
+    > svg {
+        margin-right: 10px;
+    }
+`;
 
 export const Tidslinje = () => {
-    const { personTilBehandling, aktiverVedtaksperiode } = useContext(PersonContext);
-
-    const tidslinjerader = useTidslinjerader(personTilBehandling);
-    const senesteTidslinjedato = useSenesteTidslinjedato(personTilBehandling);
-
-    const vinduer: Tidslinjevindu[] = [
-        {
-            fom: senesteTidslinjedato.subtract(6, 'month'),
-            tom: senesteTidslinjedato,
-            label: '6 mnd'
-        },
-        {
-            fom: senesteTidslinjedato.subtract(1, 'year'),
-            tom: senesteTidslinjedato,
-            label: '1 år'
-        },
-        {
-            fom: senesteTidslinjedato.subtract(3, 'year'),
-            tom: senesteTidslinjedato,
-            label: '3 år'
-        }
-    ];
-
-    const [aktivtVindu, setAktivtVindu] = useState<number>(0);
+    const { personTilBehandling, aktiverVedtaksperiode, aktivVedtaksperiode } = useContext(PersonContext);
+    const { vinduer, aktivtVindu, setAktivtVindu } = useTidslinjevinduer(personTilBehandling);
+    const tidslinjerader = useTidslinjerader(personTilBehandling, aktivVedtaksperiode);
+    const intervaller = useIntervaller(tidslinjerader);
+    const aktivtIntervall = intervaller.find(intervall => intervall.active);
+    const radnavn =
+        personTilBehandling?.arbeidsgivere.map(arbeidsgiver => arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer) ??
+        [];
 
     const onSelect = (periode: { id?: string }) => {
-        console.log(periode);
         aktiverVedtaksperiode(periode.id!);
     };
 
-    if (tidslinjerader.length === 0) return null;
+    const onChange = (event: ChangeEvent<HTMLOptionElement>) => {
+        const intervallet = intervaller.find(i => i.id === event.target.value)!;
+        const nyPeriode = tidslinjerader
+            .flatMap(rad => rad.perioder)
+            .find(
+                periode =>
+                    periode.fom.getTime() === intervallet.fom.getTime() &&
+                    periode.tom.getTime() === intervallet.tom.getTime()
+            );
+        aktiverVedtaksperiode(nyPeriode!.id);
+    };
 
-    return (
-        <Container>
-            <Sykepengetidslinje
-                rader={tidslinjerader}
-                startDato={vinduer[aktivtVindu].fom.toDate()}
-                sluttDato={vinduer[aktivtVindu].tom.toDate()}
-                onSelectPeriode={onSelect}
-            />
-            <Vinduvelger vinduer={vinduer} aktivtVindu={aktivtVindu} setAktivtVindu={setAktivtVindu} />
-        </Container>
-    );
+    return useMemo(() => {
+        if (tidslinjerader.length === 0) return null;
+        return (
+            <Container>
+                <FlexRow>
+                    <FlexColumn>
+                        <SelectContainer>
+                            <Select name="tidslinjeintervaller" onChange={onChange} value={aktivtIntervall?.id}>
+                                {intervaller.map(intervallet => (
+                                    <option key={intervallet.id} value={intervallet.id}>
+                                        {`${dayjs(intervallet.fom).format(NORSK_DATOFORMAT)} - ${dayjs(
+                                            intervallet.tom
+                                        ).format(NORSK_DATOFORMAT)}`}
+                                    </option>
+                                ))}
+                            </Select>
+                        </SelectContainer>
+                        <Labels>
+                            {radnavn.map((navn, i) => (
+                                <Radnavn key={`tidslinjerad-${i}`}>
+                                    <Arbeidsgiverikon />
+                                    {navn}
+                                </Radnavn>
+                            ))}
+                        </Labels>
+                    </FlexColumn>
+                    <Sykepengetidslinje
+                        rader={tidslinjerader}
+                        startDato={vinduer[aktivtVindu].fom.toDate()}
+                        sluttDato={vinduer[aktivtVindu].tom.toDate()}
+                        onSelectPeriode={onSelect}
+                    />
+                </FlexRow>
+                <Vinduvelger vinduer={vinduer} aktivtVindu={aktivtVindu} setAktivtVindu={setAktivtVindu} />
+            </Container>
+        );
+    }, [tidslinjerader, intervaller, aktivtVindu]);
 };

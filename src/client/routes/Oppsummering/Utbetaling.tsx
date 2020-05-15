@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import StatusUtbetalt from './StatusUtbetalt';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
-import { Vedtaksperiodetilstand } from '../../context/types';
+import { Vedtaksperiodetilstand } from '../../context/types.internal';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',

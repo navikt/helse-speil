@@ -680,5 +680,15 @@
                 }
             ]
         }
+    ],
+    "infotrygdutbetalinger": [
+        {
+            "fom": "2017-11-01",
+            "tom": "2017-11-30",
+            "grad": "100",
+            "dagsats": 1000.0,
+            "organisasjonsnummer": "987654321",
+            "typetekst": "ArbRef"
+        }
     ]
 }

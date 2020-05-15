@@ -1,6 +1,6 @@
 import { somDato, somTidspunkt } from '../vedtaksperiodemapper';
-import { Dagtype, Hendelsestype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types';
-import { SpleisSykdomsdagtype, SpleisUtbetalingsdagtype, SpleisVedtaksperiodetilstand } from '../external.types';
+import { Dagtype, Hendelsestype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types.internal';
+import { SpleisSykdomsdagtype, SpleisUtbetalingsdagtype, SpleisVedtaksperiodetilstand } from '../types.external';
 import { defaultHendelser } from './defaultHendelser';
 
 export const mappetPerson: Person = {

@@ -4,7 +4,7 @@ import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typo
 import Kildelenke from '../../components/Kildelenke';
 import { toKronerOgØre } from '../../utils/locale';
 import Ikonrad from '../../components/Ikonrad';
-import { Inntektskilde } from '../../context/types';
+import { Inntektskilde } from '../../context/types.internal';
 import styled from '@emotion/styled';
 import Grid from '../../components/Grid';
 import { FlexColumn } from '../../components/FlexColumn';

@@ -1,4 +1,4 @@
-import { Person, Vedtaksperiode } from '../context/types';
+import { Person, Vedtaksperiode } from '../context/types.internal';
 
 // Finner første vedtaksperiode i en serie av sammenhengende vedtaksperioder
 export const finnFørsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person: Person): Vedtaksperiode =>

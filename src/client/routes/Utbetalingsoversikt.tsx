@@ -5,7 +5,7 @@ import { PersonContext } from '../context/PersonContext';
 import { Dag, Dagstatus, Utbetalingstabell } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../utils/date';
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from '../context/types';
+import { Dagtype, Sykdomsdag, Utbetalingsdag } from '../context/types.internal';
 import { Dayjs } from 'dayjs';
 import { useMaksdato } from '../hooks/useMaksdato';
 

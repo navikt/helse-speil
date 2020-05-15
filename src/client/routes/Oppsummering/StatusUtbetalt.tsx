@@ -3,7 +3,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import React, { Dispatch, SetStateAction, useContext, useState } from 'react';
 import AnnulleringsModal from './AnnulleringsModal';
 import { postAnnullering } from '../../io/http';
-import { Person, Vedtaksperiodetilstand } from '../../context/types';
+import { Person, Vedtaksperiodetilstand } from '../../context/types.internal';
 import { Error } from '../../../types';
 import { AuthContext } from '../../context/AuthContext';
 import { PersonContext } from '../../context/PersonContext';

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { PersonContext } from '../context/PersonContext';
-import { Person } from '../context/types';
+import { Person } from '../context/types.internal';
 
 export interface Navigation {
     toString: (location: Location) => string;

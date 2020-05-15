@@ -13,6 +13,16 @@ const Vinduknapp = styled.button<{ active: boolean }>`
     font-size: 1rem;
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     color: #0067c5;
+    cursor: pointer;
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
 
     ${props =>
         props.active &&
