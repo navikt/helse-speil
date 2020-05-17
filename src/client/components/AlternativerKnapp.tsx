@@ -44,6 +44,7 @@ const Alternativer = styled.ul`
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
     min-width: 1rem;
     min-height: 1rem;
+    z-index: 1000;
 `;
 
 const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappProps) => {

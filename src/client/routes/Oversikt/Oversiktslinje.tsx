@@ -34,7 +34,7 @@ const MeldAvKnapp = styled.button`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     padding: 1rem;
     cursor: pointer;
-    background: none;
+    background: #fff;
     border: none;
     border-radius: 0.25rem;
     outline: none;
