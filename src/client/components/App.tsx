@@ -15,19 +15,22 @@ import './App.less';
 import ProtectedRoute from './ProtectedRoute';
 import IkkeLoggetInn from './IkkeLoggetInn';
 
-const App = withContextProviders(() => {
-    useLogUserOut();
+const App = withContextProviders(
+    React.memo(() => {
+        useLogUserOut();
 
-    return (
-        <BrowserRouter>
-            <Header />
-            <Switch>
-                <Route path={'/uautorisert'} component={IkkeLoggetInn} />
-                <ProtectedRoute path={'/'} exact component={Oversikt} />
-                <ProtectedRoute component={Saksbilde} />
-            </Switch>
-        </BrowserRouter>
-    );
-}, [BehovProvider, PersonProvider, AuthProvider, TildelingerProvider]);
+        return (
+            <BrowserRouter>
+                <Header />
+                <Switch>
+                    <Route path={'/uautorisert'} component={IkkeLoggetInn} />
+                    <ProtectedRoute path={'/'} exact component={Oversikt} />
+                    <ProtectedRoute component={Saksbilde} />
+                </Switch>
+            </BrowserRouter>
+        );
+    }),
+    [BehovProvider, PersonProvider, AuthProvider, TildelingerProvider]
+);
 
 export default hot(module)(App);
