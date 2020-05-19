@@ -97,13 +97,8 @@ const behovForPeriode = (req: Request, res: Response) => {
     });
 };
 
-const auditLog = (req: Request, ...queryParams: string[]) => {
-    logger.audit(
-        `${speilUser(req)} is doing lookup with params: ${queryParams?.reduce(
-            (previous: string, current: string | string[]) => `${previous}, ${current}`,
-            ''
-        )}`
-    );
+const auditLog = (req: Request, ...params: string[]) => {
+    logger.audit(`${speilUser(req)} is doing lookup with params: ${params.join(', ')}`);
 };
 
 const speilUser = (req: Request) => authSupport.valueFromClaim('name', req.session!.speilToken);
