@@ -16,6 +16,8 @@ interface RespondWithParameters {
         person?: ReadableStream<Uint8Array> | null;
         behov?: ReadableStream<Uint8Array> | null;
     };
+    operation: string;
+    speilUser: string;
 }
 
 interface SetupParameters {
@@ -68,7 +70,9 @@ const finnPerson = async (req: Request, res: Response) => {
         }),
         mapper: (response: Body) => ({
             person: response.body
-        })
+        }),
+        operation: 'finnPerson',
+        speilUser: speilUser(req)
     });
 };
 
@@ -87,23 +91,25 @@ const behovForPeriode = (req: Request, res: Response) => {
             .then(behalfOfToken => spesialistClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
         mapper: (response: Body) => ({
             behov: response.body
-        })
+        }),
+        operation: 'oversikt',
+        speilUser: speilUser(req)
     });
 };
 
 const auditLog = (req: Request, ...queryParams: string[]) => {
-    const speilUser = authSupport.valueFromClaim('name', req.session!.speilToken);
     logger.audit(
-        `${speilUser} is doing lookup with params: ${queryParams?.reduce(
+        `${speilUser(req)} is doing lookup with params: ${queryParams?.reduce(
             (previous: string, current: string | string[]) => `${previous}, ${current}`,
             ''
         )}`
     );
 };
 
+const speilUser = (req: Request) => authSupport.valueFromClaim('name', req.session!.speilToken);
+
 const auditLogOversikt = (req: Request) => {
-    const speilUser = authSupport.valueFromClaim('name', req.session!.speilToken);
-    logger.audit(`${speilUser} is viewing front page`);
+    logger.audit(`${speilUser(req)} is viewing front page`);
 };
 
 const toAktørId = async (fnr: string) => {
@@ -112,18 +118,18 @@ const toAktørId = async (fnr: string) => {
     });
 };
 
-const respondWith = ({ res, lookupPromise, mapper }: RespondWithParameters) => {
+const respondWith = ({ res, lookupPromise, mapper, operation, speilUser }: RespondWithParameters) => {
     return lookupPromise
         .then(apiResponse => {
             if (apiResponse === undefined) {
-                logger.error('Unexpected error, missing apiResponse value');
+                logger.error('[${speilUser}] Unexpected error, missing apiResponse value');
                 res.sendStatus(503);
             } else {
                 res.status(apiResponse.statusCode).send(mapper(apiResponse));
             }
         })
         .catch(err => {
-            logger.error(`Error during data fetching: ${err}`);
+            logger.error(`[${speilUser}] Error during data fetching for ${operation}: ${err}`);
             res.sendStatus(err.statusCode || 503);
         });
 };
