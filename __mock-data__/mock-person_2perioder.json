@@ -872,5 +872,31 @@
                 }
             ]
         }
+    ],
+    "infotrygdutbetalinger": [
+        {
+            "fom": "2017-12-01",
+            "tom": "2017-12-29",
+            "dagsats": 1154,
+            "grad": "100",
+            "typetekst": "Tilbakeført",
+            "organisasjonsnummer": "982708672"
+        },
+        {
+            "fom": "2017-11-20",
+            "tom": "2017-12-29",
+            "dagsats": 1154,
+            "grad": "100",
+            "typetekst": "ArbRef",
+            "organisasjonsnummer": "982708672"
+        },
+        {
+            "fom": "2017-11-20",
+            "tom": "2017-12-29",
+            "dagsats": 1154,
+            "grad": "100",
+            "typetekst": "Tilbakeført",
+            "organisasjonsnummer": "982708672"
+        }
     ]
 }

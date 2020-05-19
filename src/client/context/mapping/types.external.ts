@@ -152,6 +152,7 @@ export interface SpesialistPerson {
     fødselsnummer: string;
     arbeidsgivere: SpesialistArbeidsgiver[];
     navn: PersonNavn;
+    infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
 }
 
 export interface SpesialistArbeidsgiver {
@@ -298,6 +299,15 @@ export interface SpesialistVedtaksperiode {
     hendelser: SpleisHendelse[];
     utbetalingslinjer?: SpleisUtbetalingslinje[];
     aktivitetslogg: SpleisAktivitet[];
+}
+
+export interface SpesialistInfotrygdutbetaling {
+    fom: string;
+    tom: string;
+    grad: string;
+    dagsats: number;
+    typetekst: string;
+    organisasjonsnummer: string;
 }
 
 export enum SpleisForlengelseFraInfotrygd {

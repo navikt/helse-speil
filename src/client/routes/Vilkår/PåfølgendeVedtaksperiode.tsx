@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Strek, StyledBehandletInnhold, StyledBehandletAvInfotrygd } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper';
-import { Opptjening, Vedtaksperiode } from '../../context/types';
+import { Opptjening, Vedtaksperiode } from '../../context/types.internal';
 import { FlexColumn } from '../../components/FlexColumn';
 import TwoColumnGrid from '../../components/TwoColumnGrid';
 import { NORSK_DATOFORMAT } from '../../utils/date';

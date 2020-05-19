@@ -3,10 +3,10 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Kjønn, Person, Personinfo, Vedtaksperiode } from '../types';
+import { Infotrygdutbetaling, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types.internal';
 import { Personinfo as SpleisPersoninfo } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
-import { SpesialistPerson, SpesialistVedtaksperiode } from './external.types';
+import { SpesialistPerson, SpesialistVedtaksperiode } from './types.external';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -33,6 +33,30 @@ const tilArbeidsgivere = (person: SpesialistPerson, personinfo: Personinfo) =>
         };
     });
 
+const tilInfotrygdutbetalinger = (spesialistPerson: SpesialistPerson): Infotrygdutbetaling[] => {
+    return (
+        spesialistPerson.infotrygdutbetalinger
+            ?.filter(utbetaling => utbetaling.typetekst !== 'Tilbakeført')
+            .map(utbetaling => ({
+                fom: somDato(utbetaling.fom),
+                tom: somDato(utbetaling.tom),
+                grad: parseInt(utbetaling.grad),
+                dagsats: utbetaling.dagsats,
+                typetekst: utbetaling.typetekst,
+                organisasjonsnummer: utbetaling.organisasjonsnummer
+            })) ?? []
+    );
+};
+
+export const tilPersonMedInfo = (spesialistPerson: SpesialistPerson, personinfo: Personinfo) => ({
+    aktørId: spesialistPerson.aktørId,
+    fødselsnummer: spesialistPerson.fødselsnummer,
+    navn: spesialistPerson.navn,
+    arbeidsgivere: tilArbeidsgivere(spesialistPerson, personinfo),
+    personinfo: personinfo,
+    infotrygdutbetalinger: tilInfotrygdutbetalinger(spesialistPerson)
+});
+
 export const mapPersoninfo = (spleisPersoninfo: SpleisPersoninfo): Personinfo => ({
     fnr: spleisPersoninfo.fnr,
     kjønn: spleisPersoninfo.kjønn as Kjønn,
@@ -41,11 +65,3 @@ export const mapPersoninfo = (spleisPersoninfo: SpleisPersoninfo): Personinfo =>
 
 export const tilPerson = (spesialistPerson: SpesialistPerson, spleisPersoninfo: SpleisPersoninfo): Person =>
     tilPersonMedInfo(spesialistPerson, mapPersoninfo(spleisPersoninfo));
-
-export const tilPersonMedInfo = (spesialistPerson: SpesialistPerson, personinfo: Personinfo) => ({
-    aktørId: spesialistPerson.aktørId,
-    fødselsnummer: spesialistPerson.fødselsnummer,
-    navn: spesialistPerson.navn,
-    arbeidsgivere: tilArbeidsgivere(spesialistPerson, personinfo),
-    personinfo: personinfo
-});

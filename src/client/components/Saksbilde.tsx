@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { Route } from 'react-router-dom';
 import Vilkår from '../routes/Vilkår';
-import Tidslinje from './Tidslinje';
 import Høyremeny from './Høyremeny';
 import Sakslinje from './Sakslinje';
 import Personlinje from './Personlinje';
@@ -17,6 +16,7 @@ import LoggProvider from '../context/LoggProvider';
 import { PersonContext } from '../context/PersonContext';
 import { Location, useNavigation } from '../hooks/useNavigation';
 import Toppvarsler from './Toppvarsler';
+import { Tidslinje } from './Tidslinje';
 
 const Container = styled.div`
     display: flex;

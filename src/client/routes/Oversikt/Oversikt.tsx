@@ -7,7 +7,7 @@ import { BehovContext } from '../../context/BehovContext';
 import { Undertekst, Undertittel } from 'nav-frontend-typografi';
 import { PersonContext } from '../../context/PersonContext';
 import { useInterval } from '../../hooks/useInterval';
-import { Person } from '../../context/types';
+import { Person } from '../../context/types.internal';
 import { useTranslation } from 'react-i18next';
 import { Oppgave } from '../../../types';
 import { Location, useNavigation } from '../../hooks/useNavigation';

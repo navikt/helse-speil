@@ -2,12 +2,12 @@ import React from 'react';
 import styled from '@emotion/styled';
 import List from '../../components/List';
 import dayjs from 'dayjs';
-import { Simulering } from '../../context/types';
+import { Simulering } from '../../context/types.internal';
 import ListItem from '../../components/ListItem';
 import { toKronerOgØre } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import { Utbetalingsdetalj } from '../../context/mapping/external.types';
+import { Utbetalingsdetalj } from '../../context/mapping/types.external';
 
 const Underliste = styled(List)`
     &:not(:last-child) {

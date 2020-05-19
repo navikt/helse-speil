@@ -2,7 +2,7 @@ import React from 'react';
 import { Strek, StyledBehandletInnhold } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper/Vilkårsgruppe';
-import { Vedtaksperiode } from '../../context/types';
+import { Vedtaksperiode } from '../../context/types.internal';
 import dayjs from 'dayjs';
 import { FlexColumn } from '../../components/FlexColumn';
 import styled from '@emotion/styled';

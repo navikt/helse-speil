@@ -4,7 +4,7 @@ import {
     SpleisInntektsmelding,
     SpleisSykmelding,
     SpleisSøknad
-} from '../external.types';
+} from '../types.external';
 
 export const defaultHendelser: SpleisHendelse[] = [
     {

@@ -1,9 +1,9 @@
-import React, { createContext, ReactChild, useCallback, useEffect, useState } from 'react';
+import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { tilPerson, tilPersonMedInfo } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Person, Vedtaksperiode } from './types';
+import { Person, Vedtaksperiode } from './types.internal';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;

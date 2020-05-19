@@ -1,6 +1,6 @@
 import { ReactChild } from 'react';
 import { Dayjs } from 'dayjs';
-import { SpesialistVedtaksperiode, Utbetalingsperiode } from './mapping/external.types';
+import { SpesialistVedtaksperiode, Utbetalingsperiode } from './mapping/types.external';
 import { PersonNavn } from '../../types';
 
 export interface Periode {
@@ -135,7 +135,8 @@ export enum Vedtaksperiodetilstand {
     IngenUtbetaling = 'ingenUtbetaling',
     Feilet = 'feilet',
     Ukjent = 'ukjent',
-    TilInfotrygd = 'tilInfotrygd'
+    TilInfotrygd = 'tilInfotrygd',
+    Annullert = 'annullert'
 }
 
 export interface UferdigVedtaksperiode {
@@ -222,6 +223,7 @@ export interface Person {
     arbeidsgivere: Arbeidsgiver[];
     personinfo: Personinfo;
     fødselsnummer: string;
+    infotrygdutbetalinger: Infotrygdutbetaling[];
 }
 
 export interface ProviderProps {
@@ -231,4 +233,13 @@ export interface ProviderProps {
 export interface Tildeling {
     behovId: string;
     userId: string;
+}
+
+export interface Infotrygdutbetaling {
+    fom: Dayjs;
+    tom: Dayjs;
+    grad: number;
+    dagsats: number;
+    typetekst: string;
+    organisasjonsnummer: string;
 }

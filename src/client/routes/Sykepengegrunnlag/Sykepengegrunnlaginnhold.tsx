@@ -1,4 +1,4 @@
-import { Sykepengegrunnlag } from '../../context/types';
+import { Sykepengegrunnlag } from '../../context/types.internal';
 import Inntektssammenligning from './Inntektssammenligning';
 import Avvikssammenligning from './Avvikssammenligning';
 import { Element, Normaltekst } from 'nav-frontend-typografi';

@@ -11,7 +11,7 @@ import { Error } from '../../../types';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
-import { Vedtaksperiodetilstand } from '../../context/types';
+import { Vedtaksperiodetilstand } from '../../context/types.internal';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',

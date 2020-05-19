@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
-import { Tildeling } from '../../context/types';
+import { Tildeling } from '../../context/types.internal';
 import { Oppgave } from '../../../types';
 import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 import { NORSK_DATOFORMAT } from '../../utils/date';

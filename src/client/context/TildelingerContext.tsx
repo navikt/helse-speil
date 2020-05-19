@@ -1,7 +1,7 @@
 import React, { createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { deleteTildeling, getTildelinger, postTildeling } from '../io/http';
-import { ProviderProps, Tildeling } from './types';
+import { ProviderProps, Tildeling } from './types.internal';
 import { Oppgave } from '../../types';
 
 interface TildelingerContextType {

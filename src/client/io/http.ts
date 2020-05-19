@@ -1,4 +1,4 @@
-import { Tildeling } from '../context/types';
+import { Tildeling } from '../context/types.internal';
 import { Options } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({

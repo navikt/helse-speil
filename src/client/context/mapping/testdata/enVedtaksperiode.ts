@@ -7,7 +7,7 @@ import {
     SpleisSøknad,
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand
-} from '../external.types';
+} from '../types.external';
 import { max as dayjsMax } from 'dayjs';
 import { somDato } from '../vedtaksperiodemapper';
 import { ISO_DATOFORMAT } from '../../../utils/date';

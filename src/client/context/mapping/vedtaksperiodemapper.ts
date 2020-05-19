@@ -9,7 +9,7 @@ import {
     UferdigVedtaksperiode,
     Vedtaksperiode,
     Vedtaksperiodetilstand
-} from '../types';
+} from '../types.internal';
 import dayjs, { Dayjs } from 'dayjs';
 import {
     SpesialistVedtaksperiode,
@@ -30,7 +30,7 @@ import {
     Utbetaling,
     Utbetalingsdetalj,
     Utbetalingsperiode
-} from './external.types';
+} from './types.external';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 import {

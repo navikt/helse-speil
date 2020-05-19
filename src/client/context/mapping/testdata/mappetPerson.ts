@@ -1,12 +1,12 @@
 import { somDato, somTidspunkt } from '../vedtaksperiodemapper';
-import { Dagtype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types';
+import { Dagtype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types.internal';
 import {
     SpleisForlengelseFraInfotrygd,
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
     SpleisVedtaksperiodetilstand
-} from '../external.types';
+} from '../types.external';
 import { defaultHendelser } from './defaultHendelser';
 
 export const mappetPerson: Person = {
@@ -860,5 +860,6 @@ export const mappetPerson: Person = {
         kjønn: 'Mannebjørn' as Kjønn,
         fødselsdato: somDato('1956-12-12'),
         fnr: '01019000123'
-    }
+    },
+    infotrygdutbetalinger: []
 };
