@@ -73,7 +73,7 @@ const finnPerson = async (req: Request, res: Response) => {
 };
 
 const behovForPeriode = (req: Request, res: Response) => {
-    auditLog(req);
+    auditLogOversikt(req);
 
     const today = moment().format('YYYY-MM-DD');
     const yesterday = moment()
@@ -99,6 +99,11 @@ const auditLog = (req: Request, ...queryParams: string[]) => {
             ''
         )}`
     );
+};
+
+const auditLogOversikt = (req: Request) => {
+    const speilUser = authSupport.valueFromClaim('name', req.session!.speilToken);
+    logger.audit(`${speilUser} is viewing front page`);
 };
 
 const toAktørId = async (fnr: string) => {
