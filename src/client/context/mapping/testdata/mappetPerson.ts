@@ -30,6 +30,7 @@ export const mappetPerson: Person = {
                     gruppeId: 'gruppe-1',
                     kanVelges: true,
                     tilstand: Vedtaksperiodetilstand.Oppgaver,
+                    oppgavereferanse: '3982',
                     utbetalingsreferanse: '12345',
                     utbetalinger: {
                         arbeidsgiverUtbetaling: {
@@ -452,6 +453,7 @@ export const mappetPerson: Person = {
                         tom: '2019-10-05',
                         gruppeId: 'gruppe-1',
                         tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
+                        oppgavereferanse: '3982',
                         fullstendig: true,
                         utbetalingsreferanse: '12345',
                         utbetalingstidslinje: [

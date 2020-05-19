@@ -29,6 +29,7 @@ export const enVedtaksperiode = (
         tom: dayjsMax(sykdomstidslinje.map(it => somDato(it.dagen))).format(ISO_DATOFORMAT),
         gruppeId: 'gruppe-1',
         tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
+        oppgavereferanse: '3982',
         fullstendig: true,
         utbetalingsreferanse: '12345',
         utbetalingstidslinje: _utbetalingstidslinje,

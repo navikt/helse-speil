@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import OversiktsLenke from './OversiktsLenke';
 import { AuthContext } from '../../context/AuthContext';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
@@ -11,6 +10,7 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import AlternativerKnapp from '../../components/AlternativerKnapp';
 import { Cell, Row } from './Oversikt.styles';
+import { Location, useNavigation } from '../../hooks/useNavigation';
 
 interface Props {
     oppgave: Oppgave;
@@ -49,6 +49,7 @@ const MeldAvKnapp = styled.button`
 
 const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSelectCase, antallVarsler }: Props) => {
     const { email } = useContext(AuthContext);
+    const { pathForLocation } = useNavigation();
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter(n => n).join(' ');
 
@@ -75,7 +76,9 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
 
     const Søkernavn = () => (
         <Cell>
-            <OversiktsLenke onClick={() => onSelectCase(oppgave)}>{formatertNavn}</OversiktsLenke>
+            <a className="lenke" href={pathForLocation(Location.Sykmeldingsperiode, oppgave.aktørId)}>
+                {formatertNavn}
+            </a>
         </Cell>
     );
 

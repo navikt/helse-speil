@@ -23,6 +23,7 @@ export interface Oppgave {
     vedtaksperiodeId: string;
     navn: PersonNavn;
     fødselsnummer: string;
+    aktørId: string;
     antallVarsler: number;
 }
 

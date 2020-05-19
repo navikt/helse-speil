@@ -2,7 +2,8 @@
     {
         "spleisbehovId": "ea5d644b-0000-9999-0000-f93744554d5e",
         "opprettet": "2018-02-27T08:38:00.728127",
-        "fødselsnummer": "1000000009871",
+        "fødselsnummer": "21023701901",
+        "aktørId": "1000000009871",
         "navn": {
             "fornavn": "Kong",
             "mellomnavn": null,
@@ -14,7 +15,8 @@
     {
         "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5f",
         "opprettet": "2018-02-10T08:38:00.728127",
-        "fødselsnummer": "87654321962123",
+        "fødselsnummer": "04073732100",
+        "aktørId": "87654321962123",
         "navn": {
             "fornavn": "Dronning",
             "mellomnavn": null,
@@ -26,7 +28,8 @@
     {
         "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5g",
         "opprettet": "2018-02-10T09:38:00.728127",
-        "fødselsnummer": "87654321962124",
+        "fødselsnummer": "20077362124",
+        "aktørId": "87654321962124",
         "navn": {
             "fornavn": "Kronprins",
             "mellomnavn": null,
@@ -38,7 +41,8 @@
     {
         "spleisbehovId": "e3474433-0000-9999-0000-ea5d644b4a6b",
         "opprettet": "2018-02-10T09:38:00.728127",
-        "fødselsnummer": "87650000962123",
+        "fødselsnummer": "21010462423",
+        "aktørId": "87650000962123",
         "navn": {
             "fornavn": "Ingrid",
             "mellomnavn": null,

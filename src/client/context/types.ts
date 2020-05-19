@@ -153,6 +153,7 @@ export interface Vedtaksperiode {
     gruppeId: string;
     forlengelseFraInfotrygd?: boolean;
     tilstand: Vedtaksperiodetilstand;
+    oppgavereferanse: string;
     kanVelges: boolean;
     utbetalingsreferanse?: string;
     utbetalingstidslinje: Utbetalingsdag[];

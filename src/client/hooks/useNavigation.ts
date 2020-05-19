@@ -6,7 +6,7 @@ import { Person } from '../context/types';
 export interface Navigation {
     toString: (location: Location) => string;
     navigateTo: (location: Location, person?: Person) => void;
-    pathForLocation: (location: Location) => string;
+    pathForLocation: (location: Location, aktørId?: string) => string;
     navigateToNext?: () => void;
     navigateToPrevious?: () => void;
 }
@@ -58,7 +58,8 @@ export const useNavigation = (): Navigation => {
         navigateTo(currentLocation - 1);
     };
 
-    const pathForLocation = (location: Location) => `${locations[location]}/${personTilBehandling?.aktørId}`;
+    const pathForLocation = (location: Location, aktørId?: string) =>
+        `${locations[location]}/${aktørId ?? personTilBehandling?.aktørId}`;
 
     const toString = (location: Location) => locations[location];
 

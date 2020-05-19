@@ -18,6 +18,7 @@
                     "fom": "2020-03-01",
                     "tom": "2020-03-27",
                     "tilstand": "Oppgaver",
+                    "oppgavereferanse": "2342",
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [

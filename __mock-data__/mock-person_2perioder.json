@@ -562,6 +562,7 @@
                     "fom": "2018-02-01",
                     "tom": "2018-02-14",
                     "tilstand": "Oppgaver",
+                    "oppgavereferanse": "2342",
                     "fullstendig": true,
                     "utbetalinger": {
                         "arbeidsgiverUtbetaling": {

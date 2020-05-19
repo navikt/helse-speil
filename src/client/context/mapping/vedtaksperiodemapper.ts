@@ -146,6 +146,7 @@ export const mapVedtaksperiode = (
                 spleisPeriode.tilstand
             ) || unmappedPeriode.totalbeløpArbeidstaker > 0,
         tilstand: mapTilstand(unmappedPeriode.tilstand),
+        oppgavereferanse: unmappedPeriode.oppgavereferanse,
         utbetalingsreferanse: unmappedPeriode.utbetalingsreferanse,
         utbetalingstidslinje: utbetalingstidslinje,
         utbetalinger: unmappedPeriode.utbetalinger && {

@@ -3,14 +3,12 @@ import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Panel } from 'nav-frontend-paneler';
 import React, { useContext, useState } from 'react';
 import { postVedtak } from '../../io/http';
-import { BehovContext } from '../../context/BehovContext';
 import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import './Utbetaling.less';
 import InfoModal from '../../components/InfoModal';
-import { Oppgave, Error } from '../../../types';
+import { Error } from '../../../types';
 import { useTranslation } from 'react-i18next';
-import StatusUtbetalt from './StatusUtbetalt';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
 import { Vedtaksperiodetilstand } from '../../context/types';
@@ -29,7 +27,6 @@ const Utbetalingstittel = styled(Undertittel)`
 `;
 
 const Utbetaling = ({ className }: UtbetalingProps) => {
-    const { behov } = useContext(BehovContext);
     const { personTilBehandling, innsyn, aktivVedtaksperiode } = useContext(PersonContext);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
@@ -39,12 +36,10 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean) => {
-        // TODO: Sjekk at denne oppfører seg riktig. Fatter vedtak på første behov/vedtaksperiode.
-        const behovId = behov.find((behov: Oppgave) => behov.fødselsnummer === personTilBehandling?.fødselsnummer)
-            ?.spleisbehovId;
         const vedtaksperiodeId = aktivVedtaksperiode?.id;
+        const oppgavereferanse = aktivVedtaksperiode?.oppgavereferanse;
         setIsSending(true);
-        postVedtak(behovId, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)
+        postVedtak(oppgavereferanse, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)
             .then(() => {
                 setBeslutning(godkjent ? Beslutning.Godkjent : Beslutning.Avvist);
                 setError(undefined);
@@ -75,7 +70,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
             ) : (tilstand === Vedtaksperiodetilstand.Oppgaver && beslutning === Beslutning.Godkjent) ||
               tilstand === Vedtaksperiodetilstand.TilUtbetaling ||
               tilstand === Vedtaksperiodetilstand.Utbetalt ? (
-                <StatusUtbetalt />
+                <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
             ) : !innsyn && tilstand === Vedtaksperiodetilstand.Oppgaver ? (
                 beslutning ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
