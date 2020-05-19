@@ -35,14 +35,16 @@ const tilArbeidsgivere = (person: SpesialistPerson, personinfo: Personinfo) =>
 
 const tilInfotrygdutbetalinger = (spesialistPerson: SpesialistPerson): Infotrygdutbetaling[] => {
     return (
-        spesialistPerson.infotrygdutbetalinger?.map(utbetaling => ({
-            fom: somDato(utbetaling.fom),
-            tom: somDato(utbetaling.tom),
-            grad: parseInt(utbetaling.grad),
-            dagsats: utbetaling.dagsats,
-            typetekst: utbetaling.typetekst,
-            organisasjonsnummer: utbetaling.organisasjonsnummer
-        })) ?? []
+        spesialistPerson.infotrygdutbetalinger
+            ?.filter(utbetaling => utbetaling.typetekst !== 'Tilbakeført')
+            .map(utbetaling => ({
+                fom: somDato(utbetaling.fom),
+                tom: somDato(utbetaling.tom),
+                grad: parseInt(utbetaling.grad),
+                dagsats: utbetaling.dagsats,
+                typetekst: utbetaling.typetekst,
+                organisasjonsnummer: utbetaling.organisasjonsnummer
+            })) ?? []
     );
 };
 

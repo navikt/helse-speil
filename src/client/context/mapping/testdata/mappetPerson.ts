@@ -724,5 +724,6 @@ export const mappetPerson: Person = {
         kjønn: 'Mannebjørn' as Kjønn,
         fødselsdato: somDato('1956-12-12'),
         fnr: '01019000123'
-    }
+    },
+    infotrygdutbetalinger: []
 };

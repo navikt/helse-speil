@@ -10,6 +10,8 @@ import { useIntervaller } from './useIntervaller';
 import dayjs from 'dayjs';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { Select } from '../Select';
+import { useInfotrygdrader } from './useInfotrygdrader';
+import Infotrygdikon from '../Ikon/Infotrygdikon';
 
 const Container = styled.div`
     display: flex;
@@ -50,15 +52,24 @@ const Radnavn = styled.p`
     }
 `;
 
+const Dinosaur = styled.p`
+    font-size: 20px;
+    width: 1.675rem;
+`;
+
 export const Tidslinje = () => {
     const { personTilBehandling, aktiverVedtaksperiode, aktivVedtaksperiode } = useContext(PersonContext);
     const { vinduer, aktivtVindu, setAktivtVindu } = useTidslinjevinduer(personTilBehandling);
-    const tidslinjerader = useTidslinjerader(personTilBehandling, aktivVedtaksperiode);
-    const intervaller = useIntervaller(tidslinjerader);
+    const arbeidsgiverrader = useTidslinjerader(personTilBehandling, aktivVedtaksperiode);
+    const infotrygdrader = useInfotrygdrader(personTilBehandling);
+    const tidslinjerader = [...arbeidsgiverrader, ...infotrygdrader];
+    const intervaller = useIntervaller(arbeidsgiverrader);
     const aktivtIntervall = intervaller.find(intervall => intervall.active);
-    const radnavn =
+    const radnavnArbeidsgiver =
         personTilBehandling?.arbeidsgivere.map(arbeidsgiver => arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer) ??
         [];
+
+    const radnavnInfotrygd = infotrygdrader.flatMap(rad => rad.organisasjonsnummer);
 
     const onSelect = (periode: { id?: string }) => {
         aktiverVedtaksperiode(periode.id!);
@@ -94,10 +105,15 @@ export const Tidslinje = () => {
                             </Select>
                         </SelectContainer>
                         <Labels>
-                            {radnavn.map((navn, i) => (
+                            {radnavnArbeidsgiver.map((navn, i) => (
                                 <Radnavn key={`tidslinjerad-${i}`}>
                                     <Arbeidsgiverikon />
                                     {navn}
+                                </Radnavn>
+                            ))}
+                            {radnavnInfotrygd.map((navn, i) => (
+                                <Radnavn key={`tidslinjerad-${i}`}>
+                                    <Dinosaur>🦕</Dinosaur> {`Infotrygd — ${navn}`}
                                 </Radnavn>
                             ))}
                         </Labels>

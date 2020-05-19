@@ -3,7 +3,7 @@ import {
     EnkelSykepengetidslinje,
     Sykepengeperiode
 } from '@navikt/helse-frontend-tidslinje/dist/components/sykepengetidslinje/Sykepengetidslinje';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeperiode => ({
     id: vedtaksperiode.id,
@@ -16,14 +16,16 @@ export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeper
 export const useTidslinjerader = (person?: Person, aktivVedtaksperiode?: Vedtaksperiode): EnkelSykepengetidslinje[] =>
     useMemo(
         () =>
-            person?.arbeidsgivere.map(arbeidsgiver => ({
-                perioder: arbeidsgiver.vedtaksperioder.map((periode: Vedtaksperiode) => ({
-                    ...toSykepengeperiode(periode),
-                    active:
-                        aktivVedtaksperiode &&
-                        periode.fom.isSame(aktivVedtaksperiode.fom) &&
-                        periode.tom.isSame(aktivVedtaksperiode.tom)
-                }))
-            })) ?? [],
+            person?.arbeidsgivere.map(arbeidsgiver => {
+                return {
+                    perioder: arbeidsgiver.vedtaksperioder.map((periode: Vedtaksperiode) => ({
+                        ...toSykepengeperiode(periode),
+                        active:
+                            aktivVedtaksperiode &&
+                            periode.fom.isSame(aktivVedtaksperiode.fom) &&
+                            periode.tom.isSame(aktivVedtaksperiode.tom)
+                    }))
+                };
+            }) ?? [],
         [person, aktivVedtaksperiode]
     );
