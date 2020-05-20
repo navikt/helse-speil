@@ -109,7 +109,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             const vedtaksperiode = personTilBehandling?.arbeidsgivere[0].vedtaksperioder.find(
                 periode => periode.id === periodeId
             );
-            vedtaksperiode && setAktivVedtaksperiode(vedtaksperiode as Vedtaksperiode);
+            vedtaksperiode?.kanVelges && setAktivVedtaksperiode(vedtaksperiode as Vedtaksperiode);
         },
         [personTilBehandling]
     );

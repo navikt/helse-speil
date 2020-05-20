@@ -5,7 +5,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
 import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiodemapper';
 import dayjs from 'dayjs';
-import { Kjønn } from '../../context/types';
+import { Kjønn } from '../../context/types.internal';
 
 const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), enPersoninfo(), '123456789');
 
@@ -30,7 +30,8 @@ const personTilBehandling = {
         mellomnavn: null,
         etternavn: 'Normann'
     },
-    personinfo: enPersoninfo()
+    personinfo: enPersoninfo(),
+    infotrygdutbetalinger: []
 };
 
 it('Viser feilmelding', () => {

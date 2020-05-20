@@ -1,4 +1,4 @@
-import { Utbetalingslinje } from '../../context/types';
+import { Utbetalingslinje } from '../../context/types.internal';
 import styled from '@emotion/styled';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';

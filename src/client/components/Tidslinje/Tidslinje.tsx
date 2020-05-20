@@ -52,9 +52,10 @@ const Radnavn = styled.p`
     }
 `;
 
-const Dinosaur = styled.p`
-    font-size: 20px;
-    width: 1.675rem;
+const Dinosaur = styled.span`
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.625rem;
 `;
 
 export const Tidslinje = () => {

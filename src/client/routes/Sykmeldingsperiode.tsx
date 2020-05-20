@@ -5,7 +5,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { Dag, Dagtype, Sykmeldingstabell, Kilde } from '@navikt/helse-frontend-tabell';
-import { Kildetype } from '../context/types';
+import { Kildetype } from '../context/types.internal';
 
 const Container = styled.div`
     padding: 1.5rem 2rem;
