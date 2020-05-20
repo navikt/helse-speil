@@ -1,4 +1,4 @@
-import { Infotrygdutbetaling, Person, Vedtaksperiode } from '../../context/types.internal';
+import { Infotrygdtypetekst, Infotrygdutbetaling, Person, Vedtaksperiode } from '../../context/types.internal';
 import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 import React, { useMemo } from 'react';
 import uuid from 'uuid';
@@ -24,11 +24,23 @@ const Tekst = styled.p`
     white-space: nowrap;
 `;
 
+const status = (typetekst: Infotrygdtypetekst) => {
+    switch (typetekst) {
+        case Infotrygdtypetekst.UTBETALING:
+        case Infotrygdtypetekst.ARBEIDSGIVERREFUSJON:
+            return Vedtaksperiodetilstand.UtbetaltIInfotrygd;
+        case Infotrygdtypetekst.FERIE:
+            return Vedtaksperiodetilstand.Infotrygdferie;
+        default:
+            return Vedtaksperiodetilstand.Infotrygdukjent;
+    }
+};
+
 const toSykepengeperiode = (infotrygdutbetaling: Infotrygdutbetaling): Sykepengeperiode => ({
     id: uuid(),
     fom: infotrygdutbetaling.fom.toDate(),
     tom: infotrygdutbetaling.tom.toDate(),
-    status: Vedtaksperiodetilstand.UtbetaltIInfotrygd,
+    status: status(infotrygdutbetaling.typetekst),
     disabled: true,
     disabledLabel: (
         <Label>
@@ -38,8 +50,8 @@ const toSykepengeperiode = (infotrygdutbetaling: Infotrygdutbetaling): Sykepenge
                 )})`}
             </Tekst>
             <Tekst>{`Type: ${infotrygdutbetaling.typetekst}`}</Tekst>
-            <Tekst>{`Grad: ${infotrygdutbetaling.grad}%`}</Tekst>
-            <Tekst>{`Dagsats: ${infotrygdutbetaling.dagsats} kr`}</Tekst>
+            {infotrygdutbetaling.grad !== undefined && <Tekst>{`Grad: ${infotrygdutbetaling.grad}%`}</Tekst>}
+            {infotrygdutbetaling.dagsats !== undefined && <Tekst>{`Dagsats: ${infotrygdutbetaling.dagsats} kr`}</Tekst>}
         </Label>
     )
 });

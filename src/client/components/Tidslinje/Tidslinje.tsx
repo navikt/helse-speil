@@ -70,7 +70,9 @@ export const Tidslinje = () => {
         personTilBehandling?.arbeidsgivere.map(arbeidsgiver => arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer) ??
         [];
 
-    const radnavnInfotrygd = infotrygdrader.flatMap(rad => rad.organisasjonsnummer);
+    const radnavnInfotrygd = infotrygdrader.flatMap(rad =>
+        rad.organisasjonsnummer !== '0' ? `Infotrygd — ${rad.organisasjonsnummer}` : `Infotrygd — Søknad uten inntekt`
+    );
 
     const onSelect = (periode: { id?: string }) => {
         aktiverVedtaksperiode(periode.id!);
@@ -114,7 +116,7 @@ export const Tidslinje = () => {
                             ))}
                             {radnavnInfotrygd.map((navn, i) => (
                                 <Radnavn key={`tidslinjerad-${i}`}>
-                                    <Dinosaur>🦕</Dinosaur> {`Infotrygd — ${navn}`}
+                                    <Dinosaur>🦕</Dinosaur> {navn}
                                 </Radnavn>
                             ))}
                         </Labels>

@@ -306,8 +306,16 @@ export interface SpesialistInfotrygdutbetaling {
     tom: string;
     grad: string;
     dagsats: number;
-    typetekst: string;
+    typetekst: SpesialistInfotrygdtypetekst;
     organisasjonsnummer: string;
+}
+
+export enum SpesialistInfotrygdtypetekst {
+    FERIE = 'Ferie',
+    UTBETALING = 'Utbetaling',
+    ARBEIDSGIVERREFUSJON = 'ArbRef',
+    UKJENT = 'Ukjent..',
+    TILBAKEFØRT = 'Tilbakeført'
 }
 
 export enum SpleisForlengelseFraInfotrygd {

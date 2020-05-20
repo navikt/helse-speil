@@ -238,8 +238,16 @@ export interface Tildeling {
 export interface Infotrygdutbetaling {
     fom: Dayjs;
     tom: Dayjs;
-    grad: number;
-    dagsats: number;
-    typetekst: string;
+    grad?: number;
+    dagsats?: number;
+    typetekst: Infotrygdtypetekst;
     organisasjonsnummer: string;
+}
+
+export enum Infotrygdtypetekst {
+    FERIE = 'Ferie',
+    UTBETALING = 'Utbetaling',
+    ARBEIDSGIVERREFUSJON = 'ArbRef',
+    UKJENT = 'Ukjent',
+    TILBAKEFØRT = 'Tilbakeført'
 }

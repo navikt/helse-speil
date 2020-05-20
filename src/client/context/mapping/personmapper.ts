@@ -3,10 +3,10 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Infotrygdutbetaling, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types.internal';
+import { Infotrygdtypetekst, Infotrygdutbetaling, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types.internal';
 import { Personinfo as SpleisPersoninfo } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
-import { SpesialistPerson, SpesialistVedtaksperiode } from './types.external';
+import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpesialistVedtaksperiode } from './types.external';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -34,15 +34,34 @@ const tilArbeidsgivere = (person: SpesialistPerson, personinfo: Personinfo) =>
     });
 
 const tilInfotrygdutbetalinger = (spesialistPerson: SpesialistPerson): Infotrygdutbetaling[] => {
+    const toTypetekst = (
+        spesialistInfotrygdtypetekst: SpesialistInfotrygdtypetekst | string
+    ): Infotrygdtypetekst | string => {
+        switch (spesialistInfotrygdtypetekst) {
+            case SpesialistInfotrygdtypetekst.FERIE:
+                return Infotrygdtypetekst.FERIE;
+            case SpesialistInfotrygdtypetekst.UTBETALING:
+                return Infotrygdtypetekst.UTBETALING;
+            case SpesialistInfotrygdtypetekst.ARBEIDSGIVERREFUSJON:
+                return Infotrygdtypetekst.ARBEIDSGIVERREFUSJON;
+            case SpesialistInfotrygdtypetekst.UKJENT:
+                return Infotrygdtypetekst.UKJENT;
+            case SpesialistInfotrygdtypetekst.TILBAKEFØRT:
+                return Infotrygdtypetekst.TILBAKEFØRT;
+            default:
+                return spesialistInfotrygdtypetekst;
+        }
+    };
+
     return (
         spesialistPerson.infotrygdutbetalinger
-            ?.filter(utbetaling => utbetaling.typetekst !== 'Tilbakeført')
+            ?.filter(utbetaling => utbetaling.typetekst !== SpesialistInfotrygdtypetekst.TILBAKEFØRT)
             .map(utbetaling => ({
                 fom: somDato(utbetaling.fom),
                 tom: somDato(utbetaling.tom),
-                grad: parseInt(utbetaling.grad),
-                dagsats: utbetaling.dagsats,
-                typetekst: utbetaling.typetekst,
+                grad: utbetaling.grad !== '' ? parseInt(utbetaling.grad) : undefined,
+                dagsats: utbetaling.typetekst !== SpesialistInfotrygdtypetekst.FERIE ? utbetaling.dagsats : undefined,
+                typetekst: toTypetekst(utbetaling.typetekst) as Infotrygdtypetekst,
                 organisasjonsnummer: utbetaling.organisasjonsnummer
             })) ?? []
     );

@@ -891,12 +891,36 @@
             "organisasjonsnummer": "982708672"
         },
         {
+            "fom": "2017-11-10",
+            "tom": "2017-11-19",
+            "grad": "100",
+            "dagsats": 0.0,
+            "typetekst": "Ukjent..",
+            "organisasjonsnummer": "0"
+        },
+        {
             "fom": "2017-11-20",
             "tom": "2017-12-29",
             "dagsats": 1154,
             "grad": "100",
             "typetekst": "Tilbakeført",
             "organisasjonsnummer": "982708672"
+        },
+        {
+            "fom": "2017-09-20",
+            "tom": "2017-09-29",
+            "dagsats": 1154,
+            "grad": "100",
+            "typetekst": "noe junk",
+            "organisasjonsnummer": "0"
+        },
+        {
+            "fom": "2017-10-01",
+            "tom": "2017-11-09",
+            "grad": "",
+            "dagsats": 0.0,
+            "typetekst": "Ferie",
+            "organisasjonsnummer": "0"
         },
         {
             "fom": "2017-11-20",
