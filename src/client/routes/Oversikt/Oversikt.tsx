@@ -66,8 +66,6 @@ const Sorteringspiler = styled.div<{ direction: string }>`
     `}
 `;
 
-const TWO_MINUTES = 120000;
-
 const ascending = (a: Oppgave, b: Oppgave) => a.antallVarsler - b.antallVarsler;
 const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler;
 
@@ -82,11 +80,12 @@ const Oversikt = () => {
     const [sortDirection, setSortDirection] = useState<(a: Oppgave, b: Oppgave) => number>(() => ascending);
 
     useEffect(() => {
+        if (tildelinger.length === 0) fetchTildelinger(behov);
+    }, [behov]);
+
+    useEffect(() => {
         hentBehov();
     }, []);
-
-    const intervalledFetchTildelinger = useCallback(() => fetchTildelinger(behov), [behov]);
-    useInterval({ callback: intervalledFetchTildelinger, interval: TWO_MINUTES });
 
     const velgBehovAndNavigate = (behov: Oppgave) => {
         hentPerson(behov.fødselsnummer).then((person: Person) => {
