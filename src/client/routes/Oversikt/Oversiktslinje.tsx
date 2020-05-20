@@ -17,7 +17,7 @@ interface Props {
     onUnassignCase: (id: string) => void;
     onAssignCase: (id: string, email?: string) => Promise<void>;
     onSelectCase: (oppgave: Oppgave) => void;
-    tildeling?: Tildeling;
+    tildeling: Tildeling;
     antallVarsler: number;
 }
 
@@ -57,21 +57,25 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
         onAssignCase(oppgave.spleisbehovId, email).then(() => onSelectCase(oppgave));
     };
 
-    const tildelingsCelle = tildeling?.userId ? (
-        <FlexContainer>
-            <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
-            {tildeling.userId === email && (
-                <Tildelingsalternativ>
-                    <MeldAvKnapp tabIndex={0} onClick={() => onUnassignCase(oppgave.spleisbehovId)}>
-                        Meld av
-                    </MeldAvKnapp>
-                </Tildelingsalternativ>
+    const Tildeling = () => (
+        <Cell>
+            {tildeling?.userId ? (
+                <FlexContainer>
+                    <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
+                    {tildeling.userId === email && (
+                        <Tildelingsalternativ>
+                            <MeldAvKnapp tabIndex={0} onClick={() => onUnassignCase(oppgave.spleisbehovId)}>
+                                Meld av
+                            </MeldAvKnapp>
+                        </Tildelingsalternativ>
+                    )}
+                </FlexContainer>
+            ) : (
+                <Knapp mini onClick={onTildeling}>
+                    Tildel meg
+                </Knapp>
             )}
-        </FlexContainer>
-    ) : (
-        <Knapp mini onClick={onTildeling}>
-            Tildel meg
-        </Knapp>
+        </Cell>
     );
 
     const Søkernavn = () => (
@@ -86,10 +90,6 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
         <Cell>
             <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
         </Cell>
-    );
-
-    const Tildeling = () => (
-        <Cell>{tildeling ? tildelingsCelle : <Normaltekst>Henter informasjon..</Normaltekst>}</Cell>
     );
 
     const varseltekst = (antallVarsler: number) => {
