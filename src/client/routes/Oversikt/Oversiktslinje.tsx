@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
@@ -111,13 +111,16 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
         </Cell>
     );
 
-    return (
-        <Row>
-            <Søkernavn />
-            <Dato />
-            <Tildeling />
-            <Status />
-        </Row>
+    return useMemo(
+        () => (
+            <Row>
+                <Søkernavn />
+                <Dato />
+                <Tildeling />
+                <Status />
+            </Row>
+        ),
+        [tildeling]
     );
 };
 

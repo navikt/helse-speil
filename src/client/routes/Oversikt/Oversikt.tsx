@@ -121,10 +121,12 @@ const Oversikt = () => {
         </Header>
     );
 
+    const harAlleTildelinger = tildelinger.length == behov.length;
+
     return (
         <>
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
-            {isFetchingBehov && (
+            {(isFetchingBehov || !harAlleTildelinger) && (
                 <Varsel type={Varseltype.Info}>
                     Henter personer
                     <NavFrontendSpinner type="XS" />
@@ -142,20 +144,21 @@ const Oversikt = () => {
                         </Row>
                     </thead>
                     <tbody>
-                        {behov.sort(sortDirection).map((oppgave: Oppgave) => {
-                            const tildeling = tildelinger.find(t => t.behovId === oppgave.spleisbehovId);
-                            return (
-                                <Oversiktslinje
-                                    oppgave={oppgave}
-                                    tildeling={tildeling}
-                                    onAssignCase={tildelBehandling}
-                                    onUnassignCase={fjernTildeling}
-                                    onSelectCase={velgBehovAndNavigate}
-                                    key={oppgave.spleisbehovId}
-                                    antallVarsler={oppgave.antallVarsler}
-                                />
-                            );
-                        })}
+                        {harAlleTildelinger &&
+                            behov.sort(sortDirection).map((oppgave: Oppgave) => {
+                                const tildeling = tildelinger.find(t => t.behovId === oppgave.spleisbehovId);
+                                return (
+                                    <Oversiktslinje
+                                        oppgave={oppgave}
+                                        tildeling={tildeling}
+                                        onAssignCase={tildelBehandling}
+                                        onUnassignCase={fjernTildeling}
+                                        onSelectCase={velgBehovAndNavigate}
+                                        key={oppgave.spleisbehovId}
+                                        antallVarsler={oppgave.antallVarsler}
+                                    />
+                                );
+                            })}
                     </tbody>
                 </Tabell>
             </Container>
