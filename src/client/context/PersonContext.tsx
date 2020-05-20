@@ -1,7 +1,7 @@
 import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
-import { tilPerson, tilPersonMedInfo } from './mapping/personmapper';
+import { tilPerson } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from './types.internal';
 
@@ -10,7 +10,6 @@ interface PersonContextType {
     innsyn: boolean;
     aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
-    oppdaterPerson: (aktørId: string) => Promise<Person | undefined>;
     personTilBehandling?: Person;
 }
 
@@ -27,8 +26,7 @@ export const PersonContext = createContext<PersonContextType>({
     personTilBehandling: undefined,
     innsyn: false,
     hentPerson: _ => Promise.resolve(undefined),
-    aktiverVedtaksperiode: _ => null,
-    oppdaterPerson: _ => Promise.resolve(undefined)
+    aktiverVedtaksperiode: _ => null
 });
 
 export const PersonProvider = ({ children }: ProviderProps) => {
@@ -84,26 +82,6 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             });
     };
 
-    const oppdaterPerson = (aktørId: string) => {
-        return fetchPerson(aktørId, false)
-            .then(response => {
-                const oppdatertPerson = tilPersonMedInfo(response.data.person, personTilBehandling!.personinfo);
-                setPersonTilBehandling(oppdatertPerson);
-                return oppdatertPerson;
-            })
-            .catch(err => {
-                if (!err.statusCode) console.error(err);
-                if (err.statusCode !== 401) {
-                    const message =
-                        err.statusCode === 404
-                            ? `Fant ikke data for ${aktørId}`
-                            : 'Kunne ikke hente person. Prøv igjen senere.';
-                    setError({ ...err, message });
-                }
-                return Promise.reject();
-            });
-    };
-
     const aktiverVedtaksperiode = useCallback(
         (periodeId: string) => {
             const vedtaksperiode = personTilBehandling?.arbeidsgivere[0].vedtaksperioder.find(
@@ -121,8 +99,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                 hentPerson,
                 innsyn,
                 aktivVedtaksperiode,
-                aktiverVedtaksperiode,
-                oppdaterPerson
+                aktiverVedtaksperiode
             }}
         >
             {children}
