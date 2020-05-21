@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import { AuthContext } from '../../context/AuthContext';
 import { PersonContext } from '../../context/PersonContext';
 import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
-import { useNavigateAfterSearch } from './useNavigateAfterSearch';
+import { Location, useNavigation } from '../../hooks/useNavigation';
+import { Person } from '../../context/types.internal';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -18,13 +19,13 @@ const Container = styled.div`
 const Header = () => {
     const { name, ident, isLoggedIn } = useContext(AuthContext);
     const { hentPerson } = useContext(PersonContext);
-    const { setShouldNavigate } = useNavigateAfterSearch();
+    const { navigateTo } = useNavigation();
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
     const onSøk = (value: string) => {
-        hentPerson(value).then(() => {
-            setShouldNavigate(true);
+        hentPerson(value).then((person: Person) => {
+            navigateTo(Location.Sykmeldingsperiode, person.aktørId);
         });
     };
 

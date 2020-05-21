@@ -71,27 +71,22 @@ const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler
 
 const Oversikt = () => {
     const { t } = useTranslation();
-    const { navigateTo } = useNavigation();
-    const { hentPerson } = useContext(PersonContext);
     const { behov, hentBehov, isFetchingBehov } = useContext(BehovContext);
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
     const [sortDirection, setSortDirection] = useState<(a: Oppgave, b: Oppgave) => number>(() => ascending);
+    const harAlleTildelinger = tildelinger.length == behov.length;
 
     useEffect(() => {
-        if (tildelinger.length === 0) fetchTildelinger(behov);
+        if (!harAlleTildelinger) {
+            fetchTildelinger(behov);
+        }
     }, [behov]);
 
     useEffect(() => {
         hentBehov();
     }, []);
-
-    const velgBehovAndNavigate = (behov: Oppgave) => {
-        hentPerson(behov.fødselsnummer).then((person: Person) => {
-            navigateTo(Location.Sykmeldingsperiode, person);
-        });
-    };
 
     const toggleSortDirection = () =>
         setSortDirection(sortDirection === descending ? () => ascending : () => descending);
@@ -119,8 +114,6 @@ const Oversikt = () => {
             </Sorteringsknapp>
         </Header>
     );
-
-    const harAlleTildelinger = tildelinger.length == behov.length;
 
     return (
         <>
@@ -152,7 +145,6 @@ const Oversikt = () => {
                                         tildeling={tildeling}
                                         onAssignCase={tildelBehandling}
                                         onUnassignCase={fjernTildeling}
-                                        onSelectCase={velgBehovAndNavigate}
                                         key={oppgave.spleisbehovId}
                                         antallVarsler={oppgave.antallVarsler}
                                     />
