@@ -1,6 +1,6 @@
 import { EnkelSykepengetidslinje } from '@navikt/helse-frontend-tidslinje/dist/components/sykepengetidslinje/Sykepengetidslinje';
 import { useMemo } from 'react';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 export interface Intervall {
     id: string;

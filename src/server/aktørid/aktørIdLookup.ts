@@ -1,6 +1,6 @@
 import request from 'request-promise-native';
 import logger from '../logging';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 import { NavConfig } from '../types';
 import { StsClient } from '../auth/stsClient';
 

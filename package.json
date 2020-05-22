@@ -111,7 +111,7 @@
         "reset-css": "^5.0.1",
         "snyk": "^1.323.2",
         "tunnel": "0.0.6",
-        "uuid": "^3.4.0",
+        "uuid": "^8.1.0",
         "winston": "^3.2.1"
     },
     "devDependencies": {
@@ -141,7 +141,7 @@
         "@types/redis": "^2.8.21",
         "@types/request-promise-native": "^1.0.17",
         "@types/tunnel": "0.0.1",
-        "@types/uuid": "^3.4.9",
+        "@types/uuid": "^8.0.0",
         "@typescript-eslint/eslint-plugin": "^2.34.0",
         "@typescript-eslint/parser": "^2.34.0",
         "autoprefixer": "^9.8.0",
@@ -156,7 +156,7 @@
         "eslint-plugin-react-hooks": "^2.5.1",
         "fetch-intercept": "^2.3.1",
         "husky": "^4.2.5",
-        "jest": "^24.9.0",
+        "jest": "^26.0.1",
         "less": "^3.11.1",
         "lint-staged": "^9.5.0",
         "nodemon": "^2.0.4",

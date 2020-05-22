@@ -1,7 +1,7 @@
 import { Infotrygdtypetekst, Infotrygdutbetaling, Person, Vedtaksperiode } from '../../context/types.internal';
 import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 import React, { useMemo } from 'react';
-import uuid from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 
