@@ -20,17 +20,23 @@ const App = withContextProviders(
         useLogUserOut();
 
         return (
-            <BrowserRouter>
+            <>
                 <Header />
                 <Switch>
                     <Route path={'/uautorisert'} component={IkkeLoggetInn} />
                     <ProtectedRoute path={'/'} exact component={Oversikt} />
                     <ProtectedRoute component={Saksbilde} />
                 </Switch>
-            </BrowserRouter>
+            </>
         );
     }),
     [BehovProvider, PersonProvider, AuthProvider, TildelingerProvider]
 );
 
-export default hot(module)(App);
+const WithRouting = () => (
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+);
+
+export default hot(module)(WithRouting);

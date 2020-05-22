@@ -11,12 +11,12 @@ import styled from '@emotion/styled';
 import AlternativerKnapp from '../../components/AlternativerKnapp';
 import { Cell, Row } from './Oversikt.styles';
 import { Location, useNavigation } from '../../hooks/useNavigation';
+import { Link } from 'react-router-dom';
 
 interface Props {
     oppgave: Oppgave;
     onUnassignCase: (id: string) => void;
     onAssignCase: (id: string, email?: string) => Promise<void>;
-    onSelectCase: (oppgave: Oppgave) => void;
     tildeling: Tildeling;
     antallVarsler: number;
 }
@@ -47,14 +47,16 @@ const MeldAvKnapp = styled.button`
     }
 `;
 
-const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSelectCase, antallVarsler }: Props) => {
+const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, antallVarsler }: Props) => {
     const { email } = useContext(AuthContext);
-    const { pathForLocation } = useNavigation();
+    const { navigateTo, pathForLocation } = useNavigation();
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter(n => n).join(' ');
 
     const onTildeling = () => {
-        onAssignCase(oppgave.spleisbehovId, email).then(() => onSelectCase(oppgave));
+        onAssignCase(oppgave.spleisbehovId, email).then(() =>
+            navigateTo(Location.Sykmeldingsperiode, oppgave.aktørId!)
+        );
     };
 
     const Tildeling = () => (
@@ -80,9 +82,9 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, onSe
 
     const Søkernavn = () => (
         <Cell>
-            <a className="lenke" href={pathForLocation(Location.Sykmeldingsperiode, oppgave.aktørId)}>
+            <Link className="lenke" to={pathForLocation(Location.Sykmeldingsperiode, oppgave.aktørId)}>
                 {formatertNavn}
-            </a>
+            </Link>
         </Cell>
     );
 

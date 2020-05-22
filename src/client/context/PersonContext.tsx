@@ -1,9 +1,10 @@
-import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { createContext, ReactChild, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ErrorModal from '../components/ErrorModal';
 import { tilPerson } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from './types.internal';
+import { useLocation } from 'react-router-dom';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;
@@ -31,10 +32,10 @@ export const PersonContext = createContext<PersonContextType>({
 
 export const PersonProvider = ({ children }: ProviderProps) => {
     const [personTilBehandling, setPersonTilBehandling] = useState<Person>();
-    const [aktørIdFromUrl, setAktørIdFromUrl] = useState<string | undefined>();
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
     const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
+    const location = useLocation();
 
     useEffect(() => {
         if (personTilBehandling) {
@@ -45,16 +46,21 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     }, [personTilBehandling]);
 
     useEffect(() => {
-        const aktørId = /\d{12,15}$/.exec(window.location.pathname);
-        if (!aktørIdFromUrl && aktørId) {
-            setAktørIdFromUrl(aktørId[0]);
+        if (location.pathname === '/') {
+            // Vi er på oversiktbildet
+            return;
+        } else if (location.pathname.match(/\//g)!.length < 2) {
+            setError({ statusCode: 1, message: `'${location.pathname}' er ikke en gyldig URL.` });
         }
-    }, []);
-    useEffect(() => {
-        if (aktørIdFromUrl && !personTilBehandling) {
-            hentPerson(aktørIdFromUrl);
+
+        const sisteDelAvPath = location.pathname.match(/[^/]*$/)![0];
+        const aktørId = sisteDelAvPath.match(/^\d{1,15}$/);
+        if (aktørId) {
+            hentPerson(aktørId[0]);
+        } else {
+            setError({ statusCode: 1, message: `'${sisteDelAvPath}' er ikke en gyldig aktør-ID.` });
         }
-    }, [aktørIdFromUrl, personTilBehandling]);
+    }, [location.pathname]);
 
     const hentPerson = (value: string) => {
         const innsyn = value.length === 26;

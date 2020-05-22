@@ -1,11 +1,10 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { PersonContext } from '../context/PersonContext';
-import { Person } from '../context/types.internal';
 
 export interface Navigation {
     toString: (location: Location) => string;
-    navigateTo: (location: Location, person?: Person) => void;
+    navigateTo: (location: Location, aktørId?: string) => void;
     pathForLocation: (location: Location, aktørId?: string) => string;
     navigateToNext?: () => void;
     navigateToPrevious?: () => void;
@@ -44,8 +43,8 @@ export const useNavigation = (): Navigation => {
 
     const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), availableLocations);
 
-    const navigateTo = (location: Location, person: Person | undefined = personTilBehandling) => {
-        history.push(`${availableLocations[location]}/${person?.aktørId}`);
+    const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling?.aktørId) => {
+        history.push(`${availableLocations[location]}/${aktørId}`);
     };
 
     const navigateToNext = () => {

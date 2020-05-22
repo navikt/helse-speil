@@ -49,6 +49,8 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             let i = 0,
                 n = behovIds.length;
 
+            // Start med blanke ark for å unngå appending
+            setTildelinger([]);
             while (i < n) {
                 getTildelinger(behovIds.slice(i, (i += limit)))
                     .then(result => {
