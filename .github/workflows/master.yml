@@ -7,7 +7,7 @@ on:
 env:
   APP: speil
   TEAM: tbd
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/speil
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/speil:$(echo ${{ github.sha }} | cut -c1-7)
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,33 +39,39 @@ jobs:
         with:
           name: videos
           path: e2e-tests/cypress/videos
-      - name: create docker tag
-        run: echo ::set-env name=TAG::$(echo ${{ github.sha }} | cut -c1-7)
       - name: build docker image
         run: |
           rm -rf node_modules && npm install --only=production
-          docker build . --pull -t ${{ env.IMAGE }}:${{ env.TAG }}
+          docker build . --pull -t ${{ env.IMAGE }}
       - name: push docker image
         run: |
           echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin https://docker.pkg.github.com
-          docker push ${{ env.IMAGE }}:${{ env.TAG }}
+          docker push ${{ env.IMAGE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: deploy to dev
-        uses: nais/deploy/actions/deploy@v1
+
+  deployDev:
+    name: Deploy to dev
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-fss
-          ENVIRONMENT: dev-fss
           RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis.yml
-          WAIT: false
-          VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"
-      - name: deploy to prod
-        uses: nais/deploy/actions/deploy@v1
+          VAR: "image=${{env.IMAGE}},team=${{env.TEAM}},app=${{env.APP}}"
+
+  deployProd:
+    name: Deploy to prod
+    needs: [build, deployDev]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-fss
-          ENVIRONMENT: prod-fss
           RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml,deploy/redis.yml
-          WAIT: false
-          VAR: "image=${{env.IMAGE}},tag=${{env.TAG}},team=${{env.TEAM}},app=${{env.APP}}"
+          VAR: "image=${{env.IMAGE}},team=${{env.TEAM}},app=${{env.APP}}"

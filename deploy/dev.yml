@@ -6,7 +6,7 @@ metadata:
   labels:
     team: {{team}}
 spec:
-  image: {{image}}:{{tag}}
+  image: {{image}}
   port: 3000
   ingresses:
     - https://speil.nais.preprod.local
