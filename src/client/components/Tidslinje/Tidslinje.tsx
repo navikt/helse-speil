@@ -52,12 +52,6 @@ const Radnavn = styled.p`
     }
 `;
 
-const Dinosaur = styled.span`
-    width: 1rem;
-    height: 1rem;
-    margin-right: 0.625rem;
-`;
-
 export const Tidslinje = () => {
     const { personTilBehandling, aktiverVedtaksperiode, aktivVedtaksperiode } = useContext(PersonContext);
     const { vinduer, aktivtVindu, setAktivtVindu } = useTidslinjevinduer(personTilBehandling);
@@ -116,7 +110,8 @@ export const Tidslinje = () => {
                             ))}
                             {radnavnInfotrygd.map((navn, i) => (
                                 <Radnavn key={`tidslinjerad-${i}`}>
-                                    <Dinosaur>🦕</Dinosaur> {navn}
+                                    <Infotrygdikon />
+                                    {navn}
                                 </Radnavn>
                             ))}
                         </Labels>
