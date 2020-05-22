@@ -38,7 +38,7 @@ const setup = ({
     aktørIdLookup: _aktørIdLookup,
     spesialistClient: _spesialistClient,
     config,
-    onBehalfOf: _onBehalfOf
+    onBehalfOf: _onBehalfOf,
 }: SetupParameters) => {
     aktørIdLookup = _aktørIdLookup;
     spesialistClient = _spesialistClient;
@@ -69,10 +69,10 @@ const finnPerson = async (req: Request, res: Response) => {
             return lookupPromise(undeterminedId, token);
         }),
         mapper: (response: Body) => ({
-            person: response.body
+            person: response.body,
         }),
         operation: 'finnPerson',
-        speilUser: speilUser(req)
+        speilUser: speilUser(req),
     });
 };
 
@@ -80,20 +80,18 @@ const behovForPeriode = (req: Request, res: Response) => {
     auditLogOversikt(req);
 
     const today = moment().format('YYYY-MM-DD');
-    const yesterday = moment()
-        .subtract(1, 'days')
-        .format('YYYY-MM-DD');
+    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
 
     respondWith({
         res,
         lookupPromise: onBehalfOf
             .hentFor(spesialistId, req.session!.speilToken)
-            .then(behalfOfToken => spesialistClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
+            .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
         mapper: (response: Body) => ({
-            behov: response.body
+            behov: response.body,
         }),
         operation: 'oversikt',
-        speilUser: speilUser(req)
+        speilUser: speilUser(req),
     });
 };
 
@@ -108,14 +106,14 @@ const auditLogOversikt = (req: Request) => {
 };
 
 const toAktørId = async (fnr: string) => {
-    return await aktørIdLookup.hentAktørId(fnr).catch(err => {
+    return await aktørIdLookup.hentAktørId(fnr).catch((err) => {
         logger.error(`Could not fetch aktørId. ${err}`);
     });
 };
 
 const respondWith = ({ res, lookupPromise, mapper, operation, speilUser }: RespondWithParameters) => {
     return lookupPromise
-        .then(apiResponse => {
+        .then((apiResponse) => {
             if (apiResponse === undefined) {
                 logger.error('[${speilUser}] Unexpected error, missing apiResponse value');
                 res.sendStatus(503);
@@ -123,7 +121,7 @@ const respondWith = ({ res, lookupPromise, mapper, operation, speilUser }: Respo
                 res.status(apiResponse.statusCode).send(mapper(apiResponse));
             }
         })
-        .catch(err => {
+        .catch((err) => {
             logger.error(`[${speilUser}] Error during data fetching for ${operation}: ${err}`);
             res.sendStatus(err.statusCode || 503);
         });
@@ -133,12 +131,12 @@ module.exports = {
     setup,
     finnPerson,
     behovForPeriode,
-    personIdHeaderName
+    personIdHeaderName,
 };
 
 export default {
     setup,
     finnPerson,
     behovForPeriode,
-    personIdHeaderName
+    personIdHeaderName,
 };

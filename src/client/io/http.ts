@@ -3,7 +3,7 @@ import { Options } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
-    message
+    message,
 });
 
 /* eslint-disable no-undef */
@@ -45,14 +45,14 @@ const get = async (url: string, options?: Options) => {
 
     return {
         status: response.status,
-        data: await getData(response)
+        data: await getData(response),
     };
 };
 
 export const del = async (url: string, data?: any) => {
     const response = await fetch(url, {
         method: 'DELETE',
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
     });
 
     if (response.status !== 204) {
@@ -63,7 +63,7 @@ export const del = async (url: string, data?: any) => {
 
 export const fetchPerson = async (personId?: string, innsyn?: boolean) =>
     get(`${baseUrl}/person/sok`, {
-        headers: { 'nav-person-id': personId, innsyn: innsyn }
+        headers: { 'nav-person-id': personId, innsyn: innsyn },
     });
 
 export const fetchBehov = async () => get(`${baseUrl}/person/`);
@@ -73,9 +73,9 @@ export const post = async (url: string, data: any) => {
         method: 'POST',
         headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
     });
     if (response.status !== 200 && response.status !== 204) {
         console.log({ response });
@@ -88,7 +88,7 @@ export const post = async (url: string, data: any) => {
 
     return {
         status: response.status,
-        data: await getData(response)
+        data: await getData(response),
     };
 };
 
@@ -119,7 +119,7 @@ export const postAnnullering = async (annullering: AnnulleringDTO) => {
         fødselsnummer,
         organisasjonsnummer,
         fagsystemId,
-        vedtaksperiodeId
+        vedtaksperiodeId,
     });
 };
 

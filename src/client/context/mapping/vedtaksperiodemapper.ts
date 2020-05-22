@@ -50,7 +50,7 @@ export const mapUferdigVedtaksperiode = (periode: SpesialistVedtaksperiode): Ufe
     fom: dayjs(periode.fom),
     tom: dayjs(periode.tom),
     kanVelges: false,
-    tilstand: Vedtaksperiodetilstand.Ukjent
+    tilstand: Vedtaksperiodetilstand.Ukjent,
 });
 
 export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
@@ -60,7 +60,7 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
                 id: hendelse.id,
                 type: Kildetype.Inntektsmelding,
                 beregnetInntekt: (hendelse as SpleisInntektsmelding).beregnetInntekt,
-                mottattTidspunkt: somTidspunkt((hendelse as SpleisInntektsmelding).mottattDato)
+                mottattTidspunkt: somTidspunkt((hendelse as SpleisInntektsmelding).mottattDato),
             };
         case SpleisHendelsetype.SØKNAD_ARBEIDSGIVER:
         case SpleisHendelsetype.SØKNAD_NAV:
@@ -70,7 +70,7 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
                 fom: somDato((hendelse as SpleisSøknad).fom),
                 tom: somDato((hendelse as SpleisSøknad).tom),
                 sendtNav: somDato(((hendelse as SpleisSøknad) as SpleisSøknad).sendtNav),
-                rapportertDato: somKanskjeDato((hendelse as SpleisSøknad).rapportertdato)
+                rapportertDato: somKanskjeDato((hendelse as SpleisSøknad).rapportertdato),
             };
         case SpleisHendelsetype.SYKMELDING:
             return {
@@ -78,7 +78,7 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
                 type: Kildetype.Sykmelding,
                 fom: somDato((hendelse as SpleisSykmelding).fom),
                 tom: somDato((hendelse as SpleisSykmelding).tom),
-                rapportertDato: somKanskjeDato((hendelse as SpleisSykmelding).rapportertdato)
+                rapportertDato: somKanskjeDato((hendelse as SpleisSykmelding).rapportertdato),
             };
     }
 };
@@ -105,20 +105,21 @@ export const mapVedtaksperiode = (
             månedsinntekt: somInntekt(unmappedPeriode.inntektFraInntektsmelding),
             årsinntekt: somÅrsinntekt(unmappedPeriode.inntektFraInntektsmelding),
             refusjon: true,
-            forskuttering: true
-        }
+            forskuttering: true,
+        },
     ];
 
     const sykepengegrunnlag = {
         årsinntektFraAording: unmappedPeriode.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
         årsinntektFraInntektsmelding: somÅrsinntekt(unmappedPeriode.inntektFraInntektsmelding),
-        avviksprosent: somProsent(unmappedPeriode.dataForVilkårsvurdering?.avviksprosent)
+        avviksprosent: somProsent(unmappedPeriode.dataForVilkårsvurdering?.avviksprosent),
     };
 
     const oppsummering: Oppsummering = {
-        antallUtbetalingsdager: unmappedPeriode.utbetalingstidslinje.filter(dag => dag.utbetaling && dag.utbetaling > 0)
-            .length,
-        totaltTilUtbetaling: unmappedPeriode.totalbeløpArbeidstaker
+        antallUtbetalingsdager: unmappedPeriode.utbetalingstidslinje.filter(
+            (dag) => dag.utbetaling && dag.utbetaling > 0
+        ).length,
+        totaltTilUtbetaling: unmappedPeriode.totalbeløpArbeidstaker,
     };
 
     const mapTilstand = (tilstand: SpleisVedtaksperiodetilstand): Vedtaksperiodetilstand => {
@@ -127,10 +128,10 @@ export const mapVedtaksperiode = (
         else return vedtaksperiodeTilstand;
     };
 
-    const aktivitetslogg: Aktivitet[] = unmappedPeriode.aktivitetslogg.map(aktivitet => ({
+    const aktivitetslogg: Aktivitet[] = unmappedPeriode.aktivitetslogg.map((aktivitet) => ({
         melding: aktivitet.melding,
         alvorlighetsgrad: aktivitet.alvorlighetsgrad,
-        tidsstempel: somTidspunkt(aktivitet.tidsstempel)
+        tidsstempel: somTidspunkt(aktivitet.tidsstempel),
     }));
 
     const forlengelseFraInfotrygd = mapForlengelseFraInfotrygd(unmappedPeriode.forlengelseFraInfotrygd);
@@ -152,12 +153,12 @@ export const mapVedtaksperiode = (
         utbetalinger: unmappedPeriode.utbetalinger && {
             arbeidsgiverUtbetaling: unmappedPeriode.utbetalinger.arbeidsgiverUtbetaling && {
                 fagsystemId: unmappedPeriode.utbetalinger.arbeidsgiverUtbetaling.fagsystemId,
-                linjer: unmappedPeriode.utbetalinger.arbeidsgiverUtbetaling.linjer.map(somUtbetalingslinje)
+                linjer: unmappedPeriode.utbetalinger.arbeidsgiverUtbetaling.linjer.map(somUtbetalingslinje),
             },
             personUtbetaling: unmappedPeriode.utbetalinger.personUtbetaling && {
                 fagsystemId: unmappedPeriode.utbetalinger.personUtbetaling.fagsystemId,
-                linjer: unmappedPeriode.utbetalinger.personUtbetaling.linjer.map(somUtbetalingslinje)
-            }
+                linjer: unmappedPeriode.utbetalinger.personUtbetaling.linjer.map(somUtbetalingslinje),
+            },
         },
         sykdomstidslinje: sykdomstidslinje,
         godkjentAv: unmappedPeriode.godkjentAv,
@@ -169,7 +170,7 @@ export const mapVedtaksperiode = (
                       dagerIgjen: dagerIgjenVilkår(vilkår),
                       opptjening: forlengelseFraInfotrygd ? { oppfylt: true } : opptjeningVilkår(vilkår),
                       søknadsfrist: søknadsfristVilkår(vilkår),
-                      sykepengegrunnlag: sykepengegrunnlagVilkår(vilkår)
+                      sykepengegrunnlag: sykepengegrunnlagVilkår(vilkår),
                   }
                 : undefined,
         inntektskilder: inntektskilder,
@@ -180,7 +181,7 @@ export const mapVedtaksperiode = (
             : undefined,
         hendelser: unmappedPeriode.hendelser.map(tilHendelse),
         aktivitetslog: aktivitetslogg,
-        rawData: unmappedPeriode
+        rawData: unmappedPeriode,
     };
 };
 
@@ -199,34 +200,34 @@ const somUtbetalingslinje = (value: SpleisUtbetalingslinje) => ({
     fom: somDato(value.fom),
     tom: somDato(value.tom),
     dagsats: value.dagsats,
-    grad: value.grad
+    grad: value.grad,
 });
 
 const mapSimuleringsdata = (data: SpleisDataForSimulering): Simulering => ({
     totalbeløp: data.totalbeløp,
-    perioder: mapSimuleringsperioder(data.perioder)
+    perioder: mapSimuleringsperioder(data.perioder),
 });
 
 const mapSimuleringsperioder = (perioder: SpleisSimuleringperiode[]): Utbetalingsperiode[] =>
-    perioder.map(spleisPeriode => ({
+    perioder.map((spleisPeriode) => ({
         fom: spleisPeriode.fom,
         tom: spleisPeriode.tom,
-        utbetalinger: mapSimuleringsutbetalinger(spleisPeriode.utbetalinger)
+        utbetalinger: mapSimuleringsutbetalinger(spleisPeriode.utbetalinger),
     }));
 
 const mapSimuleringsutbetalinger = (utbetalinger: SpleisSimuleringutbetaling[]): Utbetaling[] =>
-    utbetalinger.map(spleisSimuleringsutbetaling => ({
+    utbetalinger.map((spleisSimuleringsutbetaling) => ({
         detaljer: mapSimuleringsutbetalingDetaljer(spleisSimuleringsutbetaling.detaljer),
         feilkonto: spleisSimuleringsutbetaling.feilkonto,
         forfall: spleisSimuleringsutbetaling.forfall,
         utbetalesTilId: spleisSimuleringsutbetaling.utbetalesTilId,
-        utbetalesTilNavn: spleisSimuleringsutbetaling.utbetalesTilNavn
+        utbetalesTilNavn: spleisSimuleringsutbetaling.utbetalesTilNavn,
     }));
 
 const mapSimuleringsutbetalingDetaljer = (
     spleisSimuleringsutbetalingDetaljer: SpleisSimuleringutbetalingDetaljer[]
 ): Utbetalingsdetalj[] =>
-    spleisSimuleringsutbetalingDetaljer.map(spleisDetaljer => ({
+    spleisSimuleringsutbetalingDetaljer.map((spleisDetaljer) => ({
         antallSats: spleisDetaljer.antallSats,
         belop: spleisDetaljer.beløp,
         faktiskFom: spleisDetaljer.faktiskFom,
@@ -239,7 +240,7 @@ const mapSimuleringsutbetalingDetaljer = (
         tilbakeforing: spleisDetaljer.tilbakeføring,
         typeSats: spleisDetaljer.typeSats,
         uforegrad: spleisDetaljer.uføregrad,
-        utbetalingsType: spleisDetaljer.utbetalingstype
+        utbetalingsType: spleisDetaljer.utbetalingstype,
     }));
 
 const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpesialistVedtaksperiode): SpesialistVedtaksperiode => {
@@ -252,7 +253,7 @@ const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpesialistVedtaksperiode): S
     if (førsteArbeidsdag !== 0) return vedtaksperiode;
 
     const førsteIkkeArbeidsdag = vedtaksperiode.sykdomstidslinje.findIndex(
-        dag =>
+        (dag) =>
             dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING &&
             dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD &&
             dag.type !== SpleisSykdomsdagtype.IMPLISITT_DAG &&
@@ -261,6 +262,6 @@ const filtrerPaddedeArbeidsdager = (vedtaksperiode: SpesialistVedtaksperiode): S
 
     return {
         ...vedtaksperiode,
-        sykdomstidslinje: [...vedtaksperiode.sykdomstidslinje.slice(førsteIkkeArbeidsdag)]
+        sykdomstidslinje: [...vedtaksperiode.sykdomstidslinje.slice(førsteIkkeArbeidsdag)],
     };
 };

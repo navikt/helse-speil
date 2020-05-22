@@ -10,15 +10,15 @@ const stdoutLogger = winston.createLogger({
     format: winston.format.simple(),
     transports: [
         new winston.transports.Console({
-            format: winston.format.simple()
-        })
-    ]
+            format: winston.format.simple(),
+        }),
+    ],
 });
 
 const auditLogger = winston.createLogger({
     level: 'info',
     format: winston.format.simple(),
-    transports: [new winston.transports.File({ filename: auditLogPath(), maxsize: 5242880 })]
+    transports: [new winston.transports.File({ filename: auditLogPath(), maxsize: 5242880 })],
 });
 
 const info = (message: string) => {
@@ -41,5 +41,5 @@ export default {
     info,
     warning,
     error,
-    audit
+    audit,
 };

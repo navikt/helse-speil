@@ -37,7 +37,7 @@ const getPersoninfo = (req: Request, res: Response) => {
                     cache.setex(`person-${aktørId}`, timeToExpire, JSON.stringify(personinfo));
                     res.send(personinfo);
                 })
-                .catch(err => {
+                .catch((err) => {
                     logger.error('error reading person info from sparkel', err);
                     res.sendStatus(500);
                 });
@@ -47,5 +47,5 @@ const getPersoninfo = (req: Request, res: Response) => {
 
 export default {
     setup,
-    getPersoninfo
+    getPersoninfo,
 };

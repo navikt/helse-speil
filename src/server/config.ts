@@ -28,12 +28,12 @@ const oidc: OidcConfig = {
     clientSecret: readAzureCredential('client_secret') || 'unknown',
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
     scope: `profile openid email ${process.env.CLIENT_ID}/.default`,
-    requiredGroup: process.env.REQUIRED_GROUP
+    requiredGroup: process.env.REQUIRED_GROUP,
 };
 
 const server: ServerConfig = {
     port: process.env.SPEIL_BACKEND_PORT ? parseInt(process.env.SPEIL_BACKEND_PORT) : 3000,
-    sessionSecret: process.env.SESSION_SECRET
+    sessionSecret: process.env.SESSION_SECRET,
 };
 
 const nav: NavConfig = {
@@ -41,18 +41,18 @@ const nav: NavConfig = {
     serviceUserPassword: process.env.SERVICE_USER_PASSWORD,
     stsUrl: process.env.STS_URL || 'http://security-token-service.svc.nais.local',
     aktoerregisterUrl: process.env.AKTOERREGISTER_URL,
-    spennUrl: process.env.SPENN_URL || 'http://spenn.svc.nais.local'
+    spennUrl: process.env.SPENN_URL || 'http://spenn.svc.nais.local',
 };
 
 const redis = {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD
+    password: process.env.REDIS_PASSWORD,
 };
 
 export default {
     nav,
     oidc,
     redis,
-    server
+    server,
 };

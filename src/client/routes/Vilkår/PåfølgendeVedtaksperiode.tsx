@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Strek, StyledBehandletInnhold, StyledBehandletAvInfotrygd } from './Vilkår.styles';
+import { Strek, StyledBehandletAvInfotrygd, StyledBehandletInnhold } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper';
 import { Opptjening, Vedtaksperiode } from '../../context/types.internal';
@@ -76,7 +76,7 @@ const PåfølgendeVedtaksperiode = ({
     ikkeOppfylteVilkår,
     oppfylteVilkår,
     ikkeVurderteVilkår,
-    forlengelseFraInfotrygd
+    forlengelseFraInfotrygd,
 }: PåfølgendeVedtaksperiodeProps) => {
     return (
         <>

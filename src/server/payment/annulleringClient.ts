@@ -1,5 +1,5 @@
 import request from 'request-promise-native';
-import { OnBehalfOf, AppConfig } from '../types';
+import { AppConfig, OnBehalfOf } from '../types';
 
 export interface PostAnnulleringOptions {
     aktørId: string;
@@ -23,16 +23,16 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
         fagsystemId,
         saksbehandlerIdent,
         speilToken,
-        vedtaksperiodeId
+        vedtaksperiodeId,
     }: PostAnnulleringOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpesialist, speilToken);
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/annullering`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
             body: { aktørId, fødselsnummer, organisasjonsnummer, fagsystemId, saksbehandlerIdent, vedtaksperiodeId },
-            json: true
+            json: true,
         };
 
         return request.post(options);
-    }
+    },
 });

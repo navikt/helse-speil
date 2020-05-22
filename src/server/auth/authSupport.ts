@@ -48,7 +48,7 @@ const validateOidcCallback = (req: Request, azureClient: Client, config: OidcCon
 
     return azureClient
         .callback(redirectUrl(req, config), params, { nonce, state })
-        .catch(err => Promise.reject(`error in oidc callback: ${err}`))
+        .catch((err) => Promise.reject(`error in oidc callback: ${err}`))
         .then((tokenSet: TokenSet) => {
             const accessTokenKey = 'access_token';
             const idTokenKey = 'id_token';
@@ -72,8 +72,8 @@ const validateOidcCallback = (req: Request, azureClient: Client, config: OidcCon
 
 const checkAzureResponseContainsTokens = (tokenSet: TokenSet, ...tokens: string[]) =>
     [...tokens]
-        .filter(tokenName => tokenSet[tokenName] === undefined)
-        .map(tokenName => `Missing ${[tokenName]} in response from Azure AD.`);
+        .filter((tokenName) => tokenSet[tokenName] === undefined)
+        .map((tokenName) => `Missing ${[tokenName]} in response from Azure AD.`);
 
 const isMemberOf = (token: string, group?: string) => {
     const claims = claimsFrom(token);
@@ -110,5 +110,5 @@ export default {
     validateOidcCallback,
     isMemberOf,
     valueFromClaim,
-    createTokenForTest
+    createTokenForTest,
 };

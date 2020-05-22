@@ -3,9 +3,9 @@ import { Aktivitet, Dagtype, Kildetype, Vedtaksperiode } from '../types.internal
 import { somDato, somTidspunkt } from './vedtaksperiodemapper';
 import {
     SpleisSykdomsdag,
+    SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
-    SpleisUtbetalingsdagtype,
-    SpleisSykdomsdagkildeType
+    SpleisUtbetalingsdagtype
 } from './types.external';
 import { enVedtaksperiode } from './testdata/enVedtaksperiode';
 import { enArbeidsgiver } from './testdata/enArbeidsgiver';
@@ -37,7 +37,7 @@ describe('personmapper', () => {
         const expectedAktivitet: Aktivitet = {
             melding: melding,
             alvorlighetsgrad: alvorlighetsgrad,
-            tidsstempel: somTidspunkt(tidsstempel)
+            tidsstempel: somTidspunkt(tidsstempel),
         };
         expect(aktivitetslog).toContainEqual(expectedAktivitet);
     });
@@ -54,29 +54,29 @@ describe('personmapper', () => {
                                 type: SpleisUtbetalingsdagtype.NAVDAG,
                                 inntekt: 999.5,
                                 dato: '2019-10-06',
-                                utbetaling: 1000.0
+                                utbetaling: 1000.0,
                             },
                             {
                                 type: SpleisUtbetalingsdagtype.NAVDAG,
                                 inntekt: 999.5,
                                 dato: '2019-10-07',
-                                utbetaling: 1000.0
+                                utbetaling: 1000.0,
                             },
                             {
                                 type: SpleisUtbetalingsdagtype.NAVDAG,
                                 inntekt: 999.5,
                                 dato: '2019-10-08',
-                                utbetaling: 1000.0
+                                utbetaling: 1000.0,
                             },
                             {
                                 type: SpleisUtbetalingsdagtype.NAVDAG,
                                 inntekt: 999.5,
                                 dato: '2019-10-09',
-                                utbetaling: 1000.0
-                            }
+                                utbetaling: 1000.0,
+                            },
                         ]
-                    )
-                ])
+                    ),
+                ]),
             ]),
             defaultPersonInfo
         );
@@ -92,18 +92,18 @@ describe('personmapper', () => {
                 dagen: '2019-09-08',
                 type: SpleisSykdomsdagtype.ARBEIDSDAG,
                 kilde: {
-                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING
+                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
                 },
-                grad: 100.0
+                grad: 100.0,
             },
             {
                 dagen: '2019-09-09',
                 type: SpleisSykdomsdagtype.ARBEIDSDAG,
                 kilde: {
-                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING
+                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
                 },
-                grad: 100.0
-            }
+                grad: 100.0,
+            },
         ];
 
         const person = tilPerson(
@@ -115,7 +115,7 @@ describe('personmapper', () => {
             dato: somDato('2019-09-10'),
             type: Dagtype.Egenmelding,
             kilde: Kildetype.Inntektsmelding,
-            gradering: undefined
+            gradering: undefined,
         });
     });
 
@@ -128,12 +128,12 @@ describe('personmapper', () => {
                             dagen: '2019-09-09',
                             type: SpleisSykdomsdagtype.SYKEDAG,
                             kilde: {
-                                type: SpleisSykdomsdagkildeType.SYKMELDING
-                            }
-                        }
+                                type: SpleisSykdomsdagkildeType.SYKMELDING,
+                            },
+                        },
                     ]),
-                    enVedtaksperiode()
-                ])
+                    enVedtaksperiode(),
+                ]),
             ]),
             defaultPersonInfo
         );

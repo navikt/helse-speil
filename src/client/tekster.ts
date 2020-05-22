@@ -37,14 +37,14 @@ const resources: Resource = {
                 tittel: 'Neste saker',
                 søker: 'Søker',
                 tildeling: 'Tildelt',
-                opprettet: 'Opprettet'
+                opprettet: 'Opprettet',
             },
             sykdomsvilkår: {
-                sykdomsvilkår: 'Sykdomsvilkår må vurderes manuelt'
+                sykdomsvilkår: 'Sykdomsvilkår må vurderes manuelt',
             },
             vilkår: {
                 vilkår_oppfylt: 'Vilkår oppfylt',
-                medlemskap: 'Medlemskap'
+                medlemskap: 'Medlemskap',
             },
             inntektskilder: {
                 inntektsmeldinger: 'Fra Inntektsmelding',
@@ -64,7 +64,7 @@ const resources: Resource = {
                 svangerskapspenger: 'Ingen svangerskapspenger',
                 aap: 'Arbeidsavklaringspenger',
                 dagpenger: 'Dagpenger',
-                pleiepenger: 'Pleiepenger'
+                pleiepenger: 'Pleiepenger',
             },
             sykepengegrunnlag: {
                 inntektsmeldinger: 'Hentet fra Inntektsmelding',
@@ -74,7 +74,7 @@ const resources: Resource = {
                 sammenligningsgrunnlag: 'Sammenligningsgrunnlag',
                 avvik: 'Avvik må sjekkes manuelt',
                 redusert: 'Redusert til 6G',
-                sykepengegrunnlag: 'Sykepengegrunnlag'
+                sykepengegrunnlag: 'Sykepengegrunnlag',
             },
             utbetalingsoversikt: {
                 refusjon: 'Refusjon til arbeidsgiver',
@@ -83,7 +83,7 @@ const resources: Resource = {
                 dager: 'Utbetalingen blir korrekt',
                 sykmeldingsgrad: 'Sykmeldingsgrad',
                 utbetalingsoversikt: 'Utbetalingsoversikt',
-                forskutterer: 'Arbeidsgiver forskutterer'
+                forskutterer: 'Arbeidsgiver forskutterer',
             },
             oppsummering: {
                 tittel: 'Oppsummering',
@@ -95,21 +95,21 @@ const resources: Resource = {
                 antall_utbetalingsdager: 'Utbetalingsdager',
                 utbetaling: 'Utbetaling',
                 beløp: 'Beløp til utbetaling',
-                utbetaling_til: 'Utbetaling til'
+                utbetaling_til: 'Utbetaling til',
             },
             sykmeldingsperiode: {
-                dager: 'Dagene er riktig kategorisert'
-            }
-        }
-    }
+                dager: 'Dagene er riktig kategorisert',
+            },
+        },
+    },
 };
 
 i18n.use(initReactI18next).init({
     resources,
     lng: 'no',
     interpolation: {
-        escapeValue: false
-    }
+        escapeValue: false,
+    },
 });
 
 export default i18n;

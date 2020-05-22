@@ -71,7 +71,7 @@ export interface Oppsummering {
 export enum Kildetype {
     Sykmelding = 'Sykmelding',
     Søknad = 'Søknad',
-    Inntektsmelding = 'Inntektsmelding'
+    Inntektsmelding = 'Inntektsmelding',
 }
 
 export interface Søknad {
@@ -109,7 +109,7 @@ export enum Dagtype {
     Arbeidsdag = 'Arbeidsdag',
     Egenmelding = 'Egenmelding',
     Foreldet = 'Foreldet',
-    Arbeidsgiverperiode = 'Arbeidsgiverperiode'
+    Arbeidsgiverperiode = 'Arbeidsgiverperiode',
 }
 
 export interface Sykdomsdag {
@@ -136,7 +136,7 @@ export enum Vedtaksperiodetilstand {
     Feilet = 'feilet',
     Ukjent = 'ukjent',
     TilInfotrygd = 'tilInfotrygd',
-    Annullert = 'annullert'
+    Annullert = 'annullert',
 }
 
 export interface UferdigVedtaksperiode {
@@ -249,5 +249,5 @@ export enum Infotrygdtypetekst {
     UTBETALING = 'Utbetaling',
     ARBEIDSGIVERREFUSJON = 'ArbRef',
     UKJENT = 'Ukjent',
-    TILBAKEFØRT = 'Tilbakeført'
+    TILBAKEFØRT = 'Tilbakeført',
 }

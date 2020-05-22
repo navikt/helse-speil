@@ -15,8 +15,8 @@ interface TildelingerContextType {
 export const TildelingerContext = createContext<TildelingerContextType>({
     tildelinger: [],
     tildelBehandling: (behovId, userId) => Promise.resolve(),
-    fetchTildelinger: saksoversikt => {},
-    fjernTildeling: (behovId: string) => {}
+    fetchTildelinger: (saksoversikt) => {},
+    fjernTildeling: (behovId: string) => {},
 });
 
 export const TildelingerProvider = ({ children }: ProviderProps) => {
@@ -26,12 +26,12 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const tildelBehandling = (behovId: string, userId: string) => {
         return postTildeling({ behovId, userId })
             .then(() => {
-                setTildelinger(prev =>
-                    prev.map(tildeling => (tildeling.behovId === behovId ? { behovId, userId } : tildeling))
+                setTildelinger((prev) =>
+                    prev.map((tildeling) => (tildeling.behovId === behovId ? { behovId, userId } : tildeling))
                 );
                 setError(undefined);
             })
-            .catch(error => {
+            .catch((error) => {
                 const assignedUser = error.message?.alreadyAssignedTo;
                 if (assignedUser) {
                     setError(`Saken er allerede tildelt til ${assignedUser}`);
@@ -43,7 +43,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
 
     const fetchTildelinger = (saksoversikt: Oppgave[]) => {
         if (saksoversikt.length > 0) {
-            const behovIds = saksoversikt.map(b => b.spleisbehovId);
+            const behovIds = saksoversikt.map((b) => b.spleisbehovId);
 
             let limit = 500;
             let i = 0,
@@ -53,11 +53,11 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             setTildelinger([]);
             while (i < n) {
                 getTildelinger(behovIds.slice(i, (i += limit)))
-                    .then(result => {
+                    .then((result) => {
                         const nyeTildelinger = result.data;
-                        setTildelinger(prev => [...prev, ...nyeTildelinger]);
+                        setTildelinger((prev) => [...prev, ...nyeTildelinger]);
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         setError('Kunne ikke hente tildelingsinformasjon.');
                         console.error(err);
                     });
@@ -68,8 +68,8 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const fjernTildeling = (behovId: string) => {
         deleteTildeling(behovId)
             .then(() => {
-                setTildelinger(prev =>
-                    prev.map(tildeling =>
+                setTildelinger((prev) =>
+                    prev.map((tildeling) =>
                         tildeling.behovId === behovId
                             ? (({ ...tildeling, userId: null } as unknown) as Tildeling)
                             : tildeling
@@ -77,7 +77,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
                 );
                 setError(undefined);
             })
-            .catch(error => {
+            .catch((error) => {
                 setError('Kunne ikke fjerne tildeling av sak.');
                 console.error(error);
             });
@@ -89,7 +89,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             tildelBehandling,
             tildelingError: error,
             fetchTildelinger,
-            fjernTildeling
+            fjernTildeling,
         }),
         [tildelinger, error]
     );
@@ -98,5 +98,5 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
 };
 
 TildelingerProvider.propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
 };

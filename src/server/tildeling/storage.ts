@@ -10,7 +10,7 @@ const init = (client: RedisClient) => {
 };
 
 const getAll = (keys: string[]) =>
-    Promise.all(keys.map(behovId => get(behovId).then((userId?: string) => ({ behovId, userId }))));
+    Promise.all(keys.map((behovId) => get(behovId).then((userId?: string) => ({ behovId, userId }))));
 
 const get = (key: string) => promisify(redisClient!.get).bind(redisClient)(key);
 
@@ -34,5 +34,5 @@ export default {
     get,
     assignCase,
     getAll,
-    unassignCase
+    unassignCase,
 };

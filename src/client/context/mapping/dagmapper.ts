@@ -1,12 +1,12 @@
 import {
     SpleisSykdomsdag,
+    SpleisSykdomsdagkilde,
+    SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdag,
-    SpleisUtbetalingsdagtype,
-    SpleisSykdomsdagkildeType,
-    SpleisSykdomsdagkilde
+    SpleisUtbetalingsdagtype
 } from './types.external';
-import { Dagtype, Sykdomsdag, Utbetalingsdag, Kildetype } from '../types.internal';
+import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../types.internal';
 import { somDato } from './vedtaksperiodemapper';
 
 const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
@@ -121,17 +121,17 @@ const hendelseType = (kilde: SpleisSykdomsdagkilde | undefined): Kildetype | und
 };
 
 export const tilSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdomsdag[] =>
-    sykdomstidslinje.map(dag => ({
+    sykdomstidslinje.map((dag) => ({
         type: sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype),
         dato: somDato(dag.dagen),
         gradering: dag.grad,
-        kilde: dag.kilde ? hendelseType(dag.kilde) : hendelseTypeGammel(dag.type)
+        kilde: dag.kilde ? hendelseType(dag.kilde) : hendelseTypeGammel(dag.type),
     }));
 
 export const tilUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsdag[]): Utbetalingsdag[] =>
-    utbetalingstidslinje.map(dag => ({
+    utbetalingstidslinje.map((dag) => ({
         type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
         dato: somDato(dag.dato),
         gradering: dag.grad,
-        utbetaling: dag.utbetaling
+        utbetaling: dag.utbetaling,
     }));

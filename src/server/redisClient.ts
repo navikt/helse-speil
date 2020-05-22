@@ -5,12 +5,12 @@ const init = (config: RedisConfig) => {
     const redisClient = redis.createClient({
         host: config.host,
         port: config.port ? +config.port : undefined,
-        password: config.password
+        password: config.password,
     });
     redisClient.on('connect', () => {
         console.log('Redis client connected');
     });
-    redisClient.on('error', err => {
+    redisClient.on('error', (err) => {
         console.log('Redis error: ', err);
     });
 

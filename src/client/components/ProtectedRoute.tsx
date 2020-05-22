@@ -9,7 +9,7 @@ const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => {
     const { isLoggedIn } = useContext(AuthContext);
 
     return (
-        <Route {...rest} render={props => (isLoggedIn ? <Component {...props} /> : <Redirect to="/uautorisert" />)} />
+        <Route {...rest} render={(props) => (isLoggedIn ? <Component {...props} /> : <Redirect to="/uautorisert" />)} />
     );
 };
 

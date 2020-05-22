@@ -4,7 +4,7 @@ import Navigasjonsknapper from '../components/NavigationButtons';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../utils/date';
-import { Dag, Dagtype, Sykmeldingstabell, Kilde } from '@navikt/helse-frontend-tabell';
+import { Dag, Dagtype, Kilde, Sykmeldingstabell } from '@navikt/helse-frontend-tabell';
 import { Kildetype } from '../context/types.internal';
 
 const Container = styled.div`
@@ -18,11 +18,11 @@ const Container = styled.div`
 const Sykmeldingsperiode = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
 
-    const dager: Dag[] | undefined = aktivVedtaksperiode?.sykdomstidslinje.map(dag => ({
+    const dager: Dag[] | undefined = aktivVedtaksperiode?.sykdomstidslinje.map((dag) => ({
         dato: dag.dato.format(NORSK_DATOFORMAT),
         type: dag.type as Dagtype,
         gradering: dag.type === Dagtype.Helg ? undefined : dag.gradering,
-        kilde: dag.type === Dagtype.Helg ? undefined : mapKilde(dag.kilde)
+        kilde: dag.type === Dagtype.Helg ? undefined : mapKilde(dag.kilde),
     }));
 
     return (
@@ -36,7 +36,7 @@ const Sykmeldingsperiode = () => {
 enum Kildetypelabel {
     Søknad = 'SØ',
     Sykmelding = 'SM',
-    Inntektsmelding = 'IM'
+    Inntektsmelding = 'IM',
 }
 
 const mapKilde = (type: Kildetype | undefined): Kilde | undefined => {

@@ -8,7 +8,7 @@ const checksum = (id: number[], weigths: number[]) => (11 - (sum(id, weigths) % 
 export const erGyldigFødselsnummer = (id: string) => {
     if (id?.trim().length != 11) return false;
 
-    const idAsArray: number[] = id.split('').map(c => parseInt(c, 10));
+    const idAsArray: number[] = id.split('').map((c) => parseInt(c, 10));
 
     if (checksum(idAsArray, weights1) != idAsArray[9]) return false;
 

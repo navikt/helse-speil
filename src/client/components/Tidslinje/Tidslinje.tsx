@@ -59,12 +59,13 @@ export const Tidslinje = () => {
     const infotrygdrader = useInfotrygdrader(personTilBehandling);
     const tidslinjerader = [...arbeidsgiverrader, ...infotrygdrader];
     const intervaller = useIntervaller(arbeidsgiverrader);
-    const aktivtIntervall = intervaller.find(intervall => intervall.active);
+    const aktivtIntervall = intervaller.find((intervall) => intervall.active);
     const radnavnArbeidsgiver =
-        personTilBehandling?.arbeidsgivere.map(arbeidsgiver => arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer) ??
-        [];
+        personTilBehandling?.arbeidsgivere.map(
+            (arbeidsgiver) => arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer
+        ) ?? [];
 
-    const radnavnInfotrygd = infotrygdrader.flatMap(rad =>
+    const radnavnInfotrygd = infotrygdrader.flatMap((rad) =>
         rad.organisasjonsnummer !== '0' ? `Infotrygd — ${rad.organisasjonsnummer}` : `Infotrygd — Søknad uten inntekt`
     );
 
@@ -73,11 +74,11 @@ export const Tidslinje = () => {
     };
 
     const onChange = (event: ChangeEvent<HTMLOptionElement>) => {
-        const intervallet = intervaller.find(i => i.id === event.target.value)!;
+        const intervallet = intervaller.find((i) => i.id === event.target.value)!;
         const nyPeriode = tidslinjerader
-            .flatMap(rad => rad.perioder)
+            .flatMap((rad) => rad.perioder)
             .find(
-                periode =>
+                (periode) =>
                     periode.fom.getTime() === intervallet.fom.getTime() &&
                     periode.tom.getTime() === intervallet.tom.getTime()
             );
@@ -92,7 +93,7 @@ export const Tidslinje = () => {
                     <FlexColumn>
                         <SelectContainer>
                             <Select name="tidslinjeintervaller" onChange={onChange} value={aktivtIntervall?.id}>
-                                {intervaller.map(intervallet => (
+                                {intervaller.map((intervallet) => (
                                     <option key={intervallet.id} value={intervallet.id}>
                                         {`${dayjs(intervallet.fom).format(NORSK_DATOFORMAT)} - ${dayjs(
                                             intervallet.tom

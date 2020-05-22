@@ -14,8 +14,8 @@ const animation = {
     animate: { y: 0, opacity: 1 },
     exit: { y: 5, opacity: 0 },
     transition: {
-        duration: 0.1
-    }
+        duration: 0.1,
+    },
 };
 
 const Clipboard = ({ children }: Props) => {

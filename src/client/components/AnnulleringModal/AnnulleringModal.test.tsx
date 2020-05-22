@@ -11,14 +11,14 @@ const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), enPers
 
 const enPersoninfo = () => ({
     kjønn: 'Mann' as Kjønn,
-    fødselsdato: dayjs()
+    fødselsdato: dayjs(),
 });
 
 const enArbeidsgiver = () => ({
     id: '123',
     navn: 'En bedrift',
     organisasjonsnummer: '123456789',
-    vedtaksperioder: [enSpeilVedtaksperiode()]
+    vedtaksperioder: [enSpeilVedtaksperiode()],
 });
 
 const personTilBehandling = {
@@ -28,10 +28,10 @@ const personTilBehandling = {
     navn: {
         fornavn: 'Kari',
         mellomnavn: null,
-        etternavn: 'Normann'
+        etternavn: 'Normann',
     },
     personinfo: enPersoninfo(),
-    infotrygdutbetalinger: []
+    infotrygdutbetalinger: [],
 };
 
 it('Viser feilmelding', () => {
@@ -40,9 +40,9 @@ it('Viser feilmelding', () => {
             value={{
                 personTilBehandling,
                 innsyn: false,
-                hentPerson: _ => Promise.resolve(undefined),
-                aktiverVedtaksperiode: _ => null,
-                aktivVedtaksperiode: enSpeilVedtaksperiode()
+                hentPerson: (_) => Promise.resolve(undefined),
+                aktiverVedtaksperiode: (_) => null,
+                aktivVedtaksperiode: enSpeilVedtaksperiode(),
             }}
         >
             <AnnulleringModal

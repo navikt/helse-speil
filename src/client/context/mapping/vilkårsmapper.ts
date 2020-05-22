@@ -7,7 +7,7 @@ export enum Vilkårstype {
     Søknadsfrist,
     Opptjeningstid,
     KravTilSykepengegrunnlag,
-    DagerIgjen
+    DagerIgjen,
 }
 
 export interface VurdertVilkår {
@@ -17,13 +17,13 @@ export interface VurdertVilkår {
 
 export const alderVilkår = (vilkår: SpleisVilkår): Alder => ({
     alderSisteSykedag: vilkår.alder.alderSisteSykedag,
-    oppfylt: vilkår.alder.oppfylt
+    oppfylt: vilkår.alder.oppfylt,
 });
 
 export const sykepengegrunnlagVilkår = (vilkår: SpleisVilkår): SykepengegrunnlagVilkår => ({
     sykepengegrunnlag: vilkår.sykepengegrunnlag.sykepengegrunnlag,
     oppfylt: vilkår.sykepengegrunnlag.oppfylt,
-    grunnebeløp: vilkår.sykepengegrunnlag.grunnbeløp
+    grunnebeløp: vilkår.sykepengegrunnlag.grunnbeløp,
 });
 
 export const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
@@ -33,7 +33,7 @@ export const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
     maksdato: somDato(vilkår.sykepengedager.maksdato!),
     oppfylt: vilkår.sykepengedager.oppfylt,
     gjenståendeDager: vilkår.sykepengedager.gjenståendeDager,
-    tidligerePerioder: []
+    tidligerePerioder: [],
 });
 
 export const søknadsfristVilkår = (vilkår: SpleisVilkår): Søknadsfrist | undefined =>
@@ -42,7 +42,7 @@ export const søknadsfristVilkår = (vilkår: SpleisVilkår): Søknadsfrist | un
               sendtNav: somDato(vilkår.søknadsfrist.sendtNav),
               søknadTom: somDato(vilkår.søknadsfrist.søknadTom),
               // TODO: oppfylt undefined burde legge kravet i liste over ting vi ikke har sjekket
-              oppfylt: vilkår.søknadsfrist.oppfylt
+              oppfylt: vilkår.søknadsfrist.oppfylt,
           }
         : undefined;
 
@@ -51,29 +51,29 @@ export const opptjeningVilkår = (vilkår: SpleisVilkår): Opptjening | undefine
         ? {
               antallOpptjeningsdagerErMinst: vilkår.opptjening.antallKjenteOpptjeningsdager,
               oppfylt: vilkår.opptjening.oppfylt,
-              opptjeningFra: somDato(vilkår.opptjening.fom)
+              opptjeningFra: somDato(vilkår.opptjening.fom),
           }
         : undefined;
 
 export const mapVilkår = (vilkår: Vilkår): VurdertVilkår[] => [
     {
         vilkår: Vilkårstype.Alder,
-        oppfylt: vilkår.alder.oppfylt!
+        oppfylt: vilkår.alder.oppfylt!,
     },
     {
         vilkår: Vilkårstype.Søknadsfrist,
-        oppfylt: vilkår.søknadsfrist?.oppfylt!
+        oppfylt: vilkår.søknadsfrist?.oppfylt!,
     },
     {
         vilkår: Vilkårstype.Opptjeningstid,
-        oppfylt: vilkår.opptjening?.oppfylt!
+        oppfylt: vilkår.opptjening?.oppfylt!,
     },
     {
         vilkår: Vilkårstype.KravTilSykepengegrunnlag,
-        oppfylt: vilkår.sykepengegrunnlag.oppfylt!
+        oppfylt: vilkår.sykepengegrunnlag.oppfylt!,
     },
     {
         vilkår: Vilkårstype.DagerIgjen,
-        oppfylt: vilkår.dagerIgjen?.oppfylt!
-    }
+        oppfylt: vilkår.dagerIgjen?.oppfylt!,
+    },
 ];

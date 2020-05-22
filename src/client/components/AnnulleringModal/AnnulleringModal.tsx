@@ -81,7 +81,7 @@ export const AnnulleringModal = ({ isSending, onApprove, onClose, ident, feilmel
     const vedtaksperiode = aktivVedtaksperiode!;
 
     const organisasjonsnummer = personTilBehandling?.arbeidsgivere.find(
-        arbeidsgiver => arbeidsgiver.vedtaksperioder.find(periode => periode.id === vedtaksperiode.id) !== undefined
+        (arbeidsgiver) => arbeidsgiver.vedtaksperioder.find((periode) => periode.id === vedtaksperiode.id) !== undefined
     )?.organisasjonsnummer!;
 
     useEffect(() => {
@@ -103,7 +103,7 @@ export const AnnulleringModal = ({ isSending, onApprove, onClose, ident, feilmel
                 fødselsnummer,
                 organisasjonsnummer,
                 fagsystemId: vedtaksperiode.utbetalinger!.personUtbetaling!.fagsystemId,
-                vedtaksperiodeId: vedtaksperiode.id
+                vedtaksperiodeId: vedtaksperiode.id,
             });
 
         if (arbeidsgiverChecked && navidentGyldig)
@@ -112,7 +112,7 @@ export const AnnulleringModal = ({ isSending, onApprove, onClose, ident, feilmel
                 fødselsnummer,
                 organisasjonsnummer,
                 fagsystemId: vedtaksperiode.utbetalinger!.arbeidsgiverUtbetaling!.fagsystemId,
-                vedtaksperiodeId: vedtaksperiode.id
+                vedtaksperiodeId: vedtaksperiode.id,
             });
     };
 
@@ -159,7 +159,7 @@ export const AnnulleringModal = ({ isSending, onApprove, onClose, ident, feilmel
                 aria-label={'NAV brukerident'}
                 placeholder={'NAV brukerident'}
                 value={navidentInput}
-                onChange={event => setNavidentInput(event.target.value)}
+                onChange={(event) => setNavidentInput(event.target.value)}
                 feil={navidentGyldig === false && 'Fyll inn din NAV brukerident'}
             />
             <AnnullerKnapp spinner={isSending} autoDisableVedSpinner onClick={valider}>

@@ -19,8 +19,8 @@ test('gyldige fødselsnumre aksepteres', () => {
         '02010168352',
         '02010168190',
         '02010167992',
-        '02010167720'
-    ].map(fødselsnummer => {
+        '02010167720',
+    ].map((fødselsnummer) => {
         expect(erGyldigFødselsnummer(fødselsnummer)).toBeTruthy();
     });
 });

@@ -8,5 +8,5 @@ export const enAktivitet = (
     vedtaksperiodeId: 'vedtaksperiodeId',
     alvorlighetsgrad: alvorlighetsgrad,
     melding: melding,
-    tidsstempel: tidsstempel
+    tidsstempel: tidsstempel,
 });

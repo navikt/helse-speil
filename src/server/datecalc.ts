@@ -34,7 +34,7 @@ const workdaysBetween = (firstDate: string | Moment, lastDate: string | Moment) 
 
 const toDate = (dateString?: string): Date | null => (dateString ? new Date(dateString) : null);
 
-const newestTom = (items: { tom: string }[]) => newestDate(items.map(obj => obj.tom));
+const newestTom = (items: { tom: string }[]) => newestDate(items.map((obj) => obj.tom));
 
 const newestDate = (dates: string[]) => {
     return dates.reduce((max, date) => {
@@ -47,5 +47,5 @@ export default {
     workdaysBetween,
     calendarDaysBetween,
     newestTom,
-    toDate
+    toDate,
 };

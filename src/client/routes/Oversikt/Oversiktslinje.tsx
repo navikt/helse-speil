@@ -51,7 +51,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
     const { email } = useContext(AuthContext);
     const { navigateTo, pathForLocation } = useNavigation();
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
-    const formatertNavn = [fornavn, mellomnavn, etternavn].filter(n => n).join(' ');
+    const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
 
     const onTildeling = () => {
         onAssignCase(oppgave.spleisbehovId, email).then(() =>

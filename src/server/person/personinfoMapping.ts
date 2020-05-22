@@ -4,7 +4,7 @@ const map = (person: UnmappedPersoninfo & { fnr: string }): Personinfo => {
     return {
         kjønn: person.kjønn,
         fnr: person.fnr,
-        fødselsdato: person.fdato
+        fødselsdato: person.fdato,
     };
 };
 

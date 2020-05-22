@@ -18,12 +18,12 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf) => ({
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/vedtak`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             body: { behovId, godkjent, saksbehandlerIdent },
-            json: true
+            json: true,
         };
 
         return request.post(options);
-    }
+    },
 });

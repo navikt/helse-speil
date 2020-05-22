@@ -36,7 +36,7 @@ azure
     .then((client: Client) => {
         azureClient = client;
     })
-    .catch(err => {
+    .catch((err) => {
         logger.error(`Failed to discover OIDC provider properties: ${err}`);
         process.exit(1);
     });
@@ -59,7 +59,7 @@ const setUpAuthentication = () => {
             prompt: 'select_account',
             response_mode: 'form_post',
             nonce: session.nonce,
-            state: session.state
+            state: session.state,
         });
         res.redirect(url);
     });
@@ -72,7 +72,7 @@ const setUpAuthentication = () => {
                 const [accessToken, idToken] = tokens;
                 res.cookie('speil', `${idToken}`, {
                     secure: true,
-                    sameSite: true
+                    sameSite: true,
                 });
                 session.speilToken = accessToken;
                 session.user = auth.valueFromClaim('NAVident', idToken);
@@ -93,7 +93,7 @@ app.use('/*', (req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
         res.cookie('speil', auth.createTokenForTest(), {
             secure: false,
-            sameSite: true
+            sameSite: true,
         });
         next();
     } else {

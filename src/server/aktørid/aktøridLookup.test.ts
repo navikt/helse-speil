@@ -4,10 +4,10 @@ import requestMock from 'request-promise-native';
 
 describe('calling Aktørregisteret', () => {
     const stsClient = {
-        hentAccessToken: () => Promise.resolve()
+        hentAccessToken: () => Promise.resolve(),
     };
     const config = {
-        aktoerregisterUrl: ''
+        aktoerregisterUrl: '',
     };
     aktørIdLookup.init(stsClient, config);
 
@@ -20,10 +20,10 @@ describe('calling Aktørregisteret', () => {
                 identer: [
                     {
                         identgruppe: 'AktoerId',
-                        ident: expectedAktørId
-                    }
-                ]
-            }
+                        ident: expectedAktørId,
+                    },
+                ],
+            },
         });
 
         const resultingAktørId = await aktørIdLookup.hentAktørId(nnin);
@@ -39,10 +39,10 @@ describe('calling Aktørregisteret', () => {
                 identer: [
                     {
                         identgruppe: 'NorskIdent',
-                        ident: expectedNnin
-                    }
-                ]
-            }
+                        ident: expectedNnin,
+                    },
+                ],
+            },
         });
 
         const resultingNnin = await aktørIdLookup.hentFnr(aktørId);
@@ -53,8 +53,8 @@ describe('calling Aktørregisteret', () => {
         const aktørId = '123';
         requestMock.prepareAktørregisteretResponse({
             [aktørId]: {
-                feilmelding: 'uh-oh'
-            }
+                feilmelding: 'uh-oh',
+            },
         });
 
         await expect(aktørIdLookup.hentAktørId(aktørId)).rejects.toEqual('AktørId not found');
@@ -64,8 +64,8 @@ describe('calling Aktørregisteret', () => {
         const nnin = '456';
         requestMock.prepareAktørregisteretResponse({
             [nnin]: {
-                feilmelding: 'uh-oh'
-            }
+                feilmelding: 'uh-oh',
+            },
         });
 
         await expect(aktørIdLookup.hentFnr(nnin)).rejects.toEqual('NNIN not found');

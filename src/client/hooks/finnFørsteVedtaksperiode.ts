@@ -3,8 +3,8 @@ import { Person, Vedtaksperiode } from '../context/types.internal';
 // Finner første vedtaksperiode i en serie av sammenhengende vedtaksperioder
 export const finnFørsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person: Person): Vedtaksperiode =>
     person.arbeidsgivere
-        .flatMap(arbeidsgiver => arbeidsgiver.vedtaksperioder)
-        .filter(periode => periode.kanVelges)
-        .map(periode => periode as Vedtaksperiode)
-        .filter(periode => periode.gruppeId === nåværendePeriode.gruppeId)
+        .flatMap((arbeidsgiver) => arbeidsgiver.vedtaksperioder)
+        .filter((periode) => periode.kanVelges)
+        .map((periode) => periode as Vedtaksperiode)
+        .filter((periode) => periode.gruppeId === nåværendePeriode.gruppeId)
         .sort((a, b) => (a.sykdomstidslinje[0].dato.isAfter(b.sykdomstidslinje[0].dato) ? 1 : -1))[0];

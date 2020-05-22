@@ -2,10 +2,10 @@ import prometheus from 'prom-client';
 import { Express } from 'express';
 
 const setup = (app: Express) => {
-    prometheus.collectDefaultMetrics({ timeout: 5000 });
+    prometheus.collectDefaultMetrics({ eventLoopMonitoringPrecision: 5000 });
     routes(app);
     return {
-        onBehalfOfCounter
+        onBehalfOfCounter,
     };
 };
 
@@ -13,15 +13,15 @@ const onBehalfOfCounter = () => {
     const counter = new prometheus.Counter({
         name: 'onBehalfOfVeksling',
         help: 'antall ganger vi veksler ut token for å gjøre onBehalfOfKall',
-        labelNames: ['targetClientId']
+        labelNames: ['targetClientId'],
     });
 
     return {
         inc: (clientId: string) => {
             counter.inc({
-                targetClientId: clientId
+                targetClientId: clientId,
             });
-        }
+        },
     };
 };
 

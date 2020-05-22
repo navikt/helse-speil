@@ -7,12 +7,12 @@ export const useLogUserOut = () => {
 
     useEffect(() => {
         fetchIntercept.register({
-            response: res => {
+            response: (res) => {
                 if (res.status === 401) {
                     setUserLoggedOut?.();
                 }
                 return res;
-            }
+            },
         });
     }, []);
 };

@@ -58,19 +58,19 @@ const Vilkår = () => {
         }
     };
 
-    const vurderteVilkår: Vilkårdata[] = mapVilkår(vilkår).map(vilkår => ({
+    const vurderteVilkår: Vilkårdata[] = mapVilkår(vilkår).map((vilkår) => ({
         type: vilkår.vilkår,
         komponent: tilVilkårsgruppe(vilkår),
-        oppfylt: vilkår.oppfylt
+        oppfylt: vilkår.oppfylt,
     }));
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
 
-    const ikkeOppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => !it.oppfylt);
-    const oppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter(it => it.oppfylt);
+    const ikkeOppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter((it) => !it.oppfylt);
+    const oppfylteVilkår: Vilkårdata[] = vurderteVilkår.filter((it) => it.oppfylt);
     const ikkeVurderteVilkår: IkkeVurdertVilkår[] = vurderteVilkår
-        .filter(it => it.oppfylt == undefined)
-        .map(it => {
+        .filter((it) => it.oppfylt == undefined)
+        .map((it) => {
             switch (it.type) {
                 case Vilkårstype.Alder:
                     return { label: 'Under 70 år', paragraf: '§8-51' };

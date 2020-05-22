@@ -17,7 +17,7 @@ let aktørIdLookup: AktørIdLookup;
 const init = ({
     stsClient: _stsClient,
     sparkelClient: _sparkelClient,
-    aktørIdLookup: _aktørIdLookup
+    aktørIdLookup: _aktørIdLookup,
 }: PersoninfoLookupParameters) => {
     stsClient = _stsClient;
     sparkelClient = _sparkelClient;
@@ -27,7 +27,7 @@ const init = ({
 const hentPersoninfo = async (aktørId: string) => {
     return stsClient
         .hentAccessToken()
-        .then(token => sparkelClient.hentPersoninfo(aktørId, token))
+        .then((token) => sparkelClient.hentPersoninfo(aktørId, token))
         .then(async (person: UnmappedPersoninfo) => {
             const fnr = await aktørIdLookup.hentFnr(aktørId);
             return personinfoMapping.map({ ...person, fnr });
@@ -35,10 +35,10 @@ const hentPersoninfo = async (aktørId: string) => {
 };
 module.exports = {
     init,
-    hentPersoninfo
+    hentPersoninfo,
 };
 
 export default {
     init,
-    hentPersoninfo
+    hentPersoninfo,
 };

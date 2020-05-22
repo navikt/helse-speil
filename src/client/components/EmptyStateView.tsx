@@ -7,7 +7,7 @@ const styles = {
     margin: '1.5rem',
     display: 'inline-block',
     height: 'max-content',
-    flex: 1
+    flex: 1,
 };
 
 const EmptyStateView = () => {

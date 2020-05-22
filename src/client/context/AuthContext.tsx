@@ -17,7 +17,7 @@ const notLoggedInUser = {
     name: '',
     ident: undefined,
     email: undefined,
-    isLoggedIn: false
+    isLoggedIn: false,
 };
 
 export const AuthContext = createContext<AuthContextType>({ ...notLoggedInUser });
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
             name,
             ident,
             email,
-            isLoggedIn: true
+            isLoggedIn: true,
         });
     }
 
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: ProviderProps) => {
         <AuthContext.Provider
             value={{
                 ...authInfo,
-                setUserLoggedOut
+                setUserLoggedOut,
             }}
         >
             {children}

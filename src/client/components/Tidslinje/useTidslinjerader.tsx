@@ -10,21 +10,21 @@ export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeper
     fom: vedtaksperiode.fom.toDate(),
     tom: vedtaksperiode.tom.toDate(),
     status: vedtaksperiode.tilstand,
-    disabled: !vedtaksperiode.kanVelges
+    disabled: !vedtaksperiode.kanVelges,
 });
 
 export const useTidslinjerader = (person?: Person, aktivVedtaksperiode?: Vedtaksperiode): EnkelSykepengetidslinje[] =>
     useMemo(
         () =>
-            person?.arbeidsgivere.map(arbeidsgiver => {
+            person?.arbeidsgivere.map((arbeidsgiver) => {
                 return {
                     perioder: arbeidsgiver.vedtaksperioder.map((periode: Vedtaksperiode) => ({
                         ...toSykepengeperiode(periode),
                         active:
                             aktivVedtaksperiode &&
                             periode.fom.isSame(aktivVedtaksperiode.fom) &&
-                            periode.tom.isSame(aktivVedtaksperiode.tom)
-                    }))
+                            periode.tom.isSame(aktivVedtaksperiode.tom),
+                    })),
                 };
             }) ?? [],
         [person, aktivVedtaksperiode]

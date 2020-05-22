@@ -2,7 +2,7 @@ import React, { ReactNode, useContext } from 'react';
 import { Hendelse, Kildetype } from './types.internal';
 import { PersonContext } from './PersonContext';
 import { NORSK_DATOFORMAT } from '../utils/date';
-import { LoggProvider, Hendelsetype as LoggType } from '@navikt/helse-frontend-logg';
+import { Hendelsetype as LoggType, LoggProvider } from '@navikt/helse-frontend-logg';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];
@@ -37,7 +37,7 @@ export default ({ children }: LoggProviderProps) => {
               id: hendelse.id,
               dato: datoForHendelse(hendelse),
               navn: navnForHendelse(hendelse),
-              type: LoggType.Dokumenter
+              type: LoggType.Dokumenter,
           }))
         : [];
 

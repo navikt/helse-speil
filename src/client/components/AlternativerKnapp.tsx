@@ -54,13 +54,13 @@ const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappPr
     useFocusOutside({
         ref: containerRef,
         active: ekspandert,
-        onFocusOutside: () => setEkspandert(e => !e)
+        onFocusOutside: () => setEkspandert((e) => !e),
     });
 
     useClickOutside({
         ref: containerRef,
         active: ekspandert,
-        onClickOutside: () => setEkspandert(e => !e)
+        onClickOutside: () => setEkspandert((e) => !e),
     });
 
     const onClickWrapper = (event: React.MouseEvent) => {

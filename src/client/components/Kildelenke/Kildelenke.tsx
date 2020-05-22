@@ -12,7 +12,7 @@ interface Props {
 export enum Kildetype {
     inntektsmelding = 'IM',
     aareg = 'Aa',
-    aordningen = 'AO'
+    aordningen = 'AO',
 }
 
 const Kildelenke = ({ label, link }: Props) => {

@@ -1,6 +1,6 @@
 'use strict';
 
-import { Issuer, custom } from 'openid-client';
+import { custom, Issuer } from 'openid-client';
 import { OidcConfig } from '../types';
 import logger from '../logging';
 import proxy from './proxy';
@@ -15,21 +15,21 @@ const setup = (config: OidcConfig) => {
         }
 
         Issuer.discover(`${config.providerBaseUrl}/v2.0/.well-known/openid-configuration`)
-            .then(azure => {
+            .then((azure) => {
                 logger.info(`Discovered issuer ${azure.issuer}`);
                 azureClient = new azure.Client({
                     client_id: config.clientID,
                     client_secret: config.clientSecret,
                     redirect_uris: [config.redirectUrl, 'http://localhost:3000'],
-                    response_types: config.responseType
+                    response_types: config.responseType,
                 });
 
                 if (proxyAgent) {
-                    azure[custom.http_options] = function(options) {
+                    azure[custom.http_options] = function (options) {
                         options.agent = proxyAgent;
                         return options;
                     };
-                    azureClient[custom.http_options] = function(options) {
+                    azureClient[custom.http_options] = function (options) {
                         options.agent = proxyAgent;
                         return options;
                     };
@@ -37,7 +37,7 @@ const setup = (config: OidcConfig) => {
 
                 resolve(azureClient);
             })
-            .catch(err => {
+            .catch((err) => {
                 reject(err);
             });
     });

@@ -24,7 +24,7 @@ const verdiFraTilsvarendeSykdomsdag = (
     sykdomstidslinje: Sykdomsdag[],
     nøkkel: keyof (Utbetalingsdag | Sykdomsdag)
 ): ValueOf<Sykdomsdag | Utbetalingsdag> =>
-    sykdomstidslinje.find(sykdomsdag => utbetalingsdag.dato.isSame(sykdomsdag.dato))![nøkkel];
+    sykdomstidslinje.find((sykdomsdag) => utbetalingsdag.dato.isSame(sykdomsdag.dato))![nøkkel];
 
 const status = (dag: Utbetalingsdag, maksdato?: Dayjs): Dagstatus | undefined =>
     [Dagtype.Avvist, Dagtype.Foreldet].includes(dag.type)
@@ -43,9 +43,9 @@ const Utbetalingsoversikt = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const { maksdato } = useMaksdato();
 
-    const dager: Dag[] | undefined = aktivVedtaksperiode?.utbetalingstidslinje.map(dag => {
+    const dager: Dag[] | undefined = aktivVedtaksperiode?.utbetalingstidslinje.map((dag) => {
         if (dag.type === Dagtype.Avvist) {
-            const tilsvarendeDag = aktivVedtaksperiode?.sykdomstidslinje.find(sykdomsdag =>
+            const tilsvarendeDag = aktivVedtaksperiode?.sykdomstidslinje.find((sykdomsdag) =>
                 dag.dato.isSame(sykdomsdag.dato)
             )!;
             return {
@@ -54,7 +54,7 @@ const Utbetalingsoversikt = () => {
                 gradering: tilsvarendeDag.gradering,
                 utbetaling: 'Ingen utbetaling',
                 status: status(dag, maksdato),
-                feilmelding: feilmelding(dag, maksdato)
+                feilmelding: feilmelding(dag, maksdato),
             };
         }
         return {
@@ -63,7 +63,7 @@ const Utbetalingsoversikt = () => {
             gradering: gradering(dag),
             utbetaling: dag.utbetaling,
             status: status(dag, maksdato),
-            feilmelding: feilmelding(dag, maksdato)
+            feilmelding: feilmelding(dag, maksdato),
         };
     });
 

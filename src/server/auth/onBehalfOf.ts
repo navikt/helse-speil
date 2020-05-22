@@ -26,11 +26,11 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                     client_secret: config.clientSecret,
                     assertion: accessToken,
                     scope: `api://${targetClientId}/.default`, // the app we're reaching out to
-                    requested_token_use: 'on_behalf_of'
-                }
+                    requested_token_use: 'on_behalf_of',
+                },
             };
             const response = await request.post(options);
             return response.access_token;
-        }
+        },
     };
 };

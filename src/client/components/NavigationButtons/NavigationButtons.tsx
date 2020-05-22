@@ -28,7 +28,7 @@ const NavigationButtons = ({ className }: Props) => {
 
     useKeyboard({
         [Key.Left]: { action: clickPrevious, ignoreIfModifiers: true },
-        [Key.Right]: { action: clickNext, ignoreIfModifiers: true }
+        [Key.Right]: { action: clickNext, ignoreIfModifiers: true },
     });
 
     return (

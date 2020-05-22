@@ -19,7 +19,7 @@ test('behandlinger funnet', async () => {
             status: 200,
             json: () => {
                 return Promise.resolve('yup');
-            }
+            },
         });
     });
     const response = await fetchPerson('12345');
@@ -33,13 +33,13 @@ test('behandlinger ikke funnet', async () => {
             status: 404,
             json: () => {
                 return Promise.resolve();
-            }
+            },
         });
     });
-    const response = await fetchPerson('12345').catch(err => {
+    const response = await fetchPerson('12345').catch((err) => {
         expect(err).toEqual({
             message: undefined,
-            statusCode: 404
+            statusCode: 404,
         });
     });
     expect(fetch).toHaveBeenCalledTimes(1);

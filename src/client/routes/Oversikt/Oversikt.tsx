@@ -54,7 +54,7 @@ const Sorteringspiler = styled.div<{ direction: string }>`
         transition: all 0.1s ease;
     }
 
-    ${props =>
+    ${(props) =>
         props.direction === 'ascending' &&
         `
         &:after { transform: translateY(-0.5rem) rotate(180deg); }
@@ -134,7 +134,7 @@ const Oversikt = () => {
                     <tbody>
                         {harAlleTildelinger &&
                             behov.sort(sortDirection).map((oppgave: Oppgave) => {
-                                const tildeling = tildelinger.find(t => t.behovId === oppgave.spleisbehovId);
+                                const tildeling = tildelinger.find((t) => t.behovId === oppgave.spleisbehovId);
                                 return (
                                     <Oversiktslinje
                                         oppgave={oppgave}

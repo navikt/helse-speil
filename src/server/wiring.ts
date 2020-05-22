@@ -32,10 +32,10 @@ const getDevDependencies = () => {
             stsClient: devStsClient,
             onBehalfOf: devOnBehalfOf,
             cache: devRedisClient,
-            config
+            config,
         },
         payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
-        redisClient: devRedisClient
+        redisClient: devRedisClient,
     };
 };
 
@@ -54,10 +54,10 @@ const getProdDependencies = (app: Express) => {
             stsClient: stsClient,
             onBehalfOf: _onBehalfOf,
             cache: _redisClient,
-            config
+            config,
         },
         payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
-        redisClient: _redisClient
+        redisClient: _redisClient,
     };
 };
 

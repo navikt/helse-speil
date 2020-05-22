@@ -16,14 +16,14 @@ const Container = styled(Sakslinje)`
 `;
 
 const Vedtaksperiodeinfo = ({ periode, person }: VedtaksperiodeinfoProps) => {
-    const arbeidsgiver = person?.arbeidsgivere.find(arbeidsgiveren =>
-        arbeidsgiveren.vedtaksperioder.find(perioden => perioden.id === periode?.id)
+    const arbeidsgiver = person?.arbeidsgivere.find((arbeidsgiveren) =>
+        arbeidsgiveren.vedtaksperioder.find((perioden) => perioden.id === periode?.id)
     );
 
     const tekster = [
         arbeidsgiver?.organisasjonsnummer ?? 'Ukjent arbeidsgiver',
         `${periode?.sykdomstidslinje[0].gradering ?? 100}%`,
-        `${periode?.fom.format(NORSK_DATOFORMAT)} - ${periode?.tom.format(NORSK_DATOFORMAT)}`
+        `${periode?.fom.format(NORSK_DATOFORMAT)} - ${periode?.tom.format(NORSK_DATOFORMAT)}`,
     ];
 
     return <Container venstre={arbeidsgiver && <Arbeidsgiver tekst={tekster} />} />;

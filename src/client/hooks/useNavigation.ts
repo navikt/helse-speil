@@ -16,7 +16,7 @@ export enum Location {
     Inntektskilder,
     Sykepengegrunnlag,
     Utbetalingsoversikt,
-    Oppsummering
+    Oppsummering,
 }
 
 const locations = [
@@ -25,12 +25,12 @@ const locations = [
     '/inntektskilder',
     '/sykepengegrunnlag',
     '/utbetalingsoversikt',
-    '/oppsummering'
+    '/oppsummering',
 ];
 
 const locationFromCurrentPath = (path: string, locations: string[]) => {
     const currentPathName = path.split('/')[1];
-    return locations.findIndex(location => location.slice(1) === currentPathName);
+    return locations.findIndex((location) => location.slice(1) === currentPathName);
 };
 
 export const useNavigation = (): Navigation => {
@@ -38,7 +38,7 @@ export const useNavigation = (): Navigation => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
     const availableLocations = aktivVedtaksperiode?.forlengelseFraInfotrygd
-        ? locations.filter(l => l !== locations[Location.Inntektskilder])
+        ? locations.filter((l) => l !== locations[Location.Inntektskilder])
         : locations;
 
     const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), availableLocations);
@@ -70,6 +70,6 @@ export const useNavigation = (): Navigation => {
         navigateTo,
         pathForLocation,
         navigateToNext: canNavigateToNext ? navigateToNext : undefined,
-        navigateToPrevious: canNavigateToPrevious ? navigateToPrevious : undefined
+        navigateToPrevious: canNavigateToPrevious ? navigateToPrevious : undefined,
     };
 };

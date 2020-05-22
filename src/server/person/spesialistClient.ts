@@ -12,10 +12,10 @@ export const spesialistClient: SpesialistClient = {
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/oppgaver`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             resolveWithFullResponse: true,
-            json: true
+            json: true,
         };
         return request.get(options);
     },
@@ -24,10 +24,10 @@ export const spesialistClient: SpesialistClient = {
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/person/aktorId/${aktørId}`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             resolveWithFullResponse: true,
-            json: true
+            json: true,
         };
         return request.get(options);
     },
@@ -36,10 +36,10 @@ export const spesialistClient: SpesialistClient = {
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/person/fnr/${fødselsnummer}`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             resolveWithFullResponse: true,
-            json: true
+            json: true,
         };
         return request.get(options);
     },
@@ -48,13 +48,13 @@ export const spesialistClient: SpesialistClient = {
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/person/utbetaling/${utbetalingsref}`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             resolveWithFullResponse: true,
-            json: true
+            json: true,
         };
         return request.get(options);
-    }
+    },
 };
 
 export default spesialistClient;

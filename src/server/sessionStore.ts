@@ -19,7 +19,7 @@ const createMemoryStoreSession = (config: AppConfig) => {
     return expressSession({
         secret: config.server.sessionSecret!,
         saveUninitialized: false,
-        resave: false
+        resave: false,
     });
 };
 
@@ -32,8 +32,8 @@ const createRedisSession = (config: AppConfig, redisClient: RedisClient) => {
         resave: false,
         store: new redisStore({
             client: redisClient,
-            ttl: 43200 // 12 hours
-        })
+            ttl: 43200, // 12 hours
+        }),
     });
 };
 

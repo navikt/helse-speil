@@ -1,6 +1,6 @@
 // @ts-nocheck
 import personLookup from './personLookup';
-import { OppgaveResponse } from './spesialistClient';
+
 afterEach(() => {
     jest.clearAllMocks();
 });
@@ -9,11 +9,11 @@ const spesialistClient = {
     hentPersonByAktørId: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('plain person aktørId') }),
     hentPersonByFødselsnummer: () =>
         Promise.resolve({ statusCode: 200, body: Promise.resolve('plain person fødselsnummer') }),
-    hentSakByUtbetalingsref: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('utbetalt person') })
+    hentSakByUtbetalingsref: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('utbetalt person') }),
 };
 
 const onBehalfOfStub = {
-    hentFor: () => Promise.resolve()
+    hentFor: () => Promise.resolve(),
 };
 
 let hentAktørIdAnswer = Promise.resolve('123');
@@ -23,7 +23,7 @@ beforeAll(() => {
         aktørIdLookup: { hentAktørId: () => hentAktørIdAnswer },
         spesialistClient,
         config: { oidc: {} },
-        onBehalfOf: onBehalfOfStub
+        onBehalfOf: onBehalfOfStub,
     });
 });
 
@@ -38,7 +38,7 @@ const mockResponse = (() => {
 describe('finnPerson', () => {
     const baseReq = {
         headers: { [personLookup.personIdHeaderName]: '123' },
-        session: {}
+        session: {},
     };
 
     test('finnPerson uten innsyn-header kaller spesialistClient.hentPersonByAktørId', async () => {
@@ -59,7 +59,7 @@ describe('finnPerson', () => {
     describe('oppslag på fødselsnummer', () => {
         const reqWithFnr = {
             ...baseReq,
-            headers: { ...baseReq.headers, [personLookup.personIdHeaderName]: '11031888001' }
+            headers: { ...baseReq.headers, [personLookup.personIdHeaderName]: '11031888001' },
         };
         test('finnPerson med fødselsnummer kaller spesialistClient.hentPersonByFødselsnummer', async () => {
             await personLookup.finnPerson(reqWithFnr, mockResponse);
@@ -70,7 +70,7 @@ describe('finnPerson', () => {
     });
 });
 
-const assertResponseStatusCode = int => expect(mockResponse.status.mock.calls[0]?.[0]).toBe(int);
+const assertResponseStatusCode = (int) => expect(mockResponse.status.mock.calls[0]?.[0]).toBe(int);
 
 afterEach(() => {
     expect(mockResponse.status.mock.calls[0]?.[0]).not.toBeGreaterThanOrEqual(500);

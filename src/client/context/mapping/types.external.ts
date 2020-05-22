@@ -46,7 +46,7 @@ export enum SpleisUtbetalingsdagtype {
     HELGEDAG = 'Helgedag',
     UKJENTDAG = 'UkjentDag',
     AVVISTDAG = 'AvvistDag',
-    FORELDETDAG = 'ForeldetDag'
+    FORELDETDAG = 'ForeldetDag',
 }
 
 export interface SpleisUtbetalingsdag {
@@ -85,7 +85,7 @@ export enum SpleisSykdomsdagtype {
     SYKEDAG_SYKMELDING = 'SYKEDAG_SYKMELDING',
     SYKEDAG_SØKNAD = 'SYKEDAG_SØKNAD',
     SYK_HELGEDAG_SYKMELDING = 'SYK_HELGEDAG_SYKMELDING',
-    SYK_HELGEDAG_SØKNAD = 'SYK_HELGEDAG_SØKNAD'
+    SYK_HELGEDAG_SØKNAD = 'SYK_HELGEDAG_SØKNAD',
 }
 
 export interface SpleisSykdomsdag {
@@ -102,14 +102,14 @@ export interface SpleisSykdomsdagkilde {
 export enum SpleisSykdomsdagkildeType {
     INNTEKTSMELDING = 'Inntektsmelding',
     SYKMELDING = 'Sykmelding',
-    SØKNAD = 'Søknad'
+    SØKNAD = 'Søknad',
 }
 
 export enum SpleisHendelsetype {
     INNTEKTSMELDING = 'INNTEKTSMELDING',
     SYKMELDING = 'NY_SØKNAD',
     SØKNAD_NAV = 'SENDT_SØKNAD_NAV',
-    SØKNAD_ARBEIDSGIVER = 'SENDT_SØKNAD_ARBEIDSGIVER'
+    SØKNAD_ARBEIDSGIVER = 'SENDT_SØKNAD_ARBEIDSGIVER',
 }
 
 export interface SpleisHendelse {
@@ -212,7 +212,7 @@ export enum SpleisVedtaksperiodetilstand {
     Venter = 'Venter',
     IngenUtbetaling = 'IngenUtbetaling',
     Feilet = 'Feilet',
-    TilInfotrygd = 'TilInfotrygd'
+    TilInfotrygd = 'TilInfotrygd',
 }
 
 export interface SpleisVilkår {
@@ -315,11 +315,11 @@ export enum SpesialistInfotrygdtypetekst {
     UTBETALING = 'Utbetaling',
     ARBEIDSGIVERREFUSJON = 'ArbRef',
     UKJENT = 'Ukjent..',
-    TILBAKEFØRT = 'Tilbakeført'
+    TILBAKEFØRT = 'Tilbakeført',
 }
 
 export enum SpleisForlengelseFraInfotrygd {
     IKKE_ETTERSPURT = 'IKKE_ETTERSPURT',
     JA = 'JA',
-    NEI = 'NEI'
+    NEI = 'NEI',
 }

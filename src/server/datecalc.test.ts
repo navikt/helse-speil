@@ -24,11 +24,11 @@ test('nextMillisecondIsNotOk', () => {
 test('newestTom', () => {
     const data = [
         {
-            tom: '2018-01-01'
+            tom: '2018-01-01',
         },
         {
-            tom: '2019-12-12'
-        }
+            tom: '2019-12-12',
+        },
     ];
     const mapped = datecalc.newestTom(data);
     expect(mapped).toEqual('2019-12-12');

@@ -6,7 +6,7 @@ import { NORSK_DATOFORMAT } from '../utils/date';
 export enum VedtaksperiodeStatus {
     Ubehandlet = 'ubehandlet',
     Påfølgende = 'påfølgende',
-    Behandlet = 'behandlet'
+    Behandlet = 'behandlet',
 }
 
 export const useVedtaksperiodestatus = (): VedtaksperiodeStatus | undefined => {

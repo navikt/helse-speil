@@ -26,8 +26,8 @@ interface ProviderProps {
 export const PersonContext = createContext<PersonContextType>({
     personTilBehandling: undefined,
     innsyn: false,
-    hentPerson: _ => Promise.resolve(undefined),
-    aktiverVedtaksperiode: _ => null
+    hentPerson: (_) => Promise.resolve(undefined),
+    aktiverVedtaksperiode: (_) => null,
 });
 
 export const PersonProvider = ({ children }: ProviderProps) => {
@@ -66,16 +66,16 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         const innsyn = value.length === 26;
         setInnsyn(innsyn);
         return fetchPerson(value, innsyn)
-            .then(async response => {
+            .then(async (response) => {
                 const aktørId = response.data.person.aktørId;
-                const personinfo = await getPersoninfo(aktørId).then(response => ({
-                    ...response.data
+                const personinfo = await getPersoninfo(aktørId).then((response) => ({
+                    ...response.data,
                 }));
                 const person = { ...response.data.person, personinfo };
                 setPersonTilBehandling(tilPerson(person, personinfo));
                 return person;
             })
-            .catch(err => {
+            .catch((err) => {
                 if (!err.statusCode) console.error(err);
                 if (err.statusCode !== 401) {
                     const message =
@@ -91,7 +91,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     const aktiverVedtaksperiode = useCallback(
         (periodeId: string) => {
             const vedtaksperiode = personTilBehandling?.arbeidsgivere[0].vedtaksperioder.find(
-                periode => periode.id === periodeId
+                (periode) => periode.id === periodeId
             );
             vedtaksperiode?.kanVelges && setAktivVedtaksperiode(vedtaksperiode as Vedtaksperiode);
         },
@@ -105,7 +105,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                 hentPerson,
                 innsyn,
                 aktivVedtaksperiode,
-                aktiverVedtaksperiode
+                aktiverVedtaksperiode,
             }}
         >
             {children}
@@ -120,5 +120,5 @@ export const PersonProvider = ({ children }: ProviderProps) => {
 };
 
 PersonProvider.propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
 };

@@ -18,11 +18,11 @@ const routes = (router: Router) => {
         const behovIdList = req.body;
         storage
             .getAll(behovIdList)
-            .then(result => {
+            .then((result) => {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(result));
             })
-            .catch(err => {
+            .catch((err) => {
                 logger.info(`Error while retrieving values from Redis: ${err}`);
                 res.sendStatus(err.statusCode || 500);
             });
@@ -70,7 +70,7 @@ const routes = (router: Router) => {
                 logger.info(`Error while inserting value in Redis. Error: ${err}`);
                 return res.send({
                     message: `Tildeling av behov feilet.`,
-                    statusCode: 500
+                    statusCode: 500,
                 });
             });
     });
@@ -92,7 +92,7 @@ const routes = (router: Router) => {
             .catch((err: Error) => {
                 logger.info(`Error while deleting key in Redis: ${err}`);
                 res.status(500).send({
-                    message: `Sletting av tildeling feilet.`
+                    message: `Sletting av tildeling feilet.`,
                 });
             });
     });

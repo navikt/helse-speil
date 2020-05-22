@@ -12,7 +12,7 @@ const setup = ({
     stsClient,
     cache,
     config,
-    onBehalfOf
+    onBehalfOf,
 }: PersonDependencies) => {
     personinfoRepo.setup({ sparkelClient, aktørIdLookup, stsClient, cache });
     personLookup.setup({ aktørIdLookup, spesialistClient, config, onBehalfOf });

@@ -5,7 +5,7 @@ import './ListSeparator.less';
 enum SeparatorType {
     Dotted = 'dotted',
     Solid = 'solid',
-    Transparent = 'transparent'
+    Transparent = 'transparent',
 }
 
 interface Props {

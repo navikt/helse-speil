@@ -11,7 +11,7 @@ export const ISO_DATOFORMAT = 'YYYY-MM-DD';
 export const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export const findLatest = (dates: Dayjs[]): Dayjs => {
-    const sorted = dates.map(date => date).sort((a, b) => (b.isAfter(a) ? -1 : a.isAfter(b) ? 1 : 0));
+    const sorted = dates.map((date) => date).sort((a, b) => (b.isAfter(a) ? -1 : a.isAfter(b) ? 1 : 0));
     return sorted.pop()!;
 };
 

@@ -6,7 +6,7 @@ const behandlingerForPeriode = (_fom: string, _tom: string, _accessToken: string
     const behov = JSON.parse(fromFile);
     return Promise.resolve(({
         statusCode: 200,
-        body: behov
+        body: behov,
     } as unknown) as Response);
 };
 
@@ -15,7 +15,7 @@ const hentPersonByAktørId = async (aktørId: string) => {
     const person = JSON.parse(fromFile);
     return Promise.resolve(({
         statusCode: 200,
-        body: person
+        body: person,
     } as unknown) as Response);
 };
 
@@ -24,7 +24,7 @@ const hentPersonByFødselsnummer = async (aktørId: string) => {
     const person = JSON.parse(fromFile);
     return Promise.resolve(({
         statusCode: 200,
-        body: person
+        body: person,
     } as unknown) as Response);
 };
 
@@ -33,7 +33,7 @@ const hentSakByUtbetalingsref = async () => {
     const person = JSON.parse(fromFile);
     return Promise.resolve(({
         statusCode: 200,
-        body: person
+        body: person,
     } as unknown) as Response);
 };
 
@@ -54,7 +54,7 @@ const devSpesialistClient: SpesialistClient = {
     behandlingerForPeriode,
     hentPersonByAktørId,
     hentPersonByFødselsnummer,
-    hentSakByUtbetalingsref
+    hentSakByUtbetalingsref,
 };
 
 export default devSpesialistClient;

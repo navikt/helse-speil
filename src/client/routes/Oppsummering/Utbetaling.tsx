@@ -15,7 +15,7 @@ import { Vedtaksperiodetilstand } from '../../context/types.internal';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
-    Avvist = 'AVVIST'
+    Avvist = 'AVVIST',
 }
 
 interface UtbetalingProps {
@@ -47,7 +47,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
             .catch((err: Error) => {
                 console.error({ err });
                 setError({
-                    message: `Kunne ikke fatte vedtak: ${err.message} (statuskode: ${err.statusCode ?? 'ukjent'})`
+                    message: `Kunne ikke fatte vedtak: ${err.message} (statuskode: ${err.statusCode ?? 'ukjent'})`,
                 });
             })
             .finally(() => {

@@ -57,9 +57,9 @@ const fetchFromAktørregisteret = async (ident: string) => {
             Accept: 'application/json',
             'Nav-Call-Id': uuid(),
             'Nav-Consumer-Id': 'speil',
-            'Nav-Personidenter': ident
+            'Nav-Personidenter': ident,
         },
-        json: true
+        json: true,
     };
 
     return request.get(options);
@@ -73,7 +73,7 @@ const mapToIdentType = (response: IdentResponseMap, value: string, identType: Id
         logger.error(`lookup failed: '${identResponse.feilmelding || 'unknown error'}`);
         return Promise.reject(`${identType.name} not found`);
     } else {
-        const ident = identer.filter(ident => ident.identgruppe === identType.key).map(ident => ident.ident)[0];
+        const ident = identer.filter((ident) => ident.identgruppe === identType.key).map((ident) => ident.ident)[0];
         logger.info(
             `Retrieved ${identType.name} '${maskIdentifier(ident)}' for ${
                 identType.name === 'NNIN' ? 'AktørId' : 'NNIN'
@@ -107,5 +107,5 @@ export default {
     hentFnr,
     _mapToAktørId: mapToAktørId,
     _mapToFnr: mapToFnr,
-    _maskIdentifier: maskIdentifier
+    _maskIdentifier: maskIdentifier,
 };

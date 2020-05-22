@@ -48,7 +48,7 @@ const AnnulleringsModal = ({ onApprove, faktiskNavIdent, onClose, senderAnnuller
                 aria-label="NAV-brukerident"
                 placeholder="NAV-brukerident"
                 className="AnnulleringsModal__identInput"
-                onChange={e => setInput(e.target.value)}
+                onChange={(e) => setInput(e.target.value)}
                 value={input}
             />
             <div className="knapperad">

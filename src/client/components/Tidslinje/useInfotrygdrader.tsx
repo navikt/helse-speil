@@ -53,7 +53,7 @@ const toSykepengeperiode = (infotrygdutbetaling: Infotrygdutbetaling): Sykepenge
             {infotrygdutbetaling.grad !== undefined && <Tekst>{`Grad: ${infotrygdutbetaling.grad}%`}</Tekst>}
             {infotrygdutbetaling.dagsats !== undefined && <Tekst>{`Dagsats: ${infotrygdutbetaling.dagsats} kr`}</Tekst>}
         </Label>
-    )
+    ),
 });
 
 export const useInfotrygdrader = (person?: Person, aktivVedtaksperiode?: Vedtaksperiode) =>
@@ -66,16 +66,16 @@ export const useInfotrygdrader = (person?: Person, aktivVedtaksperiode?: Vedtaks
                         ...rader,
                         [utbetaling.organisasjonsnummer]: {
                             ...infotrygdtidslinje,
-                            perioder: [...infotrygdtidslinje.perioder, toSykepengeperiode(utbetaling)]
-                        }
+                            perioder: [...infotrygdtidslinje.perioder, toSykepengeperiode(utbetaling)],
+                        },
                     };
                 } else {
                     return {
                         ...rader,
                         [utbetaling.organisasjonsnummer]: {
                             perioder: [toSykepengeperiode(utbetaling)],
-                            organisasjonsnummer: utbetaling.organisasjonsnummer
-                        }
+                            organisasjonsnummer: utbetaling.organisasjonsnummer,
+                        },
                     };
                 }
             }, {}) ?? {};

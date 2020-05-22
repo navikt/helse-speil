@@ -5,31 +5,31 @@ import { StsClient } from '../auth/stsClient';
 import { NavConfig } from '../types';
 
 jest.mock('./personinfoMapping', () => ({
-    map: person => ({ fornavnMappedByStub: person.fornavn, fnr: person.fnr })
+    map: (person) => ({ fornavnMappedByStub: person.fornavn, fnr: person.fnr }),
 }));
 
 const stsClientStub = {
     init: (_config: NavConfig) => {},
-    hentAccessToken: () => Promise.resolve('')
+    hentAccessToken: () => Promise.resolve(''),
 };
 const aktørIdLookupStub = {
     hentFnr: (_aktørId: string) => Promise.resolve('2469'),
     hentAktørId: (_fnr: string) => Promise.resolve(''),
-    init: (_stsClient: StsClient, _condig: NavConfig) => {}
+    init: (_stsClient: StsClient, _condig: NavConfig) => {},
 };
 
 beforeAll(() => {
     personinfoLookup.init({
         sparkelClient,
         stsClient: stsClientStub,
-        aktørIdLookup: aktørIdLookupStub
+        aktørIdLookup: aktørIdLookupStub,
     });
 });
 
 test('successful lookup resolves with person object', async () => {
     await expect(personinfoLookup.hentPersoninfo('11111')).resolves.toEqual({
         fornavnMappedByStub: 'BJARNE',
-        fnr: '2469'
+        fnr: '2469',
     });
 });
 

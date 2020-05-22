@@ -21,7 +21,7 @@ interface BehovoversiktContextType {
 export const BehovContext = createContext<BehovoversiktContextType>({
     behov: [],
     hentBehov: () => {},
-    isFetchingBehov: false
+    isFetchingBehov: false,
 });
 
 export const BehovProvider = ({ children }: ProviderProps) => {
@@ -32,8 +32,8 @@ export const BehovProvider = ({ children }: ProviderProps) => {
     const hentBehov = () => {
         setIsFetchingBehov(true);
         return fetchBehov()
-            .then(response => setBehov(response.data.behov))
-            .catch(err => {
+            .then((response) => setBehov(response.data.behov))
+            .catch((err) => {
                 if (!err.statusCode) console.error(err);
                 if (err.statusCode !== 401) {
                     const message =

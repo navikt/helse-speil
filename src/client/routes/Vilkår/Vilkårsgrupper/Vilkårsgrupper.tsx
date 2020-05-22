@@ -119,5 +119,5 @@ export default {
     Søknadsfrist,
     Opptjeningstid,
     KravTilSykepengegrunnlag,
-    DagerIgjen
+    DagerIgjen,
 };

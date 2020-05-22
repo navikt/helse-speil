@@ -19,6 +19,6 @@ test('listOfWorkdaysBetween', () => {
         somDato('2018-01-03'),
         somDato('2018-01-04'),
         somDato('2018-01-05'),
-        somDato('2018-01-08')
+        somDato('2018-01-08'),
     ]);
 });

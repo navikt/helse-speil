@@ -1,13 +1,13 @@
 export const Keys = {
     NAME: 'name',
     IDENT: 'NAVident',
-    EMAIL: 'email'
+    EMAIL: 'email',
 };
 
 export enum CookieKey {
     Name = 'name',
     Ident = 'NAVident',
-    Email = 'email'
+    Email = 'email',
 }
 
 if (process.env.NODE_ENV === 'development') {
@@ -15,17 +15,12 @@ if (process.env.NODE_ENV === 'development') {
         JSON.stringify({
             name: 'Lokal utvikler',
             NAVident: 'dev-ident',
-            email: 'dev@nav.no'
+            email: 'dev@nav.no',
         })
     )}.ignored-part`;
 }
 
-const extractToken = (cookie: string) =>
-    cookie
-        .split('=')[1]
-        .split('.')[1]
-        .replace(/%3D/g, '=')
-        .replace(/%3d/g, '=');
+const extractToken = (cookie: string) => cookie.split('=')[1].split('.')[1].replace(/%3D/g, '=').replace(/%3d/g, '=');
 
 const transformToUtf8 = (token: string) =>
     // First we get the token as binary, then we encode into an URI component string
@@ -51,11 +46,11 @@ const decode = (cookie: string) => {
 export const extractValues = (values: ArrayLike<any>) => {
     const decodedCookie = document.cookie
         .split(';')
-        .filter(item => item.trim().startsWith('speil='))
+        .filter((item) => item.trim().startsWith('speil='))
         .map(decode)
         .pop();
 
-    return decodedCookie ? Array.from(values).map(val => decodedCookie[val]) : [];
+    return decodedCookie ? Array.from(values).map((val) => decodedCookie[val]) : [];
 };
 
 export const extractName = () => {

@@ -41,12 +41,12 @@ const Annullering = () => {
 
     return (
         <>
-            <AnnullerKnapp tabIndex={0} onClick={() => setModalOpen(verdi => !verdi)}>
+            <AnnullerKnapp tabIndex={0} onClick={() => setModalOpen((verdi) => !verdi)}>
                 Annuller
             </AnnullerKnapp>
             {modalOpen && (
                 <AnnulleringModal
-                    onClose={() => setModalOpen(verdi => !verdi)}
+                    onClose={() => setModalOpen((verdi) => !verdi)}
                     onApprove={sendAnnullering}
                     isSending={isSending}
                     ident={authContext.ident!}

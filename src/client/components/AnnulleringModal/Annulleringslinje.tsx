@@ -38,7 +38,7 @@ const Tekst = styled(Normaltekst)`
 
 export const Annulleringslinje = ({ label, linjer, checked, setChecked }: AnnulleringslinjeProps) => (
     <span>
-        <Annulleringscheckbox label={label} checked={checked} onChange={event => setChecked(event.target.checked)} />
+        <Annulleringscheckbox label={label} checked={checked} onChange={(event) => setChecked(event.target.checked)} />
         <Tekst>Følgende utbetalinger annulleres:</Tekst>
         {linjer.map((linje, index) => (
             <Tekst key={index}>

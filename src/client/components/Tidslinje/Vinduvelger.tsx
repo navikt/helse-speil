@@ -24,7 +24,7 @@ const Vinduknapp = styled.button<{ active: boolean }>`
         text-decoration: underline;
     }
 
-    ${props =>
+    ${(props) =>
         props.active &&
         `
         text-decoration: underline;

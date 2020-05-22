@@ -13,7 +13,7 @@ interface UbehandletVedtaksperiodeProps {
 const UbehandletVedtaksperiode = ({
     ikkeOppfylteVilkår,
     oppfylteVilkår,
-    ikkeVurderteVilkår
+    ikkeVurderteVilkår,
 }: UbehandletVedtaksperiodeProps) => (
     <>
         {ikkeOppfylteVilkår.length > 0 && (

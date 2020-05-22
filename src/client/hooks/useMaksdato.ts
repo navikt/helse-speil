@@ -8,7 +8,7 @@ export const useMaksdato = () => {
 
     const maksdatoOverskrides =
         maksdato &&
-        aktivVedtaksperiode?.utbetalingstidslinje.find(dag => dag.dato.isSameOrAfter(maksdato)) !== undefined;
+        aktivVedtaksperiode?.utbetalingstidslinje.find((dag) => dag.dato.isSameOrAfter(maksdato)) !== undefined;
 
     return { maksdato, maksdatoOverskrides };
 };

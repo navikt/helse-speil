@@ -15,7 +15,7 @@ export enum Key {
     Enter = 'Enter',
     Space = 'Space',
     Backspace = 'Backspace',
-    Escape = 'Escape'
+    Escape = 'Escape',
 }
 
 const shouldDisableKeyboard = () =>

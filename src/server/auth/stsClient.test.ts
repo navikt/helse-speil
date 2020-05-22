@@ -2,23 +2,23 @@
 import stsClient from './stsClient';
 
 global.console = {
-    error: jest.fn()
+    error: jest.fn(),
 };
 
 const validCreds = {
     serviceUserName: 'valid',
-    serviceUserPassword: 'creds'
+    serviceUserPassword: 'creds',
 };
 
 const bogusCreds = {
     serviceUserName: 'bogus',
-    serviceUserPassword: 'creds'
+    serviceUserPassword: 'creds',
 };
 
 test('valid credentials resolves with valid token', async () => {
     stsClient.init({
         stsUrl: 'http://localhost',
-        ...validCreds
+        ...validCreds,
     });
 
     await expect(stsClient.hentAccessToken()).resolves.toMatch('bogussignature');
@@ -27,7 +27,7 @@ test('valid credentials resolves with valid token', async () => {
 test('invalid credentials rejects with error message', async () => {
     stsClient.init({
         stsUrl: 'http://localhost',
-        ...bogusCreds
+        ...bogusCreds,
     });
 
     await expect(stsClient.hentAccessToken()).rejects.toMatch('wrong creds');

@@ -13,7 +13,7 @@ let authConfig: NavConfig;
 
 const init = (config: NavConfig) => {
     authConfig = config;
-    hentAccessToken().catch(err => {
+    hentAccessToken().catch((err) => {
         console.error(`Error during STS login: ${err}`);
     });
 };
@@ -28,9 +28,9 @@ const hentAccessToken = async () => {
         headers: {
             Authorization:
                 'Basic ' +
-                Buffer.from(`${authConfig.serviceUserName}:${authConfig.serviceUserPassword}`).toString('base64')
+                Buffer.from(`${authConfig.serviceUserName}:${authConfig.serviceUserPassword}`).toString('base64'),
         },
-        json: true
+        json: true,
     };
     const response = await request.get(options);
     cachedAccessToken = response.access_token;
@@ -44,5 +44,5 @@ const tokenNeedsRefresh = () => {
 
 export default {
     init,
-    hentAccessToken
+    hentAccessToken,
 };
