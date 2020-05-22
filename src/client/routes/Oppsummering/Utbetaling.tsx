@@ -1,6 +1,6 @@
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 import React, { useContext, useState } from 'react';
 import { postVedtak } from '../../io/http';
 import { PersonContext } from '../../context/PersonContext';

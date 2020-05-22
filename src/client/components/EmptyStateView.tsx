@@ -1,6 +1,6 @@
 import React from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 import { useTranslation } from 'react-i18next';
 
 const styles = {

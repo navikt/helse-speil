@@ -3,7 +3,7 @@ import List from '../../components/List';
 import ListItem from '../../components/ListItem';
 import Utbetaling from './Utbetaling';
 import Navigasjonsknapper from '../../components/NavigationButtons';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 import { toKronerOgØre } from '../../utils/locale';
 import { PersonContext } from '../../context/PersonContext';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';

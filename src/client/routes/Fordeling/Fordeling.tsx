@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationButtons from '../../components/NavigationButtons';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 const Fordeling = () => {

@@ -1,16 +1,12 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Oversiktslinje from './Oversiktslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Panel } from 'nav-frontend-paneler';
+import Panel from 'nav-frontend-paneler';
 import { TildelingerContext } from '../../context/TildelingerContext';
 import { BehovContext } from '../../context/BehovContext';
 import { Undertekst, Undertittel } from 'nav-frontend-typografi';
-import { PersonContext } from '../../context/PersonContext';
-import { useInterval } from '../../hooks/useInterval';
-import { Person } from '../../context/types.internal';
 import { useTranslation } from 'react-i18next';
 import { Oppgave } from '../../../types';
-import { Location, useNavigation } from '../../hooks/useNavigation';
 import styled from '@emotion/styled';
 import { Header, Row, Tabell } from './Oversikt.styles';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
