@@ -17,6 +17,7 @@ import {
     opptjeningstid,
     søknadsfrist
 } from './Vilkårsgrupper/Vilkårsgrupper';
+import { Opptjening } from '../../context/types.internal';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
@@ -48,7 +49,7 @@ const Vilkår = () => {
                 return vilkår.søknadsfrist !== undefined ? søknadsfrist(vilkår.søknadsfrist) : undefined;
             case Vilkårstype.Opptjeningstid:
                 return vilkår.opptjening
-                    ? opptjeningstid(vilkår.opptjening, vilkår.dagerIgjen.førsteFraværsdag)
+                    ? opptjeningstid(vilkår.opptjening as Opptjening, vilkår.dagerIgjen.førsteFraværsdag)
                     : undefined;
             case Vilkårstype.KravTilSykepengegrunnlag:
                 return kravTilSykepengegrunnlag(vilkår.sykepengegrunnlag!, vilkår.alder.alderSisteSykedag);

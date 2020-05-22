@@ -8,7 +8,7 @@ export interface Periode {
     tom: Dayjs;
 }
 
-interface Basisvilkår {
+export interface Basisvilkår {
     oppfylt?: boolean;
 }
 

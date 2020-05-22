@@ -7,6 +7,7 @@ import { Dayjs } from 'dayjs';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import {
     Alder as AlderType,
+    Basisvilkår,
     DagerIgjen as DagerIgjenType,
     Opptjening as OpptjeningType,
     SykepengegrunnlagVilkår,
@@ -30,7 +31,7 @@ const Søknadsfrist = (props: SøknadsfristType) => (
 );
 
 interface OpptjeningstidProps {
-    opptjeningVilkår: OpptjeningType;
+    opptjeningVilkår: OpptjeningType | Basisvilkår;
     førsteFraværsdag?: Dayjs;
 }
 
@@ -40,9 +41,11 @@ const Opptjeningstid = ({ opptjeningVilkår, førsteFraværsdag }: Opptjeningsti
             {førsteFraværsdag?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
         </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Opptjening fra">
-            {opptjeningVilkår.opptjeningFra.format(NORSK_DATOFORMAT)}
+            {(opptjeningVilkår as OpptjeningType).opptjeningFra.format(NORSK_DATOFORMAT)}
         </Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Antall dager (>28)">{`${opptjeningVilkår.antallOpptjeningsdagerErMinst}`}</Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Antall dager (>28)">{`${
+            (opptjeningVilkår as OpptjeningType).antallOpptjeningsdagerErMinst
+        }`}</Vilkårsgrupperad>
     </Vilkårsgruppe>
 );
 

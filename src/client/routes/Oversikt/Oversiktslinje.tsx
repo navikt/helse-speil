@@ -17,7 +17,7 @@ interface Props {
     oppgave: Oppgave;
     onUnassignCase: (id: string) => void;
     onAssignCase: (id: string, email?: string) => Promise<void>;
-    tildeling: Tildeling;
+    tildeling?: Tildeling;
     antallVarsler: number;
 }
 
