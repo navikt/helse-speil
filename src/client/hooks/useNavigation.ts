@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { PersonContext } from '../context/PersonContext';
-import { Person } from '../context/types.internal';
 
 export interface Navigation {
     toString: (location: Location) => string;
@@ -44,7 +43,7 @@ export const useNavigation = (): Navigation => {
 
     const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), availableLocations);
 
-    const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling.ak) => {
+    const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling?.aktørId) => {
         history.push(`${availableLocations[location]}/${aktørId}`);
     };
 
