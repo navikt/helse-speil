@@ -1,14 +1,9 @@
-import { Infotrygdtypetekst, Infotrygdutbetaling, Person, Vedtaksperiode } from '../../context/types.internal';
+import { InfotrygdTypetekst, Infotrygdutbetaling, Person } from '../../context/types.internal';
 import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-
-export interface Infotrygdtidslinje {
-    perioder: Sykepengeperiode[];
-    organisasjonsnummer: string;
-}
 
 type UtbetalingerPerArbeidsgiver = { [key: string]: { perioder: any[]; organisasjonsnummer: string } };
 
@@ -24,12 +19,12 @@ const Tekst = styled.p`
     white-space: nowrap;
 `;
 
-const status = (typetekst: Infotrygdtypetekst) => {
+const status = (typetekst: InfotrygdTypetekst) => {
     switch (typetekst) {
-        case Infotrygdtypetekst.UTBETALING:
-        case Infotrygdtypetekst.ARBEIDSGIVERREFUSJON:
+        case InfotrygdTypetekst.UTBETALING:
+        case InfotrygdTypetekst.ARBEIDSGIVERREFUSJON:
             return Vedtaksperiodetilstand.UtbetaltIInfotrygd;
-        case Infotrygdtypetekst.FERIE:
+        case InfotrygdTypetekst.FERIE:
             return Vedtaksperiodetilstand.Infotrygdferie;
         default:
             return Vedtaksperiodetilstand.Infotrygdukjent;
@@ -56,7 +51,7 @@ const toSykepengeperiode = (infotrygdutbetaling: Infotrygdutbetaling): Sykepenge
     ),
 });
 
-export const useInfotrygdrader = (person?: Person, aktivVedtaksperiode?: Vedtaksperiode) =>
+export const useInfotrygdrader = (person?: Person) =>
     useMemo(() => {
         const tidslinjer =
             person?.infotrygdutbetalinger.reduce((rader: UtbetalingerPerArbeidsgiver, utbetaling) => {
@@ -80,4 +75,4 @@ export const useInfotrygdrader = (person?: Person, aktivVedtaksperiode?: Vedtaks
                 }
             }, {}) ?? {};
         return Object.values(tidslinjer);
-    }, [person, aktivVedtaksperiode]);
+    }, [person]);

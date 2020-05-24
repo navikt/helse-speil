@@ -3,7 +3,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Infotrygdtypetekst, Infotrygdutbetaling, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types.internal';
+import { InfotrygdTypetekst, Infotrygdutbetaling, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types.internal';
 import { Personinfo as SpleisPersoninfo } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
 import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpesialistVedtaksperiode } from './types.external';
@@ -36,18 +36,18 @@ const tilArbeidsgivere = (person: SpesialistPerson, personinfo: Personinfo) =>
 const tilInfotrygdutbetalinger = (spesialistPerson: SpesialistPerson): Infotrygdutbetaling[] => {
     const toTypetekst = (
         spesialistInfotrygdtypetekst: SpesialistInfotrygdtypetekst | string
-    ): Infotrygdtypetekst | string => {
+    ): InfotrygdTypetekst | string => {
         switch (spesialistInfotrygdtypetekst) {
             case SpesialistInfotrygdtypetekst.FERIE:
-                return Infotrygdtypetekst.FERIE;
+                return InfotrygdTypetekst.FERIE;
             case SpesialistInfotrygdtypetekst.UTBETALING:
-                return Infotrygdtypetekst.UTBETALING;
+                return InfotrygdTypetekst.UTBETALING;
             case SpesialistInfotrygdtypetekst.ARBEIDSGIVERREFUSJON:
-                return Infotrygdtypetekst.ARBEIDSGIVERREFUSJON;
+                return InfotrygdTypetekst.ARBEIDSGIVERREFUSJON;
             case SpesialistInfotrygdtypetekst.UKJENT:
-                return Infotrygdtypetekst.UKJENT;
+                return InfotrygdTypetekst.UKJENT;
             case SpesialistInfotrygdtypetekst.TILBAKEFØRT:
-                return Infotrygdtypetekst.TILBAKEFØRT;
+                return InfotrygdTypetekst.TILBAKEFØRT;
             default:
                 return spesialistInfotrygdtypetekst;
         }
@@ -61,7 +61,7 @@ const tilInfotrygdutbetalinger = (spesialistPerson: SpesialistPerson): Infotrygd
                 tom: somDato(utbetaling.tom),
                 grad: utbetaling.grad !== '' ? parseInt(utbetaling.grad) : undefined,
                 dagsats: utbetaling.typetekst !== SpesialistInfotrygdtypetekst.FERIE ? utbetaling.dagsats : undefined,
-                typetekst: toTypetekst(utbetaling.typetekst) as Infotrygdtypetekst,
+                typetekst: toTypetekst(utbetaling.typetekst) as InfotrygdTypetekst,
                 organisasjonsnummer: utbetaling.organisasjonsnummer,
             })) ?? []
     );

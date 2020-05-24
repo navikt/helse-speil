@@ -52,20 +52,21 @@ const Radnavn = styled.p`
     }
 `;
 
-export const Tidslinje = () => {
+export const Tidslinje = React.memo(() => {
     const { personTilBehandling, aktiverVedtaksperiode, aktivVedtaksperiode } = useContext(PersonContext);
     const { vinduer, aktivtVindu, setAktivtVindu } = useTidslinjevinduer(personTilBehandling);
-    const arbeidsgiverrader = useTidslinjerader(personTilBehandling, aktivVedtaksperiode);
+
+    const arbeidsgiverrader = useTidslinjerader(personTilBehandling);
     const infotrygdrader = useInfotrygdrader(personTilBehandling);
     const tidslinjerader = [...arbeidsgiverrader, ...infotrygdrader];
-    const intervaller = useIntervaller(arbeidsgiverrader);
-    const aktivtIntervall = intervaller.find((intervall) => intervall.active);
-    const radnavnArbeidsgiver =
-        personTilBehandling?.arbeidsgivere.map(
-            (arbeidsgiver) => arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer
-        ) ?? [];
 
-    const radnavnInfotrygd = infotrygdrader.flatMap((rad) =>
+    const intervaller = useIntervaller(arbeidsgiverrader, aktivVedtaksperiode);
+    const aktivtIntervall = intervaller.find(intervall => intervall.active);
+    const radnavnArbeidsgiver =
+        personTilBehandling?.arbeidsgivere.map(arbeidsgiver => arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer) ??
+        [];
+
+    const radnavnInfotrygd = infotrygdrader.flatMap(rad =>
         rad.organisasjonsnummer !== '0' ? `Infotrygd — ${rad.organisasjonsnummer}` : `Infotrygd — Søknad uten inntekt`
     );
 
@@ -74,26 +75,32 @@ export const Tidslinje = () => {
     };
 
     const onChange = (event: ChangeEvent<HTMLOptionElement>) => {
-        const intervallet = intervaller.find((i) => i.id === event.target.value)!;
+        const intervallet = intervaller.find(i => i.id === event.target.value)!;
         const nyPeriode = tidslinjerader
-            .flatMap((rad) => rad.perioder)
+            .flatMap(rad => rad.perioder)
             .find(
-                (periode) =>
+                periode =>
                     periode.fom.getTime() === intervallet.fom.getTime() &&
                     periode.tom.getTime() === intervallet.tom.getTime()
             );
         aktiverVedtaksperiode(nyPeriode!.id);
     };
 
+    const aktivPeriode = aktivVedtaksperiode && {
+        fom: aktivVedtaksperiode.fom.startOf('day').toDate(),
+        tom: aktivVedtaksperiode.tom.endOf('day').toDate()
+    };
+
     return useMemo(() => {
         if (tidslinjerader.length === 0) return null;
+        console.log('meh');
         return (
             <Container>
                 <FlexRow>
                     <FlexColumn>
                         <SelectContainer>
                             <Select name="tidslinjeintervaller" onChange={onChange} value={aktivtIntervall?.id}>
-                                {intervaller.map((intervallet) => (
+                                {intervaller.map(intervallet => (
                                     <option key={intervallet.id} value={intervallet.id}>
                                         {`${dayjs(intervallet.fom).format(NORSK_DATOFORMAT)} - ${dayjs(
                                             intervallet.tom
@@ -122,10 +129,11 @@ export const Tidslinje = () => {
                         startDato={vinduer[aktivtVindu].fom.toDate()}
                         sluttDato={vinduer[aktivtVindu].tom.toDate()}
                         onSelectPeriode={onSelect}
+                        aktivPeriode={aktivPeriode}
                     />
                 </FlexRow>
                 <Vinduvelger vinduer={vinduer} aktivtVindu={aktivtVindu} setAktivtVindu={setAktivtVindu} />
             </Container>
         );
     }, [tidslinjerader, intervaller, aktivtVindu]);
-};
+});

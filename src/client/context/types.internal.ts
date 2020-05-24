@@ -240,11 +240,11 @@ export interface Infotrygdutbetaling {
     tom: Dayjs;
     grad?: number;
     dagsats?: number;
-    typetekst: Infotrygdtypetekst;
+    typetekst: InfotrygdTypetekst;
     organisasjonsnummer: string;
 }
 
-export enum Infotrygdtypetekst {
+export enum InfotrygdTypetekst {
     FERIE = 'Ferie',
     UTBETALING = 'Utbetaling',
     ARBEIDSGIVERREFUSJON = 'ArbRef',
