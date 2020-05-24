@@ -5,7 +5,9 @@ import { v4 as uuid } from 'uuid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 
-type UtbetalingerPerArbeidsgiver = { [key: string]: { perioder: any[]; organisasjonsnummer: string } };
+export type Infotrygdrad = { perioder: any[]; organisasjonsnummer: string };
+
+type UtbetalingerPerArbeidsgiver = { [key: string]: Infotrygdrad };
 
 const Label = styled.div`
     display: flex;
