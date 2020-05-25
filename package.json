@@ -13,6 +13,7 @@
         "test:eslint": "eslint src/ --ext .js --ext .jsx --ext .tsx --ext .ts",
         "test": "jest",
         "tdd": "jest --watch",
+        "validate-ts": "tsc --noEmit --project ./tsconfig.json",
         "pretest": "npm run test:eslint",
         "start": "NODE_ENV=development parcel src/client/index.html",
         "start-mac": "NODE_ENV=development parcel src/client/index.html --open 'Google Chrome'",

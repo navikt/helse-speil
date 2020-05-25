@@ -29,6 +29,8 @@ jobs:
           restore-keys: ${{ runner.os }}-node-
       - name: install deps
         run: npm install
+      - name: validate ts
+        run: npm run validate-ts
       - name: build client
         run: npm run build
       - name: build server

@@ -13,6 +13,8 @@ jobs:
         node-version: '12.x'
     - name: install deps
       run: npm install
+    - name: validate ts
+      run: npm run validate-ts
     - name: build client
       run: npm run build
     - name: build server
@@ -24,4 +26,3 @@ jobs:
       with:
         name: videos
         path: e2e-tests/cypress/videos
-    
