@@ -47,6 +47,22 @@ const MeldAvKnapp = styled.button`
     }
 `;
 
+const SøkernavnCell = styled(Cell)`
+    width: 35%;
+`;
+
+const DatoCell = styled(Cell)`
+    width: 15%;
+`;
+
+const TildelingCell = styled(Cell)`
+    width: 35%;
+`;
+
+const StatusCell = styled(Cell)`
+    width: 15%;
+`;
+
 const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, antallVarsler }: Props) => {
     const { email } = useContext(AuthContext);
     const { navigateTo, pathForLocation } = useNavigation();
@@ -60,7 +76,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
     };
 
     const Tildeling = () => (
-        <Cell>
+        <TildelingCell>
             {tildeling?.userId ? (
                 <FlexContainer>
                     <Normaltekst>{capitalizeName(extractNameFromEmail(tildeling.userId))}</Normaltekst>
@@ -77,21 +93,21 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
                     Tildel meg
                 </Knapp>
             )}
-        </Cell>
+        </TildelingCell>
     );
 
     const Søkernavn = () => (
-        <Cell>
+        <SøkernavnCell>
             <Link className="lenke" to={pathForLocation(Location.Sykmeldingsperiode, oppgave.aktørId)}>
                 {formatertNavn}
             </Link>
-        </Cell>
+        </SøkernavnCell>
     );
 
     const Dato = () => (
-        <Cell>
+        <DatoCell>
             <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
-        </Cell>
+        </DatoCell>
     );
 
     const varseltekst = (antallVarsler: number) => {
@@ -108,9 +124,9 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
     };
 
     const Status = () => (
-        <Cell>
+        <StatusCell>
             <Element>{varseltekst(antallVarsler)}</Element>
-        </Cell>
+        </StatusCell>
     );
 
     return useMemo(
