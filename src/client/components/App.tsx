@@ -1,8 +1,8 @@
 import React from 'react';
-import Oversikt from '../routes/Oversikt';
 import Header from './Header';
 import Saksbilde from './Saksbilde';
 import { hot } from 'react-hot-loader';
+import { Oversikt } from '../routes/Oversikt';
 import { AuthProvider } from '../context/AuthContext';
 import { useLogUserOut } from '../hooks/useLogUserOut';
 import { TildelingerProvider } from '../context/TildelingerContext';

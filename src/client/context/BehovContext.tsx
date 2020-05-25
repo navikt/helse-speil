@@ -1,5 +1,4 @@
 import React, { createContext, ReactChild, useState } from 'react';
-import ErrorModal from '../components/ErrorModal';
 import { fetchBehov } from '../io/http';
 import { Oppgave } from '../../types';
 
@@ -16,6 +15,7 @@ interface BehovoversiktContextType {
     behov: Oppgave[];
     hentBehov: () => void;
     isFetchingBehov: boolean;
+    error?: Error;
 }
 
 export const BehovContext = createContext<BehovoversiktContextType>({
@@ -25,7 +25,7 @@ export const BehovContext = createContext<BehovoversiktContextType>({
 });
 
 export const BehovProvider = ({ children }: ProviderProps) => {
-    const [error, setError] = useState<Error | undefined>(undefined);
+    const [error, setError] = useState<Error | undefined>();
     const [behov, setBehov] = useState<Oppgave[]>([]);
     const [isFetchingBehov, setIsFetchingBehov] = useState(false);
 
@@ -48,14 +48,6 @@ export const BehovProvider = ({ children }: ProviderProps) => {
     };
 
     return (
-        <BehovContext.Provider value={{ behov, hentBehov, isFetchingBehov }}>
-            {children}
-            {error && (
-                <ErrorModal
-                    errorMessage={error.message}
-                    onClose={error.statusCode !== 401 ? () => setError(undefined) : undefined}
-                />
-            )}
-        </BehovContext.Provider>
+        <BehovContext.Provider value={{ behov, hentBehov, isFetchingBehov, error }}>{children}</BehovContext.Provider>
     );
 };

@@ -1,10 +1,7 @@
-import React, { createContext, ReactChild, useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import ErrorModal from '../components/ErrorModal';
+import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useState } from 'react';
 import { tilPerson } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from './types.internal';
-import { useLocation } from 'react-router-dom';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;
@@ -12,6 +9,7 @@ interface PersonContextType {
     aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
     personTilBehandling?: Person;
+    error?: PersonContextError;
 }
 
 interface PersonContextError {
@@ -35,7 +33,6 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
     const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
-    const location = useLocation();
 
     useEffect(() => {
         if (personTilBehandling) {
@@ -44,23 +41,6 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             setAktivVedtaksperiode(defaultVedtaksperiode as Vedtaksperiode);
         }
     }, [personTilBehandling]);
-
-    useEffect(() => {
-        if (location.pathname === '/') {
-            // Vi er på oversiktbildet
-            return;
-        } else if (location.pathname.match(/\//g)!.length < 2) {
-            setError({ statusCode: 1, message: `'${location.pathname}' er ikke en gyldig URL.` });
-        }
-
-        const sisteDelAvPath = location.pathname.match(/[^/]*$/)![0];
-        const aktørId = sisteDelAvPath.match(/^\d{1,15}$/);
-        if (aktørId) {
-            hentPerson(aktørId[0]);
-        } else {
-            setError({ statusCode: 1, message: `'${sisteDelAvPath}' er ikke en gyldig aktør-ID.` });
-        }
-    }, [location.pathname]);
 
     const hentPerson = (value: string) => {
         const innsyn = value.length === 26;
@@ -98,27 +78,19 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         [personTilBehandling]
     );
 
-    return (
-        <PersonContext.Provider
-            value={{
-                personTilBehandling,
-                hentPerson,
-                innsyn,
-                aktivVedtaksperiode,
-                aktiverVedtaksperiode,
-            }}
-        >
-            {children}
-            {error && (
-                <ErrorModal
-                    errorMessage={error.message}
-                    onClose={error.statusCode !== 401 ? () => setError(undefined) : () => {}}
-                />
-            )}
-        </PersonContext.Provider>
+    const contextValue = useMemo(
+        () => ({
+            personTilBehandling,
+            hentPerson,
+            error,
+            innsyn,
+            aktivVedtaksperiode,
+            aktiverVedtaksperiode,
+        }),
+        [personTilBehandling, error, aktivVedtaksperiode]
     );
-};
 
-PersonProvider.propTypes = {
-    children: PropTypes.node.isRequired,
+    return useMemo(() => <PersonContext.Provider value={contextValue}>{children}</PersonContext.Provider>, [
+        contextValue,
+    ]);
 };

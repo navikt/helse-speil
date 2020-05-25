@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Route } from 'react-router-dom';
 import Vilkår from '../routes/Vilkår';
@@ -17,6 +17,7 @@ import { PersonContext } from '../context/PersonContext';
 import { Location, useNavigation } from '../hooks/useNavigation';
 import Toppvarsler from './Toppvarsler';
 import { Tidslinje } from './Tidslinje';
+import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Container = styled.div`
     display: flex;
@@ -45,12 +46,32 @@ const TomtSaksbilde = () => (
 
 const Saksbilde = () => {
     const { toString } = useNavigation();
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    const { aktivVedtaksperiode, personTilBehandling, hentPerson, error: personContextError } = useContext(
+        PersonContext
+    );
+
+    useEffect(() => {
+        if (location.pathname === '/') {
+            // Vi er på oversiktbildet
+            return;
+        } else if (location.pathname.match(/\//g)!.length < 2) {
+            // setError({ statusCode: 1, message: `'${location.pathname}' er ikke en gyldig URL.` });
+        }
+
+        const sisteDelAvPath = location.pathname.match(/[^/]*$/)![0];
+        const aktørId = sisteDelAvPath.match(/^\d{1,15}$/);
+        if (aktørId && !personTilBehandling) {
+            hentPerson(aktørId[0]);
+        } else {
+            // setError({ statusCode: 1, message: `'${sisteDelAvPath}' er ikke en gyldig aktør-ID.` });
+        }
+    }, [location.pathname, personTilBehandling]);
 
     if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde />;
 
     return (
         <>
+            {personContextError && <Varsel type={Varseltype.Feil}>{personContextError.message}</Varsel>}
             <Personlinje />
             <Tidslinje />
             <LoggProvider>

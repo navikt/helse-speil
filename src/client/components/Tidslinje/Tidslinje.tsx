@@ -25,7 +25,7 @@ const FlexColumn = styled.div`
     flex-direction: column;
 `;
 
-export const Tidslinje = () => {
+export const Tidslinje = React.memo(() => {
     const { personTilBehandling, aktiverVedtaksperiode, aktivVedtaksperiode } = useContext(PersonContext);
     const { vinduer, aktivtVindu, setAktivtVindu } = useTidslinjevinduer(personTilBehandling);
 
@@ -35,7 +35,7 @@ export const Tidslinje = () => {
 
     const aktivPeriode = aktivVedtaksperiode && {
         fom: aktivVedtaksperiode.fom.startOf('day').toDate(),
-        tom: aktivVedtaksperiode.tom.endOf('day').toDate()
+        tom: aktivVedtaksperiode.tom.endOf('day').toDate(),
     };
 
     const onSelectPeriode = (periode: { id?: string }) => {
@@ -63,4 +63,4 @@ export const Tidslinje = () => {
             </Container>
         );
     }, [tidslinjerader, aktivtVindu]);
-};
+});

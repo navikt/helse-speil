@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Oversiktslinje from './Oversiktslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Panel from 'nav-frontend-paneler';
 import { TildelingerContext } from '../../context/TildelingerContext';
 import { BehovContext } from '../../context/BehovContext';
-import { Undertekst, Undertittel } from 'nav-frontend-typografi';
+import { Undertekst } from 'nav-frontend-typografi';
 import { useTranslation } from 'react-i18next';
 import { Oppgave } from '../../../types';
 import styled from '@emotion/styled';
 import { Header, Row, Tabell } from './Oversikt.styles';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
+import { PersonContext } from '../../context/PersonContext';
+import Undertittel from 'nav-frontend-typografi/lib/undertittel';
+import Oversiktslinje from './Oversiktslinje';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -65,9 +67,10 @@ const Sorteringspiler = styled.div<{ direction: string }>`
 const ascending = (a: Oppgave, b: Oppgave) => a.antallVarsler - b.antallVarsler;
 const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler;
 
-const Oversikt = () => {
+export const Oversikt = () => {
     const { t } = useTranslation();
-    const { behov, hentBehov, isFetchingBehov } = useContext(BehovContext);
+    const { error: personContextError } = useContext(PersonContext);
+    const { behov, hentBehov, isFetchingBehov, error: behovContextError } = useContext(BehovContext);
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
@@ -120,6 +123,8 @@ const Oversikt = () => {
                     <NavFrontendSpinner type="XS" />
                 </Varsel>
             )}
+            {personContextError && <Varsel type={Varseltype.Feil}>{personContextError.message}</Varsel>}
+            {behovContextError && <Varsel type={Varseltype.Feil}>{behovContextError.message}</Varsel>}
             <Container border>
                 <Undertittel>{t('oversikt.tittel')}</Undertittel>
                 <Tabell>
@@ -152,5 +157,3 @@ const Oversikt = () => {
         </>
     );
 };
-
-export default Oversikt;

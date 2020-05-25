@@ -1,3 +1,3 @@
-import Oversikt from './Oversikt';
+import { Oversikt } from './Oversikt';
 
-export default Oversikt;
+export { Oversikt };
