@@ -1,11 +1,11 @@
 import authSupport from '../auth/authSupport';
 import logger from '../logging';
-import moment from 'moment';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { AktørIdLookup } from '../aktørid/aktørIdLookup';
 import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf } from '../types';
 import { Request, Response } from 'express';
+import dayjs from 'dayjs';
 
 interface RespondWithParameters {
     res: Response;
@@ -79,8 +79,8 @@ const finnPerson = async (req: Request, res: Response) => {
 const behovForPeriode = (req: Request, res: Response) => {
     auditLogOversikt(req);
 
-    const today = moment().format('YYYY-MM-DD');
-    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    const today = dayjs().format('YYYY-MM-DD');
+    const yesterday = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
 
     respondWith({
         res,

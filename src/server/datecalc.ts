@@ -1,33 +1,38 @@
 'use strict';
 
-import moment, { Moment } from 'moment';
+import dayjs, { Dayjs } from 'dayjs';
+
+const isSameOrAfter = require('dayjs/plugin/isSameOrAfter');
+const isoWeek = require('dayjs/plugin/isoWeek');
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isoWeek);
 
 const isWithin3Months = (oldest: string | Date, newest: string | Date): boolean => {
-    return moment(oldest)
+    return dayjs(oldest)
         .add(4, 'month')
         .date(0)
-        .hours(23)
-        .minutes(59)
-        .seconds(59)
-        .milliseconds(999)
-        .isSameOrAfter(moment(newest));
+        .hour(23)
+        .minute(59)
+        .second(59)
+        .millisecond(999)
+        .isSameOrAfter(dayjs(newest));
 };
 
-const calendarDaysBetween = (firstDate: string | Moment, lastDate: string | Moment): number => {
-    return Math.abs(moment(lastDate).diff(moment(firstDate), 'days')) + 1;
+const calendarDaysBetween = (firstDate: string | Dayjs, lastDate: string | Dayjs): number => {
+    return Math.abs(dayjs(lastDate).diff(dayjs(firstDate), 'day')) + 1;
 };
 
-const workdaysBetween = (firstDate: string | Moment, lastDate: string | Moment) => {
-    const firstMoment = moment(firstDate);
-    const lastMoment = moment(lastDate);
+const workdaysBetween = (firstDate: string | Dayjs, lastDate: string | Dayjs) => {
+    const first = dayjs(firstDate);
+    const last = dayjs(lastDate);
 
-    const tempDate = firstMoment.clone();
+    let tempDate = first.clone();
     let numberOfDays = 0;
-    while (tempDate <= lastMoment) {
+    while (tempDate <= last) {
         if (tempDate.isoWeekday() <= 5) {
             numberOfDays++;
         }
-        tempDate.add(1, 'days');
+        tempDate = tempDate.add(1, 'day');
     }
     return numberOfDays;
 };

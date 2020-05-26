@@ -1,7 +1,7 @@
 'use strict';
 
 import datecalc from './datecalc';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 test('daysBeforeIsOk', () => {
     const oldest = new Date('2019-06-19T17:19:05.700');
@@ -43,40 +43,40 @@ describe('calendar days between, includes both dates', () => {
     });
 
     test('calculates  days given moment instances as input', () => {
-        let momentFom = moment(fom);
-        let momentTom = moment(tom);
-        expect(datecalc.calendarDaysBetween(momentFom, momentTom)).toEqual(32);
+        const dayjsFom = dayjs(fom);
+        const dayjsTom = dayjs(tom);
+        expect(datecalc.calendarDaysBetween(dayjsFom, dayjsTom)).toEqual(32);
     });
 });
 
 describe('workdays between', () => {
     test('saturday to monday should only count monday', () => {
-        let fom = moment('2020-01-04');
-        let tom = moment('2020-01-06');
+        const fom = dayjs('2020-01-04');
+        const tom = dayjs('2020-01-06');
         expect(datecalc.workdaysBetween(fom, tom)).toEqual(1);
     });
 
     test('friday to sunday should only count friday', () => {
-        let fom = moment('2020-01-03');
-        let tom = moment('2020-01-05');
+        const fom = dayjs('2020-01-03');
+        const tom = dayjs('2020-01-05');
         expect(datecalc.workdaysBetween(fom, tom)).toEqual(1);
     });
 
     test('friday to sunday next week should count friday plus one week', () => {
-        let fom = moment('2020-01-03');
-        let tom = moment('2020-01-12');
+        const fom = dayjs('2020-01-03');
+        const tom = dayjs('2020-01-12');
         expect(datecalc.workdaysBetween(fom, tom)).toEqual(6);
     });
 
     test('one whole leap year', () => {
-        let fom = moment('2020-01-01');
-        let tom = moment('2020-12-31');
+        const fom = dayjs('2020-01-01');
+        const tom = dayjs('2020-12-31');
         expect(datecalc.workdaysBetween(fom, tom)).toEqual(366 - 52 * 2);
     });
 
     test('string input (ISO-8601) is accepted', () => {
         const fom = '2020-01-03';
         const tom = '2020-01-12';
-        expect(datecalc.workdaysBetween(fom, tom)).toEqual(datecalc.workdaysBetween(moment(fom), moment(tom)));
+        expect(datecalc.workdaysBetween(fom, tom)).toEqual(datecalc.workdaysBetween(dayjs(fom), dayjs(tom)));
     });
 });

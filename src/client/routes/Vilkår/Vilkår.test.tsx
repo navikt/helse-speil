@@ -102,7 +102,6 @@ describe('Vilkår', () => {
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
 
-            screen.debug(undefined, 900000000000000);
             expect(vilkårTilVurdering()).toBeInTheDocument();
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
             expect(behandletInnhold()).not.toBeInTheDocument();
