@@ -1,9 +1,9 @@
-const { debug, error, info, warning } = global.console;
+const { debug, error, info, warning, log } = global.console;
 
 global.console = {
-    log: jest.fn(),
+    log,
     debug,
     error,
     info,
-    warning
+    warning,
 };

@@ -85,7 +85,7 @@ const Saksbilde = () => {
                             path={`${toString(Location.Sykmeldingsperiode)}/:fodselsnummer`}
                             component={Sykmeldingsperiode}
                         />
-                        <Route path={`${toString(Location.Vilkår)}/:fodselsnummer`} component={() => <Vilkår />} />
+                        <Route path={`${toString(Location.Vilkår)}/:fodselsnummer`} component={Vilkår} />
                         <Route
                             path={`${toString(Location.Inntektskilder)}/:fodselsnummer`}
                             component={Inntektskilder}

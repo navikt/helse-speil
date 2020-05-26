@@ -42,7 +42,7 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
     </>
 );
 
-const VilkårVurdertIInfotrygd = () => (
+export const VilkårVurdertIInfotrygd = () => (
     <StyledBehandletAvInfotrygd tittel={`Inngangsvilkår vurdert i Infotrygd`}>
         <Vilkårsgruppe tittel="Opptjeningstid" ikontype="ok" paragraf="§8-2" />
         <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" ikontype="ok" paragraf="§8-3" />
@@ -71,28 +71,44 @@ interface PåfølgendeVedtaksperiodeProps {
     forlengelseFraInfotrygd?: boolean;
 }
 
-const PåfølgendeVedtaksperiode = ({
-    førsteVedtaksperiode,
+const OppfyldteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) => (
+    <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={vilkår} />
+);
+const IkkeOppfyldteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) =>
+    vilkår.length > 0 ? <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={vilkår} /> : null;
+
+export const PåfølgendeVedtaksperiode = (props: PåfølgendeVedtaksperiodeProps) => (
+    <PåfølgendeVedtaksperiodeWrapper {...props}>
+        <FerdigbehandledeVilkår vedtaksperiode={props.førsteVedtaksperiode} />
+    </PåfølgendeVedtaksperiodeWrapper>
+);
+
+export const PåfølgendeVedtaksperiodeFraInfotrygd = (props: {
+    ikkeOppfylteVilkår: ReactNode[];
+    oppfylteVilkår: ReactNode[];
+    ikkeVurderteVilkår: IkkeVurdertVilkår[];
+}) => (
+    <PåfølgendeVedtaksperiodeWrapper {...props}>
+        <VilkårVurdertIInfotrygd />
+    </PåfølgendeVedtaksperiodeWrapper>
+);
+
+const PåfølgendeVedtaksperiodeWrapper = ({
     ikkeOppfylteVilkår,
     oppfylteVilkår,
     ikkeVurderteVilkår,
-    forlengelseFraInfotrygd,
-}: PåfølgendeVedtaksperiodeProps) => {
-    return (
-        <>
-            {ikkeOppfylteVilkår.length > 0 && (
-                <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={ikkeOppfylteVilkår} />
-            )}
-            <IkkeVurderteVilkår ikkeVurderteVilkår={ikkeVurderteVilkår} />
-            <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={oppfylteVilkår} />
-            {forlengelseFraInfotrygd ? (
-                <VilkårVurdertIInfotrygd />
-            ) : (
-                <FerdigbehandledeVilkår vedtaksperiode={førsteVedtaksperiode} />
-            )}
-            <Strek />
-        </>
-    );
-};
-
-export default PåfølgendeVedtaksperiode;
+    children,
+}: {
+    ikkeOppfylteVilkår: ReactNode[];
+    oppfylteVilkår: ReactNode[];
+    ikkeVurderteVilkår: IkkeVurdertVilkår[];
+    children: ReactNode;
+}) => (
+    <>
+        <IkkeOppfyldteVilkår vilkår={ikkeOppfylteVilkår} />
+        <IkkeVurderteVilkår ikkeVurderteVilkår={ikkeVurderteVilkår} />
+        <OppfyldteVilkår vilkår={oppfylteVilkår} />
+        {children}
+        <Strek />
+    </>
+);
