@@ -78,12 +78,7 @@ const InfotrygdVilkår = ({ periodestatus, aktivVedtaksperiode, førsteVedtakspe
             return (
                 <UbehandletVedtaksperiodeFraInfotrygd
                     ikkeOppfylteVilkår={ikkeOppfylteVilkår.map(tilKomponent)}
-                    oppfylteVilkår={oppfylteVilkår
-                        .filter(
-                            (vilkår) =>
-                                vilkår.type! in [Vilkårstype.Opptjeningstid, Vilkårstype.KravTilSykepengegrunnlag]
-                        )
-                        .map(tilKomponent)}
+                    oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
                 />
             );
