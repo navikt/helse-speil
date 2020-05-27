@@ -29,10 +29,11 @@ const Label = styled.label`
 export const Radnavn = ({ infotrygdrader }: RadnavnProps) => {
     const { personTilBehandling } = useContext(PersonContext);
     const radnavnArbeidsgiver =
-        personTilBehandling?.arbeidsgivere.map(arbeidsgiver => arbeidsgiver.navn ?? arbeidsgiver.organisasjonsnummer) ??
-        [];
+        personTilBehandling?.arbeidsgivere.map((arbeidsgiver) =>
+            arbeidsgiver.navn !== 'ukjent' ? arbeidsgiver.navn : arbeidsgiver.organisasjonsnummer
+        ) ?? [];
 
-    const radnavnInfotrygd = infotrygdrader.flatMap(rad =>
+    const radnavnInfotrygd = infotrygdrader.flatMap((rad) =>
         rad.organisasjonsnummer !== '0' ? `Infotrygd — ${rad.organisasjonsnummer}` : `Infotrygd — Søknad uten inntekt`
     );
 
