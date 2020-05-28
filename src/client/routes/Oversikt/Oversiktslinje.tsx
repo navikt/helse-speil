@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 interface Props {
     oppgave: Oppgave;
     onUnassignCase: (id: string) => void;
-    onAssignCase: (id: string, email?: string) => Promise<void>;
+    onAssignCase: (id: string, aktørId: string, email?: string) => void;
     tildeling?: Tildeling;
     antallVarsler: number;
 }
@@ -65,15 +65,9 @@ const StatusCell = styled(Cell)`
 
 const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, antallVarsler }: Props) => {
     const { email } = useContext(AuthContext);
-    const { navigateTo, pathForLocation } = useNavigation();
+    const { pathForLocation } = useNavigation();
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
-
-    const onTildeling = () => {
-        onAssignCase(oppgave.spleisbehovId, email).then(() =>
-            navigateTo(Location.Sykmeldingsperiode, oppgave.aktørId!)
-        );
-    };
 
     const Tildeling = () => (
         <TildelingCell>
@@ -89,7 +83,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
                     )}
                 </FlexContainer>
             ) : (
-                <Knapp mini onClick={onTildeling}>
+                <Knapp mini onClick={() => onAssignCase(oppgave.spleisbehovId, oppgave.aktørId, email!)}>
                     Tildel meg
                 </Knapp>
             )}

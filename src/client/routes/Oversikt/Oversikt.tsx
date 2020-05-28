@@ -13,6 +13,8 @@ import { PersonContext } from '../../context/PersonContext';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
 import Oversiktslinje from './Oversiktslinje';
 import { TekniskVarsel } from '../../components/TekniskVarsel';
+import { Location, useNavigation } from '../../hooks/useNavigation';
+import { useLocation } from 'react-router';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -83,6 +85,7 @@ const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler
 
 export const Oversikt = () => {
     const { t } = useTranslation();
+    const { navigateTo } = useNavigation();
     const { error: personContextError, isFetching: isFetchingPerson } = useContext(PersonContext);
     const { behov, hentBehov, isFetchingBehov, error: behovContextError } = useContext(BehovContext);
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
@@ -128,6 +131,14 @@ export const Oversikt = () => {
         </Header>
     );
 
+    const onAssignCase = (behovId: string, aktørId: string, email: string) => {
+        tildelBehandling(behovId, email)
+            .then(() => navigateTo(Location.Sykmeldingsperiode, aktørId))
+            .catch((_) => {
+                fetchTildelinger(behov);
+            });
+    };
+
     return (
         <>
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
@@ -164,7 +175,7 @@ export const Oversikt = () => {
                                     <Oversiktslinje
                                         oppgave={oppgave}
                                         tildeling={tildeling}
-                                        onAssignCase={tildelBehandling}
+                                        onAssignCase={onAssignCase}
                                         onUnassignCase={fjernTildeling}
                                         key={oppgave.spleisbehovId}
                                         antallVarsler={oppgave.antallVarsler}
