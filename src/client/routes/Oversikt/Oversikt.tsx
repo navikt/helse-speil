@@ -70,9 +70,7 @@ const LasterInnhold = styled.div`
     display: flex;
     align-items: center;
     margin-left: 1rem;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    height: 40px;
+    margin-top: 1rem;
     svg {
         margin-right: 1rem;
         width: 25px;
@@ -86,7 +84,7 @@ const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler
 export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
-    const { error: personContextError, isFetching: isFetchingPerson } = useContext(PersonContext);
+    const { error: personContextError, isFetching: isFetchingPersonBySearch } = useContext(PersonContext);
     const { behov, hentBehov, isFetchingBehov, error: behovContextError } = useContext(BehovContext);
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
@@ -143,12 +141,12 @@ export const Oversikt = () => {
         <>
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             {(isFetchingBehov || !harAlleTildelinger) && (
-                <Varsel type={Varseltype.Info}>
+                <LasterInnhold>
                     <NavFrontendSpinner type="XS" />
                     Henter personer
-                </Varsel>
+                </LasterInnhold>
             )}
-            {isFetchingPerson && (
+            {isFetchingPersonBySearch && (
                 <LasterInnhold>
                     <NavFrontendSpinner type="XS" />
                     Henter person
