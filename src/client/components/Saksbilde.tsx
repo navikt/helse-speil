@@ -7,7 +7,6 @@ import Sakslinje from './Sakslinje';
 import Personlinje from './Personlinje';
 import Venstremeny from './Venstremeny';
 import Oppsummering from '../routes/Oppsummering';
-import EmptyStateView from './EmptyStateView';
 import Inntektskilder from '../routes/Inntektskilder/Inntektskilder';
 import Sykepengegrunnlag from '../routes/Sykepengegrunnlag';
 import Sykmeldingsperiode from '../routes/Sykmeldingsperiode';
@@ -17,8 +16,9 @@ import { PersonContext } from '../context/PersonContext';
 import { Location, useNavigation } from '../hooks/useNavigation';
 import Toppvarsler from './Toppvarsler';
 import { Tidslinje } from './Tidslinje';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { Error } from '../../types';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import { TekniskVarsel } from './TekniskVarsel';
 
 const Container = styled.div`
     display: flex;
@@ -31,20 +31,35 @@ const Hovedinnhold = styled.div`
     flex: 1;
     overflow-x: scroll;
 `;
+const LasterInnhold = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+    height: 5rem;
+    svg {
+        margin: 0 0.6rem 0;
+    }
+`;
 
-const TomtSaksbilde = ({ error }: { error?: Error }) => (
-    <>
-        {error && <Varsel type={Varseltype.Feil}>{error.message}</Varsel>}
-        <Personlinje />
-        <Tidslinje />
-        <Sakslinje />
-        <Container>
-            <Venstremeny />
-            <EmptyStateView />
-            <Høyremeny />
-        </Container>
-    </>
-);
+const TomtSaksbilde = ({ error }: { error?: Error }) => {
+    const { isFetching: isFetchingPerson } = useContext(PersonContext);
+    return (
+        <>
+            <TekniskVarsel error={error} />
+            {isFetchingPerson && (
+                <LasterInnhold>
+                    <NavFrontendSpinner type="XS" />
+                    Henter person
+                </LasterInnhold>
+            )}
+            <Sakslinje />
+            <Container>
+                <Venstremeny />
+                <Høyremeny />
+            </Container>
+        </>
+    );
+};
 
 const Saksbilde = () => {
     const { toString } = useNavigation();
@@ -54,25 +69,31 @@ const Saksbilde = () => {
     const [error, setError] = useState<Error | undefined>(personContextError);
 
     useEffect(() => {
-        if (location.pathname === '/') {
-            // Vi er på oversiktbildet
-            return;
-        } else if (location.pathname.match(/\//g)!.length < 2) {
+        setError(personContextError);
+    }, [personContextError]);
+
+    useEffect(() => {
+        if (location.pathname.match(/\//g)!.length < 2) {
             setError({ statusCode: 1, message: `'${location.pathname}' er ikke en gyldig URL.` });
+            return;
         }
 
         const sisteDelAvPath = location.pathname.match(/[^/]*$/)![0];
         const aktørId = sisteDelAvPath.match(/^\d{1,15}$/);
-        if (aktørId && !personTilBehandling) {
+        if (!aktørId) {
+            setError({ statusCode: 1, message: `'${sisteDelAvPath}' er ikke en gyldig aktør-ID.` });
+            return;
+        }
+        if (!personTilBehandling || aktørId[0] !== personTilBehandling.aktørId) {
             hentPerson(aktørId[0]);
         }
-    }, [location.pathname, personTilBehandling]);
+    }, [location.pathname]);
 
     if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde error={error} />;
 
     return (
         <>
-            {error && <Varsel type={Varseltype.Feil}>{error.message}</Varsel>}
+            <TekniskVarsel error={error} />
             <Personlinje />
             <Tidslinje />
             <LoggProvider>

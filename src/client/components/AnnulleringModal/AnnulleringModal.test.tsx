@@ -41,6 +41,7 @@ it('Viser feilmelding', () => {
                 personTilBehandling,
                 innsyn: false,
                 hentPerson: (_) => Promise.resolve(undefined),
+                isFetching: false,
                 aktiverVedtaksperiode: (_) => null,
                 aktivVedtaksperiode: enSpeilVedtaksperiode(),
             }}

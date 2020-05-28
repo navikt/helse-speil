@@ -5,6 +5,7 @@ import { Person, Vedtaksperiode } from './types.internal';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;
+    isFetching: boolean;
     innsyn: boolean;
     aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
@@ -15,6 +16,7 @@ interface PersonContextType {
 interface PersonContextError {
     message: string;
     statusCode: number;
+    technical: string;
 }
 
 interface ProviderProps {
@@ -25,6 +27,7 @@ export const PersonContext = createContext<PersonContextType>({
     personTilBehandling: undefined,
     innsyn: false,
     hentPerson: (_) => Promise.resolve(undefined),
+    isFetching: false,
     aktiverVedtaksperiode: (_) => null,
 });
 
@@ -33,18 +36,24 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<PersonContextError | undefined>();
     const [innsyn, setInnsyn] = useState(false);
     const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
+    const [isFetching, setIsFetching] = useState(false);
 
     useEffect(() => {
         if (personTilBehandling) {
             const klarTilBehandling = (vedtaksperiode: Vedtaksperiode) => vedtaksperiode.kanVelges;
             const defaultVedtaksperiode = personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(klarTilBehandling);
             setAktivVedtaksperiode(defaultVedtaksperiode as Vedtaksperiode);
+        } else {
+            setAktivVedtaksperiode(undefined);
         }
     }, [personTilBehandling]);
 
     const hentPerson = (value: string) => {
         const innsyn = value.length === 26;
         setInnsyn(innsyn);
+        setError(undefined);
+        setPersonTilBehandling(undefined);
+        setIsFetching(true);
         return fetchPerson(value, innsyn)
             .then(async (response) => {
                 const aktørId = response.data.person.aktørId;
@@ -62,10 +71,12 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                         err.statusCode === 404
                             ? `Fant ikke data for ${value}`
                             : 'Kunne ikke utføre søket. Prøv igjen senere.';
-                    setError({ ...err, message });
+                    const technical = err.message?.length > 0 ? `Feilmelding til utviklere: ${err.message}` : '';
+                    setError({ ...err, message, technical });
                 }
                 return Promise.reject();
-            });
+            })
+            .finally(() => setIsFetching(false));
     };
 
     const aktiverVedtaksperiode = useCallback(
@@ -82,12 +93,13 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         () => ({
             personTilBehandling,
             hentPerson,
+            isFetching,
             error,
             innsyn,
             aktivVedtaksperiode,
             aktiverVedtaksperiode,
         }),
-        [personTilBehandling, error, aktivVedtaksperiode]
+        [personTilBehandling, error, aktivVedtaksperiode, isFetching]
     );
 
     return useMemo(() => <PersonContext.Provider value={contextValue}>{children}</PersonContext.Provider>, [

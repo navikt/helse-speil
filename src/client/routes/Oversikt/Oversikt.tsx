@@ -12,6 +12,7 @@ import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersonContext } from '../../context/PersonContext';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
 import Oversiktslinje from './Oversiktslinje';
+import { TekniskVarsel } from '../../components/TekniskVarsel';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -63,13 +64,26 @@ const Sorteringspiler = styled.div<{ direction: string }>`
         &:before { transform: translateY(0.5rem) rotate(180deg); }
     `}
 `;
+const LasterInnhold = styled.div`
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: 40px;
+    svg {
+        margin-right: 1rem;
+        width: 25px;
+        height: 25px;
+    }
+`;
 
 const ascending = (a: Oppgave, b: Oppgave) => a.antallVarsler - b.antallVarsler;
 const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler;
 
 export const Oversikt = () => {
     const { t } = useTranslation();
-    const { error: personContextError } = useContext(PersonContext);
+    const { error: personContextError, isFetching: isFetchingPerson } = useContext(PersonContext);
     const { behov, hentBehov, isFetchingBehov, error: behovContextError } = useContext(BehovContext);
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
@@ -119,11 +133,17 @@ export const Oversikt = () => {
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             {(isFetchingBehov || !harAlleTildelinger) && (
                 <Varsel type={Varseltype.Info}>
-                    Henter personer
                     <NavFrontendSpinner type="XS" />
+                    Henter personer
                 </Varsel>
             )}
-            {personContextError && <Varsel type={Varseltype.Feil}>{personContextError.message}</Varsel>}
+            {isFetchingPerson && (
+                <LasterInnhold>
+                    <NavFrontendSpinner type="XS" />
+                    Henter person
+                </LasterInnhold>
+            )}
+            <TekniskVarsel error={personContextError} />
             {behovContextError && <Varsel type={Varseltype.Feil}>{behovContextError.message}</Varsel>}
             <Container border>
                 <Undertittel>{t('oversikt.tittel')}</Undertittel>

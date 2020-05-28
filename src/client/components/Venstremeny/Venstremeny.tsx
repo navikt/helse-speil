@@ -79,7 +79,7 @@ const Venstremeny = () => {
                 <Lenke
                     id="nav-link-inntektskilder"
                     to={pathForLocation(Location.Inntektskilder)}
-                    active={!forlengelseFraInfotrygd}
+                    active={active && !forlengelseFraInfotrygd}
                 >
                     Inntektskilder
                 </Lenke>
