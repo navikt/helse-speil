@@ -26,7 +26,7 @@
         "prettier": "prettier --write \"src/**/*.{jsx,js,css,less,ts,tsx}\"",
         "snyk-protect": "snyk protect",
         "e2e-test": "e2e-tests/run.sh",
-        "e2e-test-local": "npm run build && e2e-tests/run.sh; e2e-tests/stop.sh"
+        "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh"
     },
     "husky": {
         "hooks": {
