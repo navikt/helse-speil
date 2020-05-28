@@ -14,9 +14,9 @@ interface TildelingerContextType {
 
 export const TildelingerContext = createContext<TildelingerContextType>({
     tildelinger: [],
-    tildelBehandling: (behovId, userId) => Promise.resolve(),
-    fetchTildelinger: (saksoversikt) => {},
-    fjernTildeling: (behovId: string) => {},
+    tildelBehandling: (_behovId, _userId) => Promise.resolve(),
+    fetchTildelinger: (_saksoversikt) => {},
+    fjernTildeling: (_behovId: string) => {},
 });
 
 export const TildelingerProvider = ({ children }: ProviderProps) => {
@@ -38,6 +38,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
                 } else {
                     setError('Kunne ikke tildele sak.');
                 }
+                return Promise.reject();
             });
     };
 
