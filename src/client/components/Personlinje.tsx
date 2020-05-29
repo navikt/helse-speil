@@ -19,13 +19,13 @@ const Container = styled.div`
     border-bottom: 1px solid #c6c2bf;
     color: #3e3832;
 
-    > * {
-        margin-left: 0.5rem;
+    > svg {
+        margin: 0 0.5rem 0 0.5rem;
     }
 `;
 
 const Separator = styled(Normaltekst)`
-    margin: 0 0.5rem 0 1rem;
+    margin: 0 1rem 0 1rem;
 `;
 
 const Kjønnsikon = ({ kjønn }: { kjønn: string }) => {
@@ -59,7 +59,8 @@ const Personlinje = () => {
                 <Normaltekst>Fødselsnummer ikke tilgjengelig</Normaltekst>
             )}
             <Separator>/</Separator>
-            <Normaltekst>Aktør-ID: {aktørId}</Normaltekst>
+            <Normaltekst>Aktør-ID:&nbsp;</Normaltekst>
+            <Clipboard>{aktørId}</Clipboard>
             <Separator>/</Separator>
             <Normaltekst>
                 Boenhet: {personTilBehandling.enhet.id} ({personTilBehandling.enhet.navn})
