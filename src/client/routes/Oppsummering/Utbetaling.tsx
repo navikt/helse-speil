@@ -13,6 +13,7 @@ import styled from '@emotion/styled';
 import { Vedtaksperiodetilstand } from '../../context/types.internal';
 import UtbetalingModal from './modal/UtbetalingModal';
 import AvvinsningModal from './modal/AvvisningModal';
+import { Avvisningverdier } from './modal/useSkjemaState';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
@@ -42,7 +43,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const [tilstand] = useState<Vedtaksperiodetilstand>(aktivVedtaksperiode!.tilstand);
     const { t } = useTranslation();
 
-    const fattVedtak = (godkjent: boolean) => {
+    const fattVedtak = (godkjent: boolean, skjema?: Avvisningverdier) => {
         const vedtaksperiodeId = aktivVedtaksperiode?.id;
         const oppgavereferanse = aktivVedtaksperiode?.oppgavereferanse;
         setIsSending(true);
@@ -77,7 +78,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 return (
                     <AvvinsningModal
                         onClose={() => setModalvisning(Modalvisning.Lukket)}
-                        onApprove={() => fattVedtak(false)}
+                        onApprove={(skjema: Avvisningverdier) => fattVedtak(false, skjema)}
                         isSending={isSending}
                     />
                 );
