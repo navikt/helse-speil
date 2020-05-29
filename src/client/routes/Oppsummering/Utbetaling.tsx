@@ -26,12 +26,17 @@ const Utbetalingstittel = styled(Undertittel)`
     margin-bottom: 1rem;
 `;
 
+enum Modalvisning {
+    Godkjenning,
+    Lukket,
+}
+
 const Utbetaling = ({ className }: UtbetalingProps) => {
     const { personTilBehandling, innsyn, aktivVedtaksperiode } = useContext(PersonContext);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [modalvisning, setModalvisning] = useState<Modalvisning>(Modalvisning.Lukket);
     const [tilstand] = useState<Vedtaksperiodetilstand>(aktivVedtaksperiode!.tilstand);
     const { t } = useTranslation();
 
@@ -52,7 +57,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
             })
             .finally(() => {
                 setIsSending(false);
-                setModalOpen(false);
+                setModalvisning(Modalvisning.Lukket);
             });
     };
 
@@ -76,8 +81,11 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
                 ) : (
                     <div className="knapperad">
-                        <Hovedknapp onClick={() => setModalOpen(true)}>Utbetal</Hovedknapp>
-                        <Knapp onClick={() => fattVedtak(false)} spinner={isSending && !modalOpen}>
+                        <Hovedknapp onClick={() => setModalvisning(Modalvisning.Godkjenning)}>Utbetal</Hovedknapp>
+                        <Knapp
+                            onClick={() => fattVedtak(false)}
+                            spinner={isSending && modalvisning !== Modalvisning.Godkjenning}
+                        >
                             Behandle i Infotrygd
                         </Knapp>
                     </div>
@@ -97,9 +105,9 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                     {error.statusCode === 401 && <a href="/"> Logg inn</a>}
                 </Normaltekst>
             )}
-            {modalOpen && (
+            {modalvisning === Modalvisning.Godkjenning && (
                 <InfoModal
-                    onClose={() => setModalOpen(false)}
+                    onClose={() => setModalvisning(Modalvisning.Lukket)}
                     onApprove={() => fattVedtak(true)}
                     isSending={isSending}
                     infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet."
