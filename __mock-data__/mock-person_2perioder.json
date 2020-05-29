@@ -930,5 +930,9 @@
             "typetekst": "ArbRef",
             "organisasjonsnummer": "982708673"
         }
-    ]
+    ],
+    "enhet": {
+        "id": "1206",
+        "navn": "Bergen - Laksevåg"
+    }
 }

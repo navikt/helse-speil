@@ -224,6 +224,12 @@ export interface Person {
     personinfo: Personinfo;
     fødselsnummer: string;
     infotrygdutbetalinger: Infotrygdutbetaling[];
+    enhet: Enhetsinfo;
+}
+
+export interface Enhetsinfo {
+    id: string;
+    navn: string;
 }
 
 export interface ProviderProps {

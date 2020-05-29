@@ -339,5 +339,9 @@
                 }
             ]
         }
-    ]
+    ],
+    "enhet": {
+        "id": "1605",
+        "navn": "Trondheim - Lerkendal"
+    }
 }

@@ -153,6 +153,12 @@ export interface SpesialistPerson {
     arbeidsgivere: SpesialistArbeidsgiver[];
     navn: PersonNavn;
     infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
+    enhet: Enhet;
+}
+
+interface Enhet {
+    id: string;
+    navn: string;
 }
 
 export interface SpesialistArbeidsgiver {

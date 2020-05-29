@@ -67,13 +67,14 @@ const tilInfotrygdutbetalinger = (spesialistPerson: SpesialistPerson): Infotrygd
     );
 };
 
-export const tilPersonMedInfo = (spesialistPerson: SpesialistPerson, personinfo: Personinfo) => ({
+export const tilPersonMedInfo = (spesialistPerson: SpesialistPerson, personinfo: Personinfo): Person => ({
     aktørId: spesialistPerson.aktørId,
     fødselsnummer: spesialistPerson.fødselsnummer,
     navn: spesialistPerson.navn,
     arbeidsgivere: tilArbeidsgivere(spesialistPerson, personinfo),
     personinfo: personinfo,
     infotrygdutbetalinger: tilInfotrygdutbetalinger(spesialistPerson),
+    enhet: spesialistPerson.enhet,
 });
 
 export const mapPersoninfo = (spleisPersoninfo: SpleisPersoninfo): Personinfo => ({
