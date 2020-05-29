@@ -5,7 +5,7 @@ import {
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
-    SpleisVedtaksperiodetilstand
+    SpleisVedtaksperiodetilstand,
 } from '../types.external';
 import { defaultHendelser } from './defaultHendelser';
 
@@ -862,4 +862,5 @@ export const mappetPerson: Person = {
         fnr: '01019000123',
     },
     infotrygdutbetalinger: [],
+    enhet: { id: '', navn: '' },
 };

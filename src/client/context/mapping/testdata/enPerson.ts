@@ -5,4 +5,5 @@ export const enPerson = (arbeidsgivere = [enArbeidsgiver()]) => ({
     fødselsnummer: '01019000123',
     navn: { fornavn: 'Kringle', mellomnavn: null, etternavn: 'Krangel' },
     arbeidsgivere: arbeidsgivere,
+    enhet: { id: '', navn: '' },
 });

@@ -32,6 +32,7 @@ const personTilBehandling = {
     },
     personinfo: enPersoninfo(),
     infotrygdutbetalinger: [],
+    enhet: { id: '', navn: '' },
 };
 
 it('Viser feilmelding', () => {

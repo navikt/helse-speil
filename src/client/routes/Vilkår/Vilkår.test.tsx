@@ -35,6 +35,7 @@ const personTilBehandling = {
     },
     personinfo: enPersoninfo(),
     infotrygdutbetalinger: [],
+    enhet: { id: '', navn: '' },
 };
 
 const vilkårTilVurdering = () => screen.queryByText('Vilkår systemet ikke vurderer');
