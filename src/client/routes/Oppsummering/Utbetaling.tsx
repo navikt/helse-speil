@@ -6,12 +6,13 @@ import { postVedtak } from '../../io/http';
 import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
 import './Utbetaling.less';
-import InfoModal from '../../components/InfoModal';
 import { Error } from '../../../types';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
 import { Vedtaksperiodetilstand } from '../../context/types.internal';
+import UtbetalingModal from './modal/UtbetalingModal';
+import AvvinsningModal from './modal/AvvisningModal';
 
 enum Beslutning {
     Godkjent = 'GODKJENT',
@@ -28,6 +29,7 @@ const Utbetalingstittel = styled(Undertittel)`
 
 enum Modalvisning {
     Godkjenning,
+    Avvisning,
     Lukket,
 }
 
@@ -61,6 +63,29 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
             });
     };
 
+    const Modal = () => {
+        switch (modalvisning) {
+            case Modalvisning.Godkjenning:
+                return (
+                    <UtbetalingModal
+                        onClose={() => setModalvisning(Modalvisning.Lukket)}
+                        onApprove={() => fattVedtak(true)}
+                        isSending={isSending}
+                    />
+                );
+            case Modalvisning.Avvisning:
+                return (
+                    <AvvinsningModal
+                        onClose={() => setModalvisning(Modalvisning.Lukket)}
+                        onApprove={() => fattVedtak(false)}
+                        isSending={isSending}
+                    />
+                );
+            case Modalvisning.Lukket:
+                return null;
+        }
+    };
+
     return (
         <Panel className={classNames(className, 'Utbetaling')}>
             <Utbetalingstittel>{t('oppsummering.utbetaling')}</Utbetalingstittel>
@@ -83,7 +108,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                     <div className="knapperad">
                         <Hovedknapp onClick={() => setModalvisning(Modalvisning.Godkjenning)}>Utbetal</Hovedknapp>
                         <Knapp
-                            onClick={() => fattVedtak(false)}
+                            onClick={() => setModalvisning(Modalvisning.Avvisning)}
                             spinner={isSending && modalvisning !== Modalvisning.Godkjenning}
                         >
                             Behandle i Infotrygd
@@ -105,14 +130,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                     {error.statusCode === 401 && <a href="/"> Logg inn</a>}
                 </Normaltekst>
             )}
-            {modalvisning === Modalvisning.Godkjenning && (
-                <InfoModal
-                    onClose={() => setModalvisning(Modalvisning.Lukket)}
-                    onApprove={() => fattVedtak(true)}
-                    isSending={isSending}
-                    infoMessage="Når du trykker ja blir utbetalingen sendt til oppdragsystemet."
-                />
-            )}
+            <Modal />
         </Panel>
     );
 };
