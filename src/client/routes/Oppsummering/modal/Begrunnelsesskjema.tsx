@@ -39,7 +39,7 @@ export const Begrunnelsesskjema = ({
     setKommentar,
 }: BegrunnelsesskjemaProps) => {
     const begrunnelser: Begrunnelse[] = [
-        { verdi: 'Vilkår ikke oppfyldt', kreverKommentar: false },
+        { verdi: 'Vilkår ikke oppfylt', kreverKommentar: false },
         { verdi: 'Arbeidsgiverperiode beregnet feil', kreverKommentar: false },
         { verdi: 'Egenmeldingsdager beregnet feil', kreverKommentar: false },
         { verdi: 'Maksdato beregnet feil', kreverKommentar: false },
@@ -58,12 +58,12 @@ export const Begrunnelsesskjema = ({
                     onChange={() => setValgtÅrsak(Årsak.Feil)}
                 />
                 <StyledRadio
-                    label={'Allerede behandlet i infotrygd - riktig vurdering'}
+                    label={'Allerede behandlet i Infotrygd - riktig vurdering'}
                     name={'årsak'}
                     onChange={() => setValgtÅrsak(Årsak.InfotrygdRiktig)}
                 />
                 <StyledRadio
-                    label={'Allerede behandlet i infotrygd - feil vurdering og/eller beregning'}
+                    label={'Allerede behandlet i Infotrygd - feil vurdering og/eller beregning'}
                     name={'årsak'}
                     onChange={() => setValgtÅrsak(Årsak.InfotrygdFeil)}
                 />
@@ -91,6 +91,7 @@ export const Begrunnelsesskjema = ({
             )}
 
             <TextareaControlled
+                description={'Må ikke inneholde personopplysninger'}
                 feil={skjemaKommentar.harFeil ? 'Skriv en kommentar hvis du velger begrunnelsen annet' : null}
                 label={`Kommentar ${skjemaKommentar.obligatorisk ? '' : '(valgfri)'}`}
                 maxLength={0}

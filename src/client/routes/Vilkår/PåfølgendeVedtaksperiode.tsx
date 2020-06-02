@@ -71,10 +71,10 @@ interface PåfølgendeVedtaksperiodeProps {
     forlengelseFraInfotrygd?: boolean;
 }
 
-const OppfyldteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) => (
+const OppfylteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) => (
     <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={vilkår} />
 );
-const IkkeOppfyldteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) =>
+const IkkeOppfylteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) =>
     vilkår.length > 0 ? <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={vilkår} /> : null;
 
 export const PåfølgendeVedtaksperiode = (props: PåfølgendeVedtaksperiodeProps) => (
@@ -105,9 +105,9 @@ const PåfølgendeVedtaksperiodeWrapper = ({
     children: ReactNode;
 }) => (
     <>
-        <IkkeOppfyldteVilkår vilkår={ikkeOppfylteVilkår} />
+        <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår} />
         <IkkeVurderteVilkår ikkeVurderteVilkår={ikkeVurderteVilkår} />
-        <OppfyldteVilkår vilkår={oppfylteVilkår} />
+        <OppfylteVilkår vilkår={oppfylteVilkår} />
         {children}
         <Strek />
     </>
