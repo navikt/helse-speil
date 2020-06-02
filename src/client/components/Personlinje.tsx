@@ -60,7 +60,9 @@ const Personlinje = () => {
             )}
             <Separator>/</Separator>
             <Normaltekst>Aktør-ID:&nbsp;</Normaltekst>
-            <Clipboard>{aktørId}</Clipboard>
+            <Clipboard>
+                <Normaltekst>{aktørId}</Normaltekst>
+            </Clipboard>
             <Separator>/</Separator>
             <Normaltekst>
                 Boenhet: {personTilBehandling.enhet.id} ({personTilBehandling.enhet.navn})
