@@ -20,7 +20,7 @@ export interface Avvisningskjema {
 
 export interface Avvisningverdier {
     årsak: Årsak;
-    begrunnelser: Begrunnelse[];
+    begrunnelser: string[];
     kommentar: string;
 }
 
@@ -169,7 +169,7 @@ export const useSkjemaState = (): UseSkjemaState => {
         clear: clear,
         verdier: {
             årsak: skjemaState.årsak.verdi,
-            begrunnelser: skjemaState.begrunnelser.verdi,
+            begrunnelser: skjemaState.begrunnelser.verdi.map((v) => v.verdi),
             kommentar: skjemaState.kommentar.verdi,
         },
         skjema: skjemaState,
