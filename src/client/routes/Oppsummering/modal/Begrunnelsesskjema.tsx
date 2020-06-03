@@ -46,6 +46,7 @@ export const Begrunnelsesskjema = ({
         { verdi: 'Dagsats beregnet feil', kreverKommentar: false },
         { verdi: 'Sykepengegrunnlag beregnet feil', kreverKommentar: false },
         { verdi: 'Inntektskilder og/eller ytelser tas ikke med i beregningen', kreverKommentar: false },
+        { verdi: 'Vilkår om Lovvalg og medlemskap er ikke oppfylt', kreverKommentar: false },
         { verdi: 'Annet', kreverKommentar: true },
     ];
 
