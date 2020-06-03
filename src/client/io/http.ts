@@ -1,5 +1,6 @@
 import { Tildeling } from '../context/types.internal';
 import { Options } from './types';
+import { Avvisningverdier } from '../routes/Oppsummering/modal/useSkjemaState';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -108,8 +109,8 @@ export const deleteTildeling = async (behandlingsId: string) => {
     return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };
 
-export const postVedtak = async (behovId?: string, aktørId?: string, godkjent?: boolean, vedtaksperiodeId?: string) => {
-    return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, vedtaksperiodeId });
+export const postVedtak = async (behovId: string, aktørId: string, godkjent: boolean, skjema?: Avvisningverdier) => {
+    return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, skjema });
 };
 
 export const postAnnullering = async (annullering: AnnulleringDTO) => {

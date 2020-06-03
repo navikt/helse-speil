@@ -12,17 +12,34 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/vedtak', (req: Request, res: Response) => {
-        if (!req.body.behovId || req.body.godkjent === undefined) {
+        if (
+            !req.body.behovId ||
+            req.body.godkjent === undefined ||
+            (req.body.godkjent === false && req.body.skjema === undefined)
+        ) {
             res.status(400).send('BehovId og godkjent-verdi må være tilstede');
             return;
         }
+
+        const params = req.body.godkjent
+            ? {
+                  behovId: req.body.behovId,
+                  godkjent: true,
+                  speilToken: req.session!.speilToken,
+                  saksbehandlerIdent: req.session!.user,
+              }
+            : {
+                  behovId: req.body.behovId,
+                  godkjent: false,
+                  speilToken: req.session!.speilToken,
+                  saksbehandlerIdent: req.session!.user,
+                  årsak: req.body.skjema.årsak,
+                  begrunnelser: req.body.skjema.begrunnelser,
+                  kommentar: req.body.skjema.kommentar,
+              };
+
         vedtakClient
-            .postVedtak({
-                behovId: req.body.behovId,
-                godkjent: req.body.godkjent,
-                speilToken: req.session!.speilToken,
-                saksbehandlerIdent: req.session!.user,
-            })
+            .postVedtak(params)
             .then(() => res.sendStatus(204))
             .catch((err) => {
                 logger.error(`Feil under fatting av vedtak: ${err}`);

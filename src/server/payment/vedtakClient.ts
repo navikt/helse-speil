@@ -8,22 +8,31 @@ interface PostVedtakOptions {
     saksbehandlerIdent: string;
 }
 
+interface PostVedtakAvslåttOptions {
+    behovId: string;
+    godkjent: boolean;
+    speilToken: string;
+    saksbehandlerIdent: string;
+    årsak: string;
+    begrunnelser?: string[];
+    kommentar?: string;
+}
+
 export interface VedtakClient {
-    postVedtak: (body: PostVedtakOptions, accessToken?: string) => Promise<Response>;
+    postVedtak: (body: PostVedtakOptions | PostVedtakAvslåttOptions) => Promise<Response>;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf) => ({
-    postVedtak: async ({ behovId, godkjent, speilToken, saksbehandlerIdent }: PostVedtakOptions) => {
-        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
+    postVedtak: async (params: PostVedtakOptions | PostVedtakAvslåttOptions) => {
+        const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, params.speilToken);
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/vedtak`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
-            body: { behovId, godkjent, saksbehandlerIdent },
+            body: params,
             json: true,
         };
-
         return request.post(options);
     },
 });

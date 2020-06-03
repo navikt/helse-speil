@@ -44,10 +44,17 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const { t } = useTranslation();
 
     const fattVedtak = (godkjent: boolean, skjema?: Avvisningverdier) => {
-        const vedtaksperiodeId = aktivVedtaksperiode?.id;
-        const oppgavereferanse = aktivVedtaksperiode?.oppgavereferanse;
+        if (!aktivVedtaksperiode || aktivVedtaksperiode.oppgavereferanse === '' || !personTilBehandling) {
+            setModalvisning(Modalvisning.Lukket);
+            setError({
+                message: `Teknisk feil ved fatting av vedtak`,
+            });
+            return;
+        }
+
+        const oppgavereferanse = aktivVedtaksperiode.oppgavereferanse;
         setIsSending(true);
-        postVedtak(oppgavereferanse, personTilBehandling?.aktørId, godkjent, vedtaksperiodeId)
+        postVedtak(oppgavereferanse, personTilBehandling.aktørId, godkjent, skjema)
             .then(() => {
                 setBeslutning(godkjent ? Beslutning.Godkjent : Beslutning.Avvist);
                 setError(undefined);
