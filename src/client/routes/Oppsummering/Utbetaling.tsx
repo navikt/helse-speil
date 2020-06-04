@@ -105,30 +105,24 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
             ) : tilstand === Vedtaksperiodetilstand.Feilet ? (
                 <AlertStripeInfo>Utbetalingen feilet.</AlertStripeInfo>
-            ) : (tilstand === Vedtaksperiodetilstand.Oppgaver && beslutning === Beslutning.Godkjent) ||
+            ) : beslutning === Beslutning.Godkjent ||
               tilstand === Vedtaksperiodetilstand.TilUtbetaling ||
               tilstand === Vedtaksperiodetilstand.Utbetalt ? (
                 <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
+            ) : beslutning === Beslutning.Avvist || tilstand === Vedtaksperiodetilstand.TilInfotrygd ? (
+                <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
             ) : tilstand === Vedtaksperiodetilstand.Oppgaver ? (
-                beslutning ? (
-                    <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
-                ) : (
-                    <div className="knapperad">
-                        <Hovedknapp onClick={() => setModalvisning(Modalvisning.Godkjenning)}>Utbetal</Hovedknapp>
-                        <Knapp
-                            onClick={() => setModalvisning(Modalvisning.Avvisning)}
-                            spinner={isSending && modalvisning !== Modalvisning.Godkjenning}
-                        >
-                            Behandle i Infotrygd
-                        </Knapp>
-                    </div>
-                )
+                <div className="knapperad">
+                    <Hovedknapp onClick={() => setModalvisning(Modalvisning.Godkjenning)}>Utbetal</Hovedknapp>
+                    <Knapp
+                        onClick={() => setModalvisning(Modalvisning.Avvisning)}
+                        spinner={isSending && modalvisning !== Modalvisning.Godkjenning}
+                    >
+                        Behandle i Infotrygd
+                    </Knapp>
+                </div>
             ) : (
-                <AlertStripeInfo>
-                    {tilstand === Vedtaksperiodetilstand.Venter
-                        ? 'Saken er sendt til behandling i Infotrygd.'
-                        : 'Kunne ikke lese informasjon om sakens tilstand.'}
-                </AlertStripeInfo>
+                <AlertStripeInfo>Kunne ikke lese informasjon om sakens tilstand.</AlertStripeInfo>
             )}
             {error && (
                 <Normaltekst className="skjemaelement__feilmelding">
