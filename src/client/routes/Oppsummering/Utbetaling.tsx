@@ -1,7 +1,7 @@
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { postVedtak } from '../../io/http';
 import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
@@ -40,8 +40,12 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [modalvisning, setModalvisning] = useState<Modalvisning>(Modalvisning.Lukket);
-    const [tilstand] = useState<Vedtaksperiodetilstand>(aktivVedtaksperiode!.tilstand);
+    const [tilstand, setTilstand] = useState<Vedtaksperiodetilstand>(aktivVedtaksperiode!.tilstand);
     const { t } = useTranslation();
+
+    useEffect(() => {
+        if (aktivVedtaksperiode?.tilstand) setTilstand(aktivVedtaksperiode.tilstand);
+    }, [aktivVedtaksperiode?.tilstand]);
 
     const fattVedtak = (godkjent: boolean, skjema?: Avvisningverdier) => {
         if (!aktivVedtaksperiode || aktivVedtaksperiode.oppgavereferanse === '' || !personTilBehandling) {
@@ -97,10 +101,12 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     return (
         <Panel className={classNames(className, 'Utbetaling')}>
             <Utbetalingstittel>{t('oppsummering.utbetaling')}</Utbetalingstittel>
-            <AlertStripeAdvarsel>
-                Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn til teamet for
-                evaluering.
-            </AlertStripeAdvarsel>
+            {tilstand === Vedtaksperiodetilstand.Oppgaver && (
+                <AlertStripeAdvarsel>
+                    Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn til teamet for
+                    evaluering.
+                </AlertStripeAdvarsel>
+            )}
             {tilstand === Vedtaksperiodetilstand.Avslag ? (
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
             ) : tilstand === Vedtaksperiodetilstand.Feilet ? (
