@@ -49,7 +49,6 @@ const VilkårWrapper = ({ vedtaksperiode = enSpeilVedtaksperiode() }: { vedtaksp
             value={{
                 personTilBehandling,
                 tildelPerson: (_) => null,
-                innsyn: false,
                 hentPerson: (_) => Promise.resolve(undefined),
                 isFetching: false,
                 aktiverVedtaksperiode: (_) => null,

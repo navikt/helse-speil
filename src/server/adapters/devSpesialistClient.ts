@@ -28,15 +28,6 @@ const hentPersonByFødselsnummer = async (aktørId: string) => {
     } as unknown) as Response);
 };
 
-const hentSakByUtbetalingsref = async () => {
-    const fromFile = fs.readFileSync(`__mock-data__/mock-person_til-utbetaling.json`, 'utf-8');
-    const person = JSON.parse(fromFile);
-    return Promise.resolve(({
-        statusCode: 200,
-        body: person,
-    } as unknown) as Response);
-};
-
 const filename = (aktørId: string) => {
     switch (aktørId) {
         case '1000000009871':
@@ -54,7 +45,6 @@ const devSpesialistClient: SpesialistClient = {
     behandlingerForPeriode,
     hentPersonByAktørId,
     hentPersonByFødselsnummer,
-    hentSakByUtbetalingsref,
 };
 
 export default devSpesialistClient;

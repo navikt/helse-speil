@@ -35,7 +35,7 @@ enum Modalvisning {
 }
 
 const Utbetaling = ({ className }: UtbetalingProps) => {
-    const { personTilBehandling, innsyn, aktivVedtaksperiode } = useContext(PersonContext);
+    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
@@ -109,7 +109,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
               tilstand === Vedtaksperiodetilstand.TilUtbetaling ||
               tilstand === Vedtaksperiodetilstand.Utbetalt ? (
                 <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
-            ) : !innsyn && tilstand === Vedtaksperiodetilstand.Oppgaver ? (
+            ) : tilstand === Vedtaksperiodetilstand.Oppgaver ? (
                 beslutning ? (
                     <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
                 ) : (
@@ -127,8 +127,6 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 <AlertStripeInfo>
                     {tilstand === Vedtaksperiodetilstand.Venter
                         ? 'Saken er sendt til behandling i Infotrygd.'
-                        : innsyn && tilstand === Vedtaksperiodetilstand.Oppgaver
-                        ? 'Saken står til godkjenning av saksbehandler.'
                         : 'Kunne ikke lese informasjon om sakens tilstand.'}
                 </AlertStripeInfo>
             )}

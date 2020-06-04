@@ -48,7 +48,6 @@ const setup = ({
 
 const finnPerson = async (req: Request, res: Response) => {
     const undeterminedId = req.headers[personIdHeaderName] as string;
-    const innsyn = req.headers['innsyn'] === 'true';
 
     auditLog(req, undeterminedId || 'missing person id');
     if (!undeterminedId) {
@@ -57,9 +56,7 @@ const finnPerson = async (req: Request, res: Response) => {
         return;
     }
 
-    const lookupPromise = innsyn
-        ? spesialistClient.hentSakByUtbetalingsref
-        : erGyldigFødselsnummer(undeterminedId)
+    const lookupPromise = erGyldigFødselsnummer(undeterminedId)
         ? spesialistClient.hentPersonByFødselsnummer
         : spesialistClient.hentPersonByAktørId;
 

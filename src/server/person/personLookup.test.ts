@@ -5,24 +5,24 @@ afterEach(() => {
     jest.clearAllMocks();
 });
 
-const plainPerson = {
+const personByAktørId = {
     arbeidsgivere: [
         {
             vedtaksperioder: [
                 {
-                    oppgavereferanse: '123',
+                    oppgavereferanse: '9977',
                 },
             ],
         },
     ],
 };
 
-const utbetaltPerson = {
+const personByFnr = {
     arbeidsgivere: [
         {
             vedtaksperioder: [
                 {
-                    tilstand: 'Avsluttet',
+                    oppgavereferanse: '5511',
                 },
             ],
         },
@@ -30,13 +30,12 @@ const utbetaltPerson = {
 };
 
 const spesialistClient = {
-    hentPersonByAktørId: () => Promise.resolve({ statusCode: 200, body: plainPerson }),
-    hentPersonByFødselsnummer: () => Promise.resolve({ statusCode: 200, body: plainPerson }),
-    hentSakByUtbetalingsref: () => Promise.resolve({ statusCode: 200, body: utbetaltPerson }),
+    hentPersonByAktørId: () => Promise.resolve({ statusCode: 200, body: personByAktørId }),
+    hentPersonByFødselsnummer: () => Promise.resolve({ statusCode: 200, body: personByFnr }),
 };
 
 const storage = {
-    get: () => Promise.resolve(null),
+    get: (value: string) => (value === '9977' ? Promise.resolve(null) : Promise.resolve('Ghost')),
 };
 const onBehalfOfStub = {
     hentFor: () => Promise.resolve(),
@@ -62,42 +61,29 @@ const mockResponse = (() => {
     return res;
 })();
 
-describe('finnPerson', () => {
-    const baseReq = {
-        headers: { [personLookup.personIdHeaderName]: '123' },
-        session: {},
-    };
-
-    test('finnPerson uten innsyn-header kaller spesialistClient.hentPersonByAktørId', async () => {
-        await personLookup.finnPerson(baseReq, mockResponse);
-
-        const response = await mockResponse.send.mock.calls[0][0].person;
-        expect(response).toStrictEqual({ ...plainPerson, tildeltTil: null });
-    });
-
-    test('finnPerson med innsyn-header kaller spesialistClient.hentSakByUtbetalingsref...', async () => {
-        const reqWithInnsynHeader = { ...baseReq, headers: { ...baseReq.headers, innsyn: 'true' } };
-        await personLookup.finnPerson(reqWithInnsynHeader, mockResponse);
-
-        const response = await mockResponse.send.mock.calls[0][0].person;
-        expect(response).toStrictEqual({ ...utbetaltPerson, tildeltTil: null });
-    });
-
-    describe('oppslag på fødselsnummer', () => {
-        const reqWithFnr = {
-            ...baseReq,
-            headers: { ...baseReq.headers, [personLookup.personIdHeaderName]: '11031888001' },
+describe('oppslag på person', () => {
+    test('med aktørId kaller spesialistClient.hentPersonByAktørId', async () => {
+        const requestWithAktørId = {
+            headers: { [personLookup.personIdHeaderName]: '123' },
+            session: {},
         };
-        test('finnPerson med fødselsnummer kaller spesialistClient.hentPersonByFødselsnummer', async () => {
-            await personLookup.finnPerson(reqWithFnr, mockResponse);
+        await personLookup.finnPerson(requestWithAktørId, mockResponse);
 
-            const response = await mockResponse.send.mock.calls[0][0].person;
-            expect(response).toStrictEqual({ ...plainPerson, tildeltTil: null });
-        });
+        expect(personFromResponse()).toStrictEqual({ ...personByAktørId, tildeltTil: null });
+    });
+
+    test('med fødselsnummer kaller spesialistClient.hentPersonByFødselsnummer', async () => {
+        const requestWithFnr = {
+            headers: { [personLookup.personIdHeaderName]: '11031888001' },
+            session: {},
+        };
+        await personLookup.finnPerson(requestWithFnr, mockResponse);
+
+        expect(personFromResponse()).toStrictEqual({ ...personByFnr, tildeltTil: 'Ghost' });
     });
 });
 
-const assertResponseStatusCode = (int) => expect(mockResponse.status.mock.calls[0]?.[0]).toBe(int);
+const personFromResponse = () => mockResponse.send.mock.calls[0][0].person;
 
 afterEach(() => {
     expect(mockResponse.status.mock.calls[0]?.[0]).not.toBeGreaterThanOrEqual(500);

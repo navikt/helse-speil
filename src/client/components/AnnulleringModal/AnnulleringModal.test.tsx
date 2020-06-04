@@ -40,7 +40,6 @@ it('Viser feilmelding', () => {
         <PersonContext.Provider
             value={{
                 personTilBehandling,
-                innsyn: false,
                 hentPerson: (_) => Promise.resolve(undefined),
                 tildelPerson: (_) => null,
                 isFetching: false,

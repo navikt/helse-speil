@@ -62,9 +62,9 @@ export const del = async (url: string, data?: any) => {
     return response;
 };
 
-export const fetchPerson = async (personId?: string, innsyn?: boolean) =>
+export const fetchPerson = async (personId?: string) =>
     get(`${baseUrl}/person/sok`, {
-        headers: { 'nav-person-id': personId, innsyn: innsyn },
+        headers: { 'nav-person-id': personId },
     });
 
 export const fetchBehov = async () => get(`${baseUrl}/person/`);

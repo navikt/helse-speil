@@ -7,7 +7,6 @@ interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;
     tildelPerson: (email?: string) => void;
     isFetching: boolean;
-    innsyn: boolean;
     aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
     personTilBehandling?: Person;
@@ -27,7 +26,6 @@ interface ProviderProps {
 export const PersonContext = createContext<PersonContextType>({
     personTilBehandling: undefined,
     tildelPerson: (_) => null,
-    innsyn: false,
     hentPerson: (_) => Promise.resolve(undefined),
     isFetching: false,
     aktiverVedtaksperiode: (_) => null,
@@ -36,7 +34,6 @@ export const PersonContext = createContext<PersonContextType>({
 export const PersonProvider = ({ children }: ProviderProps) => {
     const [personTilBehandling, setPersonTilBehandling] = useState<Person>();
     const [error, setError] = useState<PersonContextError | undefined>();
-    const [innsyn, setInnsyn] = useState(false);
     const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
     const [isFetching, setIsFetching] = useState(false);
 
@@ -51,12 +48,10 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     }, [personTilBehandling]);
 
     const hentPerson = (value: string) => {
-        const innsyn = value.length === 26;
-        setInnsyn(innsyn);
         setError(undefined);
         setPersonTilBehandling(undefined);
         setIsFetching(true);
-        return fetchPerson(value, innsyn)
+        return fetchPerson(value)
             .then(async (response) => {
                 const aktørId = response.data.person.aktørId;
                 const personinfo = await getPersoninfo(aktørId).then((response) => ({
@@ -102,7 +97,6 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             hentPerson,
             isFetching,
             error,
-            innsyn,
             aktivVedtaksperiode,
             aktiverVedtaksperiode,
         }),

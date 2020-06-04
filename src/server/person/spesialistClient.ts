@@ -4,7 +4,6 @@ export interface SpesialistClient {
     behandlingerForPeriode: (fom: string, tom: string, onBehalfOfToken: string) => Promise<Response>;
     hentPersonByAktørId: (aktørId: string, onBehalfOfToken: string) => Promise<Response>;
     hentPersonByFødselsnummer: (fødselsnummer: string, onBehalfOfToken: string) => Promise<Response>;
-    hentSakByUtbetalingsref: (utbetalingsref: string, onBehalfOfToken: string) => Promise<Response>;
 }
 
 export const spesialistClient: SpesialistClient = {
@@ -35,18 +34,6 @@ export const spesialistClient: SpesialistClient = {
     hentPersonByFødselsnummer: async (fødselsnummer, onBehalfOfToken) => {
         const options = {
             uri: `http://spesialist.default.svc.nais.local/api/person/fnr/${fødselsnummer}`,
-            headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`,
-            },
-            resolveWithFullResponse: true,
-            json: true,
-        };
-        return request.get(options);
-    },
-
-    hentSakByUtbetalingsref: async (utbetalingsref, onBehalfOfToken) => {
-        const options = {
-            uri: `http://spesialist.default.svc.nais.local/api/person/utbetaling/${utbetalingsref}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
