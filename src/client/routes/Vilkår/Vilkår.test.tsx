@@ -48,6 +48,7 @@ const VilkårWrapper = ({ vedtaksperiode = enSpeilVedtaksperiode() }: { vedtaksp
         <PersonContext.Provider
             value={{
                 personTilBehandling,
+                tildelPerson: (_) => null,
                 innsyn: false,
                 hentPerson: (_) => Promise.resolve(undefined),
                 isFetching: false,

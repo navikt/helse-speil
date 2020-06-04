@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { deleteTildeling, getTildelinger, postTildeling } from '../io/http';
 import { ProviderProps, Tildeling } from './types.internal';
 import { Oppgave } from '../../types';
+import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 
 interface TildelingerContextType {
     tildelinger: Tildeling[];
@@ -32,9 +33,14 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
                 setError(undefined);
             })
             .catch((error) => {
-                const assignedUser = error.message?.alreadyAssignedTo;
+                let assignedUser;
+                try {
+                    assignedUser = JSON.parse(error.message).alreadyAssignedTo;
+                } catch {
+                    assignedUser = error.message?.alreadyAssignedTo;
+                }
                 if (assignedUser) {
-                    setError(`Saken er allerede tildelt til ${assignedUser}`);
+                    setError(`${capitalizeName(extractNameFromEmail(assignedUser))} har allerede tatt saken.`);
                 } else {
                     setError('Kunne ikke tildele sak.');
                 }

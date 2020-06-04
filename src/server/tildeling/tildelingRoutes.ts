@@ -1,14 +1,14 @@
 'use strict';
 
 import { Router } from 'express';
-import storage from './storage';
 import logger from '../logging';
-import { RedisClient } from 'redis';
+import { Storage } from './storage';
 
 const router = Router();
 
-const setup = (client: RedisClient) => {
-    storage.init(client);
+let storage: Storage;
+const setup = (_storage: Storage) => {
+    storage = _storage;
     routes(router);
     return router;
 };

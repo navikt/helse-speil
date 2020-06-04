@@ -225,6 +225,7 @@ export interface Person {
     fødselsnummer: string;
     infotrygdutbetalinger: Infotrygdutbetaling[];
     enhet: Enhetsinfo;
+    tildeltTil?: string;
 }
 
 export interface Enhetsinfo {

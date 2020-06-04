@@ -26,6 +26,7 @@
                     "fom": "2020-01-17",
                     "tom": "2020-01-18",
                     "tilstand": "Utbetalt",
+                    "oppgavereferanse": null,
                     "fullstendig": true,
                     "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
                     "utbetalingstidslinje": [
@@ -195,7 +196,7 @@
                     "fom": "2020-01-19",
                     "tom": "2020-01-20",
                     "tilstand": "Oppgaver",
-                    "oppgavereferanse": "2342",
+                    "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5g",
                     "fullstendig": true,
                     "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
                     "utbetalingstidslinje": [

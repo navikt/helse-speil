@@ -17,6 +17,7 @@
                     "fom": "2018-01-01",
                     "tom": "2018-01-31",
                     "tilstand": "Utbetalt",
+                    "oppgavereferanse": null,
                     "fullstendig": true,
                     "utbetalinger": {
                         "arbeidsgiverUtbetaling": {
@@ -562,7 +563,7 @@
                     "fom": "2018-02-01",
                     "tom": "2018-02-14",
                     "tilstand": "Oppgaver",
-                    "oppgavereferanse": "2342",
+                    "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5f",
                     "fullstendig": true,
                     "utbetalinger": {
                         "arbeidsgiverUtbetaling": {

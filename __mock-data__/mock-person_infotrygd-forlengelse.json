@@ -18,7 +18,7 @@
                     "fom": "2020-03-01",
                     "tom": "2020-03-27",
                     "tilstand": "Oppgaver",
-                    "oppgavereferanse": "2342",
+                    "oppgavereferanse": "e3474433-0000-9999-0000-ea5d644b4a6b",
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [
@@ -556,7 +556,7 @@
                     "fom": "2020-01-01",
                     "tom": "2020-01-27",
                     "tilstand": "Utbetalt",
-                    "oppgavereferanse": "2342",
+                    "oppgavereferanse": null,
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [
@@ -1094,7 +1094,7 @@
                     "fom": "2019-11-01",
                     "tom": "2019-11-27",
                     "tilstand": "Utbetalt",
-                    "oppgavereferanse": "2342",
+                    "oppgavereferanse": null,
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [
@@ -1619,7 +1619,7 @@
                     "fom": "2019-11-28",
                     "tom": "2019-12-10",
                     "tilstand": "Utbetalt",
-                    "oppgavereferanse": "2342",
+                    "oppgavereferanse": null,
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [

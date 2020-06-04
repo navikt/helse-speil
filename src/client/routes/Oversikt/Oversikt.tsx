@@ -84,7 +84,12 @@ const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler
 export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
-    const { error: personContextError, isFetching: isFetchingPersonBySearch } = useContext(PersonContext);
+    const {
+        error: personContextError,
+        isFetching: isFetchingPersonBySearch,
+        personTilBehandling,
+        tildelPerson,
+    } = useContext(PersonContext);
     const { behov, hentBehov, isFetchingBehov, error: behovContextError } = useContext(BehovContext);
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
@@ -129,8 +134,16 @@ export const Oversikt = () => {
         </Header>
     );
 
+    const onUnassignCase = (behovId: string) => {
+        fjernTildeling(behovId);
+        if (personTilBehandling) tildelPerson(undefined);
+    };
+
     const onAssignCase = (behovId: string, aktørId: string, email: string) => {
         tildelBehandling(behovId, email)
+            .then(() => {
+                if (personTilBehandling) tildelPerson(email);
+            })
             .then(() => navigateTo(Location.Sykmeldingsperiode, aktørId))
             .catch((_) => {
                 fetchTildelinger(behov);
@@ -174,7 +187,7 @@ export const Oversikt = () => {
                                         oppgave={oppgave}
                                         tildeling={tildeling}
                                         onAssignCase={onAssignCase}
-                                        onUnassignCase={fjernTildeling}
+                                        onUnassignCase={onUnassignCase}
                                         key={oppgave.spleisbehovId}
                                         antallVarsler={oppgave.antallVarsler}
                                     />

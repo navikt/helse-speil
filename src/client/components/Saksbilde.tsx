@@ -19,6 +19,11 @@ import { Tidslinje } from './Tidslinje';
 import { Error } from '../../types';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { TekniskVarsel } from './TekniskVarsel';
+import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
+import { extractNameFromEmail, capitalizeName } from '../utils/locale';
+import { AuthContext } from '../context/AuthContext';
+import Lenkeknapp from './Lenkeknapp';
+import { TildelingerContext } from '../context/TildelingerContext';
 
 const Container = styled.div`
     display: flex;
@@ -40,6 +45,41 @@ const LasterInnhold = styled.div`
         margin: 0 0.6rem 0;
     }
 `;
+
+const TildelSpinner = styled(NavFrontendSpinner)`
+    margin-left: 1rem;
+`;
+
+const TildelingVarsel = ({ tildeltTil, behovId }: { tildeltTil?: string; behovId: string }) => {
+    const email = useContext(AuthContext).email!;
+    const { tildelBehandling } = useContext(TildelingerContext);
+    const { tildelPerson } = useContext(PersonContext);
+    const [posting, setPosting] = useState(false);
+
+    const tildel = () => {
+        setPosting(true);
+        tildelBehandling(behovId, email)
+            .then(() => tildelPerson(email))
+            .finally(() => setPosting(false));
+    };
+
+    return (
+        <>
+            {tildeltTil ? (
+                tildeltTil !== email ? (
+                    <Varsel type={Varseltype.Info}>
+                        Saken er allerede tildelt til {capitalizeName(extractNameFromEmail(tildeltTil))}
+                    </Varsel>
+                ) : null
+            ) : (
+                <Varsel type={Varseltype.Info}>
+                    Saken er ikke tildelt noen.&nbsp;<Lenkeknapp onClick={tildel}>Tildel meg</Lenkeknapp>
+                    {posting && <TildelSpinner type="XS" />}
+                </Varsel>
+            )}
+        </>
+    );
+};
 
 const TomtSaksbilde = ({ error }: { error?: Error }) => {
     const { isFetching: isFetchingPerson } = useContext(PersonContext);
@@ -66,6 +106,7 @@ const Saksbilde = () => {
     const { aktivVedtaksperiode, personTilBehandling, hentPerson, error: personContextError } = useContext(
         PersonContext
     );
+    const { tildelingError } = useContext(TildelingerContext);
     const [error, setError] = useState<Error | undefined>(personContextError);
 
     useEffect(() => {
@@ -94,6 +135,11 @@ const Saksbilde = () => {
     return (
         <>
             <TekniskVarsel error={error} />
+            <TildelingVarsel
+                tildeltTil={personTilBehandling.tildeltTil}
+                behovId={aktivVedtaksperiode.oppgavereferanse}
+            />
+            {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             <Personlinje />
             <Tidslinje />
             <LoggProvider>

@@ -10,8 +10,12 @@ const get = (key: string, callback: Callback<string>): boolean => {
 };
 
 const set = (key: string, value: string, ...args: any[]): boolean => {
-    cache[key] = value;
     const callback = args[args.length - 1];
+    if (cache[key] !== undefined) {
+        callback(null, 'exists');
+        return false;
+    }
+    cache[key] = value;
     callback(null, 'OK');
     return true;
 };

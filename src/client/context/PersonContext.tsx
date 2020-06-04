@@ -5,6 +5,7 @@ import { Person, Vedtaksperiode } from './types.internal';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;
+    tildelPerson: (email?: string) => void;
     isFetching: boolean;
     innsyn: boolean;
     aktivVedtaksperiode?: Vedtaksperiode;
@@ -25,6 +26,7 @@ interface ProviderProps {
 
 export const PersonContext = createContext<PersonContextType>({
     personTilBehandling: undefined,
+    tildelPerson: (_) => null,
     innsyn: false,
     hentPerson: (_) => Promise.resolve(undefined),
     isFetching: false,
@@ -89,9 +91,14 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         [personTilBehandling]
     );
 
+    const tildelPerson = (email: string) => {
+        setPersonTilBehandling((prev) => ({ ...prev!, tildeltTil: email }));
+    };
+
     const contextValue = useMemo(
         () => ({
             personTilBehandling,
+            tildelPerson,
             hentPerson,
             isFetching,
             error,

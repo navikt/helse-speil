@@ -5,13 +5,39 @@ afterEach(() => {
     jest.clearAllMocks();
 });
 
-const spesialistClient = {
-    hentPersonByAktørId: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('plain person aktørId') }),
-    hentPersonByFødselsnummer: () =>
-        Promise.resolve({ statusCode: 200, body: Promise.resolve('plain person fødselsnummer') }),
-    hentSakByUtbetalingsref: () => Promise.resolve({ statusCode: 200, body: Promise.resolve('utbetalt person') }),
+const plainPerson = {
+    arbeidsgivere: [
+        {
+            vedtaksperioder: [
+                {
+                    oppgavereferanse: '123',
+                },
+            ],
+        },
+    ],
 };
 
+const utbetaltPerson = {
+    arbeidsgivere: [
+        {
+            vedtaksperioder: [
+                {
+                    tilstand: 'Avsluttet',
+                },
+            ],
+        },
+    ],
+};
+
+const spesialistClient = {
+    hentPersonByAktørId: () => Promise.resolve({ statusCode: 200, body: plainPerson }),
+    hentPersonByFødselsnummer: () => Promise.resolve({ statusCode: 200, body: plainPerson }),
+    hentSakByUtbetalingsref: () => Promise.resolve({ statusCode: 200, body: utbetaltPerson }),
+};
+
+const storage = {
+    get: () => Promise.resolve(null),
+};
 const onBehalfOfStub = {
     hentFor: () => Promise.resolve(),
 };
@@ -22,6 +48,7 @@ beforeAll(() => {
     personLookup.setup({
         aktørIdLookup: { hentAktørId: () => hentAktørIdAnswer },
         spesialistClient,
+        storage,
         config: { oidc: {} },
         onBehalfOf: onBehalfOfStub,
     });
@@ -45,7 +72,7 @@ describe('finnPerson', () => {
         await personLookup.finnPerson(baseReq, mockResponse);
 
         const response = await mockResponse.send.mock.calls[0][0].person;
-        expect(response).toBe('plain person aktørId');
+        expect(response).toStrictEqual({ ...plainPerson, tildeltTil: null });
     });
 
     test('finnPerson med innsyn-header kaller spesialistClient.hentSakByUtbetalingsref...', async () => {
@@ -53,7 +80,7 @@ describe('finnPerson', () => {
         await personLookup.finnPerson(reqWithInnsynHeader, mockResponse);
 
         const response = await mockResponse.send.mock.calls[0][0].person;
-        expect(response).toBe('utbetalt person');
+        expect(response).toStrictEqual({ ...utbetaltPerson, tildeltTil: null });
     });
 
     describe('oppslag på fødselsnummer', () => {
@@ -65,7 +92,7 @@ describe('finnPerson', () => {
             await personLookup.finnPerson(reqWithFnr, mockResponse);
 
             const response = await mockResponse.send.mock.calls[0][0].person;
-            expect(response).toBe('plain person fødselsnummer');
+            expect(response).toStrictEqual({ ...plainPerson, tildeltTil: null });
         });
     });
 });

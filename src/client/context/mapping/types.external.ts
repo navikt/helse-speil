@@ -154,6 +154,7 @@ export interface SpesialistPerson {
     navn: PersonNavn;
     infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
     enhet: Enhet;
+    tildeltTil: string | null;
 }
 
 interface Enhet {

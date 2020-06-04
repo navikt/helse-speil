@@ -75,6 +75,7 @@ export const tilPersonMedInfo = (spesialistPerson: SpesialistPerson, personinfo:
     personinfo: personinfo,
     infotrygdutbetalinger: tilInfotrygdutbetalinger(spesialistPerson),
     enhet: spesialistPerson.enhet,
+    tildeltTil: spesialistPerson.tildeltTil ?? undefined,
 });
 
 export const mapPersoninfo = (spleisPersoninfo: SpleisPersoninfo): Personinfo => ({

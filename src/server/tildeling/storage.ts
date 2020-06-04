@@ -3,6 +3,13 @@
 import { promisify } from 'util';
 import { RedisClient } from 'redis';
 
+export interface Storage {
+    init: (client: RedisClient) => void;
+    get: (key: string) => Promise<any>;
+    assignCase: (key: string, value: any) => Promise<any>;
+    getAll: (keys: string[]) => Promise<any[]>;
+    unassignCase: (key: string) => Promise<any>;
+}
 let redisClient: RedisClient | null = null;
 
 const init = (client: RedisClient) => {
@@ -29,10 +36,12 @@ const unassignCase = (key: string) =>
             }
         });
 
-export default {
+const storage: Storage = {
     init,
     get,
     assignCase,
     getAll,
     unassignCase,
 };
+
+export default storage;

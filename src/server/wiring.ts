@@ -1,6 +1,7 @@
 import config from './config';
 import redisClient from './redisClient';
 import devRedisClient from './devRedisClient';
+import storage from './tildeling/storage';
 
 import instrumentationModule from './instrumentation';
 import stsClient from './auth/stsClient';
@@ -17,6 +18,7 @@ import aktørIdLookup from './aktørid/aktørIdLookup';
 import devAktørIdLookup from './aktørid/devAktørIdLookup';
 import spesialistClient from './person/spesialistClient';
 import devSpesialistClient from './adapters/devSpesialistClient';
+
 import { Express } from 'express';
 import { RedisClient } from 'redis';
 
@@ -24,6 +26,7 @@ const getDependencies = (app: Express) =>
     process.env.NODE_ENV === 'development' ? getDevDependencies() : getProdDependencies(app);
 
 const getDevDependencies = () => {
+    storage.init(devRedisClient);
     return {
         person: {
             sparkelClient: devSparkelClient,
@@ -36,11 +39,13 @@ const getDevDependencies = () => {
         },
         payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
         redisClient: devRedisClient,
+        storage,
     };
 };
 
 const getProdDependencies = (app: Express) => {
     const _redisClient: RedisClient = redisClient.init(config.redis);
+    storage.init(devRedisClient);
     aktørIdLookup.init(stsClient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
@@ -58,6 +63,7 @@ const getProdDependencies = (app: Express) => {
         },
         payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
         redisClient: _redisClient,
+        storage,
     };
 };
 

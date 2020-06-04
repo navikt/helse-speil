@@ -6,23 +6,20 @@ import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf } from '../types';
 import { Request, Response } from 'express';
 import dayjs from 'dayjs';
+import { Storage } from '../tildeling/storage';
 
 interface RespondWithParameters {
     res: Response;
     lookupPromise: Promise<any>;
-    mapper: (
-        res: Body
-    ) => {
-        person?: ReadableStream<Uint8Array> | null;
-        behov?: ReadableStream<Uint8Array> | null;
-    };
+    mapper: (res: Body) => Promise<any>;
     operation: string;
     speilUser: string;
 }
 
-interface SetupParameters {
+export interface SetupParameters {
     aktørIdLookup: AktørIdLookup;
     spesialistClient: SpesialistClient;
+    storage: Storage;
     config: AppConfig;
     onBehalfOf: OnBehalfOf;
 }
@@ -30,6 +27,7 @@ interface SetupParameters {
 const personIdHeaderName = 'nav-person-id';
 let aktørIdLookup: AktørIdLookup;
 let spesialistClient: SpesialistClient;
+let storage: Storage;
 let spesialistId: string;
 
 let onBehalfOf: OnBehalfOf;
@@ -37,11 +35,13 @@ let onBehalfOf: OnBehalfOf;
 const setup = ({
     aktørIdLookup: _aktørIdLookup,
     spesialistClient: _spesialistClient,
+    storage: _storage,
     config,
     onBehalfOf: _onBehalfOf,
 }: SetupParameters) => {
     aktørIdLookup = _aktørIdLookup;
     spesialistClient = _spesialistClient;
+    storage = _storage;
     spesialistId = config.oidc.clientIDSpesialist;
     onBehalfOf = _onBehalfOf;
 };
@@ -63,13 +63,22 @@ const finnPerson = async (req: Request, res: Response) => {
         ? spesialistClient.hentPersonByFødselsnummer
         : spesialistClient.hentPersonByAktørId;
 
+    // Hacky siden tildeling skal flyttes til Spesialist
+    const finnTildeling = async (response: Body): Promise<string> => {
+        const person: any = response.body;
+        const oppgavereferanse = person.arbeidsgivere[0].vedtaksperioder.find((v: any) => v.oppgavereferanse)
+            ?.oppgavereferanse;
+
+        return oppgavereferanse ? storage.get(oppgavereferanse) : null;
+    };
+
     return respondWith({
         res,
         lookupPromise: onBehalfOf.hentFor(spesialistId, req.session!.speilToken).then((token: string) => {
             return lookupPromise(undeterminedId, token);
         }),
-        mapper: (response: Body) => ({
-            person: response.body,
+        mapper: async (response: Body) => ({
+            person: { ...response.body, tildeltTil: await finnTildeling(response) },
         }),
         operation: 'finnPerson',
         speilUser: speilUser(req),
@@ -87,7 +96,7 @@ const behovForPeriode = (req: Request, res: Response) => {
         lookupPromise: onBehalfOf
             .hentFor(spesialistId, req.session!.speilToken)
             .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
-        mapper: (response: Body) => ({
+        mapper: async (response: Body) => ({
             behov: response.body,
         }),
         operation: 'oversikt',
@@ -113,12 +122,12 @@ const toAktørId = async (fnr: string) => {
 
 const respondWith = ({ res, lookupPromise, mapper, operation, speilUser }: RespondWithParameters) => {
     return lookupPromise
-        .then((apiResponse) => {
+        .then(async (apiResponse) => {
             if (apiResponse === undefined) {
                 logger.error('[${speilUser}] Unexpected error, missing apiResponse value');
                 res.sendStatus(503);
             } else {
-                res.status(apiResponse.statusCode).send(mapper(apiResponse));
+                res.status(apiResponse.statusCode).send(await mapper(apiResponse));
             }
         })
         .catch((err) => {

@@ -6,4 +6,5 @@ export const enPerson = (arbeidsgivere = [enArbeidsgiver()]) => ({
     navn: { fornavn: 'Kringle', mellomnavn: null, etternavn: 'Krangel' },
     arbeidsgivere: arbeidsgivere,
     enhet: { id: '', navn: '' },
+    tildeltTil: null,
 });
