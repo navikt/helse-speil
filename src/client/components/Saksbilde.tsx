@@ -24,6 +24,7 @@ import { extractNameFromEmail, capitalizeName } from '../utils/locale';
 import { AuthContext } from '../context/AuthContext';
 import Lenkeknapp from './Lenkeknapp';
 import { TildelingerContext } from '../context/TildelingerContext';
+import { Vedtaksperiode } from '../context/types.internal';
 
 const Container = styled.div`
     display: flex;
@@ -63,7 +64,7 @@ const TildelingVarsel = ({ tildeltTil, behovId }: { tildeltTil?: string; behovId
             .finally(() => setPosting(false));
     };
 
-    return (
+    return behovId === undefined ? null : (
         <>
             {tildeltTil ? (
                 tildeltTil !== email ? (
@@ -132,13 +133,14 @@ const Saksbilde = () => {
 
     if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde error={error} />;
 
+    const oppgavereferanse = (personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(
+        (v: Vedtaksperiode) => v.oppgavereferanse && v.oppgavereferanse !== 'null'
+    ) as Vedtaksperiode)?.oppgavereferanse;
+
     return (
         <>
             <TekniskVarsel error={error} />
-            <TildelingVarsel
-                tildeltTil={personTilBehandling.tildeltTil}
-                behovId={aktivVedtaksperiode.oppgavereferanse}
-            />
+            <TildelingVarsel tildeltTil={personTilBehandling.tildeltTil} behovId={oppgavereferanse} />
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             <Personlinje />
             <Tidslinje />
