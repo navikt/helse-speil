@@ -21,7 +21,7 @@ export interface Avvisningskjema {
 export interface Avvisningverdier {
     årsak: Årsak;
     begrunnelser: string[];
-    kommentar: string;
+    kommentar?: string;
 }
 
 export interface SkjemaÅrsak {
@@ -140,7 +140,7 @@ export const useSkjemaState = (): UseSkjemaState => {
     const årsakHarFeil = () => skjemaState.årsak.verdi === Årsak.Ingen;
     const begrunnelseHarFeil = () =>
         skjemaState.årsak.verdi !== Årsak.InfotrygdRiktig && skjemaState.begrunnelser.verdi.length < 1;
-    const kommentarfeiltHarFeil = () => kreverKommentar() && skjemaState.kommentar.verdi.length < 1;
+    const kommentarfeiltHarFeil = () => kreverKommentar() && skjemaState.kommentar.verdi.trim().length < 1;
 
     const setFeil = () => {
         setSkjemaState({
@@ -160,7 +160,7 @@ export const useSkjemaState = (): UseSkjemaState => {
     };
 
     const kreverKommentar = (begrunnelser?: Begrunnelse[]) =>
-        (begrunnelser ? begrunnelser : skjemaState.begrunnelser.verdi).some((value) => value.kreverKommentar);
+        (begrunnelser ?? skjemaState.begrunnelser.verdi).some((value) => value.kreverKommentar);
 
     const clear = () => {
         setSkjemaState(defaulSkjemaState());
@@ -170,7 +170,7 @@ export const useSkjemaState = (): UseSkjemaState => {
         verdier: {
             årsak: skjemaState.årsak.verdi,
             begrunnelser: skjemaState.begrunnelser.verdi.map((v) => v.verdi),
-            kommentar: skjemaState.kommentar.verdi,
+            kommentar: skjemaState.kommentar.verdi.trim().length >= 1 ? skjemaState.kommentar.verdi : undefined,
         },
         skjema: skjemaState,
         årsak: skjemaState.årsak,
