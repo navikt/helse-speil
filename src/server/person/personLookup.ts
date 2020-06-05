@@ -65,8 +65,9 @@ const finnPerson = async (req: Request, res: Response) => {
         const person: any = response.body;
         const oppgavereferanse = person.arbeidsgivere[0].vedtaksperioder.find((v: any) => v.oppgavereferanse)
             ?.oppgavereferanse;
-
-        return oppgavereferanse ? storage.get(oppgavereferanse) : null;
+        const result = oppgavereferanse ? await storage.get(oppgavereferanse) : null;
+        console.log('oppslag på oppgavereferanse:', oppgavereferanse, result);
+        return result;
     };
 
     return respondWith({
