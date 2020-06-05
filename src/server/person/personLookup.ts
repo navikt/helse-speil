@@ -63,11 +63,10 @@ const finnPerson = async (req: Request, res: Response) => {
     // Hacky siden tildeling skal flyttes til Spesialist
     const finnTildeling = async (response: Body): Promise<string> => {
         const person: any = response.body;
-        const oppgavereferanse = person.arbeidsgivere[0].vedtaksperioder.find((v: any) => v.oppgavereferanse)
-            ?.oppgavereferanse;
-        const result = oppgavereferanse ? await storage.get(oppgavereferanse) : null;
-        console.log('oppslag på oppgavereferanse:', oppgavereferanse, result);
-        return result;
+        const oppgavereferanse = person.arbeidsgivere[0].vedtaksperioder.find(
+            (v: any) => v.oppgavereferanse && v.oppgavereferanse !== 'null'
+        )?.oppgavereferanse;
+        return oppgavereferanse ? await storage.get(oppgavereferanse) : null;
     };
 
     return respondWith({
