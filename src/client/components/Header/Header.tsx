@@ -24,9 +24,13 @@ const Header = () => {
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
     const onSøk = (value: string) => {
-        hentPerson(value).then((person: Person) => {
-            navigateTo(Location.Sykmeldingsperiode, person.aktørId);
-        });
+        hentPerson(value)
+            .then((person: Person) => {
+                navigateTo(Location.Sykmeldingsperiode, person.aktørId);
+            })
+            .catch((_) => {
+                /* Error håndtert i hentPerson i PersonContext */
+            });
     };
 
     return (

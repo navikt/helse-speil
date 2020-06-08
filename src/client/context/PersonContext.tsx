@@ -15,8 +15,8 @@ interface PersonContextType {
 
 interface PersonContextError {
     message: string;
-    statusCode: number;
-    technical: string;
+    statusCode?: number;
+    technical?: string;
 }
 
 interface ProviderProps {
@@ -48,6 +48,10 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     }, [personTilBehandling]);
 
     const hentPerson = (value: string) => {
+        if (isNaN(Number(value))) {
+            setError({ message: 'Du kan kun søke på fødselsnummer eller aktør-ID.' });
+            return Promise.reject();
+        }
         setError(undefined);
         setPersonTilBehandling(undefined);
         setIsFetching(true);
@@ -68,7 +72,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                         err.statusCode === 404
                             ? `Fant ikke data for ${value}`
                             : 'Kunne ikke utføre søket. Prøv igjen senere.';
-                    const technical = err.message?.length > 0 ? `Feilmelding til utviklere: ${err.message}` : '';
+                    const technical = err.message?.length > 0 ? `Feilmelding til utviklere: ${err.message}` : undefined;
                     setError({ ...err, message, technical });
                 }
                 return Promise.reject();
