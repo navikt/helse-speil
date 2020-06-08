@@ -416,6 +416,7 @@ export const mappetPerson: Person = {
                     sykepengegrunnlag: {
                         årsinntektFraAording: 372000.0,
                         årsinntektFraInntektsmelding: 372000.0,
+                        sykepengegrunnlag: 372000.0,
                         avviksprosent: 0.0,
                     },
                     oppsummering: {

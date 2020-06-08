@@ -50,6 +50,7 @@ export interface SykepengegrunnlagVilkår {
 }
 
 export interface Sykepengegrunnlag {
+    sykepengegrunnlag?: number;
     avviksprosent?: number;
     årsinntektFraAording?: number;
     årsinntektFraInntektsmelding?: number;

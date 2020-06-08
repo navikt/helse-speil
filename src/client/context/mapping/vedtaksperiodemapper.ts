@@ -6,6 +6,7 @@ import {
     Oppsummering,
     Personinfo,
     Simulering,
+    Sykepengegrunnlag,
     UferdigVedtaksperiode,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
@@ -196,10 +197,11 @@ export const mapVedtaksperiode = (
         },
     ];
 
-    const sykepengegrunnlag = {
+    const sykepengegrunnlag: Sykepengegrunnlag = {
         årsinntektFraAording: unmappedPeriode.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
         årsinntektFraInntektsmelding: somÅrsinntekt(unmappedPeriode.inntektFraInntektsmelding),
         avviksprosent: somProsent(unmappedPeriode.dataForVilkårsvurdering?.avviksprosent),
+        sykepengegrunnlag: vilkår?.sykepengegrunnlag.sykepengegrunnlag,
     };
 
     const oppsummering: Oppsummering = {
