@@ -36,8 +36,6 @@ spec:
   vault:
     enabled: true
     paths:
-      - mountPath: /var/run/secrets/nais.io/vault
-        kvPath: /kv/prod/fss/speil/tbd
       - mountPath: /var/run/secrets/nais.io/azure
         kvPath: /azuread/data/prod/creds/helse-speil
   webproxy: true
@@ -51,7 +49,7 @@ spec:
     - name: DEBUG
       value: global-tunnel
     - name: REDIS_HOST
-      value: speil-redis.default.svc.nais.local
+      value: speil-redis.tbd.svc.nais.local
     - name: REDIS_PORT
       value: '6379'
     - name: AKTOERREGISTER_URL

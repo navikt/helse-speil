@@ -37,8 +37,6 @@ spec:
   vault:
     enabled: true
     paths:
-      - mountPath: /var/run/secrets/nais.io/vault
-        kvPath: /kv/preprod/fss/speil/tbd
       - mountPath: /var/run/secrets/nais.io/azure
         kvPath: /azuread/data/dev/creds/helse-speil
   webproxy: true
@@ -58,6 +56,6 @@ spec:
     - name: AKTOERREGISTER_URL
       value: https://app-q1.adeo.no/aktoerregister
     - name: SPENN_URL
-      value: http://spenn.default.svc.nais.local
+      value: http://spenn.tbd.svc.nais.local
     - name: CLIENT_ID_SPESIALIST
       value: 59a28456-4992-492f-97f2-f03838f23c5b
