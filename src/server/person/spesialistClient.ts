@@ -9,39 +9,39 @@ export interface SpesialistClient {
 export const spesialistClient: SpesialistClient = {
     behandlingerForPeriode: async (fom, tom, onBehalfOfToken) => {
         const options = {
-            uri: `http://spesialist.tbd.svc.cluster.local/api/oppgaver`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/oppgaver`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`,
+                Authorization: `Bearer ${onBehalfOfToken}`
             },
             resolveWithFullResponse: true,
-            json: true,
+            json: true
         };
         return request.get(options);
     },
 
     hentPersonByAktørId: async (aktørId, onBehalfOfToken) => {
         const options = {
-            uri: `http://spesialist.tbd.svc.cluster.local/api/person/aktorId/${aktørId}`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/person/aktorId/${aktørId}`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`,
+                Authorization: `Bearer ${onBehalfOfToken}`
             },
             resolveWithFullResponse: true,
-            json: true,
+            json: true
         };
         return request.get(options);
     },
 
     hentPersonByFødselsnummer: async (fødselsnummer, onBehalfOfToken) => {
         const options = {
-            uri: `http://spesialist.tbd.svc.cluster.local/api/person/fnr/${fødselsnummer}`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/person/fnr/${fødselsnummer}`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`,
+                Authorization: `Bearer ${onBehalfOfToken}`
             },
             resolveWithFullResponse: true,
-            json: true,
+            json: true
         };
         return request.get(options);
-    },
+    }
 };
 
 export default spesialistClient;

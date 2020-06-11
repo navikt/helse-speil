@@ -26,13 +26,13 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf) => ({
     postVedtak: async (params: PostVedtakOptions | PostVedtakAvslåttOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, params.speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.cluster.local/api/vedtak`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/vedtak`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`,
+                Authorization: `Bearer ${onBehalfOfToken}`
             },
             body: params,
-            json: true,
+            json: true
         };
         return request.post(options);
-    },
+    }
 });
