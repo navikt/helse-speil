@@ -27,7 +27,7 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
     }: PostAnnulleringOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.default.svc.nais.local/api/annullering`,
+            uri: `http://spesialist.tbd.svc.cluster.local/api/annullering`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
             body: { aktørId, fødselsnummer, organisasjonsnummer, fagsystemId, saksbehandlerIdent, vedtaksperiodeId },
             json: true,
