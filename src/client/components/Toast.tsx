@@ -9,6 +9,7 @@ interface ToastProps {
 
 const ToastView = styled.div`
     display: flex;
+    z-index: 1000;
     align-items: center;
     position: absolute;
     background: #cde7d8;
