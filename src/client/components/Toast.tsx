@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import styled from '@emotion/styled';
 import GrøntSjekkikon from './Ikon/GrøntSjekkikon';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface ToastProps {
     children?: ReactNode | ReactNode[];
