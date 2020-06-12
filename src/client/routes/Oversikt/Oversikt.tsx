@@ -15,6 +15,7 @@ import Oversiktslinje from './Oversiktslinje';
 import { TekniskVarsel } from '../../components/TekniskVarsel';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import { useLocation } from 'react-router';
+import { SuksessToast } from '../../components/Toast';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -84,6 +85,7 @@ const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler
 export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
+    const location = useLocation<{ toast: string }>();
     const {
         error: personContextError,
         isFetching: isFetchingPersonBySearch,
@@ -152,6 +154,7 @@ export const Oversikt = () => {
 
     return (
         <>
+            {location.state?.toast && <SuksessToast>{location.state.toast}</SuksessToast>}
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             {(isFetchingBehov || !harAlleTildelinger) && (
                 <LasterInnhold>

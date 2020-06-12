@@ -5,10 +5,11 @@ interface GrøntSjekkikonProps {
     width?: number;
     height?: number;
     viewBox?: number;
+    className?: string;
 }
 
-const GrøntSjekkikon = ({ width = 24, height = 24, viewBox = 25 }: GrøntSjekkikonProps) => (
-    <Ikon width={width} height={height} viewBoxSize={viewBox}>
+const GrøntSjekkikon = ({ width = 24, height = 24, viewBox = 25, className }: GrøntSjekkikonProps) => (
+    <Ikon width={width} height={height} viewBoxSize={viewBox} className={className}>
         <path
             d="M12,0 C5.383,0 0,5.30116923 0,11.8153846 C0,18.3296 5.383,23.6307692 12,23.6307692 C18.616,23.6307692 24,18.3296 24,11.8153846 C24,5.30116923 18.616,0 12,0 Z"
             fill="#1C6937"

@@ -1,7 +1,7 @@
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { postVedtak } from '../../io/http';
 import { PersonContext } from '../../context/PersonContext';
 import { AlertStripeAdvarsel, AlertStripeInfo } from 'nav-frontend-alertstriper';
@@ -10,15 +10,11 @@ import { Error } from '../../../types';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
-import { Vedtaksperiodetilstand } from '../../context/types.internal';
+import { Vedtaksperiode, Vedtaksperiodetilstand } from '../../context/types.internal';
 import UtbetalingModal from './modal/UtbetalingModal';
 import AvvinsningModal from './modal/AvvisningModal';
 import { Avvisningverdier } from './modal/useSkjemaState';
-
-enum Beslutning {
-    Godkjent = 'GODKJENT',
-    Avvist = 'AVVIST',
-}
+import { useHistory } from 'react-router';
 
 interface UtbetalingProps {
     className?: string;
@@ -36,16 +32,12 @@ enum Modalvisning {
 
 const Utbetaling = ({ className }: UtbetalingProps) => {
     const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
-    const [isSending, setIsSending] = useState<boolean>(false);
-    const [beslutning, setBeslutning] = useState<Beslutning | undefined>(undefined);
+    const { tilstand } = aktivVedtaksperiode as Vedtaksperiode;
     const [error, setError] = useState<Error | undefined>(undefined);
+    const [isSending, setIsSending] = useState<boolean>(false);
     const [modalvisning, setModalvisning] = useState<Modalvisning>(Modalvisning.Lukket);
-    const [tilstand, setTilstand] = useState<Vedtaksperiodetilstand>(aktivVedtaksperiode!.tilstand);
     const { t } = useTranslation();
-
-    useEffect(() => {
-        if (aktivVedtaksperiode?.tilstand) setTilstand(aktivVedtaksperiode.tilstand);
-    }, [aktivVedtaksperiode?.tilstand]);
+    const history = useHistory();
 
     const fattVedtak = (godkjent: boolean, skjema?: Avvisningverdier) => {
         if (!aktivVedtaksperiode || aktivVedtaksperiode.oppgavereferanse === '' || !personTilBehandling) {
@@ -60,16 +52,16 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
         setIsSending(true);
         postVedtak(oppgavereferanse, personTilBehandling.aktørId, godkjent, skjema)
             .then(() => {
-                setBeslutning(godkjent ? Beslutning.Godkjent : Beslutning.Avvist);
-                setError(undefined);
+                const toast = godkjent
+                    ? 'Utbetalingen er sendt til oppdragsystemet.'
+                    : 'Saken er sendt til behandling i Infotrygd.';
+                history.push('/', { toast });
             })
             .catch((err: Error) => {
                 console.error({ err });
                 setError({
                     message: `Kunne ikke fatte vedtak: ${err.message} (statuskode: ${err.statusCode ?? 'ukjent'})`,
                 });
-            })
-            .finally(() => {
                 setIsSending(false);
                 setModalvisning(Modalvisning.Lukket);
             });
@@ -111,12 +103,6 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
             ) : tilstand === Vedtaksperiodetilstand.Feilet ? (
                 <AlertStripeInfo>Utbetalingen feilet.</AlertStripeInfo>
-            ) : beslutning === Beslutning.Godkjent ||
-              tilstand === Vedtaksperiodetilstand.TilUtbetaling ||
-              tilstand === Vedtaksperiodetilstand.Utbetalt ? (
-                <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
-            ) : beslutning === Beslutning.Avvist || tilstand === Vedtaksperiodetilstand.TilInfotrygd ? (
-                <AlertStripeInfo>Saken er sendt til behandling i Infotrygd.</AlertStripeInfo>
             ) : tilstand === Vedtaksperiodetilstand.Oppgaver ? (
                 <div className="knapperad">
                     <Hovedknapp onClick={() => setModalvisning(Modalvisning.Godkjenning)}>Utbetal</Hovedknapp>
@@ -127,6 +113,8 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                         Behandle i Infotrygd
                     </Knapp>
                 </div>
+            ) : tilstand === Vedtaksperiodetilstand.Utbetalt ? (
+                <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
             ) : (
                 <AlertStripeInfo>Kunne ikke lese informasjon om sakens tilstand.</AlertStripeInfo>
             )}

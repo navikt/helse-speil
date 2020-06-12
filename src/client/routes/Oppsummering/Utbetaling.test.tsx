@@ -21,12 +21,6 @@ describe('Utbetaling viser korrekt informasjon', () => {
         expect(screen.getAllByRole('button')[1]).toHaveTextContent('Behandle i Infotrygd');
     });
 
-    test('Til infotrygd', () => {
-        render(<UtbetalingView vedtaksperiode={vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.TilInfotrygd)} />);
-        expect(screen.getByText('Saken er sendt til behandling i Infotrygd.')).toBeInTheDocument();
-        expect(screen.queryAllByRole('button')).toHaveLength(0);
-    });
-
     test('Utbetalt', () => {
         render(<UtbetalingView vedtaksperiode={vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Utbetalt)} />);
         expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeInTheDocument();
@@ -37,18 +31,6 @@ describe('Utbetaling viser korrekt informasjon', () => {
         render(<UtbetalingView vedtaksperiode={vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Avslag)} />);
         expect(screen.getByText('Utbetalingen er sendt til annullering.')).toBeInTheDocument();
         expect(screen.queryAllByRole('button')).toHaveLength(0);
-    });
-
-    test('Etter godkjenning vises kvittering', () => {
-        render(<UtbetalingView />);
-        const utbetalknapp = screen.getByText('Utbetal');
-        expect(utbetalknapp).toBeInTheDocument();
-
-        fireEvent.click(utbetalknapp);
-        fireEvent.click(screen.getByText('Ja'));
-        waitFor(() => {
-            expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeInTheDocument();
-        });
     });
 });
 
