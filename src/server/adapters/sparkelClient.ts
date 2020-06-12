@@ -8,7 +8,7 @@ export interface SparkelClient {
 export const sparkelClient: SparkelClient = {
     hentPersoninfo: (aktørId: string, token: string) => {
         const options = {
-            uri: `http://sparkel.tbd.svc.nais.local/api/person/${aktørId}`,
+            uri: `http://sparkel.default.svc.nais.local/api/person/${aktørId}`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
