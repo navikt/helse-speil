@@ -55,7 +55,5 @@ spec:
       value: '6379'
     - name: AKTOERREGISTER_URL
       value: https://app-q1.adeo.no/aktoerregister
-    - name: SPENN_URL
-      value: http://spenn.tbd.svc.nais.local
     - name: CLIENT_ID_SPESIALIST
       value: 59a28456-4992-492f-97f2-f03838f23c5b

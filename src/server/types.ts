@@ -43,7 +43,6 @@ export interface NavConfig {
     serviceUserPassword?: string;
     stsUrl: string;
     aktoerregisterUrl?: string;
-    spennUrl: string;
 }
 
 export type OnBehalfOf = { hentFor: (tjenesteId: string, token: string) => Promise<string> };
