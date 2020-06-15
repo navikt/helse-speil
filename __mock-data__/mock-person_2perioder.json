@@ -11,6 +11,20 @@
             "organisasjonsnummer": "987654321",
             "id": "300061b8-77ec-43f5-be5f-c788eb067a9a",
             "navn": "Vårt Fedreland",
+            "risikovurderinger": [
+                {
+                    "vedtaksperiodeId": "956189c8-a904-40e7-b1e1-eab46e997ddb",
+                    "samletScore": 9,
+                    "begrunnelser": ["går for ofte med solbriller", "hva skjer med tweed"],
+                    "ufullstendig": false
+                },
+                {
+                    "vedtaksperiodeId": "3e93bfad-5422-46d7-9d26-64cd1f5350a9",
+                    "samletScore": 8,
+                    "begrunnelser": ["en begrunnelse", "hvor mange båter har hun sa du?"],
+                    "ufullstendig": false
+                }
+            ],
             "vedtaksperioder": [
                 {
                     "id": "956189c8-a904-40e7-b1e1-eab46e997ddb",

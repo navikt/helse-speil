@@ -6,7 +6,7 @@ import { Kjønn, Vedtaksperiode, Vedtaksperiodetilstand } from '../../context/ty
 import { Avvisningverdier } from './modal/useSkjemaState';
 import '../../tekster';
 
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { createMemoryHistory } from 'history';
 import React from 'react';
@@ -53,7 +53,7 @@ const UtbetalingView = ({ vedtaksperiode = enSpeilVedtaksperiode() }: { vedtaksp
 
 const vedtaksperiodeMedTilstand = (tilstand: Vedtaksperiodetilstand) => ({ ...enSpeilVedtaksperiode(), tilstand });
 
-const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), enPersoninfo(), '123456789');
+const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), enPersoninfo(), '123456789', []);
 const enPersoninfo = () => ({
     kjønn: 'Mann' as Kjønn,
     fødselsdato: dayjs(),

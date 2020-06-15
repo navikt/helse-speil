@@ -3,7 +3,15 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { InfotrygdTypetekst, Infotrygdutbetaling, Kjønn, Person, Personinfo, Vedtaksperiode } from '../types.internal';
+import {
+    InfotrygdTypetekst,
+    Infotrygdutbetaling,
+    Kjønn,
+    Person,
+    Personinfo,
+    UferdigVedtaksperiode,
+    Vedtaksperiode,
+} from '../types.internal';
 import { Personinfo as SpleisPersoninfo } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
 import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpesialistVedtaksperiode } from './types.external';
@@ -17,9 +25,14 @@ const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf
 
 const tilArbeidsgivere = (person: SpesialistPerson, personinfo: Personinfo) =>
     person.arbeidsgivere.map((arbeidsgiver) => {
-        const tilVedtaksperiode = (periode: SpesialistVedtaksperiode) => {
+        const tilVedtaksperiode = (periode: SpesialistVedtaksperiode): UferdigVedtaksperiode | Vedtaksperiode => {
             if (periode.fullstendig) {
-                return mapVedtaksperiode(periode, personinfo, arbeidsgiver.organisasjonsnummer);
+                return mapVedtaksperiode(
+                    periode,
+                    personinfo,
+                    arbeidsgiver.organisasjonsnummer,
+                    arbeidsgiver.risikovurderinger ?? []
+                );
             } else {
                 return mapUferdigVedtaksperiode(periode);
             }

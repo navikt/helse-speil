@@ -4,8 +4,8 @@ import { Loggvisning } from '@navikt/helse-frontend-logg';
 
 const Container = styled.div`
     flex: 1;
-    width: 250px;
-    max-width: 250px;
+    width: 314px;
+    max-width: 314px;
     border-left: 1px solid #c6c2bf;
 
     > ul {

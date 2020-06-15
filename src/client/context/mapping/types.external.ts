@@ -135,18 +135,6 @@ export interface SpleisInntektsmelding extends SpleisHendelse {
     beregnetInntekt: number;
 }
 
-export interface SpleisArbeidsgiver {
-    id: string;
-    organisasjonsnummer: string;
-    vedtaksperioder: SpesialistVedtaksperiode[];
-}
-
-export interface SpleisPerson {
-    aktørId: string;
-    fødselsnummer: string;
-    arbeidsgivere: SpleisArbeidsgiver[];
-}
-
 export interface SpesialistPerson {
     aktørId: string;
     fødselsnummer: string;
@@ -162,11 +150,20 @@ interface Enhet {
     navn: string;
 }
 
+export interface SpesialistRisikovurdering {
+    vedtaksperiodeId: string;
+    opprettet: string; // date time
+    samletScore: number;
+    begrunnelser: string[];
+    ufullstendig: boolean;
+}
+
 export interface SpesialistArbeidsgiver {
     id: string;
     organisasjonsnummer: string;
     vedtaksperioder: SpesialistVedtaksperiode[];
     navn: string;
+    risikovurderinger: SpesialistRisikovurdering[];
 }
 
 export interface SpleisDataForVilkårsvurdering {

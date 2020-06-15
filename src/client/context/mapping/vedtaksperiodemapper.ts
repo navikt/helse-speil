@@ -5,6 +5,7 @@ import {
     Kildetype,
     Oppsummering,
     Personinfo,
+    Risikovurdering,
     Simulering,
     Sykepengegrunnlag,
     UferdigVedtaksperiode,
@@ -13,6 +14,7 @@ import {
 } from '../types.internal';
 import dayjs, { Dayjs } from 'dayjs';
 import {
+    SpesialistRisikovurdering,
     SpesialistVedtaksperiode,
     SpleisDataForSimulering,
     SpleisForlengelseFraInfotrygd,
@@ -174,7 +176,8 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
 export const mapVedtaksperiode = (
     unmappedPeriode: SpesialistVedtaksperiode,
     personinfo: Personinfo,
-    organisasjonsnummer: string
+    organisasjonsnummer: string,
+    risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[]
 ): Vedtaksperiode => {
     const somProsent = (avviksprosent: number): number => avviksprosent * 100;
     const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined =>
@@ -218,6 +221,10 @@ export const mapVedtaksperiode = (
     }));
 
     const forlengelseFraInfotrygd = mapForlengelseFraInfotrygd(unmappedPeriode.forlengelseFraInfotrygd);
+
+    const risikovurdering: Risikovurdering | undefined = risikovurderingerForArbeidsgiver
+        .map((risikovurdering) => ({ ...risikovurdering, opprettet: somTidspunkt(risikovurdering.opprettet) }))
+        .find((risikovurdering) => risikovurdering.vedtaksperiodeId === unmappedPeriode.id);
 
     return {
         id: unmappedPeriode.id,
@@ -264,6 +271,7 @@ export const mapVedtaksperiode = (
             : undefined,
         hendelser: unmappedPeriode.hendelser.map(tilHendelse),
         aktivitetslog: aktivitetslogg,
+        risikovurdering: risikovurdering,
         rawData: unmappedPeriode,
     };
 };

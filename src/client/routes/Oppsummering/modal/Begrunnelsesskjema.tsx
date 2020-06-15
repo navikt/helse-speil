@@ -47,6 +47,7 @@ export const Begrunnelsesskjema = ({
         { verdi: 'Sykepengegrunnlag beregnet feil', kreverKommentar: false },
         { verdi: 'Inntektskilder og/eller ytelser tas ikke med i beregningen', kreverKommentar: false },
         { verdi: 'Vilkår om Lovvalg og medlemskap er ikke oppfylt', kreverKommentar: false },
+        { verdi: 'Faresignaler påvirket utfallet av saken', kreverKommentar: false },
         { verdi: 'Annet', kreverKommentar: true },
     ];
 

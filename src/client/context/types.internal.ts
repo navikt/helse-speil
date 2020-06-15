@@ -99,6 +99,14 @@ export interface Inntektsmelding {
     mottattTidspunkt: Dayjs;
 }
 
+export interface Risikovurdering {
+    vedtaksperiodeId: string;
+    opprettet: Dayjs;
+    samletScore: number;
+    begrunnelser: string[];
+    ufullstendig: boolean;
+}
+
 export type Hendelse = Søknad | Sykmelding | Inntektsmelding;
 
 export enum Dagtype {
@@ -170,6 +178,7 @@ export interface Vedtaksperiode {
     simuleringsdata?: Simulering;
     hendelser: Hendelse[];
     aktivitetslog: Aktivitet[];
+    risikovurdering?: Risikovurdering;
     rawData: SpesialistVedtaksperiode;
 }
 

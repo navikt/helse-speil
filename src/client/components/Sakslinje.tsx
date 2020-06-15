@@ -13,7 +13,7 @@ const StyledSakslinje = styled(Sakslinje)`
         width: 250px;
     }
     > div:last-of-type {
-        width: 210px;
+        width: 274px;
     }
 `;
 

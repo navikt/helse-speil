@@ -7,7 +7,7 @@ import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiodemapper';
 import dayjs from 'dayjs';
 import { Kjønn } from '../../context/types.internal';
 
-const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), enPersoninfo(), '123456789');
+const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), enPersoninfo(), '123456789', []);
 
 const enPersoninfo = () => ({
     kjønn: 'Mann' as Kjønn,
