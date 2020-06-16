@@ -13,14 +13,14 @@ interface ProviderProps {
 
 interface BehovoversiktContextType {
     behov: Oppgave[];
-    hentBehov: () => void;
+    hentBehov: () => Promise<Oppgave[]>;
     isFetchingBehov: boolean;
     error?: Error;
 }
 
 export const BehovContext = createContext<BehovoversiktContextType>({
     behov: [],
-    hentBehov: () => {},
+    hentBehov: () => Promise.resolve([]),
     isFetchingBehov: false,
 });
 
@@ -32,7 +32,10 @@ export const BehovProvider = ({ children }: ProviderProps) => {
     const hentBehov = () => {
         setIsFetchingBehov(true);
         return fetchBehov()
-            .then((response) => setBehov(response.data.behov))
+            .then((response) => {
+                setBehov(response.data.behov);
+                return response.data.behov;
+            })
             .catch((err) => {
                 if (!err.statusCode) console.error(err);
                 if (err.statusCode !== 401) {

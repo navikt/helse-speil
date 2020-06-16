@@ -100,13 +100,7 @@ export const Oversikt = () => {
     const harAlleTildelinger = tildelinger.length == behov.length;
 
     useEffect(() => {
-        if (!harAlleTildelinger) {
-            fetchTildelinger(behov);
-        }
-    }, [behov]);
-
-    useEffect(() => {
-        hentBehov();
+        hentBehov().then((nyeBehov) => fetchTildelinger(nyeBehov));
     }, []);
 
     const toggleSortDirection = () =>
