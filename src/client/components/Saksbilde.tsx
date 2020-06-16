@@ -16,15 +16,14 @@ import { PersonContext } from '../context/PersonContext';
 import { Location, useNavigation } from '../hooks/useNavigation';
 import Toppvarsler from './Toppvarsler';
 import { Tidslinje } from './Tidslinje';
-import { Error } from '../../types';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { TekniskVarsel } from './TekniskVarsel';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { extractNameFromEmail, capitalizeName } from '../utils/locale';
 import { AuthContext } from '../context/AuthContext';
 import Lenkeknapp from './Lenkeknapp';
 import { TildelingerContext } from '../context/TildelingerContext';
 import { Vedtaksperiode } from '../context/types.internal';
+import { useVarselFilter, useVarsler, Scopes } from '../state/varslerState';
 
 const Container = styled.div`
     display: flex;
@@ -82,11 +81,10 @@ const TildelingVarsel = ({ tildeltTil, behovId }: { tildeltTil?: string; behovId
     );
 };
 
-const TomtSaksbilde = ({ error }: { error?: Error }) => {
+const TomtSaksbilde = () => {
     const { isFetching: isFetchingPerson } = useContext(PersonContext);
     return (
         <>
-            <TekniskVarsel error={error} />
             {isFetchingPerson && (
                 <LasterInnhold>
                     <NavFrontendSpinner type="XS" />
@@ -104,26 +102,29 @@ const TomtSaksbilde = ({ error }: { error?: Error }) => {
 
 const Saksbilde = () => {
     const { toString } = useNavigation();
-    const { aktivVedtaksperiode, personTilBehandling, hentPerson, error: personContextError } = useContext(
-        PersonContext
-    );
+    const { aktivVedtaksperiode, personTilBehandling, hentPerson } = useContext(PersonContext);
     const { tildelingError } = useContext(TildelingerContext);
-    const [error, setError] = useState<Error | undefined>(personContextError);
-
-    useEffect(() => {
-        setError(personContextError);
-    }, [personContextError]);
+    useVarselFilter(Scopes.SAKSBILDE);
+    const { leggTilVarsel } = useVarsler();
 
     useEffect(() => {
         if (location.pathname.match(/\//g)!.length < 2) {
-            setError({ statusCode: 1, message: `'${location.pathname}' er ikke en gyldig URL.` });
+            leggTilVarsel({
+                message: `'${location.pathname}' er ikke en gyldig URL.`,
+                scope: Scopes.SAKSBILDE,
+                type: Varseltype.Feil,
+            });
             return;
         }
 
         const sisteDelAvPath = location.pathname.match(/[^/]*$/)![0];
         const aktørId = sisteDelAvPath.match(/^\d{1,15}$/);
         if (!aktørId) {
-            setError({ statusCode: 1, message: `'${sisteDelAvPath}' er ikke en gyldig aktør-ID.` });
+            leggTilVarsel({
+                message: `'${sisteDelAvPath}' er ikke en gyldig aktør-ID.`,
+                scope: Scopes.SAKSBILDE,
+                type: Varseltype.Feil,
+            });
             return;
         }
         if (!personTilBehandling || aktørId[0] !== personTilBehandling.aktørId) {
@@ -131,7 +132,7 @@ const Saksbilde = () => {
         }
     }, [location.pathname]);
 
-    if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde error={error} />;
+    if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde />;
 
     const oppgavereferanse = (personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(
         (v: Vedtaksperiode) => v.oppgavereferanse && v.oppgavereferanse !== 'null'
@@ -139,7 +140,6 @@ const Saksbilde = () => {
 
     return (
         <>
-            <TekniskVarsel error={error} />
             <TildelingVarsel tildeltTil={personTilBehandling.tildeltTil} behovId={oppgavereferanse} />
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             <Personlinje />

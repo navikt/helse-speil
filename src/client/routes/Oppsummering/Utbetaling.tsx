@@ -15,6 +15,8 @@ import UtbetalingModal from './modal/UtbetalingModal';
 import AvvinsningModal from './modal/AvvisningModal';
 import { Avvisningverdier } from './modal/useSkjemaState';
 import { useHistory } from 'react-router';
+import { useSetRecoilState } from 'recoil';
+import { toastState } from '../../state/toastState';
 
 interface UtbetalingProps {
     className?: string;
@@ -38,6 +40,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const [modalvisning, setModalvisning] = useState<Modalvisning>(Modalvisning.Lukket);
     const { t } = useTranslation();
     const history = useHistory();
+    const setToast = useSetRecoilState(toastState);
 
     const fattVedtak = (godkjent: boolean, skjema?: Avvisningverdier) => {
         if (!aktivVedtaksperiode || aktivVedtaksperiode.oppgavereferanse === '' || !personTilBehandling) {
@@ -55,7 +58,8 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 const toast = godkjent
                     ? 'Utbetalingen er sendt til oppdragsystemet.'
                     : 'Saken er sendt til behandling i Infotrygd.';
-                history.push('/', { toast });
+                setToast(toast);
+                history.push('/');
             })
             .catch((err: Error) => {
                 console.error({ err });

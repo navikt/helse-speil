@@ -12,10 +12,9 @@ import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersonContext } from '../../context/PersonContext';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
 import Oversiktslinje from './Oversiktslinje';
-import { TekniskVarsel } from '../../components/TekniskVarsel';
 import { Location, useNavigation } from '../../hooks/useNavigation';
-import { useLocation } from 'react-router';
 import { SuksessToast } from '../../components/Toast';
+import { useVarselFilter, Scopes } from '../../state/varslerState';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -85,17 +84,12 @@ const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler
 export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
-    const location = useLocation<{ toast: string }>();
-    const {
-        error: personContextError,
-        isFetching: isFetchingPersonBySearch,
-        personTilBehandling,
-        tildelPerson,
-    } = useContext(PersonContext);
+    const { isFetching: isFetchingPersonBySearch, personTilBehandling, tildelPerson } = useContext(PersonContext);
     const { behov, hentBehov, isFetchingBehov, error: behovContextError } = useContext(BehovContext);
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
+    useVarselFilter(Scopes.OVERSIKT);
     const [sortDirection, setSortDirection] = useState<(a: Oppgave, b: Oppgave) => number>(() => ascending);
     const harAlleTildelinger = tildelinger.length == behov.length;
 
@@ -148,7 +142,7 @@ export const Oversikt = () => {
 
     return (
         <>
-            {location.state?.toast && <SuksessToast>{location.state.toast}</SuksessToast>}
+            <SuksessToast />
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             {(isFetchingBehov || !harAlleTildelinger) && (
                 <LasterInnhold>
@@ -162,7 +156,6 @@ export const Oversikt = () => {
                     Henter person
                 </LasterInnhold>
             )}
-            <TekniskVarsel error={personContextError} />
             {behovContextError && <Varsel type={Varseltype.Feil}>{behovContextError.message}</Varsel>}
             <Container border>
                 <Undertittel>{t('oversikt.tittel')}</Undertittel>

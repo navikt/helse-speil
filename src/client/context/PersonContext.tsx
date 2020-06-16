@@ -2,6 +2,8 @@ import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useS
 import { tilPerson } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from './types.internal';
+import { Scopes, useVarsler } from '../state/varslerState';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;
@@ -10,13 +12,6 @@ interface PersonContextType {
     aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
     personTilBehandling?: Person;
-    error?: PersonContextError;
-}
-
-interface PersonContextError {
-    message: string;
-    statusCode?: number;
-    technical?: string;
 }
 
 interface ProviderProps {
@@ -33,7 +28,7 @@ export const PersonContext = createContext<PersonContextType>({
 
 export const PersonProvider = ({ children }: ProviderProps) => {
     const [personTilBehandling, setPersonTilBehandling] = useState<Person>();
-    const [error, setError] = useState<PersonContextError | undefined>();
+    const { leggTilVarsel, fjernVarsler } = useVarsler();
     const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
     const [isFetching, setIsFetching] = useState(false);
 
@@ -49,10 +44,14 @@ export const PersonProvider = ({ children }: ProviderProps) => {
 
     const hentPerson = (value: string) => {
         if (isNaN(Number(value))) {
-            setError({ message: 'Du kan kun søke på fødselsnummer eller aktør-ID.' });
+            leggTilVarsel({
+                message: 'Du kan kun søke på fødselsnummer eller aktør-ID.',
+                scope: Scopes.GLOBAL,
+                type: Varseltype.Advarsel,
+            });
             return Promise.reject();
         }
-        setError(undefined);
+        fjernVarsler();
         setPersonTilBehandling(undefined);
         setIsFetching(true);
         return fetchPerson(value)
@@ -73,7 +72,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                             ? `Fant ikke data for ${value}`
                             : 'Kunne ikke utføre søket. Prøv igjen senere.';
                     const technical = err.message?.length > 0 ? `Feilmelding til utviklere: ${err.message}` : undefined;
-                    setError({ ...err, message, technical });
+                    leggTilVarsel({ ...err, message, technical, type: Varseltype.Advarsel });
                 }
                 return Promise.reject();
             })
@@ -100,11 +99,10 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             tildelPerson,
             hentPerson,
             isFetching,
-            error,
             aktivVedtaksperiode,
             aktiverVedtaksperiode,
         }),
-        [personTilBehandling, error, aktivVedtaksperiode, isFetching]
+        [personTilBehandling, aktivVedtaksperiode, isFetching]
     );
 
     return useMemo(() => <PersonContext.Provider value={contextValue}>{children}</PersonContext.Provider>, [

@@ -2,6 +2,8 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import GrøntSjekkikon from './Ikon/GrøntSjekkikon';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useRecoilState } from 'recoil';
+import { toastState } from '../state/toastState';
 
 interface ToastProps {
     children?: ReactNode | ReactNode[];
@@ -26,24 +28,30 @@ const SuksessIkon = styled(GrøntSjekkikon)`
     margin-right: 0.5rem;
 `;
 
-export const SuksessToast = ({ children }: ToastProps) => (
+export const SuksessToast = () => (
     <Toast>
         <SuksessIkon />
-        {children}
     </Toast>
 );
 
 export const Toast = ({ children }: ToastProps) => {
     const [showing, setShowing] = useState(false);
+    const [toast, setToast] = useRecoilState(toastState);
 
     useEffect(() => {
-        if (children) {
+        let timeouter: any;
+        if (toast) {
             setShowing(true);
-            setTimeout(() => {
+            timeouter = setTimeout(() => {
                 setShowing(false);
+                setToast(undefined);
             }, 5000);
         }
-    }, [children]);
+        return () => {
+            setToast(undefined);
+            clearTimeout(timeouter);
+        };
+    }, [toast]);
 
     return (
         <AnimatePresence>
@@ -57,6 +65,7 @@ export const Toast = ({ children }: ToastProps) => {
                 >
                     <ToastView role="alert" aria-live="polite">
                         {children}
+                        {toast}
                     </ToastView>
                 </motion.div>
             )}
