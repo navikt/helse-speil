@@ -10,6 +10,7 @@
             "etternavn": "Harald"
         },
         "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87",
+        "type": "FØRSTEGANGSBEHANDLING",
         "antallVarsler": 2
     },
     {
@@ -23,6 +24,7 @@
             "etternavn": "Sonja"
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171",
+        "type": "FORLENGELSE",
         "antallVarsler": 0
     },
     {
@@ -36,6 +38,7 @@
             "etternavn": "Haakon"
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172",
+        "type": "FORLENGELSE",
         "antallVarsler": 1
     },
     {
@@ -49,6 +52,7 @@
             "etternavn": "Alexandra"
         },
         "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
+        "type": "INFOTRYGDFORLENGELSE",
         "antallVarsler": 0
     }
 ]

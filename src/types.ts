@@ -25,6 +25,7 @@ export interface Oppgave {
     fødselsnummer: string;
     aktørId: string;
     antallVarsler: number;
+    type: string;
 }
 
 export interface Error {

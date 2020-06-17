@@ -78,8 +78,29 @@ const LasterInnhold = styled.div`
     }
 `;
 
-const ascending = (a: Oppgave, b: Oppgave) => a.antallVarsler - b.antallVarsler;
-const descending = (a: Oppgave, b: Oppgave) => b.antallVarsler - a.antallVarsler;
+const typetekst = (type: string) => {
+    switch (type) {
+        case 'FORLENGELSE':
+            return 'Forlengelse';
+        case 'INFOTRYGDFORLENGELSE':
+            return 'Forlengelse - IT';
+        case 'FØRSTEGANGSBEHANDLING':
+            return 'Førstegang.';
+        default:
+            return '';
+    }
+};
+
+const ascending = (a: Oppgave, b: Oppgave) => {
+    const sortertPåType = typetekst(a.type).localeCompare(typetekst(b.type));
+    if (sortertPåType !== 0) return sortertPåType;
+    return a.antallVarsler - b.antallVarsler;
+};
+const descending = (a: Oppgave, b: Oppgave) => {
+    const sortertPåType = typetekst(b.type).localeCompare(typetekst(a.type));
+    if (sortertPåType !== 0) return sortertPåType;
+    return b.antallVarsler - a.antallVarsler;
+};
 
 export const Oversikt = () => {
     const { t } = useTranslation();
@@ -180,6 +201,7 @@ export const Oversikt = () => {
                                         onUnassignCase={onUnassignCase}
                                         key={oppgave.spleisbehovId}
                                         antallVarsler={oppgave.antallVarsler}
+                                        typetekst={typetekst(oppgave.type)}
                                     />
                                 );
                             })}

@@ -19,6 +19,7 @@ interface Props {
     onAssignCase: (id: string, aktørId: string, email?: string) => void;
     tildeling?: Tildeling;
     antallVarsler: number;
+    typetekst: string;
 }
 
 const FlexContainer = styled.span`
@@ -63,7 +64,7 @@ const StatusCell = styled(Cell)`
     width: 15%;
 `;
 
-const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, antallVarsler }: Props) => {
+const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, antallVarsler, typetekst }: Props) => {
     const { email } = useContext(AuthContext);
     const { pathForLocation } = useNavigation();
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
@@ -117,11 +118,14 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
         }
     };
 
-    const Status = () => (
-        <StatusCell>
-            <Element>{varseltekst(antallVarsler)}</Element>
-        </StatusCell>
-    );
+    const Status = () => {
+        const status = [typetekst, varseltekst(antallVarsler)].filter(Boolean).join(', ');
+        return (
+            <StatusCell>
+                <Element>{status}</Element>
+            </StatusCell>
+        );
+    };
 
     return useMemo(
         () => (
