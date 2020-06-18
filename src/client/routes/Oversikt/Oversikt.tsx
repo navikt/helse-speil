@@ -78,6 +78,12 @@ const LasterInnhold = styled.div`
     }
 `;
 
+const ascendingOpprettet = (a: Oppgave, b: Oppgave) =>
+    new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
+
+const descendingOpprettet = (a: Oppgave, b: Oppgave) =>
+    new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime();
+
 const typetekst = (type: string) => {
     switch (type) {
         case 'FORLENGELSE':
@@ -90,17 +96,17 @@ const typetekst = (type: string) => {
             return '';
     }
 };
-
-const ascending = (a: Oppgave, b: Oppgave) => {
-    const sortertPåType = typetekst(a.type).localeCompare(typetekst(b.type));
-    if (sortertPåType !== 0) return sortertPåType;
-    return a.antallVarsler - b.antallVarsler;
-};
-const descending = (a: Oppgave, b: Oppgave) => {
-    const sortertPåType = typetekst(b.type).localeCompare(typetekst(a.type));
-    if (sortertPåType !== 0) return sortertPåType;
-    return b.antallVarsler - a.antallVarsler;
-};
+//
+// const ascending = (a: Oppgave, b: Oppgave) => {
+//     const sortertPåType = typetekst(a.type).localeCompare(typetekst(b.type));
+//     if (sortertPåType !== 0) return sortertPåType;
+//     return a.antallVarsler - b.antallVarsler;
+// };
+// const descending = (a: Oppgave, b: Oppgave) => {
+//     const sortertPåType = typetekst(b.type).localeCompare(typetekst(a.type));
+//     if (sortertPåType !== 0) return sortertPåType;
+//     return b.antallVarsler - a.antallVarsler;
+// };
 
 export const Oversikt = () => {
     const { t } = useTranslation();
@@ -111,7 +117,7 @@ export const Oversikt = () => {
         TildelingerContext
     );
     useVarselFilter(Scopes.OVERSIKT);
-    const [sortDirection, setSortDirection] = useState<(a: Oppgave, b: Oppgave) => number>(() => ascending);
+    const [sortDirection, setSortDirection] = useState<(a: Oppgave, b: Oppgave) => number>(() => descendingOpprettet);
     const harAlleTildelinger = tildelinger.length == behov.length;
 
     useEffect(() => {
@@ -119,7 +125,7 @@ export const Oversikt = () => {
     }, []);
 
     const toggleSortDirection = () =>
-        setSortDirection(sortDirection === descending ? () => ascending : () => descending);
+        setSortDirection(sortDirection === descendingOpprettet ? () => ascendingOpprettet : () => descendingOpprettet);
 
     const Søker = () => (
         <Header>
@@ -128,7 +134,10 @@ export const Oversikt = () => {
     );
     const Opprettet = () => (
         <Header>
-            <Undertekst role={'columnheader'}>{t('oversikt.opprettet')}</Undertekst>
+            <Sorteringsknapp onClick={toggleSortDirection}>
+                <Undertekst role={'columnheader'}>{t('oversikt.opprettet')}</Undertekst>
+                <Sorteringspiler direction={sortDirection === descendingOpprettet ? 'descending' : 'ascending'} />
+            </Sorteringsknapp>
         </Header>
     );
     const Tildeling = () => (
@@ -138,10 +147,7 @@ export const Oversikt = () => {
     );
     const Status = () => (
         <Header>
-            <Sorteringsknapp onClick={toggleSortDirection}>
-                <Undertekst>Status</Undertekst>
-                <Sorteringspiler direction={sortDirection === descending ? 'descending' : 'ascending'} />
-            </Sorteringsknapp>
+            <Undertekst>Status</Undertekst>
         </Header>
     );
 
