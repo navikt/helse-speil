@@ -37,10 +37,10 @@ const LasterInnhold = styled.div`
 `;
 
 const ascendingOpprettet = (a: Oppgave, b: Oppgave) =>
-    new Date(a.antallVarsler).getTime() - new Date(b.antallVarsler).getTime();
+    new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
 
 const descendingOpprettet = (a: Oppgave, b: Oppgave) =>
-    new Date(b.antallVarsler).getTime() - new Date(a.antallVarsler).getTime();
+    new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime();
 
 export const Oversikt = () => {
     const { t } = useTranslation();
