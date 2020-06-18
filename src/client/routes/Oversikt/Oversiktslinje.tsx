@@ -9,7 +9,7 @@ import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import AlternativerKnapp from '../../components/AlternativerKnapp';
-import { Cell, FlexCelleinnhold, Row } from './Oversikt.styles';
+import { Cell, Flex, Row } from './Oversikt.styles';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import { Link } from 'react-router-dom';
 import { Oppgaveetikett } from './Oppgaveetikett';
@@ -42,8 +42,8 @@ interface TildeltProps {
 }
 
 const Tildelt = ({ innloggetBrukerNavn, erTildeltInnloggetBruker, onFjernTildeling }: TildeltProps) => (
-    <Cell widthInPixels={200}>
-        <FlexCelleinnhold>
+    <Cell>
+        <Flex>
             <Normaltekst>{innloggetBrukerNavn}</Normaltekst>
             {erTildeltInnloggetBruker && (
                 <Tildelingsalternativ>
@@ -52,7 +52,7 @@ const Tildelt = ({ innloggetBrukerNavn, erTildeltInnloggetBruker, onFjernTildeli
                     </MeldAvKnapp>
                 </Tildelingsalternativ>
             )}
-        </FlexCelleinnhold>
+        </Flex>
     </Cell>
 );
 
@@ -61,7 +61,7 @@ interface IkkeTildeltProps {
 }
 
 const IkkeTildelt = ({ onTildel }: IkkeTildeltProps) => (
-    <Cell widthInPixels={200}>
+    <Cell>
         <Knapp mini onClick={onTildel}>
             Tildel meg
         </Knapp>
@@ -74,7 +74,7 @@ interface SøkerProps {
 }
 
 const Søker = ({ navn, link }: SøkerProps) => (
-    <Cell widthInPixels={265}>
+    <Cell>
         <Link className="lenke" to={link}>
             {navn}
         </Link>
@@ -86,7 +86,7 @@ interface TypeProps {
 }
 
 const Type = ({ type }: TypeProps) => (
-    <Cell widthInPixels={200}>
+    <Cell>
         <Oppgaveetikett type={type} />
     </Cell>
 );
@@ -119,7 +119,7 @@ const Varsler = ({ antallVarsler }: StatusProps) => {
         }
     };
     return (
-        <Cell widthInPixels={200}>
+        <Cell>
             <Element>{varseltekst(antallVarsler)}</Element>
         </Cell>
     );

@@ -35,7 +35,7 @@ export const Cell = styled.td`
     min-width: max-content;
     vertical-align: middle;
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: hidden;
 
     &:not(:last-of-type) {
         padding-right: 1rem;
@@ -47,7 +47,7 @@ export const Cell = styled.td`
     }}
 `;
 
-export const FlexCelleinnhold = styled.span`
+export const Flex = styled.span`
     display: flex;
     align-items: center;
 `;
