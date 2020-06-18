@@ -16,14 +16,14 @@
                     "id": "02011154-5d09-4895-b4bc-fb86d3661216",
                     "gruppeId": "aaaabbbb-36c5-47d7-a736-0d1ef707538d",
                     "fom": "2020-01-01",
-                    "tom": "2020-01-16",
+                    "tom": "2020-01-03",
                     "tilstand": "IngenUtbetaling",
                     "fullstendig": false
                 },
                 {
                     "id": "b288b1a7-36c5-47d7-a736-0d1ef707538d",
                     "gruppeId": "aaaabbbb-36c5-47d7-a736-0d1ef707538d",
-                    "fom": "2020-01-17",
+                    "fom": "2020-01-04",
                     "tom": "2020-01-18",
                     "tilstand": "Utbetalt",
                     "oppgavereferanse": null,
@@ -52,7 +52,7 @@
                             "linjer": [
                                 {
                                     "fom": "2020-01-17",
-                                    "tom": "2020-01-18",
+                                    "tom": "2020-01-20",
                                     "dagsats": 1431,
                                     "grad": 100
                                 }
@@ -196,6 +196,7 @@
                     "fom": "2020-01-19",
                     "tom": "2020-01-20",
                     "tilstand": "Oppgaver",
+                    "periodetype": "FORLENGELSE",
                     "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5g",
                     "fullstendig": true,
                     "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
@@ -219,7 +220,7 @@
                         "arbeidsgiverUtbetaling": {
                             "linjer": [
                                 {
-                                    "fom": "2020-01-19",
+                                    "fom": "2020-01-17",
                                     "tom": "2020-01-20",
                                     "dagsats": 1431,
                                     "grad": 100
@@ -241,8 +242,8 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 2,
-                            "førsteFraværsdag": "2020-01-18",
-                            "førsteSykepengedag": "2020-01-20",
+                            "førsteFraværsdag": "2020-01-17",
+                            "førsteSykepengedag": "2020-01-19",
                             "maksdato": "2020-12-29",
                             "gjenståendeDager": 237,
                             "oppfylt": true
@@ -268,7 +269,7 @@
                             "oppfylt": true
                         }
                     },
-                    "førsteFraværsdag": "2020-01-01",
+                    "førsteFraværsdag": "2020-01-17",
                     "inntektFraInntektsmelding": 25000,
                     "totalbeløpArbeidstaker": 2862,
                     "hendelser": [

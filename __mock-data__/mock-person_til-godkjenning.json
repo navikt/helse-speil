@@ -553,6 +553,23 @@
                             }
                         ]
                     },
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": {
+                            "linjer": [
+                                {
+                                    "fom": "2018-01-17",
+                                    "tom": "2018-01-31",
+                                    "dagsats": 1431,
+                                    "grad": 100
+                                }
+                            ],
+                            "fagsystemId": "BBBBBTIV36PHRJFSYPUAXMHPEU"
+                        },
+                        "personUtbetaling": {
+                            "linjer": [],
+                            "fagsystemId": "BBBBBBBBB5K7ASX56RU5AKXGZO"
+                        }
+                    },
                     "utbetalingslinjer": [
                         {
                             "fom": "2018-01-17",

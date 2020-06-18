@@ -18,6 +18,7 @@
                     "fom": "2020-03-01",
                     "tom": "2020-03-27",
                     "tilstand": "Oppgaver",
+                    "periodetype": "INFOTRYGDFORLENGELSE",
                     "oppgavereferanse": "e3474433-0000-9999-0000-ea5d644b4a6b",
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
@@ -1930,6 +1931,16 @@
                     "forlengelseFraInfotrygd": "NEI"
                 }
             ]
+        }
+    ],
+    "infotrygdutbetalinger": [
+        {
+            "fom": "2020-02-20",
+            "tom": "2020-02-29",
+            "dagsats": 1154,
+            "grad": "100",
+            "typetekst": "ArbRef",
+            "organisasjonsnummer": "982715539"
         }
     ],
     "enhet": {

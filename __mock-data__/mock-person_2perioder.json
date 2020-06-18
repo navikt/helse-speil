@@ -38,14 +38,14 @@
                             "fagsystemId": "1234",
                             "linjer": [
                                 {
-                                    "fom": "2018-01-01",
+                                    "fom": "2018-01-17",
                                     "tom": "2018-01-31",
                                     "dagsats": 1431,
                                     "grad": 100.0
                                 },
                                 {
                                     "fom": "2018-02-01",
-                                    "tom": "2018-02-28",
+                                    "tom": "2018-02-14",
                                     "dagsats": 1300,
                                     "grad": 100.0
                                 }
@@ -577,6 +577,7 @@
                     "fom": "2018-02-01",
                     "tom": "2018-02-14",
                     "tilstand": "Oppgaver",
+                    "periodetype": "FORLENGELSE",
                     "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5f",
                     "fullstendig": true,
                     "utbetalinger": {
@@ -591,7 +592,7 @@
                                 },
                                 {
                                     "fom": "2018-02-01",
-                                    "tom": "2018-02-28",
+                                    "tom": "2018-02-14",
                                     "dagsats": 1300,
                                     "grad": 100.0
                                 }
@@ -615,14 +616,14 @@
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-01",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-02",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
@@ -641,35 +642,35 @@
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-05",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-06",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-07",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-08",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-09",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
@@ -688,21 +689,21 @@
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-12",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-13",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1430.77,
                             "dato": "2018-02-14",
-                            "utbetaling": 1431,
+                            "utbetaling": 1300,
                             "grad": 100.0
                         }
                     ],
