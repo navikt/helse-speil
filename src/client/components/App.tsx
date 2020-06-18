@@ -3,8 +3,6 @@ import Header from './Header';
 import Saksbilde from './Saksbilde';
 import { hot } from 'react-hot-loader';
 import { Oversikt } from '../routes/Oversikt';
-import { AuthProvider } from '../context/AuthContext';
-import { useLogUserOut } from '../hooks/useLogUserOut';
 import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
 import { BehovProvider } from '../context/BehovContext';
@@ -16,10 +14,11 @@ import ProtectedRoute from './ProtectedRoute';
 import IkkeLoggetInn from './IkkeLoggetInn';
 import { RecoilRoot } from 'recoil';
 import { Varsler } from './Varsler';
+import { useAuthentication } from '../state/authentication';
 
 const App = withContextProviders(
     React.memo(() => {
-        useLogUserOut();
+        useAuthentication();
 
         return (
             <>
@@ -33,7 +32,7 @@ const App = withContextProviders(
             </>
         );
     }),
-    [BehovProvider, PersonProvider, AuthProvider, TildelingerProvider]
+    [BehovProvider, PersonProvider, TildelingerProvider]
 );
 
 const WithRouting = () => (

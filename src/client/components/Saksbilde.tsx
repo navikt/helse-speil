@@ -18,12 +18,13 @@ import Toppvarsler from './Toppvarsler';
 import { Tidslinje } from './Tidslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
-import { extractNameFromEmail, capitalizeName } from '../utils/locale';
-import { AuthContext } from '../context/AuthContext';
+import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 import Lenkeknapp from './Lenkeknapp';
 import { TildelingerContext } from '../context/TildelingerContext';
 import { Vedtaksperiode } from '../context/types.internal';
-import { useVarselFilter, useVarsler, Scopes } from '../state/varslerState';
+import { Scopes, useUpdateVarsler, useVarselFilter } from '../state/varslerState';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../state/authentication';
 
 const Container = styled.div`
     display: flex;
@@ -51,14 +52,14 @@ const TildelSpinner = styled(NavFrontendSpinner)`
 `;
 
 const TildelingVarsel = ({ tildeltTil, behovId }: { tildeltTil?: string; behovId: string }) => {
-    const email = useContext(AuthContext).email!;
+    const { email } = useRecoilValue(authState);
     const { tildelBehandling } = useContext(TildelingerContext);
     const { tildelPerson } = useContext(PersonContext);
     const [posting, setPosting] = useState(false);
 
     const tildel = () => {
         setPosting(true);
-        tildelBehandling(behovId, email)
+        tildelBehandling(behovId, email!)
             .then(() => tildelPerson(email))
             .finally(() => setPosting(false));
     };
@@ -105,7 +106,7 @@ const Saksbilde = () => {
     const { aktivVedtaksperiode, personTilBehandling, hentPerson } = useContext(PersonContext);
     const { tildelingError } = useContext(TildelingerContext);
     useVarselFilter(Scopes.SAKSBILDE);
-    const { leggTilVarsel } = useVarsler();
+    const { leggTilVarsel } = useUpdateVarsler();
 
     useEffect(() => {
         if (location.pathname.match(/\//g)!.length < 2) {

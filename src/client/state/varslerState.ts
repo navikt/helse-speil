@@ -15,20 +15,10 @@ export interface Varsel {
     type: Varseltype;
 }
 
-const vaflerState = atom<Varsel[]>({
-    key: 'vafler',
+const varslerState = atom<Varsel[]>({
+    key: 'varsler',
     default: [],
 });
-
-export const useVarsler = () => {
-    const setVaflerState = useSetRecoilState(vaflerState);
-    const leggTilVarsel = (varsel: Varsel) => setVaflerState((prev) => [...prev, varsel]);
-    const fjernVarsler = () => setVaflerState([]);
-    return {
-        leggTilVarsel,
-        fjernVarsler,
-    };
-};
 
 export const varselFilterState = atom<string | undefined>({
     key: 'varselFilter',
@@ -39,7 +29,7 @@ export const varslerForScope = selector({
     key: 'varslerForScope',
     get: ({ get }) => {
         const varselFilter = get(varselFilterState);
-        return get(vaflerState).filter((e) => e.scope === undefined || e.scope === varselFilter);
+        return get(varslerState).filter((e) => e.scope === undefined || e.scope === varselFilter);
     },
 });
 
@@ -49,4 +39,12 @@ export const useVarselFilter = (scope?: string) => {
     useEffect(() => {
         setVarselFilter(scope);
     }, []);
+};
+
+export const useUpdateVarsler = () => {
+    const setVaflerState = useSetRecoilState(varslerState);
+    return {
+        leggTilVarsel: (varsel: Varsel) => setVaflerState((prev) => [...prev, varsel]),
+        fjernVarsler: () => setVaflerState([]),
+    };
 };

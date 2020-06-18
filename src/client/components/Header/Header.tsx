@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import { AuthContext } from '../../context/AuthContext';
 import { PersonContext } from '../../context/PersonContext';
 import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import { Person } from '../../context/types.internal';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../../state/authentication';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -17,7 +18,7 @@ const Container = styled.div`
 `;
 
 const Header = () => {
-    const { name, ident, isLoggedIn } = useContext(AuthContext);
+    const { name, ident, isLoggedIn } = useRecoilValue(authState);
     const { hentPerson } = useContext(PersonContext);
     const { navigateTo } = useNavigation();
 

@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { AnnulleringModal } from './AnnulleringModal/AnnulleringModal';
 import { AnnulleringDTO, postAnnullering } from '../io/http';
-import { AuthContext } from '../context/AuthContext';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../state/authentication';
 
 const AnnullerKnapp = styled.button`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
@@ -29,7 +30,7 @@ const Annullering = () => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [feilmelding, setFeilmelding] = useState<string>();
-    const authContext = useContext(AuthContext);
+    const { ident } = useRecoilValue(authState);
     const sendAnnullering = (annullering: AnnulleringDTO) => {
         setIsSending(true);
         setFeilmelding(undefined);
@@ -49,7 +50,7 @@ const Annullering = () => {
                     onClose={() => setModalOpen((verdi) => !verdi)}
                     onApprove={sendAnnullering}
                     isSending={isSending}
-                    ident={authContext.ident!}
+                    ident={ident!}
                     feilmelding={feilmelding}
                 />
             )}

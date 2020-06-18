@@ -2,7 +2,7 @@ import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useS
 import { tilPerson } from './mapping/personmapper';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from './types.internal';
-import { Scopes, useVarsler } from '../state/varslerState';
+import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 interface PersonContextType {
@@ -28,7 +28,7 @@ export const PersonContext = createContext<PersonContextType>({
 
 export const PersonProvider = ({ children }: ProviderProps) => {
     const [personTilBehandling, setPersonTilBehandling] = useState<Person>();
-    const { leggTilVarsel, fjernVarsler } = useVarsler();
+    const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
     const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
     const [isFetching, setIsFetching] = useState(false);
 

@@ -1,18 +1,19 @@
-import React, { useContext, useMemo } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import React, { useMemo } from 'react';
+import AlternativerKnapp from '../../components/AlternativerKnapp';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
-import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { Tildeling } from '../../context/types.internal';
 import { Oppgave, OppgaveType } from '../../../types';
 import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-import AlternativerKnapp from '../../components/AlternativerKnapp';
 import { Cell, Flex, Row } from './Oversikt.styles';
-import { Location, useNavigation } from '../../hooks/useNavigation';
 import { Link } from 'react-router-dom';
 import { Oppgaveetikett } from './Oppgaveetikett';
+import { Location, useNavigation } from '../../hooks/useNavigation';
+import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../../state/authentication';
 
 const Tildelingsalternativ = styled(AlternativerKnapp)`
     margin-left: 0.5rem;
@@ -96,7 +97,7 @@ interface OpprettetProps {
 }
 
 const Opprettet = ({ dato }: OpprettetProps) => (
-    <Cell widthInPixels={100}>
+    <Cell>
         <Normaltekst>{`${somDato(dato).format(NORSK_DATOFORMAT)}`}</Normaltekst>
     </Cell>
 );
@@ -106,21 +107,10 @@ interface StatusProps {
 }
 
 const Varsler = ({ antallVarsler }: StatusProps) => {
-    const varseltekst = (antallVarsler?: number | null) => {
-        switch (antallVarsler) {
-            case 0:
-            case null:
-            case undefined:
-                return '';
-            case 1:
-                return '1 varsel';
-            default:
-                return `${antallVarsler} varsler`;
-        }
-    };
+    const varseltekst = !antallVarsler ? '' : antallVarsler === 1 ? '1 varsel' : `${antallVarsler} varsler`;
     return (
         <Cell>
-            <Element>{varseltekst(antallVarsler)}</Element>
+            <Element>{varseltekst}</Element>
         </Cell>
     );
 };
@@ -134,7 +124,7 @@ interface OversiktslinjeProps {
 }
 
 const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, antallVarsler }: OversiktslinjeProps) => {
-    const { email } = useContext(AuthContext);
+    const { email } = useRecoilValue(authState);
     const { pathForLocation } = useNavigation();
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
