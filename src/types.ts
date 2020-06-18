@@ -17,6 +17,12 @@ export interface PersonNavn {
     etternavn: string;
 }
 
+export enum OppgaveType {
+    Forlengelse = 'FORLENGELSE',
+    Førstegangsbehandling = 'FØRSTEGANGSBEHANDLING',
+    Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
+}
+
 export interface Oppgave {
     spleisbehovId: string;
     opprettet: string;
@@ -25,7 +31,7 @@ export interface Oppgave {
     fødselsnummer: string;
     aktørId: string;
     antallVarsler: number;
-    type: string;
+    type: OppgaveType;
 }
 
 export interface Error {

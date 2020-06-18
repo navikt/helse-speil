@@ -12,5 +12,5 @@ export const capitalize = (value: string): string => value.charAt(0).toUpperCase
 
 export const capitalizeName = (value: string): string => value.replace(/\b[\w']+\b/g, (word) => capitalize(word));
 
-export const extractNameFromEmail = (email: string): string =>
+export const extractNameFromEmail = (email?: string): string =>
     email?.split('@')[0].split('.').join(' ') ?? 'Navn mangler';

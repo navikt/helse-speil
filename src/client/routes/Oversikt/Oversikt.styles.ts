@@ -1,12 +1,18 @@
 import styled from '@emotion/styled';
 
+interface CellProps {
+    widthInPixels?: number;
+}
+
 export const Tabell = styled.table`
-    width: 100%;
     text-align: left;
     margin: 1rem 0;
+    table-layout: fixed;
+    width: calc(100vw - 4.125rem);
+    min-width: 1000px;
 `;
 
-export const Header = styled.th`
+export const HeaderView = styled.th`
     height: 2rem;
     vertical-align: middle;
 
@@ -14,6 +20,9 @@ export const Header = styled.th`
         color: #3e3832;
         font-weight: 600;
     }
+
+    width: auto;
+    ${({ widthInPixels }: CellProps) => widthInPixels && `width: ${widthInPixels}px;`}
 `;
 
 export const Row = styled.tr`
@@ -23,4 +32,22 @@ export const Row = styled.tr`
 
 export const Cell = styled.td`
     padding: 0.5rem 0;
+    min-width: max-content;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &:not(:last-of-type) {
+        padding-right: 1rem;
+    }
+
+    ${({ widthInPixels }: CellProps) => {
+        const marginOffset = 16;
+        return widthInPixels && `width: ${widthInPixels - marginOffset}px;`;
+    }}
+`;
+
+export const FlexCelleinnhold = styled.span`
+    display: flex;
+    align-items: center;
 `;

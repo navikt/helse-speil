@@ -3,69 +3,27 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import Panel from 'nav-frontend-paneler';
 import { TildelingerContext } from '../../context/TildelingerContext';
 import { BehovContext } from '../../context/BehovContext';
-import { Undertekst } from 'nav-frontend-typografi';
 import { useTranslation } from 'react-i18next';
 import { Oppgave } from '../../../types';
 import styled from '@emotion/styled';
-import { Header, Row, Tabell } from './Oversikt.styles';
+import { Row, Tabell } from './Oversikt.styles';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersonContext } from '../../context/PersonContext';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
 import Oversiktslinje from './Oversiktslinje';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import { SuksessToast } from '../../components/Toast';
-import { useVarselFilter, Scopes } from '../../state/varslerState';
+import { Scopes, useVarselFilter } from '../../state/varslerState';
+import { Header } from './Header';
+import { SorterbarHeader } from './SorterbarHeader';
 
 const Container = styled(Panel)`
     margin: 1rem;
     padding: 1rem;
     color: #3e3832;
+    max-width: max-content;
 `;
 
-const Sorteringsknapp = styled.button`
-    padding: 0 1rem 0 0;
-    background: none;
-    outline: none;
-    border: none;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-`;
-
-const Sorteringspiler = styled.div<{ direction: string }>`
-    pointer-events: none;
-    position: relative;
-    height: 0.75rem;
-    margin-left: 0.5rem;
-
-    &:before,
-    &:after {
-        pointer-events: none;
-        content: '';
-        border-left: 0.25rem solid white;
-        border-right: 0.25rem solid white;
-        position: absolute;
-        transition: all 0.1s ease;
-    }
-
-    &:before {
-        border-bottom: 0.25rem solid #b7b1a9;
-        transition: all 0.1s ease;
-    }
-
-    &:after {
-        border-top: 0.25rem solid #3e3832;
-        bottom: 0;
-        transition: all 0.1s ease;
-    }
-
-    ${(props) =>
-        props.direction === 'ascending' &&
-        `
-        &:after { transform: translateY(-0.5rem) rotate(180deg); }
-        &:before { transform: translateY(0.5rem) rotate(180deg); }
-    `}
-`;
 const LasterInnhold = styled.div`
     display: flex;
     align-items: center;
@@ -79,34 +37,10 @@ const LasterInnhold = styled.div`
 `;
 
 const ascendingOpprettet = (a: Oppgave, b: Oppgave) =>
-    new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
+    new Date(a.antallVarsler).getTime() - new Date(b.antallVarsler).getTime();
 
 const descendingOpprettet = (a: Oppgave, b: Oppgave) =>
-    new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime();
-
-const typetekst = (type: string) => {
-    switch (type) {
-        case 'FORLENGELSE':
-            return 'Forlengelse';
-        case 'INFOTRYGDFORLENGELSE':
-            return 'Forlengelse - IT';
-        case 'FØRSTEGANGSBEHANDLING':
-            return 'Førstegang.';
-        default:
-            return '';
-    }
-};
-//
-// const ascending = (a: Oppgave, b: Oppgave) => {
-//     const sortertPåType = typetekst(a.type).localeCompare(typetekst(b.type));
-//     if (sortertPåType !== 0) return sortertPåType;
-//     return a.antallVarsler - b.antallVarsler;
-// };
-// const descending = (a: Oppgave, b: Oppgave) => {
-//     const sortertPåType = typetekst(b.type).localeCompare(typetekst(a.type));
-//     if (sortertPåType !== 0) return sortertPåType;
-//     return b.antallVarsler - a.antallVarsler;
-// };
+    new Date(b.antallVarsler).getTime() - new Date(a.antallVarsler).getTime();
 
 export const Oversikt = () => {
     const { t } = useTranslation();
@@ -126,30 +60,6 @@ export const Oversikt = () => {
 
     const toggleSortDirection = () =>
         setSortDirection(sortDirection === descendingOpprettet ? () => ascendingOpprettet : () => descendingOpprettet);
-
-    const Søker = () => (
-        <Header>
-            <Undertekst>{t('oversikt.søker')}</Undertekst>
-        </Header>
-    );
-    const Opprettet = () => (
-        <Header>
-            <Sorteringsknapp onClick={toggleSortDirection}>
-                <Undertekst role={'columnheader'}>{t('oversikt.opprettet')}</Undertekst>
-                <Sorteringspiler direction={sortDirection === descendingOpprettet ? 'descending' : 'ascending'} />
-            </Sorteringsknapp>
-        </Header>
-    );
-    const Tildeling = () => (
-        <Header>
-            <Undertekst>{t('oversikt.tildeling')}</Undertekst>
-        </Header>
-    );
-    const Status = () => (
-        <Header>
-            <Undertekst>Status</Undertekst>
-        </Header>
-    );
 
     const onUnassignCase = (behovId: string) => {
         fjernTildeling(behovId);
@@ -189,10 +99,17 @@ export const Oversikt = () => {
                 <Tabell>
                     <thead>
                         <Row>
-                            <Søker />
-                            <Opprettet />
-                            <Tildeling />
-                            <Status />
+                            <Header widthInPixels={265}>{t('oversikt.søker')}</Header>
+                            <Header widthInPixels={200}>Sakstype</Header>
+                            <Header widthInPixels={120}>Status</Header>
+                            <SorterbarHeader
+                                onToggleSort={toggleSortDirection}
+                                sortDirection={sortDirection === descendingOpprettet ? 'descending' : 'ascending'}
+                                widthInPixels={100}
+                            >
+                                {t('oversikt.opprettet')}
+                            </SorterbarHeader>
+                            <Header>{t('oversikt.tildeling')}</Header>
                         </Row>
                     </thead>
                     <tbody>
@@ -207,7 +124,6 @@ export const Oversikt = () => {
                                         onUnassignCase={onUnassignCase}
                                         key={oppgave.spleisbehovId}
                                         antallVarsler={oppgave.antallVarsler}
-                                        typetekst={typetekst(oppgave.type)}
                                     />
                                 );
                             })}
