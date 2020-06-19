@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { PersonContext } from '../context/PersonContext';
-import { somDato } from '../context/mapping/vedtaksperiodemapper';
-import { NORSK_DATOFORMAT } from '../utils/date';
+import { Periodetype } from '../context/types.internal';
+import dayjs from 'dayjs';
 
 export enum VedtaksperiodeStatus {
     Ubehandlet = 'ubehandlet',
@@ -14,15 +14,28 @@ export const useVedtaksperiodestatus = (): VedtaksperiodeStatus | undefined => {
 
     if (!aktivVedtaksperiode) return undefined;
 
-    const erFørstePeriode =
-        somDato(aktivVedtaksperiode.rawData.førsteFraværsdag).format(NORSK_DATOFORMAT) ===
-        aktivVedtaksperiode.sykdomstidslinje[0].dato.format(NORSK_DATOFORMAT);
     const erGodkjent =
         aktivVedtaksperiode.rawData.godkjentAv !== null && aktivVedtaksperiode.rawData.godkjentAv !== undefined;
+    const førsteUtbetalingsdag = aktivVedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.linjer[0].fom ?? dayjs(0);
+
+    const erFørstegangsbehandling =
+        !erGodkjent &&
+        aktivVedtaksperiode.utbetalingstidslinje.some((enUtbetalingsdag) =>
+            enUtbetalingsdag.dato.isSame(førsteUtbetalingsdag)
+        );
+
+    const periodetype = aktivVedtaksperiode.periodetype;
+    if (periodetype) {
+        if (erGodkjent) {
+            return VedtaksperiodeStatus.Behandlet;
+        } else if (periodetype === Periodetype.Førstegangsbehandling) {
+            return VedtaksperiodeStatus.Ubehandlet;
+        } else return VedtaksperiodeStatus.Påfølgende;
+    }
 
     if (erGodkjent) {
         return VedtaksperiodeStatus.Behandlet;
-    } else if (erFørstePeriode) {
+    } else if (erFørstegangsbehandling) {
         return VedtaksperiodeStatus.Ubehandlet;
     } else {
         return VedtaksperiodeStatus.Påfølgende;

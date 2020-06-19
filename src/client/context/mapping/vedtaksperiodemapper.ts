@@ -11,6 +11,7 @@ import {
     UferdigVedtaksperiode,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
+    Periodetype,
 } from '../types.internal';
 import dayjs, { Dayjs } from 'dayjs';
 import {
@@ -33,6 +34,7 @@ import {
     Utbetaling,
     Utbetalingsdetalj,
     Utbetalingsperiode,
+    SpleisPeriodetype,
 } from './types.external';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
@@ -62,6 +64,17 @@ const mapForlengelseFraInfotrygd = (value: SpleisForlengelseFraInfotrygd): boole
             return false;
         case SpleisForlengelseFraInfotrygd.IKKE_ETTERSPURT:
             return undefined;
+    }
+};
+
+const mapPeriodetype = (value: SpleisPeriodetype): Periodetype => {
+    switch (value) {
+        case SpleisPeriodetype.FØRSTEGANGSBEHANDLING:
+            return Periodetype.Førstegangsbehandling;
+        case SpleisPeriodetype.FORLENGELSE:
+            return Periodetype.Forlengelse;
+        case SpleisPeriodetype.INFOTRYGDFORLENGELSE:
+            return Periodetype.Infotrygdforlengelse;
     }
 };
 
@@ -221,6 +234,7 @@ export const mapVedtaksperiode = (
     }));
 
     const forlengelseFraInfotrygd = mapForlengelseFraInfotrygd(unmappedPeriode.forlengelseFraInfotrygd);
+    const periodetype = mapPeriodetype(unmappedPeriode.periodetype);
 
     const risikovurdering: Risikovurdering | undefined = risikovurderingerForArbeidsgiver
         .map((risikovurdering) => ({ ...risikovurdering, opprettet: somTidspunkt(risikovurdering.opprettet) }))
@@ -232,6 +246,7 @@ export const mapVedtaksperiode = (
         tom: somDato(unmappedPeriode.tom),
         gruppeId: unmappedPeriode.gruppeId,
         forlengelseFraInfotrygd,
+        periodetype,
         kanVelges:
             ![SpleisVedtaksperiodetilstand.IngenUtbetaling, SpleisVedtaksperiodetilstand.Utbetalt].includes(
                 spleisPeriode.tilstand

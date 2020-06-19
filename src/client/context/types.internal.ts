@@ -135,6 +135,12 @@ export interface Utbetalingsdag {
     utbetaling?: number;
 }
 
+export enum Periodetype {
+    Forlengelse = 'forlengelse',
+    Infotrygdforlengelse = 'infotrygdForlengelse',
+    Førstegangsbehandling = 'førstegangsbehandling',
+}
+
 export enum Vedtaksperiodetilstand {
     TilUtbetaling = 'tilUtbetaling',
     Utbetalt = 'utbetalt',
@@ -162,6 +168,7 @@ export interface Vedtaksperiode {
     tom: Dayjs;
     gruppeId: string;
     forlengelseFraInfotrygd?: boolean;
+    periodetype: Periodetype;
     tilstand: Vedtaksperiodetilstand;
     oppgavereferanse: string;
     kanVelges: boolean;

@@ -1,0 +1,232 @@
+{
+    "aktørId": "1000000000009",
+    "fødselsnummer": "03120520135",
+    "navn": {
+        "fornavn": "SVERRE",
+        "mellomnavn": null,
+        "etternavn": "MAGNUS"
+    },
+    "arbeidsgivere": [
+        {
+            "organisasjonsnummer": "974222111",
+            "navn": "Ukjent",
+            "id": "813303d0-bbbb-cccc-beb7-1b2ad4b96e51",
+            "vedtaksperioder": [
+                {
+                    "id": "421a1a73-cccc-b96d-a033-ee74ba2a4c78",
+                    "gruppeId": "ea4fccff-bbbb-ffff-cde4-d1a50c4df057",
+                    "fom": "2020-05-25",
+                    "tom": "2020-06-10",
+                    "tilstand": "IngenUtbetaling",
+                    "fullstendig": false,
+                    "oppgavereferanse": null
+                },
+                {
+                    "id": "fbc34f96-ffff-47ee-4b04-0601378a91ff",
+                    "gruppeId": "ea4fccff-bbbb-ffff-cde4-d1a50c4df057",
+                    "fom": "2020-06-11",
+                    "tom": "2020-06-14",
+                    "tilstand": "Oppgaver",
+                    "fullstendig": true,
+                    "utbetalingsreferanse": null,
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 2051,
+                            "dato": "2020-06-11"
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 2051,
+                            "dato": "2020-06-12",
+                            "utbetaling": 2051,
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0,
+                            "dato": "2020-06-13",
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0,
+                            "dato": "2020-06-14",
+                            "grad": 100
+                        }
+                    ],
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": {
+                            "linjer": [
+                                {
+                                    "fom": "2020-06-12",
+                                    "tom": "2020-06-14",
+                                    "dagsats": 2051,
+                                    "grad": 100
+                                }
+                            ],
+                            "fagsystemId": "AAAAATIV36PHRJFSYPUAXMHPEU"
+                        },
+                        "personUtbetaling": {
+                            "linjer": [],
+                            "fagsystemId": "AAAAAAAAA5K7ASX56RU5AKXGZO"
+                        }
+                    },
+                    "sykdomstidslinje": [
+                        {
+                            "dagen": "2020-06-11",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-06-12",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-06-13",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-06-14",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad"
+                            },
+                            "grad": 100
+                        }
+                    ],
+                    "godkjentAv": null,
+                    "godkjenttidspunkt": null,
+                    "vilkår": {
+                        "sykepengedager": {
+                            "forbrukteSykedager": 1,
+                            "førsteFraværsdag": "2020-05-27",
+                            "førsteSykepengedag": "2020-06-12",
+                            "maksdato": "2021-05-25",
+                            "gjenståendeDager": 247,
+                            "oppfylt": true
+                        },
+                        "alder": {
+                            "alderSisteSykedag": 31,
+                            "oppfylt": true
+                        },
+                        "opptjening": {
+                            "antallKjenteOpptjeningsdager": 1206,
+                            "fom": "2017-02-06",
+                            "oppfylt": true
+                        },
+                        "søknadsfrist": {
+                            "sendtNav": "2020-06-15T22:04:09.454",
+                            "søknadFom": "2020-06-11",
+                            "søknadTom": "2020-06-14",
+                            "oppfylt": true
+                        },
+                        "sykepengegrunnlag": {
+                            "sykepengegrunnlag": 533328,
+                            "grunnbeløp": 99858,
+                            "oppfylt": true
+                        }
+                    },
+                    "førsteFraværsdag": "2020-05-27",
+                    "inntektFraInntektsmelding": 44444,
+                    "totalbeløpArbeidstaker": 2051,
+                    "hendelser": [
+                        {
+                            "id": "ec477ab4-cccc-49ac-1dba-f19006ea8eb8",
+                            "mottattDato": "2020-06-18T07:08:07",
+                            "beregnetInntekt": 44444,
+                            "type": "INNTEKTSMELDING"
+                        },
+                        {
+                            "id": "4d2abec1-dddd-418b-9ab2-b1fc474fb4b3",
+                            "fom": "2020-06-11",
+                            "tom": "2020-06-14",
+                            "rapportertdato": "2020-06-15T22:04:09.454",
+                            "sendtNav": "2020-06-15T22:04:09.454",
+                            "type": "SENDT_SØKNAD_NAV"
+                        },
+                        {
+                            "id": "d0ff388b-eeee-4e4f-a276-0e6b7d34b1a9",
+                            "fom": "2020-06-11",
+                            "tom": "2020-06-14",
+                            "rapportertdato": "2020-06-10T15:40:17.451",
+                            "type": "NY_SØKNAD"
+                        }
+                    ],
+                    "dataForVilkårsvurdering": {
+                        "erEgenAnsatt": false,
+                        "beregnetÅrsinntektFraInntektskomponenten": 568348.28,
+                        "avviksprosent": 0.06161764050733117,
+                        "antallOpptjeningsdagerErMinst": 1206,
+                        "harOpptjening": true,
+                        "medlemskapstatus": "JA"
+                    },
+                    "simuleringsdata": {
+                        "totalbeløp": 2051,
+                        "perioder": [
+                            {
+                                "fom": "2020-06-12",
+                                "tom": "2020-06-14",
+                                "utbetalinger": [
+                                    {
+                                        "utbetalesTilId": "965111888",
+                                        "utbetalesTilNavn": "GØY MED HERMELIN AS",
+                                        "forfall": "2020-06-30",
+                                        "feilkonto": false,
+                                        "detaljer": [
+                                            {
+                                                "faktiskFom": "2020-06-12",
+                                                "faktiskTom": "2020-06-14",
+                                                "konto": "2323232",
+                                                "beløp": 2051,
+                                                "tilbakeføring": false,
+                                                "sats": 2051,
+                                                "typeSats": "DAG",
+                                                "antallSats": 1,
+                                                "uføregrad": 100,
+                                                "klassekode": "SPREFAG-IOP",
+                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                "utbetalingstype": "YTEL",
+                                                "refunderesOrgNr": "974222111"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "aktivitetslogg": [],
+                    "forlengelseFraInfotrygd": "NEI",
+                    "periodetype": "FØRSTEGANGSBEHANDLING",
+                    "oppgavereferanse": "ee4443fa-92e6-4f11-aaaa-59b66a8aaaaa"
+                }
+            ]
+        }
+    ],
+    "infotrygdutbetalinger": [
+        {
+            "fom": "2018-07-13",
+            "tom": "2018-07-20",
+            "dagsats": 0,
+            "grad": "100",
+            "typetekst": "Ukjent..",
+            "organisasjonsnummer": "0"
+        }
+    ],
+    "enhet": {
+        "id": "231",
+        "navn": "Skedsmo"
+    },
+    "tildeltTil": null
+}

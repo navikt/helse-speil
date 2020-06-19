@@ -1,4 +1,4 @@
-import { Kjønn, Vedtaksperiode } from '../../context/types.internal';
+import { Kjønn, Vedtaksperiode, Periodetype } from '../../context/types.internal';
 import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiodemapper';
 import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
 import dayjs from 'dayjs';
@@ -74,6 +74,7 @@ describe('Vilkår', () => {
             const vedtaksperiode = enSpeilVedtaksperiode();
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
+                periodetype: Periodetype.Forlengelse,
                 rawData: { ...vedtaksperiode.rawData, førsteFraværsdag: '2019-10-06' },
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
@@ -88,6 +89,7 @@ describe('Vilkår', () => {
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 forlengelseFraInfotrygd: true,
+                periodetype: Periodetype.Infotrygdforlengelse,
                 rawData: { ...vedtaksperiode.rawData, førsteFraværsdag: '2019-10-06' },
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);

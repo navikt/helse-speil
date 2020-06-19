@@ -6,7 +6,8 @@ import {
     SpleisSykdomsdag,
     SpleisSøknad,
     SpleisUtbetalingsdag,
-    SpleisVedtaksperiodetilstand
+    SpleisVedtaksperiodetilstand,
+    SpleisPeriodetype,
 } from '../types.external';
 import { max as dayjsMax } from 'dayjs';
 import { somDato } from '../vedtaksperiodemapper';
@@ -113,5 +114,6 @@ export const enVedtaksperiode = (
         ],
         aktivitetslogg: aktivitetslogg,
         forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.NEI,
+        periodetype: SpleisPeriodetype.FØRSTEGANGSBEHANDLING,
     };
 };

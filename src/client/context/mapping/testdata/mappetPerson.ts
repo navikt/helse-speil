@@ -1,11 +1,12 @@
 import { somDato, somTidspunkt } from '../vedtaksperiodemapper';
-import { Dagtype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand } from '../../types.internal';
+import { Dagtype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand, Periodetype } from '../../types.internal';
 import {
     SpleisForlengelseFraInfotrygd,
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
     SpleisVedtaksperiodetilstand,
+    SpleisPeriodetype,
 } from '../types.external';
 import { defaultHendelser } from './defaultHendelser';
 
@@ -448,6 +449,7 @@ export const mappetPerson: Person = {
                     ],
                     aktivitetslog: [],
                     forlengelseFraInfotrygd: false,
+                    periodetype: Periodetype.Førstegangsbehandling,
                     rawData: {
                         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                         fom: '2019-09-10',
@@ -852,6 +854,7 @@ export const mappetPerson: Person = {
                         ],
                         aktivitetslogg: [],
                         forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.NEI,
+                        periodetype: SpleisPeriodetype.FØRSTEGANGSBEHANDLING,
                     },
                 },
             ],

@@ -9,6 +9,7 @@ import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd'
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
+import { Periodetype } from '../../context/types.internal';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
@@ -37,13 +38,13 @@ const Sykepengegrunnlag = () => {
         ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
 
-    const { forlengelseFraInfotrygd, sykepengegrunnlag } = aktivVedtaksperiode;
+    const { forlengelseFraInfotrygd, sykepengegrunnlag, periodetype } = aktivVedtaksperiode;
 
     return (
         <Sykepengegrunnlagpanel>
             {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
                 <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
-            ) : forlengelseFraInfotrygd ? (
+            ) : forlengelseFraInfotrygd || periodetype === Periodetype.Infotrygdforlengelse ? (
                 <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
                     <SykepengegrunnlagInfotrygd
                         årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding}

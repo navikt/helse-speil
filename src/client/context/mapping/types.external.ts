@@ -298,6 +298,7 @@ export interface SpesialistVedtaksperiode {
     totalbeløpArbeidstaker: number;
     dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;
     forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd;
+    periodetype: SpleisPeriodetype;
     simuleringsdata?: SpleisDataForSimulering;
     hendelser: SpleisHendelse[];
     utbetalingslinjer?: SpleisUtbetalingslinje[];
@@ -325,4 +326,10 @@ export enum SpleisForlengelseFraInfotrygd {
     IKKE_ETTERSPURT = 'IKKE_ETTERSPURT',
     JA = 'JA',
     NEI = 'NEI',
+}
+
+export enum SpleisPeriodetype {
+    FØRSTEGANGSBEHANDLING = 'FØRSTEGANGSBEHANDLING',
+    FORLENGELSE = 'FORLENGELSE',
+    INFOTRYGDFORLENGELSE = 'INFOTRYGDFORLENGELSE',
 }
