@@ -128,7 +128,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
     const { pathForLocation } = useNavigation();
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
-    const erTildeltInnloggetBruker = tildeling?.userId === email;
+    const erTildelt = tildeling?.userId;
 
     return useMemo(
         () => (
@@ -137,7 +137,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
                 <Type type={oppgave.type} />
                 <Varsler antallVarsler={antallVarsler} />
                 <Opprettet dato={oppgave.opprettet} />
-                {erTildeltInnloggetBruker ? (
+                {erTildelt ? (
                     <Tildelt
                         erTildeltInnloggetBruker={tildeling?.userId === email}
                         innloggetBrukerNavn={capitalizeName(extractNameFromEmail(tildeling?.userId))}
