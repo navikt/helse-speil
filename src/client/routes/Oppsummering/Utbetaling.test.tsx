@@ -53,7 +53,7 @@ const UtbetalingView = ({ vedtaksperiode = enSpeilVedtaksperiode() }: { vedtaksp
 
 const vedtaksperiodeMedTilstand = (tilstand: Vedtaksperiodetilstand) => ({ ...enSpeilVedtaksperiode(), tilstand });
 
-const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), enPersoninfo(), '123456789', []);
+const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), '123456789', []);
 const enPersoninfo = () => ({
     kjønn: 'Mann' as Kjønn,
     fødselsdato: dayjs(),

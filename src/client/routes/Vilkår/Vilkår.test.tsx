@@ -10,7 +10,7 @@ import Vilkår from './Vilkår';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router';
 
-const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), enPersoninfo(), '123456789', []);
+const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), '123456789', []);
 
 const enPersoninfo = () => ({
     kjønn: 'Mann' as Kjønn,

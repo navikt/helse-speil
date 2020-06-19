@@ -188,7 +188,6 @@ export const tilHendelse = (hendelse: SpleisHendelse): Hendelse => {
 
 export const mapVedtaksperiode = (
     unmappedPeriode: SpesialistVedtaksperiode,
-    personinfo: Personinfo,
     organisasjonsnummer: string,
     risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[]
 ): Vedtaksperiode => {

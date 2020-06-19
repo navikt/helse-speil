@@ -29,7 +29,6 @@ const tilArbeidsgivere = (person: SpesialistPerson, personinfo: Personinfo) =>
             if (periode.fullstendig) {
                 return mapVedtaksperiode(
                     periode,
-                    personinfo,
                     arbeidsgiver.organisasjonsnummer,
                     arbeidsgiver.risikovurderinger ?? []
                 );
