@@ -6,7 +6,7 @@ interface UseFocusOutsideOptions {
     active?: boolean;
 }
 
-export const useFocusOutside = ({ ref, active, onFocusOutside }: UseFocusOutsideOptions) => {
+export const useFocusOutsideModal = ({ ref, active, onFocusOutside }: UseFocusOutsideOptions) => {
     useEffect(() => {
         const onFocusWrapper = (event: FocusEvent) => {
             const modal = document.getElementById('modal');

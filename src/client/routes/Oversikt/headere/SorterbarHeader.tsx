@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { HeaderView } from './Oversikt.styles';
+import { HeaderView } from '../Oversikt.styles';
 import { Undertekst } from 'nav-frontend-typografi';
 
 const Sorteringsknapp = styled.button`
@@ -11,6 +11,14 @@ const Sorteringsknapp = styled.button`
     display: flex;
     align-items: center;
     cursor: pointer;
+
+    &:focus,
+    &:active {
+        p {
+            color: #0067c5;
+            text-decoration: underline;
+        }
+    }
 `;
 
 const Sorteringspiler = styled.div<{ direction: string }>`

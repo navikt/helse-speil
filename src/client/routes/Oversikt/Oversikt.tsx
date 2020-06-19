@@ -14,8 +14,7 @@ import Oversiktslinje from './Oversiktslinje';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import { SuksessToast } from '../../components/Toast';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
-import { Header } from './Header';
-import { SorterbarHeader } from './SorterbarHeader';
+import { OpprettetHeader, SakstypeHeader, StatusHeader, SøkerHeader, TildelingHeader } from './headere/headere';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -42,6 +41,8 @@ const ascendingOpprettet = (a: Oppgave, b: Oppgave) =>
 const descendingOpprettet = (a: Oppgave, b: Oppgave) =>
     new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime();
 
+export type Oppgavefilter = (oppgave: Oppgave) => boolean;
+
 export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
@@ -50,9 +51,10 @@ export const Oversikt = () => {
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
-    useVarselFilter(Scopes.OVERSIKT);
     const [sortDirection, setSortDirection] = useState<(a: Oppgave, b: Oppgave) => number>(() => descendingOpprettet);
     const harAlleTildelinger = tildelinger.length == behov.length;
+    const [currentFilters, setCurrentFilters] = useState<Oppgavefilter[]>([]);
+    useVarselFilter(Scopes.OVERSIKT);
 
     useEffect(() => {
         hentBehov().then((nyeBehov) => fetchTildelinger(nyeBehov));
@@ -99,34 +101,37 @@ export const Oversikt = () => {
                 <Tabell>
                     <thead>
                         <Row>
-                            <Header widthInPixels={265}>{t('oversikt.søker')}</Header>
-                            <Header widthInPixels={200}>Sakstype</Header>
-                            <Header widthInPixels={120}>Status</Header>
-                            <SorterbarHeader
-                                onToggleSort={toggleSortDirection}
+                            <SøkerHeader />
+                            <SakstypeHeader filtere={currentFilters} setFiltere={setCurrentFilters} />
+                            <StatusHeader />
+                            <OpprettetHeader
+                                toggleSort={toggleSortDirection}
                                 sortDirection={sortDirection === descendingOpprettet ? 'descending' : 'ascending'}
-                                widthInPixels={100}
-                            >
-                                {t('oversikt.opprettet')}
-                            </SorterbarHeader>
-                            <Header>{t('oversikt.tildeling')}</Header>
+                            />
+                            <TildelingHeader />
                         </Row>
                     </thead>
                     <tbody>
                         {harAlleTildelinger &&
-                            behov.sort(sortDirection).map((oppgave: Oppgave) => {
-                                const tildeling = tildelinger.find((t) => t.behovId === oppgave.spleisbehovId);
-                                return (
-                                    <Oversiktslinje
-                                        oppgave={oppgave}
-                                        tildeling={tildeling}
-                                        onAssignCase={onAssignCase}
-                                        onUnassignCase={onUnassignCase}
-                                        key={oppgave.spleisbehovId}
-                                        antallVarsler={oppgave.antallVarsler}
-                                    />
-                                );
-                            })}
+                            behov
+                                .filter(
+                                    (oppgave: Oppgave) =>
+                                        currentFilters.length === 0 || currentFilters.find((it) => it(oppgave))
+                                )
+                                .sort(sortDirection)
+                                .map((oppgave: Oppgave) => {
+                                    const tildeling = tildelinger.find((t) => t.behovId === oppgave.spleisbehovId);
+                                    return (
+                                        <Oversiktslinje
+                                            oppgave={oppgave}
+                                            tildeling={tildeling}
+                                            onAssignCase={onAssignCase}
+                                            onUnassignCase={onUnassignCase}
+                                            key={oppgave.spleisbehovId}
+                                            antallVarsler={oppgave.antallVarsler}
+                                        />
+                                    );
+                                })}
                     </tbody>
                 </Tabell>
             </Container>

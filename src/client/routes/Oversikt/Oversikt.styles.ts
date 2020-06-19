@@ -35,16 +35,10 @@ export const Cell = styled.td`
     min-width: max-content;
     vertical-align: middle;
     white-space: nowrap;
-    overflow-x: hidden;
 
     &:not(:last-of-type) {
         padding-right: 1rem;
     }
-
-    ${({ widthInPixels }: CellProps) => {
-        const marginOffset = 16;
-        return widthInPixels && `width: ${widthInPixels - marginOffset}px;`;
-    }}
 `;
 
 export const Flex = styled.span`
