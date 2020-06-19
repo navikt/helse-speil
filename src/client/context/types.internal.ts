@@ -169,6 +169,7 @@ export interface Vedtaksperiode {
     gruppeId: string;
     forlengelseFraInfotrygd?: boolean;
     periodetype: Periodetype;
+    behandlet: boolean;
     tilstand: Vedtaksperiodetilstand;
     oppgavereferanse: string;
     kanVelges: boolean;

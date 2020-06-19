@@ -78,37 +78,15 @@ const IkkeOppfylteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) =>
     vilkår.length > 0 ? <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={vilkår} /> : null;
 
 export const PåfølgendeVedtaksperiode = (props: PåfølgendeVedtaksperiodeProps) => (
-    <PåfølgendeVedtaksperiodeWrapper {...props}>
-        <FerdigbehandledeVilkår vedtaksperiode={props.førsteVedtaksperiode} />
-    </PåfølgendeVedtaksperiodeWrapper>
-);
-
-export const PåfølgendeVedtaksperiodeFraInfotrygd = (props: {
-    ikkeOppfylteVilkår: ReactNode[];
-    oppfylteVilkår: ReactNode[];
-    ikkeVurderteVilkår: IkkeVurdertVilkår[];
-}) => (
-    <PåfølgendeVedtaksperiodeWrapper {...props}>
-        <VilkårVurdertIInfotrygd />
-    </PåfølgendeVedtaksperiodeWrapper>
-);
-
-const PåfølgendeVedtaksperiodeWrapper = ({
-    ikkeOppfylteVilkår,
-    oppfylteVilkår,
-    ikkeVurderteVilkår,
-    children,
-}: {
-    ikkeOppfylteVilkår: ReactNode[];
-    oppfylteVilkår: ReactNode[];
-    ikkeVurderteVilkår: IkkeVurdertVilkår[];
-    children: ReactNode;
-}) => (
     <>
-        <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår} />
-        <IkkeVurderteVilkår ikkeVurderteVilkår={ikkeVurderteVilkår} />
-        <OppfylteVilkår vilkår={oppfylteVilkår} />
-        {children}
+        <IkkeOppfylteVilkår vilkår={props.ikkeOppfylteVilkår} />
+        <IkkeVurderteVilkår ikkeVurderteVilkår={props.ikkeVurderteVilkår} />
+        <OppfylteVilkår vilkår={props.oppfylteVilkår} />
+        {props.forlengelseFraInfotrygd ? (
+            <VilkårVurdertIInfotrygd />
+        ) : (
+            <FerdigbehandledeVilkår vedtaksperiode={props.førsteVedtaksperiode} />
+        )}
         <Strek />
     </>
 );

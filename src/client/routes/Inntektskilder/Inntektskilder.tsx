@@ -32,7 +32,7 @@ const Inntektskilder = () => {
 
     return (
         <Inntektskilderpanel>
-            {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
+            {periodeStatus === VedtaksperiodeStatus.Førstegangs ? (
                 <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
             ) : (
                 <StyledBehandletInnhold

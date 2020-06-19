@@ -67,14 +67,28 @@ const mapForlengelseFraInfotrygd = (value: SpleisForlengelseFraInfotrygd): boole
     }
 };
 
-const mapPeriodetype = (value: SpleisPeriodetype): Periodetype => {
-    switch (value) {
-        case SpleisPeriodetype.FØRSTEGANGSBEHANDLING:
+const mapPeriodetype = (spleisPeriode: SpesialistVedtaksperiode): Periodetype => {
+    const periodetype = spleisPeriode.periodetype;
+    if (periodetype) {
+        if (periodetype === SpleisPeriodetype.FØRSTEGANGSBEHANDLING) {
             return Periodetype.Førstegangsbehandling;
-        case SpleisPeriodetype.FORLENGELSE:
-            return Periodetype.Forlengelse;
-        case SpleisPeriodetype.INFOTRYGDFORLENGELSE:
+        } else if (periodetype === SpleisPeriodetype.INFOTRYGDFORLENGELSE) {
             return Periodetype.Infotrygdforlengelse;
+        } else return Periodetype.Forlengelse;
+    }
+
+    const førsteUtbetalingsdag = spleisPeriode.utbetalinger?.arbeidsgiverUtbetaling?.linjer[0].fom ?? dayjs(0);
+
+    const erFørstegangsbehandling = spleisPeriode.utbetalingstidslinje.some((enUtbetalingsdag) =>
+        dayjs(enUtbetalingsdag.dato).isSame(førsteUtbetalingsdag)
+    );
+
+    if (erFørstegangsbehandling) {
+        return Periodetype.Førstegangsbehandling;
+    } else if (spleisPeriode.forlengelseFraInfotrygd === SpleisForlengelseFraInfotrygd.JA) {
+        return Periodetype.Infotrygdforlengelse;
+    } else {
+        return Periodetype.Forlengelse;
     }
 };
 
@@ -233,7 +247,7 @@ export const mapVedtaksperiode = (
     }));
 
     const forlengelseFraInfotrygd = mapForlengelseFraInfotrygd(unmappedPeriode.forlengelseFraInfotrygd);
-    const periodetype = mapPeriodetype(unmappedPeriode.periodetype);
+    const periodetype = mapPeriodetype(unmappedPeriode);
 
     const risikovurdering: Risikovurdering | undefined = risikovurderingerForArbeidsgiver
         .map((risikovurdering) => ({ ...risikovurdering, opprettet: somTidspunkt(risikovurdering.opprettet) }))
@@ -246,6 +260,7 @@ export const mapVedtaksperiode = (
         gruppeId: unmappedPeriode.gruppeId,
         forlengelseFraInfotrygd,
         periodetype,
+        behandlet: !!unmappedPeriode.godkjentAv,
         kanVelges:
             ![SpleisVedtaksperiodetilstand.IngenUtbetaling, SpleisVedtaksperiodetilstand.Utbetalt].includes(
                 spleisPeriode.tilstand

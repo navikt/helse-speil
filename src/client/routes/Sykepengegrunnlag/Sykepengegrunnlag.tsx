@@ -42,7 +42,7 @@ const Sykepengegrunnlag = () => {
 
     return (
         <Sykepengegrunnlagpanel>
-            {periodeStatus === VedtaksperiodeStatus.Ubehandlet ? (
+            {periodeStatus === VedtaksperiodeStatus.Førstegangs ? (
                 <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
             ) : forlengelseFraInfotrygd || periodetype === Periodetype.Infotrygdforlengelse ? (
                 <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>

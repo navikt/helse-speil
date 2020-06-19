@@ -450,6 +450,7 @@ export const mappetPerson: Person = {
                     aktivitetslog: [],
                     forlengelseFraInfotrygd: false,
                     periodetype: Periodetype.Førstegangsbehandling,
+                    behandlet: false,
                     rawData: {
                         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                         fom: '2019-09-10',

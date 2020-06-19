@@ -4,8 +4,9 @@ import { Periodetype } from '../context/types.internal';
 import dayjs from 'dayjs';
 
 export enum VedtaksperiodeStatus {
-    Ubehandlet = 'ubehandlet',
+    Førstegangs = 'ubehandlet',
     Påfølgende = 'påfølgende',
+    PåfølgendeInfotrygd = 'påfølgendeInfotrygd',
     Behandlet = 'behandlet',
 }
 
@@ -29,14 +30,14 @@ export const useVedtaksperiodestatus = (): VedtaksperiodeStatus | undefined => {
         if (erGodkjent) {
             return VedtaksperiodeStatus.Behandlet;
         } else if (periodetype === Periodetype.Førstegangsbehandling) {
-            return VedtaksperiodeStatus.Ubehandlet;
+            return VedtaksperiodeStatus.Førstegangs;
         } else return VedtaksperiodeStatus.Påfølgende;
     }
 
     if (erGodkjent) {
         return VedtaksperiodeStatus.Behandlet;
     } else if (erFørstegangsbehandling) {
-        return VedtaksperiodeStatus.Ubehandlet;
+        return VedtaksperiodeStatus.Førstegangs;
     } else {
         return VedtaksperiodeStatus.Påfølgende;
     }

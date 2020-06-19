@@ -3,6 +3,7 @@ import Link from './Link';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../context/PersonContext';
 import { Location, useNavigation } from '../../hooks/useNavigation';
+import { Periodetype } from '../../context/types.internal';
 
 interface Props {
     active?: boolean;
@@ -61,7 +62,7 @@ const Venstremeny = () => {
     const { pathForLocation } = useNavigation();
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const active = aktivVedtaksperiode !== undefined;
-    const forlengelseFraInfotrygd = aktivVedtaksperiode?.forlengelseFraInfotrygd;
+    const forlengelseFraInfotrygd = aktivVedtaksperiode?.periodetype === Periodetype.Infotrygdforlengelse;
 
     return (
         <Container>

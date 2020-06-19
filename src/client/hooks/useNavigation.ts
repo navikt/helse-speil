@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { PersonContext } from '../context/PersonContext';
+import { Periodetype } from '../context/types.internal';
 
 export interface Navigation {
     toString: (location: Location) => string;
@@ -37,9 +38,10 @@ export const useNavigation = (): Navigation => {
     const history = useHistory();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
-    const availableLocations = aktivVedtaksperiode?.forlengelseFraInfotrygd
-        ? locations.filter((l) => l !== locations[Location.Inntektskilder])
-        : locations;
+    const availableLocations =
+        aktivVedtaksperiode?.periodetype === Periodetype.Infotrygdforlengelse
+            ? locations.filter((l) => l !== locations[Location.Inntektskilder])
+            : locations;
 
     const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), availableLocations);
 

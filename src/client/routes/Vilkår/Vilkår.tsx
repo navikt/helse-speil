@@ -3,13 +3,12 @@ import NavigationButtons from '../../components/NavigationButtons/NavigationButt
 import { PersonContext } from '../../context/PersonContext';
 import styled from '@emotion/styled';
 import { BehandletVedtaksperiode, BehandletVedtaksperiodeFraInfotrygd } from './BehandletVedtaksperiode';
-import { PåfølgendeVedtaksperiode, PåfølgendeVedtaksperiodeFraInfotrygd } from './PåfølgendeVedtaksperiode';
-import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
+import { PåfølgendeVedtaksperiode } from './PåfølgendeVedtaksperiode';
+import { Førstegangsbehandling, FørstegangsbehandlingInfotrygd } from './UbehandletVedtaksperiode';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import Aktivitetsplikt from './Aktivitetsplikt';
 import { Vilkårstype } from '../../context/mapping/vilkårsmapper';
-import { UbehandletVedtaksperiode, UbehandletVedtaksperiodeFraInfotrygd } from './UbehandletVedtaksperiode';
-import { Vedtaksperiode } from '../../context/types.internal';
+import { Vedtaksperiode, Periodetype } from '../../context/types.internal';
 import { useVilkår, VurderteVilkår } from '../../hooks/useVilkår';
 
 const Footer = styled(NavigationButtons)`
@@ -28,31 +27,36 @@ const filtrerBehandledeVilkår = (vilkår: Vilkårdata): boolean =>
 const tilKomponent = (vilkår: Vilkårdata): ReactNode => vilkår.komponent;
 
 interface VanligeVilkårProps {
-    periodestatus: VedtaksperiodeStatus;
     aktivVedtaksperiode: Vedtaksperiode;
     førsteVedtaksperiode: Vedtaksperiode;
     vilkår: VurderteVilkår;
 }
 
-const VanligeVilkår = ({ periodestatus, aktivVedtaksperiode, førsteVedtaksperiode, vilkår }: VanligeVilkårProps) => {
+const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }: VanligeVilkårProps) => {
     const { ikkeOppfylteVilkår, oppfylteVilkår, ikkeVurderteVilkår } = vilkår;
-    switch (periodestatus) {
-        case VedtaksperiodeStatus.Behandlet:
+    if (aktivVedtaksperiode.behandlet) {
+        return aktivVedtaksperiode.forlengelseFraInfotrygd ? (
+            <BehandletVedtaksperiodeFraInfotrygd
+                aktivVedtaksperiode={aktivVedtaksperiode}
+                førsteVedtaksperiode={førsteVedtaksperiode}
+            />
+        ) : (
+            <BehandletVedtaksperiode
+                aktivVedtaksperiode={aktivVedtaksperiode}
+                førsteVedtaksperiode={førsteVedtaksperiode}
+            />
+        );
+    }
+    switch (aktivVedtaksperiode.periodetype) {
+        case Periodetype.Førstegangsbehandling:
             return (
-                <BehandletVedtaksperiode
-                    aktivVedtaksperiode={aktivVedtaksperiode}
-                    førsteVedtaksperiode={førsteVedtaksperiode}
-                />
-            );
-        case VedtaksperiodeStatus.Ubehandlet:
-            return (
-                <UbehandletVedtaksperiode
+                <Førstegangsbehandling
                     ikkeOppfylteVilkår={ikkeOppfylteVilkår.map(tilKomponent)}
                     oppfylteVilkår={oppfylteVilkår.map(tilKomponent)}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
                 />
             );
-        case VedtaksperiodeStatus.Påfølgende:
+        case Periodetype.Forlengelse:
             return (
                 <PåfølgendeVedtaksperiode
                     førsteVedtaksperiode={førsteVedtaksperiode}
@@ -61,33 +65,14 @@ const VanligeVilkår = ({ periodestatus, aktivVedtaksperiode, førsteVedtaksperi
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
                 />
             );
-    }
-};
-
-const InfotrygdVilkår = ({ periodestatus, aktivVedtaksperiode, førsteVedtaksperiode, vilkår }: VanligeVilkårProps) => {
-    const { ikkeOppfylteVilkår, oppfylteVilkår, ikkeVurderteVilkår } = vilkår;
-    switch (periodestatus) {
-        case VedtaksperiodeStatus.Behandlet:
+        case Periodetype.Infotrygdforlengelse:
             return (
-                <BehandletVedtaksperiodeFraInfotrygd
-                    aktivVedtaksperiode={aktivVedtaksperiode}
+                <PåfølgendeVedtaksperiode
                     førsteVedtaksperiode={førsteVedtaksperiode}
-                />
-            );
-        case VedtaksperiodeStatus.Ubehandlet:
-            return (
-                <UbehandletVedtaksperiodeFraInfotrygd
-                    ikkeOppfylteVilkår={ikkeOppfylteVilkår.map(tilKomponent)}
-                    oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
-                    ikkeVurderteVilkår={ikkeVurderteVilkår}
-                />
-            );
-        case VedtaksperiodeStatus.Påfølgende:
-            return (
-                <PåfølgendeVedtaksperiodeFraInfotrygd
                     ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                     oppfylteVilkår={oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
+                    forlengelseFraInfotrygd={true}
                 />
             );
     }
@@ -95,31 +80,18 @@ const InfotrygdVilkår = ({ periodestatus, aktivVedtaksperiode, førsteVedtakspe
 
 const Vilkår = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const periodeStatus = useVedtaksperiodestatus();
     const vilkår = useVilkår();
-    const forlengelseFraInfotrygd = aktivVedtaksperiode?.forlengelseFraInfotrygd;
 
     if (!aktivVedtaksperiode || vilkår === undefined || personTilBehandling === undefined) return null;
 
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
     return (
         <>
-            {periodeStatus &&
-                (forlengelseFraInfotrygd ? (
-                    <InfotrygdVilkår
-                        vilkår={vilkår}
-                        periodestatus={periodeStatus}
-                        aktivVedtaksperiode={aktivVedtaksperiode}
-                        førsteVedtaksperiode={førsteVedtaksperiode}
-                    />
-                ) : (
-                    <VanligeVilkår
-                        vilkår={vilkår}
-                        periodestatus={periodeStatus}
-                        aktivVedtaksperiode={aktivVedtaksperiode}
-                        førsteVedtaksperiode={førsteVedtaksperiode}
-                    />
-                ))}
+            <Vilkårsvisning
+                vilkår={vilkår}
+                aktivVedtaksperiode={aktivVedtaksperiode}
+                førsteVedtaksperiode={førsteVedtaksperiode}
+            />
             <Aktivitetsplikt />
             <Footer />
         </>

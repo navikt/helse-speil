@@ -11,7 +11,7 @@ interface UbehandletVedtaksperiodeProps {
     ikkeVurderteVilkår: IkkeVurdertVilkår[];
 }
 
-export const UbehandletVedtaksperiode = ({
+export const Førstegangsbehandling = ({
     ikkeOppfylteVilkår,
     oppfylteVilkår,
     ikkeVurderteVilkår,
@@ -25,7 +25,8 @@ export const UbehandletVedtaksperiode = ({
     </>
 );
 
-export const UbehandletVedtaksperiodeFraInfotrygd = ({
+// Slett, ikke mulig
+export const FørstegangsbehandlingInfotrygd = ({
     ikkeOppfylteVilkår,
     oppfylteVilkår,
     ikkeVurderteVilkår,
