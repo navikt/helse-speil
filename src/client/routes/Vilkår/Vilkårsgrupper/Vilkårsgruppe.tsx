@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import Infoikon from '../../../components/Ikon/Infoikon';
 import Vilkårstittel from '../Vilkårstittel';
 import Kryssikon from '../../../components/Ikon/Kryssikon';
+import { Grid } from '../Vilkår.styles';
 
 type Ikontype = 'ok' | 'advarsel' | 'info' | 'kryss';
 
@@ -37,14 +38,6 @@ const Container = styled.div`
     &:not(:last-child) {
         margin-bottom: 1rem;
     }
-`;
-
-const Grid = styled.span`
-    grid-area: body;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 0.5rem;
-    margin: 0 0 1.5rem 2rem;
 `;
 
 const Vilkårsgruppe = ({ tittel, paragraf, ikontype, children }: Props) => {

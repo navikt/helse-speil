@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Strek, StyledUbehandletInnhold } from './Vilkår.styles';
+import { Strek, StyledUbehandletInnhold, Vilkårinnhold } from './Vilkår.styles';
 import { FlexColumn } from '../../components/FlexColumn';
-import styled from '@emotion/styled';
 import Vilkårstittel from './Vilkårstittel';
 
 interface VilkårsvisningProps {
@@ -10,11 +9,6 @@ interface VilkårsvisningProps {
     vilkår: ReactNode[];
 }
 
-const Tittel = styled(Vilkårstittel)`
-    margin-top: 2rem;
-    margin-left: 2rem;
-`;
-
 const Vilkårsvisning = ({ tittel, ikon, vilkår }: VilkårsvisningProps) => {
     const midten = Math.ceil(vilkår.length / 2);
     const venstre = vilkår.slice(0, midten);
@@ -22,13 +16,15 @@ const Vilkårsvisning = ({ tittel, ikon, vilkår }: VilkårsvisningProps) => {
 
     return (
         <>
-            <Tittel størrelse="m" ikon={ikon}>
-                {tittel}
-            </Tittel>
-            <StyledUbehandletInnhold>
-                <FlexColumn>{venstre}</FlexColumn>
-                <FlexColumn>{høyre}</FlexColumn>
-            </StyledUbehandletInnhold>
+            <Vilkårinnhold>
+                <Vilkårstittel størrelse="m" ikon={ikon}>
+                    {tittel}
+                </Vilkårstittel>
+                <StyledUbehandletInnhold>
+                    <FlexColumn>{venstre}</FlexColumn>
+                    <FlexColumn>{høyre}</FlexColumn>
+                </StyledUbehandletInnhold>
+            </Vilkårinnhold>
             <Strek />
         </>
     );

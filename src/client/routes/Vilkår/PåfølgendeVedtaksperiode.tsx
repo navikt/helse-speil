@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Strek, StyledBehandletAvInfotrygd, StyledBehandletInnhold } from './Vilkår.styles';
+import { Strek, StyledBehandletAvInfotrygd, StyledBehandletInnhold, Vilkårinnhold } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper';
 import { Opptjening, Vedtaksperiode } from '../../context/types.internal';
@@ -43,10 +43,12 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
 );
 
 export const VilkårVurdertIInfotrygd = () => (
-    <StyledBehandletAvInfotrygd tittel={`Inngangsvilkår vurdert i Infotrygd`}>
-        <Vilkårsgruppe tittel="Opptjeningstid" ikontype="ok" paragraf="§8-2" />
-        <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" ikontype="ok" paragraf="§8-3" />
-    </StyledBehandletAvInfotrygd>
+    <Vilkårinnhold>
+        <StyledBehandletAvInfotrygd tittel={`Inngangsvilkår vurdert i Infotrygd`}>
+            <Vilkårsgruppe tittel="Opptjeningstid" ikontype="ok" paragraf="§8-2" />
+            <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" ikontype="ok" paragraf="§8-3" />
+        </StyledBehandletAvInfotrygd>
+    </Vilkårinnhold>
 );
 
 interface OpptionalOpptjeningstidProps {
