@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../context/PersonContext';
 import NavigationButtons from '../../components/NavigationButtons';
-import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
@@ -29,7 +28,6 @@ const Sykepengegrunnlagpanel = styled.div`
 
 const Sykepengegrunnlag = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const periodeStatus = useVedtaksperiodestatus();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
@@ -38,13 +36,13 @@ const Sykepengegrunnlag = () => {
         ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
 
-    const { forlengelseFraInfotrygd, sykepengegrunnlag, periodetype } = aktivVedtaksperiode;
+    const { sykepengegrunnlag, periodetype } = aktivVedtaksperiode;
 
     return (
         <Sykepengegrunnlagpanel>
-            {periodeStatus === VedtaksperiodeStatus.Førstegangs ? (
+            {periodetype === Periodetype.Førstegangsbehandling ? (
                 <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
-            ) : forlengelseFraInfotrygd || periodetype === Periodetype.Infotrygdforlengelse ? (
+            ) : periodetype === Periodetype.Infotrygdforlengelse ? (
                 <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
                     <SykepengegrunnlagInfotrygd
                         årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding}

@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import NavigationButtons from '../../components/NavigationButtons/NavigationButtons';
 import { PersonContext } from '../../context/PersonContext';
-import { useVedtaksperiodestatus, VedtaksperiodeStatus } from '../../hooks/useVedtaksperiodestatus';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import { Periodetype } from '../../context/types.internal';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
@@ -21,7 +21,7 @@ const Inntektskilderpanel = styled.div`
 
 const Inntektskilder = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const periodeStatus = useVedtaksperiodestatus();
+    const periodetype = aktivVedtaksperiode?.periodetype;
 
     if (aktivVedtaksperiode === undefined || personTilBehandling === undefined) return null;
 
@@ -32,7 +32,7 @@ const Inntektskilder = () => {
 
     return (
         <Inntektskilderpanel>
-            {periodeStatus === VedtaksperiodeStatus.Førstegangs ? (
+            {periodetype === Periodetype.Førstegangsbehandling ? (
                 <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
             ) : (
                 <StyledBehandletInnhold
