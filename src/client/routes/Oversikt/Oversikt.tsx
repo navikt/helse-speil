@@ -15,6 +15,8 @@ import { Location, useNavigation } from '../../hooks/useNavigation';
 import { SuksessToast } from '../../components/Toast';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { OpprettetHeader, SakstypeHeader, StatusHeader, SøkerHeader, TildelingHeader } from './headere/headere';
+import { useRecoilState } from 'recoil';
+import { aktiveFiltereState } from './oversiktState';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -52,8 +54,9 @@ export const Oversikt = () => {
         TildelingerContext
     );
     const [sortDirection, setSortDirection] = useState<(a: Oppgave, b: Oppgave) => number>(() => descendingOpprettet);
+    const [currentFilters, setCurrentFilters] = useRecoilState(aktiveFiltereState);
     const harAlleTildelinger = tildelinger.length == behov.length;
-    const [currentFilters, setCurrentFilters] = useState<Oppgavefilter[]>([]);
+
     useVarselFilter(Scopes.OVERSIKT);
 
     useEffect(() => {
