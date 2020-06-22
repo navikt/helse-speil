@@ -98,19 +98,6 @@ describe('Vilkår', () => {
             expect(behandletInnhold()).not.toBeInTheDocument();
             expect(behandletAvInfotrygd()).toBeInTheDocument();
         });
-        // Kan vel ikke skje?? En ubehandlet/førstegangsbehandling KAN IKKE være forlengelse av infotrygd, ref when-blokk i Spleis
-        test('ubehandlet infotrygd skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet av infotrygd', () => {
-            const aktivVedtaksperiode = {
-                ...enSpeilVedtaksperiode(),
-                periodetype: Periodetype.Infotrygdforlengelse,
-            };
-            render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
-
-            expect(vilkårTilVurdering()).toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnhold()).not.toBeInTheDocument();
-            expect(behandletAvInfotrygd()).toBeInTheDocument();
-        });
     });
 
     describe('behandlet - ', () => {
@@ -137,6 +124,7 @@ describe('Vilkår', () => {
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 behandlet: true,
+                periodetype: Periodetype.Forlengelse,
                 rawData: {
                     ...vedtaksperiode.rawData,
                     godkjentAv: 'Sak Sbeh Andler',
@@ -161,27 +149,6 @@ describe('Vilkår', () => {
                     ...vedtaksperiode.rawData,
                     godkjentAv: 'Sak Sbeh Andler',
                     godkjenttidspunkt: '2020-05-01',
-                },
-            };
-            render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
-
-            expect(vilkårTilVurdering()).not.toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
-            expect(behandletInnhold()).toBeInTheDocument();
-            expect(behandletAvInfotrygd()).toBeInTheDocument();
-        });
-        // "Behandlet påfølgende infotrygd" og "behandlet infotrygd" er vel det samme? Ettersom det ikke er noe som heter "Førstegangs infotrygd"
-        test('behandlet påfølgende infotrygd skal ha behandlet innhold og behandlet av infotrygd', () => {
-            const vedtaksperiode = enSpeilVedtaksperiode();
-            const aktivVedtaksperiode = {
-                ...vedtaksperiode,
-                forlengelseFraInfotrygd: true,
-                behandlet: true,
-                rawData: {
-                    ...vedtaksperiode.rawData,
-                    godkjentAv: 'Sak Sbeh Andler',
-                    godkjenttidspunkt: '2020-05-01',
-                    førsteFraværsdag: '2019-10-06',
                 },
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);

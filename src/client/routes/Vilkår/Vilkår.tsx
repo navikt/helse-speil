@@ -4,7 +4,7 @@ import { PersonContext } from '../../context/PersonContext';
 import styled from '@emotion/styled';
 import { BehandletVedtaksperiode, BehandletVedtaksperiodeFraInfotrygd } from './BehandletVedtaksperiode';
 import { PåfølgendeVedtaksperiode } from './PåfølgendeVedtaksperiode';
-import { Førstegangsbehandling, FørstegangsbehandlingInfotrygd } from './UbehandletVedtaksperiode';
+import { Førstegangsbehandling } from './UbehandletVedtaksperiode';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import Aktivitetsplikt from './Aktivitetsplikt';
 import { Vilkårstype } from '../../context/mapping/vilkårsmapper';
