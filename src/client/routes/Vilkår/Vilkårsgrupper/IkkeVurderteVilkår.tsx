@@ -40,7 +40,9 @@ const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår }: VilkårSystemetIkk
             <Vilkårsgrupperad label="Medlemskap">§2</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Medvirkning">§8-8</Vilkårsgrupperad>
             {ikkeVurderteVilkår.map((v) => (
-                <Vilkårsgrupperad label={v.label}>{v.paragraf}</Vilkårsgrupperad>
+                <Vilkårsgrupperad key={v.label} label={v.label}>
+                    {v.paragraf}
+                </Vilkårsgrupperad>
             ))}
         </Grid>
     </>

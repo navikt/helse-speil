@@ -6,6 +6,7 @@ import { PersonContext } from '../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { Dag, Dagtype, Kilde, Sykmeldingstabell } from '@navikt/helse-frontend-tabell';
 import { Kildetype } from '../context/types.internal';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 const Container = styled.div`
     padding: 1.5rem 2rem;
@@ -27,7 +28,9 @@ const Sykmeldingsperiode = () => {
 
     return (
         <Container>
-            {dager ? <Sykmeldingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}
+            <ErrorBoundary>
+                {dager ? <Sykmeldingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}
+            </ErrorBoundary>
             <Navigasjonsknapper />
         </Container>
     );

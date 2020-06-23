@@ -7,6 +7,7 @@ import './Clipboard.less';
 
 interface Props {
     children: ReactChild;
+    source?: React.RefObject<HTMLElement>;
 }
 
 const animation = {
@@ -18,13 +19,19 @@ const animation = {
     },
 };
 
-const Clipboard = ({ children }: Props) => {
+const removeSpaces = (s: string) => s.replace(' ', '');
+
+const Clipboard = ({ children, source }: Props) => {
     const [didCopy, setDidCopy] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
     const copy = () => {
         if (!didCopy) {
-            setDidCopy(copyContentsToClipboard(ref?.current?.firstChild as HTMLElement));
+            setDidCopy(
+                source?.current
+                    ? copyContentsToClipboard(source.current, (s) => s)
+                    : copyContentsToClipboard(ref?.current?.firstChild as HTMLElement, removeSpaces)
+            );
         }
     };
 

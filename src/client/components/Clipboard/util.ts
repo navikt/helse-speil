@@ -1,10 +1,10 @@
-export const copyContentsToClipboard = (node: HTMLElement | undefined) => {
+export const copyContentsToClipboard = (node: HTMLElement | undefined, textTransform: (s: string) => string) => {
     let didCopy = false;
 
     if (node) {
         node.contentEditable = 'true';
         const tempTextContents = node.innerText;
-        node.innerText = node.innerText.replace(' ', '');
+        node.innerText = textTransform(node.innerText);
         const range = document.createRange();
         range.selectNodeContents(node);
 

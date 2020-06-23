@@ -7,6 +7,7 @@ import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import { finnFørsteVedtaksperiode } from '../../hooks/finnFørsteVedtaksperiode';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { Periodetype } from '../../context/types.internal';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
@@ -32,17 +33,19 @@ const Inntektskilder = () => {
 
     return (
         <Inntektskilderpanel>
-            {periodetype === Periodetype.Førstegangsbehandling ? (
-                <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
-            ) : (
-                <StyledBehandletInnhold
-                    tittel={`Inntekt vurdert første sykdomsdag - ${førsteFraværsdag}`}
-                    saksbehandler={førsteVedtaksperiode?.godkjentAv!}
-                    vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
-                >
+            <ErrorBoundary>
+                {periodetype === Periodetype.Førstegangsbehandling ? (
                     <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
-                </StyledBehandletInnhold>
-            )}
+                ) : (
+                    <StyledBehandletInnhold
+                        tittel={`Inntekt vurdert første sykdomsdag - ${førsteFraværsdag}`}
+                        saksbehandler={førsteVedtaksperiode?.godkjentAv!}
+                        vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
+                    >
+                        <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
+                    </StyledBehandletInnhold>
+                )}
+            </ErrorBoundary>
             <NavigationButtons />
         </Inntektskilderpanel>
     );

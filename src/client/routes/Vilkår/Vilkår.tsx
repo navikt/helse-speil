@@ -10,6 +10,7 @@ import Aktivitetsplikt from './Aktivitetsplikt';
 import { Vilkårstype } from '../../context/mapping/vilkårsmapper';
 import { Vedtaksperiode, Periodetype } from '../../context/types.internal';
 import { useVilkår, VurderteVilkår } from '../../hooks/useVilkår';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
@@ -87,12 +88,14 @@ const Vilkår = () => {
     const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
     return (
         <>
-            <Vilkårsvisning
-                vilkår={vilkår}
-                aktivVedtaksperiode={aktivVedtaksperiode}
-                førsteVedtaksperiode={førsteVedtaksperiode}
-            />
-            <Aktivitetsplikt />
+            <ErrorBoundary sidenavn="Vilkår">
+                <Vilkårsvisning
+                    vilkår={vilkår}
+                    aktivVedtaksperiode={aktivVedtaksperiode}
+                    førsteVedtaksperiode={førsteVedtaksperiode}
+                />
+                <Aktivitetsplikt />
+            </ErrorBoundary>
             <Footer />
         </>
     );

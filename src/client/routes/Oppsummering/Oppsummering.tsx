@@ -10,6 +10,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { useTranslation } from 'react-i18next';
 import styled from '@emotion/styled';
 import Simuleringsinfo from './Simuleringsinfo';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 const Innhold = styled.div`
     width: 100%;
@@ -51,29 +52,31 @@ const Oppsummering = () => {
     return (
         <Innhold>
             <StyledPanel>
-                <Oppsummeringstittel>{t('oppsummering.tittel')}</Oppsummeringstittel>
-                <List>
-                    <ListItem label={t('oppsummering.sykepengegrunnlag')}>
-                        {`${toKronerOgØre(sykepengegrunnlag.sykepengegrunnlag!)} kr`}
-                    </ListItem>
-                    <ListItem label={t('oppsummering.antall_utbetalingsdager')}>
-                        {oppsummering.antallUtbetalingsdager}
-                    </ListItem>
-                    <ListItem label={t('oppsummering.beløp')}>
-                        {oppsummering.totaltTilUtbetaling > 0
-                            ? `${toKronerOgØre(oppsummering.totaltTilUtbetaling)} kr`
-                            : 'Ingen utbetaling'}
-                    </ListItem>
-                    <ListItem label={t('oppsummering.utbetaling_til')}>
-                        {`Organisasjonsnummer: ${inntektskilder[0].organisasjonsnummer}`}
-                    </ListItem>
-                </List>
-                <Divider />
-                {simuleringsdata ? (
-                    <Simuleringsinfo simulering={simuleringsdata} />
-                ) : (
-                    <Infotekst>Ingen simulering</Infotekst>
-                )}
+                <ErrorBoundary>
+                    <Oppsummeringstittel>{t('oppsummering.tittel')}</Oppsummeringstittel>
+                    <List>
+                        <ListItem label={t('oppsummering.sykepengegrunnlag')}>
+                            {`${toKronerOgØre(sykepengegrunnlag.sykepengegrunnlag!)} kr`}
+                        </ListItem>
+                        <ListItem label={t('oppsummering.antall_utbetalingsdager')}>
+                            {oppsummering.antallUtbetalingsdager}
+                        </ListItem>
+                        <ListItem label={t('oppsummering.beløp')}>
+                            {oppsummering.totaltTilUtbetaling > 0
+                                ? `${toKronerOgØre(oppsummering.totaltTilUtbetaling)} kr`
+                                : 'Ingen utbetaling'}
+                        </ListItem>
+                        <ListItem label={t('oppsummering.utbetaling_til')}>
+                            {`Organisasjonsnummer: ${inntektskilder[0].organisasjonsnummer}`}
+                        </ListItem>
+                    </List>
+                    <Divider />
+                    {simuleringsdata ? (
+                        <Simuleringsinfo simulering={simuleringsdata} />
+                    ) : (
+                        <Infotekst>Ingen simulering</Infotekst>
+                    )}
+                </ErrorBoundary>
                 <Navigasjonsknapper />
             </StyledPanel>
             <Utbetaling />

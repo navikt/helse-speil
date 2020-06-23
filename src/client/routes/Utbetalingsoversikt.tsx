@@ -5,9 +5,10 @@ import { PersonContext } from '../context/PersonContext';
 import { Dag, Dagstatus, Utbetalingstabell } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../utils/date';
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from '../context/types.internal';
+import { Dagtype, Utbetalingsdag } from '../context/types.internal';
 import { Dayjs } from 'dayjs';
 import { useMaksdato } from '../hooks/useMaksdato';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 const Container = styled.div`
     padding: 1.5rem 2rem;
@@ -16,15 +17,6 @@ const Container = styled.div`
         margin-top: 2.5rem;
     }
 `;
-
-type ValueOf<T> = T[keyof T];
-
-const verdiFraTilsvarendeSykdomsdag = (
-    utbetalingsdag: Utbetalingsdag,
-    sykdomstidslinje: Sykdomsdag[],
-    nøkkel: keyof (Utbetalingsdag | Sykdomsdag)
-): ValueOf<Sykdomsdag | Utbetalingsdag> =>
-    sykdomstidslinje.find((sykdomsdag) => utbetalingsdag.dato.isSame(sykdomsdag.dato))![nøkkel];
 
 const status = (dag: Utbetalingsdag, maksdato?: Dayjs): Dagstatus | undefined =>
     [Dagtype.Avvist, Dagtype.Foreldet].includes(dag.type)
@@ -69,7 +61,9 @@ const Utbetalingsoversikt = () => {
 
     return (
         <Container>
-            {dager ? <Utbetalingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}
+            <ErrorBoundary>
+                {dager ? <Utbetalingstabell dager={dager} /> : <Normaltekst>Ingen data</Normaltekst>}
+            </ErrorBoundary>
             <Navigasjonsknapper />
         </Container>
     );

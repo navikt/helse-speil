@@ -9,6 +9,7 @@ import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
 import { Periodetype } from '../../context/types.internal';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
@@ -40,23 +41,25 @@ const Sykepengegrunnlag = () => {
 
     return (
         <Sykepengegrunnlagpanel>
-            {periodetype === Periodetype.Førstegangsbehandling ? (
-                <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
-            ) : periodetype === Periodetype.Infotrygdforlengelse ? (
-                <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
-                    <SykepengegrunnlagInfotrygd
-                        årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding}
-                    />
-                </StyledBehandletAvInfotrygd>
-            ) : (
-                <StyledBehandletInnhold
-                    tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
-                    saksbehandler={førsteVedtaksperiode?.godkjentAv!}
-                    vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
-                >
+            <ErrorBoundary>
+                {periodetype === Periodetype.Førstegangsbehandling ? (
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
-                </StyledBehandletInnhold>
-            )}
+                ) : periodetype === Periodetype.Infotrygdforlengelse ? (
+                    <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
+                        <SykepengegrunnlagInfotrygd
+                            årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding}
+                        />
+                    </StyledBehandletAvInfotrygd>
+                ) : (
+                    <StyledBehandletInnhold
+                        tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
+                        saksbehandler={førsteVedtaksperiode?.godkjentAv!}
+                        vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
+                    >
+                        <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
+                    </StyledBehandletInnhold>
+                )}
+            </ErrorBoundary>
             <NavigationButtons />
         </Sykepengegrunnlagpanel>
     );
