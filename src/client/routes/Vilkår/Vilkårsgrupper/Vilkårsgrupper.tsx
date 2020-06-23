@@ -11,17 +11,17 @@ import {
     DagerIgjen as DagerIgjenType,
     Opptjening as OpptjeningType,
     SykepengegrunnlagVilkår,
-    Søknadsfrist as SøknadsfristType
+    Søknadsfrist as SøknadsfristType,
 } from '../../../context/types.internal';
 
 const Alder = (props: AlderType) => (
-    <Vilkårsgruppe tittel="Under 70 år" paragraf="§8-51" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
+    <Vilkårsgruppe tittel="Under 70 år" paragraf="§ 8-51" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
         <Vilkårsgrupperad label="Alder">{props.alderSisteSykedag}</Vilkårsgrupperad>
     </Vilkårsgruppe>
 );
 
 const Søknadsfrist = (props: SøknadsfristType) => (
-    <Vilkårsgruppe tittel="Søknadsfrist" paragraf="§22-13" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
+    <Vilkårsgruppe tittel="Søknadsfrist" paragraf="§ 22-13" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
         <Vilkårsgrupperad label="Sendt NAV">
             {props.sendtNav!.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'}
         </Vilkårsgrupperad>
@@ -36,7 +36,7 @@ interface OpptjeningstidProps {
 }
 
 const Opptjeningstid = ({ opptjeningVilkår, førsteFraværsdag }: OpptjeningstidProps) => (
-    <Vilkårsgruppe tittel="Opptjeningstid" paragraf="§8-2" ikontype={opptjeningVilkår.oppfylt ? 'ok' : 'kryss'}>
+    <Vilkårsgruppe tittel="Opptjeningstid" paragraf="§ 8-2" ikontype={opptjeningVilkår.oppfylt ? 'ok' : 'kryss'}>
         <Vilkårsgrupperad label="Første sykdomsdag">
             {førsteFraværsdag?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
         </Vilkårsgrupperad>
@@ -57,7 +57,7 @@ interface KravTilSykepengegrunnlagProps {
 const KravTilSykepengegrunnlag = ({ sykepengegrunnlagVilkår, alderSisteSykedag }: KravTilSykepengegrunnlagProps) => (
     <Vilkårsgruppe
         tittel="Krav til minste sykepengegrunnlag"
-        paragraf="§8-3"
+        paragraf="§ 8-3"
         ikontype={sykepengegrunnlagVilkår.oppfylt ? 'ok' : 'kryss'}
     >
         <Vilkårsgrupperad label="Sykepengegrunnlaget">
@@ -83,7 +83,7 @@ const Grunnbeløp = ({ grunnbeløp, alder }: Grunnbeløp) =>
 
 const DagerIgjen = (props: DagerIgjenType) => {
     return (
-        <Vilkårsgruppe tittel="Dager igjen" paragraf="§8-11 og §8-12" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
+        <Vilkårsgruppe tittel="Dager igjen" paragraf="§§ 8-11 og 8-12" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
             <Vilkårsgrupperad label="Første fraværsdag">
                 {props.førsteFraværsdag?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
             </Vilkårsgrupperad>

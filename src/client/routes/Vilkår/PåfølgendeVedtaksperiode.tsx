@@ -45,8 +45,8 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
 export const VilkårVurdertIInfotrygd = () => (
     <Vilkårinnhold>
         <StyledBehandletAvInfotrygd tittel={`Inngangsvilkår vurdert i Infotrygd`}>
-            <Vilkårsgruppe tittel="Opptjeningstid" ikontype="ok" paragraf="§8-2" />
-            <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" ikontype="ok" paragraf="§8-3" />
+            <Vilkårsgruppe tittel="Opptjeningstid" ikontype="ok" paragraf="§ 8-2" />
+            <Vilkårsgruppe tittel="Krav til minste sykepengegrunnlag" ikontype="ok" paragraf="§ 8-3" />
         </StyledBehandletAvInfotrygd>
     </Vilkårinnhold>
 );
@@ -62,7 +62,7 @@ const OptionalOpptjeningstid = ({ vedtaksperiode }: OpptionalOpptjeningstidProps
             førsteFraværsdag={vedtaksperiode.vilkår!.dagerIgjen?.førsteFraværsdag}
         />
     ) : (
-        <Vilkårsgruppe tittel="Opptjening må vurderes manuelt" ikontype="advarsel" paragraf="§8-2" />
+        <Vilkårsgruppe tittel="Opptjening må vurderes manuelt" ikontype="advarsel" paragraf="§ 8-2" />
     );
 
 interface PåfølgendeVedtaksperiodeProps {

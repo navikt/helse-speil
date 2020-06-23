@@ -53,15 +53,15 @@ export const useVilkår = (): VurderteVilkår | undefined => {
         .map((it) => {
             switch (it.type) {
                 case Vilkårstype.Alder:
-                    return { label: 'Under 70 år', paragraf: '§8-51' };
+                    return { label: 'Under 70 år', paragraf: '§ 8-51' };
                 case Vilkårstype.Søknadsfrist:
-                    return { label: 'Søknadsfrist', paragraf: '§22-13' };
+                    return { label: 'Søknadsfrist', paragraf: '§ 22-13' };
                 case Vilkårstype.Opptjeningstid:
-                    return { label: 'Opptjening', paragraf: '§8-2' };
+                    return { label: 'Opptjening', paragraf: '§ 8-2' };
                 case Vilkårstype.KravTilSykepengegrunnlag:
-                    return { label: 'Krav til minste sykepengegrunnlag', paragraf: '§8-3' };
+                    return { label: 'Krav til minste sykepengegrunnlag', paragraf: '§ 8-3' };
                 case Vilkårstype.DagerIgjen:
-                    return { label: 'Dager igjen', paragraf: '§8-11 og §8-12' };
+                    return { label: 'Dager igjen', paragraf: '§§ 8-11 og 8-12' };
             }
         });
 

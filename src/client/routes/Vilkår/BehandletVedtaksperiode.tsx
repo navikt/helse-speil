@@ -60,9 +60,9 @@ export const BehandletVedtaksperiode = ({
             >
                 <Innhold kolonner={2}>
                     <FlexColumn>
-                        <Vilkårsgruppe tittel="Arbeidsuførhet" paragraf="§8-4" ikontype="ok" />
-                        <Vilkårsgruppe tittel="Medlemskap" paragraf="§2" ikontype="ok" />
-                        <Vilkårsgruppe tittel="Medvirkning" paragraf="§8-8" ikontype="ok" />
+                        <Vilkårsgruppe tittel="Arbeidsuførhet" paragraf="§ 8-4" ikontype="ok" />
+                        <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" ikontype="ok" />
+                        <Vilkårsgruppe tittel="Medvirkning" paragraf="§ 8-8" ikontype="ok" />
                         <Vilkårsgrupper.Alder {...vilkår.alder} />
                         <Vilkårsgrupper.Søknadsfrist {...vilkår.søknadsfrist} />
                     </FlexColumn>
@@ -76,7 +76,7 @@ export const BehandletVedtaksperiode = ({
                             <Vilkårsgruppe
                                 tittel="Opptjening må vurderes manuelt"
                                 ikontype="advarsel"
-                                paragraf="§8-2"
+                                paragraf="§ 8-2"
                             />
                         )}
                         <Vilkårsgrupper.KravTilSykepengegrunnlag
@@ -105,13 +105,13 @@ export const BehandletVedtaksperiodeFraInfotrygd = ({
             >
                 <Innhold kolonner={2}>
                     <FlexColumn>
-                        <Vilkårsgruppe tittel="Arbeidsuførhet" paragraf="§8-4" ikontype="ok" />
-                        <Vilkårsgruppe tittel="Medlemskap" paragraf="§2" ikontype="ok" />
+                        <Vilkårsgruppe tittel="Arbeidsuførhet" paragraf="§ 8-4" ikontype="ok" />
+                        <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" ikontype="ok" />
                         <Vilkårsgrupper.Alder {...vilkår.alder} />
                         <Vilkårsgrupper.Søknadsfrist {...vilkår.søknadsfrist} />
                     </FlexColumn>
                     <FlexColumn>
-                        <Vilkårsgruppe tittel="Medvirkning" paragraf="§8-8" ikontype="ok" />
+                        <Vilkårsgruppe tittel="Medvirkning" paragraf="§ 8-8" ikontype="ok" />
                         <Vilkårsgrupper.DagerIgjen {...vilkår.dagerIgjen!} />
                     </FlexColumn>
                 </Innhold>

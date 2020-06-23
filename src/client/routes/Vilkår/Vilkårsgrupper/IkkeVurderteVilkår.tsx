@@ -36,9 +36,9 @@ const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår }: VilkårSystemetIkk
             Vilkår systemet ikke vurderer
         </IkkeVurderteVilkårTittel>
         <Grid>
-            <Vilkårsgrupperad label="Arbeidsuførhet">§8-4</Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Medlemskap">§2</Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Medvirkning">§8-8</Vilkårsgrupperad>
+            <Vilkårsgrupperad label="Arbeidsuførhet">§ 8-4</Vilkårsgrupperad>
+            <Vilkårsgrupperad label="Medlemskap">§ 2</Vilkårsgrupperad>
+            <Vilkårsgrupperad label="Medvirkning">§ 8-8</Vilkårsgrupperad>
             {ikkeVurderteVilkår.map((v) => (
                 <Vilkårsgrupperad key={v.label} label={v.label}>
                     {v.paragraf}
@@ -50,7 +50,7 @@ const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår }: VilkårSystemetIkk
 
 const Yrkeskadeinfo = () => (
     <>
-        <IkkeVurderteVilkårTittel størrelse="m" ikon={<Infoikon />} paragraf="8-55">
+        <IkkeVurderteVilkårTittel størrelse="m" ikon={<Infoikon />} paragraf="§ 8-55">
             Systemet henter ikke inn yrkesskade
         </IkkeVurderteVilkårTittel>
         <Yrkesskadetekst>Systemet henter per i dag ikke inn informasjon om yrkesskade.</Yrkesskadetekst>
