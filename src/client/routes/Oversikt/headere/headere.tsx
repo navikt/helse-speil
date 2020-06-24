@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Header } from './Header';
-import { Oppgavefilter } from '../Oversikt';
+import { Oppgavefilter } from '../oversiktState';
 import { FiltrerbarHeader } from './FiltrerbarHeader';
 import { Oppgave, OppgaveType } from '../../../../types';
 import { SorterbarHeader } from './SorterbarHeader';

@@ -4,7 +4,7 @@ import { Undertekst } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
 import { Chevron } from '../../../components/Chevron';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Oppgavefilter } from '../Oversikt';
+import { Oppgavefilter } from '../oversiktState';
 import { useInteractOutside } from '../../../hooks/useInteractOutside';
 
 const Filterknapp = styled.button`

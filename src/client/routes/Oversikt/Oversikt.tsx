@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Panel from 'nav-frontend-paneler';
 import { TildelingerContext } from '../../context/TildelingerContext';
@@ -16,7 +16,7 @@ import { SuksessToast } from '../../components/Toast';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { OpprettetHeader, SakstypeHeader, StatusHeader, SøkerHeader, TildelingHeader } from './headere/headere';
 import { useRecoilState } from 'recoil';
-import { aktiveFiltereState } from './oversiktState';
+import { aktiveFiltereState, aktivSortering, ascendingOpprettet, descendingOpprettet } from './oversiktState';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -37,14 +37,6 @@ const LasterInnhold = styled.div`
     }
 `;
 
-const ascendingOpprettet = (a: Oppgave, b: Oppgave) =>
-    new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
-
-const descendingOpprettet = (a: Oppgave, b: Oppgave) =>
-    new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime();
-
-export type Oppgavefilter = (oppgave: Oppgave) => boolean;
-
 export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
@@ -53,7 +45,7 @@ export const Oversikt = () => {
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
-    const [sortDirection, setSortDirection] = useState<(a: Oppgave, b: Oppgave) => number>(() => descendingOpprettet);
+    const [sortDirection, setSortDirection] = useRecoilState(aktivSortering);
     const [currentFilters, setCurrentFilters] = useRecoilState(aktiveFiltereState);
     const harAlleTildelinger = tildelinger.length == behov.length;
 
