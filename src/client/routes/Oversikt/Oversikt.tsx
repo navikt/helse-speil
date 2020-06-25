@@ -17,6 +17,7 @@ import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { OpprettetHeader, SakstypeHeader, StatusHeader, SøkerHeader, TildelingHeader } from './headere/headere';
 import { useRecoilState } from 'recoil';
 import { aktiveFiltereState, aktivSortering, ascendingOpprettet, descendingOpprettet } from './oversiktState';
+import { useLocation } from 'react-router-dom';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -42,6 +43,7 @@ export const Oversikt = () => {
     const { navigateTo } = useNavigation();
     const { isFetching: isFetchingPersonBySearch, personTilBehandling, tildelPerson } = useContext(PersonContext);
     const { behov, hentBehov, isFetchingBehov, error: behovContextError } = useContext(BehovContext);
+    const location = useLocation();
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
@@ -53,7 +55,7 @@ export const Oversikt = () => {
 
     useEffect(() => {
         hentBehov().then((nyeBehov) => fetchTildelinger(nyeBehov));
-    }, []);
+    }, [location.key]);
 
     const toggleSortDirection = () =>
         setSortDirection(sortDirection === descendingOpprettet ? () => ascendingOpprettet : () => descendingOpprettet);
