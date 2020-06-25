@@ -1,22 +1,70 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 import { Oppgave } from '../../../types';
+import { SpeilOppgave } from './Oversiktslinje';
 
 export type Oppgavefilter = (oppgave: Oppgave) => boolean;
-
-export type Oppgavesortering = (a: Oppgave, b: Oppgave) => number;
 
 export const aktiveFiltereState = atom<Oppgavefilter[]>({
     key: 'aktiveFiltere',
     default: [],
 });
 
-export const ascendingOpprettet = (a: Oppgave, b: Oppgave) =>
+export const aktivSorteringState = selector({
+    key: 'aktivSortering',
+    get: ({ get }) => {
+        const aktivKolonne = get(aktivKolonneState);
+        const retning = get(sorteringsretningState);
+        return aktivKolonne.sortering[retning];
+    },
+});
+
+export type Retning = 'ascending' | 'descending';
+
+export const sorteringsretningState = atom<Retning>({
+    key: 'sorteringsretning',
+    default: 'ascending',
+});
+
+type Oppgavesortering = (a: any, b: any) => number;
+
+const sorterePåOpprettet = (a: Oppgave, b: Oppgave) =>
     new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
 
-export const descendingOpprettet = (a: Oppgave, b: Oppgave) =>
-    new Date(b.opprettet).getTime() - new Date(a.opprettet).getTime();
+const sorterePåTildelt = (a: SpeilOppgave, b: SpeilOppgave) =>
+    a.tildeling?.userId
+        ? b.tildeling?.userId
+            ? a.tildeling.userId.localeCompare(b.tildeling.userId)
+            : -1
+        : b.tildeling?.userId
+        ? 1
+        : 0;
 
-export const aktivSortering = atom<Oppgavesortering | undefined>({
-    key: 'aktivSortering',
-    default: descendingOpprettet,
+export type SorterbarKolonne = {
+    sortering: {
+        ascending: Oppgavesortering;
+        descending: Oppgavesortering;
+    };
+    initiellRetning: Retning;
+};
+
+export const sorterbareKolonner: { [key: string]: SorterbarKolonne } = {
+    opprettet: {
+        sortering: {
+            ascending: sorterePåOpprettet,
+            descending: (a: Oppgave, b: Oppgave) => sorterePåOpprettet(b, a),
+        },
+        initiellRetning: 'descending',
+    },
+    tildelt: {
+        sortering: {
+            ascending: sorterePåTildelt,
+            descending: (a: SpeilOppgave, b: SpeilOppgave) => sorterePåTildelt(b, a),
+        },
+        initiellRetning: 'ascending',
+    },
+};
+
+export const aktivKolonneState = atom<SorterbarKolonne>({
+    key: 'aktivKolonne',
+    default: sorterbareKolonner.opprettet,
 });

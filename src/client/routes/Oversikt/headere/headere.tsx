@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { Header } from './Header';
-import { Oppgavefilter } from '../oversiktState';
+import { Oppgavefilter, sorterbareKolonner } from '../oversiktState';
 import { FiltrerbarHeader } from './FiltrerbarHeader';
 import { Oppgave, OppgaveType } from '../../../../types';
 import { SorterbarHeader } from './SorterbarHeader';
@@ -9,7 +9,7 @@ export const SøkerHeader = () => <Header widthInPixels={265}>Søker</Header>;
 
 export const StatusHeader = () => <Header widthInPixels={120}>Status</Header>;
 
-export const TildelingHeader = () => <Header>Tildelt</Header>;
+export const TildelingHeader = () => <SorterbarHeader tittel="Tildelt" kolonne={sorterbareKolonner.tildelt} />;
 
 interface SakstypeHeaderProps {
     filtere: Oppgavefilter[];
@@ -47,13 +47,6 @@ export const SakstypeHeader = ({ filtere, setFiltere }: SakstypeHeaderProps) => 
     );
 };
 
-interface OpprettetHeaderProps {
-    toggleSort: () => void;
-    sortDirection: 'ascending' | 'descending';
-}
-
-export const OpprettetHeader = ({ toggleSort, sortDirection }: OpprettetHeaderProps) => (
-    <SorterbarHeader onToggleSort={toggleSort} sortDirection={sortDirection} widthInPixels={100}>
-        Opprettet
-    </SorterbarHeader>
+export const OpprettetHeader = () => (
+    <SorterbarHeader tittel="Opprettet" kolonne={sorterbareKolonner.opprettet} widthInPixels={100} />
 );

@@ -1,7 +1,9 @@
 import React, { ReactNode } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from '@emotion/styled';
 import { HeaderView } from '../Oversikt.styles';
 import { Undertekst } from 'nav-frontend-typografi';
+import { sorteringsretningState, aktivKolonneState, SorterbarKolonne } from '../oversiktState';
 
 const Sorteringsknapp = styled.button`
     padding: 0 1rem 0 0;
@@ -49,25 +51,39 @@ const Sorteringspiler = styled.div<{ direction: string }>`
     }
 
     ${(props) =>
-        props.direction === 'ascending' &&
-        `
-        &:after { transform: translateY(-0.5rem) rotate(180deg); }
-        &:before { transform: translateY(0.5rem) rotate(180deg); }
-    `}
+        (props.direction === 'ascending' &&
+            `
+            &:after { transform: translateY(-0.5rem) rotate(180deg); }
+            &:before { transform: translateY(0.5rem) rotate(180deg); }
+        `) ||
+        (props.direction === 'inactive' &&
+            `
+            &:after { border-top: 0.25rem solid #b7b1a9; }
+            &:before { border-bottom: 0.25rem solid #b7b1a9; }
+        `)}
 `;
 
 interface SorterbarHeaderProps {
-    children: ReactNode | ReactNode[];
-    onToggleSort: () => void;
-    sortDirection: 'ascending' | 'descending';
+    tittel: string;
+    kolonne: SorterbarKolonne;
     widthInPixels?: number;
 }
 
-export const SorterbarHeader = ({ children, onToggleSort, sortDirection, widthInPixels }: SorterbarHeaderProps) => (
-    <HeaderView widthInPixels={widthInPixels}>
-        <Sorteringsknapp onClick={onToggleSort}>
-            <Undertekst>{children}</Undertekst>
-            <Sorteringspiler direction={sortDirection} />
-        </Sorteringsknapp>
-    </HeaderView>
-);
+export const SorterbarHeader = ({ tittel, kolonne, widthInPixels }: SorterbarHeaderProps) => {
+    const [aktivKolonne, setAktivKolonne] = useRecoilState(aktivKolonneState);
+    const [sortDirection, setSortDirection] = useRecoilState(sorteringsretningState);
+    const byttRetning = () => {
+        setSortDirection((prev) => (prev === 'ascending' ? 'descending' : 'ascending'));
+    };
+    const byttKolonne = () => setAktivKolonne(kolonne);
+    const gjeldendeSortertKolonne = aktivKolonne === kolonne;
+
+    return (
+        <HeaderView widthInPixels={widthInPixels}>
+            <Sorteringsknapp onClick={() => (!gjeldendeSortertKolonne ? byttKolonne() : byttRetning())}>
+                <Undertekst>{tittel}</Undertekst>
+                <Sorteringspiler direction={gjeldendeSortertKolonne ? sortDirection : 'inactive'} />
+            </Sorteringsknapp>
+        </HeaderView>
+    );
+};

@@ -115,20 +115,22 @@ const Varsler = ({ antallVarsler }: StatusProps) => {
     );
 };
 
+export interface SpeilOppgave extends Oppgave {
+    tildeling?: Tildeling;
+}
 interface OversiktslinjeProps {
-    oppgave: Oppgave;
+    oppgave: SpeilOppgave;
     onUnassignCase: (id: string) => void;
     onAssignCase: (id: string, aktørId: string, email?: string) => void;
-    tildeling?: Tildeling;
     antallVarsler: number;
 }
 
-const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, antallVarsler }: OversiktslinjeProps) => {
+const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }: OversiktslinjeProps) => {
     const { email } = useRecoilValue(authState);
     const { pathForLocation } = useNavigation();
     const { fornavn, mellomnavn, etternavn } = oppgave.navn;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
-    const erTildelt = tildeling?.userId;
+    const erTildelt = oppgave.tildeling?.userId;
 
     return useMemo(
         () => (
@@ -139,8 +141,8 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
                 <Opprettet dato={oppgave.opprettet} />
                 {erTildelt ? (
                     <Tildelt
-                        erTildeltInnloggetBruker={tildeling?.userId === email}
-                        innloggetBrukerNavn={capitalizeName(extractNameFromEmail(tildeling?.userId))}
+                        erTildeltInnloggetBruker={oppgave.tildeling?.userId === email}
+                        innloggetBrukerNavn={capitalizeName(extractNameFromEmail(oppgave.tildeling?.userId))}
                         onFjernTildeling={() => onUnassignCase(oppgave.spleisbehovId)}
                     />
                 ) : (
@@ -148,7 +150,7 @@ const Oversiktslinje = ({ oppgave, tildeling, onUnassignCase, onAssignCase, anta
                 )}
             </Row>
         ),
-        [tildeling]
+        [oppgave.tildeling]
     );
 };
 

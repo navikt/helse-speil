@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Panel from 'nav-frontend-paneler';
 import { TildelingerContext } from '../../context/TildelingerContext';
@@ -10,13 +11,12 @@ import { Row, Tabell } from './Oversikt.styles';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersonContext } from '../../context/PersonContext';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
-import Oversiktslinje from './Oversiktslinje';
+import Oversiktslinje, { SpeilOppgave } from './Oversiktslinje';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import { SuksessToast } from '../../components/Toast';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
-import { OpprettetHeader, SakstypeHeader, StatusHeader, SøkerHeader, TildelingHeader } from './headere/headere';
-import { useRecoilState } from 'recoil';
-import { aktiveFiltereState, aktivSortering, ascendingOpprettet, descendingOpprettet } from './oversiktState';
+import { SakstypeHeader, StatusHeader, SøkerHeader, TildelingHeader, OpprettetHeader } from './headere/headere';
+import { aktiveFiltereState, aktivKolonneState, sorteringsretningState, aktivSorteringState } from './oversiktState';
 import { useLocation } from 'react-router-dom';
 
 const Container = styled(Panel)`
@@ -38,6 +38,15 @@ const LasterInnhold = styled.div`
     }
 `;
 
+const useSettInitiellRetning = () => {
+    const aktivKolonne = useRecoilValue(aktivKolonneState);
+    const setSorteringsretning = useSetRecoilState(sorteringsretningState);
+
+    useEffect(() => {
+        setSorteringsretning(aktivKolonne.initiellRetning);
+    }, [aktivKolonne]);
+};
+
 export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
@@ -47,7 +56,8 @@ export const Oversikt = () => {
     const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
-    const [sortDirection, setSortDirection] = useRecoilState(aktivSortering);
+    const aktivSortering = useRecoilValue(aktivSorteringState);
+    useSettInitiellRetning();
     const [currentFilters, setCurrentFilters] = useRecoilState(aktiveFiltereState);
     const harAlleTildelinger = tildelinger.length == behov.length;
 
@@ -56,9 +66,6 @@ export const Oversikt = () => {
     useEffect(() => {
         hentBehov().then((nyeBehov) => fetchTildelinger(nyeBehov));
     }, [location.key]);
-
-    const toggleSortDirection = () =>
-        setSortDirection(sortDirection === descendingOpprettet ? () => ascendingOpprettet : () => descendingOpprettet);
 
     const onUnassignCase = (behovId: string) => {
         fjernTildeling(behovId);
@@ -101,10 +108,7 @@ export const Oversikt = () => {
                             <SøkerHeader />
                             <SakstypeHeader filtere={currentFilters} setFiltere={setCurrentFilters} />
                             <StatusHeader />
-                            <OpprettetHeader
-                                toggleSort={toggleSortDirection}
-                                sortDirection={sortDirection === descendingOpprettet ? 'descending' : 'ascending'}
-                            />
+                            <OpprettetHeader />
                             <TildelingHeader />
                         </Row>
                     </thead>
@@ -115,13 +119,20 @@ export const Oversikt = () => {
                                     (oppgave: Oppgave) =>
                                         currentFilters.length === 0 || currentFilters.find((it) => it(oppgave))
                                 )
-                                .sort(sortDirection)
                                 .map((oppgave: Oppgave) => {
                                     const tildeling = tildelinger.find((t) => t.behovId === oppgave.spleisbehovId);
+                                    return tildeling?.userId
+                                        ? {
+                                              ...oppgave,
+                                              tildeling,
+                                          }
+                                        : oppgave;
+                                })
+                                .sort(aktivSortering)
+                                .map((oppgave: SpeilOppgave) => {
                                     return (
                                         <Oversiktslinje
                                             oppgave={oppgave}
-                                            tildeling={tildeling}
                                             onAssignCase={onAssignCase}
                                             onUnassignCase={onUnassignCase}
                                             key={oppgave.spleisbehovId}
