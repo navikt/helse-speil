@@ -52,8 +52,22 @@
             "etternavn": "Alexandra"
         },
         "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
+        "type": "OVERGANG_FRA_IT",
+        "antallVarsler": 2
+    },
+    {
+        "spleisbehovId": "e3474433-ffff-9999-ffff-ea5d644b4a6b",
+        "opprettet": "2018-03-11T19:38:00.728127",
+        "fødselsnummer": "22097112413",
+        "aktørId": "57650000444423",
+        "navn": {
+            "fornavn": "Märtha",
+            "mellomnavn": null,
+            "etternavn": "Louise"
+        },
+        "vedtaksperiodeId": "63b9b345-cccc-4532-bbbb-43827f70b871",
         "type": "INFOTRYGDFORLENGELSE",
-        "antallVarsler": 0
+        "antallVarsler": 1
     },
     {
         "spleisbehovId": "ee4443fa-92e6-4f11-aaaa-59b66a8aaaaa",

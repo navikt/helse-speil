@@ -34,7 +34,7 @@ export const SakstypeHeader = ({ filtere, setFiltere }: SakstypeHeaderProps) => 
             active: filtere.includes(filterForlengelser),
         },
         {
-            label: 'Forlengelse - IT',
+            label: 'Overgang fra IT',
             oppgavefilter: filterInfotrygdforlengelser,
             active: filtere.includes(filterInfotrygdforlengelser),
         },

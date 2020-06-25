@@ -21,6 +21,7 @@ export enum OppgaveType {
     Forlengelse = 'FORLENGELSE',
     Førstegangsbehandling = 'FØRSTEGANGSBEHANDLING',
     Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
+    OvergangFraInfotrygd = 'OVERGANG_FRA_IT',
 }
 
 export interface Oppgave {

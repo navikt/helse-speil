@@ -1,10 +1,10 @@
 {
-    "aktørId": "57650000444423",
-    "fødselsnummer": "22097112413",
+    "aktørId": "87650000962123",
+    "fødselsnummer": "21010462423",
     "navn": {
-        "fornavn": "Märtha",
+        "fornavn": "Ingrid",
         "mellomnavn": null,
-        "etternavn": "Louise"
+        "etternavn": "Alexandra"
     },
     "arbeidsgivere": [
         {
@@ -13,335 +13,13 @@
             "navn": "Vårt Fedreland",
             "vedtaksperioder": [
                 {
-                    "id": "63b9b345-cccc-4532-bbbb-43827f70b871",
-                    "gruppeId": "2c745efc-5361-4e84-cccc-9f421a307e51",
-                    "fom": "2020-03-28",
-                    "tom": "2020-04-14",
-                    "tilstand": "Oppgaver",
-                    "periodetype": "INFOTRYGDFORLENGELSE",
-                    "oppgavereferanse": "e3474433-ffff-9999-ffff-ea5d644b4a6b",
-                    "fullstendig": true,
-                    "utbetalingsreferanse": null,
-                    "utbetalingstidslinje": [
-                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-28", "grad": 100 },
-                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-03-29", "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-03-30", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-03-31", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-01", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-02", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-03", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-04", "grad": 100 },
-                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-05", "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-06", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-07", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-08", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-09", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-10", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-11", "grad": 100 },
-                        { "type": "NavHelgDag", "inntekt": 0, "dato": "2020-04-12", "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-13", "utbetaling": 1154, "grad": 100 },
-                        { "type": "NavDag", "inntekt": 1154, "dato": "2020-04-14", "utbetaling": 1154, "grad": 100 }
-                    ],
-                    "utbetalinger": {
-                        "arbeidsgiverUtbetaling": {
-                            "linjer": [
-                                {
-                                    "fom": "2020-03-01",
-                                    "tom": "2020-03-31",
-                                    "dagsats": 1154,
-                                    "grad": 100
-                                },
-                                {
-                                    "fom": "2020-04-01",
-                                    "tom": "2020-04-14",
-                                    "dagsats": 1154,
-                                    "grad": 100
-                                }
-                            ],
-                            "fagsystemId": "T5BN7EE3GVHPJOI2CN6AKINSR4"
-                        },
-                        "personUtbetaling": {
-                            "linjer": [],
-                            "fagsystemId": "TWJ7RSCFDRF5XMORFICUC72TMQ"
-                        }
-                    },
-                    "sykdomstidslinje": [
-                        {
-                            "dagen": "2020-03-28",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-03-29",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-03-30",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-03-31",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-01",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-02",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-03",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-04",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-05",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-06",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-03-07",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-08",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-09",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-10",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-11",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-12",
-                            "type": "SYK_HELGEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-04-13",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        },
-                        {
-                            "dagen": "2020-03-14",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100
-                        }
-                    ],
-                    "godkjentAv": null,
-                    "godkjenttidspunkt": null,
-                    "vilkår": {
-                        "sykepengedager": {
-                            "forbrukteSykedager": 50,
-                            "førsteFraværsdag": "2020-01-20",
-                            "førsteSykepengedag": "2020-03-02",
-                            "maksdato": "2020-12-30",
-                            "gjenståendeDager": 198,
-                            "oppfylt": true
-                        },
-                        "alder": {
-                            "alderSisteSykedag": 19,
-                            "oppfylt": true
-                        },
-                        "opptjening": null,
-                        "søknadsfrist": {
-                            "sendtNav": "2020-04-16T00:00:00",
-                            "søknadFom": "2020-03-28",
-                            "søknadTom": "2020-04-14",
-                            "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 300000,
-                            "grunnbeløp": 99858,
-                            "oppfylt": true
-                        }
-                    },
-                    "førsteFraværsdag": "2020-01-20",
-                    "inntektFraInntektsmelding": 25000,
-                    "totalbeløpArbeidstaker": 23080,
-                    "hendelser": [
-                        {
-                            "id": "5207ca90-d979-bbbb-9cf4-b821ee23f84f",
-                            "fom": "2020-03-28",
-                            "tom": "2020-04-14",
-                            "rapportertdato": "2020-04-23T09:58:50.037029",
-                            "sendtNav": "2020-04-24T00:00:00",
-                            "type": "SENDT_SØKNAD_NAV"
-                        },
-                        {
-                            "id": "93168a0e-e5f4-4fc4-cccc-c0600e20c087",
-                            "fom": "2020-03-28",
-                            "tom": "2020-04-14",
-                            "rapportertdato": "2020-04-03T09:58:49.94845",
-                            "type": "NY_SØKNAD"
-                        }
-                    ],
-                    "dataForVilkårsvurdering": {
-                        "erEgenAnsatt": false,
-                        "beregnetÅrsinntektFraInntektskomponenten": 310000,
-                        "avviksprosent": 0.03225806451612903,
-                        "antallOpptjeningsdagerErMinst": 425,
-                        "harOpptjening": true,
-                        "medlemskapstatus": "VET_IKKE"
-                    },
-                    "simuleringsdata": {
-                        "totalbeløp": 23080,
-                        "perioder": [
-                            {
-                                "fom": "2020-03-01",
-                                "tom": "2020-04-14",
-                                "utbetalinger": [
-                                    {
-                                        "utbetalesTilId": "982715539",
-                                        "utbetalesTilNavn": "BERGEN KOMMUNE BYRÅDSAVD FINAN",
-                                        "forfall": "2020-05-13",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2020-03-01",
-                                                "faktiskTom": "2020-03-31",
-                                                "konto": "2338020",
-                                                "beløp": 23080,
-                                                "tilbakeføring": false,
-                                                "sats": 1154,
-                                                "typeSats": "DAG",
-                                                "antallSats": 20,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "982708672"
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        "utbetalesTilId": "982715539",
-                                        "utbetalesTilNavn": "BERGEN KOMMUNE BYRÅDSAVD FINAN",
-                                        "forfall": "2020-06-13",
-                                        "feilkonto": false,
-                                        "detaljer": [
-                                            {
-                                                "faktiskFom": "2020-04-01",
-                                                "faktiskTom": "2020-04-14",
-                                                "konto": "2338020",
-                                                "beløp": 23080,
-                                                "tilbakeføring": false,
-                                                "sats": 1154,
-                                                "typeSats": "DAG",
-                                                "antallSats": 20,
-                                                "uføregrad": 100,
-                                                "klassekode": "SPREFAG-IOP",
-                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTEL",
-                                                "refunderesOrgNr": "982708672"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "aktivitetslogg": [
-                        {
-                            "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Lovvalg og medlemskap må vurderes manuelt",
-                            "tidsstempel": "2020-05-13 09:58:51.158"
-                        }
-                    ],
-                    "forlengelseFraInfotrygd": "JA"
-                },
-                {
-                    "id": "63b9b345-aaaa-4532-bbbb-43827f70b871",
-                    "gruppeId": "2c745efc-5361-4e84-cccc-9f421a307e51",
+                    "id": "63b9b345-afc1-4532-a5c6-43827f70b871",
+                    "gruppeId": "2c745efc-5361-ffff-af95-9f421a307e51",
                     "fom": "2020-03-01",
                     "tom": "2020-03-27",
-                    "tilstand": "Utbetalt",
+                    "tilstand": "Oppgaver",
                     "periodetype": "OVERGANG_FRA_IT",
-                    "oppgavereferanse": "e3474433-ffff-9999-dddd-ea5d644b4a6b",
+                    "oppgavereferanse": "e3474433-0000-9999-0000-ea5d644b4a6b",
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [
@@ -763,8 +441,8 @@
                             "grad": 100
                         }
                     ],
-                    "godkjentAv": "Morten 3lander",
-                    "godkjenttidspunkt": "2020-05-19T15:24:33.257358",
+                    "godkjentAv": null,
+                    "godkjenttidspunkt": null,
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
@@ -861,6 +539,12 @@
                         {
                             "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
                             "alvorlighetsgrad": "W",
+                            "melding": "Perioden er en direkte overgang fra periode i Infotrygd",
+                            "tidsstempel": "2020-05-13 09:58:50.447"
+                        },
+                        {
+                            "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
+                            "alvorlighetsgrad": "W",
                             "melding": "Lovvalg og medlemskap må vurderes manuelt",
                             "tidsstempel": "2020-05-13 09:58:51.158"
                         }
@@ -869,7 +553,7 @@
                 },
                 {
                     "id": "63b9b345-afc1-4532-a5c6-43827f70b872",
-                    "gruppeId": "2c745efc-5361-4e84-af95-9f421a307e51",
+                    "gruppeId": "2c745efc-5361-bbbb-af95-9f421a307e51",
                     "fom": "2020-01-01",
                     "tom": "2020-01-27",
                     "tilstand": "Utbetalt",
@@ -1393,15 +1077,21 @@
                         {
                             "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
                             "alvorlighetsgrad": "W",
+                            "melding": "Perioden er en direkte overgang fra periode i Infotrygd",
+                            "tidsstempel": "2020-05-13 09:58:50.447"
+                        },
+                        {
+                            "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
+                            "alvorlighetsgrad": "W",
                             "melding": "Lovvalg og medlemskap må vurderes manuelt",
                             "tidsstempel": "2020-05-13 09:58:51.158"
                         }
                     ],
-                    "forlengelseFraInfotrygd": "NEI"
+                    "forlengelseFraInfotrygd": "JA"
                 },
                 {
                     "id": "63b9b345-afc1-4532-a5c6-43827f70b873",
-                    "gruppeId": "2c745efc-dddd-4e84-af95-9f421a307e51",
+                    "gruppeId": "2c745efc-aaaa-4e84-af95-9f421a307e51",
                     "fom": "2019-11-01",
                     "tom": "2019-11-27",
                     "tilstand": "Utbetalt",
@@ -1926,7 +1616,7 @@
                 },
                 {
                     "id": "63b9b345-afc1-4532-a5c6-43827f70b874",
-                    "gruppeId": "2c745efc-dddd-4e84-af95-9f421a307e51",
+                    "gruppeId": "2c745efc-5361-4e84-af95-9f421a307e51",
                     "fom": "2019-11-28",
                     "tom": "2019-12-10",
                     "tilstand": "Utbetalt",

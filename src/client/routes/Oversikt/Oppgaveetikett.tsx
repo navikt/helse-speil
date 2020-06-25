@@ -31,11 +31,12 @@ interface OppgaveetikettProps {
 export const Oppgaveetikett = ({ type }: OppgaveetikettProps) => {
     switch (type) {
         case OppgaveType.Forlengelse:
+        case OppgaveType.Infotrygdforlengelse:
             return <Forlengelse>Forlengelse</Forlengelse>;
         case OppgaveType.Førstegangsbehandling:
             return <Førstegangsbehandling>Førstegang.</Førstegangsbehandling>;
-        case OppgaveType.Infotrygdforlengelse:
-            return <Infotrygdforlengelse>Forlengelse - IT</Infotrygdforlengelse>;
+        case OppgaveType.OvergangFraInfotrygd:
+            return <Infotrygdforlengelse>Overgang fra IT</Infotrygdforlengelse>;
         default:
             return null;
     }

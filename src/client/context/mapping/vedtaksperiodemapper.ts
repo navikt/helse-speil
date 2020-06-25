@@ -72,7 +72,10 @@ const mapPeriodetype = (spleisPeriode: SpesialistVedtaksperiode): Periodetype =>
     if (periodetype) {
         if (periodetype === SpleisPeriodetype.FØRSTEGANGSBEHANDLING) {
             return Periodetype.Førstegangsbehandling;
-        } else if (periodetype === SpleisPeriodetype.INFOTRYGDFORLENGELSE) {
+        } else if (
+            periodetype === SpleisPeriodetype.INFOTRYGDFORLENGELSE ||
+            periodetype === SpleisPeriodetype.OVERGANG_FRA_IT
+        ) {
             return Periodetype.Infotrygdforlengelse;
         } else return Periodetype.Forlengelse;
     }

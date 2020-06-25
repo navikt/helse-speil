@@ -35,6 +35,8 @@ const filename = (aktørId: string) => {
         case '87654321962123':
             return 'mock-person_2perioder.json';
         case '87650000962123':
+            return 'mock-person_infotrygd-direkteovergang.json';
+        case '57650000444423':
             return 'mock-person_infotrygd-forlengelse.json';
         case '1000000000009':
             return 'mock-person_første-periode-uten-utbetaling.json';
