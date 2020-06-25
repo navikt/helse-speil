@@ -75,7 +75,6 @@ describe('Vilkår', () => {
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 periodetype: Periodetype.Forlengelse,
-                rawData: { ...vedtaksperiode.rawData, førsteFraværsdag: '2019-10-06' },
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
 
@@ -89,7 +88,6 @@ describe('Vilkår', () => {
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 periodetype: Periodetype.Infotrygdforlengelse,
-                rawData: { ...vedtaksperiode.rawData, førsteFraværsdag: '2019-10-06' },
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
 
@@ -106,11 +104,6 @@ describe('Vilkår', () => {
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 behandlet: true,
-                rawData: {
-                    ...vedtaksperiode.rawData,
-                    godkjentAv: 'Sak Sbeh Andler',
-                    godkjenttidspunkt: '2020-05-01',
-                },
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
 
@@ -125,12 +118,6 @@ describe('Vilkår', () => {
                 ...vedtaksperiode,
                 behandlet: true,
                 periodetype: Periodetype.Forlengelse,
-                rawData: {
-                    ...vedtaksperiode.rawData,
-                    godkjentAv: 'Sak Sbeh Andler',
-                    godkjenttidspunkt: '2020-05-01',
-                    førsteFraværsdag: '2019-10-06',
-                },
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
 
@@ -145,11 +132,6 @@ describe('Vilkår', () => {
                 ...vedtaksperiode,
                 forlengelseFraInfotrygd: true,
                 behandlet: true,
-                rawData: {
-                    ...vedtaksperiode.rawData,
-                    godkjentAv: 'Sak Sbeh Andler',
-                    godkjenttidspunkt: '2020-05-01',
-                },
             };
             render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
 

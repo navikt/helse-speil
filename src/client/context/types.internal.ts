@@ -187,7 +187,6 @@ export interface Vedtaksperiode {
     hendelser: Hendelse[];
     aktivitetslog: Aktivitet[];
     risikovurdering?: Risikovurdering;
-    rawData: SpesialistVedtaksperiode;
 }
 
 export interface Utbetalinger {

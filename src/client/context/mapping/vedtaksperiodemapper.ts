@@ -304,6 +304,5 @@ export const mapVedtaksperiode = (
         hendelser: unmappedPeriode.hendelser.map(tilHendelse),
         aktivitetslog: aktivitetslogg,
         risikovurdering: risikovurdering,
-        rawData: unmappedPeriode,
     };
 };
