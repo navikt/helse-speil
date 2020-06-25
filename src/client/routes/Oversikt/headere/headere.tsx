@@ -16,10 +16,10 @@ interface SakstypeHeaderProps {
     setFiltere: Dispatch<SetStateAction<Oppgavefilter[]>>;
 }
 
-const filterSakstype = (filter: OppgaveType) => (oppgave: Oppgave) => oppgave.type === filter;
+const filterSakstype = (...filtere: OppgaveType[]) => (oppgave: Oppgave) => filtere.includes(oppgave.type);
 const filterFørstegangsbehandlinger = filterSakstype(OppgaveType.Førstegangsbehandling);
-const filterForlengelser = filterSakstype(OppgaveType.Forlengelse);
-const filterInfotrygdforlengelser = filterSakstype(OppgaveType.Infotrygdforlengelse);
+const filterForlengelser = filterSakstype(OppgaveType.Forlengelse, OppgaveType.Infotrygdforlengelse);
+const filterOvergangFraInfotrygd = filterSakstype(OppgaveType.OvergangFraInfotrygd);
 
 export const SakstypeHeader = ({ filtere, setFiltere }: SakstypeHeaderProps) => {
     const sakstypefiltere = [
@@ -35,8 +35,8 @@ export const SakstypeHeader = ({ filtere, setFiltere }: SakstypeHeaderProps) => 
         },
         {
             label: 'Overgang fra IT',
-            oppgavefilter: filterInfotrygdforlengelser,
-            active: filtere.includes(filterInfotrygdforlengelser),
+            oppgavefilter: filterOvergangFraInfotrygd,
+            active: filtere.includes(filterOvergangFraInfotrygd),
         },
     ];
 
