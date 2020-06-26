@@ -51,20 +51,20 @@ const TildelSpinner = styled(NavFrontendSpinner)`
     margin-left: 1rem;
 `;
 
-const TildelingVarsel = ({ tildeltTil, behovId }: { tildeltTil?: string; behovId: string }) => {
+const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string; oppgavererefanse: string }) => {
     const { email } = useRecoilValue(authState);
-    const { tildelBehandling } = useContext(TildelingerContext);
+    const { tildelOppgave } = useContext(TildelingerContext);
     const { tildelPerson } = useContext(PersonContext);
     const [posting, setPosting] = useState(false);
 
     const tildel = () => {
         setPosting(true);
-        tildelBehandling(behovId, email!)
+        tildelOppgave(oppgavererefanse, email!)
             .then(() => tildelPerson(email))
             .finally(() => setPosting(false));
     };
 
-    return behovId === undefined ? null : (
+    return oppgavererefanse === undefined ? null : (
         <>
             {tildeltTil ? (
                 tildeltTil !== email ? (
@@ -141,7 +141,7 @@ const Saksbilde = () => {
 
     return (
         <>
-            <TildelingVarsel tildeltTil={personTilBehandling.tildeltTil} behovId={oppgavereferanse} />
+            <TildelingVarsel tildeltTil={personTilBehandling.tildeltTil} oppgavererefanse={oppgavereferanse} />
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             <Personlinje />
             <Tidslinje />

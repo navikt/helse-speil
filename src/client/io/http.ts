@@ -67,7 +67,7 @@ export const fetchPerson = async (personId?: string) =>
         headers: { 'nav-person-id': personId },
     });
 
-export const fetchBehov = async () => get(`${baseUrl}/person/`);
+export const fetchOppgaver = async () => get(`${baseUrl}/person/`);
 
 export const post = async (url: string, data: any) => {
     const response = await fetch(url, {
@@ -106,6 +106,7 @@ export const postTildeling = async (tildeling: Tildeling) => {
 };
 
 export const deleteTildeling = async (behandlingsId: string) => {
+    console.log(behandlingsId);
     return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };
 

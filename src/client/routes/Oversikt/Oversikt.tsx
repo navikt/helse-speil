@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Panel from 'nav-frontend-paneler';
 import { TildelingerContext } from '../../context/TildelingerContext';
-import { BehovContext } from '../../context/BehovContext';
+import { OppgaverContext } from '../../context/OppgaverContext';
 import { useTranslation } from 'react-i18next';
 import { Oppgave } from '../../../types';
 import styled from '@emotion/styled';
@@ -58,35 +58,35 @@ export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
     const { isFetching: isFetchingPersonBySearch, personTilBehandling, tildelPerson } = useContext(PersonContext);
-    const { behov, hentBehov, isFetchingBehov, error: behovContextError } = useContext(BehovContext);
+    const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const location = useLocation();
-    const { tildelBehandling, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
+    const { tildelOppgave, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
         TildelingerContext
     );
     const aktivSortering = useRecoilValue(aktivSorteringState);
     useSettInitiellRetning();
     const [currentFilters, setCurrentFilters] = useRecoilState(aktiveFiltereState);
-    const harAlleTildelinger = tildelinger.length == behov.length;
+    const harAlleTildelinger = tildelinger.length == oppgaver.length;
 
     useVarselFilter(Scopes.OVERSIKT);
 
     useEffect(() => {
-        hentBehov().then((nyeBehov) => fetchTildelinger(nyeBehov));
+        hentOppgaver().then((nyeOppgaver) => fetchTildelinger(nyeOppgaver));
     }, [location.key]);
 
-    const onUnassignCase = (behovId: string) => {
-        fjernTildeling(behovId);
+    const onUnassignCase = (oppgavereferanse: string) => {
+        fjernTildeling(oppgavereferanse);
         if (personTilBehandling) tildelPerson(undefined);
     };
 
-    const onAssignCase = (behovId: string, aktørId: string, email: string) => {
-        tildelBehandling(behovId, email)
+    const onAssignCase = (oppgavereferanse: string, aktørId: string, email: string) => {
+        tildelOppgave(oppgavereferanse, email)
             .then(() => {
                 if (personTilBehandling) tildelPerson(email);
             })
             .then(() => navigateTo(Location.Sykmeldingsperiode, aktørId))
             .catch((_) => {
-                fetchTildelinger(behov);
+                fetchTildelinger(oppgaver);
             });
     };
 
@@ -94,7 +94,7 @@ export const Oversikt = () => {
         <>
             <SuksessToast />
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
-            {(isFetchingBehov || !harAlleTildelinger) && (
+            {(isFetchingOppgaver || !harAlleTildelinger) && (
                 <LasterInnhold>
                     <NavFrontendSpinner type="XS" />
                     Henter personer
@@ -106,7 +106,7 @@ export const Oversikt = () => {
                     Henter person
                 </LasterInnhold>
             )}
-            {behovContextError && <Varsel type={Varseltype.Feil}>{behovContextError.message}</Varsel>}
+            {oppgaverContextError && <Varsel type={Varseltype.Feil}>{oppgaverContextError.message}</Varsel>}
             <Container border>
                 <Undertittel>{t('oversikt.tittel')}</Undertittel>
                 <Tabell>
@@ -122,7 +122,7 @@ export const Oversikt = () => {
                     </thead>
                     <tbody>
                         {harAlleTildelinger &&
-                            behov
+                            oppgaver
                                 .filter(
                                     (oppgave: Oppgave) =>
                                         currentFilters.length === 0 || currentFilters.find((it) => it(oppgave))

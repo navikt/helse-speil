@@ -1,5 +1,4 @@
 import React, { createContext, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import { deleteTildeling, getTildelinger, postTildeling } from '../io/http';
 import { ProviderProps, Tildeling } from './types.internal';
 import { Oppgave } from '../../types';
@@ -7,28 +6,30 @@ import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 
 interface TildelingerContextType {
     tildelinger: Tildeling[];
-    tildelBehandling: (behovId: string, userId: string) => Promise<void>;
-    fetchTildelinger: (saksoversikt: Oppgave[]) => void;
-    fjernTildeling: (behovId: string) => void;
+    tildelOppgave: (oppgavereferanse: string, userId: string) => Promise<void>;
+    fetchTildelinger: (oppgaver: Oppgave[]) => void;
+    fjernTildeling: (oppgavereferanse: string) => void;
     tildelingError?: string;
 }
 
 export const TildelingerContext = createContext<TildelingerContextType>({
     tildelinger: [],
-    tildelBehandling: (_behovId, _userId) => Promise.resolve(),
-    fetchTildelinger: (_saksoversikt) => {},
-    fjernTildeling: (_behovId: string) => {},
+    tildelOppgave: (_oppgavereferanse, _userId) => Promise.resolve(),
+    fetchTildelinger: (_oppgaver) => {},
+    fjernTildeling: (_oppgavereferanse: string) => {},
 });
 
 export const TildelingerProvider = ({ children }: ProviderProps) => {
     const [tildelinger, setTildelinger] = useState<Tildeling[]>([]);
     const [error, setError] = useState<string | undefined>(undefined);
 
-    const tildelBehandling = (behovId: string, userId: string) => {
-        return postTildeling({ behovId, userId })
+    const tildelOppgave = (oppgavereferanse: string, userId: string) => {
+        return postTildeling({ behovId: oppgavereferanse, userId })
             .then(() => {
                 setTildelinger((prev) =>
-                    prev.map((tildeling) => (tildeling.behovId === behovId ? { behovId, userId } : tildeling))
+                    prev.map((tildeling) =>
+                        tildeling.behovId === oppgavereferanse ? { behovId: oppgavereferanse, userId } : tildeling
+                    )
                 );
                 setError(undefined);
             })
@@ -48,18 +49,18 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             });
     };
 
-    const fetchTildelinger = (saksoversikt: Oppgave[]) => {
-        if (saksoversikt.length > 0) {
-            const behovIds = saksoversikt.map((b) => b.spleisbehovId);
+    const fetchTildelinger = (oppgaver: Oppgave[]) => {
+        if (oppgaver.length > 0) {
+            const oppgavereferanser = oppgaver.map((b) => b.spleisbehovId);
 
             let limit = 500;
             let i = 0,
-                n = behovIds.length;
+                n = oppgavereferanser.length;
 
             // Start med blanke ark for å unngå appending
             setTildelinger([]);
             while (i < n) {
-                getTildelinger(behovIds.slice(i, (i += limit)))
+                getTildelinger(oppgavereferanser.slice(i, (i += limit)))
                     .then((result) => {
                         const nyeTildelinger = result.data;
                         setTildelinger((prev) => [...prev, ...nyeTildelinger]);
@@ -72,12 +73,12 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
         }
     };
 
-    const fjernTildeling = (behovId: string) => {
-        deleteTildeling(behovId)
+    const fjernTildeling = (oppgavereferanse: string) => {
+        deleteTildeling(oppgavereferanse)
             .then(() => {
                 setTildelinger((prev) =>
                     prev.map((tildeling) =>
-                        tildeling.behovId === behovId
+                        tildeling.behovId === oppgavereferanse
                             ? (({ ...tildeling, userId: null } as unknown) as Tildeling)
                             : tildeling
                     )
@@ -93,7 +94,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const value = useMemo(
         () => ({
             tildelinger,
-            tildelBehandling,
+            tildelOppgave,
             tildelingError: error,
             fetchTildelinger,
             fjernTildeling,
@@ -102,8 +103,4 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     );
 
     return <TildelingerContext.Provider value={value}>{children}</TildelingerContext.Provider>;
-};
-
-TildelingerProvider.propTypes = {
-    children: PropTypes.node,
 };

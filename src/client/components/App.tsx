@@ -1,11 +1,10 @@
 import React from 'react';
-import Header from './Header';
 import Saksbilde from './Saksbilde';
 import { hot } from 'react-hot-loader';
 import { Oversikt } from '../routes/Oversikt';
 import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
-import { BehovProvider } from '../context/BehovContext';
+import { OppgaverProvider } from '../context/OppgaverContext';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonProvider } from '../context/PersonContext';
 import 'reset-css';
@@ -15,25 +14,25 @@ import IkkeLoggetInn from './IkkeLoggetInn';
 import { RecoilRoot } from 'recoil';
 import { Varsler } from './Varsler';
 import { useAuthentication } from '../state/authentication';
+import { Header } from './Header';
 
-const App = withContextProviders(
-    React.memo(() => {
-        useAuthentication();
+const App = withContextProviders(() => {
+    useAuthentication();
 
-        return (
-            <>
-                <Header />
-                <Varsler />
-                <Switch>
-                    <Route path={'/uautorisert'} component={IkkeLoggetInn} />
-                    <ProtectedRoute path={'/'} exact component={Oversikt} />
-                    <ProtectedRoute component={Saksbilde} />
-                </Switch>
-            </>
-        );
-    }),
-    [BehovProvider, PersonProvider, TildelingerProvider]
-);
+    console.log('meh');
+
+    return (
+        <>
+            <Header />
+            <Varsler />
+            <Switch>
+                <Route path={'/uautorisert'} component={IkkeLoggetInn} />
+                <ProtectedRoute path={'/'} exact component={Oversikt} />
+                <ProtectedRoute component={Saksbilde} />
+            </Switch>
+        </>
+    );
+}, [OppgaverProvider, PersonProvider, TildelingerProvider]);
 
 const WithRouting = () => (
     <BrowserRouter>

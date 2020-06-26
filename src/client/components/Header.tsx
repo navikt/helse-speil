@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import { PersonContext } from '../../context/PersonContext';
-import { Location, useNavigation } from '../../hooks/useNavigation';
-import { Person } from '../../context/types.internal';
+import { PersonContext } from '../context/PersonContext';
+import { Location, useNavigation } from '../hooks/useNavigation';
+import { Person } from '../context/types.internal';
 import { useRecoilValue } from 'recoil';
-import { authState } from '../../state/authentication';
+import { authState } from '../state/authentication';
 import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
 import { Link } from 'react-router-dom';
@@ -18,7 +18,7 @@ const Container = styled.div`
     }
 `;
 
-const Header = () => {
+export const Header = () => {
     const { name, ident, isLoggedIn } = useRecoilValue(authState);
     const { hentPerson } = useContext(PersonContext);
     const { navigateTo } = useNavigation();
@@ -43,5 +43,3 @@ const Header = () => {
         </Container>
     );
 };
-
-export default Header;
