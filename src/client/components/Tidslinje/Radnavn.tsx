@@ -34,7 +34,9 @@ export const Radnavn = ({ infotrygdrader }: RadnavnProps) => {
         ) ?? [];
 
     const radnavnInfotrygd = infotrygdrader.flatMap((rad) =>
-        rad.organisasjonsnummer !== '0' ? `Infotrygd — ${rad.organisasjonsnummer}` : `Infotrygd — Periode uten betaling`
+        rad.organisasjonsnummer !== '0'
+            ? `Infotrygd — ${rad.organisasjonsnummer}`
+            : `Infotrygd — Periode uten utbetaling`
     );
 
     return (
