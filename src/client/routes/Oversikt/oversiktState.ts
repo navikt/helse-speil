@@ -33,13 +33,13 @@ const sorterePåOpprettet = (a: Oppgave, b: Oppgave) =>
 const sorterePåTildelt = (a: SpeilOppgave, b: SpeilOppgave) =>
     a.tildeling?.userId
         ? b.tildeling?.userId
-            ? a.tildeling.userId.localeCompare(b.tildeling.userId)
+            ? a.tildeling.userId.localeCompare(b.tildeling.userId, 'nb-NO')
             : -1
         : b.tildeling?.userId
         ? 1
         : 0;
 
-const sorterePåBokommune = (a: Oppgave, b: Oppgave) => a.boenhet.navn.localeCompare(b.boenhet.navn);
+const sorterePåBokommune = (a: Oppgave, b: Oppgave) => a.boenhet.navn.localeCompare(b.boenhet.navn, 'nb-NO');
 
 export type SorterbarKolonne = {
     sortering: {

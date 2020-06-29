@@ -13,8 +13,8 @@
         "type": "FØRSTEGANGSBEHANDLING",
         "antallVarsler": 2,
         "boenhet": {
-            "id": "0235",
-            "navn": "Ullensaker"
+            "id": "0212",
+            "navn": "Alta"
         }
     },
     {
@@ -31,8 +31,8 @@
         "type": "FORLENGELSE",
         "antallVarsler": 0,
         "boenhet": {
-            "id": "0235",
-            "navn": "Ullensaker"
+            "id": "1504",
+            "navn": "Ålesund"
         }
     },
     {
