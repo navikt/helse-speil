@@ -39,6 +39,8 @@ const sorterePåTildelt = (a: SpeilOppgave, b: SpeilOppgave) =>
         ? 1
         : 0;
 
+const sorterePåBokommune = (a: Oppgave, b: Oppgave) => a.boenhet.navn.localeCompare(b.boenhet.navn);
+
 export type SorterbarKolonne = {
     sortering: {
         ascending: Oppgavesortering;
@@ -47,7 +49,13 @@ export type SorterbarKolonne = {
     initiellRetning: Retning;
 };
 
-export const sorterbareKolonner: { [key: string]: SorterbarKolonne } = {
+type SorterbareKolonner = {
+    opprettet: SorterbarKolonne;
+    tildelt: SorterbarKolonne;
+    bokommune: SorterbarKolonne;
+};
+
+export const sorterbareKolonner: SorterbareKolonner = {
     opprettet: {
         sortering: {
             ascending: sorterePåOpprettet,
@@ -59,6 +67,13 @@ export const sorterbareKolonner: { [key: string]: SorterbarKolonne } = {
         sortering: {
             ascending: sorterePåTildelt,
             descending: (a: SpeilOppgave, b: SpeilOppgave) => sorterePåTildelt(b, a),
+        },
+        initiellRetning: 'ascending',
+    },
+    bokommune: {
+        sortering: {
+            ascending: sorterePåBokommune,
+            descending: (a: SpeilOppgave, b: SpeilOppgave) => sorterePåBokommune(b, a),
         },
         initiellRetning: 'ascending',
     },

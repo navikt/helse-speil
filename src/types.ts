@@ -31,8 +31,14 @@ export interface Oppgave {
     navn: PersonNavn;
     fødselsnummer: string;
     aktørId: string;
+    boenhet: Boenhet;
     antallVarsler: number;
     type: OppgaveType;
+}
+
+interface Boenhet {
+    id: string;
+    navn: string;
 }
 
 export interface Error {

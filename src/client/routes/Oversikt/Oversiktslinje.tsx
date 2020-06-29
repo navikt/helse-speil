@@ -102,6 +102,22 @@ const Opprettet = ({ dato }: OpprettetProps) => (
     </Cell>
 );
 
+const TekstMedEllipsis = styled(Normaltekst)`
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+`;
+
+interface BokommuneProps {
+    navn: string;
+}
+
+const Bokommune = ({ navn }: BokommuneProps) => (
+    <Cell>
+        <TekstMedEllipsis>{navn}</TekstMedEllipsis>
+    </Cell>
+);
+
 interface StatusProps {
     antallVarsler?: number;
 }
@@ -138,6 +154,7 @@ const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }
                 <Søker navn={formatertNavn} link={pathForLocation(Location.Sykmeldingsperiode, oppgave.aktørId)} />
                 <Type type={oppgave.type} />
                 <Varsler antallVarsler={antallVarsler} />
+                <Bokommune navn={oppgave.boenhet.navn} />
                 <Opprettet dato={oppgave.opprettet} />
                 {erTildelt ? (
                     <Tildelt

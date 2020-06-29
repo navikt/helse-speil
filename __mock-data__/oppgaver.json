@@ -11,7 +11,11 @@
         },
         "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87",
         "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 2
+        "antallVarsler": 2,
+        "boenhet": {
+            "id": "0235",
+            "navn": "Ullensaker"
+        }
     },
     {
         "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5f",
@@ -25,7 +29,11 @@
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171",
         "type": "FORLENGELSE",
-        "antallVarsler": 0
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0235",
+            "navn": "Ullensaker"
+        }
     },
     {
         "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5g",
@@ -39,7 +47,11 @@
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172",
         "type": "FORLENGELSE",
-        "antallVarsler": 1
+        "antallVarsler": 1,
+        "boenhet": {
+            "id": "0315",
+            "navn": "Grünerløkka-Sofienberg"
+        }
     },
     {
         "spleisbehovId": "e3474433-0000-9999-0000-ea5d644b4a6b",
@@ -53,7 +65,11 @@
         },
         "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
         "type": "OVERGANG_FRA_IT",
-        "antallVarsler": 2
+        "antallVarsler": 2,
+        "boenhet": {
+            "id": "0211",
+            "navn": "Vestby"
+        }
     },
     {
         "spleisbehovId": "e3474433-ffff-9999-ffff-ea5d644b4a6b",
@@ -67,7 +83,11 @@
         },
         "vedtaksperiodeId": "63b9b345-cccc-4532-bbbb-43827f70b871",
         "type": "INFOTRYGDFORLENGELSE",
-        "antallVarsler": 1
+        "antallVarsler": 1,
+        "boenhet": {
+            "id": "0235",
+            "navn": "Storfjord – Omasvuotna – Omasvuono"
+        }
     },
     {
         "spleisbehovId": "ee4443fa-92e6-4f11-aaaa-59b66a8aaaaa",
@@ -81,6 +101,10 @@
         },
         "vedtaksperiodeId": "fbc34f96-ffff-47ee-4b04-0601378a91ff",
         "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 0
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Rælingen"
+        }
     }
 ]

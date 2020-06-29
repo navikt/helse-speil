@@ -15,7 +15,14 @@ import Oversiktslinje, { SpeilOppgave } from './Oversiktslinje';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import { SuksessToast } from '../../components/Toast';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
-import { SakstypeHeader, StatusHeader, SøkerHeader, TildelingHeader, OpprettetHeader } from './headere/headere';
+import {
+    SakstypeHeader,
+    StatusHeader,
+    SøkerHeader,
+    TildelingHeader,
+    OpprettetHeader,
+    BokommuneHeader,
+} from './headere/headere';
 import { aktiveFiltereState, aktivKolonneState, sorteringsretningState, aktivSorteringState } from './oversiktState';
 import { useLocation } from 'react-router-dom';
 
@@ -108,6 +115,7 @@ export const Oversikt = () => {
                             <SøkerHeader />
                             <SakstypeHeader filtere={currentFilters} setFiltere={setCurrentFilters} />
                             <StatusHeader />
+                            <BokommuneHeader />
                             <OpprettetHeader />
                             <TildelingHeader />
                         </Row>

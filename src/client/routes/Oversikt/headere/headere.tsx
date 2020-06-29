@@ -47,6 +47,10 @@ export const SakstypeHeader = ({ filtere, setFiltere }: SakstypeHeaderProps) => 
     );
 };
 
+export const BokommuneHeader = () => (
+    <SorterbarHeader tittel="Bokommune" kolonne={sorterbareKolonner.bokommune} widthInPixels={130} />
+);
+
 export const OpprettetHeader = () => (
     <SorterbarHeader tittel="Opprettet" kolonne={sorterbareKolonner.opprettet} widthInPixels={100} />
 );
