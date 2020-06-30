@@ -33,8 +33,12 @@ enum Modalvisning {
 }
 
 const Utbetaling = ({ className }: UtbetalingProps) => {
-    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
-    const { tilstand } = aktivVedtaksperiode as Vedtaksperiode;
+    const { personTilBehandling: _personTilBehandling, aktivVedtaksperiode: _aktivVedtaksperiode } = useContext(
+        PersonContext
+    );
+    const personTilBehandling = _personTilBehandling!;
+    const aktivVedtaksperiode = _aktivVedtaksperiode!;
+    const { tilstand } = aktivVedtaksperiode;
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [modalvisning, setModalvisning] = useState<Modalvisning>(Modalvisning.Lukket);
@@ -43,14 +47,6 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const setToast = useSetRecoilState(toastState);
 
     const fattVedtak = (godkjent: boolean, skjema?: Avvisningverdier) => {
-        if (!aktivVedtaksperiode || aktivVedtaksperiode.oppgavereferanse === '' || !personTilBehandling) {
-            setModalvisning(Modalvisning.Lukket);
-            setError({
-                message: `Teknisk feil ved fatting av vedtak`,
-            });
-            return;
-        }
-
         const oppgavereferanse = aktivVedtaksperiode.oppgavereferanse;
         setIsSending(true);
         postVedtak(oppgavereferanse, personTilBehandling.aktørId, godkjent, skjema)
@@ -97,26 +93,34 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     return (
         <Panel className={classNames(className, 'Utbetaling')}>
             <Utbetalingstittel>{t('oppsummering.utbetaling')}</Utbetalingstittel>
-            {tilstand === Vedtaksperiodetilstand.Oppgaver && (
-                <AlertStripeAdvarsel>
-                    Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn til teamet for
-                    evaluering.
-                </AlertStripeAdvarsel>
-            )}
             {tilstand === Vedtaksperiodetilstand.Avslag ? (
                 <AlertStripeInfo>Utbetalingen er sendt til annullering.</AlertStripeInfo>
             ) : tilstand === Vedtaksperiodetilstand.Feilet ? (
                 <AlertStripeInfo>Utbetalingen feilet.</AlertStripeInfo>
             ) : tilstand === Vedtaksperiodetilstand.Oppgaver ? (
-                <div className="knapperad">
-                    <Hovedknapp onClick={() => setModalvisning(Modalvisning.Godkjenning)}>Utbetal</Hovedknapp>
-                    <Knapp
-                        onClick={() => setModalvisning(Modalvisning.Avvisning)}
-                        spinner={isSending && modalvisning !== Modalvisning.Godkjenning}
-                    >
-                        Behandle i Infotrygd
-                    </Knapp>
-                </div>
+                harOppgavereferanse(aktivVedtaksperiode) ? (
+                    <>
+                        <AlertStripeAdvarsel>
+                            Utbetaling skal kun skje hvis det ikke er funnet feil. Feil meldes umiddelbart inn til
+                            teamet for evaluering.
+                        </AlertStripeAdvarsel>
+                        <div className="knapperad">
+                            <Hovedknapp onClick={() => setModalvisning(Modalvisning.Godkjenning)}>Utbetal</Hovedknapp>
+                            <Knapp
+                                onClick={() => setModalvisning(Modalvisning.Avvisning)}
+                                spinner={isSending && modalvisning !== Modalvisning.Godkjenning}
+                            >
+                                Behandle i Infotrygd
+                            </Knapp>
+                        </div>
+                    </>
+                ) : (
+                    <AlertStripeAdvarsel>
+                        Denne perioden kan ikke utbetales.
+                        <br />
+                        Det kan skyldes at den allerede er forsøkt utbetalt, men at det er forsinkelser i systemet.
+                    </AlertStripeAdvarsel>
+                )
             ) : tilstand === Vedtaksperiodetilstand.Utbetalt ? (
                 <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
             ) : (
@@ -132,5 +136,8 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
         </Panel>
     );
 };
+
+const harOppgavereferanse = (aktivVedtaksperiode: Vedtaksperiode) =>
+    aktivVedtaksperiode.oppgavereferanse && aktivVedtaksperiode.oppgavereferanse !== '';
 
 export default Utbetaling;
