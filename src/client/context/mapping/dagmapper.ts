@@ -4,7 +4,7 @@ import {
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdag,
-    SpleisUtbetalingsdagtype
+    SpleisUtbetalingsdagtype,
 } from './types.external';
 import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../types.internal';
 import { somDato } from './vedtaksperiodemapper';
@@ -124,7 +124,7 @@ export const tilSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdo
     sykdomstidslinje.map((dag) => ({
         type: sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype),
         dato: somDato(dag.dagen),
-        gradering: dag.grad,
+        gradering: somHeltall(dag.grad),
         kilde: dag.kilde ? hendelseType(dag.kilde) : hendelseTypeGammel(dag.type),
     }));
 
@@ -132,6 +132,8 @@ export const tilUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsd
     utbetalingstidslinje.map((dag) => ({
         type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
         dato: somDato(dag.dato),
-        gradering: dag.grad,
+        gradering: somHeltall(dag.grad),
         utbetaling: dag.utbetaling,
     }));
+
+const somHeltall = (value?: number) => value && +value.toFixed(0);
