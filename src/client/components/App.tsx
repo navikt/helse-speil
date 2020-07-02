@@ -19,8 +19,6 @@ import { Header } from './Header';
 const App = withContextProviders(() => {
     useAuthentication();
 
-    console.log('meh');
-
     return (
         <>
             <Header />
