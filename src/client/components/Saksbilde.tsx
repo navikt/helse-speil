@@ -54,13 +54,13 @@ const TildelSpinner = styled(NavFrontendSpinner)`
 const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string; oppgavererefanse: string }) => {
     const { email } = useRecoilValue(authState);
     const { tildelOppgave } = useContext(TildelingerContext);
-    const { tildelPerson } = useContext(PersonContext);
+    const { markerPersonSomTildelt } = useContext(PersonContext);
     const [posting, setPosting] = useState(false);
 
     const tildel = () => {
         setPosting(true);
         tildelOppgave(oppgavererefanse, email!)
-            .then(() => tildelPerson(email))
+            .then(() => markerPersonSomTildelt(email))
             .finally(() => setPosting(false));
     };
 

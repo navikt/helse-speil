@@ -57,7 +57,9 @@ const useSettInitiellRetning = () => {
 export const Oversikt = () => {
     const { t } = useTranslation();
     const { navigateTo } = useNavigation();
-    const { isFetching: isFetchingPersonBySearch, personTilBehandling, tildelPerson } = useContext(PersonContext);
+    const { isFetching: isFetchingPersonBySearch, personTilBehandling, markerPersonSomTildelt } = useContext(
+        PersonContext
+    );
     const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const location = useLocation();
     const { tildelOppgave, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
@@ -76,13 +78,13 @@ export const Oversikt = () => {
 
     const onUnassignCase = (oppgavereferanse: string) => {
         fjernTildeling(oppgavereferanse);
-        if (personTilBehandling) tildelPerson(undefined);
+        if (personTilBehandling) markerPersonSomTildelt(undefined);
     };
 
     const onAssignCase = (oppgavereferanse: string, aktørId: string, email: string) => {
         tildelOppgave(oppgavereferanse, email)
             .then(() => {
-                if (personTilBehandling) tildelPerson(email);
+                if (personTilBehandling) markerPersonSomTildelt(email);
             })
             .then(() => navigateTo(Location.Sykmeldingsperiode, aktørId))
             .catch((_) => {

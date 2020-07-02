@@ -7,7 +7,7 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;
-    tildelPerson: (email?: string) => void;
+    markerPersonSomTildelt: (email?: string) => void;
     isFetching: boolean;
     aktivVedtaksperiode?: Vedtaksperiode;
     aktiverVedtaksperiode: (periodeId: string) => void;
@@ -20,7 +20,7 @@ interface ProviderProps {
 
 export const PersonContext = createContext<PersonContextType>({
     personTilBehandling: undefined,
-    tildelPerson: (_) => null,
+    markerPersonSomTildelt: (_) => null,
     hentPerson: (_) => Promise.resolve(undefined),
     isFetching: false,
     aktiverVedtaksperiode: (_) => null,
@@ -89,14 +89,14 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         [personTilBehandling]
     );
 
-    const tildelPerson = (email: string) => {
+    const markerPersonSomTildelt = (email: string) => {
         setPersonTilBehandling((prev) => ({ ...prev!, tildeltTil: email }));
     };
 
     const contextValue = useMemo(
         () => ({
             personTilBehandling,
-            tildelPerson,
+            markerPersonSomTildelt,
             hentPerson,
             isFetching,
             aktivVedtaksperiode,
