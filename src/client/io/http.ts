@@ -106,7 +106,6 @@ export const postTildeling = async (tildeling: Tildeling) => {
 };
 
 export const deleteTildeling = async (behandlingsId: string) => {
-    console.log(behandlingsId);
     return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };
 
