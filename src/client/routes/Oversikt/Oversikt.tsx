@@ -56,7 +56,6 @@ const useSettInitiellRetning = () => {
 
 export const Oversikt = () => {
     const { t } = useTranslation();
-    const { navigateTo } = useNavigation();
     const { isFetching: isFetchingPersonBySearch, personTilBehandling, markerPersonSomTildelt } = useContext(
         PersonContext
     );
@@ -86,7 +85,6 @@ export const Oversikt = () => {
             .then(() => {
                 if (personTilBehandling) markerPersonSomTildelt(email);
             })
-            .then(() => navigateTo(Location.Sykmeldingsperiode, aktørId))
             .catch((_) => {
                 fetchTildelinger(oppgaver);
             });
