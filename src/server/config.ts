@@ -22,7 +22,7 @@ const oidc: OidcConfig = {
     providerBaseUrl: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
     clientID: readAzureCredential('client_id') || 'unknown',
     clientIDSpesialist: process.env.CLIENT_ID_SPESIALIST || 'unknown',
-    responseType: ['code'],
+    responseType: ['code id_token'],
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
     clientSecret: readAzureCredential('client_secret') || 'unknown',
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
