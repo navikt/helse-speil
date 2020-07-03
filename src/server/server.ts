@@ -18,6 +18,7 @@ import stsclient from './auth/stsClient';
 import person from './person/personRoutes';
 import paymentRoutes from './payment/paymentRoutes';
 import tildeling from './tildeling/tildelingRoutes';
+import { SpeilRequest } from './types';
 
 const app = express();
 const port = config.server.port;
@@ -69,12 +70,13 @@ const setUpAuthentication = () => {
         const session = req.session!;
         auth.validateOidcCallback(req, azureClient!, config.oidc)
             .then((tokens: string[]) => {
-                const [accessToken, idToken] = tokens;
+                const [accessToken, idToken, refreshToken] = tokens;
                 res.cookie('speil', `${idToken}`, {
                     secure: true,
                     sameSite: true,
                 });
                 session.speilToken = accessToken;
+                session.refreshToken = refreshToken;
                 session.user = auth.valueFromClaim('NAVident', idToken);
                 res.redirect(303, '/');
             })
@@ -89,7 +91,7 @@ const setUpAuthentication = () => {
 setUpAuthentication();
 
 // Protected routes
-app.use('/*', (req, res, next) => {
+app.use('/*', (req: SpeilRequest, res, next) => {
     if (process.env.NODE_ENV === 'development') {
         res.cookie('speil', auth.createTokenForTest(), {
             secure: false,
@@ -97,7 +99,7 @@ app.use('/*', (req, res, next) => {
         });
         next();
     } else {
-        if (auth.isValidNow(req.session!.speilToken)) {
+        if (auth.isValidNow(req.session!.speilToken) || auth.refreshAccessToken(azureClient!, req.session!)) {
             next();
         } else {
             logger.info(

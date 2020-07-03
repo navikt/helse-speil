@@ -5,6 +5,7 @@ import { SpesialistClient } from './person/spesialistClient';
 import { StsClient } from './auth/stsClient';
 import { AktørIdLookup } from './aktørid/aktørIdLookup';
 import { Storage } from './tildeling/storage';
+import { Request } from 'express';
 
 export interface OidcConfig {
     providerBaseUrl: string;
@@ -56,4 +57,13 @@ export interface PersonDependencies {
     onBehalfOf: OnBehalfOf;
     cache: RedisClient;
     config: AppConfig;
+}
+
+export interface SpeilSession extends Express.Session {
+    speilToken: string;
+    refreshToken: string;
+}
+
+export interface SpeilRequest extends Request {
+    session: SpeilSession;
 }

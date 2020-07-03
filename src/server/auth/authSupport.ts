@@ -2,7 +2,7 @@ import logger from '../logging';
 import { ipAddressFromRequest } from '../requestData';
 import { Request } from 'express';
 import { Client, TokenSet } from 'openid-client';
-import { OidcConfig } from '../types';
+import { OidcConfig, SpeilSession } from '../types';
 
 const isValidNow = (token: string) => {
     return isValidAt(token, Math.floor(Date.now()) / 1000);
@@ -49,25 +49,36 @@ const validateOidcCallback = (req: Request, azureClient: Client, config: OidcCon
     return azureClient
         .callback(redirectUrl(req, config), params, { nonce, state })
         .catch((err) => Promise.reject(`error in oidc callback: ${err}`))
-        .then((tokenSet: TokenSet) => {
-            const accessTokenKey = 'access_token';
-            const idTokenKey = 'id_token';
-            const errorMessages = checkAzureResponseContainsTokens(tokenSet, accessTokenKey, idTokenKey);
-            if (errorMessages.length > 0) {
-                return Promise.reject(`Access denied: ${errorMessages.join(' ')}`);
-            }
+        .then(async (tokenSet: TokenSet) => {
+            const [accessToken, idToken, refreshToken] = await retrieveTokens(
+                tokenSet,
+                'access_token',
+                'id_token',
+                'refresh_token'
+            ).catch((errorMessages) => {
+                return Promise.reject(errorMessages);
+            });
 
-            const accessToken = tokenSet[accessTokenKey];
-            const idToken = tokenSet[idTokenKey];
             const requiredGroup = config.requiredGroup;
             const username = valueFromClaim('name', idToken);
             if (accessToken && isMemberOf(accessToken, requiredGroup)) {
                 logger.info(`User ${username} has been authenticated, from IP address ${ipAddressFromRequest(req)}`);
-                return [accessToken, idToken];
+                return [accessToken, idToken, refreshToken];
             } else {
                 return Promise.reject(`'${username}' is not member of '${requiredGroup}', denying access`);
             }
         });
+};
+
+const retrieveTokens = (tokenSet: TokenSet, ...tokenKeys: string[]): Promise<string[]> => {
+    const tokens = tokenKeys.map((key) => tokenSet[key]);
+    const errorMessages = checkAzureResponseContainsTokens(tokenSet, ...tokenKeys);
+
+    if (errorMessages.length > 0) {
+        return Promise.reject(`Access denied: ${errorMessages.join(' ')}`);
+    }
+
+    return Promise.resolve(tokens as string[]);
 };
 
 const checkAzureResponseContainsTokens = (tokenSet: TokenSet, ...tokens: string[]) =>
@@ -102,6 +113,22 @@ const createTokenForTest = () =>
         JSON.stringify({ name: 'S. A. Ksbehandler', email: 'dev@nav.no', NAVident: 'dev-ident' })
     ).toString('base64')}.bogussignature`;
 
+const refreshAccessToken = async (azureClient: Client, session: SpeilSession): Promise<boolean> => {
+    return azureClient
+        .refresh(session.refreshToken!)
+        .then((tokenSet: TokenSet) => retrieveTokens(tokenSet, 'access_token', 'refresh_token'))
+        .then(([accessToken, refreshToken]) => {
+            logger.info(`Refresher access token for ${session.user}`);
+            session.speilToken = accessToken;
+            session.refreshToken = refreshToken;
+            return true;
+        })
+        .catch((errorMessage) => {
+            logger.error(`Feilet refresh av access token for ${session.user}: ${errorMessage}`);
+            return false;
+        });
+};
+
 export default {
     isValidAt,
     isValidNow,
@@ -111,4 +138,5 @@ export default {
     isMemberOf,
     valueFromClaim,
     createTokenForTest,
+    refreshAccessToken,
 };
