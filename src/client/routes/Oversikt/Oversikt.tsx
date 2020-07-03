@@ -61,13 +61,18 @@ export const Oversikt = () => {
     );
     const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const location = useLocation();
-    const { tildelOppgave, tildelinger, tildelingError, fetchTildelinger, fjernTildeling } = useContext(
-        TildelingerContext
-    );
+    const {
+        tildelOppgave,
+        tildelinger,
+        isFetching: isFetchingTildelinger,
+        tildelingError,
+        fetchTildelinger,
+        fjernTildeling,
+    } = useContext(TildelingerContext);
     const aktivSortering = useRecoilValue(aktivSorteringState);
     useSettInitiellRetning();
     const [currentFilters, setCurrentFilters] = useRecoilState(aktiveFiltereState);
-    const harAlleTildelinger = tildelinger.length == oppgaver.length;
+    const harHentetTildelinger = tildelinger.length === oppgaver.length;
 
     useVarselFilter(Scopes.OVERSIKT);
 
@@ -94,7 +99,7 @@ export const Oversikt = () => {
         <>
             <SuksessToast />
             {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
-            {(isFetchingOppgaver || !harAlleTildelinger) && (
+            {(isFetchingOppgaver || isFetchingTildelinger) && (
                 <LasterInnhold>
                     <NavFrontendSpinner type="XS" />
                     Henter personer
@@ -121,7 +126,7 @@ export const Oversikt = () => {
                         </Row>
                     </thead>
                     <tbody>
-                        {harAlleTildelinger &&
+                        {harHentetTildelinger &&
                             oppgaver
                                 .filter(
                                     (oppgave: Oppgave) =>

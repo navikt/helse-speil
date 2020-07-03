@@ -6,6 +6,7 @@ import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 
 interface TildelingerContextType {
     tildelinger: Tildeling[];
+    isFetching: boolean;
     tildelOppgave: (oppgavereferanse: string, userId: string) => Promise<void>;
     fetchTildelinger: (oppgaver: Oppgave[]) => void;
     fjernTildeling: (oppgavereferanse: string) => void;
@@ -14,6 +15,7 @@ interface TildelingerContextType {
 
 export const TildelingerContext = createContext<TildelingerContextType>({
     tildelinger: [],
+    isFetching: false,
     tildelOppgave: (_oppgavereferanse, _userId) => Promise.resolve(),
     fetchTildelinger: (_oppgaver) => {},
     fjernTildeling: (_oppgavereferanse: string) => {},
@@ -21,6 +23,7 @@ export const TildelingerContext = createContext<TildelingerContextType>({
 
 export const TildelingerProvider = ({ children }: ProviderProps) => {
     const [tildelinger, setTildelinger] = useState<Tildeling[]>([]);
+    const [isFetching, setIsFetching] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
 
     const tildelOppgave = (oppgavereferanse: string, userId: string) => {
@@ -59,8 +62,10 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
 
             // Start med blanke ark for å unngå appending
             setTildelinger([]);
+            setIsFetching(true);
+            const fetches = [];
             while (i < n) {
-                getTildelinger(oppgavereferanser.slice(i, (i += limit)))
+                const aFetch = getTildelinger(oppgavereferanser.slice(i, (i += limit)))
                     .then((result) => {
                         const nyeTildelinger = result.data;
                         setTildelinger((prev) => [...prev, ...nyeTildelinger]);
@@ -69,7 +74,11 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
                         setError('Kunne ikke hente tildelingsinformasjon.');
                         console.error(err);
                     });
+                fetches.push(aFetch);
             }
+            Promise.allSettled(fetches).then(() => {
+                setIsFetching(false);
+            });
         }
     };
 
@@ -94,12 +103,13 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const value = useMemo(
         () => ({
             tildelinger,
+            isFetching,
             tildelOppgave,
             tildelingError: error,
             fetchTildelinger,
             fjernTildeling,
         }),
-        [tildelinger, error]
+        [tildelinger, isFetching, error]
     );
 
     return <TildelingerContext.Provider value={value}>{children}</TildelingerContext.Provider>;
