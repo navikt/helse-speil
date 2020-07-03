@@ -22,11 +22,11 @@ const oidc: OidcConfig = {
     providerBaseUrl: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
     clientID: readAzureCredential('client_id') || 'unknown',
     clientIDSpesialist: process.env.CLIENT_ID_SPESIALIST || 'unknown',
-    responseType: ['code id_token'],
+    responseType: ['code'],
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
     clientSecret: readAzureCredential('client_secret') || 'unknown',
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
-    scope: `profile openid email ${process.env.CLIENT_ID}/.default`,
+    scope: `profile offline_access openid email ${process.env.CLIENT_ID}/.default`,
     requiredGroup: process.env.REQUIRED_GROUP,
 };
 
