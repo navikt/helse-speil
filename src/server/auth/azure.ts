@@ -21,7 +21,7 @@ const setup = (config: OidcConfig) => {
                     client_id: config.clientID,
                     client_secret: config.clientSecret,
                     redirect_uris: [config.redirectUrl, 'http://localhost:3000'],
-                    response_types: config.responseType,
+                    response_types: ['code', 'id_token'],
                 });
 
                 if (proxyAgent) {
