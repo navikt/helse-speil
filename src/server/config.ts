@@ -21,7 +21,6 @@ const oidc: OidcConfig = {
     tenantID: process.env.TENANT_ID,
     providerBaseUrl: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
     clientID: readAzureCredential('client_id') || 'unknown',
-    clientIDSpade: process.env.CLIENT_ID_SPADE || 'unknown',
     clientIDSpesialist: process.env.CLIENT_ID_SPESIALIST || 'unknown',
     responseType: ['code'],
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',

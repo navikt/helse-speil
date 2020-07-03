@@ -91,7 +91,7 @@ const setUpAuthentication = () => {
 setUpAuthentication();
 
 // Protected routes
-app.use('/*', (req: SpeilRequest, res, next) => {
+app.use('/*', async (req: SpeilRequest, res, next) => {
     if (process.env.NODE_ENV === 'development') {
         res.cookie('speil', auth.createTokenForTest(), {
             secure: false,
@@ -99,7 +99,7 @@ app.use('/*', (req: SpeilRequest, res, next) => {
         });
         next();
     } else {
-        if (auth.isValidNow(req.session!.speilToken) || auth.refreshAccessToken(azureClient!, req.session!)) {
+        if (auth.isValidNow(req.session!.speilToken) || (await auth.refreshAccessToken(azureClient!, req.session!))) {
             next();
         } else {
             logger.info(

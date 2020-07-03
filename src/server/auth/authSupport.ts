@@ -114,12 +114,9 @@ const createTokenForTest = () =>
     ).toString('base64')}.bogussignature`;
 
 const refreshAccessToken = async (azureClient: Client, session: SpeilSession): Promise<boolean> => {
-    return azureClient
-        .refresh(session.refreshToken!, {
-            exchangeBody: {
-                grant_type: 'refresh_token',
-            },
-        })
+    if (!session.refreshToken) return false;
+    return await azureClient
+        .refresh(session.refreshToken)
         .then((tokenSet: TokenSet) => retrieveTokens(tokenSet, 'access_token', 'refresh_token'))
         .then(([accessToken, refreshToken]) => {
             logger.info(`Refresher access token for ${session.user}`);

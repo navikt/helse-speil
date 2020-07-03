@@ -10,7 +10,6 @@ import { Request } from 'express';
 export interface OidcConfig {
     providerBaseUrl: string;
     clientID: string;
-    clientIDSpade: string;
     clientIDSpesialist: string;
     responseType: ResponseType[];
     redirectUrl: string;
