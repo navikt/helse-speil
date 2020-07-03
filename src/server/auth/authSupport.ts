@@ -115,7 +115,11 @@ const createTokenForTest = () =>
 
 const refreshAccessToken = async (azureClient: Client, session: SpeilSession): Promise<boolean> => {
     return azureClient
-        .refresh(session.refreshToken!)
+        .refresh(session.refreshToken!, {
+            exchangeBody: {
+                grant_type: 'refresh_token',
+            },
+        })
         .then((tokenSet: TokenSet) => retrieveTokens(tokenSet, 'access_token', 'refresh_token'))
         .then(([accessToken, refreshToken]) => {
             logger.info(`Refresher access token for ${session.user}`);
