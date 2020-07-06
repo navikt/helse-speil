@@ -101,12 +101,10 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
         if (auth.isValidNow(req.session!.speilToken) || (await auth.refreshAccessToken(azureClient!, req.session!))) {
             next();
         } else {
-            logger.info(
-                `no valid session found for ${ipAddressFromRequest(req)}, username ${auth.valueFromClaim(
-                    'name',
-                    req.session!.speilToken
-                )}`
-            );
+            if (req.session!.speilToken) {
+                const name = auth.valueFromClaim('name', req.session!.speilToken);
+                logger.info(`No valid session found for ${name}, connecting via ${ipAddressFromRequest(req)}`);
+            }
             if (req.originalUrl === '/' || req.originalUrl.startsWith('/static')) {
                 res.redirect('/login');
             } else {

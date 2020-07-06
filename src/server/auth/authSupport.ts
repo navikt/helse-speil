@@ -94,7 +94,7 @@ const isMemberOf = (token: string, group?: string) => {
 
 const valueFromClaim = (claim: string, token?: string): string => {
     if (token === undefined) {
-        logger.info(`no token, cannot extract claim value ${claim}`);
+        logger.info(`No token, cannot extract claim value '${claim}'`);
         return 'unknown value';
     }
     try {
