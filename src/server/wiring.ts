@@ -39,6 +39,7 @@ const getDevDependencies = () => {
         },
         payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
         redisClient: devRedisClient,
+        stsClient: devStsClient,
         storage,
     };
 };
@@ -56,13 +57,14 @@ const getProdDependencies = (app: Express) => {
             sparkelClient,
             aktørIdLookup,
             spesialistClient,
-            stsClient: stsClient,
+            stsClient,
             onBehalfOf: _onBehalfOf,
             cache: _redisClient,
             config,
         },
         payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
         redisClient: _redisClient,
+        stsClient,
         storage,
     };
 };

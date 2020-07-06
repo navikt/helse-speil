@@ -13,7 +13,6 @@ import { ipAddressFromRequest } from './requestData';
 
 import azure from './auth/azure';
 import auth from './auth/authSupport';
-import stsclient from './auth/stsClient';
 
 import person from './person/personRoutes';
 import paymentRoutes from './payment/paymentRoutes';
@@ -42,7 +41,7 @@ azure
         process.exit(1);
     });
 
-stsclient.init(config.nav);
+dependencies.stsClient.init(config.nav);
 
 // Unprotected routes
 app.get('/isAlive', (_, res) => res.send('alive'));
