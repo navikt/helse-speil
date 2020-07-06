@@ -20,11 +20,11 @@ env.config();
 const oidc: OidcConfig = {
     tenantID: process.env.TENANT_ID,
     providerBaseUrl: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
-    clientID: readAzureCredential('client_id') || 'unknown',
+    clientID: process.env.CLIENT_ID || readAzureCredential('client_id'),
     clientIDSpesialist: process.env.CLIENT_ID_SPESIALIST || 'unknown',
     responseType: ['code'],
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
-    clientSecret: readAzureCredential('client_secret') || 'unknown',
+    clientSecret: process.env.CLIENT_SECRET || readAzureCredential('client_secret'),
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
     scope: `profile offline_access openid email ${process.env.CLIENT_ID}/.default`,
     requiredGroup: process.env.REQUIRED_GROUP,
