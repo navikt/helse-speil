@@ -26,7 +26,7 @@ const oidc: OidcConfig = {
     redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
     clientSecret: readAzureCredential('client_secret'),
     issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
-    scope: `profile offline_access openid email ${process.env.CLIENT_ID}/.default`,
+    scope: `profile offline_access openid email ${readAzureCredential('client_id')}/.default`,
     requiredGroup: process.env.REQUIRED_GROUP,
 };
 
