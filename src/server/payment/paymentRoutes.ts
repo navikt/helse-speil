@@ -12,8 +12,10 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
     const router = Router();
 
     router.post('/vedtak', (req: Request, res: Response) => {
+        const behovId = req.body.behovId;
+        const saksbehandlerIdent = req.session!.user;
         if (
-            !req.body.behovId ||
+            !behovId ||
             req.body.godkjent === undefined ||
             (req.body.godkjent === false && req.body.skjema === undefined)
         ) {
@@ -23,16 +25,16 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
 
         const params = req.body.godkjent
             ? {
-                  behovId: req.body.behovId,
+                  behovId,
                   godkjent: true,
                   speilToken: req.session!.speilToken,
-                  saksbehandlerIdent: req.session!.user,
+                  saksbehandlerIdent,
               }
             : {
-                  behovId: req.body.behovId,
+                  behovId,
                   godkjent: false,
                   speilToken: req.session!.speilToken,
-                  saksbehandlerIdent: req.session!.user,
+                  saksbehandlerIdent,
                   årsak: req.body.skjema.årsak,
                   begrunnelser: req.body.skjema.begrunnelser,
                   kommentar: req.body.skjema.kommentar,
@@ -42,7 +44,9 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
             .postVedtak(params)
             .then(() => res.sendStatus(204))
             .catch((err) => {
-                logger.error(`Feil under fatting av vedtak: ${err}`);
+                logger.error(
+                    `Feil under fatting av vedtak for ${saksbehandlerIdent}, oppgavereferanse ${behovId}: ${err}`
+                );
                 res.status(500).send('Feil under fatting av vedtak');
             });
     });
