@@ -45,7 +45,7 @@ const getDevDependencies = () => {
 
 const getProdDependencies = (app: Express) => {
     const _redisClient: RedisClient = redisClient.init(config.redis);
-    storage.init(devRedisClient);
+    storage.init(_redisClient);
     stsClient.init(config.nav);
     aktørIdLookup.init(stsClient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
