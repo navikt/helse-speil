@@ -41,8 +41,6 @@ azure
         process.exit(1);
     });
 
-dependencies.stsClient.init(config.nav);
-
 // Unprotected routes
 app.get('/isAlive', (_, res) => res.send('alive'));
 app.get('/isReady', (_, res) => res.send('ready'));

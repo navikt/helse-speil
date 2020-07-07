@@ -39,7 +39,6 @@ const getDevDependencies = () => {
         },
         payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
         redisClient: devRedisClient,
-        stsClient: devStsClient,
         storage,
     };
 };
@@ -47,6 +46,7 @@ const getDevDependencies = () => {
 const getProdDependencies = (app: Express) => {
     const _redisClient: RedisClient = redisClient.init(config.redis);
     storage.init(devRedisClient);
+    stsClient.init(config.nav);
     aktørIdLookup.init(stsClient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
@@ -64,7 +64,6 @@ const getProdDependencies = (app: Express) => {
         },
         payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
         redisClient: _redisClient,
-        stsClient,
         storage,
     };
 };
