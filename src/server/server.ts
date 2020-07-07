@@ -98,7 +98,10 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
         });
         next();
     } else {
-        if (auth.isValidNow(req.session!.speilToken) || (await auth.refreshAccessToken(azureClient!, req.session!))) {
+        if (
+            auth.isValidIn({ seconds: 5, token: req.session!.speilToken }) ||
+            (await auth.refreshAccessToken(azureClient!, req.session!))
+        ) {
             next();
         } else {
             if (req.session!.speilToken) {

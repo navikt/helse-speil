@@ -4,29 +4,16 @@ import { Request } from 'express';
 import { Client, TokenSet } from 'openid-client';
 import { OidcConfig, SpeilSession } from '../types';
 
-const isValidNow = (token: string) => {
-    return isValidAt(token, Math.floor(Date.now()) / 1000);
-};
+interface IsValidInProps {
+    seconds: number;
+    token?: string;
+}
 
-const isValidAt = (token: string, timeInSeconds: number) => {
-    if (!token) {
-        return false;
-    }
-
-    try {
-        const claims = claimsFrom(token);
-        const expirationTime = parseInt(claims['exp'] as string);
-        return expirationTime >= timeInSeconds;
-    } catch (err) {
-        logger.error(`error while checking token validity: ${err}`);
-        return false;
-    }
-};
-
-const willExpireInLessThan = (seconds: number, token: string) => {
-    const timeToTest = Math.floor(Date.now() / 1000) + seconds;
+const isValidIn = ({ seconds, token }: IsValidInProps) => {
+    if (!token) return false;
+    const timeToCheck = Math.floor(Date.now() / 1000) + seconds;
     const expirationTime = parseInt(claimsFrom(token)['exp'] as string);
-    return timeToTest > expirationTime;
+    return timeToCheck < expirationTime;
 };
 
 const redirectUrl = (req: Request, oidc: OidcConfig) => {
@@ -131,10 +118,8 @@ const refreshAccessToken = async (azureClient: Client, session: SpeilSession): P
 };
 
 export default {
-    isValidAt,
-    isValidNow,
+    isValidIn,
     redirectUrl,
-    willExpireInLessThan,
     validateOidcCallback,
     isMemberOf,
     valueFromClaim,

@@ -5,38 +5,29 @@ type Claim = { [key: string]: string | string[] };
 
 afterEach(cleanup);
 
-test('valid token has expiry in the future', () => {
+describe('isValidIn', () => {
     const nowInSeconds = Math.floor(Date.now() / 1000);
-    const token = createToken({ exp: `${nowInSeconds + 10}` });
-    expect(auth.isValidNow(token)).toEqual(true);
-});
+    const tokenThatExpiresIn = (seconds: number) => createToken({ exp: `${nowInSeconds + seconds}` });
 
-test('invalid token has expiry in the past', () => {
-    const nowInSeconds = Math.floor(Date.now() / 1000);
-    const token = createToken({ exp: `${nowInSeconds - 10}` });
-    expect(auth.isValidNow(token)).toEqual(false);
-});
+    test('time to check is before exp', () => {
+        expect(auth.isValidIn({ seconds: 29, token: tokenThatExpiresIn(30) })).toEqual(true);
+    });
 
-test('malformed token does not validate', () => {
-    expect(auth.isValidNow('bogustext')).toEqual(false);
-});
+    test('time to check is at exp', () => {
+        expect(auth.isValidIn({ seconds: 30, token: tokenThatExpiresIn(30) })).toEqual(false);
+    });
 
-test('willExpireInLessThan is false if test time is before exp', () => {
-    const nowInSeconds = Math.floor(Date.now() / 1000);
-    const token = createToken({ exp: `${nowInSeconds + 30}` });
-    expect(auth.willExpireInLessThan(29, token)).toEqual(false);
-});
+    test('time to check is after exp', () => {
+        expect(auth.isValidIn({ seconds: 31, token: tokenThatExpiresIn(30) })).toEqual(false);
+    });
 
-test('willExpireInLessThan is false if test time is at exp', () => {
-    const nowInSeconds = Math.floor(Date.now() / 1000);
-    const token = createToken({ exp: `${nowInSeconds + 30}` });
-    expect(auth.willExpireInLessThan(30, token)).toEqual(false);
-});
+    test('the exp has already passed', () => {
+        expect(auth.isValidIn({ seconds: 1, token: tokenThatExpiresIn(-30) })).toEqual(false);
+    });
 
-test('willExpireInLessThan is true if test time is after exp', () => {
-    const nowInSeconds = Math.floor(Date.now() / 1000);
-    const token = createToken({ exp: `${nowInSeconds + 30}` });
-    expect(auth.willExpireInLessThan(31, token)).toEqual(true);
+    test('there is no token', () => {
+        expect(auth.isValidIn({ seconds: 1, token: undefined })).toEqual(false);
+    });
 });
 
 test('user is member of required group', () => {

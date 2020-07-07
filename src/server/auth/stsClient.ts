@@ -39,7 +39,7 @@ const hentAccessToken = async () => {
 };
 
 const tokenNeedsRefresh = () => {
-    return !cachedAccessToken || auth.willExpireInLessThan(30, cachedAccessToken);
+    return !cachedAccessToken || !auth.isValidIn({ seconds: 30, token: cachedAccessToken });
 };
 
 export default {
