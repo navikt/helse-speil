@@ -53,7 +53,7 @@ jobs:
           path: e2e-tests/cypress/videos
       - name: build docker image
         run: |
-          rm -rf node_modules && npm install --only=production
+          npm prune --production
           docker build . --pull -t ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
       - name: push docker image
         run: |
