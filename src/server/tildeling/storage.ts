@@ -20,7 +20,9 @@ const init = (client: RedisClient) => {
 };
 
 const getAll = (keys: string[]) =>
-    Promise.all(keys.map((behovId) => get(behovId).then((userId?: string) => ({ behovId, userId }))));
+    Promise.all(
+        keys.map((oppgavereferanse) => get(oppgavereferanse).then((userId?: string) => ({ oppgavereferanse, userId })))
+    );
 
 const get = (key: string) => promisify(redisClient!.get).bind(redisClient)(addPrefix(key));
 

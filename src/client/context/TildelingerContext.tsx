@@ -27,11 +27,11 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     const [error, setError] = useState<string | undefined>(undefined);
 
     const tildelOppgave = (oppgavereferanse: string, userId: string) => {
-        return postTildeling({ behovId: oppgavereferanse, userId })
+        return postTildeling({ oppgavereferanse, userId })
             .then(() => {
                 setTildelinger((prev) =>
                     prev.map((tildeling) =>
-                        tildeling.behovId === oppgavereferanse ? { behovId: oppgavereferanse, userId } : tildeling
+                        tildeling.oppgavereferanse === oppgavereferanse ? { oppgavereferanse, userId } : tildeling
                     )
                 );
                 setError(undefined);
@@ -54,7 +54,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
 
     const fetchTildelinger = (oppgaver: Oppgave[]) => {
         if (oppgaver.length > 0) {
-            const oppgavereferanser = oppgaver.map((b) => b.spleisbehovId);
+            const oppgavereferanser = oppgaver.map((b) => b.oppgavereferanse);
 
             let limit = 500;
             let i = 0,
@@ -87,7 +87,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             .then(() => {
                 setTildelinger((prev) =>
                     prev.map((tildeling) =>
-                        tildeling.behovId === oppgavereferanse
+                        tildeling.oppgavereferanse === oppgavereferanse
                             ? (({ ...tildeling, userId: null } as unknown) as Tildeling)
                             : tildeling
                     )

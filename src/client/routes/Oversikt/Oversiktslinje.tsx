@@ -160,10 +160,10 @@ const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }
                     <Tildelt
                         erTildeltInnloggetBruker={oppgave.tildeling?.userId === email}
                         innloggetBrukerNavn={capitalizeName(extractNameFromEmail(oppgave.tildeling?.userId))}
-                        onFjernTildeling={() => onUnassignCase(oppgave.spleisbehovId)}
+                        onFjernTildeling={() => onUnassignCase(oppgave.oppgavereferanse)}
                     />
                 ) : (
-                    <IkkeTildelt onTildel={() => onAssignCase(oppgave.spleisbehovId, oppgave.aktørId, email!)} />
+                    <IkkeTildelt onTildel={() => onAssignCase(oppgave.oppgavereferanse, oppgave.aktørId, email!)} />
                 )}
             </Row>
         ),

@@ -109,8 +109,13 @@ export const deleteTildeling = async (behandlingsId: string) => {
     return del(`${baseUrl}/tildeling/${behandlingsId}`);
 };
 
-export const postVedtak = async (behovId: string, aktørId: string, godkjent: boolean, skjema?: Avvisningverdier) => {
-    return post(`${baseUrl}/payments/vedtak`, { behovId, aktørId, godkjent, skjema });
+export const postVedtak = async (
+    oppgavereferanse: string,
+    aktørId: string,
+    godkjent: boolean,
+    skjema?: Avvisningverdier
+) => {
+    return post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
 };
 
 export const postAnnullering = async (annullering: AnnulleringDTO) => {

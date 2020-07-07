@@ -82,7 +82,7 @@ const finnPerson = async (req: Request, res: Response) => {
     });
 };
 
-const behovForPeriode = (req: Request, res: Response) => {
+const oppgaverForPeriode = (req: Request, res: Response) => {
     auditLogOversikt(req);
 
     const today = dayjs().format('YYYY-MM-DD');
@@ -94,7 +94,7 @@ const behovForPeriode = (req: Request, res: Response) => {
             .hentFor(spesialistId, req.session!.speilToken)
             .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
         mapper: async (response: Body) => ({
-            behov: response.body,
+            oppgaver: response.body,
         }),
         operation: 'oversikt',
         speilUser: speilUser(req),
@@ -136,13 +136,13 @@ const respondWith = ({ res, lookupPromise, mapper, operation, speilUser }: Respo
 module.exports = {
     setup,
     finnPerson,
-    behovForPeriode,
+    oppgaverForPeriode,
     personIdHeaderName,
 };
 
 export default {
     setup,
     finnPerson,
-    behovForPeriode,
+    oppgaverForPeriode,
     personIdHeaderName,
 };

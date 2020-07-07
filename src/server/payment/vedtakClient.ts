@@ -2,14 +2,14 @@ import request from 'request-promise-native';
 import { OidcConfig, OnBehalfOf } from '../types';
 
 interface PostVedtakOptions {
-    behovId: string;
+    oppgavereferanse: string;
     godkjent: boolean;
     speilToken: string;
     saksbehandlerIdent: string;
 }
 
 interface PostVedtakAvslåttOptions {
-    behovId: string;
+    oppgavereferanse: string;
     godkjent: boolean;
     speilToken: string;
     saksbehandlerIdent: string;
@@ -28,11 +28,11 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf) => ({
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/vedtak`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             body: params,
-            json: true
+            json: true,
         };
         return request.post(options);
-    }
+    },
 });

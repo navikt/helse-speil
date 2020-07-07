@@ -33,8 +33,8 @@ export const OppgaverProvider = ({ children }: ProviderProps) => {
         setIsFetchingOppgaver(true);
         return fetchOppgaver()
             .then((response) => {
-                setOppgaver(response.data.behov);
-                return response.data.behov;
+                setOppgaver(response.data.oppgaver);
+                return response.data.oppgaver;
             })
             .catch((err) => {
                 if (!err.statusCode) console.error(err);

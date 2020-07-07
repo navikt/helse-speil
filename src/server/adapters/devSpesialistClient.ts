@@ -3,10 +3,10 @@ import { SpesialistClient } from '../person/spesialistClient';
 
 const behandlingerForPeriode = (_fom: string, _tom: string, _accessToken: string) => {
     const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
-    const behov = JSON.parse(fromFile);
+    const oppgaver = JSON.parse(fromFile);
     return Promise.resolve(({
         statusCode: 200,
-        body: behov,
+        body: oppgaver,
     } as unknown) as Response);
 };
 

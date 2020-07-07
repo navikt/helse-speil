@@ -25,7 +25,7 @@ export enum OppgaveType {
 }
 
 export interface Oppgave {
-    spleisbehovId: string;
+    oppgavereferanse: string;
     opprettet: string;
     vedtaksperiodeId: string;
     navn: PersonNavn;

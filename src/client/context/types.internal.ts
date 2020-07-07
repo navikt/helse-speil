@@ -255,7 +255,7 @@ export interface ProviderProps {
 }
 
 export interface Tildeling {
-    behovId: string;
+    oppgavereferanse: string;
     userId: string;
 }
 

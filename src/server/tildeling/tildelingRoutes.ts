@@ -15,9 +15,9 @@ const setup = (_storage: Storage) => {
 
 const routes = (router: Router) => {
     router.post('/list', (req, res) => {
-        const behovIdList = req.body;
+        const oppgavereferanser = req.body;
         storage
-            .getAll(behovIdList)
+            .getAll(oppgavereferanser)
             .then((result) => {
                 res.setHeader('Content-Type', 'application/json');
                 res.send(JSON.stringify(result));
@@ -28,13 +28,13 @@ const routes = (router: Router) => {
             });
     });
 
-    router.get('/:behovId', (req, res) => {
-        const behovId = req.params.behovId;
+    router.get('/:oppgavereferanse', (req, res) => {
+        const oppgavereferanse = req.params.oppgavereferanse;
         storage
-            .get(behovId)
+            .get(oppgavereferanse)
             .then((userId: string) => {
                 res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify({ behovId, userId }));
+                res.send(JSON.stringify({ oppgavereferanse, userId }));
             })
             .catch((err: Error) => {
                 logger.info(`Error while retrieving value from Redis. Error: ${err}`);
@@ -43,25 +43,25 @@ const routes = (router: Router) => {
     });
 
     router.post('/', (req, res) => {
-        const { behovId, userId } = req.body;
-        if (behovId === undefined || userId === undefined) {
-            const errorMessage = `behovId '${behovId}' and/or userId '${userId}' is not valid.`;
+        const { oppgavereferanse, userId } = req.body;
+        if (oppgavereferanse === undefined || userId === undefined) {
+            const errorMessage = `Oppgavereferanse '${oppgavereferanse}' and/or userId '${userId}' is not valid.`;
             logger.info(`Assign case: ${errorMessage}`);
             res.status(400).send(errorMessage);
             return;
         }
         storage
-            .assignCase(behovId, userId)
+            .assignCase(oppgavereferanse, userId)
             .then(async (result: string) => {
                 if (result === 'OK') {
-                    logger.info(`Case ${behovId} has been assigned to ${userId}.`);
+                    logger.info(`Case ${oppgavereferanse} has been assigned to ${userId}.`);
                     return res.sendStatus(204);
                 } else {
-                    const assignedUser = await storage.get(behovId);
+                    const assignedUser = await storage.get(oppgavereferanse);
                     if (assignedUser) {
                         return res.status(409).json({ alreadyAssignedTo: assignedUser });
                     } else {
-                        logger.info(`Error while assigning case ${behovId}`);
+                        logger.info(`Error while assigning case ${oppgavereferanse}`);
                         return res.sendStatus(500);
                     }
                 }
@@ -69,24 +69,24 @@ const routes = (router: Router) => {
             .catch((err: Error) => {
                 logger.info(`Error while inserting value in Redis. Error: ${err}`);
                 return res.send({
-                    message: `Tildeling av behov feilet.`,
+                    message: `Tildeling av oppgave feilet.`,
                     statusCode: 500,
                 });
             });
     });
 
-    router.delete('/:behovId', (req, res) => {
-        const behovId = req.params.behovId;
-        if (behovId === undefined) {
-            const errorMessage = `behovId '${behovId}' is not valid.`;
+    router.delete('/:oppgavereferanse', (req, res) => {
+        const oppgavereferanse = req.params.oppgavereferanse;
+        if (oppgavereferanse === undefined) {
+            const errorMessage = `Oppgavereferanse '${oppgavereferanse}' is not valid.`;
             logger.info(`Unassign case: ${errorMessage}`);
             res.status(400).send(errorMessage);
             return;
         }
         storage
-            .unassignCase(behovId)
+            .unassignCase(oppgavereferanse)
             .then(() => {
-                logger.info(`The case ${behovId} is no longer assigned.`);
+                logger.info(`The case ${oppgavereferanse} is no longer assigned.`);
                 res.sendStatus(204);
             })
             .catch((err: Error) => {

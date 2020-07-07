@@ -1,6 +1,6 @@
 [
     {
-        "spleisbehovId": "ea5d644b-0000-9999-0000-f93744554d5e",
+        "oppgavereferanse": "ea5d644b-0000-9999-0000-f93744554d5e",
         "opprettet": "2018-02-27T08:38:00.728127",
         "fødselsnummer": "21023701901",
         "aktørId": "1000000009871",
@@ -18,7 +18,7 @@
         }
     },
     {
-        "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5f",
+        "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5f",
         "opprettet": "2018-02-10T08:38:00.728127",
         "fødselsnummer": "04073732100",
         "aktørId": "87654321962123",
@@ -36,7 +36,7 @@
         }
     },
     {
-        "spleisbehovId": "f9374455-0000-9999-0000-ea5d644b4d5g",
+        "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5g",
         "opprettet": "2018-02-10T09:38:00.728127",
         "fødselsnummer": "20077362124",
         "aktørId": "87654321962124",
@@ -54,7 +54,7 @@
         }
     },
     {
-        "spleisbehovId": "e3474433-0000-9999-0000-ea5d644b4a6b",
+        "oppgavereferanse": "e3474433-0000-9999-0000-ea5d644b4a6b",
         "opprettet": "2018-02-10T09:38:00.728127",
         "fødselsnummer": "21010462423",
         "aktørId": "87650000962123",
@@ -72,7 +72,7 @@
         }
     },
     {
-        "spleisbehovId": "e3474433-ffff-9999-dddd-ea5d644b4a6b",
+        "oppgavereferanse": "e3474433-ffff-9999-dddd-ea5d644b4a6b",
         "opprettet": "2018-03-11T19:38:00.728127",
         "fødselsnummer": "22097112413",
         "aktørId": "57650000444423",
@@ -90,7 +90,7 @@
         }
     },
     {
-        "spleisbehovId": "ee4443fa-92e6-4f11-aaaa-59b66a8aaaaa",
+        "oppgavereferanse": "ee4443fa-92e6-4f11-aaaa-59b66a8aaaaa",
         "opprettet": "2020-06-15T23:04:09.454",
         "fødselsnummer": "03120520135",
         "aktørId": "1000000000009",

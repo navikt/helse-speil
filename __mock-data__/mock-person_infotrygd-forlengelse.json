@@ -341,7 +341,7 @@
                     "tom": "2020-03-27",
                     "tilstand": "Utbetalt",
                     "periodetype": "OVERGANG_FRA_IT",
-                    "oppgavereferanse": "e3474433-ffff-9999-dddd-ea5d644b4a6b",
+                    "oppgavereferanse": null,
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [

@@ -12,7 +12,6 @@ import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersonContext } from '../../context/PersonContext';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
 import Oversiktslinje, { SpeilOppgave } from './Oversiktslinje';
-import { Location, useNavigation } from '../../hooks/useNavigation';
 import { SuksessToast } from '../../components/Toast';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import {
@@ -133,7 +132,9 @@ export const Oversikt = () => {
                                         currentFilters.length === 0 || currentFilters.find((it) => it(oppgave))
                                 )
                                 .map((oppgave: Oppgave) => {
-                                    const tildeling = tildelinger.find((t) => t.behovId === oppgave.spleisbehovId);
+                                    const tildeling = tildelinger.find(
+                                        (t) => t.oppgavereferanse === oppgave.oppgavereferanse
+                                    );
                                     return tildeling?.userId
                                         ? {
                                               ...oppgave,
@@ -148,7 +149,7 @@ export const Oversikt = () => {
                                             oppgave={oppgave}
                                             onAssignCase={onAssignCase}
                                             onUnassignCase={onUnassignCase}
-                                            key={oppgave.spleisbehovId}
+                                            key={oppgave.oppgavereferanse}
                                             antallVarsler={oppgave.antallVarsler}
                                         />
                                     );
