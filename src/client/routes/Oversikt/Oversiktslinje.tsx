@@ -144,7 +144,7 @@ interface OversiktslinjeProps {
 const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }: OversiktslinjeProps) => {
     const { email } = useRecoilValue(authState);
     const { pathForLocation } = useNavigation();
-    const { fornavn, mellomnavn, etternavn } = oppgave.navn;
+    const { fornavn, mellomnavn, etternavn } = oppgave.personinfo;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
     const erTildelt = oppgave.tildeling?.userId;
 

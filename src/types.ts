@@ -36,7 +36,7 @@ export interface Oppgave {
     oppgavereferanse: string;
     opprettet: string;
     vedtaksperiodeId: string;
-    navn: PersonNavn;
+    personinfo: PersonNavn;
     fødselsnummer: string;
     aktørId: string;
     boenhet: Boenhet;

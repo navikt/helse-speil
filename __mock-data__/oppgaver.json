@@ -4,7 +4,7 @@
         "opprettet": "2018-02-27T08:38:00.728127",
         "fødselsnummer": "21023701901",
         "aktørId": "1000000009871",
-        "navn": {
+        "personinfo": {
             "fornavn": "Kong",
             "mellomnavn": null,
             "etternavn": "Harald"
@@ -22,7 +22,7 @@
         "opprettet": "2018-02-10T08:38:00.728127",
         "fødselsnummer": "04073732100",
         "aktørId": "87654321962123",
-        "navn": {
+        "personinfo": {
             "fornavn": "Dronning",
             "mellomnavn": null,
             "etternavn": "Sonja"
@@ -40,10 +40,11 @@
         "opprettet": "2018-02-10T09:38:00.728127",
         "fødselsnummer": "20077362124",
         "aktørId": "87654321962124",
-        "navn": {
+        "personinfo": {
             "fornavn": "Kronprins",
             "mellomnavn": null,
-            "etternavn": "Haakon"
+            "etternavn": "Haakon",
+            "kjønn": "Mann"
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172",
         "type": "FORLENGELSE",
@@ -58,7 +59,7 @@
         "opprettet": "2018-02-10T09:38:00.728127",
         "fødselsnummer": "21010462423",
         "aktørId": "87650000962123",
-        "navn": {
+        "personinfo": {
             "fornavn": "Ingrid",
             "mellomnavn": null,
             "etternavn": "Alexandra"
@@ -76,7 +77,7 @@
         "opprettet": "2018-03-11T19:38:00.728127",
         "fødselsnummer": "22097112413",
         "aktørId": "57650000444423",
-        "navn": {
+        "personinfo": {
             "fornavn": "Märtha",
             "mellomnavn": null,
             "etternavn": "Louise"
@@ -94,7 +95,7 @@
         "opprettet": "2020-06-15T23:04:09.454",
         "fødselsnummer": "03120520135",
         "aktørId": "1000000000009",
-        "navn": {
+        "personinfo": {
             "fornavn": "Sverre",
             "mellomnavn": null,
             "etternavn": "Magnus"
