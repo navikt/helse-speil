@@ -1,7 +1,7 @@
 {
     "aktørId": "1000000000009",
     "fødselsnummer": "03120520135",
-    "navn": {
+    "personinfo": {
         "fornavn": "SVERRE",
         "mellomnavn": null,
         "etternavn": "MAGNUS"

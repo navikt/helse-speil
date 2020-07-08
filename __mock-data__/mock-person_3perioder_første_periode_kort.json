@@ -1,7 +1,7 @@
 {
     "aktørId": "87654321962124",
     "fødselsnummer": "12020052346",
-    "navn": {
+    "personinfo": {
         "fornavn": "Kronprins",
         "mellomnavn": null,
         "etternavn": "Haakon"

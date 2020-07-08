@@ -1,7 +1,7 @@
 {
     "aktørId": "1000000009871",
     "fødselsnummer": "12020069420",
-    "navn": {
+    "personinfo": {
         "fornavn": "Kong",
         "mellomnavn": null,
         "etternavn": "Harald"
