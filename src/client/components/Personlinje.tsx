@@ -44,16 +44,17 @@ const Personlinje = () => {
 
     if (!personTilBehandling) return <Container />;
 
-    const { aktørId, personinfo, navn } = personTilBehandling;
+    const { aktørId, personinfo } = personTilBehandling;
+    const { fornavn, mellomnavn, etternavn, kjønn, fnr } = personinfo;
 
     return (
         <Container>
-            <Kjønnsikon kjønn={personinfo.kjønn} />
-            <Element>{`${navn.fornavn} ${navn.mellomnavn ? `${navn.mellomnavn} ` : ' '}${navn.etternavn}`}</Element>
+            <Kjønnsikon kjønn={kjønn} />
+            <Element>{`${fornavn} ${mellomnavn ? `${mellomnavn} ` : ' '}${etternavn}`}</Element>
             <Separator>/</Separator>
-            {personinfo.fnr ? (
+            {fnr ? (
                 <Clipboard>
-                    <Normaltekst>{formatFnr(personinfo.fnr)}</Normaltekst>
+                    <Normaltekst>{formatFnr(fnr)}</Normaltekst>
                 </Clipboard>
             ) : (
                 <Normaltekst>Fødselsnummer ikke tilgjengelig</Normaltekst>

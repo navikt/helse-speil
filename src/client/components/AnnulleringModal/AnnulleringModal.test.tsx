@@ -10,6 +10,9 @@ import { Kjønn } from '../../context/types.internal';
 const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), '123456789', []);
 
 const enPersoninfo = () => ({
+    fornavn: 'Kari',
+    mellomnavn: null,
+    etternavn: 'Normann',
     kjønn: 'Mann' as Kjønn,
     fødselsdato: dayjs(),
 });
@@ -25,11 +28,6 @@ const personTilBehandling = {
     aktørId: '12345',
     fødselsnummer: '12345678901',
     arbeidsgivere: [enArbeidsgiver()],
-    navn: {
-        fornavn: 'Kari',
-        mellomnavn: null,
-        etternavn: 'Normann',
-    },
     personinfo: enPersoninfo(),
     infotrygdutbetalinger: [],
     enhet: { id: '', navn: '' },

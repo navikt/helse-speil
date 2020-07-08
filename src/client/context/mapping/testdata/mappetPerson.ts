@@ -1,22 +1,16 @@
 import { somDato, somTidspunkt } from '../vedtaksperiodemapper';
 import { Dagtype, Kildetype, Kjønn, Person, Vedtaksperiodetilstand, Periodetype } from '../../types.internal';
-import {
-    SpleisForlengelseFraInfotrygd,
-    SpleisSykdomsdagkildeType,
-    SpleisSykdomsdagtype,
-    SpleisUtbetalingsdagtype,
-    SpleisVedtaksperiodetilstand,
-    SpleisPeriodetype,
-} from '../types.external';
-import { defaultHendelser } from './defaultHendelser';
 
 export const mappetPerson: Person = {
     fødselsnummer: '01019000123',
     aktørId: '1211109876233',
-    navn: {
+    personinfo: {
         fornavn: 'Kringle',
         mellomnavn: null,
         etternavn: 'Krangel',
+        fødselsdato: somDato('1956-12-12'),
+        kjønn: 'Mannebjørn' as Kjønn,
+        fnr: '01019000123',
     },
     arbeidsgivere: [
         {
@@ -455,11 +449,6 @@ export const mappetPerson: Person = {
             ],
         },
     ],
-    personinfo: {
-        kjønn: 'Mannebjørn' as Kjønn,
-        fødselsdato: somDato('1956-12-12'),
-        fnr: '01019000123',
-    },
     infotrygdutbetalinger: [],
     enhet: { id: '', navn: '' },
 };

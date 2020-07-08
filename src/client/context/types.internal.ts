@@ -1,7 +1,6 @@
 import { ReactChild } from 'react';
 import { Dayjs } from 'dayjs';
-import { SpesialistVedtaksperiode, Utbetalingsperiode } from './mapping/types.external';
-import { PersonNavn } from '../../types';
+import { Utbetalingsperiode } from './mapping/types.external';
 
 export interface Periode {
     fom: Dayjs;
@@ -229,14 +228,16 @@ export interface Arbeidsgiver {
 export type Kjønn = 'Mann' | 'Kvinne' | 'Ukjent';
 
 export interface Personinfo {
-    kjønn: Kjønn;
+    fornavn: string;
+    mellomnavn: string | null;
+    etternavn: string;
     fødselsdato: Dayjs;
+    kjønn: Kjønn;
     fnr?: string;
 }
 
 export interface Person {
     aktørId: string;
-    navn: PersonNavn;
     arbeidsgivere: Arbeidsgiver[];
     personinfo: Personinfo;
     fødselsnummer: string;

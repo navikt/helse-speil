@@ -19,12 +19,6 @@ export interface SpesialistPersoninfo {
     fødselsdato: string | null;
 }
 
-export interface PersonNavn {
-    fornavn: string;
-    mellomnavn: string | null;
-    etternavn: string;
-}
-
 export enum OppgaveType {
     Forlengelse = 'FORLENGELSE',
     Førstegangsbehandling = 'FØRSTEGANGSBEHANDLING',
@@ -36,7 +30,7 @@ export interface Oppgave {
     oppgavereferanse: string;
     opprettet: string;
     vedtaksperiodeId: string;
-    personinfo: PersonNavn;
+    personinfo: SpesialistPersoninfo;
     fødselsnummer: string;
     aktørId: string;
     boenhet: Boenhet;

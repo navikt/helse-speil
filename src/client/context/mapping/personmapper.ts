@@ -12,7 +12,7 @@ import {
     UferdigVedtaksperiode,
     Vedtaksperiode,
 } from '../types.internal';
-import { PersoninfoFraSparkel, SpesialistPersoninfo } from '../../../types';
+import { PersoninfoFraSparkel } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
 import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpesialistVedtaksperiode } from './types.external';
 
@@ -23,7 +23,7 @@ dayjs.extend(isSameOrBefore);
 
 const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
 
-const tilArbeidsgivere = (person: SpesialistPerson, personinfo: Personinfo) =>
+const tilArbeidsgivere = (person: SpesialistPerson) =>
     person.arbeidsgivere.map((arbeidsgiver) => {
         const tilVedtaksperiode = (periode: SpesialistVedtaksperiode): UferdigVedtaksperiode | Vedtaksperiode => {
             if (periode.fullstendig) {
@@ -82,25 +82,33 @@ const tilInfotrygdutbetalinger = (spesialistPerson: SpesialistPerson): Infotrygd
 export const tilPersonMedInfo = (spesialistPerson: SpesialistPerson, personinfo: Personinfo): Person => ({
     aktørId: spesialistPerson.aktørId,
     fødselsnummer: spesialistPerson.fødselsnummer,
-    navn: mapNavn(spesialistPerson.personinfo),
-    arbeidsgivere: tilArbeidsgivere(spesialistPerson, personinfo),
-    personinfo: personinfo,
+    arbeidsgivere: tilArbeidsgivere(spesialistPerson),
+    personinfo,
     infotrygdutbetalinger: tilInfotrygdutbetalinger(spesialistPerson),
     enhet: spesialistPerson.enhet,
     tildeltTil: spesialistPerson.tildeltTil ?? undefined,
 });
 
-const mapNavn = (personinfo: SpesialistPersoninfo) => ({
-    fornavn: personinfo.fornavn,
-    mellomnavn: personinfo.mellomnavn,
-    etternavn: personinfo.etternavn,
-});
-
-export const mapPersoninfo = (personinfoFraSparkel: PersoninfoFraSparkel): Personinfo => ({
-    fnr: personinfoFraSparkel.fnr,
-    kjønn: personinfoFraSparkel.kjønn as Kjønn,
-    fødselsdato: somDato(personinfoFraSparkel.fødselsdato),
-});
-
-export const tilPerson = (spesialistPerson: SpesialistPerson, personinfoFraSparkel: PersoninfoFraSparkel): Person =>
-    tilPersonMedInfo(spesialistPerson, mapPersoninfo(personinfoFraSparkel));
+// Optional personinfo fra Sparkel kan fjernes når vi ikke lenger
+// kan komme til å hente person fra Spesialist som mangler kjønn
+// (og fødselsdato, som vi ikke bruker ennå)
+export const tilPerson = (spesialistPerson: SpesialistPerson, personinfoFraSparkel?: PersoninfoFraSparkel): Person => {
+    const personinfo: Personinfo = personinfoFraSparkel
+        ? {
+              fornavn: spesialistPerson.personinfo.fornavn,
+              mellomnavn: spesialistPerson.personinfo.mellomnavn,
+              etternavn: spesialistPerson.personinfo.etternavn,
+              fødselsdato: somDato(personinfoFraSparkel.fødselsdato),
+              kjønn: personinfoFraSparkel.kjønn as Kjønn,
+              fnr: personinfoFraSparkel.fnr,
+          }
+        : {
+              fornavn: spesialistPerson.personinfo.fornavn,
+              mellomnavn: spesialistPerson.personinfo.mellomnavn,
+              etternavn: spesialistPerson.personinfo.etternavn,
+              fødselsdato: somDato(spesialistPerson.personinfo.fødselsdato!),
+              kjønn: spesialistPerson.personinfo.kjønn as Kjønn,
+              fnr: spesialistPerson.fødselsnummer,
+          };
+    return tilPersonMedInfo(spesialistPerson, personinfo);
+};

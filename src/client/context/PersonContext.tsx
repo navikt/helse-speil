@@ -59,8 +59,13 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         return fetchPerson(value)
             .then(async (response) => {
                 const spesialistPerson = { ...response.data.person };
-                const personinfo: PersoninfoFraSparkel = await getOrFetchPersoninfo(spesialistPerson);
-                const person: Person = tilPerson(spesialistPerson, personinfo);
+                const personinfoFraSparkel: PersoninfoFraSparkel | undefined =
+                    spesialistPerson.personinfo.kjønn === null
+                        ? await getPersoninfo(spesialistPerson.aktørId).then((response) => ({
+                              ...response.data,
+                          }))
+                        : undefined;
+                const person: Person = tilPerson(spesialistPerson, personinfoFraSparkel);
                 setPersonTilBehandling(person);
                 return person;
             })
@@ -78,17 +83,6 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             })
             .finally(() => setIsFetching(false));
     };
-
-    const getOrFetchPersoninfo = async (person: SpesialistPerson): Promise<PersoninfoFraSparkel> =>
-        person.personinfo.kjønn === null
-            ? await getPersoninfo(person.aktørId).then((response) => ({
-                  ...response.data,
-              }))
-            : {
-                  kjønn: person.personinfo.kjønn,
-                  fnr: person.fødselsnummer,
-                  fødselsdato: person.personinfo.fødselsdato!,
-              };
 
     const aktiverVedtaksperiode = useCallback(
         (periodeId: string) => {
