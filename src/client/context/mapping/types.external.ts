@@ -1,4 +1,4 @@
-import { PersonNavn } from '../../../types';
+import { PersonNavn, SpesialistPersoninfo } from '../../../types';
 
 export interface Utbetalingsdetalj {
     sats: number;
@@ -138,7 +138,7 @@ export interface SpesialistPerson {
     aktørId: string;
     fødselsnummer: string;
     arbeidsgivere: SpesialistArbeidsgiver[];
-    navn: PersonNavn;
+    personinfo: SpesialistPersoninfo;
     infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
     enhet: Enhet;
     tildeltTil: string | null;

@@ -1,7 +1,7 @@
 {
     "aktørId": "87654321962123",
     "fødselsnummer": "12020042069",
-    "navn": {
+    "personinfo": {
         "fornavn": "Dronning",
         "mellomnavn": null,
         "etternavn": "Sonja"

@@ -57,11 +57,11 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         return fetchPerson(value)
             .then(async (response) => {
                 const aktørId = response.data.person.aktørId;
-                const personinfo = await getPersoninfo(aktørId).then((response) => ({
+                const gammelPersoninfo = await getPersoninfo(aktørId).then((response) => ({
                     ...response.data,
                 }));
-                const person = { ...response.data.person, personinfo };
-                setPersonTilBehandling(tilPerson(person, personinfo));
+                const person = { ...response.data.person, gammelPersoninfo };
+                setPersonTilBehandling(tilPerson(person, gammelPersoninfo));
                 return person;
             })
             .catch((err) => {

@@ -11,6 +11,14 @@ export interface Personinfo {
     fnr?: string;
 }
 
+export interface SpesialistPersoninfo {
+    fornavn: string;
+    mellomnavn: string | null;
+    etternavn: string;
+    kjønn: string | null;
+    fødselsdato: string | null;
+}
+
 export interface PersonNavn {
     fornavn: string;
     mellomnavn: string | null;
