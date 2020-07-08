@@ -12,7 +12,7 @@ import {
     UferdigVedtaksperiode,
     Vedtaksperiode,
 } from '../types.internal';
-import { Personinfo as SpleisPersoninfo, SpesialistPersoninfo } from '../../../types';
+import { PersoninfoFraSparkel, SpesialistPersoninfo } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
 import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpesialistVedtaksperiode } from './types.external';
 
@@ -96,11 +96,11 @@ const mapNavn = (personinfo: SpesialistPersoninfo) => ({
     etternavn: personinfo.etternavn,
 });
 
-export const mapPersoninfo = (spleisPersoninfo: SpleisPersoninfo): Personinfo => ({
-    fnr: spleisPersoninfo.fnr,
-    kjønn: spleisPersoninfo.kjønn as Kjønn,
-    fødselsdato: somDato(spleisPersoninfo.fødselsdato),
+export const mapPersoninfo = (personinfoFraSparkel: PersoninfoFraSparkel): Personinfo => ({
+    fnr: personinfoFraSparkel.fnr,
+    kjønn: personinfoFraSparkel.kjønn as Kjønn,
+    fødselsdato: somDato(personinfoFraSparkel.fødselsdato),
 });
 
-export const tilPerson = (spesialistPerson: SpesialistPerson, spleisPersoninfo: SpleisPersoninfo): Person =>
-    tilPersonMedInfo(spesialistPerson, mapPersoninfo(spleisPersoninfo));
+export const tilPerson = (spesialistPerson: SpesialistPerson, personinfoFraSparkel: PersoninfoFraSparkel): Person =>
+    tilPersonMedInfo(spesialistPerson, mapPersoninfo(personinfoFraSparkel));

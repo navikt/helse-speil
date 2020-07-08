@@ -1,6 +1,6 @@
-import { Personinfo, UnmappedPersoninfo } from '../../types';
+import { PersoninfoFraSparkel, UnmappedPersoninfo } from '../../types';
 
-const map = (person: UnmappedPersoninfo & { fnr: string }): Personinfo => {
+const map = (person: UnmappedPersoninfo & { fnr: string }): PersoninfoFraSparkel => {
     return {
         kjønn: person.kjønn,
         fnr: person.fnr,

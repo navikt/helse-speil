@@ -4,7 +4,9 @@
     "personinfo": {
         "fornavn": "Leah",
         "mellomnavn": null,
-        "etternavn": "Isadora"
+        "etternavn": "Isadora",
+        "fødselsdato": null,
+        "kjønn": null
     },
     "arbeidsgivere": [
         {

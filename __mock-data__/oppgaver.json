@@ -7,7 +7,9 @@
         "personinfo": {
             "fornavn": "Kong",
             "mellomnavn": null,
-            "etternavn": "Harald"
+            "etternavn": "Harald",
+            "fødselsdato": null,
+            "kjønn": null
         },
         "vedtaksperiodeId": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87",
         "type": "FØRSTEGANGSBEHANDLING",
@@ -25,7 +27,9 @@
         "personinfo": {
             "fornavn": "Dronning",
             "mellomnavn": null,
-            "etternavn": "Sonja"
+            "etternavn": "Sonja",
+            "fødselsdato": null,
+            "kjønn": null
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b171",
         "type": "FORLENGELSE",
@@ -44,6 +48,7 @@
             "fornavn": "Kronprins",
             "mellomnavn": null,
             "etternavn": "Haakon",
+            "fødselsdato": "1973-07-20",
             "kjønn": "Mann"
         },
         "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172",
@@ -62,7 +67,9 @@
         "personinfo": {
             "fornavn": "Ingrid",
             "mellomnavn": null,
-            "etternavn": "Alexandra"
+            "etternavn": "Alexandra",
+            "fødselsdato": null,
+            "kjønn": null
         },
         "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
         "type": "OVERGANG_FRA_IT",
@@ -80,7 +87,9 @@
         "personinfo": {
             "fornavn": "Märtha",
             "mellomnavn": null,
-            "etternavn": "Louise"
+            "etternavn": "Louise",
+            "fødselsdato": null,
+            "kjønn": null
         },
         "vedtaksperiodeId": "63b9b345-cccc-4532-bbbb-43827f70b871",
         "type": "INFOTRYGDFORLENGELSE",
@@ -98,7 +107,9 @@
         "personinfo": {
             "fornavn": "Sverre",
             "mellomnavn": null,
-            "etternavn": "Magnus"
+            "etternavn": "Magnus",
+            "fødselsdato": null,
+            "kjønn": null
         },
         "vedtaksperiodeId": "fbc34f96-ffff-47ee-4b04-0601378a91ff",
         "type": "FØRSTEGANGSBEHANDLING",

@@ -4,7 +4,9 @@
     "personinfo": {
         "fornavn": "Kong",
         "mellomnavn": null,
-        "etternavn": "Harald"
+        "etternavn": "Harald",
+        "fødselsdato": null,
+        "kjønn": null
     },
     "arbeidsgivere": [
         {

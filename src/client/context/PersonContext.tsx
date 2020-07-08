@@ -4,6 +4,8 @@ import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from './types.internal';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
+import { SpesialistPerson } from './mapping/types.external';
+import { PersoninfoFraSparkel } from '../../types';
 
 interface PersonContextType {
     hentPerson: (id: string) => Promise<Person | undefined>;
@@ -56,12 +58,10 @@ export const PersonProvider = ({ children }: ProviderProps) => {
         setIsFetching(true);
         return fetchPerson(value)
             .then(async (response) => {
-                const aktørId = response.data.person.aktørId;
-                const gammelPersoninfo = await getPersoninfo(aktørId).then((response) => ({
-                    ...response.data,
-                }));
-                const person = { ...response.data.person, gammelPersoninfo };
-                setPersonTilBehandling(tilPerson(person, gammelPersoninfo));
+                const spesialistPerson = { ...response.data.person };
+                const personinfo: PersoninfoFraSparkel = await getOrFetchPersoninfo(spesialistPerson);
+                const person: Person = tilPerson(spesialistPerson, personinfo);
+                setPersonTilBehandling(person);
                 return person;
             })
             .catch((err) => {
@@ -78,6 +78,17 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             })
             .finally(() => setIsFetching(false));
     };
+
+    const getOrFetchPersoninfo = async (person: SpesialistPerson): Promise<PersoninfoFraSparkel> =>
+        person.personinfo.kjønn === null
+            ? await getPersoninfo(person.aktørId).then((response) => ({
+                  ...response.data,
+              }))
+            : {
+                  kjønn: person.personinfo.kjønn,
+                  fnr: person.fødselsnummer,
+                  fødselsdato: person.personinfo.fødselsdato!,
+              };
 
     const aktiverVedtaksperiode = useCallback(
         (periodeId: string) => {

@@ -4,7 +4,9 @@
     "personinfo": {
         "fornavn": "Dronning",
         "mellomnavn": null,
-        "etternavn": "Sonja"
+        "etternavn": "Sonja",
+        "fødselsdato": null,
+        "kjønn": null
     },
     "arbeidsgivere": [
         {

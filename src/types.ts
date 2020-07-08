@@ -5,7 +5,7 @@ export interface UnmappedPersoninfo {
     etternavn?: string;
 }
 
-export interface Personinfo {
+export interface PersoninfoFraSparkel {
     kjønn: string;
     fødselsdato: string;
     fnr?: string;

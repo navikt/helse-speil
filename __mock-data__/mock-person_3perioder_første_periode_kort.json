@@ -1,10 +1,12 @@
 {
     "aktørId": "87654321962124",
-    "fødselsnummer": "12020052346",
+    "fødselsnummer": "20077362124",
     "personinfo": {
         "fornavn": "Kronprins",
         "mellomnavn": null,
-        "etternavn": "Haakon"
+        "etternavn": "Haakon",
+        "fødselsdato": "1973-07-20",
+        "kjønn": "Mann"
     },
     "arbeidsgivere": [
         {

@@ -1,7 +1,7 @@
 import personInfoLookup from './personinfoLookup';
 import logger from '../logging';
 import { StsClient } from '../auth/stsClient';
-import { Personinfo } from '../../types';
+import { PersoninfoFraSparkel } from '../../types';
 import { RedisClient } from 'redis';
 import { SparkelClient } from '../adapters/sparkelClient';
 import { AktørIdLookup } from '../aktørid/aktørIdLookup';
@@ -33,7 +33,7 @@ const getPersoninfo = (req: Request, res: Response) => {
         } else {
             personInfoLookup
                 .hentPersoninfo(aktørId)
-                .then((personinfo: Personinfo) => {
+                .then((personinfo: PersoninfoFraSparkel) => {
                     cache.setex(`person-${aktørId}`, timeToExpire, JSON.stringify(personinfo));
                     res.send(personinfo);
                 })
