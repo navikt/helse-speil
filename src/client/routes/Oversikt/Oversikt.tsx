@@ -85,7 +85,7 @@ export const Oversikt = () => {
     };
 
     const onAssignCase = (oppgavereferanse: string, aktørId: string, email: string) => {
-        tildelOppgave(oppgavereferanse, email)
+        return tildelOppgave(oppgavereferanse, email)
             .then(() => {
                 if (personTilBehandling) markerPersonSomTildelt(email);
             })

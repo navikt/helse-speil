@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import AlternativerKnapp from '../../components/AlternativerKnapp';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
@@ -59,6 +59,7 @@ const Tildelt = ({ innloggetBrukerNavn, erTildeltInnloggetBruker, onFjernTildeli
 
 interface IkkeTildeltProps {
     onTildel: () => void;
+    posting: boolean;
 }
 
 const IkkeTildelt = ({ onTildel }: IkkeTildeltProps) => (
@@ -137,16 +138,22 @@ export interface SpeilOppgave extends Oppgave {
 interface OversiktslinjeProps {
     oppgave: SpeilOppgave;
     onUnassignCase: (id: string) => void;
-    onAssignCase: (id: string, aktørId: string, email?: string) => void;
+    onAssignCase: (id: string, aktørId: string, email?: string) => Promise<void>;
     antallVarsler: number;
 }
 
 const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }: OversiktslinjeProps) => {
     const { email } = useRecoilValue(authState);
     const { pathForLocation } = useNavigation();
+    const [posting, setPosting] = useState(false);
     const { fornavn, mellomnavn, etternavn } = oppgave.personinfo;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
     const erTildelt = oppgave.tildeling?.userId;
+
+    const tildel = () => {
+        setPosting(true);
+        onAssignCase(oppgave.oppgavereferanse, oppgave.aktørId, email!).finally(() => setPosting(false));
+    };
 
     return useMemo(
         () => (
@@ -163,11 +170,11 @@ const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }
                         onFjernTildeling={() => onUnassignCase(oppgave.oppgavereferanse)}
                     />
                 ) : (
-                    <IkkeTildelt onTildel={() => onAssignCase(oppgave.oppgavereferanse, oppgave.aktørId, email!)} />
+                    <IkkeTildelt onTildel={tildel} posting={posting} />
                 )}
             </Row>
         ),
-        [oppgave.tildeling]
+        [oppgave.tildeling, posting]
     );
 };
 
