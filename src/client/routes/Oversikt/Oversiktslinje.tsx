@@ -63,9 +63,9 @@ interface IkkeTildeltProps {
     posting: boolean;
 }
 
-const IkkeTildelt = ({ onTildel }: IkkeTildeltProps) => (
+const IkkeTildelt = ({ onTildel, posting }: IkkeTildeltProps) => (
     <Cell>
-        <Knapp mini onClick={onTildel}>
+        <Knapp mini onClick={onTildel} spinner={posting}>
             Tildel meg
         </Knapp>
     </Cell>
@@ -139,6 +139,7 @@ const Varsler = ({ antallVarsler }: StatusProps) => {
 export interface SpeilOppgave extends Oppgave {
     tildeling?: Tildeling;
 }
+
 interface OversiktslinjeProps {
     oppgave: SpeilOppgave;
     onUnassignCase: (id: string) => void;
