@@ -4,7 +4,6 @@ import {
     Inntektskilde,
     Kildetype,
     Oppsummering,
-    Personinfo,
     Risikovurdering,
     Simulering,
     Sykepengegrunnlag,
@@ -46,7 +45,7 @@ import {
     søknadsfristVilkår,
 } from './vilkårsmapper';
 
-export const somDato = (dato: string): Dayjs => dayjs(dato, ISO_DATOFORMAT);
+export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
 export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
 
@@ -264,10 +263,7 @@ export const mapVedtaksperiode = (
         forlengelseFraInfotrygd,
         periodetype,
         behandlet: !!unmappedPeriode.godkjentAv,
-        kanVelges:
-            ![SpleisVedtaksperiodetilstand.IngenUtbetaling, SpleisVedtaksperiodetilstand.Utbetalt].includes(
-                spleisPeriode.tilstand
-            ) || unmappedPeriode.totalbeløpArbeidstaker > 0,
+        kanVelges: true,
         tilstand: mapTilstand(unmappedPeriode.tilstand),
         oppgavereferanse: unmappedPeriode.oppgavereferanse,
         utbetalingsreferanse: unmappedPeriode.utbetalingsreferanse,

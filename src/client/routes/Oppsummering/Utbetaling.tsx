@@ -123,6 +123,8 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 )
             ) : tilstand === Vedtaksperiodetilstand.Utbetalt ? (
                 <AlertStripeInfo>Utbetalingen er sendt til oppdragsystemet.</AlertStripeInfo>
+            ) : tilstand === Vedtaksperiodetilstand.IngenUtbetaling ? (
+                <AlertStripeInfo>Perioden er godkjent, ingen utbetaling.</AlertStripeInfo>
             ) : (
                 <AlertStripeInfo>Kunne ikke lese informasjon om sakens tilstand.</AlertStripeInfo>
             )}

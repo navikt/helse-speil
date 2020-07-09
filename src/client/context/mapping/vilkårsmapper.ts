@@ -1,6 +1,6 @@
 import { Alder, DagerIgjen, Opptjening, SykepengegrunnlagVilkår, Søknadsfrist, Vilkår } from '../types.internal';
 import { SpleisVilkår } from './types.external';
-import { somDato } from './vedtaksperiodemapper';
+import { somDato, somKanskjeDato } from './vedtaksperiodemapper';
 
 export enum Vilkårstype {
     Alder,
@@ -27,10 +27,10 @@ export const sykepengegrunnlagVilkår = (vilkår: SpleisVilkår): Sykepengegrunn
 });
 
 export const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
-    dagerBrukt: vilkår.sykepengedager.forbrukteSykedager!,
-    førsteFraværsdag: somDato(vilkår.sykepengedager.førsteFraværsdag!),
-    førsteSykepengedag: somDato(vilkår.sykepengedager.førsteSykepengedag!),
-    maksdato: somDato(vilkår.sykepengedager.maksdato!),
+    dagerBrukt: vilkår.sykepengedager.forbrukteSykedager,
+    førsteFraværsdag: somDato(vilkår.sykepengedager.førsteFraværsdag),
+    førsteSykepengedag: somKanskjeDato(vilkår.sykepengedager.førsteSykepengedag),
+    maksdato: somKanskjeDato(vilkår.sykepengedager.maksdato),
     oppfylt: vilkår.sykepengedager.oppfylt,
     gjenståendeDager: vilkår.sykepengedager.gjenståendeDager,
     tidligerePerioder: [],

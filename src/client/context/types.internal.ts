@@ -12,10 +12,10 @@ export interface Basisvilkår {
 }
 
 export interface DagerIgjen extends Basisvilkår {
-    dagerBrukt: number;
+    dagerBrukt?: number;
     førsteFraværsdag: Dayjs;
     førsteSykepengedag?: Dayjs;
-    maksdato: Dayjs;
+    maksdato?: Dayjs;
     gjenståendeDager?: number;
     tidligerePerioder: Periode[];
 }
