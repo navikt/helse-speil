@@ -10,7 +10,7 @@ describe('isValidIn', () => {
     const tokenThatExpiresIn = (seconds: number) => createToken({ exp: `${nowInSeconds + seconds}` });
 
     test('time to check is before exp', () => {
-        expect(auth.isValidIn({ seconds: 29, token: tokenThatExpiresIn(30) })).toEqual(true);
+        expect(auth.isValidIn({ seconds: 28, token: tokenThatExpiresIn(30) })).toEqual(true);
     });
 
     test('time to check is at exp', () => {
