@@ -104,7 +104,6 @@ const TomtSaksbilde = () => {
 const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling, hentPerson } = useContext(PersonContext);
-    const { tildelingError } = useContext(TildelingerContext);
     useVarselFilter(Scopes.SAKSBILDE);
     const { leggTilVarsel } = useUpdateVarsler();
 
@@ -142,7 +141,6 @@ const Saksbilde = () => {
     return (
         <>
             <TildelingVarsel tildeltTil={personTilBehandling.tildeltTil} oppgavererefanse={oppgavereferanse} />
-            {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             <Personlinje />
             <Tidslinje />
             <LoggProvider>

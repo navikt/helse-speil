@@ -64,7 +64,6 @@ export const Oversikt = () => {
         tildelOppgave,
         tildelinger,
         isFetching: isFetchingTildelinger,
-        tildelingError,
         fetchTildelinger,
         fjernTildeling,
     } = useContext(TildelingerContext);
@@ -97,7 +96,6 @@ export const Oversikt = () => {
     return (
         <>
             <SuksessToast />
-            {tildelingError && <Varsel type={Varseltype.Advarsel}>{tildelingError}</Varsel>}
             {(isFetchingOppgaver || isFetchingTildelinger) && (
                 <LasterInnhold>
                     <NavFrontendSpinner type="XS" />

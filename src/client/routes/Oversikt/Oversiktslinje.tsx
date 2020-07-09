@@ -14,6 +14,7 @@ import { Location, useNavigation } from '../../hooks/useNavigation';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
+import { useUpdateVarsler } from '../../state/varslerState';
 
 const Tildelingsalternativ = styled(AlternativerKnapp)`
     margin-left: 0.5rem;
@@ -75,13 +76,16 @@ interface SøkerProps {
     link: string;
 }
 
-const Søker = ({ navn, link }: SøkerProps) => (
-    <Cell>
-        <Link className="lenke" to={link}>
-            {navn}
-        </Link>
-    </Cell>
-);
+const Søker = ({ navn, link }: SøkerProps) => {
+    const { fjernVarsler } = useUpdateVarsler();
+    return (
+        <Cell>
+            <Link className="lenke" to={link} onClick={fjernVarsler}>
+                {navn}
+            </Link>
+        </Cell>
+    );
+};
 
 interface TypeProps {
     type: OppgaveType;

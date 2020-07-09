@@ -3,6 +3,8 @@ import { deleteTildeling, getTildelinger, postTildeling } from '../io/http';
 import { ProviderProps, Tildeling } from './types.internal';
 import { Oppgave } from '../../types';
 import { capitalizeName, extractNameFromEmail } from '../utils/locale';
+import { useUpdateVarsler } from '../state/varslerState';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 interface TildelingerContextType {
     tildelinger: Tildeling[];
@@ -10,7 +12,6 @@ interface TildelingerContextType {
     tildelOppgave: (oppgavereferanse: string, userId: string) => Promise<void>;
     fetchTildelinger: (oppgaver: Oppgave[]) => void;
     fjernTildeling: (oppgavereferanse: string) => void;
-    tildelingError?: string;
 }
 
 export const TildelingerContext = createContext<TildelingerContextType>({
@@ -24,9 +25,10 @@ export const TildelingerContext = createContext<TildelingerContextType>({
 export const TildelingerProvider = ({ children }: ProviderProps) => {
     const [tildelinger, setTildelinger] = useState<Tildeling[]>([]);
     const [isFetching, setIsFetching] = useState<boolean>(false);
-    const [error, setError] = useState<string | undefined>(undefined);
+    const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
 
     const tildelOppgave = (oppgavereferanse: string, userId: string) => {
+        fjernVarsler();
         return postTildeling({ oppgavereferanse, userId })
             .then(() => {
                 setTildelinger((prev) =>
@@ -34,7 +36,6 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
                         tildeling.oppgavereferanse === oppgavereferanse ? { oppgavereferanse, userId } : tildeling
                     )
                 );
-                setError(undefined);
             })
             .catch((error) => {
                 let assignedUser;
@@ -44,9 +45,12 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
                     assignedUser = error.message?.alreadyAssignedTo;
                 }
                 if (assignedUser) {
-                    setError(`${capitalizeName(extractNameFromEmail(assignedUser))} har allerede tatt saken.`);
+                    leggTilVarsel({
+                        message: `${capitalizeName(extractNameFromEmail(assignedUser))} har allerede tatt saken.`,
+                        type: Varseltype.Advarsel,
+                    });
                 } else {
-                    setError('Kunne ikke tildele sak.');
+                    leggTilVarsel({ message: 'Kunne ikke tildele sak.', type: Varseltype.Advarsel });
                 }
                 return Promise.reject();
             });
@@ -71,7 +75,10 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
                         setTildelinger((prev) => [...prev, ...nyeTildelinger]);
                     })
                     .catch((err) => {
-                        setError('Kunne ikke hente tildelingsinformasjon.');
+                        leggTilVarsel({
+                            message: 'Kunne ikke hente tildelingsinformasjon.',
+                            type: Varseltype.Advarsel,
+                        });
                         console.error(err);
                     });
                 fetches.push(aFetch);
@@ -83,6 +90,7 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
     };
 
     const fjernTildeling = (oppgavereferanse: string) => {
+        fjernVarsler();
         deleteTildeling(oppgavereferanse)
             .then(() => {
                 setTildelinger((prev) =>
@@ -92,10 +100,9 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
                             : tildeling
                     )
                 );
-                setError(undefined);
             })
             .catch((error) => {
-                setError('Kunne ikke fjerne tildeling av sak.');
+                leggTilVarsel({ message: 'Kunne ikke fjerne tildeling av sak.', type: Varseltype.Advarsel });
                 console.error(error);
             });
     };
@@ -105,11 +112,10 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
             tildelinger,
             isFetching,
             tildelOppgave,
-            tildelingError: error,
             fetchTildelinger,
             fjernTildeling,
         }),
-        [tildelinger, isFetching, error]
+        [tildelinger, isFetching]
     );
 
     return <TildelingerContext.Provider value={value}>{children}</TildelingerContext.Provider>;
