@@ -79,13 +79,24 @@ const finnPerson = async (req: Request, res: Response) => {
 const oppgaverForPeriode = (req: Request, res: Response) => {
     auditLogOversikt(req);
 
+    const oppgaverMedTildelinger = async (response: Body): Promise<any> => {
+        const body: any = response.body;
+        const oppgavereferanser = body.map((oppgave: any) => oppgave.oppgavereferanse);
+        const tildelinger = await storage.getAll(oppgavereferanser);
+        return body.map((oppgave: any) => ({
+            ...oppgave,
+            tildeltTil: tildelinger.find((tildeling: any) => tildeling.oppgavereferanse === oppgave.oppgavereferanse)
+                ?.userId,
+        }));
+    };
+
     respondWith({
         res,
         lookupPromise: onBehalfOf
             .hentFor(spesialistId, req.session!.speilToken)
             .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(behalfOfToken)),
         mapper: async (response: Body) => ({
-            oppgaver: response.body,
+            oppgaver: await oppgaverMedTildelinger(response),
         }),
         operation: 'oversikt',
         speilUser: speilUser(req),

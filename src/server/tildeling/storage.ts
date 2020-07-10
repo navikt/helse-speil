@@ -7,8 +7,13 @@ export interface Storage {
     init: (client: RedisClient) => void;
     get: (key: string) => Promise<string>;
     assignCase: (key: string, value: string) => Promise<string>;
-    getAll: (keys: string[]) => Promise<string[]>;
+    getAll: (keys: string[]) => Promise<Tildeling[]>;
     unassignCase: (key: string) => Promise<number>;
+}
+
+export interface Tildeling {
+    oppgavereferanse: string;
+    userId: string;
 }
 
 const addPrefix = (id: string) => `tildeling-${id}`;
