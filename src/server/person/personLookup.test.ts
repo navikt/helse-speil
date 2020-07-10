@@ -30,8 +30,8 @@ const personByFnr = {
 };
 
 const spesialistClient = {
-    hentPersonByAktørId: () => Promise.resolve({ statusCode: 200, body: personByAktørId }),
-    hentPersonByFødselsnummer: () => Promise.resolve({ statusCode: 200, body: personByFnr }),
+    hentPersonByAktørId: () => Promise.resolve({ status: 200, body: personByAktørId }),
+    hentPersonByFødselsnummer: () => Promise.resolve({ status: 200, body: personByFnr }),
 };
 
 const storage = {
