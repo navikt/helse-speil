@@ -31,13 +31,7 @@ const sorterePåOpprettet = (a: Oppgave, b: Oppgave) =>
     new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
 
 const sorterePåTildelt = (a: SpeilOppgave, b: SpeilOppgave) =>
-    a.tildeling?.userId
-        ? b.tildeling?.userId
-            ? a.tildeling.userId.localeCompare(b.tildeling.userId, 'nb-NO')
-            : -1
-        : b.tildeling?.userId
-        ? 1
-        : 0;
+    a.tildeltTil ? (b.tildeltTil ? a.tildeltTil.localeCompare(b.tildeltTil, 'nb-NO') : -1) : b.tildeltTil ? 1 : 0;
 
 const sorterePåBokommune = (a: Oppgave, b: Oppgave) => a.boenhet.navn.localeCompare(b.boenhet.navn, 'nb-NO');
 

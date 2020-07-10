@@ -133,12 +133,10 @@ export const Oversikt = () => {
                                     const tildeling = tildelinger.find(
                                         (t) => t.oppgavereferanse === oppgave.oppgavereferanse
                                     );
-                                    return tildeling?.userId
-                                        ? {
-                                              ...oppgave,
-                                              tildeling,
-                                          }
-                                        : oppgave;
+                                    return {
+                                        ...oppgave,
+                                        tildeltTil: tildeling?.userId ?? null,
+                                    };
                                 })
                                 .sort(aktivSortering)
                                 .map((oppgave: SpeilOppgave) => {

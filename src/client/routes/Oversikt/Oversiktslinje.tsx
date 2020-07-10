@@ -137,7 +137,7 @@ const Varsler = ({ antallVarsler }: StatusProps) => {
 };
 
 export interface SpeilOppgave extends Oppgave {
-    tildeling?: Tildeling;
+    tildeltTil: string | null;
 }
 
 interface OversiktslinjeProps {
@@ -153,7 +153,7 @@ const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }
     const [posting, setPosting] = useState(false);
     const { fornavn, mellomnavn, etternavn } = oppgave.personinfo;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
-    const erTildelt = oppgave.tildeling?.userId;
+    const erTildelt = oppgave.tildeltTil;
 
     const tildel = () => {
         setPosting(true);
@@ -170,8 +170,8 @@ const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }
                 <Opprettet dato={oppgave.opprettet} />
                 {erTildelt ? (
                     <Tildelt
-                        erTildeltInnloggetBruker={oppgave.tildeling?.userId === email}
-                        innloggetBrukerNavn={capitalizeName(extractNameFromEmail(oppgave.tildeling?.userId))}
+                        erTildeltInnloggetBruker={oppgave.tildeltTil === email}
+                        innloggetBrukerNavn={capitalizeName(extractNameFromEmail(oppgave.tildeltTil ?? undefined))}
                         onFjernTildeling={() => onUnassignCase(oppgave.oppgavereferanse)}
                     />
                 ) : (
@@ -179,7 +179,7 @@ const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }
                 )}
             </Row>
         ),
-        [oppgave.tildeling, posting]
+        [oppgave.tildeltTil, posting]
     );
 };
 
