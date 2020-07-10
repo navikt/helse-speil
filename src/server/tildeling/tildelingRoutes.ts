@@ -14,20 +14,6 @@ const setup = (_storage: Storage) => {
 };
 
 const routes = (router: Router) => {
-    router.post('/list', (req, res) => {
-        const oppgavereferanser = req.body;
-        storage
-            .getAll(oppgavereferanser)
-            .then((result) => {
-                res.setHeader('Content-Type', 'application/json');
-                res.send(JSON.stringify(result));
-            })
-            .catch((err) => {
-                logger.info(`Error while retrieving values from Redis: ${err}`);
-                res.sendStatus(err.statusCode || 500);
-            });
-    });
-
     router.get('/:oppgavereferanse', (req, res) => {
         const oppgavereferanse = req.params.oppgavereferanse;
         storage

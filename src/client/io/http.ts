@@ -102,10 +102,6 @@ export const getPersoninfo = async (aktorId: string) => {
     return get(`${baseUrl}/person/${aktorId}/info`);
 };
 
-export const getTildelinger = async (behandlingsIdList: string[]) => {
-    return post(`${baseUrl}/tildeling/list`, behandlingsIdList);
-};
-
 export const postTildeling = async (tildeling: Tildeling) => {
     return post(`${baseUrl}/tildeling`, tildeling);
 };

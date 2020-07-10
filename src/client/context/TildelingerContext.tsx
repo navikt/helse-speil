@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useState } from 'react';
-import { deleteTildeling, getTildelinger, postTildeling, SpeilResponse } from '../io/http';
-import { ProviderProps, Tildeling } from './types.internal';
+import { deleteTildeling, postTildeling, SpeilResponse } from '../io/http';
+import { ProviderProps } from './types.internal';
 import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 import { useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
