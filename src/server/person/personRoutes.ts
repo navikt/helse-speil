@@ -16,7 +16,7 @@ const setup = ({
     onBehalfOf,
 }: PersonDependencies) => {
     personinfoRepo.setup({ sparkelClient, aktørIdLookup, stsClient, cache });
-    personLookup.setup({ aktørIdLookup, spesialistClient, storage, config, onBehalfOf });
+    personLookup.setup({ spesialistClient, storage, config, onBehalfOf });
     routes(router);
     return router;
 };

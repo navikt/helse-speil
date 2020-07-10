@@ -1,11 +1,9 @@
 import authSupport from '../auth/authSupport';
 import logger from '../logging';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
-import { AktørIdLookup } from '../aktørid/aktørIdLookup';
 import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf } from '../types';
 import { Request, Response } from 'express';
-import dayjs from 'dayjs';
 import { Storage } from '../tildeling/storage';
 
 interface RespondWithParameters {
@@ -17,7 +15,6 @@ interface RespondWithParameters {
 }
 
 export interface SetupParameters {
-    aktørIdLookup: AktørIdLookup;
     spesialistClient: SpesialistClient;
     storage: Storage;
     config: AppConfig;
@@ -25,7 +22,6 @@ export interface SetupParameters {
 }
 
 const personIdHeaderName = 'nav-person-id';
-let aktørIdLookup: AktørIdLookup;
 let spesialistClient: SpesialistClient;
 let storage: Storage;
 let spesialistId: string;
@@ -33,13 +29,11 @@ let spesialistId: string;
 let onBehalfOf: OnBehalfOf;
 
 const setup = ({
-    aktørIdLookup: _aktørIdLookup,
     spesialistClient: _spesialistClient,
     storage: _storage,
     config,
     onBehalfOf: _onBehalfOf,
 }: SetupParameters) => {
-    aktørIdLookup = _aktørIdLookup;
     spesialistClient = _spesialistClient;
     storage = _storage;
     spesialistId = config.oidc.clientIDSpesialist;
@@ -85,14 +79,11 @@ const finnPerson = async (req: Request, res: Response) => {
 const oppgaverForPeriode = (req: Request, res: Response) => {
     auditLogOversikt(req);
 
-    const today = dayjs().format('YYYY-MM-DD');
-    const yesterday = dayjs().subtract(1, 'day').format('YYYY-MM-DD');
-
     respondWith({
         res,
         lookupPromise: onBehalfOf
             .hentFor(spesialistId, req.session!.speilToken)
-            .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(yesterday, today, behalfOfToken)),
+            .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(behalfOfToken)),
         mapper: async (response: Body) => ({
             oppgaver: response.body,
         }),
@@ -109,12 +100,6 @@ const speilUser = (req: Request) => authSupport.valueFromClaim('name', req.sessi
 
 const auditLogOversikt = (req: Request) => {
     logger.audit(`${speilUser(req)} is viewing front page`);
-};
-
-const toAktørId = async (fnr: string) => {
-    return await aktørIdLookup.hentAktørId(fnr).catch((err) => {
-        logger.error(`Could not fetch aktørId. ${err}`);
-    });
 };
 
 const respondWith = ({ res, lookupPromise, mapper, operation, speilUser }: RespondWithParameters) => {

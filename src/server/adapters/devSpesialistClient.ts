@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { SpesialistClient } from '../person/spesialistClient';
 
-const behandlingerForPeriode = (_fom: string, _tom: string, _accessToken: string) => {
+const behandlingerForPeriode = (_accessToken: string) => {
     const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
     const oppgaver = JSON.parse(fromFile);
     return Promise.resolve(({

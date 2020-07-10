@@ -1,20 +1,20 @@
 import request from 'request-promise-native';
 
 export interface SpesialistClient {
-    behandlingerForPeriode: (fom: string, tom: string, onBehalfOfToken: string) => Promise<Response>;
+    behandlingerForPeriode: (onBehalfOfToken: string) => Promise<Response>;
     hentPersonByAktørId: (aktørId: string, onBehalfOfToken: string) => Promise<Response>;
     hentPersonByFødselsnummer: (fødselsnummer: string, onBehalfOfToken: string) => Promise<Response>;
 }
 
 export const spesialistClient: SpesialistClient = {
-    behandlingerForPeriode: async (fom, tom, onBehalfOfToken) => {
+    behandlingerForPeriode: async (onBehalfOfToken) => {
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/oppgaver`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             resolveWithFullResponse: true,
-            json: true
+            json: true,
         };
         return request.get(options);
     },
@@ -23,10 +23,10 @@ export const spesialistClient: SpesialistClient = {
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/person/aktorId/${aktørId}`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             resolveWithFullResponse: true,
-            json: true
+            json: true,
         };
         return request.get(options);
     },
@@ -35,13 +35,13 @@ export const spesialistClient: SpesialistClient = {
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/person/fnr/${fødselsnummer}`,
             headers: {
-                Authorization: `Bearer ${onBehalfOfToken}`
+                Authorization: `Bearer ${onBehalfOfToken}`,
             },
             resolveWithFullResponse: true,
-            json: true
+            json: true,
         };
         return request.get(options);
-    }
+    },
 };
 
 export default spesialistClient;
