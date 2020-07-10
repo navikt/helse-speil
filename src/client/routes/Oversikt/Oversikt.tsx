@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Panel from 'nav-frontend-paneler';
-import { TildelingerContext } from '../../context/TildelingerContext';
 import { OppgaverContext } from '../../context/OppgaverContext';
 import { useTranslation } from 'react-i18next';
 import { Oppgave } from '../../../types';

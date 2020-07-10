@@ -20,7 +20,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 import Lenkeknapp from './Lenkeknapp';
-import { TildelingerContext } from '../context/TildelingerContext';
+import { useOppgavetildeling } from '../hooks/useOppgavetildeling';
 import { Vedtaksperiode } from '../context/types.internal';
 import { Scopes, useUpdateVarsler, useVarselFilter } from '../state/varslerState';
 import { useRecoilValue } from 'recoil';
@@ -53,7 +53,7 @@ const TildelSpinner = styled(NavFrontendSpinner)`
 
 const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string; oppgavererefanse: string }) => {
     const { email } = useRecoilValue(authState);
-    const { tildelOppgave } = useContext(TildelingerContext);
+    const { tildelOppgave } = useOppgavetildeling();
     const { markerPersonSomTildelt } = useContext(PersonContext);
     const [posting, setPosting] = useState(false);
 

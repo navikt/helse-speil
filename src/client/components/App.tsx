@@ -2,7 +2,6 @@ import React from 'react';
 import Saksbilde from './Saksbilde';
 import { hot } from 'react-hot-loader';
 import { Oversikt } from '../routes/Oversikt';
-import { TildelingerProvider } from '../context/TildelingerContext';
 import { withContextProviders } from '../context/withContextProviders';
 import { OppgaverProvider } from '../context/OppgaverContext';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -30,7 +29,7 @@ const App = withContextProviders(() => {
             </Switch>
         </>
     );
-}, [OppgaverProvider, PersonProvider, TildelingerProvider]);
+}, [OppgaverProvider, PersonProvider]);
 
 const WithRouting = () => (
     <BrowserRouter>

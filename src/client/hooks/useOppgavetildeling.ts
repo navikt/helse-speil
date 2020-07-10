@@ -1,21 +1,14 @@
-import React, { createContext, useMemo, useState } from 'react';
 import { deleteTildeling, postTildeling, SpeilResponse } from '../io/http';
-import { ProviderProps } from './types.internal';
 import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 import { useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
-interface TildelingerContextType {
+interface Oppgavetildeling {
     tildelOppgave: (oppgavereferanse: string, userId: string) => Promise<SpeilResponse | string>;
     fjernTildeling: (oppgavereferanse: string) => Promise<Response | void>;
 }
 
-export const TildelingerContext = createContext<TildelingerContextType>({
-    tildelOppgave: (_oppgavereferanse, _userId) => Promise.resolve(''),
-    fjernTildeling: (_oppgavereferanse: string) => Promise.resolve(),
-});
-
-export const TildelingerProvider = ({ children }: ProviderProps) => {
+export const useOppgavetildeling = (): Oppgavetildeling => {
     const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
 
     const tildelOppgave = (oppgavereferanse: string, userId: string): Promise<SpeilResponse | string> => {
@@ -47,13 +40,8 @@ export const TildelingerProvider = ({ children }: ProviderProps) => {
         });
     };
 
-    const value = useMemo(
-        () => ({
-            tildelOppgave,
-            fjernTildeling,
-        }),
-        []
-    );
-
-    return <TildelingerContext.Provider value={value}>{children}</TildelingerContext.Provider>;
+    return {
+        tildelOppgave,
+        fjernTildeling,
+    };
 };

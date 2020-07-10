@@ -16,7 +16,7 @@ import { authState } from '../../state/authentication';
 import { useUpdateVarsler } from '../../state/varslerState';
 import { PersonContext } from '../../context/PersonContext';
 import { OppgaverContext } from '../../context/OppgaverContext';
-import { TildelingerContext } from '../../context/TildelingerContext';
+import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
 
 const Tildelingsalternativ = styled(AlternativerKnapp)`
     margin-left: 0.5rem;
@@ -151,7 +151,7 @@ const Oversiktslinje = ({ oppgave, antallVarsler }: OversiktslinjeProps) => {
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
     const erTildelt = oppgave.tildeltTil;
     const { markerOppgaveSomTildelt } = useContext(OppgaverContext);
-    const { tildelOppgave, fjernTildeling } = useContext(TildelingerContext);
+    const { tildelOppgave, fjernTildeling } = useOppgavetildeling();
 
     const tildel = () => {
         setPosting(true);
