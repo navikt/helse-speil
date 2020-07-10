@@ -16,6 +16,14 @@ export interface SpeilResponse {
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
 /* eslint-enable */
 
+const getData = async (response: Response) => {
+    try {
+        return await response.json();
+    } catch (e) {
+        return undefined;
+    }
+};
+
 const getErrorMessage = async (response: Response) => {
     try {
         return await response.text();
@@ -43,7 +51,7 @@ const get = async (url: string, options?: Options): Promise<SpeilResponse> => {
 
     return {
         status: response.status,
-        data: await response.json(),
+        data: await getData(response),
     };
 };
 
@@ -86,7 +94,7 @@ export const post = async (url: string, data: any): Promise<SpeilResponse> => {
 
     return {
         status: response.status,
-        data: await response.json(),
+        data: await getData(response),
     };
 };
 
