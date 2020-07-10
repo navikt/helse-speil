@@ -61,6 +61,7 @@ const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string
         setPosting(true);
         tildelOppgave(oppgavererefanse, email!)
             .then(() => markerPersonSomTildelt(email))
+            .catch((assignedUser) => markerPersonSomTildelt(assignedUser))
             .finally(() => setPosting(false));
     };
 
@@ -127,9 +128,7 @@ const Saksbilde = () => {
             });
             return;
         }
-        if (!personTilBehandling || aktørId[0] !== personTilBehandling.aktørId) {
-            hentPerson(aktørId[0]);
-        }
+        hentPerson(aktørId[0]);
     }, [location.pathname]);
 
     if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde />;

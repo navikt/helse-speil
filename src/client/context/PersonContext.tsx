@@ -4,7 +4,6 @@ import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from './types.internal';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { SpesialistPerson } from './mapping/types.external';
 import { PersoninfoFraSparkel } from '../../types';
 
 interface PersonContextType {

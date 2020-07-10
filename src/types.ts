@@ -36,6 +36,7 @@ export interface Oppgave {
     boenhet: Boenhet;
     antallVarsler: number;
     type: OppgaveType;
+    tildeltTil: string | null;
 }
 
 interface Boenhet {

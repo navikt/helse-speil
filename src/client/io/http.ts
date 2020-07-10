@@ -7,17 +7,14 @@ export const ResponseError = (statusCode: number, message?: string) => ({
     message,
 });
 
+export interface SpeilResponse {
+    status: number;
+    data: any;
+}
+
 /* eslint-disable no-undef */
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
 /* eslint-enable */
-
-const getData = async (response: Response) => {
-    try {
-        return await response.json();
-    } catch (e) {
-        return undefined;
-    }
-};
 
 const getErrorMessage = async (response: Response) => {
     try {
@@ -37,7 +34,7 @@ const ensureAcceptHeader = (options: Options = {}): RequestInit | undefined => {
     return undefined;
 };
 
-const get = async (url: string, options?: Options) => {
+const get = async (url: string, options?: Options): Promise<SpeilResponse> => {
     const response = await fetch(url, ensureAcceptHeader(options));
 
     if (response.status >= 400) {
@@ -46,7 +43,7 @@ const get = async (url: string, options?: Options) => {
 
     return {
         status: response.status,
-        data: await getData(response),
+        data: await response.json(),
     };
 };
 
@@ -69,7 +66,7 @@ export const fetchPerson = async (personId?: string) =>
 
 export const fetchOppgaver = async () => get(`${baseUrl}/person/`);
 
-export const post = async (url: string, data: any) => {
+export const post = async (url: string, data: any): Promise<SpeilResponse> => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -89,7 +86,7 @@ export const post = async (url: string, data: any) => {
 
     return {
         status: response.status,
-        data: await getData(response),
+        data: await response.json(),
     };
 };
 

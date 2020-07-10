@@ -11,18 +11,18 @@ import { Row, Tabell } from './Oversikt.styles';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersonContext } from '../../context/PersonContext';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
-import Oversiktslinje, { SpeilOppgave } from './Oversiktslinje';
+import Oversiktslinje from './Oversiktslinje';
 import { SuksessToast } from '../../components/Toast';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import {
+    BokommuneHeader,
+    OpprettetHeader,
     SakstypeHeader,
     StatusHeader,
     SøkerHeader,
     TildelingHeader,
-    OpprettetHeader,
-    BokommuneHeader,
 } from './headere/headere';
-import { aktiveFiltereState, aktivKolonneState, sorteringsretningState, aktivSorteringState } from './oversiktState';
+import { aktiveFiltereState, aktivKolonneState, aktivSorteringState, sorteringsretningState } from './oversiktState';
 import { useLocation } from 'react-router-dom';
 
 const Container = styled(Panel)`
@@ -55,48 +55,23 @@ const useSettInitiellRetning = () => {
 
 export const Oversikt = () => {
     const { t } = useTranslation();
-    const { isFetching: isFetchingPersonBySearch, personTilBehandling, markerPersonSomTildelt } = useContext(
-        PersonContext
-    );
+    const { isFetching: isFetchingPersonBySearch } = useContext(PersonContext);
     const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const location = useLocation();
-    const {
-        tildelOppgave,
-        tildelinger,
-        isFetching: isFetchingTildelinger,
-        fetchTildelinger,
-        fjernTildeling,
-    } = useContext(TildelingerContext);
     const aktivSortering = useRecoilValue(aktivSorteringState);
     useSettInitiellRetning();
     const [currentFilters, setCurrentFilters] = useRecoilState(aktiveFiltereState);
-    const harHentetTildelinger = tildelinger.length === oppgaver.length;
 
     useVarselFilter(Scopes.OVERSIKT);
 
     useEffect(() => {
-        hentOppgaver().then((nyeOppgaver) => fetchTildelinger(nyeOppgaver));
+        hentOppgaver();
     }, [location.key]);
-
-    const onUnassignCase = (oppgavereferanse: string) => {
-        fjernTildeling(oppgavereferanse);
-        if (personTilBehandling) markerPersonSomTildelt(undefined);
-    };
-
-    const onAssignCase = (oppgavereferanse: string, aktørId: string, email: string) => {
-        return tildelOppgave(oppgavereferanse, email)
-            .then(() => {
-                if (personTilBehandling) markerPersonSomTildelt(email);
-            })
-            .catch((_) => {
-                fetchTildelinger(oppgaver);
-            });
-    };
 
     return (
         <>
             <SuksessToast />
-            {(isFetchingOppgaver || isFetchingTildelinger) && (
+            {isFetchingOppgaver && (
                 <LasterInnhold>
                     <NavFrontendSpinner type="XS" />
                     Henter personer
@@ -123,33 +98,21 @@ export const Oversikt = () => {
                         </Row>
                     </thead>
                     <tbody>
-                        {harHentetTildelinger &&
-                            oppgaver
-                                .filter(
-                                    (oppgave: Oppgave) =>
-                                        currentFilters.length === 0 || currentFilters.find((it) => it(oppgave))
-                                )
-                                .map((oppgave: Oppgave) => {
-                                    const tildeling = tildelinger.find(
-                                        (t) => t.oppgavereferanse === oppgave.oppgavereferanse
-                                    );
-                                    return {
-                                        ...oppgave,
-                                        tildeltTil: tildeling?.userId ?? null,
-                                    };
-                                })
-                                .sort(aktivSortering)
-                                .map((oppgave: SpeilOppgave) => {
-                                    return (
-                                        <Oversiktslinje
-                                            oppgave={oppgave}
-                                            onAssignCase={onAssignCase}
-                                            onUnassignCase={onUnassignCase}
-                                            key={oppgave.oppgavereferanse}
-                                            antallVarsler={oppgave.antallVarsler}
-                                        />
-                                    );
-                                })}
+                        {oppgaver
+                            .filter(
+                                (oppgave: Oppgave) =>
+                                    currentFilters.length === 0 || currentFilters.find((it) => it(oppgave))
+                            )
+                            .sort(aktivSortering)
+                            .map((oppgave: Oppgave) => {
+                                return (
+                                    <Oversiktslinje
+                                        oppgave={oppgave}
+                                        key={oppgave.oppgavereferanse}
+                                        antallVarsler={oppgave.antallVarsler}
+                                    />
+                                );
+                            })}
                     </tbody>
                 </Tabell>
             </Container>

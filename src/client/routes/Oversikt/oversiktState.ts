@@ -1,6 +1,5 @@
 import { atom, selector } from 'recoil';
 import { Oppgave } from '../../../types';
-import { SpeilOppgave } from './Oversiktslinje';
 
 export type Oppgavefilter = (oppgave: Oppgave) => boolean;
 
@@ -30,7 +29,7 @@ type Oppgavesortering = (a: any, b: any) => number;
 const sorterePåOpprettet = (a: Oppgave, b: Oppgave) =>
     new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime();
 
-const sorterePåTildelt = (a: SpeilOppgave, b: SpeilOppgave) =>
+const sorterePåTildelt = (a: Oppgave, b: Oppgave) =>
     a.tildeltTil ? (b.tildeltTil ? a.tildeltTil.localeCompare(b.tildeltTil, 'nb-NO') : -1) : b.tildeltTil ? 1 : 0;
 
 const sorterePåBokommune = (a: Oppgave, b: Oppgave) => a.boenhet.navn.localeCompare(b.boenhet.navn, 'nb-NO');
@@ -60,14 +59,14 @@ export const sorterbareKolonner: SorterbareKolonner = {
     tildelt: {
         sortering: {
             ascending: sorterePåTildelt,
-            descending: (a: SpeilOppgave, b: SpeilOppgave) => sorterePåTildelt(b, a),
+            descending: (a: Oppgave, b: Oppgave) => sorterePåTildelt(b, a),
         },
         initiellRetning: 'ascending',
     },
     bokommune: {
         sortering: {
             ascending: sorterePåBokommune,
-            descending: (a: SpeilOppgave, b: SpeilOppgave) => sorterePåBokommune(b, a),
+            descending: (a: Oppgave, b: Oppgave) => sorterePåBokommune(b, a),
         },
         initiellRetning: 'ascending',
     },

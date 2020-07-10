@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import AlternativerKnapp from '../../components/AlternativerKnapp';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
-import { Tildeling } from '../../context/types.internal';
 import { Oppgave, OppgaveType } from '../../../types';
 import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 import { NORSK_DATOFORMAT } from '../../utils/date';
@@ -15,6 +14,9 @@ import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
 import { useUpdateVarsler } from '../../state/varslerState';
+import { PersonContext } from '../../context/PersonContext';
+import { OppgaverContext } from '../../context/OppgaverContext';
+import { TildelingerContext } from '../../context/TildelingerContext';
 
 const Tildelingsalternativ = styled(AlternativerKnapp)`
     margin-left: 0.5rem;
@@ -136,28 +138,34 @@ const Varsler = ({ antallVarsler }: StatusProps) => {
     );
 };
 
-export interface SpeilOppgave extends Oppgave {
-    tildeltTil: string | null;
-}
-
 interface OversiktslinjeProps {
-    oppgave: SpeilOppgave;
-    onUnassignCase: (id: string) => void;
-    onAssignCase: (id: string, aktørId: string, email?: string) => Promise<void>;
+    oppgave: Oppgave;
     antallVarsler: number;
 }
 
-const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }: OversiktslinjeProps) => {
+const Oversiktslinje = ({ oppgave, antallVarsler }: OversiktslinjeProps) => {
     const { email } = useRecoilValue(authState);
     const { pathForLocation } = useNavigation();
     const [posting, setPosting] = useState(false);
     const { fornavn, mellomnavn, etternavn } = oppgave.personinfo;
     const formatertNavn = [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
     const erTildelt = oppgave.tildeltTil;
+    const { markerOppgaveSomTildelt } = useContext(OppgaverContext);
+    const { tildelOppgave, fjernTildeling } = useContext(TildelingerContext);
 
     const tildel = () => {
         setPosting(true);
-        onAssignCase(oppgave.oppgavereferanse, oppgave.aktørId, email!).finally(() => setPosting(false));
+        onAssignCase(oppgave, email!).finally(() => setPosting(false));
+    };
+
+    const onUnassignCase = (oppgave: Oppgave) => {
+        fjernTildeling(oppgave.oppgavereferanse).then(() => markerOppgaveSomTildelt(oppgave, null));
+    };
+
+    const onAssignCase = (oppgave: Oppgave, email: string) => {
+        return tildelOppgave(oppgave.oppgavereferanse, email)
+            .then(() => markerOppgaveSomTildelt(oppgave, email))
+            .catch((assignedUser) => markerOppgaveSomTildelt(oppgave, assignedUser));
     };
 
     return useMemo(
@@ -172,14 +180,14 @@ const Oversiktslinje = ({ oppgave, onUnassignCase, onAssignCase, antallVarsler }
                     <Tildelt
                         erTildeltInnloggetBruker={oppgave.tildeltTil === email}
                         innloggetBrukerNavn={capitalizeName(extractNameFromEmail(oppgave.tildeltTil ?? undefined))}
-                        onFjernTildeling={() => onUnassignCase(oppgave.oppgavereferanse)}
+                        onFjernTildeling={() => onUnassignCase(oppgave)}
                     />
                 ) : (
                     <IkkeTildelt onTildel={tildel} posting={posting} />
                 )}
             </Row>
         ),
-        [oppgave.tildeltTil, posting]
+        [oppgave, posting]
     );
 };
 

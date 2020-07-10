@@ -13,14 +13,16 @@ interface ProviderProps {
 
 interface OppgaveoversiktContextType {
     oppgaver: Oppgave[];
-    hentOppgaver: () => Promise<Oppgave[]>;
+    hentOppgaver: () => void;
+    markerOppgaveSomTildelt: (oppgave: Oppgave, email: string | null) => void;
     isFetchingOppgaver: boolean;
     error?: Error;
 }
 
 export const OppgaverContext = createContext<OppgaveoversiktContextType>({
     oppgaver: [],
-    hentOppgaver: () => Promise.resolve([]),
+    hentOppgaver: () => {},
+    markerOppgaveSomTildelt: () => undefined,
     isFetchingOppgaver: false,
 });
 
@@ -31,7 +33,7 @@ export const OppgaverProvider = ({ children }: ProviderProps) => {
 
     const hentOppgaver = () => {
         setIsFetchingOppgaver(true);
-        return fetchOppgaver()
+        fetchOppgaver()
             .then((response) => {
                 setOppgaver(response.data.oppgaver);
                 return response.data.oppgaver;
@@ -50,8 +52,19 @@ export const OppgaverProvider = ({ children }: ProviderProps) => {
             .finally(() => setIsFetchingOppgaver(false));
     };
 
+    const markerOppgaveSomTildelt = (oppgave: Oppgave, email: string | null) => {
+        setOppgaver((prev) => {
+            return prev.map((prevOppgave) => {
+                if (oppgave === prevOppgave) return { ...prevOppgave, tildeltTil: email };
+                else return prevOppgave;
+            });
+        });
+    };
+
     return (
-        <OppgaverContext.Provider value={{ oppgaver, hentOppgaver, isFetchingOppgaver, error }}>
+        <OppgaverContext.Provider
+            value={{ oppgaver, hentOppgaver, markerOppgaveSomTildelt, isFetchingOppgaver, error }}
+        >
             {children}
         </OppgaverContext.Provider>
     );
