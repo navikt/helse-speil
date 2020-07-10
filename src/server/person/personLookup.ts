@@ -63,17 +63,23 @@ const finnPerson = async (req: Request, res: Response) => {
         return oppgavereferanse ? await storage.get(oppgavereferanse) : null;
     };
 
-    return respondWith({
-        res,
-        lookupPromise: onBehalfOf.hentFor(spesialistId, req.session!.speilToken).then((token: string) => {
-            return lookupPromise(undeterminedId, token);
-        }),
-        mapper: async (response: Body) => ({
-            person: { ...response.body, tildeltTil: await finnTildeling(response) },
-        }),
-        operation: 'finnPerson',
-        speilUser: speilUser(req),
-    });
+    return onBehalfOf
+        .hentFor(spesialistId, req.session!.speilToken)
+        .then((token: string) => lookupPromise(undeterminedId, token))
+        .then(async (apiResponse) => {
+            if (apiResponse === undefined) {
+                logger.error(`[${speilUser(req)}] Unexpected error, missing apiResponse value`);
+                res.sendStatus(503);
+            } else {
+                res.status(apiResponse.status).send({
+                    person: { ...apiResponse.body, tildeltTil: await finnTildeling(apiResponse) },
+                });
+            }
+        })
+        .catch((err) => {
+            logger.error(`[${speilUser(req)}] Error during data fetching for finnPerson: ${err}`);
+            res.sendStatus(503);
+        });
 };
 
 const oppgaverForPeriode = (req: Request, res: Response) => {
@@ -90,17 +96,23 @@ const oppgaverForPeriode = (req: Request, res: Response) => {
         }));
     };
 
-    respondWith({
-        res,
-        lookupPromise: onBehalfOf
-            .hentFor(spesialistId, req.session!.speilToken)
-            .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(behalfOfToken)),
-        mapper: async (response: Body) => ({
-            oppgaver: await oppgaverMedTildelinger(response),
-        }),
-        operation: 'oversikt',
-        speilUser: speilUser(req),
-    });
+    onBehalfOf
+        .hentFor(spesialistId, req.session!.speilToken)
+        .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(behalfOfToken))
+        .then(async (apiResponse) => {
+            if (apiResponse === undefined) {
+                logger.error(`[${speilUser(req)}] Unexpected error, missing apiResponse value`);
+                res.sendStatus(503);
+            } else {
+                res.status(apiResponse.status).send({
+                    oppgaver: await oppgaverMedTildelinger(apiResponse),
+                });
+            }
+        })
+        .catch((err) => {
+            logger.error(`[${speilUser(req)}] Error during data fetching for oversikt: ${err}`);
+            res.sendStatus(503);
+        });
 };
 
 const auditLog = (req: Request, ...params: string[]) => {
@@ -111,22 +123,6 @@ const speilUser = (req: Request) => authSupport.valueFromClaim('name', req.sessi
 
 const auditLogOversikt = (req: Request) => {
     logger.audit(`${speilUser(req)} is viewing front page`);
-};
-
-const respondWith = ({ res, lookupPromise, mapper, operation, speilUser }: RespondWithParameters) => {
-    return lookupPromise
-        .then(async (apiResponse) => {
-            if (apiResponse === undefined) {
-                logger.error('[${speilUser}] Unexpected error, missing apiResponse value');
-                res.sendStatus(503);
-            } else {
-                res.status(apiResponse.statusCode).send(await mapper(apiResponse));
-            }
-        })
-        .catch((err) => {
-            logger.error(`[${speilUser}] Error during data fetching for ${operation}: ${err}`);
-            res.sendStatus(err.statusCode || 503);
-        });
 };
 
 module.exports = {
