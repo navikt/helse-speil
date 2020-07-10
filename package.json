@@ -14,7 +14,7 @@
         "test": "jest --maxWorkers=3",
         "tdd": "jest --watch --maxWorkers=3",
         "validate-ts": "tsc --noEmit --project ./tsconfig.json",
-        "pretest": "npm run test:eslint",
+        "pretest": "npm run test:eslint && npm run validate-ts",
         "start": "NODE_ENV=development parcel src/client/index.html",
         "start-mac": "NODE_ENV=development parcel src/client/index.html --open 'Google Chrome'",
         "start-express": "npm run build-server && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
@@ -30,7 +30,7 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged && npm run validate-ts"
+            "pre-commit": "lint-staged"
         }
     },
     "lint-staged": {
