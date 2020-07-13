@@ -4,28 +4,28 @@ import { SpesialistClient } from '../person/spesialistClient';
 const behandlingerForPeriode = (_accessToken: string): Promise<Response> => {
     const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
     const oppgaver = JSON.parse(fromFile);
-    return Promise.resolve(({
-        statusCode: 200,
+    return Promise.resolve({
+        status: 200,
         body: oppgaver,
-    } as unknown) as Response);
+    } as Response);
 };
 
 const hentPersonByAktørId = async (aktørId: string): Promise<Response> => {
     const fromFile = fs.readFileSync(`__mock-data__/${filename(aktørId)}`, 'utf-8');
     const person = JSON.parse(fromFile);
-    return Promise.resolve(({
-        statusCode: 200,
+    return Promise.resolve({
+        status: 200,
         body: person,
-    } as unknown) as Response);
+    } as Response);
 };
 
 const hentPersonByFødselsnummer = async (aktørId: string): Promise<Response> => {
     const fromFile = fs.readFileSync(`__mock-data__/${filename(aktørId)}`, 'utf-8');
     const person = JSON.parse(fromFile);
-    return Promise.resolve(({
-        statusCode: 200,
+    return Promise.resolve({
+        status: 200,
         body: person,
-    } as unknown) as Response);
+    } as Response);
 };
 
 const filename = (aktørId: string) => {
