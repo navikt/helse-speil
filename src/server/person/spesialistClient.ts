@@ -7,7 +7,7 @@ export interface SpesialistClient {
 }
 
 export const spesialistClient: SpesialistClient = {
-    behandlingerForPeriode: async (onBehalfOfToken) => {
+    behandlingerForPeriode: async (onBehalfOfToken): Promise<Response> => {
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/oppgaver`,
             headers: {
@@ -16,10 +16,15 @@ export const spesialistClient: SpesialistClient = {
             resolveWithFullResponse: true,
             json: true,
         };
-        return request.get(options);
+        return request.get(options).then((res) =>
+            Promise.resolve(({
+                status: res.statusCode,
+                body: res.body,
+            } as unknown) as Response)
+        );
     },
 
-    hentPersonByAktørId: async (aktørId, onBehalfOfToken) => {
+    hentPersonByAktørId: async (aktørId, onBehalfOfToken): Promise<Response> => {
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/person/aktorId/${aktørId}`,
             headers: {
@@ -28,10 +33,15 @@ export const spesialistClient: SpesialistClient = {
             resolveWithFullResponse: true,
             json: true,
         };
-        return request.get(options);
+        return request.get(options).then((res) =>
+            Promise.resolve(({
+                status: res.statusCode,
+                body: res.body,
+            } as unknown) as Response)
+        );
     },
 
-    hentPersonByFødselsnummer: async (fødselsnummer, onBehalfOfToken) => {
+    hentPersonByFødselsnummer: async (fødselsnummer, onBehalfOfToken): Promise<Response> => {
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/person/fnr/${fødselsnummer}`,
             headers: {
@@ -40,7 +50,12 @@ export const spesialistClient: SpesialistClient = {
             resolveWithFullResponse: true,
             json: true,
         };
-        return request.get(options);
+        return request.get(options).then((res) =>
+            Promise.resolve(({
+                status: res.statusCode,
+                body: res.body,
+            } as unknown) as Response)
+        );
     },
 };
 
