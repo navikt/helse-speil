@@ -1,5 +1,5 @@
 import React from 'react';
-import Saksbilde from './Saksbilde';
+import Saksbilde from '../routes/Saksbilde/Saksbilde';
 import { hot } from 'react-hot-loader';
 import { Oversikt } from '../routes/Oversikt';
 import { withContextProviders } from '../context/withContextProviders';
@@ -23,9 +23,9 @@ const App = withContextProviders(() => {
             <Header />
             <Varsler />
             <Switch>
-                <Route path={'/uautorisert'} component={IkkeLoggetInn} />
-                <ProtectedRoute path={'/'} exact component={Oversikt} />
-                <ProtectedRoute component={Saksbilde} />
+                <Route path="/uautorisert" component={IkkeLoggetInn} />
+                <ProtectedRoute path="/" exact component={Oversikt} />
+                <ProtectedRoute path="/*/:aktorId" component={Saksbilde} />
             </Switch>
         </>
     );

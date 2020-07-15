@@ -1,8 +1,8 @@
 import { ReactNode, useContext } from 'react';
 import { PersonContext } from '../context/PersonContext';
 import { mapVilkår, Vilkårstype, VurdertVilkår } from '../context/mapping/vilkårsmapper';
-import { IkkeVurdertVilkår } from '../routes/Vilkår/Vilkårsgrupper/IkkeVurderteVilkår';
-import { Vilkårdata } from '../routes/Vilkår/Vilkår';
+import { IkkeVurdertVilkår } from '../routes/Saksbilde/Vilkår/Vilkårsgrupper/IkkeVurderteVilkår';
+import { Vilkårdata } from '../routes/Saksbilde/Vilkår/Vilkår';
 import { Opptjening, Vilkår as IVilkår } from '../context/types.internal';
 import {
     alder,
@@ -10,7 +10,7 @@ import {
     kravTilSykepengegrunnlag,
     opptjeningstid,
     søknadsfrist,
-} from '../routes/Vilkår/Vilkårsgrupper/Vilkårsgrupper';
+} from '../routes/Saksbilde/Vilkår/Vilkårsgrupper/Vilkårsgrupper';
 
 export interface VurderteVilkår {
     oppfylteVilkår: Vilkårdata[];

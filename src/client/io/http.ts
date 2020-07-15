@@ -1,6 +1,6 @@
 import { Tildeling } from '../context/types.internal';
 import { Options } from './types';
-import { Avvisningverdier } from '../routes/Oppsummering/modal/useSkjemaState';
+import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
