@@ -9,7 +9,7 @@ import { PersonProvider } from '../context/PersonContext';
 import 'reset-css';
 import './App.less';
 import ProtectedRoute from './ProtectedRoute';
-import IkkeLoggetInn from './IkkeLoggetInn';
+import { IkkeLoggetInn } from '../routes/IkkeLoggetInn';
 import { RecoilRoot } from 'recoil';
 import { Varsler } from './Varsler';
 import { useAuthentication } from '../state/authentication';
@@ -31,12 +31,12 @@ const App = withContextProviders(() => {
     );
 }, [OppgaverProvider, PersonProvider]);
 
-const WithRouting = () => (
+const withRoutingAndState = (Component: React.ComponentType) => () => (
     <BrowserRouter>
         <RecoilRoot>
-            <App />
+            <Component />
         </RecoilRoot>
     </BrowserRouter>
 );
 
-export default hot(module)(WithRouting);
+export default hot(module)(withRoutingAndState(App));
