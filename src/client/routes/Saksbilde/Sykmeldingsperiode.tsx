@@ -1,19 +1,20 @@
 import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
-import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Tabell } from '@navikt/helse-frontend-tabell';
-import { dato, gradering, ikon, kilde, type } from '../../components/tabell/rader';
+import { dato, gradering, ikon, kilde, tomCelle, type } from '../../components/tabell/rader';
 import { PersonContext } from '../../context/PersonContext';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import '@navikt/helse-frontend-tabell/lib/main.css';
 import Element from 'nav-frontend-typografi/lib/element';
-import { Dagtype } from '../../context/types.internal';
-import { IkonLukketLås } from '../../components/tabell/ikoner/IkonLukketLås';
-import { IkonÅpenLås } from '../../components/tabell/ikoner/IkonÅpenLås';
-import { Select } from '../../components/Select';
+import { Dagtype, Sykdomsdag } from '../../context/types.internal';
 import { overstyrbareTabellerEnabled } from '../../featureToggles';
+import { OverstyrbarDagtype } from '../../components/tabell/OverstyrbarDagtype';
+import { IkonOverstyrt } from '../../components/tabell/ikoner/IkonOverstyrt';
+import { Overstyringsknapp } from '../../components/tabell/Overstyringsknapp';
+import { Overstyringsskjema } from '../../components/tabell/Overstyringsskjema';
+import { OverstyrbarGradering } from '../../components/tabell/OverstyrbarGradering';
 
 const Container = styled.div`
     display: flex;
@@ -25,55 +26,48 @@ const Container = styled.div`
     }
 `;
 
-const RedigerKnapp = styled.button`
-    border: none;
-    background: none;
+const Overstyrtikon = styled(IkonOverstyrt)`
     display: flex;
-    align-items: flex-end;
-    outline: none;
-    cursor: pointer;
-    color: #0067c5;
-    font-size: 1rem;
-    font-family: inherit;
-    align-self: flex-end;
-
-    > svg {
-        margin-right: 0.25rem;
-    }
-
-    &:focus,
-    &:hover {
-        text-decoration: underline;
-    }
+    margin-left: -0.5rem;
 `;
 
-const OverstyrbarSelect = styled(Select)`
-    font-size: 14px;
-    padding: 3px 12px 3px 8px;
-`;
-
-interface OverstyrbarDagtypeProps {
-    defaultDagtype: Dagtype;
+interface OverstyrbarTabellProps {
+    overstyrer: boolean;
 }
 
-const valgbareDager = [Dagtype.Syk, Dagtype.Ferie, Dagtype.Arbeidsdag, Dagtype.Egenmelding];
-
-const OverstyrbarDagtype = ({ defaultDagtype }: OverstyrbarDagtypeProps) => {
-    return (
-        <OverstyrbarSelect defaultValue={defaultDagtype}>
-            {Object.values(Dagtype).map((dagtype) => (
-                <option key={dagtype} disabled={!valgbareDager.includes(dagtype) && dagtype !== defaultDagtype}>
-                    {dagtype}
-                </option>
-            ))}
-        </OverstyrbarSelect>
-    );
-};
+const OverstyrbarTabell = styled(Tabell)`
+    ${({ overstyrer }: OverstyrbarTabellProps) =>
+        overstyrer &&
+        `
+        tbody tr td {
+            height: 48px;
+        }
+    `}
+`;
 
 export const Sykmeldingsperiode = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const [overstyrer, setOverstyrer] = useState(false);
-    const [overstyrteDager, setOverstyrteDager] = useState([]);
+    const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);
+
+    const avbrytOverstyring = () => {
+        setOverstyrer(false);
+    };
+
+    const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
+        const finnesFraFør = overstyrteDager.find((dag) => dag.dato.isSame(nyDag.dato));
+        if (!finnesFraFør) {
+            setOverstyrteDager((dager) => [...dager, nyDag]);
+        } else {
+            setOverstyrteDager((dager) =>
+                dager.map((gammelDag) => (gammelDag.dato.isSame(nyDag.dato) ? nyDag : gammelDag))
+            );
+        }
+    };
+
+    const fjernOverstyrtDag = (dagen: Sykdomsdag) => {
+        setOverstyrteDager((dager) => dager.filter((overstyrtDag) => !overstyrtDag.dato.isSame(dagen.dato)));
+    };
 
     const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
     const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
@@ -94,12 +88,32 @@ export const Sykmeldingsperiode = () => {
     const rader =
         aktivVedtaksperiode?.sykdomstidslinje.map((dag) => ({
             celler: [
-                undefined,
+                tomCelle(),
                 dato(dag),
                 ikon(dag),
-                overstyrer && dag.type !== Dagtype.Helg ? <OverstyrbarDagtype defaultDagtype={dag.type} /> : type(dag),
-                kilde(dag),
-                gradering(dag),
+                overstyrer && dag.type !== Dagtype.Helg ? (
+                    <OverstyrbarDagtype
+                        dag={dag}
+                        onOverstyr={leggTilOverstyrtDag}
+                        onFjernOverstyring={fjernOverstyrtDag}
+                    />
+                ) : (
+                    type(dag)
+                ),
+                overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato)) ? (
+                    <Overstyrtikon />
+                ) : (
+                    kilde(dag)
+                ),
+                overstyrer && dag.gradering && dag.type !== Dagtype.Helg ? (
+                    <OverstyrbarGradering
+                        dag={dag}
+                        onOverstyr={leggTilOverstyrtDag}
+                        onFjernOverstyring={fjernOverstyrtDag}
+                    />
+                ) : (
+                    gradering(dag)
+                ),
                 kilde(dag),
             ],
             className: dag.type === Dagtype.Helg ? 'disabled' : undefined,
@@ -108,30 +122,26 @@ export const Sykmeldingsperiode = () => {
     return (
         <Container>
             <ErrorBoundary>
-                {rader ? (
-                    <>
-                        {overstyrbareTabellerEnabled && (
-                            <RedigerKnapp onClick={() => setOverstyrer((r) => !r)}>
-                                {overstyrer ? (
-                                    <>
-                                        <IkonÅpenLås />
-                                        Lukk
-                                    </>
-                                ) : (
-                                    <>
-                                        <IkonLukketLås />
-                                        Overstyre
-                                    </>
-                                )}
-                            </RedigerKnapp>
-                        )}
-                        <Tabell beskrivelse={tabellbeskrivelse} headere={headere} rader={rader} />
-                    </>
-                ) : (
-                    <Normaltekst>Ingen data</Normaltekst>
+                {overstyrbareTabellerEnabled && (
+                    <Overstyringsknapp
+                        overstyrer={overstyrer}
+                        toggleOverstyring={() => setOverstyrer((prev) => !prev)}
+                    />
+                )}
+                <OverstyrbarTabell
+                    overstyrer={overstyrer}
+                    beskrivelse={tabellbeskrivelse}
+                    headere={headere}
+                    rader={rader}
+                />
+                {overstyrer && (
+                    <Overstyringsskjema
+                        overstyrteDager={overstyrteDager}
+                        avbrytOverstyring={() => setOverstyrer(false)}
+                    />
                 )}
             </ErrorBoundary>
-            <Navigasjonsknapper />
+            {!overstyrer && <Navigasjonsknapper />}
         </Container>
     );
 };

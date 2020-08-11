@@ -9,6 +9,8 @@ import { toKronerOgØre } from '../../utils/locale';
 import './rader.less';
 import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 
+export const tomCelle = () => undefined;
+
 export const dato = (dag: Sykdomsdag) => dag.dato.format(NORSK_DATOFORMAT);
 
 const IkonContainer = styled.div`

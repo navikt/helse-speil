@@ -14,7 +14,6 @@ import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
 import { useUpdateVarsler } from '../../state/varslerState';
-import { PersonContext } from '../../context/PersonContext';
 import { OppgaverContext } from '../../context/OppgaverContext';
 import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
 

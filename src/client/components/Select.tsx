@@ -5,7 +5,7 @@ const StyledSelect = styled.select`
     width: 100%;
     background: #fff;
     border-radius: 3px;
-    border: 1px solid #3e3832;
+    border: 1px solid #78706a;
     color: #3e3832;
     font-size: 16px;
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
