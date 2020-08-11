@@ -36,7 +36,6 @@ const chevron = (angle: number, right: number) => `
 
 const SelectWrapper = styled.div`
     position: relative;
-    width: 225px;
     &:after {
         ${chevron(45, 20)}
     }
@@ -45,10 +44,8 @@ const SelectWrapper = styled.div`
     }
 `;
 
-export const Select = (props: SelectHTMLAttributes<any>) => {
-    return (
-        <SelectWrapper>
-            <StyledSelect {...props} />
-        </SelectWrapper>
-    );
-};
+export const Select = (props: SelectHTMLAttributes<any>) => (
+    <SelectWrapper>
+        <StyledSelect {...props} />
+    </SelectWrapper>
+);

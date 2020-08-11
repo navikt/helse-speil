@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
-import Navigasjonsknapper from '../../../components/NavigationButtons';
+import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { PersonContext } from '../../../context/PersonContext';
+import { PersonContext } from '../../context/PersonContext';
 import styled from '@emotion/styled';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { useMaksdato } from '../../../hooks/useMaksdato';
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
+import { NORSK_DATOFORMAT } from '../../utils/date';
+import { useMaksdato } from '../../hooks/useMaksdato';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { Tabell } from '@navikt/helse-frontend-tabell';
-import { dato, gradering, ikon, type, utbetaling } from '../../../components/tabell/rader';
-import { Dagtype, Utbetalingsdag } from '../../../context/types.internal';
+import { dato, gradering, ikon, type, utbetaling } from '../../components/tabell/rader';
+import { Dagtype, Utbetalingsdag } from '../../context/types.internal';
 import Element from 'nav-frontend-typografi/lib/element';
-import Feilikon from '../../../components/Ikon/Feilikon';
+import Feilikon from '../../components/Ikon/Feilikon';
 import classNames from 'classnames';
 
 const Container = styled.div`
