@@ -2,6 +2,7 @@ import { ResponseType } from 'openid-client';
 import { RedisClient } from 'redis';
 import { SparkelClient } from './adapters/sparkelClient';
 import { SpesialistClient } from './person/spesialistClient';
+import { OverstyringClient } from './overstyring/overstyringClient';
 import { StsClient } from './auth/stsClient';
 import { AktørIdLookup } from './aktørid/aktørIdLookup';
 import { Storage } from './tildeling/storage';
@@ -56,6 +57,10 @@ export interface PersonDependencies {
     onBehalfOf: OnBehalfOf;
     cache: RedisClient;
     config: AppConfig;
+}
+
+export interface OverstyringDependencies {
+    overstyringClient: OverstyringClient;
 }
 
 export interface SpeilSession extends Express.Session {

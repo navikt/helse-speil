@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { AnnulleringModal } from './AnnulleringModal/AnnulleringModal';
-import { AnnulleringDTO, postAnnullering } from '../io/http';
+import { postAnnullering } from '../io/http';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../state/authentication';
+import { AnnulleringDTO } from '../io/types';
 
 const AnnullerKnapp = styled.button`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;

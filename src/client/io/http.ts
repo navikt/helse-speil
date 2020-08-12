@@ -1,5 +1,5 @@
-import { Sykdomsdag, Tildeling } from '../context/types.internal';
-import { Options } from './types';
+import { Tildeling } from '../context/types.internal';
+import { AnnulleringDTO, Options, OverstyringDTO } from './types';
 import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
@@ -12,9 +12,8 @@ export interface SpeilResponse {
     data: any;
 }
 
-/* eslint-disable no-undef */
+// eslint-disable-next-line no-undef
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
-/* eslint-enable */
 
 const getData = async (response: Response) => {
     try {
@@ -119,23 +118,8 @@ export const postVedtak = async (
     return post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
 };
 
-export interface AnnulleringDTO {
-    aktørId: string;
-    fødselsnummer: string;
-    organisasjonsnummer: string;
-    fagsystemId: string;
-    vedtaksperiodeId: string;
-}
-
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);
 
-interface OverstyringDTO {
-    vedtaksperiodeId: string;
-    begrunnelse: string;
-    dager: Sykdomsdag[];
-    unntaFraInnsyn: boolean;
-}
-
 export const postOverstyring = async (overstyring: OverstyringDTO) =>
-    post(`${baseUrl}/en/eller/annen/url`, overstyring);
+    post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);

@@ -6,8 +6,8 @@ import { Input } from 'nav-frontend-skjema';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Annulleringslinje } from './Annulleringslinje';
-import { AnnulleringDTO } from '../../io/http';
 import { PersonContext } from '../../context/PersonContext';
+import { AnnulleringDTO } from '../../io/types';
 
 Modal.setAppElement('#root');
 
