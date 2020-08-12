@@ -2,7 +2,17 @@ import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import Navigasjonsknapper from '../../components/NavigationButtons';
 import { Tabell } from '@navikt/helse-frontend-tabell';
-import { dato, gradering, ikon, kilde, tomCelle, type } from '../../components/tabell/rader';
+import {
+    dato,
+    gradering,
+    ikon,
+    kilde,
+    overstyrbarGradering,
+    overstyrbarKilde,
+    overstyrbarType,
+    tomCelle,
+    type,
+} from '../../components/tabell/rader';
 import { PersonContext } from '../../context/PersonContext';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { NORSK_DATOFORMAT } from '../../utils/date';
@@ -10,11 +20,8 @@ import '@navikt/helse-frontend-tabell/lib/main.css';
 import Element from 'nav-frontend-typografi/lib/element';
 import { Dagtype, Sykdomsdag } from '../../context/types.internal';
 import { overstyrbareTabellerEnabled } from '../../featureToggles';
-import { OverstyrbarDagtype } from '../../components/tabell/OverstyrbarDagtype';
-import { IkonOverstyrt } from '../../components/tabell/ikoner/IkonOverstyrt';
 import { Overstyringsknapp } from '../../components/tabell/Overstyringsknapp';
 import { Overstyringsskjema } from '../../components/tabell/Overstyringsskjema';
-import { OverstyrbarGradering } from '../../components/tabell/OverstyrbarGradering';
 
 const Container = styled.div`
     display: flex;
@@ -26,16 +33,15 @@ const Container = styled.div`
     }
 `;
 
-const Overstyrtikon = styled(IkonOverstyrt)`
-    display: flex;
-    margin-left: -0.5rem;
-`;
-
 interface OverstyrbarTabellProps {
     overstyrer: boolean;
 }
 
 const OverstyrbarTabell = styled(Tabell)`
+    thead tr {
+        vertical-align: bottom;
+    }
+
     ${({ overstyrer }: OverstyrbarTabellProps) =>
         overstyrer &&
         `
@@ -45,6 +51,11 @@ const OverstyrbarTabell = styled(Tabell)`
     `}
 `;
 
+const HøyrestiltContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+`;
+
 export const Sykmeldingsperiode = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     const [overstyrer, setOverstyrer] = useState(false);
@@ -52,6 +63,7 @@ export const Sykmeldingsperiode = () => {
 
     const avbrytOverstyring = () => {
         setOverstyrer(false);
+        setOverstyrteDager([]);
     };
 
     const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
@@ -77,57 +89,52 @@ export const Sykmeldingsperiode = () => {
         '',
         {
             render: <Element>Sykmeldingsperiode</Element>,
-            kolonner: 4,
+            kolonner: 3,
         },
         {
             render: <Element>Gradering</Element>,
-            kolonner: 2,
         },
+        overstyrbareTabellerEnabled ? (
+            <HøyrestiltContainer>
+                <Overstyringsknapp
+                    overstyrer={overstyrer}
+                    toggleOverstyring={() => (overstyrer ? avbrytOverstyring() : setOverstyrer(true))}
+                />
+            </HøyrestiltContainer>
+        ) : (
+            ''
+        ),
     ];
 
-    const rader =
+    const vanligeRader = () =>
         aktivVedtaksperiode?.sykdomstidslinje.map((dag) => ({
-            celler: [
-                tomCelle(),
-                dato(dag),
-                ikon(dag),
-                overstyrer && dag.type !== Dagtype.Helg ? (
-                    <OverstyrbarDagtype
-                        dag={dag}
-                        onOverstyr={leggTilOverstyrtDag}
-                        onFjernOverstyring={fjernOverstyrtDag}
-                    />
-                ) : (
-                    type(dag)
-                ),
-                overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato)) ? (
-                    <Overstyrtikon />
-                ) : (
-                    kilde(dag)
-                ),
-                overstyrer && dag.gradering && dag.type !== Dagtype.Helg ? (
-                    <OverstyrbarGradering
-                        dag={dag}
-                        onOverstyr={leggTilOverstyrtDag}
-                        onFjernOverstyring={fjernOverstyrtDag}
-                    />
-                ) : (
-                    gradering(dag)
-                ),
-                kilde(dag),
-            ],
+            celler: [tomCelle(), dato(dag), ikon(dag), type(dag), gradering(dag), kilde(dag)],
             className: dag.type === Dagtype.Helg ? 'disabled' : undefined,
         })) ?? [];
+
+    const overstyrteRader = () =>
+        aktivVedtaksperiode?.sykdomstidslinje.map((dag) => {
+            const overstyrtDag = overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato));
+            const erOverstyrt = overstyrtDag !== undefined && JSON.stringify(overstyrtDag) !== JSON.stringify(dag);
+            const dagen = overstyrtDag ?? dag;
+            return {
+                celler: [
+                    tomCelle(),
+                    dato(dagen),
+                    ikon(dagen),
+                    overstyrbarType(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
+                    overstyrbarGradering(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
+                    overstyrbarKilde(dagen, erOverstyrt),
+                ],
+                className: dagen.type === Dagtype.Helg ? 'disabled' : undefined,
+            };
+        }) ?? [];
+
+    const rader = overstyrer ? overstyrteRader() : vanligeRader();
 
     return (
         <Container>
             <ErrorBoundary>
-                {overstyrbareTabellerEnabled && (
-                    <Overstyringsknapp
-                        overstyrer={overstyrer}
-                        toggleOverstyring={() => setOverstyrer((prev) => !prev)}
-                    />
-                )}
                 <OverstyrbarTabell
                     overstyrer={overstyrer}
                     beskrivelse={tabellbeskrivelse}
@@ -135,10 +142,7 @@ export const Sykmeldingsperiode = () => {
                     rader={rader}
                 />
                 {overstyrer && (
-                    <Overstyringsskjema
-                        overstyrteDager={overstyrteDager}
-                        avbrytOverstyring={() => setOverstyrer(false)}
-                    />
+                    <Overstyringsskjema overstyrteDager={overstyrteDager} avbrytOverstyring={avbrytOverstyring} />
                 )}
             </ErrorBoundary>
             {!overstyrer && <Navigasjonsknapper />}

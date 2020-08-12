@@ -13,7 +13,6 @@ const RedigerKnapp = styled.button`
     color: #0067c5;
     font-size: 1rem;
     font-family: inherit;
-    align-self: flex-end;
 
     > svg {
         margin-right: 0.25rem;
