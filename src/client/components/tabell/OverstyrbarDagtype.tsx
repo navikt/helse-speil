@@ -14,7 +14,7 @@ interface OverstyrbarDagtypeProps {
     onFjernOverstyring: (dag: Sykdomsdag) => void;
 }
 
-const valgbareDager = [Dagtype.Syk, Dagtype.Ferie, Dagtype.Arbeidsdag, Dagtype.Egenmelding];
+const valgbareDager = [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding];
 
 export const OverstyrbarDagtype = ({ dag, onOverstyr, onFjernOverstyring }: OverstyrbarDagtypeProps) => {
     const onSelectDagtype = ({ target }: ChangeEvent<HTMLSelectElement>) => {

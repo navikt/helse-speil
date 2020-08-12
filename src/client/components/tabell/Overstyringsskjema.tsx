@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { Sykdomsdag } from '../../context/types.internal';
-import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
+import React, { useContext, useState } from 'react';
+import { Sykdomsdag, Vedtaksperiode } from '../../context/types.internal';
+import { Normaltekst } from 'nav-frontend-typografi';
 import Textarea from 'nav-frontend-skjema/lib/textarea';
 import Checkbox from 'nav-frontend-skjema/lib/checkbox';
 import Knapp from 'nav-frontend-knapper/lib/knapp';
 import Flatknapp from 'nav-frontend-knapper/lib/flatknapp';
 import styled from '@emotion/styled';
 import SkjemaGruppe from 'nav-frontend-skjema/lib/skjema-gruppe';
+import { postOverstyring } from '../../io/http';
+import { PersonContext } from '../../context/PersonContext';
 
 const Overstyringsskjemagruppe = styled(SkjemaGruppe)`
     color: #3e3832;
@@ -22,6 +24,12 @@ const BeskrivelseLabel = styled.label`
     > *:last-child {
         margin-bottom: 2.5rem;
     }
+
+    > .skjemaelement,
+    textarea {
+        min-height: 120px;
+        width: 500px;
+    }
 `;
 
 const Knappegruppe = styled.span`
@@ -36,18 +44,41 @@ interface OverstyringsskjemaProps {
 }
 
 export const Overstyringsskjema = ({ overstyrteDager, avbrytOverstyring }: OverstyringsskjemaProps) => {
-    const [overstyringsbeskrivelse, setOverstyringsbeskrivelse] = useState('');
+    const { id } = useContext(PersonContext).aktivVedtaksperiode as Vedtaksperiode;
+    const [begrunnelse, setBegrunnelse] = useState('');
     const [unntaFraInnsyn, setUnntaFraInnsyn] = useState(false);
+    const [begrunnelseFeil, setBegrunnelseFeil] = useState<string | undefined>(undefined);
 
-    const sendOverstyring = () => {};
+    const sendOverstyring = (event: React.MouseEvent) => {
+        event.preventDefault();
+        if (begrunnelse.length === 0) {
+            setBegrunnelseFeil('Begrunnelse mangler');
+        } else {
+            postOverstyring({
+                vedtaksperiodeId: id,
+                dager: overstyrteDager,
+                begrunnelse,
+                unntaFraInnsyn,
+            });
+        }
+    };
 
     return (
         <Overstyringsskjemagruppe>
             <BeskrivelseLabel>
-                <Normaltekst>Beskrivelse</Normaltekst>
+                <Normaltekst>Begrunnelse</Normaltekst>
                 <Textarea
-                    value={overstyringsbeskrivelse}
-                    onChange={({ target }) => setOverstyringsbeskrivelse(target.value)}
+                    value={begrunnelse}
+                    onChange={({ target }) => {
+                        if (begrunnelseFeil) {
+                            setBegrunnelseFeil(undefined);
+                        }
+                        setBegrunnelse(target.value);
+                    }}
+                    placeholder="Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
+                    required
+                    minLength={1}
+                    feil={begrunnelseFeil}
                 />
             </BeskrivelseLabel>
             <Checkbox
@@ -59,7 +90,7 @@ export const Overstyringsskjema = ({ overstyrteDager, avbrytOverstyring }: Overs
                 <Knapp mini onClick={sendOverstyring}>
                     Ferdig
                 </Knapp>
-                <Flatknapp mini onClick={avbrytOverstyring}>
+                <Flatknapp htmlType="button" mini onClick={avbrytOverstyring}>
                     Avbryt
                 </Flatknapp>
             </Knappegruppe>

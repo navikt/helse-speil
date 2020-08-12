@@ -1,4 +1,4 @@
-import { Tildeling } from '../context/types.internal';
+import { Sykdomsdag, Tildeling } from '../context/types.internal';
 import { Options } from './types';
 import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
 
@@ -119,17 +119,6 @@ export const postVedtak = async (
     return post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
 };
 
-export const postAnnullering = async (annullering: AnnulleringDTO) => {
-    const { aktørId, fødselsnummer, organisasjonsnummer, fagsystemId, vedtaksperiodeId } = annullering;
-    return post(`${baseUrl}/payments/annullering`, {
-        aktørId,
-        fødselsnummer,
-        organisasjonsnummer,
-        fagsystemId,
-        vedtaksperiodeId,
-    });
-};
-
 export interface AnnulleringDTO {
     aktørId: string;
     fødselsnummer: string;
@@ -137,3 +126,16 @@ export interface AnnulleringDTO {
     fagsystemId: string;
     vedtaksperiodeId: string;
 }
+
+export const postAnnullering = async (annullering: AnnulleringDTO) =>
+    post(`${baseUrl}/payments/annullering`, annullering);
+
+interface OverstyringDTO {
+    vedtaksperiodeId: string;
+    begrunnelse: string;
+    dager: Sykdomsdag[];
+    unntaFraInnsyn: boolean;
+}
+
+export const postOverstyring = async (overstyring: OverstyringDTO) =>
+    post(`${baseUrl}/en/eller/annen/url`, overstyring);

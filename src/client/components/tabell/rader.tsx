@@ -109,8 +109,7 @@ export const overstyrbarKilde = (dag: Sykdomsdag, erOverstyrt: boolean) =>
         kilde(dag)
     );
 
-const skalViseGradering = (dag: Sykdomsdag) =>
-    dag.gradering && ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie].includes(dag.type);
+const skalViseGradering = (dag: Sykdomsdag) => ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie].includes(dag.type);
 
 export const gradering = (dag: Sykdomsdag) => (skalViseGradering(dag) ? `${dag.gradering}%` : undefined);
 
@@ -121,9 +120,7 @@ export const overstyrbarGradering = (
 ) =>
     skalViseGradering(dag) ? (
         <OverstyrbarGradering dag={dag} onOverstyr={onOverstyr} onFjernOverstyring={onFjernOverstyring} />
-    ) : (
-        gradering(dag)
-    );
+    ) : undefined;
 
 const IngenUtbetaling = styled(Normaltekst)`
     white-space: nowrap;

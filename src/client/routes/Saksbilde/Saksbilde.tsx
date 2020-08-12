@@ -9,7 +9,7 @@ import Venstremeny from '../../components/Venstremeny';
 import Oppsummering from './Oppsummering';
 import Inntektskilder from './Inntektskilder/Inntektskilder';
 import Sykepengegrunnlag from './Sykepengegrunnlag';
-import { Sykmeldingsperiode } from './Sykmeldingsperiode';
+import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
 import Utbetalingsoversikt from './Utbetalingsoversikt';
 import LoggProvider from '../../context/LoggProvider';
 import { PersonContext } from '../../context/PersonContext';

@@ -30,7 +30,7 @@ interface OverstyringsknappProps {
 }
 
 export const Overstyringsknapp = ({ overstyrer, toggleOverstyring }: OverstyringsknappProps) => (
-    <RedigerKnapp onClick={toggleOverstyring}>
+    <RedigerKnapp type="button" onClick={toggleOverstyring}>
         {overstyrer ? (
             <>
                 <IkonÅpenLås />

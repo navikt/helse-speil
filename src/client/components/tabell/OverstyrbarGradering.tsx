@@ -36,5 +36,14 @@ export const OverstyrbarGradering = ({ dag, onOverstyr, onFjernOverstyring }: Ov
         setGradering(nyGradering);
     };
 
-    return <GraderingInput type="number" value={gradering} onChange={onChangeGradering} min="0" max="100" />;
+    return (
+        <GraderingInput
+            type="number"
+            value={gradering}
+            onChange={onChangeGradering}
+            min="0"
+            max="100"
+            onBlur={() => gradering === undefined || ((gradering as string).length === 0 && setGradering(0))}
+        />
+    );
 };
