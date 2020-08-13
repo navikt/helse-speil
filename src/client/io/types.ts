@@ -1,4 +1,4 @@
-import { Sykdomsdag } from '../context/types.internal';
+import { OverstyrtDag, Sykdomsdag } from '../context/types.internal';
 
 export interface Options {
     method?: string;
@@ -6,9 +6,11 @@ export interface Options {
 }
 
 export interface OverstyringDTO {
-    vedtaksperiodeId: string;
+    aktørId: string;
+    fødselsnummer: string;
+    organisasjonsnummer: string;
     begrunnelse: string;
-    dager: Sykdomsdag[];
+    dager: OverstyrtDag[];
     unntaFraInnsyn: boolean;
 }
 

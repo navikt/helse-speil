@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Sykdomsdag, Vedtaksperiode } from '../../context/types.internal';
+import { Dagtype, Sykdomsdag } from '../../context/types.internal';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Textarea from 'nav-frontend-skjema/lib/textarea';
 import Checkbox from 'nav-frontend-skjema/lib/checkbox';
@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import SkjemaGruppe from 'nav-frontend-skjema/lib/skjema-gruppe';
 import { postOverstyring } from '../../io/http';
 import { PersonContext } from '../../context/PersonContext';
+import { SpleisSykdomsdagtype } from '../../context/mapping/types.external';
 
 const Overstyringsskjemagruppe = styled(SkjemaGruppe)`
     color: #3e3832;
@@ -43,8 +44,18 @@ interface OverstyringsskjemaProps {
     avbrytOverstyring: () => void;
 }
 
+const tilOverstyrteDager = (dager: Sykdomsdag[]) => {
+    return dager.map((dag) => {
+        return {
+            dato: dag.dato.format('YYYY-MM-DD'),
+            type: dag.type,
+            grad: dag.gradering,
+        };
+    });
+};
+
 export const Overstyringsskjema = ({ overstyrteDager, avbrytOverstyring }: OverstyringsskjemaProps) => {
-    const { id } = useContext(PersonContext).aktivVedtaksperiode as Vedtaksperiode;
+    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const [begrunnelse, setBegrunnelse] = useState('');
     const [unntaFraInnsyn, setUnntaFraInnsyn] = useState(false);
     const [begrunnelseFeil, setBegrunnelseFeil] = useState<string | undefined>(undefined);
@@ -54,9 +65,14 @@ export const Overstyringsskjema = ({ overstyrteDager, avbrytOverstyring }: Overs
         if (begrunnelse.length === 0) {
             setBegrunnelseFeil('Begrunnelse mangler');
         } else {
+            const orgnr = personTilBehandling!.arbeidsgivere.find((arbeidsgiver) =>
+                arbeidsgiver.vedtaksperioder.find((vedtaksperiode) => vedtaksperiode.id === aktivVedtaksperiode!.id)
+            )!.organisasjonsnummer;
             postOverstyring({
-                vedtaksperiodeId: id,
-                dager: overstyrteDager,
+                aktørId: personTilBehandling!.aktørId,
+                fødselsnummer: personTilBehandling!.fødselsnummer,
+                organisasjonsnummer: orgnr,
+                dager: tilOverstyrteDager(overstyrteDager),
                 begrunnelse,
                 unntaFraInnsyn,
             });
