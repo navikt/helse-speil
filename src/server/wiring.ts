@@ -18,7 +18,7 @@ import aktørIdLookup from './aktørid/aktørIdLookup';
 import devAktørIdLookup from './aktørid/devAktørIdLookup';
 import spesialistClient from './person/spesialistClient';
 import devSpesialistClient from './adapters/devSpesialistClient';
-import { overstyringClient } from './overstyring/overstyringClient';
+import overstyringClient from './overstyring/overstyringClient';
 
 import { Express } from 'express';
 import { RedisClient } from 'redis';
@@ -53,6 +53,7 @@ const getProdDependencies = (app: Express) => {
     const instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
+    const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     return {
         person: {
@@ -67,7 +68,7 @@ const getProdDependencies = (app: Express) => {
         payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
         redisClient: _redisClient,
         storage,
-        overstyring: { overstyringClient },
+        overstyring: { overstyringClient: _overstyringClient },
     };
 };
 
