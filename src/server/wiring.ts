@@ -19,6 +19,7 @@ import devAktørIdLookup from './aktørid/devAktørIdLookup';
 import spesialistClient from './person/spesialistClient';
 import devSpesialistClient from './adapters/devSpesialistClient';
 import overstyringClient from './overstyring/overstyringClient';
+import devOverstyringClient from './overstyring/devOverstyringClient';
 
 import { Express } from 'express';
 import { RedisClient } from 'redis';
@@ -41,7 +42,7 @@ const getDevDependencies = () => {
         payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
         redisClient: devRedisClient,
         storage,
-        overstyring: { overstyringClient },
+        overstyring: { overstyringClient: devOverstyringClient },
     };
 };
 

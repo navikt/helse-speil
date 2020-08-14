@@ -1,16 +1,13 @@
 import { Request, Response, Router } from 'express';
-import { OverstyringDependencies } from '../types';
 import { OverstyringClient } from './overstyringClient';
 import logger from '../logging';
 
-const router = Router();
+interface SetupOptions {
+    overstyringClient: OverstyringClient;
+}
 
-const setup = ({ overstyringClient }: OverstyringDependencies) => {
-    routes(router, overstyringClient);
-    return router;
-};
-
-const routes = (router: Router, overstyringClient: OverstyringClient) => {
+export default ({ overstyringClient }: SetupOptions) => {
+    const router = Router();
     router.post('/overstyr/dager', (req: Request, res: Response) => {
         overstyringClient
             .overstyrDager(req.body, req.session!.speilToken)
@@ -20,6 +17,6 @@ const routes = (router: Router, overstyringClient: OverstyringClient) => {
                 res.status(500).send('Feil under overstyring av dager');
             });
     });
-};
 
-export default { setup };
+    return router;
+};
