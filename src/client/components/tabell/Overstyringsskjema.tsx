@@ -47,7 +47,7 @@ interface OverstyringsskjemaProps {
 }
 
 export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProps) => {
-    const { register, errors, trigger, formState } = useFormContext();
+    const { register, errors, formState } = useFormContext();
 
     const oppsummeringRef = useRef<HTMLDivElement>(null);
 
@@ -64,6 +64,7 @@ export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProp
                 <TextareaControlled
                     name="begrunnelse"
                     id="begrunnelse"
+                    // @ts-ignore
                     textareaRef={register({ required: 'Begrunnelse må fylles ut', minLength: 1 })}
                     defaultValue=""
                     placeholder="Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
