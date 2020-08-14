@@ -1,19 +1,21 @@
-import React, { useContext, useState } from 'react';
-import { Dagtype, Sykdomsdag } from '../../context/types.internal';
+import React, { useEffect, useRef } from 'react';
+import { Sykdomsdag } from '../../context/types.internal';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Textarea from 'nav-frontend-skjema/lib/textarea';
 import Checkbox from 'nav-frontend-skjema/lib/checkbox';
 import Knapp from 'nav-frontend-knapper/lib/knapp';
 import Flatknapp from 'nav-frontend-knapper/lib/flatknapp';
 import styled from '@emotion/styled';
 import SkjemaGruppe from 'nav-frontend-skjema/lib/skjema-gruppe';
-import { postOverstyring } from '../../io/http';
-import { PersonContext } from '../../context/PersonContext';
-import { SpleisSykdomsdagtype } from '../../context/mapping/types.external';
+import { useFormContext } from 'react-hook-form';
+import { Feiloppsummering, TextareaControlled } from 'nav-frontend-skjema';
 
 const Overstyringsskjemagruppe = styled(SkjemaGruppe)`
     color: #3e3832;
     margin: 2.5rem 0 0;
+`;
+
+const FeiloppsummeringContainer = styled.div`
+    margin: 48px 0;
 `;
 
 const BeskrivelseLabel = styled.label`
@@ -44,69 +46,48 @@ interface OverstyringsskjemaProps {
     avbrytOverstyring: () => void;
 }
 
-const tilOverstyrteDager = (dager: Sykdomsdag[]) => {
-    return dager.map((dag) => {
-        return {
-            dato: dag.dato.format('YYYY-MM-DD'),
-            type: dag.type,
-            grad: dag.gradering,
-        };
-    });
-};
+export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProps) => {
+    const { register, errors, trigger, formState } = useFormContext();
 
-export const Overstyringsskjema = ({ overstyrteDager, avbrytOverstyring }: OverstyringsskjemaProps) => {
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const [begrunnelse, setBegrunnelse] = useState('');
-    const [unntaFraInnsyn, setUnntaFraInnsyn] = useState(false);
-    const [begrunnelseFeil, setBegrunnelseFeil] = useState<string | undefined>(undefined);
+    const oppsummeringRef = useRef<HTMLDivElement>(null);
 
-    const sendOverstyring = (event: React.MouseEvent) => {
-        event.preventDefault();
-        if (begrunnelse.length === 0) {
-            setBegrunnelseFeil('Begrunnelse mangler');
-        } else {
-            const orgnr = personTilBehandling!.arbeidsgivere.find((arbeidsgiver) =>
-                arbeidsgiver.vedtaksperioder.find((vedtaksperiode) => vedtaksperiode.id === aktivVedtaksperiode!.id)
-            )!.organisasjonsnummer;
-            postOverstyring({
-                aktørId: personTilBehandling!.aktørId,
-                fødselsnummer: personTilBehandling!.fødselsnummer,
-                organisasjonsnummer: orgnr,
-                dager: tilOverstyrteDager(overstyrteDager),
-                begrunnelse,
-                unntaFraInnsyn,
-            });
-        }
-    };
+    const harFeil = !formState.isValid;
+
+    useEffect(() => {
+        harFeil && oppsummeringRef.current?.focus();
+    }, [harFeil]);
 
     return (
         <Overstyringsskjemagruppe>
             <BeskrivelseLabel>
                 <Normaltekst>Begrunnelse</Normaltekst>
-                <Textarea
-                    value={begrunnelse}
-                    onChange={({ target }) => {
-                        if (begrunnelseFeil) {
-                            setBegrunnelseFeil(undefined);
-                        }
-                        setBegrunnelse(target.value);
-                    }}
+                <TextareaControlled
+                    name="begrunnelse"
+                    id="begrunnelse"
+                    textareaRef={register({ required: 'Begrunnelse må fylles ut', minLength: 1 })}
+                    defaultValue=""
                     placeholder="Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
-                    required
-                    minLength={1}
-                    feil={begrunnelseFeil}
+                    feil={errors.begrunnelse?.message}
+                    aria-invalid={errors.begrunnelse?.message}
+                    aria-errormessage={errors.begrunnelse?.message}
                 />
             </BeskrivelseLabel>
-            <Checkbox
-                label="Unnta fra innsyn grunnet sensitive opplysninger"
-                checked={unntaFraInnsyn}
-                onChange={({ target }) => setUnntaFraInnsyn(target.checked)}
-            />
+            <Checkbox name="unntaFraInnsyn" ref={register} label="Unnta fra innsyn grunnet sensitive opplysninger" />
+            {formState.isSubmitted && harFeil && (
+                <FeiloppsummeringContainer>
+                    <Feiloppsummering
+                        innerRef={oppsummeringRef}
+                        tittel="Skjemaet inneholder følgende feil:"
+                        feil={Object.entries(errors).map(([id, error]) => ({
+                            skjemaelementId: id,
+                            feilmelding: error.message,
+                        }))}
+                    ></Feiloppsummering>
+                </FeiloppsummeringContainer>
+            )}
             <Knappegruppe>
-                <Knapp mini onClick={sendOverstyring}>
-                    Ferdig
-                </Knapp>
-                <Flatknapp htmlType="button" mini onClick={avbrytOverstyring}>
+                <Knapp mini>Ferdig</Knapp>
+                <Flatknapp mini onClick={avbrytOverstyring}>
                     Avbryt
                 </Flatknapp>
             </Knappegruppe>

@@ -20,7 +20,7 @@ export const Sykmeldingsperiode = () => {
     const [overstyrer, setOverstyrer] = useState(false);
 
     return (
-        <Container>
+        <Container className="Sykmeldingsperiode">
             <ErrorBoundary>
                 {overstyrer ? (
                     <OverstyrbarSykmeldingsperiodetabell toggleOverstyring={() => setOverstyrer((o) => !o)} />

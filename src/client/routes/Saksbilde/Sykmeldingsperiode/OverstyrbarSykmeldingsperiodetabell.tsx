@@ -16,7 +16,8 @@ import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp'
 import styled from '@emotion/styled';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { overstyrbareTabellerEnabled } from '../../../featureToggles';
-import { Dayjs } from 'dayjs';
+import { FormProvider, useForm } from 'react-hook-form';
+import { postOverstyring } from '../../../io/http';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead,
@@ -41,8 +42,9 @@ interface OverstyrbarSykmeldingsperiodetabellProps {
 export const OverstyrbarSykmeldingsperiodetabell = ({
     toggleOverstyring,
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);
+    const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
 
     const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
         const finnesFraFør = overstyrteDager.find((dag) => dag.dato.isSame(nyDag.dato));
@@ -99,10 +101,39 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             };
         }) ?? [];
 
+    const organisasjonsnummer = () =>
+        personTilBehandling!.arbeidsgivere.find((arbeidsgiver) =>
+            arbeidsgiver.vedtaksperioder.find((vedtaksperiode) => vedtaksperiode.id === aktivVedtaksperiode?.id)
+        )!.organisasjonsnummer;
+
+    const tilOverstyrteDager = (dager: Sykdomsdag[]) =>
+        dager.map((dag) => ({
+            dato: dag.dato.format('YYYY-MM-DD'),
+            type: dag.type,
+            grad: dag.gradering,
+        }));
+
+    const sendOverstyring = () => {
+        const { begrunnelse, unntaFraInnsyn } = form.getValues();
+
+        const overstyring = {
+            aktørId: personTilBehandling!.aktørId,
+            fødselsnummer: personTilBehandling!.fødselsnummer,
+            organisasjonsnummer: organisasjonsnummer(),
+            dager: tilOverstyrteDager(overstyrteDager),
+            begrunnelse,
+            unntaFraInnsyn,
+        };
+
+        postOverstyring(overstyring);
+    };
+
     return (
-        <form>
-            <OverstyrbarTabell beskrivelse={tabellbeskrivelse} headere={headere} rader={rader} />
-            <Overstyringsskjema overstyrteDager={overstyrteDager} avbrytOverstyring={toggleOverstyring} />
-        </form>
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(sendOverstyring)}>
+                <OverstyrbarTabell beskrivelse={tabellbeskrivelse} headere={headere} rader={rader} />
+                <Overstyringsskjema overstyrteDager={overstyrteDager} avbrytOverstyring={toggleOverstyring} />
+            </form>
+        </FormProvider>
     );
 };
