@@ -1,4 +1,4 @@
-import { atom, useRecoilState, useResetRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { extractValues, Keys } from '../utils/cookie';
 import { useEffect } from 'react';
 import fetchIntercept from 'fetch-intercept';
@@ -19,6 +19,8 @@ export const authState = atom<AuthInfo>({
         isLoggedIn: false,
     },
 });
+
+export const useEmail = () => useRecoilValue(authState).email;
 
 export const useAuthentication = () => {
     const [authInfo, setAuthInfo] = useRecoilState(authState);

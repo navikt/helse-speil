@@ -21,19 +21,6 @@ const Container = styled.div`
     }
 `;
 
-// const status = (dag: Utbetalingsdag, maksdato?: Dayjs): Dagstatus | undefined =>
-//     [Dagtype.Avvist, Dagtype.Foreldet].includes(dag.type)
-//         ? Dagstatus.Inaktiv
-//         : maksdato && dag.dato.isSame(maksdato, 'day')
-//         ? Dagstatus.Feil
-//         : undefined;
-//
-// const feilmelding = (dag: Utbetalingsdag, maksdato?: Dayjs) =>
-//     maksdato && dag.dato.isSame(maksdato, 'day') ? 'Siste utbetalingsdag for sykepenger' : undefined;
-//
-// const gradering = (dag: Utbetalingsdag): number | undefined =>
-//     (dag.type !== Dagtype.Helg && dag.type !== Dagtype.Ferie && dag.gradering) || undefined;
-
 const Feilmeldingsikon = styled(Feilikon)`
     display: flex;
     margin-right: -1rem;

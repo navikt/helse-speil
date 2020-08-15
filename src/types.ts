@@ -39,6 +39,10 @@ export interface Oppgave {
     tildeltTil: string | null;
 }
 
+export interface TildeltOppgave extends Oppgave {
+    tildeltTil: string;
+}
+
 interface Boenhet {
     id: string;
     navn: string;

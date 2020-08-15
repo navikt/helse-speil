@@ -1,28 +1,20 @@
 import React, { useContext, useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import Panel from 'nav-frontend-paneler';
-import { OppgaverContext } from '../../context/OppgaverContext';
-import { useTranslation } from 'react-i18next';
-import { Oppgave } from '../../../types';
-import styled from '@emotion/styled';
-import { Row, Tabell } from './Oversikt.styles';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
-import { PersonContext } from '../../context/PersonContext';
+import styled from '@emotion/styled';
+import Panel from 'nav-frontend-paneler';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
-import Oversiktslinje from './Oversiktslinje';
-import { SuksessToast } from '../../components/Toast';
-import { Scopes, useVarselFilter } from '../../state/varslerState';
-import {
-    BokommuneHeader,
-    OpprettetHeader,
-    SakstypeHeader,
-    StatusHeader,
-    SøkerHeader,
-    TildelingHeader,
-} from './headere/headere';
-import { aktiveFiltereState, aktivKolonneState, aktivSorteringState, sorteringsretningState } from './oversiktState';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import { useLocation } from 'react-router-dom';
+import { SuksessToast } from '../../components/Toast';
+import { PersonContext } from '../../context/PersonContext';
+import { useTranslation } from 'react-i18next';
+import { useRecoilState } from 'recoil';
+import { OppgaverContext } from '../../context/OppgaverContext';
+import { Tabell, useTabell } from '@navikt/helse-frontend-tabell';
+import { Oppgave, OppgaveType } from '../../../types';
+import { Scopes, useVarselFilter } from '../../state/varslerState';
+import { filtreringState, sorteringState } from './state';
+import { oversiktsradRenderer, tilOversiktsrad } from './Oversikt.rader';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -43,29 +35,75 @@ const LasterInnhold = styled.div`
     }
 `;
 
-const useSettInitiellRetning = () => {
-    const aktivKolonne = useRecoilValue(aktivKolonneState);
-    const setSorteringsretning = useSetRecoilState(sorteringsretningState);
+const Oversiktstabell = styled(Tabell)`
+    max-width: unset;
+    tbody tr td {
+        white-space: nowrap;
+        height: 48px;
+    }
+`;
 
-    useEffect(() => {
-        setSorteringsretning(aktivKolonne.initiellRetning);
-    }, [aktivKolonne]);
-};
+const sorterTall = (a: number, b: number) => a - b;
+
+const sorterDateString = (a: string, b: string) => new Date(a).getTime() - new Date(b).getTime();
+
+const sorterTekstAlfabetisk = (a: string, b: string) => a.localeCompare(b, 'nb-NO');
+
+const sorterTildeltTil = (a: Oppgave, b: Oppgave) =>
+    a.tildeltTil ? (b.tildeltTil ? a.tildeltTil.localeCompare(b.tildeltTil, 'nb-NO') : -1) : b.tildeltTil ? 1 : 0;
+
+const førstegangsfilter = () => ({
+    label: 'Førstegang.',
+    func: (type: OppgaveType) => type === OppgaveType.Førstegangsbehandling,
+});
+
+const forlengelsesfilter = () => ({
+    label: 'Forlengelse',
+    func: (type: OppgaveType) => [OppgaveType.Infotrygdforlengelse, OppgaveType.Forlengelse].includes(type),
+});
+
+const overgangFraInfotrygdFilter = () => ({
+    label: 'Overgang fra IT',
+    func: (type: OppgaveType) => type === OppgaveType.OvergangFraInfotrygd,
+});
 
 export const Oversikt = () => {
+    const location = useLocation();
     const { t } = useTranslation();
     const { isFetching: isFetchingPersonBySearch } = useContext(PersonContext);
     const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
-    const location = useLocation();
-    const aktivSortering = useRecoilValue(aktivSorteringState);
-    useSettInitiellRetning();
-    const [currentFilters, setCurrentFilters] = useRecoilState(aktiveFiltereState);
+    const [defaultFiltrering, setDefaultFiltrering] = useRecoilState(filtreringState);
+    const [defaultSortering, setDefaultSortering] = useRecoilState(sorteringState);
 
     useVarselFilter(Scopes.OVERSIKT);
 
     useEffect(() => {
         hentOppgaver();
     }, [location.key]);
+
+    const headere = [
+        'Søker',
+        {
+            render: 'Sakstype',
+            filtere: [førstegangsfilter(), forlengelsesfilter(), overgangFraInfotrygdFilter()],
+        },
+        { render: 'Status', sortFunction: sorterTall },
+        { render: 'Bokommune', sortFunction: sorterTekstAlfabetisk },
+        { render: 'Opprettet', sortFunction: sorterDateString },
+        { render: 'Tildelt', sortFunction: sorterTildeltTil },
+    ];
+
+    const rader = oppgaver.map(tilOversiktsrad);
+    const renderer = oversiktsradRenderer;
+    const tabell = useTabell({ rader, headere, renderer, defaultSortering, defaultFiltrering });
+
+    useEffect(() => {
+        setDefaultSortering(tabell.sortering);
+    }, [tabell.sortering]);
+
+    useEffect(() => {
+        setDefaultFiltrering(tabell.filtrering);
+    }, [tabell.filtrering]);
 
     return (
         <>
@@ -85,35 +123,7 @@ export const Oversikt = () => {
             {oppgaverContextError && <Varsel type={Varseltype.Feil}>{oppgaverContextError.message}</Varsel>}
             <Container border>
                 <Undertittel>{t('oversikt.tittel')}</Undertittel>
-                <Tabell>
-                    <thead>
-                        <Row>
-                            <SøkerHeader />
-                            <SakstypeHeader filtere={currentFilters} setFiltere={setCurrentFilters} />
-                            <StatusHeader />
-                            <BokommuneHeader />
-                            <OpprettetHeader />
-                            <TildelingHeader />
-                        </Row>
-                    </thead>
-                    <tbody>
-                        {oppgaver
-                            .filter(
-                                (oppgave: Oppgave) =>
-                                    currentFilters.length === 0 || currentFilters.find((it) => it(oppgave))
-                            )
-                            .sort(aktivSortering)
-                            .map((oppgave: Oppgave) => {
-                                return (
-                                    <Oversiktslinje
-                                        oppgave={oppgave}
-                                        key={oppgave.oppgavereferanse}
-                                        antallVarsler={oppgave.antallVarsler}
-                                    />
-                                );
-                            })}
-                    </tbody>
-                </Tabell>
+                <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
             </Container>
         </>
     );
