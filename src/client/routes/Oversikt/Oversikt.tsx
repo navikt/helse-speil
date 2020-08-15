@@ -20,7 +20,6 @@ const Container = styled(Panel)`
     margin: 1rem;
     padding: 1rem;
     color: #3e3832;
-    max-width: max-content;
 `;
 
 const LasterInnhold = styled.div`
@@ -36,7 +35,6 @@ const LasterInnhold = styled.div`
 `;
 
 const Oversiktstabell = styled(Tabell)`
-    max-width: unset;
     tbody tr td {
         white-space: nowrap;
         height: 48px;
