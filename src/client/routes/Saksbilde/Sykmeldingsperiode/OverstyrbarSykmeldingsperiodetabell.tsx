@@ -39,6 +39,26 @@ interface OverstyrbarSykmeldingsperiodetabellProps {
     toggleOverstyring: () => void;
 }
 
+const tilOverstyrtDagtype = (type: Dagtype): 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype => {
+    switch (type) {
+        case Dagtype.Syk:
+            return 'Sykedag';
+        case Dagtype.Ferie:
+            return 'Feriedag';
+        case Dagtype.Egenmelding:
+            return 'Egenmeldingsdag';
+        default:
+            return type;
+    }
+};
+
+const tilOverstyrteDager = (dager: Sykdomsdag[]) =>
+    dager.map((dag) => ({
+        dato: dag.dato.format('YYYY-MM-DD'),
+        type: tilOverstyrtDagtype(dag.type),
+        grad: dag.gradering,
+    }));
+
 export const OverstyrbarSykmeldingsperiodetabell = ({
     toggleOverstyring,
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
@@ -105,13 +125,6 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         personTilBehandling!.arbeidsgivere.find((arbeidsgiver) =>
             arbeidsgiver.vedtaksperioder.find((vedtaksperiode) => vedtaksperiode.id === aktivVedtaksperiode?.id)
         )!.organisasjonsnummer;
-
-    const tilOverstyrteDager = (dager: Sykdomsdag[]) =>
-        dager.map((dag) => ({
-            dato: dag.dato.format('YYYY-MM-DD'),
-            type: dag.type,
-            grad: dag.gradering,
-        }));
 
     const sendOverstyring = () => {
         const { begrunnelse, unntaFraInnsyn } = form.getValues();

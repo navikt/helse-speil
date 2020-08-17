@@ -1,6 +1,6 @@
 import { ReactChild } from 'react';
 import { Dayjs } from 'dayjs';
-import { SpleisSykdomsdagtype, Utbetalingsperiode } from './mapping/types.external';
+import { Utbetalingsperiode } from './mapping/types.external';
 
 export interface Periode {
     fom: Dayjs;
@@ -279,6 +279,6 @@ export enum InfotrygdTypetekst {
 
 export interface OverstyrtDag {
     dato: string;
-    type: Dagtype;
+    type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
     grad?: number;
 }

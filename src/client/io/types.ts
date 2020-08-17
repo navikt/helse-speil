@@ -1,4 +1,4 @@
-import { OverstyrtDag, Sykdomsdag } from '../context/types.internal';
+import { OverstyrtDag } from '../context/types.internal';
 
 export interface Options {
     method?: string;
