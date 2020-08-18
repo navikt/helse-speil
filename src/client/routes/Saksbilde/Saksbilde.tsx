@@ -49,7 +49,7 @@ const LasterInnhold = styled.div`
     }
 `;
 
-const TildelSpinner = styled(NavFrontendSpinner)`
+const SpinnerMedMarginTilVenstre = styled(NavFrontendSpinner)`
     margin-left: 1rem;
 `;
 
@@ -78,7 +78,7 @@ const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string
             ) : (
                 <Varsel type={Varseltype.Info}>
                     Saken er ikke tildelt noen.&nbsp;<Lenkeknapp onClick={tildel}>Tildel meg</Lenkeknapp>
-                    {posting && <TildelSpinner type="XS" />}
+                    {posting && <SpinnerMedMarginTilVenstre type="XS" />}
                 </Varsel>
             )}
         </>
@@ -195,6 +195,7 @@ const Saksbilde = () => {
                     callback={overstyringToast.callback}
                 >
                     {overstyringToast.message}
+                    <SpinnerMedMarginTilVenstre transparent type="S" />
                 </AdvarselToast>
             )}
         </>

@@ -70,7 +70,6 @@ export const Toast = React.memo(({ children, timeToLiveMs = 5000, type = 'info',
             setShowing(true);
             timeouter = setTimeout(() => {
                 setShowing(false);
-                callback?.();
             }, timeToLiveMs);
         }
         return () => {
@@ -79,7 +78,7 @@ export const Toast = React.memo(({ children, timeToLiveMs = 5000, type = 'info',
     }, [children]);
 
     return (
-        <AnimatePresence>
+        <AnimatePresence onExitComplete={() => callback?.()}>
             {showing && (
                 <motion.div
                     key="toast"
