@@ -20,9 +20,12 @@ const Vedtaksperiodeinfo = ({ periode, person }: VedtaksperiodeinfoProps) => {
         arbeidsgiveren.vedtaksperioder.find((perioden) => perioden.id === periode?.id)
     );
 
+    const førsteGradering = periode?.sykdomstidslinje.find((dag) => dag.gradering !== undefined && dag.gradering !== 0)
+        ?.gradering;
+
     const tekster = [
         arbeidsgiver?.organisasjonsnummer ?? 'Ukjent arbeidsgiver',
-        `${periode?.sykdomstidslinje[0].gradering ?? 100}%`,
+        `${førsteGradering ?? 100}%`,
         `${periode?.fom.format(NORSK_DATOFORMAT)} - ${periode?.tom.format(NORSK_DATOFORMAT)}`,
     ];
 
