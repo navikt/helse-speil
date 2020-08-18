@@ -18,6 +18,10 @@ import { Tabell } from '@navikt/helse-frontend-tabell';
 import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { FormProvider, useForm } from 'react-hook-form';
 import { postOverstyring } from '../../../io/http';
+import { Scopes, useUpdateVarsler } from '../../../state/varslerState';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+import { useSetRecoilState } from 'recoil';
+import { toastsState, useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead,
@@ -65,6 +69,8 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
+    const leggtilEnToast = useLeggTilEnToast();
+    const fjernEnToast = useFjernEnToast();
 
     const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
         const finnesFraFør = overstyrteDager.find((dag) => dag.dato.isSame(nyDag.dato));
@@ -138,7 +144,16 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             unntaFraInnsyn,
         };
 
-        postOverstyring(overstyring);
+        postOverstyring(overstyring).then(() => {
+            leggtilEnToast({
+                key: 'overstyringDager',
+                message: 'Kalkulerer endringer',
+                type: 'advarsel',
+                timeToLiveMs: 10000,
+                callback: () => fjernEnToast('overstyringDager'),
+            });
+            toggleOverstyring();
+        });
     };
 
     return (

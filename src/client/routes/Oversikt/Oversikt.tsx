@@ -8,13 +8,14 @@ import { useLocation } from 'react-router-dom';
 import { SuksessToast } from '../../components/Toast';
 import { PersonContext } from '../../context/PersonContext';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { OppgaverContext } from '../../context/OppgaverContext';
 import { Tabell, useTabell } from '@navikt/helse-frontend-tabell';
 import { Oppgave, OppgaveType } from '../../../types';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { filtreringState, sorteringState } from './state';
 import { oversiktsradRenderer, tilOversiktsrad } from './Oversikt.rader';
+import { toastsState } from '../../state/toastsState';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -72,6 +73,9 @@ export const Oversikt = () => {
     const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const [defaultFiltrering, setDefaultFiltrering] = useRecoilState(filtreringState);
     const [defaultSortering, setDefaultSortering] = useRecoilState(sorteringState);
+    const utbetalingToast = useRecoilValue(toastsState)
+        .filter((toast) => toast.key === 'utbetaling')
+        .pop();
 
     useVarselFilter(Scopes.OVERSIKT);
 
@@ -105,7 +109,15 @@ export const Oversikt = () => {
 
     return (
         <>
-            <SuksessToast />
+            {utbetalingToast && (
+                <SuksessToast
+                    timeToLiveMs={utbetalingToast.timeToLiveMs}
+                    type={utbetalingToast.type}
+                    callback={utbetalingToast.callback}
+                >
+                    {utbetalingToast.message}
+                </SuksessToast>
+            )}
             {isFetchingOppgaver && (
                 <LasterInnhold>
                     <NavFrontendSpinner type="XS" />

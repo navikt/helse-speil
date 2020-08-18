@@ -16,7 +16,7 @@ import AvvinsningModal from './modal/AvvisningModal';
 import { Avvisningverdier } from './modal/useSkjemaState';
 import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';
-import { toastState } from '../../../state/toastState';
+import { toastsState, useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
 
 interface UtbetalingProps {
     className?: string;
@@ -44,17 +44,24 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
     const [modalvisning, setModalvisning] = useState<Modalvisning>(Modalvisning.Lukket);
     const { t } = useTranslation();
     const history = useHistory();
-    const setToast = useSetRecoilState(toastState);
+    const leggtilEnToast = useLeggTilEnToast();
+    const fjernEnToast = useFjernEnToast();
 
     const fattVedtak = (godkjent: boolean, skjema?: Avvisningverdier) => {
         const oppgavereferanse = aktivVedtaksperiode.oppgavereferanse;
         setIsSending(true);
         postVedtak(oppgavereferanse, personTilBehandling.aktørId, godkjent, skjema)
             .then(() => {
-                const toast = godkjent
+                const toastMelding = godkjent
                     ? 'Utbetalingen er sendt til oppdragsystemet.'
                     : 'Saken er sendt til behandling i Infotrygd.';
-                setToast(toast);
+                leggtilEnToast({
+                    key: 'utbetaling',
+                    message: toastMelding,
+                    type: 'suksess',
+                    timeToLiveMs: 5000,
+                    callback: () => fjernEnToast('utbetaling'),
+                });
                 history.push('/');
             })
             .catch((err: Error) => {
