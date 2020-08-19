@@ -61,30 +61,29 @@ export const AdvarselToast = (props: ToastProps) => (
     </Toast>
 );
 
-export const Toast = React.memo(({ children, timeToLiveMs = 5000, type = 'info', callback }: ToastProps) => {
-    const [showing, setShowing] = useState(false);
+export const Toast = React.memo(({ children, timeToLiveMs, type = 'info', callback }: ToastProps) => {
+    const [showing, setShowing] = useState(true);
 
     useEffect(() => {
-        let timeouter: any;
-        if (children) {
-            setShowing(true);
-            timeouter = setTimeout(() => {
+        let timeoutId: any;
+        if (children && !!timeToLiveMs) {
+            timeoutId = setTimeout(() => {
                 setShowing(false);
             }, timeToLiveMs);
         }
         return () => {
-            clearTimeout(timeouter);
+            !!timeoutId && clearTimeout(timeoutId);
         };
-    }, [children]);
+    }, [children, timeToLiveMs]);
 
     return (
         <AnimatePresence onExitComplete={() => callback?.()}>
             {showing && (
                 <motion.div
                     key="toast"
-                    initial={{ top: -10, opacity: 0 }}
-                    animate={{ top: 0, opacity: 1 }}
-                    exit={{ top: -10, opacity: 0 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: 0.2, ease: 'easeInOut' }}
                 >
                     <ToastView role="alert" aria-live="polite" type={type}>

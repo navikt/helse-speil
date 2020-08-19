@@ -18,10 +18,8 @@ import { Tabell } from '@navikt/helse-frontend-tabell';
 import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { FormProvider, useForm } from 'react-hook-form';
 import { postOverstyring } from '../../../io/http';
-import { Scopes, useUpdateVarsler } from '../../../state/varslerState';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { useSetRecoilState } from 'recoil';
-import { toastsState, useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
+import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
+import { kalkulererToast } from './KalkulererOverstyringToast';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead,
@@ -38,10 +36,6 @@ const HøyrestiltContainer = styled.div`
     display: flex;
     justify-content: flex-end;
 `;
-
-interface OverstyrbarSykmeldingsperiodetabellProps {
-    toggleOverstyring: () => void;
-}
 
 const tilOverstyrtDagtype = (type: Dagtype): 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype => {
     switch (type) {
@@ -63,14 +57,21 @@ const tilOverstyrteDager = (dager: Sykdomsdag[]) =>
         grad: dag.gradering,
     }));
 
+interface OverstyrbarSykmeldingsperiodetabellProps {
+    onOverstyr: () => void;
+    onToggleOverstyring: () => void;
+}
+
 export const OverstyrbarSykmeldingsperiodetabell = ({
-    toggleOverstyring,
+    onOverstyr,
+    onToggleOverstyring,
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const leggtilEnToast = useLeggTilEnToast();
     const fjernEnToast = useFjernEnToast();
+    const [visModal, setVisModal] = useState(false);
 
     const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
         const finnesFraFør = overstyrteDager.find((dag) => dag.dato.isSame(nyDag.dato));
@@ -102,7 +103,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         },
         overstyrbareTabellerEnabled ? (
             <HøyrestiltContainer>
-                <Overstyringsknapp overstyrer toggleOverstyring={toggleOverstyring} />
+                <Overstyringsknapp overstyrer toggleOverstyring={onToggleOverstyring} />
             </HøyrestiltContainer>
         ) : (
             ''
@@ -145,14 +146,8 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         };
 
         postOverstyring(overstyring).then(() => {
-            leggtilEnToast({
-                key: 'overstyringDager',
-                message: 'Kalkulerer endringer',
-                type: 'advarsel',
-                timeToLiveMs: 10000,
-                callback: () => fjernEnToast('overstyringDager'),
-            });
-            toggleOverstyring();
+            leggtilEnToast(kalkulererToast());
+            onOverstyr();
         });
     };
 
@@ -160,7 +155,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(sendOverstyring)}>
                 <OverstyrbarTabell beskrivelse={tabellbeskrivelse} headere={headere} rader={rader} />
-                <Overstyringsskjema overstyrteDager={overstyrteDager} avbrytOverstyring={toggleOverstyring} />
+                <Overstyringsskjema overstyrteDager={overstyrteDager} avbrytOverstyring={onToggleOverstyring} />
             </form>
         </FormProvider>
     );

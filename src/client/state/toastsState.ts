@@ -1,6 +1,6 @@
 import { atom, useSetRecoilState } from 'recoil';
 
-interface Toast {
+export interface Toast {
     key: string;
     message: string;
     timeToLiveMs?: number;

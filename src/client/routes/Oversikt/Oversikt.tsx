@@ -5,17 +5,16 @@ import Panel from 'nav-frontend-paneler';
 import Undertittel from 'nav-frontend-typografi/lib/undertittel';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { useLocation } from 'react-router-dom';
-import { SuksessToast } from '../../components/Toast';
 import { PersonContext } from '../../context/PersonContext';
 import { useTranslation } from 'react-i18next';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import { OppgaverContext } from '../../context/OppgaverContext';
 import { Tabell, useTabell } from '@navikt/helse-frontend-tabell';
 import { Oppgave, OppgaveType } from '../../../types';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
+import { useRecoilState } from 'recoil';
 import { filtreringState, sorteringState } from './state';
 import { oversiktsradRenderer, tilOversiktsrad } from './Oversikt.rader';
-import { toastsState } from '../../state/toastsState';
+import { VedtaksstatusToast } from './VedtaksstatusToast';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -73,9 +72,6 @@ export const Oversikt = () => {
     const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const [defaultFiltrering, setDefaultFiltrering] = useRecoilState(filtreringState);
     const [defaultSortering, setDefaultSortering] = useRecoilState(sorteringState);
-    const utbetalingToast = useRecoilValue(toastsState)
-        .filter((toast) => toast.key === 'utbetaling')
-        .pop();
 
     useVarselFilter(Scopes.OVERSIKT);
 
@@ -109,15 +105,6 @@ export const Oversikt = () => {
 
     return (
         <>
-            {utbetalingToast && (
-                <SuksessToast
-                    timeToLiveMs={utbetalingToast.timeToLiveMs}
-                    type={utbetalingToast.type}
-                    callback={utbetalingToast.callback}
-                >
-                    {utbetalingToast.message}
-                </SuksessToast>
-            )}
             {isFetchingOppgaver && (
                 <LasterInnhold>
                     <NavFrontendSpinner type="XS" />
@@ -135,6 +122,7 @@ export const Oversikt = () => {
                 <Undertittel>{t('oversikt.tittel')}</Undertittel>
                 <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
             </Container>
+            <VedtaksstatusToast />
         </>
     );
 };

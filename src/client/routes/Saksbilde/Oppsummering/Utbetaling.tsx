@@ -15,8 +15,8 @@ import UtbetalingModal from './modal/UtbetalingModal';
 import AvvinsningModal from './modal/AvvisningModal';
 import { Avvisningverdier } from './modal/useSkjemaState';
 import { useHistory } from 'react-router';
-import { useSetRecoilState } from 'recoil';
-import { toastsState, useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
+import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
+import { vedtaksstatusToast, vedtaksstatusToastKey } from '../../Oversikt/VedtaksstatusToast';
 
 interface UtbetalingProps {
     className?: string;
@@ -55,13 +55,7 @@ const Utbetaling = ({ className }: UtbetalingProps) => {
                 const toastMelding = godkjent
                     ? 'Utbetalingen er sendt til oppdragsystemet.'
                     : 'Saken er sendt til behandling i Infotrygd.';
-                leggtilEnToast({
-                    key: 'utbetaling',
-                    message: toastMelding,
-                    type: 'suksess',
-                    timeToLiveMs: 5000,
-                    callback: () => fjernEnToast('utbetaling'),
-                });
+                leggtilEnToast(vedtaksstatusToast(toastMelding, () => fjernEnToast(vedtaksstatusToastKey)));
                 history.push('/');
             })
             .catch((err: Error) => {

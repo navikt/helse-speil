@@ -25,8 +25,7 @@ import { Vedtaksperiode } from '../../context/types.internal';
 import { Scopes, useUpdateVarsler, useVarselFilter } from '../../state/varslerState';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
-import { AdvarselToast } from '../../components/Toast';
-import { toastsState } from '../../state/toastsState';
+import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
 
 const Container = styled.div`
     display: flex;
@@ -141,9 +140,6 @@ const useRefetchPersonOnUrlChange = () => {
 const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const overstyringToast = useRecoilValue(toastsState)
-        .filter((toast) => toast.key === 'overstyringDager')
-        .pop();
 
     useVarselFilter(Scopes.SAKSBILDE);
     useGyldigUrlVarsel();
@@ -188,16 +184,7 @@ const Saksbilde = () => {
                     <Høyremeny />
                 </Container>
             </LoggProvider>
-            {overstyringToast && (
-                <AdvarselToast
-                    timeToLiveMs={overstyringToast.timeToLiveMs}
-                    type={overstyringToast.type}
-                    callback={overstyringToast.callback}
-                >
-                    {overstyringToast.message}
-                    <SpinnerMedMarginTilVenstre transparent type="S" />
-                </AdvarselToast>
-            )}
+            <KalkulererOverstyringToast />
         </>
     );
 };
