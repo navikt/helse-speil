@@ -37,6 +37,12 @@ const HøyrestiltContainer = styled.div`
     justify-content: flex-end;
 `;
 
+const Feilmelding = styled.p`
+    color: #ba3a26;
+    margin: 1rem 0 0;
+    font-weight: 600;
+`;
+
 const tilOverstyrtDagtype = (type: Dagtype): 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype => {
     switch (type) {
         case Dagtype.Syk:
@@ -70,8 +76,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const leggtilEnToast = useLeggTilEnToast();
-    const fjernEnToast = useFjernEnToast();
-    const [visModal, setVisModal] = useState(false);
+    const [overstyringserror, setOverstyringserror] = useState<string>();
 
     const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
         const finnesFraFør = overstyrteDager.find((dag) => dag.dato.isSame(nyDag.dato));
@@ -145,10 +150,14 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             unntaFraInnsyn,
         };
 
-        postOverstyring(overstyring).then(() => {
-            leggtilEnToast(kalkulererToast());
-            onOverstyr();
-        });
+        postOverstyring(overstyring)
+            .then(() => {
+                leggtilEnToast(kalkulererToast());
+                onOverstyr();
+            })
+            .catch(() => {
+                setOverstyringserror('Feil under sending av overstyring. Prøv igjen senere.');
+            });
     };
 
     return (
@@ -156,6 +165,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             <form onSubmit={form.handleSubmit(sendOverstyring)}>
                 <OverstyrbarTabell beskrivelse={tabellbeskrivelse} headere={headere} rader={rader} />
                 <Overstyringsskjema overstyrteDager={overstyrteDager} avbrytOverstyring={onToggleOverstyring} />
+                {overstyringserror && <Feilmelding role="alert">{overstyringserror}</Feilmelding>}
             </form>
         </FormProvider>
     );
