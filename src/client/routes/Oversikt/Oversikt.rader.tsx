@@ -87,6 +87,11 @@ const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
     );
 };
 
+const SøkerContainer = styled.div`
+    width: 200px;
+    max-width: 200px;
+`;
+
 interface SøkerProps {
     navn: string;
     link: string;
@@ -95,13 +100,27 @@ interface SøkerProps {
 const Søker = ({ navn, link }: SøkerProps) => {
     const { fjernVarsler } = useUpdateVarsler();
     return (
-        <Link className="lenke" to={link} onClick={fjernVarsler}>
-            {navn}
-        </Link>
+        <SøkerContainer>
+            <TekstMedEllipsis>
+                <Link className="lenke" to={link} onClick={fjernVarsler}>
+                    {navn}
+                </Link>
+            </TekstMedEllipsis>
+        </SøkerContainer>
     );
 };
 
-const Sakstype = ({ type }: { type: OppgaveType }) => <Oppgaveetikett type={type} />;
+const SakstypeContainer = styled.div`
+    box-sizing: border-box;
+    width: 120px;
+    max-width: 120px;
+`;
+
+const Sakstype = ({ type }: { type: OppgaveType }) => (
+    <SakstypeContainer>
+        <Oppgaveetikett type={type} />
+    </SakstypeContainer>
+);
 
 const Opprettet = ({ dato }: { dato: string }) => (
     <Normaltekst>{`${somDato(dato).format(NORSK_DATOFORMAT)}`}</Normaltekst>
@@ -113,7 +132,16 @@ const TekstMedEllipsis = styled(Normaltekst)`
     text-overflow: ellipsis;
 `;
 
-const Bokommune = ({ navn }: { navn: string }) => <TekstMedEllipsis>{navn}</TekstMedEllipsis>;
+const BostedContainer = styled.div`
+    width: 200px;
+    max-width: 200px;
+`;
+
+const Bosted = ({ navn }: { navn: string }) => (
+    <BostedContainer>
+        <TekstMedEllipsis>{navn}</TekstMedEllipsis>
+    </BostedContainer>
+);
 
 const Status = ({ antallVarsler }: { antallVarsler?: number }) => {
     const varseltekst = !antallVarsler ? '' : antallVarsler === 1 ? '1 varsel' : `${antallVarsler} varsler`;
@@ -133,7 +161,7 @@ const renderSakstype = (type: OppgaveType) => <Sakstype type={type} />;
 
 const renderStatus = (antallVarsler: number) => <Status antallVarsler={antallVarsler} />;
 
-const renderBokommune = (bokommune: string) => <Bokommune navn={bokommune} />;
+const renderBosted = (bosted: string) => <Bosted navn={bosted} />;
 
 const renderOpprettet = (opprettet: string) => <Opprettet dato={opprettet} />;
 
@@ -141,19 +169,19 @@ const renderTildeling = (oppgave: Oppgave) =>
     oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />;
 
 export const tilOversiktsrad = (oppgave: Oppgave) => [
-    oppgave,
     oppgave.type,
-    oppgave.antallVarsler,
-    oppgave.boenhet.navn,
+    oppgave,
     oppgave.opprettet,
+    oppgave.boenhet.navn,
+    oppgave.antallVarsler,
     oppgave,
 ];
 
 export const oversiktsradRenderer = (rad: (ReactNode | Oppgave)[]) => [
-    renderSøker(rad[0] as Oppgave),
-    renderSakstype(rad[1] as OppgaveType),
-    renderStatus(rad[2] as number),
-    renderBokommune(rad[3] as string),
-    renderOpprettet(rad[4] as string),
+    renderSakstype(rad[0] as OppgaveType),
+    renderSøker(rad[1] as Oppgave),
+    renderOpprettet(rad[2] as string),
+    renderBosted(rad[3] as string),
+    renderStatus(rad[4] as number),
     renderTildeling(rad[5] as Oppgave),
 ];
