@@ -40,10 +40,10 @@ export const OverstyringTimeoutModal = ({ onRequestClose }: Props) => {
         <Modal contentLabel="Kalkuleringen ser ut til å ta noe tid" isOpen onRequestClose={onRequestClose}>
             <Content>
                 <Tekst>Kalkuleringen ser ut til å ta noe tid.</Tekst>
-                <Tekst>Du kan legge saken på vent og komme tilbake til den senere.</Tekst>
+                <Tekst>Oppgaven vil dukke opp i oversikten når den er klar.</Tekst>
                 <Knappegruppe>
                     <Knapp mini onClick={redirectTilOversikten}>
-                        Legg på vent
+                        Tilbake til oversikten
                     </Knapp>
                     <Flatknapp mini onClick={onRequestClose}>
                         Avbryt
