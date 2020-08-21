@@ -3,13 +3,13 @@ import {
     SpleisAktivitet,
     SpleisForlengelseFraInfotrygd,
     SpleisHendelsetype,
+    SpleisPeriodetype,
     SpleisSykdomsdag,
     SpleisSøknad,
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
-    SpleisPeriodetype,
 } from '../types.external';
-import { max as dayjsMax } from 'dayjs';
+import dayjs from 'dayjs';
 import { somDato } from '../vedtaksperiodemapper';
 import { ISO_DATOFORMAT } from '../../../utils/date';
 import { defaultUtbetalingstidslinje } from './defaultUtbetalingstidslinje';
@@ -22,12 +22,23 @@ export const enVedtaksperiode = (
     aktivitetslogg: SpleisAktivitet[] = []
 ): SpesialistVedtaksperiode => {
     const søknad = defaultHendelser.find((it) => it.type === SpleisHendelsetype.SØKNAD_NAV) as SpleisSøknad;
-    const sykdomstidslinje = [...ekstraDager, ...defaultSykdomstidslinje];
+    const spleisSykdomsdagsUnSorted = [...ekstraDager, ...defaultSykdomstidslinje];
+    const sykdomstidslinje = spleisSykdomsdagsUnSorted.sort((a, b) => {
+        const daga = dayjs(a.dagen);
+        const dagb = dayjs(b.dagen);
+        if (daga.isBefore(dagb)) {
+            return -1;
+        } else if (daga.isAfter(dagb)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
     const fom = sykdomstidslinje.map((it) => it.dagen)[0];
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
         fom: fom,
-        tom: dayjsMax(sykdomstidslinje.map((it) => somDato(it.dagen))).format(ISO_DATOFORMAT),
+        tom: dayjs.max(sykdomstidslinje.map((it) => somDato(it.dagen))).format(ISO_DATOFORMAT),
         gruppeId: 'gruppe-1',
         tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
         oppgavereferanse: '3982',

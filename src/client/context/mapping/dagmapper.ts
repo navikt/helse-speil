@@ -31,7 +31,7 @@ const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
     }
 };
 
-const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dagtype => {
+export const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dagtype => {
     switch (dag) {
         case SpleisSykdomsdagtype.SYKEDAG_SØKNAD:
         case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:
@@ -126,6 +126,7 @@ export const tilSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdo
         dato: somDato(dag.dagen),
         gradering: somHeltall(dag.grad),
         kilde: dag.kilde ? hendelseType(dag.kilde) : hendelseTypeGammel(dag.type),
+        kildeId: dag.kilde?.kildeId ?? undefined,
     }));
 
 export const tilUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsdag[]): Utbetalingsdag[] =>

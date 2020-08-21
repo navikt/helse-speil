@@ -7,6 +7,8 @@ import {
     InfotrygdTypetekst,
     Infotrygdutbetaling,
     Kjønn,
+    Overstyring,
+    OverstyrtDag,
     Person,
     Personinfo,
     UferdigVedtaksperiode,
@@ -14,7 +16,13 @@ import {
 } from '../types.internal';
 import { PersoninfoFraSparkel } from '../../../types';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode, somDato } from './vedtaksperiodemapper';
-import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpesialistVedtaksperiode } from './types.external';
+import {
+    SpesialistInfotrygdtypetekst,
+    SpesialistOverstyring,
+    SpesialistPerson,
+    SpesialistVedtaksperiode,
+} from './types.external';
+import { sykdomstidslinjedag } from './dagmapper';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -37,11 +45,31 @@ const tilArbeidsgivere = (person: SpesialistPerson) =>
             }
         };
 
+        const tilOverstyringMap = (
+            map: Map<string, Overstyring>,
+            overstyring: SpesialistOverstyring
+        ): Map<string, Overstyring> =>
+            map.set(overstyring.hendelseId, {
+                begrunnelse: overstyring.begrunnelse,
+                timestamp: overstyring.timestamp,
+                unntaFraInnsyn: overstyring.unntaFraInnsyn,
+                hendelseId: overstyring.hendelseId,
+                overstyrteDager: overstyring.overstyrteDager.map(
+                    (dag) =>
+                        ({
+                            dato: dag.dato,
+                            type: sykdomstidslinjedag(dag.dagtype),
+                            grad: dag.grad,
+                        } as OverstyrtDag)
+                ),
+            });
+
         return {
             navn: arbeidsgiver.navn,
             id: arbeidsgiver.id,
             organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
             vedtaksperioder: arbeidsgiver.vedtaksperioder.map(tilVedtaksperiode).sort(reversert),
+            overstyringer: arbeidsgiver.overstyringer.reduce(tilOverstyringMap, new Map<string, Overstyring>()),
         };
     });
 

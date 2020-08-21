@@ -5,7 +5,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
 import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiodemapper';
 import dayjs from 'dayjs';
-import { Kjønn } from '../../context/types.internal';
+import { Kjønn, Overstyring } from '../../context/types.internal';
 
 const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), '123456789', []);
 
@@ -15,6 +15,7 @@ const enPersoninfo = () => ({
     etternavn: 'Normann',
     kjønn: 'Mann' as Kjønn,
     fødselsdato: dayjs(),
+    overstyringer: new Map<string, Overstyring>(),
 });
 
 const enArbeidsgiver = () => ({
@@ -22,6 +23,7 @@ const enArbeidsgiver = () => ({
     navn: 'En bedrift',
     organisasjonsnummer: '123456789',
     vedtaksperioder: [enSpeilVedtaksperiode()],
+    overstyringer: new Map<string, Overstyring>(),
 });
 
 const personTilBehandling = {

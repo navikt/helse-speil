@@ -6,6 +6,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
+            kildeId: '512781D2-690E-4B4B-8A00-84A5FCC41AEE',
         },
     },
     {
@@ -13,6 +14,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
+            kildeId: null,
         },
     },
     {
@@ -20,6 +22,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
+            kildeId: '512781D2-690E-4B4B-8A00-84A5FCC41AEE',
         },
     },
     {
@@ -27,6 +30,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.ARBEIDSGIVERDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
+            kildeId: '512781D2-690E-4B4B-8A00-84A5FCC41AEE',
         },
     },
     {
@@ -34,6 +38,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYK_HELGEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -41,6 +46,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYK_HELGEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -48,6 +54,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -55,6 +62,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -62,6 +70,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -69,6 +78,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -76,6 +86,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -83,6 +94,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYK_HELGEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -90,6 +102,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYK_HELGEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -97,6 +110,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -104,6 +118,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -111,6 +126,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -118,6 +134,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -125,6 +142,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -132,6 +150,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYK_HELGEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -139,6 +158,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYK_HELGEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -146,6 +166,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYKEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SYKMELDING,
+            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
         },
     },
     {
@@ -153,6 +174,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.FERIEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -160,6 +182,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.FERIEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -167,6 +190,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.FERIEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -174,6 +198,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.FERIEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
     {
@@ -181,6 +206,7 @@ export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
         type: SpleisSykdomsdagtype.SYK_HELGEDAG,
         kilde: {
             type: SpleisSykdomsdagkildeType.SØKNAD,
+            kildeId: 'D94DD20F-8B95-4769-87DA-80F8F3AE6576',
         },
     },
 ];

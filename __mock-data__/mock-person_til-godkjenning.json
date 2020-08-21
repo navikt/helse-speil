@@ -13,6 +13,21 @@
             "organisasjonsnummer": "987654321",
             "id": "300061b8-77ec-43f5-be5f-c788eb067a9a",
             "navn": "Vårt Fedreland",
+            "overstyringer": [
+                {
+                    "hendelseId": "E6201F83-3104-4D85-840C-C7977B3E788D",
+                    "begrunnelse": "en begrunnelse",
+                    "unntaFraInnsyn": false,
+                    "timestamp": "2018-01-01T12:00:00",
+                    "overstyrteDager": [
+                        {
+                            "dato": "2018-01-01",
+                            "dagtype": "Sykedag",
+                            "grad": 60
+                        }
+                    ]
+                }
+            ],
             "vedtaksperioder": [
                 {
                     "id": "956189c8-a904-40e7-b1e1-eab46e997ddb",
@@ -211,9 +226,10 @@
                             "dagen": "2018-01-01",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Sykmelding"
+                                "type": "Saksbehandler",
+                                "kildeId": "E6201F83-3104-4D85-840C-C7977B3E788D"
                             },
-                            "grad": 100.0
+                            "grad": 60
                         },
                         {
                             "dagen": "2018-01-02",

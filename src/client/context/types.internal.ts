@@ -123,6 +123,7 @@ export enum Dagtype {
 export interface Sykdomsdag {
     dato: Dayjs;
     type: Dagtype;
+    kildeId?: string;
     kilde?: Kildetype;
     gradering?: number;
 }
@@ -222,6 +223,7 @@ export interface Arbeidsgiver {
     organisasjonsnummer: string;
     id: string;
     navn: string;
+    overstyringer: Map<string, Overstyring>;
     vedtaksperioder: (Vedtaksperiode | UferdigVedtaksperiode)[];
 }
 
@@ -275,6 +277,14 @@ export enum InfotrygdTypetekst {
     ARBEIDSGIVERREFUSJON = 'ArbRef',
     UKJENT = 'Ukjent',
     TILBAKEFØRT = 'Tilbakeført',
+}
+
+export interface Overstyring {
+    hendelseId: string;
+    begrunnelse: string;
+    unntaFraInnsyn: boolean;
+    timestamp: string;
+    overstyrteDager: OverstyrtDag[];
 }
 
 export interface OverstyrtDag {

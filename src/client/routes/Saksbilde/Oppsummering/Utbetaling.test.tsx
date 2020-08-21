@@ -2,7 +2,7 @@ import Utbetaling from './Utbetaling';
 import { PersonContext } from '../../../context/PersonContext';
 import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiodemapper';
 import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
-import { Kjønn, Vedtaksperiode, Vedtaksperiodetilstand } from '../../../context/types.internal';
+import { Kjønn, Overstyring, Vedtaksperiode, Vedtaksperiodetilstand } from '../../../context/types.internal';
 import { Avvisningverdier } from './modal/useSkjemaState';
 import '../../../tekster';
 
@@ -66,6 +66,7 @@ const enArbeidsgiver = () => ({
     navn: 'En bedrift',
     organisasjonsnummer: '123456789',
     vedtaksperioder: [enSpeilVedtaksperiode()],
+    overstyringer: new Map<string, Overstyring>(),
 });
 const personTilBehandling = {
     aktørId: '12345',

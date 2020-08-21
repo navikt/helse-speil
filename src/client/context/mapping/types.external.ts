@@ -96,12 +96,14 @@ export interface SpleisSykdomsdag {
 
 export interface SpleisSykdomsdagkilde {
     type: SpleisSykdomsdagkildeType;
+    kildeId: string | null;
 }
 
 export enum SpleisSykdomsdagkildeType {
     INNTEKTSMELDING = 'Inntektsmelding',
     SYKMELDING = 'Sykmelding',
     SØKNAD = 'Søknad',
+    SAKSBEHANDLER = 'Saksbehandler',
 }
 
 export enum SpleisHendelsetype {
@@ -157,12 +159,27 @@ export interface SpesialistRisikovurdering {
     ufullstendig: boolean;
 }
 
+export interface SpesialistOverstyring {
+    hendelseId: string;
+    begrunnelse: string;
+    unntaFraInnsyn: boolean;
+    timestamp: string;
+    overstyrteDager: SpesialistOverstyringDag[];
+}
+
+export interface SpesialistOverstyringDag {
+    dato: string;
+    dagtype: SpleisSykdomsdagtype;
+    grad: number | null;
+}
+
 export interface SpesialistArbeidsgiver {
     id: string;
     organisasjonsnummer: string;
     vedtaksperioder: SpesialistVedtaksperiode[];
     navn: string;
     risikovurderinger: SpesialistRisikovurdering[];
+    overstyringer: SpesialistOverstyring[];
 }
 
 export interface SpleisDataForVilkårsvurdering {

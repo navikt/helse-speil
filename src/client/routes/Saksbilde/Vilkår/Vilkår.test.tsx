@@ -1,4 +1,4 @@
-import { Kjønn, Vedtaksperiode, Periodetype } from '../../../context/types.internal';
+import { Kjønn, Vedtaksperiode, Periodetype, Overstyring } from '../../../context/types.internal';
 import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiodemapper';
 import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
 import dayjs from 'dayjs';
@@ -25,6 +25,7 @@ const enArbeidsgiver = () => ({
     navn: 'En bedrift',
     organisasjonsnummer: '123456789',
     vedtaksperioder: [enSpeilVedtaksperiode()],
+    overstyringer: new Map<string, Overstyring>(),
 });
 
 const personTilBehandling = {
