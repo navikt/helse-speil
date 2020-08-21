@@ -7,10 +7,15 @@ import { Toast } from '../../../components/Toast';
 
 export const kalkulererToastKey = 'kalkulererToast';
 
-export const kalkulererToast = (callback?: () => void): ToastObject => ({
-    key: kalkulererToastKey,
-    message: 'Kalkulerer endringer',
+export const kalkulererToast = ({
+    message = 'Kalkulerer endringer',
     callback,
+    timeToLiveMs,
+}: Partial<ToastObject>): ToastObject => ({
+    key: kalkulererToastKey,
+    message,
+    callback,
+    timeToLiveMs,
 });
 
 const SpinnerMedMarginTilVenstre = styled(NavFrontendSpinner)`
@@ -44,7 +49,7 @@ export const KalkulererOverstyringToast = () => {
     if (!overstyringToast) return null;
 
     return (
-        <Toast callback={overstyringToast.callback}>
+        <Toast callback={overstyringToast.callback} timeToLiveMs={overstyringToast.timeToLiveMs}>
             <Container>
                 <Tekst>{overstyringToast.message}</Tekst>
                 <SpinnerMedMarginTilVenstre transparent type="S" />

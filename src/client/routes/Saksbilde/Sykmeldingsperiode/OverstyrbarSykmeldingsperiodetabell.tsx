@@ -17,9 +17,9 @@ import styled from '@emotion/styled';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { FormProvider, useForm } from 'react-hook-form';
-import { postOverstyring } from '../../../io/http';
+import { getOppgavereferanse, postOverstyring } from '../../../io/http';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
-import { kalkulererToast } from './KalkulererOverstyringToast';
+import { kalkulererToast, kalkulererToastKey } from './KalkulererOverstyringToast';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead,
@@ -63,6 +63,8 @@ const tilOverstyrteDager = (dager: Sykdomsdag[]) =>
         grad: dag.gradering,
     }));
 
+const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
+
 interface OverstyrbarSykmeldingsperiodetabellProps {
     onOverstyr: () => void;
     onToggleOverstyring: () => void;
@@ -72,10 +74,11 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     onOverstyr,
     onToggleOverstyring,
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    const { aktivVedtaksperiode, personTilBehandling, hentPerson } = useContext(PersonContext);
     const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const leggtilEnToast = useLeggTilEnToast();
+    const fjernToast = useFjernEnToast();
     const [overstyringserror, setOverstyringserror] = useState<string>();
 
     const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
@@ -138,6 +141,25 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             arbeidsgiver.vedtaksperioder.find((vedtaksperiode) => vedtaksperiode.id === aktivVedtaksperiode?.id)
         )!.organisasjonsnummer;
 
+    const pollEtterNyOppgave = async () => {
+        const fødselsnummer = personTilBehandling!.fødselsnummer;
+        for (let _ = 0; _ < 10; _++) {
+            await delay(1000);
+            const oppgavereferanse = await getOppgavereferanse(fødselsnummer)
+                .then((response) => response.data.oppgavereferanse)
+                .catch((error) => {
+                    if (error.statusCode >= 500) {
+                        console.error(error);
+                    }
+                });
+
+            if (oppgavereferanse && oppgavereferanse !== aktivVedtaksperiode!.oppgavereferanse) {
+                hentPerson(fødselsnummer).then();
+                break;
+            }
+        }
+    };
+
     const sendOverstyring = () => {
         const { begrunnelse, unntaFraInnsyn } = form.getValues();
 
@@ -152,8 +174,17 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
 
         postOverstyring(overstyring)
             .then(() => {
-                leggtilEnToast(kalkulererToast());
+                leggtilEnToast(kalkulererToast({}));
                 onOverstyr();
+                pollEtterNyOppgave().then(() => {
+                    leggtilEnToast(
+                        kalkulererToast({
+                            message: 'Oppgaven er ferdig kalkulert',
+                            timeToLiveMs: 5000,
+                            callback: () => fjernToast(kalkulererToastKey),
+                        })
+                    );
+                });
             })
             .catch(() => {
                 setOverstyringserror('Feil under sending av overstyring. Prøv igjen senere.');

@@ -43,6 +43,14 @@ const decode = (cookie: string) => {
     }
 };
 
+export const extractSpeilToken = (): string =>
+    document.cookie
+        .split(';')
+        .filter((item) => item.trim().startsWith('speil='))
+        .pop()
+        ?.split('=')
+        .pop() as string;
+
 export const extractValues = (values: ArrayLike<any>) => {
     const decodedCookie = document.cookie
         .split(';')

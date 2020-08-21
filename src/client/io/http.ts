@@ -1,6 +1,7 @@
 import { Tildeling } from '../context/types.internal';
 import { AnnulleringDTO, Options, OverstyringDTO } from './types';
 import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
+import { extractSpeilToken } from '../utils/cookie';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -14,6 +15,8 @@ export interface SpeilResponse {
 
 // eslint-disable-next-line no-undef
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
+
+const baseUrlSpesialist = process.env.NODE_ENV === 'development' ? 'http://localhost:9001/api/v1' : '/api/v1';
 
 const getData = async (response: Response) => {
     try {
@@ -123,3 +126,14 @@ export const postAnnullering = async (annullering: AnnulleringDTO) =>
 
 export const postOverstyring = async (overstyring: OverstyringDTO) =>
     post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
+
+export const getOppgavereferanse = async (fødselsnummer: string) => {
+    const speilToken = extractSpeilToken();
+
+    return get(`${baseUrlSpesialist}/oppgave`, {
+        headers: {
+            fodselsnummer: fødselsnummer,
+            Authorization: `Bearer ${speilToken}`,
+        },
+    });
+};
