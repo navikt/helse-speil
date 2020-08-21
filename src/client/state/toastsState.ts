@@ -1,6 +1,6 @@
 import { atom, useSetRecoilState } from 'recoil';
 
-export interface Toast {
+export interface ToastObject {
     key: string;
     message: string;
     timeToLiveMs?: number;
@@ -11,7 +11,7 @@ export interface Toast {
 export const useLeggTilEnToast = () => {
     const setToasts = useSetRecoilState(toastsState);
 
-    return (toast: Toast) => {
+    return (toast: ToastObject) => {
         setToasts((staleToasts) => [...staleToasts, toast]);
     };
 };
@@ -24,7 +24,7 @@ export const useFjernEnToast = () => {
     };
 };
 
-export const toastsState = atom<Toast[]>({
+export const toastsState = atom<ToastObject[]>({
     key: 'toastsState',
     default: [],
 });

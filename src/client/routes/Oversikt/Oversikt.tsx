@@ -47,8 +47,14 @@ const Tab = styled.button<{ active: boolean }>`
     cursor: pointer;
     transition: box-shadow 0.1s ease;
     box-shadow: inset 0 0 0 0 #0067c5;
+    outline: none;
 
-    ${({ active }) => active && `box-shadow: inset 0 -5px 0 0 #0067c5`}
+    &:hover,
+    &:focus {
+        color: #0067c5;
+    }
+
+    ${({ active }) => active && `box-shadow: inset 0 -5px 0 0 #0067c5;`}
 `;
 
 const faneState = atom<'alle' | 'mine'>({

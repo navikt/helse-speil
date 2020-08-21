@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { Toast, toastsState, useFjernEnToast } from '../../state/toastsState';
-import { SuksessToast } from '../../components/Toast';
+import { ToastObject, toastsState, useFjernEnToast } from '../../state/toastsState';
+import { Toast } from '../../components/Toast';
+import styled from '@emotion/styled';
 
 export const vedtaksstatusToastKey = 'vedtaksstatusToast';
 
-export const vedtaksstatusToast = (message: string, callback?: () => void): Toast => ({
+export const vedtaksstatusToast = (message: string, callback?: () => void): ToastObject => ({
     key: vedtaksstatusToastKey,
     timeToLiveMs: 5000,
     message,
     callback,
 });
+
+const Tekst = styled.p``;
 
 export const VedtaksstatusToast = () => {
     const vedtaksstatusToast = useRecoilValue(toastsState)
@@ -28,8 +31,8 @@ export const VedtaksstatusToast = () => {
     if (!vedtaksstatusToast) return null;
 
     return (
-        <SuksessToast callback={vedtaksstatusToast.callback} timeToLiveMs={vedtaksstatusToast.timeToLiveMs}>
-            {vedtaksstatusToast.message}
-        </SuksessToast>
+        <Toast callback={vedtaksstatusToast.callback} timeToLiveMs={vedtaksstatusToast.timeToLiveMs}>
+            <Tekst>{vedtaksstatusToast.message}</Tekst>
+        </Toast>
     );
 };

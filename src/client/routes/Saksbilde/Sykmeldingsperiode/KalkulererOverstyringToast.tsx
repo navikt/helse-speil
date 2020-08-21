@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { AdvarselToast } from '../../../components/Toast';
 import { useRecoilValue } from 'recoil';
-import { Toast, toastsState, useFjernEnToast } from '../../../state/toastsState';
+import { ToastObject, toastsState, useFjernEnToast } from '../../../state/toastsState';
 import styled from '@emotion/styled';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Toast } from '../../../components/Toast';
 
 export const kalkulererToastKey = 'kalkulererToast';
 
-export const kalkulererToast = (callback?: () => void): Toast => ({
+export const kalkulererToast = (callback?: () => void): ToastObject => ({
     key: kalkulererToastKey,
     message: 'Kalkulerer endringer',
     callback,
@@ -15,6 +15,17 @@ export const kalkulererToast = (callback?: () => void): Toast => ({
 
 const SpinnerMedMarginTilVenstre = styled(NavFrontendSpinner)`
     margin-left: 1rem;
+`;
+
+const Tekst = styled.p`
+    white-space: nowrap;
+`;
+
+const Container = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 `;
 
 export const KalkulererOverstyringToast = () => {
@@ -33,9 +44,11 @@ export const KalkulererOverstyringToast = () => {
     if (!overstyringToast) return null;
 
     return (
-        <AdvarselToast callback={overstyringToast.callback}>
-            {overstyringToast.message}
-            <SpinnerMedMarginTilVenstre transparent type="S" />
-        </AdvarselToast>
+        <Toast callback={overstyringToast.callback}>
+            <Container>
+                <Tekst>{overstyringToast.message}</Tekst>
+                <SpinnerMedMarginTilVenstre transparent type="S" />
+            </Container>
+        </Toast>
     );
 };
