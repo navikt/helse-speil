@@ -27,6 +27,10 @@ const Oversiktstabell = styled(Tabell)`
         background: #e9e7e7;
         cursor: pointer;
     }
+
+    thead tr th > ul {
+        z-index: 1000;
+    }
 `;
 
 interface Props {
