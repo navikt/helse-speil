@@ -19,7 +19,7 @@ import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { FormProvider, useForm } from 'react-hook-form';
 import { getOppgavereferanse, postOverstyring } from '../../../io/http';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
-import { kalkulererToast, kalkulererToastKey } from './KalkulererOverstyringToast';
+import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from './KalkulererOverstyringToast';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead,
@@ -178,10 +178,9 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
                 onOverstyr();
                 pollEtterNyOppgave().then(() => {
                     leggtilEnToast(
-                        kalkulererToast({
-                            message: 'Oppgaven er ferdig kalkulert',
+                        kalkuleringFerdigToast({
                             timeToLiveMs: 5000,
-                            callback: () => fjernToast(kalkulererToastKey),
+                            callback: () => fjernToast(kalkulererFerdigToastKey),
                         })
                     );
                 });

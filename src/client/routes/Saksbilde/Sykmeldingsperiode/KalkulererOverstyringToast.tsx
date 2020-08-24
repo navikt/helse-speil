@@ -6,6 +6,7 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import { Toast } from '../../../components/Toast';
 
 export const kalkulererToastKey = 'kalkulererToast';
+export const kalkulererFerdigToastKey = 'kalkulererFerdigToast';
 
 export const kalkulererToast = ({
     message = 'Kalkulerer endringer',
@@ -13,6 +14,17 @@ export const kalkulererToast = ({
     timeToLiveMs,
 }: Partial<ToastObject>): ToastObject => ({
     key: kalkulererToastKey,
+    message,
+    callback,
+    timeToLiveMs,
+});
+
+export const kalkuleringFerdigToast = ({
+    message = 'Oppgaven er ferdig kalkulert',
+    timeToLiveMs,
+    callback,
+}: Partial<ToastObject>): ToastObject => ({
+    key: kalkulererFerdigToastKey,
     message,
     callback,
     timeToLiveMs,
@@ -34,17 +46,17 @@ const Container = styled.div`
 `;
 
 export const KalkulererOverstyringToast = () => {
-    const overstyringToast = useRecoilValue(toastsState)
-        .filter((toast) => toast.key === kalkulererToastKey)
-        .pop();
-
     const fjernToast = useFjernEnToast();
+
+    const overstyringToast = useRecoilValue(toastsState)
+        .filter((toast) => toast.key === kalkulererToastKey || toast.key === kalkulererFerdigToastKey)
+        .pop();
 
     useEffect(() => {
         return () => {
-            fjernToast(kalkulererToastKey);
+            overstyringToast && fjernToast(overstyringToast.key);
         };
-    }, []);
+    }, [overstyringToast]);
 
     if (!overstyringToast) return null;
 
@@ -52,7 +64,7 @@ export const KalkulererOverstyringToast = () => {
         <Toast callback={overstyringToast.callback} timeToLiveMs={overstyringToast.timeToLiveMs}>
             <Container>
                 <Tekst>{overstyringToast.message}</Tekst>
-                <SpinnerMedMarginTilVenstre transparent type="S" />
+                {overstyringToast.key === kalkulererToastKey && <SpinnerMedMarginTilVenstre transparent type="S" />}
             </Container>
         </Toast>
     );

@@ -2,8 +2,6 @@ import React, { ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion, MotionStyle, Spring } from 'framer-motion';
 
-const toastWidthPx = 200;
-
 interface ToastProps {
     callback?: () => void;
     children: ReactNode | ReactNode[];
@@ -15,13 +13,12 @@ const ToastView = styled.div`
     z-index: 1000;
     align-items: center;
     min-height: 1rem;
-    width: ${toastWidthPx}px;
-    padding: 0.75rem 1.25rem;
+    padding: 14px 16px;
     border-radius: 4px;
     margin: 1rem;
-    transform: translateX(50%);
     background: #3e3832;
     color: white;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 `;
 
 const spring: Spring = {
@@ -34,7 +31,7 @@ const spring: Spring = {
 const motionElementStyle: MotionStyle = {
     position: 'fixed',
     bottom: '1rem',
-    right: `50%`,
+    left: `1rem`,
 };
 
 export const Toast = React.memo(({ children, timeToLiveMs, callback }: ToastProps) => {
@@ -63,9 +60,7 @@ export const Toast = React.memo(({ children, timeToLiveMs, callback }: ToastProp
                     transition={spring}
                     style={motionElementStyle}
                 >
-                    <ToastView role="alert" aria-live="polite">
-                        {children}
-                    </ToastView>
+                    <ToastView aria-live="polite">{children}</ToastView>
                 </motion.div>
             )}
         </AnimatePresence>
