@@ -1,174 +1,112 @@
-import React, { ReactNode, useContext, useState } from 'react';
-import AlternativerKnapp from '../../components/AlternativerKnapp';
+import React, { ReactNode } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
 import { Oppgave, OppgaveType, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
 import { somDato } from '../../context/mapping/vedtaksperiodemapper';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { Oppgaveetikett } from './Oppgaveetikett';
-import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
-import { useEmail } from '../../state/authentication';
+import { IkkeTildelt, Tildelt } from './tildeling';
 import { useUpdateVarsler } from '../../state/varslerState';
-import { OppgaverContext } from '../../context/OppgaverContext';
-import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
 
-const Tildelingsalternativ = styled(AlternativerKnapp)`
-    margin-left: 0.5rem;
-`;
+type Oversiktsrad = [OppgaveType, Oppgave, string, string, number, Oppgave];
 
-const MeldAvKnapp = styled.button`
-    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
-    padding: 1rem;
-    cursor: pointer;
-    background: #fff;
-    border: none;
-    border-radius: 0.25rem;
-    outline: none;
-    font-size: 1rem;
-    white-space: nowrap;
-
-    &:hover,
-    &:focus {
-        background: #e7e9e9;
-    }
-`;
-
-const Flex = styled.span`
-    display: flex;
-    align-items: center;
-`;
-
-const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
-    const email = useEmail();
-    const erTildeltInnloggetBruker = oppgave.tildeltTil === email;
-    const tildeltBrukernavn = capitalizeName(extractNameFromEmail(oppgave.tildeltTil));
-    const { fjernTildeling } = useOppgavetildeling();
-    const { markerOppgaveSomTildelt } = useContext(OppgaverContext);
-
-    const meldAv = () => {
-        fjernTildeling(oppgave.oppgavereferanse).then(() => markerOppgaveSomTildelt(oppgave, null));
-    };
-
-    return (
-        <Flex>
-            <Normaltekst>{tildeltBrukernavn}</Normaltekst>
-            {erTildeltInnloggetBruker && (
-                <Tildelingsalternativ>
-                    <MeldAvKnapp tabIndex={0} onClick={meldAv}>
-                        Meld av
-                    </MeldAvKnapp>
-                </Tildelingsalternativ>
-            )}
-        </Flex>
-    );
-};
-
-const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
-    const email = useEmail();
-    const [tildeler, setTildeler] = useState(false);
-    const { tildelOppgave } = useOppgavetildeling();
-    const { markerOppgaveSomTildelt } = useContext(OppgaverContext);
-
-    const tildel = () => {
-        if (!email) return;
-        setTildeler(true);
-        tildelOppgave(oppgave.oppgavereferanse, email)
-            .then(() => markerOppgaveSomTildelt(oppgave, email))
-            .catch((assignedUser) => markerOppgaveSomTildelt(oppgave, assignedUser))
-            .finally(() => setTildeler(false));
-    };
-
-    return (
-        <Knapp mini onClick={tildel} spinner={tildeler}>
-            Tildel meg
-        </Knapp>
-    );
-};
-
-const SøkerContainer = styled.div`
-    width: 200px;
-    max-width: 200px;
-`;
-
-interface SøkerProps {
-    navn: string;
-    link: string;
-}
-
-const Søker = ({ navn, link }: SøkerProps) => {
-    const { fjernVarsler } = useUpdateVarsler();
-    return (
-        <SøkerContainer>
-            <TekstMedEllipsis>
-                <Link className="lenke" to={link} onClick={fjernVarsler}>
-                    {navn}
-                </Link>
-            </TekstMedEllipsis>
-        </SøkerContainer>
-    );
-};
-
-const SakstypeContainer = styled.div`
-    box-sizing: border-box;
-    width: 120px;
-    max-width: 120px;
-`;
-
-const Sakstype = ({ type }: { type: OppgaveType }) => (
-    <SakstypeContainer>
-        <Oppgaveetikett type={type} />
-    </SakstypeContainer>
-);
-
-const Opprettet = ({ dato }: { dato: string }) => (
-    <Normaltekst>{`${somDato(dato).format(NORSK_DATOFORMAT)}`}</Normaltekst>
-);
-
-const TekstMedEllipsis = styled(Normaltekst)`
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-`;
-
-const BostedContainer = styled.div`
-    width: 200px;
-    max-width: 200px;
-`;
-
-const Bosted = ({ navn }: { navn: string }) => (
-    <BostedContainer>
-        <TekstMedEllipsis>{navn}</TekstMedEllipsis>
-    </BostedContainer>
-);
-
-const Status = ({ antallVarsler }: { antallVarsler?: number }) => {
-    const varseltekst = !antallVarsler ? '' : antallVarsler === 1 ? '1 varsel' : `${antallVarsler} varsler`;
-    return <Element>{varseltekst}</Element>;
-};
+type RendretOversiktsrad = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
     return [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
 };
 
-const renderSøker = (oppgave: Oppgave) => (
-    <Søker navn={formatertNavn(oppgave.personinfo)} link={`/sykmeldingsperiode/${oppgave.aktørId}`} />
+const formatertVarsel = (antallVarsler?: number) =>
+    !antallVarsler ? '' : antallVarsler === 1 ? '1 varsel' : `${antallVarsler} varsler`;
+
+const CellContainer = styled.div<{ width?: number }>`
+    position: relative;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    margin: 0 -1rem 0 -1rem;
+    padding: 0 1rem;
+
+    ${({ width }) =>
+        width &&
+        `
+        width: ${width}px;
+        max-width: ${width}px;
+    `}
+`;
+
+const TekstMedEllipsis = styled(Normaltekst)`
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    > a:focus {
+        box-shadow: 0 0 0 3px #254b6d;
+    }
+`;
+
+const SkjultLenke = styled(Link)`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin-left: -1rem;
+    outline: none;
+`;
+
+const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgave }) => {
+    const { fjernVarsler } = useUpdateVarsler();
+    return <SkjultLenke to={`/sykmeldingsperiode/${oppgave.aktørId}`} onClick={fjernVarsler} tabIndex={-1} />;
+};
+
+const Sakslenke: React.FunctionComponent<{ oppgave: Oppgave; skjult?: boolean }> = ({ oppgave, skjult, children }) => {
+    const { fjernVarsler } = useUpdateVarsler();
+    return (
+        <Link className="lenke" to={`/sykmeldingsperiode/${oppgave.aktørId}`} onClick={fjernVarsler}>
+            {children}
+        </Link>
+    );
+};
+
+const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => (
+    <CellContainer width={120}>
+        <Oppgaveetikett type={oppgave.type} />
+        <SkjultSakslenke oppgave={oppgave} />
+    </CellContainer>
 );
 
-const renderSakstype = (type: OppgaveType) => <Sakstype type={type} />;
+const Søker = ({ oppgave }: { oppgave: Oppgave }) => (
+    <CellContainer width={200}>
+        <TekstMedEllipsis>
+            <Sakslenke oppgave={oppgave}>{formatertNavn(oppgave.personinfo)}</Sakslenke>
+        </TekstMedEllipsis>
+        <SkjultSakslenke oppgave={oppgave} />
+    </CellContainer>
+);
 
-const renderStatus = (antallVarsler: number) => <Status antallVarsler={antallVarsler} />;
+const Opprettet = ({ oppgave }: { oppgave: Oppgave }) => (
+    <CellContainer>
+        <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
+        <SkjultSakslenke oppgave={oppgave} />
+    </CellContainer>
+);
 
-const renderBosted = (bosted: string) => <Bosted navn={bosted} />;
+const Bosted = ({ oppgave }: { oppgave: Oppgave }) => (
+    <CellContainer width={200}>
+        <TekstMedEllipsis>{oppgave.boenhet.navn}</TekstMedEllipsis>
+        <SkjultSakslenke oppgave={oppgave} />
+    </CellContainer>
+);
 
-const renderOpprettet = (opprettet: string) => <Opprettet dato={opprettet} />;
+const Status = ({ oppgave }: { oppgave: Oppgave }) => (
+    <CellContainer>
+        <Element>{formatertVarsel(oppgave.antallVarsler)}</Element>
+        <SkjultSakslenke oppgave={oppgave} />
+    </CellContainer>
+);
 
-const renderTildeling = (oppgave: Oppgave) =>
-    oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />;
-
-export const tilOversiktsrad = (oppgave: Oppgave) => [
+export const tilOversiktsrad = (oppgave: Oppgave): Oversiktsrad => [
     oppgave.type,
     oppgave,
     oppgave.opprettet,
@@ -177,11 +115,14 @@ export const tilOversiktsrad = (oppgave: Oppgave) => [
     oppgave,
 ];
 
-export const oversiktsradRenderer = (rad: (ReactNode | Oppgave)[]) => [
-    renderSakstype(rad[0] as OppgaveType),
-    renderSøker(rad[1] as Oppgave),
-    renderOpprettet(rad[2] as string),
-    renderBosted(rad[3] as string),
-    renderStatus(rad[4] as number),
-    renderTildeling(rad[5] as Oppgave),
-];
+export const oversiktsradRenderer = (rad: (ReactNode | Oppgave)[]): RendretOversiktsrad => {
+    const oppgave = rad[1] as Oppgave;
+    return [
+        <Sakstype oppgave={oppgave} />,
+        <Søker oppgave={oppgave} />,
+        <Opprettet oppgave={oppgave} />,
+        <Bosted oppgave={oppgave} />,
+        <Status oppgave={oppgave} />,
+        oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />,
+    ];
+};

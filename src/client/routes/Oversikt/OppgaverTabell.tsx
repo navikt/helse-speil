@@ -10,6 +10,8 @@ import { sorterDateString, sorterTall, sorterTekstAlfabetisk, sorterTildeltTil }
 
 const Oversiktstabell = styled(Tabell)`
     table-layout: fixed;
+    border-collapse: collapse;
+
     thead tr th {
         border-color: #c6c2bf;
     }
@@ -19,6 +21,11 @@ const Oversiktstabell = styled(Tabell)`
     }
     tbody tr:last-of-type td {
         border: none;
+    }
+
+    tbody tr:hover td > div {
+        background: #e9e7e7;
+        cursor: pointer;
     }
 `;
 

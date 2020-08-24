@@ -42,9 +42,9 @@ export const useVarselFilter = (scope?: string) => {
 };
 
 export const useUpdateVarsler = () => {
-    const setVaflerState = useSetRecoilState(varslerState);
+    const setVarslerState = useSetRecoilState(varslerState);
     return {
-        leggTilVarsel: (varsel: Varsel) => setVaflerState((prev) => [...prev, varsel]),
-        fjernVarsler: () => setVaflerState([]),
+        leggTilVarsel: (varsel: Varsel) => setVarslerState((prev) => [...prev, varsel]),
+        fjernVarsler: () => setVarslerState([]),
     };
 };
