@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { filtreringState, sorteringState } from './state';
-import { oversiktsradRenderer, tilOversiktsrad } from './Oversikt.rader';
+import { oversiktsradRenderer, tilOversiktsrad } from './rader';
 import { Tabell, useTabell } from '@navikt/helse-frontend-tabell';
 import { Oppgave } from '../../../types';
 import styled from '@emotion/styled';

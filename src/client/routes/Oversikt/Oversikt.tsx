@@ -11,7 +11,8 @@ import { VedtaksstatusToast } from './VedtaksstatusToast';
 import { OppgaverTabell } from './OppgaverTabell';
 import { useEmail } from '../../state/authentication';
 import { Oppgave } from '../../../types';
-import { atom, useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { Tabs, tabState } from './tabs';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -31,43 +32,12 @@ const LasterInnhold = styled.div`
     }
 `;
 
-const Tablist = styled.div`
-    border-bottom: 1px solid #c6c2bf;
-    margin-bottom: 2rem;
-`;
-
-const Tab = styled.button<{ active: boolean }>`
-    background: none;
-    border: none;
-    padding: 1rem 1.5rem;
-    font-family: inherit;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #3e3832;
-    cursor: pointer;
-    transition: box-shadow 0.1s ease;
-    box-shadow: inset 0 0 0 0 #0067c5;
-    outline: none;
-
-    &:hover,
-    &:focus {
-        color: #0067c5;
-    }
-
-    ${({ active }) => active && `box-shadow: inset 0 -5px 0 0 #0067c5;`}
-`;
-
-const faneState = atom<'alle' | 'mine'>({
-    key: 'faneState',
-    default: 'alle',
-});
-
 export const Oversikt = () => {
     const email = useEmail();
     const location = useLocation();
     const { isFetching: isFetchingPersonBySearch } = useContext(PersonContext);
     const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
-    const [aktivFane, setAktivFane] = useRecoilState(faneState);
+    const aktivTab = useRecoilValue(tabState);
 
     const erTildeltInnloggetBruker = (oppgave: Oppgave) => email === oppgave.tildeltTil;
 
@@ -93,27 +63,8 @@ export const Oversikt = () => {
             )}
             {oppgaverContextError && <Varsel type={Varseltype.Feil}>{oppgaverContextError.message}</Varsel>}
             <Container>
-                <Tablist>
-                    <Tab
-                        role="tab"
-                        aria-selected={aktivFane === 'alle'}
-                        active={aktivFane === 'alle'}
-                        onClick={() => setAktivFane('alle')}
-                    >
-                        Saker
-                    </Tab>
-                    <Tab
-                        role="tab"
-                        aria-selected={aktivFane === 'mine'}
-                        active={aktivFane === 'mine'}
-                        onClick={() => setAktivFane('mine')}
-                    >
-                        Mine saker
-                    </Tab>
-                </Tablist>
-                <OppgaverTabell
-                    oppgaver={aktivFane === 'alle' ? oppgaver : oppgaver.filter(erTildeltInnloggetBruker)}
-                />
+                <Tabs />
+                <OppgaverTabell oppgaver={aktivTab === 'alle' ? oppgaver : oppgaver.filter(erTildeltInnloggetBruker)} />
             </Container>
             <VedtaksstatusToast />
         </>
