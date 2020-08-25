@@ -3,8 +3,12 @@ import styled from '@emotion/styled';
 import { AnimatePresence, motion, MotionStyle, Spring } from 'framer-motion';
 
 interface ToastProps {
-    callback?: () => void;
     children: ReactNode | ReactNode[];
+    isShowing?: boolean;
+}
+
+interface TimeoutToastProps extends ToastProps {
+    callback?: () => void;
     timeToLiveMs?: number;
 }
 
@@ -34,7 +38,7 @@ const motionElementStyle: MotionStyle = {
     left: `1rem`,
 };
 
-export const Toast = React.memo(({ children, timeToLiveMs, callback }: ToastProps) => {
+export const TimeoutToast = React.memo(({ children, timeToLiveMs, callback }: TimeoutToastProps) => {
     const [showing, setShowing] = useState(true);
 
     useEffect(() => {
@@ -66,3 +70,20 @@ export const Toast = React.memo(({ children, timeToLiveMs, callback }: ToastProp
         </AnimatePresence>
     );
 });
+
+export const Toast = ({ children, isShowing }: ToastProps) => (
+    <AnimatePresence>
+        {isShowing && (
+            <motion.div
+                key="toast"
+                initial={{ y: '150%', opacity: 1 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={spring}
+                style={motionElementStyle}
+            >
+                <ToastView aria-live="polite">{children}</ToastView>
+            </motion.div>
+        )}
+    </AnimatePresence>
+);

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ToastObject, toastsState, useFjernEnToast } from '../../state/toastsState';
-import { Toast } from '../../components/Toast';
+import { TimeoutToast } from '../../components/toast';
 import styled from '@emotion/styled';
 
 export const vedtaksstatusToastKey = 'vedtaksstatusToast';
@@ -31,8 +31,8 @@ export const VedtaksstatusToast = () => {
     if (!vedtaksstatusToast) return null;
 
     return (
-        <Toast callback={vedtaksstatusToast.callback} timeToLiveMs={vedtaksstatusToast.timeToLiveMs}>
+        <TimeoutToast callback={vedtaksstatusToast.callback} timeToLiveMs={vedtaksstatusToast.timeToLiveMs}>
             <Tekst>{vedtaksstatusToast.message}</Tekst>
-        </Toast>
+        </TimeoutToast>
     );
 };

@@ -11,8 +11,9 @@ import { VedtaksstatusToast } from './VedtaksstatusToast';
 import { OppgaverTabell } from './OppgaverTabell';
 import { useEmail } from '../../state/authentication';
 import { Oppgave } from '../../../types';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { Tabs, tabState } from './tabs';
+import { Toast } from '../../components/toast';
 
 const Container = styled(Panel)`
     margin: 1rem;
@@ -20,16 +21,8 @@ const Container = styled(Panel)`
     color: #3e3832;
 `;
 
-const LasterInnhold = styled.div`
-    display: flex;
-    align-items: center;
+const Spinner = styled(NavFrontendSpinner)`
     margin-left: 1rem;
-    margin-top: 1rem;
-    svg {
-        margin-right: 1rem;
-        width: 25px;
-        height: 25px;
-    }
 `;
 
 export const Oversikt = () => {
@@ -49,22 +42,22 @@ export const Oversikt = () => {
 
     return (
         <>
-            {isFetchingOppgaver && (
-                <LasterInnhold>
-                    <NavFrontendSpinner type="XS" />
-                    Henter personer
-                </LasterInnhold>
-            )}
-            {isFetchingPersonBySearch && (
-                <LasterInnhold>
-                    <NavFrontendSpinner type="XS" />
-                    Henter person
-                </LasterInnhold>
-            )}
+            <Toast isShowing={isFetchingOppgaver}>
+                Henter oppgaver
+                <Spinner type="XS" />
+            </Toast>
+            <Toast isShowing={isFetchingPersonBySearch}>
+                Henter person
+                <Spinner type="XS" />
+            </Toast>
             {oppgaverContextError && <Varsel type={Varseltype.Feil}>{oppgaverContextError.message}</Varsel>}
             <Container>
                 <Tabs />
-                <OppgaverTabell oppgaver={aktivTab === 'alle' ? oppgaver : oppgaver.filter(erTildeltInnloggetBruker)} />
+                {oppgaver.length > 0 && (
+                    <OppgaverTabell
+                        oppgaver={aktivTab === 'alle' ? oppgaver : oppgaver.filter(erTildeltInnloggetBruker)}
+                    />
+                )}
             </Container>
             <VedtaksstatusToast />
         </>

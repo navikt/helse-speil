@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { ToastObject, toastsState, useFjernEnToast } from '../../../state/toastsState';
 import styled from '@emotion/styled';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Toast } from '../../../components/Toast';
+import { TimeoutToast } from '../../../components/toast';
 
 export const kalkulererToastKey = 'kalkulererToast';
 export const kalkulererFerdigToastKey = 'kalkulererFerdigToast';
@@ -61,11 +61,11 @@ export const KalkulererOverstyringToast = () => {
     if (!overstyringToast) return null;
 
     return (
-        <Toast callback={overstyringToast.callback} timeToLiveMs={overstyringToast.timeToLiveMs}>
+        <TimeoutToast callback={overstyringToast.callback} timeToLiveMs={overstyringToast.timeToLiveMs}>
             <Container>
                 <Tekst>{overstyringToast.message}</Tekst>
                 {overstyringToast.key === kalkulererToastKey && <SpinnerMedMarginTilVenstre transparent type="S" />}
             </Container>
-        </Toast>
+        </TimeoutToast>
     );
 };
