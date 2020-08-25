@@ -57,7 +57,14 @@ const SkjultLenke = styled(Link)`
 
 const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const { fjernVarsler } = useUpdateVarsler();
-    return <SkjultLenke to={`/sykmeldingsperiode/${oppgave.aktørId}`} onClick={fjernVarsler} tabIndex={-1} />;
+    return (
+        <SkjultLenke
+            className="lenke-skjult"
+            to={`/sykmeldingsperiode/${oppgave.aktørId}`}
+            onClick={fjernVarsler}
+            tabIndex={-1}
+        />
+    );
 };
 
 const Sakslenke: React.FunctionComponent<{ oppgave: Oppgave; skjult?: boolean }> = ({ oppgave, skjult, children }) => {
