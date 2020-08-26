@@ -25,7 +25,9 @@ const Oversiktstabell = styled(Tabell)`
 
     tbody tr:hover td {
         background: #e9e7e7;
-        cursor: pointer;
+        &:not(:last-of-type) {
+            cursor: pointer;
+        }
     }
 
     thead tr th > ul {
