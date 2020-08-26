@@ -64,9 +64,7 @@ export const Oversikt = () => {
                 <Tabs />
                 {oppgaver.length > 0 && (
                     <OppgaverTabell
-                        oppgaver={
-                            aktivTab === 'alle' ? [...oppgaver, ...oppgaver] : oppgaver.filter(erTildeltInnloggetBruker)
-                        }
+                        oppgaver={aktivTab === 'alle' ? oppgaver : oppgaver.filter(erTildeltInnloggetBruker)}
                     />
                 )}
             </Content>
