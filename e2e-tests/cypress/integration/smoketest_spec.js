@@ -12,7 +12,7 @@ describe('Oversiktssiden', function () {
     });
 
     it('kan navigere til sykmeldingsperiode', function () {
-        cy.get('.lenke-skjult:first');
+        cy.get('.lenke-skjult:first').click();
         cy.get('.NavigationButtons').should('be.visible');
     });
 
