@@ -23,7 +23,7 @@ const Oversiktstabell = styled(Tabell)`
         border: none;
     }
 
-    tbody tr:hover td > div {
+    tbody tr:hover td {
         background: #e9e7e7;
         cursor: pointer;
     }
