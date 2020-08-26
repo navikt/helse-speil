@@ -24,6 +24,9 @@ const Content = styled(Panel)`
     margin: 1rem;
     padding: 1rem;
     color: #3e3832;
+    overflow: scroll;
+    height: 100%;
+    box-sizing: border-box;
 `;
 
 const Spinner = styled(NavFrontendSpinner)`
