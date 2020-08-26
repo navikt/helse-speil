@@ -7,15 +7,20 @@ import { useLocation } from 'react-router-dom';
 import { PersonContext } from '../../context/PersonContext';
 import { OppgaverContext } from '../../context/OppgaverContext';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
-import { VedtaksstatusToast } from './VedtaksstatusToast';
 import { OppgaverTabell } from './OppgaverTabell';
 import { useEmail } from '../../state/authentication';
 import { Oppgave } from '../../../types';
 import { useRecoilValue } from 'recoil';
 import { Tabs, tabState } from './tabs';
-import { Toast } from '../../components/toast';
+import { Toast } from '../../components/toasts/Toast';
+import { VedtaksstatusBanner } from '../../components/VedtaksstatusBanner';
 
-const Container = styled(Panel)`
+const Container = styled.div`
+    position: relative;
+    overflow: hidden;
+`;
+
+const Content = styled(Panel)`
     margin: 1rem;
     padding: 1rem;
     color: #3e3832;
@@ -41,7 +46,8 @@ export const Oversikt = () => {
     }, [location.key]);
 
     return (
-        <>
+        <Container>
+            <VedtaksstatusBanner />
             <Toast isShowing={isFetchingOppgaver}>
                 Henter oppgaver
                 <Spinner type="XS" />
@@ -51,15 +57,16 @@ export const Oversikt = () => {
                 <Spinner type="XS" />
             </Toast>
             {oppgaverContextError && <Varsel type={Varseltype.Feil}>{oppgaverContextError.message}</Varsel>}
-            <Container>
+            <Content>
                 <Tabs />
                 {oppgaver.length > 0 && (
                     <OppgaverTabell
-                        oppgaver={aktivTab === 'alle' ? oppgaver : oppgaver.filter(erTildeltInnloggetBruker)}
+                        oppgaver={
+                            aktivTab === 'alle' ? [...oppgaver, ...oppgaver] : oppgaver.filter(erTildeltInnloggetBruker)
+                        }
                     />
                 )}
-            </Container>
-            <VedtaksstatusToast />
-        </>
+            </Content>
+        </Container>
     );
 };

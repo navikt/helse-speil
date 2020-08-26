@@ -1,5 +1,5 @@
 import GeneriskVarsel from '@navikt/helse-frontend-varsel';
-import { Varsel as Vaffel, varslerForScope } from '../state/varslerState';
+import { Varsel, varslerForScope } from '../state/varslerState';
 import styled from '@emotion/styled';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
@@ -8,7 +8,8 @@ const Separator = styled.span`
     margin-left: 1rem;
     margin-right: 1rem;
 `;
-const Varsel = ({ varsel }: { varsel?: Vaffel }) => {
+
+const VarselComponent = ({ varsel }: { varsel?: Varsel }) => {
     if (!varsel) return null;
     return (
         <GeneriskVarsel type={varsel.type}>
@@ -28,7 +29,7 @@ export const Varsler = () => {
     return (
         <>
             {varsler.map((varsel) => (
-                <Varsel key={varsel.message} varsel={varsel} />
+                <VarselComponent key={varsel.message} varsel={varsel} />
             ))}
         </>
     );

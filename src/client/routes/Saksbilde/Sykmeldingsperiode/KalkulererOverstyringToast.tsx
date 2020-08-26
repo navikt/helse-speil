@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { ToastObject, toastsState, useFjernEnToast } from '../../../state/toastsState';
 import styled from '@emotion/styled';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { TimeoutToast } from '../../../components/toast';
+import { TimeoutToast } from '../../../components/toasts/TimeoutToast';
 
 export const kalkulererToastKey = 'kalkulererToast';
 export const kalkulererFerdigToastKey = 'kalkulererFerdigToast';

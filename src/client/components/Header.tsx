@@ -13,8 +13,9 @@ const Container = styled.div`
     flex-shrink: 0;
     height: max-content;
     width: 100%;
-    > div {
-        max-width: 100%;
+    > header {
+        max-width: unset;
+        min-width: 100vw;
     }
 `;
 

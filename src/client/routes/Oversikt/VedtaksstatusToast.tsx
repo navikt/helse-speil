@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { ToastObject, toastsState, useFjernEnToast } from '../../state/toastsState';
-import { TimeoutToast } from '../../components/toast';
 import styled from '@emotion/styled';
+import { TimeoutToast } from '../../components/toasts/TimeoutToast';
 
 export const vedtaksstatusToastKey = 'vedtaksstatusToast';
 
