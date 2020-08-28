@@ -4,13 +4,13 @@ import {
     Inntektskilde,
     Kildetype,
     Oppsummering,
+    Periodetype,
     Risikovurdering,
     Simulering,
     Sykepengegrunnlag,
     UferdigVedtaksperiode,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
-    Periodetype,
 } from '../types.internal';
 import dayjs, { Dayjs } from 'dayjs';
 import {
@@ -21,6 +21,7 @@ import {
     SpleisHendelse,
     SpleisHendelsetype,
     SpleisInntektsmelding,
+    SpleisPeriodetype,
     SpleisSimuleringperiode,
     SpleisSimuleringutbetaling,
     SpleisSimuleringutbetalingDetaljer,
@@ -33,7 +34,6 @@ import {
     Utbetaling,
     Utbetalingsdetalj,
     Utbetalingsperiode,
-    SpleisPeriodetype,
 } from './types.external';
 import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
@@ -49,11 +49,8 @@ export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORM
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
 export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
 
-const mapTilstand = (tilstand: SpleisVedtaksperiodetilstand): Vedtaksperiodetilstand => {
-    const vedtaksperiodeTilstand = Vedtaksperiodetilstand[tilstand];
-    if (vedtaksperiodeTilstand === undefined) return Vedtaksperiodetilstand.Ukjent;
-    else return vedtaksperiodeTilstand;
-};
+const mapTilstand = (tilstand: SpleisVedtaksperiodetilstand): Vedtaksperiodetilstand =>
+    Vedtaksperiodetilstand[tilstand] || Vedtaksperiodetilstand.Ukjent;
 
 const mapForlengelseFraInfotrygd = (value: SpleisForlengelseFraInfotrygd): boolean | undefined => {
     switch (value) {
@@ -66,26 +63,28 @@ const mapForlengelseFraInfotrygd = (value: SpleisForlengelseFraInfotrygd): boole
     }
 };
 
-const mapPeriodetype = (spleisPeriode: SpesialistVedtaksperiode): Periodetype => {
-    const periodetype = spleisPeriode.periodetype;
-    if (periodetype) {
-        if (periodetype === SpleisPeriodetype.FØRSTEGANGSBEHANDLING) {
+const mapPeriodetype = (spleisPeriodetype: SpleisPeriodetype): Periodetype => {
+    switch (spleisPeriodetype) {
+        case SpleisPeriodetype.FØRSTEGANGSBEHANDLING:
             return Periodetype.Førstegangsbehandling;
-        } else if (
-            periodetype === SpleisPeriodetype.INFOTRYGDFORLENGELSE ||
-            periodetype === SpleisPeriodetype.OVERGANG_FRA_IT
-        ) {
+        case SpleisPeriodetype.OVERGANG_FRA_IT:
+        case SpleisPeriodetype.INFOTRYGDFORLENGELSE:
             return Periodetype.Infotrygdforlengelse;
-        } else return Periodetype.Forlengelse;
+        case SpleisPeriodetype.FORLENGELSE:
+        default:
+            return Periodetype.Forlengelse;
     }
+};
 
+const erFørstegangsbehandling = (spleisPeriode: SpesialistVedtaksperiode): boolean => {
     const førsteUtbetalingsdag = spleisPeriode.utbetalinger?.arbeidsgiverUtbetaling?.linjer[0].fom ?? dayjs(0);
+    return spleisPeriode.utbetalingstidslinje.some((dag) => dayjs(dag.dato).isSame(førsteUtbetalingsdag));
+};
 
-    const erFørstegangsbehandling = spleisPeriode.utbetalingstidslinje.some((enUtbetalingsdag) =>
-        dayjs(enUtbetalingsdag.dato).isSame(førsteUtbetalingsdag)
-    );
+const periodetypeFraSpleisperiode = (spleisPeriode: SpesialistVedtaksperiode): Periodetype => {
+    if (spleisPeriode.periodetype) return mapPeriodetype(spleisPeriode.periodetype);
 
-    if (erFørstegangsbehandling) {
+    if (erFørstegangsbehandling(spleisPeriode)) {
         return Periodetype.Førstegangsbehandling;
     } else if (spleisPeriode.forlengelseFraInfotrygd === SpleisForlengelseFraInfotrygd.JA) {
         return Periodetype.Infotrygdforlengelse;
@@ -249,7 +248,7 @@ export const mapVedtaksperiode = (
     }));
 
     const forlengelseFraInfotrygd = mapForlengelseFraInfotrygd(unmappedPeriode.forlengelseFraInfotrygd);
-    const periodetype = mapPeriodetype(unmappedPeriode);
+    const periodetype = periodetypeFraSpleisperiode(unmappedPeriode);
 
     const risikovurdering: Risikovurdering | undefined = risikovurderingerForArbeidsgiver
         .map((risikovurdering) => ({ ...risikovurdering, opprettet: somTidspunkt(risikovurdering.opprettet) }))
