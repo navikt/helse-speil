@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import Panel from 'nav-frontend-paneler';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { useLocation } from 'react-router-dom';
-import { PersonContext } from '../../context/PersonContext';
 import { OppgaverContext } from '../../context/OppgaverContext';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { OppgaverTabell } from './OppgaverTabell';
@@ -14,6 +13,7 @@ import { useRecoilValue } from 'recoil';
 import { Tabs, tabState } from './tabs';
 import { Toast } from '../../components/toasts/Toast';
 import { VedtaksstatusBanner } from '../../components/VedtaksstatusBanner';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const Container = styled.div`
     position: relative;
@@ -36,9 +36,10 @@ const Spinner = styled(NavFrontendSpinner)`
 export const Oversikt = () => {
     const email = useEmail();
     const location = useLocation();
-    const { isFetching: isFetchingPersonBySearch } = useContext(PersonContext);
     const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const aktivTab = useRecoilValue(tabState);
+
+    const showToast = useDebounce(isFetchingOppgaver);
 
     const erTildeltInnloggetBruker = (oppgave: Oppgave) => email === oppgave.tildeltTil;
 
@@ -51,12 +52,8 @@ export const Oversikt = () => {
     return (
         <Container>
             <VedtaksstatusBanner />
-            <Toast isShowing={isFetchingOppgaver}>
+            <Toast isShowing={showToast}>
                 Henter oppgaver
-                <Spinner type="XS" />
-            </Toast>
-            <Toast isShowing={isFetchingPersonBySearch}>
-                Henter person
                 <Spinner type="XS" />
             </Toast>
             {oppgaverContextError && <Varsel type={Varseltype.Feil}>{oppgaverContextError.message}</Varsel>}

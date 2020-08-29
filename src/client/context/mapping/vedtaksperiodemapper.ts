@@ -1,3 +1,6 @@
+import dayjs, { Dayjs } from 'dayjs';
+import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
+import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 import {
     Aktivitet,
     Hendelse,
@@ -12,7 +15,6 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from '../types.internal';
-import dayjs, { Dayjs } from 'dayjs';
 import {
     SpesialistRisikovurdering,
     SpesialistVedtaksperiode,
@@ -35,8 +37,6 @@ import {
     Utbetalingsdetalj,
     Utbetalingsperiode,
 } from './types.external';
-import { tilSykdomstidslinje, tilUtbetalingstidslinje } from './dagmapper';
-import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 import {
     alderVilkår,
     dagerIgjenVilkår,

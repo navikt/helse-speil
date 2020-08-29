@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Saksbilde from '../routes/Saksbilde/Saksbilde';
 import { hot } from 'react-hot-loader';
 import { Oversikt } from '../routes/Oversikt';
 import { withContextProviders } from '../context/withContextProviders';
 import { OppgaverProvider } from '../context/OppgaverContext';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { PersonProvider } from '../context/PersonContext';
+import { PersonContext, PersonProvider } from '../context/PersonContext';
 import 'reset-css';
 import './App.less';
 import ProtectedRoute from './ProtectedRoute';
@@ -14,12 +14,27 @@ import { RecoilRoot } from 'recoil';
 import { Varsler } from './Varsler';
 import { useAuthentication } from '../state/authentication';
 import { Header } from './Header';
+import { Toast } from './toasts/Toast';
+import styled from '@emotion/styled';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import { useDebounce } from '../hooks/useDebounce';
+
+const Spinner = styled(NavFrontendSpinner)`
+    margin-left: 1rem;
+`;
 
 const App = withContextProviders(() => {
     useAuthentication();
+    const { isFetching } = useContext(PersonContext);
+
+    const showToast = useDebounce(isFetching);
 
     return (
         <>
+            <Toast isShowing={showToast}>
+                Henter person
+                <Spinner type="XS" />
+            </Toast>
             <Header />
             <Varsler />
             <Switch>

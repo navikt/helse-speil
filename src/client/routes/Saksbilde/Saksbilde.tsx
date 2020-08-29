@@ -21,7 +21,7 @@ import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import Lenkeknapp from '../../components/Lenkeknapp';
 import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
-import { Vedtaksperiode } from '../../context/types.internal';
+import { Arbeidsgiver, Vedtaksperiode } from '../../context/types.internal';
 import { Scopes, useUpdateVarsler, useVarselFilter } from '../../state/varslerState';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
@@ -52,13 +52,14 @@ const SpinnerMedMarginTilVenstre = styled(NavFrontendSpinner)`
     margin-left: 1rem;
 `;
 
-const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string; oppgavererefanse: string }) => {
+const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string; oppgavererefanse?: string }) => {
     const { email } = useRecoilValue(authState);
     const { tildelOppgave } = useOppgavetildeling();
     const { markerPersonSomTildelt } = useContext(PersonContext);
     const [posting, setPosting] = useState(false);
 
     const tildel = () => {
+        if (!oppgavererefanse) return;
         setPosting(true);
         tildelOppgave(oppgavererefanse, email!)
             .then(() => markerPersonSomTildelt(email))
@@ -84,24 +85,15 @@ const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string
     );
 };
 
-const TomtSaksbilde = () => {
-    const { isFetching: isFetchingPerson } = useContext(PersonContext);
-    return (
-        <>
-            {isFetchingPerson && (
-                <LasterInnhold>
-                    <NavFrontendSpinner type="XS" />
-                    Henter person
-                </LasterInnhold>
-            )}
-            <Sakslinje />
-            <Container>
-                <Venstremeny />
-                <Høyremeny />
-            </Container>
-        </>
-    );
-};
+const TomtSaksbilde = () => (
+    <>
+        <Sakslinje />
+        <Container>
+            <Venstremeny />
+            <Høyremeny />
+        </Container>
+    </>
+);
 
 const useGyldigUrlVarsel = () => {
     const { leggTilVarsel } = useUpdateVarsler();
@@ -137,19 +129,21 @@ const useRefetchPersonOnUrlChange = () => {
     }, [aktorId]);
 };
 
+const finnOppgavereferanse = ({ vedtaksperioder }: Arbeidsgiver): string | undefined =>
+    (vedtaksperioder as Vedtaksperiode[]).find(
+        ({ oppgavereferanse }) => oppgavereferanse && oppgavereferanse !== 'null'
+    )?.oppgavereferanse;
+
 const Saksbilde = () => {
     const { toString } = useNavigation();
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    const oppgavereferanse = personTilBehandling && finnOppgavereferanse(personTilBehandling.arbeidsgivere[0]);
 
     useVarselFilter(Scopes.SAKSBILDE);
     useGyldigUrlVarsel();
     useRefetchPersonOnUrlChange();
 
     if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde />;
-
-    const oppgavereferanse = (personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(
-        (v: Vedtaksperiode) => v.oppgavereferanse && v.oppgavereferanse !== 'null'
-    ) as Vedtaksperiode)?.oppgavereferanse;
 
     return (
         <>
