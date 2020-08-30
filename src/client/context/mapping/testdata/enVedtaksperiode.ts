@@ -9,12 +9,15 @@ import {
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
 } from '../types.external';
-import dayjs from 'dayjs';
-import { somDato } from '../vedtaksperiodemapper';
+import { somDato } from '../vedtaksperiode';
 import { ISO_DATOFORMAT } from '../../../utils/date';
 import { defaultUtbetalingstidslinje } from './defaultUtbetalingstidslinje';
 import { defaultSykdomstidslinje } from './defaultSykdomstidslinje';
 import { defaultHendelser } from './defaultHendelser';
+import dayjs from 'dayjs';
+import minMax from 'dayjs/plugin/minMax';
+
+dayjs.extend(minMax);
 
 export const enVedtaksperiode = (
     ekstraDager: SpleisSykdomsdag[] = [],

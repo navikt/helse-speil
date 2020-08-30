@@ -1,4 +1,4 @@
-import { somDato, somTidspunkt } from '../vedtaksperiodemapper';
+import { somDato, somTidspunkt } from '../vedtaksperiode';
 import {
     Dagtype,
     Kildetype,

@@ -1,6 +1,6 @@
-import { tilPerson } from './personmapper';
+import { tilPerson } from './person';
 import { Aktivitet, Dagtype, Kildetype, Vedtaksperiode } from '../types.internal';
-import { somDato, somTidspunkt } from './vedtaksperiodemapper';
+import { somDato, somTidspunkt } from './vedtaksperiode';
 import {
     SpleisSykdomsdag,
     SpleisSykdomsdagkildeType,
@@ -16,19 +16,19 @@ import { enAktivitet } from './testdata/enAktivitetslogg';
 import dayjs from 'dayjs';
 import { ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 
-describe('personmapper', () => {
-    test('mapper person', () => {
-        const person = tilPerson(enPerson(), defaultPersonInfo);
+describe('personmapper', async () => {
+    test('mapper person', async () => {
+        const person = await tilPerson(enPerson(), defaultPersonInfo);
         expect(person).toEqual(mappetPerson);
     });
 
-    test('mapper aktivitetslogg', () => {
+    test('mapper aktivitetslogg', async () => {
         const melding = 'Aktivitetsvarsel';
         const tidsstempel = '2020-01-01T13:37:00.000Z';
         const alvorlighetsgrad = 'W';
         const spleisAktivitet = enAktivitet(melding, tidsstempel, alvorlighetsgrad);
 
-        const person = tilPerson(
+        const person = await tilPerson(
             enPerson([enArbeidsgiver([enVedtaksperiode([], [], [spleisAktivitet])])]),
             defaultPersonInfo
         );
@@ -44,8 +44,8 @@ describe('personmapper', () => {
         expect(aktivitetslog).toContainEqual(expectedAktivitet);
     });
 
-    test('mapper person med flere vedtaksperioder', () => {
-        let person = tilPerson(
+    test('mapper person med flere vedtaksperioder', async () => {
+        let person = await tilPerson(
             enPerson([
                 enArbeidsgiver([
                     enVedtaksperiode(),
@@ -88,7 +88,7 @@ describe('personmapper', () => {
         expect(andreVvedtaksperiode.oppsummering.antallUtbetalingsdager).toEqual(4);
     });
 
-    test('filtrerer vekk paddede arbeidsdager', () => {
+    test('filtrerer vekk paddede arbeidsdager', async () => {
         const ledendeArbeidsdager: SpleisSykdomsdag[] = [
             {
                 dagen: '2019-09-08',
@@ -110,7 +110,7 @@ describe('personmapper', () => {
             },
         ];
 
-        const person = tilPerson(
+        const person = await tilPerson(
             enPerson([enArbeidsgiver([enVedtaksperiode(ledendeArbeidsdager)])]),
             defaultPersonInfo
         );
@@ -124,8 +124,8 @@ describe('personmapper', () => {
         });
     });
 
-    test('Vedtaksperioder sorteres på fom i synkende rekkefølge', () => {
-        const person = tilPerson(
+    test('Vedtaksperioder sorteres på fom i synkende rekkefølge', async () => {
+        const person = await tilPerson(
             enPerson([
                 enArbeidsgiver([
                     enVedtaksperiode([
@@ -149,7 +149,7 @@ describe('personmapper', () => {
         expect(vedtaksperioder[1].fom).toStrictEqual(somDato('2019-09-09'));
     });
 
-    test('mapper overstyring av tidslinje', () => {
+    test('mapper overstyring av tidslinje', async () => {
         const saksbehandlerKildeId = '5B807A30-E197-474F-9AFB-D136649A02DB';
         const overstyrtDato = '2019-10-07';
         const ekstraDager: SpleisSykdomsdag[] = [
@@ -170,7 +170,7 @@ describe('personmapper', () => {
                 },
             },
         ];
-        const person = tilPerson(
+        const person = await tilPerson(
             enPerson([
                 enArbeidsgiver(
                     [enVedtaksperiode(ekstraDager)],
@@ -184,7 +184,7 @@ describe('personmapper', () => {
                                 {
                                     dagtype: SpleisSykdomsdagtype.FERIEDAG,
                                     dato: overstyrtDato,
-                                    grad: null,
+                                    grad: undefined,
                                 },
                             ],
                         },

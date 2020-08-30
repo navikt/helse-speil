@@ -4,10 +4,10 @@ import { PersonContext } from '../../../context/PersonContext';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
-import { finnFørsteVedtaksperiode } from '../../../hooks/finnFørsteVedtaksperiode';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Periodetype } from '../../../context/types.internal';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
+import { førsteVedtaksperiode } from '../../../context/mapping/selectors';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;
@@ -26,7 +26,7 @@ const Inntektskilder = () => {
 
     if (aktivVedtaksperiode === undefined || personTilBehandling === undefined) return null;
 
-    const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
+    const førstePeriode = førsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
     const førsteFraværsdag = aktivVedtaksperiode.vilkår?.dagerIgjen?.førsteFraværsdag
         ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
@@ -39,8 +39,8 @@ const Inntektskilder = () => {
                 ) : (
                     <StyledBehandletInnhold
                         tittel={`Inntekt vurdert første sykdomsdag - ${førsteFraværsdag}`}
-                        saksbehandler={førsteVedtaksperiode?.godkjentAv!}
-                        vurderingsdato={førsteVedtaksperiode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
+                        saksbehandler={førstePeriode?.godkjentAv!}
+                        vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
                     >
                         <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
                     </StyledBehandletInnhold>

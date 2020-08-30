@@ -170,7 +170,7 @@ export interface SpesialistOverstyring {
 export interface SpesialistOverstyringDag {
     dato: string;
     dagtype: SpleisSykdomsdagtype;
-    grad: number | null;
+    grad?: number;
 }
 
 export interface SpesialistArbeidsgiver {
@@ -285,7 +285,7 @@ export interface SpleisAktivitet {
     tidsstempel: string;
 }
 
-interface SpleisUtbetalinger {
+export interface SpleisUtbetalinger {
     arbeidsgiverUtbetaling?: SpleisUtbetaling;
     personUtbetaling?: SpleisUtbetaling;
 }

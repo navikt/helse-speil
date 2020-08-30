@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { arbeidsdagerMellom, daysBetween, findLatest } from './index';
-import { somDato } from '../../context/mapping/vedtaksperiodemapper';
+import { somDato } from '../../context/mapping/vedtaksperiode';
 
 test('daysBetween', () => {
     expect(daysBetween(somDato('2019-04-12'), somDato('2019-04-15'))).toEqual(3);

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Oppgave, OppgaveType, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
-import { somDato } from '../../context/mapping/vedtaksperiodemapper';
+import { somDato } from '../../context/mapping/vedtaksperiode';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';

@@ -1,5 +1,5 @@
-import { Kjønn, Vedtaksperiode, Periodetype, Overstyring } from '../../../context/types.internal';
-import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiodemapper';
+import { Kjønn, Overstyring, Periodetype, Person, Vedtaksperiode } from '../../../context/types.internal';
+import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiode';
 import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
 import dayjs from 'dayjs';
 import { PersonContext } from '../../../context/PersonContext';
@@ -20,33 +20,33 @@ const enPersoninfo = () => ({
     fødselsdato: dayjs(),
 });
 
-const enArbeidsgiver = () => ({
+const enArbeidsgiver = async () => ({
     id: '123',
     navn: 'En bedrift',
     organisasjonsnummer: '123456789',
-    vedtaksperioder: [enSpeilVedtaksperiode()],
+    vedtaksperioder: [await enSpeilVedtaksperiode()],
     overstyringer: new Map<string, Overstyring>(),
 });
 
-const personTilBehandling = {
+const personTilBehandling = async () => ({
     aktørId: '12345',
     fødselsnummer: '12345678901',
-    arbeidsgivere: [enArbeidsgiver()],
+    arbeidsgivere: [await enArbeidsgiver()],
     personinfo: enPersoninfo(),
     infotrygdutbetalinger: [],
     enhet: { id: '', navn: '' },
-};
+});
 
 const vilkårTilVurdering = () => screen.queryByText('Vilkår systemet ikke vurderer');
 const automatiskVurderteVilkår = () => screen.queryByText('Vurderte vilkår');
 const behandletAvInfotrygd = () => screen.queryByText('Behandlet av infotrygd');
 const behandletInnhold = () => screen.queryByText('Behandlet innhold');
 
-const VilkårWrapper = ({ vedtaksperiode = enSpeilVedtaksperiode() }: { vedtaksperiode?: Vedtaksperiode }) => (
+const VilkårWrapper = ({ vedtaksperiode, person }: { vedtaksperiode?: Vedtaksperiode; person: Person }) => (
     <Router history={createMemoryHistory()}>
         <PersonContext.Provider
             value={{
-                personTilBehandling,
+                personTilBehandling: person,
                 markerPersonSomTildelt: (_) => null,
                 hentPerson: (_) => Promise.resolve(undefined),
                 isFetching: false,
@@ -59,36 +59,40 @@ const VilkårWrapper = ({ vedtaksperiode = enSpeilVedtaksperiode() }: { vedtaksp
     </Router>
 );
 
-describe('Vilkår', () => {
-    describe('ubehandlet - ', () => {
-        test('ubehandlet skal ha automatisk vurderte vilkår og vilkår til vurdering', () => {
-            render(<VilkårWrapper />);
+describe('Vilkår', async () => {
+    describe('ubehandlet', async () => {
+        test('skal ha automatisk vurderte vilkår og vilkår til vurdering', async () => {
+            render(
+                <VilkårWrapper person={await personTilBehandling()} vedtaksperiode={await enSpeilVedtaksperiode()} />
+            );
 
             expect(vilkårTilVurdering()).toBeInTheDocument();
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
             expect(behandletInnhold()).not.toBeInTheDocument();
             expect(behandletAvInfotrygd()).not.toBeInTheDocument();
         });
-        test('ubehandlet påfølgende skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet innhold', () => {
-            const vedtaksperiode = enSpeilVedtaksperiode();
+        test('påfølgende skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet innhold', async () => {
+            const person = await personTilBehandling();
+            const vedtaksperiode = await enSpeilVedtaksperiode();
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 periodetype: Periodetype.Forlengelse,
             };
-            render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
+            render(<VilkårWrapper person={person} vedtaksperiode={aktivVedtaksperiode} />);
 
             expect(vilkårTilVurdering()).toBeInTheDocument();
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
             expect(behandletInnhold()).toBeInTheDocument();
             expect(behandletAvInfotrygd()).not.toBeInTheDocument();
         });
-        test('ubehandlet påfølgende infotrygd skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet av infotrygd', () => {
-            const vedtaksperiode = enSpeilVedtaksperiode();
+        test('påfølgende infotrygd skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet av infotrygd', async () => {
+            const person = await personTilBehandling();
+            const vedtaksperiode = await enSpeilVedtaksperiode();
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 periodetype: Periodetype.Infotrygdforlengelse,
             };
-            render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
+            render(<VilkårWrapper person={person} vedtaksperiode={aktivVedtaksperiode} />);
 
             expect(vilkårTilVurdering()).toBeInTheDocument();
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
@@ -97,42 +101,45 @@ describe('Vilkår', () => {
         });
     });
 
-    describe('behandlet - ', () => {
-        test('behandlet skal ha behandlet innhold', () => {
-            const vedtaksperiode = enSpeilVedtaksperiode();
+    describe('behandlet', async () => {
+        test('skal ha behandlet innhold', async () => {
+            const person = await personTilBehandling();
+            const vedtaksperiode = await enSpeilVedtaksperiode();
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 behandlet: true,
             };
-            render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
+            render(<VilkårWrapper person={person} vedtaksperiode={aktivVedtaksperiode} />);
 
             expect(vilkårTilVurdering()).not.toBeInTheDocument();
             expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
             expect(behandletInnhold()).toBeInTheDocument();
             expect(behandletAvInfotrygd()).not.toBeInTheDocument();
         });
-        test('behandlet påfølgende skal ha behandlet innhold', () => {
-            const vedtaksperiode = enSpeilVedtaksperiode();
+        test('påfølgende skal ha behandlet innhold', async () => {
+            const person = await personTilBehandling();
+            const vedtaksperiode = await enSpeilVedtaksperiode();
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 behandlet: true,
                 periodetype: Periodetype.Forlengelse,
             };
-            render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
+            render(<VilkårWrapper person={person} vedtaksperiode={aktivVedtaksperiode} />);
 
             expect(vilkårTilVurdering()).not.toBeInTheDocument();
             expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
             expect(behandletInnhold()).toBeInTheDocument();
             expect(behandletAvInfotrygd()).not.toBeInTheDocument();
         });
-        test('behandlet infotrygd skal ha behandlet innhold og behandlet av infotrygd', () => {
-            const vedtaksperiode = enSpeilVedtaksperiode();
+        test('infotrygd skal ha behandlet innhold og behandlet av infotrygd', async () => {
+            const person = await personTilBehandling();
+            const vedtaksperiode = await enSpeilVedtaksperiode();
             const aktivVedtaksperiode = {
                 ...vedtaksperiode,
                 forlengelseFraInfotrygd: true,
                 behandlet: true,
             };
-            render(<VilkårWrapper vedtaksperiode={aktivVedtaksperiode} />);
+            render(<VilkårWrapper person={person} vedtaksperiode={aktivVedtaksperiode} />);
 
             expect(vilkårTilVurdering()).not.toBeInTheDocument();
             expect(automatiskVurderteVilkår()).not.toBeInTheDocument();

@@ -1,5 +1,5 @@
 import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useState } from 'react';
-import { tilPerson } from './mapping/personmapper';
+import { tilPerson } from './mapping/person';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from './types.internal';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
@@ -64,7 +64,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                               ...response.data,
                           }))
                         : undefined;
-                const person: Person = tilPerson(spesialistPerson, personinfoFraSparkel);
+                const person: Person = await tilPerson(spesialistPerson, personinfoFraSparkel);
                 setPersonTilBehandling(person);
                 return person;
             })

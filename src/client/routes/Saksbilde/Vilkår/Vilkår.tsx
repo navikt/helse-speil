@@ -5,12 +5,12 @@ import styled from '@emotion/styled';
 import { BehandletVedtaksperiode, BehandletVedtaksperiodeFraInfotrygd } from './BehandletVedtaksperiode';
 import { PåfølgendeVedtaksperiode } from './PåfølgendeVedtaksperiode';
 import { Førstegangsbehandling } from './UbehandletVedtaksperiode';
-import { finnFørsteVedtaksperiode } from '../../../hooks/finnFørsteVedtaksperiode';
 import Aktivitetsplikt from './Aktivitetsplikt';
-import { Vilkårstype } from '../../../context/mapping/vilkårsmapper';
+import { Vilkårstype } from '../../../context/mapping/vilkår';
 import { Vedtaksperiode, Periodetype } from '../../../context/types.internal';
 import { useVilkår, VurderteVilkår } from '../../../hooks/useVilkår';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
+import { førsteVedtaksperiode } from '../../../context/mapping/selectors';
 
 const Footer = styled(NavigationButtons)`
     margin: 2.5rem 2rem 2rem;
@@ -85,14 +85,14 @@ const Vilkår = () => {
 
     if (!aktivVedtaksperiode || vilkår === undefined || personTilBehandling === undefined) return null;
 
-    const førsteVedtaksperiode = finnFørsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
+    const førstePeriode = førsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
     return (
         <>
             <ErrorBoundary sidenavn="Vilkår">
                 <Vilkårsvisning
                     vilkår={vilkår}
                     aktivVedtaksperiode={aktivVedtaksperiode}
-                    førsteVedtaksperiode={førsteVedtaksperiode}
+                    førsteVedtaksperiode={førstePeriode}
                 />
                 <Aktivitetsplikt />
             </ErrorBoundary>

@@ -1,6 +1,6 @@
 import { Alder, DagerIgjen, Opptjening, SykepengegrunnlagVilkår, Søknadsfrist, Vilkår } from '../types.internal';
-import { SpleisVilkår } from './types.external';
-import { somDato, somKanskjeDato } from './vedtaksperiodemapper';
+import { SpesialistVedtaksperiode, SpleisForlengelseFraInfotrygd, SpleisVilkår } from './types.external';
+import { somDato, somKanskjeDato } from './vedtaksperiode';
 
 export enum Vilkårstype {
     Alder,
@@ -15,18 +15,18 @@ export interface VurdertVilkår {
     vilkår: Vilkårstype;
 }
 
-export const alderVilkår = (vilkår: SpleisVilkår): Alder => ({
+const alderVilkår = (vilkår: SpleisVilkår): Alder => ({
     alderSisteSykedag: vilkår.alder.alderSisteSykedag,
     oppfylt: vilkår.alder.oppfylt,
 });
 
-export const sykepengegrunnlagVilkår = (vilkår: SpleisVilkår): SykepengegrunnlagVilkår => ({
+const sykepengegrunnlagVilkår = (vilkår: SpleisVilkår): SykepengegrunnlagVilkår => ({
     sykepengegrunnlag: vilkår.sykepengegrunnlag.sykepengegrunnlag,
     oppfylt: vilkår.sykepengegrunnlag.oppfylt,
     grunnebeløp: vilkår.sykepengegrunnlag.grunnbeløp,
 });
 
-export const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
+const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
     dagerBrukt: vilkår.sykepengedager.forbrukteSykedager,
     førsteFraværsdag: somDato(vilkår.sykepengedager.førsteFraværsdag),
     førsteSykepengedag: somKanskjeDato(vilkår.sykepengedager.førsteSykepengedag),
@@ -36,7 +36,7 @@ export const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
     tidligerePerioder: [],
 });
 
-export const søknadsfristVilkår = (vilkår: SpleisVilkår): Søknadsfrist | undefined =>
+const søknadsfristVilkår = (vilkår: SpleisVilkår): Søknadsfrist | undefined =>
     vilkår.søknadsfrist !== undefined
         ? {
               sendtNav: somDato(vilkår.søknadsfrist.sendtNav),
@@ -46,7 +46,7 @@ export const søknadsfristVilkår = (vilkår: SpleisVilkår): Søknadsfrist | un
           }
         : undefined;
 
-export const opptjeningVilkår = (vilkår: SpleisVilkår): Opptjening | undefined =>
+const opptjeningVilkår = (vilkår: SpleisVilkår): Opptjening | undefined =>
     vilkår.opptjening !== undefined && vilkår.opptjening !== null
         ? {
               antallOpptjeningsdagerErMinst: vilkår.opptjening.antallKjenteOpptjeningsdager,
@@ -55,25 +55,15 @@ export const opptjeningVilkår = (vilkår: SpleisVilkår): Opptjening | undefine
           }
         : undefined;
 
-export const mapVilkår = (vilkår: Vilkår): VurdertVilkår[] => [
-    {
-        vilkår: Vilkårstype.Alder,
-        oppfylt: vilkår.alder.oppfylt!,
-    },
-    {
-        vilkår: Vilkårstype.Søknadsfrist,
-        oppfylt: vilkår.søknadsfrist?.oppfylt!,
-    },
-    {
-        vilkår: Vilkårstype.Opptjeningstid,
-        oppfylt: vilkår.opptjening?.oppfylt!,
-    },
-    {
-        vilkår: Vilkårstype.KravTilSykepengegrunnlag,
-        oppfylt: vilkår.sykepengegrunnlag.oppfylt!,
-    },
-    {
-        vilkår: Vilkårstype.DagerIgjen,
-        oppfylt: vilkår.dagerIgjen?.oppfylt!,
-    },
-];
+export const mapVilkår = (unmapped: SpesialistVedtaksperiode): Vilkår | undefined =>
+    (unmapped.vilkår && {
+        alder: alderVilkår(unmapped.vilkår),
+        dagerIgjen: dagerIgjenVilkår(unmapped.vilkår),
+        opptjening:
+            unmapped.forlengelseFraInfotrygd === SpleisForlengelseFraInfotrygd.JA
+                ? { oppfylt: true }
+                : opptjeningVilkår(unmapped.vilkår),
+        søknadsfrist: søknadsfristVilkår(unmapped.vilkår),
+        sykepengegrunnlag: sykepengegrunnlagVilkår(unmapped.vilkår),
+    }) ??
+    undefined;

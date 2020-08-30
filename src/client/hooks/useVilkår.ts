@@ -1,9 +1,9 @@
 import { ReactNode, useContext } from 'react';
 import { PersonContext } from '../context/PersonContext';
-import { mapVilkår, Vilkårstype, VurdertVilkår } from '../context/mapping/vilkårsmapper';
+import { Vilkårstype, VurdertVilkår } from '../context/mapping/vilkår';
 import { IkkeVurdertVilkår } from '../routes/Saksbilde/Vilkår/Vilkårsgrupper/IkkeVurderteVilkår';
 import { Vilkårdata } from '../routes/Saksbilde/Vilkår/Vilkår';
-import { Opptjening, Vilkår as IVilkår } from '../context/types.internal';
+import { Opptjening, Vilkår } from '../context/types.internal';
 import {
     alder,
     dagerIgjen,
@@ -18,7 +18,30 @@ export interface VurderteVilkår {
     ikkeVurderteVilkår: IkkeVurdertVilkår[];
 }
 
-const tilVilkårsgruppe = (vurdertVilkår: VurdertVilkår, vilkår: IVilkår): ReactNode => {
+const mapVilkår = (vilkår: Vilkår): VurdertVilkår[] => [
+    {
+        vilkår: Vilkårstype.Alder,
+        oppfylt: vilkår.alder.oppfylt!,
+    },
+    {
+        vilkår: Vilkårstype.Søknadsfrist,
+        oppfylt: vilkår.søknadsfrist?.oppfylt!,
+    },
+    {
+        vilkår: Vilkårstype.Opptjeningstid,
+        oppfylt: vilkår.opptjening?.oppfylt!,
+    },
+    {
+        vilkår: Vilkårstype.KravTilSykepengegrunnlag,
+        oppfylt: vilkår.sykepengegrunnlag.oppfylt!,
+    },
+    {
+        vilkår: Vilkårstype.DagerIgjen,
+        oppfylt: vilkår.dagerIgjen?.oppfylt!,
+    },
+];
+
+const tilVilkårsgruppe = (vurdertVilkår: VurdertVilkår, vilkår: Vilkår): ReactNode => {
     switch (vurdertVilkår.vilkår) {
         case Vilkårstype.Alder:
             return alder(vilkår.alder);

@@ -8,7 +8,7 @@ import {
     Hendelsetype as LoggType,
     LoggProvider,
 } from '@navikt/helse-frontend-logg';
-import { somDato } from './mapping/vedtaksperiodemapper';
+import { somDato } from './mapping/vedtaksperiode';
 import styled from '@emotion/styled';
 
 interface LoggProviderProps {
