@@ -23,11 +23,13 @@ import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
 
+type UnmappedPeriode = SpesialistVedtaksperiode & {
+    organisasjonsnummer: string;
+    risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[];
+};
+
 type PartialMappingResult = {
-    unmapped: SpesialistVedtaksperiode & {
-        organisasjonsnummer: string;
-        risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[];
-    };
+    unmapped: UnmappedPeriode;
     partial: Partial<Vedtaksperiode>;
 };
 
@@ -44,7 +46,7 @@ const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined 
 
 const somÅrsinntekt = (inntekt?: number): number | undefined => somInntekt(inntekt, 12);
 
-const withoutLeadingArbeidsdager = (unmapped: SpesialistVedtaksperiode): SpesialistVedtaksperiode => {
+const withoutLeadingArbeidsdager = (unmapped: UnmappedPeriode): UnmappedPeriode => {
     const arbeidsdagEllerImplisittDag = (dag: SpleisSykdomsdag) =>
         dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING ||
         dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD ||
@@ -279,16 +281,9 @@ const appendSykepengegrunnlag = ({ unmapped, partial }: PartialMappingResult): P
 
 const finalize = (partialResult: PartialMappingResult): Vedtaksperiode => partialResult.partial as Vedtaksperiode;
 
-export const mapVedtaksperiode = async (
-    unmappedPeriode: SpesialistVedtaksperiode,
-    organisasjonsnummer: string,
-    risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[]
-): Promise<Vedtaksperiode> => {
-    const spesialistperiode = withoutLeadingArbeidsdager(unmappedPeriode);
-    return appendUnmappedFields({
-        unmapped: { ...spesialistperiode, organisasjonsnummer, risikovurderingerForArbeidsgiver },
-        partial: {},
-    })
+export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<Vedtaksperiode> => {
+    const spesialistperiode = withoutLeadingArbeidsdager(unmapped);
+    return appendUnmappedFields({ unmapped: spesialistperiode, partial: {} })
         .then(appendVilkår)
         .then(appendTilstand)
         .then(appendHendelser)

@@ -1,9 +1,9 @@
 import { PersoninfoFraSparkel } from '../../../types';
 import { somDato } from './vedtaksperiode';
-import { Kjønn, Person, Vedtaksperiode } from '../types.internal';
+import { Kjønn, Person } from '../types.internal';
 import { SpesialistPerson } from './types.external';
-import { tilInfotrygdutbetalinger } from './infotrygd';
-import { tilArbeidsgivere } from './arbeidsgiver';
+import { mapInfotrygdutbetalinger } from './infotrygd';
+import { mapArbeidsgivere } from './arbeidsgiver';
 
 type PartialMappingResult = {
     unmapped: SpesialistPerson & {
@@ -45,7 +45,7 @@ const appendArbeidsgivere = async ({ unmapped, partial }: PartialMappingResult):
         unmapped,
         partial: {
             ...partial,
-            arbeidsgivere: await tilArbeidsgivere(unmapped),
+            arbeidsgivere: await mapArbeidsgivere(unmapped),
         },
     });
 
@@ -57,7 +57,7 @@ const appendInfotrygdutbetalinger = async ({
         unmapped,
         partial: {
             ...partial,
-            infotrygdutbetalinger: tilInfotrygdutbetalinger(unmapped),
+            infotrygdutbetalinger: mapInfotrygdutbetalinger(unmapped),
         },
     });
 

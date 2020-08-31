@@ -7,7 +7,12 @@ import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiode';
 import dayjs from 'dayjs';
 import { Kjønn, Overstyring } from '../../context/types.internal';
 
-const enSpeilVedtaksperiode = () => mapVedtaksperiode(enVedtaksperiode(), '123456789', []);
+const enSpeilVedtaksperiode = () =>
+    mapVedtaksperiode({
+        ...enVedtaksperiode(),
+        organisasjonsnummer: '123456789',
+        risikovurderingerForArbeidsgiver: [],
+    });
 
 const enPersoninfo = () => ({
     fornavn: 'Kari',

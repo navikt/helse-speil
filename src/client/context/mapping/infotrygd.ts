@@ -21,7 +21,7 @@ export const tilTypetekst = (
     }
 };
 
-export const tilInfotrygdutbetalinger = (person: SpesialistPerson): Infotrygdutbetaling[] =>
+export const mapInfotrygdutbetalinger = (person: SpesialistPerson): Infotrygdutbetaling[] =>
     person.infotrygdutbetalinger
         ?.filter((utbetaling) => utbetaling.typetekst !== SpesialistInfotrygdtypetekst.TILBAKEFØRT)
         .map((utbetaling) => ({
