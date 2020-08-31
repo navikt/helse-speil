@@ -1,33 +1,79 @@
 import { PersoninfoFraSparkel } from '../../../types';
 import { somDato } from './vedtaksperiode';
-import { Kjønn, Person, Personinfo } from '../types.internal';
+import { Kjønn, Person, Vedtaksperiode } from '../types.internal';
 import { SpesialistPerson } from './types.external';
 import { tilInfotrygdutbetalinger } from './infotrygd';
 import { tilArbeidsgivere } from './arbeidsgiver';
 
-const tilPersoninfo = (person: SpesialistPerson, info?: PersoninfoFraSparkel): Personinfo => ({
-    fornavn: person.personinfo.fornavn,
-    mellomnavn: person.personinfo.mellomnavn,
-    etternavn: person.personinfo.etternavn,
-    fødselsdato: somDato(info?.fødselsdato ?? person.personinfo.fødselsdato!),
-    kjønn: (info?.kjønn ?? person.personinfo.kjønn) as Kjønn,
-    fnr: info?.fnr ?? person.fødselsnummer,
-});
+type PartialMappingResult = {
+    unmapped: SpesialistPerson & {
+        personinfoFraSparkel?: PersoninfoFraSparkel;
+    };
+    partial: Partial<Person>;
+};
 
-const tilPersonMedInfo = async (person: SpesialistPerson, personinfo: Personinfo): Promise<Person> => ({
-    aktørId: person.aktørId,
-    fødselsnummer: person.fødselsnummer,
-    arbeidsgivere: await tilArbeidsgivere(person),
-    personinfo,
-    infotrygdutbetalinger: tilInfotrygdutbetalinger(person),
-    enhet: person.enhet,
-    tildeltTil: person.tildeltTil ?? undefined,
-});
+const appendUnmappedData = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
+    Promise.resolve({
+        unmapped,
+        partial: {
+            ...partial,
+            enhet: unmapped.enhet,
+            aktørId: unmapped.aktørId,
+            tildeltTil: unmapped.tildeltTil ?? undefined,
+            fødselsnummer: unmapped.fødselsnummer,
+        },
+    });
+
+const appendPersoninfo = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
+    Promise.resolve({
+        unmapped,
+        partial: {
+            ...partial,
+            personinfo: {
+                fornavn: unmapped.personinfo.fornavn,
+                mellomnavn: unmapped.personinfo.mellomnavn,
+                etternavn: unmapped.personinfo.etternavn,
+                fødselsdato: somDato(unmapped.personinfoFraSparkel?.fødselsdato ?? unmapped.personinfo.fødselsdato!),
+                kjønn: (unmapped.personinfoFraSparkel?.kjønn ?? unmapped.personinfo.kjønn) as Kjønn,
+                fnr: unmapped.personinfoFraSparkel?.fnr ?? unmapped.fødselsnummer,
+            },
+        },
+    });
+
+const appendArbeidsgivere = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
+    Promise.resolve({
+        unmapped,
+        partial: {
+            ...partial,
+            arbeidsgivere: await tilArbeidsgivere(unmapped),
+        },
+    });
+
+const appendInfotrygdutbetalinger = async ({
+    unmapped,
+    partial,
+}: PartialMappingResult): Promise<PartialMappingResult> =>
+    Promise.resolve({
+        unmapped,
+        partial: {
+            ...partial,
+            infotrygdutbetalinger: tilInfotrygdutbetalinger(unmapped),
+        },
+    });
+
+const finalize = (partialResult: PartialMappingResult): Person => partialResult.partial as Person;
 
 // Optional personinfo fra Sparkel kan fjernes når vi ikke lenger
 // kan komme til å hente person fra Spesialist som mangler kjønn
 // (og fødselsdato, som vi ikke bruker ennå)
-export const tilPerson = (person: SpesialistPerson, personinfoFraSparkel?: PersoninfoFraSparkel): Promise<Person> => {
-    const personinfo = tilPersoninfo(person, personinfoFraSparkel);
-    return tilPersonMedInfo(person, personinfo);
+export const mapPerson = async (
+    person: SpesialistPerson,
+    personinfoFraSparkel?: PersoninfoFraSparkel
+): Promise<Person> => {
+    const unmapped = { ...person, personinfoFraSparkel };
+    return appendUnmappedData({ unmapped, partial: {} })
+        .then(appendPersoninfo)
+        .then(appendArbeidsgivere)
+        .then(appendInfotrygdutbetalinger)
+        .then(finalize);
 };

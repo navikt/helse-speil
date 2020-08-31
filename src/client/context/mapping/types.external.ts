@@ -141,9 +141,9 @@ export interface SpesialistPerson {
     fødselsnummer: string;
     arbeidsgivere: SpesialistArbeidsgiver[];
     personinfo: SpesialistPersoninfo;
-    infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
     enhet: Enhet;
     tildeltTil: string | null;
+    infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
 }
 
 interface Enhet {

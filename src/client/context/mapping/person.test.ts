@@ -1,4 +1,4 @@
-import { tilPerson } from './person';
+import { mapPerson } from './person';
 import { Aktivitet, Dagtype, Kildetype, Vedtaksperiode } from '../types.internal';
 import { somDato, somTidspunkt } from './vedtaksperiode';
 import {
@@ -18,7 +18,7 @@ import { ISO_TIDSPUNKTFORMAT } from '../../utils/date';
 
 describe('personmapper', async () => {
     test('mapper person', async () => {
-        const person = await tilPerson(enPerson(), defaultPersonInfo);
+        const person = await mapPerson(enPerson(), defaultPersonInfo);
         expect(person).toEqual(mappetPerson);
     });
 
@@ -28,7 +28,7 @@ describe('personmapper', async () => {
         const alvorlighetsgrad = 'W';
         const spleisAktivitet = enAktivitet(melding, tidsstempel, alvorlighetsgrad);
 
-        const person = await tilPerson(
+        const person = await mapPerson(
             enPerson([enArbeidsgiver([enVedtaksperiode([], [], [spleisAktivitet])])]),
             defaultPersonInfo
         );
@@ -45,7 +45,7 @@ describe('personmapper', async () => {
     });
 
     test('mapper person med flere vedtaksperioder', async () => {
-        let person = await tilPerson(
+        let person = await mapPerson(
             enPerson([
                 enArbeidsgiver([
                     enVedtaksperiode(),
@@ -110,7 +110,7 @@ describe('personmapper', async () => {
             },
         ];
 
-        const person = await tilPerson(
+        const person = await mapPerson(
             enPerson([enArbeidsgiver([enVedtaksperiode(ledendeArbeidsdager)])]),
             defaultPersonInfo
         );
@@ -125,7 +125,7 @@ describe('personmapper', async () => {
     });
 
     test('Vedtaksperioder sorteres på fom i synkende rekkefølge', async () => {
-        const person = await tilPerson(
+        const person = await mapPerson(
             enPerson([
                 enArbeidsgiver([
                     enVedtaksperiode([
@@ -170,7 +170,7 @@ describe('personmapper', async () => {
                 },
             },
         ];
-        const person = await tilPerson(
+        const person = await mapPerson(
             enPerson([
                 enArbeidsgiver(
                     [enVedtaksperiode(ekstraDager)],

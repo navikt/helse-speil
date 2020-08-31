@@ -285,7 +285,7 @@ export const mapVedtaksperiode = async (
     risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[]
 ): Promise<Vedtaksperiode> => {
     const spesialistperiode = withoutLeadingArbeidsdager(unmappedPeriode);
-    return await appendUnmappedFields({
+    return appendUnmappedFields({
         unmapped: { ...spesialistperiode, organisasjonsnummer, risikovurderingerForArbeidsgiver },
         partial: {},
     })
