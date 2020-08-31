@@ -48,6 +48,9 @@ const filenameForPersonId = (id: string) => {
         case '1234':
         case '01010025678':
             return 'mock-person_til-utbetaling.json';
+        case '12345':
+        case '01010025676':
+            return 'durek_med-overstyringer.json';
         default:
             return 'mock-person_3perioder_første_periode_kort.json';
     }
