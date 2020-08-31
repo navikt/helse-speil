@@ -8,6 +8,8 @@ import { PersonContext } from '../../../context/PersonContext';
 import { dato, gradering, ikon, kilde, tomCelle, type } from '../../../components/tabell/rader';
 import { Dagtype } from '../../../context/types.internal';
 import { Tabell } from '@navikt/helse-frontend-tabell';
+import classNames from 'classnames';
+import Infoikon from '../../../components/Ikon/Infoikon';
 
 const Periodetabell = styled(Tabell)`
     thead,
@@ -22,6 +24,11 @@ const HøyrestiltContainer = styled.div`
     justify-content: flex-end;
 `;
 
+const OverstyrtInfoIkon = styled(Infoikon)`
+    display: flex;
+    margin-right: -1rem;
+`;
+
 interface SykmeldingsperiodetabellProps {
     toggleOverstyring: () => void;
 }
@@ -33,10 +40,19 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
     const tabellbeskrivelse = `Sykmeldingsperiode fra ${fom} til ${tom}`;
 
     const rader =
-        aktivVedtaksperiode?.sykdomstidslinje.map((dag) => ({
-            celler: [tomCelle(), dato(dag), ikon(dag), type(dag), gradering(dag), kilde(dag)],
-            className: dag.type === Dagtype.Helg ? 'disabled' : undefined,
-        })) ?? [];
+        aktivVedtaksperiode?.sykdomstidslinje.map((dag) => {
+            const overstyrt = aktivVedtaksperiode?.overstyringer.find((overstyring) =>
+                overstyring.overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato))
+            );
+            const førsteCelle = () => (overstyrt ? <OverstyrtInfoIkon size={20} /> : tomCelle());
+            return {
+                celler: [førsteCelle(), dato(dag), ikon(dag), type(dag), gradering(dag), kilde(dag)],
+                className: classNames({
+                    disabled: dag.type === Dagtype.Helg,
+                    overstyrt: overstyrt,
+                }),
+            };
+        }) ?? [];
 
     const headere = [
         '',

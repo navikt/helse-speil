@@ -12,6 +12,7 @@ import { Router } from 'react-router';
 
 const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
+        overstyringer: [],
         ...enVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],

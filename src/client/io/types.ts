@@ -1,8 +1,14 @@
-import { OverstyrtDag } from '../context/types.internal';
+import { Dagtype } from '../context/types.internal';
 
 export interface Options {
     method?: string;
     headers?: { [key: string]: any };
+}
+
+export interface OverstyrtDagDTO {
+    dato: string;
+    type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
+    grad?: number;
 }
 
 export interface OverstyringDTO {
@@ -10,7 +16,7 @@ export interface OverstyringDTO {
     fødselsnummer: string;
     organisasjonsnummer: string;
     begrunnelse: string;
-    dager: OverstyrtDag[];
+    dager: OverstyrtDagDTO[];
     unntaFraInnsyn: boolean;
 }
 

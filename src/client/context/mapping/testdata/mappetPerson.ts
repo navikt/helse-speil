@@ -479,6 +479,7 @@ export const mappetPerson: Person = {
                     forlengelseFraInfotrygd: false,
                     periodetype: Periodetype.Førstegangsbehandling,
                     behandlet: false,
+                    overstyringer: [],
                 },
             ],
         },

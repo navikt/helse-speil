@@ -20,6 +20,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { getOppgavereferanse, postOverstyring } from '../../../io/http';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from './KalkulererOverstyringToast';
+import { OverstyrtDagDTO } from '../../../io/types';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead,
@@ -56,7 +57,7 @@ const tilOverstyrtDagtype = (type: Dagtype): 'Sykedag' | 'Feriedag' | 'Egenmeldi
     }
 };
 
-const tilOverstyrteDager = (dager: Sykdomsdag[]) =>
+const tilOverstyrteDager = (dager: Sykdomsdag[]): OverstyrtDagDTO[] =>
     dager.map((dag) => ({
         dato: dag.dato.format('YYYY-MM-DD'),
         type: tilOverstyrtDagtype(dag.type),

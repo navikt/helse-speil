@@ -16,8 +16,10 @@ import { defaultSykdomstidslinje } from './defaultSykdomstidslinje';
 import { defaultHendelser } from './defaultHendelser';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 
 dayjs.extend(minMax);
+dayjs.extend(isSameOrAfter);
 
 export const enVedtaksperiode = (
     ekstraDager: SpleisSykdomsdag[] = [],

@@ -68,6 +68,7 @@ const vedtaksperiodeMedTilstand = async (tilstand: Vedtaksperiodetilstand) => ({
 
 const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
+        overstyringer: [],
         ...enVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],

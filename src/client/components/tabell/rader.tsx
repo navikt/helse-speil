@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from '../../context/types.internal';
+import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../../context/types.internal';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { IkonEgenmelding } from './ikoner/IkonEgenmelding';
 import { IkonSyk } from './ikoner/IkonSyk';
@@ -87,12 +87,14 @@ export const kilde = (dag: Sykdomsdag) => {
     if (dag.type === Dagtype.Helg) return null;
     const label = (() => {
         switch (dag.kilde) {
-            case 'Sykmelding':
+            case Kildetype.Sykmelding:
                 return <KildeLabel>SM</KildeLabel>;
-            case 'Søknad':
+            case Kildetype.Søknad:
                 return <KildeLabel>SØ</KildeLabel>;
-            case 'Inntektsmelding':
+            case Kildetype.Inntektsmelding:
                 return <KildeLabel>IM</KildeLabel>;
+            case Kildetype.Saksbehandler:
+                return <Overstyrtikon />;
             default:
                 return null;
         }

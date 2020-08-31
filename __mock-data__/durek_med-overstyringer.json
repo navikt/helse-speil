@@ -684,7 +684,7 @@
                             "dagen": "2018-02-06",
                             "type": "FERIEDAG",
                             "kilde": {
-                                "type": "OverstyrTidslinje"
+                                "type": "Saksbehandler"
                             },
                             "grad": 100.0
                         },
@@ -692,7 +692,7 @@
                             "dagen": "2018-02-07",
                             "type": "FERIEDAG",
                             "kilde": {
-                                "type": "OverstyrTidslinje"
+                                "type": "Saksbehandler"
                             },
                             "grad": 100.0
                         },
@@ -831,12 +831,12 @@
                     "timestamp": "2018-03-01T00:00:00",
                     "overstyrteDager": [
                         {
-                            "dato": "2020-02-06",
+                            "dato": "2018-02-06",
                             "dagtype": "Feriedag",
                             "grad": 100
                         },
                         {
-                            "dato": "2020-02-07",
+                            "dato": "2018-02-07",
                             "dagtype": "Feriedag",
                             "grad": 100
                         }

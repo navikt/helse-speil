@@ -109,6 +109,8 @@ const hendelseTypeGammel = (type: SpleisSykdomsdagtype): Kildetype | undefined =
 
 const hendelseType = (kilde: SpleisSykdomsdagkilde | undefined): Kildetype | undefined => {
     switch (kilde?.type) {
+        case SpleisSykdomsdagkildeType.SAKSBEHANDLER:
+            return Kildetype.Saksbehandler;
         case SpleisSykdomsdagkildeType.INNTEKTSMELDING:
             return Kildetype.Inntektsmelding;
         case SpleisSykdomsdagkildeType.SØKNAD:

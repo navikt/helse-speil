@@ -72,6 +72,7 @@ export enum Kildetype {
     Sykmelding = 'Sykmelding',
     Søknad = 'Søknad',
     Inntektsmelding = 'Inntektsmelding',
+    Saksbehandler = 'Saksbehandler',
 }
 
 export interface Søknad {
@@ -187,6 +188,7 @@ export interface Vedtaksperiode {
     hendelser: Hendelse[];
     aktivitetslog: Aktivitet[];
     risikovurdering?: Risikovurdering;
+    overstyringer: Overstyring[];
 }
 
 export interface Utbetalinger {
@@ -288,7 +290,7 @@ export interface Overstyring {
 }
 
 export interface OverstyrtDag {
-    dato: string;
+    dato: Dayjs;
     type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
     grad?: number;
 }

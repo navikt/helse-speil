@@ -38,15 +38,6 @@ const Hovedinnhold = styled.div`
     flex: 1;
     overflow-x: scroll;
 `;
-const LasterInnhold = styled.div`
-    display: flex;
-    align-items: center;
-    margin-left: 2rem;
-    height: 5rem;
-    svg {
-        margin: 0 0.6rem 0;
-    }
-`;
 
 const SpinnerMedMarginTilVenstre = styled(NavFrontendSpinner)`
     margin-left: 1rem;

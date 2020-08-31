@@ -34,6 +34,7 @@ const appendVedtaksperioder = async ({ unmapped, partial }: PartialMappingResult
                               ...periode,
                               organisasjonsnummer: unmapped.organisasjonsnummer,
                               risikovurderingerForArbeidsgiver: unmapped.risikovurderinger ?? [],
+                              overstyringer: unmapped.overstyringer,
                           })
                         : mapUferdigVedtaksperiode(periode)
                 )

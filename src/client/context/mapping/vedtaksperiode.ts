@@ -8,6 +8,7 @@ import {
     Vedtaksperiodetilstand,
 } from '../types.internal';
 import {
+    SpesialistOverstyring,
     SpesialistRisikovurdering,
     SpesialistVedtaksperiode,
     SpleisForlengelseFraInfotrygd,
@@ -22,10 +23,12 @@ import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
 import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
+import { tilOverstyrtDag } from './overstyring';
 
 type UnmappedPeriode = SpesialistVedtaksperiode & {
     organisasjonsnummer: string;
     risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[];
+    overstyringer: SpesialistOverstyring[];
 };
 
 type PartialMappingResult = {
@@ -279,6 +282,25 @@ const appendSykepengegrunnlag = ({ unmapped, partial }: PartialMappingResult): P
         },
     });
 
+const appendOverstyringer = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
+    Promise.resolve({
+        unmapped,
+        partial: {
+            ...partial,
+            overstyringer: unmapped.overstyringer
+                .filter((overstyring) => tilhørerVedtaksperiode(partial, overstyring))
+                .map((overstyring) => ({
+                    ...overstyring,
+                    overstyrteDager: overstyring.overstyrteDager.map(tilOverstyrtDag),
+                })),
+        },
+    });
+
+const tilhørerVedtaksperiode = (partial: Partial<Vedtaksperiode>, overstyring: SpesialistOverstyring) =>
+    overstyring.overstyrteDager
+        .map((dag) => dayjs(dag.dato))
+        .every((dato) => partial.fom?.isSameOrBefore(dato) && partial.tom?.isSameOrAfter(dato));
+
 const finalize = (partialResult: PartialMappingResult): Vedtaksperiode => partialResult.partial as Vedtaksperiode;
 
 export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<Vedtaksperiode> => {
@@ -293,6 +315,7 @@ export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<Vedt
         .then(appendPeriodetype)
         .then(appendUtbetalinger)
         .then(appendOppsummering)
+        .then(appendOverstyringer)
         .then(appendInntektskilder)
         .then(appendAktivitetslogg)
         .then(appendRisikovurdering)

@@ -12,6 +12,7 @@ const enSpeilVedtaksperiode = () =>
         ...enVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],
+        overstyringer: [],
     });
 
 const enPersoninfo = () => ({
