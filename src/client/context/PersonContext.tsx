@@ -19,13 +19,15 @@ interface ProviderProps {
     children: ReactChild;
 }
 
-export const PersonContext = createContext<PersonContextType>({
+export const defaultPersonContext = {
     personTilBehandling: undefined,
-    markerPersonSomTildelt: (_) => null,
-    hentPerson: (_) => Promise.resolve(undefined),
+    markerPersonSomTildelt: (_: string) => null,
+    hentPerson: (_: string) => Promise.resolve(undefined),
     isFetching: false,
-    aktiverVedtaksperiode: (_) => null,
-});
+    aktiverVedtaksperiode: (_: string) => null,
+};
+
+export const PersonContext = createContext<PersonContextType>(defaultPersonContext);
 
 export const PersonProvider = ({ children }: ProviderProps) => {
     const [personTilBehandling, setPersonTilBehandling] = useState<Person>();
