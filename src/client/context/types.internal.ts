@@ -285,7 +285,7 @@ export interface Overstyring {
     hendelseId: string;
     begrunnelse: string;
     unntaFraInnsyn: boolean;
-    timestamp: string;
+    timestamp: Dayjs;
     overstyrteDager: OverstyrtDag[];
 }
 

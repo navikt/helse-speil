@@ -41,15 +41,15 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
 
     const rader =
         aktivVedtaksperiode?.sykdomstidslinje.map((dag) => {
-            const overstyrt = aktivVedtaksperiode?.overstyringer.find((overstyring) =>
+            const overstyring = aktivVedtaksperiode?.overstyringer.find((overstyring) =>
                 overstyring.overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato))
             );
-            const førsteCelle = () => (overstyrt ? <OverstyrtInfoIkon size={20} /> : tomCelle());
+            const førsteCelle = () => (overstyring ? <OverstyrtInfoIkon size={20} /> : tomCelle());
             return {
-                celler: [førsteCelle(), dato(dag), ikon(dag), type(dag), gradering(dag), kilde(dag)],
+                celler: [førsteCelle(), dato(dag), ikon(dag), type(dag), gradering(dag), kilde(dag, overstyring)],
                 className: classNames({
                     disabled: dag.type === Dagtype.Helg,
-                    overstyrt: overstyrt,
+                    overstyrt: overstyring,
                 }),
             };
         }) ?? [];

@@ -15,7 +15,7 @@ export const tilOverstyringMap = (
 ): Map<string, Overstyring> =>
     map.set(overstyring.hendelseId, {
         begrunnelse: overstyring.begrunnelse,
-        timestamp: overstyring.timestamp,
+        timestamp: dayjs(overstyring.timestamp),
         unntaFraInnsyn: overstyring.unntaFraInnsyn,
         hendelseId: overstyring.hendelseId,
         overstyrteDager: overstyring.overstyrteDager.map(tilOverstyrtDag),

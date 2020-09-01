@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from '../../context/types.internal';
+import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from '../../context/types.internal';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { IkonEgenmelding } from './ikoner/IkonEgenmelding';
 import { IkonSyk } from './ikoner/IkonSyk';
@@ -11,6 +11,7 @@ import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 import { OverstyrbarDagtype } from './OverstyrbarDagtype';
 import { OverstyrbarGradering } from './OverstyrbarGradering';
 import { IkonOverstyrt } from './ikoner/IkonOverstyrt';
+import { Overstyringsindikator } from '../Overstyringsindikator';
 
 export const tomCelle = () => undefined;
 
@@ -83,7 +84,7 @@ const KildeContainer = styled.div`
     flex: 1;
 `;
 
-export const kilde = (dag: Sykdomsdag) => {
+export const kilde = (dag: Sykdomsdag, overstyring?: Overstyring) => {
     if (dag.type === Dagtype.Helg) return null;
     const label = (() => {
         switch (dag.kilde) {
@@ -94,7 +95,15 @@ export const kilde = (dag: Sykdomsdag) => {
             case Kildetype.Inntektsmelding:
                 return <KildeLabel>IM</KildeLabel>;
             case Kildetype.Saksbehandler:
-                return <Overstyrtikon />;
+                return overstyring ? (
+                    <Overstyringsindikator
+                        begrunnelse={overstyring.begrunnelse}
+                        saksbehandler={'Saksbehandler'}
+                        dato={overstyring.timestamp}
+                    />
+                ) : (
+                    <Overstyrtikon />
+                );
             default:
                 return null;
         }

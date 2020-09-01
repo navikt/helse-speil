@@ -291,6 +291,7 @@ const appendOverstyringer = ({ unmapped, partial }: PartialMappingResult): Promi
                 .filter((overstyring) => tilhørerVedtaksperiode(partial, overstyring))
                 .map((overstyring) => ({
                     ...overstyring,
+                    timestamp: dayjs(overstyring.timestamp),
                     overstyrteDager: overstyring.overstyrteDager.map(tilOverstyrtDag),
                 })),
         },
