@@ -65,8 +65,8 @@ const VilkårWrapper = ({ vedtaksperiode, person }: { vedtaksperiode?: Vedtakspe
     </Router>
 );
 
-describe('Vilkår', async () => {
-    describe('ubehandlet', async () => {
+describe('Vilkår', () => {
+    describe('ubehandlet', () => {
         test('skal ha automatisk vurderte vilkår og vilkår til vurdering', async () => {
             render(
                 <VilkårWrapper person={await personTilBehandling()} vedtaksperiode={await enSpeilVedtaksperiode()} />
@@ -107,7 +107,7 @@ describe('Vilkår', async () => {
         });
     });
 
-    describe('behandlet', async () => {
+    describe('behandlet', () => {
         test('skal ha behandlet innhold', async () => {
             const person = await personTilBehandling();
             const vedtaksperiode = await enSpeilVedtaksperiode();

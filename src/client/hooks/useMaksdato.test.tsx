@@ -5,9 +5,11 @@ import '@testing-library/jest-dom/extend-expect';
 import { useMaksdato } from './useMaksdato';
 import { mappetPerson, vedtaksperiodeMedMaksdato } from '../context/mapping/testdata/mappetPerson';
 import { Vedtaksperiode } from '../context/types.internal';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { defaultPersonContext, PersonContext } from '../context/PersonContext';
+
+afterEach(cleanup);
 
 dayjs.extend(isSameOrAfter);
 

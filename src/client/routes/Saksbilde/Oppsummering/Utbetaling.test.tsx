@@ -13,7 +13,7 @@ import React from 'react';
 import { Router } from 'react-router';
 import dayjs from 'dayjs';
 
-describe('Utbetaling viser korrekt informasjon', async () => {
+describe('Utbetaling viser korrekt informasjon', () => {
     test('Viser advarsel før godkjenning', async () => {
         render(<UtbetalingView person={await personTilBehandling()} vedtaksperiode={await enSpeilVedtaksperiode()} />);
         expect(screen.getByText(/Utbetaling skal kun skje/)).toBeInTheDocument();

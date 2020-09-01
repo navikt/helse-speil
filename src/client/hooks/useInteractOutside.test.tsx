@@ -1,9 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { useInteractOutside } from './useInteractOutside';
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
+
+afterEach(cleanup);
 
 const Consumer = () => {
     const ref = useRef<HTMLButtonElement>(null);
