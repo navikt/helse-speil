@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface UseFocusOutsideOptions {
     ref: React.RefObject<HTMLElement>;
@@ -7,9 +7,14 @@ interface UseFocusOutsideOptions {
 }
 
 export const useInteractOutside = ({ ref, active, onInteractOutside }: UseFocusOutsideOptions) => {
+    const [focused, setFocused] = useState(false);
     useEffect(() => {
         const onInteractWrapper = (event: FocusEvent | MouseEvent) => {
-            if (active && !ref.current?.contains(event.target as HTMLElement)) onInteractOutside();
+            const shouldHaveFocus = !!ref.current?.contains(event.target as HTMLElement);
+            if (active) {
+                shouldHaveFocus && onInteractOutside();
+                setFocused(shouldHaveFocus);
+            }
         };
         document.addEventListener('focusin', onInteractWrapper);
         document.addEventListener('click', onInteractWrapper);
@@ -17,5 +22,5 @@ export const useInteractOutside = ({ ref, active, onInteractOutside }: UseFocusO
             document.removeEventListener('focusin', onInteractWrapper);
             document.removeEventListener('click', onInteractWrapper);
         };
-    }, [ref.current, active]);
+    }, [ref.current, active, focused]);
 };
