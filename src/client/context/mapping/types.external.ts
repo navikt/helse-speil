@@ -163,7 +163,7 @@ export interface SpesialistOverstyring {
     hendelseId: string;
     begrunnelse: string;
     unntaFraInnsyn: boolean;
-    saksbehandler: string;
+    saksbehandlerNavn: string;
     timestamp: string;
     overstyrteDager: SpesialistOverstyringDag[];
 }

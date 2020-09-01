@@ -180,7 +180,7 @@ describe('personmapper', async () => {
                             hendelseId: saksbehandlerKildeId,
                             unntaFraInnsyn: false,
                             timestamp: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                            saksbehandler: 'Ola Narr',
+                            saksbehandlerNavn: 'Ola Narr',
                             overstyrteDager: [
                                 {
                                     dagtype: SpleisSykdomsdagtype.FERIEDAG,

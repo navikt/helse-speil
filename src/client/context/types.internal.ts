@@ -286,7 +286,7 @@ export interface Overstyring {
     unntaFraInnsyn: boolean;
     timestamp: Dayjs;
     overstyrteDager: OverstyrtDag[];
-    saksbehandler: string;
+    saksbehandlerNavn: string;
 }
 
 export interface OverstyrtDag {
