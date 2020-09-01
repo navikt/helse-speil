@@ -1,6 +1,5 @@
 import { SpesialistArbeidsgiver, SpesialistPerson } from './types.external';
-import { Arbeidsgiver, Overstyring, Vedtaksperiode } from '../types.internal';
-import { tilOverstyringMap } from './overstyring';
+import { Arbeidsgiver, Vedtaksperiode } from '../types.internal';
 import dayjs from 'dayjs';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode } from './vedtaksperiode';
 
@@ -51,22 +50,12 @@ const sortVedtaksperioder = async ({ unmapped, partial }: PartialMappingResult):
         },
     });
 
-const appendOverstyringer = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            overstyringer: unmapped.overstyringer.reduce(tilOverstyringMap, new Map<string, Overstyring>()),
-        },
-    });
-
 const finalize = (partialResult: PartialMappingResult): Arbeidsgiver => partialResult.partial as Arbeidsgiver;
 
 const mapArbeidsgiver = async (arbeidsgiver: SpesialistArbeidsgiver) =>
     appendUnmappedData({ unmapped: arbeidsgiver, partial: {} })
         .then(appendVedtaksperioder)
         .then(sortVedtaksperioder)
-        .then(appendOverstyringer)
         .then(finalize);
 
 export const mapArbeidsgivere = async (person: SpesialistPerson): Promise<Arbeidsgiver[]> =>

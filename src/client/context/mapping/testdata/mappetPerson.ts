@@ -29,7 +29,6 @@ export const mappetPerson: Person = {
             organisasjonsnummer: '123456789',
             id: '3fb100f2-5d3d-4a89-84cd-e123544a4400',
             navn: 'Potetsekk AS',
-            overstyringer: new Map<string, Overstyring>(),
             vedtaksperioder: [
                 {
                     id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',

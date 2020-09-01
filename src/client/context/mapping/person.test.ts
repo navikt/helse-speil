@@ -180,6 +180,7 @@ describe('personmapper', async () => {
                             hendelseId: saksbehandlerKildeId,
                             unntaFraInnsyn: false,
                             timestamp: dayjs().format(ISO_TIDSPUNKTFORMAT),
+                            saksbehandler: 'Ola Narr',
                             overstyrteDager: [
                                 {
                                     dagtype: SpleisSykdomsdagtype.FERIEDAG,
@@ -200,14 +201,5 @@ describe('personmapper', async () => {
         ].kildeId!;
 
         expect(hendelseId).toBeDefined();
-        expect(person.arbeidsgivere[0].overstyringer.size).toBe(1);
-
-        const overstyring = person.arbeidsgivere[0].overstyringer.get(hendelseId)!;
-        expect(overstyring).toBeDefined();
-        expect(overstyring.begrunnelse).toBe('begrunnelse');
-        expect(overstyring.hendelseId).toBe(saksbehandlerKildeId);
-        expect(overstyring.overstyrteDager).toHaveLength(1);
-        expect(overstyring.timestamp).toBeDefined();
-        expect(overstyring.unntaFraInnsyn).toBeFalsy();
     });
 });

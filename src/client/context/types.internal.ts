@@ -225,7 +225,6 @@ export interface Arbeidsgiver {
     organisasjonsnummer: string;
     id: string;
     navn: string;
-    overstyringer: Map<string, Overstyring>;
     vedtaksperioder: (Vedtaksperiode | UferdigVedtaksperiode)[];
 }
 
@@ -287,6 +286,7 @@ export interface Overstyring {
     unntaFraInnsyn: boolean;
     timestamp: Dayjs;
     overstyrteDager: OverstyrtDag[];
+    saksbehandler: string;
 }
 
 export interface OverstyrtDag {

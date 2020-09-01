@@ -96,7 +96,7 @@ export const kilde = (dag: Sykdomsdag, overstyring?: Overstyring) => {
                 return overstyring ? (
                     <Overstyringsindikator
                         begrunnelse={overstyring.begrunnelse}
-                        saksbehandler={'Saksbehandler'}
+                        saksbehandler={overstyring.saksbehandler}
                         dato={overstyring.timestamp}
                     />
                 ) : (
