@@ -5,10 +5,6 @@ export interface Action {
     ignoreIfModifiers?: boolean;
 }
 
-export interface ActionMap {
-    [key: string]: Action;
-}
-
 export enum Key {
     Left = 'ArrowLeft',
     Right = 'ArrowRight',
@@ -21,7 +17,7 @@ export enum Key {
 const shouldDisableKeyboard = () =>
     document.activeElement instanceof HTMLTextAreaElement || document.activeElement instanceof HTMLInputElement;
 
-export const useKeyboard = (actions: ActionMap) => {
+export const useKeyboard = (actions: { [key: string]: Action }) => {
     const handleKeyDown = (event: KeyboardEvent) => {
         const action = actions[event.code];
         const hasActiveModifiers = event.getModifierState('Meta') || event.getModifierState('Alt');
