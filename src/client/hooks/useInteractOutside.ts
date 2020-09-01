@@ -12,7 +12,7 @@ export const useInteractOutside = ({ ref, active, onInteractOutside }: UseFocusO
         const onInteractWrapper = (event: FocusEvent | MouseEvent) => {
             const shouldHaveFocus = !!ref.current?.contains(event.target as HTMLElement);
             if (active) {
-                shouldHaveFocus && onInteractOutside();
+                !shouldHaveFocus && onInteractOutside();
                 setFocused(shouldHaveFocus);
             }
         };

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useInteractOutside } from './useInteractOutside';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
@@ -11,17 +11,15 @@ const Consumer = () => {
     const ref = useRef<HTMLButtonElement>(null);
     const [focused, setFocused] = useState(false);
 
-    const toggleFocused = () => setFocused((f) => !f);
-
     useInteractOutside({
         ref,
         active: true,
-        onInteractOutside: toggleFocused,
+        onInteractOutside: () => setFocused(false),
     });
 
     return (
         <>
-            <button data-testid="button" ref={ref} onClick={toggleFocused}>
+            <button data-testid="button" ref={ref} onClick={() => setFocused(true)}>
                 {focused ? 'focused' : 'unfocused'}
             </button>
             <button data-testid="button">En annen knapp</button>
@@ -38,8 +36,8 @@ describe('useInteractOutside', () => {
         act(() => userEvent.click(button1));
         expect(button1).toHaveFocus();
         expect(button1).toHaveTextContent('focused');
-        act(() => userEvent.tab());
+        act(() => userEvent.click(button2));
         expect(button2).toHaveFocus();
-        expect(button1).toHaveTextContent('unfocused');
+        await waitFor(() => expect(button1).toHaveTextContent('unfocused'));
     });
 });

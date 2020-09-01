@@ -23,6 +23,7 @@ const Overstyringknapp = styled.button`
     width: 28px;
     display: flex;
     justify-content: center;
+    outline: none;
 `;
 
 const StyledTooltip = styled(Tooltip)`
@@ -53,7 +54,7 @@ export const Overstyringsindikator = ({ begrunnelse, saksbehandler, dato }: Over
         onInteractOutside: toggleVisTooltip,
     });
     return (
-        <Overstyringknapp ref={buttonRef} onClick={toggleVisTooltip}>
+        <Overstyringknapp ref={buttonRef} onClick={() => setVisTooltip(true)}>
             <IkonOverstyrt />
             {visTooltip && (
                 <StyledTooltip>
