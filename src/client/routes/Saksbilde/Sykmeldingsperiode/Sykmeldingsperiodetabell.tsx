@@ -46,7 +46,15 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
             );
             const førsteCelle = () => (overstyring ? <OverstyrtInfoIkon size={20} /> : tomCelle());
             return {
-                celler: [førsteCelle(), dato(dag), ikon(dag), type(dag), gradering(dag), kilde(dag, overstyring)],
+                celler: [
+                    førsteCelle(),
+                    dato(dag),
+                    ikon(dag),
+                    type(dag),
+                    gradering(dag),
+                    kilde(dag, overstyring),
+                    tomCelle(),
+                ],
                 className: classNames({
                     disabled: dag.type === Dagtype.Helg,
                     overstyrt: overstyring,
@@ -62,6 +70,9 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
         },
         {
             render: <Element>Gradering</Element>,
+        },
+        {
+            render: <Element>Kilde</Element>,
         },
         overstyrbareTabellerEnabled ? (
             <HøyrestiltContainer>

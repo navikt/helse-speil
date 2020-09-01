@@ -19,7 +19,6 @@ export const dato = (dag: Sykdomsdag) => dag.dato.format(NORSK_DATOFORMAT);
 
 const Overstyrtikon = styled(IkonOverstyrt)`
     display: flex;
-    margin-left: -0.5rem;
 `;
 
 const IkonContainer = styled.div`
@@ -74,13 +73,12 @@ const KildeLabel = styled.div`
     font-size: 14px;
     border-radius: 0.25rem;
     color: #0067c5;
-    margin-left: -1rem;
-    width: max-content;
+    width: 28px;
+    box-sizing: border-box;
 `;
 
 const KildeContainer = styled.div`
     display: flex;
-    justify-content: flex-end;
     flex: 1;
 `;
 

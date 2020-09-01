@@ -19,11 +19,10 @@ const Overstyringknapp = styled.button`
     border: none;
     background: none;
     cursor: pointer;
-`;
-
-const Overstyrtikon = styled(IkonOverstyrt)`
+    padding: 0;
+    width: 28px;
     display: flex;
-    margin-left: -0.5rem;
+    justify-content: center;
 `;
 
 const StyledTooltip = styled(Tooltip)`
@@ -55,7 +54,7 @@ export const Overstyringsindikator = ({ begrunnelse, saksbehandler, dato }: Over
     });
     return (
         <Overstyringknapp ref={buttonRef} onClick={toggleVisTooltip}>
-            <Overstyrtikon />
+            <IkonOverstyrt />
             {visTooltip && (
                 <StyledTooltip>
                     <Element>Vurdering</Element>
