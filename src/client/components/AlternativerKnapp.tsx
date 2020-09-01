@@ -1,8 +1,7 @@
 import React, { ReactNode, useRef, useState } from 'react';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
-import { useClickOutside } from '../hooks/useClickOutside';
-import { useFocusOutsideModal } from '../hooks/useFocusOutsideModal';
+import { useInteractOutside } from '../hooks/useInteractOutside';
 
 interface AlternativerKnappProps {
     onClick?: (event: React.MouseEvent) => void;
@@ -51,16 +50,10 @@ const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappPr
     const [ekspandert, setEkspandert] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
 
-    useFocusOutsideModal({
+    useInteractOutside({
         ref: containerRef,
         active: ekspandert,
-        onFocusOutside: () => setEkspandert((e) => !e),
-    });
-
-    useClickOutside({
-        ref: containerRef,
-        active: ekspandert,
-        onClickOutside: () => setEkspandert((e) => !e),
+        onInteractOutside: () => setEkspandert((e) => !e),
     });
 
     const onClickWrapper = (event: React.MouseEvent) => {
