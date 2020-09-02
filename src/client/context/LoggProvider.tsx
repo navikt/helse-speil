@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext } from 'react';
-import { Hendelse, Kildetype } from './types.internal';
+import { Hendelse, Kildetype, Overstyring } from './types.internal';
 import { PersonContext } from './PersonContext';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import {
@@ -8,7 +8,7 @@ import {
     Hendelsetype as LoggType,
     LoggProvider,
 } from '@navikt/helse-frontend-logg';
-import { somDato } from './mapping/vedtaksperiode';
+import { somDato, somNorskDato } from './mapping/vedtaksperiode';
 import styled from '@emotion/styled';
 
 interface LoggProviderProps {
@@ -46,6 +46,11 @@ const Begrunnelsesliste = styled.ul`
     }
 `;
 
+const BegrunnelseTekst = styled.p`
+    margin-top: 0.5rem;
+    color: #3e3832;
+`;
+
 export default ({ children }: LoggProviderProps) => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
 
@@ -77,8 +82,17 @@ export default ({ children }: LoggProviderProps) => {
           ]
         : [];
 
-    const hendelser = [...dokumenter, ...risikovurdering].sort((a, b) =>
-        somDato(a.dato).isAfter(somDato(b.dato)) ? -1 : 1
+    const overstyringer: LoggHendelse[] =
+        aktivVedtaksperiode?.overstyringer.map((overstyring: Overstyring) => ({
+            id: overstyring.hendelseId,
+            dato: overstyring.timestamp.format(NORSK_DATOFORMAT),
+            navn: 'Overstyrt: Sykmeldingsperiode',
+            type: LoggType.Dokumenter,
+            beskrivelse: <BegrunnelseTekst>{overstyring.saksbehandlerNavn}</BegrunnelseTekst>,
+        })) ?? [];
+
+    const hendelser = [...dokumenter, ...risikovurdering, ...overstyringer].sort((a, b) =>
+        somNorskDato(a.dato).isAfter(somNorskDato(b.dato)) ? -1 : 1
     );
 
     return <LoggProvider hendelser={hendelser}>{children}</LoggProvider>;

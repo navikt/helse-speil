@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '../../utils/date';
+import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../../utils/date';
 import {
     Periodetype,
     UferdigVedtaksperiode,
@@ -37,6 +37,8 @@ type PartialMappingResult = {
 };
 
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
+
+export const somNorskDato = (dato: string): Dayjs => dayjs(dato, NORSK_DATOFORMAT);
 
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
 
