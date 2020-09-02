@@ -87,7 +87,7 @@ export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProp
                 </FeiloppsummeringContainer>
             )}
             <Knappegruppe>
-                <Knapp mini>Ferdig</Knapp>
+                <Knapp mini>Oppdater</Knapp>
                 <Flatknapp mini onClick={avbrytOverstyring}>
                     Avbryt
                 </Flatknapp>

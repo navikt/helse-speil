@@ -79,7 +79,7 @@ export const OverstyrbarGradering = ({ dag, onOverstyr, onFjernOverstyring }: Ov
                 type="number"
                 ref={register({
                     min: { value: 0, message: 'Gradering må være 0 eller større' },
-                    max: { value: 100, message: 'Gradering må 100 eller mindre' },
+                    max: { value: 100, message: 'Gradering må være 100 eller mindre' },
                     required: 'Gradering mangler',
                 })}
                 defaultValue={dag.gradering}

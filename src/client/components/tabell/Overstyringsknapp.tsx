@@ -34,12 +34,12 @@ export const Overstyringsknapp = ({ overstyrer, toggleOverstyring }: Overstyring
         {overstyrer ? (
             <>
                 <IkonÅpenLås />
-                Lukk
+                Avbryt
             </>
         ) : (
             <>
                 <IkonLukketLås />
-                Overstyre
+                Endre
             </>
         )}
     </RedigerKnapp>

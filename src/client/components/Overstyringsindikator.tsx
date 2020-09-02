@@ -58,7 +58,7 @@ export const Overstyringsindikator = ({ begrunnelse, saksbehandler, dato }: Over
             <IkonOverstyrt />
             {visTooltip && (
                 <StyledTooltip>
-                    <Element>Vurdering</Element>
+                    <Element>Begrunnelse</Element>
                     <Begrunnelsetekst>{begrunnelse}</Begrunnelsetekst>
                     <StyledUndertekst>
                         {saksbehandler}, {dato.format(NORSK_DATOFORMAT)}
