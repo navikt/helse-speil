@@ -32,27 +32,27 @@ const filenameForPersonId = (id: string) => {
     switch (id) {
         case '1000000009871':
         case '12020069420':
-            return 'mock-person_til-godkjenning.json';
+            return 'knugen_til-godkjenning.json';
         case '87654321962123':
         case '12020042069':
-            return 'mock-person_2perioder.json';
+            return 'sonja_2perioder.json';
         case '87650000962123':
         case '21010462423':
-            return 'mock-person_infotrygd-direkteovergang.json';
+            return 'ingrid-alexandra_infotrygd-direkteovergang.json';
         case '57650000444423':
         case '22097112413':
-            return 'mock-person_infotrygd-forlengelse.json';
+            return 'märtha_infotrygd-forlengelse.json';
         case '1000000000009':
         case '03120520135':
-            return 'mock-person_første-periode-uten-utbetaling.json';
+            return 'sverre-magnus_første-periode-uten-utbetaling.json';
         case '1234':
         case '01010025678':
-            return 'mock-person_til-utbetaling.json';
+            return 'leah-isadora_til-utbetaling.json';
         case '12345':
         case '01010025676':
             return 'durek_med-overstyringer.json';
         default:
-            return 'mock-person_3perioder_første_periode_kort.json';
+            return 'håkon_3perioder_første_periode_kort.json';
     }
 };
 
