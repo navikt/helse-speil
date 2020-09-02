@@ -60,17 +60,19 @@ export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProp
     return (
         <Overstyringsskjemagruppe>
             <BeskrivelseLabel>
-                <Normaltekst>Begrunnelse</Normaltekst>
+                <Normaltekst>Kort begrunnelse</Normaltekst>
                 <TextareaControlled
                     name="begrunnelse"
                     id="begrunnelse"
                     // @ts-ignore
                     textareaRef={register({ required: 'Begrunnelse må fylles ut', minLength: 1 })}
                     defaultValue=""
-                    placeholder="Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
+                    placeholder="Begrunn kort hvorfor det er gjort endringer på dager i sykdomstidslinjen. Bruk tydelig språk, denne vil bli vist for den sykmeldte og arbeidsgiver.
+"
                     feil={errors.begrunnelse?.message}
                     aria-invalid={errors.begrunnelse?.message}
                     aria-errormessage={errors.begrunnelse?.message}
+                    maxLength={500}
                 />
             </BeskrivelseLabel>
             {formState.isSubmitted && harFeil && (
