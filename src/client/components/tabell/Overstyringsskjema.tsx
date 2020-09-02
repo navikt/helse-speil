@@ -73,7 +73,6 @@ export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProp
                     aria-errormessage={errors.begrunnelse?.message}
                 />
             </BeskrivelseLabel>
-            <Checkbox name="unntaFraInnsyn" ref={register} label="Unnta fra innsyn grunnet sensitive opplysninger" />
             {formState.isSubmitted && harFeil && (
                 <FeiloppsummeringContainer>
                     <Feiloppsummering

@@ -178,7 +178,6 @@ describe('personmapper', async () => {
                         {
                             begrunnelse: 'begrunnelse',
                             hendelseId: saksbehandlerKildeId,
-                            unntaFraInnsyn: false,
                             timestamp: dayjs().format(ISO_TIDSPUNKTFORMAT),
                             saksbehandlerNavn: 'Ola Narr',
                             overstyrteDager: [

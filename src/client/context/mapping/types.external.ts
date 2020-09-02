@@ -162,7 +162,6 @@ export interface SpesialistRisikovurdering {
 export interface SpesialistOverstyring {
     hendelseId: string;
     begrunnelse: string;
-    unntaFraInnsyn: boolean;
     saksbehandlerNavn: string;
     timestamp: string;
     overstyrteDager: SpesialistOverstyringDag[];

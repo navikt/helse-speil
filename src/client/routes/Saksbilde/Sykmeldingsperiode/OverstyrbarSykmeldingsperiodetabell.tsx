@@ -162,7 +162,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     };
 
     const sendOverstyring = () => {
-        const { begrunnelse, unntaFraInnsyn } = form.getValues();
+        const { begrunnelse } = form.getValues();
 
         const overstyring = {
             aktørId: personTilBehandling!.aktørId,
@@ -170,7 +170,6 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             organisasjonsnummer: organisasjonsnummer(),
             dager: tilOverstyrteDager(overstyrteDager),
             begrunnelse,
-            unntaFraInnsyn,
         };
 
         postOverstyring(overstyring)

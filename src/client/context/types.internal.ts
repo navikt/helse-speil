@@ -283,7 +283,6 @@ export enum InfotrygdTypetekst {
 export interface Overstyring {
     hendelseId: string;
     begrunnelse: string;
-    unntaFraInnsyn: boolean;
     timestamp: Dayjs;
     overstyrteDager: OverstyrtDag[];
     saksbehandlerNavn: string;

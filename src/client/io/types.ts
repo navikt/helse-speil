@@ -17,7 +17,6 @@ export interface OverstyringDTO {
     organisasjonsnummer: string;
     begrunnelse: string;
     dager: OverstyrtDagDTO[];
-    unntaFraInnsyn: boolean;
 }
 
 export interface AnnulleringDTO {
