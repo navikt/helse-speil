@@ -1,20 +1,14 @@
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { HTMLAttributes, useRef, useState } from 'react';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
 import { useInteractOutside } from '../hooks/useInteractOutside';
-
-interface AlternativerKnappProps {
-    onClick?: (event: React.MouseEvent) => void;
-    children?: ReactNode | ReactNode[];
-    className?: string;
-}
 
 const Container = styled.span`
     position: relative;
 `;
 
 const Knapp = styled.button`
-    background: transparent;
+    background: none;
     outline: none;
     border: none;
     height: 24px;
@@ -35,7 +29,7 @@ const Knapp = styled.button`
     }
 `;
 
-const Alternativer = styled.ul`
+const Liste = styled.ul`
     position: absolute;
     list-style: none;
     background: #ffffff;
@@ -46,14 +40,25 @@ const Alternativer = styled.ul`
     z-index: 1000;
 `;
 
-const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappProps) => {
+const OptionsIkon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20">
+        <path d="M0 0h24v24H0z" fill="none" />
+        <path d="m4 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm16 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-8 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+    </svg>
+);
+
+interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
+    onClick?: (event: React.MouseEvent) => void;
+}
+
+const Dropdown: React.FC<DropdownProps> = ({ onClick, className, children }) => {
     const [ekspandert, setEkspandert] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
 
     useInteractOutside({
         ref: containerRef,
         active: ekspandert,
-        onInteractOutside: () => setEkspandert((e) => !e),
+        onInteractOutside: () => setEkspandert(false),
     });
 
     const onClickWrapper = (event: React.MouseEvent) => {
@@ -64,14 +69,11 @@ const AlternativerKnapp = ({ onClick, className, children }: AlternativerKnappPr
     return (
         <Container ref={containerRef}>
             <Knapp onClick={onClickWrapper} className={classNames(className)}>
-                <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="20">
-                    <path d="M0 0h24v24H0z" fill="none" />
-                    <path d="m4 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm16 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-8 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                </svg>
+                <OptionsIkon />
             </Knapp>
-            {ekspandert && <Alternativer>{children}</Alternativer>}
+            {ekspandert && <Liste>{children}</Liste>}
         </Container>
     );
 };
 
-export default AlternativerKnapp;
+export default Dropdown;

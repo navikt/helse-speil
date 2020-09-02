@@ -6,21 +6,33 @@ interface UseFocusOutsideOptions {
     active?: boolean;
 }
 
-export const useInteractOutside = ({ ref, active, onInteractOutside }: UseFocusOutsideOptions) => {
+export const useInteractOutside = ({ ref, onInteractOutside, active = true }: UseFocusOutsideOptions) => {
     const [focused, setFocused] = useState(false);
+    const [modalRef, setModalRef] = useState<HTMLElement | null>(null);
+
     useEffect(() => {
-        const onInteractWrapper = (event: FocusEvent | MouseEvent) => {
-            const shouldHaveFocus = !!ref.current?.contains(event.target as HTMLElement);
-            if (active) {
-                !shouldHaveFocus && onInteractOutside();
-                setFocused(shouldHaveFocus);
-            }
+        const onInteract = (event: FocusEvent | MouseEvent) => {
+            setTimeout(() => {
+                const targetElement = event.target as HTMLElement;
+                const targetIsModal = targetElement.id === 'modal';
+
+                if (targetIsModal) {
+                    setModalRef(targetElement);
+                } else {
+                    const shouldHaveFocus =
+                        !!ref.current?.contains(targetElement) || !!modalRef?.contains(targetElement);
+                    if (active) {
+                        !shouldHaveFocus && onInteractOutside();
+                        setFocused(shouldHaveFocus);
+                    }
+                }
+            }, 0);
         };
-        document.addEventListener('focusin', onInteractWrapper);
-        document.addEventListener('click', onInteractWrapper);
+        document.addEventListener('focusin', onInteract);
+        document.addEventListener('click', onInteract);
         return () => {
-            document.removeEventListener('focusin', onInteractWrapper);
-            document.removeEventListener('click', onInteractWrapper);
+            document.removeEventListener('focusin', onInteract);
+            document.removeEventListener('click', onInteract);
         };
-    }, [ref.current, active, focused]);
+    }, [ref.current, active, focused, modalRef]);
 };

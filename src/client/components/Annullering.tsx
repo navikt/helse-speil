@@ -28,10 +28,11 @@ const AnnullerKnapp = styled.button`
 `;
 
 const Annullering = () => {
+    const { ident } = useRecoilValue(authState);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [feilmelding, setFeilmelding] = useState<string>();
-    const { ident } = useRecoilValue(authState);
+
     const sendAnnullering = (annullering: AnnulleringDTO) => {
         setIsSending(true);
         setFeilmelding(undefined);

@@ -7,14 +7,14 @@ import { OppgaverContext } from '../../context/OppgaverContext';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
-import AlternativerKnapp from '../../components/AlternativerKnapp';
+import Dropdown from '../../components/Dropdown';
 
 const Flex = styled.span`
     display: flex;
     align-items: center;
 `;
 
-const Tildelingsalternativ = styled(AlternativerKnapp)`
+const Tildelingsalternativ = styled(Dropdown)`
     margin-left: 0.5rem;
 `;
 
