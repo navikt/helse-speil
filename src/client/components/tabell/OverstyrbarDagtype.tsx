@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from '@emotion/styled';
 import { Select } from '../Select';
 import { Dagtype, Sykdomsdag } from '../../context/types.internal';
@@ -17,6 +17,7 @@ interface OverstyrbarDagtypeProps {
 const valgbareDager = [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding];
 
 export const OverstyrbarDagtype = ({ dag, onOverstyr, onFjernOverstyring }: OverstyrbarDagtypeProps) => {
+    const [opprinneligDagtype] = useState(dag.type);
     const onSelectDagtype = ({ target }: ChangeEvent<HTMLSelectElement>) => {
         const nyDagtype = target.value as Dagtype;
         if (nyDagtype === dag.type) {
@@ -28,11 +29,11 @@ export const OverstyrbarDagtype = ({ dag, onOverstyr, onFjernOverstyring }: Over
 
     return (
         <OverstyrbarSelect defaultValue={dag.type} onChange={onSelectDagtype}>
-            {Object.values(Dagtype).map((dagtype) => (
-                <option key={dagtype} disabled={!valgbareDager.includes(dagtype) && dagtype !== dag.type}>
-                    {dagtype}
-                </option>
-            ))}
+            {Object.values(Dagtype)
+                .filter((dagtype: Dagtype) => valgbareDager.includes(dagtype) || dagtype === opprinneligDagtype)
+                .map((dagtype: Dagtype) => (
+                    <option key={dagtype}>{dagtype}</option>
+                ))}
         </OverstyrbarSelect>
     );
 };
