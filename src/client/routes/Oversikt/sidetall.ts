@@ -1,22 +1,22 @@
 const tallrekke = (start: number, end: number) => new Array(end - start).fill(start).map((n, i) => n + i);
 
-const startFraMinimum = (sidetall: number[]) => {
-    const førsteSynligeSide = sidetall[0];
+const flyttTallrekkeTilMinimum = (tallrekke: number[], minimum: number = 1) => {
+    const førsteSynligeSide = tallrekke[0];
     const padding = Math.abs(førsteSynligeSide) + 1;
-    return førsteSynligeSide < 1 ? sidetall.map((n) => n + padding) : sidetall;
+    return førsteSynligeSide < minimum ? tallrekke.map((n) => n + padding) : tallrekke;
 };
 
-const sluttTilMaksimum = (sidetall: number[], antallSider: number) => {
-    const sisteSynligeSide = sidetall.slice(-1)[0];
-    const padding = sisteSynligeSide - antallSider;
-    return sisteSynligeSide > antallSider ? sidetall.map((n) => n - padding) : sidetall;
+const flyttTallrekkeTilMaksimum = (tallrekke: number[], maksimum: number) => {
+    const sisteSynligeSide = tallrekke.slice(-1)[0];
+    const padding = sisteSynligeSide - maksimum;
+    return sisteSynligeSide > maksimum ? tallrekke.map((n) => n - padding) : tallrekke;
 };
 
-const ellipsePåStart = (sidetall: (number | string)[]) =>
-    sidetall[0] > 1 ? [1, '...', ...sidetall.slice(2)] : sidetall;
+const leggEllipseTilVedStart = (tallrekke: (number | string)[], minimum: number = 1) =>
+    tallrekke[0] > 1 ? [1, '...', ...tallrekke.slice(2)] : tallrekke;
 
-const ellipsePåSlutt = (sidetall: (number | string)[], antallSider: number) =>
-    sidetall.slice(-1)[0] < antallSider ? [...sidetall.slice(0, -2), '...', antallSider] : sidetall;
+const leggEllipseTilVedSlutt = (tallrekke: (number | string)[], maksimum: number) =>
+    tallrekke.slice(-1)[0] < maksimum ? [...tallrekke.slice(0, -2), '...', maksimum] : tallrekke;
 
 export const genererSidetall = (sidenummer: number, totaltAntallSider: number, antallSynligeSider: number = 9) => {
     if (antallSynligeSider >= totaltAntallSider) {
@@ -26,8 +26,8 @@ export const genererSidetall = (sidenummer: number, totaltAntallSider: number, a
     const start = sidenummer - Math.floor(antallSynligeSider / 2);
     const end = start + antallSynligeSider;
     let sidetall = tallrekke(start, end);
-    sidetall = startFraMinimum(sidetall);
-    sidetall = sluttTilMaksimum(sidetall, totaltAntallSider);
-    sidetall = ellipsePåStart(sidetall);
-    return ellipsePåSlutt(sidetall, totaltAntallSider);
+    sidetall = flyttTallrekkeTilMinimum(sidetall);
+    sidetall = flyttTallrekkeTilMaksimum(sidetall, totaltAntallSider);
+    sidetall = leggEllipseTilVedStart(sidetall);
+    return leggEllipseTilVedSlutt(sidetall, totaltAntallSider);
 };
