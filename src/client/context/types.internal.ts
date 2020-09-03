@@ -149,6 +149,7 @@ export enum Vedtaksperiodetilstand {
     Venter = 'venter',
     Avslag = 'avslag',
     IngenUtbetaling = 'ingenUtbetaling',
+    KunFerie = 'kunFerie',
     Feilet = 'feilet',
     Ukjent = 'ukjent',
     TilInfotrygd = 'tilInfotrygd',
