@@ -32,3 +32,4 @@ yarn-error.log*
 .localstack/
 /e2e-tests/cypress/screenshots/*
 /e2e-tests/cypress/videos/*
+/pages
