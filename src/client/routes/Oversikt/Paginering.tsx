@@ -1,6 +1,7 @@
 import React from 'react';
 import { UseTabellPaginering } from '@navikt/helse-frontend-tabell/lib/useTabell';
 import styled from '@emotion/styled';
+import { genererSidetall } from './sidetall';
 
 const Container = styled.div`
     display: flex;
@@ -20,10 +21,11 @@ const Sideknapp = styled.button<{ active?: boolean }>`
     border: none;
     background: none;
     border-radius: 0.25rem;
-    font-family: Source Sans Pro;
+    font-family: Source Sans Pro, sans-serif;
     font-size: 16px;
     cursor: pointer;
     outline: none;
+    min-width: 2rem;
 
     &:focus {
         box-shadow: 0 0 0 3px #254b6d;
@@ -78,16 +80,18 @@ export const Paginering = ({
             </p>
             <SideknappContainer>
                 <Sideknapp onClick={dekrementerSidenummer}>Forrige</Sideknapp>
-                {Array(antallSider)
-                    .fill(undefined)
-                    .map((_, i) => (
+                {genererSidetall(sidenummer, antallSider, 9).map((element) =>
+                    isNaN(element) ? (
+                        <Sideknapp>{element}</Sideknapp>
+                    ) : (
                         <Sideknapp
-                            onClick={() => setPaginering((p) => ({ ...p, sidenummer: i + 1 }))}
-                            active={sidenummer === i + 1}
+                            onClick={() => setPaginering((p) => ({ ...p, sidenummer: element }))}
+                            active={sidenummer === element}
                         >
-                            {i + 1}
+                            {element}
                         </Sideknapp>
-                    ))}
+                    )
+                )}
                 <Sideknapp onClick={inkrementerSidenummer}>Neste</Sideknapp>
             </SideknappContainer>
         </Container>
