@@ -18,6 +18,7 @@ import { Toast } from './toasts/Toast';
 import styled from '@emotion/styled';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { useDebounce } from '../hooks/useDebounce';
+import { Routes } from '../routes';
 
 const Spinner = styled(NavFrontendSpinner)`
     margin-left: 1rem;
@@ -38,9 +39,9 @@ const App = withContextProviders(() => {
             <Header />
             <Varsler />
             <Switch>
-                <Route path="/uautorisert" component={IkkeLoggetInn} />
-                <ProtectedRoute path="/" exact component={Oversikt} />
-                <ProtectedRoute path="/*/:aktorId" component={Saksbilde} />
+                <Route path={Routes.Uatutorisert} component={IkkeLoggetInn} />
+                <ProtectedRoute path={Routes.Oversikt} exact component={Oversikt} />
+                <ProtectedRoute path={Routes.Saksbilde} component={Saksbilde} />
             </Switch>
         </>
     );
