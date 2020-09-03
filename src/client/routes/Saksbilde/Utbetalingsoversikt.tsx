@@ -20,6 +20,14 @@ type Utbetalingstabellrad = {
     className: string;
 };
 
+const Utbetalingstabell = styled(Tabell)`
+    thead tr th {
+        vertical-align: bottom;
+        box-sizing: border-box;
+        height: 51px;
+    }
+`;
+
 const Container = styled.div`
     padding: 1.5rem 2rem;
 
@@ -102,7 +110,7 @@ const Utbetalingsoversikt = () => {
         <Container>
             <ErrorBoundary>
                 {rader ? (
-                    <Tabell beskrivelse={tabellbeskrivelse} rader={rader} headere={headere} />
+                    <Utbetalingstabell beskrivelse={tabellbeskrivelse} rader={rader} headere={headere} />
                 ) : (
                     <Normaltekst>Ingen data</Normaltekst>
                 )}

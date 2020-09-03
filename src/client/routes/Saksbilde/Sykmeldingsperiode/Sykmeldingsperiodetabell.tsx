@@ -12,10 +12,10 @@ import classNames from 'classnames';
 import Infoikon from '../../../components/Ikon/Infoikon';
 
 const Periodetabell = styled(Tabell)`
-    thead,
-    thead tr,
     thead tr th {
         vertical-align: bottom;
+        box-sizing: border-box;
+        height: 51px;
     }
 `;
 
@@ -41,12 +41,13 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
 
     const visOverstyring =
         overstyrbareTabellerEnabled &&
+        aktivVedtaksperiode &&
         [
             Vedtaksperiodetilstand.Oppgaver,
             Vedtaksperiodetilstand.Avslag,
             Vedtaksperiodetilstand.IngenUtbetaling,
             Vedtaksperiodetilstand.Feilet,
-        ].includes(aktivVedtaksperiode?.tilstand ?? Vedtaksperiodetilstand.Ukjent);
+        ].includes(aktivVedtaksperiode.tilstand);
 
     const rader =
         aktivVedtaksperiode?.sykdomstidslinje.map((dag) => {
@@ -80,9 +81,7 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
         {
             render: <Element>Gradering</Element>,
         },
-        {
-            render: <Element>Kilde</Element>,
-        },
+        '',
         visOverstyring ? (
             <HøyrestiltContainer>
                 <Overstyringsknapp overstyrer={false} toggleOverstyring={toggleOverstyring} />
