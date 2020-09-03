@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { PersonContext } from '../../../context/PersonContext';
 import { dato, gradering, ikon, kilde, tomCelle, type } from '../../../components/tabell/rader';
-import { Dagtype } from '../../../context/types.internal';
+import { Dagtype, Vedtaksperiodetilstand } from '../../../context/types.internal';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import classNames from 'classnames';
 import Infoikon from '../../../components/Ikon/Infoikon';
@@ -38,6 +38,15 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
     const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
     const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
     const tabellbeskrivelse = `Sykmeldingsperiode fra ${fom} til ${tom}`;
+
+    const visOverstyring =
+        overstyrbareTabellerEnabled &&
+        [
+            Vedtaksperiodetilstand.Oppgaver,
+            Vedtaksperiodetilstand.Avslag,
+            Vedtaksperiodetilstand.IngenUtbetaling,
+            Vedtaksperiodetilstand.Feilet,
+        ].includes(aktivVedtaksperiode?.tilstand ?? Vedtaksperiodetilstand.Ukjent);
 
     const rader =
         aktivVedtaksperiode?.sykdomstidslinje.map((dag) => {
@@ -74,7 +83,7 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
         {
             render: <Element>Kilde</Element>,
         },
-        overstyrbareTabellerEnabled ? (
+        visOverstyring ? (
             <HøyrestiltContainer>
                 <Overstyringsknapp overstyrer={false} toggleOverstyring={toggleOverstyring} />
             </HøyrestiltContainer>
