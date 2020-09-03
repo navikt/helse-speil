@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { Tidslinjevindu } from './Tidslinje.types';
 
@@ -37,17 +37,14 @@ interface VinduvelgerProps {
     setAktivtVindu: (index: number) => void;
 }
 
-const Vinduvelger = ({ vinduer, aktivtVindu, setAktivtVindu }: VinduvelgerProps) => {
-    const [aktivSkala, setAktivSkala] = useState(0);
-    return (
-        <Container>
-            {vinduer.map((vindu, i) => (
-                <Vinduknapp key={vindu.label} active={aktivtVindu === i} onClick={() => setAktivtVindu(i)}>
-                    {vindu.label}
-                </Vinduknapp>
-            ))}
-        </Container>
-    );
-};
+const Vinduvelger = ({ vinduer, aktivtVindu, setAktivtVindu }: VinduvelgerProps) => (
+    <Container>
+        {vinduer.map((vindu, i) => (
+            <Vinduknapp key={vindu.label} active={aktivtVindu === i} onClick={() => setAktivtVindu(i)}>
+                {vindu.label}
+            </Vinduknapp>
+        ))}
+    </Container>
+);
 
 export default Vinduvelger;
