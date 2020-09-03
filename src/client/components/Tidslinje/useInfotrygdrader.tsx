@@ -1,13 +1,11 @@
 import { InfotrygdTypetekst, Infotrygdutbetaling, Person } from '../../context/types.internal';
-import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
+import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje/lib';
 
-export type Infotrygdrad = { perioder: any[]; organisasjonsnummer: string };
-
-type UtbetalingerPerArbeidsgiver = { [key: string]: Infotrygdrad };
+export type UtbetalingerPerArbeidsgiver = { [organisasjonsnummer: string]: Sykepengeperiode[] };
 
 const Label = styled.div`
     display: flex;
@@ -53,28 +51,16 @@ const toSykepengeperiode = (infotrygdutbetaling: Infotrygdutbetaling): Sykepenge
     ),
 });
 
-export const useInfotrygdrader = (person?: Person) =>
-    useMemo(() => {
-        const tidslinjer =
+export const useInfotrygdrader = (person?: Person): UtbetalingerPerArbeidsgiver =>
+    useMemo(
+        () =>
             person?.infotrygdutbetalinger.reduce((rader: UtbetalingerPerArbeidsgiver, utbetaling) => {
                 const infotrygdtidslinje = rader[utbetaling.organisasjonsnummer];
-                if (infotrygdtidslinje !== undefined) {
-                    return {
-                        ...rader,
-                        [utbetaling.organisasjonsnummer]: {
-                            ...infotrygdtidslinje,
-                            perioder: [...infotrygdtidslinje.perioder, toSykepengeperiode(utbetaling)],
-                        },
-                    };
-                } else {
-                    return {
-                        ...rader,
-                        [utbetaling.organisasjonsnummer]: {
-                            perioder: [toSykepengeperiode(utbetaling)],
-                            organisasjonsnummer: utbetaling.organisasjonsnummer,
-                        },
-                    };
-                }
-            }, {}) ?? {};
-        return Object.values(tidslinjer);
-    }, [person]);
+                const nyTidslinje =
+                    infotrygdtidslinje !== undefined
+                        ? [...infotrygdtidslinje, toSykepengeperiode(utbetaling)]
+                        : [toSykepengeperiode(utbetaling)];
+                return { ...rader, [utbetaling.organisasjonsnummer]: nyTidslinje };
+            }, {}) ?? {},
+        [person]
+    );

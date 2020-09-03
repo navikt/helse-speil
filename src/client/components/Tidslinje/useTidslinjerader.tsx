@@ -1,25 +1,22 @@
 import { Person, Vedtaksperiode } from '../../context/types.internal';
-import {
-    EnkelSykepengetidslinje,
-    Sykepengeperiode
-} from '@navikt/helse-frontend-tidslinje/dist/components/sykepengetidslinje/Sykepengetidslinje';
 import React, { useMemo } from 'react';
+import { Sykepengeperiode } from '@navikt/helse-frontend-tidslinje/lib';
 
 export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeperiode => ({
     id: vedtaksperiode.id,
     fom: vedtaksperiode.fom.toDate(),
     tom: vedtaksperiode.tom.toDate(),
     status: vedtaksperiode.tilstand,
-    disabled: !vedtaksperiode.kanVelges
+    disabled: !vedtaksperiode.kanVelges,
 });
 
-export const useTidslinjerader = (person?: Person): EnkelSykepengetidslinje[] =>
+class EnkelSykepengetidslinje {}
+
+export const useTidslinjerader = (person?: Person): Sykepengeperiode[][] =>
     useMemo(
         () =>
-            person?.arbeidsgivere.map(arbeidsgiver => {
-                return {
-                    perioder: arbeidsgiver.vedtaksperioder.map(toSykepengeperiode)
-                };
+            person?.arbeidsgivere.map((arbeidsgiver) => {
+                return arbeidsgiver.vedtaksperioder.map(toSykepengeperiode);
             }) ?? [],
         [person]
     );

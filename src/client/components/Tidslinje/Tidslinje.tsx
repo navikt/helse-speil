@@ -1,13 +1,13 @@
 import React, { useContext, useMemo } from 'react';
 import styled from '@emotion/styled';
 import Vinduvelger from './Vinduvelger';
-import Periodevelger from './Periodevelger';
 import { Radnavn } from './Radnavn';
 import { PersonContext } from '../../context/PersonContext';
 import { useTidslinjerader } from './useTidslinjerader';
 import { useInfotrygdrader } from './useInfotrygdrader';
-import { Sykepengetidslinje } from '@navikt/helse-frontend-tidslinje';
 import { useTidslinjevinduer } from './useTidslinjevinduer';
+import { Sykepengetidslinje } from '@navikt/helse-frontend-tidslinje/lib';
+import '@navikt/helse-frontend-tidslinje/lib/main.css';
 
 const Container = styled.div`
     display: flex;
@@ -31,7 +31,7 @@ export const Tidslinje = React.memo(() => {
 
     const arbeidsgiverrader = useTidslinjerader(personTilBehandling);
     const infotrygdrader = useInfotrygdrader(personTilBehandling);
-    const tidslinjerader = [...arbeidsgiverrader, ...infotrygdrader];
+    const tidslinjerader = [...arbeidsgiverrader, ...Object.values(infotrygdrader)];
 
     const aktivPeriode = aktivVedtaksperiode && {
         fom: aktivVedtaksperiode.fom.startOf('day').toDate(),
@@ -48,7 +48,6 @@ export const Tidslinje = React.memo(() => {
             <Container>
                 <FlexRow>
                     <FlexColumn>
-                        <Periodevelger tidslinjerader={arbeidsgiverrader} />
                         <Radnavn infotrygdrader={infotrygdrader} />
                     </FlexColumn>
                     <Sykepengetidslinje

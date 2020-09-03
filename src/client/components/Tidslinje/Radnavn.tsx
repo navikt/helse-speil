@@ -2,19 +2,20 @@ import React, { useContext } from 'react';
 import Arbeidsgiverikon from '../Ikon/Arbeidsgiverikon';
 import Infotrygdikon from '../Ikon/Infotrygdikon';
 import { PersonContext } from '../../context/PersonContext';
-import { Infotrygdrad } from './useInfotrygdrader';
+import { UtbetalingerPerArbeidsgiver } from './useInfotrygdrader';
 import styled from '@emotion/styled';
 
 interface RadnavnProps {
-    infotrygdrader: Infotrygdrad[];
+    infotrygdrader: UtbetalingerPerArbeidsgiver;
 }
 
 const Labels = styled.div`
-    padding: 14px 0;
+    margin-top: 71px;
+    padding: 0 0 26px;
 `;
 
 const Label = styled.label`
-    height: 24px;
+    height: 1.5rem;
     margin: 0.25rem 0;
     display: flex;
     align-items: center;
@@ -33,10 +34,8 @@ export const Radnavn = ({ infotrygdrader }: RadnavnProps) => {
             arbeidsgiver.navn !== 'ukjent' ? arbeidsgiver.navn : arbeidsgiver.organisasjonsnummer
         ) ?? [];
 
-    const radnavnInfotrygd = infotrygdrader.flatMap((rad) =>
-        rad.organisasjonsnummer !== '0'
-            ? `Infotrygd — ${rad.organisasjonsnummer}`
-            : `Infotrygd — Periode uten utbetaling`
+    const radnavnInfotrygd = Object.keys(infotrygdrader).map((organisasjonsnummer) =>
+        organisasjonsnummer !== '0' ? `Infotrygd — ${organisasjonsnummer}` : `Infotrygd — Periode uten utbetaling`
     );
 
     return (
