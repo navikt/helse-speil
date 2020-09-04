@@ -76,10 +76,11 @@ export const fetchPerson = async (personId?: string) =>
 
 export const fetchOppgaver = async () => get(`${baseUrl}/person/`);
 
-export const post = async (url: string, data: any): Promise<SpeilResponse> => {
+export const post = async (url: string, data: any, headere?: { [key: string]: string }): Promise<SpeilResponse> => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
+            ...headere,
             Accept: 'application/json',
             'Content-Type': 'application/json',
         },
@@ -104,14 +105,6 @@ export const getPersoninfo = async (aktorId: string) => {
     return get(`${baseUrl}/person/${aktorId}/info`);
 };
 
-export const postTildeling = async (tildeling: Tildeling) => {
-    return post(`${baseUrl}/tildeling`, tildeling);
-};
-
-export const deleteTildeling = async (behandlingsId: string) => {
-    return del(`${baseUrl}/tildeling/${behandlingsId}`);
-};
-
 export const postVedtak = async (
     oppgavereferanse: string,
     aktørId: string,
@@ -127,13 +120,28 @@ export const postAnnullering = async (annullering: AnnulleringDTO) =>
 export const postOverstyring = async (overstyring: OverstyringDTO) =>
     post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
 
-export const getOppgavereferanse = async (fødselsnummer: string) => {
-    const speilToken = extractSpeilToken();
+const spesialistAuthorization = () => ({
+    Authorization: `Bearer ${extractSpeilToken()}`,
+});
 
-    return get(`${baseUrlSpesialist}/oppgave`, {
-        headers: {
-            fodselsnummer: fødselsnummer,
-            Authorization: `Bearer ${speilToken}`,
-        },
-    });
-};
+const spesialistOptions = (headere?: { [key: string]: string }) => ({
+    headers: {
+        ...headere,
+        ...spesialistAuthorization(),
+    },
+});
+
+export const getOppgavereferanse = async (fødselsnummer: string) =>
+    get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
+
+export const postTildeling = async (tildeling: Tildeling) =>
+    Promise.all([
+        post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization()),
+        post(`${baseUrl}/tildeling`, tildeling),
+    ]);
+
+export const deleteTildeling = async (oppgavereferanse: string) =>
+    Promise.all([
+        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, spesialistOptions()),
+        del(`${baseUrl}/tildeling/${oppgavereferanse}`),
+    ]);

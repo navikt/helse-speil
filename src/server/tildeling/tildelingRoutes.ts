@@ -71,8 +71,10 @@ const routes = (router: Router) => {
         }
         storage
             .unassignCase(oppgavereferanse)
-            .then(() => {
-                logger.info(`The case ${oppgavereferanse} is no longer assigned.`);
+            .then((fjernetTildeling: boolean) => {
+                fjernetTildeling
+                    ? logger.info(`Oppgaven ${oppgavereferanse} er ikke lenger tildelt.`)
+                    : logger.info(`Ingen tildeling å fjerne for oppgave ${oppgavereferanse}`);
                 res.sendStatus(204);
             })
             .catch((err: Error) => {

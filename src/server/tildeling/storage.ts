@@ -8,7 +8,7 @@ export interface Storage {
     get: (key: string) => Promise<string>;
     assignCase: (key: string, value: string) => Promise<string>;
     getAll: (keys: string[]) => Promise<Tildeling[]>;
-    unassignCase: (key: string) => Promise<number>;
+    unassignCase: (key: string) => Promise<boolean>;
 }
 
 export interface Tildeling {
@@ -38,13 +38,7 @@ const assignCase = (key: string, value: any) =>
 const unassignCase = (key: string) =>
     promisify(redisClient!.del)
         .bind(redisClient)(addPrefix(key))
-        .then((value: number) => {
-            if (value === 0) {
-                throw Error(`No items to delete for key ${key}`);
-            } else {
-                return value;
-            }
-        });
+        .then((value: number) => value !== 0);
 
 const storage: Storage = {
     init,
