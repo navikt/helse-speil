@@ -26,21 +26,41 @@ export enum OppgaveType {
     OvergangFraInfotrygd = 'OVERGANG_FRA_IT',
 }
 
+export interface SpesialistOppgave {
+    oppgavereferanse: string;
+    saksbehandlerOid: string | null;
+    opprettet: string;
+    vedtaksperiodeId: string;
+    periodeFom: string;
+    periodeTom: string;
+    personinfo: SpesialistPersoninfo;
+    fødselsnummer: string;
+    aktørId: string;
+    antallVarsler: number;
+    type: OppgaveType;
+    boenhet: Boenhet;
+}
+
 export interface Oppgave {
     oppgavereferanse: string;
+    tildeltTil?: string;
     opprettet: string;
     vedtaksperiodeId: string;
     personinfo: SpesialistPersoninfo;
     fødselsnummer: string;
     aktørId: string;
-    boenhet: Boenhet;
     antallVarsler: number;
     type: OppgaveType;
-    tildeltTil: string | null;
+    boenhet: Boenhet;
 }
 
 export interface TildeltOppgave extends Oppgave {
     tildeltTil: string;
+}
+
+export interface Speiltildeling {
+    oppgavereferanse: string;
+    userId: string;
 }
 
 interface Boenhet {

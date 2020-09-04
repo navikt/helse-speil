@@ -5,6 +5,7 @@ import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf } from '../types';
 import { Request, Response } from 'express';
 import { Storage } from '../tildeling/storage';
+import { Oppgave, Speiltildeling, SpesialistOppgave } from '../../types';
 
 interface RespondWithParameters {
     res: Response;
@@ -85,14 +86,25 @@ const finnPerson = async (req: Request, res: Response) => {
 const oppgaverForPeriode = (req: Request, res: Response) => {
     auditLogOversikt(req);
 
-    const oppgaverMedTildelinger = async (response: Body): Promise<any> => {
+    const tildeltTil = (oppgave: SpesialistOppgave, speiltildelinger: Speiltildeling[]): string | undefined =>
+        oppgave.saksbehandlerOid ??
+        speiltildelinger.find((tildeling) => tildeling.oppgavereferanse === oppgave.oppgavereferanse)?.userId;
+
+    const oppgaverMedTildelinger = async (response: Body): Promise<Oppgave[]> => {
         const body: any = response.body;
-        const oppgavereferanser = body.map((oppgave: any) => oppgave.oppgavereferanse);
+        const oppgavereferanser = body.map((oppgave: SpesialistOppgave) => oppgave.oppgavereferanse);
         const tildelinger = await storage.getAll(oppgavereferanser);
-        return body.map((oppgave: any) => ({
-            ...oppgave,
-            tildeltTil: tildelinger.find((tildeling: any) => tildeling.oppgavereferanse === oppgave.oppgavereferanse)
-                ?.userId,
+        return body.map((oppgave: SpesialistOppgave) => ({
+            oppgavereferanser: oppgave.oppgavereferanse,
+            tildeltTil: tildeltTil(oppgave, tildelinger),
+            opprettet: oppgave.opprettet,
+            vedtaksperiodeId: oppgave.vedtaksperiodeId,
+            personinfo: oppgave.personinfo,
+            fødselsnummer: oppgave.fødselsnummer,
+            aktørId: oppgave.aktørId,
+            antallVarsler: oppgave.antallVarsler,
+            type: oppgave.type,
+            boenhet: oppgave.boenhet,
         }));
     };
 
