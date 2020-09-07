@@ -2,6 +2,7 @@ import { Tildeling } from '../context/types.internal';
 import { AnnulleringDTO, Options, OverstyringDTO } from './types';
 import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
 import { extractSpeilToken } from '../utils/cookie';
+import { spesialistTildelingEnabled } from '../featureToggles';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -134,13 +135,21 @@ const spesialistOptions = (headere?: Headers) => ({
     },
 });
 
+const postSpeilTildeling = (tildeling: Tildeling) => post(`${baseUrl}/tildeling`, tildeling);
+
+const postSpesialistTildeling = (tildeling: Tildeling) =>
+    post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
+
 export const getOppgavereferanse = async (fødselsnummer: string) =>
     get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
-export const postTildeling = async (tildeling: Tildeling) => post(`${baseUrl}/tildeling`, tildeling);
-// post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
+export const postTildeling = async (tildeling: Tildeling) =>
+    spesialistTildelingEnabled ? postSpesialistTildeling(tildeling) : postSpeilTildeling(tildeling);
 
-export const deleteTildeling = async (oppgavereferanse: string) => del(`${baseUrl}/tildeling/${oppgavereferanse}`);
-// Promise.allSettled([
-//     del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions()),
-// ]).then((responseList) => responseList.find((response) => response.status === 'fulfilled'));
+const deleteSpeilTildeling = (oppgavereferanse: string) => del(`${baseUrl}/tildeling/${oppgavereferanse}`);
+
+const deleteSpesialistTildeling = (oppgavereferanse: string) =>
+    del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
+
+export const deleteTildeling = async (oppgavereferanse: string) =>
+    spesialistTildelingEnabled ? deleteSpesialistTildeling(oppgavereferanse) : deleteSpeilTildeling(oppgavereferanse);
