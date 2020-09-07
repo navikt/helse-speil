@@ -63,12 +63,6 @@ const routes = (router: Router) => {
 
     router.delete('/:oppgavereferanse', (req, res) => {
         const oppgavereferanse = req.params.oppgavereferanse;
-        if (oppgavereferanse === undefined) {
-            const errorMessage = `Oppgavereferanse '${oppgavereferanse}' is not valid.`;
-            logger.info(`Unassign case: ${errorMessage}`);
-            res.status(400).send(errorMessage);
-            return;
-        }
         storage
             .unassignCase(oppgavereferanse)
             .then((fjernetTildeling: boolean) => {
