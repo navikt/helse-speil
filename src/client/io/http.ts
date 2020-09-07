@@ -13,6 +13,8 @@ export interface SpeilResponse {
     data: any;
 }
 
+type Headers = { [key: string]: any };
+
 // eslint-disable-next-line no-undef
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
 
@@ -57,10 +59,13 @@ const get = async (url: string, options?: Options): Promise<SpeilResponse> => {
     };
 };
 
-export const del = async (url: string, data?: any) => {
+export const del = async (url: string, data?: any, headers?: Headers) => {
     const response = await fetch(url, {
         method: 'DELETE',
         body: JSON.stringify(data),
+        headers: {
+            ...headers,
+        },
     });
 
     if (response.status !== 204) {
@@ -76,7 +81,7 @@ export const fetchPerson = async (personId?: string) =>
 
 export const fetchOppgaver = async () => get(`${baseUrl}/person/`);
 
-export const post = async (url: string, data: any, headere?: { [key: string]: string }): Promise<SpeilResponse> => {
+export const post = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse> => {
     const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -139,6 +144,6 @@ export const postTildeling = async (tildeling: Tildeling) =>
 
 export const deleteTildeling = async (oppgavereferanse: string) =>
     Promise.all([
-        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, spesialistOptions()),
+        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistAuthorization()),
         del(`${baseUrl}/tildeling/${oppgavereferanse}`),
     ]).then((responseList) => responseList.find((response) => response.ok));
