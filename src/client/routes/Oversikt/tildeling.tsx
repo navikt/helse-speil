@@ -43,7 +43,7 @@ export const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
     const { markerOppgaveSomTildelt } = useContext(OppgaverContext);
 
     const meldAv = () => {
-        fjernTildeling(oppgave.oppgavereferanse).then(() => markerOppgaveSomTildelt(oppgave, null));
+        fjernTildeling(oppgave.oppgavereferanse).then(() => markerOppgaveSomTildelt(oppgave));
     };
 
     return (

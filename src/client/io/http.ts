@@ -141,4 +141,4 @@ export const deleteTildeling = async (oppgavereferanse: string) =>
     Promise.all([
         del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, spesialistOptions()),
         del(`${baseUrl}/tildeling/${oppgavereferanse}`),
-    ]);
+    ]).then((responseList) => responseList.find((response) => response.ok));

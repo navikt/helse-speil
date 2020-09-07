@@ -14,7 +14,7 @@ interface ProviderProps {
 interface OppgaveoversiktContextType {
     oppgaver: Oppgave[];
     hentOppgaver: () => void;
-    markerOppgaveSomTildelt: (oppgave: Oppgave, email: string | null) => void;
+    markerOppgaveSomTildelt: (oppgave: Oppgave, email?: string) => void;
     isFetchingOppgaver: boolean;
     error?: Error;
 }
@@ -52,7 +52,7 @@ export const OppgaverProvider = ({ children }: ProviderProps) => {
             .finally(() => setIsFetchingOppgaver(false));
     };
 
-    const markerOppgaveSomTildelt = (oppgave: Oppgave, email: string | null) => {
+    const markerOppgaveSomTildelt = (oppgave: Oppgave, email?: string) => {
         setOppgaver((prev) => {
             return prev.map((prevOppgave) => {
                 if (oppgave === prevOppgave) return { ...prevOppgave, tildeltTil: email };
