@@ -59,13 +59,11 @@ const get = async (url: string, options?: Options): Promise<SpeilResponse> => {
     };
 };
 
-export const del = async (url: string, data?: any, headers?: Headers) => {
+export const del = async (url: string, data?: any, options?: Options) => {
     const response = await fetch(url, {
         method: 'DELETE',
         body: JSON.stringify(data),
-        headers: {
-            ...headers,
-        },
+        ...options,
     });
 
     if (response.status !== 204) {
@@ -129,7 +127,7 @@ const spesialistAuthorization = () => ({
     Authorization: `Bearer ${extractSpeilToken()}`,
 });
 
-const spesialistOptions = (headere?: { [key: string]: string }) => ({
+const spesialistOptions = (headere?: Headers) => ({
     headers: {
         ...headere,
         ...spesialistAuthorization(),
@@ -139,11 +137,11 @@ const spesialistOptions = (headere?: { [key: string]: string }) => ({
 export const getOppgavereferanse = async (fødselsnummer: string) =>
     get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
-export const postTildeling = async (tildeling: Tildeling) =>
-    post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
+export const postTildeling = async (tildeling: Tildeling) => post(`${baseUrl}/tildeling`, tildeling);
+// post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
 
 export const deleteTildeling = async (oppgavereferanse: string) =>
-    Promise.all([
-        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistAuthorization()),
+    Promise.allSettled([
+        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions()),
         del(`${baseUrl}/tildeling/${oppgavereferanse}`),
-    ]).then((responseList) => responseList.find((response) => response.ok));
+    ]).then((responseList) => responseList.find((response) => response.status === 'fulfilled'));

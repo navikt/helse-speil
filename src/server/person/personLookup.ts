@@ -68,14 +68,9 @@ const finnPerson = async (req: Request, res: Response) => {
         .hentFor(spesialistId, req.session!.speilToken)
         .then((token: string) => lookupPromise(undeterminedId, token))
         .then(async (apiResponse) => {
-            if (apiResponse === undefined) {
-                logger.error(`[${speilUser(req)}] Unexpected error, missing apiResponse value`);
-                res.sendStatus(503);
-            } else {
-                res.status(apiResponse.status).send({
-                    person: { ...apiResponse.body, tildeltTil: await finnTildeling(apiResponse) },
-                });
-            }
+            res.status(apiResponse.status).send({
+                person: { ...apiResponse.body, tildeltTil: await finnTildeling(apiResponse) },
+            });
         })
         .catch((err) => {
             logger.error(`[${speilUser(req)}] Error during data fetching for finnPerson: ${err}`);
@@ -114,14 +109,9 @@ const oppgaverForPeriode = (req: Request, res: Response) => {
         .hentFor(spesialistId, req.session!.speilToken)
         .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(behalfOfToken))
         .then(async (apiResponse) => {
-            if (apiResponse === undefined) {
-                logger.error(`[${speilUser(req)}] Unexpected error, missing apiResponse value`);
-                res.sendStatus(503);
-            } else {
-                res.status(apiResponse.status).send({
-                    oppgaver: await oppgaverMedTildelinger(apiResponse),
-                });
-            }
+            res.status(apiResponse.status).send({
+                oppgaver: await oppgaverMedTildelinger(apiResponse),
+            });
         })
         .catch((err) => {
             logger.error(`[${speilUser(req)}] Error during data fetching for oversikt: ${err}`);
