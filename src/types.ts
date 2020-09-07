@@ -28,7 +28,7 @@ export enum OppgaveType {
 
 export interface SpesialistOppgave {
     oppgavereferanse: string;
-    saksbehandlerOid: string | null;
+    saksbehandlerepost: string | null;
     opprettet: string;
     vedtaksperiodeId: string;
     periodeFom: string;

@@ -87,7 +87,7 @@ const oppgaverForPeriode = (req: Request, res: Response) => {
     auditLogOversikt(req);
 
     const tildeltTil = (oppgave: SpesialistOppgave, speiltildelinger: Speiltildeling[]): string | undefined =>
-        oppgave.saksbehandlerOid ??
+        oppgave.saksbehandlerepost ??
         speiltildelinger.find((tildeling) => tildeling.oppgavereferanse === oppgave.oppgavereferanse)?.userId;
 
     const oppgaverMedTildelinger = async (response: Body): Promise<Oppgave[]> => {
