@@ -140,8 +140,7 @@ export const getOppgavereferanse = async (fødselsnummer: string) =>
 export const postTildeling = async (tildeling: Tildeling) => post(`${baseUrl}/tildeling`, tildeling);
 // post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
 
-export const deleteTildeling = async (oppgavereferanse: string) =>
-    Promise.allSettled([
-        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions()),
-        del(`${baseUrl}/tildeling/${oppgavereferanse}`),
-    ]).then((responseList) => responseList.find((response) => response.status === 'fulfilled'));
+export const deleteTildeling = async (oppgavereferanse: string) => del(`${baseUrl}/tildeling/${oppgavereferanse}`);
+// Promise.allSettled([
+//     del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions()),
+// ]).then((responseList) => responseList.find((response) => response.status === 'fulfilled'));
