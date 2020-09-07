@@ -94,18 +94,20 @@ const oppgaverForPeriode = (req: Request, res: Response) => {
         const body: any = response.body;
         const oppgavereferanser = body.map((oppgave: SpesialistOppgave) => oppgave.oppgavereferanse);
         const tildelinger = await storage.getAll(oppgavereferanser);
-        return body.map((oppgave: SpesialistOppgave) => ({
-            oppgavereferanser: oppgave.oppgavereferanse,
-            tildeltTil: tildeltTil(oppgave, tildelinger),
-            opprettet: oppgave.opprettet,
-            vedtaksperiodeId: oppgave.vedtaksperiodeId,
-            personinfo: oppgave.personinfo,
-            fødselsnummer: oppgave.fødselsnummer,
-            aktørId: oppgave.aktørId,
-            antallVarsler: oppgave.antallVarsler,
-            type: oppgave.type,
-            boenhet: oppgave.boenhet,
-        }));
+        return body.map(
+            (oppgave: SpesialistOppgave): Oppgave => ({
+                oppgavereferanse: oppgave.oppgavereferanse,
+                tildeltTil: tildeltTil(oppgave, tildelinger),
+                opprettet: oppgave.opprettet,
+                vedtaksperiodeId: oppgave.vedtaksperiodeId,
+                personinfo: oppgave.personinfo,
+                fødselsnummer: oppgave.fødselsnummer,
+                aktørId: oppgave.aktørId,
+                antallVarsler: oppgave.antallVarsler,
+                type: oppgave.type,
+                boenhet: oppgave.boenhet,
+            })
+        );
     };
 
     onBehalfOf
