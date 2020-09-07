@@ -135,10 +135,7 @@ export const getOppgavereferanse = async (fødselsnummer: string) =>
     get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
 export const postTildeling = async (tildeling: Tildeling) =>
-    Promise.all([
-        post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization()),
-        post(`${baseUrl}/tildeling`, tildeling),
-    ]);
+    post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
 
 export const deleteTildeling = async (oppgavereferanse: string) =>
     Promise.all([
