@@ -1,10 +1,12 @@
-export const copyContentsToClipboard = (node: HTMLElement | undefined, textTransform: (s: string) => string) => {
+const removeSpaces = (s: string) => s.replace(' ', '');
+
+export const copyContentsToClipboard = (node: HTMLElement | undefined, preserveWhitespace = true) => {
     let didCopy = false;
 
     if (node) {
         node.contentEditable = 'true';
         const tempTextContents = node.innerText;
-        node.innerText = textTransform(node.innerText);
+        node.innerText = preserveWhitespace ? node.innerText : removeSpaces(node.innerText);
         const range = document.createRange();
         range.selectNodeContents(node);
 

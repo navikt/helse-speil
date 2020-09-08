@@ -1,16 +1,12 @@
 import React, { ReactChild, useEffect, useRef, useState } from 'react';
 import ReactTooltip from 'react-tooltip';
-import ClipboardIcon from './ClipboardIcon';
+import ClipboardIcon from './icons/ClipboardIcon';
 import { AnimatePresence, motion } from 'framer-motion';
 import { copyContentsToClipboard } from './util';
-import './Clipboard.less';
+import { Flex } from '../Flex';
+import styled from '@emotion/styled';
 
-interface Props {
-    children: ReactChild;
-    source?: React.RefObject<HTMLElement>;
-}
-
-const animation = {
+const copyAnimation = {
     initial: { y: 5, opacity: 0 },
     animate: { y: 0, opacity: 1 },
     exit: { y: 5, opacity: 0 },
@@ -19,18 +15,42 @@ const animation = {
     },
 };
 
-const removeSpaces = (s: string) => s.replace(' ', '');
+const Container = styled(Flex)`
+    &:hover > div:first-of-type {
+        border-bottom: 1px dotted #000;
+    }
+`;
 
-const Clipboard = ({ children, source }: Props) => {
+const Button = styled.button`
+    border: none;
+    border-radius: 0.625rem;
+    background: none;
+    cursor: pointer;
+    padding: 0.125rem;
+    margin-left: 0.25rem;
+
+    &:focus,
+    &:active,
+    &:hover {
+        outline: none;
+    }
+`;
+
+interface Props {
+    children: ReactChild;
+    copySource?: React.RefObject<HTMLElement>;
+}
+
+export const Clipboard = ({ children, copySource }: Props) => {
     const [didCopy, setDidCopy] = useState(false);
-    const ref = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
 
     const copy = () => {
         if (!didCopy) {
             setDidCopy(
-                source?.current
-                    ? copyContentsToClipboard(source.current, (s) => s)
-                    : copyContentsToClipboard(ref?.current?.firstChild as HTMLElement, removeSpaces)
+                copySource?.current
+                    ? copyContentsToClipboard(copySource.current, true)
+                    : copyContentsToClipboard(contentRef?.current?.firstChild as HTMLElement, false)
             );
         }
     };
@@ -40,20 +60,16 @@ const Clipboard = ({ children, source }: Props) => {
     }, [didCopy]);
 
     return (
-        <div className="Clipboard">
-            <div className="Clipboard__children" ref={ref}>
-                {children}
-            </div>
+        <Container alignItems="center">
+            <div ref={contentRef}>{children}</div>
             <ReactTooltip place="bottom" disable={!didCopy} />
-            <button data-tip="Kopiert!" data-tip-disable={!didCopy} onClick={copy} data-class="typo-undertekst">
+            <Button data-tip="Kopiert!" data-tip-disable={!didCopy} onClick={copy} data-class="typo-undertekst">
                 <AnimatePresence initial={false} exitBeforeEnter>
-                    <motion.div {...animation} key={didCopy ? 'check' : 'copy'}>
+                    <motion.div {...copyAnimation} key={didCopy ? 'check' : 'copy'}>
                         <ClipboardIcon type={didCopy ? 'check' : 'copy'} />
                     </motion.div>
                 </AnimatePresence>
-            </button>
-        </div>
+            </Button>
+        </Container>
     );
 };
-
-export default Clipboard;

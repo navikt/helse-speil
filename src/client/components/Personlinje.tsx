@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Clipboard from './Clipboard';
+import { Clipboard } from './Clipboard';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../context/PersonContext';
 import styled from '@emotion/styled';

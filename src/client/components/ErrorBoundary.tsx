@@ -1,7 +1,7 @@
 import React, { ReactPropTypes, createRef } from 'react';
 import styled from '@emotion/styled';
 import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
-import Clipboard from './Clipboard';
+import { Clipboard } from './Clipboard';
 
 const Container = styled.div`
     margin: 2rem;
@@ -76,7 +76,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
                 <div>
                     <Utviklermelding>
                         Feilmelding til utviklere (
-                        <Clipboard source={this.errorMessageRef}>trykk på ikonet for å kopiere:</Clipboard>
+                        <Clipboard copySource={this.errorMessageRef}>trykk på ikonet for å kopiere:</Clipboard>
                         ):
                     </Utviklermelding>
                     <Feilmelding className="typo-undertekst" ref={this.errorMessageRef}>
