@@ -61,6 +61,6 @@ export const extractValues = (values: ArrayLike<any>) => {
     return decodedCookie ? Array.from(values).map((val) => decodedCookie[val]) : [];
 };
 
-export const extractName = () => {
-    return extractValues([CookieKey.Name]);
-};
+export const extractName = () => extractValues([CookieKey.Name]);
+
+export const extractIdent = (): string => extractValues([CookieKey.Ident]).pop();
