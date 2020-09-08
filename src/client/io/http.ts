@@ -135,21 +135,17 @@ const spesialistOptions = (headere?: Headers) => ({
     },
 });
 
-const postSpeilTildeling = (tildeling: Tildeling) => post(`${baseUrl}/tildeling`, tildeling);
-
-const postSpesialistTildeling = (tildeling: Tildeling) =>
-    post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
-
 export const getOppgavereferanse = async (fødselsnummer: string) =>
     get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
 export const postTildeling = async (tildeling: Tildeling) =>
-    spesialistTildelingEnabled ? postSpesialistTildeling(tildeling) : postSpeilTildeling(tildeling);
-
-const deleteSpeilTildeling = (oppgavereferanse: string) => del(`${baseUrl}/tildeling/${oppgavereferanse}`);
-
-const deleteSpesialistTildeling = (oppgavereferanse: string) =>
-    del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
+    post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
 
 export const deleteTildeling = async (oppgavereferanse: string) =>
-    spesialistTildelingEnabled ? deleteSpesialistTildeling(oppgavereferanse) : deleteSpeilTildeling(oppgavereferanse);
+    Promise.allSettled([
+        del(`${baseUrl}/tildeling/${oppgavereferanse}`),
+        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions()),
+    ]).then((resultList) => {
+        const fullfilledResult = resultList.find((result) => result.status === 'fulfilled');
+        return (fullfilledResult as PromiseFulfilledResult<Response>).value;
+    });
