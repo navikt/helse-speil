@@ -1,20 +1,25 @@
 import { Tidslinjevindu } from './Tidslinje.types';
 import { useMemo, useState } from 'react';
-import dayjs from 'dayjs';
-import { Person } from '../../context/types.internal';
+import dayjs, { Dayjs } from 'dayjs';
+import { Infotrygdutbetaling, Person, Vedtaksperiode } from '../../context/types.internal';
+
+type EnkelPeriode = { fom: Dayjs; tom: Dayjs };
+
+const senesteDato = (perioder: EnkelPeriode[]) =>
+    perioder
+        .reduce((senesteDato, periode) => (periode.tom.isAfter(senesteDato) ? periode.tom : senesteDato), dayjs(0))
+        .endOf('day') ?? dayjs().endOf('day');
 
 export const useTidslinjevinduer = (person?: Person) => {
-    const sisteDato = useMemo(
-        () =>
-            person?.arbeidsgivere
-                .flatMap((arbeidsgiver) => arbeidsgiver.vedtaksperioder)
-                .reduce(
-                    (senesteDato, periode) => (periode.tom.isAfter(senesteDato) ? periode.tom : senesteDato),
-                    dayjs(0)
-                )
-                .endOf('day') ?? dayjs().endOf('day'),
-        [person]
-    );
+    const sisteDato = useMemo(() => {
+        const vedtaksperioder = person?.arbeidsgivere.flatMap(({ vedtaksperioder }) => vedtaksperioder);
+        const infotrygdutbetalinger = person?.infotrygdutbetalinger;
+        const senesteVedtaksperiodedato = senesteDato(vedtaksperioder as EnkelPeriode[]);
+        const senesteInfotrygdperiodedato = senesteDato(infotrygdutbetalinger as EnkelPeriode[]);
+        return senesteInfotrygdperiodedato.isAfter(senesteVedtaksperiodedato)
+            ? senesteInfotrygdperiodedato
+            : senesteVedtaksperiodedato;
+    }, [person]);
 
     const vinduer: Tidslinjevindu[] = [
         {
