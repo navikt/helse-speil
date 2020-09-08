@@ -67,7 +67,7 @@ export const del = async (url: string, data?: any, options?: Options) => {
         ...options,
     });
 
-    if (response.status !== 204) {
+    if (response.status >= 400) {
         throw ResponseError(response.status);
     }
     return response;
