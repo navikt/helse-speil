@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import { Clipboard } from './Clipboard';
 import userEvent from '@testing-library/user-event';
@@ -33,6 +33,31 @@ describe('Clipboard', () => {
             const button = screen.getByRole('button');
             await userEvent.click(button);
             expect(copiedText).toEqual('Denne skal kopieres');
+        });
+    });
+    test('tar vekk mellomrom om `preserveWhitespace` === false', async () => {
+        render(<Clipboard preserveWhitespace={false}>Denne skal kopieres uten mellomrom</Clipboard>);
+        await act(async () => {
+            const button = screen.getByRole('button');
+            await userEvent.click(button);
+            expect(copiedText).toEqual('Denneskalkopieresutenmellomrom');
+        });
+    });
+    test('kopierer tekst fra kilderef om oppgitt', async () => {
+        const Container = () => {
+            const copyRef = useRef<HTMLParagraphElement>(null);
+            return (
+                <>
+                    <p ref={copyRef}>Denne burde kopieres</p>
+                    <Clipboard copySource={copyRef}>Denne skal ikke kopieres</Clipboard>
+                </>
+            );
+        };
+        render(<Container />);
+        await act(async () => {
+            const button = screen.getByRole('button');
+            await userEvent.click(button);
+            expect(copiedText).toEqual('Denne burde kopieres');
         });
     });
 });
