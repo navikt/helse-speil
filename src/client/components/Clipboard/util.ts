@@ -1,27 +1,35 @@
-const removeSpaces = (s: string) => s.replace(' ', '');
+import { writeToClipboard } from './writeToClipboard';
 
-export const copyContentsToClipboard = (node: HTMLElement | undefined, preserveWhitespace = true) => {
-    let didCopy = false;
+const isText = (node?: HTMLElement | Text) => (node as Text)?.data !== undefined;
 
-    if (node) {
-        node.contentEditable = 'true';
-        const tempTextContents = node.innerText;
-        node.innerText = preserveWhitespace ? node.innerText : removeSpaces(node.innerText);
-        const range = document.createRange();
-        range.selectNodeContents(node);
+const hasTextContent = (node?: HTMLElement) => node?.textContent !== undefined;
 
-        const selection = window.getSelection();
+const hasInnerText = (node?: HTMLElement) => node?.innerText !== undefined;
 
-        if (selection) {
-            selection.removeAllRanges();
-            selection.addRange(range);
+const removeSpaces = (s: string) => s.replace(/\s/g, '');
 
-            didCopy = document.execCommand('copy');
-            selection.removeAllRanges();
-        }
-        node.innerText = tempTextContents;
-        node.contentEditable = 'false';
+const copyString = (data: string, preserveWhitespace: boolean) =>
+    writeToClipboard(preserveWhitespace ? data : removeSpaces(data))
+        .then(() => true)
+        .catch(() => false);
+
+const copyContentsFromText = (text: Text, preserveWhitespace: boolean): Promise<boolean> =>
+    copyString(text.data, preserveWhitespace);
+
+const copyContentsFromTextContent = (node: HTMLElement, preserveWhitespace: boolean) =>
+    copyString(node.textContent as string, preserveWhitespace);
+
+const copyContentsFromInnerText = (node: HTMLElement, preserveWhitespace: boolean) =>
+    copyString(node.innerText as string, preserveWhitespace);
+
+export const copyContentsToClipboard = (node?: HTMLElement | Text, preserveWhitespace = true) => {
+    if (isText(node)) {
+        return copyContentsFromText(node as Text, preserveWhitespace);
+    } else if (hasInnerText(node as HTMLElement)) {
+        return copyContentsFromInnerText(node as HTMLElement, preserveWhitespace);
+    } else if (hasTextContent(node as HTMLElement)) {
+        return copyContentsFromTextContent(node as HTMLElement, preserveWhitespace);
+    } else {
+        return Promise.resolve(false);
     }
-
-    return didCopy;
 };

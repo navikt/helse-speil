@@ -53,7 +53,7 @@ const Personlinje = () => {
             <Element>{`${fornavn} ${mellomnavn ? `${mellomnavn} ` : ' '}${etternavn}`}</Element>
             <Separator>/</Separator>
             {fnr ? (
-                <Clipboard>
+                <Clipboard preserveWhitespace={false}>
                     <Normaltekst>{formatFnr(fnr)}</Normaltekst>
                 </Clipboard>
             ) : (
@@ -61,7 +61,7 @@ const Personlinje = () => {
             )}
             <Separator>/</Separator>
             <Normaltekst>Aktør-ID:&nbsp;</Normaltekst>
-            <Clipboard>
+            <Clipboard preserveWhitespace={false}>
                 <Normaltekst>{aktørId}</Normaltekst>
             </Clipboard>
             <Separator>/</Separator>

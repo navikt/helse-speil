@@ -39,18 +39,19 @@ const Button = styled.button`
 interface Props {
     children: ReactChild;
     copySource?: React.RefObject<HTMLElement>;
+    preserveWhitespace?: boolean;
 }
 
-export const Clipboard = ({ children, copySource }: Props) => {
+export const Clipboard = ({ children, copySource, preserveWhitespace = true }: Props) => {
     const [didCopy, setDidCopy] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
-    const copy = () => {
+    const copy = async () => {
         if (!didCopy) {
             setDidCopy(
                 copySource?.current
-                    ? copyContentsToClipboard(copySource.current, true)
-                    : copyContentsToClipboard(contentRef?.current?.firstChild as HTMLElement, false)
+                    ? await copyContentsToClipboard(copySource.current, preserveWhitespace)
+                    : await copyContentsToClipboard(contentRef?.current?.firstChild as HTMLElement, preserveWhitespace)
             );
         }
     };
