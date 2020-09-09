@@ -146,10 +146,11 @@ export const getOppgavereferanse = async (fødselsnummer: string) =>
 export const postTildeling = async (tildeling: Tildeling) =>
     spesialistTildelingEnabled ? postSpesialistTildeling(tildeling) : postSpeilTildeling(tildeling);
 
-const deleteSpeilTildeling = (oppgavereferanse: string) => del(`${baseUrl}/tildeling/${oppgavereferanse}`);
-
-const deleteSpesialistTildeling = (oppgavereferanse: string) =>
-    del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
-
 export const deleteTildeling = async (oppgavereferanse: string) =>
-    Promise.any([deleteSpesialistTildeling(oppgavereferanse), deleteSpeilTildeling(oppgavereferanse)]);
+    Promise.allSettled([
+        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions()),
+        del(`${baseUrl}/tildeling/${oppgavereferanse}`),
+    ]).then((results) => {
+        const fulfilled = results.find((result) => result.status === 'fulfilled') as PromiseFulfilledResult<Response>;
+        return fulfilled?.value;
+    });
