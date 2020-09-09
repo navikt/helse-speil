@@ -152,4 +152,4 @@ const deleteSpesialistTildeling = (oppgavereferanse: string) =>
     del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
 
 export const deleteTildeling = async (oppgavereferanse: string) =>
-    spesialistTildelingEnabled ? deleteSpesialistTildeling(oppgavereferanse) : deleteSpeilTildeling(oppgavereferanse);
+    Promise.any([deleteSpesialistTildeling(oppgavereferanse), deleteSpeilTildeling(oppgavereferanse)]);
