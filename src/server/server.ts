@@ -101,6 +101,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
             auth.isValidIn({ seconds: 5, token: req.session!.speilToken }) ||
             (await auth.refreshAccessToken(azureClient!, req.session!))
         ) {
+            res.cookie('spesialist', req.session.speilToken, { secure: true, sameSite: true });
             next();
         } else {
             if (req.session!.speilToken) {
