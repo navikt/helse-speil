@@ -1,7 +1,7 @@
 import { Tildeling } from '../context/types.internal';
 import { AnnulleringDTO, Options, OverstyringDTO } from './types';
 import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
-import { extractSpeilToken } from '../utils/cookie';
+import { extractSpesialistToken } from '../utils/cookie';
 import { spesialistTildelingEnabled } from '../featureToggles';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
@@ -125,7 +125,7 @@ export const postOverstyring = async (overstyring: OverstyringDTO) =>
     post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
 
 const spesialistAuthorization = () => ({
-    Authorization: `Bearer ${extractSpeilToken()}`,
+    Authorization: `Bearer ${extractSpesialistToken()}`,
 });
 
 const spesialistOptions = (headere?: Headers) => ({

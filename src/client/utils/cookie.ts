@@ -43,13 +43,17 @@ const decode = (cookie: string) => {
     }
 };
 
-export const extractSpeilToken = (): string =>
+const extractTokenFromCookie = (tokenName: string): string =>
     document.cookie
         .split(';')
-        .filter((item) => item.trim().startsWith('speil='))
+        .filter((item) => item.trim().startsWith(`${tokenName}=`))
         .pop()
         ?.split('=')
         .pop() as string;
+
+export const extractSpeilToken = (): string => extractTokenFromCookie('speil');
+
+export const extractSpesialistToken = (): string => extractTokenFromCookie('spesialist');
 
 export const extractValues = (values: ArrayLike<any>) => {
     const decodedCookie = document.cookie
