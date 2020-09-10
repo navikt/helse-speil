@@ -55,12 +55,14 @@ export default ({ children }: LoggProviderProps) => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
 
     const dokumenter = aktivVedtaksperiode
-        ? aktivVedtaksperiode.hendelser.map((hendelse: Hendelse) => ({
-              id: hendelse.id,
-              dato: datoForHendelse(hendelse),
-              navn: navnForHendelse(hendelse),
-              type: LoggType.Dokumenter,
-          }))
+        ? aktivVedtaksperiode.hendelser
+              .filter((hendelse) => hendelse?.id)
+              .map((hendelse: Hendelse) => ({
+                  id: hendelse.id,
+                  dato: datoForHendelse(hendelse),
+                  navn: navnForHendelse(hendelse),
+                  type: LoggType.Dokumenter,
+              }))
         : [];
 
     const risikovurdering: LoggHendelse[] = aktivVedtaksperiode?.risikovurdering
