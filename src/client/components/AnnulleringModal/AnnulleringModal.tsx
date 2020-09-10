@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Modal from 'nav-frontend-modal';
 import styled from '@emotion/styled';
 import { Input } from 'nav-frontend-skjema';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
@@ -13,16 +12,18 @@ import { postAnnullering } from '../../io/http';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Annulleringsvarsel } from './Annulleringsvarsel';
 import { AnnullerbarUtbetaling } from './AnnullerbarUtbetaling';
-
-Modal.setAppElement('#root');
+import { Modal } from '../Modal';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
-    padding: 3.5rem;
 
     .skjemaelement__feilmelding {
         font-style: normal;
     }
+`;
+
+const Form = styled.form`
+    padding: 0.5rem 2.5rem 2.5rem;
 `;
 
 const Tittel = styled.h1`
@@ -109,14 +110,12 @@ export const AnnulleringModal = ({ person, vedtaksperiode, onClose }: Props) => 
     return (
         <FormProvider {...form}>
             <ModalContainer
-                id="modal"
                 className="AnnulleringModal"
                 isOpen={true}
                 contentLabel="Feilmelding"
-                closeButton={true}
                 onRequestClose={onClose}
             >
-                <form onSubmit={form.handleSubmit(valider)}>
+                <Form onSubmit={form.handleSubmit(valider)}>
                     <Annulleringsvarsel />
                     <Tittel>Annullering</Tittel>
                     <Utbetalinger>
@@ -152,7 +151,7 @@ export const AnnulleringModal = ({ person, vedtaksperiode, onClose }: Props) => 
                     </AnnullerKnapp>
                     <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
                     {postAnnulleringFeil && <Feilmelding>{postAnnulleringFeil}</Feilmelding>}
-                </form>
+                </Form>
             </ModalContainer>
         </FormProvider>
     );

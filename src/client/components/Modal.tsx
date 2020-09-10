@@ -2,8 +2,6 @@ import React, { ReactNode } from 'react';
 import ReactModal from 'react-modal';
 import styled from '@emotion/styled';
 
-ReactModal.setAppElement('#root');
-
 if (ReactModal.defaultStyles.overlay) {
     ReactModal.defaultStyles.overlay.backgroundColor = 'rgba(61, 56, 49, 0.7)';
     ReactModal.defaultStyles.overlay.zIndex = 10000;
@@ -94,6 +92,7 @@ interface ModalProps {
     contentLabel: string;
     onRequestClose: () => void;
     title?: ReactNode;
+    className?: string;
 }
 
 export const Modal: React.FunctionComponent<ModalProps> = ({
@@ -102,10 +101,17 @@ export const Modal: React.FunctionComponent<ModalProps> = ({
     onRequestClose,
     title,
     children,
+    className,
 }) => (
-    <SpeilModal isOpen={isOpen} contentLabel={contentLabel} onRequestClose={onRequestClose}>
+    <SpeilModal
+        id="modal"
+        className={className}
+        isOpen={isOpen}
+        contentLabel={contentLabel}
+        onRequestClose={onRequestClose}
+    >
         <Topprad>
-            <Lukknapp />
+            <Lukknapp onClick={onRequestClose} />
             {title}
         </Topprad>
         {children}
