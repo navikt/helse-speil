@@ -53,6 +53,17 @@ const authInfo = {
     isLoggedIn: true,
 };
 
+const renderAnnulleringsmodal = async () =>
+    render(
+        <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
+            <AnnulleringModal
+                person={await personTilBehandling()}
+                vedtaksperiode={await enSpeilVedtaksperiode()}
+                onClose={() => null}
+            />
+        </RecoilRoot>
+    );
+
 const annullér = () => Promise.resolve(userEvent.click(screen.getByText('Annullér')));
 
 const velgUtbetaling = () =>
@@ -74,51 +85,19 @@ const assertIngenFeilmeldinger = () =>
 
 describe('AnnulleringModal', () => {
     test('viser feilmelding om ingen påkrevde felter fylles ut', async () => {
-        render(
-            <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
-                <AnnulleringModal
-                    person={await personTilBehandling()}
-                    vedtaksperiode={await enSpeilVedtaksperiode()}
-                    onClose={() => null}
-                />
-            </RecoilRoot>
-        );
+        await renderAnnulleringsmodal();
         await annullér().then(assertManglerValgtUtbetaling).then(assertManglerMatchendeIdent);
     });
     test('viser feilmelding om ident ikke fylles ut', async () => {
-        render(
-            <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
-                <AnnulleringModal
-                    person={await personTilBehandling()}
-                    vedtaksperiode={await enSpeilVedtaksperiode()}
-                    onClose={() => null}
-                />
-            </RecoilRoot>
-        );
+        await renderAnnulleringsmodal();
         velgUtbetaling().then(annullér).then(assertManglerMatchendeIdent);
     });
     test('viser feilmelding om ikke minst én utbetaling velges', async () => {
-        render(
-            <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
-                <AnnulleringModal
-                    person={await personTilBehandling()}
-                    vedtaksperiode={await enSpeilVedtaksperiode()}
-                    onClose={() => null}
-                />
-            </RecoilRoot>
-        );
+        await renderAnnulleringsmodal();
         fyllUtIdent().then(annullér).then(assertManglerValgtUtbetaling);
     });
     test('viser ikke feilmelding om matchende ident fylles ut og minst én utbetaling velges', async () => {
-        render(
-            <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
-                <AnnulleringModal
-                    person={await personTilBehandling()}
-                    vedtaksperiode={await enSpeilVedtaksperiode()}
-                    onClose={() => null}
-                />
-            </RecoilRoot>
-        );
+        await renderAnnulleringsmodal();
         annullér()
             .then(assertManglerValgtUtbetaling)
             .then(assertManglerMatchendeIdent)
