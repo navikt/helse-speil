@@ -112,9 +112,7 @@ const useRefetchPersonOnUrlChange = () => {
                 scope: Scopes.SAKSBILDE,
                 type: Varseltype.Feil,
             });
-            return;
-        }
-        if (aktorId !== personTilBehandling?.aktørId) {
+        } else {
             hentPerson(aktørId[0]);
         }
     }, [aktorId]);
