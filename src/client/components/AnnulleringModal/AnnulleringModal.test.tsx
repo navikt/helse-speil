@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { AnnulleringModal } from './AnnulleringModal';
 import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
 import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiode';
@@ -8,8 +8,9 @@ import { Kjønn, Overstyring } from '../../context/types.internal';
 import { RecoilRoot } from 'recoil';
 import { authState } from '../../state/authentication';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 import '@testing-library/jest-dom/extend-expect';
+
+global.fetch = jest.fn();
 
 const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
@@ -52,7 +53,38 @@ const authInfo = {
     isLoggedIn: true,
 };
 
-describe('Annulleringsmodalen', () => {
+const annullér = () => Promise.resolve(userEvent.click(screen.getByText('Annullér')));
+
+const velgUtbetaling = () =>
+    Promise.resolve(userEvent.click(screen.getByLabelText('Annullér utbetaling til arbeidsgiver')));
+
+const fyllUtIdent = () => userEvent.type(screen.getByPlaceholderText('NAV brukerident'), 'S123456');
+
+const assertManglerValgtUtbetaling = () =>
+    waitFor(() => expect(screen.getByText('Du må velge minst én utbetaling som skal annulleres.')).toBeVisible());
+
+const assertManglerMatchendeIdent = () =>
+    waitFor(() => expect(screen.getByText('Fyll inn din NAV brukerident')).toBeVisible());
+
+const assertIngenFeilmeldinger = () =>
+    waitFor(() => {
+        expect(screen.queryByText('Du må velge minst én utbetaling som skal annulleres.')).toBeNull();
+        expect(screen.queryByText('Fyll inn din NAV brukerident')).toBeNull();
+    });
+
+describe('AnnulleringModal', () => {
+    test('viser feilmelding om ingen påkrevde felter fylles ut', async () => {
+        render(
+            <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
+                <AnnulleringModal
+                    person={await personTilBehandling()}
+                    vedtaksperiode={await enSpeilVedtaksperiode()}
+                    onClose={() => null}
+                />
+            </RecoilRoot>
+        );
+        await annullér().then(assertManglerValgtUtbetaling).then(assertManglerMatchendeIdent);
+    });
     test('viser feilmelding om ident ikke fylles ut', async () => {
         render(
             <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
@@ -63,12 +95,36 @@ describe('Annulleringsmodalen', () => {
                 />
             </RecoilRoot>
         );
-
-        act(() => {
-            userEvent.click(screen.getAllByRole('button')[0]);
-            const feilmelding = 'For å gjennomføre annulleringen må du skrive inn din NAV brukerident i feltet under.';
-            const elementMedFeilmelding = screen.getByText(feilmelding);
-            expect(elementMedFeilmelding).toBeVisible();
-        });
+        velgUtbetaling().then(annullér).then(assertManglerMatchendeIdent);
+    });
+    test('viser feilmelding om ikke minst én utbetaling velges', async () => {
+        render(
+            <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
+                <AnnulleringModal
+                    person={await personTilBehandling()}
+                    vedtaksperiode={await enSpeilVedtaksperiode()}
+                    onClose={() => null}
+                />
+            </RecoilRoot>
+        );
+        fyllUtIdent().then(annullér).then(assertManglerValgtUtbetaling);
+    });
+    test('viser ikke feilmelding om matchende ident fylles ut og minst én utbetaling velges', async () => {
+        render(
+            <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
+                <AnnulleringModal
+                    person={await personTilBehandling()}
+                    vedtaksperiode={await enSpeilVedtaksperiode()}
+                    onClose={() => null}
+                />
+            </RecoilRoot>
+        );
+        annullér()
+            .then(assertManglerValgtUtbetaling)
+            .then(assertManglerMatchendeIdent)
+            .then(velgUtbetaling)
+            .then(fyllUtIdent)
+            .then(annullér)
+            .then(assertIngenFeilmeldinger);
     });
 });

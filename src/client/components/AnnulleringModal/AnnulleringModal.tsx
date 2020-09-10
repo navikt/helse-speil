@@ -1,36 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from 'nav-frontend-modal';
 import styled from '@emotion/styled';
-import Ikonrad from '../Ikonrad';
 import { Input } from 'nav-frontend-skjema';
-import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
+import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Annulleringslinje } from './Annulleringslinje';
 import { AnnulleringDTO } from '../../io/types';
-import { Person, Vedtaksperiode } from '../../context/types.internal';
+import { Person, Utbetaling, Vedtaksperiode } from '../../context/types.internal';
 import { organisasjonsnummerForPeriode } from '../../context/mapping/selectors';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
 import { postAnnullering } from '../../io/http';
+import { FormProvider, useForm } from 'react-hook-form';
+import { Annulleringsvarsel } from './Annulleringsvarsel';
+import { AnnullerbarUtbetaling } from './AnnullerbarUtbetaling';
 
 Modal.setAppElement('#root');
-
-const Advarsel = styled(Ikonrad)`
-    margin-bottom: 2rem;
-    padding: 0;
-
-    p {
-        max-width: 31.25rem;
-        font-weight: 600;
-    }
-`;
-
-const Tittel = styled.h1`
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #3e3832;
-    margin-bottom: 1.5rem;
-`;
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -41,7 +25,14 @@ const ModalContainer = styled(Modal)`
     }
 `;
 
-const Failsafe = styled(Input)`
+const Tittel = styled.h1`
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #3e3832;
+    margin-bottom: 1.5rem;
+`;
+
+const IdentInput = styled(Input)`
     margin-top: 1.3125rem;
     margin-bottom: 1.5rem;
 
@@ -59,11 +50,13 @@ const AnnullerKnapp = styled(Knapp)`
     margin-right: 1rem;
 `;
 
-const UtbetalingIkkeValgtFeilmelding = styled(Feilmelding)`
+const Feilmelding = styled(NavFeilmelding)`
     margin-top: 0.625rem;
 `;
 
-const AnnulleringskallFeiletFeilmelding = UtbetalingIkkeValgtFeilmelding;
+const Utbetalinger = styled.div`
+    margin-bottom: 2rem;
+`;
 
 interface Props {
     person: Person;
@@ -73,112 +66,94 @@ interface Props {
 
 export const AnnulleringModal = ({ person, vedtaksperiode, onClose }: Props) => {
     const { ident } = useRecoilValue(authState);
-    const [navidentInput, setNavidentInput] = useState('');
-    const [navidentGyldig, setNavIdentGyldig] = useState<boolean | undefined>(undefined);
-    const [arbeidsgiverChecked, setArbeidsgiverChecked] = useState(false);
-    const [brukerChecked, setBrukerChecked] = useState(false);
-    const [minstEnCheckboxMarkert, setMinstEnCheckboxMarkert] = useState<boolean | undefined>(undefined);
-
     const [isSending, setIsSending] = useState<boolean>(false);
-    const [feilmelding, setFeilmelding] = useState<string>();
+    const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
+
+    const form = useForm({ mode: 'onBlur' });
+    const brukerChecked = form.getValues('person');
+    const arbeidsgiverChecked = form.getValues('arbeidsgiver');
+    const organisasjonsnummer = organisasjonsnummerForPeriode(vedtaksperiode, person);
+
+    const annullering = (utbetaling: Utbetaling): AnnulleringDTO => ({
+        aktørId: person.aktørId,
+        fødselsnummer: person.fødselsnummer,
+        organisasjonsnummer: organisasjonsnummer,
+        fagsystemId: utbetaling.fagsystemId,
+        vedtaksperiodeId: vedtaksperiode.id,
+    });
+
+    const annulleringForPerson = () => annullering(vedtaksperiode.utbetalinger!.personUtbetaling!);
+
+    const annulleringForArbeidsgiver = () => annullering(vedtaksperiode.utbetalinger!.arbeidsgiverUtbetaling!);
 
     const sendAnnullering = (annullering: AnnulleringDTO) => {
         setIsSending(true);
-        setFeilmelding(undefined);
+        setPostAnnulleringFeil(undefined);
         postAnnullering(annullering)
             .then(onClose)
-            .catch(() => setFeilmelding('Noe gikk galt. Kontakt en utvikler.'))
+            .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
             .finally(() => setIsSending(false));
     };
 
-    const organisasjonsnummer = organisasjonsnummerForPeriode(vedtaksperiode, person);
-
-    useEffect(() => {
-        if (minstEnCheckboxMarkert === false) setMinstEnCheckboxMarkert(undefined);
-    }, [arbeidsgiverChecked, brukerChecked]);
-
-    useEffect(() => {
-        if (navidentGyldig === false) setNavIdentGyldig(undefined);
-    }, [navidentInput]);
-
     const valider = () => {
-        const navidentGyldig = navidentInput === ident;
-        setNavIdentGyldig(navidentGyldig);
-        setMinstEnCheckboxMarkert(brukerChecked || arbeidsgiverChecked);
-
-        if (brukerChecked && navidentGyldig)
-            sendAnnullering({
-                aktørId: person.aktørId,
-                fødselsnummer: person.fødselsnummer,
-                organisasjonsnummer,
-                fagsystemId: vedtaksperiode.utbetalinger!.personUtbetaling!.fagsystemId,
-                vedtaksperiodeId: vedtaksperiode.id,
+        if (!brukerChecked && !arbeidsgiverChecked) {
+            form.setError('utbetalingIkkeValgt', {
+                type: 'manual',
+                message: 'Du må velge minst én utbetaling som skal annulleres.',
             });
-
-        if (arbeidsgiverChecked && navidentGyldig)
-            sendAnnullering({
-                aktørId: person.aktørId,
-                fødselsnummer: person.fødselsnummer,
-                organisasjonsnummer,
-                fagsystemId: vedtaksperiode.utbetalinger!.arbeidsgiverUtbetaling!.fagsystemId,
-                vedtaksperiodeId: vedtaksperiode.id,
-            });
+        }
+        if (brukerChecked && form.formState.isValid) sendAnnullering(annulleringForPerson());
+        if (arbeidsgiverChecked && form.formState.isValid) sendAnnullering(annulleringForArbeidsgiver());
     };
 
     return (
-        <ModalContainer
-            id="modal"
-            className="AnnulleringModal"
-            isOpen={true}
-            contentLabel="Feilmelding"
-            closeButton={true}
-            onRequestClose={onClose}
-        >
-            <Advarsel
-                tekst={
-                    'Hvis du annullerer utbetaling vil det fjernes fra' +
-                    ' oppdragssystemet og du må behandle saken manuelt i Infotrygd.'
-                }
-                ikontype={'advarsel'}
-            />
-            <Tittel>Annullering</Tittel>
-            {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling &&
-                vedtaksperiode.utbetalinger.arbeidsgiverUtbetaling.linjer.length > 0 && (
-                    <Annulleringslinje
-                        label={'Annuller utbetaling til arbeidsgiver'}
-                        linjer={vedtaksperiode.utbetalinger.arbeidsgiverUtbetaling.linjer}
-                        checked={arbeidsgiverChecked}
-                        setChecked={setArbeidsgiverChecked}
+        <FormProvider {...form}>
+            <ModalContainer
+                id="modal"
+                className="AnnulleringModal"
+                isOpen={true}
+                contentLabel="Feilmelding"
+                closeButton={true}
+                onRequestClose={onClose}
+            >
+                <form onSubmit={form.handleSubmit(valider)}>
+                    <Annulleringsvarsel />
+                    <Tittel>Annullering</Tittel>
+                    <Utbetalinger>
+                        {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling && (
+                            <AnnullerbarUtbetaling
+                                mottaker="arbeidsgiver"
+                                utbetaling={vedtaksperiode.utbetalinger.arbeidsgiverUtbetaling}
+                            />
+                        )}
+                        {vedtaksperiode.utbetalinger?.personUtbetaling && (
+                            <AnnullerbarUtbetaling
+                                mottaker="person"
+                                utbetaling={vedtaksperiode.utbetalinger.personUtbetaling}
+                            />
+                        )}
+                        {form.errors?.utbetalingIkkeValgt && (
+                            <Feilmelding>{form.errors.utbetalingIkkeValgt.message}</Feilmelding>
+                        )}
+                    </Utbetalinger>
+                    <Normaltekst>
+                        For å gjennomføre annulleringen må du skrive inn din NAV brukerident i feltet under.
+                    </Normaltekst>
+                    <IdentInput
+                        name="failsafe"
+                        label={'NAV brukerident'}
+                        aria-label={'NAV brukerident'}
+                        placeholder={'NAV brukerident'}
+                        inputRef={form.register({ required: true, validate: (value: string) => value === ident })}
+                        feil={form.errors?.failsafe && 'Fyll inn din NAV brukerident'}
                     />
-                )}
-            {vedtaksperiode.utbetalinger?.personUtbetaling &&
-                vedtaksperiode.utbetalinger.personUtbetaling.linjer.length > 0 && (
-                    <Annulleringslinje
-                        label={'Annuller utbetaling til bruker'}
-                        linjer={vedtaksperiode.utbetalinger.personUtbetaling.linjer}
-                        checked={brukerChecked}
-                        setChecked={setBrukerChecked}
-                    />
-                )}
-            <Normaltekst>
-                For å gjennomføre annulleringen må du skrive inn din NAV brukerident i feltet under.
-            </Normaltekst>
-            <Failsafe
-                label={'NAV brukerident'}
-                aria-label={'NAV brukerident'}
-                placeholder={'NAV brukerident'}
-                value={navidentInput}
-                onChange={(event) => setNavidentInput(event.target.value)}
-                feil={navidentGyldig === false && 'Fyll inn din NAV brukerident'}
-            />
-            <AnnullerKnapp spinner={isSending} autoDisableVedSpinner onClick={valider}>
-                Annuller
-            </AnnullerKnapp>
-            <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
-            {minstEnCheckboxMarkert === false && (
-                <UtbetalingIkkeValgtFeilmelding>Du må velge hva som skal annulleres</UtbetalingIkkeValgtFeilmelding>
-            )}
-            {feilmelding && <AnnulleringskallFeiletFeilmelding>{feilmelding}</AnnulleringskallFeiletFeilmelding>}
-        </ModalContainer>
+                    <AnnullerKnapp spinner={isSending} autoDisableVedSpinner onClick={valider}>
+                        Annullér
+                    </AnnullerKnapp>
+                    <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
+                    {postAnnulleringFeil && <Feilmelding>{postAnnulleringFeil}</Feilmelding>}
+                </form>
+            </ModalContainer>
+        </FormProvider>
     );
 };
