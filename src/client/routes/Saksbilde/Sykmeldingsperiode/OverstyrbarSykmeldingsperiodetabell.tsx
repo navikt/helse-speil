@@ -8,7 +8,7 @@ import {
     overstyrbarType,
     tomCelle,
 } from '../../../components/tabell/rader';
-import { Dagtype, Sykdomsdag } from '../../../context/types.internal';
+import { Dagtype, Person, Sykdomsdag } from '../../../context/types.internal';
 import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import Element from 'nav-frontend-typografi/lib/element';
@@ -21,6 +21,9 @@ import { getOppgavereferanse, postOverstyring } from '../../../io/http';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from './KalkulererOverstyringToast';
 import { OverstyrtDagDTO } from '../../../io/types';
+import { organisasjonsnummerForPeriode } from '../../../context/mapping/selectors';
+import { useOverstyrteDager } from './useOverstyrteDager';
+import { pollEtterNyOppgave } from '../../../io/polling';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead,
@@ -64,8 +67,6 @@ const tilOverstyrteDager = (dager: Sykdomsdag[]): OverstyrtDagDTO[] =>
         grad: dag.gradering,
     }));
 
-const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
-
 interface OverstyrbarSykmeldingsperiodetabellProps {
     onOverstyr: () => void;
     onToggleOverstyring: () => void;
@@ -75,41 +76,22 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     onOverstyr,
     onToggleOverstyring,
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
+    const { overstyrteDager, leggTilOverstyrtDag, fjernOverstyrtDag } = useOverstyrteDager();
     const { aktivVedtaksperiode, personTilBehandling, hentPerson } = useContext(PersonContext);
-    const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);
-    const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
+    const [overstyringserror, setOverstyringserror] = useState<string>();
     const leggtilEnToast = useLeggTilEnToast();
     const fjernToast = useFjernEnToast();
-    const [overstyringserror, setOverstyringserror] = useState<string>();
-
-    const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
-        const finnesFraFør = overstyrteDager.find((dag) => dag.dato.isSame(nyDag.dato));
-        if (!finnesFraFør) {
-            setOverstyrteDager((dager) => [...dager, nyDag]);
-        } else {
-            setOverstyrteDager((dager) =>
-                dager.map((gammelDag) => (gammelDag.dato.isSame(nyDag.dato) ? nyDag : gammelDag))
-            );
-        }
-    };
-
-    const fjernOverstyrtDag = (dagen: Sykdomsdag) => {
-        setOverstyrteDager((dager) => dager.filter((overstyrtDag) => !overstyrtDag.dato.isSame(dagen.dato)));
-    };
+    const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
 
     const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
     const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
     const tabellbeskrivelse = `Overstyrer sykmeldingsperiode fra ${fom} til ${tom}`;
+    const organisasjonsnummer = organisasjonsnummerForPeriode(aktivVedtaksperiode!, personTilBehandling!);
 
     const headere = [
         '',
-        {
-            render: <Element>Sykmeldingsperiode</Element>,
-            kolonner: 3,
-        },
-        {
-            render: <Element>Gradering</Element>,
-        },
+        { render: <Element>Sykmeldingsperiode</Element>, kolonner: 3 },
+        { render: <Element>Gradering</Element> },
         overstyrbareTabellerEnabled ? (
             <HøyrestiltContainer>
                 <Overstyringsknapp overstyrer toggleOverstyring={onToggleOverstyring} />
@@ -119,75 +101,48 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         ),
     ];
 
-    const rader =
-        aktivVedtaksperiode?.sykdomstidslinje.map((dag) => {
-            const overstyrtDag = overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato));
-            const erOverstyrt = overstyrtDag !== undefined && JSON.stringify(overstyrtDag) !== JSON.stringify(dag);
-            const dagen = overstyrtDag ?? dag;
-            return {
-                celler: [
-                    tomCelle(),
-                    dato(dagen),
-                    ikon(dagen),
-                    overstyrbarType(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
-                    overstyrbarGradering(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
-                    overstyrbarKilde(dagen, erOverstyrt),
-                ],
-                className: dagen.type === Dagtype.Helg ? 'disabled' : undefined,
-            };
-        }) ?? [];
-
-    const organisasjonsnummer = () =>
-        personTilBehandling!.arbeidsgivere.find((arbeidsgiver) =>
-            arbeidsgiver.vedtaksperioder.find((vedtaksperiode) => vedtaksperiode.id === aktivVedtaksperiode?.id)
-        )!.organisasjonsnummer;
-
-    const pollEtterNyOppgave = async () => {
-        const fødselsnummer = personTilBehandling!.fødselsnummer;
-        for (let _ = 0; _ < 10; _++) {
-            await delay(1000);
-            const oppgavereferanse = await getOppgavereferanse(fødselsnummer)
-                .then((response) => response.data.oppgavereferanse)
-                .catch((error) => {
-                    if (error.statusCode >= 500) {
-                        console.error(error);
-                    }
-                });
-
-            if (oppgavereferanse && oppgavereferanse !== aktivVedtaksperiode!.oppgavereferanse) {
-                hentPerson(fødselsnummer).then();
-                break;
-            }
-        }
+    const tilTabellrad = (dag: Sykdomsdag) => {
+        const overstyrtDag = overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato));
+        const erOverstyrt = overstyrtDag !== undefined && JSON.stringify(overstyrtDag) !== JSON.stringify(dag);
+        const dagen = overstyrtDag ?? dag;
+        return {
+            celler: [
+                tomCelle(),
+                dato(dagen),
+                ikon(dagen),
+                overstyrbarType(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
+                overstyrbarGradering(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
+                overstyrbarKilde(dagen, erOverstyrt),
+            ],
+            className: dagen.type === Dagtype.Helg ? 'disabled' : undefined,
+        };
     };
 
+    const rader = aktivVedtaksperiode?.sykdomstidslinje.map(tilTabellrad) ?? [];
+
+    const refetchPerson = () => hentPerson(personTilBehandling!.fødselsnummer);
+
+    const visOverstyringFerdigToast = () =>
+        leggtilEnToast(kalkuleringFerdigToast({ callback: () => fjernToast(kalkulererFerdigToastKey) }));
+
+    const overstyring = () => ({
+        aktørId: personTilBehandling!.aktørId,
+        fødselsnummer: personTilBehandling!.fødselsnummer,
+        organisasjonsnummer: organisasjonsnummer,
+        dager: tilOverstyrteDager(overstyrteDager),
+        begrunnelse: form.getValues().begrunnelse,
+    });
+
     const sendOverstyring = () => {
-        const { begrunnelse } = form.getValues();
-
-        const overstyring = {
-            aktørId: personTilBehandling!.aktørId,
-            fødselsnummer: personTilBehandling!.fødselsnummer,
-            organisasjonsnummer: organisasjonsnummer(),
-            dager: tilOverstyrteDager(overstyrteDager),
-            begrunnelse,
-        };
-
-        postOverstyring(overstyring)
+        postOverstyring(overstyring())
             .then(() => {
                 leggtilEnToast(kalkulererToast({}));
                 onOverstyr();
-                pollEtterNyOppgave().then(() => {
-                    leggtilEnToast(
-                        kalkuleringFerdigToast({
-                            timeToLiveMs: 5000,
-                            callback: () => fjernToast(kalkulererFerdigToastKey),
-                        })
-                    );
-                });
+                pollEtterNyOppgave(personTilBehandling!.fødselsnummer, aktivVedtaksperiode!.oppgavereferanse)
+                    .then(refetchPerson)
+                    .then(visOverstyringFerdigToast);
             })
-            .catch(() => {
-                setOverstyringserror('Feil under sending av overstyring. Prøv igjen senere.');
-            });
+            .catch(() => setOverstyringserror('Feil under sending av overstyring. Prøv igjen senere.'));
     };
 
     return (
