@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import { AnnulleringModal } from './AnnulleringModal/AnnulleringModal';
-import { postAnnullering } from '../io/http';
-import { useRecoilValue } from 'recoil';
-import { authState } from '../state/authentication';
-import { AnnulleringDTO } from '../io/types';
+import { PersonContext } from '../context/PersonContext';
+import { Button } from './Button';
 
-const AnnullerKnapp = styled.button`
-    font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    background: none;
-    border: none;
+const AnnullerKnapp = styled(Button)`
     border-radius: 0.25rem;
     height: 30px;
     width: 150px;
-    outline: none;
     font-size: 1rem;
     white-space: nowrap;
 
@@ -27,37 +20,20 @@ const AnnullerKnapp = styled.button`
     }
 `;
 
-const Annullering = () => {
-    const { ident } = useRecoilValue(authState);
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const [isSending, setIsSending] = useState<boolean>(false);
-    const [feilmelding, setFeilmelding] = useState<string>();
-
-    const sendAnnullering = (annullering: AnnulleringDTO) => {
-        setIsSending(true);
-        setFeilmelding(undefined);
-        postAnnullering(annullering)
-            .then(() => setModalOpen(false))
-            .catch(() => setFeilmelding('Noe gikk galt. Kontakt en utvikler.'))
-            .finally(() => setIsSending(false));
-    };
+export const Annullering = () => {
+    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
+    const [showModal, setShowModal] = useState<boolean>(false);
 
     return (
         <>
-            <AnnullerKnapp tabIndex={0} onClick={() => setModalOpen((verdi) => !verdi)}>
-                Annuller
-            </AnnullerKnapp>
-            {modalOpen && (
+            <AnnullerKnapp onClick={() => setShowModal(true)}>Annuller</AnnullerKnapp>
+            {showModal && (
                 <AnnulleringModal
-                    onClose={() => setModalOpen((verdi) => !verdi)}
-                    onApprove={sendAnnullering}
-                    isSending={isSending}
-                    ident={ident!}
-                    feilmelding={feilmelding}
+                    person={personTilBehandling!}
+                    vedtaksperiode={aktivVedtaksperiode!}
+                    onClose={() => setShowModal(false)}
                 />
             )}
         </>
     );
 };
-
-export default Annullering;

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'nav-frontend-modal';
 import styled from '@emotion/styled';
 import Ikonrad from '../Ikonrad';
@@ -6,18 +6,14 @@ import { Input } from 'nav-frontend-skjema';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Annulleringslinje } from './Annulleringslinje';
-import { PersonContext } from '../../context/PersonContext';
 import { AnnulleringDTO } from '../../io/types';
+import { Person, Vedtaksperiode } from '../../context/types.internal';
+import { organisasjonsnummerForPeriode } from '../../context/mapping/selectors';
+import { useRecoilValue } from 'recoil';
+import { authState } from '../../state/authentication';
+import { postAnnullering } from '../../io/http';
 
 Modal.setAppElement('#root');
-
-interface Props {
-    isSending: boolean;
-    onApprove: (annullering: AnnulleringDTO) => void;
-    onClose: () => void;
-    ident: string;
-    feilmelding?: string;
-}
 
 const Advarsel = styled(Ikonrad)`
     margin-bottom: 2rem;
@@ -69,20 +65,33 @@ const UtbetalingIkkeValgtFeilmelding = styled(Feilmelding)`
 
 const AnnulleringskallFeiletFeilmelding = UtbetalingIkkeValgtFeilmelding;
 
-export const AnnulleringModal = ({ isSending, onApprove, onClose, ident, feilmelding }: Props) => {
+interface Props {
+    person: Person;
+    vedtaksperiode: Vedtaksperiode;
+    onClose: () => void;
+}
+
+export const AnnulleringModal = ({ person, vedtaksperiode, onClose }: Props) => {
+    const { ident } = useRecoilValue(authState);
     const [navidentInput, setNavidentInput] = useState('');
     const [navidentGyldig, setNavIdentGyldig] = useState<boolean | undefined>(undefined);
     const [arbeidsgiverChecked, setArbeidsgiverChecked] = useState(false);
     const [brukerChecked, setBrukerChecked] = useState(false);
     const [minstEnCheckboxMarkert, setMinstEnCheckboxMarkert] = useState<boolean | undefined>(undefined);
 
-    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
-    const { aktørId, fødselsnummer } = personTilBehandling!;
-    const vedtaksperiode = aktivVedtaksperiode!;
+    const [isSending, setIsSending] = useState<boolean>(false);
+    const [feilmelding, setFeilmelding] = useState<string>();
 
-    const organisasjonsnummer = personTilBehandling?.arbeidsgivere.find(
-        (arbeidsgiver) => arbeidsgiver.vedtaksperioder.find((periode) => periode.id === vedtaksperiode.id) !== undefined
-    )?.organisasjonsnummer!;
+    const sendAnnullering = (annullering: AnnulleringDTO) => {
+        setIsSending(true);
+        setFeilmelding(undefined);
+        postAnnullering(annullering)
+            .then(onClose)
+            .catch(() => setFeilmelding('Noe gikk galt. Kontakt en utvikler.'))
+            .finally(() => setIsSending(false));
+    };
+
+    const organisasjonsnummer = organisasjonsnummerForPeriode(vedtaksperiode, person);
 
     useEffect(() => {
         if (minstEnCheckboxMarkert === false) setMinstEnCheckboxMarkert(undefined);
@@ -98,18 +107,18 @@ export const AnnulleringModal = ({ isSending, onApprove, onClose, ident, feilmel
         setMinstEnCheckboxMarkert(brukerChecked || arbeidsgiverChecked);
 
         if (brukerChecked && navidentGyldig)
-            onApprove({
-                aktørId,
-                fødselsnummer,
+            sendAnnullering({
+                aktørId: person.aktørId,
+                fødselsnummer: person.fødselsnummer,
                 organisasjonsnummer,
                 fagsystemId: vedtaksperiode.utbetalinger!.personUtbetaling!.fagsystemId,
                 vedtaksperiodeId: vedtaksperiode.id,
             });
 
         if (arbeidsgiverChecked && navidentGyldig)
-            onApprove({
-                aktørId,
-                fødselsnummer,
+            sendAnnullering({
+                aktørId: person.aktørId,
+                fødselsnummer: person.fødselsnummer,
                 organisasjonsnummer,
                 fagsystemId: vedtaksperiode.utbetalinger!.arbeidsgiverUtbetaling!.fagsystemId,
                 vedtaksperiodeId: vedtaksperiode.id,

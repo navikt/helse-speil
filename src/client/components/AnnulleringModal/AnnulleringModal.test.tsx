@@ -1,11 +1,15 @@
-import { render } from '@testing-library/react';
 import React from 'react';
+import dayjs from 'dayjs';
+import { render, screen } from '@testing-library/react';
 import { AnnulleringModal } from './AnnulleringModal';
-import { PersonContext } from '../../context/PersonContext';
 import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
 import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiode';
-import dayjs from 'dayjs';
 import { Kjønn, Overstyring } from '../../context/types.internal';
+import { RecoilRoot } from 'recoil';
+import { authState } from '../../state/authentication';
+import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
+import '@testing-library/jest-dom/extend-expect';
 
 const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
@@ -41,27 +45,30 @@ const personTilBehandling = async () => ({
     enhet: { id: '', navn: '' },
 });
 
-it('Viser feilmelding', async () => {
-    const { getByText } = render(
-        <PersonContext.Provider
-            value={{
-                personTilBehandling: await personTilBehandling(),
-                hentPerson: (_) => Promise.resolve(undefined),
-                markerPersonSomTildelt: (_) => null,
-                isFetching: false,
-                aktiverVedtaksperiode: (_) => null,
-                aktivVedtaksperiode: await enSpeilVedtaksperiode(),
-            }}
-        >
-            <AnnulleringModal
-                onApprove={() => null}
-                onClose={() => null}
-                isSending={false}
-                ident={'1234'}
-                feilmelding={'Feilmelding'}
-            />
-        </PersonContext.Provider>
-    );
+const authInfo = {
+    name: 'Sara Saksbehandler',
+    ident: 'S123456',
+    email: 'sara.saksbehandler@nav.no',
+    isLoggedIn: true,
+};
 
-    expect(getByText('Feilmelding')).toBeTruthy();
+describe('Annulleringsmodalen', () => {
+    test('viser feilmelding om ident ikke fylles ut', async () => {
+        render(
+            <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
+                <AnnulleringModal
+                    person={await personTilBehandling()}
+                    vedtaksperiode={await enSpeilVedtaksperiode()}
+                    onClose={() => null}
+                />
+            </RecoilRoot>
+        );
+
+        act(() => {
+            userEvent.click(screen.getAllByRole('button')[0]);
+            const feilmelding = 'For å gjennomføre annulleringen må du skrive inn din NAV brukerident i feltet under.';
+            const elementMedFeilmelding = screen.getByText(feilmelding);
+            expect(elementMedFeilmelding).toBeVisible();
+        });
+    });
 });

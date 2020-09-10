@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import Dropdown from './Dropdown';
-import Annullering from './Annullering';
+import { Annullering } from './Annullering';
 import { PersonContext } from '../context/PersonContext';
 import { Utbetalinger } from '../context/types.internal';
 

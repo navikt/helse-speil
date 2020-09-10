@@ -8,3 +8,7 @@ export const førsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person
         .map((periode) => periode as Vedtaksperiode)
         .filter((periode) => periode.gruppeId === nåværendePeriode.gruppeId)
         .sort((a, b) => (a.sykdomstidslinje[0].dato.isAfter(b.sykdomstidslinje[0].dato) ? 1 : -1))[0];
+
+export const organisasjonsnummerForPeriode = (nåværendePeriode: Vedtaksperiode, person: Person): string =>
+    person.arbeidsgivere.find(({ vedtaksperioder }) => vedtaksperioder.find(({ id }) => id === nåværendePeriode.id))!
+        .organisasjonsnummer;
