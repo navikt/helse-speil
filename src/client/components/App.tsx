@@ -18,8 +18,8 @@ import { useAuthentication } from '../state/authentication';
 import { withContextProviders } from '../context/withContextProviders';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from '../context/PersonContext';
-import './App.less';
 import 'reset-css';
+import './App.less';
 
 ReactModal.setAppElement('#root');
 

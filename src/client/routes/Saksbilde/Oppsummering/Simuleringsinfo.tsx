@@ -1,9 +1,9 @@
 import React from 'react';
-import styled from '@emotion/styled';
-import List from '../../../components/List';
 import dayjs from 'dayjs';
-import { Simulering } from '../../../context/types.internal';
+import styled from '@emotion/styled';
 import ListItem from '../../../components/ListItem';
+import { List } from '../../../components/List';
+import { Simulering } from '../../../context/types.internal';
 import { toKronerOgØre } from '../../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../../utils/date';

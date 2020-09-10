@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
-import List from '../../../components/List';
+import Panel from 'nav-frontend-paneler';
+import styled from '@emotion/styled';
 import ListItem from '../../../components/ListItem';
 import Utbetaling from './Utbetaling';
+import Simuleringsinfo from './Simuleringsinfo';
 import Navigasjonsknapper from '../../../components/NavigationButtons';
-import Panel from 'nav-frontend-paneler';
+import { List } from '../../../components/List';
 import { toKronerOgØre } from '../../../utils/locale';
 import { PersonContext } from '../../../context/PersonContext';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { useTranslation } from 'react-i18next';
-import styled from '@emotion/styled';
-import Simuleringsinfo from './Simuleringsinfo';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
+import { useTranslation } from 'react-i18next';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 const Innhold = styled.div`
     width: 100%;
