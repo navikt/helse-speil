@@ -67,9 +67,12 @@ const finnPerson = async (req: Request, res: Response) => {
     return onBehalfOf
         .hentFor(spesialistId, req.session!.speilToken)
         .then((token: string) => lookupPromise(undeterminedId, token))
-        .then(async (apiResponse) => {
+        .then(async (apiResponse: any) => {
             res.status(apiResponse.status).send({
-                person: { ...apiResponse.body, tildeltTil: await finnTildeling(apiResponse) },
+                person: {
+                    ...apiResponse.body,
+                    tildeltTil: apiResponse.body.saksbehandlerepost ?? (await finnTildeling(apiResponse)),
+                },
             });
         })
         .catch((err) => {
