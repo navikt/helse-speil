@@ -2,15 +2,13 @@ import React, { HTMLAttributes, useRef, useState } from 'react';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
 import { useInteractOutside } from '../hooks/useInteractOutside';
+import { Button } from './Button';
 
 const Container = styled.span`
     position: relative;
 `;
 
-const Knapp = styled.button`
-    background: none;
-    outline: none;
-    border: none;
+const Knapp = styled(Button)`
     height: 24px;
     width: 24px;
     display: flex;
@@ -20,7 +18,6 @@ const Knapp = styled.button`
     margin: 3px;
     border-radius: 50%;
     transition: all 0.1s ease;
-    cursor: pointer;
 
     &:hover,
     &:focus {

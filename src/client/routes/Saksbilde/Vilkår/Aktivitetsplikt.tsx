@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { FlexColumn } from '../../../components/FlexColumn';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Vilkårstittel from './Vilkårstittel';
+import { FlexColumn } from '../../../components/Flex';
 
 const Aktivitetstekst = styled(Normaltekst)`
     padding-left: 2.5rem;

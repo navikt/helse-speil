@@ -4,10 +4,10 @@ import Vilkårstittel from '../Vilkårstittel';
 import Vilkårsgrupperad from './Vilkårsgrupperad';
 import { Grid } from '../../../../components/Grid';
 import { Infoikon } from '../../../../components/ikoner/Infoikon';
-import { FlexColumn } from '../../../../components/FlexColumn';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import { Strek, Vilkårgrid, Vilkårinnhold } from '../Vilkår.styles';
+import { FlexColumn } from '../../../../components/Flex';
 
 const Yrkesskadetekst = styled(Normaltekst)`
     padding-left: 2rem;

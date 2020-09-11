@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Strek, StyledUbehandletInnhold, Vilkårinnhold } from './Vilkår.styles';
-import { FlexColumn } from '../../../components/FlexColumn';
 import Vilkårstittel from './Vilkårstittel';
+import { FlexColumn } from '../../../components/Flex';
 
 interface VilkårsvisningProps {
     tittel: string;

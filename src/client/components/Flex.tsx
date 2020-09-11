@@ -16,6 +16,7 @@ interface FlexProps {
     alignContent?: AlignValue;
     justifyItems?: AlignValue;
     justifyContent?: AlignValue;
+    flexDirection?: 'row' | 'row-reverse' | 'column' | 'column-reverse' | GlobalValue;
 }
 
 export const Flex = styled.div<FlexProps>`
@@ -24,4 +25,9 @@ export const Flex = styled.div<FlexProps>`
     ${({ alignContent }) => alignContent && `align-content: ${alignContent};`}
     ${({ justifyItems }) => justifyItems && `justify-items: ${justifyItems};`}
     ${({ justifyContent }) => justifyContent && `justify-content: ${justifyContent};`}
+    ${({ flexDirection }) => flexDirection && `flex-direction: ${flexDirection};`}
+`;
+
+export const FlexColumn = styled(Flex)`
+    flex-direction: column;
 `;

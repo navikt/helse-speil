@@ -4,11 +4,11 @@ import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper/Vilkårsgruppe';
 import { Vedtaksperiode } from '../../../context/types.internal';
 import dayjs from 'dayjs';
-import { FlexColumn } from '../../../components/FlexColumn';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Grid } from '../../../components/Grid';
 import { VilkårVurdertIInfotrygd } from './PåfølgendeVedtaksperiode';
+import { FlexColumn } from '../../../components/Flex';
 
 interface BehandletVedtaksperiodeProps {
     aktivVedtaksperiode: Vedtaksperiode;

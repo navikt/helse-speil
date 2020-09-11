@@ -7,22 +7,12 @@ import { useTidslinjerader } from './useTidslinjerader';
 import { useInfotrygdrader } from './useInfotrygdrader';
 import { useTidslinjevinduer } from './useTidslinjevinduer';
 import { Sykepengetidslinje } from '@navikt/helse-frontend-tidslinje/lib';
+import { Flex, FlexColumn } from '../Flex';
 import '@navikt/helse-frontend-tidslinje/lib/main.css';
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
+const Container = styled(FlexColumn)`
     padding: 1rem 2rem;
     border-bottom: 1px solid #c6c2bf;
-`;
-
-const FlexRow = styled.div`
-    display: flex;
-`;
-
-const FlexColumn = styled.div`
-    display: flex;
-    flex-direction: column;
 `;
 
 export const Tidslinje = React.memo(() => {
@@ -46,7 +36,7 @@ export const Tidslinje = React.memo(() => {
         if (tidslinjerader.length === 0) return null;
         return (
             <Container>
-                <FlexRow>
+                <Flex>
                     <FlexColumn>
                         <Radnavn infotrygdrader={infotrygdrader} />
                     </FlexColumn>
@@ -57,7 +47,7 @@ export const Tidslinje = React.memo(() => {
                         onSelectPeriode={onSelectPeriode}
                         aktivPeriode={aktivPeriode}
                     />
-                </FlexRow>
+                </Flex>
                 <Vinduvelger vinduer={vinduer} aktivtVindu={aktivtVindu} setAktivtVindu={setAktivtVindu} />
             </Container>
         );
