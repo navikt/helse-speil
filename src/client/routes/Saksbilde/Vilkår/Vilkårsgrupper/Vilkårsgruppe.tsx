@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { Infoikon } from '../../../../components/ikoner/Infoikon';
 import Vilkårstittel from '../Vilkårstittel';
 import { Kryssikon } from '../../../../components/ikoner/Kryssikon';
-import { Grid } from '../Vilkår.styles';
+import { Vilkårgrid } from '../Vilkår.styles';
 
 type Ikontype = 'ok' | 'advarsel' | 'info' | 'kryss';
 
@@ -46,7 +46,7 @@ const Vilkårsgruppe = ({ tittel, paragraf, ikontype, children }: Props) => {
             <Vilkårstittel paragraf={paragraf} ikon={ikon(ikontype)}>
                 {tittel}
             </Vilkårstittel>
-            {children && <Grid>{children}</Grid>}
+            {children && <Vilkårgrid>{children}</Vilkårgrid>}
         </Container>
     );
 };

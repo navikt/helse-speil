@@ -5,7 +5,7 @@ import { toKronerOgØre } from '../../../utils/locale';
 import Ikonrad from '../../../components/Ikonrad';
 import { Inntektskilde } from '../../../context/types.internal';
 import styled from '@emotion/styled';
-import Grid from '../../../components/Grid';
+import { Grid } from '../../../components/Grid';
 import { FlexColumn } from '../../../components/FlexColumn';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { Kilde } from '../../../components/Kilde';

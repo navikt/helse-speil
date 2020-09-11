@@ -1,16 +1,16 @@
 import React, { ReactNode } from 'react';
-import { Strek, StyledBehandletAvInfotrygd, StyledBehandletInnhold, Vilkårinnhold } from './Vilkår.styles';
-import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper';
-import { Opptjening, Vedtaksperiode } from '../../../context/types.internal';
-import { FlexColumn } from '../../../components/FlexColumn';
-import TwoColumnGrid from '../../../components/TwoColumnGrid';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { Dayjs } from 'dayjs';
-import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
+import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsvisning from './Vilkårsvisning';
-import { Feilikon } from '../../../components/ikoner/Feilikon';
 import IkkeVurderteVilkår, { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
+import { Grid } from '../../../components/Grid';
+import { Dayjs } from 'dayjs';
+import { Feilikon } from '../../../components/ikoner/Feilikon';
+import { FlexColumn } from '../../../components/FlexColumn';
+import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
+import { Opptjening, Vedtaksperiode } from '../../../context/types.internal';
+import { Strek, StyledBehandletAvInfotrygd, StyledBehandletInnhold, Vilkårinnhold } from './Vilkår.styles';
 
 const formatterDato = (dato?: Dayjs) => dato?.format(NORSK_DATOFORMAT) ?? 'Dato ikke funnet';
 
@@ -27,7 +27,7 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
             )}`}
             vurderingsdato={formatterDato(vedtaksperiode.godkjenttidspunkt)}
         >
-            <TwoColumnGrid firstColumnWidth={'35rem'}>
+            <Grid gridTemplateColumns={'35rem auto'}>
                 <FlexColumn>
                     <OptionalOpptjeningstid vedtaksperiode={vedtaksperiode} />
                 </FlexColumn>
@@ -37,7 +37,7 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
                         alderSisteSykedag={vedtaksperiode.vilkår!.alder.alderSisteSykedag}
                     />
                 </FlexColumn>
-            </TwoColumnGrid>
+            </Grid>
         </StyledBehandletInnhold>
     </>
 );
@@ -76,6 +76,7 @@ interface PåfølgendeVedtaksperiodeProps {
 const OppfylteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) => (
     <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={vilkår} />
 );
+
 const IkkeOppfylteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) =>
     vilkår.length > 0 ? <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={vilkår} /> : null;
 

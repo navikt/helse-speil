@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import Vilkårstittel from '../Vilkårstittel';
+import Vilkårsgrupperad from './Vilkårsgrupperad';
+import { Grid } from '../../../../components/Grid';
+import { Infoikon } from '../../../../components/ikoner/Infoikon';
 import { FlexColumn } from '../../../../components/FlexColumn';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
-import Vilkårsgrupperad from './Vilkårsgrupperad';
-import TwoColumnGrid from '../../../../components/TwoColumnGrid';
-import { Infoikon } from '../../../../components/ikoner/Infoikon';
-import Vilkårstittel from '../Vilkårstittel';
-import { Strek, Grid, Vilkårinnhold } from '../Vilkår.styles';
+import { Strek, Vilkårgrid, Vilkårinnhold } from '../Vilkår.styles';
 
 const Yrkesskadetekst = styled(Normaltekst)`
     padding-left: 2rem;
 `;
 
-const Innhold = styled(TwoColumnGrid)`
+const Innhold = styled(Grid)`
     justify-content: start;
 `;
 
@@ -35,7 +35,7 @@ const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår }: VilkårSystemetIkk
         <IkkeVurderteVilkårTittel størrelse="m" ikon={<Advarselikon />}>
             Vilkår systemet ikke vurderer
         </IkkeVurderteVilkårTittel>
-        <Grid>
+        <Vilkårgrid>
             <Vilkårsgrupperad label="Arbeidsuførhet">§ 8-4</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Medlemskap">§ 2</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Medvirkning">§ 8-8</Vilkårsgrupperad>
@@ -44,7 +44,7 @@ const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår }: VilkårSystemetIkk
                     {v.paragraf}
                 </Vilkårsgrupperad>
             ))}
-        </Grid>
+        </Vilkårgrid>
     </>
 );
 
@@ -64,22 +64,20 @@ interface IkkeVurderteVilkårProps {
     ikkeVurderteVilkår: IkkeVurdertVilkår[];
 }
 
-const IkkeVurderteVilkår = ({ className, ikkeVurderteVilkår }: IkkeVurderteVilkårProps) => {
-    return (
-        <>
-            <Vilkårinnhold>
-                <Innhold className={className}>
-                    <FlexColumn>
-                        <VilkårSystemetIkkeVurderer ikkeVurderteVilkår={ikkeVurderteVilkår} />
-                    </FlexColumn>
-                    <FlexColumn>
-                        <Yrkeskadeinfo />
-                    </FlexColumn>
-                </Innhold>
-            </Vilkårinnhold>
-            <Strek />
-        </>
-    );
-};
+const IkkeVurderteVilkår = ({ className, ikkeVurderteVilkår }: IkkeVurderteVilkårProps) => (
+    <>
+        <Vilkårinnhold>
+            <Innhold gridTemplateColumns="37rem auto" className={className}>
+                <FlexColumn>
+                    <VilkårSystemetIkkeVurderer ikkeVurderteVilkår={ikkeVurderteVilkår} />
+                </FlexColumn>
+                <FlexColumn>
+                    <Yrkeskadeinfo />
+                </FlexColumn>
+            </Innhold>
+        </Vilkårinnhold>
+        <Strek />
+    </>
+);
 
 export default IkkeVurderteVilkår;

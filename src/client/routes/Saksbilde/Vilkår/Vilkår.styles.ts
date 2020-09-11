@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
-import TwoColumnGrid from '../../../components/TwoColumnGrid';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
+import { Grid } from '../../../components/Grid';
 
-export const StyledUbehandletInnhold = styled(TwoColumnGrid)`
+export const StyledUbehandletInnhold = styled(Grid)`
     justify-content: start;
 `;
 
@@ -20,7 +20,7 @@ export const Vilkårinnhold = styled.div`
     margin: 2rem 2rem;
 `;
 
-export const Grid = styled.span`
+export const Vilkårgrid = styled.span`
     grid-area: body;
     display: grid;
     grid-template-columns: 1fr 1fr;

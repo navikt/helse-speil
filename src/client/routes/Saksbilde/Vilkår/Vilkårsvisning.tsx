@@ -20,7 +20,7 @@ const Vilkårsvisning = ({ tittel, ikon, vilkår }: VilkårsvisningProps) => {
                 <Vilkårstittel størrelse="m" ikon={ikon}>
                     {tittel}
                 </Vilkårstittel>
-                <StyledUbehandletInnhold>
+                <StyledUbehandletInnhold gridTemplateColumns="37rem auto">
                     <FlexColumn>{venstre}</FlexColumn>
                     <FlexColumn>{høyre}</FlexColumn>
                 </StyledUbehandletInnhold>
