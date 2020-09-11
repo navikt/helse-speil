@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
 import Panel from 'nav-frontend-paneler';
 import styled from '@emotion/styled';
-import ListItem from '../../../components/ListItem';
 import Utbetaling from './Utbetaling';
 import Simuleringsinfo from './Simuleringsinfo';
 import Navigasjonsknapper from '../../../components/NavigationButtons';
-import { List } from '../../../components/List';
 import { toKronerOgØre } from '../../../utils/locale';
 import { PersonContext } from '../../../context/PersonContext';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { useTranslation } from 'react-i18next';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Grid } from '../../../components/Grid';
 
 const Innhold = styled.div`
     width: 100%;
@@ -54,22 +53,20 @@ const Oppsummering = () => {
             <StyledPanel>
                 <ErrorBoundary>
                     <Oppsummeringstittel>{t('oppsummering.tittel')}</Oppsummeringstittel>
-                    <List>
-                        <ListItem label={t('oppsummering.sykepengegrunnlag')}>
-                            {`${toKronerOgØre(sykepengegrunnlag.sykepengegrunnlag!)} kr`}
-                        </ListItem>
-                        <ListItem label={t('oppsummering.antall_utbetalingsdager')}>
-                            {oppsummering.antallUtbetalingsdager}
-                        </ListItem>
-                        <ListItem label={t('oppsummering.beløp')}>
+                    <Grid gridTemplateColumns="1fr 1fr">
+                        <Normaltekst>{t('oppsummering.sykepengegrunnlag')}</Normaltekst>
+                        <Normaltekst>{`${toKronerOgØre(sykepengegrunnlag.sykepengegrunnlag!)} kr`}</Normaltekst>
+                        <Normaltekst>{t('oppsummering.antall_utbetalingsdager')}</Normaltekst>
+                        <Normaltekst>{oppsummering.antallUtbetalingsdager}</Normaltekst>
+                        <Normaltekst>{t('oppsummering.beløp')}</Normaltekst>
+                        <Normaltekst>
                             {oppsummering.totaltTilUtbetaling > 0
                                 ? `${toKronerOgØre(oppsummering.totaltTilUtbetaling)} kr`
                                 : 'Ingen utbetaling'}
-                        </ListItem>
-                        <ListItem label={t('oppsummering.utbetaling_til')}>
-                            {`Organisasjonsnummer: ${inntektskilder[0].organisasjonsnummer}`}
-                        </ListItem>
-                    </List>
+                        </Normaltekst>
+                        <Normaltekst>{t('oppsummering.utbetaling_til')}</Normaltekst>
+                        <Normaltekst>{`Organisasjonsnummer: ${inntektskilder[0].organisasjonsnummer}`}</Normaltekst>
+                    </Grid>
                     <Divider />
                     {simuleringsdata ? (
                         <Simuleringsinfo simulering={simuleringsdata} />

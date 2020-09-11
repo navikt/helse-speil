@@ -1,15 +1,14 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
-import ListItem from '../../../components/ListItem';
-import { List } from '../../../components/List';
 import { Simulering } from '../../../context/types.internal';
 import { toKronerOgØre } from '../../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Utbetalingsdetalj } from '../../../context/mapping/types.external';
+import { Grid } from '../../../components/Grid';
 
-const Underliste = styled(List)`
+const Underliste = styled(Grid)`
     &:not(:last-child) {
         margin-bottom: 4rem;
     }
@@ -23,43 +22,68 @@ interface SimuleringProps {
 
 const Simuleringsinfo = ({ simulering }: SimuleringProps) => (
     <>
-        <List>
-            <ListItem label="Totalbeløp simulering">{toKronerOgØre(simulering.totalbeløp)} kr</ListItem>
-        </List>
+        <Grid gridTemplateColumns="1fr 1fr">
+            <Normaltekst>Totalbeløp simulering</Normaltekst>
+            <Normaltekst>{toKronerOgØre(simulering.totalbeløp)} kr</Normaltekst>
+        </Grid>
         <>
             {simulering.perioder.map((periode, index) => (
-                <Underliste key={`periode-${index}`}>
-                    <ListItem label="~~~~~~~~~~~~">~~~~~~~~~~~~</ListItem>
+                <Underliste gridTemplateColumns="1fr 1fr" key={`periode-${index}`}>
+                    <Normaltekst>~~~~~~~~~~~~</Normaltekst>
+                    <Normaltekst>~~~~~~~~~~~~</Normaltekst>
                     <Normaltekst>Periode</Normaltekst>
                     <Normaltekst>{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</Normaltekst>
                     <>
                         {periode.utbetalinger.map((utbetaling, index) => (
                             <React.Fragment key={`utbetaling-${index}`}>
-                                {index > 0 && <ListItem label="-------------------">-------------------</ListItem>}
-                                <ListItem label="Utbetales til ID">{utbetaling.utbetalesTilId}</ListItem>
-                                <ListItem label="Utbetales til navn">{utbetaling.utbetalesTilNavn}</ListItem>
-                                <ListItem label="Forfall">{formaterDato(utbetaling.forfall)}</ListItem>
-                                <ListItem label="Feilkonto">{utbetaling.feilkonto ? 'Ja' : 'Nei'}</ListItem>
+                                {index > 0 && (
+                                    <>
+                                        <Normaltekst>-------------------</Normaltekst>
+                                        <Normaltekst>-------------------</Normaltekst>
+                                    </>
+                                )}
+                                <Normaltekst>Utbetales til ID</Normaltekst>
+                                <Normaltekst>{utbetaling.utbetalesTilId}</Normaltekst>
+                                <Normaltekst>Utbetales til navn</Normaltekst>
+                                <Normaltekst>{utbetaling.utbetalesTilNavn}</Normaltekst>
+                                <Normaltekst>Forfall</Normaltekst>
+                                <Normaltekst>{formaterDato(utbetaling.forfall)}</Normaltekst>
+                                <Normaltekst>Feilkonto</Normaltekst>
+                                <Normaltekst>{utbetaling.feilkonto ? 'Ja' : 'Nei'}</Normaltekst>
                                 {utbetaling.detaljer.map((detalj: Utbetalingsdetalj, index: number) => (
                                     <React.Fragment key={`detalj-${index}`}>
                                         {index > 0 && (
-                                            <ListItem label="-------------------">-------------------</ListItem>
+                                            <>
+                                                <Normaltekst>-------------------</Normaltekst>
+                                                <Normaltekst>-------------------</Normaltekst>
+                                            </>
                                         )}
-                                        <ListItem label="Faktisk fom">{formaterDato(detalj.faktiskFom)}</ListItem>
-                                        <ListItem label="Faktisk tom">{formaterDato(detalj.faktiskTom)}</ListItem>
-                                        <ListItem label="Sats">{toKronerOgØre(detalj.sats)} kr</ListItem>
-                                        <ListItem label="Antall sats">{detalj.antallSats}</ListItem>
-                                        <ListItem label="Type sats">{detalj.typeSats}</ListItem>
-                                        <ListItem label="Beløp">{toKronerOgØre(detalj.belop)} kr</ListItem>
-                                        <ListItem label="Konto">{detalj.konto}</ListItem>
-                                        <ListItem label="Klassekode">{detalj.klassekode}</ListItem>
-                                        <ListItem label="Klassekode beskrivelse">
-                                            {detalj.klassekodeBeskrivelse}
-                                        </ListItem>
-                                        <ListItem label="Uføregrad">{detalj.uforegrad}</ListItem>
-                                        <ListItem label="Utbetalingstype">{detalj.utbetalingsType}</ListItem>
-                                        <ListItem label="Refunderes orgnummer">{detalj.refunderesOrgNr}</ListItem>
-                                        <ListItem label="Tilbakeføring">{detalj.tilbakeforing ? 'Ja' : 'Nei'}</ListItem>
+                                        <Normaltekst>Faktisk fom</Normaltekst>
+                                        <Normaltekst>{formaterDato(detalj.faktiskFom)}</Normaltekst>
+                                        <Normaltekst>Faktisk tom</Normaltekst>
+                                        <Normaltekst>{formaterDato(detalj.faktiskTom)}</Normaltekst>
+                                        <Normaltekst>Sats</Normaltekst>
+                                        <Normaltekst>{toKronerOgØre(detalj.sats)} kr</Normaltekst>
+                                        <Normaltekst>Antall sats</Normaltekst>
+                                        <Normaltekst>{detalj.antallSats}</Normaltekst>
+                                        <Normaltekst>Type sats</Normaltekst>
+                                        <Normaltekst>{detalj.typeSats}</Normaltekst>
+                                        <Normaltekst>Beløp</Normaltekst>
+                                        <Normaltekst>{toKronerOgØre(detalj.belop)} kr</Normaltekst>
+                                        <Normaltekst>Konto</Normaltekst>
+                                        <Normaltekst>{detalj.konto}</Normaltekst>
+                                        <Normaltekst>Klassekode</Normaltekst>
+                                        <Normaltekst>{detalj.klassekode}</Normaltekst>
+                                        <Normaltekst>Klassekodebeskrivelse</Normaltekst>
+                                        <Normaltekst>{detalj.klassekodeBeskrivelse}</Normaltekst>
+                                        <Normaltekst>Uføregrad</Normaltekst>
+                                        <Normaltekst>{detalj.uforegrad}</Normaltekst>
+                                        <Normaltekst>Utbetalingstype</Normaltekst>
+                                        <Normaltekst>{detalj.utbetalingsType}</Normaltekst>
+                                        <Normaltekst>Refunderes orgnummer</Normaltekst>
+                                        <Normaltekst>{detalj.refunderesOrgNr}</Normaltekst>
+                                        <Normaltekst>Tilbakeføring</Normaltekst>
+                                        <Normaltekst>{detalj.tilbakeforing ? 'Ja' : 'Nei'}</Normaltekst>
                                     </React.Fragment>
                                 ))}
                             </React.Fragment>
