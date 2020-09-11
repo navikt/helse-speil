@@ -82,78 +82,71 @@ export const mapUferdigVedtaksperiode = (unmapped: SpesialistVedtaksperiode): Uf
     tilstand: Vedtaksperiodetilstand[unmapped.tilstand] || Vedtaksperiodetilstand.Ukjent,
 });
 
-const appendUnmappedFields = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            id: unmapped.id,
-            gruppeId: unmapped.gruppeId,
-            godkjentAv: unmapped.godkjentAv,
-            oppgavereferanse: unmapped.oppgavereferanse,
-            utbetalingsreferanse: unmapped.utbetalingsreferanse,
-            kanVelges: true,
-        },
-    });
+const appendUnmappedFields = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        id: unmapped.id,
+        gruppeId: unmapped.gruppeId,
+        godkjentAv: unmapped.godkjentAv,
+        oppgavereferanse: unmapped.oppgavereferanse,
+        utbetalingsreferanse: unmapped.utbetalingsreferanse,
+        kanVelges: true,
+    },
+});
 
-const appendVilkår = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            vilkår: mapVilkår(unmapped),
-        },
-    });
+const appendVilkår = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        vilkår: mapVilkår(unmapped),
+    },
+});
 
-const appendTilstand = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            tilstand: Vedtaksperiodetilstand[unmapped.tilstand] || Vedtaksperiodetilstand.Ukjent,
-            behandlet: !!unmapped.godkjentAv,
-            godkjenttidspunkt: somKanskjeDato(unmapped.godkjenttidspunkt),
-            forlengelseFraInfotrygd: mapForlengelseFraInfotrygd(unmapped.forlengelseFraInfotrygd),
-        },
-    });
+const appendTilstand = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        tilstand: Vedtaksperiodetilstand[unmapped.tilstand] || Vedtaksperiodetilstand.Ukjent,
+        behandlet: !!unmapped.godkjentAv,
+        godkjenttidspunkt: somKanskjeDato(unmapped.godkjenttidspunkt),
+        forlengelseFraInfotrygd: mapForlengelseFraInfotrygd(unmapped.forlengelseFraInfotrygd),
+    },
+});
 
-const appendHendelser = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            hendelser: unmapped.hendelser.map(mapHendelse),
-        },
-    });
+const appendHendelser = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        hendelser: unmapped.hendelser.map(mapHendelse),
+    },
+});
 
-const appendFomAndTom = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            fom: somDato(unmapped.fom),
-            tom: somDato(unmapped.tom),
-        },
-    });
+const appendFomAndTom = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        fom: somDato(unmapped.fom),
+        tom: somDato(unmapped.tom),
+    },
+});
 
-const appendTidslinjer = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            utbetalingstidslinje: mapUtbetalingstidslinje(unmapped.utbetalingstidslinje),
-            sykdomstidslinje: mapSykdomstidslinje(unmapped.sykdomstidslinje),
-        },
-    });
+const appendTidslinjer = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        utbetalingstidslinje: mapUtbetalingstidslinje(unmapped.utbetalingstidslinje),
+        sykdomstidslinje: mapSykdomstidslinje(unmapped.sykdomstidslinje),
+    },
+});
 
-const appendSimulering = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            simuleringsdata: mapSimuleringsdata(unmapped.simuleringsdata),
-        },
-    });
+const appendSimulering = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        simuleringsdata: mapSimuleringsdata(unmapped.simuleringsdata),
+    },
+});
 
 const mapExistingPeriodetype = (spleisPeriodetype: SpleisPeriodetype): Periodetype => {
     switch (spleisPeriodetype) {
@@ -185,14 +178,13 @@ const mapPeriodetype = (spleisPeriode: SpesialistVedtaksperiode): Periodetype =>
     }
 };
 
-const appendPeriodetype = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            periodetype: mapPeriodetype(unmapped),
-        },
-    });
+const appendPeriodetype = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        periodetype: mapPeriodetype(unmapped),
+    },
+});
 
 const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbetalinger): Utbetaling | undefined =>
     utbetalinger[key] && {
@@ -205,104 +197,97 @@ const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbeta
         })),
     };
 
-const appendUtbetalinger = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            utbetalinger: unmapped.utbetalinger && {
-                arbeidsgiverUtbetaling: mapUtbetaling(unmapped.utbetalinger, 'arbeidsgiverUtbetaling'),
-                personUtbetaling: mapUtbetaling(unmapped.utbetalinger, 'personUtbetaling'),
+const appendUtbetalinger = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        utbetalinger: unmapped.utbetalinger && {
+            arbeidsgiverUtbetaling: mapUtbetaling(unmapped.utbetalinger, 'arbeidsgiverUtbetaling'),
+            personUtbetaling: mapUtbetaling(unmapped.utbetalinger, 'personUtbetaling'),
+        },
+    },
+});
+
+const appendOppsummering = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        oppsummering: {
+            antallUtbetalingsdager: unmapped.utbetalingstidslinje.filter((dag) => !!dag.utbetaling).length,
+            totaltTilUtbetaling: unmapped.totalbeløpArbeidstaker,
+        },
+    },
+});
+
+const appendInntektskilder = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        inntektskilder: [
+            {
+                organisasjonsnummer: unmapped.organisasjonsnummer,
+                månedsinntekt: somInntekt(unmapped.inntektFraInntektsmelding),
+                årsinntekt: somÅrsinntekt(unmapped.inntektFraInntektsmelding),
+                refusjon: true,
+                forskuttering: true,
             },
-        },
-    });
+        ],
+    },
+});
 
-const appendOppsummering = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            oppsummering: {
-                antallUtbetalingsdager: unmapped.utbetalingstidslinje.filter((dag) => !!dag.utbetaling).length,
-                totaltTilUtbetaling: unmapped.totalbeløpArbeidstaker,
-            },
-        },
-    });
+const appendAktivitetslogg = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        aktivitetslog: unmapped.aktivitetslogg.map((aktivitet) => ({
+            melding: aktivitet.melding,
+            alvorlighetsgrad: aktivitet.alvorlighetsgrad,
+            tidsstempel: somTidspunkt(aktivitet.tidsstempel),
+        })),
+    },
+});
 
-const appendInntektskilder = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            inntektskilder: [
-                {
-                    organisasjonsnummer: unmapped.organisasjonsnummer,
-                    månedsinntekt: somInntekt(unmapped.inntektFraInntektsmelding),
-                    årsinntekt: somÅrsinntekt(unmapped.inntektFraInntektsmelding),
-                    refusjon: true,
-                    forskuttering: true,
-                },
-            ],
-        },
-    });
+const appendRisikovurdering = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        risikovurdering: unmapped.risikovurderingerForArbeidsgiver
+            .map((risikovurdering) => ({ ...risikovurdering, opprettet: somTidspunkt(risikovurdering.opprettet) }))
+            .find((risikovurdering) => risikovurdering.vedtaksperiodeId === unmapped.id),
+    },
+});
 
-const appendAktivitetslogg = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            aktivitetslog: unmapped.aktivitetslogg.map((aktivitet) => ({
-                melding: aktivitet.melding,
-                alvorlighetsgrad: aktivitet.alvorlighetsgrad,
-                tidsstempel: somTidspunkt(aktivitet.tidsstempel),
-            })),
+const appendSykepengegrunnlag = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        sykepengegrunnlag: {
+            årsinntektFraAording: unmapped.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
+            årsinntektFraInntektsmelding: somÅrsinntekt(unmapped.inntektFraInntektsmelding),
+            avviksprosent: somProsent(unmapped.dataForVilkårsvurdering?.avviksprosent),
+            sykepengegrunnlag: unmapped.vilkår?.sykepengegrunnlag.sykepengegrunnlag,
         },
-    });
-
-const appendRisikovurdering = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            risikovurdering: unmapped.risikovurderingerForArbeidsgiver
-                .map((risikovurdering) => ({ ...risikovurdering, opprettet: somTidspunkt(risikovurdering.opprettet) }))
-                .find((risikovurdering) => risikovurdering.vedtaksperiodeId === unmapped.id),
-        },
-    });
-
-const appendSykepengegrunnlag = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            sykepengegrunnlag: {
-                årsinntektFraAording: unmapped.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
-                årsinntektFraInntektsmelding: somÅrsinntekt(unmapped.inntektFraInntektsmelding),
-                avviksprosent: somProsent(unmapped.dataForVilkårsvurdering?.avviksprosent),
-                sykepengegrunnlag: unmapped.vilkår?.sykepengegrunnlag.sykepengegrunnlag,
-            },
-        },
-    });
-
-const appendOverstyringer = ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> =>
-    Promise.resolve({
-        unmapped,
-        partial: {
-            ...partial,
-            overstyringer: unmapped.overstyringer
-                .filter((overstyring) => tilhørerVedtaksperiode(partial, overstyring))
-                .map((overstyring) => ({
-                    ...overstyring,
-                    timestamp: dayjs(overstyring.timestamp),
-                    overstyrteDager: overstyring.overstyrteDager.map(tilOverstyrtDag),
-                })),
-        },
-    });
+    },
+});
 
 const tilhørerVedtaksperiode = (partial: Partial<Vedtaksperiode>, overstyring: SpesialistOverstyring) =>
     overstyring.overstyrteDager
         .map((dag) => dayjs(dag.dato))
         .every((dato) => partial.fom?.isSameOrBefore(dato) && partial.tom?.isSameOrAfter(dato));
+
+const appendOverstyringer = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        overstyringer: unmapped.overstyringer
+            .filter((overstyring) => tilhørerVedtaksperiode(partial, overstyring))
+            .map((overstyring) => ({
+                ...overstyring,
+                timestamp: dayjs(overstyring.timestamp),
+                overstyrteDager: overstyring.overstyrteDager.map(tilOverstyrtDag),
+            })),
+    },
+});
 
 const finalize = (partialResult: PartialMappingResult): Vedtaksperiode => partialResult.partial as Vedtaksperiode;
 
