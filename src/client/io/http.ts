@@ -1,8 +1,8 @@
 import { Tildeling } from '../context/types.internal';
-import { AnnulleringDTO, Options, OverstyringDTO } from './types';
 import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
 import { extractSpesialistToken } from '../utils/cookie';
 import { spesialistTildelingEnabled } from '../featureToggles';
+import { AnnulleringDTO, Options, OverstyringDTO } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -91,10 +91,8 @@ export const post = async (url: string, data: any, headere?: Headers): Promise<S
         body: JSON.stringify(data),
     });
     if (response.status !== 200 && response.status !== 204) {
-        console.log({ response });
-
         const message = await getErrorMessage(response);
-        console.log({ message });
+        console.log(response.status, message);
 
         throw ResponseError(response.status, message);
     }
@@ -105,18 +103,14 @@ export const post = async (url: string, data: any, headere?: Headers): Promise<S
     };
 };
 
-export const getPersoninfo = async (aktorId: string) => {
-    return get(`${baseUrl}/person/${aktorId}/info`);
-};
+export const getPersoninfo = async (aktorId: string) => get(`${baseUrl}/person/${aktorId}/info`);
 
 export const postVedtak = async (
     oppgavereferanse: string,
     aktørId: string,
     godkjent: boolean,
     skjema?: Avvisningverdier
-) => {
-    return post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
-};
+) => post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
 
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);
@@ -124,9 +118,7 @@ export const postAnnullering = async (annullering: AnnulleringDTO) =>
 export const postOverstyring = async (overstyring: OverstyringDTO) =>
     post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
 
-const spesialistAuthorization = () => ({
-    Authorization: `Bearer ${extractSpesialistToken()}`,
-});
+const spesialistAuthorization = () => ({ Authorization: `Bearer ${extractSpesialistToken()}` });
 
 const spesialistOptions = (headere?: Headers) => ({
     headers: {
@@ -147,10 +139,7 @@ export const postTildeling = async (tildeling: Tildeling) =>
     spesialistTildelingEnabled ? postSpesialistTildeling(tildeling) : postSpeilTildeling(tildeling);
 
 export const deleteTildeling = async (oppgavereferanse: string) =>
-    Promise.allSettled([
+    Promise.all([
         del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions()),
         del(`${baseUrl}/tildeling/${oppgavereferanse}`),
-    ]).then((results) => {
-        const fulfilled = results.find((result) => result.status === 'fulfilled') as PromiseFulfilledResult<Response>;
-        return fulfilled?.value;
-    });
+    ]);
