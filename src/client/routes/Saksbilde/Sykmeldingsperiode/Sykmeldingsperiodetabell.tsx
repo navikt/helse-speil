@@ -54,7 +54,7 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
             const overstyring = aktivVedtaksperiode?.overstyringer.find((overstyring) =>
                 overstyring.overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato))
             );
-            const førsteCelle = () => (overstyring ? <OverstyrtInfoIkon size={20} /> : tomCelle());
+            const førsteCelle = () => (overstyring ? <OverstyrtInfoIkon width={20} height={20} /> : tomCelle());
             return {
                 celler: [
                     førsteCelle(),

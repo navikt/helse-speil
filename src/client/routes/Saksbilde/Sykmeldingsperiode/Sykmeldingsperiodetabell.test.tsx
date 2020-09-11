@@ -6,6 +6,7 @@ import { Person, Vedtaksperiode } from '../../../context/types.internal';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { SpleisVedtaksperiodetilstand } from '../../../context/mapping/types.external';
 import { PersonContext, PersonContextValue } from '../../../context/PersonContext';
+import '@testing-library/jest-dom/extend-expect';
 
 const enIkkeUtbetaltVedtaksperiode = () =>
     mapVedtaksperiode({
@@ -25,12 +26,12 @@ const enUtbetaltVedtaksperiode = () =>
     });
 
 const renderSykmeldingsperiodetabellMedState = (vedtaksperiode: Vedtaksperiode) => {
-    const defaultContext: anyPersonContextValue = {
+    const defaultContext: PersonContextValue = {
         personTilBehandling: {} as Person,
-        hentPerson: (_) => Promise.resolve(undefined),
-        markerPersonSomTildelt: (_) => null,
+        hentPerson: (_: any) => Promise.resolve(undefined),
+        markerPersonSomTildelt: (_: any) => null,
         isFetching: false,
-        aktiverVedtaksperiode: (_) => null,
+        aktiverVedtaksperiode: (_: any) => null,
     };
     return render(
         <PersonContext.Provider value={{ ...defaultContext, aktivVedtaksperiode: vedtaksperiode }}>

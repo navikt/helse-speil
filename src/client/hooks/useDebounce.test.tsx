@@ -1,15 +1,8 @@
 import React from 'react';
 import { useDebounce } from './useDebounce';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { act } from 'react-dom/test-utils';
-
-afterEach(cleanup);
-
-const sleep = (ms: number) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
 
 const Consumer = ({ timeout = 20 }) => {
     const show = useDebounce(true, timeout);
@@ -21,15 +14,13 @@ describe('useDebounce', () => {
         act(() => {
             render(<Consumer />);
             const container = screen.getByTestId('container');
-            expect(container).toHaveTextContent('false');
+            waitFor(() => expect(container).toHaveTextContent('false'));
         });
     });
     test('returnerer true etter timeout', async () => {
         await act(async () => {
             render(<Consumer timeout={0} />);
-            await sleep(10);
-            const container = screen.getByTestId('container');
-            expect(container).toHaveTextContent('true');
+            await waitFor(() => expect(screen.getByTestId('container')).toHaveTextContent('true'));
         });
     });
 });
