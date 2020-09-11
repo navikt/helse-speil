@@ -6,7 +6,7 @@ import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersoninfoFraSparkel } from '../../types';
 
-interface PersonContextType {
+export interface PersonContextValue {
     hentPerson: (id: string) => Promise<Person | undefined>;
     markerPersonSomTildelt: (email?: string) => void;
     isFetching: boolean;
@@ -27,7 +27,7 @@ export const defaultPersonContext = {
     aktiverVedtaksperiode: (_: string) => null,
 };
 
-export const PersonContext = createContext<PersonContextType>(defaultPersonContext);
+export const PersonContext = createContext<PersonContextValue>(defaultPersonContext);
 
 export const PersonProvider = ({ children }: ProviderProps) => {
     const [personTilBehandling, setPersonTilBehandling] = useState<Person>();

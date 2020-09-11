@@ -1,11 +1,11 @@
-import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
+import { render, screen } from '@testing-library/react';
 import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
-import { Person } from '../../../context/types.internal';
 import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiode';
-import { PersonContext } from '../../../context/PersonContext';
+import { Person, Vedtaksperiode } from '../../../context/types.internal';
+import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { SpleisVedtaksperiodetilstand } from '../../../context/mapping/types.external';
+import { PersonContext, PersonContextValue } from '../../../context/PersonContext';
 
 const enIkkeUtbetaltVedtaksperiode = () =>
     mapVedtaksperiode({
@@ -24,40 +24,33 @@ const enUtbetaltVedtaksperiode = () =>
         tilstand: SpleisVedtaksperiodetilstand.Utbetalt,
     });
 
-it('Viser endreknapp med ikke utbetalt vedtaksperiode', async () => {
-    const { getByText } = render(
-        <PersonContext.Provider
-            value={{
-                personTilBehandling: {} as Person,
-                hentPerson: (_) => Promise.resolve(undefined),
-                markerPersonSomTildelt: (_) => null,
-                isFetching: false,
-                aktiverVedtaksperiode: (_) => null,
-                aktivVedtaksperiode: await enIkkeUtbetaltVedtaksperiode(),
-            }}
-        >
+const renderSykmeldingsperiodetabellMedState = (vedtaksperiode: Vedtaksperiode) => {
+    const defaultContext: PersonContextValue = {
+        personTilBehandling: {} as Person,
+        hentPerson: (_) => Promise.resolve(undefined),
+        markerPersonSomTildelt: (_) => null,
+        isFetching: false,
+        aktiverVedtaksperiode: (_) => null,
+    };
+    return render(
+        <PersonContext.Provider value={{ ...defaultContext, aktivVedtaksperiode: vedtaksperiode }}>
             <Sykmeldingsperiodetabell toggleOverstyring={() => true} />
         </PersonContext.Provider>
     );
+};
 
-    expect(getByText('Endre')).toBeTruthy();
-});
-
-it('Viser ikke endreknapp med ikke utbetalt vedtaksperiode', async () => {
-    render(
-        <PersonContext.Provider
-            value={{
-                personTilBehandling: {} as Person,
-                hentPerson: (_) => Promise.resolve(undefined),
-                markerPersonSomTildelt: (_) => null,
-                isFetching: false,
-                aktiverVedtaksperiode: (_) => null,
-                aktivVedtaksperiode: await enUtbetaltVedtaksperiode(),
-            }}
-        >
-            <Sykmeldingsperiodetabell toggleOverstyring={() => true} />
-        </PersonContext.Provider>
-    );
-
-    expect(screen.queryByText('Endre')).toBeNull();
+describe('Sykmeldingsperiodetabell', () => {
+    test('rendrer Sykmeldingsperiode- og Graderingskolonne', async () => {
+        renderSykmeldingsperiodetabellMedState(await enIkkeUtbetaltVedtaksperiode());
+        expect(screen.getByText('Sykmeldingsperiode')).toBeVisible();
+        expect(screen.getByText('Gradering')).toBeVisible();
+    });
+    test('rendrer endreknapp ved ikke utbetalt vedtaksperiode', async () => {
+        renderSykmeldingsperiodetabellMedState(await enIkkeUtbetaltVedtaksperiode());
+        expect(screen.getByText('Endre')).toBeVisible();
+    });
+    test('rendrer ikke endreknapp ved ikke utbetalt vedtaksperiode', async () => {
+        renderSykmeldingsperiodetabellMedState(await enUtbetaltVedtaksperiode());
+        expect(screen.queryByText('Endre')).toBeNull();
+    });
 });
