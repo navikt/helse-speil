@@ -1,17 +1,18 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from '../../context/types.internal';
-import { NORSK_DATOFORMAT } from '../../utils/date';
-import { IkonEgenmelding } from './ikoner/IkonEgenmelding';
+import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 import { IkonSyk } from './ikoner/IkonSyk';
 import { IkonFerie } from './ikoner/IkonFerie';
 import { toKronerOgØre } from '../../utils/locale';
-import './rader.less';
-import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
+import { IkonOverstyrt } from './ikoner/IkonOverstyrt';
+import { IkonEgenmelding } from './ikoner/IkonEgenmelding';
+import { NORSK_DATOFORMAT } from '../../utils/date';
 import { OverstyrbarDagtype } from './OverstyrbarDagtype';
 import { OverstyrbarGradering } from './OverstyrbarGradering';
-import { IkonOverstyrt } from './ikoner/IkonOverstyrt';
 import { Overstyringsindikator } from '../Overstyringsindikator';
+import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from '../../context/types.internal';
+import { Kilde } from '../Kilde';
+import './rader.less';
 
 export const tomCelle = () => undefined;
 
@@ -67,16 +68,6 @@ export const overstyrbarType = (
         type(dag)
     );
 
-const KildeLabel = styled.div`
-    border: 1px solid #0067c5;
-    padding: 1px 0.25rem;
-    font-size: 14px;
-    border-radius: 0.25rem;
-    color: #0067c5;
-    width: 28px;
-    box-sizing: border-box;
-`;
-
 const KildeContainer = styled.div`
     display: flex;
     flex: 1;
@@ -87,11 +78,11 @@ export const kilde = (dag: Sykdomsdag, overstyring?: Overstyring) => {
     const label = (() => {
         switch (dag.kilde) {
             case Kildetype.Sykmelding:
-                return <KildeLabel>SM</KildeLabel>;
+                return <Kilde>SM</Kilde>;
             case Kildetype.Søknad:
-                return <KildeLabel>SØ</KildeLabel>;
+                return <Kilde>SØ</Kilde>;
             case Kildetype.Inntektsmelding:
-                return <KildeLabel>IM</KildeLabel>;
+                return <Kilde>IM</Kilde>;
             case Kildetype.Saksbehandler:
                 return overstyring ? (
                     <Overstyringsindikator

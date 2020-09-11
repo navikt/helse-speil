@@ -1,9 +1,8 @@
 import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
 import React from 'react';
 import { somPenger } from '../../../utils/locale';
-import Kildelenke from '../../../components/Kildelenke';
-import { Kildetype } from '../../../components/Kildelenke/Kildelenke';
 import styled from '@emotion/styled';
+import { Kilde } from '../../../components/Kilde';
 
 interface Props {
     inntektskilde: string;
@@ -58,11 +57,11 @@ const Inntektssammenligning = ({ inntektskilde, årsinntektAordning, årsinntekt
             <Normaltekst>{inntektskilde}</Normaltekst>
             <InntektMedKilde>
                 <Normaltekst>{somPenger(årsinntektInntektsmelding)}</Normaltekst>
-                <Kildelenke label={Kildetype.inntektsmelding} />
+                <Kilde>IM</Kilde>
             </InntektMedKilde>
             <InntektMedKilde>
                 <Normaltekst>{somPenger(årsinntektAordning)}</Normaltekst>
-                <Kildelenke label={Kildetype.aordningen} />
+                <Kilde>Ao</Kilde>
             </InntektMedKilde>
             <Divider />
             <Element>Total</Element>

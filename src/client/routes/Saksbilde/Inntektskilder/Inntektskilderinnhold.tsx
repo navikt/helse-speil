@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
-import Kildelenke from '../../../components/Kildelenke';
 import { toKronerOgØre } from '../../../utils/locale';
 import Ikonrad from '../../../components/Ikonrad';
 import { Inntektskilde } from '../../../context/types.internal';
@@ -9,7 +8,7 @@ import styled from '@emotion/styled';
 import Grid from '../../../components/Grid';
 import { FlexColumn } from '../../../components/FlexColumn';
 import Arbeidsgiverikon from '../../../components/Ikon/Arbeidsgiverikon';
-import { Kildetype } from '../../../components/Kildelenke/Kildelenke';
+import { Kilde } from '../../../components/Kilde';
 
 export interface InntektskilderinnholdProps {
     inntektskilder: Inntektskilde[];
@@ -70,11 +69,11 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
                     <Tittel>Arbeidsgiver ({inntektskilder[0].organisasjonsnummer})</Tittel>
-                    <Kildelenke label={Kildetype.aareg} />
+                    <Kilde>Aa</Kilde>
                 </Arbeidsgivertittel>
                 <HeaderContainer>
                     <Tittel tag="h3">{t('inntektskilder.inntekt')}</Tittel>
-                    <Kildelenke label={Kildetype.inntektsmelding} />
+                    <Kilde>IM</Kilde>
                 </HeaderContainer>
                 <Tabell>
                     <Undertekst>{t('inntektskilder.månedsinntekt')}</Undertekst>
