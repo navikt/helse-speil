@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import Arbeidsgiverikon from '../Ikon/Arbeidsgiverikon';
-import Infotrygdikon from '../Ikon/Infotrygdikon';
+import { Arbeidsgiverikon } from '../ikoner/Arbeidsgiverikon';
+import { Infotrygdikon } from '../ikoner/Infotrygdikon';
 import { PersonContext } from '../../context/PersonContext';
 import { UtbetalingerPerArbeidsgiver } from './useInfotrygdrader';
 import styled from '@emotion/styled';

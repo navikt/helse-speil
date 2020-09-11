@@ -1,7 +1,8 @@
 import React from 'react';
+import { Ikon } from './Ikon';
 
-const IkonKjønnsnøytral = () => (
-    <svg width="24px" height="24px" viewBox="0 0 24 24">
+export const KjønnsnøytraltIkon = () => (
+    <Ikon width={24} height={24} viewBoxSize={24}>
         <g transform="translate(1.000000, 1.000000)">
             <path
                 d="M21.9773694,11.0435796 C21.9773694,17.0798471 17.084121,21.9732357 11.0478535,21.9732357 C5.01158599,21.9732357 0.118197452,17.0798471 0.118197452,11.0435796 C0.118197452,5.00745223 5.01158599,0.114063694 11.0478535,0.114063694 C17.084121,0.114063694 21.9773694,5.00745223 21.9773694,11.0435796"
@@ -20,7 +21,5 @@ const IkonKjønnsnøytral = () => (
                 fill="#FFFFFF"
             />
         </g>
-    </svg>
+    </Ikon>
 );
-
-export default IkonKjønnsnøytral;

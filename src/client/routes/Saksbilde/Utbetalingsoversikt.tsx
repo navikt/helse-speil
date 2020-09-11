@@ -1,17 +1,17 @@
 import React, { ReactNode, useContext } from 'react';
-import Navigasjonsknapper from '../../components/NavigationButtons';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { PersonContext } from '../../context/PersonContext';
 import styled from '@emotion/styled';
-import { NORSK_DATOFORMAT } from '../../utils/date';
-import { useMaksdato } from '../../hooks/useMaksdato';
-import { ErrorBoundary } from '../../components/ErrorBoundary';
-import { Tabell } from '@navikt/helse-frontend-tabell';
-import { dato, gradering, ikon, type, utbetaling } from '../../components/tabell/rader';
-import { Dagtype, Utbetalingsdag } from '../../context/types.internal';
 import Element from 'nav-frontend-typografi/lib/element';
-import Feilikon from '../../components/Ikon/Feilikon';
 import classNames from 'classnames';
+import Navigasjonsknapper from '../../components/NavigationButtons';
+import { Tabell } from '@navikt/helse-frontend-tabell';
+import { Feilikon } from '../../components/ikoner/Feilikon';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { useMaksdato } from '../../hooks/useMaksdato';
+import { PersonContext } from '../../context/PersonContext';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { NORSK_DATOFORMAT } from '../../utils/date';
+import { Dagtype, Utbetalingsdag } from '../../context/types.internal';
+import { dato, gradering, ikon, type, utbetaling } from '../../components/tabell/rader';
 
 type Utbetalingsceller = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];
 

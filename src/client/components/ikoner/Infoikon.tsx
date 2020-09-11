@@ -1,13 +1,8 @@
 import React from 'react';
-import Ikon from './Ikon';
+import { Ikon, IkonProps } from './Ikon';
 
-interface InfoikonProps {
-    size?: number;
-    className?: string;
-}
-
-const Infoikon = ({ size = 24, className }: InfoikonProps) => (
-    <Ikon width={size} height={size} viewBoxSize={24} className={className}>
+export const Infoikon = ({ width = 24, height = 24, className }: IkonProps) => (
+    <Ikon width={width} height={height} viewBoxSize={24} className={className}>
         <g fill="none">
             <path d="M12 0C5.382 0 0 5.382 0 12s5.382 12 12 12c6.617 0 12-5.382 12-12S18.617 0 12 0z" fill="#337C9B" />
             <path
@@ -17,5 +12,3 @@ const Infoikon = ({ size = 24, className }: InfoikonProps) => (
         </g>
     </Ikon>
 );
-
-export default Infoikon;

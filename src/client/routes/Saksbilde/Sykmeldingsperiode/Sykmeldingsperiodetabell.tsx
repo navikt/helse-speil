@@ -9,7 +9,7 @@ import { dato, gradering, ikon, kilde, tomCelle, type } from '../../../component
 import { Dagtype, Vedtaksperiodetilstand } from '../../../context/types.internal';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import classNames from 'classnames';
-import Infoikon from '../../../components/Ikon/Infoikon';
+import { Infoikon } from '../../../components/ikoner/Infoikon';
 
 const Periodetabell = styled(Tabell)`
     thead tr th {

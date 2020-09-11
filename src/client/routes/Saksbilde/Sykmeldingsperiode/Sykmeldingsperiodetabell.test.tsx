@@ -25,7 +25,7 @@ const enUtbetaltVedtaksperiode = () =>
     });
 
 const renderSykmeldingsperiodetabellMedState = (vedtaksperiode: Vedtaksperiode) => {
-    const defaultContext: PersonContextValue = {
+    const defaultContext: anyPersonContextValue = {
         personTilBehandling: {} as Person,
         hentPerson: (_) => Promise.resolve(undefined),
         markerPersonSomTildelt: (_) => null,

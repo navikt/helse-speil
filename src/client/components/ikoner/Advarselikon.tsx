@@ -1,13 +1,7 @@
 import React from 'react';
-import Ikon from './Ikon';
+import { Ikon, IkonProps } from './Ikon';
 
-interface AdvarselikonProps extends React.ComponentProps<any> {
-    height?: number;
-    width?: number;
-    viewBoxSize?: number;
-}
-
-const Advarselikon = ({ height = 24, width = 24, viewBoxSize, className }: AdvarselikonProps) => (
+export const Advarselikon = ({ height = 24, width = 24, viewBoxSize, className }: IkonProps) => (
     <Ikon height={height} width={width} viewBoxSize={viewBoxSize} className={className}>
         <g fill="none" fillRule="evenodd">
             <path
@@ -20,5 +14,3 @@ const Advarselikon = ({ height = 24, width = 24, viewBoxSize, className }: Advar
         </g>
     </Ikon>
 );
-
-export default Advarselikon;

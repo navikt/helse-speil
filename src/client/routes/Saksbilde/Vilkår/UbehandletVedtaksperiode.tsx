@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import Vilkårsvisning from './Vilkårsvisning';
-import Feilikon from '../../../components/Ikon/Feilikon';
 import IkkeVurderteVilkår, { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
-import GrøntSjekkikon from '../../../components/Ikon/GrøntSjekkikon';
+import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
+import { Feilikon } from '../../../components/ikoner/Feilikon';
 
 interface UbehandletVedtaksperiodeProps {
     ikkeOppfylteVilkår: ReactNode[];

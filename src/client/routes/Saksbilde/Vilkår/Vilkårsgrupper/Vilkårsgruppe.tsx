@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
-import Sjekkikon from '../../../../components/Ikon/Sjekkikon';
-import Advarselikon from '../../../../components/Ikon/Advarselikon';
+import { Sjekkikon } from '../../../../components/ikoner/Sjekkikon';
+import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import styled from '@emotion/styled';
-import Infoikon from '../../../../components/Ikon/Infoikon';
+import { Infoikon } from '../../../../components/ikoner/Infoikon';
 import Vilkårstittel from '../Vilkårstittel';
-import Kryssikon from '../../../../components/Ikon/Kryssikon';
+import { Kryssikon } from '../../../../components/ikoner/Kryssikon';
 import { Grid } from '../Vilkår.styles';
 
 type Ikontype = 'ok' | 'advarsel' | 'info' | 'kryss';

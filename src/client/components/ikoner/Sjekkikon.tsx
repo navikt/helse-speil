@@ -1,7 +1,7 @@
 import React from 'react';
-import Ikon from './Ikon';
+import { Ikon } from './Ikon';
 
-const Sjekkikon = () => (
+export const Sjekkikon = () => (
     <Ikon viewBoxSize={16}>
         <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <g transform="translate(2.000000, 4.000000)" fill="#3E3832">
@@ -10,5 +10,3 @@ const Sjekkikon = () => (
         </g>
     </Ikon>
 );
-
-export default Sjekkikon;

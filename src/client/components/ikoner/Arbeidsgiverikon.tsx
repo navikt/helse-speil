@@ -1,7 +1,7 @@
 import React from 'react';
-import Ikon from './Ikon';
+import { Ikon } from './Ikon';
 
-const Arbeidsgiverikon = () => (
+export const Arbeidsgiverikon = () => (
     <Ikon viewBoxSize={16}>
         <g xmlns="http://www.w3.org/2000/svg" id="Arbeid" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
             <path
@@ -13,5 +13,3 @@ const Arbeidsgiverikon = () => (
         </g>
     </Ikon>
 );
-
-export default Arbeidsgiverikon;

@@ -2,10 +2,10 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { FlexColumn } from '../../../../components/FlexColumn';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Advarselikon from '../../../../components/Ikon/Advarselikon';
+import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import Vilkårsgrupperad from './Vilkårsgrupperad';
 import TwoColumnGrid from '../../../../components/TwoColumnGrid';
-import Infoikon from '../../../../components/Ikon/Infoikon';
+import { Infoikon } from '../../../../components/ikoner/Infoikon';
 import Vilkårstittel from '../Vilkårstittel';
 import { Strek, Grid, Vilkårinnhold } from '../Vilkår.styles';
 

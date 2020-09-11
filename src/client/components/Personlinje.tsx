@@ -3,9 +3,9 @@ import { Clipboard } from './Clipboard';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { PersonContext } from '../context/PersonContext';
 import styled from '@emotion/styled';
-import IkonMann from './Ikon/IkonMann';
-import IkonKvinne from './Ikon/IkonKvinne';
-import IkonKjønnsnøytral from './Ikon/IkonKjønnsnøytral';
+import { Manneikon } from './ikoner/Manneikon';
+import { Kvinneikon } from './ikoner/Kvinneikon';
+import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
@@ -31,11 +31,11 @@ const Separator = styled(Normaltekst)`
 const Kjønnsikon = ({ kjønn }: { kjønn: string }) => {
     switch (kjønn.toLowerCase()) {
         case 'kvinne':
-            return <IkonKvinne />;
+            return <Kvinneikon />;
         case 'mann':
-            return <IkonMann />;
+            return <Manneikon />;
         default:
-            return <IkonKjønnsnøytral />;
+            return <KjønnsnøytraltIkon />;
     }
 };
 

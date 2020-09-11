@@ -1,7 +1,7 @@
 import React from 'react';
-import Ikon from './Ikon';
+import { Ikon } from './Ikon';
 
-const Infotrygdikon = () => (
+export const Infotrygdikon = () => (
     <Ikon viewBoxSize={24}>
         <g xmlns="http://www.w3.org/2000/svg" fill="#78706A">
             <path d="M11.5,7.035c0.011,0,0.019,0.006,0.03,0.007l11.261-3.171L12.126,1.088c-0.083-0.021-0.17-0.021-0.252,0L0.972,3.933   l10.493,3.11C11.477,7.041,11.487,7.035,11.5,7.035z" />
@@ -12,5 +12,3 @@ const Infotrygdikon = () => (
         </g>
     </Ikon>
 );
-
-export default Infotrygdikon;

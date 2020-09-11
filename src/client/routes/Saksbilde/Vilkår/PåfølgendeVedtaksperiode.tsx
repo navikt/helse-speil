@@ -7,9 +7,9 @@ import { FlexColumn } from '../../../components/FlexColumn';
 import TwoColumnGrid from '../../../components/TwoColumnGrid';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Dayjs } from 'dayjs';
-import GrøntSjekkikon from '../../../components/Ikon/GrøntSjekkikon';
+import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
 import Vilkårsvisning from './Vilkårsvisning';
-import Feilikon from '../../../components/Ikon/Feilikon';
+import { Feilikon } from '../../../components/ikoner/Feilikon';
 import IkkeVurderteVilkår, { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
 
 const formatterDato = (dato?: Dayjs) => dato?.format(NORSK_DATOFORMAT) ?? 'Dato ikke funnet';
