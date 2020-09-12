@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { Manneikon } from './ikoner/Manneikon';
 import { Kvinneikon } from './ikoner/Kvinneikon';
 import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
+import { Person } from '../context/types.internal';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
@@ -39,12 +40,14 @@ const Kjønnsikon = ({ kjønn }: { kjønn: string }) => {
     }
 };
 
-const Personlinje = () => {
-    const { personTilBehandling } = useContext(PersonContext);
+interface PersonlinjeProps {
+    person?: Person;
+}
 
-    if (!personTilBehandling) return <Container />;
+export const Personlinje = ({ person }: PersonlinjeProps) => {
+    if (!person) return <Container />;
 
-    const { aktørId, personinfo } = personTilBehandling;
+    const { aktørId, personinfo } = person;
     const { fornavn, mellomnavn, etternavn, kjønn, fnr } = personinfo;
 
     return (
@@ -66,10 +69,8 @@ const Personlinje = () => {
             </Clipboard>
             <Separator>/</Separator>
             <Normaltekst>
-                Boenhet: {personTilBehandling.enhet.id} ({personTilBehandling.enhet.navn})
+                Boenhet: {person.enhet.id} ({person.enhet.navn})
             </Normaltekst>
         </Container>
     );
 };
-
-export default Personlinje;
