@@ -2,7 +2,7 @@ import React, { ReactNode, useContext } from 'react';
 import styled from '@emotion/styled';
 import Element from 'nav-frontend-typografi/lib/element';
 import classNames from 'classnames';
-import Navigasjonsknapper from '../../components/NavigationButtons';
+import Navigasjonsknapper from '../../components/navigationButtons';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { Feilikon } from '../../components/ikoner/Feilikon';
 import { Normaltekst } from 'nav-frontend-typografi';

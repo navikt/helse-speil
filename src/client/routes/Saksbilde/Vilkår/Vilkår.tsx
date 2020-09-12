@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext } from 'react';
-import NavigationButtons from '../../../components/NavigationButtons/NavigationButtons';
+import NavigationButtons from '../../../components/navigationButtons/NavigationButtons';
 import { PersonContext } from '../../../context/PersonContext';
 import styled from '@emotion/styled';
 import { BehandletVedtaksperiode, BehandletVedtaksperiodeFraInfotrygd } from './BehandletVedtaksperiode';

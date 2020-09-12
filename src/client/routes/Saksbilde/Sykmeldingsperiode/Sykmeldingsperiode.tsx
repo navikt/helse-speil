@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import Navigasjonsknapper from '../../../components/NavigationButtons';
+import Navigasjonsknapper from '../../../components/navigationButtons';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import '@navikt/helse-frontend-tabell/lib/main.css';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import NavigationButtons from '../../../components/NavigationButtons/NavigationButtons';
+import NavigationButtons from '../../../components/navigationButtons/NavigationButtons';
 import { PersonContext } from '../../../context/PersonContext';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';

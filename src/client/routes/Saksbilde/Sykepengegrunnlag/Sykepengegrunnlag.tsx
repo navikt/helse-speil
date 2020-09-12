@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../../context/PersonContext';
-import NavigationButtons from '../../../components/NavigationButtons';
+import NavigationButtons from '../../../components/navigationButtons';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';

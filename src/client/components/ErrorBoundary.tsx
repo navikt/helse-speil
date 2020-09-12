@@ -1,7 +1,7 @@
 import React, { ReactPropTypes, createRef } from 'react';
 import styled from '@emotion/styled';
 import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
-import { Clipboard } from './Clipboard';
+import { Clipboard } from './clipboard';
 
 const Container = styled.div`
     margin: 2rem;

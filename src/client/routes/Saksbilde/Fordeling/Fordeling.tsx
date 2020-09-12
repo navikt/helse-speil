@@ -1,5 +1,5 @@
 import React from 'react';
-import NavigationButtons from '../../../components/NavigationButtons';
+import NavigationButtons from '../../../components/navigationButtons';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 

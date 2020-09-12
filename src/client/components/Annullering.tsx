@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
-import { AnnulleringModal } from './AnnulleringModal/AnnulleringModal';
+import { Annulleringsmodal } from './annulleringsmodal/Annulleringsmodal';
 import { PersonContext } from '../context/PersonContext';
 import { Button } from './Button';
 
@@ -28,7 +28,7 @@ export const Annullering = () => {
         <>
             <AnnullerKnapp onClick={() => setShowModal(true)}>Annuller</AnnullerKnapp>
             {showModal && (
-                <AnnulleringModal
+                <Annulleringsmodal
                     person={personTilBehandling!}
                     vedtaksperiode={aktivVedtaksperiode!}
                     onClose={() => setShowModal(false)}

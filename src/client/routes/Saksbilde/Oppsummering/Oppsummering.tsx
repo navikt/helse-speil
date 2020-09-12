@@ -3,7 +3,7 @@ import Panel from 'nav-frontend-paneler';
 import styled from '@emotion/styled';
 import Utbetaling from './Utbetaling';
 import Simuleringsinfo from './Simuleringsinfo';
-import Navigasjonsknapper from '../../../components/NavigationButtons';
+import Navigasjonsknapper from '../../../components/navigationButtons';
 import { toKronerOgØre } from '../../../utils/locale';
 import { PersonContext } from '../../../context/PersonContext';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';

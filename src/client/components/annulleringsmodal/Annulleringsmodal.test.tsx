@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { render, screen, waitFor } from '@testing-library/react';
-import { AnnulleringModal } from './AnnulleringModal';
+import { Annulleringsmodal } from './Annulleringsmodal';
 import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
 import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiode';
 import { Kjønn, Overstyring } from '../../context/types.internal';
@@ -56,7 +56,7 @@ const authInfo = {
 const renderAnnulleringsmodal = async () =>
     render(
         <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
-            <AnnulleringModal
+            <Annulleringsmodal
                 person={await personTilBehandling()}
                 vedtaksperiode={await enSpeilVedtaksperiode()}
                 onClose={() => null}
@@ -83,7 +83,7 @@ const assertIngenFeilmeldinger = () =>
         expect(screen.queryByText('Fyll inn din NAV brukerident')).toBeNull();
     });
 
-describe('AnnulleringModal', () => {
+describe('Annulleringsmodal', () => {
     test('viser feilmelding om ingen påkrevde felter fylles ut', async () => {
         await renderAnnulleringsmodal();
         await annullér().then(assertManglerValgtUtbetaling).then(assertManglerMatchendeIdent);

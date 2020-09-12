@@ -65,7 +65,7 @@ interface Props {
     onClose: () => void;
 }
 
-export const AnnulleringModal = ({ person, vedtaksperiode, onClose }: Props) => {
+export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) => {
     const { ident } = useRecoilValue(authState);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
