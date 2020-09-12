@@ -1,31 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Route, useParams } from 'react-router-dom';
 import Vilkår from './Vilkår';
 import Høyremeny from '../../components/Høyremeny';
 import Sakslinje from '../../components/Sakslinje';
-import Personlinje from '../../components/Personlinje';
-import Venstremeny from '../../components/Venstremeny';
+import Lenkeknapp from '../../components/Lenkeknapp';
+import Toppvarsler from '../../components/Toppvarsler';
+import LoggProvider from '../../context/LoggProvider';
 import Oppsummering from './Oppsummering';
 import Inntektskilder from './Inntektskilder/Inntektskilder';
 import Sykepengegrunnlag from './Sykepengegrunnlag';
-import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
-import Utbetalingsoversikt from './Utbetalingsoversikt';
-import LoggProvider from '../../context/LoggProvider';
-import { PersonContext } from '../../context/PersonContext';
-import { Location, useNavigation } from '../../hooks/useNavigation';
-import Toppvarsler from '../../components/Toppvarsler';
-import { Tidslinje } from '../../components/Tidslinje';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import Utbetalingsoversikt from './Utbetalingsoversikt';
 import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
-import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
-import Lenkeknapp from '../../components/Lenkeknapp';
-import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
-import { Arbeidsgiver, Vedtaksperiode } from '../../context/types.internal';
-import { Scopes, useUpdateVarsler, useVarselFilter } from '../../state/varslerState';
-import { useRecoilValue } from 'recoil';
+import { Tidslinje } from '../../components/Tidslinje';
 import { authState } from '../../state/authentication';
+import { Personlinje } from '../../components/Personlinje';
+import { Venstremeny } from '../../components/Venstremeny';
+import { PersonContext } from '../../context/PersonContext';
+import { useRecoilValue } from 'recoil';
+import { Route, useParams } from 'react-router-dom';
+import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
+import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
+import { Location, useNavigation } from '../../hooks/useNavigation';
 import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
+import { Arbeidsgiver, Vedtaksperiode } from '../../context/types.internal';
+import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
+import { Scopes, useUpdateVarsler, useVarselFilter } from '../../state/varslerState';
 
 const Container = styled.div`
     display: flex;
@@ -78,6 +78,7 @@ const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string
 
 const TomtSaksbilde = () => (
     <>
+        <Personlinje />
         <Sakslinje />
         <Container>
             <Venstremeny />
@@ -137,12 +138,12 @@ const Saksbilde = () => {
     return (
         <>
             <TildelingVarsel tildeltTil={personTilBehandling.tildeltTil} oppgavererefanse={oppgavereferanse} />
-            <Personlinje />
+            <Personlinje person={personTilBehandling} />
             <Tidslinje />
             <LoggProvider>
                 <Sakslinje />
                 <Container>
-                    <Venstremeny />
+                    <Venstremeny vedtaksperiode={aktivVedtaksperiode} />
                     <Hovedinnhold>
                         <Toppvarsler />
                         <Route

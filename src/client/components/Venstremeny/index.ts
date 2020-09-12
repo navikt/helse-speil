@@ -1,3 +1,3 @@
-import Venstremeny from './Venstremeny';
+import { Venstremeny } from './Venstremeny';
 
-export default Venstremeny;
+export { Venstremeny };

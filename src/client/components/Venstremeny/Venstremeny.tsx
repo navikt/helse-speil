@@ -1,51 +1,18 @@
-import React, { useContext } from 'react';
-import Link from './Link';
+import React from 'react';
 import styled from '@emotion/styled';
-import { PersonContext } from '../../context/PersonContext';
 import { Location, useNavigation } from '../../hooks/useNavigation';
-import { Periodetype } from '../../context/types.internal';
+import { Vedtaksperiode } from '../../context/types.internal';
+import { AktivLenke, InaktivLenke } from './lenker';
 
-interface Props {
-    active?: boolean;
-}
-
-const Lenke = styled(Link)`
-    text-decoration: none;
-    padding: 0.5rem 3rem 0.5rem 2rem;
-    color: #3e3832;
-
-    &:hover,
-    &.active {
-        background: #e7e9e9;
-    }
-
-    &.active {
-        box-shadow: inset 0.35rem 0 0 0 #0067c5;
-    }
-
-    &:focus {
-        box-shadow: 0 0 0 3px #254b6d;
-        outline: none;
-    }
-
-    &:focus {
-        z-index: 1000;
-    }
-
-    &.inactive {
-        color: #b5b5b5;
-    }
-`;
-
-const Nav = styled.nav`
+const Nav = styled.nav<{ active?: boolean }>`
     display: flex;
     flex: 1;
     flex-direction: column;
     background: #fff;
     padding: 2rem 0;
 
-    ${(props: Props) =>
-        !props.active &&
+    ${({ active }) =>
+        !active &&
         `
             box-shadow: none;
             background: none;
@@ -58,47 +25,51 @@ const Container = styled.div`
     border-right: 1px solid #c6c2bf;
     width: 250px;
 `;
-const Venstremeny = () => {
-    const { pathForLocation } = useNavigation();
-    const { aktivVedtaksperiode } = useContext(PersonContext);
-    const active = aktivVedtaksperiode !== undefined;
-    const forlengelseFraInfotrygd = aktivVedtaksperiode?.periodetype === Periodetype.Infotrygdforlengelse;
 
+type VedtaksperiodeProp = { vedtaksperiode: Vedtaksperiode };
+
+const AktivNav = ({ vedtaksperiode }: VedtaksperiodeProp) => {
+    const { pathForLocation } = useNavigation();
     return (
         <Container>
-            <Nav active={aktivVedtaksperiode !== undefined}>
-                <Lenke
-                    id="nav-link-sykmeldingsperiode"
-                    to={pathForLocation(Location.Sykmeldingsperiode)}
-                    active={active}
-                >
+            <Nav>
+                <AktivLenke id="nav-link-sykmeldingsperiode" to={pathForLocation(Location.Sykmeldingsperiode)}>
                     Sykmeldingsperiode
-                </Lenke>
-                <Lenke id="nav-link-vilkår" to={pathForLocation(Location.Vilkår)} active={active}>
+                </AktivLenke>
+                <AktivLenke id="nav-link-vilkår" to={pathForLocation(Location.Vilkår)}>
                     Vilkår
-                </Lenke>
-                <Lenke
-                    id="nav-link-inntektskilder"
-                    to={pathForLocation(Location.Inntektskilder)}
-                    active={active && !forlengelseFraInfotrygd}
-                >
+                </AktivLenke>
+                <AktivLenke id="nav-link-inntektskilder" to={pathForLocation(Location.Inntektskilder)}>
                     Inntektskilder
-                </Lenke>
-                <Lenke id="nav-link-sykepengegrunnlag" to={pathForLocation(Location.Sykepengegrunnlag)} active={active}>
+                </AktivLenke>
+                <AktivLenke id="nav-link-sykepengegrunnlag" to={pathForLocation(Location.Sykepengegrunnlag)}>
                     Sykepengegrunnlag
-                </Lenke>
-                <Lenke id="nav-link-fordeling" active={false}>
-                    Fordeling
-                </Lenke>
-                <Lenke id="nav-link-utbetaling" to={pathForLocation(Location.Utbetalingsoversikt)} active={active}>
+                </AktivLenke>
+                <InaktivLenke id="nav-link-fordeling">Fordeling</InaktivLenke>
+                <AktivLenke id="nav-link-utbetaling" to={pathForLocation(Location.Utbetalingsoversikt)}>
                     Utbetalingsoversikt
-                </Lenke>
-                <Lenke id="nav-link-oppsummering" to={pathForLocation(Location.Oppsummering)} active={active}>
+                </AktivLenke>
+                <AktivLenke id="nav-link-oppsummering" to={pathForLocation(Location.Oppsummering)}>
                     Oppsummering
-                </Lenke>
+                </AktivLenke>
             </Nav>
         </Container>
     );
 };
 
-export default Venstremeny;
+const InaktivNav = () => (
+    <Container>
+        <Nav active={false}>
+            <InaktivLenke id="nav-link-sykmeldingsperiode">Sykmeldingsperiode</InaktivLenke>
+            <InaktivLenke id="nav-link-vilkår">Vilkår</InaktivLenke>
+            <InaktivLenke id="nav-link-inntektskilder">Inntektskilder</InaktivLenke>
+            <InaktivLenke id="nav-link-sykepengegrunnlag">Sykepengegrunnlag</InaktivLenke>
+            <InaktivLenke id="nav-link-fordeling">Fordeling</InaktivLenke>
+            <InaktivLenke id="nav-link-utbetaling">Utbetalingsoversikt</InaktivLenke>
+            <InaktivLenke id="nav-link-oppsummering">Oppsummering</InaktivLenke>
+        </Nav>
+    </Container>
+);
+
+export const Venstremeny = ({ vedtaksperiode }: Partial<VedtaksperiodeProp>) =>
+    vedtaksperiode ? <AktivNav vedtaksperiode={vedtaksperiode} /> : <InaktivNav />;
