@@ -49,16 +49,17 @@ const vilkår: Vilkår = {
 
 type VilkårProp = { vilkår: Vilkår };
 
-const LabelTilType: { [key: string]: string } = {
-    'Under 70 år': 'alder',
-    Søknadsfrist: 'søknadsfrist',
-    Opptjening: 'opptjening',
-    'Krav til minste sykepengegrunnlag': 'sykepengegrunnlag',
-    'Dager igjen': 'dagerIgjen',
-};
-
 const KategoriserteVilkårWrapper = (vilkår: VilkårProp) => {
     const kategoriserteVilkår = useKategoriserteVilkår(vilkår as Vedtaksperiode) as KategoriserteVilkår;
+
+    const labelDict: { [key: string]: string } = {
+        'Under 70 år': 'alder',
+        Søknadsfrist: 'søknadsfrist',
+        Opptjening: 'opptjening',
+        'Krav til minste sykepengegrunnlag': 'sykepengegrunnlag',
+        'Dager igjen': 'dagerIgjen',
+    };
+
     return (
         <>
             <div data-testid="oppfylteVilkår">
@@ -73,7 +74,7 @@ const KategoriserteVilkårWrapper = (vilkår: VilkårProp) => {
             </div>
             <div data-testid="ikkeVurderteVilkår">
                 {kategoriserteVilkår.ikkeVurderteVilkår.map((vilkår) => (
-                    <div key={vilkår.label}>{LabelTilType[vilkår.label]} er ikke vurdert</div>
+                    <div key={vilkår.label}>{labelDict[vilkår.label]} er ikke vurdert</div>
                 ))}
             </div>
         </>
@@ -111,7 +112,8 @@ describe('useKategoriserteVilkår', () => {
         await renderKategoriserteVilkår(vilkår).then(assertAlleVilkårErOppfylte);
     });
     test('mapper delvis oppfylte vilkår', async () => {
-        const delvisOppfylteVilkår = { ...vilkår, dagerIgjen: { ...vilkår.dagerIgjen, oppfylt: false } };
+        const ikkeOppfylteVilkår = { dagerIgjen: { ...vilkår.dagerIgjen, oppfylt: false } };
+        const delvisOppfylteVilkår = { ...vilkår, ...ikkeOppfylteVilkår };
         await renderKategoriserteVilkår(delvisOppfylteVilkår)
             .then(assertAlder('er oppfylt'))
             .then(assertDagerIgjen('er ikke oppfylt'))
@@ -120,18 +122,10 @@ describe('useKategoriserteVilkår', () => {
             .then(assertSøknadsfrist('er oppfylt'));
     });
     test('mapper ikke vurderte vilkår', async () => {
-        const delvisOppfylteVilkår = {
-            ...vilkår,
-            dagerIgjen: {
-                ...vilkår.dagerIgjen,
-                oppfylt: undefined,
-            },
-            søknadsfrist: {
-                ...vilkår.søknadsfrist,
-                oppfylt: false,
-            },
-        };
-        await renderKategoriserteVilkår(delvisOppfylteVilkår)
+        const ikkeOppfylteVilkår = { søknadsfrist: { ...vilkår.søknadsfrist, oppfylt: false } };
+        const ikkeVurderteVilkår = { dagerIgjen: { ...vilkår.dagerIgjen, oppfylt: undefined } };
+        const delvisVurderteVilkår = { ...vilkår, ...ikkeOppfylteVilkår, ...ikkeVurderteVilkår };
+        await renderKategoriserteVilkår(delvisVurderteVilkår)
             .then(assertAlder('er oppfylt'))
             .then(assertDagerIgjen('er ikke vurdert'))
             .then(assertKravTilSykepengegrunnlag('er oppfylt'))
