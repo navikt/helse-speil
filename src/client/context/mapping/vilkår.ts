@@ -3,11 +3,11 @@ import { SpesialistVedtaksperiode, SpleisForlengelseFraInfotrygd, SpleisVilkår 
 import { somDato, somKanskjeDato } from './vedtaksperiode';
 
 export enum Vilkårstype {
-    Alder,
-    Søknadsfrist,
-    Opptjeningstid,
-    KravTilSykepengegrunnlag,
-    DagerIgjen,
+    Alder = 'alder',
+    Søknadsfrist = 'søknadsfrist',
+    Opptjeningstid = 'opptjening',
+    KravTilSykepengegrunnlag = 'sykepengegrunnlag',
+    DagerIgjen = 'dagerIgjen',
 }
 
 export interface VurdertVilkår {

@@ -1,6 +1,6 @@
 import React, { ReactNode, useContext } from 'react';
 import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
-import { PersonContext } from '../../../context/PersonContext';
+import { MedPersonOgVedtaksperiode, PersonContext } from '../../../context/PersonContext';
 import styled from '@emotion/styled';
 import { BehandletVedtaksperiode, BehandletVedtaksperiodeFraInfotrygd } from './BehandletVedtaksperiode';
 import { PåfølgendeVedtaksperiode } from './PåfølgendeVedtaksperiode';
@@ -8,7 +8,7 @@ import { Førstegangsbehandling } from './UbehandletVedtaksperiode';
 import Aktivitetsplikt from './Aktivitetsplikt';
 import { Vilkårstype } from '../../../context/mapping/vilkår';
 import { Vedtaksperiode, Periodetype } from '../../../context/types.internal';
-import { useVilkår, VurderteVilkår } from '../../../hooks/useVilkår';
+import { useKategoriserteVilkår, KategoriserteVilkår } from './useKategoriserteVilkår';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../context/mapping/selectors';
 
@@ -17,9 +17,9 @@ const Footer = styled(Navigasjonsknapper)`
 `;
 
 export interface Vilkårdata {
-    oppfylt: boolean;
     type: Vilkårstype;
     komponent: ReactNode;
+    oppfylt?: boolean;
 }
 
 const filtrerBehandledeVilkår = (vilkår: Vilkårdata): boolean =>
@@ -30,8 +30,10 @@ const tilKomponent = (vilkår: Vilkårdata): ReactNode => vilkår.komponent;
 interface VanligeVilkårProps {
     aktivVedtaksperiode: Vedtaksperiode;
     førsteVedtaksperiode: Vedtaksperiode;
-    vilkår: VurderteVilkår;
+    vilkår: KategoriserteVilkår;
 }
+
+const BehandledeVilkår = () => {};
 
 const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }: VanligeVilkårProps) => {
     const { ikkeOppfylteVilkår, oppfylteVilkår, ikkeVurderteVilkår } = vilkår;
@@ -80,8 +82,8 @@ const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }
 };
 
 const Vilkår = () => {
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const vilkår = useVilkår();
+    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext) as MedPersonOgVedtaksperiode;
+    const vilkår = useKategoriserteVilkår(aktivVedtaksperiode);
 
     if (!aktivVedtaksperiode || vilkår === undefined || personTilBehandling === undefined) return null;
 

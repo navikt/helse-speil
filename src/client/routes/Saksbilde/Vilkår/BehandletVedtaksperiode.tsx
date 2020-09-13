@@ -51,7 +51,7 @@ export const BehandletVedtaksperiode = ({
     aktivVedtaksperiode,
     førsteVedtaksperiode,
 }: BehandletVedtaksperiodeProps) => {
-    const vilkår = aktivVedtaksperiode.vilkår!!;
+    const vilkår = aktivVedtaksperiode.vilkår!;
     return (
         <>
             <BehandletVedtaksperiodeWrapper

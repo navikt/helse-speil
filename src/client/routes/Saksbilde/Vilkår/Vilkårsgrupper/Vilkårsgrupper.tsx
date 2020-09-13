@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Vilkårsgruppe from './Vilkårsgruppe';
 import Vilkårsgrupperad from './Vilkårsgrupperad';
-import { toKronerOgØre } from '../../../../utils/locale';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { Dayjs } from 'dayjs';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { toKronerOgØre } from '../../../../utils/locale';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import {
     Alder as AlderType,
@@ -12,6 +12,7 @@ import {
     Opptjening as OpptjeningType,
     SykepengegrunnlagVilkår,
     Søknadsfrist as SøknadsfristType,
+    Vilkår,
 } from '../../../../context/types.internal';
 
 const Alder = (props: AlderType) => (
@@ -100,19 +101,30 @@ const DagerIgjen = (props: DagerIgjenType) => {
     );
 };
 
-export const alder = (alder: AlderType) => <Alder {...alder} key="alder" />;
-export const søknadsfrist = (søknadsfrist: SøknadsfristType) => <Søknadsfrist {...søknadsfrist} key="søknadsfrist" />;
-export const opptjeningstid = (opptjeningstid: OpptjeningType, førsteFraværsdag?: Dayjs) => (
-    <Opptjeningstid opptjeningVilkår={opptjeningstid} førsteFraværsdag={førsteFraværsdag} key="opptjeningstid" />
-);
-export const kravTilSykepengegrunnlag = (sykepengegrunnlag: SykepengegrunnlagVilkår, alderSisteSykedag: number) => (
+export const alder = ({ alder }: Vilkår): ReactNode => <Alder {...alder} key="alder" />;
+
+export const søknadsfrist = ({ søknadsfrist }: Vilkår): ReactNode =>
+    søknadsfrist && <Søknadsfrist {...søknadsfrist} key="søknadsfrist" />;
+
+export const opptjeningstid = (vilkår: Vilkår): ReactNode =>
+    vilkår.opptjening && (
+        <Opptjeningstid
+            opptjeningVilkår={vilkår.opptjening!}
+            førsteFraværsdag={vilkår.dagerIgjen.førsteFraværsdag}
+            key="opptjeningstid"
+        />
+    );
+
+export const sykepengegrunnlag = (vilkår: Vilkår): ReactNode => (
     <KravTilSykepengegrunnlag
-        sykepengegrunnlagVilkår={sykepengegrunnlag}
-        alderSisteSykedag={alderSisteSykedag}
+        sykepengegrunnlagVilkår={vilkår.sykepengegrunnlag}
+        alderSisteSykedag={vilkår.alder.alderSisteSykedag}
         key="kravtilsykepengegrunnlag"
     />
 );
-export const dagerIgjen = (dagerIgjen: DagerIgjenType) => <DagerIgjen {...dagerIgjen} key="dagerigjen" />;
+
+export const dagerIgjen = ({ dagerIgjen }: Vilkår): ReactNode =>
+    dagerIgjen && <DagerIgjen {...dagerIgjen} key="dagerigjen" />;
 
 export default {
     Alder,

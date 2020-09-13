@@ -15,6 +15,11 @@ export interface PersonContextValue {
     personTilBehandling?: Person;
 }
 
+export interface MedPersonOgVedtaksperiode extends PersonContextValue {
+    aktivVedtaksperiode: Vedtaksperiode;
+    personTilBehandling: Person;
+}
+
 interface ProviderProps {
     children: ReactChild;
 }
