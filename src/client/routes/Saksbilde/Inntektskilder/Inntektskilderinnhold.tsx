@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import { toKronerOgØre } from '../../../utils/locale';
-import Ikonrad from '../../../components/Ikonrad';
+import Ikonrad from './Ikonrad';
 import { Inntektskilde } from '../../../context/types.internal';
 import styled from '@emotion/styled';
 import { Grid } from '../../../components/Grid';
