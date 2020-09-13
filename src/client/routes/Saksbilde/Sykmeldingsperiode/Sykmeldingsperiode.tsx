@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import Navigasjonsknapper from '../../../components/navigationButtons';
+import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import '@navikt/helse-frontend-tabell/lib/main.css';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
@@ -11,10 +11,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding: 1.5rem 2rem;
-
-    .NavigationButtons {
-        margin-top: 2.5rem;
-    }
 `;
 
 export const Sykmeldingsperiode = () => {

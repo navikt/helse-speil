@@ -2,7 +2,6 @@ import React, { ReactNode, useContext } from 'react';
 import styled from '@emotion/styled';
 import Element from 'nav-frontend-typografi/lib/element';
 import classNames from 'classnames';
-import Navigasjonsknapper from '../../components/navigationButtons';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { Feilikon } from '../../components/ikoner/Feilikon';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -10,6 +9,7 @@ import { useMaksdato } from '../../hooks/useMaksdato';
 import { PersonContext } from '../../context/PersonContext';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import { Navigasjonsknapper } from '../../components/Navigasjonsknapper';
 import { Dagtype, Utbetalingsdag } from '../../context/types.internal';
 import { dato, gradering, ikon, type, utbetaling } from '../../components/tabell/rader';
 
@@ -30,10 +30,6 @@ const Utbetalingstabell = styled(Tabell)`
 
 const Container = styled.div`
     padding: 1.5rem 2rem;
-
-    .NavigationButtons {
-        margin-top: 2.5rem;
-    }
 `;
 
 const Feilmeldingsikon = styled(Feilikon)`

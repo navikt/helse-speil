@@ -102,7 +102,7 @@ const useGyldigUrlVarsel = () => {
 
 const useRefetchPersonOnUrlChange = () => {
     const { aktorId } = useParams();
-    const { hentPerson, personTilBehandling } = useContext(PersonContext);
+    const { hentPerson } = useContext(PersonContext);
     const { leggTilVarsel } = useUpdateVarsler();
 
     useEffect(() => {

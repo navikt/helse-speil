@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext } from 'react';
-import NavigationButtons from '../../../components/navigationButtons/NavigationButtons';
+import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
 import { PersonContext } from '../../../context/PersonContext';
 import styled from '@emotion/styled';
 import { BehandletVedtaksperiode, BehandletVedtaksperiodeFraInfotrygd } from './BehandletVedtaksperiode';
@@ -12,7 +12,7 @@ import { useVilkår, VurderteVilkår } from '../../../hooks/useVilkår';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../context/mapping/selectors';
 
-const Footer = styled(NavigationButtons)`
+const Footer = styled(Navigasjonsknapper)`
     margin: 2.5rem 2rem 2rem;
 `;
 

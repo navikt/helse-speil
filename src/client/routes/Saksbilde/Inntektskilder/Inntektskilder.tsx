@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import NavigationButtons from '../../../components/navigationButtons/NavigationButtons';
+import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
 import { PersonContext } from '../../../context/PersonContext';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';
@@ -46,7 +46,7 @@ const Inntektskilder = () => {
                     </StyledBehandletInnhold>
                 )}
             </ErrorBoundary>
-            <NavigationButtons />
+            <Navigasjonsknapper />
         </Inntektskilderpanel>
     );
 };
