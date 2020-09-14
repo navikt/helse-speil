@@ -1,5 +1,5 @@
 // Finner første vedtaksperiode i en serie av sammenhengende vedtaksperioder
-import { Person, Vedtaksperiode } from '../types.internal';
+import { Person, Vedtaksperiode } from 'internal-types';
 
 export const førsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person: Person): Vedtaksperiode =>
     person.arbeidsgivere

@@ -1,5 +1,5 @@
-import { SpesialistArbeidsgiver, SpesialistPerson } from './types.external';
-import { Arbeidsgiver, Vedtaksperiode } from '../types.internal';
+import { SpesialistArbeidsgiver, SpesialistPerson } from 'external-types';
+import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
 import dayjs from 'dayjs';
 import { mapUferdigVedtaksperiode, mapVedtaksperiode } from './vedtaksperiode';
 

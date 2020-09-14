@@ -4,7 +4,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import '@testing-library/jest-dom/extend-expect';
 import { useMaksdato } from './useMaksdato';
 import { mappetPerson, vedtaksperiodeMedMaksdato } from '../context/mapping/testdata/mappetPerson';
-import { Vedtaksperiode } from '../context/types.internal';
+import { Vedtaksperiode } from 'internal-types';
 import { cleanup, render, screen } from '@testing-library/react';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { defaultPersonContext, PersonContext } from '../context/PersonContext';

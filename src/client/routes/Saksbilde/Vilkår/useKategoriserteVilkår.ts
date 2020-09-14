@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { Vilkårdata } from './Vilkår';
 import { Vilkårstype } from '../../../context/mapping/vilkår';
 import { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
-import { Opptjening, Vedtaksperiode, Vilkår } from '../../../context/types.internal';
+import { Opptjening, Vedtaksperiode, Vilkår } from 'internal-types';
 import { alder, dagerIgjen, opptjeningstid, sykepengegrunnlag, søknadsfrist } from './Vilkårsgrupper/Vilkårsgrupper';
 
 export interface KategoriserteVilkår {

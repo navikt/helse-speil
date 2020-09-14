@@ -1,5 +1,5 @@
-import { OverstyrtDag } from '../types.internal';
-import { SpesialistOverstyringDag } from './types.external';
+import { OverstyrtDag } from 'internal-types';
+import { SpesialistOverstyringDag } from 'external-types';
 import { sykdomstidslinjedag } from './dag';
 import dayjs from 'dayjs';
 

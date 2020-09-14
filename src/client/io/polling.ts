@@ -1,4 +1,4 @@
-import { Person } from '../context/types.internal';
+import { Person } from 'internal-types';
 import { getOppgavereferanse } from './http';
 
 const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));

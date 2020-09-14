@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { Periode } from '../../context/types.internal';
+import { Periode } from 'internal-types';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 

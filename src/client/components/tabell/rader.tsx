@@ -10,7 +10,7 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 import { OverstyrbarDagtype } from './OverstyrbarDagtype';
 import { OverstyrbarGradering } from './OverstyrbarGradering';
 import { Overstyringsindikator } from '../Overstyringsindikator';
-import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from '../../context/types.internal';
+import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import { Kilde } from '../Kilde';
 import './rader.less';
 

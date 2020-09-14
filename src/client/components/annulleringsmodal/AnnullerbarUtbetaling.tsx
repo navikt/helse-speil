@@ -1,5 +1,5 @@
 import React from 'react';
-import { Utbetaling } from '../../context/types.internal';
+import { Utbetaling } from 'internal-types';
 import styled from '@emotion/styled';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';

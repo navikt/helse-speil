@@ -1,7 +1,7 @@
 import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useState } from 'react';
 import { mapPerson } from './mapping/person';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Person, Vedtaksperiode } from './types.internal';
+import { Person, Vedtaksperiode } from 'internal-types';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersoninfoFraSparkel } from '../../types';

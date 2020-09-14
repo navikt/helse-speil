@@ -7,7 +7,7 @@ import { PåfølgendeVedtaksperiode } from './PåfølgendeVedtaksperiode';
 import { Førstegangsbehandling } from './UbehandletVedtaksperiode';
 import Aktivitetsplikt from './Aktivitetsplikt';
 import { Vilkårstype } from '../../../context/mapping/vilkår';
-import { Vedtaksperiode, Periodetype } from '../../../context/types.internal';
+import { Vedtaksperiode, Periodetype } from 'internal-types';
 import { useKategoriserteVilkår, KategoriserteVilkår } from './useKategoriserteVilkår';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../context/mapping/selectors';
@@ -32,8 +32,6 @@ interface VanligeVilkårProps {
     førsteVedtaksperiode: Vedtaksperiode;
     vilkår: KategoriserteVilkår;
 }
-
-const BehandledeVilkår = () => {};
 
 const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }: VanligeVilkårProps) => {
     const { ikkeOppfylteVilkår, oppfylteVilkår, ikkeVurderteVilkår } = vilkår;

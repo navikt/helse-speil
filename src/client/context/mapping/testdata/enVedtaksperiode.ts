@@ -8,7 +8,7 @@ import {
     SpleisSøknad,
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
-} from '../types.external';
+} from 'external-types';
 import { somDato } from '../vedtaksperiode';
 import { ISO_DATOFORMAT } from '../../../utils/date';
 import { defaultUtbetalingstidslinje } from './defaultUtbetalingstidslinje';

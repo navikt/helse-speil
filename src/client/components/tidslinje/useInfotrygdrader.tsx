@@ -1,4 +1,4 @@
-import { InfotrygdTypetekst, Infotrygdutbetaling, Person } from '../../context/types.internal';
+import { InfotrygdTypetekst, Infotrygdutbetaling, Person } from 'internal-types';
 import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 import { NORSK_DATOFORMAT } from '../../utils/date';

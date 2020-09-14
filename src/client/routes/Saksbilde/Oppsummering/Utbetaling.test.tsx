@@ -1,51 +1,18 @@
+import React from 'react';
+import dayjs from 'dayjs';
 import Utbetaling from './Utbetaling';
+import { MemoryRouter } from 'react-router';
 import { PersonContext } from '../../../context/PersonContext';
-import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiode';
+import { render, screen } from '@testing-library/react';
 import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
-import { Kjønn, Overstyring, Person, Vedtaksperiode, Vedtaksperiodetilstand } from '../../../context/types.internal';
 import { Avvisningverdier } from './modal/useSkjemaState';
+import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiode';
+import { Kjønn, Overstyring, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import '@testing-library/jest-dom/extend-expect';
 import '../../../tekster';
 
-import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import { createMemoryHistory } from 'history';
-import React from 'react';
-import { Router } from 'react-router';
-import dayjs from 'dayjs';
-
-describe('Utbetaling viser korrekt informasjon', () => {
-    test('Viser advarsel før godkjenning', async () => {
-        render(<UtbetalingView person={await personTilBehandling()} vedtaksperiode={await enSpeilVedtaksperiode()} />);
-        expect(screen.getByText(/Utbetaling skal kun skje/)).toBeInTheDocument();
-        expect(screen.getAllByRole('button')[0]).toHaveTextContent('Utbetal');
-        expect(screen.getAllByRole('button')[1]).toHaveTextContent('Behandle i Infotrygd');
-    });
-
-    test('Utbetalt', async () => {
-        render(
-            <UtbetalingView
-                person={await personTilBehandling()}
-                vedtaksperiode={await vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Utbetalt)}
-            />
-        );
-        expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeInTheDocument();
-        expect(screen.queryAllByRole('button')).toHaveLength(0);
-    });
-
-    test('Avslag', async () => {
-        render(
-            <UtbetalingView
-                person={await personTilBehandling()}
-                vedtaksperiode={await vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Avslag)}
-            />
-        );
-        expect(screen.getByText('Utbetalingen er sendt til annullering.')).toBeInTheDocument();
-        expect(screen.queryAllByRole('button')).toHaveLength(0);
-    });
-});
-
 const UtbetalingView = ({ vedtaksperiode, person }: { vedtaksperiode?: Vedtaksperiode; person: Person }) => (
-    <Router history={createMemoryHistory()}>
+    <MemoryRouter>
         <PersonContext.Provider
             value={{
                 personTilBehandling: person,
@@ -58,7 +25,7 @@ const UtbetalingView = ({ vedtaksperiode, person }: { vedtaksperiode?: Vedtakspe
         >
             <Utbetaling />
         </PersonContext.Provider>
-    </Router>
+    </MemoryRouter>
 );
 
 const vedtaksperiodeMedTilstand = async (tilstand: Vedtaksperiodetilstand) => ({
@@ -102,3 +69,34 @@ const personTilBehandling = async () => ({
 jest.mock('../../../io/http', () => ({
     postVedtak: async (_godkjent: boolean, _skjema?: Avvisningverdier) => Promise.resolve(),
 }));
+
+describe('Utbetaling viser korrekt informasjon', () => {
+    test('Viser advarsel før godkjenning', async () => {
+        render(<UtbetalingView person={await personTilBehandling()} vedtaksperiode={await enSpeilVedtaksperiode()} />);
+        expect(screen.getByText(/Utbetaling skal kun skje/)).toBeInTheDocument();
+        expect(screen.getAllByRole('button')[0]).toHaveTextContent('Utbetal');
+        expect(screen.getAllByRole('button')[1]).toHaveTextContent('Behandle i Infotrygd');
+    });
+
+    test('Utbetalt', async () => {
+        render(
+            <UtbetalingView
+                person={await personTilBehandling()}
+                vedtaksperiode={await vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Utbetalt)}
+            />
+        );
+        expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeInTheDocument();
+        expect(screen.queryAllByRole('button')).toHaveLength(0);
+    });
+
+    test('Avslag', async () => {
+        render(
+            <UtbetalingView
+                person={await personTilBehandling()}
+                vedtaksperiode={await vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Avslag)}
+            />
+        );
+        expect(screen.getByText('Utbetalingen er sendt til annullering.')).toBeInTheDocument();
+        expect(screen.queryAllByRole('button')).toHaveLength(0);
+    });
+});

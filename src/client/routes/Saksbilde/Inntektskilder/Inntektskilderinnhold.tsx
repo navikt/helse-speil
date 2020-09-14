@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import { toKronerOgØre } from '../../../utils/locale';
 import Ikonrad from './Ikonrad';
-import { Inntektskilde } from '../../../context/types.internal';
+import { Inntektskilde } from 'internal-types';
 import styled from '@emotion/styled';
 import { Grid } from '../../../components/Grid';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';

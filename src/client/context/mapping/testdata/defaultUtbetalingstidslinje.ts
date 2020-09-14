@@ -1,4 +1,4 @@
-import { SpleisUtbetalingsdag, SpleisUtbetalingsdagtype } from '../types.external';
+import { SpleisUtbetalingsdag, SpleisUtbetalingsdagtype } from 'external-types';
 
 export const defaultUtbetalingstidslinje: SpleisUtbetalingsdag[] = [
     {

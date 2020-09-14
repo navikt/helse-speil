@@ -10,7 +10,7 @@ import { Error } from '../../../../types';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
-import { Vedtaksperiode, Vedtaksperiodetilstand } from '../../../context/types.internal';
+import { Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import UtbetalingModal from './modal/UtbetalingModal';
 import AvvinsningModal from './modal/AvvisningModal';
 import { Avvisningverdier } from './modal/useSkjemaState';

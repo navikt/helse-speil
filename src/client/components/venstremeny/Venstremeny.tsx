@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Location, useNavigation } from '../../hooks/useNavigation';
-import { Vedtaksperiode } from '../../context/types.internal';
+import { Vedtaksperiode } from 'internal-types';
 import { AktivLenke, InaktivLenke } from './lenker';
 
 const Nav = styled.nav<{ active?: boolean }>`
@@ -26,9 +26,7 @@ const Container = styled.div`
     width: 250px;
 `;
 
-type VedtaksperiodeProp = { vedtaksperiode: Vedtaksperiode };
-
-const AktivNav = ({ vedtaksperiode }: VedtaksperiodeProp) => {
+const AktivNav = () => {
     const { pathForLocation } = useNavigation();
     return (
         <Container>
@@ -71,5 +69,7 @@ const InaktivNav = () => (
     </Container>
 );
 
+type VedtaksperiodeProp = { vedtaksperiode: Vedtaksperiode };
+
 export const Venstremeny = ({ vedtaksperiode }: Partial<VedtaksperiodeProp>) =>
-    vedtaksperiode ? <AktivNav vedtaksperiode={vedtaksperiode} /> : <InaktivNav />;
+    vedtaksperiode ? <AktivNav /> : <InaktivNav />;

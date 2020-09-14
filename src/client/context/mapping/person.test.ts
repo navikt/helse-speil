@@ -1,12 +1,12 @@
 import { mapPerson } from './person';
-import { Aktivitet, Dagtype, Kildetype, Vedtaksperiode } from '../types.internal';
+import { Aktivitet, Dagtype, Kildetype, Vedtaksperiode } from 'internal-types';
 import { somDato, somTidspunkt } from './vedtaksperiode';
 import {
     SpleisSykdomsdag,
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
-} from './types.external';
+} from 'external-types';
 import { enVedtaksperiode } from './testdata/enVedtaksperiode';
 import { enArbeidsgiver } from './testdata/enArbeidsgiver';
 import { enPerson } from './testdata/enPerson';

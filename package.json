@@ -176,5 +176,9 @@
         "typescript": "^3.9.3",
         "whatwg-fetch": "^3.0.0"
     },
-    "snyk": true
+    "snyk": true,
+    "alias": {
+        "internal-types": "./src/types/types.internal.ts",
+        "external-types": "./src/types/types.external.ts"
+    }
 }

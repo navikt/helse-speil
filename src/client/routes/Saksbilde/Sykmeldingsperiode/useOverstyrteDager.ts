@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sykdomsdag } from '../../../context/types.internal';
+import { Sykdomsdag } from 'internal-types';
 
 export const useOverstyrteDager = () => {
     const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);

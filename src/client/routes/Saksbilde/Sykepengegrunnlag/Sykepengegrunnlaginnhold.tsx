@@ -1,7 +1,7 @@
-import { Sykepengegrunnlag } from '../../../context/types.internal';
+import { Sykepengegrunnlag } from 'internal-types';
 import Inntektssammenligning from './Inntektssammenligning';
 import Avvikssammenligning from './Avvikssammenligning';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { somPenger } from '../../../utils/locale';
 import React from 'react';
 import styled from '@emotion/styled';

@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { PersonContext } from '../../../context/PersonContext';
 import { dato, gradering, ikon, kilde, tomCelle, type } from '../../../components/tabell/rader';
-import { Dagtype, Vedtaksperiodetilstand } from '../../../context/types.internal';
+import { Dagtype, Vedtaksperiodetilstand } from 'internal-types';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import classNames from 'classnames';
 import { Infoikon } from '../../../components/ikoner/Infoikon';

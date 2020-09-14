@@ -1,12 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../../utils/date';
-import {
-    Periodetype,
-    UferdigVedtaksperiode,
-    Utbetaling,
-    Vedtaksperiode,
-    Vedtaksperiodetilstand,
-} from '../types.internal';
+import { Periodetype, UferdigVedtaksperiode, Utbetaling, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import {
     SpesialistOverstyring,
     SpesialistRisikovurdering,
@@ -17,7 +11,7 @@ import {
     SpleisSykdomsdagtype,
     SpleisUtbetalinger,
     SpleisUtbetalingslinje,
-} from './types.external';
+} from 'external-types';
 import { mapForlengelseFraInfotrygd } from './infotrygd';
 import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
 import { mapSimuleringsdata } from './simulering';

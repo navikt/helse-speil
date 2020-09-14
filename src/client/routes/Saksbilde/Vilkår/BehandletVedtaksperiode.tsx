@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { Strek, StyledBehandletInnhold } from './Vilkår.styles';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
 import Vilkårsgruppe from './Vilkårsgrupper/Vilkårsgruppe';
-import { Vedtaksperiode } from '../../../context/types.internal';
+import { Vedtaksperiode } from 'internal-types';
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../../utils/date';

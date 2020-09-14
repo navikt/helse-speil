@@ -1,6 +1,6 @@
 import { ReactChild } from 'react';
 import { Dayjs } from 'dayjs';
-import { Utbetalingsperiode } from './mapping/types.external';
+import { Utbetalingsperiode } from 'external-types';
 
 export interface Periode {
     fom: Dayjs;

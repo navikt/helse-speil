@@ -6,7 +6,7 @@ import { PersonContext } from '../../../context/PersonContext';
 import { render, screen } from '@testing-library/react';
 import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
 import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiode';
-import { Kjønn, Overstyring, Periodetype, Person, Vedtaksperiode } from '../../../context/types.internal';
+import { Kjønn, Overstyring, Periodetype, Person, Vedtaksperiode } from 'internal-types';
 import '@testing-library/jest-dom/extend-expect';
 
 const enSpeilVedtaksperiode = () =>

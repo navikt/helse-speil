@@ -6,8 +6,8 @@ import {
     Utbetaling,
     Utbetalingsdetalj,
     Utbetalingsperiode,
-} from './types.external';
-import { Simulering } from '../types.internal';
+} from 'external-types';
+import { Simulering } from 'internal-types';
 
 const mapSimuleringsutbetalingDetaljer = (
     spleisSimuleringsutbetalingDetaljer: SpleisSimuleringutbetalingDetaljer[]

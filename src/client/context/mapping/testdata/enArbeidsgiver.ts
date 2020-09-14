@@ -1,5 +1,5 @@
 import { enVedtaksperiode } from './enVedtaksperiode';
-import { SpesialistOverstyring } from '../types.external';
+import { SpesialistOverstyring } from 'external-types';
 
 export const enArbeidsgiver = (
     vedtaksperioder = [enVedtaksperiode()],

@@ -1,7 +1,7 @@
 import { PersoninfoFraSparkel } from '../../../types';
 import { somDato } from './vedtaksperiode';
-import { Kjønn, Person } from '../types.internal';
-import { SpesialistPerson } from './types.external';
+import { Kjønn, Person } from 'internal-types';
+import { SpesialistPerson } from 'external-types';
 import { mapInfotrygdutbetalinger } from './infotrygd';
 import { mapArbeidsgivere } from './arbeidsgiver';
 

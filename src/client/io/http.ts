@@ -1,4 +1,4 @@
-import { Tildeling } from '../context/types.internal';
+import { Tildeling } from 'internal-types';
 import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
 import { extractSpesialistToken } from '../utils/cookie';
 import { spesialistTildelingEnabled } from '../featureToggles';

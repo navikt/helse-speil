@@ -1,5 +1,5 @@
 import React from 'react';
-import { Person, Vedtaksperiode } from '../context/types.internal';
+import { Person, Vedtaksperiode } from 'internal-types';
 import styled from '@emotion/styled';
 import Sakslinje, { Arbeidsgiver } from '@navikt/helse-frontend-sakslinje';
 import { NORSK_DATOFORMAT } from '../utils/date';

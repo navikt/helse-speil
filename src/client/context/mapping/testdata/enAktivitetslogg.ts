@@ -1,4 +1,4 @@
-import { SpleisAktivitet, SpleisAlvorlighetsgrad } from '../types.external';
+import { SpleisAktivitet, SpleisAlvorlighetsgrad } from 'external-types';
 
 export const enAktivitet = (
     melding: string = 'Aktivitetsloggvarsel',

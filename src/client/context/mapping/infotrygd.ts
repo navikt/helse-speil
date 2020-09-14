@@ -1,5 +1,5 @@
-import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpleisForlengelseFraInfotrygd } from './types.external';
-import { InfotrygdTypetekst, Infotrygdutbetaling, Periodetype, Vedtaksperiode } from '../types.internal';
+import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpleisForlengelseFraInfotrygd } from 'external-types';
+import { InfotrygdTypetekst, Infotrygdutbetaling, Periodetype, Vedtaksperiode } from 'internal-types';
 import { somDato } from './vedtaksperiode';
 
 export const erInfotrygdforlengelse = (vedtaksperiode: Vedtaksperiode) =>

@@ -1,4 +1,4 @@
-import { Person, Vedtaksperiode } from '../../context/types.internal';
+import { Person, Vedtaksperiode } from 'internal-types';
 import React, { useMemo } from 'react';
 import { Sykepengeperiode } from '@navikt/helse-frontend-tidslinje/lib';
 
@@ -9,8 +9,6 @@ export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeper
     status: vedtaksperiode.tilstand,
     disabled: !vedtaksperiode.kanVelges,
 });
-
-class EnkelSykepengetidslinje {}
 
 export const useTidslinjerader = (person?: Person): Sykepengeperiode[][] =>
     useMemo(

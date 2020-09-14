@@ -1,11 +1,11 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
-import { Simulering } from '../../../context/types.internal';
+import { Simulering } from 'internal-types';
 import { toKronerOgØre } from '../../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { Utbetalingsdetalj } from '../../../context/mapping/types.external';
+import { Utbetalingsdetalj } from 'external-types';
 import { Grid } from '../../../components/Grid';
 
 const Underliste = styled(Grid)`

@@ -7,7 +7,7 @@ import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd'
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
-import { Periodetype } from '../../../context/types.internal';
+import { Periodetype } from 'internal-types';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../context/mapping/selectors';
 

@@ -23,7 +23,7 @@ import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
 import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
 import { Location, useNavigation } from '../../hooks/useNavigation';
 import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
-import { Arbeidsgiver, Vedtaksperiode } from '../../context/types.internal';
+import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { Scopes, useUpdateVarsler, useVarselFilter } from '../../state/varslerState';
 

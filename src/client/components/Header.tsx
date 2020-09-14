@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { PersonContext } from '../context/PersonContext';
 import { Location, useNavigation } from '../hooks/useNavigation';
-import { Person } from '../context/types.internal';
+import { Person } from 'internal-types';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../state/authentication';
 import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';

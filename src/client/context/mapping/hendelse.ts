@@ -4,8 +4,8 @@ import {
     SpleisInntektsmelding,
     SpleisSykmelding,
     SpleisSøknad,
-} from './types.external';
-import { Hendelse, Inntektsmelding, Kildetype, Sykmelding, Søknad } from '../types.internal';
+} from 'external-types';
+import { Hendelse, Inntektsmelding, Kildetype, Sykmelding, Søknad } from 'internal-types';
 import { somDato, somKanskjeDato, somTidspunkt } from './vedtaksperiode';
 
 const mapInntektsmelding = (hendelse: SpleisHendelse): Inntektsmelding => ({

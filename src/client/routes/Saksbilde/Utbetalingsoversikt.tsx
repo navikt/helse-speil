@@ -10,7 +10,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { Navigasjonsknapper } from '../../components/Navigasjonsknapper';
-import { Dagtype, Utbetalingsdag } from '../../context/types.internal';
+import { Dagtype, Utbetalingsdag } from 'internal-types';
 import { dato, gradering, ikon, type, utbetaling } from '../../components/tabell/rader';
 
 type Utbetalingsceller = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];

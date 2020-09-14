@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { PersonContext } from '../context/PersonContext';
-import { Periodetype } from '../context/types.internal';
+import { Periodetype } from 'internal-types';
 import { routeForMiljø } from '../routes';
 
 export interface Navigation {

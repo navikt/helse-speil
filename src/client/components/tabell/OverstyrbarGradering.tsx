@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { Sykdomsdag } from '../../context/types.internal';
+import { Sykdomsdag } from 'internal-types';
 import { useFormContext } from 'react-hook-form';
 import styled from '@emotion/styled';
 

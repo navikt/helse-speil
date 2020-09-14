@@ -8,7 +8,7 @@ import {
     overstyrbarType,
     tomCelle,
 } from '../../../components/tabell/rader';
-import { Dagtype, Person, Sykdomsdag } from '../../../context/types.internal';
+import { Dagtype, Sykdomsdag } from 'internal-types';
 import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import Element from 'nav-frontend-typografi/lib/element';
@@ -17,7 +17,7 @@ import styled from '@emotion/styled';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { FormProvider, useForm } from 'react-hook-form';
-import { getOppgavereferanse, postOverstyring } from '../../../io/http';
+import { postOverstyring } from '../../../io/http';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from './KalkulererOverstyringToast';
 import { OverstyrtDagDTO } from '../../../io/types';

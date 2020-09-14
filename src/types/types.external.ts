@@ -1,4 +1,4 @@
-import { SpesialistPersoninfo } from '../../../types';
+import { SpesialistPersoninfo } from '../types';
 
 export interface Utbetalingsdetalj {
     sats: number;

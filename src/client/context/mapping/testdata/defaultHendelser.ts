@@ -3,8 +3,8 @@ import {
     SpleisHendelsetype,
     SpleisInntektsmelding,
     SpleisSykmelding,
-    SpleisSøknad
-} from '../types.external';
+    SpleisSøknad,
+} from 'external-types';
 
 export const defaultHendelser: SpleisHendelse[] = [
     {

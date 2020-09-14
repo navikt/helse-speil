@@ -4,7 +4,7 @@ import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import Dropdown from './Dropdown';
 import { Annullering } from './Annullering';
 import { PersonContext } from '../context/PersonContext';
-import { Utbetalinger } from '../context/types.internal';
+import { Utbetalinger } from 'internal-types';
 
 const Container = styled(Sakslinje)`
     border-top: none;

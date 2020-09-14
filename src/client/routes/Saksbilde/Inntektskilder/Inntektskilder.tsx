@@ -5,7 +5,7 @@ import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';
 import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { Periodetype } from '../../../context/types.internal';
+import { Periodetype } from 'internal-types';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../context/mapping/selectors';
 

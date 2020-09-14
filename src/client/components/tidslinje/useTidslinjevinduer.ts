@@ -1,7 +1,7 @@
 import { Tidslinjevindu } from './Tidslinje.types';
 import { useMemo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { Infotrygdutbetaling, Person, Vedtaksperiode } from '../../context/types.internal';
+import { Person } from 'internal-types';
 
 type EnkelPeriode = { fom: Dayjs; tom: Dayjs };
 

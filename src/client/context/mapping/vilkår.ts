@@ -1,5 +1,5 @@
-import { Alder, DagerIgjen, Opptjening, SykepengegrunnlagVilkår, Søknadsfrist, Vilkår } from '../types.internal';
-import { SpesialistVedtaksperiode, SpleisForlengelseFraInfotrygd, SpleisVilkår } from './types.external';
+import { Alder, DagerIgjen, Opptjening, SykepengegrunnlagVilkår, Søknadsfrist, Vilkår } from 'internal-types';
+import { SpesialistVedtaksperiode, SpleisForlengelseFraInfotrygd, SpleisVilkår } from 'external-types';
 import { somDato, somKanskjeDato } from './vedtaksperiode';
 
 export enum Vilkårstype {

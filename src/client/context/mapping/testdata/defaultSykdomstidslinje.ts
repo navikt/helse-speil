@@ -1,4 +1,4 @@
-import { SpleisSykdomsdag, SpleisSykdomsdagkildeType, SpleisSykdomsdagtype } from '../types.external';
+import { SpleisSykdomsdag, SpleisSykdomsdagkildeType, SpleisSykdomsdagtype } from 'external-types';
 
 export const defaultSykdomstidslinje: SpleisSykdomsdag[] = [
     {

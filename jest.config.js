@@ -5,15 +5,17 @@ module.exports = {
         '^.+\\.js$': 'babel-jest',
         '^.+\\.jsx$': 'babel-jest',
         '^.+\\.tsx$': 'ts-jest',
-        '^.+\\.ts$': 'ts-jest'
+        '^.+\\.ts$': 'ts-jest',
     },
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
         '\\.(css|less|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
         '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
-        'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js'
+        'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js',
+        'external-types': '<rootDir>/src/types/types.external',
+        'internal-types': '<rootDir>/src/types/types.internal',
     },
     transformIgnorePatterns: ['<rootDir>/node_modules'],
     watchPathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/node_modules'],
-    setupFilesAfterEnv: ['<rootDir>/__mocks__/jest-setup.js']
+    setupFilesAfterEnv: ['<rootDir>/__mocks__/jest-setup.js'],
 };

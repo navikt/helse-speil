@@ -13,7 +13,7 @@ import {
     SykepengegrunnlagVilkår,
     Søknadsfrist as SøknadsfristType,
     Vilkår,
-} from '../../../../context/types.internal';
+} from 'internal-types';
 
 const Alder = (props: AlderType) => (
     <Vilkårsgruppe tittel="Under 70 år" paragraf="§ 8-51" ikontype={props.oppfylt ? 'ok' : 'kryss'}>

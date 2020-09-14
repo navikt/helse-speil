@@ -8,7 +8,7 @@ import { Dayjs } from 'dayjs';
 import { Feilikon } from '../../../components/ikoner/Feilikon';
 import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { Opptjening, Vedtaksperiode } from '../../../context/types.internal';
+import { Opptjening, Vedtaksperiode } from 'internal-types';
 import { Strek, StyledBehandletAvInfotrygd, StyledBehandletInnhold, Vilkårinnhold } from './Vilkår.styles';
 import { FlexColumn } from '../../../components/Flex';
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { Sykdomsdag } from '../../context/types.internal';
+import { Sykdomsdag } from 'internal-types';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Checkbox from 'nav-frontend-skjema/lib/checkbox';
 import Knapp from 'nav-frontend-knapper/lib/knapp';
 import Flatknapp from 'nav-frontend-knapper/lib/flatknapp';
 import styled from '@emotion/styled';

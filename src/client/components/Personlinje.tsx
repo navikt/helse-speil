@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Clipboard } from './clipboard';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { PersonContext } from '../context/PersonContext';
 import styled from '@emotion/styled';
 import { Manneikon } from './ikoner/Manneikon';
 import { Kvinneikon } from './ikoner/Kvinneikon';
 import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
-import { Person } from '../context/types.internal';
+import { Person } from 'internal-types';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 

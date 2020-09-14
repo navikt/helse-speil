@@ -4,13 +4,12 @@ import {
     Dagtype,
     Kildetype,
     Kjønn,
-    Overstyring,
     Periodetype,
     Person,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
     Vilkår,
-} from '../../types.internal';
+} from 'internal-types';
 import { Dayjs } from 'dayjs';
 
 export const mappetPerson: Person = {

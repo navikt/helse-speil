@@ -1,4 +1,4 @@
-import { Dagtype } from '../context/types.internal';
+import { Dagtype } from 'internal-types';
 
 export interface Options {
     method?: string;

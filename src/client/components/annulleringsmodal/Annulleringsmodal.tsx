@@ -4,7 +4,7 @@ import { Input } from 'nav-frontend-skjema';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { AnnulleringDTO } from '../../io/types';
-import { Person, Utbetaling, Vedtaksperiode } from '../../context/types.internal';
+import { Person, Utbetaling, Vedtaksperiode } from 'internal-types';
 import { organisasjonsnummerForPeriode } from '../../context/mapping/selectors';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';

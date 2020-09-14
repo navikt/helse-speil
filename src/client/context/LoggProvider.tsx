@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext } from 'react';
-import { Hendelse, Kildetype, Overstyring } from './types.internal';
+import { Hendelse, Kildetype, Overstyring } from 'internal-types';
 import { PersonContext } from './PersonContext';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import {
@@ -8,7 +8,7 @@ import {
     Hendelsetype as LoggType,
     LoggProvider,
 } from '@navikt/helse-frontend-logg';
-import { somDato, somNorskDato } from './mapping/vedtaksperiode';
+import { somNorskDato } from './mapping/vedtaksperiode';
 import styled from '@emotion/styled';
 
 interface LoggProviderProps {

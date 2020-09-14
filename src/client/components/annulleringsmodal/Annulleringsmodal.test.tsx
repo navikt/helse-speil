@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { Annulleringsmodal } from './Annulleringsmodal';
 import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
 import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiode';
-import { Kjønn, Overstyring } from '../../context/types.internal';
+import { Kjønn, Overstyring } from 'internal-types';
 import { RecoilRoot } from 'recoil';
 import { authState } from '../../state/authentication';
 import userEvent from '@testing-library/user-event';
