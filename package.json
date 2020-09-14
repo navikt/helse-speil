@@ -178,6 +178,7 @@
     },
     "snyk": true,
     "alias": {
+        "test-data": "./src/test/data",
         "internal-types": "./src/types/types.internal.ts",
         "external-types": "./src/types/types.external.ts"
     }

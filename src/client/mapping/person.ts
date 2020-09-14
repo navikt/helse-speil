@@ -1,4 +1,4 @@
-import { PersoninfoFraSparkel } from '../../../types';
+import { PersoninfoFraSparkel } from '../../types';
 import { somDato } from './vedtaksperiode';
 import { Kjønn, Person } from 'internal-types';
 import { SpesialistPerson } from 'external-types';
@@ -42,7 +42,7 @@ const appendArbeidsgivere = async ({ unmapped, partial }: PartialMappingResult):
     unmapped,
     partial: {
         ...partial,
-        arbeidsgivere: await mapArbeidsgivere(unmapped),
+        arbeidsgivere: await mapArbeidsgivere(unmapped.arbeidsgivere),
     },
 });
 

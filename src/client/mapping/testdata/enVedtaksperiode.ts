@@ -10,7 +10,7 @@ import {
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
 import { somDato } from '../vedtaksperiode';
-import { ISO_DATOFORMAT } from '../../../utils/date';
+import { ISO_DATOFORMAT } from '../../utils/date';
 import { defaultUtbetalingstidslinje } from './defaultUtbetalingstidslinje';
 import { defaultSykdomstidslinje } from './defaultSykdomstidslinje';
 import { defaultHendelser } from './defaultHendelser';

@@ -18,6 +18,7 @@
         "skipLibCheck": true,
         "baseUrl": ".",
         "paths": {
+            "test-data": ["./src/test/data"],
             "external-types": ["./src/types/types.external"],
             "internal-types": ["./src/types/types.internal"]
         }

@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../../utils/date';
+import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 import { Periodetype, UferdigVedtaksperiode, Utbetaling, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import {
     SpesialistOverstyring,

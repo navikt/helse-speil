@@ -14,6 +14,7 @@ module.exports = {
         'nav-(.*)-style': '<rootDir>/__mocks__/fileMock.js',
         'external-types': '<rootDir>/src/types/types.external',
         'internal-types': '<rootDir>/src/types/types.internal',
+        'test-data': '<rootDir>/src/test/data',
     },
     transformIgnorePatterns: ['<rootDir>/node_modules'],
     watchPathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/node_modules'],

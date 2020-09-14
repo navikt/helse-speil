@@ -1,4 +1,4 @@
-import { PersoninfoFraSparkel } from '../../../../types';
+import { PersoninfoFraSparkel } from '../../../types';
 
 export const defaultPersonInfo: PersoninfoFraSparkel = {
     kjønn: 'Mannebjørn',

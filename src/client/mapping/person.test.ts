@@ -14,7 +14,7 @@ import { mappetPerson } from './testdata/mappetPerson';
 import { defaultPersonInfo } from './testdata/defaultPersonInfo';
 import { enAktivitet } from './testdata/enAktivitetslogg';
 import dayjs from 'dayjs';
-import { ISO_TIDSPUNKTFORMAT } from '../../utils/date';
+import { ISO_TIDSPUNKTFORMAT } from '../utils/date';
 
 describe('personmapper', async () => {
     test('mapper person', async () => {
