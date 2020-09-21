@@ -24,7 +24,6 @@ import { umappetPerson } from '../../test/data/person';
 describe('personmapper', async () => {
     test('mapper person', async () => {
         const person = await mapPerson(umappetPerson(), defaultPersonInfo);
-        console.log(person);
         expect(person).toEqual(mappetPerson);
     });
 
