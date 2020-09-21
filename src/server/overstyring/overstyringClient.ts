@@ -1,6 +1,31 @@
 import request from 'request-promise-native';
-import { OverstyringDTO } from '../../client/io/types';
 import { OidcConfig, OnBehalfOf } from '../types';
+
+enum Dagtype {
+    Syk = 'Syk',
+    Helg = 'Helg',
+    Ferie = 'Ferie',
+    Avvist = 'Avvist',
+    Ubestemt = 'Ubestemt',
+    Arbeidsdag = 'Arbeidsdag',
+    Egenmelding = 'Egenmelding',
+    Foreldet = 'Foreldet',
+    Arbeidsgiverperiode = 'Arbeidsgiverperiode',
+}
+
+interface OverstyrtDagDTO {
+    dato: string;
+    type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
+    grad?: number;
+}
+
+interface OverstyringDTO {
+    aktørId: string;
+    fødselsnummer: string;
+    organisasjonsnummer: string;
+    begrunnelse: string;
+    dager: OverstyrtDagDTO[];
+}
 
 export interface OverstyringClient {
     overstyrDager: (overstyring: OverstyringDTO, speilToken: string) => Promise<Response>;
