@@ -36,6 +36,8 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-node-
+      - name: set timezone
+        run: TZ=utc
       - name: install deps
         run: npm install
       - name: validate ts
