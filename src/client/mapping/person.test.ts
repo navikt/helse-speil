@@ -1,5 +1,5 @@
 import { mapPerson } from './person';
-import { Aktivitet, Dagtype, Kildetype, Vedtaksperiode } from 'internal-types';
+import { Aktivitet, Vedtaksperiode } from 'internal-types';
 import { somDato, somTidspunkt } from './vedtaksperiode';
 import {
     SpleisSykdomsdag,
@@ -7,18 +7,24 @@ import {
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
 } from 'external-types';
-import { enVedtaksperiode } from './testdata/enVedtaksperiode';
-import { enArbeidsgiver } from './testdata/enArbeidsgiver';
-import { enPerson } from './testdata/enPerson';
 import { mappetPerson } from './testdata/mappetPerson';
 import { defaultPersonInfo } from './testdata/defaultPersonInfo';
 import { enAktivitet } from './testdata/enAktivitetslogg';
 import dayjs from 'dayjs';
 import { ISO_TIDSPUNKTFORMAT } from '../utils/date';
+import {
+    medEkstraSykdomsdager,
+    medLedendeSykdomsdager,
+    medUtbetalingstidslinje,
+    umappetVedtaksperiode,
+} from '../../test/data/vedtaksperiode';
+import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
+import { umappetPerson } from '../../test/data/person';
 
 describe('personmapper', async () => {
     test('mapper person', async () => {
-        const person = await mapPerson(enPerson(), defaultPersonInfo);
+        const person = await mapPerson(umappetPerson(), defaultPersonInfo);
+        console.log(person);
         expect(person).toEqual(mappetPerson);
     });
 
@@ -28,10 +34,9 @@ describe('personmapper', async () => {
         const alvorlighetsgrad = 'W';
         const spleisAktivitet = enAktivitet(melding, tidsstempel, alvorlighetsgrad);
 
-        const person = await mapPerson(
-            enPerson([enArbeidsgiver([enVedtaksperiode([], [], [spleisAktivitet])])]),
-            defaultPersonInfo
-        );
+        const vedtaksperiode = umappetVedtaksperiode({ aktivitetslogg: [spleisAktivitet] });
+        const arbeidsgiver = umappetArbeidsgiver([vedtaksperiode]);
+        const person = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
 
         const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
 
@@ -46,38 +51,35 @@ describe('personmapper', async () => {
 
     test('mapper person med flere vedtaksperioder', async () => {
         let person = await mapPerson(
-            enPerson([
-                enArbeidsgiver([
-                    enVedtaksperiode(),
-                    enVedtaksperiode(
-                        [],
-                        [
-                            {
-                                type: SpleisUtbetalingsdagtype.NAVDAG,
-                                inntekt: 999.5,
-                                dato: '2019-10-06',
-                                utbetaling: 1000.0,
-                            },
-                            {
-                                type: SpleisUtbetalingsdagtype.NAVDAG,
-                                inntekt: 999.5,
-                                dato: '2019-10-07',
-                                utbetaling: 1000.0,
-                            },
-                            {
-                                type: SpleisUtbetalingsdagtype.NAVDAG,
-                                inntekt: 999.5,
-                                dato: '2019-10-08',
-                                utbetaling: 1000.0,
-                            },
-                            {
-                                type: SpleisUtbetalingsdagtype.NAVDAG,
-                                inntekt: 999.5,
-                                dato: '2019-10-09',
-                                utbetaling: 1000.0,
-                            },
-                        ]
-                    ),
+            umappetPerson([
+                umappetArbeidsgiver([
+                    umappetVedtaksperiode(),
+                    medUtbetalingstidslinje(umappetVedtaksperiode(), [
+                        {
+                            type: SpleisUtbetalingsdagtype.NAVDAG,
+                            inntekt: 999.5,
+                            dato: '2019-10-06',
+                            utbetaling: 1000.0,
+                        },
+                        {
+                            type: SpleisUtbetalingsdagtype.NAVDAG,
+                            inntekt: 999.5,
+                            dato: '2019-10-07',
+                            utbetaling: 1000.0,
+                        },
+                        {
+                            type: SpleisUtbetalingsdagtype.NAVDAG,
+                            inntekt: 999.5,
+                            dato: '2019-10-08',
+                            utbetaling: 1000.0,
+                        },
+                        {
+                            type: SpleisUtbetalingsdagtype.NAVDAG,
+                            inntekt: 999.5,
+                            dato: '2019-10-09',
+                            utbetaling: 1000.0,
+                        },
+                    ]),
                 ]),
             ]),
             defaultPersonInfo
@@ -91,7 +93,7 @@ describe('personmapper', async () => {
     test('filtrerer vekk paddede arbeidsdager', async () => {
         const ledendeArbeidsdager: SpleisSykdomsdag[] = [
             {
-                dagen: '2019-09-08',
+                dagen: '2019-12-30',
                 type: SpleisSykdomsdagtype.ARBEIDSDAG,
                 kilde: {
                     kildeId: '0F89BC6F-EDB2-4ED4-B124-19F0DF59545C',
@@ -100,7 +102,7 @@ describe('personmapper', async () => {
                 grad: 100.0,
             },
             {
-                dagen: '2019-09-09',
+                dagen: '2019-12-31',
                 type: SpleisSykdomsdagtype.ARBEIDSDAG,
                 kilde: {
                     kildeId: '62F0A473-82D1-4A38-9B8F-E220ACF598C9',
@@ -110,27 +112,21 @@ describe('personmapper', async () => {
             },
         ];
 
-        const person = await mapPerson(
-            enPerson([enArbeidsgiver([enVedtaksperiode(ledendeArbeidsdager)])]),
-            defaultPersonInfo
-        );
+        const førsteSykdomsdag = umappetVedtaksperiode().sykdomstidslinje[0];
+        const vedtaksperiode = medLedendeSykdomsdager(umappetVedtaksperiode(), ledendeArbeidsdager);
+        const person = await mapPerson(umappetPerson([umappetArbeidsgiver([vedtaksperiode])]), defaultPersonInfo);
+        const mappetVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
 
-        expect((person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).sykdomstidslinje[0]).toEqual({
-            dato: somDato('2019-09-10'),
-            type: Dagtype.Egenmelding,
-            kilde: Kildetype.Inntektsmelding,
-            kildeId: '512781D2-690E-4B4B-8A00-84A5FCC41AEE',
-            gradering: undefined,
-        });
+        expect(mappetVedtaksperiode.sykdomstidslinje[0].dato).toEqual(somDato(førsteSykdomsdag.dagen));
     });
 
     test('Vedtaksperioder sorteres på fom i synkende rekkefølge', async () => {
         const person = await mapPerson(
-            enPerson([
-                enArbeidsgiver([
-                    enVedtaksperiode([
+            umappetPerson([
+                umappetArbeidsgiver([
+                    medLedendeSykdomsdager(umappetVedtaksperiode(), [
                         {
-                            dagen: '2019-09-09',
+                            dagen: '2019-12-31',
                             type: SpleisSykdomsdagtype.SYKEDAG,
                             kilde: {
                                 kildeId: '1D7B00B8-216D-4090-8DEA-72E97183F8D7',
@@ -138,15 +134,15 @@ describe('personmapper', async () => {
                             },
                         },
                     ]),
-                    enVedtaksperiode(),
+                    umappetVedtaksperiode(),
                 ]),
             ]),
             defaultPersonInfo
         );
 
         const vedtaksperioder = person.arbeidsgivere[0].vedtaksperioder;
-        expect(vedtaksperioder[0].fom).toStrictEqual(somDato('2019-09-10'));
-        expect(vedtaksperioder[1].fom).toStrictEqual(somDato('2019-09-09'));
+        expect(vedtaksperioder[0].fom.format('YYYY-MM-DD')).toStrictEqual('2020-01-01');
+        expect(vedtaksperioder[1].fom.format('YYYY-MM-DD')).toStrictEqual('2019-12-31');
     });
 
     test('mapper overstyring av tidslinje', async () => {
@@ -171,9 +167,9 @@ describe('personmapper', async () => {
             },
         ];
         const person = await mapPerson(
-            enPerson([
-                enArbeidsgiver(
-                    [enVedtaksperiode(ekstraDager)],
+            umappetPerson([
+                umappetArbeidsgiver(
+                    [medEkstraSykdomsdager(umappetVedtaksperiode(), ekstraDager)],
                     [
                         {
                             begrunnelse: 'begrunnelse',

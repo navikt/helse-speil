@@ -1,15 +1,16 @@
 import { mapArbeidsgivere } from '../../client/mapping/arbeidsgiver';
 import { umappetVedtaksperiode } from './vedtaksperiode';
-import { SpesialistArbeidsgiver, SpesialistOverstyring } from 'external-types';
+import { SpesialistArbeidsgiver, SpesialistOverstyring, SpesialistRisikovurdering } from 'external-types';
 
 export const umappetArbeidsgiver = (
     vedtaksperioder = [umappetVedtaksperiode()],
-    overstyringer: SpesialistOverstyring[] = []
+    overstyringer: SpesialistOverstyring[] = [],
+    risikovurderinger: SpesialistRisikovurdering[] = []
 ): SpesialistArbeidsgiver => ({
     organisasjonsnummer: '987654321',
     id: '3fb100f2-5d3d-4a89-84cd-e123544a4400',
     navn: 'Potetsekk AS',
-    risikovurderinger: [],
+    risikovurderinger: risikovurderinger,
     vedtaksperioder: vedtaksperioder,
     overstyringer: overstyringer,
 });

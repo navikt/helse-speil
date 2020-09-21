@@ -41,11 +41,16 @@ const utbetalingsdagtype = (sykdomsdagtype: SpleisSykdomsdagtype): SpleisUtbetal
 const utbetaling = (sykdomsdagtype: SpleisSykdomsdagtype, dagsats: number): number | undefined =>
     utbetalingsdagtype(sykdomsdagtype) === SpleisUtbetalingsdagtype.NAVDAG ? dagsats : undefined;
 
-const tilUtbetalingsdag = (sykdomsdag: SpleisSykdomsdag, dagsats: number): SpleisUtbetalingsdag => ({
+const tilUtbetalingsdag = (
+    sykdomsdag: SpleisSykdomsdag,
+    dagsats: number,
+    grad: number = 100
+): SpleisUtbetalingsdag => ({
     type: utbetalingsdagtype(sykdomsdag.type),
     inntekt: dagsats,
     dato: sykdomsdag.dagen,
     utbetaling: utbetaling(sykdomsdag.type, dagsats),
+    grad: grad,
 });
 
 export const utbetalingstidslinje = (sykdomstidslinje: SpleisSykdomsdag[], dagsats: number): SpleisUtbetalingsdag[] =>

@@ -8,8 +8,8 @@ import {
     Hendelsetype as LoggType,
     LoggProvider,
 } from '@navikt/helse-frontend-logg';
-import { somNorskDato } from './mapping/vedtaksperiode';
 import styled from '@emotion/styled';
+import { somNorskDato } from '../mapping/vedtaksperiode';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];

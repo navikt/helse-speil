@@ -4,10 +4,10 @@ import Utbetaling from './Utbetaling';
 import { MemoryRouter } from 'react-router';
 import { PersonContext } from '../../../context/PersonContext';
 import { render, screen } from '@testing-library/react';
-import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
 import { Avvisningverdier } from './modal/useSkjemaState';
-import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiode';
 import { Kjønn, Overstyring, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
+import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
 import '@testing-library/jest-dom/extend-expect';
 import '../../../tekster';
 
@@ -36,7 +36,7 @@ const vedtaksperiodeMedTilstand = async (tilstand: Vedtaksperiodetilstand) => ({
 const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
         overstyringer: [],
-        ...enVedtaksperiode(),
+        ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],
     });

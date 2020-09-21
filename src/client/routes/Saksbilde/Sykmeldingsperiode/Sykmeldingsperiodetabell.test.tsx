@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
-import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiode';
+import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
+import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { SpleisVedtaksperiodetilstand } from 'external-types';
@@ -10,7 +10,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 const enIkkeUtbetaltVedtaksperiode = () =>
     mapVedtaksperiode({
-        ...enVedtaksperiode(),
+        ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],
         overstyringer: [],
@@ -18,7 +18,7 @@ const enIkkeUtbetaltVedtaksperiode = () =>
 
 const enUtbetaltVedtaksperiode = () =>
     mapVedtaksperiode({
-        ...enVedtaksperiode(),
+        ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],
         overstyringer: [],

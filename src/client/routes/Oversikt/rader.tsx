@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Oppgave, OppgaveType, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
-import { somDato } from '../../context/mapping/vedtaksperiode';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { Oppgaveetikett } from './Oppgaveetikett';
 import { IkkeTildelt, Tildelt } from './tildeling';
 import { useUpdateVarsler } from '../../state/varslerState';
+import { somDato } from '../../mapping/vedtaksperiode';
 
 type Oversiktsrad = [OppgaveType, Oppgave, string, string, number, Oppgave];
 
@@ -67,7 +67,7 @@ const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgav
     );
 };
 
-const Sakslenke: React.FunctionComponent<{ oppgave: Oppgave; skjult?: boolean }> = ({ oppgave, skjult, children }) => {
+const Sakslenke: React.FunctionComponent<{ oppgave: Oppgave; skjult?: boolean }> = ({ oppgave, children }) => {
     const { fjernVarsler } = useUpdateVarsler();
     return (
         <Link className="lenke" to={`/sykmeldingsperiode/${oppgave.aktørId}`} onClick={fjernVarsler}>

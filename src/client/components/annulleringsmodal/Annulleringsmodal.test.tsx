@@ -1,20 +1,20 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { render, screen, waitFor } from '@testing-library/react';
-import { Annulleringsmodal } from './Annulleringsmodal';
-import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
-import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiode';
-import { Kjønn, Overstyring } from 'internal-types';
-import { RecoilRoot } from 'recoil';
-import { authState } from '../../state/authentication';
 import userEvent from '@testing-library/user-event';
+import { authState } from '../../state/authentication';
+import { RecoilRoot } from 'recoil';
+import { mapVedtaksperiode } from '../../mapping/vedtaksperiode';
+import { Annulleringsmodal } from './Annulleringsmodal';
+import { Kjønn, Overstyring } from 'internal-types';
+import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 global.fetch = jest.fn();
 
 const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
-        ...enVedtaksperiode(),
+        ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],
         overstyringer: [],

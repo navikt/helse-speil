@@ -21,9 +21,9 @@ import { postOverstyring } from '../../../io/http';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from './KalkulererOverstyringToast';
 import { OverstyrtDagDTO } from '../../../io/types';
-import { organisasjonsnummerForPeriode } from '../../../context/mapping/selectors';
 import { useOverstyrteDager } from './useOverstyrteDager';
 import { pollEtterNyOppgave } from '../../../io/polling';
+import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead,

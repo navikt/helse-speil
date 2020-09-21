@@ -5,7 +5,6 @@ import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typogra
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { AnnulleringDTO } from '../../io/types';
 import { Person, Utbetaling, Vedtaksperiode } from 'internal-types';
-import { organisasjonsnummerForPeriode } from '../../context/mapping/selectors';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
 import { postAnnullering } from '../../io/http';
@@ -13,6 +12,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Annulleringsvarsel } from './Annulleringsvarsel';
 import { AnnullerbarUtbetaling } from './AnnullerbarUtbetaling';
 import { Modal } from '../Modal';
+import { organisasjonsnummerForPeriode } from '../../mapping/selectors';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;

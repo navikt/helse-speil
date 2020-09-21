@@ -4,15 +4,15 @@ import Vilkår from './Vilkår';
 import { MemoryRouter } from 'react-router';
 import { PersonContext } from '../../../context/PersonContext';
 import { render, screen } from '@testing-library/react';
-import { enVedtaksperiode } from '../../../context/mapping/testdata/enVedtaksperiode';
-import { mapVedtaksperiode } from '../../../context/mapping/vedtaksperiode';
 import { Kjønn, Overstyring, Periodetype, Person, Vedtaksperiode } from 'internal-types';
 import '@testing-library/jest-dom/extend-expect';
+import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
+import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 
 const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
         overstyringer: [],
-        ...enVedtaksperiode(),
+        ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],
     });

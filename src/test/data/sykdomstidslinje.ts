@@ -22,14 +22,15 @@ const kilde = (dato: Dayjs): SpleisSykdomsdagkilde =>
         ? { type: SpleisSykdomsdagkildeType.SØKNAD, kildeId: søknadId }
         : { type: SpleisSykdomsdagkildeType.SYKMELDING, kildeId: sykmeldingId };
 
-const tilSykdomsdag = (dato: Dayjs) => ({
+const tilSykdomsdag = (dato: Dayjs, grad: number = 100): SpleisSykdomsdag => ({
     dagen: dato.format('YYYY-MM-DD'),
     type: sykdomsdagtype(dato),
     kilde: kilde(dato),
+    grad: grad,
 });
 
 export const sykdomstidslinje = (fom: Dayjs, tom: Dayjs): SpleisSykdomsdag[] =>
     new Array(tom.diff(fom, 'day'))
         .fill({})
         .map((_, i) => fom.add(i, 'day'))
-        .map(tilSykdomsdag);
+        .map((datoen) => tilSykdomsdag(datoen));

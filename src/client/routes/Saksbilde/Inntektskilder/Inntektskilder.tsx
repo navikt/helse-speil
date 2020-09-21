@@ -7,7 +7,7 @@ import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Periodetype } from 'internal-types';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
-import { førsteVedtaksperiode } from '../../../context/mapping/selectors';
+import { førsteVedtaksperiode } from '../../../mapping/selectors';
 
 const StyledBehandletInnhold = styled(BehandletInnhold)`
     margin: 2rem 2rem;

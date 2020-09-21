@@ -35,7 +35,7 @@ const spesialistClient = {
 };
 
 const storage = {
-    get: (value: string) => (value === '9977' ? Promise.resolve(null) : Promise.resolve('Ghost')),
+    get: jest.fn(),
 };
 const onBehalfOfStub = {
     hentFor: () => Promise.resolve(),
@@ -69,7 +69,7 @@ describe('oppslag på person', () => {
         };
         await personLookup.finnPerson(requestWithAktørId, mockResponse);
 
-        expect(personFromResponse()).toStrictEqual({ ...personByAktørId, tildeltTil: null });
+        expect(personFromResponse()).toStrictEqual({ ...personByAktørId, tildeltTil: undefined });
     });
 
     test('med fødselsnummer kaller spesialistClient.hentPersonByFødselsnummer', async () => {
@@ -79,7 +79,7 @@ describe('oppslag på person', () => {
         };
         await personLookup.finnPerson(requestWithFnr, mockResponse);
 
-        expect(personFromResponse()).toStrictEqual({ ...personByFnr, tildeltTil: 'Ghost' });
+        expect(personFromResponse()).toStrictEqual({ ...personByFnr, tildeltTil: undefined });
     });
 });
 

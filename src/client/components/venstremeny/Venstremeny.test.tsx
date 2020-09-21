@@ -3,12 +3,12 @@ import { render, screen } from '@testing-library/react';
 import { Venstremeny } from './Venstremeny';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
-import { mapVedtaksperiode } from '../../context/mapping/vedtaksperiode';
-import { enVedtaksperiode } from '../../context/mapping/testdata/enVedtaksperiode';
+import { mapVedtaksperiode } from '../../mapping/vedtaksperiode';
+import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
 
 const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
-        ...enVedtaksperiode(),
+        ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         risikovurderingerForArbeidsgiver: [],
         overstyringer: [],

@@ -55,15 +55,6 @@ const finnPerson = async (req: Request, res: Response) => {
         ? spesialistClient.hentPersonByFødselsnummer
         : spesialistClient.hentPersonByAktørId;
 
-    // Hacky siden tildeling skal flyttes til Spesialist
-    const finnTildeling = async (response: Body): Promise<string | null> => {
-        const person: any = response.body;
-        const oppgavereferanse = person.arbeidsgivere[0].vedtaksperioder.find(
-            (v: any) => v.oppgavereferanse && v.oppgavereferanse !== 'null'
-        )?.oppgavereferanse;
-        return oppgavereferanse ? await storage.get(oppgavereferanse) : null;
-    };
-
     return onBehalfOf
         .hentFor(spesialistId, req.session!.speilToken)
         .then((token: string) => lookupPromise(undeterminedId, token))
@@ -71,7 +62,7 @@ const finnPerson = async (req: Request, res: Response) => {
             res.status(apiResponse.status).send({
                 person: {
                     ...apiResponse.body,
-                    tildeltTil: apiResponse.body.saksbehandlerepost ?? (await finnTildeling(apiResponse)),
+                    tildeltTil: apiResponse.body.saksbehandlerepost,
                 },
             });
         })

@@ -82,7 +82,7 @@ const appendUnmappedFields = async ({ unmapped, partial }: PartialMappingResult)
         ...partial,
         id: unmapped.id,
         gruppeId: unmapped.gruppeId,
-        godkjentAv: unmapped.godkjentAv,
+        ...(unmapped.godkjentAv && { godkjentAv: unmapped.godkjentAv }),
         oppgavereferanse: unmapped.oppgavereferanse,
         utbetalingsreferanse: unmapped.utbetalingsreferanse,
         kanVelges: true,
@@ -103,7 +103,7 @@ const appendTilstand = async ({ unmapped, partial }: PartialMappingResult): Prom
         ...partial,
         tilstand: Vedtaksperiodetilstand[unmapped.tilstand] || Vedtaksperiodetilstand.Ukjent,
         behandlet: !!unmapped.godkjentAv,
-        godkjenttidspunkt: somKanskjeDato(unmapped.godkjenttidspunkt),
+        ...(unmapped.godkjenttidspunkt && { godkjenttidspunkt: somKanskjeDato(unmapped.godkjenttidspunkt) }),
         forlengelseFraInfotrygd: mapForlengelseFraInfotrygd(unmapped.forlengelseFraInfotrygd),
     },
 });

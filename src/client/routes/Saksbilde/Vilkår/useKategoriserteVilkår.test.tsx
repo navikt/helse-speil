@@ -1,10 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { Vilkårstype } from '../../../context/mapping/vilkår';
 import { render, screen } from '@testing-library/react';
 import { Vedtaksperiode, Vilkår } from 'internal-types';
 import { KategoriserteVilkår, useKategoriserteVilkår } from './useKategoriserteVilkår';
 import '@testing-library/jest-dom/extend-expect';
+import { Vilkårstype } from '../../../mapping/vilkår';
 
 const alder = {
     alderSisteSykedag: 50,

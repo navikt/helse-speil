@@ -290,7 +290,7 @@ export interface SpleisUtbetalinger {
     personUtbetaling?: SpleisUtbetaling;
 }
 
-interface SpleisUtbetaling {
+export interface SpleisUtbetaling {
     fagsystemId: string;
     linjer: SpleisUtbetalingslinje[];
 }

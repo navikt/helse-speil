@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import { Vilkårdata } from './Vilkår';
-import { Vilkårstype } from '../../../context/mapping/vilkår';
 import { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
 import { Opptjening, Vedtaksperiode, Vilkår } from 'internal-types';
 import { alder, dagerIgjen, opptjeningstid, sykepengegrunnlag, søknadsfrist } from './Vilkårsgrupper/Vilkårsgrupper';
+import { Vilkårstype } from '../../../mapping/vilkår';
 
 export interface KategoriserteVilkår {
     oppfylteVilkår: Vilkårdata[];
@@ -23,6 +23,8 @@ const tilIkkeVurdertVilkår = ({ type }: Vilkårdata): IkkeVurdertVilkår => {
             return { label: 'Krav til minste sykepengegrunnlag', paragraf: '§ 8-3' };
         case Vilkårstype.DagerIgjen:
             return { label: 'Dager igjen', paragraf: '§§ 8-11 og 8-12' };
+        default:
+            return { label: '', paragraf: '' };
     }
 };
 

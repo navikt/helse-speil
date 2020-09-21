@@ -3,11 +3,11 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import '@testing-library/jest-dom/extend-expect';
 import { useMaksdato } from './useMaksdato';
-import { mappetPerson, vedtaksperiodeMedMaksdato } from '../context/mapping/testdata/mappetPerson';
 import { Vedtaksperiode } from 'internal-types';
 import { cleanup, render, screen } from '@testing-library/react';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { defaultPersonContext, PersonContext } from '../context/PersonContext';
+import { mappetPerson, vedtaksperiodeMedMaksdato } from '../mapping/testdata/mappetPerson';
 
 afterEach(cleanup);
 
@@ -46,7 +46,7 @@ describe('useMaksdato', () => {
         );
         const maksdato = screen.getByTestId('maksdato');
         const maksdatoOverskrides = screen.getByTestId('maksdato-overskrides');
-        expect(maksdato).toHaveTextContent('07.09.2020');
+        expect(maksdato).toHaveTextContent('07.10.2020');
         expect(maksdatoOverskrides).toBeEmpty();
     });
     test('viser at maksdato overskrides', () => {
