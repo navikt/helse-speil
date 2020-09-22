@@ -279,7 +279,8 @@ const appendOverstyringer = async ({ unmapped, partial }: PartialMappingResult):
                 ...overstyring,
                 timestamp: dayjs(overstyring.timestamp),
                 overstyrteDager: overstyring.overstyrteDager.map(tilOverstyrtDag),
-            })),
+            }))
+            .sort((a, b) => (a.timestamp.isBefore(b.timestamp) ? 1 : -1)),
     },
 });
 

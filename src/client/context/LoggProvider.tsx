@@ -49,6 +49,11 @@ const Begrunnelsesliste = styled.ul`
 const BegrunnelseTekst = styled.p`
     margin-top: 0.5rem;
     color: #3e3832;
+    line-height: 1.375rem;
+
+    > p:not(:last-of-type) {
+        margin-bottom: 0.25rem;
+    }
 `;
 
 export default ({ children }: LoggProviderProps) => {
@@ -90,7 +95,12 @@ export default ({ children }: LoggProviderProps) => {
             dato: overstyring.timestamp.format(NORSK_DATOFORMAT),
             navn: 'Overstyrt: Sykmeldingsperiode',
             type: LoggType.Dokumenter,
-            beskrivelse: <BegrunnelseTekst>{overstyring.saksbehandlerNavn}</BegrunnelseTekst>,
+            beskrivelse: (
+                <BegrunnelseTekst>
+                    <p>{overstyring.begrunnelse}</p>
+                    <p>{overstyring.saksbehandlerNavn}</p>
+                </BegrunnelseTekst>
+            ),
         })) ?? [];
 
     const hendelser = [...dokumenter, ...risikovurdering, ...overstyringer].sort((a, b) =>

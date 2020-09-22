@@ -682,19 +682,19 @@
                         },
                         {
                             "dagen": "2018-02-06",
-                            "type": "FERIEDAG",
+                            "type": "SYKEDAG",
                             "kilde": {
                                 "type": "Saksbehandler"
                             },
-                            "grad": 100.0
+                            "grad": 50.0
                         },
                         {
                             "dagen": "2018-02-07",
-                            "type": "FERIEDAG",
+                            "type": "SYKEDAG",
                             "kilde": {
                                 "type": "Saksbehandler"
                             },
-                            "grad": 100.0
+                            "grad": 50.0
                         },
                         {
                             "dagen": "2018-02-08",
@@ -839,6 +839,24 @@
                             "dato": "2018-02-07",
                             "dagtype": "Feriedag",
                             "grad": 100
+                        }
+                    ]
+                },
+                {
+                    "hendelseId": "9643ad28-5aaf-4888-b5e3-8db952756c15",
+                    "begrunnelse": "I've got hairy legs",
+                    "timestamp": "2018-03-02T00:00:00",
+                    "saksbehandlerNavn": "Gabriel",
+                    "overstyrteDager": [
+                        {
+                            "dato": "2018-02-06",
+                            "dagtype": "Sykedag",
+                            "grad": 50
+                        },
+                        {
+                            "dato": "2018-02-07",
+                            "dagtype": "Sykedag",
+                            "grad": 50
                         }
                     ]
                 }
