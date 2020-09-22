@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Knapp } from 'nav-frontend-knapper';
 import { useNavigation } from '../hooks/useNavigation';
 import { Key, useKeyboard } from '../hooks/useKeyboard';
+import classNames from 'classnames';
 
 const Container = styled.div`
     margin: 2.5rem 0 0;
@@ -24,7 +25,7 @@ export const Navigasjonsknapper: React.FC<any> = ({ className }) => {
     });
 
     return (
-        <Container className={className}>
+        <Container className={classNames(className, 'Navigasjonsknapper')}>
             <Knapp disabled={!navigateToPrevious} onClick={clickPrevious}>
                 FORRIGE
             </Knapp>
