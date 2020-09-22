@@ -58,13 +58,13 @@ const AktivNav = () => {
 const InaktivNav = () => (
     <Container>
         <Nav active={false}>
-            <InaktivLenke id="nav-link-sykmeldingsperiode">Sykmeldingsperiode</InaktivLenke>
-            <InaktivLenke id="nav-link-vilkår">Vilkår</InaktivLenke>
-            <InaktivLenke id="nav-link-inntektskilder">Inntektskilder</InaktivLenke>
-            <InaktivLenke id="nav-link-sykepengegrunnlag">Sykepengegrunnlag</InaktivLenke>
-            <InaktivLenke id="nav-link-fordeling">Fordeling</InaktivLenke>
-            <InaktivLenke id="nav-link-utbetaling">Utbetalingsoversikt</InaktivLenke>
-            <InaktivLenke id="nav-link-oppsummering">Oppsummering</InaktivLenke>
+            <InaktivLenke>Sykmeldingsperiode</InaktivLenke>
+            <InaktivLenke>Vilkår</InaktivLenke>
+            <InaktivLenke>Inntektskilder</InaktivLenke>
+            <InaktivLenke>Sykepengegrunnlag</InaktivLenke>
+            <InaktivLenke>Fordeling</InaktivLenke>
+            <InaktivLenke>Utbetalingsoversikt</InaktivLenke>
+            <InaktivLenke>Oppsummering</InaktivLenke>
         </Nav>
     </Container>
 );
