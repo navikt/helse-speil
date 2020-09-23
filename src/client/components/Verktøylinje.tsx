@@ -5,6 +5,7 @@ import Dropdown from './Dropdown';
 import { Annullering } from './Annullering';
 import { PersonContext } from '../context/PersonContext';
 import { Utbetalinger } from 'internal-types';
+import { annulleringerEnabled } from '../featureToggles';
 
 const Container = styled(Sakslinje)`
     border-top: none;
@@ -29,7 +30,7 @@ const Verktøylinje = () => {
     return (
         <Container
             høyre={
-                (utbetalinger?.arbeidsgiverUtbetaling || utbetalinger?.personUtbetaling) && (
+                ((annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling) || utbetalinger?.personUtbetaling) && (
                     <StyledDropdown>
                         <Annullering />
                     </StyledDropdown>
