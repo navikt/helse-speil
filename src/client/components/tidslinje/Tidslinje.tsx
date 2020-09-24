@@ -6,7 +6,7 @@ import { PersonContext } from '../../context/PersonContext';
 import { useTidslinjerader } from './useTidslinjerader';
 import { useInfotrygdrader } from './useInfotrygdrader';
 import { useTidslinjevinduer } from './useTidslinjevinduer';
-import { Sykepengetidslinje } from '@navikt/helse-frontend-tidslinje/lib';
+import { Sykepengetidslinje } from '@navikt/helse-frontend-tidslinje';
 import { Flex, FlexColumn } from '../Flex';
 import '@navikt/helse-frontend-tidslinje/lib/main.css';
 

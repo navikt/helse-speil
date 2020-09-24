@@ -1,6 +1,6 @@
 import { Person, Vedtaksperiode } from 'internal-types';
 import React, { useMemo } from 'react';
-import { Sykepengeperiode } from '@navikt/helse-frontend-tidslinje/lib';
+import { Sykepengeperiode } from '@navikt/helse-frontend-tidslinje';
 
 export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeperiode => ({
     id: vedtaksperiode.id,

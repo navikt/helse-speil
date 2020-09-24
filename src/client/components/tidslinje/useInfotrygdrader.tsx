@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje/lib';
+import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 
 export type UtbetalingerPerArbeidsgiver = { [organisasjonsnummer: string]: Sykepengeperiode[] };
 

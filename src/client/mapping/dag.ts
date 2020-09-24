@@ -66,6 +66,8 @@ export const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dagtype => {
             return Dagtype.Egenmelding;
         case SpleisSykdomsdagtype.FORELDET_SYKEDAG:
             return Dagtype.Foreldet;
+        case SpleisSykdomsdagtype.ANNULLERT_DAG:
+            return Dagtype.Annullert;
     }
 };
 
@@ -89,6 +91,8 @@ const hendelseTypeGammel = (type: SpleisSykdomsdagtype): Kildetype | undefined =
         case SpleisSykdomsdagtype.SYK_HELGEDAG_SYKMELDING:
         case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:
             return Kildetype.Sykmelding;
+        case SpleisSykdomsdagtype.ANNULLERT_DAG:
+            return Kildetype.Saksbehandler;
         case SpleisSykdomsdagtype.FORELDET_SYKEDAG:
         case SpleisSykdomsdagtype.UBESTEMTDAG:
         case SpleisSykdomsdagtype.IMPLISITT_DAG:

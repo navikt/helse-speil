@@ -13,6 +13,7 @@ import { Overstyringsindikator } from '../Overstyringsindikator';
 import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import { Kilde } from '../Kilde';
 import './rader.less';
+import { IkonAnnullert } from './ikoner/IkonAnnullert';
 
 export const tomCelle = () => undefined;
 
@@ -40,6 +41,8 @@ export const ikon = (dag: Sykdomsdag) => {
             case Dagtype.Egenmelding:
             case Dagtype.Arbeidsgiverperiode:
                 return <IkonEgenmelding />;
+            case Dagtype.Annullert:
+                return <IkonAnnullert />;
             case Dagtype.Avvist:
             case Dagtype.Foreldet:
             case Dagtype.Ubestemt:

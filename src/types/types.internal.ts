@@ -119,6 +119,7 @@ export enum Dagtype {
     Egenmelding = 'Egenmelding',
     Foreldet = 'Foreldet',
     Arbeidsgiverperiode = 'Arbeidsgiverperiode',
+    Annullert = 'Annullert',
 }
 
 export interface Sykdomsdag {

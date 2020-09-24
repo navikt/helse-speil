@@ -85,6 +85,7 @@ export enum SpleisSykdomsdagtype {
     SYKEDAG_SØKNAD = 'SYKEDAG_SØKNAD',
     SYK_HELGEDAG_SYKMELDING = 'SYK_HELGEDAG_SYKMELDING',
     SYK_HELGEDAG_SØKNAD = 'SYK_HELGEDAG_SØKNAD',
+    ANNULLERT_DAG = 'ANNULLERT_DAG',
 }
 
 export interface SpleisSykdomsdag {

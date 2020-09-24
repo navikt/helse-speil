@@ -97,11 +97,17 @@ const appendVilkår = async ({ unmapped, partial }: PartialMappingResult): Promi
     },
 });
 
+const inneholderAnnullerteDager = (vedtaksperiode: SpesialistVedtaksperiode): boolean =>
+    !!vedtaksperiode.sykdomstidslinje.find((dag) => dag.type === SpleisSykdomsdagtype.ANNULLERT_DAG);
+
 const appendTilstand = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
-        tilstand: Vedtaksperiodetilstand[unmapped.tilstand] || Vedtaksperiodetilstand.Ukjent,
+        tilstand:
+            (inneholderAnnullerteDager(unmapped) && Vedtaksperiodetilstand.Annullert) ||
+            Vedtaksperiodetilstand[unmapped.tilstand] ||
+            Vedtaksperiodetilstand.Ukjent,
         behandlet: !!unmapped.godkjentAv,
         ...(unmapped.godkjenttidspunkt && { godkjenttidspunkt: somKanskjeDato(unmapped.godkjenttidspunkt) }),
         forlengelseFraInfotrygd: mapForlengelseFraInfotrygd(unmapped.forlengelseFraInfotrygd),
