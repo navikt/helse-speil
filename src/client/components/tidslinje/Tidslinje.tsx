@@ -1,13 +1,13 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import styled from '@emotion/styled';
-import Vinduvelger from './Vinduvelger';
 import { Radnavn } from './Radnavn';
-import { PersonContext } from '../../context/PersonContext';
+import { Utsnittsvelger } from './Utsnittsvelger';
 import { useTidslinjerader } from './useTidslinjerader';
 import { useInfotrygdrader } from './useInfotrygdrader';
-import { useTidslinjevinduer } from './useTidslinjevinduer';
-import { Sykepengetidslinje } from '@navikt/helse-frontend-tidslinje';
+import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
+import { Periode, Sykepengeperiode, Sykepengetidslinje } from '@navikt/helse-frontend-tidslinje';
 import { Flex, FlexColumn } from '../Flex';
+import { PersonContext } from '../../context/PersonContext';
 import '@navikt/helse-frontend-tidslinje/lib/main.css';
 
 const Container = styled(FlexColumn)`
@@ -17,18 +17,23 @@ const Container = styled(FlexColumn)`
 
 export const Tidslinje = React.memo(() => {
     const { personTilBehandling, aktiverVedtaksperiode, aktivVedtaksperiode } = useContext(PersonContext);
-    const { vinduer, aktivtVindu, setAktivtVindu } = useTidslinjevinduer(personTilBehandling);
+    const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(personTilBehandling);
 
-    const arbeidsgiverrader = useTidslinjerader(personTilBehandling);
+    const arbeidsgiverrader = useTidslinjerader(personTilBehandling).map((rad) =>
+        rad.map((periode) => ({ ...periode, active: periode.id === aktivVedtaksperiode?.id }))
+    );
     const infotrygdrader = useInfotrygdrader(personTilBehandling);
     const tidslinjerader = [...arbeidsgiverrader, ...Object.values(infotrygdrader)];
 
-    const aktivPeriode = aktivVedtaksperiode && {
-        fom: aktivVedtaksperiode.fom.startOf('day').toDate(),
-        tom: aktivVedtaksperiode.tom.endOf('day').toDate(),
-    };
+    const aktivRad =
+        aktivVedtaksperiode &&
+        arbeidsgiverrader.reduce(
+            (radIndex: number, rad: Sykepengeperiode[], i: number) =>
+                rad.find(({ id }) => id === aktivVedtaksperiode?.id) ? i : radIndex,
+            undefined
+        );
 
-    const onSelectPeriode = (periode: { id?: string }) => {
+    const onSelectPeriode = (periode: Periode) => {
         aktiverVedtaksperiode(periode.id!);
     };
 
@@ -36,20 +41,20 @@ export const Tidslinje = React.memo(() => {
         if (tidslinjerader.length === 0) return null;
         return (
             <Container>
+                <Utsnittsvelger utsnitt={utsnitt} aktivtUtsnitt={aktivtUtsnitt} setAktivtUtsnitt={setAktivtUtsnitt} />
                 <Flex>
                     <FlexColumn>
                         <Radnavn infotrygdrader={infotrygdrader} />
                     </FlexColumn>
                     <Sykepengetidslinje
                         rader={tidslinjerader}
-                        startDato={vinduer[aktivtVindu].fom.toDate()}
-                        sluttDato={vinduer[aktivtVindu].tom.toDate()}
+                        startDato={utsnitt[aktivtUtsnitt].fom.toDate()}
+                        sluttDato={utsnitt[aktivtUtsnitt].tom.toDate()}
                         onSelectPeriode={onSelectPeriode}
-                        aktivPeriode={aktivPeriode}
+                        aktivRad={aktivRad}
                     />
                 </Flex>
-                <Vinduvelger vinduer={vinduer} aktivtVindu={aktivtVindu} setAktivtVindu={setAktivtVindu} />
             </Container>
         );
-    }, [tidslinjerader, aktivtVindu]);
+    }, [tidslinjerader, aktivtUtsnitt]);
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import { Ikon, IkonProps } from './Ikon';
 
 export const Infoikon = ({ width = 24, height = 24, className }: IkonProps) => (
-    <Ikon width={width} height={height} viewBoxSize={24} className={className}>
+    <Ikon width={width} height={height} viewBox="0 0 24 24" className={className}>
         <g fill="none">
             <path d="M12 0C5.382 0 0 5.382 0 12s5.382 12 12 12c6.617 0 12-5.382 12-12S18.617 0 12 0z" fill="#337C9B" />
             <path

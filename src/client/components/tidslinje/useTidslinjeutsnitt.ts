@@ -1,4 +1,4 @@
-import { Tidslinjevindu } from './Tidslinje.types';
+import { Tidslinjeutsnitt } from './Tidslinje.types';
 import { useMemo, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { Person } from 'internal-types';
@@ -10,7 +10,7 @@ const senesteDato = (perioder: EnkelPeriode[]) =>
         .reduce((senesteDato, periode) => (periode.tom.isAfter(senesteDato) ? periode.tom : senesteDato), dayjs(0))
         .endOf('day') ?? dayjs().endOf('day');
 
-export const useTidslinjevinduer = (person?: Person) => {
+export const useTidslinjeutsnitt = (person?: Person) => {
     const sisteDato = useMemo(() => {
         const vedtaksperioder = person?.arbeidsgivere.flatMap(({ vedtaksperioder }) => vedtaksperioder);
         const infotrygdutbetalinger = person?.infotrygdutbetalinger;
@@ -21,7 +21,7 @@ export const useTidslinjevinduer = (person?: Person) => {
             : senesteVedtaksperiodedato;
     }, [person]);
 
-    const vinduer: Tidslinjevindu[] = [
+    const utsnitt: Tidslinjeutsnitt[] = [
         {
             fom: sisteDato.subtract(6, 'month'),
             tom: sisteDato,
@@ -39,7 +39,7 @@ export const useTidslinjevinduer = (person?: Person) => {
         },
     ];
 
-    const [aktivtVindu, setAktivtVindu] = useState<number>(0);
+    const [aktivtUtsnitt, setAktivtUtsnitt] = useState<number>(0);
 
-    return { vinduer, aktivtVindu, setAktivtVindu };
+    return { utsnitt: utsnitt, aktivtUtsnitt: aktivtUtsnitt, setAktivtUtsnitt: setAktivtUtsnitt };
 };

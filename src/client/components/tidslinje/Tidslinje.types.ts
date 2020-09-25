@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-export interface Tidslinjevindu {
+export interface Tidslinjeutsnitt {
     fom: Dayjs;
     tom: Dayjs;
     label: string;

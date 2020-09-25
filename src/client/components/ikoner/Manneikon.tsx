@@ -2,7 +2,7 @@ import React from 'react';
 import { Ikon } from './Ikon';
 
 export const Manneikon = () => (
-    <Ikon width={24} height={24} viewBoxSize={24}>
+    <Ikon width={24} height={24} viewBox="0 0 24 24">
         <g transform="translate(1.000000, 1.000000)">
             <circle fill="#FFFFFF" cx="11" cy="11" r="11" />
             <path

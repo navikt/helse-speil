@@ -1,8 +1,8 @@
 import React from 'react';
 import { Ikon, IkonProps } from './Ikon';
 
-export const GrøntSjekkikon = ({ width = 24, height = 24, viewBoxSize = 25, className }: IkonProps) => (
-    <Ikon width={width} height={height} viewBoxSize={viewBoxSize} className={className}>
+export const GrøntSjekkikon = ({ width = 24, height = 24, viewBox = '0 0 25 25', className }: IkonProps) => (
+    <Ikon width={width} height={height} viewBox={viewBox} className={className}>
         <path
             d="M12,0 C5.383,0 0,5.30116923 0,11.8153846 C0,18.3296 5.383,23.6307692 12,23.6307692 C18.616,23.6307692 24,18.3296 24,11.8153846 C24,5.30116923 18.616,0 12,0 Z"
             fill="#1C6937"
