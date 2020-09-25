@@ -1,11 +1,11 @@
 import React from 'react';
-import { Clipboard } from './clipboard';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
+import { Person } from 'internal-types';
+import { Clipboard } from './clipboard';
 import { Manneikon } from './ikoner/Manneikon';
 import { Kvinneikon } from './ikoner/Kvinneikon';
 import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
-import { Person } from 'internal-types';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
@@ -13,14 +13,14 @@ const Container = styled.div`
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    height: 5rem;
+    height: 48px;
     padding: 0 2rem;
-    background: #fff;
+    background: #f8f8f8;
     border-bottom: 1px solid #c6c2bf;
     color: #3e3832;
 
     > svg {
-        margin: 0 0.5rem 0 0.5rem;
+        margin-right: 0.5rem;
     }
 `;
 
