@@ -254,7 +254,7 @@
                             "dagen": "2018-01-01",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -262,7 +262,7 @@
                             "dagen": "2018-01-02",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -270,7 +270,7 @@
                             "dagen": "2018-01-03",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -278,7 +278,7 @@
                             "dagen": "2018-01-04",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -286,7 +286,7 @@
                             "dagen": "2018-01-05",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -294,7 +294,7 @@
                             "dagen": "2018-01-06",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -302,7 +302,7 @@
                             "dagen": "2018-01-07",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -310,7 +310,7 @@
                             "dagen": "2018-01-08",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -318,7 +318,7 @@
                             "dagen": "2018-01-09",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -326,7 +326,7 @@
                             "dagen": "2018-01-10",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -334,7 +334,7 @@
                             "dagen": "2018-01-11",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -342,7 +342,7 @@
                             "dagen": "2018-01-12",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -350,7 +350,7 @@
                             "dagen": "2018-01-13",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -358,7 +358,7 @@
                             "dagen": "2018-01-14",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -366,7 +366,7 @@
                             "dagen": "2018-01-15",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -374,7 +374,7 @@
                             "dagen": "2018-01-16",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -382,7 +382,7 @@
                             "dagen": "2018-01-17",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -390,7 +390,7 @@
                             "dagen": "2018-01-18",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -398,7 +398,7 @@
                             "dagen": "2018-01-19",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -406,7 +406,7 @@
                             "dagen": "2018-01-20",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -414,7 +414,7 @@
                             "dagen": "2018-01-21",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -422,7 +422,7 @@
                             "dagen": "2018-01-22",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -430,7 +430,7 @@
                             "dagen": "2018-01-23",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -438,7 +438,7 @@
                             "dagen": "2018-01-24",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -446,7 +446,7 @@
                             "dagen": "2018-01-25",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -454,7 +454,7 @@
                             "dagen": "2018-01-26",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -462,7 +462,7 @@
                             "dagen": "2018-01-27",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -470,7 +470,7 @@
                             "dagen": "2018-01-28",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
@@ -478,7 +478,7 @@
                             "dagen": "2018-01-29",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler"
+                                "type": "Søknad"
                             },
                             "grad": 100.0
                         },
