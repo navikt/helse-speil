@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Vedtaksperiodeinfo from './Vedtaksperiodeinfo';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import { LoggHeader } from '@navikt/helse-frontend-logg';
-import { PersonContext } from '../context/PersonContext';
+import { PersonContext } from '../../context/PersonContext';
 import Verktøylinje from './Verktøylinje';
 
 const StyledSakslinje = styled(Sakslinje)`

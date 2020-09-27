@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Vilkår from './Vilkår';
 import Høyremeny from '../../components/Høyremeny';
-import Sakslinje from '../../components/Sakslinje';
+import Sakslinje from '../../components/sakslinje/Sakslinje';
 import Lenkeknapp from '../../components/Lenkeknapp';
 import Toppvarsler from '../../components/Toppvarsler';
 import LoggProvider from '../../context/LoggProvider';
