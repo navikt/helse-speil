@@ -66,8 +66,7 @@ export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProp
                     // @ts-ignore
                     textareaRef={register({ required: 'Begrunnelse må fylles ut', minLength: 1 })}
                     defaultValue=""
-                    placeholder="Begrunn kort hvorfor det er gjort endringer på dager i sykdomstidslinjen. Bruk tydelig språk, denne vil bli vist for den sykmeldte og arbeidsgiver.
-"
+                    placeholder="Begrunn kort hvorfor det er gjort endringer på dager i sykdomstidslinjen. Bruk tydelig språk, denne vil bli vist for den sykmeldte og arbeidsgiver."
                     feil={errors.begrunnelse?.message}
                     aria-invalid={errors.begrunnelse?.message}
                     aria-errormessage={errors.begrunnelse?.message}

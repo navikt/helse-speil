@@ -15,6 +15,8 @@ export interface PersonContextValue {
     personTilBehandling?: Person;
 }
 
+export type FetchedPersonContext = Required<PersonContextValue>;
+
 export interface MedPersonOgVedtaksperiode extends PersonContextValue {
     aktivVedtaksperiode: Vedtaksperiode;
     personTilBehandling: Person;

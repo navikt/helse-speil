@@ -1,8 +1,8 @@
 import { Tildeling } from 'internal-types';
-import { Avvisningverdier } from '../routes/Saksbilde/Oppsummering/modal/useSkjemaState';
 import { extractSpesialistToken } from '../utils/cookie';
 import { spesialistTildelingEnabled } from '../featureToggles';
 import { AnnulleringDTO, Options, OverstyringDTO } from './types';
+import { Avvisningsskjema } from '../routes/Saksbilde/Oppsummering/utbetaling/Utbetalingsdialog';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -105,12 +105,14 @@ export const post = async (url: string, data: any, headere?: Headers): Promise<S
 
 export const getPersoninfo = async (aktorId: string) => get(`${baseUrl}/person/${aktorId}/info`);
 
-export const postVedtak = async (
-    oppgavereferanse: string,
-    aktørId: string,
-    godkjent: boolean,
-    skjema?: Avvisningverdier
-) => post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
+const postVedtak = async (oppgavereferanse: string, aktørId: string, godkjent: boolean, skjema?: Avvisningsskjema) =>
+    post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
+
+export const postUtbetalingsgodkjenning = async (oppgavereferanse: string, aktørId: string) =>
+    postVedtak(oppgavereferanse, aktørId, true);
+
+export const postSendTilInfotrygd = async (oppgavereferanse: string, aktørId: string, skjema: Avvisningsskjema) =>
+    postVedtak(oppgavereferanse, aktørId, false, skjema);
 
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);

@@ -1,15 +1,15 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import Utbetaling from './Utbetaling';
+import { Utbetaling } from './Utbetaling';
 import { MemoryRouter } from 'react-router';
-import { PersonContext } from '../../../context/PersonContext';
+import { PersonContext } from '../../../../context/PersonContext';
 import { render, screen } from '@testing-library/react';
-import { Avvisningverdier } from './modal/useSkjemaState';
+import { Avvisningsskjema } from './Utbetalingsdialog';
+import { mapVedtaksperiode } from '../../../../mapping/vedtaksperiode';
+import { umappetVedtaksperiode } from '../../../../../test/data/vedtaksperiode';
 import { Kjønn, Overstyring, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
-import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
-import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
 import '@testing-library/jest-dom/extend-expect';
-import '../../../tekster';
+import '../../../../tekster';
 
 const UtbetalingView = ({ vedtaksperiode, person }: { vedtaksperiode?: Vedtaksperiode; person: Person }) => (
     <MemoryRouter>
@@ -66,8 +66,8 @@ const personTilBehandling = async () => ({
     enhet: { id: '', navn: '' },
 });
 
-jest.mock('../../../io/http', () => ({
-    postVedtak: async (_godkjent: boolean, _skjema?: Avvisningverdier) => Promise.resolve(),
+jest.mock('../../../../io/http', () => ({
+    postVedtak: async (_godkjent: boolean, _skjema?: Avvisningsskjema) => Promise.resolve(),
 }));
 
 describe('Utbetaling viser korrekt informasjon', () => {

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import Panel from 'nav-frontend-paneler';
 import styled from '@emotion/styled';
-import Utbetaling from './Utbetaling';
 import Simuleringsinfo from './Simuleringsinfo';
+import { Utbetaling } from './utbetaling/Utbetaling';
 import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
 import { toKronerOgØre } from '../../../utils/locale';
 import { PersonContext } from '../../../context/PersonContext';

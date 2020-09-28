@@ -22,6 +22,7 @@ const SpeilModal = styled(ReactModal)`
     border-radius: 4px;
     display: flex;
     flex-direction: column;
+    outline: none;
 
     &:focus {
         box-shadow: 0 0 0px 3px #254b6d;
