@@ -36,6 +36,7 @@ const BegrunnelseCheckbox = ({ begrunnelse }: { begrunnelse: Begrunnelse }) => {
         <Checkbox
             label={begrunnelse}
             name={`begrunnelser.${begrunnelse}`}
+            // @ts-ignore
             checkboxRef={register}
             onChange={() => clearErrors('begrunnelser')}
         />
@@ -56,6 +57,7 @@ export const Begrunnelsesskjema = () => {
                     label={Årsak.Feil}
                     name="årsak"
                     value={Årsak.Feil}
+                    // @ts-ignore
                     radioRef={register({ required: true })}
                     onChange={() => clearErrors()}
                 />
@@ -63,6 +65,7 @@ export const Begrunnelsesskjema = () => {
                     label={Årsak.InfotrygdRiktig}
                     name="årsak"
                     value={Årsak.InfotrygdRiktig}
+                    // @ts-ignore
                     radioRef={register({ required: true })}
                     onChange={() => clearErrors()}
                 />
@@ -70,6 +73,7 @@ export const Begrunnelsesskjema = () => {
                     label={Årsak.InfotrygdFeil}
                     name="årsak"
                     value={Årsak.InfotrygdFeil}
+                    // @ts-ignore
                     radioRef={register({ required: true })}
                     onChange={() => clearErrors()}
                 />
