@@ -1,4 +1,4 @@
-import { OppgaveType } from '../../../types';
+import { Oppgave, OppgaveType } from '../../../types';
 
 export const førstegangsfilter = () => ({
     label: 'Førstegang.',
@@ -13,4 +13,9 @@ export const forlengelsesfilter = () => ({
 export const overgangFraInfotrygdFilter = () => ({
     label: 'Overgang fra IT',
     func: (type: OppgaveType) => type === OppgaveType.OvergangFraInfotrygd,
+});
+
+export const ufordelteOppgaverFilter = () => ({
+    label: 'Ufordelte saker',
+    func: (oppgave: Oppgave) => !oppgave.tildeltTil,
 });

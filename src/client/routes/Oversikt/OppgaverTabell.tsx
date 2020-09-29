@@ -5,7 +5,12 @@ import { oversiktsradRenderer, tilOversiktsrad } from './rader';
 import { Tabell, useTabell } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { Oppgave } from '../../../types';
-import { forlengelsesfilter, førstegangsfilter, overgangFraInfotrygdFilter } from './filtrering';
+import {
+    forlengelsesfilter,
+    førstegangsfilter,
+    overgangFraInfotrygdFilter,
+    ufordelteOppgaverFilter,
+} from './filtrering';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk, sorterTildeltTil } from './sortering';
 import { Paginering as PagineringObject } from '@navikt/helse-frontend-tabell/lib/paginering';
 import { Paginering } from './Paginering';
@@ -64,7 +69,7 @@ export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => 
         { render: 'Opprettet', sortFunction: sorterDateString },
         { render: 'Bosted', sortFunction: sorterTekstAlfabetisk },
         { render: 'Status', sortFunction: sorterTall },
-        { render: 'Tildelt', sortFunction: sorterTildeltTil },
+        { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
     ];
 
     const rader = oppgaver.map(tilOversiktsrad);
