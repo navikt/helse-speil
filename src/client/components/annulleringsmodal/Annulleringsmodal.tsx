@@ -4,7 +4,7 @@ import { Input } from 'nav-frontend-skjema';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { AnnulleringDTO } from '../../io/types';
-import { Person, Utbetaling, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, Person, Utbetaling, Vedtaksperiode } from 'internal-types';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
 import { postAnnullering } from '../../io/http';
@@ -13,6 +13,8 @@ import { Annulleringsvarsel } from './Annulleringsvarsel';
 import { AnnullerbarUtbetaling } from './AnnullerbarUtbetaling';
 import { Modal } from '../Modal';
 import { organisasjonsnummerForPeriode } from '../../mapping/selectors';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '../../utils/date';
+import { somPenger } from '../../utils/locale';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -55,9 +57,18 @@ const Feilmelding = styled(NavFeilmelding)`
     margin-top: 0.625rem;
 `;
 
-const Utbetalinger = styled.div`
+const TilAnnullering = styled.div`
     margin-bottom: 2rem;
 `;
+
+export const totalUtbetalingerForArbeidsgiver = (vedtaksperioder: Vedtaksperiode[]) =>
+    vedtaksperioder.reduce(
+        (total, periode: Vedtaksperiode) =>
+            total + periode.utbetalingstidslinje?.reduce((total, dag) => total + (dag.utbetaling ?? 0), 0) ?? 0,
+        0
+    );
+
+export const tom = (arbeidsgiver: Arbeidsgiver) => arbeidsgiver.vedtaksperioder[0].tom.format(NORSK_DATOFORMAT);
 
 interface Props {
     person: Person;
@@ -71,22 +82,24 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
 
     const form = useForm({ mode: 'onBlur' });
-    const brukerChecked = form.getValues('person');
-    const arbeidsgiverChecked = form.getValues('arbeidsgiver');
     const organisasjonsnummer = organisasjonsnummerForPeriode(vedtaksperiode, person);
 
-    const annullering = (utbetaling: Utbetaling): AnnulleringDTO => ({
+    const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT);
+
+    const vedtaksperioderTilAnnullering = person.arbeidsgivere[0].vedtaksperioder.filter((periode) =>
+        periode.fom.isSameOrAfter(vedtaksperiode.fom)
+    ) as Vedtaksperiode[];
+
+    const dager = vedtaksperioderTilAnnullering.flatMap(
+        (periode: Vedtaksperiode) => periode.utbetalingstidslinje ?? []
+    );
+
+    const annullering = (): AnnulleringDTO => ({
         aktørId: person.aktørId,
         fødselsnummer: person.fødselsnummer,
         organisasjonsnummer: organisasjonsnummer,
-        fagsystemId: utbetaling.fagsystemId,
-        vedtaksperiodeId: vedtaksperiode.id,
+        dager: dager.map((dag) => dag.dato.format(ISO_DATOFORMAT)),
     });
-
-    const annulleringForPerson = () => annullering(vedtaksperiode.utbetalinger!.personUtbetaling!);
-
-    const annulleringForArbeidsgiver = () => annullering(vedtaksperiode.utbetalinger!.arbeidsgiverUtbetaling!);
-
     const sendAnnullering = (annullering: AnnulleringDTO) => {
         setIsSending(true);
         setPostAnnulleringFeil(undefined);
@@ -96,16 +109,7 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
             .finally(() => setIsSending(false));
     };
 
-    const valider = () => {
-        if (!brukerChecked && !arbeidsgiverChecked) {
-            form.setError('utbetalingIkkeValgt', {
-                type: 'manual',
-                message: 'Du må velge minst én utbetaling som skal annulleres.',
-            });
-        }
-        if (brukerChecked && form.formState.isValid) sendAnnullering(annulleringForPerson());
-        if (arbeidsgiverChecked && form.formState.isValid) sendAnnullering(annulleringForArbeidsgiver());
-    };
+    const valider = () => {};
 
     return (
         <FormProvider {...form}>
@@ -118,23 +122,14 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
                 <Form onSubmit={form.handleSubmit(valider)}>
                     <Annulleringsvarsel />
                     <Tittel>Annullering</Tittel>
-                    <Utbetalinger>
-                        {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling && (
-                            <AnnullerbarUtbetaling
-                                mottaker="arbeidsgiver"
-                                utbetaling={vedtaksperiode.utbetalinger.arbeidsgiverUtbetaling}
-                            />
-                        )}
-                        {vedtaksperiode.utbetalinger?.personUtbetaling && (
-                            <AnnullerbarUtbetaling
-                                mottaker="person"
-                                utbetaling={vedtaksperiode.utbetalinger.personUtbetaling}
-                            />
-                        )}
-                        {form.errors?.utbetalingIkkeValgt && (
-                            <Feilmelding>{form.errors.utbetalingIkkeValgt.message}</Feilmelding>
-                        )}
-                    </Utbetalinger>
+
+                    <TilAnnullering>
+                        <Normaltekst>{`Periode som annulleres: ${fom} - ${tom(person.arbeidsgivere[0])}`}</Normaltekst>
+                        <Normaltekst>
+                            Totalbeløp: {somPenger(totalUtbetalingerForArbeidsgiver(vedtaksperioderTilAnnullering))}
+                        </Normaltekst>
+                    </TilAnnullering>
+
                     <Normaltekst>
                         For å gjennomføre annulleringen må du skrive inn din NAV brukerident i feltet under.
                     </Normaltekst>

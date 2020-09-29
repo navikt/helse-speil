@@ -22,8 +22,7 @@ export const Annulleringsvarsel = () => (
     <Advarsel>
         <Advarselikon />
         <Normaltekst>
-            Hvis du annullerer utbetaling vil det fjernes fra oppdragssystemet og du må behandle saken manuelt i
-            Infotrygd.
+            Hvis du annullerer vil utbetalinger fjernes fra oppdragssystemet og du må behandle saken i Infotrygd.
         </Normaltekst>
     </Advarsel>
 );
