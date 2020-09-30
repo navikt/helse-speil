@@ -10,12 +10,12 @@ const Etikett = styled.div`
 
 const Forlengelse = styled(Etikett)`
     background: #e0f5fb;
-    border: 1px solid #66cbec;
+    border: 1px solid #5690a2;
 `;
 
 const Førstegangsbehandling = styled(Etikett)`
-    background: #cce1f3;
-    border: 1px solid #0067c5;
+    background: #e0dae7;
+    border: 1px solid #634689;
 `;
 
 const Infotrygdforlengelse = styled(Etikett)`
