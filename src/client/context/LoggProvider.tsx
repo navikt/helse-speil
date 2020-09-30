@@ -102,8 +102,30 @@ export default ({ children }: LoggProviderProps) => {
                 </BegrunnelseTekst>
             ),
         })) ?? [];
+    let godkjenninger: LoggHendelse[] = [];
+    if (aktivVedtaksperiode?.automatiskBehandlet) {
+        godkjenninger = [
+            {
+                id: 'automatisk',
+                dato: aktivVedtaksperiode.godkjenttidspunkt!.format(NORSK_DATOFORMAT),
+                navn: 'Automatisk godkjent',
+                type: LoggType.Historikk,
+            },
+        ];
+    }
+    if (aktivVedtaksperiode?.godkjentAv) {
+        godkjenninger = [
+            {
+                id: 'sendt-til-utbetaling',
+                dato: aktivVedtaksperiode.godkjenttidspunkt!.format(NORSK_DATOFORMAT),
+                navn: 'Sendt til utbetaling',
+                type: LoggType.Historikk,
+                beskrivelse: <BegrunnelseTekst>{aktivVedtaksperiode.godkjentAv}</BegrunnelseTekst>,
+            },
+        ];
+    }
 
-    const hendelser = [...dokumenter, ...risikovurdering, ...overstyringer].sort((a, b) =>
+    const hendelser = [...dokumenter, ...risikovurdering, ...overstyringer, ...godkjenninger].sort((a, b) =>
         somNorskDato(a.dato).isAfter(somNorskDato(b.dato)) ? -1 : 1
     );
 

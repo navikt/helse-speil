@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
-import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
 import { Grid } from '../../../components/Grid';
+import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 
 export const StyledUbehandletInnhold = styled(Grid)`
     justify-content: start;
 `;
 
-export const StyledBehandletInnhold = styled(BehandletInnhold)`
+export const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 4rem;
     width: max-content;
 `;

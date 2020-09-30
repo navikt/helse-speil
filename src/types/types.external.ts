@@ -308,6 +308,7 @@ export interface SpesialistVedtaksperiode {
     utbetalingstidslinje: SpleisUtbetalingsdag[];
     utbetalinger?: SpleisUtbetalinger;
     sykdomstidslinje: SpleisSykdomsdag[];
+    automatiskBehandlet?: boolean | null;
     godkjentAv?: string;
     godkjenttidspunkt?: string;
     vilkår: SpleisVilkår | null;

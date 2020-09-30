@@ -51,6 +51,8 @@ const filenameForPersonId = (id: string) => {
         case '12345':
         case '01010025676':
             return 'durek_med-overstyringer.json';
+        case '102030':
+            return 'emma-tallulah_til-utbetaling-automatisk-behandlet.json';
         default:
             return 'håkon_3perioder_første_periode_kort.json';
     }

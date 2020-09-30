@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { PersonContext } from '../../../context/PersonContext';
 import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
-import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
 import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
@@ -10,8 +9,9 @@ import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
 import { Periodetype } from 'internal-types';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
+import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 
-const StyledBehandletInnhold = styled(BehandletInnhold)`
+const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;
     width: max-content;
 `;
@@ -55,6 +55,7 @@ const Sykepengegrunnlag = () => {
                         tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
                         saksbehandler={førstePeriode?.godkjentAv!}
                         vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
+                        automatiskBehandlet={førstePeriode.automatiskBehandlet}
                     >
                         <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                     </StyledBehandletInnhold>

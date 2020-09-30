@@ -3,13 +3,13 @@ import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
 import { PersonContext } from '../../../context/PersonContext';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';
-import BehandletInnhold from '@navikt/helse-frontend-behandlet-innhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Periodetype } from 'internal-types';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
+import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 
-const StyledBehandletInnhold = styled(BehandletInnhold)`
+const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;
     width: max-content;
 `;
@@ -39,8 +39,9 @@ const Inntektskilder = () => {
                 ) : (
                     <StyledBehandletInnhold
                         tittel={`Inntekt vurdert første sykdomsdag - ${førsteFraværsdag}`}
-                        saksbehandler={førstePeriode?.godkjentAv!}
+                        saksbehandler={førstePeriode?.godkjentAv}
                         vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
+                        automatiskBehandlet={førstePeriode.automatiskBehandlet}
                     >
                         <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
                     </StyledBehandletInnhold>

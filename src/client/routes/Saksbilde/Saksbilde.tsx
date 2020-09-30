@@ -11,7 +11,7 @@ import Inntektskilder from './Inntektskilder/Inntektskilder';
 import Sykepengegrunnlag from './Sykepengegrunnlag';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import Utbetalingsoversikt from './Utbetalingsoversikt';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { Tidslinje } from '../../components/tidslinje';
 import { authState } from '../../state/authentication';
 import { Personlinje } from '../../components/Personlinje';

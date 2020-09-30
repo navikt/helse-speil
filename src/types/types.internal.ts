@@ -179,6 +179,7 @@ export interface Vedtaksperiode {
     utbetalingsreferanse?: string;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
+    automatiskBehandlet: boolean;
     godkjentAv?: string;
     godkjenttidspunkt?: Dayjs;
     vilkår?: Vilkår;

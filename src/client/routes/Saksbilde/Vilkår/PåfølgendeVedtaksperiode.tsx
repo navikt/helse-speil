@@ -26,6 +26,7 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
                 vedtaksperiode.vilkår!.dagerIgjen?.førsteFraværsdag
             )}`}
             vurderingsdato={formatterDato(vedtaksperiode.godkjenttidspunkt)}
+            automatiskBehandlet={vedtaksperiode.automatiskBehandlet}
         >
             <Grid gridTemplateColumns={'35rem auto'}>
                 <FlexColumn>

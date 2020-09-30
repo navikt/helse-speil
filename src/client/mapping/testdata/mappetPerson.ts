@@ -547,6 +547,7 @@ export const mappetPerson: Person = {
                     },
                     risikovurdering: undefined,
                     simuleringsdata: undefined,
+                    automatiskBehandlet: false,
                 },
             ],
         },

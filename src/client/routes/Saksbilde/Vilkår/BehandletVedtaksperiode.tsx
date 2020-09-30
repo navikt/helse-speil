@@ -34,13 +34,14 @@ const BehandletVedtaksperiodeWrapper = ({
         førsteVedtaksperiode.vilkår?.dagerIgjen?.førsteFraværsdag.format(NORSK_DATOFORMAT) ?? 'Ukjent dato';
     return (
         <StyledBehandletInnhold
-            saksbehandler={aktivVedtaksperiode.godkjentAv!}
+            saksbehandler={aktivVedtaksperiode.godkjentAv}
             tittel={`Vilkår vurdert første sykdomsdag - ${førsteFraværsdag}`}
             vurderingsdato={
                 førsteVedtaksperiode?.godkjenttidspunkt
                     ? dayjs(førsteVedtaksperiode?.godkjenttidspunkt).format(NORSK_DATOFORMAT)
                     : 'ukjent'
             }
+            automatiskBehandlet={aktivVedtaksperiode.automatiskBehandlet}
         >
             {children}
         </StyledBehandletInnhold>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
 import Panel from 'nav-frontend-paneler';
 import NavFrontendSpinner from 'nav-frontend-spinner';

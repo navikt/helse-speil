@@ -108,7 +108,7 @@ const appendTilstand = async ({ unmapped, partial }: PartialMappingResult): Prom
             (inneholderAnnullerteDager(unmapped) && Vedtaksperiodetilstand.Annullert) ||
             Vedtaksperiodetilstand[unmapped.tilstand] ||
             Vedtaksperiodetilstand.Ukjent,
-        behandlet: !!unmapped.godkjentAv,
+        behandlet: !!unmapped.godkjentAv || !!unmapped.automatiskBehandlet,
         ...(unmapped.godkjenttidspunkt && { godkjenttidspunkt: somKanskjeDato(unmapped.godkjenttidspunkt) }),
         forlengelseFraInfotrygd: mapForlengelseFraInfotrygd(unmapped.forlengelseFraInfotrygd),
     },
@@ -270,6 +270,17 @@ const appendSykepengegrunnlag = async ({ unmapped, partial }: PartialMappingResu
     },
 });
 
+const appendAutomatiskBehandlet = async ({
+    unmapped,
+    partial,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        automatiskBehandlet: unmapped.automatiskBehandlet === true,
+    },
+});
+
 const tilhørerVedtaksperiode = (partial: Partial<Vedtaksperiode>, overstyring: SpesialistOverstyring) =>
     overstyring.overstyrteDager
         .map((dag) => dayjs(dag.dato))
@@ -309,5 +320,6 @@ export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<Vedt
         .then(appendAktivitetslogg)
         .then(appendRisikovurdering)
         .then(appendSykepengegrunnlag)
+        .then(appendAutomatiskBehandlet)
         .then(finalize);
 };

@@ -1,6 +1,14 @@
+//@ts-nocheck
 import * as React from 'react';
 
-class BehandletInnhold extends React.Component {
+export enum Varseltype {
+    Info = 'info',
+    Suksess = 'suksess',
+    Advarsel = 'advarsel',
+    Feil = 'feil',
+}
+
+export class BehandletVarsel extends React.Component {
     static setAppElement = (string) => null;
 
     constructor(props) {
@@ -16,5 +24,3 @@ class BehandletInnhold extends React.Component {
         );
     }
 }
-
-export default BehandletInnhold;

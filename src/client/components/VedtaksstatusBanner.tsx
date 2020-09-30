@@ -3,7 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { toastsState, useFjernEnToast } from '../state/toastsState';
 import { vedtaksstatusToastKey } from '../routes/Oversikt/VedtaksstatusToast';
 import { AnimatePresence, motion } from 'framer-motion';
-import Varsel, { Varseltype } from '@navikt/helse-frontend-varsel';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
 
 const StyledVarsel = styled(Varsel)`
