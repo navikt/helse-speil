@@ -30,7 +30,7 @@ const tilSykdomsdag = (dato: Dayjs, grad: number = 100): SpleisSykdomsdag => ({
 });
 
 export const sykdomstidslinje = (fom: Dayjs, tom: Dayjs): SpleisSykdomsdag[] =>
-    new Array(tom.diff(fom, 'day'))
+    new Array(tom.diff(fom, 'day') + 1)
         .fill({})
         .map((_, i) => fom.add(i, 'day'))
         .map((datoen) => tilSykdomsdag(datoen));

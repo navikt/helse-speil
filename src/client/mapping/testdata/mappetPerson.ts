@@ -50,6 +50,7 @@ export const mappetPerson: Person = {
                             maksdato: dayjs('2020-10-07T00:00:00.000Z'),
                             oppfylt: true,
                             tidligerePerioder: [],
+                            gjenståendeDager: undefined,
                         },
                         opptjening: {
                             antallOpptjeningsdagerErMinst: 3539,
@@ -57,8 +58,8 @@ export const mappetPerson: Person = {
                             opptjeningFra: dayjs('2010-04-24T00:00:00.000Z'),
                         },
                         søknadsfrist: {
-                            sendtNav: dayjs('2020-01-31T00:00:00.000Z'),
-                            søknadTom: dayjs('2020-01-30T00:00:00.000Z'),
+                            sendtNav: dayjs('2020-02-01T00:00:00.000Z'),
+                            søknadTom: dayjs('2020-01-31T00:00:00.000Z'),
                             oppfylt: true,
                         },
                         sykepengegrunnlag: {
@@ -75,16 +76,16 @@ export const mappetPerson: Person = {
                             id: 'c554ee9b-30ca-4c7f-adce-c0224108e83a',
                             type: Kildetype.Sykmelding,
                             fom: dayjs('2020-01-01T00:00:00.000Z'),
-                            tom: dayjs('2020-01-30T00:00:00.000Z'),
-                            rapportertDato: dayjs('2020-02-14T00:00:00.000Z'),
+                            tom: dayjs('2020-01-31T00:00:00.000Z'),
+                            rapportertDato: dayjs('2020-02-15T00:00:00.000Z'),
                         },
                         {
                             id: '726e57d9-7844-4a28-886b-8485dbdbd4d2',
                             type: Kildetype.Søknad,
                             fom: dayjs('2020-01-01T00:00:00.000Z'),
-                            tom: dayjs('2020-01-30T00:00:00.000Z'),
-                            sendtNav: dayjs('2020-02-14T00:00:00.000Z'),
-                            rapportertDato: dayjs('2020-02-14T00:00:00.000Z'),
+                            tom: dayjs('2020-01-31T00:00:00.000Z'),
+                            sendtNav: dayjs('2020-02-15T00:00:00.000Z'),
+                            rapportertDato: dayjs('2020-02-15T00:00:00.000Z'),
                         },
                         {
                             id: '09851096-bcba-4c7a-8dc0-a1617a744f1f',
@@ -118,11 +119,13 @@ export const mappetPerson: Person = {
                             gradering: 100,
                             type: Dagtype.Helg,
                             dato: dayjs('2020-01-04T00:00:00.000Z'),
+                            utbetaling: undefined,
                         },
                         {
                             gradering: 100,
                             type: Dagtype.Helg,
                             dato: dayjs('2020-01-05T00:00:00.000Z'),
+                            utbetaling: undefined,
                         },
                         {
                             gradering: 100,
@@ -158,11 +161,13 @@ export const mappetPerson: Person = {
                             gradering: 100,
                             type: Dagtype.Helg,
                             dato: dayjs('2020-01-11T00:00:00.000Z'),
+                            utbetaling: undefined,
                         },
                         {
                             gradering: 100,
                             type: Dagtype.Helg,
                             dato: dayjs('2020-01-12T00:00:00.000Z'),
+                            utbetaling: undefined,
                         },
                         {
                             gradering: 100,
@@ -198,11 +203,13 @@ export const mappetPerson: Person = {
                             gradering: 100,
                             type: Dagtype.Helg,
                             dato: dayjs('2020-01-18T00:00:00.000Z'),
+                            utbetaling: undefined,
                         },
                         {
                             gradering: 100,
                             type: Dagtype.Helg,
                             dato: dayjs('2020-01-19T00:00:00.000Z'),
+                            utbetaling: undefined,
                         },
                         {
                             gradering: 100,
@@ -238,11 +245,13 @@ export const mappetPerson: Person = {
                             gradering: 100,
                             type: Dagtype.Helg,
                             dato: dayjs('2020-01-25T00:00:00.000Z'),
+                            utbetaling: undefined,
                         },
                         {
                             gradering: 100,
                             type: Dagtype.Helg,
                             dato: dayjs('2020-01-26T00:00:00.000Z'),
+                            utbetaling: undefined,
                         },
                         {
                             gradering: 100,
@@ -266,6 +275,12 @@ export const mappetPerson: Person = {
                             gradering: 100,
                             type: Dagtype.Syk,
                             dato: dayjs('2020-01-30T00:00:00.000Z'),
+                            utbetaling: 1500,
+                        },
+                        {
+                            gradering: 100,
+                            type: Dagtype.Syk,
+                            dato: dayjs('2020-01-31T00:00:00.000Z'),
                             utbetaling: 1500,
                         },
                     ],
@@ -480,6 +495,13 @@ export const mappetPerson: Person = {
                             kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
                             gradering: 100,
                         },
+                        {
+                            type: Dagtype.Syk,
+                            dato: dayjs('2020-01-31T00:00:00.000Z'),
+                            kilde: Kildetype.Sykmelding,
+                            kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
+                            gradering: 100,
+                        },
                     ],
                     periodetype: Periodetype.Førstegangsbehandling,
                     utbetalinger: {
@@ -488,16 +510,17 @@ export const mappetPerson: Person = {
                             linjer: [
                                 {
                                     fom: dayjs('2020-01-01T00:00:00.000Z'),
-                                    tom: dayjs('2020-01-30T00:00:00.000Z'),
+                                    tom: dayjs('2020-01-31T00:00:00.000Z'),
                                     dagsats: 1500,
                                     grad: 100,
                                 },
                             ],
                         },
+                        personUtbetaling: undefined,
                     },
                     oppsummering: {
-                        antallUtbetalingsdager: 22,
-                        totaltTilUtbetaling: 33000,
+                        antallUtbetalingsdager: 23,
+                        totaltTilUtbetaling: 34500,
                     },
                     overstyringer: [],
                     inntektskilder: [
@@ -529,6 +552,7 @@ export const mappetPerson: Person = {
         },
     ],
     infotrygdutbetalinger: [],
+    tildeltTil: undefined,
 };
 
 const arbeidsgiver = (): Arbeidsgiver => mappetPerson.arbeidsgivere[0];
