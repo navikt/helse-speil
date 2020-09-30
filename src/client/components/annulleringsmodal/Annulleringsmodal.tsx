@@ -4,17 +4,17 @@ import { Input } from 'nav-frontend-skjema';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { AnnulleringDTO } from '../../io/types';
-import { Arbeidsgiver, Person, Utbetaling, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, Person, UferdigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
 import { postAnnullering } from '../../io/http';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Annulleringsvarsel } from './Annulleringsvarsel';
-import { AnnullerbarUtbetaling } from './AnnullerbarUtbetaling';
 import { Modal } from '../Modal';
 import { organisasjonsnummerForPeriode } from '../../mapping/selectors';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '../../utils/date';
 import { somPenger } from '../../utils/locale';
+import dayjs from 'dayjs';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -61,14 +61,16 @@ const TilAnnullering = styled.div`
     margin-bottom: 2rem;
 `;
 
-export const totalUtbetalingerForArbeidsgiver = (vedtaksperioder: Vedtaksperiode[]) =>
-    vedtaksperioder.reduce(
-        (total, periode: Vedtaksperiode) =>
-            total + periode.utbetalingstidslinje?.reduce((total, dag) => total + (dag.utbetaling ?? 0), 0) ?? 0,
-        0
-    );
+export const totaltTilUtbetaling = (vedtaksperioder: (Vedtaksperiode | UferdigVedtaksperiode)[]): number =>
+    vedtaksperioder.reduce((total, periode: Vedtaksperiode) => {
+        const totaltForPeriode = periode.utbetalingstidslinje?.reduce((total, dag) => total + (dag.utbetaling ?? 0), 0);
+        return total + (totaltForPeriode ? totaltForPeriode : 0);
+    }, 0);
 
-export const tom = (arbeidsgiver: Arbeidsgiver) => arbeidsgiver.vedtaksperioder[0].tom.format(NORSK_DATOFORMAT);
+const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
+
+export const sisteDatoForArbeidsgiver = (arbeidsgiver: Arbeidsgiver): string =>
+    [...arbeidsgiver.vedtaksperioder].sort(reversert)[0].tom.format(NORSK_DATOFORMAT);
 
 interface Props {
     person: Person;
@@ -100,6 +102,7 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
         organisasjonsnummer: organisasjonsnummer,
         dager: dager.map((dag) => dag.dato.format(ISO_DATOFORMAT)),
     });
+
     const sendAnnullering = (annullering: AnnulleringDTO) => {
         setIsSending(true);
         setPostAnnulleringFeil(undefined);
@@ -109,7 +112,7 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
             .finally(() => setIsSending(false));
     };
 
-    const valider = () => {};
+    const submit = () => sendAnnullering(annullering());
 
     return (
         <FormProvider {...form}>
@@ -119,14 +122,16 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
                 contentLabel="Feilmelding"
                 onRequestClose={onClose}
             >
-                <Form onSubmit={form.handleSubmit(valider)}>
+                <Form onSubmit={form.handleSubmit(submit)}>
                     <Annulleringsvarsel />
                     <Tittel>Annullering</Tittel>
 
                     <TilAnnullering>
-                        <Normaltekst>{`Periode som annulleres: ${fom} - ${tom(person.arbeidsgivere[0])}`}</Normaltekst>
+                        <Normaltekst>{`Periode som annulleres: ${fom} - ${sisteDatoForArbeidsgiver(
+                            person.arbeidsgivere[0]
+                        )}`}</Normaltekst>
                         <Normaltekst>
-                            Totalbeløp: {somPenger(totalUtbetalingerForArbeidsgiver(vedtaksperioderTilAnnullering))}
+                            Totalbeløp: {somPenger(totaltTilUtbetaling(vedtaksperioderTilAnnullering))}
                         </Normaltekst>
                     </TilAnnullering>
 
@@ -141,7 +146,7 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
                         inputRef={form.register({ required: true, validate: (value: string) => value === ident })}
                         feil={form.errors?.failsafe && 'Fyll inn din NAV brukerident'}
                     />
-                    <AnnullerKnapp spinner={isSending} autoDisableVedSpinner onClick={valider}>
+                    <AnnullerKnapp spinner={isSending} autoDisableVedSpinner onClick={submit}>
                         Annullér
                     </AnnullerKnapp>
                     <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
