@@ -15,6 +15,7 @@ import { useKategoriserteVilkår, KategoriserteVilkår } from './useKategorisert
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Vilkårstype } from '../../../mapping/vilkår';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
+import Vilkårsgruppe from './Vilkårsgrupper';
 
 const Footer = styled(Navigasjonsknapper)`
     margin: 2.5rem 2rem 2rem;
@@ -31,9 +32,9 @@ const filtrerBehandledeVilkår = (vilkår: Vilkårdata): boolean =>
 
 const tilKomponent = (vilkår: Vilkårdata): ReactNode => vilkår.komponent;
 
-const oppfylteVilkårMedInstitusjon = (vilkårkomponenter: ReactNode[], vedtaksperiode: Vedtaksperiode) => [
+const oppfylteVilkårMedInstitusjon = (vilkårkomponenter: ReactNode[]) => [
     ...vilkårkomponenter,
-    institusjonsopphold(vedtaksperiode), //TODO: Erstatte med <Vilkårsgruppe tittel="Ingen institusjonsopphold" paragraf="§ 8-53 og 8-54" ikontype="ok" /> etter 4/10
+    <Vilkårsgruppe tittel="Ingen institusjonsopphold" paragraf="§ 8-53 og 8-54" ikontype="ok" />,
 ];
 
 interface VanligeVilkårProps {
@@ -62,7 +63,7 @@ const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }
             return (
                 <Førstegangsbehandling
                     ikkeOppfylteVilkår={ikkeOppfylteVilkår.map(tilKomponent)}
-                    oppfylteVilkår={oppfylteVilkårMedInstitusjon(oppfylteVilkår.map(tilKomponent), aktivVedtaksperiode)}
+                    oppfylteVilkår={oppfylteVilkårMedInstitusjon(oppfylteVilkår.map(tilKomponent))}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
                 />
             );
@@ -72,8 +73,7 @@ const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }
                     førsteVedtaksperiode={førsteVedtaksperiode}
                     ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                     oppfylteVilkår={oppfylteVilkårMedInstitusjon(
-                        oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent),
-                        aktivVedtaksperiode
+                        oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)
                     )}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
                 />
@@ -84,8 +84,7 @@ const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }
                     førsteVedtaksperiode={førsteVedtaksperiode}
                     ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
                     oppfylteVilkår={oppfylteVilkårMedInstitusjon(
-                        oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent),
-                        aktivVedtaksperiode
+                        oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)
                     )}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
                     forlengelseFraInfotrygd={true}
