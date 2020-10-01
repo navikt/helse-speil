@@ -31,7 +31,7 @@ export const Radnavn = ({ infotrygdrader }: RadnavnProps) => {
     const { personTilBehandling } = useContext(PersonContext);
     const radnavnArbeidsgiver =
         personTilBehandling?.arbeidsgivere.map((arbeidsgiver) =>
-            arbeidsgiver.navn !== 'ukjent' ? arbeidsgiver.navn : arbeidsgiver.organisasjonsnummer
+            arbeidsgiver.navn.toLowerCase() !== 'ukjent' ? arbeidsgiver.navn : arbeidsgiver.organisasjonsnummer
         ) ?? [];
 
     const radnavnInfotrygd = Object.keys(infotrygdrader).map((organisasjonsnummer) =>

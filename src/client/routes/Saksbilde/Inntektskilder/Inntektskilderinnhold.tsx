@@ -95,12 +95,6 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 </Tabell>
             </FlexColumn>
             <FlexColumn>
-                <Tittel tag="h3">{t('inntektskilder.kilder')}</Tittel>
-                <Liste>
-                    <Ikonrad tekst={t('inntektskilder.frilans')} ikontype="advarsel" />
-                    <Ikonrad tekst={t('inntektskilder.næring')} ikontype="advarsel" />
-                </Liste>
-                <Divider />
                 <Tittel tag="h3">{t('inntektskilder.sjekket_ytelser')}</Tittel>
                 <Liste>
                     <Ikonrad tekst={t('inntektskilder.aap')} ikontype="ok" />
