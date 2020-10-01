@@ -18,7 +18,8 @@ export class BehandletVarsel extends React.Component {
     render() {
         return (
             <div>
-                <p>Behandlet innhold</p>
+                {' '}
+                {this.props.automatiskBehandlet ? <p>Automatisk godkjent</p> : <p>Behandlet innhold</p>}
                 {this.props.children}
             </div>
         );

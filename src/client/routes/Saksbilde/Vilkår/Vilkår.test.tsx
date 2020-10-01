@@ -46,6 +46,7 @@ const vilkårTilVurdering = () => screen.queryByText('Vilkår systemet ikke vurd
 const automatiskVurderteVilkår = () => screen.queryByText('Vurderte vilkår');
 const behandletAvInfotrygd = () => screen.queryByText('Behandlet av infotrygd');
 const behandletInnhold = () => screen.queryByText('Behandlet innhold');
+const automatiskBehandletInnhold = () => screen.queryByText('Automatisk godkjent');
 
 const defaultPersonContextValue = {
     markerPersonSomTildelt: (_: string) => null,
@@ -150,6 +151,24 @@ describe('Vilkår', () => {
             expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
             expect(behandletInnhold()).toBeInTheDocument();
             expect(behandletAvInfotrygd()).toBeInTheDocument();
+        });
+        test('og er forlengelse som er automatisk behandlet', async () => {
+            const person = await personTilBehandling();
+            // const personMedToVedtaksperioder = {...person, arbeidsgivere: [{...person.arbeidsgivere[0], vedtaksperioder: [{}]}]}
+            const vedtaksperiode = {
+                ...(await enSpeilVedtaksperiode()),
+                forlengelseFraInfotrygd: false,
+                behandlet: true,
+                automatiskBehandlet: true,
+                id: '123',
+            };
+
+            renderVilkår(person, vedtaksperiode);
+
+            expect(vilkårTilVurdering()).not.toBeInTheDocument();
+            expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
+            expect(behandletInnhold()).toBeInTheDocument();
+            expect(automatiskBehandletInnhold()).toBeInTheDocument();
         });
     });
 });

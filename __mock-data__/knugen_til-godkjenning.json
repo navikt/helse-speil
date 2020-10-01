@@ -502,7 +502,8 @@
                             "sykepengegrunnlag": 372000.0,
                             "grunnbeløp": 93634,
                             "oppfylt": true
-                        }
+                        },
+                        "medlemskapstatus": "JA"
                     },
                     "førsteFraværsdag": "2018-01-01",
                     "inntektFraInntektsmelding": 31000.0,

@@ -1,5 +1,5 @@
 import { somDato } from '../../client/mapping/vedtaksperiode';
-import { SpleisSykdomsdag, SpleisSykdomsdagtype } from 'external-types';
+import { SpleisMedlemskapstatus, SpleisSykdomsdag, SpleisSykdomsdagtype } from 'external-types';
 import dayjs from 'dayjs';
 
 export const vilkår = (tidslinje: SpleisSykdomsdag[]) => {
@@ -34,6 +34,7 @@ export const vilkår = (tidslinje: SpleisSykdomsdag[]) => {
             grunnbeløp: 99858,
             oppfylt: true,
         },
+        medlemskapstatus: SpleisMedlemskapstatus.JA,
     };
 };
 
@@ -43,4 +44,5 @@ export const dataForVilkårsvurdering = () => ({
     beregnetÅrsinntektFraInntektskomponenten: 372000.0,
     erEgenAnsatt: false,
     harOpptjening: true,
+    medlemskapstatus: SpleisMedlemskapstatus.JA,
 });

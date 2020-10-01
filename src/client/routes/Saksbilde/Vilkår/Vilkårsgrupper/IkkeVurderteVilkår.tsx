@@ -37,7 +37,6 @@ const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår }: VilkårSystemetIkk
         </IkkeVurderteVilkårTittel>
         <Vilkårgrid>
             <Vilkårsgrupperad label="Arbeidsuførhet">§ 8-4</Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Medlemskap">§ 2</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Medvirkning">§ 8-8</Vilkårsgrupperad>
             {ikkeVurderteVilkår.map((v) => (
                 <Vilkårsgrupperad key={v.label} label={v.label}>

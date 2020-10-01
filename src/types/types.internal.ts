@@ -40,6 +40,7 @@ export interface Vilkår {
     sykepengegrunnlag: SykepengegrunnlagVilkår;
     opptjening?: Opptjening | Basisvilkår;
     søknadsfrist?: Søknadsfrist;
+    medlemskap?: Basisvilkår;
 }
 
 export interface SykepengegrunnlagVilkår {

@@ -18,7 +18,7 @@ interface FerdigbehandledeVilkårProps {
     vedtaksperiode: Vedtaksperiode;
 }
 
-const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProps) => (
+export const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProps) => (
     <>
         <StyledBehandletInnhold
             saksbehandler={vedtaksperiode.godkjentAv!}
@@ -37,6 +37,7 @@ const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilkårProp
                         sykepengegrunnlagVilkår={vedtaksperiode.vilkår!.sykepengegrunnlag}
                         alderSisteSykedag={vedtaksperiode.vilkår!.alder.alderSisteSykedag}
                     />
+                    <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" ikontype="ok" />
                 </FlexColumn>
             </Grid>
         </StyledBehandletInnhold>

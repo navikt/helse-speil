@@ -1,5 +1,18 @@
-import { Alder, DagerIgjen, Opptjening, SykepengegrunnlagVilkår, Søknadsfrist, Vilkår } from 'internal-types';
-import { SpesialistVedtaksperiode, SpleisForlengelseFraInfotrygd, SpleisVilkår } from 'external-types';
+import {
+    Alder,
+    Basisvilkår,
+    DagerIgjen,
+    Opptjening,
+    SykepengegrunnlagVilkår,
+    Søknadsfrist,
+    Vilkår,
+} from 'internal-types';
+import {
+    SpesialistVedtaksperiode,
+    SpleisForlengelseFraInfotrygd,
+    SpleisMedlemskapstatus,
+    SpleisVilkår,
+} from 'external-types';
 import { somDato, somKanskjeDato } from './vedtaksperiode';
 
 export enum Vilkårstype {
@@ -8,6 +21,7 @@ export enum Vilkårstype {
     Opptjeningstid = 'opptjening',
     KravTilSykepengegrunnlag = 'sykepengegrunnlag',
     DagerIgjen = 'dagerIgjen',
+    Medlemskap = 'medlemskap',
 }
 
 export interface VurdertVilkår {
@@ -55,6 +69,13 @@ const opptjeningVilkår = (vilkår: SpleisVilkår): Opptjening | undefined =>
           }
         : undefined;
 
+const medlemskapVilkår = (vilkår: SpleisVilkår): Basisvilkår | undefined =>
+    vilkår.medlemskapstatus === SpleisMedlemskapstatus.JA
+        ? {
+              oppfylt: true,
+          }
+        : undefined;
+
 export const mapVilkår = (unmapped: SpesialistVedtaksperiode): Vilkår | undefined =>
     (unmapped.vilkår && {
         alder: alderVilkår(unmapped.vilkår),
@@ -65,5 +86,6 @@ export const mapVilkår = (unmapped: SpesialistVedtaksperiode): Vilkår | undefi
                 : opptjeningVilkår(unmapped.vilkår),
         søknadsfrist: søknadsfristVilkår(unmapped.vilkår),
         sykepengegrunnlag: sykepengegrunnlagVilkår(unmapped.vilkår),
+        medlemskap: medlemskapVilkår(unmapped.vilkår),
     }) ??
     undefined;

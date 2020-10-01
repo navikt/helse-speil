@@ -126,6 +126,9 @@ export const sykepengegrunnlag = (vilkår: Vilkår): ReactNode => (
 export const dagerIgjen = ({ dagerIgjen }: Vilkår): ReactNode =>
     dagerIgjen && <DagerIgjen {...dagerIgjen} key="dagerigjen" />;
 
+export const medlemskap = ({ medlemskap }: Vilkår): ReactNode =>
+    medlemskap && medlemskap.oppfylt && <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" ikontype="ok" />;
+
 export default {
     Alder,
     Søknadsfrist,

@@ -456,7 +456,7 @@
                         }
                     ],
                     "godkjentAv": "en_saksbehandler_ident",
-                    "godkjenttidspunkt": "2020-03-31T10:36:27.42158",
+                    "godkjenttidspunkt": "2020-03-15T10:36:27.42158",
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 11,
@@ -748,7 +748,7 @@
                             "grad": 100.0
                         }
                     ],
-                    "godkjentAv": "en_saksbehandler_ident",
+                    "godkjentAv": "en_annen_saksbehandler_ident",
                     "godkjenttidspunkt": "2020-03-31T10:36:27.434328",
                     "vilkår": {
                         "sykepengedager": {

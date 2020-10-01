@@ -67,6 +67,7 @@ export const mappetPerson: Person = {
                             oppfylt: true,
                             grunnebeløp: 99858,
                         },
+                        medlemskap: { oppfylt: true },
                     },
                     tilstand: Vedtaksperiodetilstand.Oppgaver,
                     behandlet: false,

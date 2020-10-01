@@ -189,6 +189,7 @@ export interface SpleisDataForVilkårsvurdering {
     avviksprosent: number;
     antallOpptjeningsdagerErMinst: number;
     harOpptjening: boolean;
+    medlemskapstatus: SpleisMedlemskapstatus;
 }
 
 export interface SpleisDataForSimulering {
@@ -242,6 +243,7 @@ export interface SpleisVilkår {
     opptjening: SpleisOpptjening;
     søknadsfrist: SpleisSøknadsfrist;
     sykepengegrunnlag: SpleisSykepengegrunnlag;
+    medlemskapstatus: SpleisMedlemskapstatus;
 }
 
 export interface SpleisSykepengedager {
@@ -275,6 +277,12 @@ interface SpleisSykepengegrunnlag {
     sykepengegrunnlag?: number;
     grunnbeløp: number;
     oppfylt?: boolean;
+}
+
+export enum SpleisMedlemskapstatus {
+    JA = 'JA',
+    NEI = 'NEI',
+    VET_IKKE = 'VET_IKKE',
 }
 
 export type SpleisAlvorlighetsgrad = 'W';
