@@ -58,8 +58,6 @@ const resources: Resource = {
                 kilder: 'Inntektskilde som må sjekkes manuelt',
                 sjekket_ytelser: 'Ytelser som er sjekket',
                 ikke_sjekket_ytelser: 'Ytelser som må sjekkes manuelt',
-                frilans: 'Frilansinntekt',
-                næring: 'Næringsinntekt',
                 foreldrepenger: 'Ingen foreldrepenger',
                 svangerskapspenger: 'Ingen svangerskapspenger',
                 aap: 'Arbeidsavklaringspenger',

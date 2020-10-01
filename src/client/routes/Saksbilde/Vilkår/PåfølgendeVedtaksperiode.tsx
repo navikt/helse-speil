@@ -11,6 +11,7 @@ import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Opptjening, Vedtaksperiode } from 'internal-types';
 import { Strek, StyledBehandletAvInfotrygd, StyledBehandletInnhold, Vilkårinnhold } from './Vilkår.styles';
 import { FlexColumn } from '../../../components/Flex';
+import { institusjonsopphold } from './BehandletVedtaksperiode';
 
 const formatterDato = (dato?: Dayjs) => dato?.format(NORSK_DATOFORMAT) ?? 'Dato ikke funnet';
 
@@ -31,6 +32,7 @@ export const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilk
             <Grid gridTemplateColumns={'35rem auto'}>
                 <FlexColumn>
                     <OptionalOpptjeningstid vedtaksperiode={vedtaksperiode} />
+                    {institusjonsopphold(vedtaksperiode)}
                 </FlexColumn>
                 <FlexColumn>
                     <Vilkårsgrupper.KravTilSykepengegrunnlag

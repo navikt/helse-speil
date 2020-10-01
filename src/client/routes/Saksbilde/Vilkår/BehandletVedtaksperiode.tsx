@@ -51,6 +51,11 @@ const BehandletVedtaksperiodeWrapper = ({
     );
 };
 
+export const institusjonsopphold = (vedtaksperiode: Vedtaksperiode) =>
+    vedtaksperiode.godkjenttidspunkt?.isAfter(dayjs('10-04-2020')) && ( //Ble lagt på sjekk i spleis 30/09/20
+        <Vilkårsgruppe tittel="Ingen institusjonsopphold" paragraf="§ 8-53 og 8-54" ikontype="ok" />
+    );
+
 export const BehandletVedtaksperiode = ({
     aktivVedtaksperiode,
     førsteVedtaksperiode,
@@ -72,6 +77,7 @@ export const BehandletVedtaksperiode = ({
                             <Vilkårsgrupper.Søknadsfrist {...vilkår.søknadsfrist} />
                         </FlexColumn>
                         <FlexColumn>
+                            {institusjonsopphold(aktivVedtaksperiode)}
                             <Vilkårsgrupper.DagerIgjen {...vilkår.dagerIgjen!} />
                         </FlexColumn>
                     </Innhold>
@@ -96,6 +102,7 @@ export const BehandletVedtaksperiode = ({
                         <Vilkårsgrupper.Søknadsfrist {...vilkår.søknadsfrist} />
                     </FlexColumn>
                     <FlexColumn>
+                        {institusjonsopphold(aktivVedtaksperiode)}
                         {vilkår.opptjening ? (
                             <Vilkårsgrupper.Opptjeningstid
                                 opptjeningVilkår={vilkår.opptjening}
@@ -141,6 +148,7 @@ export const BehandletVedtaksperiodeFraInfotrygd = ({
                     </FlexColumn>
                     <FlexColumn>
                         <Vilkårsgruppe tittel="Medvirkning" paragraf="§ 8-8" ikontype="ok" />
+                        {institusjonsopphold(aktivVedtaksperiode)}
                         <Vilkårsgrupper.DagerIgjen {...vilkår.dagerIgjen!} />
                     </FlexColumn>
                 </Innhold>
