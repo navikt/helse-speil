@@ -18,6 +18,7 @@ import { useDebounce } from '../../hooks/useDebounce';
 const Container = styled.div`
     position: relative;
     overflow: hidden;
+    flex: 1;
 `;
 
 const Content = styled(Panel)`

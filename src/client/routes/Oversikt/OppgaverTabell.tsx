@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { filtreringState, sorteringState } from './state';
 import { oversiktsradRenderer, tilOversiktsrad } from './rader';
-import { Tabell, useTabell } from '@navikt/helse-frontend-tabell';
+import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { Oppgave } from '../../../types';
 import {
@@ -11,10 +11,9 @@ import {
     overgangFraInfotrygdFilter,
     ufordelteOppgaverFilter,
 } from './filtrering';
-import { sorterDateString, sorterTall, sorterTekstAlfabetisk, sorterTildeltTil } from './sortering';
-import { Paginering as PagineringObject } from '@navikt/helse-frontend-tabell/lib/paginering';
+import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
+import { Paginering as PagineringObject } from '@navikt/helse-frontend-tabell/lib/src/paginering';
 import { Paginering } from './Paginering';
-import { UseTabellPaginering } from '@navikt/helse-frontend-tabell/lib/useTabell';
 
 const Oversiktstabell = styled(Tabell)`
     table-layout: fixed;
