@@ -1,5 +1,5 @@
 import React from 'react';
-import { UseTabellPaginering } from '@navikt/helse-frontend-tabell/lib/useTabell';
+import { UseTabellPaginering } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { genererSidetall } from './sidetall';
 

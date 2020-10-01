@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
-import { Sortering } from '@navikt/helse-frontend-tabell/lib/sortering';
-import { Filtrering } from '@navikt/helse-frontend-tabell/lib/filtrering';
+import { Sortering } from '@navikt/helse-frontend-tabell/lib/src/sortering';
+import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
 
 export const sorteringState = atom<Sortering | undefined>({
     key: 'oversiktstabellState',
