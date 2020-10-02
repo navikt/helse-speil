@@ -14,6 +14,7 @@ import {
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
 import { Paginering as PagineringObject } from '@navikt/helse-frontend-tabell/lib/src/paginering';
 import { Paginering } from './Paginering';
+import { pagineringEnabled } from '../../featureToggles';
 
 const Oversiktstabell = styled(Tabell)`
     table-layout: fixed;
@@ -42,12 +43,10 @@ const Oversiktstabell = styled(Tabell)`
     }
 `;
 
-const erDev = () => location.hostname === 'speil.nais.preprod.local' || location.hostname === 'localhost';
-
-const defaultPaginering: PagineringObject | undefined = erDev()
+const defaultPaginering: PagineringObject | undefined = pagineringEnabled
     ? {
           sidenummer: 1,
-          antallRaderPerSide: 10,
+          antallRaderPerSide: 15,
       }
     : undefined;
 
@@ -86,7 +85,9 @@ export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => 
     return (
         <>
             <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
-            {erDev() && <Paginering antallOppgaver={oppgaver.length} {...(tabell.paginering as UseTabellPaginering)} />}
+            {pagineringEnabled && (
+                <Paginering antallOppgaver={oppgaver.length} {...(tabell.paginering as UseTabellPaginering)} />
+            )}
         </>
     );
 };
