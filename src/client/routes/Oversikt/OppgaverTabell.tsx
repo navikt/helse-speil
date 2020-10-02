@@ -86,7 +86,7 @@ export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => 
         <>
             <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
             {pagineringEnabled && (
-                <Paginering antallOppgaver={oppgaver.length} {...(tabell.paginering as UseTabellPaginering)} />
+                <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
             )}
         </>
     );
