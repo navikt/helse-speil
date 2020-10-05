@@ -76,6 +76,7 @@ const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }
                         oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)
                     )}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
+                    risikovurdering={aktivVedtaksperiode.risikovurdering}
                 />
             );
         case Periodetype.Infotrygdforlengelse:
@@ -88,6 +89,7 @@ const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }
                     )}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
                     forlengelseFraInfotrygd={true}
+                    risikovurdering={aktivVedtaksperiode.risikovurdering}
                 />
             );
     }

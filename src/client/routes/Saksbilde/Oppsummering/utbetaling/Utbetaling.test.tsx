@@ -38,7 +38,6 @@ const enSpeilVedtaksperiode = () =>
         overstyringer: [],
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
-        risikovurderingerForArbeidsgiver: [],
     });
 
 const enPersoninfo = () => ({

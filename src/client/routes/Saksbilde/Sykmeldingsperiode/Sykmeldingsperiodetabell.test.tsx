@@ -12,7 +12,6 @@ const enIkkeUtbetaltVedtaksperiode = () =>
     mapVedtaksperiode({
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
-        risikovurderingerForArbeidsgiver: [],
         overstyringer: [],
     });
 
@@ -20,7 +19,6 @@ const enUtbetaltVedtaksperiode = () =>
     mapVedtaksperiode({
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
-        risikovurderingerForArbeidsgiver: [],
         overstyringer: [],
         tilstand: SpleisVedtaksperiodetilstand.Utbetalt,
     });

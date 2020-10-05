@@ -153,10 +153,7 @@ interface Enhet {
 }
 
 export interface SpesialistRisikovurdering {
-    vedtaksperiodeId: string;
-    opprettet: string; // date time
-    samletScore: number;
-    begrunnelser: string[];
+    arbeidsuførhetvurdering: string[];
     ufullstendig: boolean;
 }
 
@@ -179,7 +176,6 @@ export interface SpesialistArbeidsgiver {
     organisasjonsnummer: string;
     vedtaksperioder: SpesialistVedtaksperiode[];
     navn: string;
-    risikovurderinger: SpesialistRisikovurdering[];
     overstyringer: SpesialistOverstyring[];
 }
 
@@ -330,6 +326,7 @@ export interface SpesialistVedtaksperiode {
     hendelser: SpleisHendelse[];
     utbetalingslinjer?: SpleisUtbetalingslinje[];
     aktivitetslogg: SpleisAktivitet[];
+    risikovurdering: SpesialistRisikovurdering;
 }
 
 export interface SpesialistInfotrygdutbetaling {

@@ -21,7 +21,6 @@ import { tilOverstyrtDag } from './overstyring';
 
 type UnmappedPeriode = SpesialistVedtaksperiode & {
     organisasjonsnummer: string;
-    risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[];
     overstyringer: SpesialistOverstyring[];
 };
 
@@ -251,9 +250,7 @@ const appendRisikovurdering = async ({ unmapped, partial }: PartialMappingResult
     unmapped,
     partial: {
         ...partial,
-        risikovurdering: unmapped.risikovurderingerForArbeidsgiver
-            .map((risikovurdering) => ({ ...risikovurdering, opprettet: somTidspunkt(risikovurdering.opprettet) }))
-            .find((risikovurdering) => risikovurdering.vedtaksperiodeId === unmapped.id),
+        risikovurdering: unmapped.risikovurdering !== null ? unmapped.risikovurdering : undefined,
     },
 });
 

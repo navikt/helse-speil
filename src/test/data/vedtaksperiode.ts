@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { sykdomstidslinje } from './sykdomstidslinje';
 import { utbetalingstidslinje } from './utbetalingstidslinje';
 import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
-import { dataForVilkårsvurdering, vilkår } from './vilkår';
+import { dataForVilkårsvurdering, risikovurdering, vilkår } from './vilkår';
 import { hendelser } from './hendelser';
 import {
     SpesialistOverstyring,
@@ -53,6 +53,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         aktivitetslogg: aktivitetsloggen,
         forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.NEI,
         periodetype: SpleisPeriodetype.FØRSTEGANGSBEHANDLING,
+        risikovurdering: risikovurdering(),
     };
 };
 
@@ -80,12 +81,10 @@ export const mappetVedtaksperiode = (
     fom: Dayjs = dayjs('2020-01-01'),
     tom: Dayjs = dayjs('2020-01-31'),
     organisasjonsnummer: string = 'et-organisasjonsnummer',
-    risikovurderingerForArbeidsgiver: SpesialistRisikovurdering[] = [],
     overstyringer: SpesialistOverstyring[] = []
 ): Promise<Vedtaksperiode> =>
     mapVedtaksperiode({
         ...umappetVedtaksperiode({ fom, tom }),
         organisasjonsnummer,
-        risikovurderingerForArbeidsgiver,
         overstyringer,
     });

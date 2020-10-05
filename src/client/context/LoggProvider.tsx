@@ -70,24 +70,24 @@ export default ({ children }: LoggProviderProps) => {
               }))
         : [];
 
-    const risikovurdering: LoggHendelse[] = aktivVedtaksperiode?.risikovurdering
-        ? [
-              {
-                  id: 'risikovurdering',
-                  dato: aktivVedtaksperiode.risikovurdering.opprettet.format(NORSK_DATOFORMAT),
-                  navn: 'Faresignaler oppdaget',
-                  type: LoggType.Historikk,
-                  status: LoggStatus.Advarsel,
-                  beskrivelse: (
-                      <Begrunnelsesliste>
-                          {aktivVedtaksperiode.risikovurdering.begrunnelser.map((begrunnelse, index) => (
-                              <li key={index}>{begrunnelse}</li>
-                          ))}
-                      </Begrunnelsesliste>
-                  ),
-              },
-          ]
-        : [];
+    // const risikovurdering: LoggHendelse[] = aktivVedtaksperiode?.risikovurdering
+    //     ? [
+    //           {
+    //               id: 'risikovurdering',
+    //               dato: aktivVedtaksperiode.risikovurdering.opprettet.format(NORSK_DATOFORMAT),
+    //               navn: 'Faresignaler oppdaget',
+    //               type: LoggType.Historikk,
+    //               status: LoggStatus.Advarsel,
+    //               beskrivelse: (
+    //                   <Begrunnelsesliste>
+    //                       {aktivVedtaksperiode.risikovurdering.faresignaler.map((begrunnelse, index) => (
+    //                           <li key={index}>{begrunnelse}</li>
+    //                       ))}
+    //                   </Begrunnelsesliste>
+    //               ),
+    //           },
+    //       ]
+    //     : [];
 
     const overstyringer: LoggHendelse[] =
         aktivVedtaksperiode?.overstyringer.map((overstyring: Overstyring) => ({
@@ -125,7 +125,7 @@ export default ({ children }: LoggProviderProps) => {
         ];
     }
 
-    const hendelser = [...dokumenter, ...risikovurdering, ...overstyringer, ...godkjenninger].sort((a, b) =>
+    const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger].sort((a, b) =>
         somNorskDato(a.dato).isAfter(somNorskDato(b.dato)) ? -1 : 1
     );
 

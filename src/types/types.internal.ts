@@ -101,10 +101,7 @@ export interface Inntektsmelding {
 }
 
 export interface Risikovurdering {
-    vedtaksperiodeId: string;
-    opprettet: Dayjs;
-    samletScore: number;
-    begrunnelser: string[];
+    arbeidsuførhetvurdering: string[];
     ufullstendig: boolean;
 }
 

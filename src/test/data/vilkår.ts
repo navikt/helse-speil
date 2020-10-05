@@ -46,3 +46,8 @@ export const dataForVilkårsvurdering = () => ({
     harOpptjening: true,
     medlemskapstatus: SpleisMedlemskapstatus.JA,
 });
+
+export const risikovurdering = () => ({
+    arbeidsuførhetvurdering: ['en testvurdering'],
+    ufullstendig: false,
+});

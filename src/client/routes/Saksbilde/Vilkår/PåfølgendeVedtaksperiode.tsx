@@ -8,7 +8,7 @@ import { Dayjs } from 'dayjs';
 import { Feilikon } from '../../../components/ikoner/Feilikon';
 import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { Opptjening, Vedtaksperiode } from 'internal-types';
+import { Opptjening, Risikovurdering, Vedtaksperiode } from 'internal-types';
 import { Strek, StyledBehandletAvInfotrygd, StyledBehandletInnhold, Vilkårinnhold } from './Vilkår.styles';
 import { FlexColumn } from '../../../components/Flex';
 import { institusjonsopphold } from './BehandletVedtaksperiode';
@@ -75,10 +75,21 @@ interface PåfølgendeVedtaksperiodeProps {
     oppfylteVilkår: ReactNode[];
     ikkeVurderteVilkår: IkkeVurdertVilkår[];
     forlengelseFraInfotrygd?: boolean;
+    risikovurdering?: Risikovurdering;
 }
 
-const OppfylteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) => (
-    <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={vilkår} />
+interface OppfylteVilkårProps {
+    vilkår: ReactNode[];
+    risikovurdering?: Risikovurdering;
+}
+
+const OppfylteVilkår = (props: OppfylteVilkårProps) => (
+    <Vilkårsvisning
+        tittel="Vurderte vilkår"
+        ikon={<GrøntSjekkikon />}
+        vilkår={props.vilkår}
+        risikovurdering={props.risikovurdering}
+    />
 );
 
 const IkkeOppfylteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) =>
@@ -87,8 +98,8 @@ const IkkeOppfylteVilkår = ({ vilkår }: { vilkår: ReactNode[] }) =>
 export const PåfølgendeVedtaksperiode = (props: PåfølgendeVedtaksperiodeProps) => (
     <>
         <IkkeOppfylteVilkår vilkår={props.ikkeOppfylteVilkår} />
-        <IkkeVurderteVilkår ikkeVurderteVilkår={props.ikkeVurderteVilkår} />
-        <OppfylteVilkår vilkår={props.oppfylteVilkår} />
+        <IkkeVurderteVilkår ikkeVurderteVilkår={props.ikkeVurderteVilkår} risikovurdering={props.risikovurdering} />
+        <OppfylteVilkår vilkår={props.oppfylteVilkår} risikovurdering={props.risikovurdering} />
         {props.forlengelseFraInfotrygd ? (
             <VilkårVurdertIInfotrygd />
         ) : (

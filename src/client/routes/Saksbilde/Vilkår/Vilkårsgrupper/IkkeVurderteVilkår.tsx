@@ -8,6 +8,8 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import { Strek, Vilkårgrid, Vilkårinnhold } from '../Vilkår.styles';
 import { FlexColumn } from '../../../../components/Flex';
+import { Risikovurdering } from 'internal-types';
+import { ArbeidsuførhetIkkeVurdert } from './Vilkårsgrupper';
 
 const Yrkesskadetekst = styled(Normaltekst)`
     padding-left: 2rem;
@@ -21,6 +23,11 @@ const IkkeVurderteVilkårTittel = styled(Vilkårstittel)`
     margin-top: 0;
 `;
 
+const VilkårContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
 export interface IkkeVurdertVilkår {
     label: string;
     paragraf: string;
@@ -28,15 +35,16 @@ export interface IkkeVurdertVilkår {
 
 interface VilkårSystemetIkkeVurdererProps {
     ikkeVurderteVilkår: IkkeVurdertVilkår[];
+    risikovurdering?: Risikovurdering;
 }
 
-const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår }: VilkårSystemetIkkeVurdererProps) => (
+const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår, risikovurdering }: VilkårSystemetIkkeVurdererProps) => (
     <>
         <IkkeVurderteVilkårTittel størrelse="m" ikon={<Advarselikon />}>
             Vilkår systemet ikke vurderer
         </IkkeVurderteVilkårTittel>
         <Vilkårgrid>
-            <Vilkårsgrupperad label="Arbeidsuførhet">§ 8-4</Vilkårsgrupperad>
+            {ArbeidsuførhetIkkeVurdert(risikovurdering)}
             <Vilkårsgrupperad label="Medvirkning">§ 8-8</Vilkårsgrupperad>
             {ikkeVurderteVilkår.map((v) => (
                 <Vilkårsgrupperad key={v.label} label={v.label}>
@@ -61,14 +69,18 @@ const Yrkeskadeinfo = () => (
 interface IkkeVurderteVilkårProps {
     className?: string;
     ikkeVurderteVilkår: IkkeVurdertVilkår[];
+    risikovurdering?: Risikovurdering;
 }
 
-const IkkeVurderteVilkår = ({ className, ikkeVurderteVilkår }: IkkeVurderteVilkårProps) => (
+const IkkeVurderteVilkår = ({ className, ikkeVurderteVilkår, risikovurdering }: IkkeVurderteVilkårProps) => (
     <>
         <Vilkårinnhold>
             <Innhold gridTemplateColumns="37rem auto" className={className}>
                 <FlexColumn>
-                    <VilkårSystemetIkkeVurderer ikkeVurderteVilkår={ikkeVurderteVilkår} />
+                    <VilkårSystemetIkkeVurderer
+                        ikkeVurderteVilkår={ikkeVurderteVilkår}
+                        risikovurdering={risikovurdering}
+                    />
                 </FlexColumn>
                 <FlexColumn>
                     <Yrkeskadeinfo />

@@ -10,7 +10,6 @@ const enSpeilVedtaksperiode = () =>
     mapVedtaksperiode({
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
-        risikovurderingerForArbeidsgiver: [],
         overstyringer: [],
     });
 

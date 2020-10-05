@@ -29,7 +29,6 @@ const enSpeilVedtaksperiode = (fom: Dayjs = dayjs('2020-01-01'), tom: Dayjs = da
     mapVedtaksperiode({
         ...umappetVedtaksperiode({ fom, tom }),
         organisasjonsnummer: '123456789',
-        risikovurderingerForArbeidsgiver: [],
         overstyringer: [],
     });
 
