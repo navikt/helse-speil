@@ -572,6 +572,10 @@
                     "periodetype": "FORLENGELSE",
                     "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5f",
                     "fullstendig": true,
+                    "risikovurdering": {
+                        "arbeidsuførhetvurdering": ["går for ofte med solbriller", "hva skjer med tweed"],
+                        "ufullstendig": false
+                    },
                     "utbetalinger": {
                         "arbeidsgiverUtbetaling": {
                             "fagsystemId": "1234",

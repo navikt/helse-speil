@@ -23,6 +23,11 @@ export const Førstegangsbehandling = ({
             <Vilkårsvisning tittel="Ikke oppfylte vilkår" ikon={<Feilikon />} vilkår={ikkeOppfylteVilkår} />
         )}
         <IkkeVurderteVilkår ikkeVurderteVilkår={ikkeVurderteVilkår} risikovurdering={risikovurdering} />
-        <Vilkårsvisning tittel="Vurderte vilkår" ikon={<GrøntSjekkikon />} vilkår={oppfylteVilkår} />
+        <Vilkårsvisning
+            tittel="Vurderte vilkår"
+            ikon={<GrøntSjekkikon />}
+            vilkår={oppfylteVilkår}
+            risikovurdering={risikovurdering}
+        />
     </>
 );

@@ -39,7 +39,7 @@ const Tittel = styled.h2<VilkårstittelProps>`
     }}
 `;
 
-const IkonContainer = styled.div<IkonContainerProps>`
+export const IkonContainer = styled.div<IkonContainerProps>`
     display: flex;
     align-items: center;
     width: 2rem;
@@ -52,7 +52,7 @@ const IkonContainer = styled.div<IkonContainerProps>`
     }}
 `;
 
-const Paragraf = styled.p`
+export const Paragraf = styled.p`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     font-size: 14px;
     margin: 0;

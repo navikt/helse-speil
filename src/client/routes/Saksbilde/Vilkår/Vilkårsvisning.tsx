@@ -24,11 +24,11 @@ const Vilkårsvisning = ({ tittel, ikon, vilkår, risikovurdering }: Vilkårsvis
                     {tittel}
                 </Vilkårstittel>
                 <StyledUbehandletInnhold gridTemplateColumns="37rem auto">
+                    <FlexColumn>{venstre}</FlexColumn>
                     <FlexColumn>
-                        {venstre}
+                        {høyre}
                         {ArbeidsuførhetVurdert(risikovurdering)}
                     </FlexColumn>
-                    <FlexColumn>{høyre}</FlexColumn>
                 </StyledUbehandletInnhold>
             </Vilkårinnhold>
             <Strek />

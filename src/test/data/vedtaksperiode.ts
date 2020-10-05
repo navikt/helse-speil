@@ -53,7 +53,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         aktivitetslogg: aktivitetsloggen,
         forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.NEI,
         periodetype: SpleisPeriodetype.FØRSTEGANGSBEHANDLING,
-        risikovurdering: risikovurdering(),
+        risikovurdering: { arbeidsuførhetvurdering: [], ufullstendig: false },
     };
 };
 

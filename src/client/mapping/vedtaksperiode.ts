@@ -5,6 +5,7 @@ import {
     SpesialistOverstyring,
     SpesialistRisikovurdering,
     SpesialistVedtaksperiode,
+    SpleisAlvorlighetsgrad,
     SpleisForlengelseFraInfotrygd,
     SpleisPeriodetype,
     SpleisSykdomsdag,
@@ -18,6 +19,7 @@ import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
 import { tilOverstyrtDag } from './overstyring';
+import { risikovurdering } from '../../test/data/vilkår';
 
 type UnmappedPeriode = SpesialistVedtaksperiode & {
     organisasjonsnummer: string;
@@ -234,17 +236,39 @@ const appendInntektskilder = async ({ unmapped, partial }: PartialMappingResult)
     },
 });
 
-const appendAktivitetslogg = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        aktivitetslog: unmapped.aktivitetslogg.map((aktivitet) => ({
-            melding: aktivitet.melding,
-            alvorlighetsgrad: aktivitet.alvorlighetsgrad,
-            tidsstempel: somTidspunkt(aktivitet.tidsstempel),
-        })),
-    },
-});
+const appendAktivitetslogg = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => {
+    const aktivitetslogliste = unmapped.aktivitetslogg.map((aktivitet) => ({
+        melding: aktivitet.melding,
+        alvorlighetsgrad: aktivitet.alvorlighetsgrad,
+        tidsstempel: somTidspunkt(aktivitet.tidsstempel),
+    }));
+    if (
+        !unmapped.risikovurdering ||
+        unmapped.risikovurdering.ufullstendig ||
+        unmapped.risikovurdering.arbeidsuførhetvurdering.length > 0
+    )
+        return {
+            unmapped,
+            partial: {
+                ...partial,
+                aktivitetslog: [
+                    ...aktivitetslogliste,
+                    {
+                        melding: 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes',
+                        alvorlighetsgrad: 'W',
+                        tidsstempel: dayjs(),
+                    },
+                ],
+            },
+        };
+    return {
+        unmapped,
+        partial: {
+            ...partial,
+            aktivitetslog: aktivitetslogliste,
+        },
+    };
+};
 
 const appendRisikovurdering = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,

@@ -38,22 +38,26 @@ interface VilkårSystemetIkkeVurdererProps {
     risikovurdering?: Risikovurdering;
 }
 
-const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår, risikovurdering }: VilkårSystemetIkkeVurdererProps) => (
-    <>
-        <IkkeVurderteVilkårTittel størrelse="m" ikon={<Advarselikon />}>
-            Vilkår systemet ikke vurderer
-        </IkkeVurderteVilkårTittel>
-        <Vilkårgrid>
-            {ArbeidsuførhetIkkeVurdert(risikovurdering)}
-            <Vilkårsgrupperad label="Medvirkning">§ 8-8</Vilkårsgrupperad>
-            {ikkeVurderteVilkår.map((v) => (
-                <Vilkårsgrupperad key={v.label} label={v.label}>
-                    {v.paragraf}
-                </Vilkårsgrupperad>
-            ))}
-        </Vilkårgrid>
-    </>
-);
+const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår, risikovurdering }: VilkårSystemetIkkeVurdererProps) => {
+    if (ikkeVurderteVilkår.length === 0 && ArbeidsuførhetIkkeVurdert(risikovurdering) === null) return null;
+    return (
+        <>
+            <IkkeVurderteVilkårTittel størrelse="m" ikon={<Advarselikon />}>
+                Vilkår systemet ikke vurderer
+            </IkkeVurderteVilkårTittel>
+            <VilkårContainer>
+                {ArbeidsuførhetIkkeVurdert(risikovurdering)}
+                <Vilkårgrid>
+                    {ikkeVurderteVilkår.map((v) => (
+                        <Vilkårsgrupperad key={v.label} label={v.label} bold>
+                            {v.paragraf}
+                        </Vilkårsgrupperad>
+                    ))}
+                </Vilkårgrid>
+            </VilkårContainer>
+        </>
+    );
+};
 
 const Yrkeskadeinfo = () => (
     <>

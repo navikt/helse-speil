@@ -4,20 +4,26 @@ import styled from '@emotion/styled';
 
 interface Props {
     label: string;
+    bold?: boolean;
     children: ReactNode | ReactNode[];
+}
+
+interface NavnProps {
+    bold: boolean;
 }
 
 const Navn = styled(Normaltekst)`
     min-width: 15rem;
+    ${(props: NavnProps) => props.bold && 'font-weight: 600;'}
 `;
 
 const Verdi = styled(Normaltekst)`
     text-align: left;
 `;
 
-const Vilkårsgrupperad = ({ label, children }: Props) => (
+const Vilkårsgrupperad = ({ label, bold = false, children }: Props) => (
     <>
-        <Navn>{label}</Navn>
+        <Navn bold={bold}>{label}</Navn>
         <Verdi>{children}</Verdi>
     </>
 );

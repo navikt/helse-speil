@@ -38,6 +38,10 @@
                     "oppgavereferanse": "ea5d644b-0000-9999-0000-f93744554d5e",
                     "fullstendig": true,
                     "utbetalingsreferanse": "SVQYTSFJARAOPMPB5K2G5GL53M",
+                    "risikovurdering": {
+                        "arbeidsuførhetvurdering": [],
+                        "ufullstendig": false
+                    },
                     "utbetalingstidslinje": [
                         {
                             "type": "ArbeidsgiverperiodeDag",

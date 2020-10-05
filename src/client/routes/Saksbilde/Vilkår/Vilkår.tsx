@@ -2,14 +2,9 @@ import React, { ReactNode, useContext } from 'react';
 import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
 import { MedPersonOgVedtaksperiode, PersonContext } from '../../../context/PersonContext';
 import styled from '@emotion/styled';
-import {
-    BehandletVedtaksperiode,
-    BehandletVedtaksperiodeFraInfotrygd,
-    institusjonsopphold,
-} from './BehandletVedtaksperiode';
+import { BehandletVedtaksperiode, BehandletVedtaksperiodeFraInfotrygd } from './BehandletVedtaksperiode';
 import { PåfølgendeVedtaksperiode } from './PåfølgendeVedtaksperiode';
 import { Førstegangsbehandling } from './UbehandletVedtaksperiode';
-import Aktivitetsplikt from './Aktivitetsplikt';
 import { Vedtaksperiode, Periodetype } from 'internal-types';
 import { useKategoriserteVilkår, KategoriserteVilkår } from './useKategoriserteVilkår';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
@@ -45,6 +40,7 @@ interface VanligeVilkårProps {
 
 const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }: VanligeVilkårProps) => {
     const { ikkeOppfylteVilkår, oppfylteVilkår, ikkeVurderteVilkår } = vilkår;
+
     if (aktivVedtaksperiode.behandlet) {
         return aktivVedtaksperiode.forlengelseFraInfotrygd ? (
             <BehandletVedtaksperiodeFraInfotrygd
@@ -65,6 +61,7 @@ const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }
                     ikkeOppfylteVilkår={ikkeOppfylteVilkår.map(tilKomponent)}
                     oppfylteVilkår={oppfylteVilkårMedInstitusjon(oppfylteVilkår.map(tilKomponent))}
                     ikkeVurderteVilkår={ikkeVurderteVilkår}
+                    risikovurdering={aktivVedtaksperiode.risikovurdering}
                 />
             );
         case Periodetype.Forlengelse:
@@ -110,7 +107,6 @@ const Vilkår = () => {
                     aktivVedtaksperiode={aktivVedtaksperiode}
                     førsteVedtaksperiode={førstePeriode}
                 />
-                <Aktivitetsplikt />
             </ErrorBoundary>
             <Footer />
         </>

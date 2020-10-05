@@ -67,7 +67,10 @@ describe('Vilkår', () => {
     describe('som er ubehandlet', () => {
         test('skal ha automatisk vurderte vilkår og vilkår til vurdering', async () => {
             const person = await personTilBehandling();
-            const vedtaksperiode = await enSpeilVedtaksperiode();
+            const vedtaksperiode = {
+                ...(await enSpeilVedtaksperiode()),
+                risikovurdering: { arbeidsuførhetvurdering: ['en testvurdering'], ufullstendig: false },
+            };
 
             renderVilkår(person, vedtaksperiode);
 
@@ -81,6 +84,7 @@ describe('Vilkår', () => {
             const vedtaksperiode = {
                 ...(await enSpeilVedtaksperiode()),
                 periodetype: Periodetype.Forlengelse,
+                risikovurdering: { arbeidsuførhetvurdering: ['en testvurdering'], ufullstendig: false },
             };
 
             renderVilkår(person, vedtaksperiode);
@@ -95,6 +99,7 @@ describe('Vilkår', () => {
             const vedtaksperiode = {
                 ...(await enSpeilVedtaksperiode()),
                 periodetype: Periodetype.Infotrygdforlengelse,
+                risikovurdering: { arbeidsuførhetvurdering: ['en testvurdering'], ufullstendig: false },
             };
 
             renderVilkår(person, vedtaksperiode);
@@ -103,6 +108,20 @@ describe('Vilkår', () => {
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
             expect(behandletInnhold()).not.toBeInTheDocument();
             expect(behandletAvInfotrygd()).toBeInTheDocument();
+        });
+        test('og har behandlet arbeidsuførhet skal ikke vise vilkår til vurdering', async () => {
+            const person = await personTilBehandling();
+            const vedtaksperiode = {
+                ...(await enSpeilVedtaksperiode()),
+                risikovurdering: { arbeidsuførhetvurdering: [], ufullstendig: false },
+            };
+
+            renderVilkår(person, vedtaksperiode);
+
+            expect(vilkårTilVurdering()).not.toBeInTheDocument();
+            expect(automatiskVurderteVilkår()).toBeInTheDocument();
+            expect(behandletInnhold()).not.toBeInTheDocument();
+            expect(automatiskBehandletInnhold()).not.toBeInTheDocument();
         });
     });
 

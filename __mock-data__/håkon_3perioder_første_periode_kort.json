@@ -202,6 +202,10 @@
                     "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5g",
                     "fullstendig": true,
                     "utbetalingsreferanse": "AIARCVC5BFEJLNF47ODNGZQSCY",
+                    "risikovurdering": {
+                        "arbeidsuførhetvurdering": [],
+                        "ufullstendig": false
+                    },
                     "utbetalingstidslinje": [
                         {
                             "type": "NavDag",

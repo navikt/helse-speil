@@ -15,8 +15,7 @@ import {
     Søknadsfrist as SøknadsfristType,
     Vilkår,
 } from 'internal-types';
-import { Vilkårgrid } from '../Vilkår.styles';
-import styled from '@emotion/styled';
+import RisikovurderingVilkårsgruppe from './RisikovurderingVilkårsgruppe';
 
 const Alder = (props: AlderType) => (
     <Vilkårsgruppe tittel="Under 70 år" paragraf="§ 8-51" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
@@ -104,22 +103,22 @@ const DagerIgjen = (props: DagerIgjenType) => {
     );
 };
 
-const Vurderinger = styled.ul`
-    list-style: inside;
-    margin: 0 0 0.5rem 2rem;
-    color: #3e3832;
-`;
-
-const VurderingElement = styled(Normaltekst)`
-    display: inline;
-`;
-
 export const ArbeidsuførhetIkkeVurdert = (risikovurdering?: Risikovurdering) => {
-    return <Vilkårsgrupperad label="Arbeidsuførhet">§ 8-4 FØRSTE LEDD</Vilkårsgrupperad>;
+    if (!risikovurdering || risikovurdering.ufullstendig || risikovurdering.arbeidsuførhetvurdering.length > 0)
+        return <RisikovurderingVilkårsgruppe>{risikovurdering?.arbeidsuførhetvurdering}</RisikovurderingVilkårsgruppe>;
+    else return null;
 };
 
 export const ArbeidsuførhetVurdert = (risikovurdering?: Risikovurdering) => {
-    return null;
+    if (risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0)
+        return (
+            <Vilkårsgruppe
+                tittel="Arbeidsuførhet, aktivitetsplikt og medvirkning"
+                paragraf="§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8"
+                ikontype={'ok'}
+            />
+        );
+    else return null;
 };
 
 export const alder = ({ alder }: Vilkår): ReactNode => <Alder {...alder} key="alder" />;
