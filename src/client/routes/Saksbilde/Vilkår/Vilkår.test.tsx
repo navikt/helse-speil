@@ -41,7 +41,7 @@ const personTilBehandling = async () => ({
     enhet: { id: '', navn: '' },
 });
 
-const vilkårTilVurdering = () => screen.queryByText('Vilkår systemet ikke vurderer');
+const vilkårTilVurdering = () => screen.queryByText('Vilkår til vurdering');
 const automatiskVurderteVilkår = () => screen.queryByText('Vurderte vilkår');
 const behandletAvInfotrygd = () => screen.queryByText('Behandlet av infotrygd');
 const behandletInnhold = () => screen.queryByText('Behandlet innhold');

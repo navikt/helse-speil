@@ -43,7 +43,7 @@ const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår, risikovurdering }: V
     return (
         <>
             <IkkeVurderteVilkårTittel størrelse="m" ikon={<Advarselikon />}>
-                Vilkår systemet ikke vurderer
+                Vilkår til vurdering
             </IkkeVurderteVilkårTittel>
             <VilkårContainer>
                 {ArbeidsuførhetIkkeVurdert(risikovurdering)}
