@@ -5,7 +5,6 @@ import { SpesialistClient } from './person/spesialistClient';
 import { OverstyringClient } from './overstyring/overstyringClient';
 import { StsClient } from './auth/stsClient';
 import { AktørIdLookup } from './aktørid/aktørIdLookup';
-import { Storage } from './tildeling/storage';
 import { Request } from 'express';
 
 export interface OidcConfig {
@@ -52,7 +51,6 @@ export interface PersonDependencies {
     sparkelClient: SparkelClient;
     aktørIdLookup: AktørIdLookup;
     spesialistClient: SpesialistClient;
-    storage: Storage;
     stsClient: StsClient;
     onBehalfOf: OnBehalfOf;
     cache: RedisClient;

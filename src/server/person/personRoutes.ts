@@ -9,14 +9,13 @@ const setup = ({
     sparkelClient,
     aktørIdLookup,
     spesialistClient,
-    storage,
     stsClient,
     cache,
     config,
     onBehalfOf,
 }: PersonDependencies) => {
     personinfoRepo.setup({ sparkelClient, aktørIdLookup, stsClient, cache });
-    personLookup.setup({ spesialistClient, storage, config, onBehalfOf });
+    personLookup.setup({ spesialistClient, config, onBehalfOf });
     routes(router);
     return router;
 };

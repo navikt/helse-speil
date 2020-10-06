@@ -15,7 +15,7 @@ const tildelingsvarsel = (message: string) => ({ message, type: Varseltype.Advar
 
 interface Oppgavetildeling {
     tildelOppgave: (oppgavereferanse: string, userId: string) => Promise<SpeilResponse | string>;
-    fjernTildeling: (oppgavereferanse: string) => Promise<[Response, Response] | void>;
+    fjernTildeling: (oppgavereferanse: string) => Promise<Response | void>;
 }
 
 export const useOppgavetildeling = (): Oppgavetildeling => {

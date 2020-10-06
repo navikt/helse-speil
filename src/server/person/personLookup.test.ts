@@ -34,9 +34,6 @@ const spesialistClient = {
     hentPersonByFødselsnummer: () => Promise.resolve({ status: 200, body: personByFnr }),
 };
 
-const storage = {
-    get: jest.fn(),
-};
 const onBehalfOfStub = {
     hentFor: () => Promise.resolve(),
 };
@@ -47,7 +44,6 @@ beforeAll(() => {
     personLookup.setup({
         aktørIdLookup: { hentAktørId: () => hentAktørIdAnswer },
         spesialistClient,
-        storage,
         config: { oidc: {} },
         onBehalfOf: onBehalfOfStub,
     });

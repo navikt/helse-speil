@@ -58,11 +58,6 @@ export interface TildeltOppgave extends Oppgave {
     tildeltTil: string;
 }
 
-export interface Speiltildeling {
-    oppgavereferanse: string;
-    userId: string;
-}
-
 interface Boenhet {
     id: string;
     navn: string;

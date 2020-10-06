@@ -4,39 +4,22 @@ import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf } from '../types';
 import { Request, Response } from 'express';
-import { Storage } from '../tildeling/storage';
-import { Oppgave, Speiltildeling, SpesialistOppgave } from '../../types';
-
-interface RespondWithParameters {
-    res: Response;
-    lookupPromise: Promise<any>;
-    mapper: (res: Body) => Promise<any>;
-    operation: string;
-    speilUser: string;
-}
+import { Oppgave, SpesialistOppgave } from '../../types';
 
 export interface SetupParameters {
     spesialistClient: SpesialistClient;
-    storage: Storage;
     config: AppConfig;
     onBehalfOf: OnBehalfOf;
 }
 
 const personIdHeaderName = 'nav-person-id';
 let spesialistClient: SpesialistClient;
-let storage: Storage;
 let spesialistId: string;
 
 let onBehalfOf: OnBehalfOf;
 
-const setup = ({
-    spesialistClient: _spesialistClient,
-    storage: _storage,
-    config,
-    onBehalfOf: _onBehalfOf,
-}: SetupParameters) => {
+const setup = ({ spesialistClient: _spesialistClient, config, onBehalfOf: _onBehalfOf }: SetupParameters) => {
     spesialistClient = _spesialistClient;
-    storage = _storage;
     spesialistId = config.oidc.clientIDSpesialist;
     onBehalfOf = _onBehalfOf;
 };
@@ -75,18 +58,12 @@ const finnPerson = async (req: Request, res: Response) => {
 const oppgaverForPeriode = (req: Request, res: Response) => {
     auditLogOversikt(req);
 
-    const tildeltTil = (oppgave: SpesialistOppgave, speiltildelinger: Speiltildeling[]): string | undefined =>
-        oppgave.saksbehandlerepost ??
-        speiltildelinger.find((tildeling) => tildeling.oppgavereferanse === oppgave.oppgavereferanse)?.userId;
-
     const oppgaverMedTildelinger = async (response: Body): Promise<Oppgave[]> => {
         const body: any = response.body;
-        const oppgavereferanser = body.map((oppgave: SpesialistOppgave) => oppgave.oppgavereferanse);
-        const tildelinger = await storage.getAll(oppgavereferanser);
         return body.map(
             (oppgave: SpesialistOppgave): Oppgave => ({
                 oppgavereferanse: oppgave.oppgavereferanse,
-                tildeltTil: tildeltTil(oppgave, tildelinger),
+                tildeltTil: oppgave.saksbehandlerepost ?? undefined,
                 opprettet: oppgave.opprettet,
                 vedtaksperiodeId: oppgave.vedtaksperiodeId,
                 personinfo: oppgave.personinfo,

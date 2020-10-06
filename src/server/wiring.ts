@@ -1,7 +1,6 @@
 import config from './config';
 import redisClient from './redisClient';
 import devRedisClient from './devRedisClient';
-import storage from './tildeling/storage';
 
 import instrumentationModule from './instrumentation';
 import stsClient from './auth/stsClient';
@@ -28,7 +27,6 @@ const getDependencies = (app: Express) =>
     process.env.NODE_ENV === 'development' ? getDevDependencies() : getProdDependencies(app);
 
 const getDevDependencies = () => {
-    storage.init(devRedisClient);
     return {
         person: {
             sparkelClient: devSparkelClient,
@@ -41,14 +39,12 @@ const getDevDependencies = () => {
         },
         payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
         redisClient: devRedisClient,
-        storage,
         overstyring: { overstyringClient: devOverstyringClient },
     };
 };
 
 const getProdDependencies = (app: Express) => {
     const _redisClient: RedisClient = redisClient.init(config.redis);
-    storage.init(_redisClient);
     stsClient.init(config.nav);
     aktørIdLookup.init(stsClient, config.nav);
     const instrumentation = instrumentationModule.setup(app);
@@ -68,7 +64,6 @@ const getProdDependencies = (app: Express) => {
         },
         payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
         redisClient: _redisClient,
-        storage,
         overstyring: { overstyringClient: _overstyringClient },
     };
 };

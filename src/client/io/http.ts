@@ -1,6 +1,5 @@
 import { Tildeling } from 'internal-types';
 import { extractSpesialistToken } from '../utils/cookie';
-import { spesialistTildelingEnabled } from '../featureToggles';
 import { AnnulleringDTO, Options, OverstyringDTO } from './types';
 import { Avvisningsskjema } from '../routes/Saksbilde/Oppsummering/utbetaling/Utbetalingsdialog';
 
@@ -129,19 +128,11 @@ const spesialistOptions = (headere?: Headers) => ({
     },
 });
 
-const postSpeilTildeling = (tildeling: Tildeling) => post(`${baseUrl}/tildeling`, tildeling);
-
-const postSpesialistTildeling = (tildeling: Tildeling) =>
-    post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
-
 export const getOppgavereferanse = async (fødselsnummer: string) =>
     get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
 export const postTildeling = async (tildeling: Tildeling) =>
-    spesialistTildelingEnabled ? postSpesialistTildeling(tildeling) : postSpeilTildeling(tildeling);
+    post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
 
 export const deleteTildeling = async (oppgavereferanse: string) =>
-    Promise.all([
-        del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions()),
-        del(`${baseUrl}/tildeling/${oppgavereferanse}`),
-    ]);
+    del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());

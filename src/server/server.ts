@@ -16,7 +16,6 @@ import auth from './auth/authSupport';
 
 import person from './person/personRoutes';
 import paymentRoutes from './payment/paymentRoutes';
-import tildeling from './tildeling/tildelingRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
 import { SpeilRequest } from './types';
 
@@ -119,8 +118,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
     }
 });
 
-app.use('/api/tildeling', tildeling.setup(dependencies.storage));
-app.use('/api/person', person.setup({ ...dependencies.person, storage: dependencies.storage }));
+app.use('/api/person', person.setup({ ...dependencies.person }));
 app.use('/api/payments', paymentRoutes(dependencies.payments));
 app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
 
