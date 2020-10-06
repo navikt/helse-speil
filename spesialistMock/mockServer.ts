@@ -16,6 +16,16 @@ app.use((req, res, next) => {
 
 const tildelinger: { [oppgavereferanse: string]: string } = {};
 
+app.get('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgavereferanse;
+
+    if (tildelinger[oppgavereferanse]) {
+        res.status(200).send(tildelinger[oppgavereferanse]);
+    } else {
+        res.sendStatus(404);
+    }
+});
+
 app.post('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
     const saksbehandlerepost = 'dev@nav.no';

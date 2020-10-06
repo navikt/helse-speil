@@ -1,13 +1,21 @@
+import request from 'request-promise-native';
 import * as fs from 'fs';
 import { SpesialistClient } from '../person/spesialistClient';
+import { SpesialistOppgave } from 'src/types';
 
-const behandlingerForPeriode = (_accessToken: string): Promise<Response> => {
+const behandlingerForPeriode = async (_accessToken: string): Promise<Response> => {
     const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
-    const oppgaver = JSON.parse(fromFile);
-    return Promise.resolve({
+
+    const oppgaver = await Promise.all(
+        JSON.parse(fromFile).map(async (oppgave: SpesialistOppgave) => ({
+            ...oppgave,
+            saksbehandlerepost: await hentTildeling(oppgave.oppgavereferanse),
+        }))
+    );
+    return Promise.resolve(({
         status: 200,
         body: oppgaver,
-    } as Response);
+    } as unknown) as Response);
 };
 
 const hentPersonByAktørId = async (aktørId: string): Promise<Response> => {
@@ -26,6 +34,17 @@ const hentPersonByFødselsnummer = async (aktørId: string): Promise<Response> =
         status: 200,
         body: person,
     } as Response);
+};
+
+const hentTildeling = (oppgavereferanse: string) => {
+    const options = {
+        uri: `http://localhost:9001/api/v1/tildeling/${oppgavereferanse}`,
+        resolveWithFullResponse: true,
+    };
+    return request
+        .get(options)
+        .then((res) => res.body)
+        .catch(() => {});
 };
 
 const filenameForPersonId = (id: string) => {
