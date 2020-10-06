@@ -237,35 +237,15 @@ const appendInntektskilder = async ({ unmapped, partial }: PartialMappingResult)
 });
 
 const appendAktivitetslogg = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => {
-    const aktivitetslogliste = unmapped.aktivitetslogg.map((aktivitet) => ({
-        melding: aktivitet.melding,
-        alvorlighetsgrad: aktivitet.alvorlighetsgrad,
-        tidsstempel: somTidspunkt(aktivitet.tidsstempel),
-    }));
-    if (
-        !unmapped.risikovurdering ||
-        unmapped.risikovurdering.ufullstendig ||
-        unmapped.risikovurdering.arbeidsuførhetvurdering.length > 0
-    )
-        return {
-            unmapped,
-            partial: {
-                ...partial,
-                aktivitetslog: [
-                    ...aktivitetslogliste,
-                    {
-                        melding: 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes',
-                        alvorlighetsgrad: 'W',
-                        tidsstempel: dayjs(),
-                    },
-                ],
-            },
-        };
     return {
         unmapped,
         partial: {
             ...partial,
-            aktivitetslog: aktivitetslogliste,
+            aktivitetslog: unmapped.aktivitetslogg.map((aktivitet) => ({
+                melding: aktivitet.melding,
+                alvorlighetsgrad: aktivitet.alvorlighetsgrad,
+                tidsstempel: somTidspunkt(aktivitet.tidsstempel),
+            })),
         },
     };
 };
