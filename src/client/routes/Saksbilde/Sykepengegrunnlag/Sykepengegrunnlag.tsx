@@ -7,9 +7,9 @@ import Sykepengegrunnlaginnhold from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
 import { Periodetype } from 'internal-types';
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 
 const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;
@@ -41,7 +41,7 @@ const Sykepengegrunnlag = () => {
 
     return (
         <Sykepengegrunnlagpanel>
-            <ErrorBoundary>
+            <AgurkErrorBoundary>
                 {periodetype === Periodetype.Førstegangsbehandling ? (
                     <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                 ) : periodetype === Periodetype.Infotrygdforlengelse ? (
@@ -60,7 +60,7 @@ const Sykepengegrunnlag = () => {
                         <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
                     </StyledBehandletInnhold>
                 )}
-            </ErrorBoundary>
+            </AgurkErrorBoundary>
             <Navigasjonsknapper />
         </Sykepengegrunnlagpanel>
     );

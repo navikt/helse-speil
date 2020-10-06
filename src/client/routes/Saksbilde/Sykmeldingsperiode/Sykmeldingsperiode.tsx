@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import '@navikt/helse-frontend-tabell/lib/main.css';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { OverstyrbarSykmeldingsperiodetabell } from './OverstyrbarSykmeldingsperiodetabell';
 import { OverstyringTimeoutModal } from './OverstyringTimeoutModal';
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 
 const Container = styled.div`
     display: flex;
@@ -30,7 +30,7 @@ export const Sykmeldingsperiode = () => {
 
     return (
         <Container className="Sykmeldingsperiode">
-            <ErrorBoundary>
+            <AgurkErrorBoundary>
                 {overstyrer ? (
                     <OverstyrbarSykmeldingsperiodetabell
                         onOverstyr={() => {
@@ -42,7 +42,7 @@ export const Sykmeldingsperiode = () => {
                 ) : (
                     <Sykmeldingsperiodetabell toggleOverstyring={() => setOverstyrer((o) => !o)} />
                 )}
-            </ErrorBoundary>
+            </AgurkErrorBoundary>
             {overstyringTimedOut && <OverstyringTimeoutModal onRequestClose={() => setOverstyringTimedOut(false)} />}
             {!overstyrer && <Navigasjonsknapper />}
         </Container>

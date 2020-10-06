@@ -6,10 +6,10 @@ import { Utbetaling } from './utbetaling/Utbetaling';
 import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
 import { toKronerOgØre } from '../../../utils/locale';
 import { PersonContext } from '../../../context/PersonContext';
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { useTranslation } from 'react-i18next';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Grid } from '../../../components/Grid';
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 
 const Innhold = styled.div`
     width: 100%;
@@ -51,7 +51,7 @@ const Oppsummering = () => {
     return (
         <Innhold>
             <StyledPanel>
-                <ErrorBoundary>
+                <AgurkErrorBoundary>
                     <Oppsummeringstittel>{t('oppsummering.tittel')}</Oppsummeringstittel>
                     <Grid gridTemplateColumns="1fr 1fr">
                         <Normaltekst>{t('oppsummering.sykepengegrunnlag')}</Normaltekst>
@@ -73,7 +73,7 @@ const Oppsummering = () => {
                     ) : (
                         <Infotekst>Ingen simulering</Infotekst>
                     )}
-                </ErrorBoundary>
+                </AgurkErrorBoundary>
                 <Navigasjonsknapper />
             </StyledPanel>
             <Utbetaling />

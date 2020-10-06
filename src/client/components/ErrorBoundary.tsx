@@ -1,39 +1,4 @@
-import React, { ReactPropTypes, createRef } from 'react';
-import styled from '@emotion/styled';
-import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
-import { Clipboard } from './clipboard';
-
-const Container = styled.div`
-    margin: 2rem;
-    > *:not(:last-child) {
-        margin-bottom: 2.5rem;
-    }
-`;
-const Agurktekst = styled(Normaltekst)`
-    display: flex;
-    align-items: center;
-    &:before {
-        content: '🥒';
-        font-size: 30px;
-        margin-right: 0.5rem;
-    }
-`;
-const Utviklermelding = styled.span`
-    display: flex;
-    align-items: center;
-    color: #3e3832;
-    :hover .Clipboard__children {
-        border-bottom: none;
-    }
-`;
-const Feilmelding = styled.p`
-    display: block;
-    white-space: pre;
-    margin: 1em 0px;
-    background-color: #fff0f0;
-    color: #ff0000;
-    padding: 1rem;
-`;
+import React, { createRef, ReactNode } from 'react';
 
 interface ErrorBoundaryState {
     hasError: boolean;
@@ -41,7 +6,8 @@ interface ErrorBoundaryState {
 }
 
 type ErrorBoundaryProps = {
-    sidenavn?: string;
+    fallback: ReactNode;
+    onError: (error: Error) => void;
 };
 
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -57,7 +23,9 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
         return { hasError: true, error };
     }
 
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {}
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+        this.props.onError(error);
+    }
 
     componentDidUpdate(prevProps: ErrorBoundaryProps, prevState: ErrorBoundaryState) {
         if (prevProps !== this.props && prevState !== this.state) {
@@ -67,25 +35,6 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     }
 
     render() {
-        return this.state.hasError ? (
-            <Container>
-                <Agurktekst>
-                    Det har dessverre oppstått en feil, og for denne perioden kan ikke {this.props.sidenavn ?? 'siden'}{' '}
-                    vises.
-                </Agurktekst>
-                <div>
-                    <Utviklermelding>
-                        Feilmelding til utviklere (
-                        <Clipboard copySource={this.errorMessageRef}>trykk på ikonet for å kopiere:</Clipboard>
-                        ):
-                    </Utviklermelding>
-                    <Feilmelding className="typo-undertekst" ref={this.errorMessageRef}>
-                        {this.state.error?.stack}
-                    </Feilmelding>
-                </div>
-            </Container>
-        ) : (
-            this.props.children
-        );
+        return this.state.hasError ? this.props.fallback : this.props.children;
     }
 }

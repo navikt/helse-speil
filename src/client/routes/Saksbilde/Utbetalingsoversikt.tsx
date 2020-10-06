@@ -7,11 +7,11 @@ import { Feilikon } from '../../components/ikoner/Feilikon';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { useMaksdato } from '../../hooks/useMaksdato';
 import { PersonContext } from '../../context/PersonContext';
-import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { Navigasjonsknapper } from '../../components/Navigasjonsknapper';
 import { Dagtype, Utbetalingsdag } from 'internal-types';
 import { dato, gradering, ikon, type, utbetaling } from '../../components/tabell/rader';
+import { AgurkErrorBoundary } from '../../components/AgurkErrorBoundary';
 
 type Utbetalingsceller = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];
 
@@ -104,13 +104,13 @@ const Utbetalingsoversikt = () => {
 
     return (
         <Container>
-            <ErrorBoundary>
+            <AgurkErrorBoundary>
                 {rader ? (
                     <Utbetalingstabell beskrivelse={tabellbeskrivelse} rader={rader} headere={headere} />
                 ) : (
                     <Normaltekst>Ingen data</Normaltekst>
                 )}
-            </ErrorBoundary>
+            </AgurkErrorBoundary>
             <Navigasjonsknapper />
         </Container>
     );

@@ -5,9 +5,9 @@ import Inntektskilderinnhold from './Inntektskilderinnhold';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Periodetype } from 'internal-types';
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 
 const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;
@@ -33,7 +33,7 @@ const Inntektskilder = () => {
 
     return (
         <Inntektskilderpanel>
-            <ErrorBoundary>
+            <AgurkErrorBoundary>
                 {periodetype === Periodetype.Førstegangsbehandling ? (
                     <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
                 ) : (
@@ -46,7 +46,7 @@ const Inntektskilder = () => {
                         <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
                     </StyledBehandletInnhold>
                 )}
-            </ErrorBoundary>
+            </AgurkErrorBoundary>
             <Navigasjonsknapper />
         </Inntektskilderpanel>
     );

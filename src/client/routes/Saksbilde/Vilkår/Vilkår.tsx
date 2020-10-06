@@ -7,10 +7,10 @@ import { PåfølgendeVedtaksperiode } from './PåfølgendeVedtaksperiode';
 import { Førstegangsbehandling } from './UbehandletVedtaksperiode';
 import { Vedtaksperiode, Periodetype } from 'internal-types';
 import { useKategoriserteVilkår, KategoriserteVilkår } from './useKategoriserteVilkår';
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Vilkårstype } from '../../../mapping/vilkår';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
 import Vilkårsgruppe from './Vilkårsgrupper';
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 
 const Footer = styled(Navigasjonsknapper)`
     margin: 2.5rem 2rem 2rem;
@@ -101,13 +101,13 @@ const Vilkår = () => {
     const førstePeriode = førsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
     return (
         <>
-            <ErrorBoundary sidenavn="Vilkår">
+            <AgurkErrorBoundary sidenavn="Vilkår">
                 <Vilkårsvisning
                     vilkår={vilkår}
                     aktivVedtaksperiode={aktivVedtaksperiode}
                     førsteVedtaksperiode={førstePeriode}
                 />
-            </ErrorBoundary>
+            </AgurkErrorBoundary>
             <Footer />
         </>
     );
