@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { filtreringState, sorteringState } from './state';
 import { oversiktsradRenderer, tilOversiktsrad } from './rader';
 import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
@@ -15,6 +15,7 @@ import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering
 import { Paginering as PagineringObject } from '@navikt/helse-frontend-tabell/lib/src/paginering';
 import { Paginering } from './Paginering';
 import { pagineringEnabled } from '../../featureToggles';
+import { tabState } from './tabs';
 
 const Oversiktstabell = styled(Tabell)`
     table-layout: fixed;
@@ -57,6 +58,7 @@ interface Props {
 export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => {
     const [defaultFiltrering, setDefaultFiltrering] = useRecoilState(filtreringState);
     const [defaultSortering, setDefaultSortering] = useRecoilState(sorteringState);
+    const aktivTab = useRecoilValue(tabState);
 
     const headere = [
         {
@@ -81,6 +83,10 @@ export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => 
     useEffect(() => {
         setDefaultFiltrering(tabell.filtrering);
     }, [tabell.filtrering]);
+
+    useEffect(() => {
+        tabell.paginering?.set((p) => ({ ...p, sidenummer: 1 }));
+    }, [aktivTab]);
 
     return (
         <>
