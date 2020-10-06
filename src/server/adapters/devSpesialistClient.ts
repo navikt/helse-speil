@@ -1,7 +1,7 @@
 import request from 'request-promise-native';
 import * as fs from 'fs';
 import { SpesialistClient } from '../person/spesialistClient';
-import { SpesialistOppgave } from 'src/types';
+import { SpesialistOppgave } from '../../types';
 
 const behandlingerForPeriode = async (_accessToken: string): Promise<Response> => {
     const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
