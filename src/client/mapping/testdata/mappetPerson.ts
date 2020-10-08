@@ -549,6 +549,7 @@ export const mappetPerson: Person = {
                     risikovurdering: { arbeidsuførhetvurdering: [], ufullstendig: false },
                     simuleringsdata: undefined,
                     automatiskBehandlet: false,
+                    varsler: [],
                 },
             ],
         },

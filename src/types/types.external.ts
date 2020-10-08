@@ -327,6 +327,7 @@ export interface SpesialistVedtaksperiode {
     utbetalingslinjer?: SpleisUtbetalingslinje[];
     aktivitetslogg: SpleisAktivitet[];
     risikovurdering: SpesialistRisikovurdering | null;
+    varsler: string[];
 }
 
 export interface SpesialistInfotrygdutbetaling {

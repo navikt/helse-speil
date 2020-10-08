@@ -306,6 +306,14 @@ const appendAutomatiskBehandlet = async ({
     },
 });
 
+const appendVarsler = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+    unmapped,
+    partial: {
+        ...partial,
+        varsler: unmapped.varsler,
+    },
+});
+
 const tilhørerVedtaksperiode = (partial: Partial<Vedtaksperiode>, overstyring: SpesialistOverstyring) =>
     overstyring.overstyrteDager
         .map((dag) => dayjs(dag.dato))
@@ -346,5 +354,6 @@ export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<Vedt
         .then(appendAktivitetslogg)
         .then(appendSykepengegrunnlag)
         .then(appendAutomatiskBehandlet)
+        .then(appendVarsler)
         .then(finalize);
 };

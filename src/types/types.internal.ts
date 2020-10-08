@@ -190,6 +190,7 @@ export interface Vedtaksperiode {
     aktivitetslog: Aktivitet[];
     risikovurdering?: Risikovurdering;
     overstyringer: Overstyring[];
+    varsler: string[];
 }
 
 export interface Utbetalinger {
