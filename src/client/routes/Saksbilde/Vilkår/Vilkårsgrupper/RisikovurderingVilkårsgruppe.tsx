@@ -25,7 +25,7 @@ const Navn = styled(Normaltekst)`
 const RisikovurderingVilkårsgruppe = ({ children }: Props) => {
     return (
         <StyledRisikovurderingVilkårsgruppe>
-            <Navn>Arbeidsuførhet, aktivitetsplikt og medvirkning</Navn>
+            <Navn>Arbeidsuførhet, aktivitetsplikt og/eller medvirkning</Navn>
             <Paragraf>§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8</Paragraf>
             {children && (
                 <Vurderinger>
