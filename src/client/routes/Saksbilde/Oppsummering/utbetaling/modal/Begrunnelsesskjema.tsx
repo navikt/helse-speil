@@ -92,6 +92,7 @@ export const Begrunnelsesskjema = () => {
                     <BegrunnelseCheckbox begrunnelse={Begrunnelse.Inntektskilder} />
                     <BegrunnelseCheckbox begrunnelse={Begrunnelse.Medlemskap} />
                     <BegrunnelseCheckbox begrunnelse={Begrunnelse.Faresignaler} />
+                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Arbeidsuførhet} />
                     <BegrunnelseCheckbox begrunnelse={Begrunnelse.Annet} />
                 </CheckboxGruppe>
             )}

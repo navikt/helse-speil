@@ -33,6 +33,7 @@ export enum Begrunnelse {
     Inntektskilder = 'Inntektskilder og/eller ytelser tas ikke med i beregningen',
     Medlemskap = 'Vilkår om Lovvalg og medlemskap er ikke oppfylt',
     Faresignaler = 'Faresignaler påvirket utfallet av saken',
+    Arbeidsuførhet = 'Vilkår om Arbeidsuførhet, aktivitetsplikt og/eller medvirkning er ikke oppfylt',
     Annet = 'Annet',
 }
 
