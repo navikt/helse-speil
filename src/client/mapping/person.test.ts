@@ -1,5 +1,5 @@
 import { mapPerson } from './person';
-import { Aktivitet, Vedtaksperiode } from 'internal-types';
+import { Vedtaksperiode } from 'internal-types';
 import { somDato, somTidspunkt } from './vedtaksperiode';
 import {
     SpleisSykdomsdag,
@@ -40,11 +40,21 @@ describe('personmapper', async () => {
         const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
 
         expect(aktivitetslog).toHaveLength(1);
-        const expectedAktivitet: Aktivitet = {
-            melding: melding,
-            alvorlighetsgrad: alvorlighetsgrad,
-            tidsstempel: somTidspunkt(tidsstempel),
-        };
+        const expectedAktivitet: string = melding;
+        expect(aktivitetslog).toContainEqual(expectedAktivitet);
+    });
+
+    test('mapper varsler', async () => {
+        const melding = 'Aktivitetsvarsel';
+
+        const vedtaksperiode = umappetVedtaksperiode({ varsler: [melding] });
+        const arbeidsgiver = umappetArbeidsgiver([vedtaksperiode]);
+        const person = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
+
+        const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
+
+        expect(aktivitetslog).toHaveLength(1);
+        const expectedAktivitet: string = melding;
         expect(aktivitetslog).toContainEqual(expectedAktivitet);
     });
 

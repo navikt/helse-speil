@@ -187,7 +187,7 @@ export interface Vedtaksperiode {
     oppsummering: Oppsummering;
     simuleringsdata?: Simulering;
     hendelser: Hendelse[];
-    aktivitetslog: Aktivitet[];
+    aktivitetslog: string[];
     risikovurdering?: Risikovurdering;
     overstyringer: Overstyring[];
     varsler: string[];
@@ -214,14 +214,6 @@ export interface Simulering {
     totalbeløp: number;
     perioder: Utbetalingsperiode[];
 }
-
-export interface Aktivitet {
-    melding: string;
-    alvorlighetsgrad: Alvorlighetsgrad;
-    tidsstempel: Dayjs;
-}
-
-type Alvorlighetsgrad = 'W';
 
 export interface Arbeidsgiver {
     organisasjonsnummer: string;

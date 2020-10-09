@@ -533,13 +533,7 @@ export const mappetPerson: Person = {
                             forskuttering: true,
                         },
                     ],
-                    aktivitetslog: [
-                        {
-                            melding: 'Aktivitetsloggvarsel',
-                            alvorlighetsgrad: 'W',
-                            tidsstempel: dayjs('2020-04-03T07:40:47.261Z'),
-                        },
-                    ],
+                    aktivitetslog: ['Aktivitetsloggvarsel'],
                     sykepengegrunnlag: {
                         årsinntektFraAording: 372000,
                         årsinntektFraInntektsmelding: 372000,

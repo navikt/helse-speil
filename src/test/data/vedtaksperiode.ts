@@ -2,11 +2,10 @@ import dayjs, { Dayjs } from 'dayjs';
 import { sykdomstidslinje } from './sykdomstidslinje';
 import { utbetalingstidslinje } from './utbetalingstidslinje';
 import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
-import { dataForVilkårsvurdering, risikovurdering, vilkår } from './vilkår';
+import { dataForVilkårsvurdering, vilkår } from './vilkår';
 import { hendelser } from './hendelser';
 import {
     SpesialistOverstyring,
-    SpesialistRisikovurdering,
     SpesialistVedtaksperiode,
     SpleisAktivitet,
     SpleisForlengelseFraInfotrygd,
@@ -20,12 +19,18 @@ import { mapVedtaksperiode } from '../../client/mapping/vedtaksperiode';
 import { Vedtaksperiode } from 'internal-types';
 import { aktivitetslogg } from './aktivitetslogg';
 
-type UmappetVedtaksperiodeOptions = { fom?: Dayjs; tom?: Dayjs; aktivitetslogg?: SpleisAktivitet[] };
+type UmappetVedtaksperiodeOptions = {
+    fom?: Dayjs;
+    tom?: Dayjs;
+    aktivitetslogg?: SpleisAktivitet[];
+    varsler?: string[];
+};
 
 export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): SpesialistVedtaksperiode => {
     const fom = options?.fom ?? dayjs('2020-01-01');
     const tom = options?.tom ?? dayjs('2020-01-31');
     const aktivitetsloggen = options?.aktivitetslogg ?? aktivitetslogg();
+    const varslene = options?.varsler ?? [];
 
     const sykdomsdager = sykdomstidslinje(fom, tom);
     const utbetalingsdager = utbetalingstidslinje(sykdomsdager, 1500);
@@ -54,7 +59,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.NEI,
         periodetype: SpleisPeriodetype.FØRSTEGANGSBEHANDLING,
         risikovurdering: { arbeidsuførhetvurdering: [], ufullstendig: false },
-        varsler: [],
+        varsler: varslene,
     };
 };
 

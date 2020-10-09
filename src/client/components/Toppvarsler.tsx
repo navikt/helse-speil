@@ -12,9 +12,7 @@ const Toppvarsler = () => {
         vilkår === undefined || Object.values(vilkår).find((v) => !v?.oppfylt) === undefined;
 
     const erKandidatForAutomatisering = () =>
-        periodetype === Periodetype.Forlengelse &&
-        aktivitetslog.length === 0 &&
-        !(automatiskBehandlet);
+        periodetype === Periodetype.Forlengelse && aktivitetslog.length === 0 && !automatiskBehandlet;
 
     return (
         <>
@@ -22,11 +20,11 @@ const Toppvarsler = () => {
             {automatiskBehandlet && <Varsel type={Varseltype.Info}>Perioden er automatisk godkjent</Varsel>}
             {!alleVilkårOppfylt() && <Varsel type={Varseltype.Feil}>Vilkår er ikke oppfylt i deler av perioden</Varsel>}
             {aktivitetslog.length > 0 &&
-            aktivitetslog.map((aktivitet, index) => (
-                <Varsel type={Varseltype.Advarsel} key={index}>
-                    {aktivitet.melding}
-                </Varsel>
-            ))}
+                aktivitetslog.map((aktivitet, index) => (
+                    <Varsel type={Varseltype.Advarsel} key={index}>
+                        {aktivitet}
+                    </Varsel>
+                ))}
         </>
     );
 };
