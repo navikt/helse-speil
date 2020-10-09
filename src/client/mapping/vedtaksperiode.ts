@@ -3,9 +3,7 @@ import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/
 import { Periodetype, UferdigVedtaksperiode, Utbetaling, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import {
     SpesialistOverstyring,
-    SpesialistRisikovurdering,
     SpesialistVedtaksperiode,
-    SpleisAlvorlighetsgrad,
     SpleisForlengelseFraInfotrygd,
     SpleisPeriodetype,
     SpleisSykdomsdag,
@@ -19,7 +17,6 @@ import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
 import { tilOverstyrtDag } from './overstyring';
-import { risikovurdering } from '../../test/data/vilkår';
 
 type UnmappedPeriode = SpesialistVedtaksperiode & {
     organisasjonsnummer: string;
@@ -281,14 +278,6 @@ const appendAutomatiskBehandlet = async ({
     },
 });
 
-const appendVarsler = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        varsler: unmapped.varsler,
-    },
-});
-
 const tilhørerVedtaksperiode = (partial: Partial<Vedtaksperiode>, overstyring: SpesialistOverstyring) =>
     overstyring.overstyrteDager
         .map((dag) => dayjs(dag.dato))
@@ -329,6 +318,5 @@ export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<Vedt
         .then(appendAktivitetslogg)
         .then(appendSykepengegrunnlag)
         .then(appendAutomatiskBehandlet)
-        .then(appendVarsler)
         .then(finalize);
 };
