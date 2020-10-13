@@ -1,13 +1,24 @@
 import prometheus from 'prom-client';
 import { Express } from 'express';
 
-const setup = (app: Express) => {
+const setup = (app: Express): Instrumentation => {
     prometheus.collectDefaultMetrics({ eventLoopMonitoringPrecision: 5000 });
     routes(app);
+    const _requestHistogram = requestHistogram();
     return {
         onBehalfOfCounter,
+        requestHistogram: _requestHistogram,
     };
 };
+
+export interface Instrumentation {
+    onBehalfOfCounter: Function;
+    requestHistogram: Histogram;
+}
+
+interface Histogram {
+    startTidtakning: (url: string) => (labels?: Partial<Record<'route', string | number>> | undefined) => void;
+}
 
 const onBehalfOfCounter = () => {
     const counter = new prometheus.Counter({
@@ -22,6 +33,18 @@ const onBehalfOfCounter = () => {
                 targetClientId: clientId,
             });
         },
+    };
+};
+
+const requestHistogram = () => {
+    const histogram = new prometheus.Histogram({
+        name: 'Requesttider',
+        help: 'Tid brukt på kall mot spesialist',
+        labelNames: ['route'],
+    });
+
+    return {
+        startTidtakning: (url: string) => histogram.startTimer({ route: url }),
     };
 };
 

@@ -2,7 +2,7 @@ import config from './config';
 import redisClient from './redisClient';
 import devRedisClient from './devRedisClient';
 
-import instrumentationModule from './instrumentation';
+import instrumentationModule, { Instrumentation } from './instrumentation';
 import stsClient from './auth/stsClient';
 import devStsClient from './auth/devStsClient';
 import onBehalfOf from './auth/onBehalfOf';
@@ -24,14 +24,16 @@ import { Express } from 'express';
 import { RedisClient } from 'redis';
 
 const getDependencies = (app: Express) =>
-    process.env.NODE_ENV === 'development' ? getDevDependencies() : getProdDependencies(app);
+    process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
 
-const getDevDependencies = () => {
+const getDevDependencies = (app: Express) => {
+    const instrumentation: Instrumentation = instrumentationModule.setup(app);
+    const _devSpesialistClient = devSpesialistClient(instrumentation);
     return {
         person: {
             sparkelClient: devSparkelClient,
             aktørIdLookup: devAktørIdLookup,
-            spesialistClient: devSpesialistClient,
+            spesialistClient: _devSpesialistClient,
             stsClient: devStsClient,
             onBehalfOf: devOnBehalfOf,
             cache: devRedisClient,
@@ -47,16 +49,17 @@ const getProdDependencies = (app: Express) => {
     const _redisClient: RedisClient = redisClient.init(config.redis);
     stsClient.init(config.nav);
     aktørIdLookup.init(stsClient, config.nav);
-    const instrumentation = instrumentationModule.setup(app);
+    const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
+    const _spesialistClient = spesialistClient(instrumentation);
     return {
         person: {
             sparkelClient,
             aktørIdLookup,
-            spesialistClient,
+            spesialistClient: _spesialistClient,
             stsClient,
             onBehalfOf: _onBehalfOf,
             cache: _redisClient,

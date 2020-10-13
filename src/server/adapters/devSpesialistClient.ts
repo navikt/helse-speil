@@ -2,39 +2,46 @@ import request from 'request-promise-native';
 import * as fs from 'fs';
 import { SpesialistClient } from '../person/spesialistClient';
 import { SpesialistOppgave } from '../../types';
+import { Instrumentation } from '../instrumentation';
 
-const behandlingerForPeriode = async (_accessToken: string): Promise<Response> => {
-    const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
+const devSpesialistClient1 = (instrumentation: Instrumentation): SpesialistClient => ({
+    behandlingerForPeriode: async (_accessToken: string): Promise<Response> => {
+        const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
+        const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/oppgaver');
+        const oppgaver = await Promise.all(
+            JSON.parse(fromFile).map(async (oppgave: SpesialistOppgave) => ({
+                ...oppgave,
+                saksbehandlerepost: await hentTildeling(oppgave.oppgavereferanse),
+            }))
+        );
+        tidtakning();
+        return Promise.resolve(({
+            status: 200,
+            body: oppgaver,
+        } as unknown) as Response);
+    },
 
-    const oppgaver = await Promise.all(
-        JSON.parse(fromFile).map(async (oppgave: SpesialistOppgave) => ({
-            ...oppgave,
-            saksbehandlerepost: await hentTildeling(oppgave.oppgavereferanse),
-        }))
-    );
-    return Promise.resolve(({
-        status: 200,
-        body: oppgaver,
-    } as unknown) as Response);
-};
-
-const hentPersonByAktørId = async (aktørId: string): Promise<Response> => {
-    const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
-    const person = JSON.parse(fromFile);
-    return Promise.resolve({
-        status: 200,
-        body: person,
-    } as Response);
-};
-
-const hentPersonByFødselsnummer = async (aktørId: string): Promise<Response> => {
-    const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
-    const person = JSON.parse(fromFile);
-    return Promise.resolve({
-        status: 200,
-        body: person,
-    } as Response);
-};
+    hentPersonByAktørId: async (aktørId: string): Promise<Response> => {
+        const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
+        const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/person/aktørId');
+        const person = JSON.parse(fromFile);
+        tidtakning();
+        return Promise.resolve({
+            status: 200,
+            body: person,
+        } as Response);
+    },
+    hentPersonByFødselsnummer: async (aktørId: string): Promise<Response> => {
+        const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/person/fnr');
+        const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
+        const person = JSON.parse(fromFile);
+        tidtakning();
+        return Promise.resolve({
+            status: 200,
+            body: person,
+        } as Response);
+    },
+});
 
 const hentTildeling = (oppgavereferanse: string) => {
     const options = {
@@ -77,10 +84,7 @@ const filenameForPersonId = (id: string) => {
     }
 };
 
-const devSpesialistClient: SpesialistClient = {
-    behandlingerForPeriode,
-    hentPersonByAktørId,
-    hentPersonByFødselsnummer,
-};
+const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient =>
+    devSpesialistClient1(instrumentation);
 
 export default devSpesialistClient;
