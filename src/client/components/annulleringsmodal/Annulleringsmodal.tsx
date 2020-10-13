@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Input } from 'nav-frontend-skjema';
+import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { AnnulleringDTO } from '../../io/types';
-import { Arbeidsgiver, Person, UferdigVedtaksperiode, Vedtaksperiode } from 'internal-types';
+import { Person, Vedtaksperiode } from 'internal-types';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../../state/authentication';
 import { postAnnullering } from '../../io/http';
@@ -12,9 +12,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Annulleringsvarsel } from './Annulleringsvarsel';
 import { Modal } from '../Modal';
 import { organisasjonsnummerForPeriode } from '../../mapping/selectors';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '../../utils/date';
+import { NORSK_DATOFORMAT } from '../../utils/date';
 import { somPenger } from '../../utils/locale';
-import dayjs from 'dayjs';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -58,19 +57,8 @@ const Feilmelding = styled(NavFeilmelding)`
 `;
 
 const TilAnnullering = styled.div`
-    margin-bottom: 2rem;
+    margin: 1.5rem 0 0 2rem;
 `;
-
-export const totaltTilUtbetaling = (vedtaksperioder: (Vedtaksperiode | UferdigVedtaksperiode)[]): number =>
-    vedtaksperioder.reduce((total, periode: Vedtaksperiode) => {
-        const totaltForPeriode = periode.utbetalingstidslinje?.reduce((total, dag) => total + (dag.utbetaling ?? 0), 0);
-        return total + (totaltForPeriode ? totaltForPeriode : 0);
-    }, 0);
-
-const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
-
-export const sisteDatoForArbeidsgiver = (arbeidsgiver: Arbeidsgiver): string =>
-    [...arbeidsgiver.vedtaksperioder].sort(reversert)[0].tom.format(NORSK_DATOFORMAT);
 
 interface Props {
     person: Person;
@@ -86,21 +74,11 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
     const form = useForm({ mode: 'onBlur' });
     const organisasjonsnummer = organisasjonsnummerForPeriode(vedtaksperiode, person);
 
-    const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT);
-
-    const vedtaksperioderTilAnnullering = person.arbeidsgivere[0].vedtaksperioder.filter((periode) =>
-        periode.fom.isSameOrAfter(vedtaksperiode.fom)
-    ) as Vedtaksperiode[];
-
-    const dager = vedtaksperioderTilAnnullering.flatMap(
-        (periode: Vedtaksperiode) => periode.utbetalingstidslinje ?? []
-    );
-
     const annullering = (): AnnulleringDTO => ({
         aktørId: person.aktørId,
         fødselsnummer: person.fødselsnummer,
         organisasjonsnummer: organisasjonsnummer,
-        dager: dager.map((dag) => dag.dato.format(ISO_DATOFORMAT)),
+        fagsystemId: vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId!,
     });
 
     const sendAnnullering = (annullering: AnnulleringDTO) => {
@@ -114,6 +92,11 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
 
     const submit = () => sendAnnullering(annullering());
 
+    const CheckboxTekst = styled.p`
+        font-weight: bold;
+        color: #3e3832;
+    `;
+
     return (
         <FormProvider {...form}>
             <ModalContainer
@@ -126,27 +109,38 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
                     <Annulleringsvarsel />
                     <Tittel>Annullering</Tittel>
 
+                    <Checkbox
+                        name="arbeidsgiverCheckbox"
+                        label={<CheckboxTekst>Annullér utbetaling til arbeidsgiver</CheckboxTekst>}
+                        checkboxRef={form.register({ required: true })}
+                    />
                     <TilAnnullering>
-                        <Normaltekst>{`Periode som annulleres: ${fom} - ${sisteDatoForArbeidsgiver(
-                            person.arbeidsgivere[0]
-                        )}`}</Normaltekst>
-                        <Normaltekst>
-                            Totalbeløp: {somPenger(totaltTilUtbetaling(vedtaksperioderTilAnnullering))}
-                        </Normaltekst>
+                        <Normaltekst>Følgende utbetalinger annulleres:</Normaltekst>
+                        <ul>
+                            {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.linjer.map((linje) => (
+                                <li>
+                                    {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)} -{' '}
+                                    {somPenger(linje.dagsats)}
+                                </li>
+                            ))}
+                        </ul>
                     </TilAnnullering>
+                    {form.errors?.arbeidsgiverCheckbox && (
+                        <NavFeilmelding>Du må velge minst én utbetaling som skal annulleres</NavFeilmelding>
+                    )}
 
                     <Normaltekst>
                         For å gjennomføre annulleringen må du skrive inn din NAV brukerident i feltet under.
                     </Normaltekst>
                     <IdentInput
-                        name="failsafe"
+                        name="identinput"
                         label={'NAV brukerident'}
                         aria-label={'NAV brukerident'}
                         placeholder={'NAV brukerident'}
                         inputRef={form.register({ required: true, validate: (value: string) => value === ident })}
-                        feil={form.errors?.failsafe && 'Fyll inn din NAV brukerident'}
+                        feil={form.errors?.identinput && 'Fyll inn din NAV brukerident'}
                     />
-                    <AnnullerKnapp spinner={isSending} autoDisableVedSpinner onClick={submit}>
+                    <AnnullerKnapp spinner={isSending} autoDisableVedSpinner>
                         Annullér
                     </AnnullerKnapp>
                     <Flatknapp onClick={onClose}>Avbryt</Flatknapp>

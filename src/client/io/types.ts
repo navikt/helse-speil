@@ -23,5 +23,5 @@ export interface AnnulleringDTO {
     aktørId: string;
     fødselsnummer: string;
     organisasjonsnummer: string;
-    dager: string[];
+    fagsystemId: string;
 }
