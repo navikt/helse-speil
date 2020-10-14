@@ -60,6 +60,19 @@ const TilAnnullering = styled.div`
     margin: 1.5rem 0 0 2rem;
 `;
 
+const Utbetalingsgruppe = styled.div`
+    margin-bottom: 2rem;
+`;
+
+const CheckboxTekst = styled.p`
+    font-weight: bold;
+    color: #3e3832;
+`;
+
+const CheckboxFeilmelding = styled(NavFeilmelding)`
+    margin-top: 0.5rem;
+`;
+
 interface Props {
     person: Person;
     vedtaksperiode: Vedtaksperiode;
@@ -92,11 +105,6 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
 
     const submit = () => sendAnnullering(annullering());
 
-    const CheckboxTekst = styled.p`
-        font-weight: bold;
-        color: #3e3832;
-    `;
-
     return (
         <FormProvider {...form}>
             <ModalContainer
@@ -114,20 +122,24 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
                         label={<CheckboxTekst>Annullér utbetaling til arbeidsgiver</CheckboxTekst>}
                         checkboxRef={form.register({ required: true })}
                     />
-                    <TilAnnullering>
-                        <Normaltekst>Følgende utbetalinger annulleres:</Normaltekst>
-                        <ul>
-                            {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.linjer.map((linje) => (
-                                <li>
-                                    {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)} -{' '}
-                                    {somPenger(linje.dagsats)}
-                                </li>
-                            ))}
-                        </ul>
-                    </TilAnnullering>
-                    {form.errors?.arbeidsgiverCheckbox && (
-                        <NavFeilmelding>Du må velge minst én utbetaling som skal annulleres</NavFeilmelding>
-                    )}
+                    <Utbetalingsgruppe>
+                        <TilAnnullering>
+                            <Normaltekst>Følgende utbetalinger annulleres:</Normaltekst>
+                            <ul>
+                                {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.linjer.map((linje) => (
+                                    <li>
+                                        {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)} -{' '}
+                                        {somPenger(linje.dagsats)}
+                                    </li>
+                                ))}
+                            </ul>
+                        </TilAnnullering>
+                        {form.errors?.arbeidsgiverCheckbox && (
+                            <CheckboxFeilmelding>
+                                Du må velge minst én utbetaling som skal annulleres
+                            </CheckboxFeilmelding>
+                        )}
+                    </Utbetalingsgruppe>
 
                     <Normaltekst>
                         For å gjennomføre annulleringen må du skrive inn din NAV brukerident i feltet under.
