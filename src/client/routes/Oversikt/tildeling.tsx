@@ -68,6 +68,7 @@ export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
 
     const tildel = () => {
         if (!email) return;
+        if (tildeler) return;
         setTildeler(true);
         tildelOppgave(oppgave.oppgavereferanse, email)
             .then(() => markerOppgaveSomTildelt(oppgave, email))

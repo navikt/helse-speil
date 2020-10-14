@@ -42,7 +42,10 @@ const sykepengegrunnlagVilkår = (vilkår: SpleisVilkår): SykepengegrunnlagVilk
 
 const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
     dagerBrukt: vilkår.sykepengedager.forbrukteSykedager,
-    førsteFraværsdag: somDato(vilkår.sykepengedager.førsteFraværsdag),
+    førsteFraværsdag:
+        vilkår.sykepengedager.førsteFraværsdag && vilkår.sykepengedager.førsteFraværsdag != null
+            ? somDato(vilkår.sykepengedager.førsteFraværsdag)
+            : somDato(vilkår.sykepengedager.beregningsdato!),
     førsteSykepengedag: somKanskjeDato(vilkår.sykepengedager.førsteSykepengedag),
     maksdato: somKanskjeDato(vilkår.sykepengedager.maksdato),
     oppfylt: vilkår.sykepengedager.oppfylt,

@@ -244,7 +244,8 @@ export interface SpleisVilkår {
 
 export interface SpleisSykepengedager {
     forbrukteSykedager?: number;
-    førsteFraværsdag: string;
+    førsteFraværsdag?: string | null;
+    beregningsdato?: string | null;
     førsteSykepengedag?: string;
     maksdato?: string;
     gjenståendeDager?: number;
