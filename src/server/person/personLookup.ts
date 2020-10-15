@@ -94,7 +94,7 @@ const auditLog = (req: Request, ...params: string[]) => {
     logger.audit(`${speilUser(req)} is doing lookup with params: ${params.join(', ')}`);
 };
 
-const speilUser = (req: Request) => authSupport.valueFromClaim('name', req.session!.speilToken);
+export const speilUser = (req: Request) => authSupport.valueFromClaim('name', req.session!.speilToken);
 
 const auditLogOversikt = (req: Request) => {
     logger.audit(`${speilUser(req)} is viewing front page`);
