@@ -134,5 +134,8 @@ export const getOppgavereferanse = async (fødselsnummer: string) =>
 export const postTildeling = async (tildeling: Tildeling) =>
     post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
 
+export const postDummyTildeling = async () =>
+    post(`${baseUrlSpesialist}/dummytildeling/1234`, {}, spesialistAuthorization());
+
 export const deleteTildeling = async (oppgavereferanse: string) =>
     del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());

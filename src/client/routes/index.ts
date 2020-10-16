@@ -5,4 +5,5 @@ export const Routes = {
     Oversikt: routeForMiljø('/'),
     Saksbilde: routeForMiljø('/*/:aktorId'),
     Uatutorisert: routeForMiljø('/uautorisert'),
+    TildelingTest: routeForMiljø('/boomer'),
 };

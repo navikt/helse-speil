@@ -20,6 +20,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from './context/PersonContext';
 import 'reset-css';
 import './App.less';
+import { TildelingTest } from './routes/TildelingTest';
 
 ReactModal.setAppElement('#root');
 
@@ -44,6 +45,7 @@ const App = withContextProviders(() => {
             <Switch>
                 <Route path={Routes.Uatutorisert} component={IkkeLoggetInn} />
                 <ProtectedRoute path={Routes.Oversikt} exact component={Oversikt} />
+                <ProtectedRoute path={Routes.TildelingTest} exact component={TildelingTest} />
                 <ProtectedRoute path={Routes.Saksbilde} component={Saksbilde} />
             </Switch>
         </>

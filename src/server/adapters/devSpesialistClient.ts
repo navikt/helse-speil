@@ -4,7 +4,7 @@ import { SpesialistClient } from '../person/spesialistClient';
 import { SpesialistOppgave } from '../../types';
 import { Instrumentation } from '../instrumentation';
 
-const devSpesialistClient1 = (instrumentation: Instrumentation): SpesialistClient => ({
+const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient => ({
     behandlingerForPeriode: async (_accessToken: string): Promise<Response> => {
         const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
         const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/oppgaver');
@@ -54,6 +54,17 @@ const hentTildeling = (oppgavereferanse: string) => {
         .catch(() => {});
 };
 
+export const tildel = (oppgavereferanse: string, saksbehandler: string) => {
+    const options = {
+        uri: `http://localhost:9001/api/v1/tildeling/${oppgavereferanse}`,
+        resolveWithFullResponse: true,
+    };
+    return request
+        .post(options)
+        .then((res) => res.body)
+        .catch(() => {});
+};
+
 const filenameForPersonId = (id: string) => {
     switch (id) {
         case '1000000009871':
@@ -83,8 +94,5 @@ const filenameForPersonId = (id: string) => {
             return 'håkon_3perioder_første_periode_kort.json';
     }
 };
-
-const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient =>
-    devSpesialistClient1(instrumentation);
 
 export default devSpesialistClient;
