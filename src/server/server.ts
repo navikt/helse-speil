@@ -18,7 +18,6 @@ import person from './person/personRoutes';
 import paymentRoutes from './payment/paymentRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
 import { SpeilRequest } from './types';
-import { speilUser } from './person/personLookup';
 
 const app = express();
 const port = config.server.port;
@@ -101,7 +100,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
             auth.isValidIn({ seconds: 5, token: req.session!.speilToken }) ||
             (await auth.refreshAccessToken(azureClient!, req.session!))
         ) {
-            const url = req?.url?.split('/') ?? [];
+            const url = req?.originalUrl?.split('/') ?? [];
             logger.audit(`Someone is making request to ${url.slice(0, url.length - 1).join()}`);
 
             res.cookie('spesialist', req.session.speilToken, { secure: true, sameSite: true });
