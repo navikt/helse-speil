@@ -234,14 +234,15 @@ const appendInntektskilder = async ({ unmapped, partial }: PartialMappingResult)
 });
 
 const appendAktivitetslogg = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => {
+    const aktivitetsloggvarsler = unmapped.aktivitetslogg.map((aktivitet) => aktivitet.melding);
     return {
         unmapped,
         partial: {
             ...partial,
             aktivitetslog:
                 unmapped.varsler?.length > 0
-                    ? unmapped.varsler
-                    : unmapped.aktivitetslogg.map((aktivitet) => aktivitet.melding),
+                    ? unmapped.varsler.filter((v, i) => unmapped.varsler.indexOf(v) === i)
+                    : aktivitetsloggvarsler.filter((v, i) => aktivitetsloggvarsler.indexOf(v) === i),
         },
     };
 };
