@@ -134,8 +134,17 @@ export const getOppgavereferanse = async (fødselsnummer: string) =>
 export const postTildeling = async (tildeling: Tildeling) =>
     post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
 
-export const postDummyTildeling = async () =>
-    post(`${baseUrlSpesialist}/dummytildeling/1234`, {}, spesialistAuthorization());
+export const postDummyTildeling = async (oppgaveref: string) =>
+    post(`${baseUrlSpesialist}/dummytildeling/${oppgaveref}`, {}, spesialistAuthorization());
+
+export const getDummyTildeling = async (oppgaveref: string) =>
+    get(`${baseUrlSpesialist}/dummytildeling/${oppgaveref}`, spesialistOptions());
+
+export const postDummyTildelingSpesialist = async (oppgaveref: string) =>
+    post(`https://spesialist.nais.adeo.no/dummytildeling/${oppgaveref}`, {}, spesialistAuthorization());
+
+export const getDummyTildelingSpesialist = async (oppgaveref: string) =>
+    get(`https://spesialist.nais.adeo.no//dummytildeling/${oppgaveref}`, spesialistOptions());
 
 export const deleteTildeling = async (oppgavereferanse: string) =>
     del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
