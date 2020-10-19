@@ -82,11 +82,12 @@ export const Paginering = ({
                 <Sideknapp onClick={dekrementerSidenummer}>Forrige</Sideknapp>
                 {genererSidetall(sidenummer, antallSider, 9).map((element) =>
                     isNaN(element) ? (
-                        <Sideknapp>{element}</Sideknapp>
+                        <Sideknapp key={element}>{element}</Sideknapp>
                     ) : (
                         <Sideknapp
                             onClick={() => setPaginering((p) => ({ ...p, sidenummer: element }))}
                             active={sidenummer === element}
+                            key={element}
                         >
                             {element}
                         </Sideknapp>
