@@ -5,9 +5,9 @@ import fetchIntercept from 'fetch-intercept';
 
 interface AuthInfo {
     name: string;
-    isLoggedIn: boolean;
     email?: string;
     ident?: string;
+    isLoggedIn?: boolean;
 }
 
 export const authState = atom<AuthInfo>({
@@ -16,7 +16,7 @@ export const authState = atom<AuthInfo>({
         name: '',
         ident: undefined,
         email: undefined,
-        isLoggedIn: false,
+        isLoggedIn: undefined,
     },
 });
 
@@ -27,14 +27,16 @@ export const useAuthentication = () => {
     const resetAuthInfo = useResetRecoilState(authState);
     const [name, ident, email] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL]);
 
-    if (name && name !== authInfo.name) {
-        setAuthInfo({
-            name,
-            ident,
-            email,
-            isLoggedIn: true,
-        });
-    }
+    useEffect(() => {
+        if (name && name !== authInfo.name) {
+            setAuthInfo({
+                name,
+                ident,
+                email,
+                isLoggedIn: true,
+            });
+        }
+    }, [name, authInfo]);
 
     useEffect(() => {
         fetchIntercept.register({

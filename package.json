@@ -108,7 +108,7 @@
         "react-router": "^5.2.0",
         "react-router-dom": "^5.2.0",
         "react-tooltip": "^4.2.6",
-        "recoil": "0.0.8",
+        "recoil": "0.0.13",
         "redis": "^3.0.2",
         "request": "^2.88.2",
         "request-promise-native": "^1.0.8",

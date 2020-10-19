@@ -9,7 +9,10 @@ const ProtectedRoute = ({ component: Component, ...rest }: RouteProps) => {
     const { isLoggedIn } = useRecoilValue(authState);
 
     return (
-        <Route {...rest} render={(props) => (isLoggedIn ? <Component {...props} /> : <Redirect to="/uautorisert" />)} />
+        <Route
+            {...rest}
+            render={(props) => (isLoggedIn !== false ? <Component {...props} /> : <Redirect to="/uautorisert" />)}
+        />
     );
 };
 
