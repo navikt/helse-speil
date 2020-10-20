@@ -8,9 +8,9 @@ interface SetupOptions {
 
 export default ({ tildelingClient }: SetupOptions) => {
     const router = Router();
-    router.post('/', (req: Request, res: Response) => {
+    router.post('/:oppgavereferanse', (req: Request, res: Response) => {
         tildelingClient
-            .postTildeling(req.body, req.session!.speilToken)
+            .postTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session!.speilToken)
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under tildeling: ${err}`);
@@ -18,9 +18,9 @@ export default ({ tildelingClient }: SetupOptions) => {
             });
     });
 
-    router.delete('/', (req: Request, res: Response) => {
+    router.delete('/:oppgavereferanse', (req: Request, res: Response) => {
         tildelingClient
-            .fjernTildeling(req.body, req.session!.speilToken)
+            .fjernTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session!.speilToken)
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under tildeling: ${err}`);

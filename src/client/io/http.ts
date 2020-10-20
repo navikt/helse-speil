@@ -134,7 +134,7 @@ export const getOppgavereferanse = async (fødselsnummer: string) =>
 
 export const postTildeling = async (tildeling: Tildeling) => {
     if (speilTildeling) {
-        return post(`${baseUrl}/tildeling`, tildeling);
+        return post(`${baseUrl}/tildeling/${tildeling.oppgavereferanse}`, {});
     } else {
         return post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
     }
@@ -142,7 +142,7 @@ export const postTildeling = async (tildeling: Tildeling) => {
 
 export const deleteTildeling = async (oppgavereferanse: string) => {
     if (speilTildeling) {
-        return del(`${baseUrl}/tildeling`, { oppgavereferanse: oppgavereferanse });
+        return del(`${baseUrl}/tildeling/${oppgavereferanse}`, {});
     } else {
         return del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
     }

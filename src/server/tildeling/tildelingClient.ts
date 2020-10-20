@@ -3,16 +3,11 @@ import { OidcConfig, OnBehalfOf } from '../types';
 
 export interface TildelingClient {
     postTildeling: (tildeling: Tildeling, speilToken: string) => Promise<Response>;
-    fjernTildeling: (body: FjernTildeling, speilToken: string) => Promise<Response>;
-}
-
-interface FjernTildeling {
-    oppgavereferanse: string;
+    fjernTildeling: (tildeling: Tildeling, speilToken: string) => Promise<Response>;
 }
 
 interface Tildeling {
     oppgavereferanse: string;
-    userId: string;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): TildelingClient => ({
@@ -29,10 +24,10 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): TildelingClient
         return request.post(options);
     },
 
-    fjernTildeling: async (body: FjernTildeling, speilToken: string): Promise<Response> => {
+    fjernTildeling: async (tildeling: Tildeling, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/tildeling/${body.oppgavereferanse}`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/tildeling/${tildeling.oppgavereferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
