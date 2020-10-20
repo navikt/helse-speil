@@ -18,5 +18,15 @@ export default ({ tildelingClient }: SetupOptions) => {
             });
     });
 
+    router.delete('/', (req: Request, res: Response) => {
+        tildelingClient
+            .fjernTildeling(req.body, req.session!.speilToken)
+            .then(() => res.sendStatus(200))
+            .catch((err) => {
+                logger.error(`Feil under tildeling: ${err}`);
+                res.status(500).send('Feil under tildeling');
+            });
+    });
+
     return router;
 };

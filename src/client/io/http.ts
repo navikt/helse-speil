@@ -140,6 +140,14 @@ export const postTildeling = async (tildeling: Tildeling) => {
     }
 };
 
+export const deleteTildeling = async (oppgavereferanse: string) => {
+    if (speilTildeling) {
+        return del(`${baseUrl}/tildeling`, { oppgavereferanse: oppgavereferanse });
+    } else {
+        return del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
+    }
+};
+
 export const postDummyTildeling = async (oppgaveref: string) =>
     post(`${baseUrlSpesialist}/dummytildeling/${oppgaveref}`, {}, spesialistAuthorization());
 
@@ -151,6 +159,3 @@ export const postDummyTildelingSpesialist = async (oppgaveref: string) =>
 
 export const getDummyTildelingSpesialist = async (oppgaveref: string) =>
     get(`https://spesialist.nais.adeo.no/api/v1/dummytildeling/${oppgaveref}`, spesialistOptions());
-
-export const deleteTildeling = async (oppgavereferanse: string) =>
-    del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());

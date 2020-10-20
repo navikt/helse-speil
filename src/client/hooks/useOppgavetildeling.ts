@@ -47,6 +47,7 @@ export const useOppgavetildeling = (): Oppgavetildeling => {
         fjernVarsler();
         return deleteTildeling(oppgavereferanse).catch(() => {
             leggTilVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
+            return Promise.reject();
         });
     };
 
