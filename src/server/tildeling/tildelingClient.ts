@@ -1,9 +1,13 @@
 import request from 'request-promise-native';
 import { OidcConfig, OnBehalfOf } from '../types';
-import { Tildeling } from 'internal-types';
 
 export interface TildelingClient {
     postTildeling: (tildeling: Tildeling, speilToken: string) => Promise<Response>;
+}
+
+interface Tildeling {
+    oppgavereferanse: string;
+    userId: string;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): TildelingClient => ({
