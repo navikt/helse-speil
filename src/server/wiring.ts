@@ -19,6 +19,8 @@ import spesialistClient from './person/spesialistClient';
 import devSpesialistClient from './adapters/devSpesialistClient';
 import overstyringClient from './overstyring/overstyringClient';
 import devOverstyringClient from './overstyring/devOverstyringClient';
+import tildelingClient from './tildeling/tildelingClient';
+import devTildelingClient from './tildeling/devTildelingClient';
 
 import { Express } from 'express';
 import { RedisClient } from 'redis';
@@ -42,6 +44,7 @@ const getDevDependencies = (app: Express) => {
         payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
         redisClient: devRedisClient,
         overstyring: { overstyringClient: devOverstyringClient },
+        tildeling: { tildelingClient: devTildelingClient },
     };
 };
 
@@ -53,6 +56,7 @@ const getProdDependencies = (app: Express) => {
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
+    const _tildelingClient = tildelingClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     const _spesialistClient = spesialistClient(instrumentation);
     return {
@@ -68,6 +72,7 @@ const getProdDependencies = (app: Express) => {
         payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },
         redisClient: _redisClient,
         overstyring: { overstyringClient: _overstyringClient },
+        tildeling: { tildelingClient: _tildelingClient },
     };
 };
 

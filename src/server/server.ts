@@ -17,6 +17,7 @@ import auth from './auth/authSupport';
 import person from './person/personRoutes';
 import paymentRoutes from './payment/paymentRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
+import tildelingRoutes from './tildeling/tildelingRoutes';
 import { SpeilRequest } from './types';
 
 const app = express();
@@ -124,6 +125,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
 app.use('/api/person', person.setup({ ...dependencies.person }));
 app.use('/api/payments', paymentRoutes(dependencies.payments));
 app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
+app.use('/api/tildeling', tildelingRoutes(dependencies.tildeling));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {

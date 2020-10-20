@@ -1,7 +1,8 @@
 import { Tildeling } from 'internal-types';
-import { extractSpesialistToken } from '../utils/cookie';
+import { extractIdent, extractSpesialistToken } from '../utils/cookie';
 import { AnnulleringDTO, Options, OverstyringDTO } from './types';
 import { Avvisningsskjema } from '../routes/Saksbilde/Oppsummering/utbetaling/Utbetalingsdialog';
+import { speilTildeling } from '../featureToggles';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -131,8 +132,13 @@ const spesialistOptions = (headere?: Headers) => ({
 export const getOppgavereferanse = async (fødselsnummer: string) =>
     get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
-export const postTildeling = async (tildeling: Tildeling) =>
-    post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
+export const postTildeling = async (tildeling: Tildeling) => {
+    if (speilTildeling) {
+        return post(`${baseUrl}/tildeling`, tildeling);
+    } else {
+        return post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
+    }
+};
 
 export const postDummyTildeling = async (oppgaveref: string) =>
     post(`${baseUrlSpesialist}/dummytildeling/${oppgaveref}`, {}, spesialistAuthorization());
