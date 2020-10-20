@@ -19,7 +19,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): TildelingClient
     postTildeling: async (tildeling: Tildeling, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/v1/tildeling/${tildeling.oppgavereferanse}`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/tildeling/${tildeling.oppgavereferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -32,7 +32,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): TildelingClient
     fjernTildeling: async (body: FjernTildeling, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/v1/tildeling/${body.oppgavereferanse}`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/tildeling/${body.oppgavereferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
