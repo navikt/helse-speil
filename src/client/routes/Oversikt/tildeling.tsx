@@ -8,6 +8,8 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
 import Dropdown from '../../components/Dropdown';
+import { useUpdateVarsler } from '../../state/varslerState';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Flex = styled.span`
     display: flex;
@@ -35,7 +37,10 @@ const MeldAvKnapp = styled.button`
     }
 `;
 
+const tildelingsvarsel = (message: string) => ({ message, type: Varseltype.Advarsel });
+
 export const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
+    const { leggTilVarsel } = useUpdateVarsler();
     const email = useEmail();
     const erTildeltInnloggetBruker = oppgave.tildeltTil === email;
     const tildeltBrukernavn = capitalizeName(extractNameFromEmail(oppgave.tildeltTil));
@@ -43,7 +48,11 @@ export const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
     const { markerOppgaveSomTildelt } = useContext(OppgaverContext);
 
     const meldAv = () => {
-        fjernTildeling(oppgave.oppgavereferanse).then(() => markerOppgaveSomTildelt(oppgave));
+        fjernTildeling(oppgave.oppgavereferanse)
+            .then(() => markerOppgaveSomTildelt(oppgave))
+            .catch(() => {
+                leggTilVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
+            });
     };
 
     return (
@@ -72,8 +81,10 @@ export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
         setTildeler(true);
         tildelOppgave(oppgave.oppgavereferanse, email)
             .then(() => markerOppgaveSomTildelt(oppgave, email))
-            .catch((assignedUser) => markerOppgaveSomTildelt(oppgave, assignedUser))
-            .finally(() => setTildeler(false));
+            .catch((assignedUser) => {
+                markerOppgaveSomTildelt(oppgave, assignedUser);
+                setTildeler(false);
+            });
     };
 
     return (
