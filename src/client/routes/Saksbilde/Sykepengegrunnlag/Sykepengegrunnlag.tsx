@@ -33,8 +33,8 @@ const Sykepengegrunnlag = () => {
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
     const førstePeriode = førsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
-    const førsteFraværsdag = aktivVedtaksperiode.vilkår?.dagerIgjen?.førsteFraværsdag
-        ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
+    const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen?.skjæringstidspunkt
+        ? aktivVedtaksperiode.vilkår.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
 
     const { sykepengegrunnlag, periodetype } = aktivVedtaksperiode;
@@ -52,7 +52,7 @@ const Sykepengegrunnlag = () => {
                     </StyledBehandletAvInfotrygd>
                 ) : (
                     <StyledBehandletInnhold
-                        tittel={`Sykepengegrunnlag satt første sykdomsdag - ${førsteFraværsdag}`}
+                        tittel={`Sykepengegrunnlag satt ved skjæringstidspunkt - ${skjæringstidspunkt}`}
                         saksbehandler={førstePeriode?.godkjentAv!}
                         vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
                         automatiskBehandlet={førstePeriode.automatiskBehandlet}

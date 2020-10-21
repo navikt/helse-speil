@@ -244,8 +244,7 @@ export interface SpleisVilkår {
 
 export interface SpleisSykepengedager {
     forbrukteSykedager?: number;
-    førsteFraværsdag?: string | null;
-    beregningsdato?: string | null;
+    beregningsdato: string;
     førsteSykepengedag?: string;
     maksdato?: string;
     gjenståendeDager?: number;
@@ -311,13 +310,12 @@ export interface SpesialistVedtaksperiode {
     fullstendig: boolean;
     utbetalingsreferanse?: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
-    utbetalinger?: SpleisUtbetalinger;
+    utbetalinger: SpleisUtbetalinger;
     sykdomstidslinje: SpleisSykdomsdag[];
-    automatiskBehandlet?: boolean | null;
+    automatiskBehandlet: boolean;
     godkjentAv?: string;
     godkjenttidspunkt?: string;
-    vilkår: SpleisVilkår | null;
-    førsteFraværsdag: string;
+    vilkår: SpleisVilkår;
     inntektFraInntektsmelding: number;
     totalbeløpArbeidstaker: number;
     dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;

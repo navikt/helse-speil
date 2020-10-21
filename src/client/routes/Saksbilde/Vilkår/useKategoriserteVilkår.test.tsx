@@ -13,7 +13,7 @@ const alder = {
 
 const dagerIgjen = {
     dagerBrukt: 0,
-    førsteFraværsdag: dayjs('2020-01-01'),
+    skjæringstidspunkt: dayjs('2020-01-01'),
     førsteSykepengedag: dayjs('2020-01-01'),
     maksdato: dayjs('2021-01-01'),
     gjenståendeDager: 345,

@@ -32,9 +32,9 @@ const BehandletVedtaksperiodeWrapper = ({
     tittel,
     children,
 }: BehandletVedtaksperiodeWrapperProps) => {
-    const førsteFraværsdag =
-        førsteVedtaksperiode.vilkår?.dagerIgjen?.førsteFraværsdag.format(NORSK_DATOFORMAT) ?? 'Ukjent dato';
-    const overskrift = tittel ? tittel : `Vilkår vurdert første sykdomsdag - ${førsteFraværsdag}`;
+    const skjæringstidspunkt =
+        førsteVedtaksperiode.vilkår?.dagerIgjen?.skjæringstidspunkt.format(NORSK_DATOFORMAT) ?? 'Ukjent dato';
+    const overskrift = tittel ? tittel : `Vilkår vurdert ved skjæringstidspunkt - ${skjæringstidspunkt}`;
     return (
         <StyledBehandletInnhold
             saksbehandler={aktivVedtaksperiode.godkjentAv}
@@ -106,7 +106,7 @@ export const BehandletVedtaksperiode = ({
                         {vilkår.opptjening ? (
                             <Vilkårsgrupper.Opptjeningstid
                                 opptjeningVilkår={vilkår.opptjening}
-                                førsteFraværsdag={vilkår.dagerIgjen?.førsteFraværsdag}
+                                skjæringstidspunkt={vilkår.dagerIgjen?.skjæringstidspunkt}
                             />
                         ) : (
                             <Vilkårsgruppe

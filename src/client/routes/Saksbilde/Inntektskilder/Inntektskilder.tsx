@@ -27,8 +27,8 @@ const Inntektskilder = () => {
     if (aktivVedtaksperiode === undefined || personTilBehandling === undefined) return null;
 
     const førstePeriode = førsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
-    const førsteFraværsdag = aktivVedtaksperiode.vilkår?.dagerIgjen?.førsteFraværsdag
-        ? aktivVedtaksperiode.vilkår.dagerIgjen.førsteFraværsdag.format(NORSK_DATOFORMAT)
+    const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen?.skjæringstidspunkt
+        ? aktivVedtaksperiode.vilkår.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT)
         : 'Ukjent dato';
 
     return (
@@ -38,7 +38,7 @@ const Inntektskilder = () => {
                     <Inntektskilderinnhold inntektskilder={aktivVedtaksperiode.inntektskilder} />
                 ) : (
                     <StyledBehandletInnhold
-                        tittel={`Inntekt vurdert første sykdomsdag - ${førsteFraværsdag}`}
+                        tittel={`Inntekt vurdert ved skjæringstidspunkt - ${skjæringstidspunkt}`}
                         saksbehandler={førstePeriode?.godkjentAv}
                         vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
                         automatiskBehandlet={førstePeriode.automatiskBehandlet}

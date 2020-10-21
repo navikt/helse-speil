@@ -35,13 +35,13 @@ const Søknadsfrist = (props: SøknadsfristType) => (
 
 interface OpptjeningstidProps {
     opptjeningVilkår: OpptjeningType | Basisvilkår;
-    førsteFraværsdag?: Dayjs;
+    skjæringstidspunkt?: Dayjs;
 }
 
-const Opptjeningstid = ({ opptjeningVilkår, førsteFraværsdag }: OpptjeningstidProps) => (
+const Opptjeningstid = ({ opptjeningVilkår, skjæringstidspunkt }: OpptjeningstidProps) => (
     <Vilkårsgruppe tittel="Opptjeningstid" paragraf="§ 8-2" ikontype={opptjeningVilkår.oppfylt ? 'ok' : 'kryss'}>
-        <Vilkårsgrupperad label="Første sykdomsdag">
-            {førsteFraværsdag?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
+        <Vilkårsgrupperad label="Skjæringstidspunkt">
+            {skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
         </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Opptjening fra">
             {(opptjeningVilkår as OpptjeningType).opptjeningFra.format(NORSK_DATOFORMAT)}
@@ -87,8 +87,8 @@ const Grunnbeløp = ({ grunnbeløp, alder }: Grunnbeløp) =>
 const DagerIgjen = (props: DagerIgjenType) => {
     return (
         <Vilkårsgruppe tittel="Dager igjen" paragraf="§§ 8-11 og 8-12" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
-            <Vilkårsgrupperad label="Første fraværsdag">
-                {props.førsteFraværsdag?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
+            <Vilkårsgrupperad label="Skjæringstidspunkt">
+                {props.skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
             </Vilkårsgrupperad>
             <Vilkårsgrupperad label="Første sykepengedag">
                 {props.førsteSykepengedag?.format(NORSK_DATOFORMAT) ?? 'Ingen sykepengedager'}
@@ -96,7 +96,7 @@ const DagerIgjen = (props: DagerIgjenType) => {
             <Vilkårsgrupperad label="Yrkesstatus">Arbeidstaker</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Dager brukt">{props.dagerBrukt ?? 'Ikke funnet'}</Vilkårsgrupperad>
             <Vilkårsgrupperad label="Dager igjen">{props.gjenståendeDager ?? 'Ikke funnet'}</Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Maks dato">
+            <Vilkårsgrupperad label="Maksdato">
                 {props.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
             </Vilkårsgrupperad>
         </Vilkårsgruppe>
@@ -130,7 +130,7 @@ export const opptjeningstid = (vilkår: Vilkår): ReactNode =>
     vilkår.opptjening && (
         <Opptjeningstid
             opptjeningVilkår={vilkår.opptjening!}
-            førsteFraværsdag={vilkår.dagerIgjen.førsteFraværsdag}
+            skjæringstidspunkt={vilkår.dagerIgjen.skjæringstidspunkt}
             key="opptjeningstid"
         />
     );

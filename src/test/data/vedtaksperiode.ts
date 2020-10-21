@@ -34,7 +34,6 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
 
     const sykdomsdager = sykdomstidslinje(fom, tom);
     const utbetalingsdager = utbetalingstidslinje(sykdomsdager, 1500);
-    const førsteFraværsdag = sykdomsdager.find(({ type }) => type === SpleisSykdomsdagtype.SYKEDAG)!;
     const utbetalingene = utbetalinger(utbetalingsdager, true);
     return {
         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
@@ -48,8 +47,8 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         utbetalingstidslinje: utbetalingsdager,
         sykdomstidslinje: sykdomsdager,
         utbetalinger: utbetalingene,
+        automatiskBehandlet: false,
         vilkår: vilkår(sykdomsdager),
-        førsteFraværsdag: førsteFraværsdag.dagen,
         inntektFraInntektsmelding: 31000.0,
         totalbeløpArbeidstaker: totalbeløpArbeidstaker(utbetalingsdager),
         hendelser: hendelser(sykdomsdager),

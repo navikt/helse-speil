@@ -23,8 +23,8 @@ export const FerdigbehandledeVilkår = ({ vedtaksperiode }: FerdigbehandledeVilk
     <>
         <StyledBehandletInnhold
             saksbehandler={vedtaksperiode.godkjentAv!}
-            tittel={`Vilkår vurdert første sykdomsdag - ${formatterDato(
-                vedtaksperiode.vilkår!.dagerIgjen?.førsteFraværsdag
+            tittel={`Vilkår vurdert ved skjæringstidspunkt - ${formatterDato(
+                vedtaksperiode.vilkår!.dagerIgjen?.skjæringstidspunkt
             )}`}
             vurderingsdato={formatterDato(vedtaksperiode.godkjenttidspunkt)}
             automatiskBehandlet={vedtaksperiode.automatiskBehandlet}
@@ -63,7 +63,7 @@ const OptionalOpptjeningstid = ({ vedtaksperiode }: OpptionalOpptjeningstidProps
     vedtaksperiode.vilkår?.opptjening ?? false ? (
         <Vilkårsgrupper.Opptjeningstid
             opptjeningVilkår={vedtaksperiode.vilkår!.opptjening as Opptjening}
-            førsteFraværsdag={vedtaksperiode.vilkår!.dagerIgjen?.førsteFraværsdag}
+            skjæringstidspunkt={vedtaksperiode.vilkår!.dagerIgjen?.skjæringstidspunkt}
         />
     ) : (
         <Vilkårsgruppe tittel="Opptjening må vurderes manuelt" ikontype="advarsel" paragraf="§ 8-2" />

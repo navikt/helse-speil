@@ -45,7 +45,7 @@ export const mappetPerson: Person = {
                         },
                         dagerIgjen: {
                             dagerBrukt: 3,
-                            førsteFraværsdag: dayjs('2020-01-01T00:00:00.000Z'),
+                            skjæringstidspunkt: dayjs('2020-01-01T00:00:00.000Z'),
                             førsteSykepengedag: dayjs('2020-01-01T00:00:00.000Z'),
                             maksdato: dayjs('2020-10-07T00:00:00.000Z'),
                             oppfylt: true,
