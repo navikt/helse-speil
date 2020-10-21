@@ -148,6 +148,9 @@ export const deleteTildeling = async (oppgavereferanse: string) => {
     }
 };
 
+export const postDummyTildelingViaProxy = async (oppgaveRef: string) =>
+    post(`${baseUrl}/dummy/tildeling/${oppgaveRef}`, {});
+
 export const postDummyTildeling = async (oppgaveref: string) =>
     post(`${baseUrlSpesialist}/dummytildeling/${oppgaveref}`, {}, spesialistAuthorization());
 

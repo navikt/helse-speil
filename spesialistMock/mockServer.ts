@@ -33,6 +33,13 @@ app.post('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) =>
     res.sendStatus(200);
 });
 
+app.post('/api/v1/dummytildeling/:oppgavereferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgavereferanse;
+    const saksbehandlerepost = 'dev@nav.no';
+    tildelinger[oppgavereferanse] = saksbehandlerepost;
+    res.sendStatus(200);
+});
+
 app.delete('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
     delete tildelinger[oppgavereferanse];

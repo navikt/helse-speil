@@ -6,6 +6,7 @@ import {
     getDummyTildelingSpesialist,
     postDummyTildeling,
     postDummyTildelingSpesialist,
+    postDummyTildelingViaProxy,
 } from '../io/http';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Input from 'nav-frontend-skjema/lib/input';
@@ -52,6 +53,18 @@ export const TildelingTest = () => {
             })
             .finally(() => setPoster(false));
     };
+
+    const dummyTildelSpesialistViaProxyPost = () => {
+        setPoster(true);
+        return postDummyTildelingViaProxy('1234')
+            .then((res) => {
+                setResultat('POST: Det gikk fint');
+            })
+            .catch(async (error) => {
+                setResultat(`POST: Det gikk IKKE fint, men det gikk. Feilmelding: ${error.message}`);
+            })
+            .finally(() => setPoster(false));
+    };
     const dummyTildelSpesialistGet = () => {
         setPoster(true);
         return getDummyTildelingSpesialist('3334')
@@ -65,6 +78,9 @@ export const TildelingTest = () => {
     };
     return (
         <StyledDiv>
+            <Fareknapp spinner={poster} onClick={dummyTildelSpesialistViaProxyPost}>
+                Spesialist via proxy (POST)
+            </Fareknapp>
             <Fareknapp spinner={poster} onClick={dummyTildelPost}>
                 DO NOT CLICK!!! (POST)
             </Fareknapp>
