@@ -9,7 +9,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): DummyClient => 
     postRequest: async (body: any, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/dummytildeling/1234`,
+            uri: `http://spesialist.tbd.svc.nais.local/api/v1/dummytildeling/1234`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
