@@ -14,7 +14,11 @@ export default ({ tildelingClient }: SetupOptions) => {
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under tildeling: ${err}`);
-                res.status(500).send('Feil under tildeling');
+                if (err.feilkode) {
+                    res.status(err.feilkode).send(err);
+                } else {
+                    res.status(err.statusCode).send('Feil under tildeling');
+                }
             });
     });
 
@@ -23,8 +27,11 @@ export default ({ tildelingClient }: SetupOptions) => {
             .fjernTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session!.speilToken)
             .then(() => res.sendStatus(200))
             .catch((err) => {
-                logger.error(`Feil under tildeling: ${err}`);
-                res.status(500).send('Feil under tildeling');
+                if (err.feilkode) {
+                    res.status(err.feilkode).send(err);
+                } else {
+                    res.status(err.statusCode).send('Feil under tildeling');
+                }
             });
     });
 
