@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Saksbilde from './routes/Saksbilde/Saksbilde';
 import ReactModal from 'react-modal';
-import ProtectedRoute from './components/ProtectedRoute';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { hot } from 'react-hot-loader';
 import { Toast } from './components/toasts/Toast';
@@ -13,6 +12,7 @@ import { Oversikt } from './routes/Oversikt';
 import { RecoilRoot } from 'recoil';
 import { useDebounce } from './hooks/useDebounce';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
+import { ProtectedRoute } from './components/ProtectedRoute';
 import { OppgaverProvider } from './context/OppgaverContext';
 import { useAuthentication } from './state/authentication';
 import { withContextProviders } from './context/withContextProviders';
@@ -21,6 +21,7 @@ import { PersonContext, PersonProvider } from './context/PersonContext';
 import 'reset-css';
 import './App.less';
 import { TildelingTest } from './routes/TildelingTest';
+import { SaksbildeV2 } from './routes/SaksbildeV2/SaksbildeV2';
 
 ReactModal.setAppElement('#root');
 
@@ -43,10 +44,21 @@ const App = withContextProviders(() => {
             <Header />
             <Varsler />
             <Switch>
-                <Route path={Routes.Uatutorisert} component={IkkeLoggetInn} />
-                <ProtectedRoute path={Routes.Oversikt} exact component={Oversikt} />
-                <ProtectedRoute path={Routes.TildelingTest} exact component={TildelingTest} />
-                <ProtectedRoute path={Routes.Saksbilde} component={Saksbilde} />
+                <Route path={Routes.Uatutorisert}>
+                    <IkkeLoggetInn />
+                </Route>
+                <ProtectedRoute path={Routes.Oversikt} exact>
+                    <Oversikt />
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.TildelingTest}>
+                    <TildelingTest />
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.SaksbildeV2}>
+                    <SaksbildeV2 />
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.Saksbilde}>
+                    <Saksbilde />
+                </ProtectedRoute>
             </Switch>
         </>
     );
