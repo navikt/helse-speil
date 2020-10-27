@@ -9,7 +9,7 @@ interface Props {
 }
 
 interface NavnProps {
-    bold: boolean;
+    bold?: string;
 }
 
 const Navn = styled(Normaltekst)`
@@ -23,7 +23,7 @@ const Verdi = styled(Normaltekst)`
 
 const Vilkårsgrupperad = ({ label, bold = false, children }: Props) => (
     <>
-        <Navn bold={bold}>{label}</Navn>
+        <Navn bold={`${bold}`}>{label}</Navn>
         <Verdi>{children}</Verdi>
     </>
 );
