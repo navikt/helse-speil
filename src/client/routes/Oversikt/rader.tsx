@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Oppgave, OppgaveType, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
+import { Oppgave, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -8,10 +8,7 @@ import { Oppgaveetikett } from './Oppgaveetikett';
 import { IkkeTildelt, Tildelt } from './tildeling';
 import { useUpdateVarsler } from '../../state/varslerState';
 import { somDato } from '../../mapping/vedtaksperiode';
-
-type Oversiktsrad = [OppgaveType, Oppgave, string, string, number, Oppgave];
-
-type RendretOversiktsrad = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];
+import { Tabellrad } from '@navikt/helse-frontend-tabell';
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
@@ -113,23 +110,22 @@ const Status = ({ oppgave }: { oppgave: Oppgave }) => (
     </CellContainer>
 );
 
-export const tilOversiktsrad = (oppgave: Oppgave): Oversiktsrad => [
-    oppgave.type,
-    oppgave,
-    oppgave.opprettet,
-    oppgave.boenhet.navn,
-    oppgave.antallVarsler,
-    oppgave,
-];
+export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
+    celler: [oppgave.type, oppgave, oppgave.opprettet, oppgave.boenhet.navn, oppgave.antallVarsler, oppgave],
+    id: oppgave.oppgavereferanse,
+});
 
-export const oversiktsradRenderer = (rad: (ReactNode | Oppgave)[]): RendretOversiktsrad => {
-    const oppgave = rad[1] as Oppgave;
-    return [
-        <Sakstype oppgave={oppgave} />,
-        <Søker oppgave={oppgave} />,
-        <Opprettet oppgave={oppgave} />,
-        <Bosted oppgave={oppgave} />,
-        <Status oppgave={oppgave} />,
-        oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />,
-    ];
+export const oversiktsradRenderer = (rad: Tabellrad): Tabellrad => {
+    const oppgave = rad.celler[1] as Oppgave;
+    return {
+        ...rad,
+        celler: [
+            <Sakstype oppgave={oppgave} />,
+            <Søker oppgave={oppgave} />,
+            <Opprettet oppgave={oppgave} />,
+            <Bosted oppgave={oppgave} />,
+            <Status oppgave={oppgave} />,
+            oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />,
+        ],
+    };
 };

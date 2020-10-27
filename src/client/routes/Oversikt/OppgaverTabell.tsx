@@ -81,7 +81,9 @@ export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => 
     }, [tabell.sortering]);
 
     useEffect(() => {
-        setDefaultFiltrering(tabell.filtrering);
+        if (defaultFiltrering?.filtere !== tabell.filtrering.filtere) {
+            setDefaultFiltrering(tabell.filtrering);
+        }
     }, [tabell.filtrering]);
 
     useEffect(() => {
