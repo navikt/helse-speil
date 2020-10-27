@@ -36,17 +36,7 @@ const datoForHendelse = (hendelse: Hendelse) => {
     return dato ? dato.format(NORSK_DATOFORMAT) : 'Ukjent dato';
 };
 
-const Begrunnelsesliste = styled.ul`
-    list-style: disc outside none;
-    margin-left: 1rem;
-    margin-top: 1.25rem;
-    font-weight: normal;
-    li {
-        margin-bottom: 0.5rem;
-    }
-`;
-
-const BegrunnelseTekst = styled.p`
+const BegrunnelseTekst = styled.div`
     margin-top: 0.5rem;
     color: #3e3832;
     line-height: 1.375rem;

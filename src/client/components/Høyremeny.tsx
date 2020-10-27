@@ -13,10 +13,8 @@ const Container = styled.div`
     }
 `;
 
-const Høyremeny = () => (
+export const Høyremeny = () => (
     <Container>
         <Loggvisning />
     </Container>
 );
-
-export default Høyremeny;

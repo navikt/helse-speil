@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Vilkår from './Vilkår';
-import Høyremeny from '../../components/Høyremeny';
 import Sakslinje from '../../components/sakslinje/Sakslinje';
 import Lenkeknapp from '../../components/Lenkeknapp';
 import Toppvarsler from '../../components/Toppvarsler';
@@ -14,6 +13,7 @@ import Utbetalingsoversikt from './Utbetalingsoversikt';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { Tidslinje } from '../../components/tidslinje';
 import { authState } from '../../state/authentication';
+import { Høyremeny } from '../../components/Høyremeny';
 import { Personlinje } from '../../components/Personlinje';
 import { Venstremeny } from '../../components/venstremeny';
 import { PersonContext } from '../../context/PersonContext';
