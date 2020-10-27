@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import styled from '@emotion/styled';
 import { Flex } from '../../components/Flex';
 import { TabLink } from './TabLink';
 import { Tidslinje } from '../../components/tidslinje';
@@ -7,6 +8,14 @@ import { Personlinje } from '../../components/Personlinje';
 import { PersonContext } from '../../context/PersonContext';
 import { useRefetchPersonOnUrlChange } from '../../hooks/useRefetchPersonOnUrlChange';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Vilkår } from './Vilkår/Vilkår';
+import { Utbetaling } from './Utbetaling/Utbetaling';
+import { Sykepengegrunnlag } from './Sykepengegrunnlag/Sykepengegrunnlag';
+import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
+
+const Content = styled.div`
+    margin: 2rem;
+`;
 
 export const SaksbildeV2 = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
@@ -29,10 +38,26 @@ export const SaksbildeV2 = () => {
                 </Sakslinje>
             </Flex>
             <Switch>
-                <Route path={`${path}/utbetaling`}></Route>
-                <Route path={`${path}/sykmeldingsperiode`}></Route>
-                <Route path={`${path}/vilkår`}></Route>
-                <Route path={`${path}/sykepengegrunnlag`}></Route>
+                <Route path={`${path}/utbetaling`}>
+                    <Content>
+                        <Utbetaling />
+                    </Content>
+                </Route>
+                <Route path={`${path}/sykmeldingsperiode`}>
+                    <Content>
+                        <Sykmeldingsperiode />
+                    </Content>
+                </Route>
+                <Route path={`${path}/vilkår`}>
+                    <Content>
+                        <Vilkår />
+                    </Content>
+                </Route>
+                <Route path={`${path}/sykepengegrunnlag`}>
+                    <Content>
+                        <Sykepengegrunnlag />
+                    </Content>
+                </Route>
             </Switch>
         </div>
     );
