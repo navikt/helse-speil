@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import Vilkårsgruppe from './Vilkårsgruppe';
+import { Vilkårsgruppe } from './Vilkårsgruppe';
 import Vilkårsgrupperad from './Vilkårsgrupperad';
 import { Dayjs } from 'dayjs';
 import { Normaltekst } from 'nav-frontend-typografi';

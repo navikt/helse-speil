@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import Vilkårsvisning from './Vilkårsvisning';
+import { Vilkårsvisning } from './Vilkårsvisning';
 import IkkeVurderteVilkår, { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
 import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
 import { Feilikon } from '../../../components/ikoner/Feilikon';

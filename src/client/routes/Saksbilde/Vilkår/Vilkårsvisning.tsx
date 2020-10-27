@@ -12,7 +12,7 @@ interface VilkårsvisningProps {
     risikovurdering?: Risikovurdering;
 }
 
-const Vilkårsvisning = ({ tittel, ikon, vilkår, risikovurdering }: VilkårsvisningProps) => {
+export const Vilkårsvisning = ({ tittel, ikon, vilkår, risikovurdering }: VilkårsvisningProps) => {
     const midten = Math.ceil(vilkår.length / 2);
     const venstre = vilkår.slice(0, midten);
     const høyre = vilkår.slice(midten);
@@ -24,9 +24,15 @@ const Vilkårsvisning = ({ tittel, ikon, vilkår, risikovurdering }: Vilkårsvis
                     {tittel}
                 </Vilkårstittel>
                 <StyledUbehandletInnhold gridTemplateColumns="37rem auto">
-                    <FlexColumn>{venstre}</FlexColumn>
                     <FlexColumn>
-                        {høyre}
+                        {venstre.map((child, i) => (
+                            <React.Fragment key={i}>{child}</React.Fragment>
+                        ))}
+                    </FlexColumn>
+                    <FlexColumn>
+                        {høyre.map((child, i) => (
+                            <React.Fragment key={i}>{child}</React.Fragment>
+                        ))}
                         {ArbeidsuførhetVurdert(risikovurdering)}
                     </FlexColumn>
                 </StyledUbehandletInnhold>
@@ -35,5 +41,3 @@ const Vilkårsvisning = ({ tittel, ikon, vilkår, risikovurdering }: Vilkårsvis
         </>
     );
 };
-
-export default Vilkårsvisning;

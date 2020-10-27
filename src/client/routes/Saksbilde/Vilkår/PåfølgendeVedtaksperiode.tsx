@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import Vilkårsgruppe from './Vilkårsgrupper';
+import { Vilkårsgruppe } from './Vilkårsgrupper/Vilkårsgruppe';
 import Vilkårsgrupper from './Vilkårsgrupper/Vilkårsgrupper';
-import Vilkårsvisning from './Vilkårsvisning';
+import { Vilkårsvisning } from './Vilkårsvisning';
 import IkkeVurderteVilkår, { IkkeVurdertVilkår } from './Vilkårsgrupper/IkkeVurderteVilkår';
 import { Grid } from '../../../components/Grid';
 import { Dayjs } from 'dayjs';

@@ -9,7 +9,7 @@ import { Vedtaksperiode, Periodetype } from 'internal-types';
 import { useKategoriserteVilkår, KategoriserteVilkår } from './useKategoriserteVilkår';
 import { Vilkårstype } from '../../../mapping/vilkår';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
-import Vilkårsgruppe from './Vilkårsgrupper';
+import { Vilkårsgruppe } from './Vilkårsgrupper/Vilkårsgruppe';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 
 const Footer = styled(Navigasjonsknapper)`

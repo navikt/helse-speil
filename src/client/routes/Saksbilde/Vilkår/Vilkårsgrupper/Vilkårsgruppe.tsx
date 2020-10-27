@@ -40,15 +40,11 @@ const Container = styled.div`
     }
 `;
 
-const Vilkårsgruppe = ({ tittel, paragraf, ikontype, children }: Props) => {
-    return (
-        <Container>
-            <Vilkårstittel paragraf={paragraf} ikon={ikon(ikontype)}>
-                {tittel}
-            </Vilkårstittel>
-            {children && <Vilkårgrid>{children}</Vilkårgrid>}
-        </Container>
-    );
-};
-
-export default Vilkårsgruppe;
+export const Vilkårsgruppe = ({ tittel, paragraf, ikontype, children }: Props) => (
+    <Container>
+        <Vilkårstittel paragraf={paragraf} ikon={ikon(ikontype)}>
+            {tittel}
+        </Vilkårstittel>
+        {children && <Vilkårgrid>{children}</Vilkårgrid>}
+    </Container>
+);
