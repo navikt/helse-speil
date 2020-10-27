@@ -23,6 +23,9 @@ const SpeilModal = styled(ReactModal)`
     display: flex;
     flex-direction: column;
     outline: none;
+    max-height: calc(100vh - 2rem);
+    max-width: calc(100vw - 2rem);
+    overflow: scroll;
 
     &:focus {
         box-shadow: 0 0 0px 3px #254b6d;
