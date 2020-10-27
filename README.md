@@ -5,7 +5,7 @@
 
 Saksbehandlerverktøy for sykepenger.
 
-### Kodeformatering
+## Kodeformatering
 
 Dette repo-et bruker [prettier](https://prettier.io/) med [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier)
 for å sikre at all koden er på likt format. Hvordan utviklerne velger å overholde disse reglene er opp til den enkelte, men
@@ -18,7 +18,7 @@ Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette 
 
 Lokalt serveres frontend (det som kjører i browser) og backend (det som står for autentisering, sesjon og kommunikasjon med baksystem) hver for seg.
 
-#### Kun frontend servert av Parcel
+### Kun frontend servert av Parcel
 
 ```
 npm start
@@ -66,4 +66,4 @@ Appen er nå tilgjengelig på http://localhost:3000.
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub.
 
-Interne henvendelser kan sendes via Slack i kanalen #område-helse.
+Interne henvendelser kan sendes via Slack i kanalen #team-bømlo-værsågod.
