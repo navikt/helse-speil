@@ -9,20 +9,27 @@ import { Periode, Sykepengeperiode, Sykepengetidslinje } from '@navikt/helse-fro
 import { Flex, FlexColumn } from '../Flex';
 import { PersonContext } from '../../context/PersonContext';
 import '@navikt/helse-frontend-tidslinje/lib/main.css';
+import { Person, Vedtaksperiode } from 'internal-types';
+import { Sammendrag } from './Sammendrag';
 
 const Container = styled(FlexColumn)`
     padding: 1rem 2rem;
     border-bottom: 1px solid #c6c2bf;
 `;
 
-export const Tidslinje = React.memo(() => {
-    const { personTilBehandling, aktiverVedtaksperiode, aktivVedtaksperiode } = useContext(PersonContext);
-    const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(personTilBehandling);
+interface Props {
+    person: Person;
+    aktivVedtaksperiode: Vedtaksperiode;
+}
 
-    const arbeidsgiverrader = useTidslinjerader(personTilBehandling).map((rad) =>
+export const Tidslinje = React.memo(({ person, aktivVedtaksperiode }: Props) => {
+    const { aktiverVedtaksperiode } = useContext(PersonContext);
+    const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
+
+    const arbeidsgiverrader = useTidslinjerader(person).map((rad) =>
         rad.map((periode) => ({ ...periode, active: periode.id === aktivVedtaksperiode?.id }))
     );
-    const infotrygdrader = useInfotrygdrader(personTilBehandling);
+    const infotrygdrader = useInfotrygdrader(person);
     const tidslinjerader = [...arbeidsgiverrader, ...Object.values(infotrygdrader)];
 
     const aktivRad =
@@ -41,7 +48,14 @@ export const Tidslinje = React.memo(() => {
         if (tidslinjerader.length === 0) return null;
         return (
             <Container>
-                <Utsnittsvelger utsnitt={utsnitt} aktivtUtsnitt={aktivtUtsnitt} setAktivtUtsnitt={setAktivtUtsnitt} />
+                <Flex justifyContent="space-between">
+                    <Sammendrag person={person} />
+                    <Utsnittsvelger
+                        utsnitt={utsnitt}
+                        aktivtUtsnitt={aktivtUtsnitt}
+                        setAktivtUtsnitt={setAktivtUtsnitt}
+                    />
+                </Flex>
                 <Flex>
                     <FlexColumn>
                         <Radnavn infotrygdrader={infotrygdrader} />

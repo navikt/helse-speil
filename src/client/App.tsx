@@ -22,6 +22,7 @@ import 'reset-css';
 import './App.less';
 import { TildelingTest } from './routes/TildelingTest';
 import { SaksbildeV2 } from './routes/SaksbildeV2/SaksbildeV2';
+import { speilV2 } from './featureToggles';
 
 ReactModal.setAppElement('#root');
 
@@ -56,9 +57,7 @@ const App = withContextProviders(() => {
                 <ProtectedRoute path={Routes.SaksbildeV2}>
                     <SaksbildeV2 />
                 </ProtectedRoute>
-                <ProtectedRoute path={Routes.Saksbilde}>
-                    <Saksbilde />
-                </ProtectedRoute>
+                <ProtectedRoute path={Routes.Saksbilde}>{speilV2 ? <SaksbildeV2 /> : <Saksbilde />}</ProtectedRoute>
             </Switch>
         </>
     );

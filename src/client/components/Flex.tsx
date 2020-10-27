@@ -5,7 +5,15 @@ type BasicValue = 'normal' | 'stretch';
 
 type GlobalValue = 'inherit' | 'initial' | 'unset';
 
-type PositionalValue = 'center' | 'start' | 'end' | 'flex-end' | 'flex-start';
+type PositionalValue =
+    | 'center'
+    | 'start'
+    | 'end'
+    | 'flex-end'
+    | 'flex-start'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly';
 
 type BaselineValue = 'baseline' | 'first baseline' | 'last baseline' | 'safe center' | 'unsafe center';
 

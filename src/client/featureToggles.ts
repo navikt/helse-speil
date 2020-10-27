@@ -4,3 +4,4 @@ export const overstyrbareTabellerEnabled = true;
 export const annulleringerEnabled = erPreprod();
 export const pagineringEnabled = true;
 export const speilTildeling = true;
+export const speilV2 = false;

@@ -9,7 +9,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin: 2px;
+    margin: 2px 0;
 `;
 
 const Separator = styled.hr`

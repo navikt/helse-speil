@@ -139,7 +139,7 @@ const Saksbilde = () => {
         <>
             <TildelingVarsel tildeltTil={personTilBehandling.tildeltTil} oppgavererefanse={oppgavereferanse} />
             <Personlinje person={personTilBehandling} />
-            <Tidslinje />
+            <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
             <LoggProvider>
                 <Sakslinje />
                 <Container>
