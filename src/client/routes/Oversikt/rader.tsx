@@ -9,6 +9,7 @@ import { IkkeTildelt, Tildelt } from './tildeling';
 import { useUpdateVarsler } from '../../state/varslerState';
 import { somDato } from '../../mapping/vedtaksperiode';
 import { Tabellrad } from '@navikt/helse-frontend-tabell';
+import { speilV2 } from '../../featureToggles';
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
@@ -57,7 +58,7 @@ const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgav
     return (
         <SkjultLenke
             className="lenke-skjult"
-            to={`/sykmeldingsperiode/${oppgave.aktørId}`}
+            to={speilV2 ? `/person/${oppgave.aktørId}/utbetaling` : `/sykmeldingsperiode/${oppgave.aktørId}`}
             onClick={fjernVarsler}
             tabIndex={-1}
         />

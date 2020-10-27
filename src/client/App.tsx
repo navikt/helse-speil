@@ -54,10 +54,15 @@ const App = withContextProviders(() => {
                 <ProtectedRoute path={Routes.TildelingTest}>
                     <TildelingTest />
                 </ProtectedRoute>
-                <ProtectedRoute path={Routes.SaksbildeV2}>
-                    <SaksbildeV2 />
-                </ProtectedRoute>
-                <ProtectedRoute path={Routes.Saksbilde}>{speilV2 ? <SaksbildeV2 /> : <Saksbilde />}</ProtectedRoute>
+                {speilV2 ? (
+                    <ProtectedRoute path={Routes.SaksbildeV2}>
+                        <SaksbildeV2 />
+                    </ProtectedRoute>
+                ) : (
+                    <ProtectedRoute path={Routes.Saksbilde}>
+                        <Saksbilde />
+                    </ProtectedRoute>
+                )}
             </Switch>
         </>
     );
