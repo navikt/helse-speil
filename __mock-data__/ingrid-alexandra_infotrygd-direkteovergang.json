@@ -448,7 +448,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "førsteFraværsdag": "2020-01-20",
+                            "beregningsdato": "2020-01-20",
                             "førsteSykepengedag": "2020-03-02",
                             "maksdato": "2020-12-30",
                             "gjenståendeDager": 198,
@@ -475,7 +475,6 @@
                             "oppfylt": true
                         }
                     },
-                    "førsteFraværsdag": "2020-01-20",
                     "inntektFraInntektsmelding": 25000,
                     "totalbeløpArbeidstaker": 23080,
                     "hendelser": [
@@ -986,7 +985,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "førsteFraværsdag": "2020-01-20",
+                            "beregningsdato": "2020-01-20",
                             "førsteSykepengedag": "2020-01-02",
                             "maksdato": "2020-12-30",
                             "gjenståendeDager": 198,
@@ -1013,7 +1012,6 @@
                             "oppfylt": true
                         }
                     },
-                    "førsteFraværsdag": "2020-01-20",
                     "inntektFraInntektsmelding": 25000,
                     "totalbeløpArbeidstaker": 23080,
                     "hendelser": [
@@ -1524,7 +1522,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "førsteFraværsdag": "2019-11-20",
+                            "beregningsdato": "2019-11-20",
                             "førsteSykepengedag": "2019-11-02",
                             "maksdato": "2019-11-30",
                             "gjenståendeDager": 198,
@@ -1551,7 +1549,6 @@
                             "oppfylt": true
                         }
                     },
-                    "førsteFraværsdag": "2019-11-20",
                     "inntektFraInntektsmelding": 25000,
                     "totalbeløpArbeidstaker": 23080,
                     "hendelser": [
@@ -1840,7 +1837,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "førsteFraværsdag": "2019-11-20",
+                            "beregningsdato": "2019-11-20",
                             "førsteSykepengedag": "2019-11-02",
                             "maksdato": "2019-11-30",
                             "gjenståendeDager": 198,
@@ -1867,7 +1864,6 @@
                             "oppfylt": true
                         }
                     },
-                    "førsteFraværsdag": "2019-11-20",
                     "inntektFraInntektsmelding": 25000,
                     "totalbeløpArbeidstaker": 23080,
                     "hendelser": [

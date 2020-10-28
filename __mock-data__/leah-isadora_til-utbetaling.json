@@ -460,7 +460,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 11,
-                            "førsteFraværsdag": "2018-01-01",
+                            "beregningsdato": "2018-01-01",
                             "førsteSykepengedag": "2018-01-17",
                             "maksdato": "2018-12-28",
                             "gjenståendeDager": 237,
@@ -487,7 +487,6 @@
                             "oppfylt": true
                         }
                     },
-                    "førsteFraværsdag": "2018-01-01",
                     "inntektFraInntektsmelding": 31000.0,
                     "totalbeløpArbeidstaker": 15741,
                     "hendelser": [
@@ -753,7 +752,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 21,
-                            "førsteFraværsdag": "2018-01-01",
+                            "beregningsdato": "2018-01-01",
                             "førsteSykepengedag": "2018-02-01",
                             "maksdato": "2018-12-28",
                             "gjenståendeDager": 227,
@@ -780,7 +779,6 @@
                             "oppfylt": true
                         }
                     },
-                    "førsteFraværsdag": "2018-01-01",
                     "inntektFraInntektsmelding": 31000.0,
                     "totalbeløpArbeidstaker": 14310,
                     "hendelser": [
