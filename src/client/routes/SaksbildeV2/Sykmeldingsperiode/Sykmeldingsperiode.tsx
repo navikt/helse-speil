@@ -78,7 +78,6 @@ export const Sykmeldingsperiode = () => {
                 )}
             </AgurkErrorBoundary>
             {overstyringTimedOut && <OverstyringTimeoutModal onRequestClose={() => setOverstyringTimedOut(false)} />}
-            {!overstyrer && <Navigasjonsknapper />}
         </Container>
     );
 };
