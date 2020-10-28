@@ -23,8 +23,14 @@ const formaterPeriodeString = (fom: Dayjs, tom: Dayjs) => {
     return `${fomString}-${tom.format('DD.MM.YYYY')}`;
 };
 
-const SykmeldingperiodeHeader = styled(Undertittel)`
+const Header = styled(Undertittel)`
+    display: flex;
+    color: #3e3832;
+    font-size: 18px;
     margin-bottom: 2rem;
+    > *:not(:last-child) {
+        margin-right: 1rem;
+    }
 `;
 
 export const Sykmeldingsperiode = () => {
@@ -52,9 +58,13 @@ export const Sykmeldingsperiode = () => {
     return (
         <Container className="Sykmeldingsperiode">
             <AgurkErrorBoundary>
-                <SykmeldingperiodeHeader>
-                    Sykemeldingsperiode / {periode} / Skjæringstidspunkt {skjæringstidspunkt}
-                </SykmeldingperiodeHeader>
+                <Header>
+                    <span>Sykemeldingsperiode</span>
+                    <span>/</span>
+                    <span>{periode}</span>
+                    <span>/</span>
+                    <span>Skjæringstidspunkt {skjæringstidspunkt}</span>
+                </Header>
                 {overstyrer ? (
                     <OverstyrbarSykmeldingsperiodetabell
                         onOverstyr={() => {
