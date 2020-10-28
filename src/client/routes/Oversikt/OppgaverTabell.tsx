@@ -13,7 +13,6 @@ import {
 } from './filtrering';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
 import { Paginering } from './Paginering';
-import { pagineringEnabled } from '../../featureToggles';
 import { tabState } from './tabs';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
@@ -123,9 +122,7 @@ export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => 
     return (
         <>
             <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
-            {pagineringEnabled && (
-                <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
-            )}
+            <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
         </>
     );
 };

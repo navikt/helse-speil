@@ -247,10 +247,6 @@ export interface Enhetsinfo {
     navn: string;
 }
 
-export interface ProviderProps {
-    children: ReactChild;
-}
-
 export interface Tildeling {
     oppgavereferanse: string;
     userId: string;
