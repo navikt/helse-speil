@@ -20,7 +20,7 @@
         "start-express": "npm run build-server && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
         "dev-express": "export NODE_ENV=development && export SESSION_SECRET=whatever && ts-node-dev --respawn --transpileOnly ./src/server/server.ts",
         "oppgulp": "npm run dev-express",
-        "build": "npm run clean:DIST && npm run test && parcel build src/client/index.html --out-dir dist/client --public-url /static",
+        "build": "npm run clean:dist && npm run test && parcel build src/client/index.html --out-dir dist/client --public-url /static",
         "build-server": "tsc src/server/server.ts --outDir dist --esModuleInterop -sourcemap",
         "clean:dist": "rimraf dist",
         "prettier": "prettier --write \"src/**/*.{jsx,js,css,less,ts,tsx}\"",

@@ -3,4 +3,4 @@ const erPreprod = () => location.hostname === 'speil.nais.preprod.local' || loca
 export const overstyrbareTabellerEnabled = true;
 export const annulleringerEnabled = erPreprod();
 export const speilTildeling = true;
-export const speilV2 = true;
+export const speilV2 = false;
