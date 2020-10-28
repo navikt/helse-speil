@@ -116,7 +116,7 @@ export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
     id: oppgave.oppgavereferanse,
 });
 
-export const oversiktsradRenderer = (rad: Tabellrad): Tabellrad => {
+export const alleOppgaver = (rad: Tabellrad): Tabellrad => {
     const oppgave = rad.celler[1] as Oppgave;
     return {
         ...rad,
@@ -127,6 +127,20 @@ export const oversiktsradRenderer = (rad: Tabellrad): Tabellrad => {
             <Bosted oppgave={oppgave} />,
             <Status oppgave={oppgave} />,
             oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />,
+        ],
+    };
+};
+
+export const mineOppgaver = (rad: Tabellrad): Tabellrad => {
+    const oppgave = rad.celler[1] as Oppgave;
+    return {
+        ...rad,
+        celler: [
+            <Sakstype oppgave={oppgave} />,
+            <Søker oppgave={oppgave} />,
+            <Opprettet oppgave={oppgave} />,
+            <Bosted oppgave={oppgave} />,
+            <Status oppgave={oppgave} />,
         ],
     };
 };

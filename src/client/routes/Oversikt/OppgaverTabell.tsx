@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { filtreringState, sorteringState } from './state';
-import { oversiktsradRenderer, tilOversiktsrad } from './rader';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
+import { alleOppgaver, mineOppgaver, tilOversiktsrad } from './rader';
 import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { Oppgave } from '../../../types';
@@ -12,10 +12,11 @@ import {
     ufordelteOppgaverFilter,
 } from './filtrering';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
-import { Paginering as PagineringObject } from '@navikt/helse-frontend-tabell/lib/src/paginering';
 import { Paginering } from './Paginering';
 import { pagineringEnabled } from '../../featureToggles';
 import { tabState } from './tabs';
+import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
+import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
 
 const Oversiktstabell = styled(Tabell)`
     table-layout: fixed;
@@ -44,22 +45,34 @@ const Oversiktstabell = styled(Tabell)`
     }
 `;
 
-const defaultPaginering: PagineringObject | undefined = pagineringEnabled
-    ? {
-          sidenummer: 1,
-          antallRaderPerSide: 15,
-      }
-    : undefined;
-
-interface Props {
-    oppgaver: Oppgave[];
-}
-
-export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => {
-    const [defaultFiltrering, setDefaultFiltrering] = useRecoilState(filtreringState);
-    const [defaultSortering, setDefaultSortering] = useRecoilState(sorteringState);
+const useOppdaterTildelingsfilterVedFanebytte = (filtrering: UseTabellFiltrering) => {
     const aktivTab = useRecoilValue(tabState);
+    const [cachedFilter, setCachedFilter] = useState<Filtrering | undefined>();
 
+    const deaktiverFiltere = () =>
+        filtrering?.set((f) => ({
+            ...f,
+            filtere: f.filtere.map((filter) => ({ ...filter, active: false })),
+        }));
+
+    const gjenopprettCachedFilter = () => {
+        if (!cachedFilter) return;
+        filtrering?.set((f) => ({ ...f, filtere: cachedFilter.filtere }));
+    };
+
+    useLayoutEffect(() => {
+        if (aktivTab === 'mine' && !cachedFilter) {
+            setCachedFilter(filtrering);
+            deaktiverFiltere();
+        } else if (aktivTab === 'alle' && cachedFilter) {
+            gjenopprettCachedFilter();
+            setCachedFilter(undefined);
+        }
+    }, [aktivTab, cachedFilter]);
+};
+
+const useTabellheadere = () => {
+    const aktivTab = useRecoilValue(tabState);
     const headere = [
         {
             render: 'Sakstype',
@@ -71,20 +84,37 @@ export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => 
         { render: 'Status', sortFunction: sorterTall },
         { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
     ];
+    return aktivTab === 'alle' ? headere : headere.slice(0, -1);
+};
 
+const useTabellrader = (oppgaver: Oppgave[]) => {
+    const aktivTab = useRecoilValue(tabState);
     const rader = oppgaver.map(tilOversiktsrad);
-    const renderer = oversiktsradRenderer;
-    const tabell = useTabell({ rader, headere, renderer, defaultSortering, defaultFiltrering, defaultPaginering });
+    return aktivTab === 'alle' ? rader : rader.map((rad) => ({ ...rad, celler: rad.celler.slice(0, -1) }));
+};
 
-    useEffect(() => {
-        setDefaultSortering(tabell.sortering);
-    }, [tabell.sortering]);
+interface Props {
+    oppgaver: Oppgave[];
+}
 
-    useEffect(() => {
-        if (defaultFiltrering?.filtere !== tabell.filtrering.filtere) {
-            setDefaultFiltrering(tabell.filtrering);
-        }
-    }, [tabell.filtrering]);
+export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => {
+    const aktivTab = useRecoilValue(tabState);
+
+    const tabell = useTabell({
+        rader: useTabellrader(oppgaver),
+        headere: useTabellheadere(),
+        renderer: aktivTab === 'alle' ? alleOppgaver : mineOppgaver,
+        defaultSortering: useRecoilValue(sorteringState),
+        defaultFiltrering: useRecoilValue(filtreringState),
+        defaultPaginering: {
+            sidenummer: 1,
+            antallRaderPerSide: 15,
+        },
+    });
+
+    useOppdaterDefaultFiltrering(tabell.filtrering);
+    useOppdaterDefaultSortering(tabell.sortering);
+    useOppdaterTildelingsfilterVedFanebytte(tabell.filtrering);
 
     useEffect(() => {
         tabell.paginering?.set((p) => ({ ...p, sidenummer: 1 }));
