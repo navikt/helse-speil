@@ -34,15 +34,19 @@ const Spinner = styled(NavFrontendSpinner)`
     margin-left: 1rem;
 `;
 
-export const Oversikt = () => {
+const useFiltrerteOppgaver = () => {
     const email = useEmail();
-    const location = useLocation();
-    const { oppgaver, hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const aktivTab = useRecoilValue(tabState);
+    const { oppgaver } = useContext(OppgaverContext);
 
+    return aktivTab === 'alle' ? oppgaver : oppgaver.filter((oppgave) => email === oppgave.tildeltTil);
+};
+
+export const Oversikt = () => {
+    const location = useLocation();
+    const oppgaver = useFiltrerteOppgaver();
+    const { hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
     const showToast = useDebounce(isFetchingOppgaver);
-
-    const erTildeltInnloggetBruker = (oppgave: Oppgave) => email === oppgave.tildeltTil;
 
     useVarselFilter(Scopes.OVERSIKT);
 
@@ -60,11 +64,7 @@ export const Oversikt = () => {
             {oppgaverContextError && <Varsel type={Varseltype.Feil}>{oppgaverContextError.message}</Varsel>}
             <Content>
                 <Tabs />
-                {oppgaver.length > 0 && (
-                    <OppgaverTabell
-                        oppgaver={aktivTab === 'alle' ? oppgaver : oppgaver.filter(erTildeltInnloggetBruker)}
-                    />
-                )}
+                <OppgaverTabell oppgaver={oppgaver} />
             </Content>
         </Container>
     );

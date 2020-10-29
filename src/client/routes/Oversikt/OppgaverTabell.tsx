@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
-import { alleOppgaver, mineOppgaver, tilOversiktsrad } from './rader';
+import { renderer, tilOversiktsrad } from './rader';
 import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { Oppgave } from '../../../types';
@@ -70,8 +70,13 @@ const useOppdaterTildelingsfilterVedFanebytte = (filtrering: UseTabellFiltrering
     }, [aktivTab, cachedFilter]);
 };
 
-const useTabellheadere = () => {
+interface Props {
+    oppgaver: Oppgave[];
+}
+
+export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => {
     const aktivTab = useRecoilValue(tabState);
+
     const headere = [
         {
             render: 'Sakstype',
@@ -83,26 +88,13 @@ const useTabellheadere = () => {
         { render: 'Status', sortFunction: sorterTall },
         { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
     ];
-    return aktivTab === 'alle' ? headere : headere.slice(0, -1);
-};
 
-const useTabellrader = (oppgaver: Oppgave[]) => {
-    const aktivTab = useRecoilValue(tabState);
     const rader = oppgaver.map(tilOversiktsrad);
-    return aktivTab === 'alle' ? rader : rader.map((rad) => ({ ...rad, celler: rad.celler.slice(0, -1) }));
-};
-
-interface Props {
-    oppgaver: Oppgave[];
-}
-
-export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => {
-    const aktivTab = useRecoilValue(tabState);
 
     const tabell = useTabell({
-        rader: useTabellrader(oppgaver),
-        headere: useTabellheadere(),
-        renderer: aktivTab === 'alle' ? alleOppgaver : mineOppgaver,
+        rader: rader,
+        headere: headere,
+        renderer: renderer,
         defaultSortering: useRecoilValue(sorteringState),
         defaultFiltrering: useRecoilValue(filtreringState),
         defaultPaginering: {
