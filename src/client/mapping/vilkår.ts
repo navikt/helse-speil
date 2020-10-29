@@ -14,19 +14,27 @@ import {
     SpleisVilkår,
 } from 'external-types';
 import { somDato, somKanskjeDato } from './vedtaksperiode';
+import { ReactNode } from 'react';
 
 export enum Vilkårstype {
     Alder = 'alder',
     Søknadsfrist = 'søknadsfrist',
     Opptjeningstid = 'opptjening',
-    KravTilSykepengegrunnlag = 'sykepengegrunnlag',
+    Sykepengegrunnlag = 'sykepengegrunnlag',
     DagerIgjen = 'dagerIgjen',
     Medlemskap = 'medlemskap',
+    Institusjonsopphold = 'institusjonsopphold',
+    Risikovurdering = 'risikovurdering',
+    Arbeidsuførhet = 'arbeidsuførhet',
+    Medvirkning = 'medvirkning',
 }
 
-export interface VurdertVilkår {
-    oppfylt: boolean;
-    vilkår: Vilkårstype;
+export interface Vilkårdata {
+    type: Vilkårstype;
+    komponent: ReactNode;
+    oppfylt?: boolean;
+    tittel?: string;
+    paragraf?: string;
 }
 
 const alderVilkår = (vilkår: SpleisVilkår): Alder => ({

@@ -23,7 +23,7 @@ export interface Vilkårdata {
 }
 
 const filtrerBehandledeVilkår = (vilkår: Vilkårdata): boolean =>
-    ![Vilkårstype.Opptjeningstid, Vilkårstype.KravTilSykepengegrunnlag].includes(vilkår.type);
+    ![Vilkårstype.Opptjeningstid, Vilkårstype.Sykepengegrunnlag].includes(vilkår.type);
 
 const tilKomponent = (vilkår: Vilkårdata): ReactNode => vilkår.komponent;
 

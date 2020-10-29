@@ -8,10 +8,11 @@ import { Personlinje } from '../../components/Personlinje';
 import { PersonContext } from '../../context/PersonContext';
 import { useRefetchPersonOnUrlChange } from '../../hooks/useRefetchPersonOnUrlChange';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { Vilkår } from './Vilkår/Vilkår';
+import { VilkårV2 } from './Vilkår/Vilkår';
 import { Utbetaling } from './Utbetaling/Utbetaling';
 import { Sykepengegrunnlag } from './Sykepengegrunnlag/Sykepengegrunnlag';
 import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
+import { Toppvarsler } from '../../components/Toppvarsler';
 
 const Content = styled.div`
     margin: 2rem;
@@ -37,6 +38,7 @@ export const SaksbildeV2 = () => {
                     <TabLink to={`${url}/sykepengegrunnlag`}>Sykepengegrunnlag</TabLink>
                 </Sakslinje>
             </Flex>
+            <Toppvarsler />
             <Switch>
                 <Route path={`${path}/utbetaling`}>
                     <Content>
@@ -50,7 +52,7 @@ export const SaksbildeV2 = () => {
                 </Route>
                 <Route path={`${path}/vilkår`}>
                     <Content>
-                        <Vilkår />
+                        <VilkårV2 />
                     </Content>
                 </Route>
                 <Route path={`${path}/sykepengegrunnlag`}>

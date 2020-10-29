@@ -121,7 +121,7 @@ export const ArbeidsuførhetVurdert = (risikovurdering?: Risikovurdering) => {
     else return null;
 };
 
-export const alder = ({ alder }: Vilkår): ReactNode => <Alder {...alder} key="alder" />;
+export const alder = ({ alder }: Vilkår): ReactNode => <Alder {...alder} />;
 
 export const søknadsfrist = ({ søknadsfrist }: Vilkår): ReactNode =>
     søknadsfrist && <Søknadsfrist {...søknadsfrist} key="søknadsfrist" />;
@@ -143,11 +143,14 @@ export const sykepengegrunnlag = (vilkår: Vilkår): ReactNode => (
     />
 );
 
-export const dagerIgjen = ({ dagerIgjen }: Vilkår): ReactNode =>
-    dagerIgjen && <DagerIgjen {...dagerIgjen} key="dagerigjen" />;
+export const dagerIgjen = ({ dagerIgjen }: Vilkår): ReactNode => dagerIgjen && <DagerIgjen {...dagerIgjen} />;
 
 export const medlemskap = ({ medlemskap }: Vilkår): ReactNode =>
     medlemskap && medlemskap.oppfylt && <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" ikontype="ok" />;
+
+export const institutsjonsopphold = (): ReactNode => (
+    <Vilkårsgruppe tittel="Ingen institusjonsopphold" paragraf="§ 8-53 og 8-54" ikontype="ok" />
+);
 
 export default {
     Alder,

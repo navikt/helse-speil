@@ -67,6 +67,7 @@ type ErrorBoundaryProps = {
 
 export const AgurkErrorBoundary: React.FC<PropsWithChildren<ErrorBoundaryProps>> = ({ children, sidenavn }) => {
     const [errormelding, setErrormelding] = useState<string | undefined>();
+    if (!children) return null;
     return (
         <ErrorBoundary
             fallback={<ErrorInnhold errormelding={errormelding} />}

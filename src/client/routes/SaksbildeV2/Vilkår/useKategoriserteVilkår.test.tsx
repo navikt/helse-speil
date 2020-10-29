@@ -51,30 +51,21 @@ type VilkårProp = { vilkår: Vilkår };
 
 const KategoriserteVilkårWrapper = (vilkår: VilkårProp) => {
     const kategoriserteVilkår = useKategoriserteVilkår(vilkår as Vedtaksperiode) as KategoriserteVilkår;
-
-    const labelDict: { [key: string]: string } = {
-        'Under 70 år': 'alder',
-        Søknadsfrist: 'søknadsfrist',
-        Opptjening: 'opptjening',
-        'Krav til minste sykepengegrunnlag': 'sykepengegrunnlag',
-        'Dager igjen': 'dagerIgjen',
-    };
-
     return (
         <>
             <div data-testid="oppfylteVilkår">
-                {kategoriserteVilkår.oppfylteVilkår.map((vilkår) => (
+                {kategoriserteVilkår?.oppfylteVilkår?.map((vilkår) => (
                     <div key={vilkår.type}>{vilkår.type} er oppfylt</div>
                 ))}
             </div>
             <div data-testid="ikkeOppfylteVilkår">
-                {kategoriserteVilkår.ikkeOppfylteVilkår.map((vilkår) => (
+                {kategoriserteVilkår?.ikkeOppfylteVilkår?.map((vilkår) => (
                     <div key={vilkår.type}>{vilkår.type} er ikke oppfylt</div>
                 ))}
             </div>
             <div data-testid="ikkeVurderteVilkår">
-                {kategoriserteVilkår.ikkeVurderteVilkår.map((vilkår) => (
-                    <div key={vilkår.label}>{labelDict[vilkår.label]} er ikke vurdert</div>
+                {kategoriserteVilkår?.ikkeVurderteVilkår?.map((vilkår) => (
+                    <div key={vilkår.type}>{vilkår.type} er ikke vurdert</div>
                 ))}
             </div>
         </>
