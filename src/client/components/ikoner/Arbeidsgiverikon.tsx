@@ -1,8 +1,8 @@
 import React from 'react';
 import { Ikon } from './Ikon';
 
-export const Arbeidsgiverikon = () => (
-    <Ikon viewBox="0 0 16 20">
+export const Arbeidsgiverikon = ({ className }: { className?: string }) => (
+    <Ikon className={className} viewBox="0 0 16 20">
         <path
             fillRule="evenodd"
             clipRule="evenodd"

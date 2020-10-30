@@ -3,6 +3,9 @@ import styled from '@emotion/styled';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
+import { Clipboard } from '../../../components/clipboard';
+import { somPenger } from '../../../utils/locale';
 
 const Arbeidsflate = styled.section`
     display: grid;
@@ -27,10 +30,14 @@ const Sykmeldingsperiode = styled(Kort)`
 
 const Arbeidsgiver = styled(Kort)`
     grid-area: arbeidsgiver;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #c6c2bf;
 `;
 
 const Vilkår = styled(Kort)`
     grid-area: vilkår;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #c6c2bf;
 `;
 
 const UtbetalingSection = styled(Kort)`
@@ -49,6 +56,15 @@ const Korttittel = styled(Undertittel)`
     margin-bottom: 0.5rem;
 `;
 
+const Koffert = styled(Arbeidsgiverikon)`
+    margin-right: 1rem;
+`;
+
+const ToKolonner = styled.div`
+    display: flex;
+    justify-content: space-between;
+`;
+
 export const Utbetaling = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
 
@@ -60,6 +76,7 @@ export const Utbetaling = () => {
 
     const periodeFom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
     const periodeTom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
+    const { organisasjonsnummer, månedsinntekt } = aktivVedtaksperiode.inntektskilder[0];
 
     return (
         <Arbeidsflate>
@@ -71,7 +88,17 @@ export const Utbetaling = () => {
                 <Normaltekst>Skjæringstidspunkt {skjæringstidspunkt}</Normaltekst>
             </Sykmeldingsperiode>
             <Arbeidsgiver>
-                <Korttittel>Arbeidsgiver</Korttittel>
+                <Korttittel>
+                    <Koffert />
+                    Arbeidsgiver
+                </Korttittel>
+                <Clipboard preserveWhitespace={false}>
+                    <Normaltekst>{organisasjonsnummer}</Normaltekst>
+                </Clipboard>
+                <ToKolonner>
+                    <Normaltekst>Månedsbeløp</Normaltekst>
+                    <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>
+                </ToKolonner>
             </Arbeidsgiver>
             <Vilkår>
                 <Korttittel>Vilår</Korttittel>
