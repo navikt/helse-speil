@@ -7,6 +7,7 @@ dayjs.extend(isoWeek);
 dayjs.extend(isSameOrBefore);
 
 export const NORSK_DATOFORMAT = 'DD.MM.YYYY';
+export const NORSK_DATOFORMAT_KORT = 'DD.MM.YY';
 export const ISO_DATOFORMAT = 'YYYY-MM-DD';
 export const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
