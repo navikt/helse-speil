@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { Radnavn } from './Radnavn';
 import { Utsnittsvelger } from './Utsnittsvelger';
@@ -10,7 +10,6 @@ import { Flex, FlexColumn } from '../Flex';
 import { PersonContext } from '../../context/PersonContext';
 import '@navikt/helse-frontend-tidslinje/lib/main.css';
 import { Person, Vedtaksperiode } from 'internal-types';
-import { Sammendrag } from './Sammendrag';
 
 const Container = styled(FlexColumn)`
     padding: 1rem 2rem;
@@ -49,7 +48,6 @@ export const Tidslinje = React.memo(({ person, aktivVedtaksperiode }: Props) => 
         return (
             <Container>
                 <Flex justifyContent="space-between">
-                    <Sammendrag person={person} />
                     <Utsnittsvelger
                         utsnitt={utsnitt}
                         aktivtUtsnitt={aktivtUtsnitt}
