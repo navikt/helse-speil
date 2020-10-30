@@ -47,13 +47,7 @@ export const Tidslinje = React.memo(({ person, aktivVedtaksperiode }: Props) => 
         if (tidslinjerader.length === 0) return null;
         return (
             <Container>
-                <Flex justifyContent="space-between">
-                    <Utsnittsvelger
-                        utsnitt={utsnitt}
-                        aktivtUtsnitt={aktivtUtsnitt}
-                        setAktivtUtsnitt={setAktivtUtsnitt}
-                    />
-                </Flex>
+                <Utsnittsvelger utsnitt={utsnitt} aktivtUtsnitt={aktivtUtsnitt} setAktivtUtsnitt={setAktivtUtsnitt} />
                 <Flex>
                     <FlexColumn>
                         <Radnavn infotrygdrader={infotrygdrader} />
