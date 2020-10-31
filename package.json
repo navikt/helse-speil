@@ -68,7 +68,7 @@
         "express": "^4.17.1",
         "express-session": "^1.17.1",
         "framer-motion": "^1.11.0",
-        "i18next": "^19.6.0",
+        "i18next": "^19.8.3",
         "lodash.throttle": "^4.1.1",
         "nav-frontend-alertstriper": "^3.0.16",
         "nav-frontend-alertstriper-style": "^2.0.14",
