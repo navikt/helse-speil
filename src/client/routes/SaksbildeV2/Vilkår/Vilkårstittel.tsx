@@ -1,25 +1,12 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-
-type Størrelse = 's' | 'm';
-
-interface VilkårstittelProps {
-    children: ReactNode | ReactNode[];
-    størrelse?: Størrelse;
-    ikon?: ReactNode;
-    paragraf?: string;
-    className?: string;
-}
-
-interface IkonContainerProps {
-    størrelse: Størrelse;
-}
+import { Flex } from '../../../components/Flex';
 
 const Header = styled.div`
     display: flex;
     align-items: center;
     margin: 0.75rem 0;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 
     > * {
         margin-top: 0.25rem;
@@ -46,6 +33,10 @@ const Tittel = styled.h2<VilkårstittelProps>`
     }}
 `;
 
+interface IkonContainerProps {
+    størrelse: 's' | 'm';
+}
+
 const IkonContainer = styled.div<IkonContainerProps>`
     display: flex;
     align-items: center;
@@ -67,6 +58,14 @@ const Paragraf = styled.p`
     color: #78706a;
     white-space: nowrap;
 `;
+
+interface VilkårstittelProps {
+    children: ReactNode | ReactNode[];
+    størrelse?: 's' | 'm';
+    ikon?: ReactNode;
+    paragraf?: string;
+    className?: string;
+}
 
 export const Vilkårstittel = ({ children, ikon, paragraf, className, størrelse = 's' }: VilkårstittelProps) => (
     <Header className={className}>

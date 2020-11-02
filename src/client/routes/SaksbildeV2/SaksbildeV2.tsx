@@ -8,7 +8,7 @@ import { Personlinje } from '../../components/Personlinje';
 import { PersonContext } from '../../context/PersonContext';
 import { useRefetchPersonOnUrlChange } from '../../hooks/useRefetchPersonOnUrlChange';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { VilkårV2 } from './Vilkår/Vilkår';
+import { Vilkår } from './Vilkår/Vilkår';
 import { Utbetaling } from './Utbetaling/Utbetaling';
 import { Sykepengegrunnlag } from './Sykepengegrunnlag/Sykepengegrunnlag';
 import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
@@ -52,7 +52,7 @@ export const SaksbildeV2 = () => {
                 </Route>
                 <Route path={`${path}/vilkår`}>
                     <Content>
-                        <VilkårV2 />
+                        <Vilkår />
                     </Content>
                 </Route>
                 <Route path={`${path}/sykepengegrunnlag`}>

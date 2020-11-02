@@ -21,10 +21,14 @@ const Kolonner = styled(Flex)`
 `;
 
 const Separator = styled(Strek)`
-    margin: 2rem -2rem;
+    border: none;
+    &:not(:last-child) {
+        border-top: 1px solid #c6c2bf;
+        margin: 2rem -2rem;
+    }
 `;
 
-export const VilkårV2 = () => {
+export const Vilkår = () => {
     const { aktivVedtaksperiode: vedtaksperiode, personTilBehandling } = useContext(
         PersonContext
     ) as MedPersonOgVedtaksperiode;
@@ -40,52 +44,41 @@ export const VilkårV2 = () => {
     if (!vedtaksperiode || personTilBehandling === undefined) return null;
     const førstePeriode = førsteVedtaksperiode(vedtaksperiode, personTilBehandling!);
 
+    const harIkkeVurderteVilkår = ikkeVurderteVilkår && ikkeVurderteVilkår.length > 0;
+    const harIkkeOppfylteVilkår = ikkeOppfylteVilkår && ikkeOppfylteVilkår.length > 0;
+    const harOppfylteVilkår = oppfylteVilkår && oppfylteVilkår.length > 0;
+    const harBehandledeVilkår = harIkkeVurderteVilkår || harIkkeOppfylteVilkår || harOppfylteVilkår;
+
     return (
         <AgurkErrorBoundary sidenavn="Vilkår">
-            <Kolonner>
-                {ikkeVurderteVilkår && ikkeVurderteVilkår.length > 0 && (
-                    <AgurkErrorBoundary sidenavn="IkkeVurderteVilkår">
-                        <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår} />
-                    </AgurkErrorBoundary>
-                )}
-                {ikkeOppfylteVilkår && ikkeOppfylteVilkår.length > 0 && (
-                    <AgurkErrorBoundary sidenavn="IkkeOppfylteVilkår">
-                        <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår} />
-                    </AgurkErrorBoundary>
-                )}
-                {oppfylteVilkår && oppfylteVilkår.length > 0 && (
-                    <AgurkErrorBoundary sidenavn="OppfylteVilkår">
-                        <OppfylteVilkår vilkår={oppfylteVilkår} />
-                    </AgurkErrorBoundary>
-                )}
-            </Kolonner>
             {vilkårVurdertAvSaksbehandler && vilkårVurdertAvSaksbehandler.length > 0 && (
                 <>
+                    <VurdertAvSaksbehandler
+                        vilkår={vilkårVurdertAvSaksbehandler}
+                        saksbehandler={vedtaksperiode.godkjentAv ?? førstePeriode.godkjentAv}
+                        skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
+                    />
                     <Separator />
-                    <AgurkErrorBoundary sidenavn="VurdertAvSaksbehandler">
-                        <VurdertAvSaksbehandler
-                            vilkår={vilkårVurdertAvSaksbehandler}
-                            saksbehandler={vedtaksperiode.godkjentAv ?? førstePeriode.godkjentAv}
-                            skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
-                        />
-                    </AgurkErrorBoundary>
                 </>
             )}
             {vilkårVurdertAutomatisk && vilkårVurdertAutomatisk.length > 0 && (
                 <>
+                    <VurdertAutomatisk vilkår={vilkårVurdertAutomatisk} saksbehandler={vedtaksperiode.godkjentAv} />
                     <Separator />
-                    <AgurkErrorBoundary sidenavn="VurdertAutomatisk">
-                        <VurdertAutomatisk vilkår={vilkårVurdertAutomatisk} saksbehandler={vedtaksperiode.godkjentAv} />
-                    </AgurkErrorBoundary>
                 </>
             )}
             {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
                 <>
+                    <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
                     <Separator />
-                    <AgurkErrorBoundary sidenavn="VurdertIInfotrygd">
-                        <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
-                    </AgurkErrorBoundary>
                 </>
+            )}
+            {harBehandledeVilkår && (
+                <Kolonner>
+                    {harIkkeVurderteVilkår && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår!} />}
+                    {harIkkeOppfylteVilkår && <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår!} />}
+                    {harOppfylteVilkår && <OppfylteVilkår vilkår={oppfylteVilkår!} />}
+                </Kolonner>
             )}
         </AgurkErrorBoundary>
     );

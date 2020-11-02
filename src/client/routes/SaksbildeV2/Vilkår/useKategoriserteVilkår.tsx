@@ -1,5 +1,5 @@
 import React from 'react';
-import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
+import { Periodetype, Risikovurdering as RisikovurderingType, Vedtaksperiode, Vilkår } from 'internal-types';
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import {
     Alder,
@@ -10,7 +10,6 @@ import {
     Sykepengegrunnlag,
     Søknadsfrist,
 } from './vilkårsgrupper/Vilkårsgrupper';
-import { Risikovurdering as RisikovurderingType } from 'internal-types';
 import dayjs from 'dayjs';
 
 const alder = (vilkår: Vilkår) => ({
@@ -130,7 +129,8 @@ export const useKategoriserteVilkår = ({
                 Vilkårstype.Alder,
                 Vilkårstype.Søknadsfrist,
                 Vilkårstype.Institusjonsopphold,
-                Vilkårstype.DagerIgjen
+                Vilkårstype.DagerIgjen,
+                Vilkårstype.Risikovurdering
             );
         } else if (automatiskBehandlet) {
             vilkårstyperVurdertAutomatisk.push(
@@ -151,7 +151,8 @@ export const useKategoriserteVilkår = ({
                 Vilkårstype.Institusjonsopphold,
                 Vilkårstype.Opptjeningstid,
                 Vilkårstype.Sykepengegrunnlag,
-                Vilkårstype.DagerIgjen
+                Vilkårstype.DagerIgjen,
+                Vilkårstype.Risikovurdering
             );
         }
     } else {

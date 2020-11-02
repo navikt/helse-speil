@@ -127,24 +127,21 @@ describe('useKategoriserteVilkår', () => {
         const {
             vilkårVurdertAvSaksbehandler,
             vilkårVurdertIInfotrygd,
-            oppfylteVilkår,
             ikkeVurderteVilkår,
             ikkeOppfylteVilkår,
         } = result.current;
 
-        expect(vilkårVurdertAvSaksbehandler).toHaveLength(5);
+        expect(vilkårVurdertAvSaksbehandler).toHaveLength(6);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Medlemskap))).toHaveLength(1);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Alder))).toHaveLength(1);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Institusjonsopphold))).toHaveLength(1);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.DagerIgjen))).toHaveLength(1);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Søknadsfrist))).toHaveLength(1);
+        expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Risikovurdering))).toHaveLength(1);
 
         expect(vilkårVurdertIInfotrygd).toHaveLength(2);
         expect(vilkårVurdertIInfotrygd?.filter(harVilkårstype(Vilkårstype.Sykepengegrunnlag))).toHaveLength(1);
         expect(vilkårVurdertIInfotrygd?.filter(harVilkårstype(Vilkårstype.Opptjeningstid))).toHaveLength(1);
-
-        expect(oppfylteVilkår).toHaveLength(1);
-        expect(oppfylteVilkår?.filter(harVilkårstype(Vilkårstype.Risikovurdering))).toHaveLength(1);
 
         expect(ikkeVurderteVilkår).toHaveLength(0);
         expect(ikkeOppfylteVilkår).toHaveLength(0);
@@ -189,12 +186,11 @@ describe('useKategoriserteVilkår', () => {
             vilkårVurdertAvSaksbehandler,
             vilkårVurdertIInfotrygd,
             vilkårVurdertAutomatisk,
-            oppfylteVilkår,
             ikkeVurderteVilkår,
             ikkeOppfylteVilkår,
         } = result.current;
 
-        expect(vilkårVurdertAvSaksbehandler).toHaveLength(7);
+        expect(vilkårVurdertAvSaksbehandler).toHaveLength(8);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.DagerIgjen))).toHaveLength(1);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Sykepengegrunnlag))).toHaveLength(1);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Opptjeningstid))).toHaveLength(1);
@@ -202,9 +198,7 @@ describe('useKategoriserteVilkår', () => {
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Søknadsfrist))).toHaveLength(1);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Alder))).toHaveLength(1);
         expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Medlemskap))).toHaveLength(1);
-
-        expect(oppfylteVilkår).toHaveLength(1);
-        expect(oppfylteVilkår?.filter(harVilkårstype(Vilkårstype.Risikovurdering))).toHaveLength(1);
+        expect(vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(Vilkårstype.Risikovurdering))).toHaveLength(1);
 
         expect(vilkårVurdertIInfotrygd).toHaveLength(0);
         expect(vilkårVurdertAutomatisk).toHaveLength(0);
