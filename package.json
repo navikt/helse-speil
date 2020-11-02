@@ -131,6 +131,7 @@
         "@testing-library/dom": "^7.23.0",
         "@testing-library/jest-dom": "^5.8.0",
         "@testing-library/react": "^10.0.4",
+        "@testing-library/react-hooks": "^3.4.2",
         "@testing-library/user-event": "^12.1.3",
         "@types/classnames": "^2.2.10",
         "@types/compression": "^1.7.0",

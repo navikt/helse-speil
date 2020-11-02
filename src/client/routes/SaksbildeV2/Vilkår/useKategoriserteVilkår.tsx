@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Periodetype, Vedtaksperiode } from 'internal-types';
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import {
@@ -133,9 +133,7 @@ export const useKategoriserteVilkår = ({
             }
         }
     } else {
-        if (periodetype === Periodetype.Førstegangsbehandling) {
-            // Ingen vilkår er vurdert fra før, med unntak av de som er markert som oppfylt fra spleis
-        } else if (periodetype === Periodetype.Forlengelse) {
+        if (periodetype === Periodetype.Forlengelse) {
             vilkårVurdertAvSaksbehandler.push(
                 Vilkårstype.Medlemskap,
                 Vilkårstype.Institusjonsopphold,
