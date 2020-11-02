@@ -54,6 +54,8 @@ const Utbetalingstabell = styled.article`
 `;
 
 const Korttittel = styled(Undertittel)`
+    display: flex;
+    align-items: center;
     text-decoration-line: underline;
     font-size: 18px;
     margin-bottom: 1rem;
@@ -147,7 +149,7 @@ export const Utbetaling = () => {
             </Sykmeldingsperiode>
             <Arbeidsgiver>
                 <Korttittel>
-                    <Koffert />
+                    <Koffert height={20} />
                     Arbeidsgiver
                 </Korttittel>
                 <Clipboard preserveWhitespace={false}>

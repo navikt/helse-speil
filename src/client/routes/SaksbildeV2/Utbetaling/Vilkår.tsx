@@ -28,6 +28,7 @@ const Vilkårnavn = styled(Normaltekst)`
 
 const Vilkårikon = styled.span`
     display: flex;
+    flex-shrink: 0;
     width: 20px;
     height: 24px;
     align-items: center;
