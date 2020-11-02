@@ -9,6 +9,7 @@ import { somPenger } from '../../../utils/locale';
 import { Basisvilkår } from 'internal-types';
 import dayjs from 'dayjs';
 import { Vurdering, VurdertVilkår } from './Vilkår';
+import { Flex } from '../../../components/Flex';
 
 const Arbeidsflate = styled.section`
     display: grid;
@@ -63,11 +64,6 @@ const Korttittel = styled(Undertittel)`
 
 const Koffert = styled(Arbeidsgiverikon)`
     margin-right: 1rem;
-`;
-
-const ToKolonner = styled.div`
-    display: flex;
-    justify-content: space-between;
 `;
 
 const vurdering = (vilkår?: Basisvilkår) => {
@@ -155,16 +151,16 @@ export const Utbetaling = () => {
                 <Clipboard preserveWhitespace={false}>
                     <Normaltekst>{organisasjonsnummer}</Normaltekst>
                 </Clipboard>
-                <ToKolonner>
+                <Flex justifyContent="space-between">
                     <Normaltekst>Månedsbeløp</Normaltekst>
                     <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>
-                </ToKolonner>
+                </Flex>
             </Arbeidsgiver>
             <Vilkårkort>
                 <Korttittel>Vilkår</Korttittel>
                 <ul>
-                    {vilkår.map((v) => (
-                        <li>
+                    {vilkår.map((v, i) => (
+                        <li key={i}>
                             <VurdertVilkår vilkår={v} />
                         </li>
                     ))}
