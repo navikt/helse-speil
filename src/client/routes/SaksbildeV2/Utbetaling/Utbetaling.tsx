@@ -168,7 +168,7 @@ export const Utbetaling = () => {
 
     return (
         <Arbeidsflate>
-            <AgurkErrorBoundary>
+            <AgurkErrorBoundary sidenavn="Utbetaling">
                 <Sykmeldingsperiode>
                     <Korttittel>
                         <Lenke to={`${personTilBehandling?.aktørId}/../sykmeldingsperiode`}>Sykmeldingsperiode</Lenke>

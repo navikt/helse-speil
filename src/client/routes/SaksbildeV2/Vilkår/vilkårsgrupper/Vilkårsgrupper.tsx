@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Vilkårsgruppe } from './Vilkårsgruppe';
@@ -6,6 +6,8 @@ import { toKronerOgØre } from '../../../../utils/locale';
 import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { Opptjening, Risikovurdering as RisikovurderingType, Vilkår } from 'internal-types';
+import { Feilikon } from '../../../../components/ikoner/Feilikon';
+import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 
 export const Alder = ({ alder }: Vilkår) => (
     <Vilkårsgrupperad label="Alder">{alder.alderSisteSykedag}</Vilkårsgrupperad>
@@ -60,7 +62,43 @@ export const Sykepengegrunnlag = ({ sykepengegrunnlag, alder }: Vilkår) => (
     </>
 );
 
-export const DagerIgjen = ({ dagerIgjen }: Vilkår) => (
+const AdvarselikonAlder = styled(Advarselikon)`
+    padding: 0 0.5rem;
+`;
+
+const GjenståendeDagerTekst = styled(Normaltekst)`
+    display: flex;
+    align-items: center;
+`;
+
+const DagerIgjenParagrafTekst = styled(Normaltekst)`
+    font-size: 14px;
+    color: #78706a;
+`;
+
+interface GjenståendeDagerProps {
+    gjenståendeDager?: number | null;
+    alderSisteSykedag: number;
+}
+
+const GjenståendeDager = ({ gjenståendeDager, alderSisteSykedag }: GjenståendeDagerProps) =>
+    gjenståendeDager ? (
+        <GjenståendeDagerTekst>
+            {gjenståendeDager}
+            {alderSisteSykedag >= 67 && alderSisteSykedag <= 69 ? (
+                <>
+                    <AdvarselikonAlder />
+                    <DagerIgjenParagrafTekst tag="span">§ 8-11</DagerIgjenParagrafTekst>
+                </>
+            ) : (
+                ''
+            )}
+        </GjenståendeDagerTekst>
+    ) : (
+        <Normaltekst>Ikke funnet</Normaltekst>
+    );
+
+export const DagerIgjen = ({ dagerIgjen, alder }: Vilkår) => (
     <>
         <Vilkårsgrupperad label="Skjæringstidspunkt">
             {dagerIgjen.skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
@@ -70,7 +108,12 @@ export const DagerIgjen = ({ dagerIgjen }: Vilkår) => (
         </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Yrkesstatus">Arbeidstaker</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Dager brukt">{dagerIgjen.dagerBrukt ?? 'Ikke funnet'}</Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Dager igjen">{dagerIgjen.gjenståendeDager ?? 'Ikke funnet'}</Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Dager igjen">
+            <GjenståendeDager
+                gjenståendeDager={dagerIgjen.gjenståendeDager}
+                alderSisteSykedag={alder.alderSisteSykedag}
+            />
+        </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Maksdato">
             {dagerIgjen.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
         </Vilkårsgrupperad>
