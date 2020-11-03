@@ -73,7 +73,9 @@ const Oppsummering = () => {
                 )}
             </Infogruppe>
             <Utbetaling />
-            <SimuleringsinfoModal simulering={simuleringsdata!!} åpenModal={åpen} lukkModal={() => setÅpen(false)} />
+            {simuleringsdata && (
+                <SimuleringsinfoModal simulering={simuleringsdata} åpenModal={åpen} lukkModal={() => setÅpen(false)} />
+            )}
         </>
     );
 };

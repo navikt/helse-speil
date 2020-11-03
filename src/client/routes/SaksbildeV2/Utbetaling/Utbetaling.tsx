@@ -15,6 +15,7 @@ import Lenke from 'nav-frontend-lenker';
 import { useRouteMatch } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { Flex } from '../../../components/Flex';
+import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 
 const Arbeidsflate = styled.section`
     display: grid;
@@ -192,7 +193,8 @@ export const Utbetaling = () => {
                     <Oppsummering />
                 </Utbetalingkort>
                 <Utbetalingstabell>
-                    <Korttittel>Utbetalingstabell</Korttittel>
+                    <Korttittel>Utbetaling</Korttittel>
+                    <Utbetalingsoversikt />
                 </Utbetalingstabell>
             </AgurkErrorBoundary>
         </Arbeidsflate>
