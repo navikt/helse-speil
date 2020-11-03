@@ -11,9 +11,7 @@ import dayjs from 'dayjs';
 import { Vurdering, VurdertVilkår } from './Vilkår';
 import Oppsummering from './Oppsummering/Oppsummering';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import Lenke from 'nav-frontend-lenker';
-import { useRouteMatch } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Flex } from '../../../components/Flex';
 import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 
@@ -65,14 +63,39 @@ const Korttittel = styled(Undertittel)`
     align-items: center;
     font-size: 18px;
     margin-bottom: 1rem;
-
     a {
         color: inherit;
+        &:hover {
+            text-decoration: none;
+        }
+        &:active,
+        &:focus {
+            outline: none;
+            color: #fff;
+            text-decoration: none;
+            background-color: #254b6d;
+            box-shadow: 0 0 0 2px #254b6d;
+        }
     }
 `;
 
 const Koffert = styled(Arbeidsgiverikon)`
     margin-right: 1rem;
+`;
+
+const Lenke = styled(Link)`
+    color: inherit;
+    &:hover {
+        text-decoration: none;
+    }
+    &:active,
+    &:focus-visible {
+        outline: none;
+        color: #fff;
+        text-decoration: none;
+        background-color: #254b6d;
+        box-shadow: 0 0 0 2px #254b6d;
+    }
 `;
 
 const vurdering = (vilkår?: Basisvilkår) => {
@@ -83,9 +106,7 @@ const vurdering = (vilkår?: Basisvilkår) => {
 };
 
 export const Utbetaling = () => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
-    const { url } = useRouteMatch();
-    const history = useHistory();
+    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
     if (!aktivVedtaksperiode) return null;
 
@@ -150,21 +171,23 @@ export const Utbetaling = () => {
             <AgurkErrorBoundary>
                 <Sykmeldingsperiode>
                     <Korttittel>
-                        <Lenke href="" onClick={() => history.push(`${url}/../sykmeldingsperiode`)}>
-                            Sykmeldingsperiode
-                        </Lenke>
+                        <Lenke to={`${personTilBehandling?.aktørId}/../sykmeldingsperiode`}>Sykmeldingsperiode</Lenke>
                     </Korttittel>
-                    <Normaltekst>
-                        Periode {periodeFom} - {periodeTom}
-                    </Normaltekst>
-                    <Normaltekst>Skjæringstidspunkt {skjæringstidspunkt}</Normaltekst>
+                    <Flex justifyContent="space-between">
+                        <Normaltekst>Periode</Normaltekst>
+                        <Normaltekst>
+                            {periodeFom} - {periodeTom}
+                        </Normaltekst>
+                    </Flex>
+                    <Flex justifyContent="space-between">
+                        <Normaltekst>Skjæringstidspunkt</Normaltekst>
+                        <Normaltekst>{skjæringstidspunkt}</Normaltekst>
+                    </Flex>
                 </Sykmeldingsperiode>
                 <Arbeidsgiver>
                     <Korttittel>
                         <Koffert height={20} />
-                        <Lenke href="" onClick={() => history.push(`${url}/../sykepengegrunnlag`)}>
-                            Arbeidsgiver
-                        </Lenke>
+                        <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>Arbeidsgiver</Lenke>
                     </Korttittel>
                     <Clipboard preserveWhitespace={false}>
                         <Normaltekst>{organisasjonsnummer}</Normaltekst>
@@ -176,9 +199,7 @@ export const Utbetaling = () => {
                 </Arbeidsgiver>
                 <Vilkårkort>
                     <Korttittel>
-                        <Lenke href="" onClick={() => history.push(`${url}/../vilkår`)}>
-                            Vilkår
-                        </Lenke>
+                        <Lenke to={`${personTilBehandling?.aktørId}/../vilkår`}>Vilkår</Lenke>
                     </Korttittel>
                     <ul>
                         {vilkår.map((v, i) => (

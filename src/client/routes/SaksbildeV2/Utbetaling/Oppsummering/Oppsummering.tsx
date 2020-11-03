@@ -6,27 +6,38 @@ import { PersonContext } from '../../../../context/PersonContext';
 import { somPenger } from '../../../../utils/locale';
 import Lenke from 'nav-frontend-lenker';
 import { SimuleringsinfoModal } from './SimuleringsinfoModal';
-import { useRouteMatch } from 'react-router-dom';
-import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Utbetaling } from './utbetaling/Utbetaling';
+import { Flex } from '../../../../components/Flex';
 
 const Infotekst = styled(Normaltekst)`
     margin-bottom: 0.5rem;
 `;
 
 const Infogruppe = styled.section`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: 4rem;
-`;
-
-const StyledLenke = styled(Lenke)`
-    grid-column: 1/-1;
     margin-bottom: 1.5rem;
 `;
 
-const Fullbredde = styled.div`
-    grid-column: 1/-1;
+const StyledLink = styled(Link)`
+    margin-bottom: 2rem;
+    display: block;
+    color: #0067c5;
+    max-width: max-content;
+    &:hover {
+        text-decoration: none;
+    }
+
+    &:active,
+    &:focus {
+        outline: none;
+        color: #fff;
+        text-decoration: none;
+        background-color: #254b6d;
+        box-shadow: 0 0 0 2px #254b6d;
+    }
+`;
+
+const StyledLenke = styled(Lenke)`
     margin-bottom: 1.5rem;
 `;
 
@@ -35,10 +46,8 @@ const Simuleringsfeilmelding = styled(Feilmelding)`
 `;
 
 const Oppsummering = () => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const { t } = useTranslation();
-    const { url } = useRouteMatch();
-    const history = useHistory();
     const [åpen, setÅpen] = useState(false);
     if (!aktivVedtaksperiode) return null;
 
@@ -47,27 +56,30 @@ const Oppsummering = () => {
     return (
         <>
             <Infogruppe>
-                <Infotekst>{t('oppsummering.sykepengegrunnlag')}</Infotekst>
-                <Infotekst>{somPenger(sykepengegrunnlag.sykepengegrunnlag!)}</Infotekst>
-                <Fullbredde>
-                    <StyledLenke href="" onClick={() => history.push(`${url}/../sykepengegrunnlag`)}>
-                        Beregning av sykepengegrunnlaget
-                    </StyledLenke>
-                </Fullbredde>
-                <Infotekst>{t('oppsummering.antall_utbetalingsdager')}</Infotekst>
-                <Infotekst>{oppsummering.antallUtbetalingsdager}</Infotekst>
-                <Infotekst>{t('oppsummering.beløp')}</Infotekst>
-                <Infotekst>
-                    {oppsummering.totaltTilUtbetaling > 0
-                        ? somPenger(oppsummering.totaltTilUtbetaling)
-                        : 'Ingen utbetaling'}
-                </Infotekst>
+                <Flex justifyContent="space-between">
+                    <Infotekst>{t('oppsummering.sykepengegrunnlag')}</Infotekst>
+                    <Infotekst>{somPenger(sykepengegrunnlag.sykepengegrunnlag!)}</Infotekst>
+                </Flex>
+                <StyledLink to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>
+                    Beregning av sykepengegrunnlaget
+                </StyledLink>
+                <Flex justifyContent="space-between">
+                    <Infotekst>{t('oppsummering.antall_utbetalingsdager')}</Infotekst>
+                    <Infotekst>{oppsummering.antallUtbetalingsdager}</Infotekst>
+                </Flex>
+                <Flex justifyContent="space-between">
+                    <Infotekst>{t('oppsummering.beløp')}</Infotekst>
+                    <Infotekst>
+                        {oppsummering.totaltTilUtbetaling > 0
+                            ? somPenger(oppsummering.totaltTilUtbetaling)
+                            : 'Ingen utbetaling'}
+                    </Infotekst>
+                </Flex>
+
                 {simuleringsdata ? (
-                    <Fullbredde>
-                        <StyledLenke href="#" onClick={() => setÅpen(true)}>
-                            Simulering
-                        </StyledLenke>
-                    </Fullbredde>
+                    <StyledLenke href="#" onClick={() => setÅpen(true)}>
+                        Simulering
+                    </StyledLenke>
                 ) : (
                     <Simuleringsfeilmelding>Mangler simulering</Simuleringsfeilmelding>
                 )}
