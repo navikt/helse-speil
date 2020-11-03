@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
 import '@navikt/helse-frontend-tabell/lib/main.css';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { OverstyrbarSykmeldingsperiodetabell } from './OverstyrbarSykmeldingsperiodetabell';
@@ -15,7 +14,6 @@ import { NORSK_DATOFORMAT } from '../../../utils/date';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 1.5rem 2rem;
 `;
 
 const formaterPeriodeString = (fom: Dayjs, tom: Dayjs) => {
@@ -59,7 +57,7 @@ export const Sykmeldingsperiode = () => {
         <Container className="Sykmeldingsperiode">
             <AgurkErrorBoundary>
                 <Header>
-                    <span>Sykemeldingsperiode</span>
+                    <span>Sykmeldingsperiode</span>
                     <span>/</span>
                     <span>{periode}</span>
                     <span>/</span>

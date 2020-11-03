@@ -24,7 +24,7 @@ const Sammenligning = styled.div`
     grid-template-columns: 13rem max-content max-content;
     grid-gap: 0.5rem;
     grid-column-gap: 2rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 4.5rem;
 `;
 
 const InntektMedKilde = styled.div`

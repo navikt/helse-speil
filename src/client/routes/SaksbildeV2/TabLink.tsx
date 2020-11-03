@@ -7,7 +7,8 @@ const StyledTabLink = styled(NavLink)`
     display: flex;
     align-items: center;
     height: 84px;
-    padding: 0 10px;
+    padding: 0 12px;
+    margin: 0 12px;
     color: transparent;
     outline: none;
 

@@ -9,7 +9,6 @@ import { Feilikon } from '../../../components/ikoner/Feilikon';
 import { dato, gradering, ikon, type, utbetaling } from '../../../components/tabell/rader';
 import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { useMaksdato } from '../../../hooks/useMaksdato';
 
 type Utbetalingsceller = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];
@@ -25,10 +24,6 @@ const Utbetalingstabell = styled(Tabell)`
         box-sizing: border-box;
         height: 51px;
     }
-`;
-
-const Container = styled.div`
-    padding: 1.5rem 2rem;
 `;
 
 const Feilmeldingsikon = styled(Feilikon)`
@@ -101,13 +96,9 @@ export const Utbetalingsoversikt = () => {
     const headere = utbetalingsheadere;
     const tabellbeskrivelse = `Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`;
 
-    return (
-        <Container>
-            {rader ? (
-                <Utbetalingstabell beskrivelse={tabellbeskrivelse} rader={rader} headere={headere} />
-            ) : (
-                <Normaltekst>Ingen data</Normaltekst>
-            )}
-        </Container>
+    return rader ? (
+        <Utbetalingstabell beskrivelse={tabellbeskrivelse} rader={rader} headere={headere} />
+    ) : (
+        <Normaltekst>Ingen data</Normaltekst>
     );
 };

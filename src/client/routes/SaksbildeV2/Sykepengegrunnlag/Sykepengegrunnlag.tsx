@@ -23,7 +23,6 @@ const StyledBehandletAvInfotrygd = styled(BehandletAvInfotrygd)`
 
 const Sykepengegrunnlagpanel = styled.div`
     max-width: 1265px;
-    margin: 0 2rem;
     width: max-content;
 `;
 
@@ -33,8 +32,8 @@ const OversiktContainer = styled.div`
 `;
 
 const Strek = styled.span`
-    border-right: 2px solid #c6c2bf;
-    height: max-content;
+    border-right: 1px solid #c6c2bf;
+    height: inherit;
     display: inline-block;
     margin-left: 5rem;
     margin-right: 2rem;

@@ -41,21 +41,10 @@ const Tabell = styled.div`
     grid-template-columns: 200px auto;
     grid-column-gap: 1rem;
     grid-row-gap: 0.5rem;
-    margin: 0.5rem 0 2rem;
-`;
-
-const Divider = styled.hr`
-    border: none;
-    border-top: 1px solid #e7e9e9;
-    margin: 0 0 2rem 0;
-`;
-
-const Liste = styled.ul`
-    margin: 0.5rem 0 2rem;
+    margin: 0.5rem 0 4rem;
 `;
 
 const Innhold = styled(Grid)`
-    margin-top: 2rem;
     grid-column-gap: 6rem;
 `;
 
@@ -84,7 +73,6 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                     <Element>{`${toKronerOgØre(inntektskilder[0].månedsinntekt!)} kr`}</Element>
                     <Element>{`${toKronerOgØre(inntektskilder[0].årsinntekt!)} kr`}</Element>
                 </Tabell>
-                <Divider />
                 <HeaderContainer>
                     <Tittel>{t('inntektskilder.inntektsmeldinger')}</Tittel>
                 </HeaderContainer>
