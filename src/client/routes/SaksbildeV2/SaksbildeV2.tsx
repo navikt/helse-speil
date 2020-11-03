@@ -17,6 +17,12 @@ import LoggProvider from '../../context/logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+`;
+
 const Content = styled.div`
     margin: 2rem;
 `;
@@ -74,7 +80,7 @@ export const SaksbildeV2 = () => {
     if (!aktivVedtaksperiode || !personTilBehandling) return <div />;
 
     return (
-        <div>
+        <Container className="saksbilde">
             <LoggProvider>
                 <Personlinje person={personTilBehandling} />
                 <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
@@ -87,7 +93,7 @@ export const SaksbildeV2 = () => {
                     </Sakslinje>
                     <LoggHeader />
                 </Flex>
-                <Flex>
+                <Flex style={{ flex: 1 }}>
                     <FlexColumn style={{ flex: 1 }}>
                         <Toppvarsler />
                         <Switch>
@@ -116,6 +122,6 @@ export const SaksbildeV2 = () => {
                     <LoggListe />
                 </Flex>
             </LoggProvider>
-        </div>
+        </Container>
     );
 };
