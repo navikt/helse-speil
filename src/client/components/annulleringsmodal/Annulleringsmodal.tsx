@@ -14,6 +14,7 @@ import { Modal } from '../Modal';
 import { organisasjonsnummerForPeriode } from '../../mapping/selectors';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { somPenger } from '../../utils/locale';
+import router from 'react-router';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -80,6 +81,7 @@ interface Props {
 }
 
 export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) => {
+    const history = router.useHistory();
     const { ident } = useRecoilValue(authState);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
@@ -98,7 +100,10 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
         setIsSending(true);
         setPostAnnulleringFeil(undefined);
         postAnnullering(annullering)
-            .then(onClose)
+            .then(() => {
+                onClose();
+                history.push('/');
+            })
             .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
             .finally(() => setIsSending(false));
     };
