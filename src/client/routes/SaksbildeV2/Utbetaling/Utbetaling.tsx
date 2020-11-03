@@ -9,6 +9,11 @@ import { somPenger } from '../../../utils/locale';
 import { Basisvilkår } from 'internal-types';
 import dayjs from 'dayjs';
 import { Vurdering, VurdertVilkår } from './Vilkår';
+import Oppsummering from './Oppsummering/Oppsummering';
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import Lenke from 'nav-frontend-lenker';
+import { useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import { Flex } from '../../../components/Flex';
 
 const Arbeidsflate = styled.section`
@@ -57,9 +62,12 @@ const Utbetalingstabell = styled.article`
 const Korttittel = styled(Undertittel)`
     display: flex;
     align-items: center;
-    text-decoration-line: underline;
     font-size: 18px;
     margin-bottom: 1rem;
+
+    a {
+        color: inherit;
+    }
 `;
 
 const Koffert = styled(Arbeidsgiverikon)`
@@ -75,6 +83,8 @@ const vurdering = (vilkår?: Basisvilkår) => {
 
 export const Utbetaling = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
+    const { url } = useRouteMatch();
+    const history = useHistory();
 
     if (!aktivVedtaksperiode) return null;
 
@@ -136,42 +146,55 @@ export const Utbetaling = () => {
 
     return (
         <Arbeidsflate>
-            <Sykmeldingsperiode>
-                <Korttittel>Sykmeldingsperiode</Korttittel>
-                <Normaltekst>
-                    Periode {periodeFom} - {periodeTom}
-                </Normaltekst>
-                <Normaltekst>Skjæringstidspunkt {skjæringstidspunkt}</Normaltekst>
-            </Sykmeldingsperiode>
-            <Arbeidsgiver>
-                <Korttittel>
-                    <Koffert height={20} />
-                    Arbeidsgiver
-                </Korttittel>
-                <Clipboard preserveWhitespace={false}>
-                    <Normaltekst>{organisasjonsnummer}</Normaltekst>
-                </Clipboard>
-                <Flex justifyContent="space-between">
-                    <Normaltekst>Månedsbeløp</Normaltekst>
-                    <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>
-                </Flex>
-            </Arbeidsgiver>
-            <Vilkårkort>
-                <Korttittel>Vilkår</Korttittel>
-                <ul>
-                    {vilkår.map((v, i) => (
-                        <li key={i}>
-                            <VurdertVilkår vilkår={v} />
-                        </li>
-                    ))}
-                </ul>
-            </Vilkårkort>
-            <Utbetalingkort>
-                <Korttittel>Utbetaling</Korttittel>
-            </Utbetalingkort>
-            <Utbetalingstabell>
-                <Korttittel>Utbetalingstabell</Korttittel>
-            </Utbetalingstabell>
+            <AgurkErrorBoundary>
+                <Sykmeldingsperiode>
+                    <Korttittel>
+                        <Lenke href="" onClick={() => history.push(`${url}/../sykmeldingsperiode`)}>
+                            Sykmeldingsperiode
+                        </Lenke>
+                    </Korttittel>
+                    <Normaltekst>
+                        Periode {periodeFom} - {periodeTom}
+                    </Normaltekst>
+                    <Normaltekst>Skjæringstidspunkt {skjæringstidspunkt}</Normaltekst>
+                </Sykmeldingsperiode>
+                <Arbeidsgiver>
+                    <Korttittel>
+                        <Koffert height={20} />
+                        <Lenke href="" onClick={() => history.push(`${url}/../sykepengegrunnlag`)}>
+                            Arbeidsgiver
+                        </Lenke>
+                    </Korttittel>
+                    <Clipboard preserveWhitespace={false}>
+                        <Normaltekst>{organisasjonsnummer}</Normaltekst>
+                    </Clipboard>
+                    <Flex justifyContent="space-between">
+                        <Normaltekst>Månedsbeløp</Normaltekst>
+                        <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>
+                    </Flex>
+                </Arbeidsgiver>
+                <Vilkårkort>
+                    <Korttittel>
+                        <Lenke href="" onClick={() => history.push(`${url}/../vilkår`)}>
+                            Vilkår
+                        </Lenke>
+                    </Korttittel>
+                    <ul>
+                        {vilkår.map((v, i) => (
+                            <li key={i}>
+                                <VurdertVilkår vilkår={v} />
+                            </li>
+                        ))}
+                    </ul>
+                </Vilkårkort>
+                <Utbetalingkort>
+                    <Korttittel>Utbetaling</Korttittel>
+                    <Oppsummering />
+                </Utbetalingkort>
+                <Utbetalingstabell>
+                    <Korttittel>Utbetalingstabell</Korttittel>
+                </Utbetalingstabell>
+            </AgurkErrorBoundary>
         </Arbeidsflate>
     );
 };
