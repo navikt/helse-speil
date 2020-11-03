@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Vedtaksperiodeinfo from './Vedtaksperiodeinfo';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
-import { LoggHeader } from '@navikt/helse-frontend-logg';
+import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
 import { PersonContext } from '../../context/PersonContext';
 import Verktøylinje from './Verktøylinje';
+import { speilV2 } from '../../featureToggles';
 
 const StyledSakslinje = styled(Sakslinje)`
     border: none;
@@ -12,10 +13,21 @@ const StyledSakslinje = styled(Sakslinje)`
     > div:first-of-type {
         width: 250px;
     }
-    > div:last-of-type {
-        width: 274px;
-    }
 `;
+
+const LoggHeader = speilV2
+    ? EksternLoggheader
+    : styled(EksternLoggheader)`
+          height: 50px;
+          justify-content: flex-start;
+          box-sizing: border-box;
+          width: 314px;
+          background: #f8f8f8;
+
+          > button {
+              min-height: unset;
+          }
+      `;
 
 export default () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);

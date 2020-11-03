@@ -4,7 +4,7 @@ import Vilkår from './Vilkår';
 import Sakslinje from '../../components/sakslinje/Sakslinje';
 import Lenkeknapp from '../../components/Lenkeknapp';
 import { Toppvarsler } from '../../components/Toppvarsler';
-import LoggProvider from '../../context/LoggProvider';
+import LoggProvider from '../../context/logg/LoggProvider';
 import Oppsummering from './Oppsummering';
 import Inntektskilder from './Inntektskilder/Inntektskilder';
 import Sykepengegrunnlag from './Sykepengegrunnlag';
