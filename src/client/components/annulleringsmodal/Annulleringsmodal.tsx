@@ -14,7 +14,7 @@ import { Modal } from '../Modal';
 import { organisasjonsnummerForPeriode } from '../../mapping/selectors';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { somPenger } from '../../utils/locale';
-import router from 'react-router';
+import { useHistory } from 'react-router';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -81,7 +81,7 @@ interface Props {
 }
 
 export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) => {
-    const history = router.useHistory();
+    const history = useHistory();
     const { ident } = useRecoilValue(authState);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
@@ -131,8 +131,8 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
                         <TilAnnullering>
                             <Normaltekst>Følgende utbetalinger annulleres:</Normaltekst>
                             <ul>
-                                {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.linjer.map((linje) => (
-                                    <li>
+                                {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.linjer.map((linje, index) => (
+                                    <li key={index}>
                                         {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)} -{' '}
                                         {somPenger(linje.dagsats)}
                                     </li>
