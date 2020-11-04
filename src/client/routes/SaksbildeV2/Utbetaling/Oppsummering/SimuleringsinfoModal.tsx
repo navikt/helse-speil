@@ -47,7 +47,7 @@ export const SimuleringsinfoModal = ({ simulering, åpenModal, lukkModal }: Simu
                     <Element>{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</Element>
                     <Luft />
                     {periode.utbetalinger.map((utbetaling, index) => (
-                        <Utbetalingsvisning utbetaling={utbetaling} index={index} />
+                        <Utbetalingsvisning utbetaling={utbetaling} index={index} key={`utbetaling-${index}`} />
                     ))}
                 </Underliste>
             ))}
@@ -57,7 +57,7 @@ export const SimuleringsinfoModal = ({ simulering, åpenModal, lukkModal }: Simu
 
 type UtbetalingsvisningProps = { utbetaling: Utbetaling; index: number };
 const Utbetalingsvisning = ({ utbetaling, index }: UtbetalingsvisningProps) => (
-    <React.Fragment key={`utbetaling-${index}`}>
+    <React.Fragment>
         {index > 0 && <Luft />}
         <Normaltekst>Utbetales til ID</Normaltekst>
         <Normaltekst>{utbetaling.utbetalesTilId}</Normaltekst>
@@ -68,14 +68,14 @@ const Utbetalingsvisning = ({ utbetaling, index }: UtbetalingsvisningProps) => (
         <Normaltekst>Feilkonto</Normaltekst>
         <Normaltekst>{utbetaling.feilkonto ? 'Ja' : 'Nei'}</Normaltekst>
         {utbetaling.detaljer.map((detalj: Utbetalingsdetalj, index: number) => (
-            <Utbetalingsdetaljvisning detalj={detalj} index={index} />
+            <Utbetalingsdetaljvisning detalj={detalj} index={index} key={`detalj-${index}`} />
         ))}
     </React.Fragment>
 );
 
 type UtbetalingsdetaljvisningProps = { detalj: Utbetalingsdetalj; index: number };
 const Utbetalingsdetaljvisning = ({ detalj, index }: UtbetalingsdetaljvisningProps) => (
-    <React.Fragment key={`detalj-${index}`}>
+    <React.Fragment>
         {index > 0 && <Luft />}
         <Normaltekst>Faktisk fom</Normaltekst>
         <Normaltekst>{formaterDato(detalj.faktiskFom)}</Normaltekst>
