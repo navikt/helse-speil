@@ -4,7 +4,7 @@ import Vedtaksperiodeinfo from './Vedtaksperiodeinfo';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
 import { PersonContext } from '../../context/PersonContext';
-import Verktøylinje from './Verktøylinje';
+import { Verktøylinje } from './Verktøylinje';
 import { speilV2 } from '../../featureToggles';
 
 const StyledSakslinje = styled(Sakslinje)`

@@ -16,6 +16,8 @@ import { Toppvarsler } from '../../components/Toppvarsler';
 import LoggProvider from '../../context/logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
+import { Periodetype } from '../../components/sakslinje/Periodetype';
+import { Verktøylinje } from './Verktøylinje';
 
 const Container = styled.div`
     display: flex;
@@ -71,6 +73,12 @@ const LoggListe = styled(EksternLoggliste)`
     }
 `;
 
+const SakslinjeVenstre = styled(Flex)`
+    width: 18rem;
+    margin-right: 1rem;
+    align-items: center;
+`;
+
 export const SaksbildeV2 = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const { path, url } = useRouteMatch();
@@ -86,6 +94,10 @@ export const SaksbildeV2 = () => {
                 <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
                 <Flex justifyContent="space-between">
                     <Sakslinje>
+                        <SakslinjeVenstre>
+                            <Periodetype tittel={aktivVedtaksperiode.periodetype} />
+                            <Verktøylinje />
+                        </SakslinjeVenstre>
                         <TabLink to={`${url}/utbetaling`}>Utbetaling</TabLink>
                         <TabLink to={`${url}/sykmeldingsperiode`}>Sykmeldingsperiode</TabLink>
                         <TabLink to={`${url}/vilkår`}>Vilkår</TabLink>
