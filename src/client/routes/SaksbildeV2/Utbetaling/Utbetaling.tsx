@@ -6,9 +6,7 @@ import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { Clipboard } from '../../../components/clipboard';
 import { somPenger } from '../../../utils/locale';
-import { Basisvilkår } from 'internal-types';
-import dayjs from 'dayjs';
-import { Vurdering, VurdertVilkår } from './Vilkår';
+import { Vilkårsliste } from './Vilkårsoversikt';
 import Oppsummering from './Oppsummering/Oppsummering';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Link } from 'react-router-dom';
@@ -98,13 +96,6 @@ const Lenke = styled(Link)`
     }
 `;
 
-const vurdering = (vilkår?: Basisvilkår) => {
-    if (vilkår === undefined || vilkår.oppfylt === undefined) {
-        return Vurdering.IkkeVurdert;
-    }
-    return vilkår.oppfylt ? Vurdering.Oppfylt : Vurdering.IkkeOppfylt;
-};
-
 export const Utbetaling = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
@@ -117,54 +108,6 @@ export const Utbetaling = () => {
     const periodeFom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
     const periodeTom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
     const { organisasjonsnummer, månedsinntekt } = aktivVedtaksperiode.inntektskilder[0];
-
-    const arbeidsuførhet: Basisvilkår = {
-        oppfylt:
-            aktivVedtaksperiode.risikovurdering === undefined || aktivVedtaksperiode.risikovurdering.ufullstendig
-                ? undefined
-                : aktivVedtaksperiode.risikovurdering.arbeidsuførhetvurdering.length === 0,
-    };
-
-    const institusjonsopphold: Basisvilkår = {
-        oppfylt: aktivVedtaksperiode.godkjenttidspunkt?.isAfter(dayjs('10-04-2020')) && undefined, //Ble lagt på sjekk i spleis 30/09/20
-    };
-
-    const vilkår: VurdertVilkår[] = aktivVedtaksperiode.vilkår
-        ? [
-              {
-                  navn: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
-                  vurdering: vurdering(arbeidsuførhet),
-              },
-              {
-                  navn: 'Lovvalg og medlemsskap',
-                  vurdering: vurdering(aktivVedtaksperiode.vilkår.medlemskap),
-              },
-              {
-                  navn: 'Under 70 år',
-                  vurdering: vurdering(aktivVedtaksperiode.vilkår.alder),
-              },
-              {
-                  navn: 'Dager igjen',
-                  vurdering: vurdering(aktivVedtaksperiode.vilkår.dagerIgjen),
-              },
-              {
-                  navn: 'Søknadsfrist',
-                  vurdering: vurdering(aktivVedtaksperiode.vilkår.søknadsfrist),
-              },
-              {
-                  navn: 'Opptjeningstid',
-                  vurdering: vurdering(aktivVedtaksperiode.vilkår.opptjening),
-              },
-              {
-                  navn: 'Krav til minste sykepengegrunnlag',
-                  vurdering: vurdering(aktivVedtaksperiode.vilkår.sykepengegrunnlag),
-              },
-              {
-                  navn: 'Ingen institusjonsopphold',
-                  vurdering: vurdering(institusjonsopphold),
-              },
-          ].sort((a: VurdertVilkår, b: VurdertVilkår) => a.vurdering - b.vurdering)
-        : [];
 
     return (
         <Arbeidsflate>
@@ -201,13 +144,7 @@ export const Utbetaling = () => {
                     <Korttittel>
                         <Lenke to={`${personTilBehandling?.aktørId}/../vilkår`}>Vilkår</Lenke>
                     </Korttittel>
-                    <ul>
-                        {vilkår.map((v, i) => (
-                            <li key={i}>
-                                <VurdertVilkår vilkår={v} />
-                            </li>
-                        ))}
-                    </ul>
+                    <Vilkårsliste vedtaksperiode={aktivVedtaksperiode} />
                 </Vilkårkort>
                 <Utbetalingkort>
                     <Korttittel>Utbetaling</Korttittel>
