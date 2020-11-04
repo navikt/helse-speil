@@ -29,8 +29,8 @@ export const VurdertAvSaksbehandler = ({ vilkår, skjæringstidspunkt, saksbehan
             saksbehandler={saksbehandler ?? 'Ukjent'}
             automatiskBehandlet={false}
         >
-            {vilkår.map(({ tittel, paragraf, komponent }, i) => (
-                <VurdertTittel ikon={<Sjekkikon />} paragraf={paragraf} key={i}>
+            {vilkår.map(({ tittel, paragraf, paragrafIkon, komponent }, i) => (
+                <VurdertTittel ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon} key={i}>
                     {tittel}
                 </VurdertTittel>
             ))}

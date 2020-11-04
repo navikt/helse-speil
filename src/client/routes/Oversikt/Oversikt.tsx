@@ -8,7 +8,6 @@ import { OppgaverContext } from '../../context/OppgaverContext';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { OppgaverTabell } from './OppgaverTabell';
 import { useEmail } from '../../state/authentication';
-import { Oppgave } from '../../../types';
 import { useRecoilValue } from 'recoil';
 import { Tabs, tabState } from './tabs';
 import { Toast } from '../../components/toasts/Toast';

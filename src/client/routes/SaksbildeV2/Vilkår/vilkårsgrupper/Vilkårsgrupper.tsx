@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Vilkårsgruppe } from './Vilkårsgruppe';
@@ -6,7 +6,6 @@ import { toKronerOgØre } from '../../../../utils/locale';
 import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { Opptjening, Risikovurdering as RisikovurderingType, Vilkår } from 'internal-types';
-import { Feilikon } from '../../../../components/ikoner/Feilikon';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 
 export const Alder = ({ alder }: Vilkår) => (
@@ -62,8 +61,8 @@ export const Sykepengegrunnlag = ({ sykepengegrunnlag, alder }: Vilkår) => (
     </>
 );
 
-const AdvarselikonAlder = styled(Advarselikon)`
-    padding: 0 0.5rem;
+export const AdvarselikonAlder = styled(Advarselikon)`
+    padding: 0 10px;
 `;
 
 const GjenståendeDagerTekst = styled(Normaltekst)`
@@ -85,10 +84,10 @@ const GjenståendeDager = ({ gjenståendeDager, alderSisteSykedag }: Gjenståend
     gjenståendeDager ? (
         <GjenståendeDagerTekst>
             {gjenståendeDager}
-            {alderSisteSykedag >= 67 && alderSisteSykedag <= 69 ? (
+            {alderSisteSykedag >= 67 && alderSisteSykedag < 70 ? (
                 <>
-                    <AdvarselikonAlder />
-                    <DagerIgjenParagrafTekst tag="span">§ 8-11</DagerIgjenParagrafTekst>
+                    <AdvarselikonAlder width={16} height={16} />
+                    <DagerIgjenParagrafTekst tag="span">§ 8-51</DagerIgjenParagrafTekst>
                 </>
             ) : (
                 ''

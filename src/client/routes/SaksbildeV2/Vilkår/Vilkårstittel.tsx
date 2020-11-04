@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { Flex } from '../../../components/Flex';
 
 const Header = styled.div`
     display: flex;
@@ -65,12 +64,21 @@ interface VilkårstittelProps {
     ikon?: ReactNode;
     paragraf?: string;
     className?: string;
+    paragrafIkon?: ReactNode;
 }
 
-export const Vilkårstittel = ({ children, ikon, paragraf, className, størrelse = 's' }: VilkårstittelProps) => (
+export const Vilkårstittel = ({
+    children,
+    ikon,
+    paragraf,
+    className,
+    størrelse = 's',
+    paragrafIkon,
+}: VilkårstittelProps) => (
     <Header className={className}>
         {ikon && <IkonContainer størrelse={størrelse}>{ikon}</IkonContainer>}
         <Tittel størrelse={størrelse}>{children}</Tittel>
+        {paragrafIkon && paragrafIkon}
         <Paragraf>{paragraf}</Paragraf>
     </Header>
 );
