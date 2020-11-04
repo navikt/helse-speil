@@ -51,6 +51,13 @@ export const Vilkår = () => {
 
     return (
         <AgurkErrorBoundary sidenavn="Vilkår">
+            {harBehandledeVilkår && (
+                <Kolonner>
+                    {harIkkeVurderteVilkår && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår!} />}
+                    {harIkkeOppfylteVilkår && <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår!} />}
+                    {harOppfylteVilkår && <OppfylteVilkår vilkår={oppfylteVilkår!} />}
+                </Kolonner>
+            )}
             {vilkårVurdertAvSaksbehandler && vilkårVurdertAvSaksbehandler.length > 0 && (
                 <>
                     <VurdertAvSaksbehandler
@@ -72,13 +79,6 @@ export const Vilkår = () => {
                     <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
                     <Separator />
                 </>
-            )}
-            {harBehandledeVilkår && (
-                <Kolonner>
-                    {harIkkeVurderteVilkår && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår!} />}
-                    {harIkkeOppfylteVilkår && <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår!} />}
-                    {harOppfylteVilkår && <OppfylteVilkår vilkår={oppfylteVilkår!} />}
-                </Kolonner>
             )}
         </AgurkErrorBoundary>
     );

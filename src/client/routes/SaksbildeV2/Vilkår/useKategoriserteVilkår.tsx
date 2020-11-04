@@ -81,7 +81,7 @@ const institusjonsopphold = (oppfylt?: boolean) => ({
 const risikovurderingsvilkår = (risikovurdering?: RisikovurderingType) => ({
     type: Vilkårstype.Risikovurdering,
     oppfylt: risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0,
-    tittel: 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning',
+    tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
     paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
     komponent: <Risikovurdering risikovurdering={risikovurdering} />,
 });
