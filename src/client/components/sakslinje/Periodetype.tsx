@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import { Periodetype as PeriodetypeTittel } from 'internal-types';
 import styled from '@emotion/styled';
 
