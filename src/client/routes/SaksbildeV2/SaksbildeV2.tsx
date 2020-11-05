@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { Flex, FlexColumn } from '../../components/Flex';
 import { TabLink } from './TabLink';
 import { Tidslinje } from '../../components/tidslinje';
-import { Sakslinje } from './Sakslinje';
 import { Personlinje } from '../../components/Personlinje';
 import { PersonContext } from '../../context/PersonContext';
 import { useRefetchPersonOnUrlChange } from '../../hooks/useRefetchPersonOnUrlChange';
@@ -71,6 +70,14 @@ const LoggListe = styled(EksternLoggliste)`
     .Inntektsmelding:before {
         content: 'IM';
     }
+`;
+
+const Sakslinje = styled.div`
+    height: 84px;
+    border-bottom: 1px solid #c6c2bf;
+    display: flex;
+    flex: 1;
+    padding: 0 2rem;
 `;
 
 const SakslinjeVenstre = styled(Flex)`

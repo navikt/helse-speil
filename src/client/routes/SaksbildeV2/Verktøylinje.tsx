@@ -22,9 +22,19 @@ const Container = styled(Sakslinje)`
 
 const StyledDropdown = styled(Dropdown)`
     margin-right: 0.5rem;
-    border-radius: 0.25rem;
-    height: 1.5rem;
-    width: 2rem;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+    &:hover,
+    &:active {
+        background-color: #e7e9e9;
+        box-shadow: none;
+    }
+    &:focus {
+        border: 3px solid #254b6d;
+        background: inherit;
+        box-shadow: none;
+    }
 `;
 
 export const Verktøylinje = () => {
