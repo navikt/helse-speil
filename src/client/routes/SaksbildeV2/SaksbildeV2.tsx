@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { Flex, FlexColumn } from '../../components/Flex';
-import { TabLink } from './TabLink';
 import { Tidslinje } from '../../components/tidslinje';
 import { Personlinje } from '../../components/Personlinje';
 import { PersonContext } from '../../context/PersonContext';
@@ -15,8 +14,7 @@ import { Toppvarsler } from '../../components/Toppvarsler';
 import LoggProvider from '../../context/logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
-import { Periodetype } from '../../components/sakslinje/Periodetype';
-import { Verktøylinje } from './Verktøylinje';
+import { Sakslinje } from './sakslinje/Sakslinje';
 
 const Container = styled.div`
     display: flex;
@@ -72,23 +70,9 @@ const LoggListe = styled(EksternLoggliste)`
     }
 `;
 
-const Sakslinje = styled.div`
-    height: 84px;
-    border-bottom: 1px solid #c6c2bf;
-    display: flex;
-    flex: 1;
-    padding: 0 2rem;
-`;
-
-const SakslinjeVenstre = styled(Flex)`
-    width: 18rem;
-    margin-right: 1rem;
-    align-items: center;
-`;
-
 export const SaksbildeV2 = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const { path, url } = useRouteMatch();
+    const { path } = useRouteMatch();
 
     useRefetchPersonOnUrlChange();
 
@@ -100,16 +84,7 @@ export const SaksbildeV2 = () => {
                 <Personlinje person={personTilBehandling} />
                 <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
                 <Flex justifyContent="space-between">
-                    <Sakslinje>
-                        <SakslinjeVenstre>
-                            <Periodetype tittel={aktivVedtaksperiode.periodetype} />
-                            <Verktøylinje />
-                        </SakslinjeVenstre>
-                        <TabLink to={`${url}/utbetaling`}>Utbetaling</TabLink>
-                        <TabLink to={`${url}/sykmeldingsperiode`}>Sykmeldingsperiode</TabLink>
-                        <TabLink to={`${url}/vilkår`}>Vilkår</TabLink>
-                        <TabLink to={`${url}/sykepengegrunnlag`}>Sykepengegrunnlag</TabLink>
-                    </Sakslinje>
+                    <Sakslinje aktivVedtaksperiodetype={aktivVedtaksperiode.periodetype} />
                     <LoggHeader />
                 </Flex>
                 <Flex style={{ flex: 1 }}>

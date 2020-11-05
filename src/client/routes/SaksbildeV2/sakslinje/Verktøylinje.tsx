@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
-import Dropdown from '../../components/Dropdown';
-import { PersonContext } from '../../context/PersonContext';
-import { annulleringerEnabled } from '../../featureToggles';
-import { Annullering } from '../../components/Annullering';
+import Dropdown from '../../../components/Dropdown';
+import { PersonContext } from '../../../context/PersonContext';
+import { annulleringerEnabled } from '../../../featureToggles';
+import { Annullering } from '../../../components/Annullering';
 
 const Container = styled(Sakslinje)`
     border-left: none;
