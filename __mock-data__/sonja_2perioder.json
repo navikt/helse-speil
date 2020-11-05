@@ -493,11 +493,11 @@
                     "godkjenttidspunkt": "2020-03-31T10:36:27.42158",
                     "vilkår": {
                         "sykepengedager": {
-                            "forbrukteSykedager": 11,
+                            "forbrukteSykedager": 56,
                             "beregningsdato": "2018-01-01",
                             "førsteSykepengedag": "2018-01-17",
-                            "maksdato": "2018-12-28",
-                            "gjenståendeDager": 237,
+                            "maksdato": "2018-02-14",
+                            "gjenståendeDager": 14,
                             "oppfylt": true
                         },
                         "alder": {
@@ -820,11 +820,11 @@
                     "godkjenttidspunkt": null,
                     "vilkår": {
                         "sykepengedager": {
-                            "forbrukteSykedager": 21,
+                            "forbrukteSykedager": 70,
                             "beregningsdato": "2018-01-01",
                             "førsteSykepengedag": "2018-02-01",
-                            "maksdato": "2018-12-28",
-                            "gjenståendeDager": 227,
+                            "maksdato": "2018-02-14",
+                            "gjenståendeDager": 0,
                             "oppfylt": true
                         },
                         "alder": {

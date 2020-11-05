@@ -90,7 +90,11 @@ export const Utbetalingsoversikt = () => {
     const erMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isSame(maksdato, 'day');
     const erEtterMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isAfter(maksdato, 'day');
     const tilUtbetalingsrad = (dag: Utbetalingsdag) =>
-        erMaksdato(dag) ? maksdatorad(dag) : erEtterMaksdato(dag) ? etterMaksdatoRad(dag) : utbetalingstabellrad(dag);
+        erMaksdato(dag) && maksdato && maksdato.format(NORSK_DATOFORMAT) < tom!!
+            ? maksdatorad(dag)
+            : erEtterMaksdato(dag)
+            ? etterMaksdatoRad(dag)
+            : utbetalingstabellrad(dag);
 
     const rader = aktivVedtaksperiode?.utbetalingstidslinje.map(tilUtbetalingsrad) ?? [];
     const headere = utbetalingsheadere;
