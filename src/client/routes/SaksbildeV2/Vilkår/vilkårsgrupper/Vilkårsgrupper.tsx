@@ -128,7 +128,7 @@ const Vurderinger = styled.ul`
     color: #3e3832;
 `;
 
-export const Risikovurdering = ({ risikovurdering }: { risikovurdering?: RisikovurderingType }) => (
+export const Arbeidsuførhet = ({ risikovurdering }: { risikovurdering?: RisikovurderingType }) => (
     <Vurderinger>
         {risikovurdering?.arbeidsuførhetvurdering?.map((vurdering, i) => (
             <li key={i}>

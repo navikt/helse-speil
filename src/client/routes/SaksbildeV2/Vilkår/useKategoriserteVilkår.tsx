@@ -4,10 +4,10 @@ import { Periodetype, Risikovurdering as RisikovurderingType, Vedtaksperiode, Vi
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import {
     Alder,
+    Arbeidsuførhet,
     DagerIgjen,
     Medlemskap,
     Opptjeningstid,
-    Risikovurdering,
     Sykepengegrunnlag,
     Søknadsfrist,
 } from './vilkårsgrupper/Vilkårsgrupper';
@@ -78,12 +78,12 @@ const institusjonsopphold = (oppfylt?: boolean) => ({
     komponent: null,
 });
 
-const risikovurderingsvilkår = (risikovurdering?: RisikovurderingType) => ({
-    type: Vilkårstype.Risikovurdering,
+const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => ({
+    type: Vilkårstype.Arbeidsuførhet,
     oppfylt: risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0,
     tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
     paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
-    komponent: <Risikovurdering risikovurdering={risikovurdering} />,
+    komponent: <Arbeidsuførhet risikovurdering={risikovurdering} />,
 });
 
 export interface KategoriserteVilkår {
@@ -93,6 +93,7 @@ export interface KategoriserteVilkår {
     vilkårVurdertAvSaksbehandler?: Vilkårdata[];
     vilkårVurdertAutomatisk?: Vilkårdata[];
     vilkårVurdertIInfotrygd?: Vilkårdata[];
+    vilkårVurdertFørstePeriode?: Vilkårdata[];
 }
 
 export const useKategoriserteVilkår = ({
@@ -112,47 +113,50 @@ export const useKategoriserteVilkår = ({
         dagerIgjen(vilkår),
         medlemskap(vilkår),
         institusjonsopphold(godkjenttidspunkt?.isAfter(dayjs('10-04-2020'))), //Ble lagt på sjekk i spleis 30/09/20
-        risikovurderingsvilkår(risikovurdering),
+        arbeidsuførhet(risikovurdering),
     ];
 
     const vilkårstyperVurdertIInfotrygd: Vilkårstype[] = [];
     const vilkårstyperVurdertAvSaksbehandler: Vilkårstype[] = [];
     const vilkårstyperVurdertAutomatisk: Vilkårstype[] = [];
+    const vilkårstyperVurdertFørstePeriode: Vilkårstype[] = [];
 
     if (behandlet) {
-        if (forlengelseFraInfotrygd && automatiskBehandlet) {
-            vilkårstyperVurdertIInfotrygd.push(Vilkårstype.Opptjeningstid, Vilkårstype.Sykepengegrunnlag);
-            vilkårstyperVurdertAutomatisk.push(
+        if (forlengelseFraInfotrygd) {
+            const vilkårIkkeVurdertIInfotrygd = [
                 Vilkårstype.Arbeidsuførhet,
-                Vilkårstype.Medvirkning,
-                Vilkårstype.Alder,
-                Vilkårstype.Søknadsfrist,
-                Vilkårstype.Institusjonsopphold,
-                Vilkårstype.DagerIgjen
-            );
-        } else if (forlengelseFraInfotrygd) {
-            vilkårstyperVurdertIInfotrygd.push(Vilkårstype.Opptjeningstid, Vilkårstype.Sykepengegrunnlag);
-            vilkårstyperVurdertAvSaksbehandler.push(
-                Vilkårstype.Arbeidsuførhet,
-                Vilkårstype.Medlemskap,
-                Vilkårstype.Medvirkning,
                 Vilkårstype.Alder,
                 Vilkårstype.Søknadsfrist,
                 Vilkårstype.Institusjonsopphold,
                 Vilkårstype.DagerIgjen,
-                Vilkårstype.Risikovurdering
-            );
-        } else if (automatiskBehandlet) {
-            vilkårstyperVurdertAutomatisk.push(
+                Vilkårstype.Medlemskap,
+            ];
+            vilkårstyperVurdertIInfotrygd.push(Vilkårstype.Opptjeningstid, Vilkårstype.Sykepengegrunnlag);
+            if (automatiskBehandlet) {
+                vilkårstyperVurdertAutomatisk.push(...vilkårIkkeVurdertIInfotrygd);
+            } else {
+                vilkårstyperVurdertAvSaksbehandler.push(...vilkårIkkeVurdertIInfotrygd);
+            }
+        } else if (periodetype === Periodetype.Forlengelse) {
+            const vurderteVilkårDennePerioden = [
                 Vilkårstype.Arbeidsuførhet,
-                Vilkårstype.Medvirkning,
                 Vilkårstype.Alder,
                 Vilkårstype.Søknadsfrist,
                 Vilkårstype.Institusjonsopphold,
-                Vilkårstype.DagerIgjen
+                Vilkårstype.DagerIgjen,
+            ];
+            if (automatiskBehandlet) {
+                vilkårstyperVurdertAutomatisk.push(...vurderteVilkårDennePerioden);
+            } else {
+                vilkårstyperVurdertAvSaksbehandler.push(...vurderteVilkårDennePerioden);
+            }
+            vilkårstyperVurdertFørstePeriode.push(
+                Vilkårstype.Opptjeningstid,
+                Vilkårstype.Sykepengegrunnlag,
+                Vilkårstype.Medlemskap
             );
         } else {
-            vilkårstyperVurdertAvSaksbehandler.push(
+            const vurderteVilkår = [
                 Vilkårstype.Arbeidsuførhet,
                 Vilkårstype.Medlemskap,
                 Vilkårstype.Medvirkning,
@@ -162,12 +166,16 @@ export const useKategoriserteVilkår = ({
                 Vilkårstype.Opptjeningstid,
                 Vilkårstype.Sykepengegrunnlag,
                 Vilkårstype.DagerIgjen,
-                Vilkårstype.Risikovurdering
-            );
+            ];
+            if (automatiskBehandlet) {
+                vilkårstyperVurdertAutomatisk.push(...vurderteVilkår);
+            } else {
+                vilkårstyperVurdertAvSaksbehandler.push(...vurderteVilkår);
+            }
         }
     } else {
         if (periodetype === Periodetype.Forlengelse) {
-            vilkårstyperVurdertAvSaksbehandler.push(
+            vilkårstyperVurdertFørstePeriode.push(
                 Vilkårstype.Medlemskap,
                 Vilkårstype.Institusjonsopphold,
                 Vilkårstype.Opptjeningstid,
@@ -178,22 +186,35 @@ export const useKategoriserteVilkår = ({
         }
     }
 
-    const alleVurderteVilkårstyper = [
-        ...vilkårstyperVurdertIInfotrygd,
-        ...vilkårstyperVurdertAutomatisk,
-        ...vilkårstyperVurdertAvSaksbehandler,
+    const vilkårVurdertAvSaksbehandler: Vilkårdata[] =
+        alleVilkår?.filter(({ type }) => vilkårstyperVurdertAvSaksbehandler?.includes(type)) ?? [];
+
+    const vilkårVurdertAutomatisk: Vilkårdata[] =
+        alleVilkår?.filter(({ type }) => vilkårstyperVurdertAutomatisk?.includes(type)) ?? [];
+
+    const vilkårVurdertIInfotrygd: Vilkårdata[] =
+        alleVilkår?.filter(({ type }) => vilkårstyperVurdertIInfotrygd?.includes(type)) ?? [];
+
+    const vilkårVurdertFørstePeriode: Vilkårdata[] =
+        alleVilkår?.filter(({ type }) => vilkårstyperVurdertFørstePeriode?.includes(type)) ?? [];
+
+    const alleVurderteVilkår = [
+        ...vilkårVurdertAutomatisk,
+        ...vilkårVurdertIInfotrygd,
+        ...vilkårVurdertAvSaksbehandler,
+        ...vilkårVurdertFørstePeriode,
     ];
 
-    const alleredeVurderteVilkår = ({ type }: Vilkårdata) => !alleVurderteVilkårstyper.includes(type);
+    const alleredeVurderteVilkår = ({ type }: Vilkårdata) =>
+        !alleVurderteVilkår.find(({ type: vurdertType }) => vurdertType === type);
 
     return {
         oppfylteVilkår: alleVilkår?.filter(({ oppfylt }) => oppfylt).filter(alleredeVurderteVilkår),
         ikkeOppfylteVilkår: alleVilkår?.filter(({ oppfylt }) => oppfylt === false).filter(alleredeVurderteVilkår),
         ikkeVurderteVilkår: alleVilkår?.filter(({ oppfylt }) => oppfylt === undefined).filter(alleredeVurderteVilkår),
-        vilkårVurdertAvSaksbehandler: alleVilkår?.filter(({ type }) =>
-            vilkårstyperVurdertAvSaksbehandler.includes(type)
-        ),
-        vilkårVurdertAutomatisk: alleVilkår?.filter(({ type }) => vilkårstyperVurdertAutomatisk.includes(type)),
-        vilkårVurdertIInfotrygd: alleVilkår?.filter(({ type }) => vilkårstyperVurdertIInfotrygd.includes(type)),
+        vilkårVurdertAvSaksbehandler: vilkårVurdertAvSaksbehandler,
+        vilkårVurdertAutomatisk: vilkårVurdertAutomatisk,
+        vilkårVurdertIInfotrygd: vilkårVurdertIInfotrygd,
+        vilkårVurdertFørstePeriode: vilkårVurdertFørstePeriode,
     };
 };
