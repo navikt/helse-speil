@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
-import { Utbetalinger } from 'internal-types';
+import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import Dropdown from '../../components/Dropdown';
 import { PersonContext } from '../../context/PersonContext';
 import { annulleringerEnabled } from '../../featureToggles';
@@ -30,10 +30,13 @@ const StyledDropdown = styled(Dropdown)`
 export const Verktøylinje = () => {
     const personContext = useContext(PersonContext);
     const utbetalinger: Utbetalinger | undefined = personContext.aktivVedtaksperiode?.utbetalinger;
+    const vedtaksperiodeErAnnullert: boolean =
+        personContext.aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;
 
     return (
         <Container
             høyre={
+                !vedtaksperiodeErAnnullert &&
                 ((annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling) || utbetalinger?.personUtbetaling) && (
                     <StyledDropdown>
                         <Annullering />
