@@ -51,7 +51,8 @@ export const Sykmeldingsperiode = () => {
     const fom = aktivVedtaksperiode?.fom;
     const tom = aktivVedtaksperiode?.tom;
     const periode = fom && tom ? formaterPeriodeString(fom, tom) : 'Ukjent periode';
-    const skjæringstidspunkt = maksdato ? maksdato.format(NORSK_DATOFORMAT) : 'ukjent';
+    const skjæringstidspunkt =
+        aktivVedtaksperiode?.vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT) ?? 'ukjent';
 
     return (
         <Container className="Sykmeldingsperiode">
