@@ -2,8 +2,10 @@ import { extractIdent } from './utils/cookie';
 
 const erLocal = () => location.hostname === 'localhost';
 const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
-const erSupersaksbehandler = () => extractIdent() === 'G103083';
+const erSupersaksbehandler = () => erEminem() || erDonika() || erDaniel() || erMorten() || erAminet();
 
+const erEminem = () => extractIdent() === 'G103083';
+const erDonika = () => extractIdent() === 'D117949';
 const erUlrik = () => extractIdent() === 'P141762';
 const erDaniel = () => extractIdent() === 'A148751';
 const erMorten = () => extractIdent() === 'N115007';
