@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Oppgave, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
 import { NORSK_DATOFORMAT } from '../../utils/date';
@@ -10,6 +10,11 @@ import { useUpdateVarsler } from '../../state/varslerState';
 import { somDato } from '../../mapping/vedtaksperiode';
 import { Tabellrad } from '@navikt/helse-frontend-tabell';
 import { speilV2 } from '../../featureToggles';
+import { useEmail } from '../../state/authentication';
+import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
+import { OppgaverContext } from '../../context/OppgaverContext';
+import { Varseltype } from '../../../../__mocks__/@navikt/helse-frontend-varsel';
+import { Flatknapp } from 'nav-frontend-knapper';
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
@@ -111,6 +116,35 @@ const Status = ({ oppgave }: { oppgave: Oppgave }) => (
     </CellContainer>
 );
 
+const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
+    const email = useEmail();
+    const { fjernTildeling } = useOppgavetildeling();
+    const { leggTilVarsel } = useUpdateVarsler();
+    const { markerOppgaveSomTildelt } = useContext(OppgaverContext);
+    const tildelingsvarsel = (message: string) => ({ message, type: Varseltype.Advarsel });
+    const erTildeltInnloggetBruker = oppgave.tildeltTil === email;
+
+    const meldAvTildeling = () => {
+        fjernTildeling(oppgave.oppgavereferanse)
+            .then(() => markerOppgaveSomTildelt(oppgave))
+            .catch(() => {
+                leggTilVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
+            });
+    };
+
+    return (
+        <CellContainer>
+            {erTildeltInnloggetBruker ? (
+                <Flatknapp mini tabIndex={0} onClick={meldAvTildeling}>
+                    Meld av
+                </Flatknapp>
+            ) : (
+                ''
+            )}
+        </CellContainer>
+    );
+};
+
 export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
     celler: [oppgave.type, oppgave, oppgave.opprettet, oppgave.boenhet.navn, oppgave.antallVarsler, oppgave],
     id: oppgave.oppgavereferanse,
@@ -118,6 +152,7 @@ export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
 
 export const renderer = (rad: Tabellrad): Tabellrad => {
     const oppgave = rad.celler[1] as Oppgave;
+
     return {
         ...rad,
         celler: [
@@ -127,6 +162,7 @@ export const renderer = (rad: Tabellrad): Tabellrad => {
             <Bosted oppgave={oppgave} />,
             <Status oppgave={oppgave} />,
             oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />,
+            <MeldAv oppgave={oppgave} />,
         ],
     };
 };

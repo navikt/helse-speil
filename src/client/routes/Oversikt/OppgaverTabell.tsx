@@ -87,6 +87,7 @@ export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => 
         { render: 'Bosted', sortFunction: sorterTekstAlfabetisk },
         { render: 'Status', sortFunction: sorterTall },
         { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
+        { render: '' },
     ];
 
     const rader = oppgaver.map(tilOversiktsrad);
