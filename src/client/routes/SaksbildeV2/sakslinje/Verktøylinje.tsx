@@ -63,6 +63,13 @@ const TildelingKnapp = styled(Button)`
     &:active {
         background: #e1e4e4;
     }
+    &:disabled {
+        color: #78706a;
+        &:hover {
+            background: inherit;
+            cursor: not-allowed;
+        }
+    }
 `;
 
 const Tildeling = ({ oppgavereferanse, tildeltTil }: { oppgavereferanse: string; tildeltTil: string | undefined }) => {
@@ -90,19 +97,19 @@ const Tildeling = ({ oppgavereferanse, tildeltTil }: { oppgavereferanse: string;
     return erTildeltInnloggetBruker ? (
         <TildelingKnapp onClick={meldAvTildeling}>Meld av {erTildeltInnloggetBruker} </TildelingKnapp>
     ) : (
-        <TildelingKnapp onClick={tildel}> Tildel meg </TildelingKnapp>
+        <TildelingKnapp onClick={tildel} disabled={tildeltTil !== undefined}>
+            Tildel meg
+        </TildelingKnapp>
     );
 };
 
 export const Verktøylinje = () => {
-    const email = useEmail();
     const personContext = useContext(PersonContext);
     const tildeltTil = personContext.personTilBehandling?.tildeltTil;
     const utbetalinger: Utbetalinger | undefined = personContext.aktivVedtaksperiode?.utbetalinger;
     const vedtaksperiodeErAnnullert: boolean =
         personContext.aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;
 
-    const visTildelingsmuligheter = tildeltTil === email || tildeltTil === undefined;
     const visAnnulleringsmuligheter =
         !vedtaksperiodeErAnnullert &&
         ((annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling) || utbetalinger?.personUtbetaling);
@@ -110,17 +117,13 @@ export const Verktøylinje = () => {
     return (
         <Container
             høyre={
-                (visTildelingsmuligheter || visAnnulleringsmuligheter) && (
-                    <StyledDropdown>
-                        {visTildelingsmuligheter && (
-                            <Tildeling
-                                oppgavereferanse={personContext.aktivVedtaksperiode!!.oppgavereferanse}
-                                tildeltTil={tildeltTil}
-                            />
-                        )}
-                        {visAnnulleringsmuligheter && <Annullering />}
-                    </StyledDropdown>
-                )
+                <StyledDropdown>
+                    <Tildeling
+                        oppgavereferanse={personContext.aktivVedtaksperiode!!.oppgavereferanse}
+                        tildeltTil={tildeltTil}
+                    />
+                    {visAnnulleringsmuligheter && <Annullering />}
+                </StyledDropdown>
             }
         />
     );
