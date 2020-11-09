@@ -103,7 +103,9 @@ export const PersonProvider = ({ children }: ProviderProps) => {
     );
 
     const markerPersonSomTildelt = (email: string) => {
-        setPersonTilBehandling((prev) => ({ ...prev!, tildeltTil: email }));
+        setPersonTilBehandling((prev) =>
+            prev?.tildeltTil ? { ...prev, tildeltTil: undefined } : { ...prev!, tildeltTil: email }
+        );
     };
 
     const contextValue = useMemo(
