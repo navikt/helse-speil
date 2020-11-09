@@ -7,7 +7,8 @@ import { useRecoilValue } from 'recoil';
 import { authState } from '../state/authentication';
 import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { speilV2 } from '../featureToggles';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -24,13 +25,16 @@ export const Header = () => {
     const { name, ident, isLoggedIn } = useRecoilValue(authState);
     const { hentPerson } = useContext(PersonContext);
     const { navigateTo } = useNavigation();
+    const history = useHistory();
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
     const onSøk = (value: string) => {
         hentPerson(value)
             .then((person: Person) => {
-                navigateTo(Location.Sykmeldingsperiode, person.aktørId);
+                speilV2
+                    ? history.push(`/person/${person.aktørId}/utbetaling`)
+                    : navigateTo(Location.Sykmeldingsperiode, person.aktørId);
             })
             .catch((_) => {
                 /* Error håndtert i hentPerson i PersonContext */
