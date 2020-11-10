@@ -178,5 +178,25 @@
             "id": "0228",
             "navn": "Nav Utland"
         }
+    },
+    {
+        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-59b66a8bbbbe",
+        "opprettet": "2020-07-15T23:04:09.454",
+        "fødselsnummer": "27018221468",
+        "aktørId": "1672157246605",
+        "personinfo": {
+            "fornavn": "Carl Gustaf",
+            "mellomnavn": "Folke Hubertus",
+            "etternavn": "Bernadotte",
+            "fødselsdato": "1946-04-30",
+            "kjønn": "Knug"
+        },
+        "vedtaksperiodeId": "c7935fa2-ec56-42b6-9168-a901099fecf3",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        }
     }
 ]

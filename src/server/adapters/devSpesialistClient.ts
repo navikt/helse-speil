@@ -69,7 +69,7 @@ const filenameForPersonId = (id: string) => {
     switch (id) {
         case '1000000009871':
         case '12020069420':
-            return 'knugen_til-godkjenning.json';
+            return 'kong-harald_til-godkjenning.json';
         case '87654321962123':
         case '12020042069':
             return 'sonja_2perioder.json';
@@ -90,8 +90,14 @@ const filenameForPersonId = (id: string) => {
             return 'durek_med-overstyringer.json';
         case '102030':
             return 'emma-tallulah_til-utbetaling-automatisk-behandlet.json';
-        default:
+        case '1672157246605':
+        case '27018221468':
+            return 'knugen.json';
+        case '87654321962124':
+        case '20077362124':
             return 'håkon_3perioder_første_periode_kort.json';
+        default:
+            throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }
 };
 

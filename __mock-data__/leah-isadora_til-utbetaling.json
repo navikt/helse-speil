@@ -204,7 +204,18 @@
                             "grad": 100.0
                         }
                     ],
-                    "utbetalinger": {},
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": {
+                            "linjer": [
+                                {
+                                    "fom": "2018-01-17",
+                                    "tom": "2018-01-31",
+                                    "dagsats": 1431,
+                                    "grad": 100.0
+                                }
+                            ]
+                        }
+                    },
                     "sykdomstidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -519,14 +530,6 @@
                         "antallOpptjeningsdagerErMinst": 365,
                         "harOpptjening": true
                     },
-                    "utbetalingslinjer": [
-                        {
-                            "fom": "2018-01-17",
-                            "tom": "2018-01-31",
-                            "dagsats": 1431,
-                            "grad": 100.0
-                        }
-                    ],
                     "aktivitetslogg": []
                 },
                 {
@@ -632,7 +635,18 @@
                             "grad": 100.0
                         }
                     ],
-                    "utbetalinger": {},
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": {
+                            "linjer": [
+                                {
+                                    "fom": "2018-01-17",
+                                    "tom": "2018-02-14",
+                                    "dagsats": 1431,
+                                    "grad": 100.0
+                                }
+                            ]
+                        }
+                    },
                     "sykdomstidslinje": [
                         {
                             "dagen": "2018-02-01",
@@ -805,14 +819,6 @@
                         "antallOpptjeningsdagerErMinst": 365,
                         "harOpptjening": true
                     },
-                    "utbetalingslinjer": [
-                        {
-                            "fom": "2018-02-01",
-                            "tom": "2018-02-14",
-                            "dagsats": 1431,
-                            "grad": 100.0
-                        }
-                    ],
                     "aktivitetslogg": []
                 }
             ],
