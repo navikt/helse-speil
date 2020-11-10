@@ -28,7 +28,7 @@ const Arbeidsflate = styled.section`
 
 const Kort = styled.section`
     padding-bottom: 0;
-    &:first-child {
+    &:first-of-type {
         margin-top: 2rem;
     }
 `;

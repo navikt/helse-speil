@@ -5,7 +5,8 @@ import { Periodetype } from './Periodetype';
 import { Verktøylinje } from './Verktøylinje';
 import { TabLink } from '../TabLink';
 import { Flex } from '../../../components/Flex';
-import { useRouteMatch } from 'react-router-dom';
+import { Location, useNavigation } from '../../../hooks/useNavigationV2';
+import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 
 const SakslinjeWrapper = styled.div`
     height: 90px;
@@ -28,7 +29,15 @@ interface SakslinjeProps {
 }
 
 export const Sakslinje = ({ aktivVedtaksperiodetype }: SakslinjeProps) => {
-    const { url } = useRouteMatch();
+    const { pathForLocation, navigateToNext, navigateToPrevious } = useNavigation();
+
+    const clickPrevious = () => navigateToPrevious?.();
+    const clickNext = () => navigateToNext?.();
+
+    useKeyboard({
+        [Key.Left]: { action: clickPrevious, ignoreIfModifiers: true },
+        [Key.Right]: { action: clickNext, ignoreIfModifiers: true },
+    });
 
     return (
         <SakslinjeWrapper>
@@ -36,10 +45,10 @@ export const Sakslinje = ({ aktivVedtaksperiodetype }: SakslinjeProps) => {
                 <Periodetype tittel={aktivVedtaksperiodetype} />
                 <Verktøylinje />
             </SakslinjeVenstre>
-            <TabLink to={`${url}/utbetaling`}>Utbetaling</TabLink>
-            <TabLink to={`${url}/sykmeldingsperiode`}>Sykmeldingsperiode</TabLink>
-            <TabLink to={`${url}/vilkår`}>Vilkår</TabLink>
-            <TabLink to={`${url}/sykepengegrunnlag`}>Sykepengegrunnlag</TabLink>
+            <TabLink to={pathForLocation(Location.Utbetaling)}>Utbetaling</TabLink>
+            <TabLink to={pathForLocation(Location.Sykmeldingsperiode)}>Sykmeldingsperiode</TabLink>
+            <TabLink to={pathForLocation(Location.Vilkår)}>Vilkår</TabLink>
+            <TabLink to={pathForLocation(Location.Sykepengegrunnlag)}>Sykepengegrunnlag</TabLink>
         </SakslinjeWrapper>
     );
 };

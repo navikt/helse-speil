@@ -24,7 +24,7 @@ const Container = styled(Sakslinje)`
     }
     margin-left: 24px;
 
-    ul button:nth-child(2) {
+    ul button:nth-of-type(2) {
         border-top: 1px solid #c6c2bf;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
