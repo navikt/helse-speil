@@ -10,31 +10,9 @@ import { Link } from 'react-router-dom';
 import { Utbetaling } from './utbetaling/Utbetaling';
 import { Flex } from '../../../../components/Flex';
 
-const Infotekst = styled(Normaltekst)`
-    margin-bottom: 0.5rem;
-`;
-
 const Infogruppe = styled.section`
-    margin-bottom: 1.5rem;
-`;
-
-const StyledLink = styled(Link)`
-    margin-bottom: 2rem;
-    display: block;
-    color: #0067c5;
-    max-width: max-content;
-    &:hover {
-        text-decoration: none;
-    }
-
-    &:active,
-    &:focus {
-        outline: none;
-        color: #fff;
-        text-decoration: none;
-        background-color: #254b6d;
-        box-shadow: 0 0 0 2px #254b6d;
-    }
+    margin-bottom: 2.5rem;
+    line-height: 22px;
 `;
 
 const StyledLenke = styled(Lenke)`
@@ -43,6 +21,21 @@ const StyledLenke = styled(Lenke)`
 
 const Simuleringsfeilmelding = styled(Feilmelding)`
     margin-bottom: 1rem;
+`;
+
+const Sykepengegrunnlagslenke = styled(Link)`
+    color: #3e3832;
+    &:hover {
+        text-decoration: none;
+    }
+    &:active,
+    &:focus-visible {
+        outline: none;
+        color: #fff;
+        text-decoration: none;
+        background-color: #254b6d;
+        box-shadow: 0 0 0 2px #254b6d;
+    }
 `;
 
 const Oppsummering = () => {
@@ -57,23 +50,22 @@ const Oppsummering = () => {
         <>
             <Infogruppe>
                 <Flex justifyContent="space-between">
-                    <Infotekst>{t('oppsummering.sykepengegrunnlag')}</Infotekst>
-                    <Infotekst>{somPenger(sykepengegrunnlag.sykepengegrunnlag!)}</Infotekst>
-                </Flex>
-                <StyledLink to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>
-                    Beregning av sykepengegrunnlaget
-                </StyledLink>
-                <Flex justifyContent="space-between">
-                    <Infotekst>{t('oppsummering.antall_utbetalingsdager')}</Infotekst>
-                    <Infotekst>{oppsummering.antallUtbetalingsdager}</Infotekst>
+                    <Sykepengegrunnlagslenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>
+                        {t('oppsummering.sykepengegrunnlag')}
+                    </Sykepengegrunnlagslenke>
+                    <Normaltekst>{somPenger(sykepengegrunnlag.sykepengegrunnlag!)}</Normaltekst>
                 </Flex>
                 <Flex justifyContent="space-between">
-                    <Infotekst>{t('oppsummering.beløp')}</Infotekst>
-                    <Infotekst>
+                    <Normaltekst>{t('oppsummering.antall_utbetalingsdager')}</Normaltekst>
+                    <Normaltekst>{oppsummering.antallUtbetalingsdager}</Normaltekst>
+                </Flex>
+                <Flex justifyContent="space-between">
+                    <Normaltekst>{t('oppsummering.beløp')}</Normaltekst>
+                    <Normaltekst>
                         {oppsummering.totaltTilUtbetaling > 0
                             ? somPenger(oppsummering.totaltTilUtbetaling)
                             : 'Ingen utbetaling'}
-                    </Infotekst>
+                    </Normaltekst>
                 </Flex>
 
                 {simuleringsdata ? (

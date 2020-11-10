@@ -22,7 +22,7 @@ const Utbetalingstabell = styled(Tabell)`
     thead tr th {
         vertical-align: bottom;
         box-sizing: border-box;
-        height: 51px;
+        padding-top: 0;
     }
 `;
 
@@ -72,9 +72,10 @@ const utbetalingstabellrad = (dag: Utbetalingsdag): Utbetalingstabellrad => ({
 
 const utbetalingsheadere = [
     '',
+    <Element>Periode</Element>,
     {
-        render: <Element>Sykmeldingsperiode</Element>,
-        kolonner: 3,
+        render: <Element>Dagtype</Element>,
+        kolonner: 2,
     },
     <Element>Gradering</Element>,
     <Element>Utbetaling</Element>,

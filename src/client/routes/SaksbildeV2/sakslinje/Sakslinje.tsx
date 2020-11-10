@@ -8,7 +8,7 @@ import { Flex } from '../../../components/Flex';
 import { useRouteMatch } from 'react-router-dom';
 
 const SakslinjeWrapper = styled.div`
-    height: 84px;
+    height: 90px;
     border-bottom: 1px solid #c6c2bf;
     display: flex;
     flex: 1;
@@ -17,8 +17,10 @@ const SakslinjeWrapper = styled.div`
 
 const SakslinjeVenstre = styled(Flex)`
     width: 18rem;
-    margin-right: 1rem;
+    padding-right: 1rem;
+    margin-right: 2.5rem;
     align-items: center;
+    border-right: 1px solid #c6c2bf;
 `;
 
 interface SakslinjeProps {

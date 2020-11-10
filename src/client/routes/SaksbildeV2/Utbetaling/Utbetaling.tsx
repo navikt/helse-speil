@@ -22,28 +22,27 @@ const Arbeidsflate = styled.section`
         'arbeidsgiver       tabell'
         'vilkår             tabell'
         'utbetaling         tabell';
+    grid-template-rows: max-content max-content max-content;
+    grid-row-gap: 2rem;
 `;
 
 const Kort = styled.section`
-    margin-bottom: 1rem;
+    padding-bottom: 0;
+    &:first-child {
+        margin-top: 2rem;
+    }
 `;
 
 const Sykmeldingsperiode = styled(Kort)`
     grid-area: sykmeldingsperiode;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #c6c2bf;
 `;
 
 const Arbeidsgiver = styled(Kort)`
     grid-area: arbeidsgiver;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #c6c2bf;
 `;
 
 const Vilkårkort = styled(Kort)`
     grid-area: vilkår;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #c6c2bf;
 `;
 
 const Utbetalingkort = styled(Kort)`
@@ -52,15 +51,17 @@ const Utbetalingkort = styled(Kort)`
 
 const Utbetalingstabell = styled.article`
     grid-area: tabell;
-    padding-left: 2rem;
+    padding-left: 2.5rem;
     border-left: 1px solid #c6c2bf;
+    padding-top: 2rem;
 `;
 
 const Korttittel = styled(Undertittel)`
     display: flex;
     align-items: center;
-    font-size: 18px;
-    margin-bottom: 1rem;
+    font-size: 16px;
+    margin-bottom: 0.25rem;
+
     a {
         color: inherit;
         &:hover {
@@ -129,7 +130,6 @@ export const Utbetaling = () => {
                 </Sykmeldingsperiode>
                 <Arbeidsgiver>
                     <Korttittel>
-                        <Koffert height={20} />
                         <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>Arbeidsgiver</Lenke>
                     </Korttittel>
                     <Clipboard preserveWhitespace={false}>
@@ -151,7 +151,6 @@ export const Utbetaling = () => {
                     <Oppsummering />
                 </Utbetalingkort>
                 <Utbetalingstabell>
-                    <Korttittel>Utbetaling</Korttittel>
                     <Utbetalingsoversikt />
                 </Utbetalingstabell>
             </AgurkErrorBoundary>

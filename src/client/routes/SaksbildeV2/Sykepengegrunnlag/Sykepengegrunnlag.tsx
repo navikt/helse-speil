@@ -24,6 +24,7 @@ const StyledBehandletAvInfotrygd = styled(BehandletAvInfotrygd)`
 const Sykepengegrunnlagpanel = styled.div`
     max-width: 1265px;
     width: max-content;
+    margin-top: 2rem;
 `;
 
 const OversiktContainer = styled.div`

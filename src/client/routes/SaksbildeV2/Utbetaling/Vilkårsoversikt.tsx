@@ -7,10 +7,10 @@ import React from 'react';
 import { Basisvilkår, Risikovurdering, Vedtaksperiode } from 'internal-types';
 import dayjs, { Dayjs } from 'dayjs';
 
-const VilkRoversikt = styled.div`
+const Vilkåroversikt = styled.div`
     display: flex;
     align-items: flex-start;
-    margin-bottom: 0.75rem;
+    line-height: 22px;
 `;
 
 const Vilkårnavn = styled(Normaltekst)`
@@ -20,8 +20,8 @@ const Vilkårnavn = styled(Normaltekst)`
 const Vilkårikon = styled.span`
     display: flex;
     flex-shrink: 0;
-    width: 20px;
-    height: 24px;
+    width: 16px;
+    height: 22px;
     align-items: center;
     justify-content: center;
 `;
@@ -109,10 +109,10 @@ interface VurdertVilkårProps {
 }
 
 const VurdertVilkår = ({ vilkår }: VurdertVilkårProps) => (
-    <VilkRoversikt>
+    <Vilkåroversikt>
         <Vilkårikon>{vurderingsikon(vilkår.vurdering)}</Vilkårikon>
         <Vilkårnavn>{vilkår.navn}</Vilkårnavn>
-    </VilkRoversikt>
+    </Vilkåroversikt>
 );
 
 export const Vilkårsliste = ({ vedtaksperiode }: { vedtaksperiode: Vedtaksperiode }) => (

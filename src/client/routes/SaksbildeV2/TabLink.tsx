@@ -6,11 +6,14 @@ const StyledTabLink = styled(NavLink)`
     position: relative;
     display: flex;
     align-items: center;
-    height: 84px;
     padding: 0 12px;
     margin: 0 12px;
     color: transparent;
     outline: none;
+
+    &:nth-of-type(1) {
+        margin-left: 0;
+    }
 
     &:after {
         position: absolute;

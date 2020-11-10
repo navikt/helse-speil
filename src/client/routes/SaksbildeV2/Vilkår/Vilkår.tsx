@@ -13,6 +13,10 @@ import styled from '@emotion/styled';
 import { Strek } from './Vilkår.styles';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
 
+const Container = styled.div`
+    margin-top: 2rem;
+`;
+
 const Kolonner = styled(Flex)`
     flex-wrap: wrap;
     > *:not(:last-child) {
@@ -50,36 +54,38 @@ export const Vilkår = () => {
     const harBehandledeVilkår = harIkkeVurderteVilkår || harIkkeOppfylteVilkår || harOppfylteVilkår;
 
     return (
-        <AgurkErrorBoundary sidenavn="Vilkår">
-            {harBehandledeVilkår && (
-                <Kolonner>
-                    {harIkkeVurderteVilkår && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår!} />}
-                    {harIkkeOppfylteVilkår && <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår!} />}
-                    {harOppfylteVilkår && <OppfylteVilkår vilkår={oppfylteVilkår!} />}
-                </Kolonner>
-            )}
-            {vilkårVurdertAvSaksbehandler && vilkårVurdertAvSaksbehandler.length > 0 && (
-                <>
-                    <VurdertAvSaksbehandler
-                        vilkår={vilkårVurdertAvSaksbehandler}
-                        saksbehandler={vedtaksperiode.godkjentAv ?? førstePeriode.godkjentAv}
-                        skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
-                    />
-                    <Separator />
-                </>
-            )}
-            {vilkårVurdertAutomatisk && vilkårVurdertAutomatisk.length > 0 && (
-                <>
-                    <VurdertAutomatisk vilkår={vilkårVurdertAutomatisk} saksbehandler={vedtaksperiode.godkjentAv} />
-                    <Separator />
-                </>
-            )}
-            {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
-                <>
-                    <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
-                    <Separator />
-                </>
-            )}
-        </AgurkErrorBoundary>
+        <Container>
+            <AgurkErrorBoundary sidenavn="Vilkår">
+                {harBehandledeVilkår && (
+                    <Kolonner>
+                        {harIkkeVurderteVilkår && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår!} />}
+                        {harIkkeOppfylteVilkår && <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår!} />}
+                        {harOppfylteVilkår && <OppfylteVilkår vilkår={oppfylteVilkår!} />}
+                    </Kolonner>
+                )}
+                {vilkårVurdertAvSaksbehandler && vilkårVurdertAvSaksbehandler.length > 0 && (
+                    <>
+                        <VurdertAvSaksbehandler
+                            vilkår={vilkårVurdertAvSaksbehandler}
+                            saksbehandler={vedtaksperiode.godkjentAv ?? førstePeriode.godkjentAv}
+                            skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
+                        />
+                        <Separator />
+                    </>
+                )}
+                {vilkårVurdertAutomatisk && vilkårVurdertAutomatisk.length > 0 && (
+                    <>
+                        <VurdertAutomatisk vilkår={vilkårVurdertAutomatisk} saksbehandler={vedtaksperiode.godkjentAv} />
+                        <Separator />
+                    </>
+                )}
+                {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
+                    <>
+                        <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
+                        <Separator />
+                    </>
+                )}
+            </AgurkErrorBoundary>
+        </Container>
     );
 };

@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-    margin: 2rem;
+    margin: 0 2.5rem 4rem 2rem;
 `;
 
 const LoggHeader = styled(EksternLoggheader)`
@@ -31,6 +31,7 @@ const LoggHeader = styled(EksternLoggheader)`
     box-sizing: border-box;
     border-left: 1px solid #c6c2bf;
     box-shadow: inset 0 -1px 0 0 #c6c2bf;
+    height: 91px;
 `;
 
 const LoggListe = styled(EksternLoggliste)`
@@ -38,6 +39,7 @@ const LoggListe = styled(EksternLoggliste)`
     box-sizing: border-box;
     border-left: 1px solid #c6c2bf;
     border-top: none;
+    margin-bottom: 4rem;
 
     .Sykmelding:before,
     .Søknad:before,

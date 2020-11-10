@@ -8,12 +8,12 @@ import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Undertittel } from 'nav-frontend-typografi';
 import { PersonContext } from '../../../context/PersonContext';
 import { Dayjs } from 'dayjs';
-import { useMaksdato } from '../../../hooks/useMaksdato';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
+    margin-top: 2rem;
 `;
 
 const formaterPeriodeString = (fom: Dayjs, tom: Dayjs) => {
@@ -36,7 +36,6 @@ export const Sykmeldingsperiode = () => {
     const [kalkulerer, setKalkulerer] = useState(false);
     const [overstyringTimedOut, setOverstyringTimedOut] = useState(false);
     const { aktivVedtaksperiode } = useContext(PersonContext);
-    const { maksdato } = useMaksdato();
 
     useEffect(() => {
         let timeoutId: any;
