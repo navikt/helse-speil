@@ -30,13 +30,15 @@ interface VilkårSystemetIkkeVurdererProps {
 }
 
 const VilkårSystemetIkkeVurderer = ({ vilkår }: VilkårSystemetIkkeVurdererProps) => (
-    <FlexColumn>
+    <FlexColumn data-testid="ikke-vurderte-vilkår">
         <Vilkårstittel ikon={<Advarselikon />} størrelse="m">
             Vilkår til vurdering
         </Vilkårstittel>
-        {vilkår.map(({ tittel, paragraf, komponent }, i) => (
+        {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
             <React.Fragment key={i}>
-                <VilkårTilVurderingTittel paragraf={paragraf}>{tittel}</VilkårTilVurderingTittel>
+                <VilkårTilVurderingTittel type={type} paragraf={paragraf}>
+                    {tittel}
+                </VilkårTilVurderingTittel>
                 <Vilkårgrid>{komponent}</Vilkårgrid>
             </React.Fragment>
         ))}
@@ -44,7 +46,7 @@ const VilkårSystemetIkkeVurderer = ({ vilkår }: VilkårSystemetIkkeVurdererPro
 );
 
 const Yrkeskadeinfo = () => (
-    <YrkesskadeContainer>
+    <YrkesskadeContainer data-testid="yrkesskade">
         <IkkeVurderteVilkårTittel størrelse="m" ikon={<Infoikon />} paragraf="§ 8-55">
             Systemet henter ikke inn yrkesskade
         </IkkeVurderteVilkårTittel>

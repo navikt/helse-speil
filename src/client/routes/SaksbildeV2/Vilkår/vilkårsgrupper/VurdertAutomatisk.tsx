@@ -18,14 +18,14 @@ interface VurdertAutomatiskProps {
 }
 
 export const VurdertAutomatisk = ({ vilkår, saksbehandler }: VurdertAutomatiskProps) => (
-    <FlexColumn>
+    <FlexColumn data-testid="vurdert-automatisk">
         <BehandletVarsel
             tittel="Vilkår vurdert for denne perioden"
             saksbehandler={saksbehandler ?? 'Ukjent'}
             automatiskBehandlet
         >
-            {vilkår.map(({ tittel, paragraf, komponent, paragrafIkon }, i) => (
-                <VurdertTittel ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon} key={i}>
+            {vilkår.map(({ tittel, paragraf, komponent, paragrafIkon, type }, i) => (
+                <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon} key={i}>
                     {tittel}
                 </VurdertTittel>
             ))}

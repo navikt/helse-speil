@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { sykdomstidslinje } from './sykdomstidslinje';
 import { utbetalingstidslinje } from './utbetalingstidslinje';
 import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
-import { dataForVilkårsvurdering, vilkår } from './vilkår';
+import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
 import { hendelser } from './hendelser';
 import {
     SpesialistOverstyring,
@@ -48,7 +48,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         sykdomstidslinje: sykdomsdager,
         utbetalinger: utbetalingene,
         automatiskBehandlet: false,
-        vilkår: vilkår(sykdomsdager),
+        vilkår: umappedeVilkår(sykdomsdager),
         inntektFraInntektsmelding: 31000.0,
         totalbeløpArbeidstaker: totalbeløpArbeidstaker(utbetalingsdager),
         hendelser: hendelser(sykdomsdager),

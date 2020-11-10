@@ -20,20 +20,25 @@ interface VurdertAvSaksbehandlerProps {
     skjæringstidspunkt?: Dayjs;
 }
 
-export const VurdertAvSaksbehandler = ({ vilkår, skjæringstidspunkt, saksbehandler }: VurdertAvSaksbehandlerProps) => (
-    <FlexColumn>
-        <BehandletVarsel
-            tittel={`Vilkår vurdert ved skjæringstidspunkt - ${
-                skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ukjent'
-            }`}
-            saksbehandler={saksbehandler ?? 'Ukjent'}
-            automatiskBehandlet={false}
-        >
-            {vilkår.map(({ tittel, paragraf, paragrafIkon, komponent }, i) => (
-                <VurdertTittel ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon} key={i}>
-                    {tittel}
-                </VurdertTittel>
-            ))}
-        </BehandletVarsel>
-    </FlexColumn>
-);
+export const VurdertAvSaksbehandler = ({ vilkår, skjæringstidspunkt, saksbehandler }: VurdertAvSaksbehandlerProps) => {
+    const tittel = skjæringstidspunkt
+        ? `Vilkår vurdert ved skjæringstidspunkt - ${skjæringstidspunkt.format(NORSK_DATOFORMAT)}`
+        : 'Vilkår vurdert denne perioden';
+    return (
+        <FlexColumn data-testid="vurdert-av-saksbehandler">
+            <BehandletVarsel tittel={tittel} saksbehandler={saksbehandler ?? 'Ukjent'} automatiskBehandlet={false}>
+                {vilkår.map(({ tittel, paragraf, paragrafIkon, komponent, type }, i) => (
+                    <VurdertTittel
+                        type={type}
+                        ikon={<Sjekkikon />}
+                        paragraf={paragraf}
+                        paragrafIkon={paragrafIkon}
+                        key={i}
+                    >
+                        {tittel}
+                    </VurdertTittel>
+                ))}
+            </BehandletVarsel>
+        </FlexColumn>
+    );
+};

@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import { Vilkårstype } from '../../../mapping/vilkår';
 
 const Header = styled.div`
     display: flex;
@@ -16,6 +17,7 @@ const Header = styled.div`
 const Tittel = styled.h2<VilkårstittelProps>`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     font-weight: 600;
+    font-size: 20px;
     padding: 0;
     color: #3e3832;
     margin: 0 0.5rem 0 0;
@@ -65,6 +67,7 @@ interface VilkårstittelProps {
     paragraf?: string;
     className?: string;
     paragrafIkon?: ReactNode;
+    type?: Vilkårstype;
 }
 
 export const Vilkårstittel = ({
@@ -74,10 +77,13 @@ export const Vilkårstittel = ({
     className,
     størrelse = 's',
     paragrafIkon,
+    type,
 }: VilkårstittelProps) => (
     <Header className={className}>
         {ikon && <IkonContainer størrelse={størrelse}>{ikon}</IkonContainer>}
-        <Tittel størrelse={størrelse}>{children}</Tittel>
+        <Tittel data-testid={type} størrelse={størrelse}>
+            {children}
+        </Tittel>
         {paragrafIkon && paragrafIkon}
         <Paragraf>{paragraf}</Paragraf>
     </Header>

@@ -13,13 +13,13 @@ interface OppfylteVilkårProps {
 }
 
 export const OppfylteVilkår = ({ vilkår }: OppfylteVilkårProps) => (
-    <FlexColumn>
+    <FlexColumn data-testid="oppfylte-vilkår">
         <Vilkårstittel ikon={<GrøntSjekkikon />} størrelse="m">
             Vurderte vilkår
         </Vilkårstittel>
-        {vilkår.map(({ tittel, paragraf, komponent }, i) => (
+        {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
             <React.Fragment key={i}>
-                <Vilkårstittel ikon={<Sjekkikon />} paragraf={paragraf}>
+                <Vilkårstittel type={type} ikon={<Sjekkikon />} paragraf={paragraf}>
                     {tittel}
                 </Vilkårstittel>
                 <Vilkårgrid>{komponent}</Vilkårgrid>

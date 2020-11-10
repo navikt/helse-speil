@@ -17,10 +17,10 @@ interface VurdertIInfotrygdProps {
 }
 
 export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
-    <FlexColumn>
+    <FlexColumn data-testid="vurdert-i-infotrygd">
         <BehandletAvInfotrygd tittel="Inngangsvilkår vurdert i Infotrygd">
-            {vilkår.map(({ tittel, paragraf, paragrafIkon, komponent }, i) => (
-                <VurdertTittel ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon} key={i}>
+            {vilkår.map(({ tittel, paragraf, paragrafIkon, komponent, type }, i) => (
+                <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon} key={i}>
                     {tittel}
                 </VurdertTittel>
             ))}

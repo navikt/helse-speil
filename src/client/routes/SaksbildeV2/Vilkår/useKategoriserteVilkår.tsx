@@ -19,7 +19,7 @@ const alder = (vilkår: Vilkår) => ({
     oppfylt: vilkår.alder.oppfylt,
     tittel: 'Under 70 år',
     paragraf: '§ 8-51',
-    komponent: <Alder {...vilkår} />,
+    komponent: <Alder data-testid="alder" {...vilkår} />,
 });
 
 const søknadsfrist = (vilkår: Vilkår) => ({
@@ -27,7 +27,7 @@ const søknadsfrist = (vilkår: Vilkår) => ({
     oppfylt: vilkår.søknadsfrist?.oppfylt,
     tittel: 'Søknadsfrist',
     paragraf: '§ 22-13',
-    komponent: <Søknadsfrist {...vilkår} />,
+    komponent: <Søknadsfrist data-testid="søknadsfrist" {...vilkår} />,
 });
 
 const opptjeningstid = (vilkår: Vilkår) => ({
@@ -73,7 +73,7 @@ const medlemskap = (vilkår: Vilkår) => ({
 const institusjonsopphold = (oppfylt?: boolean) => ({
     type: Vilkårstype.Institusjonsopphold,
     oppfylt: oppfylt,
-    tittel: 'Ingen institusjonsopphold',
+    tittel: 'Institusjonsopphold',
     paragraf: '§ 8-53 og 8-54',
     komponent: null,
 });

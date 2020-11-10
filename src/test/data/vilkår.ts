@@ -1,8 +1,16 @@
 import { somDato } from '../../client/mapping/vedtaksperiode';
-import { SpleisMedlemskapstatus, SpleisSykdomsdag, SpleisSykdomsdagtype } from 'external-types';
+import {
+    SpesialistVedtaksperiode,
+    SpleisForlengelseFraInfotrygd,
+    SpleisMedlemskapstatus,
+    SpleisSykdomsdag,
+    SpleisSykdomsdagtype,
+    SpleisVilkår,
+} from 'external-types';
 import dayjs from 'dayjs';
+import { mapVilkår } from '../../client/mapping/vilkår';
 
-export const vilkår = (tidslinje: SpleisSykdomsdag[]) => {
+export const umappedeVilkår = (tidslinje: SpleisSykdomsdag[]) => {
     const førsteDag = tidslinje[0];
     const sisteDag = tidslinje.slice(-1).pop()!;
     const førsteSykedag = tidslinje.find(({ type }) => type === SpleisSykdomsdagtype.SYKEDAG)!;
@@ -51,3 +59,14 @@ export const risikovurdering = () => ({
     arbeidsuførhetvurdering: ['en testvurdering'],
     ufullstendig: false,
 });
+
+interface MappedeVilkårOptions {
+    forlengelseFraInfotrygd?: SpleisForlengelseFraInfotrygd;
+    vilkår?: SpleisVilkår;
+}
+
+export const mappedeVilkår = (options?: MappedeVilkårOptions) =>
+    mapVilkår({
+        forlengelseFraInfotrygd: options?.forlengelseFraInfotrygd ?? SpleisForlengelseFraInfotrygd.NEI,
+        ...(options?.vilkår ?? umappedeVilkår),
+    } as SpesialistVedtaksperiode);
