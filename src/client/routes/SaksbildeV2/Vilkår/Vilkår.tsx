@@ -43,6 +43,7 @@ export const Vilkår = () => {
         vilkårVurdertAvSaksbehandler,
         vilkårVurdertAutomatisk,
         vilkårVurdertIInfotrygd,
+        vilkårVurdertFørstePeriode,
     } = useKategoriserteVilkår(vedtaksperiode);
 
     if (!vedtaksperiode || personTilBehandling === undefined) return null;
@@ -67,7 +68,16 @@ export const Vilkår = () => {
                     <>
                         <VurdertAvSaksbehandler
                             vilkår={vilkårVurdertAvSaksbehandler}
-                            saksbehandler={vedtaksperiode.godkjentAv ?? førstePeriode.godkjentAv}
+                            saksbehandler={vedtaksperiode.godkjentAv}
+                    />
+                    <Separator />
+                </>
+            )}
+            {vilkårVurdertFørstePeriode && vilkårVurdertFørstePeriode.length > 0 && (
+                <>
+                    <VurdertAvSaksbehandler
+                        vilkår={vilkårVurdertFørstePeriode}
+                        saksbehandler={førstePeriode.godkjentAv}
                             skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
                         />
                         <Separator />
