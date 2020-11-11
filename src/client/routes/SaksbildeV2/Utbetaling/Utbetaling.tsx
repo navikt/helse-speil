@@ -24,6 +24,7 @@ const Arbeidsflate = styled.section`
         'utbetaling         tabell';
     grid-template-rows: max-content max-content max-content;
     grid-row-gap: 2rem;
+    height: 100%;
 `;
 
 const Kort = styled.section`

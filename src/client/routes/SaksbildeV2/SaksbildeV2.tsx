@@ -25,6 +25,7 @@ const Container = styled.div`
 
 const Content = styled.div`
     margin: 0 2.5rem 4rem 2rem;
+    height: 100%;
 `;
 
 const LoggHeader = styled(EksternLoggheader)`
