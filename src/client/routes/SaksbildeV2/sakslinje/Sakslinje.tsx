@@ -7,13 +7,14 @@ import { TabLink } from '../TabLink';
 import { Flex } from '../../../components/Flex';
 import { Location, useNavigation } from '../../../hooks/useNavigationV2';
 import { Key, useKeyboard } from '../../../hooks/useKeyboard';
+import { Infolinje } from './Infolinje';
 
 const SakslinjeWrapper = styled.div`
     height: 90px;
     border-bottom: 1px solid #c6c2bf;
     display: flex;
     flex: 1;
-    padding: 0 2rem;
+    padding: 0 2.5rem 0 2rem;
 `;
 
 const SakslinjeVenstre = styled(Flex)`
@@ -49,6 +50,7 @@ export const Sakslinje = ({ aktivVedtaksperiodetype }: SakslinjeProps) => {
             <TabLink to={pathForLocation(Location.Sykmeldingsperiode)}>Sykmeldingsperiode</TabLink>
             <TabLink to={pathForLocation(Location.Vilkår)}>Vilkår</TabLink>
             <TabLink to={pathForLocation(Location.Sykepengegrunnlag)}>Sykepengegrunnlag</TabLink>
+            <Infolinje />
         </SakslinjeWrapper>
     );
 };
