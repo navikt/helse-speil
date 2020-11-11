@@ -28,4 +28,5 @@ export const speilV2 =
     erAminet() ||
     erMartin() ||
     erJonas() ||
+    erMorten() ||
     erOddur();
