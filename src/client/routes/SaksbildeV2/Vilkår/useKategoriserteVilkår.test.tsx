@@ -296,11 +296,10 @@ describe('useKategoriserteVilkår', () => {
         });
         const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
 
-        expect(result.current.vilkårVurdertFørstePeriode).toHaveLength(4);
+        expect(result.current.vilkårVurdertFørstePeriode).toHaveLength(3);
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Sykepengegrunnlag, result);
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Medlemskap, result);
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Opptjeningstid, result);
-        assertHarVilkårVurdertFørstePeriode(Vilkårstype.Institusjonsopphold, result);
 
         expect(result.current.vilkårVurdertAutomatisk).toHaveLength(0);
         expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(0);

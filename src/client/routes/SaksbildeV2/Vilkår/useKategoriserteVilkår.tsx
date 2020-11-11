@@ -177,7 +177,6 @@ export const useKategoriserteVilkår = ({
         if (periodetype === Periodetype.Forlengelse) {
             vilkårstyperVurdertFørstePeriode.push(
                 Vilkårstype.Medlemskap,
-                Vilkårstype.Institusjonsopphold,
                 Vilkårstype.Opptjeningstid,
                 Vilkårstype.Sykepengegrunnlag
             );
