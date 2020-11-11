@@ -9,8 +9,8 @@ import { Annullering } from '../../../components/Annullering';
 import { useEmail } from '../../../state/authentication';
 import { useOppgavetildeling } from '../../../hooks/useOppgavetildeling';
 import { useUpdateVarsler } from '../../../state/varslerState';
-import { Varseltype } from '../../../../../__mocks__/@navikt/helse-frontend-varsel';
 import { Button } from '../../../components/Button';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Container = styled(Sakslinje)`
     border-left: none;

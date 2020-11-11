@@ -44,8 +44,9 @@ const personTilBehandling = async () => ({
 const vilkårTilVurdering = () => screen.queryByText('Vilkår til vurdering');
 const automatiskVurderteVilkår = () => screen.queryByText('Vurderte vilkår');
 const behandletAvInfotrygd = () => screen.queryByText('Behandlet av infotrygd');
-const behandletInnhold = () => screen.queryByText('Behandlet innhold');
-const automatiskBehandletInnhold = () => screen.queryByText('Automatisk godkjent');
+const behandletInnhold = () => screen.queryByText('Vilkår vurdert for denne perioden');
+const behandletInnholdSkjæringstidspunkt = () =>
+    screen.queryByText('Vilkår vurdert ved skjæringstidspunkt - 01.01.2020');
 
 const defaultPersonContextValue = {
     markerPersonSomTildelt: (_: string) => null,
@@ -76,8 +77,8 @@ describe('Vilkår', () => {
 
             expect(vilkårTilVurdering()).toBeInTheDocument();
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnhold()).not.toBeInTheDocument();
-            expect(behandletAvInfotrygd()).not.toBeInTheDocument();
+            expect(behandletInnhold()).toBeNull();
+            expect(behandletAvInfotrygd()).toBeNull();
         });
         test('og er en forlengelse skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet innhold', async () => {
             const person = await personTilBehandling();
@@ -91,8 +92,8 @@ describe('Vilkår', () => {
 
             expect(vilkårTilVurdering()).toBeInTheDocument();
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnhold()).toBeInTheDocument();
-            expect(behandletAvInfotrygd()).not.toBeInTheDocument();
+            expect(behandletInnholdSkjæringstidspunkt()).toBeInTheDocument();
+            expect(behandletAvInfotrygd()).toBeNull();
         });
         test('og er forlengelse fra infotrygd skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet av infotrygd', async () => {
             const person = await personTilBehandling();
@@ -106,7 +107,7 @@ describe('Vilkår', () => {
 
             expect(vilkårTilVurdering()).toBeInTheDocument();
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnhold()).not.toBeInTheDocument();
+            expect(behandletInnhold()).toBeNull();
             expect(behandletAvInfotrygd()).toBeInTheDocument();
         });
         test('og har behandlet arbeidsuførhet skal ikke vise vilkår til vurdering', async () => {
@@ -118,10 +119,9 @@ describe('Vilkår', () => {
 
             renderVilkår(person, vedtaksperiode);
 
-            expect(vilkårTilVurdering()).not.toBeInTheDocument();
+            expect(vilkårTilVurdering()).toBeNull();
             expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnhold()).not.toBeInTheDocument();
-            expect(automatiskBehandletInnhold()).not.toBeInTheDocument();
+            expect(behandletInnhold()).toBeNull();
         });
     });
 
@@ -135,10 +135,10 @@ describe('Vilkår', () => {
 
             renderVilkår(person, vedtaksperiode);
 
-            expect(vilkårTilVurdering()).not.toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
-            expect(behandletInnhold()).toBeInTheDocument();
-            expect(behandletAvInfotrygd()).not.toBeInTheDocument();
+            expect(vilkårTilVurdering()).toBeNull();
+            expect(automatiskVurderteVilkår()).toBeNull();
+            expect(behandletInnholdSkjæringstidspunkt()).toBeInTheDocument();
+            expect(behandletAvInfotrygd()).toBeNull();
         });
         test('og er en forlengelse skal ha behandlet innhold', async () => {
             const person = await personTilBehandling();
@@ -150,10 +150,10 @@ describe('Vilkår', () => {
 
             renderVilkår(person, vedtaksperiode);
 
-            expect(vilkårTilVurdering()).not.toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
-            expect(behandletInnhold()).toBeInTheDocument();
-            expect(behandletAvInfotrygd()).not.toBeInTheDocument();
+            expect(vilkårTilVurdering()).toBeNull();
+            expect(automatiskVurderteVilkår()).toBeNull();
+            expect(behandletInnholdSkjæringstidspunkt()).toBeInTheDocument();
+            expect(behandletAvInfotrygd()).toBeNull();
         });
         test('og er forlengelse fra infotrygd skal ha behandlet innhold og behandlet av infotrygd', async () => {
             const person = await personTilBehandling();
@@ -165,14 +165,13 @@ describe('Vilkår', () => {
 
             renderVilkår(person, vedtaksperiode);
 
-            expect(vilkårTilVurdering()).not.toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
-            expect(behandletInnhold()).toBeInTheDocument();
+            expect(vilkårTilVurdering()).toBeNull();
+            expect(automatiskVurderteVilkår()).toBeNull();
+            expect(behandletInnholdSkjæringstidspunkt()).toBeInTheDocument();
             expect(behandletAvInfotrygd()).toBeInTheDocument();
         });
         test('og er forlengelse som er automatisk behandlet', async () => {
             const person = await personTilBehandling();
-            // const personMedToVedtaksperioder = {...person, arbeidsgivere: [{...person.arbeidsgivere[0], vedtaksperioder: [{}]}]}
             const vedtaksperiode = {
                 ...(await enSpeilVedtaksperiode()),
                 forlengelseFraInfotrygd: false,
@@ -183,10 +182,9 @@ describe('Vilkår', () => {
 
             renderVilkår(person, vedtaksperiode);
 
-            expect(vilkårTilVurdering()).not.toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).not.toBeInTheDocument();
+            expect(vilkårTilVurdering()).toBeNull();
+            expect(automatiskVurderteVilkår()).toBeNull();
             expect(behandletInnhold()).toBeInTheDocument();
-            expect(automatiskBehandletInnhold()).toBeInTheDocument();
         });
     });
 });

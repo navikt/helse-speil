@@ -13,8 +13,8 @@ import { speilV2 } from '../../featureToggles';
 import { useEmail } from '../../state/authentication';
 import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
 import { OppgaverContext } from '../../context/OppgaverContext';
-import { Varseltype } from '../../../../__mocks__/@navikt/helse-frontend-varsel';
 import { Flatknapp } from 'nav-frontend-knapper';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;

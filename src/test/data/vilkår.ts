@@ -10,7 +10,7 @@ import {
 import dayjs from 'dayjs';
 import { mapVilkår } from '../../client/mapping/vilkår';
 
-export const umappedeVilkår = (tidslinje: SpleisSykdomsdag[]) => {
+export const umappedeVilkår = (tidslinje: SpleisSykdomsdag[]): SpleisVilkår => {
     const førsteDag = tidslinje[0];
     const sisteDag = tidslinje.slice(-1).pop()!;
     const førsteSykedag = tidslinje.find(({ type }) => type === SpleisSykdomsdagtype.SYKEDAG)!;
