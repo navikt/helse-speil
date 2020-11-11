@@ -3,7 +3,7 @@ import { mappetPerson } from 'test-data';
 import { render, screen, within } from '@testing-library/react';
 import { Vilkår } from './Vilkår';
 import { defaultPersonContext, PersonContext } from '../../../context/PersonContext';
-import { Periodetype, Person, Vedtaksperiode } from 'internal-types';
+import { Person, Vedtaksperiode, Vilkår as VilkårType } from 'internal-types';
 import '@testing-library/jest-dom/extend-expect';
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
@@ -14,36 +14,64 @@ const FontContainer = styled.div`
     }
 `;
 
-const enPerson = async (): Promise<Person> => {
+type MedEndretVedtaksperiodeOptions = {
+    vedtaksperiodeindeks: number;
+    verdier: { [key: string]: any };
+};
+
+const medEndretVedtaksperiode = async ({
+    vedtaksperiodeindeks,
+    verdier,
+}: MedEndretVedtaksperiodeOptions): Promise<Person> => {
     const person = await mappetPerson();
     return {
         ...person,
         arbeidsgivere: [
             {
                 ...person.arbeidsgivere[0],
+                vedtaksperioder: person.arbeidsgivere[0].vedtaksperioder.map((periode, i) =>
+                    i === vedtaksperiodeindeks ? { ...periode, ...verdier } : periode
+                ),
             },
-            ...person.arbeidsgivere.slice(1),
         ],
     };
 };
 
-type MedEndretVedtaksperiodeOptions = {
-    person: Person;
+type medEndredeVilkårOptions = {
     vedtaksperiodeindeks: number;
     verdier: { [key: string]: any };
 };
 
-const medEndretVedtaksperiode = ({ person, vedtaksperiodeindeks, verdier }: MedEndretVedtaksperiodeOptions) => ({
-    ...person,
-    arbeidsgivere: [
-        {
-            ...person.arbeidsgivere[0],
-            vedtaksperioder: person.arbeidsgivere[0].vedtaksperioder.map((periode, i) =>
-                i === vedtaksperiodeindeks ? { ...periode, ...verdier } : periode
-            ),
-        },
-    ],
-});
+const medEndredeVilkår = async ({ vedtaksperiodeindeks, verdier }: medEndredeVilkårOptions): Promise<Person> => {
+    const person = await mappetPerson();
+    return {
+        ...person,
+        arbeidsgivere: [
+            {
+                ...person.arbeidsgivere[0],
+                vedtaksperioder: vedtaksperioderMedNyeVilkår({
+                    vedtaksperioder: person.arbeidsgivere[0].vedtaksperioder as Vedtaksperiode[],
+                    index: vedtaksperiodeindeks,
+                    verdier: verdier,
+                }),
+            },
+        ],
+    };
+};
+
+type VedtaksperioderMedNyeVilkårOptions = {
+    vedtaksperioder: Vedtaksperiode[];
+    index: number;
+    verdier: { [key: string]: any };
+};
+const vedtaksperioderMedNyeVilkår = ({
+    vedtaksperioder,
+    index,
+    verdier,
+}: VedtaksperioderMedNyeVilkårOptions): Vedtaksperiode[] =>
+    vedtaksperioder.map((periode, i) =>
+        i === index ? { ...periode, vilkår: { ...periode.vilkår, ...verdier } as VilkårType } : periode
+    );
 
 const renderVilkår = (person: Person) =>
     render(
@@ -60,108 +88,81 @@ const renderVilkår = (person: Person) =>
         </PersonContext.Provider>
     );
 
+const expectGroupToContainVisible = (groupName: string, ...ids: string[]) => {
+    const group = screen.getByTestId(groupName);
+    expect(group).toBeVisible();
+    ids.forEach((id) => expect(within(group).getByTestId(id)).toBeVisible());
+};
+
+const expectGroupsToNotExist = (...groups: string[]) =>
+    groups.forEach((group) => expect(screen.queryByTestId(group)).toBeNull());
+
 describe('Vilkår', () => {
     describe('førstegangsbehandling', () => {
         it('har alle vilkår oppfylt', async () => {
-            const person = await enPerson();
-            const personUtenInstitusjonsopphold = medEndretVedtaksperiode({
-                person: person,
+            const personUtenInstitusjonsopphold = await medEndretVedtaksperiode({
                 vedtaksperiodeindeks: 0,
                 verdier: { godkjenttidspunkt: dayjs('11-04-2020') },
             });
             await renderVilkår(personUtenInstitusjonsopphold);
 
-            const oppfylteVilkår = screen.getByTestId('oppfylte-vilkår');
-            expect(oppfylteVilkår).toBeVisible();
+            expectGroupToContainVisible(
+                'oppfylte-vilkår',
+                'alder',
+                'søknadsfrist',
+                'opptjening',
+                'sykepengegrunnlag',
+                'dagerIgjen',
+                'medlemskap',
+                'arbeidsuførhet',
+                'institusjonsopphold'
+            );
 
-            expect(within(oppfylteVilkår).getByTestId('alder')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('søknadsfrist')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('opptjening')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('sykepengegrunnlag')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('dagerIgjen')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('medlemskap')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('arbeidsuførhet')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('institusjonsopphold')).toBeVisible();
-
-            expect(screen.queryByTestId('vurdert-av-saksbehandler')).toBeNull();
-            expect(screen.queryByTestId('vurdert-automatisk')).toBeNull();
-            expect(screen.queryByTestId('vurdert-i-infotrygd')).toBeNull();
+            expectGroupsToNotExist('vurdert-av-saksbehandler', 'vurdert-automatisk', 'vurdert-i-infotrygd');
         });
         it('har noen vilkår ikke oppfylt', async () => {
-            const person = await enPerson();
-            const personMedIkkeOppfyltVilkår = {
-                ...person,
-                arbeidsgivere: [
-                    {
-                        ...person.arbeidsgivere[0],
-                        vedtaksperioder: [
-                            {
-                                ...person.arbeidsgivere[0].vedtaksperioder[0],
-                                vilkår: {
-                                    ...(person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).vilkår,
-                                    opptjening: { oppfylt: false },
-                                },
-                            },
-                        ],
-                    },
-                ],
-            };
+            const personMedIkkeOppfyltVilkår = await medEndredeVilkår({
+                vedtaksperiodeindeks: 0,
+                verdier: { opptjening: { oppfylt: false } },
+            });
+
             await renderVilkår(personMedIkkeOppfyltVilkår);
 
-            const oppfylteVilkår = screen.getByTestId('oppfylte-vilkår');
-            expect(oppfylteVilkår).toBeVisible();
+            expectGroupToContainVisible(
+                'oppfylte-vilkår',
+                'alder',
+                'søknadsfrist',
+                'sykepengegrunnlag',
+                'dagerIgjen',
+                'medlemskap',
+                'arbeidsuførhet'
+            );
 
-            expect(within(oppfylteVilkår).getByTestId('alder')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('søknadsfrist')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('sykepengegrunnlag')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('dagerIgjen')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('medlemskap')).toBeVisible();
-            expect(within(oppfylteVilkår).getByTestId('arbeidsuførhet')).toBeVisible();
+            expectGroupToContainVisible('ikke-vurderte-vilkår', 'institusjonsopphold');
+            expectGroupToContainVisible('ikke-oppfylte-vilkår', 'opptjening');
 
-            const ikkeVurderteVilkår = screen.getByTestId('ikke-vurderte-vilkår');
-            expect(ikkeVurderteVilkår).toBeVisible();
-            expect(within(ikkeVurderteVilkår).getByTestId('institusjonsopphold')).toBeVisible();
-
-            const ikkeOppfylteVilkår = screen.getByTestId('ikke-oppfylte-vilkår');
-            expect(ikkeOppfylteVilkår).toBeVisible();
-            expect(within(ikkeOppfylteVilkår).getByTestId('opptjening')).toBeVisible();
-
-            expect(screen.queryByTestId('vurdert-av-saksbehandler')).toBeNull();
-            expect(screen.queryByTestId('vurdert-automatisk')).toBeNull();
-            expect(screen.queryByTestId('vurdert-i-infotrygd')).toBeNull();
+            expectGroupsToNotExist('vurdert-av-saksbehandler', 'vurdert-automatisk', 'vurdert-i-infotrygd');
         });
         it('er godkjent', async () => {
-            const person = await enPerson();
-            const personMedGodkjentPeriode = {
-                ...person,
-                arbeidsgivere: [
-                    {
-                        ...person.arbeidsgivere[0],
-                        vedtaksperioder: [
-                            {
-                                ...person.arbeidsgivere[0].vedtaksperioder[0],
-                                behandlet: true,
-                            },
-                        ],
-                    },
-                ],
-            };
+            const personMedGodkjentPeriode = await medEndretVedtaksperiode({
+                vedtaksperiodeindeks: 0,
+                verdier: { behandlet: true },
+            });
             await renderVilkår(personMedGodkjentPeriode);
 
-            const vilkårVurdertAvSaksbehandler = screen.getByTestId('vurdert-av-saksbehandler');
-            expect(vilkårVurdertAvSaksbehandler).toBeVisible();
+            expectGroupToContainVisible(
+                'vurdert-av-saksbehandler',
+                'alder',
+                'søknadsfrist',
+                'sykepengegrunnlag',
+                'dagerIgjen',
+                'medlemskap',
+                'arbeidsuførhet',
+                'institusjonsopphold',
+                'opptjening'
+            );
 
-            expect(within(vilkårVurdertAvSaksbehandler).getByTestId('alder')).toBeVisible();
-            expect(within(vilkårVurdertAvSaksbehandler).getByTestId('søknadsfrist')).toBeVisible();
-            expect(within(vilkårVurdertAvSaksbehandler).getByTestId('sykepengegrunnlag')).toBeVisible();
-            expect(within(vilkårVurdertAvSaksbehandler).getByTestId('dagerIgjen')).toBeVisible();
-            expect(within(vilkårVurdertAvSaksbehandler).getByTestId('medlemskap')).toBeVisible();
-            expect(within(vilkårVurdertAvSaksbehandler).getByTestId('arbeidsuførhet')).toBeVisible();
-            expect(within(vilkårVurdertAvSaksbehandler).getByTestId('institusjonsopphold')).toBeVisible();
-            expect(within(vilkårVurdertAvSaksbehandler).getByTestId('opptjening')).toBeVisible();
-
-            expect(screen.queryByTestId('vurdert-automatisk')).toBeNull();
-            expect(screen.queryByTestId('vurdert-i-infotrygd')).toBeNull();
+            expectGroupsToNotExist('vurdert-automatisk', 'vurdert-i-infotrygd');
         });
     });
 });
