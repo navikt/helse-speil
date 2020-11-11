@@ -14,9 +14,18 @@ const erDigiMort = () => extractIdent() === 'T127350';
 const erStephen = () => extractIdent() === 'R154509';
 const erMartin = () => extractIdent() === 'S149030';
 const erJonas = () => extractIdent() === 'H159657';
+const erOddur = () => extractIdent() === 'S145454';
 
 export const overstyrbareTabellerEnabled = true;
 export const annulleringerEnabled = erPreprod() || erLocal() || erSupersaksbehandler();
 export const speilTildeling = true;
 export const speilV2 =
-    erLocal() || erUlrik() || erDaniel() || erDigiMort() || erStephen() || erAminet() || erMartin() || erJonas();
+    erLocal() ||
+    erUlrik() ||
+    erDaniel() ||
+    erDigiMort() ||
+    erStephen() ||
+    erAminet() ||
+    erMartin() ||
+    erJonas() ||
+    erOddur();
