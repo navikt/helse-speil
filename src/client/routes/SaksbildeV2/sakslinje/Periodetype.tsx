@@ -43,6 +43,6 @@ const Container = styled.div((props: PeriodetypeProps) => ({
     ...mapPeriodetypeFarger(props.tittel),
 }));
 
-export const Periodetype = ({ tittel }: PeriodetypeProps) => {
-    return <Container tittel={tittel}> {mapPeriodetypeTittel(tittel)} </Container>;
-};
+export const Periodetype = ({ tittel }: PeriodetypeProps) => (
+    <Container tittel={tittel}> {mapPeriodetypeTittel(tittel)} </Container>
+);

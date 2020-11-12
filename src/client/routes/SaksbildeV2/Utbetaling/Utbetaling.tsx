@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
-import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { Clipboard } from '../../../components/clipboard';
 import { somPenger } from '../../../utils/locale';
 import { Vilkårsliste } from './Vilkårsoversikt';
@@ -15,16 +14,16 @@ import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 
 const Arbeidsflate = styled.section`
     display: grid;
-    grid-template-columns: 18rem auto;
-    grid-column-gap: 1rem;
+    grid-template-columns: 18rem;
     grid-template-areas:
-        'sykmeldingsperiode tabell'
-        'arbeidsgiver       tabell'
-        'vilkår             tabell'
-        'utbetaling         tabell';
+        'sykmeldingsperiode'
+        'arbeidsgiver'
+        'vilkår'
+        'utbetaling';
     grid-template-rows: max-content max-content max-content;
     grid-row-gap: 2rem;
     height: 100%;
+    margin-right: 1.5rem;
 `;
 
 const Kort = styled.section`
@@ -51,7 +50,6 @@ const Utbetalingkort = styled(Kort)`
 `;
 
 const Utbetalingstabell = styled.article`
-    grid-area: tabell;
     padding-left: 2.5rem;
     border-left: 1px solid #c6c2bf;
     padding-top: 2rem;
@@ -77,10 +75,6 @@ const Korttittel = styled(Undertittel)`
             box-shadow: 0 0 0 2px #254b6d;
         }
     }
-`;
-
-const Koffert = styled(Arbeidsgiverikon)`
-    margin-right: 1rem;
 `;
 
 const Lenke = styled(Link)`
@@ -112,49 +106,54 @@ export const Utbetaling = () => {
     const { organisasjonsnummer, månedsinntekt } = aktivVedtaksperiode.inntektskilder[0];
 
     return (
-        <Arbeidsflate>
-            <AgurkErrorBoundary sidenavn="Utbetaling">
-                <Sykmeldingsperiode>
-                    <Korttittel>
-                        <Lenke to={`${personTilBehandling?.aktørId}/../sykmeldingsperiode`}>Sykmeldingsperiode</Lenke>
-                    </Korttittel>
-                    <Flex justifyContent="space-between">
-                        <Normaltekst>Periode</Normaltekst>
-                        <Normaltekst>
-                            {periodeFom} - {periodeTom}
-                        </Normaltekst>
-                    </Flex>
-                    <Flex justifyContent="space-between">
-                        <Normaltekst>Skjæringstidspunkt</Normaltekst>
-                        <Normaltekst>{skjæringstidspunkt}</Normaltekst>
-                    </Flex>
-                </Sykmeldingsperiode>
-                <Arbeidsgiver>
-                    <Korttittel>
-                        <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>Arbeidsgiver</Lenke>
-                    </Korttittel>
-                    <Clipboard preserveWhitespace={false}>
-                        <Normaltekst>{organisasjonsnummer}</Normaltekst>
-                    </Clipboard>
-                    <Flex justifyContent="space-between">
-                        <Normaltekst>Månedsbeløp</Normaltekst>
-                        <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>
-                    </Flex>
-                </Arbeidsgiver>
-                <Vilkårkort>
-                    <Korttittel>
-                        <Lenke to={`${personTilBehandling?.aktørId}/../vilkår`}>Vilkår</Lenke>
-                    </Korttittel>
-                    <Vilkårsliste vedtaksperiode={aktivVedtaksperiode} />
-                </Vilkårkort>
-                <Utbetalingkort>
-                    <Korttittel>Utbetaling</Korttittel>
-                    <Oppsummering />
-                </Utbetalingkort>
+        <AgurkErrorBoundary sidenavn="Utbetaling">
+            <Flex>
+                <Arbeidsflate>
+                    <Sykmeldingsperiode>
+                        <Korttittel>
+                            <Lenke to={`${personTilBehandling?.aktørId}/../sykmeldingsperiode`}>
+                                Sykmeldingsperiode
+                            </Lenke>
+                        </Korttittel>
+                        <Flex justifyContent="space-between">
+                            <Normaltekst>Periode</Normaltekst>
+                            <Normaltekst>
+                                {periodeFom} - {periodeTom}
+                            </Normaltekst>
+                        </Flex>
+                        <Flex justifyContent="space-between">
+                            <Normaltekst>Skjæringstidspunkt</Normaltekst>
+                            <Normaltekst>{skjæringstidspunkt}</Normaltekst>
+                        </Flex>
+                    </Sykmeldingsperiode>
+                    <Arbeidsgiver>
+                        <Korttittel>
+                            <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>Arbeidsgiver</Lenke>
+                        </Korttittel>
+                        <Clipboard preserveWhitespace={false}>
+                            <Normaltekst>{organisasjonsnummer}</Normaltekst>
+                        </Clipboard>
+                        <Flex justifyContent="space-between">
+                            <Normaltekst>Månedsbeløp</Normaltekst>
+                            <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>
+                        </Flex>
+                    </Arbeidsgiver>
+                    <Vilkårkort>
+                        <Korttittel>
+                            <Lenke to={`${personTilBehandling?.aktørId}/../vilkår`}>Vilkår</Lenke>
+                        </Korttittel>
+                        <Vilkårsliste vedtaksperiode={aktivVedtaksperiode} />
+                    </Vilkårkort>
+                    <Utbetalingkort>
+                        <Korttittel>Utbetaling</Korttittel>
+                        <Oppsummering />
+                    </Utbetalingkort>
+                </Arbeidsflate>
+
                 <Utbetalingstabell>
                     <Utbetalingsoversikt />
                 </Utbetalingstabell>
-            </AgurkErrorBoundary>
-        </Arbeidsflate>
+            </Flex>
+        </AgurkErrorBoundary>
     );
 };
