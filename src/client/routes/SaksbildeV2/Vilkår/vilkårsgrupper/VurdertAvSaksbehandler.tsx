@@ -7,6 +7,7 @@ import { Vilkårdata } from '../../../../mapping/vilkår';
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 import { Dayjs } from 'dayjs';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { Vilkårgrid } from '../Vilkår.styles';
 
 const VurdertTittel = styled(Vilkårstittel)`
     &:not(:last-of-type) {
@@ -28,15 +29,12 @@ export const VurdertAvSaksbehandler = ({ vilkår, skjæringstidspunkt, saksbehan
         <FlexColumn data-testid="vurdert-av-saksbehandler">
             <BehandletVarsel tittel={tittel} saksbehandler={saksbehandler ?? 'Ukjent'} automatiskBehandlet={false}>
                 {vilkår.map(({ tittel, paragraf, paragrafIkon, komponent, type }, i) => (
-                    <VurdertTittel
-                        type={type}
-                        ikon={<Sjekkikon />}
-                        paragraf={paragraf}
-                        paragrafIkon={paragrafIkon}
-                        key={i}
-                    >
-                        {tittel}
-                    </VurdertTittel>
+                    <React.Fragment key={i}>
+                        <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon}>
+                            {tittel}
+                        </VurdertTittel>
+                        {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
+                    </React.Fragment>
                 ))}
             </BehandletVarsel>
         </FlexColumn>

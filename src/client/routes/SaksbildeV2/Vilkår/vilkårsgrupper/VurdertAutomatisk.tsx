@@ -5,6 +5,7 @@ import { FlexColumn } from '../../../../components/Flex';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
+import { Vilkårgrid } from '../Vilkår.styles';
 
 const VurdertTittel = styled(Vilkårstittel)`
     &:not(:last-of-type) {
@@ -25,9 +26,12 @@ export const VurdertAutomatisk = ({ vilkår, saksbehandler }: VurdertAutomatiskP
             automatiskBehandlet
         >
             {vilkår.map(({ tittel, paragraf, komponent, paragrafIkon, type }, i) => (
-                <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon} key={i}>
-                    {tittel}
-                </VurdertTittel>
+                <React.Fragment key={i}>
+                    <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon}>
+                        {tittel}
+                    </VurdertTittel>
+                    {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
+                </React.Fragment>
             ))}
         </BehandletVarsel>
     </FlexColumn>
