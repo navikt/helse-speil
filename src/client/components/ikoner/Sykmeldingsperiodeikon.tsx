@@ -1,7 +1,7 @@
 import React from 'react';
 import { Ikon, IkonProps } from './Ikon';
 
-export const Sykpengeperiodeikon = ({ width = 14, height = 14, className }: IkonProps) => (
+export const Sykmeldingsperiodeikon = ({ width = 14, height = 14, className }: IkonProps) => (
     <Ikon width={width} height={height} viewBox="0 0 14 14" className={className}>
         <g fill="none">
             <path
