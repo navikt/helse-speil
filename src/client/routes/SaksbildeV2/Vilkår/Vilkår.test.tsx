@@ -9,6 +9,7 @@ import {
     ferdigbehandlet,
     ferdigbehandletAutomatisk,
     ikkeOppfyltAlder,
+    infotrygdforlengelse,
     oppfyltInstitusjonsopphold,
     personMedModifiserteVilkår,
     påfølgende,
@@ -115,10 +116,10 @@ describe('Vilkår', () => {
     });
     describe('påfølgende', () => {
         it('har alle vilkår oppfylt', async () => {
-            const medGodkjentePerioder = await personMedModifiserteVilkår({
+            const påfølgendeMedOppfylteVilkår = await personMedModifiserteVilkår({
                 vedtaksperiodeverdier: [{ ...oppfyltInstitusjonsopphold(), ...påfølgende() }, ferdigbehandlet()],
             });
-            await renderVilkår(medGodkjentePerioder);
+            await renderVilkår(påfølgendeMedOppfylteVilkår);
 
             expectGroupToContainVisible(
                 'oppfylte-vilkår',
@@ -206,6 +207,104 @@ describe('Vilkår', () => {
 
             expectGroupsToNotExist(
                 'vurdert-i-infotrygd',
+                'oppfylte-vilkår',
+                'ikke-oppfylte-vilkår',
+                'ikke-vurderte-vilkår'
+            );
+        });
+    });
+    describe('forlengelse fra Infotrygd', () => {
+        it('har alle vilkår oppfylt', async () => {
+            const infotrygdforlengelseMedOppfylteVilkår = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...oppfyltInstitusjonsopphold(), ...infotrygdforlengelse() }],
+            });
+            renderVilkår(infotrygdforlengelseMedOppfylteVilkår);
+
+            expectGroupToContainVisible(
+                'oppfylte-vilkår',
+                'alder',
+                'søknadsfrist',
+                'dagerIgjen',
+                'arbeidsuførhet',
+                'institusjonsopphold',
+                'medlemskap'
+            );
+
+            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag');
+
+            expectGroupsToNotExist(
+                'vurdert-automatisk',
+                'vurdert-av-saksbehandler',
+                'ikke-oppfylte-vilkår',
+                'ikke-vurderte-vilkår'
+            );
+        });
+        it('har noen vilkår ikke oppfylt', async () => {
+            const infotrygdforlengelseMedIkkeOppfyltAlder = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [infotrygdforlengelse()],
+                vilkårverdier: [ikkeOppfyltAlder()],
+            });
+            renderVilkår(infotrygdforlengelseMedIkkeOppfyltAlder);
+
+            expectGroupToContainVisible(
+                'oppfylte-vilkår',
+                'søknadsfrist',
+                'dagerIgjen',
+                'arbeidsuførhet',
+                'medlemskap'
+            );
+
+            expectGroupToContainVisible('ikke-vurderte-vilkår', 'institusjonsopphold');
+            expectGroupToContainVisible('ikke-oppfylte-vilkår', 'alder');
+            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag');
+
+            expectGroupsToNotExist('vurdert-automatisk', 'vurdert-av-saksbehandler');
+        });
+        it('er godkjent', async () => {
+            const medGodkjenteVedtaksperioder = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...infotrygdforlengelse(), ...ferdigbehandlet() }],
+            });
+            await renderVilkår(medGodkjenteVedtaksperioder);
+
+            expectGroupToContainVisible(
+                'vurdert-av-saksbehandler',
+                'alder',
+                'søknadsfrist',
+                'dagerIgjen',
+                'institusjonsopphold',
+                'arbeidsuførhet',
+                'medlemskap'
+            );
+
+            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag');
+
+            expectGroupsToNotExist(
+                'vurdert-automatisk',
+                'oppfylte-vilkår',
+                'ikke-oppfylte-vilkår',
+                'ikke-vurderte-vilkår'
+            );
+        });
+        it('er automatisk godkjent', async () => {
+            const medGodkjenteVedtaksperioder = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...infotrygdforlengelse(), ...ferdigbehandletAutomatisk() }],
+            });
+            await renderVilkår(medGodkjenteVedtaksperioder);
+
+            expectGroupToContainVisible(
+                'vurdert-automatisk',
+                'alder',
+                'søknadsfrist',
+                'dagerIgjen',
+                'institusjonsopphold',
+                'arbeidsuførhet',
+                'medlemskap'
+            );
+
+            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag');
+
+            expectGroupsToNotExist(
+                'vurdert-av-saksbehandler',
                 'oppfylte-vilkår',
                 'ikke-oppfylte-vilkår',
                 'ikke-vurderte-vilkår'

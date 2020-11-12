@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { Periodetype, Person, Vedtaksperiode, Vilkår as VilkårType } from 'internal-types';
-import { SpleisVedtaksperiodetilstand } from 'external-types';
+import { SpleisForlengelseFraInfotrygd, SpleisVedtaksperiodetilstand } from 'external-types';
 import { mappetPerson } from 'test-data';
 import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { render, screen, within } from '@testing-library/react';
@@ -59,6 +59,11 @@ export const ikkeOppfyltAlder = () => ({
 
 export const påfølgende = () => ({
     periodetype: Periodetype.Forlengelse,
+});
+
+export const infotrygdforlengelse = () => ({
+    periodetype: Periodetype.Infotrygdforlengelse,
+    forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd.JA,
 });
 
 export const ferdigbehandlet = () => ({
