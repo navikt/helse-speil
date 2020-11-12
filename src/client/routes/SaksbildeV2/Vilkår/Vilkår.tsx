@@ -69,15 +69,15 @@ export const Vilkår = () => {
                         <VurdertAvSaksbehandler
                             vilkår={vilkårVurdertAvSaksbehandler}
                             saksbehandler={vedtaksperiode.godkjentAv}
-                    />
-                    <Separator />
-                </>
-            )}
-            {vilkårVurdertFørstePeriode && vilkårVurdertFørstePeriode.length > 0 && (
-                <>
-                    <VurdertAvSaksbehandler
-                        vilkår={vilkårVurdertFørstePeriode}
-                        saksbehandler={førstePeriode.godkjentAv}
+                        />
+                        <Separator />
+                    </>
+                )}
+                {vilkårVurdertFørstePeriode && vilkårVurdertFørstePeriode.length > 0 && (
+                    <>
+                        <VurdertAvSaksbehandler
+                            vilkår={vilkårVurdertFørstePeriode}
+                            saksbehandler={førstePeriode.godkjentAv}
                             skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
                         />
                         <Separator />
