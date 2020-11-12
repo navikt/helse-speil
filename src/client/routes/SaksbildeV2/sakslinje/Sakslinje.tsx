@@ -18,8 +18,8 @@ const SakslinjeWrapper = styled.div`
 `;
 
 const SakslinjeVenstre = styled(Flex)`
-    width: 19rem;
-    padding-right: 1rem;
+    width: 18rem;
+    padding-right: 1.5rem;
     margin-right: 2.5rem;
     align-items: center;
     border-right: 1px solid #c6c2bf;
