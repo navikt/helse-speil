@@ -104,17 +104,17 @@ describe('useKategoriserteVilkår', () => {
         });
         const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
 
-        expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(6);
+        expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(5);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Arbeidsuførhet, result);
-        assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Medlemskap, result);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Alder, result);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Søknadsfrist, result);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Institusjonsopphold, result);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.DagerIgjen, result);
 
-        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(2);
+        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(3);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Opptjeningstid, result);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Sykepengegrunnlag, result);
+        assertHarVilkårVurdertIInfotrygd(Vilkårstype.Medlemskap, result);
 
         expect(result.current.oppfylteVilkår).toHaveLength(0);
         expect(result.current.ikkeOppfylteVilkår).toHaveLength(0);
@@ -130,15 +130,15 @@ describe('useKategoriserteVilkår', () => {
         });
         const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
 
-        expect(result.current.vilkårVurdertAutomatisk).toHaveLength(6);
+        expect(result.current.vilkårVurdertAutomatisk).toHaveLength(5);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.Arbeidsuførhet, result);
-        assertHarAutomatiskVurdertVilkår(Vilkårstype.Medlemskap, result);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.Alder, result);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.Søknadsfrist, result);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.Institusjonsopphold, result);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.DagerIgjen, result);
 
-        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(2);
+        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(3);
+        assertHarVilkårVurdertIInfotrygd(Vilkårstype.Medlemskap, result);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Opptjeningstid, result);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Sykepengegrunnlag, result);
 
@@ -155,7 +155,8 @@ describe('useKategoriserteVilkår', () => {
         });
         const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
 
-        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(2);
+        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(3);
+        assertHarVilkårVurdertIInfotrygd(Vilkårstype.Medlemskap, result);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Opptjeningstid, result);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Sykepengegrunnlag, result);
 

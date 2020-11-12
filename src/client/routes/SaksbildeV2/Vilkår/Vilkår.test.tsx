@@ -226,11 +226,10 @@ describe('Vilkår', () => {
                 'søknadsfrist',
                 'dagerIgjen',
                 'arbeidsuførhet',
-                'institusjonsopphold',
-                'medlemskap'
+                'institusjonsopphold'
             );
 
-            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag');
+            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
 
             expectGroupsToNotExist(
                 'vurdert-automatisk',
@@ -246,17 +245,10 @@ describe('Vilkår', () => {
             });
             renderVilkår(infotrygdforlengelseMedIkkeOppfyltAlder);
 
-            expectGroupToContainVisible(
-                'oppfylte-vilkår',
-                'søknadsfrist',
-                'dagerIgjen',
-                'arbeidsuførhet',
-                'medlemskap'
-            );
-
+            expectGroupToContainVisible('oppfylte-vilkår', 'søknadsfrist', 'dagerIgjen', 'arbeidsuførhet');
             expectGroupToContainVisible('ikke-vurderte-vilkår', 'institusjonsopphold');
             expectGroupToContainVisible('ikke-oppfylte-vilkår', 'alder');
-            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag');
+            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
 
             expectGroupsToNotExist('vurdert-automatisk', 'vurdert-av-saksbehandler');
         });
@@ -272,11 +264,10 @@ describe('Vilkår', () => {
                 'søknadsfrist',
                 'dagerIgjen',
                 'institusjonsopphold',
-                'arbeidsuførhet',
-                'medlemskap'
+                'arbeidsuførhet'
             );
 
-            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag');
+            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
 
             expectGroupsToNotExist(
                 'vurdert-automatisk',
@@ -297,11 +288,10 @@ describe('Vilkår', () => {
                 'søknadsfrist',
                 'dagerIgjen',
                 'institusjonsopphold',
-                'arbeidsuførhet',
-                'medlemskap'
+                'arbeidsuførhet'
             );
 
-            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag');
+            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
 
             expectGroupsToNotExist(
                 'vurdert-av-saksbehandler',

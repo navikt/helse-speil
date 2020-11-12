@@ -31,9 +31,9 @@ export enum Vilkårstype {
 
 export interface Vilkårdata {
     type: Vilkårstype;
+    tittel: string;
     komponent: ReactNode;
     oppfylt?: boolean;
-    tittel?: string;
     paragraf?: string;
     paragrafIkon?: ReactNode;
 }

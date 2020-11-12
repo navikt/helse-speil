@@ -129,9 +129,12 @@ export const useKategoriserteVilkår = ({
                 Vilkårstype.Søknadsfrist,
                 Vilkårstype.Institusjonsopphold,
                 Vilkårstype.DagerIgjen,
-                Vilkårstype.Medlemskap,
             ];
-            vilkårstyperVurdertIInfotrygd.push(Vilkårstype.Opptjeningstid, Vilkårstype.Sykepengegrunnlag);
+            vilkårstyperVurdertIInfotrygd.push(
+                Vilkårstype.Opptjeningstid,
+                Vilkårstype.Sykepengegrunnlag,
+                Vilkårstype.Medlemskap
+            );
             if (automatiskBehandlet) {
                 vilkårstyperVurdertAutomatisk.push(...vilkårIkkeVurdertIInfotrygd);
             } else {
@@ -174,14 +177,15 @@ export const useKategoriserteVilkår = ({
             }
         }
     } else {
+        const tidligereVurderteVilkår = [
+            Vilkårstype.Medlemskap,
+            Vilkårstype.Opptjeningstid,
+            Vilkårstype.Sykepengegrunnlag,
+        ];
         if (periodetype === Periodetype.Forlengelse) {
-            vilkårstyperVurdertFørstePeriode.push(
-                Vilkårstype.Medlemskap,
-                Vilkårstype.Opptjeningstid,
-                Vilkårstype.Sykepengegrunnlag
-            );
+            vilkårstyperVurdertFørstePeriode.push(...tidligereVurderteVilkår);
         } else if (periodetype === Periodetype.Infotrygdforlengelse) {
-            vilkårstyperVurdertIInfotrygd.push(Vilkårstype.Opptjeningstid, Vilkårstype.Sykepengegrunnlag);
+            vilkårstyperVurdertIInfotrygd.push(...tidligereVurderteVilkår);
         }
     }
 

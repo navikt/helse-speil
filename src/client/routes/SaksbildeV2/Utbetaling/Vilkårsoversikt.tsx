@@ -1,13 +1,13 @@
-import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
-import { Feilikon } from '../../../components/ikoner/Feilikon';
-import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import styled from '@emotion/styled';
-import { Normaltekst } from 'nav-frontend-typografi';
 import React from 'react';
-import { Basisvilkår, Risikovurdering, Vedtaksperiode } from 'internal-types';
-import dayjs, { Dayjs } from 'dayjs';
+import styled from '@emotion/styled';
+import { Feilikon } from '../../../components/ikoner/Feilikon';
+import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Advarselikon } from '../../../components/ikoner/Advarselikon';
+import { useKategoriserteVilkår } from '../Vilkår/useKategoriserteVilkår';
+import { Vedtaksperiode } from 'internal-types';
 
-const Vilkåroversikt = styled.div`
+const Vilkåroversikt = styled.li`
     display: flex;
     align-items: flex-start;
     line-height: 22px;
@@ -26,101 +26,36 @@ const Vilkårikon = styled.span`
     justify-content: center;
 `;
 
-export enum Vurdering {
-    IkkeVurdert,
-    IkkeOppfylt,
-    Oppfylt,
-}
-
-const vurderingsikon = (vurdering: Vurdering) => {
-    switch (vurdering) {
-        case Vurdering.Oppfylt:
-            return <Sjekkikon />;
-        case Vurdering.IkkeOppfylt:
-            return <Feilikon />;
-        case Vurdering.IkkeVurdert:
-            return <Advarselikon />;
-    }
-};
-
-export interface VurdertVilkår {
-    vurdering: Vurdering;
-    navn: string;
-}
-
-export const arbeidsuførhet = (risikovurdering?: Risikovurdering): Basisvilkår => ({
-    oppfylt:
-        risikovurdering === undefined || risikovurdering.ufullstendig
-            ? undefined
-            : risikovurdering.arbeidsuførhetvurdering.length === 0,
-});
-
-export const institusjonsopphold = (godkjenttidspunkt?: Dayjs): Basisvilkår => ({
-    oppfylt: godkjenttidspunkt?.isAfter(dayjs('10-04-2020')) || undefined, // Ble lagt på sjekk i spleis 30/09/20
-});
-
-export const vurdering = (vilkår?: Basisvilkår): Vurdering => {
-    if (vilkår === undefined || vilkår.oppfylt === undefined) {
-        return Vurdering.IkkeVurdert;
-    }
-    return vilkår.oppfylt ? Vurdering.Oppfylt : Vurdering.IkkeOppfylt;
-};
-
-const vilkårsliste = (vedtaksperiode: Vedtaksperiode): VurdertVilkår[] =>
-    vedtaksperiode.vilkår
-        ? [
-              {
-                  navn: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
-                  vurdering: vurdering(arbeidsuførhet(vedtaksperiode.risikovurdering)),
-              },
-              {
-                  navn: 'Lovvalg og medlemsskap',
-                  vurdering: vurdering(vedtaksperiode.vilkår.medlemskap),
-              },
-              {
-                  navn: 'Under 70 år',
-                  vurdering: vurdering(vedtaksperiode.vilkår.alder),
-              },
-              {
-                  navn: 'Dager igjen',
-                  vurdering: vurdering(vedtaksperiode.vilkår.dagerIgjen),
-              },
-              {
-                  navn: 'Søknadsfrist',
-                  vurdering: vurdering(vedtaksperiode.vilkår.søknadsfrist),
-              },
-              {
-                  navn: 'Opptjeningstid',
-                  vurdering: vurdering(vedtaksperiode.vilkår.opptjening),
-              },
-              {
-                  navn: 'Krav til minste sykepengegrunnlag',
-                  vurdering: vurdering(vedtaksperiode.vilkår.sykepengegrunnlag),
-              },
-              {
-                  navn: 'Ingen institusjonsopphold',
-                  vurdering: vurdering(institusjonsopphold(vedtaksperiode.godkjenttidspunkt)),
-              },
-          ].sort((a: VurdertVilkår, b: VurdertVilkår) => a.vurdering - b.vurdering)
-        : [];
+const vurderingsikon = (vurdering?: boolean) =>
+    vurdering === undefined ? <Advarselikon /> : vurdering ? <Sjekkikon /> : <Feilikon />;
 
 interface VurdertVilkårProps {
-    vilkår: VurdertVilkår;
+    tittel: string;
+    oppfylt?: boolean;
 }
 
-const VurdertVilkår = ({ vilkår }: VurdertVilkårProps) => (
+const VurdertVilkår = ({ tittel, oppfylt }: VurdertVilkårProps) => (
     <Vilkåroversikt>
-        <Vilkårikon>{vurderingsikon(vilkår.vurdering)}</Vilkårikon>
-        <Vilkårnavn>{vilkår.navn}</Vilkårnavn>
+        <Vilkårikon>{vurderingsikon(oppfylt)}</Vilkårikon>
+        <Vilkårnavn>{tittel}</Vilkårnavn>
     </Vilkåroversikt>
 );
 
-export const Vilkårsliste = ({ vedtaksperiode }: { vedtaksperiode: Vedtaksperiode }) => (
-    <ul>
-        {vilkårsliste(vedtaksperiode).map((v, i) => (
-            <li key={i}>
-                <VurdertVilkår vilkår={v} />
-            </li>
-        ))}
-    </ul>
-);
+export const Vilkårsliste = ({ vedtaksperiode }: { vedtaksperiode: Vedtaksperiode }) => {
+    const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = useKategoriserteVilkår(vedtaksperiode);
+    return (
+        <ul>
+            {ikkeOppfylteVilkår?.map((vilkår, i) => (
+                <VurdertVilkår key={i} tittel={vilkår.tittel} oppfylt={false} />
+            ))}
+            {ikkeVurderteVilkår?.map((vilkår, i) => (
+                <VurdertVilkår key={i} tittel={vilkår.tittel} />
+            ))}
+            {Object.values(oppfylteVilkår)
+                .flat()
+                .map((vilkår, i) => (
+                    <VurdertVilkår key={i} tittel={vilkår.tittel} oppfylt />
+                ))}
+        </ul>
+    );
+};
