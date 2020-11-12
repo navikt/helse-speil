@@ -112,7 +112,7 @@ export const useKategoriserteVilkår = ({
         sykepengegrunnlag(vilkår),
         dagerIgjen(vilkår),
         medlemskap(vilkår),
-        institusjonsopphold(godkjenttidspunkt?.isAfter(dayjs('10-04-2020'))), //Ble lagt på sjekk i spleis 30/09/20
+        institusjonsopphold(godkjenttidspunkt?.isAfter(dayjs('2020-10-04'))), //Ble lagt på sjekk i spleis 30/09/20
         arbeidsuførhet(risikovurdering),
     ];
 
