@@ -8,12 +8,14 @@ import {
     expectHTMLGroupToContainVisible,
     ferdigbehandlet,
     ferdigbehandletAutomatisk,
+    Group,
     ikkeOppfyltAlder,
     infotrygdforlengelse,
     oppfyltInstitusjonsopphold,
     personMedModifiserteVilkår,
     påfølgende,
     renderVilkår,
+    TestId,
 } from './testutils';
 
 describe('Vilkår', () => {
@@ -25,23 +27,23 @@ describe('Vilkår', () => {
             await renderVilkår(medAlleVilkårOppfylt);
 
             expectGroupToContainVisible(
-                'oppfylte-vilkår',
-                'alder',
-                'søknadsfrist',
-                'opptjening',
-                'sykepengegrunnlag',
-                'dagerIgjen',
-                'medlemskap',
-                'arbeidsuførhet',
-                'institusjonsopphold'
+                Group.OppfylteVilkår,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.DagerIgjen,
+                TestId.Medlemskap,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
             );
 
             expectGroupsToNotExist(
-                'vurdert-av-saksbehandler',
-                'vurdert-automatisk',
-                'vurdert-i-infotrygd',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertAvSaksbehandler,
+                Group.VurdertAutomatisk,
+                Group.VurdertIInfotrygd,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
         it('har noen vilkår ikke oppfylt', async () => {
@@ -52,40 +54,40 @@ describe('Vilkår', () => {
             await renderVilkår(medNoenVilkårIkkeOppfylt);
 
             expectGroupToContainVisible(
-                'oppfylte-vilkår',
-                'alder',
-                'søknadsfrist',
-                'sykepengegrunnlag',
-                'dagerIgjen',
-                'medlemskap',
-                'arbeidsuførhet'
+                Group.OppfylteVilkår,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.Sykepengegrunnlag,
+                TestId.DagerIgjen,
+                TestId.Medlemskap,
+                TestId.Arbeidsuførhet
             );
 
-            expectGroupToContainVisible('ikke-vurderte-vilkår', 'institusjonsopphold');
-            expectGroupToContainVisible('ikke-oppfylte-vilkår', 'opptjening');
-            expectGroupsToNotExist('vurdert-av-saksbehandler', 'vurdert-automatisk', 'vurdert-i-infotrygd');
+            expectGroupToContainVisible(Group.IkkeVurderteVilkår, TestId.Institusjonsopphold);
+            expectGroupToContainVisible(Group.IkkeOppfylteVilkår, TestId.Opptjening);
+            expectGroupsToNotExist(Group.VurdertAvSaksbehandler, Group.VurdertAutomatisk, Group.VurdertIInfotrygd);
         });
         it('er godkjent', async () => {
             const medGodkjentPeriode = await personMedModifiserteVilkår({ vedtaksperiodeverdier: [ferdigbehandlet()] });
             await renderVilkår(medGodkjentPeriode);
 
             expectGroupToContainVisible(
-                'vurdert-av-saksbehandler',
-                'alder',
-                'søknadsfrist',
-                'sykepengegrunnlag',
-                'dagerIgjen',
-                'medlemskap',
-                'arbeidsuførhet',
-                'institusjonsopphold',
-                'opptjening'
+                Group.VurdertAvSaksbehandler,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.Sykepengegrunnlag,
+                TestId.DagerIgjen,
+                TestId.Medlemskap,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold,
+                TestId.Opptjening
             );
 
             expectGroupsToNotExist(
-                'vurdert-automatisk',
-                'vurdert-i-infotrygd',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertAutomatisk,
+                Group.VurdertIInfotrygd,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
         it('er automatisk godkjent', async () => {
@@ -95,22 +97,22 @@ describe('Vilkår', () => {
             await renderVilkår(medGodkjentPeriode);
 
             expectGroupToContainVisible(
-                'vurdert-automatisk',
-                'alder',
-                'søknadsfrist',
-                'sykepengegrunnlag',
-                'dagerIgjen',
-                'medlemskap',
-                'arbeidsuførhet',
-                'institusjonsopphold',
-                'opptjening'
+                Group.VurdertAutomatisk,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.Sykepengegrunnlag,
+                TestId.DagerIgjen,
+                TestId.Medlemskap,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold,
+                TestId.Opptjening
             );
 
             expectGroupsToNotExist(
-                'vurdert-av-saksbehandler',
-                'vurdert-i-infotrygd',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertAvSaksbehandler,
+                Group.VurdertIInfotrygd,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
     });
@@ -122,21 +124,26 @@ describe('Vilkår', () => {
             await renderVilkår(påfølgendeMedOppfylteVilkår);
 
             expectGroupToContainVisible(
-                'oppfylte-vilkår',
-                'alder',
-                'søknadsfrist',
-                'dagerIgjen',
-                'arbeidsuførhet',
-                'institusjonsopphold'
+                Group.OppfylteVilkår,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
             );
 
-            expectGroupToContainVisible('vurdert-av-saksbehandler', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
+            expectGroupToContainVisible(
+                Group.VurdertAvSaksbehandler,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
 
             expectGroupsToNotExist(
-                'vurdert-automatisk',
-                'vurdert-i-infotrygd',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertAutomatisk,
+                Group.VurdertIInfotrygd,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
         it('har noen vilkår ikke oppfylt', async () => {
@@ -146,11 +153,21 @@ describe('Vilkår', () => {
             });
             await renderVilkår(utenOppfyltAlder);
 
-            expectGroupToContainVisible('ikke-oppfylte-vilkår', 'alder');
-            expectGroupToContainVisible('oppfylte-vilkår', 'søknadsfrist', 'dagerIgjen', 'arbeidsuførhet');
-            expectGroupToContainVisible('vurdert-av-saksbehandler', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
-            expectGroupToContainVisible('ikke-vurderte-vilkår', 'institusjonsopphold');
-            expectGroupsToNotExist('vurdert-automatisk', 'vurdert-i-infotrygd');
+            expectGroupToContainVisible(Group.IkkeOppfylteVilkår, TestId.Alder);
+            expectGroupToContainVisible(
+                Group.OppfylteVilkår,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Arbeidsuførhet
+            );
+            expectGroupToContainVisible(
+                Group.VurdertAvSaksbehandler,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
+            expectGroupToContainVisible(Group.IkkeVurderteVilkår, TestId.Institusjonsopphold);
+            expectGroupsToNotExist(Group.VurdertAutomatisk, Group.VurdertIInfotrygd);
         });
         it('er godkjent', async () => {
             const medGodkjenteVedtaksperioder = await personMedModifiserteVilkår({
@@ -159,33 +176,33 @@ describe('Vilkår', () => {
             await renderVilkår(medGodkjenteVedtaksperioder);
 
             const [vilkårVurdertDennePerioden, vilkårVurdertVedSkjeringstidspunkt] = screen.getAllByTestId(
-                'vurdert-av-saksbehandler'
+                Group.VurdertAvSaksbehandler
             );
 
             expect(vilkårVurdertDennePerioden).toBeVisible();
             expectHTMLGroupToContainVisible(
                 vilkårVurdertDennePerioden,
-                'alder',
-                'søknadsfrist',
-                'dagerIgjen',
-                'institusjonsopphold',
-                'arbeidsuførhet'
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Institusjonsopphold,
+                TestId.Arbeidsuførhet
             );
 
             expect(vilkårVurdertVedSkjeringstidspunkt).toBeVisible();
             expectHTMLGroupToContainVisible(
                 vilkårVurdertVedSkjeringstidspunkt,
-                'opptjening',
-                'sykepengegrunnlag',
-                'medlemskap'
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
             );
 
             expectGroupsToNotExist(
-                'vurdert-automatisk',
-                'vurdert-i-infotrygd',
-                'oppfylte-vilkår',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertAutomatisk,
+                Group.VurdertIInfotrygd,
+                Group.OppfylteVilkår,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
         it('er automatisk godkjent', async () => {
@@ -195,21 +212,26 @@ describe('Vilkår', () => {
             await renderVilkår(medAutomatiskGodkjenning);
 
             expectGroupToContainVisible(
-                'vurdert-automatisk',
-                'alder',
-                'søknadsfrist',
-                'dagerIgjen',
-                'institusjonsopphold',
-                'arbeidsuførhet'
+                Group.VurdertAutomatisk,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Institusjonsopphold,
+                TestId.Arbeidsuførhet
             );
 
-            expectGroupToContainVisible('vurdert-av-saksbehandler', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
+            expectGroupToContainVisible(
+                Group.VurdertAvSaksbehandler,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
 
             expectGroupsToNotExist(
-                'vurdert-i-infotrygd',
-                'oppfylte-vilkår',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertIInfotrygd,
+                Group.OppfylteVilkår,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
     });
@@ -221,21 +243,26 @@ describe('Vilkår', () => {
             renderVilkår(infotrygdforlengelseMedOppfylteVilkår);
 
             expectGroupToContainVisible(
-                'oppfylte-vilkår',
-                'alder',
-                'søknadsfrist',
-                'dagerIgjen',
-                'arbeidsuførhet',
-                'institusjonsopphold'
+                Group.OppfylteVilkår,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
             );
 
-            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
+            expectGroupToContainVisible(
+                Group.VurdertIInfotrygd,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
 
             expectGroupsToNotExist(
-                'vurdert-automatisk',
-                'vurdert-av-saksbehandler',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertAutomatisk,
+                Group.VurdertAvSaksbehandler,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
         it('har noen vilkår ikke oppfylt', async () => {
@@ -245,12 +272,22 @@ describe('Vilkår', () => {
             });
             renderVilkår(infotrygdforlengelseMedIkkeOppfyltAlder);
 
-            expectGroupToContainVisible('oppfylte-vilkår', 'søknadsfrist', 'dagerIgjen', 'arbeidsuførhet');
-            expectGroupToContainVisible('ikke-vurderte-vilkår', 'institusjonsopphold');
-            expectGroupToContainVisible('ikke-oppfylte-vilkår', 'alder');
-            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
+            expectGroupToContainVisible(
+                Group.OppfylteVilkår,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Arbeidsuførhet
+            );
+            expectGroupToContainVisible(Group.IkkeVurderteVilkår, TestId.Institusjonsopphold);
+            expectGroupToContainVisible(Group.IkkeOppfylteVilkår, TestId.Alder);
+            expectGroupToContainVisible(
+                Group.VurdertIInfotrygd,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
 
-            expectGroupsToNotExist('vurdert-automatisk', 'vurdert-av-saksbehandler');
+            expectGroupsToNotExist(Group.VurdertAutomatisk, Group.VurdertAvSaksbehandler);
         });
         it('er godkjent', async () => {
             const medGodkjenteVedtaksperioder = await personMedModifiserteVilkår({
@@ -259,21 +296,26 @@ describe('Vilkår', () => {
             await renderVilkår(medGodkjenteVedtaksperioder);
 
             expectGroupToContainVisible(
-                'vurdert-av-saksbehandler',
-                'alder',
-                'søknadsfrist',
-                'dagerIgjen',
-                'institusjonsopphold',
-                'arbeidsuførhet'
+                Group.VurdertAvSaksbehandler,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Institusjonsopphold,
+                TestId.Arbeidsuførhet
             );
 
-            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
+            expectGroupToContainVisible(
+                Group.VurdertIInfotrygd,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
 
             expectGroupsToNotExist(
-                'vurdert-automatisk',
-                'oppfylte-vilkår',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertAutomatisk,
+                Group.OppfylteVilkår,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
         it('er automatisk godkjent', async () => {
@@ -283,21 +325,26 @@ describe('Vilkår', () => {
             await renderVilkår(medGodkjenteVedtaksperioder);
 
             expectGroupToContainVisible(
-                'vurdert-automatisk',
-                'alder',
-                'søknadsfrist',
-                'dagerIgjen',
-                'institusjonsopphold',
-                'arbeidsuførhet'
+                Group.VurdertAutomatisk,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Institusjonsopphold,
+                TestId.Arbeidsuførhet
             );
 
-            expectGroupToContainVisible('vurdert-i-infotrygd', 'opptjening', 'sykepengegrunnlag', 'medlemskap');
+            expectGroupToContainVisible(
+                Group.VurdertIInfotrygd,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
 
             expectGroupsToNotExist(
-                'vurdert-av-saksbehandler',
-                'oppfylte-vilkår',
-                'ikke-oppfylte-vilkår',
-                'ikke-vurderte-vilkår'
+                Group.VurdertAvSaksbehandler,
+                Group.OppfylteVilkår,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
             );
         });
     });

@@ -12,6 +12,26 @@ import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import { HookResult } from '@testing-library/react-hooks';
 import { KategoriserteVilkår } from './useKategoriserteVilkår';
 
+export enum Group {
+    OppfylteVilkår = 'oppfylte-vilkår',
+    VurdertAvSaksbehandler = 'vurdert-av-saksbehandler',
+    IkkeVurderteVilkår = 'ikke-vurderte-vilkår',
+    IkkeOppfylteVilkår = 'ikke-oppfylte-vilkår',
+    VurdertAutomatisk = 'vurdert-automatisk',
+    VurdertIInfotrygd = 'vurdert-i-infotrygd',
+}
+
+export enum TestId {
+    Alder = 'alder',
+    Søknadsfrist = 'søknadsfrist',
+    Opptjening = 'opptjening',
+    Sykepengegrunnlag = 'sykepengegrunnlag',
+    DagerIgjen = 'dagerIgjen',
+    Medlemskap = 'medlemskap',
+    Arbeidsuførhet = 'arbeidsuførhet',
+    Institusjonsopphold = 'institusjonsopphold',
+}
+
 export const oppfyltInstitusjonsopphold = () => ({
     godkjenttidspunkt: dayjs('2020-10-05'),
 });
@@ -135,17 +155,17 @@ export const renderVilkår = (person: Person) =>
         </PersonContext.Provider>
     );
 
-export const expectGroupToContainVisible = (groupName: string, ...ids: string[]) => {
+export const expectGroupToContainVisible = (groupName: Group, ...ids: TestId[]) => {
     const group = screen.getByTestId(groupName);
     expect(group).toBeVisible();
     expectHTMLGroupToContainVisible(group, ...ids);
 };
 
-export const expectHTMLGroupToContainVisible = (group: HTMLElement, ...ids: string[]) => {
+export const expectHTMLGroupToContainVisible = (group: HTMLElement, ...ids: TestId[]) => {
     ids.forEach((id) => expect(within(group).getByTestId(id)).toBeVisible());
 };
 
-export const expectGroupsToNotExist = (...groups: string[]) =>
+export const expectGroupsToNotExist = (...groups: Group[]) =>
     groups.forEach((group) => expect(screen.queryByTestId(group)).toBeNull());
 
 interface EnSpeilVedtaksperiodeOptions {
