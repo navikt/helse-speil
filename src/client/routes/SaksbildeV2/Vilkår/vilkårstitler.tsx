@@ -2,9 +2,6 @@ import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { Vilkårstype } from '../../../mapping/vilkår';
 import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
-import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
-import { Kryssikon } from '../../../components/ikoner/Kryssikon';
-import { Utropstegnikon } from '../../../components/ikoner/Utropstegnikon';
 import classNames from 'classnames';
 
 const Header = styled.div`
@@ -51,13 +48,19 @@ interface VilkårsgruppetittelProps {
     oppfylt?: boolean;
     paragraf?: ReactNode;
     className?: string;
+    ikon?: ReactNode;
 }
 
-export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, className }: VilkårsgruppetittelProps) => (
+export const Vilkårsgruppetittel = ({
+    children,
+    oppfylt,
+    paragraf,
+    type,
+    className,
+    ikon,
+}: VilkårsgruppetittelProps) => (
     <Header className={classNames('vilkårsgruppetittel', className)} style={{ marginBottom: '0.5rem' }}>
-        <IkonContainer>
-            {oppfylt === undefined ? <Utropstegnikon /> : oppfylt ? <Sjekkikon /> : <Kryssikon />}
-        </IkonContainer>
+        <IkonContainer>{ikon}</IkonContainer>
         <TekstContainer>
             <Tittel tag="h3" data-testid={type}>
                 {children}

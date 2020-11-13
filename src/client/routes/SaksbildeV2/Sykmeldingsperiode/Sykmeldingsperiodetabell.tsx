@@ -15,7 +15,7 @@ const Periodetabell = styled(Tabell)`
     thead tr th {
         vertical-align: bottom;
         box-sizing: border-box;
-        height: 51px;
+        padding-top: 0;
     }
 `;
 
@@ -69,13 +69,13 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
 
     const headere = [
         '',
+        <Element>Dato</Element>,
         {
-            render: <Element>Sykmeldingsperiode</Element>,
-            kolonner: 3,
+            render: <Element>Dagtype</Element>,
+            kolonner: 2,
         },
-        {
-            render: <Element>Gradering</Element>,
-        },
+        <Element>Grad</Element>,
+
         '',
         visOverstyring ? <Overstyringsknapp overstyrer={false} toggleOverstyring={toggleOverstyring} /> : '',
     ];
