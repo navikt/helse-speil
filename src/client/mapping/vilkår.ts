@@ -34,8 +34,7 @@ export interface Vilkårdata {
     tittel: string;
     komponent: ReactNode;
     oppfylt?: boolean;
-    paragraf?: string;
-    paragrafIkon?: ReactNode;
+    paragraf?: ReactNode;
 }
 
 const alderVilkår = (vilkår: SpleisVilkår): Alder => ({

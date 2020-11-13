@@ -20,6 +20,7 @@ const IkonContainer = styled.div<{ størrelse: 's' | 'm' }>`
     align-items: center;
     min-width: 2rem;
     width: 2rem;
+    margin: 7px 0;
 
     ${({ størrelse }) => (størrelse === 's' ? '> svg { padding-left: 3px };' : '')}
 `;
@@ -62,29 +63,25 @@ interface VilkårstittelProps {
     children: ReactNode | ReactNode[];
     størrelse?: 's' | 'm';
     ikon?: ReactNode;
-    paragraf?: string;
+    paragraf?: ReactNode;
     className?: string;
-    paragrafIkon?: ReactNode;
     type?: Vilkårstype;
 }
 
-export const Vilkårstittel = ({
-    children,
-    ikon,
-    paragraf,
-    className,
-    størrelse = 's',
-    paragrafIkon,
-    type,
-}: VilkårstittelProps) => (
+export const Vilkårstittel = ({ children, ikon, paragraf, className, størrelse = 's', type }: VilkårstittelProps) => (
     <Header className={classNames('vilkårstittel', className)}>
         {ikon && <IkonContainer størrelse={størrelse}>{ikon}</IkonContainer>}
         <TekstContainer>
             <Tittel data-testid={type} størrelse={størrelse}>
                 {children}
             </Tittel>
-            {paragrafIkon && paragrafIkon}
             <Paragraf>{paragraf}</Paragraf>
         </TekstContainer>
     </Header>
 );
+
+interface VilkårsgruppetittelProps {
+    children: ReactNode | ReactNode[];
+}
+
+export const Vilkårsgruppetittel = ({ children }: VilkårsgruppetittelProps) => null;

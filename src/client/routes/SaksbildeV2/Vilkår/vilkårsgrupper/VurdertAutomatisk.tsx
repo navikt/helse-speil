@@ -1,9 +1,9 @@
 import React from 'react';
-import { Vilkårstittel } from '../Vilkårstittel';
+import styled from '@emotion/styled';
 import { Sjekkikon } from '../../../../components/ikoner/Sjekkikon';
 import { Vilkårdata } from '../../../../mapping/vilkår';
+import { Vilkårstittel } from '../Vilkårstittel';
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
-import styled from '@emotion/styled';
 import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 
 const VurdertTittel = styled(Vilkårstittel)`
@@ -24,9 +24,9 @@ export const VurdertAutomatisk = ({ vilkår, saksbehandler }: VurdertAutomatiskP
             saksbehandler={saksbehandler ?? 'Ukjent'}
             automatiskBehandlet
         >
-            {vilkår.map(({ tittel, paragraf, komponent, paragrafIkon, type }, i) => (
+            {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
                 <React.Fragment key={i}>
-                    <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon}>
+                    <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf}>
                         {tittel}
                     </VurdertTittel>
                     {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}

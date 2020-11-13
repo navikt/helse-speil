@@ -13,6 +13,7 @@ import {
 } from './vilkårsgrupper/Vilkårsgrupper';
 import dayjs from 'dayjs';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
+import { Flex } from '../../../components/Flex';
 
 const alder = (vilkår: Vilkår) => ({
     type: Vilkårstype.Alder,
@@ -42,17 +43,22 @@ const AdvarselikonAlder = styled(Advarselikon)`
     padding: 0 10px 0 2px;
 `;
 
-const sykepengegrunnlag = (vilkår: Vilkår) => ({
-    type: Vilkårstype.Sykepengegrunnlag,
-    oppfylt: vilkår.sykepengegrunnlag.oppfylt,
-    tittel: 'Krav til minste sykepengegrunnlag',
-    paragraf: vilkår.alder.alderSisteSykedag < 70 && vilkår.alder.alderSisteSykedag >= 67 ? '§ 8-51' : '§ 8-3',
-    paragrafIkon:
-        vilkår.alder.alderSisteSykedag < 70 && vilkår.alder.alderSisteSykedag >= 67 ? (
-            <AdvarselikonAlder width={16} height={16} />
-        ) : null,
-    komponent: <Sykepengegrunnlag {...vilkår} />,
-});
+const sykepengegrunnlag = (vilkår: Vilkår) => {
+    const harEndretParagraf = vilkår.alder.alderSisteSykedag < 70 && vilkår.alder.alderSisteSykedag >= 67;
+    return {
+        type: Vilkårstype.Sykepengegrunnlag,
+        oppfylt: vilkår.sykepengegrunnlag.oppfylt,
+        tittel: 'Krav til minste sykepengegrunnlag',
+        paragraf: harEndretParagraf ? (
+            <Flex style={{ alignItems: 'center' }}>
+                <AdvarselikonAlder width={16} height={16} />§ 8-51
+            </Flex>
+        ) : (
+            '§ 8-3'
+        ),
+        komponent: <Sykepengegrunnlag {...vilkår} />,
+    };
+};
 
 const dagerIgjen = (vilkår: Vilkår) => ({
     type: Vilkårstype.DagerIgjen,

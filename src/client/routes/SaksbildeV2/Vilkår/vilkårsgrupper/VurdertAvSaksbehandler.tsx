@@ -27,9 +27,9 @@ export const VurdertAvSaksbehandler = ({ vilkår, skjæringstidspunkt, saksbehan
     return (
         <Vilkårkolonne data-testid="vurdert-av-saksbehandler">
             <BehandletVarsel tittel={tittel} saksbehandler={saksbehandler ?? 'Ukjent'} automatiskBehandlet={false}>
-                {vilkår.map(({ tittel, paragraf, paragrafIkon, komponent, type }, i) => (
+                {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
                     <React.Fragment key={i}>
-                        <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf} paragrafIkon={paragrafIkon}>
+                        <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf}>
                             {tittel}
                         </VurdertTittel>
                         {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
