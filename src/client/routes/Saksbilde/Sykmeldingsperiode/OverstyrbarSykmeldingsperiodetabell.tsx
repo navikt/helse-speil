@@ -30,11 +30,15 @@ const OverstyrbarTabell = styled(Tabell)`
     thead tr,
     thead tr th {
         vertical-align: bottom;
-        height: 51px;
     }
     tbody tr td {
         height: 48px;
     }
+`;
+
+const HøyrestiltContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
 `;
 
 const Feilmelding = styled.p`
@@ -88,7 +92,13 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         '',
         { render: <Element>Sykmeldingsperiode</Element>, kolonner: 3 },
         { render: <Element>Gradering</Element> },
-        overstyrbareTabellerEnabled ? <Overstyringsknapp overstyrer toggleOverstyring={onToggleOverstyring} /> : '',
+        overstyrbareTabellerEnabled ? (
+            <HøyrestiltContainer>
+                <Overstyringsknapp overstyrer toggleOverstyring={onToggleOverstyring} />
+            </HøyrestiltContainer>
+        ) : (
+            ''
+        ),
     ];
 
     const tilTabellrad = (dag: Sykdomsdag) => {
