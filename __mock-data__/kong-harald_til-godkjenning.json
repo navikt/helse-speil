@@ -171,22 +171,25 @@
                             "grad": 100.0
                         },
                         {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "type": "AvvistDag",
+                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "inntekt": 0,
                             "dato": "2018-01-24",
                             "utbetaling": 1431,
                             "grad": 100.0
                         },
                         {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "type": "AvvistDag",
+                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "inntekt": 0,
                             "dato": "2018-01-25",
                             "utbetaling": 1431,
                             "grad": 100.0
                         },
                         {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "type": "AvvistDag",
+                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "inntekt": 0,
                             "dato": "2018-01-26",
                             "utbetaling": 1431,
                             "grad": 100.0
@@ -204,22 +207,25 @@
                             "grad": 100.0
                         },
                         {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "type": "AvvistDag",
+                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "inntekt": 0,
                             "dato": "2018-01-29",
                             "utbetaling": 1431,
                             "grad": 100.0
                         },
                         {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "type": "AvvistDag",
+                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "inntekt": 0,
                             "dato": "2018-01-30",
                             "utbetaling": 1431,
                             "grad": 100.0
                         },
                         {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
+                            "type": "AvvistDag",
+                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "inntekt": 0,
                             "dato": "2018-01-31",
                             "utbetaling": 1431,
                             "grad": 100.0
@@ -483,7 +489,7 @@
                             "forbrukteSykedager": 11,
                             "beregningsdato": "2018-01-01",
                             "førsteSykepengedag": "2018-01-17",
-                            "maksdato": "2018-12-28",
+                            "maksdato": "2018-01-23",
                             "gjenståendeDager": 237,
                             "oppfylt": true
                         },
