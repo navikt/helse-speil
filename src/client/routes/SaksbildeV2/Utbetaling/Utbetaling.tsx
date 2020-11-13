@@ -50,6 +50,7 @@ const Utbetalingkort = styled(Kort)`
 `;
 
 const Utbetalingstabell = styled.article`
+    width: 100%;
     padding-left: 2.5rem;
     border-left: 1px solid #c6c2bf;
     padding-top: 2rem;

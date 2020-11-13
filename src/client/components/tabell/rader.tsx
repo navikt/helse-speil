@@ -130,7 +130,11 @@ const IngenUtbetaling = styled(Normaltekst)`
     white-space: nowrap;
 `;
 
+const Utbetaling = styled(Normaltekst)`
+    text-align: right;
+`;
+
 export const utbetaling = (dag: Utbetalingsdag) => {
     if (dag.type === Dagtype.Avvist) return <IngenUtbetaling>Ingen utbetaling</IngenUtbetaling>;
-    return dag.utbetaling && `${toKronerOgØre(dag.utbetaling)} kr`;
+    return dag.utbetaling && <Utbetaling>{toKronerOgØre(dag.utbetaling)} kr</Utbetaling>;
 };
