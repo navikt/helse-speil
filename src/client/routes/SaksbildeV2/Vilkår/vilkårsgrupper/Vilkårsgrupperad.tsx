@@ -13,6 +13,7 @@ const Navn = styled(Normaltekst)`
 
 const Verdi = styled(Normaltekst)`
     text-align: left;
+    min-width: 100px;
 `;
 
 export const Vilkårsgrupperad = ({ label, children }: Props) => (

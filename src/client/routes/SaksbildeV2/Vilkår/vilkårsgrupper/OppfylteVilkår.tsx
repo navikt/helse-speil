@@ -1,5 +1,5 @@
 import React from 'react';
-import { Vilkårstittel } from '../Vilkårstittel';
+import { Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
 import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { GrøntSjekkikon } from '../../../../components/ikoner/GrøntSjekkikon';
@@ -13,14 +13,12 @@ interface OppfylteVilkårProps {
 
 export const OppfylteVilkår = ({ vilkår }: OppfylteVilkårProps) => (
     <Vilkårkolonne data-testid="oppfylte-vilkår">
-        <Vilkårstittel ikon={<GrøntSjekkikon />} størrelse="m">
-            Vurderte vilkår
-        </Vilkårstittel>
+        <Vilkårskategori ikon={<GrøntSjekkikon />}>Oppfylte vilkår</Vilkårskategori>
         {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
             <React.Fragment key={i}>
-                <Vilkårstittel type={type} ikon={<Sjekkikon />} paragraf={paragraf}>
+                <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
                     {tittel}
-                </Vilkårstittel>
+                </Vilkårsgruppetittel>
                 <Vilkårgrid>{komponent}</Vilkårgrid>
             </React.Fragment>
         ))}

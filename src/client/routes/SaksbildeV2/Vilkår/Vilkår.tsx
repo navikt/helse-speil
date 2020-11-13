@@ -18,12 +18,6 @@ const Container = styled.div`
     margin-top: 2rem;
 `;
 
-const Vilkårvisning = styled(Flex)`
-    > *:not(:last-child) {
-        margin-right: 4rem;
-    }
-`;
-
 const Separator = styled(Strek)`
     margin: 2rem 0;
 `;
@@ -61,15 +55,15 @@ export const Vilkår = () => {
         <AgurkErrorBoundary sidenavn="Vilkår">
             <Container className="vilkår">
                 {harBehandledeVilkår && (
-                    <Vilkårvisning>
+                    <Flex>
                         {harVilkår(ikkeVurderteVilkår) && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår!} />}
                         {harVilkår(ikkeOppfylteVilkår) && <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår!} />}
                         {harVilkår(oppfylteVilkår) && <OppfylteVilkår vilkår={oppfylteVilkår!} />}
-                    </Vilkårvisning>
+                    </Flex>
                 )}
                 {harBehandledeVilkår && harAlleredeVurderteVilkår && <Separator />}
                 {harAlleredeVurderteVilkår && (
-                    <Vilkårvisning>
+                    <Flex>
                         {vilkårVurdertAvSaksbehandler && vilkårVurdertAvSaksbehandler.length > 0 && (
                             <VurdertAvSaksbehandler
                                 vilkår={vilkårVurdertAvSaksbehandler}
@@ -92,7 +86,7 @@ export const Vilkår = () => {
                         {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
                             <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
                         )}
-                    </Vilkårvisning>
+                    </Flex>
                 )}
             </Container>
         </AgurkErrorBoundary>

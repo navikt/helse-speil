@@ -1,14 +1,13 @@
 import React from 'react';
-import { Vilkårstittel } from '../Vilkårstittel';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
-import { Sjekkikon } from '../../../../components/ikoner/Sjekkikon';
-import styled from '@emotion/styled';
 import { Vilkårkolonne } from '../Vilkår.styles';
+import styled from '@emotion/styled';
 
-const VurdertTittel = styled(Vilkårstittel)`
-    &:not(:last-of-type) {
-        margin: 1rem 0;
+export const BehandletInnholdContainer = styled(BehandletAvInfotrygd)`
+    > *:nth-child(2) {
+        margin-bottom: 1rem;
     }
 `;
 
@@ -18,12 +17,12 @@ interface VurdertIInfotrygdProps {
 
 export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
     <Vilkårkolonne data-testid="vurdert-i-infotrygd">
-        <BehandletAvInfotrygd tittel="Inngangsvilkår vurdert i Infotrygd">
+        <BehandletInnholdContainer tittel="Inngangsvilkår vurdert i Infotrygd">
             {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
-                <VurdertTittel type={type} ikon={<Sjekkikon />} paragraf={paragraf} key={i}>
+                <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf} key={i}>
                     {tittel}
-                </VurdertTittel>
+                </Vilkårsgruppetittel>
             ))}
-        </BehandletAvInfotrygd>
+        </BehandletInnholdContainer>
     </Vilkårkolonne>
 );

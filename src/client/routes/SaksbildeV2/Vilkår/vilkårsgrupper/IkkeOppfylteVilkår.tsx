@@ -1,8 +1,7 @@
 import React from 'react';
-import { Vilkårstittel } from '../Vilkårstittel';
+import { Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
 import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårdata } from '../../../../mapping/vilkår';
-import { Kryssikon } from '../../../../components/ikoner/Kryssikon';
 import { Feilikon } from '../../../../components/ikoner/Feilikon';
 
 interface IkkeOppfylteVilkårProps {
@@ -11,14 +10,12 @@ interface IkkeOppfylteVilkårProps {
 
 export const IkkeOppfylteVilkår = ({ vilkår }: IkkeOppfylteVilkårProps) => (
     <Vilkårkolonne data-testid="ikke-oppfylte-vilkår">
-        <Vilkårstittel ikon={<Feilikon />} størrelse="m">
-            Ikke oppfylte vilkår
-        </Vilkårstittel>
+        <Vilkårskategori ikon={<Feilikon />}>Ikke oppfylte vilkår</Vilkårskategori>
         {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
             <React.Fragment key={i}>
-                <Vilkårstittel type={type} ikon={<Kryssikon />} paragraf={paragraf}>
+                <Vilkårsgruppetittel type={type} oppfylt={false} paragraf={paragraf}>
                     {tittel}
-                </Vilkårstittel>
+                </Vilkårsgruppetittel>
                 <Vilkårgrid>{komponent}</Vilkårgrid>
             </React.Fragment>
         ))}

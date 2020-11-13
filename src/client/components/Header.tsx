@@ -16,7 +16,6 @@ const Container = styled.div`
     width: 100%;
     > header {
         max-width: unset;
-        min-width: 100vw;
         box-sizing: border-box;
     }
 `;

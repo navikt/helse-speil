@@ -3,7 +3,7 @@ import { Sjekkikon } from '../../../../components/ikoner/Sjekkikon';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import styled from '@emotion/styled';
 import { Infoikon } from '../../../../components/ikoner/Infoikon';
-import { Vilkårstittel } from '../Vilkårstittel';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 import { Kryssikon } from '../../../../components/ikoner/Kryssikon';
 import { Vilkårgrid } from '../Vilkår.styles';
 
@@ -43,9 +43,9 @@ interface Props {
 
 export const Vilkårsgruppe = ({ tittel, paragraf, ikontype, children, className }: Props) => (
     <Container className={className}>
-        <Vilkårstittel paragraf={paragraf} ikon={ikon(ikontype)}>
+        <Vilkårsgruppetittel paragraf={paragraf} ikon={ikon(ikontype)}>
             {tittel}
-        </Vilkårstittel>
+        </Vilkårsgruppetittel>
         {children && <Vilkårgrid>{children}</Vilkårgrid>}
     </Container>
 );

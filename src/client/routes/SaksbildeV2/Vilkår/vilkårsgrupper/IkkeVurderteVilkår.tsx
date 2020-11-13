@@ -1,27 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Vilkårstittel } from '../Vilkårstittel';
+import { IkonContainer, Paragraf, Tittel, Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
 import { Infoikon } from '../../../../components/ikoner/Infoikon';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårdata } from '../../../../mapping/vilkår';
-import { FlexColumn } from '../../../../components/Flex';
+import { Flex, FlexColumn } from '../../../../components/Flex';
 
-const Yrkesskadetekst = styled(Normaltekst)`
-    padding-left: 2rem;
-`;
-
-const IkkeVurderteVilkårTittel = styled(Vilkårstittel)`
-    margin-top: 0;
-`;
-
-const VilkårTilVurderingTittel = styled(Vilkårstittel)`
-    margin-left: 2rem;
-    margin-bottom: 0;
-`;
-
-const YrkesskadeContainer = styled.div`
+const IkkeVurdertVilkårContainer = styled.div`
     margin-bottom: 2rem;
 `;
 
@@ -31,25 +18,35 @@ interface VilkårSystemetIkkeVurdererProps {
 
 const VilkårSystemetIkkeVurderer = ({ vilkår }: VilkårSystemetIkkeVurdererProps) => (
     <FlexColumn data-testid="ikke-vurderte-vilkår">
-        <Vilkårstittel ikon={<Advarselikon />} størrelse="m">
-            Vilkår til vurdering
-        </Vilkårstittel>
+        <Vilkårskategori ikon={<Advarselikon />}>Vilkår til vurdering</Vilkårskategori>
         {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
-            <React.Fragment key={i}>
-                <VilkårTilVurderingTittel type={type} paragraf={paragraf}>
+            <IkkeVurdertVilkårContainer key={i}>
+                <Vilkårsgruppetittel type={type} paragraf={paragraf}>
                     {tittel}
-                </VilkårTilVurderingTittel>
-                <Vilkårgrid>{komponent}</Vilkårgrid>
-            </React.Fragment>
+                </Vilkårsgruppetittel>
+                {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
+            </IkkeVurdertVilkårContainer>
         ))}
     </FlexColumn>
 );
 
+const Yrkesskadetekst = styled(Normaltekst)`
+    padding-left: 2.5rem;
+`;
+
+const YrkesskadeContainer = styled.div`
+    margin: 2rem 0;
+`;
+
 const Yrkeskadeinfo = () => (
     <YrkesskadeContainer data-testid="yrkesskade">
-        <IkkeVurderteVilkårTittel størrelse="m" ikon={<Infoikon />} paragraf="§ 8-55">
-            Systemet henter ikke inn yrkesskade
-        </IkkeVurderteVilkårTittel>
+        <Flex alignItems="center" style={{ marginBottom: '0.5rem' }}>
+            <IkonContainer>
+                <Infoikon />
+            </IkonContainer>
+            <Tittel>Systemet henter ikke inn yrkesskade</Tittel>
+            <Paragraf>§ 8-55</Paragraf>
+        </Flex>
         <Yrkesskadetekst>Systemet henter per i dag ikke inn informasjon om yrkesskade.</Yrkesskadetekst>
         <Yrkesskadetekst>Yrkesskade kan ha påvirkning på utfallet av enkelte vilkår.</Yrkesskadetekst>
         <Yrkesskadetekst>Vurdering av yrkesskade følger ordinære rutiner.</Yrkesskadetekst>
