@@ -1,7 +1,6 @@
 import React from 'react';
-import { FlexColumn } from '../../../../components/Flex';
 import { Vilkårstittel } from '../Vilkårstittel';
-import { Vilkårgrid } from '../Vilkår.styles';
+import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Kryssikon } from '../../../../components/ikoner/Kryssikon';
 import { Feilikon } from '../../../../components/ikoner/Feilikon';
@@ -11,7 +10,7 @@ interface IkkeOppfylteVilkårProps {
 }
 
 export const IkkeOppfylteVilkår = ({ vilkår }: IkkeOppfylteVilkårProps) => (
-    <FlexColumn data-testid="ikke-oppfylte-vilkår">
+    <Vilkårkolonne data-testid="ikke-oppfylte-vilkår">
         <Vilkårstittel ikon={<Feilikon />} størrelse="m">
             Ikke oppfylte vilkår
         </Vilkårstittel>
@@ -23,5 +22,5 @@ export const IkkeOppfylteVilkår = ({ vilkår }: IkkeOppfylteVilkårProps) => (
                 <Vilkårgrid>{komponent}</Vilkårgrid>
             </React.Fragment>
         ))}
-    </FlexColumn>
+    </Vilkårkolonne>
 );

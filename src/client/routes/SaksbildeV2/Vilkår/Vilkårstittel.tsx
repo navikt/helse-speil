@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { Vilkårstype } from '../../../mapping/vilkår';
+import classNames from 'classnames';
 
 const Header = styled.div`
     display: flex;
-    align-items: center;
+    align-items: start;
     margin: 0.75rem 0;
     flex-wrap: nowrap;
 
@@ -14,13 +15,27 @@ const Header = styled.div`
     }
 `;
 
+const IkonContainer = styled.div<{ størrelse: 's' | 'm' }>`
+    display: flex;
+    align-items: center;
+    min-width: 2rem;
+    width: 2rem;
+
+    ${({ størrelse }) => (størrelse === 's' ? '> svg { padding-left: 3px };' : '')}
+`;
+
+const TekstContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+
 const Tittel = styled.h2<VilkårstittelProps>`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     font-weight: 600;
     font-size: 20px;
     padding: 0;
     color: #3e3832;
-    margin: 0 0.5rem 0 0;
+    margin: 2px 8px 2px 0;
     white-space: nowrap;
 
     ${(props: VilkårstittelProps) => {
@@ -34,27 +49,10 @@ const Tittel = styled.h2<VilkårstittelProps>`
     }}
 `;
 
-interface IkonContainerProps {
-    størrelse: 's' | 'm';
-}
-
-const IkonContainer = styled.div<IkonContainerProps>`
-    display: flex;
-    align-items: center;
-    width: 2rem;
-
-    ${(props: IkonContainerProps) => {
-        if (props.størrelse === 's') {
-            return '> svg { padding-left: 3px };';
-        }
-        return '';
-    }}
-`;
-
 const Paragraf = styled.p`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     font-size: 14px;
-    margin: 0;
+    margin: 4px 0;
     padding: 0;
     color: #78706a;
     white-space: nowrap;
@@ -79,12 +77,14 @@ export const Vilkårstittel = ({
     paragrafIkon,
     type,
 }: VilkårstittelProps) => (
-    <Header className={className}>
+    <Header className={classNames('vilkårstittel', className)}>
         {ikon && <IkonContainer størrelse={størrelse}>{ikon}</IkonContainer>}
-        <Tittel data-testid={type} størrelse={størrelse}>
-            {children}
-        </Tittel>
-        {paragrafIkon && paragrafIkon}
-        <Paragraf>{paragraf}</Paragraf>
+        <TekstContainer>
+            <Tittel data-testid={type} størrelse={størrelse}>
+                {children}
+            </Tittel>
+            {paragrafIkon && paragrafIkon}
+            <Paragraf>{paragraf}</Paragraf>
+        </TekstContainer>
     </Header>
 );

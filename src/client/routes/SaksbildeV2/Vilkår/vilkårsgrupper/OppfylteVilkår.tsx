@@ -1,7 +1,6 @@
 import React from 'react';
 import { Vilkårstittel } from '../Vilkårstittel';
-import { FlexColumn } from '../../../../components/Flex';
-import { Vilkårgrid } from '../Vilkår.styles';
+import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { GrøntSjekkikon } from '../../../../components/ikoner/GrøntSjekkikon';
 import { Risikovurdering } from 'internal-types';
@@ -13,7 +12,7 @@ interface OppfylteVilkårProps {
 }
 
 export const OppfylteVilkår = ({ vilkår }: OppfylteVilkårProps) => (
-    <FlexColumn data-testid="oppfylte-vilkår">
+    <Vilkårkolonne data-testid="oppfylte-vilkår">
         <Vilkårstittel ikon={<GrøntSjekkikon />} størrelse="m">
             Vurderte vilkår
         </Vilkårstittel>
@@ -25,5 +24,5 @@ export const OppfylteVilkår = ({ vilkår }: OppfylteVilkårProps) => (
                 <Vilkårgrid>{komponent}</Vilkårgrid>
             </React.Fragment>
         ))}
-    </FlexColumn>
+    </Vilkårkolonne>
 );

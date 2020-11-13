@@ -2,12 +2,11 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Vilkårstittel } from '../Vilkårstittel';
 import { Sjekkikon } from '../../../../components/ikoner/Sjekkikon';
-import { FlexColumn } from '../../../../components/Flex';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 import { Dayjs } from 'dayjs';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
-import { Vilkårgrid } from '../Vilkår.styles';
+import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 
 const VurdertTittel = styled(Vilkårstittel)`
     &:not(:last-of-type) {
@@ -26,7 +25,7 @@ export const VurdertAvSaksbehandler = ({ vilkår, skjæringstidspunkt, saksbehan
         ? `Vilkår vurdert ved skjæringstidspunkt - ${skjæringstidspunkt.format(NORSK_DATOFORMAT)}`
         : 'Vilkår vurdert denne perioden';
     return (
-        <FlexColumn data-testid="vurdert-av-saksbehandler">
+        <Vilkårkolonne data-testid="vurdert-av-saksbehandler">
             <BehandletVarsel tittel={tittel} saksbehandler={saksbehandler ?? 'Ukjent'} automatiskBehandlet={false}>
                 {vilkår.map(({ tittel, paragraf, paragrafIkon, komponent, type }, i) => (
                     <React.Fragment key={i}>
@@ -37,6 +36,6 @@ export const VurdertAvSaksbehandler = ({ vilkår, skjæringstidspunkt, saksbehan
                     </React.Fragment>
                 ))}
             </BehandletVarsel>
-        </FlexColumn>
+        </Vilkårkolonne>
     );
 };

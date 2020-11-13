@@ -78,13 +78,17 @@ const institusjonsopphold = (oppfylt?: boolean) => ({
     komponent: null,
 });
 
-const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => ({
-    type: Vilkårstype.Arbeidsuførhet,
-    oppfylt: risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0,
-    tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
-    paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
-    komponent: <Arbeidsuførhet risikovurdering={risikovurdering} />,
-});
+const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => {
+    const oppfylt =
+        risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0;
+    return {
+        type: Vilkårstype.Arbeidsuførhet,
+        oppfylt: oppfylt,
+        tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
+        paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
+        komponent: oppfylt && <Arbeidsuførhet risikovurdering={risikovurdering} />,
+    };
+};
 
 export interface KategoriserteVilkår {
     oppfylteVilkår?: Vilkårdata[];

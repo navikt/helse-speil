@@ -1,11 +1,10 @@
 import React from 'react';
 import { Vilkårstittel } from '../Vilkårstittel';
 import { Sjekkikon } from '../../../../components/ikoner/Sjekkikon';
-import { FlexColumn } from '../../../../components/Flex';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
-import { Vilkårgrid } from '../Vilkår.styles';
+import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 
 const VurdertTittel = styled(Vilkårstittel)`
     &:not(:last-of-type) {
@@ -19,7 +18,7 @@ interface VurdertAutomatiskProps {
 }
 
 export const VurdertAutomatisk = ({ vilkår, saksbehandler }: VurdertAutomatiskProps) => (
-    <FlexColumn data-testid="vurdert-automatisk">
+    <Vilkårkolonne data-testid="vurdert-automatisk">
         <BehandletVarsel
             tittel="Vilkår vurdert for denne perioden"
             saksbehandler={saksbehandler ?? 'Ukjent'}
@@ -34,5 +33,5 @@ export const VurdertAutomatisk = ({ vilkår, saksbehandler }: VurdertAutomatiskP
                 </React.Fragment>
             ))}
         </BehandletVarsel>
-    </FlexColumn>
+    </Vilkårkolonne>
 );

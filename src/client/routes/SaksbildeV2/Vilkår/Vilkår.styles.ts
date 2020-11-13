@@ -8,9 +8,8 @@ export const StyledBehandletInnhold = styled(BehandletVarsel)`
 `;
 
 export const Vilkårkolonne = styled(FlexColumn)`
-    > *:not(:last-child) {
-        margin-bottom: 2rem;
-    }
+    max-width: 480px;
+    min-width: 480px;
 `;
 
 export const Vilkårgrid = styled.span`

@@ -509,8 +509,8 @@
                             "oppfylt": true
                         },
                         "alder": {
-                            "alderSisteSykedag": 38,
-                            "oppfylt": true
+                            "alderSisteSykedag": 74,
+                            "oppfylt": false
                         },
                         "opptjening": {
                             "antallKjenteOpptjeningsdager": 7222,
