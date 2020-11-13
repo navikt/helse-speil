@@ -19,14 +19,9 @@ const Periodetabell = styled(Tabell)`
     }
 `;
 
-const HøyrestiltContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-`;
-
 const OverstyrtInfoIkon = styled(Infoikon)`
     display: flex;
-    margin-right: -1rem;
+    margin-right: -1.5rem;
 `;
 
 interface SykmeldingsperiodetabellProps {
@@ -82,13 +77,7 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
             render: <Element>Gradering</Element>,
         },
         '',
-        visOverstyring ? (
-            <HøyrestiltContainer>
-                <Overstyringsknapp overstyrer={false} toggleOverstyring={toggleOverstyring} />
-            </HøyrestiltContainer>
-        ) : (
-            ''
-        ),
+        visOverstyring ? <Overstyringsknapp overstyrer={false} toggleOverstyring={toggleOverstyring} /> : '',
     ];
     return <Periodetabell beskrivelse={tabellbeskrivelse} headere={headere} rader={rader} />;
 };
