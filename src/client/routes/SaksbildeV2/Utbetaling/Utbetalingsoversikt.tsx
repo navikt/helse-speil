@@ -122,7 +122,7 @@ const UtbetalingTotal = styled(Element)`
 const genererTotalRad = (aktivVedtaksperiode: Vedtaksperiode | undefined): Utbetalingstabellrad => {
     const totalBeløp = totalUtbetaling(aktivVedtaksperiode);
     const antallDager = totaltAntallUtbetalingsdager(aktivVedtaksperiode);
-    const dagerIgjen = aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager ?? '';
+    const dagerIgjen = totaltAntallDagerIgjen(aktivVedtaksperiode);
 
     const rad: Utbetalingsceller = [
         undefined,
@@ -131,7 +131,7 @@ const genererTotalRad = (aktivVedtaksperiode: Vedtaksperiode | undefined): Utbet
         <TotalUtbetalingsdager className="dager">{antallDager} dager</TotalUtbetalingsdager>,
         undefined,
         <UtbetalingTotal>{`${toKronerOgØre(totalBeløp)} kr`}</UtbetalingTotal>,
-        <Element>{dagerIgjen}</Element>,
+        <Element>{aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager ? dagerIgjen : ''}</Element>,
         undefined,
     ];
 
@@ -142,19 +142,25 @@ const genererTotalRad = (aktivVedtaksperiode: Vedtaksperiode | undefined): Utbet
 };
 
 export const vedtaksperiodeDagerIgjen = (aktivVedtaksperiode: Vedtaksperiode | undefined): number[] => {
-    let dagerIgjen: number = aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager ?? -1;
-
-    if (dagerIgjen === -1) {
-        return [];
-    }
+    let dagerIgjenPåDato: number = totaltAntallDagerIgjen(aktivVedtaksperiode);
 
     return (
         aktivVedtaksperiode?.utbetalingstidslinje.map((dag) => {
             if (dag.type === Dagtype.Syk) {
-                dagerIgjen = dagerIgjen > 0 ? dagerIgjen - 1 : dagerIgjen;
+                dagerIgjenPåDato = dagerIgjenPåDato > 0 ? dagerIgjenPåDato - 1 : dagerIgjenPåDato;
             }
-            return dagerIgjen;
+            return dagerIgjenPåDato;
         }) ?? []
+    );
+};
+
+export const totaltAntallDagerIgjen = (aktivVedtaksperiode: Vedtaksperiode | undefined): number => {
+    const maksdato = aktivVedtaksperiode?.vilkår?.dagerIgjen?.maksdato;
+    return (
+        (aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager ?? 0) +
+        (aktivVedtaksperiode?.utbetalingstidslinje.filter(
+            (dag) => dag.type === Dagtype.Syk && maksdato && dag.dato.isSameOrBefore(maksdato)
+        ).length ?? 0)
     );
 };
 
@@ -163,12 +169,13 @@ export const Utbetalingsoversikt = () => {
     const { maksdato } = useMaksdato();
     const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
     const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
+    const gjenståendeDagerErSatt = aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager;
     const dagerIgjenIVedtaksperiode: number[] = vedtaksperiodeDagerIgjen(aktivVedtaksperiode);
 
     const erMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isSame(maksdato, 'day');
     const erEtterMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isAfter(maksdato, 'day');
 
-    const tilUtbetalingsrad = (dag: Utbetalingsdag, dagerIgjenForDato: number) =>
+    const tilUtbetalingsrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string) =>
         erMaksdato(dag) && maksdato && maksdato.format(NORSK_DATOFORMAT) < tom!!
             ? maksdatorad(dag, dagerIgjenForDato)
             : erEtterMaksdato(dag)
@@ -177,7 +184,7 @@ export const Utbetalingsoversikt = () => {
 
     const rader =
         aktivVedtaksperiode?.utbetalingstidslinje.map((dag, i) =>
-            tilUtbetalingsrad(dag, dagerIgjenIVedtaksperiode[i] ?? '')
+            tilUtbetalingsrad(dag, gjenståendeDagerErSatt ? dagerIgjenIVedtaksperiode[i] : '')
         ) ?? [];
 
     const raderPlussTotalRad: Utbetalingstabellrad[] = [genererTotalRad(aktivVedtaksperiode), ...rader];
