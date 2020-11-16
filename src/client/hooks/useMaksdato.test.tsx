@@ -7,7 +7,7 @@ import { Vedtaksperiode } from 'internal-types';
 import { cleanup, render, screen } from '@testing-library/react';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { defaultPersonContext, PersonContext } from '../context/PersonContext';
-import { mappetPerson, vedtaksperiodeMedMaksdato } from '../mapping/testdata/mappetPerson';
+import { mappetPerson } from '../mapping/testdata/mappetPerson';
 
 afterEach(cleanup);
 
@@ -27,12 +27,11 @@ const PersonProvider: React.FC<{ aktivVedtaksperiode?: Vedtaksperiode }> = ({
 };
 
 const Consumer = () => {
-    const { maksdato, maksdatoOverskrides } = useMaksdato();
+    const { maksdato } = useMaksdato();
 
     return (
         <>
             <div data-testid="maksdato">{maksdato?.format(NORSK_DATOFORMAT)}</div>
-            <div data-testid="maksdato-overskrides">{!!maksdatoOverskrides && 'Maksdato overskrides'}</div>
         </>
     );
 };
@@ -45,17 +44,6 @@ describe('useMaksdato', () => {
             </PersonProvider>
         );
         const maksdato = screen.getByTestId('maksdato');
-        const maksdatoOverskrides = screen.getByTestId('maksdato-overskrides');
         expect(maksdato).toHaveTextContent('07.10.2020');
-        expect(maksdatoOverskrides).toBeEmpty();
-    });
-    test('viser at maksdato overskrides', () => {
-        render(
-            <PersonProvider aktivVedtaksperiode={vedtaksperiodeMedMaksdato(dayjs('2010-01-01'))}>
-                <Consumer />
-            </PersonProvider>
-        );
-        const maksdatoOverskrides = screen.getByTestId('maksdato-overskrides');
-        expect(maksdatoOverskrides).toHaveTextContent('Maksdato overskrides');
     });
 });

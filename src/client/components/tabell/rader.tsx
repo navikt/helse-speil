@@ -14,6 +14,7 @@ import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'int
 import { Kilde } from '../Kilde';
 import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
+import { Feilikon } from '../ikoner/Feilikon';
 
 export const tomCelle = () => undefined;
 
@@ -138,3 +139,38 @@ export const utbetaling = (dag: Utbetalingsdag) => {
     if (dag.type === Dagtype.Avvist) return <IngenUtbetaling>Ingen utbetaling</IngenUtbetaling>;
     return dag.utbetaling && <Utbetaling>{toKronerOgØre(dag.utbetaling)} kr</Utbetaling>;
 };
+
+export const merknad = (dag: Utbetalingsdag, merknadTekst?: string) => {
+    if (merknadTekst) return <Feilmelding>{merknadTekst}</Feilmelding>;
+    if (dag.type === Dagtype.Avvist) {
+        const tekst = tekstForAvvistÅrsak(dag.avvistÅrsak);
+        if (tekst) return <Feilmelding>{tekst}</Feilmelding>;
+    }
+    return undefined;
+};
+
+const tekstForAvvistÅrsak = (årsak?: string) => {
+    switch (årsak) {
+        case 'EtterDødsdato':
+            return 'Personen er død';
+        case 'SykepengedagerOppbrukt':
+            return '§ 8-12 Sykepengedager er oppbrukt';
+        case 'MinimumSykdomsgrad':
+            return '§ 8-13 Krav til nedsatt arbeidsevne er ikke oppfylt';
+        case 'EgenmeldingUtenforArbeidsgiverperiode':
+            return 'Egenmelding er utenfor arbeidsgiverperiode';
+        case 'MinimumInntekt':
+            return '§ 8-3 Krav til minste sykepengegrunnlag er ikke oppfylt';
+        default:
+            return undefined;
+    }
+};
+
+export const Feilmelding = styled(Normaltekst)`
+    margin-left: 1rem;
+`;
+
+const Feilmeldingsikon = styled(Feilikon)`
+    display: flex;
+    margin-right: -1rem;
+`;

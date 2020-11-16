@@ -141,6 +141,7 @@ export const mapUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsd
         dato: somDato(dag.dato),
         gradering: somHeltall(dag.grad),
         utbetaling: dag.utbetaling,
+        avvistÅrsak: dag.begrunnelse,
     }));
 
 const somHeltall = (value?: number) => value && +value.toFixed(0);

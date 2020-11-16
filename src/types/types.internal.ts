@@ -1,4 +1,3 @@
-import { ReactChild } from 'react';
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
 
@@ -133,6 +132,7 @@ export interface Utbetalingsdag {
     type: Dagtype;
     gradering?: number;
     utbetaling?: number;
+    avvistÅrsak?: string;
 }
 
 export enum Periodetype {

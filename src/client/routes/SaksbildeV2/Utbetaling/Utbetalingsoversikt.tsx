@@ -5,8 +5,7 @@ import classNames from 'classnames';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Dagtype, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
-import { Feilikon } from '../../../components/ikoner/Feilikon';
-import { dato, gradering, ikon, type, utbetaling } from '../../../components/tabell/rader';
+import { dato, gradering, ikon, merknad, type, utbetaling } from '../../../components/tabell/rader';
 import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { useMaksdato } from '../../../hooks/useMaksdato';
@@ -32,16 +31,11 @@ const Utbetalingstabell = styled(Tabell)`
     }
 `;
 
-const Feilmeldingsikon = styled(Feilikon)`
-    display: flex;
-    margin-right: -1rem;
-`;
-
-const Feilmelding = styled(Normaltekst)`
-    margin-left: 1rem;
-`;
-
-const utbetalingsceller = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingsceller => [
+const utbetalingsceller = (
+    dag: Utbetalingsdag,
+    dagerIgjenForDato: number | string,
+    merknadTekst?: string
+): Utbetalingsceller => [
     undefined,
     dato(dag),
     ikon(dag),
@@ -49,28 +43,17 @@ const utbetalingsceller = (dag: Utbetalingsdag, dagerIgjenForDato: number | stri
     gradering(dag),
     utbetaling(dag),
     dagerIgjenForDato,
-    undefined,
-];
-
-const cellerPåMaksdato = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingsceller => [
-    <Feilmeldingsikon height={20} width={20} />,
-    dato(dag),
-    ikon(dag),
-    type(dag),
-    gradering(dag),
-    utbetaling(dag),
-    dagerIgjenForDato,
-    <Feilmelding>Siste utbetalingsdag for sykepenger</Feilmelding>,
+    merknad(dag, merknadTekst),
 ];
 
 const maksdatorad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingstabellrad => ({
-    celler: cellerPåMaksdato(dag, dagerIgjenForDato),
-    className: classNames('error', dag.type === Dagtype.Helg && 'disabled'),
+    celler: utbetalingsceller(dag, dagerIgjenForDato, 'Siste utbetalingsdag for sykepenger'),
+    className: '',
 });
 
-const etterMaksdatoRad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingstabellrad => ({
+const avvistRad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingstabellrad => ({
     celler: utbetalingsceller(dag, dagerIgjenForDato),
-    className: classNames('inactive', dag.type === Dagtype.Helg && 'disabled'),
+    className: classNames('error'),
 });
 
 const utbetalingstabellrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingstabellrad => ({
@@ -173,13 +156,13 @@ export const Utbetalingsoversikt = () => {
     const dagerIgjenIVedtaksperiode: number[] = vedtaksperiodeDagerIgjen(aktivVedtaksperiode);
 
     const erMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isSame(maksdato, 'day');
-    const erEtterMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isAfter(maksdato, 'day');
+    const erAvvist = (dag: Utbetalingsdag) => dag.type === Dagtype.Avvist;
 
     const tilUtbetalingsrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string) =>
         erMaksdato(dag) && maksdato && maksdato.format(NORSK_DATOFORMAT) < tom!!
             ? maksdatorad(dag, dagerIgjenForDato)
-            : erEtterMaksdato(dag)
-            ? etterMaksdatoRad(dag, dagerIgjenForDato)
+            : erAvvist(dag)
+            ? avvistRad(dag, dagerIgjenForDato)
             : utbetalingstabellrad(dag, dagerIgjenForDato);
 
     const rader =

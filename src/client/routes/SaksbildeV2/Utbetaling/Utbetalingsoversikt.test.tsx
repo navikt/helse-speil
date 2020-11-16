@@ -1,9 +1,19 @@
 import React from 'react';
+import { mappetPerson } from 'test-data';
+import { Dagtype, Person, Vedtaksperiode } from 'internal-types';
+import { render, screen } from '@testing-library/react';
+import { defaultPersonContext, PersonContext } from '../../../context/PersonContext';
+import {
+    totaltAntallUtbetalingsdager,
+    totalUtbetaling,
+    Utbetalingsoversikt,
+    vedtaksperiodeDagerIgjen,
+} from './Utbetalingsoversikt';
+import { medUtbetalingstidslinje, umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
+import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
+import { SpleisUtbetalingsdagtype } from 'external-types';
 import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
-import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
-import { Dagtype } from 'internal-types';
 import '@testing-library/jest-dom/extend-expect';
-import { totaltAntallUtbetalingsdager, totalUtbetaling, vedtaksperiodeDagerIgjen } from './Utbetalingsoversikt';
 import dayjs from 'dayjs';
 
 const enIkkeUtbetaltVedtaksperiode = () =>
@@ -86,4 +96,65 @@ describe('Utbetalingsoversikt', () => {
         expect(dagerIgjen[1]).toBe(71);
         expect(dagerIgjen[30]).toBe(50);
     });
+
+    it('Alle dager er godkjent', async () => {
+        const person = await mappetPerson();
+        await renderUtbetalingsoversikt(person);
+
+        expect(screen.queryAllByText('Ingen utbetaling')).toStrictEqual([]);
+        expect(screen.queryAllByText('100%').length).toBe(23);
+    });
+
+    it('2 dager er avvist', async () => {
+        const person = await mappetPerson([
+            umappetArbeidsgiver([
+                medUtbetalingstidslinje(umappetVedtaksperiode(), [
+                    {
+                        type: SpleisUtbetalingsdagtype.NAVDAG,
+                        inntekt: 999.5,
+                        dato: '2020-01-01',
+                        utbetaling: 1000.0,
+                        grad: 100,
+                    },
+                    {
+                        type: SpleisUtbetalingsdagtype.AVVISTDAG,
+                        inntekt: 999.5,
+                        dato: '2020-01-02',
+                        utbetaling: 0.0,
+                        begrunnelse: 'MinimumSykdomsgrad',
+                        grad: 0,
+                    },
+                    {
+                        type: SpleisUtbetalingsdagtype.AVVISTDAG,
+                        inntekt: 999.5,
+                        dato: '2020-01-03',
+                        utbetaling: 0.0,
+                        begrunnelse: 'EtterDødsdato',
+                        grad: 0,
+                    },
+                ]),
+            ]),
+        ]);
+        await renderUtbetalingsoversikt(person);
+
+        expect(screen.queryAllByText('Ingen utbetaling').length).toStrictEqual(2);
+        expect(screen.queryAllByText('Personen er død').length).toStrictEqual(1);
+        expect(screen.queryAllByText('§ 8-13 Krav til nedsatt arbeidsevne er ikke oppfylt').length).toStrictEqual(1);
+        expect(screen.queryAllByText('100%').length).toStrictEqual(1);
+        expect(screen.queryAllByText('0%').length).toStrictEqual(2);
+        expect(screen.queryAllByText('1 000,00 kr').length).toStrictEqual(2);
+    });
 });
+
+const renderUtbetalingsoversikt = (person: Person) =>
+    render(
+        <PersonContext.Provider
+            value={{
+                ...defaultPersonContext,
+                personTilBehandling: person,
+                aktivVedtaksperiode: person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode,
+            }}
+        >
+            <Utbetalingsoversikt />
+        </PersonContext.Provider>
+    );

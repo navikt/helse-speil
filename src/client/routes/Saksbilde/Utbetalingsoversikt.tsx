@@ -3,14 +3,13 @@ import styled from '@emotion/styled';
 import Element from 'nav-frontend-typografi/lib/element';
 import classNames from 'classnames';
 import { Tabell } from '@navikt/helse-frontend-tabell';
-import { Feilikon } from '../../components/ikoner/Feilikon';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { useMaksdato } from '../../hooks/useMaksdato';
 import { PersonContext } from '../../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { Navigasjonsknapper } from '../../components/Navigasjonsknapper';
 import { Dagtype, Utbetalingsdag } from 'internal-types';
-import { dato, gradering, ikon, type, utbetaling } from '../../components/tabell/rader';
+import { dato, gradering, ikon, merknad, type, utbetaling } from '../../components/tabell/rader';
 import { AgurkErrorBoundary } from '../../components/AgurkErrorBoundary';
 
 type Utbetalingsceller = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];
@@ -32,43 +31,24 @@ const Container = styled.div`
     padding: 1.5rem 2rem;
 `;
 
-const Feilmeldingsikon = styled(Feilikon)`
-    display: flex;
-    margin-right: -1rem;
-`;
-
-const Feilmelding = styled(Normaltekst)`
-    margin-left: 1rem;
-`;
-
-const utbetalingsceller = (dag: Utbetalingsdag): Utbetalingsceller => [
+const utbetalingsceller = (dag: Utbetalingsdag, merknadTekst?: string): Utbetalingsceller => [
     undefined,
     dato(dag),
     ikon(dag),
     type(dag),
     gradering(dag),
     utbetaling(dag),
-    undefined,
-];
-
-const cellerPåMaksdato = (dag: Utbetalingsdag): Utbetalingsceller => [
-    <Feilmeldingsikon height={20} width={20} />,
-    dato(dag),
-    ikon(dag),
-    type(dag),
-    gradering(dag),
-    utbetaling(dag),
-    <Feilmelding>Siste utbetalingsdag for sykepenger</Feilmelding>,
+    merknad(dag, merknadTekst),
 ];
 
 const maksdatorad = (dag: Utbetalingsdag): Utbetalingstabellrad => ({
-    celler: cellerPåMaksdato(dag),
-    className: classNames('error', dag.type === Dagtype.Helg && 'disabled'),
+    celler: utbetalingsceller(dag, 'Siste utbetalingsdag for sykepenger'),
+    className: '',
 });
 
-const etterMaksdatoRad = (dag: Utbetalingsdag): Utbetalingstabellrad => ({
+const avvistRad = (dag: Utbetalingsdag): Utbetalingstabellrad => ({
     celler: utbetalingsceller(dag),
-    className: classNames('inactive', dag.type === Dagtype.Helg && 'disabled'),
+    className: classNames('error'),
 });
 
 const utbetalingstabellrad = (dag: Utbetalingsdag): Utbetalingstabellrad => ({
@@ -94,9 +74,9 @@ const Utbetalingsoversikt = () => {
     const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
 
     const erMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isSame(maksdato, 'day');
-    const erEtterMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isAfter(maksdato, 'day');
+    const erAvvist = (dag: Utbetalingsdag) => dag.type === Dagtype.Avvist;
     const tilUtbetalingsrad = (dag: Utbetalingsdag) =>
-        erMaksdato(dag) ? maksdatorad(dag) : erEtterMaksdato(dag) ? etterMaksdatoRad(dag) : utbetalingstabellrad(dag);
+        erMaksdato(dag) ? maksdatorad(dag) : erAvvist(dag) ? avvistRad(dag) : utbetalingstabellrad(dag);
 
     const rader = aktivVedtaksperiode?.utbetalingstidslinje.map(tilUtbetalingsrad) ?? [];
     const headere = utbetalingsheadere;
