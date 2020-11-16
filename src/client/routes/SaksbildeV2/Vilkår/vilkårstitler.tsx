@@ -3,11 +3,15 @@ import styled from '@emotion/styled';
 import { Vilkårstype } from '../../../mapping/vilkår';
 import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import classNames from 'classnames';
+import { Utropstegnikon } from '../../../components/ikoner/Utropstegnikon';
+import { Kryssikon } from '../../../components/ikoner/Kryssikon';
+import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
 
-const Header = styled.div`
+const Header = styled.div<{ marginBottom: string }>`
     display: flex;
     align-items: start;
     flex-wrap: nowrap;
+    ${({ marginBottom }) => `margin-bottom: ${marginBottom}`}
 `;
 
 export const IkonContainer = styled.div`
@@ -51,16 +55,11 @@ interface VilkårsgruppetittelProps {
     ikon?: ReactNode;
 }
 
-export const Vilkårsgruppetittel = ({
-    children,
-    oppfylt,
-    paragraf,
-    type,
-    className,
-    ikon,
-}: VilkårsgruppetittelProps) => (
-    <Header className={classNames('vilkårsgruppetittel', className)} style={{ marginBottom: '0.5rem' }}>
-        <IkonContainer>{ikon}</IkonContainer>
+export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, className }: VilkårsgruppetittelProps) => (
+    <Header className={classNames('vilkårsgruppetittel', className)} marginBottom="0.5rem">
+        <IkonContainer>
+            {oppfylt === undefined ? <Utropstegnikon /> : oppfylt ? <Sjekkikon /> : <Kryssikon />}
+        </IkonContainer>
         <TekstContainer>
             <Tittel tag="h3" data-testid={type}>
                 {children}
@@ -76,7 +75,7 @@ interface VilkårskategoriProps {
 }
 
 export const Vilkårskategori = ({ children, ikon }: VilkårskategoriProps) => (
-    <Header className="vilkårskategori" style={{ marginBottom: '2rem' }}>
+    <Header className="vilkårskategori" marginBottom="2rem">
         <IkonContainer>{ikon}</IkonContainer>
         <Normaltekst>{children}</Normaltekst>
     </Header>
