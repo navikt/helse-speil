@@ -36,19 +36,20 @@ const Tooltip = styled(ReactTooltip)`
 
 export const Infolinje = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
+    if (!aktivVedtaksperiode) return null;
 
-    const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
-    const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
-    const sykmeldingsperiode = fom && tom ? `${fom} - ${tom}` : 'Ukjent periode';
+    const fom = aktivVedtaksperiode.fom.format(NORSK_DATOFORMAT);
+    const tom = aktivVedtaksperiode.tom.format(NORSK_DATOFORMAT);
     const skjæringstidspunkt =
-        aktivVedtaksperiode?.vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT) ?? 'ukjent';
-    const maksdato = aktivVedtaksperiode?.vilkår?.dagerIgjen.maksdato?.format(NORSK_DATOFORMAT) ?? 'ukjent';
+        aktivVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT) ??
+        'Ukjent skjæringstidspunkt';
+    const maksdato = aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ukjent maksdato';
 
     return (
         <InfolinjeContainer alignItems="center">
             <InfolinjeElement data-tip="Sykmeldingsperiode">
                 <Sykmeldingsperiodeikon />
-                {sykmeldingsperiode}
+                {`${fom} - ${tom}`}
             </InfolinjeElement>
             <InfolinjeElement data-tip="Skjæringstidspunkt">
                 <Skjæringstidspunktikon />

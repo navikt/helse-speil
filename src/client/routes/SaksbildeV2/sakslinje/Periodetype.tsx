@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Periodetype as PeriodetypeTittel } from 'internal-types';
 import styled from '@emotion/styled';
+import { PersonContext } from '../../../context/PersonContext';
 
-const mapPeriodetypeTittel = (tittel: PeriodetypeTittel) => {
+const mapPeriodetypeTittel = (tittel?: PeriodetypeTittel) => {
     switch (tittel) {
         case PeriodetypeTittel.Forlengelse:
             return 'FORLENGELSE';
@@ -10,10 +11,12 @@ const mapPeriodetypeTittel = (tittel: PeriodetypeTittel) => {
             return 'FØRSTEGANGS.';
         case PeriodetypeTittel.Infotrygdforlengelse:
             return 'FORLENGELSE - IT';
+        default:
+            return undefined;
     }
 };
 
-const mapPeriodetypeFarger = (tittel: PeriodetypeTittel) => {
+const mapPeriodetypeFarger = (tittel?: PeriodetypeTittel) => {
     switch (tittel) {
         case PeriodetypeTittel.Forlengelse:
             return {
@@ -29,11 +32,13 @@ const mapPeriodetypeFarger = (tittel: PeriodetypeTittel) => {
                 backgroundColor: '#59514B',
                 color: '#FFFFFF',
             };
+        default:
+            return undefined;
     }
 };
 
 interface PeriodetypeProps {
-    tittel: PeriodetypeTittel;
+    tittel?: PeriodetypeTittel;
 }
 
 const Container = styled.div((props: PeriodetypeProps) => ({
@@ -43,6 +48,11 @@ const Container = styled.div((props: PeriodetypeProps) => ({
     ...mapPeriodetypeFarger(props.tittel),
 }));
 
-export const Periodetype = ({ tittel }: PeriodetypeProps) => (
-    <Container tittel={tittel}> {mapPeriodetypeTittel(tittel)} </Container>
-);
+export const Periodetype = () => {
+    const { aktivVedtaksperiode } = useContext(PersonContext);
+    return (
+        <Container tittel={aktivVedtaksperiode?.periodetype}>
+            {mapPeriodetypeTittel(aktivVedtaksperiode?.periodetype)}{' '}
+        </Container>
+    );
+};

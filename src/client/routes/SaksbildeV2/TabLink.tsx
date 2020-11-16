@@ -2,6 +2,16 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 
+const DisabledTabLink = styled.a`
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    margin: 0 12px;
+    color: #78706a;
+    outline: none;
+`;
+
 const StyledTabLink = styled(NavLink)`
     position: relative;
     display: flex;
@@ -47,8 +57,17 @@ const StyledTabLink = styled(NavLink)`
     }
 `;
 
-export const TabLink = ({ children, to }: { children: string; to: string }) => (
-    <StyledTabLink title={children} to={to}>
-        {children}
-    </StyledTabLink>
-);
+interface TabLinkProps {
+    children: string;
+    to: string;
+    disabled?: boolean;
+}
+
+export const TabLink = ({ children, to, disabled }: TabLinkProps) =>
+    disabled ? (
+        <DisabledTabLink>{children}</DisabledTabLink>
+    ) : (
+        <StyledTabLink title={children} to={to}>
+            {children}
+        </StyledTabLink>
+    );

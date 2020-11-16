@@ -29,10 +29,12 @@ export default ({ children }: LoggProviderProps) => {
                 {
                     filterFunction: (_: LoggHendelse) => true,
                     renderProp: <IkonHistorikk />,
+                    disabled: hendelser.length === 0,
                 },
                 {
                     filterFunction: (hendelse: LoggHendelse) => hendelse.type === Hendelsetype.Dokumenter,
                     renderProp: <IkonDokumenter />,
+                    disabled: hendelser.find(({ type }) => type === Hendelsetype.Dokumenter) === undefined,
                 },
                 {
                     filterFunction: (hendelse: LoggHendelse) => hendelse.type === Hendelsetype.Meldinger,

@@ -80,7 +80,7 @@ export const SaksbildeV2 = () => {
 
     useRefetchPersonOnUrlChange();
 
-    if (!aktivVedtaksperiode || !personTilBehandling) return <div />;
+    if (!personTilBehandling) return <div />;
 
     return (
         <Container className="saksbilde">
@@ -88,34 +88,28 @@ export const SaksbildeV2 = () => {
                 <Personlinje person={personTilBehandling} />
                 <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
                 <Flex justifyContent="space-between">
-                    <Sakslinje aktivVedtaksperiodetype={aktivVedtaksperiode.periodetype} />
+                    <Sakslinje />
                     <LoggHeader />
                 </Flex>
                 <Flex style={{ flex: 1 }}>
                     <FlexColumn style={{ flex: 1 }}>
                         <Toppvarsler />
-                        <Switch>
-                            <Route path={`${path}/utbetaling`}>
-                                <Content>
+                        <Content>
+                            <Switch>
+                                <Route path={`${path}/utbetaling`}>
                                     <Utbetaling />
-                                </Content>
-                            </Route>
-                            <Route path={`${path}/sykmeldingsperiode`}>
-                                <Content>
+                                </Route>
+                                <Route path={`${path}/sykmeldingsperiode`}>
                                     <Sykmeldingsperiode />
-                                </Content>
-                            </Route>
-                            <Route path={`${path}/vilkår`}>
-                                <Content>
+                                </Route>
+                                <Route path={`${path}/vilkår`}>
                                     <Vilkår />
-                                </Content>
-                            </Route>
-                            <Route path={`${path}/sykepengegrunnlag`}>
-                                <Content>
+                                </Route>
+                                <Route path={`${path}/sykepengegrunnlag`}>
                                     <Sykepengegrunnlag />
-                                </Content>
-                            </Route>
-                        </Switch>
+                                </Route>
+                            </Switch>
+                        </Content>
                     </FlexColumn>
                     <LoggListe />
                 </Flex>

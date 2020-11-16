@@ -96,6 +96,9 @@ const filenameForPersonId = (id: string) => {
         case '87654321962124':
         case '20077362124':
             return 'håkon_3perioder_første_periode_kort.json';
+        case '87750000962123':
+        case '02070362123':
+            return 'kong-olav_bare-infotrygdhistorikk.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

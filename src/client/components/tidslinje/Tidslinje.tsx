@@ -18,7 +18,7 @@ const Container = styled(FlexColumn)`
 
 interface Props {
     person: Person;
-    aktivVedtaksperiode: Vedtaksperiode;
+    aktivVedtaksperiode?: Vedtaksperiode;
 }
 
 export const Tidslinje = React.memo(({ person, aktivVedtaksperiode }: Props) => {

@@ -104,24 +104,22 @@ const Tildeling = ({ oppgavereferanse, tildeltTil }: { oppgavereferanse: string;
 };
 
 export const Verktøylinje = () => {
-    const personContext = useContext(PersonContext);
-    const tildeltTil = personContext.personTilBehandling?.tildeltTil;
-    const utbetalinger: Utbetalinger | undefined = personContext.aktivVedtaksperiode?.utbetalinger;
-    const vedtaksperiodeErAnnullert: boolean =
-        personContext.aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;
+    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
+    const tildeltTil = personTilBehandling?.tildeltTil;
+    const utbetalinger: Utbetalinger | undefined = aktivVedtaksperiode?.utbetalinger;
+    const vedtaksperiodeErAnnullert: boolean = aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;
 
     const visAnnulleringsmuligheter =
         !vedtaksperiodeErAnnullert &&
         ((annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling) || utbetalinger?.personUtbetaling);
 
+    if (!aktivVedtaksperiode) return null;
+
     return (
         <Container
             høyre={
                 <StyledDropdown>
-                    <Tildeling
-                        oppgavereferanse={personContext.aktivVedtaksperiode!!.oppgavereferanse}
-                        tildeltTil={tildeltTil}
-                    />
+                    <Tildeling oppgavereferanse={aktivVedtaksperiode.oppgavereferanse} tildeltTil={tildeltTil} />
                     {visAnnulleringsmuligheter && <Annullering />}
                 </StyledDropdown>
             }

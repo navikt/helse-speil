@@ -6,6 +6,8 @@ import '@navikt/helse-frontend-varsel/lib/main.css';
 
 export const Toppvarsler = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
+    if (!aktivVedtaksperiode) return null;
+
     const { aktivitetslog, periodetype, automatiskBehandlet } = aktivVedtaksperiode!;
 
     const erKandidatForAutomatisering = () =>

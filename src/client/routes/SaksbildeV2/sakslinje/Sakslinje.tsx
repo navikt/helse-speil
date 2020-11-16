@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { Periodetype as PeriodetypeTittel } from 'internal-types';
 import { Periodetype } from './Periodetype';
@@ -8,6 +8,7 @@ import { Flex } from '../../../components/Flex';
 import { Location, useNavigation } from '../../../hooks/useNavigationV2';
 import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 import { Infolinje } from './Infolinje';
+import { PersonContext } from '../../../context/PersonContext';
 
 const SakslinjeWrapper = styled.div`
     height: 90px;
@@ -26,12 +27,9 @@ const SakslinjeVenstre = styled(Flex)`
     border-right: 1px solid #c6c2bf;
 `;
 
-interface SakslinjeProps {
-    aktivVedtaksperiodetype: PeriodetypeTittel;
-}
-
-export const Sakslinje = ({ aktivVedtaksperiodetype }: SakslinjeProps) => {
+export const Sakslinje = () => {
     const { pathForLocation, navigateToNext, navigateToPrevious } = useNavigation();
+    const { aktivVedtaksperiode } = useContext(PersonContext);
 
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
@@ -44,13 +42,21 @@ export const Sakslinje = ({ aktivVedtaksperiodetype }: SakslinjeProps) => {
     return (
         <SakslinjeWrapper>
             <SakslinjeVenstre>
-                <Periodetype tittel={aktivVedtaksperiodetype} />
+                <Periodetype />
                 <Verktøylinje />
             </SakslinjeVenstre>
-            <TabLink to={pathForLocation(Location.Utbetaling)}>Utbetaling</TabLink>
-            <TabLink to={pathForLocation(Location.Sykmeldingsperiode)}>Sykmeldingsperiode</TabLink>
-            <TabLink to={pathForLocation(Location.Vilkår)}>Vilkår</TabLink>
-            <TabLink to={pathForLocation(Location.Sykepengegrunnlag)}>Sykepengegrunnlag</TabLink>
+            <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Utbetaling)}>
+                Utbetaling
+            </TabLink>
+            <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Sykmeldingsperiode)}>
+                Sykmeldingsperiode
+            </TabLink>
+            <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Vilkår)}>
+                Vilkår
+            </TabLink>
+            <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Sykepengegrunnlag)}>
+                Sykepengegrunnlag
+            </TabLink>
             <Infolinje />
         </SakslinjeWrapper>
     );
