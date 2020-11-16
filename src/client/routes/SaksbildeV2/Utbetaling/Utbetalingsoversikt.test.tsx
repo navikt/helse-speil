@@ -142,7 +142,6 @@ describe('Utbetalingsoversikt', () => {
         expect(screen.queryAllByText('§ 8-13 Krav til nedsatt arbeidsevne er ikke oppfylt').length).toStrictEqual(1);
         expect(screen.queryAllByText('100%').length).toStrictEqual(1);
         expect(screen.queryAllByText('0%').length).toStrictEqual(2);
-        expect(screen.queryAllByText('1 000,00 kr').length).toStrictEqual(2);
     });
 });
 
