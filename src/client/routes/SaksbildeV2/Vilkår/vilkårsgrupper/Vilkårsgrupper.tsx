@@ -6,7 +6,9 @@ import { toKronerOgØre } from '../../../../utils/locale';
 import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { Opptjening, Risikovurdering as RisikovurderingType, Vilkår } from 'internal-types';
-import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
+import { Infoikon } from '../../../../components/ikoner/Infoikon';
+import { Flex } from '../../../../components/Flex';
+import { Paragraf } from '../vilkårstitler';
 
 export const Alder = ({ alder }: Vilkår) => (
     <Vilkårsgrupperad label="Alder">{alder.alderSisteSykedag}</Vilkårsgrupperad>
@@ -61,41 +63,26 @@ export const Sykepengegrunnlag = ({ sykepengegrunnlag, alder }: Vilkår) => (
     </>
 );
 
-export const AdvarselikonAlder = styled(Advarselikon)`
+export const AlderIkon = styled(Infoikon)`
     padding: 0 10px;
 `;
 
-const GjenståendeDagerTekst = styled(Normaltekst)`
-    display: flex;
-    align-items: center;
-`;
-
-const DagerIgjenParagrafTekst = styled(Normaltekst)`
-    font-size: 14px;
-    color: #78706a;
-`;
-
 interface GjenståendeDagerProps {
-    gjenståendeDager?: number | null;
+    gjenståendeDager: number;
     alderSisteSykedag: number;
 }
 
-const GjenståendeDager = ({ gjenståendeDager, alderSisteSykedag }: GjenståendeDagerProps) =>
-    gjenståendeDager ? (
-        <GjenståendeDagerTekst>
-            {gjenståendeDager}
-            {alderSisteSykedag >= 67 && alderSisteSykedag < 70 ? (
-                <>
-                    <AdvarselikonAlder width={16} height={16} />
-                    <DagerIgjenParagrafTekst tag="span">§ 8-51</DagerIgjenParagrafTekst>
-                </>
-            ) : (
-                ''
-            )}
-        </GjenståendeDagerTekst>
-    ) : (
-        <Normaltekst>Ikke funnet</Normaltekst>
-    );
+const GjenståendeDager = ({ gjenståendeDager, alderSisteSykedag }: GjenståendeDagerProps) => (
+    <Flex alignItems="center">
+        {gjenståendeDager}
+        {alderSisteSykedag >= 67 && alderSisteSykedag < 70 && (
+            <>
+                <AlderIkon width={16} height={16} />
+                <Paragraf>§ 8-51</Paragraf>
+            </>
+        )}
+    </Flex>
+);
 
 export const DagerIgjen = ({ dagerIgjen, alder }: Vilkår) => (
     <>
@@ -108,10 +95,14 @@ export const DagerIgjen = ({ dagerIgjen, alder }: Vilkår) => (
         <Vilkårsgrupperad label="Yrkesstatus">Arbeidstaker</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Dager brukt">{dagerIgjen.dagerBrukt ?? 'Ikke funnet'}</Vilkårsgrupperad>
         <Vilkårsgrupperad label="Dager igjen">
-            <GjenståendeDager
-                gjenståendeDager={dagerIgjen.gjenståendeDager}
-                alderSisteSykedag={alder.alderSisteSykedag}
-            />
+            {dagerIgjen.gjenståendeDager ? (
+                <GjenståendeDager
+                    alderSisteSykedag={alder.alderSisteSykedag}
+                    gjenståendeDager={dagerIgjen.gjenståendeDager}
+                />
+            ) : (
+                <Normaltekst>Ikke funnet</Normaltekst>
+            )}
         </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Maksdato">
             {dagerIgjen.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}

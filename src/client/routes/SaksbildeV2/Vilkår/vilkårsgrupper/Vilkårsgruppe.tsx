@@ -43,9 +43,7 @@ interface Props {
 
 export const Vilkårsgruppe = ({ tittel, paragraf, ikontype, children, className }: Props) => (
     <Container className={className}>
-        <Vilkårsgruppetittel paragraf={paragraf} ikon={ikon(ikontype)}>
-            {tittel}
-        </Vilkårsgruppetittel>
+        <Vilkårsgruppetittel paragraf={paragraf}>{tittel}</Vilkårsgruppetittel>
         {children && <Vilkårgrid>{children}</Vilkårgrid>}
     </Container>
 );

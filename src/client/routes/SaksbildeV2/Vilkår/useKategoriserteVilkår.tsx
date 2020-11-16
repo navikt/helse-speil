@@ -12,8 +12,8 @@ import {
     Søknadsfrist,
 } from './vilkårsgrupper/Vilkårsgrupper';
 import dayjs from 'dayjs';
-import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Flex } from '../../../components/Flex';
+import { Infoikon } from '../../../components/ikoner/Infoikon';
 
 const alder = (vilkår: Vilkår) => ({
     type: Vilkårstype.Alder,
@@ -39,7 +39,7 @@ const opptjeningstid = (vilkår: Vilkår) => ({
     komponent: <Opptjeningstid {...vilkår} />,
 });
 
-const AdvarselikonAlder = styled(Advarselikon)`
+const AlderIkon = styled(Infoikon)`
     padding: 0 10px 0 2px;
 `;
 
@@ -51,7 +51,7 @@ const sykepengegrunnlag = (vilkår: Vilkår) => {
         tittel: 'Krav til minste sykepengegrunnlag',
         paragraf: harEndretParagraf ? (
             <Flex style={{ alignItems: 'center' }}>
-                <AdvarselikonAlder width={16} height={16} />§ 8-51
+                <AlderIkon width={16} height={16} />§ 8-51
             </Flex>
         ) : (
             '§ 8-3'
