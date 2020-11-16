@@ -11,7 +11,7 @@ import {
     Sykepengegrunnlag,
     Søknadsfrist,
 } from './vilkårsgrupper/Vilkårsgrupper';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import { Flex } from '../../../components/Flex';
 import { Infoikon } from '../../../components/ikoner/Infoikon';
 
@@ -109,6 +109,9 @@ export interface KategoriserteVilkår {
     vilkårVurdertFørstePeriode?: Vilkårdata[];
 }
 
+export const institusjonsoppholdOppfylt = (godkjenttidspunkt: Dayjs | undefined) =>
+    godkjenttidspunkt?.isAfter(dayjs('2020-10-04')); //Ble lagt på sjekk i spleis 30/09/20
+
 export const useKategoriserteVilkår = ({
     vilkår,
     risikovurdering,
@@ -125,7 +128,7 @@ export const useKategoriserteVilkår = ({
         sykepengegrunnlag(vilkår),
         dagerIgjen(vilkår),
         medlemskap(vilkår),
-        institusjonsopphold(godkjenttidspunkt?.isAfter(dayjs('2020-10-04'))), //Ble lagt på sjekk i spleis 30/09/20
+        institusjonsopphold(institusjonsoppholdOppfylt(godkjenttidspunkt)),
         arbeidsuførhet(risikovurdering),
     ];
 
