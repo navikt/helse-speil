@@ -88,9 +88,8 @@ const institusjonsopphold = (oppfylt?: boolean) => ({
 
 const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => {
     const oppfylt =
-        risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0
-            ? true
-            : undefined;
+        (risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0) ||
+        undefined;
     return {
         type: Vilkårstype.Arbeidsuførhet,
         oppfylt: oppfylt,
