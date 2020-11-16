@@ -92,7 +92,7 @@ const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => {
         oppfylt: oppfylt,
         tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
         paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
-        komponent: oppfylt && <Arbeidsuførhet risikovurdering={risikovurdering} />,
+        komponent: <Arbeidsuførhet risikovurdering={risikovurdering} />,
     };
 };
 
