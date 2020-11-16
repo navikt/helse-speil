@@ -43,6 +43,8 @@ const AlderIkon = styled(Infoikon)`
     padding: 0 10px 0 2px;
 `;
 
+const EndretParagrafContainer = Flex.withComponent('span');
+
 const sykepengegrunnlag = (vilkår: Vilkår) => {
     const harEndretParagraf = vilkår.alder.alderSisteSykedag < 70 && vilkår.alder.alderSisteSykedag >= 67;
     return {
@@ -50,9 +52,9 @@ const sykepengegrunnlag = (vilkår: Vilkår) => {
         oppfylt: vilkår.sykepengegrunnlag.oppfylt,
         tittel: 'Krav til minste sykepengegrunnlag',
         paragraf: harEndretParagraf ? (
-            <Flex style={{ alignItems: 'center' }}>
+            <EndretParagrafContainer style={{ alignItems: 'center' }}>
                 <AlderIkon width={16} height={16} />§ 8-51
-            </Flex>
+            </EndretParagrafContainer>
         ) : (
             '§ 8-3'
         ),
