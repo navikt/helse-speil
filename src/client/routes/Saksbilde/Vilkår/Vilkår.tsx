@@ -1,116 +1,94 @@
-import React, { ReactNode, useContext } from 'react';
-import { Navigasjonsknapper } from '../../../components/Navigasjonsknapper';
-import { MedPersonOgVedtaksperiode, PersonContext } from '../../../context/PersonContext';
-import styled from '@emotion/styled';
-import { BehandletVedtaksperiode, BehandletVedtaksperiodeFraInfotrygd } from './BehandletVedtaksperiode';
-import { PåfølgendeVedtaksperiode } from './PåfølgendeVedtaksperiode';
-import { Førstegangsbehandling } from './UbehandletVedtaksperiode';
-import { Vedtaksperiode, Periodetype } from 'internal-types';
-import { useKategoriserteVilkår, KategoriserteVilkår } from './useKategoriserteVilkår';
-import { Vilkårstype } from '../../../mapping/vilkår';
-import { førsteVedtaksperiode } from '../../../mapping/selectors';
-import { Vilkårsgruppe } from './Vilkårsgrupper/Vilkårsgruppe';
+import React, { useContext } from 'react';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import { useKategoriserteVilkår } from './useKategoriserteVilkår';
+import { MedPersonOgVedtaksperiode, PersonContext } from '../../../context/PersonContext';
+import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
+import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
+import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
+import { VurdertAvSaksbehandler } from './vilkårsgrupper/VurdertAvSaksbehandler';
+import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
+import { VurdertAutomatisk } from './vilkårsgrupper/VurdertAutomatisk';
+import styled from '@emotion/styled';
+import { førsteVedtaksperiode } from '../../../mapping/selectors';
+import { Flex } from '../../../components/Flex';
+import { Vilkårdata } from '../../../mapping/vilkår';
+import { Strek } from './Vilkår.styles';
 
-const Footer = styled(Navigasjonsknapper)`
-    margin: 2.5rem 2rem 2rem;
+const Container = styled.div`
+    margin-top: 2rem;
 `;
 
-export interface Vilkårdata {
-    type: Vilkårstype;
-    komponent: ReactNode;
-    oppfylt?: boolean;
-}
+const Separator = styled(Strek)`
+    margin: 2rem 0;
+`;
 
-const filtrerBehandledeVilkår = (vilkår: Vilkårdata): boolean =>
-    ![Vilkårstype.Opptjeningstid, Vilkårstype.Sykepengegrunnlag].includes(vilkår.type);
+const harVilkår = (vilkår?: Vilkårdata[]) => vilkår && vilkår.length > 0;
 
-const tilKomponent = (vilkår: Vilkårdata): ReactNode => vilkår.komponent;
+export const Vilkår = () => {
+    const { aktivVedtaksperiode: vedtaksperiode, personTilBehandling } = useContext(
+        PersonContext
+    ) as MedPersonOgVedtaksperiode;
+    const {
+        oppfylteVilkår,
+        ikkeVurderteVilkår,
+        ikkeOppfylteVilkår,
+        vilkårVurdertAvSaksbehandler,
+        vilkårVurdertAutomatisk,
+        vilkårVurdertIInfotrygd,
+        vilkårVurdertFørstePeriode,
+    } = useKategoriserteVilkår(vedtaksperiode);
 
-const oppfylteVilkårMedInstitusjon = (vilkårkomponenter: ReactNode[]) => [
-    ...vilkårkomponenter,
-    <Vilkårsgruppe tittel="Ingen institusjonsopphold" paragraf="§ 8-53 og 8-54" ikontype="ok" />,
-];
+    if (!vedtaksperiode || personTilBehandling === undefined) return null;
 
-interface VanligeVilkårProps {
-    aktivVedtaksperiode: Vedtaksperiode;
-    førsteVedtaksperiode: Vedtaksperiode;
-    vilkår: KategoriserteVilkår;
-}
+    const førstePeriode = førsteVedtaksperiode(vedtaksperiode, personTilBehandling!);
 
-const Vilkårsvisning = ({ aktivVedtaksperiode, førsteVedtaksperiode, vilkår }: VanligeVilkårProps) => {
-    const { ikkeOppfylteVilkår, oppfylteVilkår, ikkeVurderteVilkår } = vilkår;
+    const harBehandledeVilkår =
+        harVilkår(ikkeVurderteVilkår) || harVilkår(ikkeOppfylteVilkår) || harVilkår(oppfylteVilkår);
 
-    if (aktivVedtaksperiode.behandlet) {
-        return aktivVedtaksperiode.forlengelseFraInfotrygd ? (
-            <BehandletVedtaksperiodeFraInfotrygd
-                aktivVedtaksperiode={aktivVedtaksperiode}
-                førsteVedtaksperiode={førsteVedtaksperiode}
-            />
-        ) : (
-            <BehandletVedtaksperiode
-                aktivVedtaksperiode={aktivVedtaksperiode}
-                førsteVedtaksperiode={førsteVedtaksperiode}
-            />
-        );
-    }
-    switch (aktivVedtaksperiode.periodetype) {
-        case Periodetype.Førstegangsbehandling:
-            return (
-                <Førstegangsbehandling
-                    ikkeOppfylteVilkår={ikkeOppfylteVilkår.map(tilKomponent)}
-                    oppfylteVilkår={oppfylteVilkårMedInstitusjon(oppfylteVilkår.map(tilKomponent))}
-                    ikkeVurderteVilkår={ikkeVurderteVilkår}
-                    risikovurdering={aktivVedtaksperiode.risikovurdering}
-                />
-            );
-        case Periodetype.Forlengelse:
-            return (
-                <PåfølgendeVedtaksperiode
-                    førsteVedtaksperiode={førsteVedtaksperiode}
-                    ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
-                    oppfylteVilkår={oppfylteVilkårMedInstitusjon(
-                        oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)
-                    )}
-                    ikkeVurderteVilkår={ikkeVurderteVilkår}
-                    risikovurdering={aktivVedtaksperiode.risikovurdering}
-                />
-            );
-        case Periodetype.Infotrygdforlengelse:
-            return (
-                <PåfølgendeVedtaksperiode
-                    førsteVedtaksperiode={førsteVedtaksperiode}
-                    ikkeOppfylteVilkår={ikkeOppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)}
-                    oppfylteVilkår={oppfylteVilkårMedInstitusjon(
-                        oppfylteVilkår.filter(filtrerBehandledeVilkår).map(tilKomponent)
-                    )}
-                    ikkeVurderteVilkår={ikkeVurderteVilkår}
-                    forlengelseFraInfotrygd={true}
-                    risikovurdering={aktivVedtaksperiode.risikovurdering}
-                />
-            );
-    }
-};
+    const harAlleredeVurderteVilkår =
+        harVilkår(vilkårVurdertFørstePeriode) ||
+        harVilkår(vilkårVurdertIInfotrygd) ||
+        harVilkår(vilkårVurdertAvSaksbehandler) ||
+        harVilkår(vilkårVurdertAutomatisk);
 
-const Vilkår = () => {
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext) as MedPersonOgVedtaksperiode;
-    const vilkår = useKategoriserteVilkår(aktivVedtaksperiode);
-
-    if (!aktivVedtaksperiode || vilkår === undefined || personTilBehandling === undefined) return null;
-
-    const førstePeriode = førsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling!);
     return (
-        <>
-            <AgurkErrorBoundary sidenavn="Vilkår">
-                <Vilkårsvisning
-                    vilkår={vilkår}
-                    aktivVedtaksperiode={aktivVedtaksperiode}
-                    førsteVedtaksperiode={førstePeriode}
-                />
-            </AgurkErrorBoundary>
-            <Footer />
-        </>
+        <AgurkErrorBoundary sidenavn="Vilkår">
+            <Container className="vilkår">
+                {harBehandledeVilkår && (
+                    <Flex>
+                        {harVilkår(ikkeVurderteVilkår) && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår!} />}
+                        {harVilkår(ikkeOppfylteVilkår) && <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår!} />}
+                        {harVilkår(oppfylteVilkår) && <OppfylteVilkår vilkår={oppfylteVilkår!} />}
+                    </Flex>
+                )}
+                {harBehandledeVilkår && harAlleredeVurderteVilkår && <Separator />}
+                {harAlleredeVurderteVilkår && (
+                    <Flex>
+                        {vilkårVurdertAvSaksbehandler && vilkårVurdertAvSaksbehandler.length > 0 && (
+                            <VurdertAvSaksbehandler
+                                vilkår={vilkårVurdertAvSaksbehandler}
+                                saksbehandler={vedtaksperiode.godkjentAv}
+                            />
+                        )}
+                        {vilkårVurdertFørstePeriode && vilkårVurdertFørstePeriode.length > 0 && (
+                            <VurdertAvSaksbehandler
+                                vilkår={vilkårVurdertFørstePeriode}
+                                saksbehandler={førstePeriode.godkjentAv}
+                                skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
+                            />
+                        )}
+                        {vilkårVurdertAutomatisk && vilkårVurdertAutomatisk.length > 0 && (
+                            <VurdertAutomatisk
+                                vilkår={vilkårVurdertAutomatisk}
+                                saksbehandler={vedtaksperiode.godkjentAv}
+                            />
+                        )}
+                        {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
+                            <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
+                        )}
+                    </Flex>
+                )}
+            </Container>
+        </AgurkErrorBoundary>
     );
 };
-
-export default Vilkår;

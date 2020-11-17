@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const IkonÅpenLås = ({ width = 24, height = 24, fill = '#0067c5' }) => (
+export const IkonÅpenLås = ({ width = 24, height = 24 }) => (
     <svg
         width={width}
         height={height}

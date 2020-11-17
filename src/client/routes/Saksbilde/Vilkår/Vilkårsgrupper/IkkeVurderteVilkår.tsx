@@ -1,98 +1,65 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Vilkårstittel from '../Vilkårstittel';
-import Vilkårsgrupperad from './Vilkårsgrupperad';
-import { Grid } from '../../../../components/Grid';
+import { IkonContainer, Paragraf, Tittel, Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
 import { Infoikon } from '../../../../components/ikoner/Infoikon';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
-import { Strek, Vilkårgrid, Vilkårinnhold } from '../Vilkår.styles';
-import { FlexColumn } from '../../../../components/Flex';
-import { Risikovurdering } from 'internal-types';
-import { ArbeidsuførhetIkkeVurdert } from './Vilkårsgrupper';
+import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårdata } from '../../../../mapping/vilkår';
+import { Flex, FlexColumn } from '../../../../components/Flex';
 
-const Yrkesskadetekst = styled(Normaltekst)`
-    padding-left: 2rem;
+const IkkeVurdertVilkårContainer = styled.div`
+    margin-bottom: 2rem;
 `;
-
-const Innhold = styled(Grid)`
-    justify-content: start;
-`;
-
-const IkkeVurderteVilkårTittel = styled(Vilkårstittel)`
-    margin-top: 0;
-`;
-
-const VilkårContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-export interface IkkeVurdertVilkår {
-    label: string;
-    paragraf: string;
-}
 
 interface VilkårSystemetIkkeVurdererProps {
-    ikkeVurderteVilkår: IkkeVurdertVilkår[];
-    risikovurdering?: Risikovurdering;
+    vilkår: Vilkårdata[];
 }
 
-const VilkårSystemetIkkeVurderer = ({ ikkeVurderteVilkår, risikovurdering }: VilkårSystemetIkkeVurdererProps) => {
-    if (ikkeVurderteVilkår.length === 0 && ArbeidsuførhetIkkeVurdert(risikovurdering) === null) return null;
-    return (
-        <>
-            <IkkeVurderteVilkårTittel størrelse="m" ikon={<Advarselikon />}>
-                Vilkår til vurdering
-            </IkkeVurderteVilkårTittel>
-            <VilkårContainer>
-                {ArbeidsuførhetIkkeVurdert(risikovurdering)}
-                <Vilkårgrid>
-                    {ikkeVurderteVilkår.map((v) => (
-                        <Vilkårsgrupperad key={v.label} label={v.label} bold>
-                            {v.paragraf}
-                        </Vilkårsgrupperad>
-                    ))}
-                </Vilkårgrid>
-            </VilkårContainer>
-        </>
-    );
-};
+const VilkårSystemetIkkeVurderer = ({ vilkår }: VilkårSystemetIkkeVurdererProps) => (
+    <FlexColumn data-testid="ikke-vurderte-vilkår">
+        <Vilkårskategori ikon={<Advarselikon />}>Vilkår til vurdering</Vilkårskategori>
+        {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
+            <IkkeVurdertVilkårContainer key={i}>
+                <Vilkårsgruppetittel type={type} paragraf={paragraf}>
+                    {tittel}
+                </Vilkårsgruppetittel>
+                {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
+            </IkkeVurdertVilkårContainer>
+        ))}
+    </FlexColumn>
+);
+
+const Yrkesskadetekst = styled(Normaltekst)`
+    padding-left: 2.5rem;
+`;
+
+const YrkesskadeContainer = styled.div`
+    margin: 2rem 0;
+`;
 
 const Yrkeskadeinfo = () => (
-    <>
-        <IkkeVurderteVilkårTittel størrelse="m" ikon={<Infoikon />} paragraf="§ 8-55">
-            Systemet henter ikke inn yrkesskade
-        </IkkeVurderteVilkårTittel>
+    <YrkesskadeContainer data-testid="yrkesskade">
+        <Flex alignItems="center" style={{ marginBottom: '0.5rem' }}>
+            <IkonContainer>
+                <Infoikon />
+            </IkonContainer>
+            <Tittel>Systemet henter ikke inn yrkesskade</Tittel>
+            <Paragraf>§ 8-55</Paragraf>
+        </Flex>
         <Yrkesskadetekst>Systemet henter per i dag ikke inn informasjon om yrkesskade.</Yrkesskadetekst>
         <Yrkesskadetekst>Yrkesskade kan ha påvirkning på utfallet av enkelte vilkår.</Yrkesskadetekst>
         <Yrkesskadetekst>Vurdering av yrkesskade følger ordinære rutiner.</Yrkesskadetekst>
-    </>
+    </YrkesskadeContainer>
 );
 
 interface IkkeVurderteVilkårProps {
-    className?: string;
-    ikkeVurderteVilkår: IkkeVurdertVilkår[];
-    risikovurdering?: Risikovurdering;
+    vilkår?: Vilkårdata[];
 }
 
-const IkkeVurderteVilkår = ({ className, ikkeVurderteVilkår, risikovurdering }: IkkeVurderteVilkårProps) => (
-    <>
-        <Vilkårinnhold>
-            <Innhold gridTemplateColumns="37rem auto" className={className}>
-                <FlexColumn>
-                    <VilkårSystemetIkkeVurderer
-                        ikkeVurderteVilkår={ikkeVurderteVilkår}
-                        risikovurdering={risikovurdering}
-                    />
-                </FlexColumn>
-                <FlexColumn>
-                    <Yrkeskadeinfo />
-                </FlexColumn>
-            </Innhold>
-        </Vilkårinnhold>
-        <Strek />
-    </>
+export const IkkeVurderteVilkår = ({ vilkår }: IkkeVurderteVilkårProps) => (
+    <Vilkårkolonne>
+        {vilkår && vilkår.length > 0 && <VilkårSystemetIkkeVurderer vilkår={vilkår} />}
+        <Yrkeskadeinfo />
+    </Vilkårkolonne>
 );
-
-export default IkkeVurderteVilkår;

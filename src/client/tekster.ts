@@ -1,4 +1,4 @@
-import i18n, { Resource, ResourceKey, ResourceLanguage } from 'i18next';
+import i18n, { Resource, ResourceKey } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 interface Translation {
@@ -15,14 +15,6 @@ interface Translation {
     sykepengegrunnlag: ResourceKey;
     sykmeldingsperiode: ResourceKey;
     utbetalingsoversikt: ResourceKey;
-}
-
-interface Language {
-    translation: Translation;
-}
-
-interface SpeilResource extends Resource {
-    bokmål: ResourceLanguage;
 }
 
 const resources: Resource = {

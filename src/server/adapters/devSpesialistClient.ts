@@ -54,7 +54,7 @@ const hentTildeling = (oppgavereferanse: string) => {
         .catch(() => {});
 };
 
-export const tildel = (oppgavereferanse: string, saksbehandler: string) => {
+export const tildel = (oppgavereferanse: string) => {
     const options = {
         uri: `http://localhost:9001/api/v1/tildeling/${oppgavereferanse}`,
         resolveWithFullResponse: true,

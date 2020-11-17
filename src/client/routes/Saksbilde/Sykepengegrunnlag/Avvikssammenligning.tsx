@@ -12,7 +12,7 @@ interface Props {
 const Sammenligning = styled.div`
     grid-column-end: 3;
     display: grid;
-    grid-template-columns: 15rem max-content;
+    grid-template-columns: 13rem max-content;
     margin-bottom: 2rem;
     grid-column-gap: 2rem;
     grid-row-gap: 0.5rem;

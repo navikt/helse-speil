@@ -1,6 +1,6 @@
 import { mapArbeidsgivere } from '../../client/mapping/arbeidsgiver';
 import { umappetVedtaksperiode } from './vedtaksperiode';
-import { SpesialistArbeidsgiver, SpesialistOverstyring, SpesialistRisikovurdering } from 'external-types';
+import { SpesialistArbeidsgiver, SpesialistOverstyring } from 'external-types';
 
 export const umappetArbeidsgiver = (
     vedtaksperioder = [umappetVedtaksperiode()],

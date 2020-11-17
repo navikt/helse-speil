@@ -1,8 +1,8 @@
 import { Tildeling } from 'internal-types';
-import { extractIdent, extractSpesialistToken } from '../utils/cookie';
+import { extractSpesialistToken } from '../utils/cookie';
 import { AnnulleringDTO, Options, OverstyringDTO } from './types';
-import { Avvisningsskjema } from '../routes/Saksbilde/Oppsummering/utbetaling/Utbetalingsdialog';
 import { speilTildeling } from '../featureToggles';
+import { Avvisningsskjema } from '../routes/Saksbilde/Utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -147,18 +147,3 @@ export const deleteTildeling = async (oppgavereferanse: string) => {
         return del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
     }
 };
-
-export const postDummyTildelingViaProxy = async (oppgaveRef: string) =>
-    post(`${baseUrl}/dummy/tildeling/${oppgaveRef}`, {});
-
-export const postDummyTildeling = async (oppgaveref: string) =>
-    post(`${baseUrlSpesialist}/dummytildeling/${oppgaveref}`, {}, spesialistAuthorization());
-
-export const getDummyTildeling = async (oppgaveref: string) =>
-    get(`${baseUrlSpesialist}/dummytildeling/${oppgaveref}`, spesialistOptions());
-
-export const postDummyTildelingSpesialist = async (oppgaveref: string) =>
-    post(`https://spesialist.nais.adeo.no/api/v1/dummytildeling/${oppgaveref}`, {}, spesialistAuthorization());
-
-export const getDummyTildelingSpesialist = async (oppgaveref: string) =>
-    get(`https://spesialist.nais.adeo.no/api/v1/dummytildeling/${oppgaveref}`, spesialistOptions());

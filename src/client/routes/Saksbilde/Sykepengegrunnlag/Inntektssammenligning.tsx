@@ -21,10 +21,10 @@ const Kolonnetittel = styled(Undertekst)`
 
 const Sammenligning = styled.div`
     display: grid;
-    grid-template-columns: 15rem max-content max-content;
+    grid-template-columns: 13rem max-content max-content;
     grid-gap: 0.5rem;
     grid-column-gap: 2rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 4.5rem;
 `;
 
 const InntektMedKilde = styled.div`
@@ -49,8 +49,8 @@ const Inntektssammenligning = ({ inntektskilde, årsinntektAordning, årsinntekt
     return (
         <Sammenligning>
             <div />
-            <Kategoritittel>Inntektsgrunnlag fra inntektsmelding</Kategoritittel>
-            <Kategoritittel>Sammenligningsgrunnlag fra A-ordningen</Kategoritittel>
+            <Kategoritittel>Inntektsgrunnlag</Kategoritittel>
+            <Kategoritittel>Sammenligningsgrunnlag</Kategoritittel>
             <Kolonnetittel>Inntektskilde</Kolonnetittel>
             <Kolonnetittel>Omregnet årsinntekt</Kolonnetittel>
             <Kolonnetittel>Rapportert årsinntekt</Kolonnetittel>

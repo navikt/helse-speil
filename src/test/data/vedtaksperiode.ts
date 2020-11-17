@@ -11,7 +11,6 @@ import {
     SpleisForlengelseFraInfotrygd,
     SpleisPeriodetype,
     SpleisSykdomsdag,
-    SpleisSykdomsdagtype,
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';

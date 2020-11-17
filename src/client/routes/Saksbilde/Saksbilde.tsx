@@ -1,176 +1,121 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import Vilkår from './Vilkår';
-import Sakslinje from '../../components/sakslinje/Sakslinje';
-import Lenkeknapp from '../../components/Lenkeknapp';
+import { Flex, FlexColumn } from '../../components/Flex';
+import { Tidslinje } from '../../components/tidslinje';
+import { Personlinje } from '../../components/Personlinje';
+import { PersonContext } from '../../context/PersonContext';
+import { useRefetchPersonOnUrlChange } from '../../hooks/useRefetchPersonOnUrlChange';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Vilkår } from './Vilkår/Vilkår';
+import { Utbetaling } from './Utbetaling/Utbetaling';
+import { Sykepengegrunnlag } from './Sykepengegrunnlag/Sykepengegrunnlag';
+import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
 import { Toppvarsler } from '../../components/Toppvarsler';
 import LoggProvider from '../../context/logg/LoggProvider';
-import Oppsummering from './Oppsummering';
-import Inntektskilder from './Inntektskilder/Inntektskilder';
-import Sykepengegrunnlag from './Sykepengegrunnlag';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import Utbetalingsoversikt from './Utbetalingsoversikt';
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
-import { Tidslinje } from '../../components/tidslinje';
-import { authState } from '../../state/authentication';
-import { Høyremeny } from '../../components/Høyremeny';
-import { Personlinje } from '../../components/Personlinje';
-import { Venstremeny } from '../../components/venstremeny';
-import { PersonContext } from '../../context/PersonContext';
-import { useRecoilValue } from 'recoil';
-import { Route, useParams } from 'react-router-dom';
-import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
-import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
-import { Location, useNavigation } from '../../hooks/useNavigation';
+import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
+import '@navikt/helse-frontend-logg/lib/main.css';
+import { Sakslinje } from './sakslinje/Sakslinje';
 import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
-import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
-import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
-import { Scopes, useUpdateVarsler, useVarselFilter } from '../../state/varslerState';
 
 const Container = styled.div`
     display: flex;
+    flex-direction: column;
     flex: 1;
-    min-width: max-content;
+    overflow: auto;
+`;
+
+const Content = styled.div`
+    margin: 0 2.5rem 4rem 2rem;
+    height: 100%;
+`;
+
+const LoggHeader = styled(EksternLoggheader)`
+    width: 336px;
     box-sizing: border-box;
+    border-left: 1px solid #c6c2bf;
+    box-shadow: inset 0 -1px 0 0 #c6c2bf;
+    height: 91px;
 `;
 
-const Hovedinnhold = styled.div`
-    flex: 1;
-    overflow-x: scroll;
+const LoggListe = styled(EksternLoggliste)`
+    width: 336px;
+    box-sizing: border-box;
+    border-left: 1px solid #c6c2bf;
+    border-top: none;
+    margin-bottom: 4rem;
+
+    .Sykmelding:before,
+    .Søknad:before,
+    .Inntektsmelding:before {
+        position: absolute;
+        font-size: 14px;
+        border: 1px solid #59514b;
+        color: #59514b;
+        border-radius: 4px;
+        width: 28px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+        box-sizing: border-box;
+        left: 0;
+    }
+
+    .Sykmelding:before {
+        content: 'SM';
+    }
+
+    .Søknad:before {
+        content: 'SØ';
+    }
+
+    .Inntektsmelding:before {
+        content: 'IM';
+    }
 `;
 
-const SpinnerMedMarginTilVenstre = styled(NavFrontendSpinner)`
-    margin-left: 1rem;
-`;
-
-const TildelingVarsel = ({ tildeltTil, oppgavererefanse }: { tildeltTil?: string; oppgavererefanse?: string }) => {
-    const { email } = useRecoilValue(authState);
-    const { tildelOppgave } = useOppgavetildeling();
-    const { markerPersonSomTildelt } = useContext(PersonContext);
-    const [posting, setPosting] = useState(false);
-
-    const tildel = () => {
-        if (!oppgavererefanse) return;
-        setPosting(true);
-        tildelOppgave(oppgavererefanse, email!)
-            .then(() => markerPersonSomTildelt(email))
-            .catch((assignedUser) => markerPersonSomTildelt(assignedUser))
-            .finally(() => setPosting(false));
-    };
-
-    return oppgavererefanse === undefined ? null : (
-        <>
-            {tildeltTil ? (
-                tildeltTil !== email ? (
-                    <Varsel type={Varseltype.Info}>
-                        Saken er allerede tildelt til {capitalizeName(extractNameFromEmail(tildeltTil))}
-                    </Varsel>
-                ) : null
-            ) : (
-                <Varsel type={Varseltype.Info}>
-                    Saken er ikke tildelt noen.&nbsp;<Lenkeknapp onClick={tildel}>Tildel meg</Lenkeknapp>
-                    {posting && <SpinnerMedMarginTilVenstre type="XS" />}
-                </Varsel>
-            )}
-        </>
-    );
-};
-
-const TomtSaksbilde = () => (
-    <>
-        <Personlinje />
-        <Sakslinje />
-        <Container>
-            <Venstremeny />
-            <Høyremeny />
-        </Container>
-    </>
-);
-
-const useGyldigUrlVarsel = () => {
-    const { leggTilVarsel } = useUpdateVarsler();
-    useEffect(() => {
-        if (location.pathname.match(/\//g)!.length < 2) {
-            leggTilVarsel({
-                message: `'${location.pathname}' er ikke en gyldig URL.`,
-                scope: Scopes.SAKSBILDE,
-                type: Varseltype.Feil,
-            });
-        }
-    }, [location.pathname]);
-};
-
-const useRefetchPersonOnUrlChange = () => {
-    const { aktorId } = useParams();
-    const { hentPerson } = useContext(PersonContext);
-    const { leggTilVarsel } = useUpdateVarsler();
-
-    useEffect(() => {
-        const aktørId = aktorId.match(/^\d{1,15}$/);
-        if (!aktørId) {
-            leggTilVarsel({
-                message: `'${aktorId}' er ikke en gyldig aktør-ID.`,
-                scope: Scopes.SAKSBILDE,
-                type: Varseltype.Feil,
-            });
-        } else {
-            hentPerson(aktørId[0]);
-        }
-    }, [aktorId]);
-};
-
-const finnOppgavereferanse = ({ vedtaksperioder }: Arbeidsgiver): string | undefined =>
-    (vedtaksperioder as Vedtaksperiode[]).find(
-        ({ oppgavereferanse }) => oppgavereferanse && oppgavereferanse !== 'null'
-    )?.oppgavereferanse;
-
-const Saksbilde = () => {
-    const { toString } = useNavigation();
+export const Saksbilde = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    const oppgavereferanse = personTilBehandling && finnOppgavereferanse(personTilBehandling.arbeidsgivere[0]);
+    const { path } = useRouteMatch();
 
-    useVarselFilter(Scopes.SAKSBILDE);
-    useGyldigUrlVarsel();
     useRefetchPersonOnUrlChange();
 
-    if (!personTilBehandling || !aktivVedtaksperiode) return <TomtSaksbilde />;
+    if (!personTilBehandling) return <div />;
 
     return (
-        <>
-            <TildelingVarsel tildeltTil={personTilBehandling.tildeltTil} oppgavererefanse={oppgavereferanse} />
-            <Personlinje person={personTilBehandling} />
-            <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
+        <Container className="saksbilde">
             <LoggProvider>
-                <Sakslinje />
-                <Container>
-                    <Venstremeny vedtaksperiode={aktivVedtaksperiode} />
-                    <Hovedinnhold>
+                <Personlinje person={personTilBehandling} />
+                <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
+                <Flex justifyContent="space-between">
+                    <Sakslinje />
+                    <LoggHeader />
+                </Flex>
+                <Flex style={{ flex: 1 }}>
+                    <FlexColumn style={{ flex: 1 }}>
                         <Toppvarsler />
-                        <Route
-                            path={`${toString(Location.Sykmeldingsperiode)}/:fodselsnummer`}
-                            component={Sykmeldingsperiode}
-                        />
-                        <Route path={`${toString(Location.Vilkår)}/:fodselsnummer`} component={Vilkår} />
-                        <Route
-                            path={`${toString(Location.Inntektskilder)}/:fodselsnummer`}
-                            component={Inntektskilder}
-                        />
-                        <Route
-                            path={`${toString(Location.Sykepengegrunnlag)}/:fodselsnummer`}
-                            component={Sykepengegrunnlag}
-                        />
-                        <Route
-                            path={`${toString(Location.Utbetalingsoversikt)}/:fodselsnummer`}
-                            component={Utbetalingsoversikt}
-                        />
-                        <Route path={`${toString(Location.Oppsummering)}/:fodselsnummer`} component={Oppsummering} />
-                    </Hovedinnhold>
-                    <Høyremeny />
-                </Container>
+                        <Content>
+                            <Switch>
+                                <Route path={`${path}/utbetaling`}>
+                                    <Utbetaling />
+                                </Route>
+                                <Route path={`${path}/sykmeldingsperiode`}>
+                                    <Sykmeldingsperiode />
+                                </Route>
+                                <Route path={`${path}/vilkår`}>
+                                    <Vilkår />
+                                </Route>
+                                <Route path={`${path}/sykepengegrunnlag`}>
+                                    <Sykepengegrunnlag />
+                                </Route>
+                            </Switch>
+                        </Content>
+                    </FlexColumn>
+                    <LoggListe />
+                </Flex>
             </LoggProvider>
             <KalkulererOverstyringToast />
-        </>
+        </Container>
     );
 };
-
-export default Saksbilde;

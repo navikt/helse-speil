@@ -192,10 +192,6 @@ export interface Vedtaksperiode {
     overstyringer: Overstyring[];
 }
 
-export interface VedtaksperiodeMedVilkår extends Vedtaksperiode {
-    vilkår: Vilkår;
-}
-
 export interface Utbetalinger {
     arbeidsgiverUtbetaling?: Utbetaling;
     personUtbetaling?: Utbetaling;

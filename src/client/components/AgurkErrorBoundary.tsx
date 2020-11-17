@@ -30,7 +30,7 @@ const Utviklermelding = styled.span`
 const Feilmelding = styled.p`
     display: block;
     white-space: pre;
-    margin: 1em 0px;
+    margin: 1em 0;
     background-color: #fff0f0;
     color: #ff0000;
     padding: 1rem;
@@ -61,11 +61,7 @@ const ErrorInnhold: React.FC<ErrorInnholdProps> = ({ sidenavn, errormelding }) =
     );
 };
 
-type ErrorBoundaryProps = {
-    sidenavn?: string;
-};
-
-export const AgurkErrorBoundary: React.FC<PropsWithChildren<ErrorBoundaryProps>> = ({ children, sidenavn }) => {
+export const AgurkErrorBoundary: React.FC<PropsWithChildren<any>> = ({ children }) => {
     const [errormelding, setErrormelding] = useState<string | undefined>();
     if (!children) return null;
     return (

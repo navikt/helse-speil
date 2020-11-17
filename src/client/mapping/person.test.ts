@@ -1,6 +1,6 @@
 import { mapPerson } from './person';
 import { Vedtaksperiode } from 'internal-types';
-import { somDato, somTidspunkt } from './vedtaksperiode';
+import { somDato } from './vedtaksperiode';
 import {
     SpleisSykdomsdag,
     SpleisSykdomsdagkildeType,
@@ -40,8 +40,7 @@ describe('personmapper', () => {
         const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
 
         expect(aktivitetslog).toHaveLength(1);
-        const expectedAktivitet: string = melding;
-        expect(aktivitetslog).toContainEqual(expectedAktivitet);
+        expect(aktivitetslog).toContainEqual(melding);
     });
 
     test('mapper varsler', async () => {
@@ -54,8 +53,7 @@ describe('personmapper', () => {
         const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
 
         expect(aktivitetslog).toHaveLength(1);
-        const expectedAktivitet: string = melding;
-        expect(aktivitetslog).toContainEqual(expectedAktivitet);
+        expect(aktivitetslog).toContainEqual(melding);
     });
 
     test('mapper person med flere vedtaksperioder', async () => {

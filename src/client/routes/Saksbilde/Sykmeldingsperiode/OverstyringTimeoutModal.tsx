@@ -2,7 +2,6 @@ import React from 'react';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
 import { Modal } from '../../../components/Modal';
-import { Undertittel } from 'nav-frontend-typografi';
 import { useHistory } from 'react-router';
 
 const Knappegruppe = styled.span`
@@ -21,10 +20,6 @@ const Tekst = styled.p`
     &:last-of-type {
         margin-bottom: 2rem;
     }
-`;
-
-const Tittel = styled(Undertittel)`
-    padding: 0 1rem;
 `;
 
 interface Props {

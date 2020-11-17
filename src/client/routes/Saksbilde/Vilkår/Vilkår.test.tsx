@@ -1,190 +1,351 @@
 import React from 'react';
-import dayjs from 'dayjs';
-import Vilkår from './Vilkår';
-import { MemoryRouter } from 'react-router';
-import { PersonContext } from '../../../context/PersonContext';
-import { render, screen } from '@testing-library/react';
-import { Kjønn, Overstyring, Periodetype, Person, Vedtaksperiode } from 'internal-types';
+import { screen } from '@testing-library/react';
+import { Vilkår } from './Vilkår';
 import '@testing-library/jest-dom/extend-expect';
-import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
-import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
-
-const enSpeilVedtaksperiode = () =>
-    mapVedtaksperiode({
-        overstyringer: [],
-        ...umappetVedtaksperiode(),
-        organisasjonsnummer: '123456789',
-    });
-
-const enPersoninfo = () => ({
-    fornavn: 'Kari',
-    mellomnavn: null,
-    etternavn: 'Normann',
-    kjønn: 'Mann' as Kjønn,
-    fødselsdato: dayjs(),
-});
-
-const enArbeidsgiver = async () => ({
-    id: '123',
-    navn: 'En bedrift',
-    organisasjonsnummer: '123456789',
-    vedtaksperioder: [await enSpeilVedtaksperiode()],
-    overstyringer: new Map<string, Overstyring>(),
-});
-
-const personTilBehandling = async () => ({
-    aktørId: '12345',
-    fødselsnummer: '12345678901',
-    arbeidsgivere: [await enArbeidsgiver()],
-    personinfo: enPersoninfo(),
-    infotrygdutbetalinger: [],
-    enhet: { id: '', navn: '' },
-});
-
-const vilkårTilVurdering = () => screen.queryByText('Vilkår til vurdering');
-const automatiskVurderteVilkår = () => screen.queryByText('Vurderte vilkår');
-const behandletAvInfotrygd = () => screen.queryByText('Behandlet av infotrygd');
-const behandletInnhold = () => screen.queryByText('Vilkår vurdert for denne perioden');
-const behandletInnholdSkjæringstidspunkt = () =>
-    screen.queryByText('Vilkår vurdert ved skjæringstidspunkt - 01.01.2020');
-
-const defaultPersonContextValue = {
-    markerPersonSomTildelt: (_: string) => null,
-    hentPerson: (_: string) => Promise.resolve(undefined),
-    isFetching: false,
-    aktiverVedtaksperiode: (_: string) => null,
-};
-
-const renderVilkår = (personTilBehandling: Person, aktivVedtaksperiode: Vedtaksperiode) =>
-    render(
-        <MemoryRouter>
-            <PersonContext.Provider value={{ ...defaultPersonContextValue, personTilBehandling, aktivVedtaksperiode }}>
-                <Vilkår />
-            </PersonContext.Provider>
-        </MemoryRouter>
-    );
+import {
+    expectGroupsToNotExist,
+    expectGroupToContainVisible,
+    expectHTMLGroupToContainVisible,
+    ferdigbehandlet,
+    ferdigbehandletAutomatisk,
+    Group,
+    ikkeOppfyltAlder,
+    infotrygdforlengelse,
+    oppfyltInstitusjonsopphold,
+    personMedModifiserteVilkår,
+    påfølgende,
+    renderVilkår,
+    TestId,
+} from './testutils';
 
 describe('Vilkår', () => {
-    describe('som er ubehandlet', () => {
-        test('skal ha automatisk vurderte vilkår og vilkår til vurdering', async () => {
-            const person = await personTilBehandling();
-            const vedtaksperiode = {
-                ...(await enSpeilVedtaksperiode()),
-                risikovurdering: { arbeidsuførhetvurdering: ['en testvurdering'], ufullstendig: false },
-            };
+    describe('førstegangsbehandling', () => {
+        it('har alle vilkår oppfylt', async () => {
+            const medAlleVilkårOppfylt = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [oppfyltInstitusjonsopphold()],
+            });
+            await renderVilkår(medAlleVilkårOppfylt);
 
-            renderVilkår(person, vedtaksperiode);
+            expectGroupToContainVisible(
+                Group.OppfylteVilkår,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.DagerIgjen,
+                TestId.Medlemskap,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
+            );
 
-            expect(vilkårTilVurdering()).toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnhold()).toBeNull();
-            expect(behandletAvInfotrygd()).toBeNull();
+            expectGroupsToNotExist(
+                Group.VurdertAvSaksbehandler,
+                Group.VurdertAutomatisk,
+                Group.VurdertIInfotrygd,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
         });
-        test('og er en forlengelse skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet innhold', async () => {
-            const person = await personTilBehandling();
-            const vedtaksperiode = {
-                ...(await enSpeilVedtaksperiode()),
-                periodetype: Periodetype.Forlengelse,
-                risikovurdering: { arbeidsuførhetvurdering: ['en testvurdering'], ufullstendig: false },
-            };
+        it('har noen vilkår ikke oppfylt', async () => {
+            const medNoenVilkårIkkeOppfylt = await personMedModifiserteVilkår({
+                vilkårverdier: [{ opptjening: { oppfylt: false } }],
+            });
 
-            renderVilkår(person, vedtaksperiode);
+            await renderVilkår(medNoenVilkårIkkeOppfylt);
 
-            expect(vilkårTilVurdering()).toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnholdSkjæringstidspunkt()).toBeInTheDocument();
-            expect(behandletAvInfotrygd()).toBeNull();
+            expectGroupToContainVisible(
+                Group.OppfylteVilkår,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.Sykepengegrunnlag,
+                TestId.DagerIgjen,
+                TestId.Medlemskap,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
+            );
+
+            expectGroupToContainVisible(Group.IkkeOppfylteVilkår, TestId.Opptjening);
+            expectGroupsToNotExist(Group.VurdertAvSaksbehandler, Group.VurdertAutomatisk, Group.VurdertIInfotrygd);
         });
-        test('og er forlengelse fra infotrygd skal ha automatisk vurderte vilkår, vilkår til vurdering og behandlet av infotrygd', async () => {
-            const person = await personTilBehandling();
-            const vedtaksperiode = {
-                ...(await enSpeilVedtaksperiode()),
-                periodetype: Periodetype.Infotrygdforlengelse,
-                risikovurdering: { arbeidsuførhetvurdering: ['en testvurdering'], ufullstendig: false },
-            };
+        it('er godkjent', async () => {
+            const medGodkjentPeriode = await personMedModifiserteVilkår({ vedtaksperiodeverdier: [ferdigbehandlet()] });
+            await renderVilkår(medGodkjentPeriode);
 
-            renderVilkår(person, vedtaksperiode);
+            expectGroupToContainVisible(
+                Group.VurdertAvSaksbehandler,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.Sykepengegrunnlag,
+                TestId.DagerIgjen,
+                TestId.Medlemskap,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold,
+                TestId.Opptjening
+            );
 
-            expect(vilkårTilVurdering()).toBeInTheDocument();
-            expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnhold()).toBeNull();
-            expect(behandletAvInfotrygd()).toBeInTheDocument();
+            expectGroupsToNotExist(
+                Group.VurdertAutomatisk,
+                Group.VurdertIInfotrygd,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
         });
-        test('og har behandlet arbeidsuførhet skal ikke vise vilkår til vurdering', async () => {
-            const person = await personTilBehandling();
-            const vedtaksperiode = {
-                ...(await enSpeilVedtaksperiode()),
-                risikovurdering: { arbeidsuførhetvurdering: [], ufullstendig: false },
-            };
+        it('er automatisk godkjent', async () => {
+            const medGodkjentPeriode = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ automatiskBehandlet: true, behandlet: true }],
+            });
+            await renderVilkår(medGodkjentPeriode);
 
-            renderVilkår(person, vedtaksperiode);
+            expectGroupToContainVisible(
+                Group.VurdertAutomatisk,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.Sykepengegrunnlag,
+                TestId.DagerIgjen,
+                TestId.Medlemskap,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold,
+                TestId.Opptjening
+            );
 
-            expect(vilkårTilVurdering()).toBeNull();
-            expect(automatiskVurderteVilkår()).toBeInTheDocument();
-            expect(behandletInnhold()).toBeNull();
+            expectGroupsToNotExist(
+                Group.VurdertAvSaksbehandler,
+                Group.VurdertIInfotrygd,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
         });
     });
+    describe('påfølgende', () => {
+        it('har alle vilkår oppfylt', async () => {
+            const påfølgendeMedOppfylteVilkår = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...oppfyltInstitusjonsopphold(), ...påfølgende() }, ferdigbehandlet()],
+            });
+            await renderVilkår(påfølgendeMedOppfylteVilkår);
 
-    describe('som er behandlet', () => {
-        test('skal ha behandlet innhold', async () => {
-            const person = await personTilBehandling();
-            const vedtaksperiode = {
-                ...(await enSpeilVedtaksperiode()),
-                behandlet: true,
-            };
+            expectGroupToContainVisible(
+                Group.OppfylteVilkår,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
+            );
 
-            renderVilkår(person, vedtaksperiode);
+            expectGroupToContainVisible(
+                Group.VurdertAvSaksbehandler,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
 
-            expect(vilkårTilVurdering()).toBeNull();
-            expect(automatiskVurderteVilkår()).toBeNull();
-            expect(behandletInnholdSkjæringstidspunkt()).toBeInTheDocument();
-            expect(behandletAvInfotrygd()).toBeNull();
+            expectGroupsToNotExist(
+                Group.VurdertAutomatisk,
+                Group.VurdertIInfotrygd,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
         });
-        test('og er en forlengelse skal ha behandlet innhold', async () => {
-            const person = await personTilBehandling();
-            const vedtaksperiode = {
-                ...(await enSpeilVedtaksperiode()),
-                behandlet: true,
-                periodetype: Periodetype.Forlengelse,
-            };
+        it('har noen vilkår ikke oppfylt', async () => {
+            const utenOppfyltAlder = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [påfølgende(), ferdigbehandlet()],
+                vilkårverdier: [ikkeOppfyltAlder(), {}],
+            });
+            await renderVilkår(utenOppfyltAlder);
 
-            renderVilkår(person, vedtaksperiode);
-
-            expect(vilkårTilVurdering()).toBeNull();
-            expect(automatiskVurderteVilkår()).toBeNull();
-            expect(behandletInnholdSkjæringstidspunkt()).toBeInTheDocument();
-            expect(behandletAvInfotrygd()).toBeNull();
+            expectGroupToContainVisible(Group.IkkeOppfylteVilkår, TestId.Alder);
+            expectGroupToContainVisible(
+                Group.OppfylteVilkår,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
+            );
+            expectGroupToContainVisible(
+                Group.VurdertAvSaksbehandler,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
+            expectGroupsToNotExist(Group.VurdertAutomatisk, Group.VurdertIInfotrygd);
         });
-        test('og er forlengelse fra infotrygd skal ha behandlet innhold og behandlet av infotrygd', async () => {
-            const person = await personTilBehandling();
-            const vedtaksperiode = {
-                ...(await enSpeilVedtaksperiode()),
-                forlengelseFraInfotrygd: true,
-                behandlet: true,
-            };
+        it('er godkjent', async () => {
+            const medGodkjenteVedtaksperioder = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...påfølgende(), ...ferdigbehandlet() }, ferdigbehandlet()],
+            });
+            await renderVilkår(medGodkjenteVedtaksperioder);
 
-            renderVilkår(person, vedtaksperiode);
+            const [vilkårVurdertDennePerioden, vilkårVurdertVedSkjeringstidspunkt] = screen.getAllByTestId(
+                Group.VurdertAvSaksbehandler
+            );
 
-            expect(vilkårTilVurdering()).toBeNull();
-            expect(automatiskVurderteVilkår()).toBeNull();
-            expect(behandletInnholdSkjæringstidspunkt()).toBeInTheDocument();
-            expect(behandletAvInfotrygd()).toBeInTheDocument();
+            expect(vilkårVurdertDennePerioden).toBeVisible();
+            expectHTMLGroupToContainVisible(
+                vilkårVurdertDennePerioden,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Institusjonsopphold,
+                TestId.Arbeidsuførhet
+            );
+
+            expect(vilkårVurdertVedSkjeringstidspunkt).toBeVisible();
+            expectHTMLGroupToContainVisible(
+                vilkårVurdertVedSkjeringstidspunkt,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
+
+            expectGroupsToNotExist(
+                Group.VurdertAutomatisk,
+                Group.VurdertIInfotrygd,
+                Group.OppfylteVilkår,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
         });
-        test('og er forlengelse som er automatisk behandlet', async () => {
-            const person = await personTilBehandling();
-            const vedtaksperiode = {
-                ...(await enSpeilVedtaksperiode()),
-                forlengelseFraInfotrygd: false,
-                behandlet: true,
-                automatiskBehandlet: true,
-                id: '123',
-            };
+        it('er automatisk godkjent', async () => {
+            const medAutomatiskGodkjenning = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...påfølgende(), ...ferdigbehandletAutomatisk() }, ferdigbehandlet()],
+            });
+            await renderVilkår(medAutomatiskGodkjenning);
 
-            renderVilkår(person, vedtaksperiode);
+            expectGroupToContainVisible(
+                Group.VurdertAutomatisk,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Institusjonsopphold,
+                TestId.Arbeidsuførhet
+            );
 
-            expect(vilkårTilVurdering()).toBeNull();
-            expect(automatiskVurderteVilkår()).toBeNull();
-            expect(behandletInnhold()).toBeInTheDocument();
+            expectGroupToContainVisible(
+                Group.VurdertAvSaksbehandler,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
+
+            expectGroupsToNotExist(
+                Group.VurdertIInfotrygd,
+                Group.OppfylteVilkår,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
+        });
+    });
+    describe('forlengelse fra Infotrygd', () => {
+        it('har alle vilkår oppfylt', async () => {
+            const infotrygdforlengelseMedOppfylteVilkår = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...oppfyltInstitusjonsopphold(), ...infotrygdforlengelse() }],
+            });
+            renderVilkår(infotrygdforlengelseMedOppfylteVilkår);
+
+            expectGroupToContainVisible(
+                Group.OppfylteVilkår,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
+            );
+
+            expectGroupToContainVisible(
+                Group.VurdertIInfotrygd,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
+
+            expectGroupsToNotExist(
+                Group.VurdertAutomatisk,
+                Group.VurdertAvSaksbehandler,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
+        });
+        it('har noen vilkår ikke oppfylt', async () => {
+            const infotrygdforlengelseMedIkkeOppfyltAlder = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [infotrygdforlengelse()],
+                vilkårverdier: [ikkeOppfyltAlder()],
+            });
+            renderVilkår(infotrygdforlengelseMedIkkeOppfyltAlder);
+
+            expectGroupToContainVisible(
+                Group.OppfylteVilkår,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
+            );
+            expectGroupToContainVisible(Group.IkkeOppfylteVilkår, TestId.Alder);
+            expectGroupToContainVisible(
+                Group.VurdertIInfotrygd,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
+
+            expectGroupsToNotExist(Group.VurdertAutomatisk, Group.VurdertAvSaksbehandler);
+        });
+        it('er godkjent', async () => {
+            const medGodkjenteVedtaksperioder = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...infotrygdforlengelse(), ...ferdigbehandlet() }],
+            });
+            await renderVilkår(medGodkjenteVedtaksperioder);
+
+            expectGroupToContainVisible(
+                Group.VurdertAvSaksbehandler,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Institusjonsopphold,
+                TestId.Arbeidsuførhet
+            );
+
+            expectGroupToContainVisible(
+                Group.VurdertIInfotrygd,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
+
+            expectGroupsToNotExist(
+                Group.VurdertAutomatisk,
+                Group.OppfylteVilkår,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
+        });
+        it('er automatisk godkjent', async () => {
+            const medGodkjenteVedtaksperioder = await personMedModifiserteVilkår({
+                vedtaksperiodeverdier: [{ ...infotrygdforlengelse(), ...ferdigbehandletAutomatisk() }],
+            });
+            await renderVilkår(medGodkjenteVedtaksperioder);
+
+            expectGroupToContainVisible(
+                Group.VurdertAutomatisk,
+                TestId.Alder,
+                TestId.Søknadsfrist,
+                TestId.DagerIgjen,
+                TestId.Institusjonsopphold,
+                TestId.Arbeidsuførhet
+            );
+
+            expectGroupToContainVisible(
+                Group.VurdertIInfotrygd,
+                TestId.Opptjening,
+                TestId.Sykepengegrunnlag,
+                TestId.Medlemskap
+            );
+
+            expectGroupsToNotExist(
+                Group.VurdertAvSaksbehandler,
+                Group.OppfylteVilkår,
+                Group.IkkeOppfylteVilkår,
+                Group.IkkeVurderteVilkår
+            );
         });
     });
 });

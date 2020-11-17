@@ -2,7 +2,6 @@ import { deleteTildeling, postTildeling, SpeilResponse } from '../io/http';
 import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 import { useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { tildel } from '../../server/adapters/devSpesialistClient';
 
 type TildelingError = {
     feilkode: string;

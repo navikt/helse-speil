@@ -28,15 +28,13 @@ app.get('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => 
 
 app.post('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    const saksbehandlerepost = 'dev@nav.no';
-    tildelinger[oppgavereferanse] = saksbehandlerepost;
+    tildelinger[oppgavereferanse] = 'dev@nav.no';
     res.sendStatus(200);
 });
 
 app.post('/api/v1/dummytildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    const saksbehandlerepost = 'dev@nav.no';
-    tildelinger[oppgavereferanse] = saksbehandlerepost;
+    tildelinger[oppgavereferanse] = 'dev@nav.no';
     res.sendStatus(200);
 });
 

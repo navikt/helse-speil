@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import Saksbilde from './routes/Saksbilde/Saksbilde';
 import ReactModal from 'react-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { hot } from 'react-hot-loader';
@@ -9,6 +8,7 @@ import { Header } from './components/Header';
 import { Routes } from './routes';
 import { Varsler } from './components/Varsler';
 import { Oversikt } from './routes/Oversikt';
+import { Saksbilde } from './routes/Saksbilde/Saksbilde';
 import { RecoilRoot } from 'recoil';
 import { useDebounce } from './hooks/useDebounce';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
@@ -20,9 +20,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from './context/PersonContext';
 import 'reset-css';
 import './App.less';
-import { TildelingTest } from './routes/TildelingTest';
-import { SaksbildeV2 } from './routes/SaksbildeV2/SaksbildeV2';
-import { speilV2 } from './featureToggles';
 
 ReactModal.setAppElement('#root');
 
@@ -51,18 +48,9 @@ const App = withContextProviders(() => {
                 <ProtectedRoute path={Routes.Oversikt} exact>
                     <Oversikt />
                 </ProtectedRoute>
-                <ProtectedRoute path={Routes.TildelingTest}>
-                    <TildelingTest />
+                <ProtectedRoute path={Routes.Saksbilde}>
+                    <Saksbilde />
                 </ProtectedRoute>
-                {speilV2 ? (
-                    <ProtectedRoute path={Routes.SaksbildeV2}>
-                        <SaksbildeV2 />
-                    </ProtectedRoute>
-                ) : (
-                    <ProtectedRoute path={Routes.Saksbilde}>
-                        <Saksbilde />
-                    </ProtectedRoute>
-                )}
             </Switch>
         </>
     );

@@ -27,7 +27,7 @@ const Tooltip = styled(ReactTooltip)`
     line-height: 20px !important;
     border-width: 0 !important;
     border-radius: 4px;
-    box-shadow: 0px 1px 2px #b7b1a9;
+    box-shadow: 0 1px 2px #b7b1a9;
 
     &:after {
         display: none !important; // fjerner default-pilen ned

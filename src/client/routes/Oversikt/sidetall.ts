@@ -12,7 +12,7 @@ const flyttTallrekkeTilMaksimum = (tallrekke: number[], maksimum: number) => {
     return sisteSynligeSide > maksimum ? tallrekke.map((n) => n - padding) : tallrekke;
 };
 
-const leggEllipseTilVedStart = (tallrekke: (number | string)[], minimum: number = 1) =>
+const leggEllipseTilVedStart = (tallrekke: (number | string)[]) =>
     tallrekke[0] > 1 ? [1, '...', ...tallrekke.slice(2)] : tallrekke;
 
 const leggEllipseTilVedSlutt = (tallrekke: (number | string)[], maksimum: number) =>

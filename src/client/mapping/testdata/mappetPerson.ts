@@ -555,17 +555,6 @@ const arbeidsgiver = (): Arbeidsgiver => mappetPerson.arbeidsgivere[0];
 const vedtaksperiode = (): Vedtaksperiode => arbeidsgiver().vedtaksperioder[0] as Vedtaksperiode;
 const vilkår = (): Vilkår => vedtaksperiode().vilkår as Vilkår;
 
-export const vedtaksperiodeMedMaksdato = (maksdato: Dayjs): Vedtaksperiode => ({
-    ...vedtaksperiode(),
-    vilkår: {
-        ...vilkår(),
-        dagerIgjen: {
-            ...vilkår().dagerIgjen,
-            maksdato,
-        },
-    },
-});
-
 export const mappetPersonMedMaksdato = (maksdato: Dayjs): Person => ({
     ...mappetPerson,
     arbeidsgivere: [

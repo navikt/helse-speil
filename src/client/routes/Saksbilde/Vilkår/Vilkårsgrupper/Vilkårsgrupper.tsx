@@ -1,75 +1,43 @@
-import React, { ReactNode } from 'react';
-import { Vilkårsgruppe } from './Vilkårsgruppe';
-import Vilkårsgrupperad from './Vilkårsgrupperad';
-import { Dayjs } from 'dayjs';
+import React from 'react';
+import styled from '@emotion/styled';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Vilkårsgruppe } from './Vilkårsgruppe';
 import { toKronerOgØre } from '../../../../utils/locale';
+import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
-import {
-    Alder as AlderType,
-    Basisvilkår,
-    DagerIgjen as DagerIgjenType,
-    Opptjening as OpptjeningType,
-    Risikovurdering,
-    SykepengegrunnlagVilkår,
-    Søknadsfrist as SøknadsfristType,
-    Vilkår,
-} from 'internal-types';
-import RisikovurderingVilkårsgruppe from './RisikovurderingVilkårsgruppe';
+import { Opptjening, Risikovurdering as RisikovurderingType, Vilkår } from 'internal-types';
+import { Infoikon } from '../../../../components/ikoner/Infoikon';
+import { Flex } from '../../../../components/Flex';
+import { Paragraf } from '../vilkårstitler';
 
-const Alder = (props: AlderType) => (
-    <Vilkårsgruppe tittel="Under 70 år" paragraf="§ 8-51" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
-        <Vilkårsgrupperad label="Alder">{props.alderSisteSykedag}</Vilkårsgrupperad>
-    </Vilkårsgruppe>
+export const Alder = ({ alder }: Vilkår) => (
+    <Vilkårsgrupperad label="Alder">{alder.alderSisteSykedag}</Vilkårsgrupperad>
 );
 
-const Søknadsfrist = (props: SøknadsfristType) => (
-    <Vilkårsgruppe tittel="Søknadsfrist" paragraf="§ 22-13" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
+export const Søknadsfrist = ({ søknadsfrist }: Vilkår) => (
+    <>
         <Vilkårsgrupperad label="Sendt NAV">
-            {props.sendtNav!.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'}
+            {søknadsfrist?.sendtNav!.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'}
         </Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Siste sykepengedag">{props.søknadTom!.format(NORSK_DATOFORMAT)}</Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Innen 3 mnd">{props.oppfylt ? 'Ja' : 'Nei'}</Vilkårsgrupperad>
-    </Vilkårsgruppe>
+        <Vilkårsgrupperad label="Siste sykepengedag">
+            {søknadsfrist?.søknadTom?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'}
+        </Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Innen 3 mnd">{søknadsfrist?.oppfylt ? 'Ja' : 'Nei'}</Vilkårsgrupperad>
+    </>
 );
 
-interface OpptjeningstidProps {
-    opptjeningVilkår: OpptjeningType | Basisvilkår;
-    skjæringstidspunkt?: Dayjs;
-}
-
-const Opptjeningstid = ({ opptjeningVilkår, skjæringstidspunkt }: OpptjeningstidProps) => (
-    <Vilkårsgruppe tittel="Opptjeningstid" paragraf="§ 8-2" ikontype={opptjeningVilkår.oppfylt ? 'ok' : 'kryss'}>
+export const Opptjeningstid = ({ dagerIgjen, opptjening }: Vilkår) => (
+    <>
         <Vilkårsgrupperad label="Skjæringstidspunkt">
-            {skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
+            {dagerIgjen.skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
         </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Opptjening fra">
-            {(opptjeningVilkår as OpptjeningType).opptjeningFra.format(NORSK_DATOFORMAT)}
+            {(opptjening as Opptjening)?.opptjeningFra?.format(NORSK_DATOFORMAT) ?? 'ukjent'}
         </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Antall dager (>28)">{`${
-            (opptjeningVilkår as OpptjeningType).antallOpptjeningsdagerErMinst
+            (opptjening as Opptjening)?.antallOpptjeningsdagerErMinst ?? false
         }`}</Vilkårsgrupperad>
-    </Vilkårsgruppe>
-);
-
-interface KravTilSykepengegrunnlagProps {
-    sykepengegrunnlagVilkår: SykepengegrunnlagVilkår;
-    alderSisteSykedag: number;
-}
-
-const KravTilSykepengegrunnlag = ({ sykepengegrunnlagVilkår, alderSisteSykedag }: KravTilSykepengegrunnlagProps) => (
-    <Vilkårsgruppe
-        tittel="Krav til minste sykepengegrunnlag"
-        paragraf="§ 8-3"
-        ikontype={sykepengegrunnlagVilkår.oppfylt ? 'ok' : 'kryss'}
-    >
-        <Vilkårsgrupperad label="Sykepengegrunnlaget">
-            {sykepengegrunnlagVilkår.sykepengegrunnlag
-                ? `${toKronerOgØre(sykepengegrunnlagVilkår.sykepengegrunnlag)} kr`
-                : 'Ikke funnet'}
-        </Vilkårsgrupperad>
-        <Grunnbeløp grunnbeløp={sykepengegrunnlagVilkår.grunnebeløp} alder={alderSisteSykedag} />
-    </Vilkårsgruppe>
+    </>
 );
 
 interface Grunnbeløp {
@@ -84,78 +52,79 @@ const Grunnbeløp = ({ grunnbeløp, alder }: Grunnbeløp) =>
         <Normaltekst>{`0,5G er ${toKronerOgØre(grunnbeløp / 2)} kr`}</Normaltekst>
     );
 
-const DagerIgjen = (props: DagerIgjenType) => {
-    return (
-        <Vilkårsgruppe tittel="Dager igjen" paragraf="§§ 8-11 og 8-12" ikontype={props.oppfylt ? 'ok' : 'kryss'}>
-            <Vilkårsgrupperad label="Skjæringstidspunkt">
-                {props.skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
-            </Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Første sykepengedag">
-                {props.førsteSykepengedag?.format(NORSK_DATOFORMAT) ?? 'Ingen sykepengedager'}
-            </Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Yrkesstatus">Arbeidstaker</Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Dager brukt">{props.dagerBrukt ?? 'Ikke funnet'}</Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Dager igjen">{props.gjenståendeDager ?? 'Ikke funnet'}</Vilkårsgrupperad>
-            <Vilkårsgrupperad label="Maksdato">
-                {props.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
-            </Vilkårsgrupperad>
-        </Vilkårsgruppe>
-    );
-};
-
-export const ArbeidsuførhetIkkeVurdert = (risikovurdering?: Risikovurdering) => {
-    if (!risikovurdering || risikovurdering.ufullstendig || risikovurdering.arbeidsuførhetvurdering.length > 0)
-        return <RisikovurderingVilkårsgruppe>{risikovurdering?.arbeidsuførhetvurdering}</RisikovurderingVilkårsgruppe>;
-    else return null;
-};
-
-export const ArbeidsuførhetVurdert = (risikovurdering?: Risikovurdering) => {
-    if (risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0)
-        return (
-            <Vilkårsgruppe
-                tittel="Arbeidsuførhet, aktivitetsplikt og medvirkning"
-                paragraf="§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8"
-                ikontype={'ok'}
-            />
-        );
-    else return null;
-};
-
-export const alder = ({ alder }: Vilkår): ReactNode => <Alder {...alder} />;
-
-export const søknadsfrist = ({ søknadsfrist }: Vilkår): ReactNode =>
-    søknadsfrist && <Søknadsfrist {...søknadsfrist} key="søknadsfrist" />;
-
-export const opptjeningstid = (vilkår: Vilkår): ReactNode =>
-    vilkår.opptjening && (
-        <Opptjeningstid
-            opptjeningVilkår={vilkår.opptjening!}
-            skjæringstidspunkt={vilkår.dagerIgjen.skjæringstidspunkt}
-            key="opptjeningstid"
-        />
-    );
-
-export const sykepengegrunnlag = (vilkår: Vilkår): ReactNode => (
-    <KravTilSykepengegrunnlag
-        sykepengegrunnlagVilkår={vilkår.sykepengegrunnlag}
-        alderSisteSykedag={vilkår.alder.alderSisteSykedag}
-        key="kravtilsykepengegrunnlag"
-    />
+export const Sykepengegrunnlag = ({ sykepengegrunnlag, alder }: Vilkår) => (
+    <>
+        <Vilkårsgrupperad label="Sykepengegrunnlaget">
+            {sykepengegrunnlag.sykepengegrunnlag
+                ? `${toKronerOgØre(sykepengegrunnlag.sykepengegrunnlag)} kr`
+                : 'Ikke funnet'}
+        </Vilkårsgrupperad>
+        <Grunnbeløp grunnbeløp={sykepengegrunnlag.grunnebeløp} alder={alder.alderSisteSykedag} />
+    </>
 );
 
-export const dagerIgjen = ({ dagerIgjen }: Vilkår): ReactNode => dagerIgjen && <DagerIgjen {...dagerIgjen} />;
+export const AlderIkon = styled(Infoikon)`
+    padding: 0 10px;
+`;
 
-export const medlemskap = ({ medlemskap }: Vilkår): ReactNode =>
-    medlemskap && medlemskap.oppfylt && <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" ikontype="ok" />;
+interface GjenståendeDagerProps {
+    gjenståendeDager: number;
+    alderSisteSykedag: number;
+}
 
-export const institutsjonsopphold = (): ReactNode => (
-    <Vilkårsgruppe tittel="Ingen institusjonsopphold" paragraf="§ 8-53 og 8-54" ikontype="ok" />
+const GjenståendeDager = ({ gjenståendeDager, alderSisteSykedag }: GjenståendeDagerProps) => (
+    <Flex alignItems="center">
+        {gjenståendeDager}
+        {alderSisteSykedag >= 67 && alderSisteSykedag < 70 && (
+            <>
+                <AlderIkon width={16} height={16} />
+                <Paragraf>§ 8-51</Paragraf>
+            </>
+        )}
+    </Flex>
 );
 
-export default {
-    Alder,
-    Søknadsfrist,
-    Opptjeningstid,
-    KravTilSykepengegrunnlag,
-    DagerIgjen,
-};
+export const DagerIgjen = ({ dagerIgjen, alder }: Vilkår) => (
+    <>
+        <Vilkårsgrupperad label="Skjæringstidspunkt">
+            {dagerIgjen.skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
+        </Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Første sykepengedag">
+            {dagerIgjen.førsteSykepengedag?.format(NORSK_DATOFORMAT) ?? 'Ingen sykepengedager'}
+        </Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Yrkesstatus">Arbeidstaker</Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Dager brukt">{dagerIgjen.dagerBrukt ?? 'Ikke funnet'}</Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Dager igjen">
+            {dagerIgjen.gjenståendeDager ? (
+                <GjenståendeDager
+                    alderSisteSykedag={alder.alderSisteSykedag}
+                    gjenståendeDager={dagerIgjen.gjenståendeDager}
+                />
+            ) : (
+                <Normaltekst>Ikke funnet</Normaltekst>
+            )}
+        </Vilkårsgrupperad>
+        <Vilkårsgrupperad label="Maksdato">
+            {dagerIgjen.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ikke funnet'}
+        </Vilkårsgrupperad>
+    </>
+);
+
+export const Medlemskap = ({ medlemskap }: Vilkår) => (
+    <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" ikontype={medlemskap?.oppfylt ? 'ok' : 'kryss'} />
+);
+
+const Vurderinger = styled.ul`
+    list-style: initial;
+    color: #3e3832;
+`;
+
+export const Arbeidsuførhet = ({ risikovurdering }: { risikovurdering?: RisikovurderingType }) => (
+    <Vurderinger>
+        {risikovurdering?.arbeidsuførhetvurdering?.map((vurdering, i) => (
+            <li key={i}>
+                <Normaltekst>{vurdering}</Normaltekst>
+            </li>
+        ))}
+    </Vurderinger>
+);

@@ -28,7 +28,7 @@ const SpeilModal = styled(ReactModal)`
     overflow: auto;
 
     &:focus {
-        box-shadow: 0 0 0px 3px #254b6d;
+        box-shadow: 0 0 0 3px #254b6d;
     }
 `;
 

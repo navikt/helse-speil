@@ -41,8 +41,8 @@ const renderSykmeldingsperiodetabellMedState = (vedtaksperiode: Vedtaksperiode) 
 describe('Sykmeldingsperiodetabell', () => {
     test('rendrer Sykmeldingsperiode- og Graderingskolonne', async () => {
         renderSykmeldingsperiodetabellMedState(await enIkkeUtbetaltVedtaksperiode());
-        expect(screen.getByText('Sykmeldingsperiode')).toBeVisible();
-        expect(screen.getByText('Gradering')).toBeVisible();
+        expect(screen.getByText('Dato')).toBeVisible();
+        expect(screen.getByText('Grad')).toBeVisible();
     });
     test('rendrer endreknapp ved ikke utbetalt vedtaksperiode', async () => {
         renderSykmeldingsperiodetabellMedState(await enIkkeUtbetaltVedtaksperiode());

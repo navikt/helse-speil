@@ -14,7 +14,6 @@ import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'int
 import { Kilde } from '../Kilde';
 import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
-import { Feilikon } from '../ikoner/Feilikon';
 import { IkonKryss } from './ikoner/IkonKryss';
 
 export const tomCelle = () => undefined;
@@ -170,9 +169,4 @@ const tekstForAvvistÅrsak = (årsak?: string) => {
 
 export const Feilmelding = styled(Normaltekst)`
     margin-left: 1rem;
-`;
-
-const Feilmeldingsikon = styled(Feilikon)`
-    display: flex;
-    margin-right: -1rem;
 `;

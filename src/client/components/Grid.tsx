@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 interface GridProps {
@@ -12,7 +12,7 @@ export const Grid = styled.div<GridProps>`
         if (kolonner) {
             return `repeat(${kolonner}, auto)`;
         } else if (gridTemplateColumns) {
-            return gridTemplateColumns;
+            return `${gridTemplateColumns ?? 'none'}`;
         } else {
             return 'repeat(1, auto)';
         }

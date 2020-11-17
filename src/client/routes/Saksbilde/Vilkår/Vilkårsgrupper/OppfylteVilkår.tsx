@@ -4,7 +4,6 @@ import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { GrøntSjekkikon } from '../../../../components/ikoner/GrøntSjekkikon';
 import { Risikovurdering } from 'internal-types';
-import { Sjekkikon } from '../../../../components/ikoner/Sjekkikon';
 
 interface OppfylteVilkårProps {
     vilkår: Vilkårdata[];

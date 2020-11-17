@@ -24,21 +24,17 @@ import { OverstyrtDagDTO } from '../../../io/types';
 import { useOverstyrteDager } from './useOverstyrteDager';
 import { pollEtterNyOppgave } from '../../../io/polling';
 import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
+import classNames from 'classnames';
 
 const OverstyrbarTabell = styled(Tabell)`
-    thead,
-    thead tr,
     thead tr th {
         vertical-align: bottom;
+        box-sizing: border-box;
+        height: 51px;
     }
     tbody tr td {
         height: 48px;
     }
-`;
-
-const HøyrestiltContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
 `;
 
 const Feilmelding = styled.p`
@@ -92,13 +88,8 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         '',
         { render: <Element>Sykmeldingsperiode</Element>, kolonner: 3 },
         { render: <Element>Gradering</Element> },
-        overstyrbareTabellerEnabled ? (
-            <HøyrestiltContainer>
-                <Overstyringsknapp overstyrer toggleOverstyring={onToggleOverstyring} />
-            </HøyrestiltContainer>
-        ) : (
-            ''
-        ),
+        '',
+        overstyrbareTabellerEnabled ? <Overstyringsknapp overstyrer toggleOverstyring={onToggleOverstyring} /> : '',
     ];
 
     const tilTabellrad = (dag: Sykdomsdag) => {
@@ -113,8 +104,11 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
                 overstyrbarType(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
                 overstyrbarGradering(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
                 overstyrbarKilde(dagen, erOverstyrt),
+                tomCelle(),
             ],
-            className: dagen.type === Dagtype.Helg ? 'disabled' : undefined,
+            className: classNames({
+                disabled: dag.type === Dagtype.Helg,
+            }),
         };
     };
 

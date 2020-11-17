@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import { Periodetype as PeriodetypeTittel } from 'internal-types';
 import { Periodetype } from './Periodetype';
 import { Verktøylinje } from './Verktøylinje';
 import { TabLink } from '../TabLink';

@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 
 interface SykepengegrunnlagInfotrygdProps {
     årsinntektFraInntektsmelding?: number;
+    className?: string;
 }
 
 const Innhold = styled.div`
@@ -17,8 +18,8 @@ const Innhold = styled.div`
     }
 `;
 
-const SykepengegrunnlagInfotrygd = ({ årsinntektFraInntektsmelding }: SykepengegrunnlagInfotrygdProps) => (
-    <Innhold>
+const SykepengegrunnlagInfotrygd = ({ årsinntektFraInntektsmelding, className }: SykepengegrunnlagInfotrygdProps) => (
+    <Innhold className={className}>
         <Element>Sykepengegrunnlag</Element>
         <Element>{somPenger(årsinntektFraInntektsmelding as number)}</Element>
     </Innhold>
