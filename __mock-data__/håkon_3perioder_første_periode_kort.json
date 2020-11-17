@@ -91,7 +91,6 @@
                             "beregningsdato": "2020-01-01",
                             "førsteSykepengedag": "2020-01-17",
                             "maksdato": "2020-12-29",
-                            "beregningsdato": "2020-12-29",
                             "gjenståendeDager": 239,
                             "oppfylt": true
                         },
@@ -251,7 +250,6 @@
                             "beregningsdato": "2020-01-17",
                             "førsteSykepengedag": "2020-01-19",
                             "maksdato": "2020-12-29",
-                            "beregningsdato": "2020-12-29",
                             "gjenståendeDager": 237,
                             "oppfylt": true
                         },
@@ -336,14 +334,7 @@
                             }
                         ]
                     },
-                    "aktivitetslogg": [
-                        {
-                            "vedtaksperiodeId": "1ef5e870-b684-43c9-85b7-a06d4623e4ac",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Lovvalg og medlemskap må vurderes manuelt",
-                            "tidsstempel": "2020-05-06 16:06:40.649"
-                        }
-                    ]
+                    "aktivitetslogg": []
                 }
             ],
             "overstyringer": []
