@@ -21,7 +21,7 @@ import {
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetPerson } from '../../test/data/person';
 
-describe('personmapper', async () => {
+describe('personmapper', () => {
     test('mapper person', async () => {
         const person = await mapPerson(umappetPerson(), defaultPersonInfo);
         expect(person).toEqual(mappetPerson);

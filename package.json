@@ -12,7 +12,7 @@
     "scripts": {
         "test:eslint": "eslint src/ --ext .js --ext .jsx --ext .tsx --ext .ts",
         "test": "cross-env TZ=UTC jest --maxWorkers=3",
-        "tdd": "jest --watch --maxWorkers=3",
+        "tdd": "TZ=UTC jest --watch --maxWorkers=3",
         "validate-ts": "tsc --noEmit --project ./tsconfig.json",
         "pretest": "npm run test:eslint && npm run validate-ts",
         "start": "cross-env NODE_ENV=development parcel src/client/index.html",
