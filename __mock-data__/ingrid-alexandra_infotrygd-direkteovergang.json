@@ -1618,6 +1618,7 @@
                     "gruppeId": "2c745efc-5361-4e84-af95-9f421a307e51",
                     "fom": "2019-11-28",
                     "tom": "2019-12-10",
+                    "periodetype": "FORLENGELSE",
                     "tilstand": "Utbetalt",
                     "oppgavereferanse": null,
                     "fullstendig": true,
@@ -1636,14 +1637,16 @@
                             "grad": 100
                         },
                         {
-                            "type": "NavHelgDag",
-                            "inntekt": 0,
+                            "type": "NavDag",
+                            "inntekt": 1154,
+                            "utbetaling": 1154,
                             "dato": "2019-11-30",
                             "grad": 100
                         },
                         {
-                            "type": "NavHelgDag",
-                            "inntekt": 0,
+                            "type": "NavDag",
+                            "inntekt": 1154,
+                            "utbetaling": 1154,
                             "dato": "2019-12-01",
                             "grad": 100
                         },
@@ -1669,29 +1672,29 @@
                             "grad": 100
                         },
                         {
-                            "type": "NavDag",
-                            "inntekt": 1154,
+                            "type": "NavHelgDag",
+                            "inntekt": 0,
                             "dato": "2019-12-05",
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0,
+                            "dato": "2019-12-06",
+                            "grad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1154,
+                            "dato": "2019-12-07",
                             "utbetaling": 1154,
                             "grad": 100
                         },
                         {
                             "type": "NavDag",
                             "inntekt": 1154,
-                            "dato": "2019-12-06",
-                            "utbetaling": 1154,
-                            "grad": 100
-                        },
-                        {
-                            "type": "NavHelgDag",
-                            "inntekt": 0,
-                            "dato": "2019-12-07",
-                            "grad": 100
-                        },
-                        {
-                            "type": "NavHelgDag",
-                            "inntekt": 0,
                             "dato": "2019-12-08",
+                            "utbetaling": 1154,
                             "grad": 100
                         },
                         {
@@ -1745,7 +1748,7 @@
                         },
                         {
                             "dagen": "2019-11-30",
-                            "type": "SYK_HELGEDAG",
+                            "type": "SYKEDAG",
                             "kilde": {
                                 "type": "Søknad"
                             },
@@ -1753,7 +1756,7 @@
                         },
                         {
                             "dagen": "2019-12-01",
-                            "type": "SYK_HELGEDAG",
+                            "type": "SYKEDAG",
                             "kilde": {
                                 "type": "Søknad"
                             },
@@ -1785,7 +1788,7 @@
                         },
                         {
                             "dagen": "2019-12-05",
-                            "type": "SYKEDAG",
+                            "type": "SYK_HELGEDAG",
                             "kilde": {
                                 "type": "Søknad"
                             },
@@ -1793,7 +1796,7 @@
                         },
                         {
                             "dagen": "2019-12-06",
-                            "type": "SYKEDAG",
+                            "type": "SYK_HELGEDAG",
                             "kilde": {
                                 "type": "Søknad"
                             },
@@ -1801,7 +1804,7 @@
                         },
                         {
                             "dagen": "2019-12-07",
-                            "type": "SYK_HELGEDAG",
+                            "type": "SYKEDAG",
                             "kilde": {
                                 "type": "Søknad"
                             },
@@ -1809,7 +1812,7 @@
                         },
                         {
                             "dagen": "2019-12-08",
-                            "type": "SYK_HELGEDAG",
+                            "type": "SYKEDAG",
                             "kilde": {
                                 "type": "Søknad"
                             },

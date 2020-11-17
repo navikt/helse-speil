@@ -8,10 +8,10 @@ export const Toppvarsler = () => {
     const { aktivVedtaksperiode } = useContext(PersonContext);
     if (!aktivVedtaksperiode) return null;
 
-    const { aktivitetslog, periodetype, automatiskBehandlet } = aktivVedtaksperiode!;
+    const { aktivitetslog, periodetype, automatiskBehandlet, behandlet } = aktivVedtaksperiode!;
 
     const erKandidatForAutomatisering = () =>
-        periodetype === Periodetype.Forlengelse && aktivitetslog.length === 0 && !automatiskBehandlet;
+        periodetype === Periodetype.Forlengelse && aktivitetslog.length === 0 && !automatiskBehandlet && !behandlet;
 
     return (
         <>
