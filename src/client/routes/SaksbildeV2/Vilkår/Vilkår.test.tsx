@@ -60,10 +60,10 @@ describe('Vilkår', () => {
                 TestId.Sykepengegrunnlag,
                 TestId.DagerIgjen,
                 TestId.Medlemskap,
-                TestId.Arbeidsuførhet
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
             );
 
-            expectGroupToContainVisible(Group.IkkeVurderteVilkår, TestId.Institusjonsopphold);
             expectGroupToContainVisible(Group.IkkeOppfylteVilkår, TestId.Opptjening);
             expectGroupsToNotExist(Group.VurdertAvSaksbehandler, Group.VurdertAutomatisk, Group.VurdertIInfotrygd);
         });
@@ -158,7 +158,8 @@ describe('Vilkår', () => {
                 Group.OppfylteVilkår,
                 TestId.Søknadsfrist,
                 TestId.DagerIgjen,
-                TestId.Arbeidsuførhet
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
             );
             expectGroupToContainVisible(
                 Group.VurdertAvSaksbehandler,
@@ -166,7 +167,6 @@ describe('Vilkår', () => {
                 TestId.Sykepengegrunnlag,
                 TestId.Medlemskap
             );
-            expectGroupToContainVisible(Group.IkkeVurderteVilkår, TestId.Institusjonsopphold);
             expectGroupsToNotExist(Group.VurdertAutomatisk, Group.VurdertIInfotrygd);
         });
         it('er godkjent', async () => {
@@ -276,9 +276,9 @@ describe('Vilkår', () => {
                 Group.OppfylteVilkår,
                 TestId.Søknadsfrist,
                 TestId.DagerIgjen,
-                TestId.Arbeidsuførhet
+                TestId.Arbeidsuførhet,
+                TestId.Institusjonsopphold
             );
-            expectGroupToContainVisible(Group.IkkeVurderteVilkår, TestId.Institusjonsopphold);
             expectGroupToContainVisible(Group.IkkeOppfylteVilkår, TestId.Alder);
             expectGroupToContainVisible(
                 Group.VurdertIInfotrygd,

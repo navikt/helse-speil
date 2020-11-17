@@ -35,18 +35,16 @@ describe('useKategoriserteVilkår', () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({ vilkår: defaultVilkår });
         const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
 
-        expect(result.current.ikkeVurderteVilkår).toHaveLength(1);
-        assertHarIkkeVurdertVilkår(Vilkårstype.Institusjonsopphold, result);
-
         expect(result.current.ikkeOppfylteVilkår).toHaveLength(1);
         assertHarIkkeOppfyltVilkår(Vilkårstype.Opptjeningstid, result);
 
-        expect(result.current.oppfylteVilkår).toHaveLength(6);
+        expect(result.current.oppfylteVilkår).toHaveLength(7);
         assertHarOppfyltVilkår(Vilkårstype.Alder, result);
         assertHarOppfyltVilkår(Vilkårstype.DagerIgjen, result);
         assertHarOppfyltVilkår(Vilkårstype.Medlemskap, result);
         assertHarOppfyltVilkår(Vilkårstype.Søknadsfrist, result);
         assertHarOppfyltVilkår(Vilkårstype.Sykepengegrunnlag, result);
+        assertHarOppfyltVilkår(Vilkårstype.Institusjonsopphold, result);
 
         expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(0);
         expect(result.current.vilkårVurdertAutomatisk).toHaveLength(0);
