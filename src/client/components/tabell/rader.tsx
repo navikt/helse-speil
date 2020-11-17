@@ -15,6 +15,7 @@ import { Kilde } from '../Kilde';
 import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
 import { Feilikon } from '../ikoner/Feilikon';
+import { IkonKryss } from './ikoner/IkonKryss';
 
 export const tomCelle = () => undefined;
 
@@ -46,6 +47,7 @@ export const ikon = (dag: Sykdomsdag) => {
                 return <IkonAnnullert />;
             case Dagtype.Avvist:
             case Dagtype.Foreldet:
+                return <IkonKryss />;
             case Dagtype.Ubestemt:
             case Dagtype.Helg:
             default:
