@@ -137,7 +137,7 @@ describe('Utbetalingsoversikt', () => {
         ]);
         await renderUtbetalingsoversikt(person);
 
-        expect(screen.queryAllByText('Ingen utbetaling').length).toStrictEqual(2);
+        expect(screen.queryAllByText('-').length).toStrictEqual(2);
         expect(screen.queryAllByText('Personen er død').length).toStrictEqual(1);
         expect(screen.queryAllByText('§ 8-13 Krav til nedsatt arbeidsevne er ikke oppfylt').length).toStrictEqual(1);
         expect(screen.queryAllByText('100%').length).toStrictEqual(1);
