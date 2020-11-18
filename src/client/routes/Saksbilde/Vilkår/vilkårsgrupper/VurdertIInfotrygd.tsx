@@ -2,14 +2,7 @@ import React from 'react';
 import { Vilkårsgruppetittel } from '../vilkårstitler';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
-import { Vilkårkolonne } from '../Vilkår.styles';
-import styled from '@emotion/styled';
-
-export const BehandletInnholdContainer = styled(BehandletAvInfotrygd)`
-    > *:nth-child(2) {
-        margin-bottom: 1rem;
-    }
-`;
+import { Vilkårkolonne, Vilkårgrid, BehandletVarselContent } from '../Vilkår.styles';
 
 interface VurdertIInfotrygdProps {
     vilkår: Vilkårdata[];
@@ -17,12 +10,17 @@ interface VurdertIInfotrygdProps {
 
 export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
     <Vilkårkolonne data-testid="vurdert-i-infotrygd">
-        <BehandletInnholdContainer tittel="Inngangsvilkår vurdert i Infotrygd">
-            {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
-                <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf} key={i}>
-                    {tittel}
-                </Vilkårsgruppetittel>
-            ))}
-        </BehandletInnholdContainer>
+        <BehandletAvInfotrygd tittel="Inngangsvilkår vurdert i Infotrygd">
+            <BehandletVarselContent>
+                {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
+                    <React.Fragment key={i}>
+                        <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
+                            {tittel}
+                        </Vilkårsgruppetittel>
+                        <Vilkårgrid />
+                    </React.Fragment>
+                ))}
+            </BehandletVarselContent>
+        </BehandletAvInfotrygd>
     </Vilkårkolonne>
 );

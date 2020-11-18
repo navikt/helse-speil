@@ -1,11 +1,8 @@
 import styled from '@emotion/styled';
-import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 import { FlexColumn } from '../../../components/Flex';
 
-export const BehandletInnholdContainer = styled(BehandletVarsel)`
-    > *:nth-child(2) {
-        margin-bottom: 1rem;
-    }
+export const BehandletVarselContent = styled.div`
+    padding-top: 1rem;
 `;
 
 export const Vilkårkolonne = styled(FlexColumn)`

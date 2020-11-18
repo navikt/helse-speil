@@ -3,7 +3,8 @@ import { Vilkårsgruppetittel } from '../vilkårstitler';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Dayjs } from 'dayjs';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
-import { BehandletInnholdContainer, Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import { BehandletVarselContent, Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 
 interface VurdertAvSaksbehandlerProps {
     vilkår: Vilkårdata[];
@@ -17,20 +18,18 @@ export const VurdertAvSaksbehandler = ({ vilkår, skjæringstidspunkt, saksbehan
         : 'Vilkår vurdert denne perioden';
     return (
         <Vilkårkolonne data-testid="vurdert-av-saksbehandler">
-            <BehandletInnholdContainer
-                tittel={tittel}
-                saksbehandler={saksbehandler ?? 'Ukjent'}
-                automatiskBehandlet={false}
-            >
-                {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
-                    <React.Fragment key={i}>
-                        <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
-                            {tittel}
-                        </Vilkårsgruppetittel>
-                        {komponent && <Vilkårgrid>{komponent}</Vilkårgrid>}
-                    </React.Fragment>
-                ))}
-            </BehandletInnholdContainer>
+            <BehandletVarsel tittel={tittel} saksbehandler={saksbehandler ?? 'Ukjent'} automatiskBehandlet={false}>
+                <BehandletVarselContent>
+                    {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
+                        <React.Fragment key={i}>
+                            <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
+                                {tittel}
+                            </Vilkårsgruppetittel>
+                            <Vilkårgrid>{komponent}</Vilkårgrid>
+                        </React.Fragment>
+                    ))}
+                </BehandletVarselContent>
+            </BehandletVarsel>
         </Vilkårkolonne>
     );
 };
