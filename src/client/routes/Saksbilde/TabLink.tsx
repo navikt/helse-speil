@@ -6,8 +6,8 @@ const DisabledTabLink = styled.a`
     position: relative;
     display: flex;
     align-items: center;
-    padding: 0 12px;
-    margin: 0 12px;
+    padding: 0 10px;
+    margin: 0 4px;
     color: #78706a;
     outline: none;
 `;
@@ -16,8 +16,8 @@ const StyledTabLink = styled(NavLink)`
     position: relative;
     display: flex;
     align-items: center;
-    padding: 0 12px;
-    margin: 0 12px;
+    padding: 0 10px;
+    margin: 0 4px;
     color: transparent;
     outline: none;
 

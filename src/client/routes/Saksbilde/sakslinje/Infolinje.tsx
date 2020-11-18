@@ -12,10 +12,18 @@ const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
 `;
 
+const Strek = styled.hr`
+    margin: 0 2rem;
+    width: 1px;
+    height: 2rem;
+    border: 0;
+    background-color: #b7b1a9;
+`;
+
 const InfolinjeElement = styled(Flex)`
     align-items: center;
     margin-left: 1.25rem;
-    line-height: 22px;
+    line-height: 32px;
     svg {
         margin-right: 0.5rem;
     }
@@ -47,6 +55,7 @@ export const Infolinje = () => {
 
     return (
         <InfolinjeContainer alignItems="center">
+            <Strek />
             <InfolinjeElement data-tip="Sykmeldingsperiode">
                 <Sykmeldingsperiodeikon />
                 {`${fom} - ${tom}`}
