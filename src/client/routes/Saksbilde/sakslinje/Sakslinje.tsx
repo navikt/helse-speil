@@ -10,7 +10,7 @@ import { Infolinje } from './Infolinje';
 import { PersonContext } from '../../../context/PersonContext';
 
 const SakslinjeWrapper = styled.div`
-    height: 90px;
+    height: 74px;
     border-bottom: 1px solid #c6c2bf;
     display: flex;
     flex: 1;
@@ -44,7 +44,7 @@ export const Sakslinje = () => {
                 <Periodetype />
                 <Verktøylinje />
             </SakslinjeVenstre>
-            <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Utbetaling)}>
+            <TabLink hjemIkon disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Utbetaling)}>
                 Utbetaling
             </TabLink>
             <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Sykmeldingsperiode)}>

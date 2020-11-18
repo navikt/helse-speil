@@ -34,7 +34,11 @@ const LoggHeader = styled(EksternLoggheader)`
     box-sizing: border-box;
     border-left: 1px solid #c6c2bf;
     box-shadow: inset 0 -1px 0 0 #c6c2bf;
-    height: 91px;
+    height: 75px;
+
+    & > button {
+        min-height: 75px;
+    }
 `;
 
 const LoggListe = styled(EksternLoggliste)`
