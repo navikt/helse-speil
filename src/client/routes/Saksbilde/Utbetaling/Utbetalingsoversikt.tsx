@@ -20,9 +20,13 @@ type Utbetalingstabellrad = {
 
 const Utbetalingstabell = styled(Tabell)`
     thead tr th {
-        vertical-align: bottom;
+        vertical-align: top;
         box-sizing: border-box;
         padding-top: 0;
+    }
+
+    tbody tr td:not(:nth-of-type(3)):not(:first-of-type) {
+        padding-right: 3rem;
     }
 
     thead tr th,

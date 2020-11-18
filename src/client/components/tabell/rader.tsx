@@ -6,6 +6,7 @@ import { IkonFerie } from './ikoner/IkonFerie';
 import { toKronerOgØre } from '../../utils/locale';
 import { IkonOverstyrt } from './ikoner/IkonOverstyrt';
 import { IkonEgenmelding } from './ikoner/IkonEgenmelding';
+import { IkonArbeidsgiverperiode } from './ikoner/IkonArbeidsgiverperiode';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { OverstyrbarDagtype } from './OverstyrbarDagtype';
 import { OverstyrbarGradering } from './OverstyrbarGradering';
@@ -15,6 +16,7 @@ import { Kilde } from '../Kilde';
 import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
 import { IkonKryss } from './ikoner/IkonKryss';
+import { IkonArbeidsdag } from './ikoner/IkonArbeidsdag';
 
 export const tomCelle = () => undefined;
 
@@ -39,9 +41,11 @@ export const ikon = (dag: Sykdomsdag) => {
             case Dagtype.Ferie:
                 return <IkonFerie />;
             case Dagtype.Arbeidsdag:
+                return <IkonArbeidsdag />;
             case Dagtype.Egenmelding:
-            case Dagtype.Arbeidsgiverperiode:
                 return <IkonEgenmelding />;
+            case Dagtype.Arbeidsgiverperiode:
+                return <IkonArbeidsgiverperiode />;
             case Dagtype.Annullert:
                 return <IkonAnnullert />;
             case Dagtype.Avvist:
@@ -117,7 +121,8 @@ export const overstyrbarKilde = (dag: Sykdomsdag, erOverstyrt: boolean) =>
 const skalViseGradering = (dag: Sykdomsdag) =>
     dag.gradering !== undefined && ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie].includes(dag.type);
 
-export const gradering = (dag: Sykdomsdag) => (skalViseGradering(dag) ? `${dag.gradering}%` : undefined);
+export const gradering = (dag: Sykdomsdag) =>
+    skalViseGradering(dag) ? <HøyrejustertTekst>{dag.gradering}%</HøyrejustertTekst> : undefined;
 
 export const overstyrbarGradering = (
     dag: Sykdomsdag,
@@ -128,17 +133,13 @@ export const overstyrbarGradering = (
         <OverstyrbarGradering dag={dag} onOverstyr={onOverstyr} onFjernOverstyring={onFjernOverstyring} />
     ) : undefined;
 
-const IngenUtbetaling = styled(Normaltekst)`
-    white-space: nowrap;
-`;
-
-const Utbetaling = styled(Normaltekst)`
+const HøyrejustertTekst = styled(Normaltekst)`
     text-align: right;
 `;
 
 export const utbetaling = (dag: Utbetalingsdag) => {
-    if (dag.type === Dagtype.Avvist) return <IngenUtbetaling>Ingen utbetaling</IngenUtbetaling>;
-    return dag.utbetaling && <Utbetaling>{toKronerOgØre(dag.utbetaling)} kr</Utbetaling>;
+    if (dag.type === Dagtype.Avvist) return <HøyrejustertTekst>-</HøyrejustertTekst>;
+    return dag.utbetaling && <HøyrejustertTekst>{toKronerOgØre(dag.utbetaling)} kr</HøyrejustertTekst>;
 };
 
 export const merknad = (dag: Utbetalingsdag, merknadTekst?: string) => {

@@ -1,9 +1,23 @@
 import React from 'react';
 
-export const IkonKryss = ({ width = 16, height = 16, fill = '#78706A' }) => (
-    <svg width={width} height={height} viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+export const IkonKryss = ({ width = 14, height = 14, fill = '#3E3832' }) => (
+    <svg
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
         <path
-            d="M12 0.923077L6.92308 6L12 11.0769L11.0769 12L6 6.92308L0.923077 12L0 11.0769L5.07692 6L0 0.923077L0.923077 0L6 5.07692L11.0769 0L12 0.923077Z"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M12.7155 14L7.03769e-07 1.28446L1.28446 0L14 12.7155L12.7155 14Z"
+            fill={fill}
+        />
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M1.28446 14L14 1.28446L12.7155 0L0 12.7155L1.28446 14Z"
             fill={fill}
         />
     </svg>

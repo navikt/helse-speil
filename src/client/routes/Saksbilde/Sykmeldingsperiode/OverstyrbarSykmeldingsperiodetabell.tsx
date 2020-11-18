@@ -28,9 +28,13 @@ import classNames from 'classnames';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead tr th {
-        vertical-align: bottom;
+        vertical-align: top;
         box-sizing: border-box;
-        height: 51px;
+        padding-top: 0;
+        padding-bottom: 10px;
+    }
+    tbody tr td:not(:first-of-type):not(:nth-of-type(3)):not(:nth-of-type(5)) {
+        padding-right: 3rem;
     }
     tbody tr td {
         height: 48px;
@@ -86,8 +90,9 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
 
     const headere = [
         '',
-        { render: <Element>Sykmeldingsperiode</Element>, kolonner: 3 },
-        { render: <Element>Gradering</Element> },
+        { render: <Element>Dato</Element>, kolonner: 1 },
+        { render: <Element>Dagtype</Element>, kolonner: 2 },
+        { render: <Element>Grad</Element> },
         '',
         overstyrbareTabellerEnabled ? <Overstyringsknapp overstyrer toggleOverstyring={onToggleOverstyring} /> : '',
     ];
