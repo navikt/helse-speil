@@ -12,48 +12,26 @@ import { Link } from 'react-router-dom';
 import { Flex } from '../../../components/Flex';
 import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 
-const Arbeidsflate = styled.section`
-    display: grid;
-    grid-template-columns: 18rem;
-    grid-template-areas:
-        'sykmeldingsperiode'
-        'arbeidsgiver'
-        'vilkår'
-        'utbetaling';
-    grid-template-rows: max-content max-content max-content;
-    grid-row-gap: 2rem;
-    height: 100%;
-    margin-right: 1.5rem;
+const Container = styled.section`
+    padding: 2rem 0;
+`;
+
+const Arbeidsflate = styled(Container)`
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 17.5rem;
+`;
+
+const VertikalStrek = styled.div`
+    width: 1px;
+    background: #c6c2bf;
+    margin: 0 2rem;
 `;
 
 const Kort = styled.section`
     padding-bottom: 0;
-    &:first-of-type {
-        margin-top: 2rem;
-    }
-`;
-
-const Sykmeldingsperiode = styled(Kort)`
-    grid-area: sykmeldingsperiode;
-`;
-
-const Arbeidsgiver = styled(Kort)`
-    grid-area: arbeidsgiver;
-`;
-
-const Vilkårkort = styled(Kort)`
-    grid-area: vilkår;
-`;
-
-const Utbetalingkort = styled(Kort)`
-    grid-area: utbetaling;
-`;
-
-const Utbetalingstabell = styled.article`
-    width: 100%;
-    padding-left: 2.5rem;
-    border-left: 1px solid #c6c2bf;
-    padding-top: 2rem;
+    margin-bottom: 2rem;
 `;
 
 const Korttittel = styled(Undertittel)`
@@ -110,7 +88,7 @@ export const Utbetaling = () => {
         <AgurkErrorBoundary sidenavn="Utbetaling">
             <Flex>
                 <Arbeidsflate>
-                    <Sykmeldingsperiode>
+                    <Kort>
                         <Korttittel>
                             <Lenke to={`${personTilBehandling?.aktørId}/../sykmeldingsperiode`}>
                                 Sykmeldingsperiode
@@ -126,8 +104,8 @@ export const Utbetaling = () => {
                             <Normaltekst>Skjæringstidspunkt</Normaltekst>
                             <Normaltekst>{skjæringstidspunkt}</Normaltekst>
                         </Flex>
-                    </Sykmeldingsperiode>
-                    <Arbeidsgiver>
+                    </Kort>
+                    <Kort>
                         <Korttittel>
                             <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>Arbeidsgiver</Lenke>
                         </Korttittel>
@@ -138,22 +116,22 @@ export const Utbetaling = () => {
                             <Normaltekst>Månedsbeløp</Normaltekst>
                             <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>
                         </Flex>
-                    </Arbeidsgiver>
-                    <Vilkårkort>
+                    </Kort>
+                    <Kort>
                         <Korttittel>
                             <Lenke to={`${personTilBehandling?.aktørId}/../vilkår`}>Vilkår</Lenke>
                         </Korttittel>
                         <Vilkårsliste vedtaksperiode={aktivVedtaksperiode} />
-                    </Vilkårkort>
-                    <Utbetalingkort>
+                    </Kort>
+                    <Kort>
                         <Korttittel>Utbetaling</Korttittel>
                         <Oppsummering />
-                    </Utbetalingkort>
+                    </Kort>
                 </Arbeidsflate>
-
-                <Utbetalingstabell>
+                <VertikalStrek />
+                <Container>
                     <Utbetalingsoversikt />
-                </Utbetalingstabell>
+                </Container>
             </Flex>
         </AgurkErrorBoundary>
     );

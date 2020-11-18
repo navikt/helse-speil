@@ -13,9 +13,9 @@ import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
 import { Toppvarsler } from '../../components/Toppvarsler';
 import LoggProvider from '../../context/logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
-import '@navikt/helse-frontend-logg/lib/main.css';
 import { Sakslinje } from './sakslinje/Sakslinje';
 import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
+import '@navikt/helse-frontend-logg/lib/main.css';
 
 const Container = styled.div`
     display: flex;
@@ -25,7 +25,7 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-    margin: 0 2.5rem 4rem 2rem;
+    margin: 0 2rem;
     height: 100%;
 `;
 
@@ -46,7 +46,6 @@ const LoggListe = styled(EksternLoggliste)`
     box-sizing: border-box;
     border-left: 1px solid #c6c2bf;
     border-top: none;
-    margin-bottom: 4rem;
 
     .Sykmelding:before,
     .Søknad:before,

@@ -2,12 +2,16 @@
     display: flex;
     flex-direction: column;
     min-width: max-content;
+    flex: 1;
 }
 
 body {
     background-color: #fff;
     font-family: 'Source Sans Pro', Helvetica, sans-serif;
     min-width: max-content;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 
     &.ReactModal__Body--open {
         overflow: hidden;
@@ -16,10 +20,6 @@ body {
 
 .main {
     margin-top: 1em;
-}
-
-svg[kind='ok-sirkel-fyll'] g path:first-child {
-    fill: #38a161;
 }
 
 .typo-normal {
