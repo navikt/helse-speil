@@ -24,7 +24,7 @@ const Content = styled(Panel)`
     margin: 1rem;
     padding: 1rem;
     color: #3e3832;
-    overflow: scroll;
+    overflow: auto;
     height: 100%;
     box-sizing: border-box;
 `;
