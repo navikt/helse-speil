@@ -4,7 +4,7 @@ import { Feilikon } from '../../../components/ikoner/Feilikon';
 import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import { useKategoriserteVilkår } from '../Vilkår/useKategoriserteVilkår';
+import { tilKategoriserteVilkår } from '../Vilkår/tilKategoriserteVilkår';
 import { Vedtaksperiode } from 'internal-types';
 
 const Vilkåroversikt = styled.li`
@@ -42,7 +42,7 @@ const VurdertVilkår = ({ tittel, oppfylt }: VurdertVilkårProps) => (
 );
 
 export const Vilkårsliste = ({ vedtaksperiode }: { vedtaksperiode: Vedtaksperiode }) => {
-    const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = useKategoriserteVilkår(vedtaksperiode);
+    const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = tilKategoriserteVilkår(vedtaksperiode);
     return (
         <ul>
             {ikkeOppfylteVilkår?.map((vilkår, i) => (

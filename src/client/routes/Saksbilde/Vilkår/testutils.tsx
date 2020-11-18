@@ -10,7 +10,7 @@ import { Vilkår } from './Vilkår';
 import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import { HookResult } from '@testing-library/react-hooks';
-import { KategoriserteVilkår } from './useKategoriserteVilkår';
+import { KategoriserteVilkår } from './tilKategoriserteVilkår';
 
 export enum Group {
     OppfylteVilkår = 'oppfylte-vilkår',

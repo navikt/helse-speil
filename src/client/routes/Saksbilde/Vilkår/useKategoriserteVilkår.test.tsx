@@ -2,7 +2,7 @@ import React from 'react';
 import { renderHook } from '@testing-library/react-hooks';
 import { Vilkårstype } from '../../../mapping/vilkår';
 import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
-import { useKategoriserteVilkår } from './useKategoriserteVilkår';
+import { tilKategoriserteVilkår } from './tilKategoriserteVilkår';
 import '@testing-library/jest-dom/extend-expect';
 import {
     assertHarAutomatiskVurdertVilkår,
@@ -32,7 +32,7 @@ const defaultVilkår: Vilkår = {
 describe('useKategoriserteVilkår', () => {
     test('førstegangsperiode, ikke behandlet', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({ vilkår: defaultVilkår });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.ikkeOppfylteVilkår).toHaveLength(1);
         assertHarIkkeOppfyltVilkår(Vilkårstype.Opptjeningstid, result);
@@ -51,7 +51,7 @@ describe('useKategoriserteVilkår', () => {
     });
     test('førstegangsperiode, behandlet av saksbehandler', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({ vilkår: defaultVilkår, behandlet: true });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(8);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Arbeidsuførhet, result);
@@ -75,7 +75,7 @@ describe('useKategoriserteVilkår', () => {
             behandlet: true,
             automatiskBehandlet: true,
         });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.vilkårVurdertAutomatisk).toHaveLength(8);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.Arbeidsuførhet, result);
@@ -99,7 +99,7 @@ describe('useKategoriserteVilkår', () => {
             behandlet: true,
             forlengelseFraInfotrygd: true,
         });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(5);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Arbeidsuførhet, result);
@@ -125,7 +125,7 @@ describe('useKategoriserteVilkår', () => {
             forlengelseFraInfotrygd: true,
             automatiskBehandlet: true,
         });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.vilkårVurdertAutomatisk).toHaveLength(5);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.Arbeidsuførhet, result);
@@ -150,7 +150,7 @@ describe('useKategoriserteVilkår', () => {
             forlengelseFraInfotrygd: true,
             periodetype: Periodetype.Infotrygdforlengelse,
         });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(3);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Medlemskap, result);
@@ -167,7 +167,7 @@ describe('useKategoriserteVilkår', () => {
             automatiskBehandlet: true,
             periodetype: Periodetype.Forlengelse,
         });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.vilkårVurdertAutomatisk).toHaveLength(5);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.Arbeidsuførhet, result);
@@ -193,7 +193,7 @@ describe('useKategoriserteVilkår', () => {
             behandlet: true,
             periodetype: Periodetype.Forlengelse,
         });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(5);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Arbeidsuførhet, result);
@@ -218,7 +218,7 @@ describe('useKategoriserteVilkår', () => {
             vilkår: defaultVilkår,
             periodetype: Periodetype.Forlengelse,
         });
-        const { result } = renderHook(() => useKategoriserteVilkår(vedtaksperiode));
+        const { result } = renderHook(() => tilKategoriserteVilkår(vedtaksperiode));
 
         expect(result.current.vilkårVurdertFørstePeriode).toHaveLength(3);
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Sykepengegrunnlag, result);

@@ -108,7 +108,7 @@ export interface KategoriserteVilkår {
     vilkårVurdertFørstePeriode?: Vilkårdata[];
 }
 
-export const useKategoriserteVilkår = ({
+export const tilKategoriserteVilkår = ({
     vilkår,
     risikovurdering,
     periodetype,

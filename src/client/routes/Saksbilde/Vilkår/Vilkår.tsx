@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { useKategoriserteVilkår } from './useKategoriserteVilkår';
+import { tilKategoriserteVilkår } from './tilKategoriserteVilkår';
 import { MedPersonOgVedtaksperiode, PersonContext } from '../../../context/PersonContext';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
@@ -25,9 +25,9 @@ const Separator = styled(Strek)`
 const harVilkår = (vilkår?: Vilkårdata[]) => vilkår && vilkår.length > 0;
 
 export const Vilkår = () => {
-    const { aktivVedtaksperiode: vedtaksperiode, personTilBehandling } = useContext(
-        PersonContext
-    ) as MedPersonOgVedtaksperiode;
+    const { aktivVedtaksperiode: vedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    if (!vedtaksperiode || personTilBehandling === undefined) return null;
+
     const {
         oppfylteVilkår,
         ikkeVurderteVilkår,
@@ -36,9 +36,7 @@ export const Vilkår = () => {
         vilkårVurdertAutomatisk,
         vilkårVurdertIInfotrygd,
         vilkårVurdertFørstePeriode,
-    } = useKategoriserteVilkår(vedtaksperiode);
-
-    if (!vedtaksperiode || personTilBehandling === undefined) return null;
+    } = tilKategoriserteVilkår(vedtaksperiode);
 
     const førstePeriode = førsteVedtaksperiode(vedtaksperiode, personTilBehandling!);
 
@@ -64,6 +62,12 @@ export const Vilkår = () => {
                 {harBehandledeVilkår && harAlleredeVurderteVilkår && <Separator />}
                 {harAlleredeVurderteVilkår && (
                     <Flex>
+                        {vilkårVurdertAutomatisk && vilkårVurdertAutomatisk.length > 0 && (
+                            <VurdertAutomatisk
+                                vilkår={vilkårVurdertAutomatisk}
+                                saksbehandler={vedtaksperiode.godkjentAv}
+                            />
+                        )}
                         {vilkårVurdertAvSaksbehandler && vilkårVurdertAvSaksbehandler.length > 0 && (
                             <VurdertAvSaksbehandler
                                 vilkår={vilkårVurdertAvSaksbehandler}
@@ -75,12 +79,6 @@ export const Vilkår = () => {
                                 vilkår={vilkårVurdertFørstePeriode}
                                 saksbehandler={førstePeriode.godkjentAv}
                                 skjæringstidspunkt={førstePeriode.vilkår!.dagerIgjen.skjæringstidspunkt}
-                            />
-                        )}
-                        {vilkårVurdertAutomatisk && vilkårVurdertAutomatisk.length > 0 && (
-                            <VurdertAutomatisk
-                                vilkår={vilkårVurdertAutomatisk}
-                                saksbehandler={vedtaksperiode.godkjentAv}
                             />
                         )}
                         {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
