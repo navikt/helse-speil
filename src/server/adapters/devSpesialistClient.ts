@@ -79,6 +79,9 @@ const filenameForPersonId = (id: string) => {
         case '57650000444423':
         case '22097112413':
             return 'märtha_infotrygd-forlengelse.json';
+        case '11650007744423':
+        case '02070312413':
+            return 'olav_rex_annuleringer.json';
         case '1000000000009':
         case '03120520135':
             return 'sverre-magnus_første-periode-uten-utbetaling.json';

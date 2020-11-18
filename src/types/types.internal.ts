@@ -153,6 +153,8 @@ export enum Vedtaksperiodetilstand {
     Ukjent = 'ukjent',
     TilInfotrygd = 'tilInfotrygd',
     Annullert = 'annullert',
+    TilAnnullering = 'tilAnnullering',
+    AnnulleringFeilet = 'annulleringFeilet',
 }
 
 export interface UferdigVedtaksperiode {

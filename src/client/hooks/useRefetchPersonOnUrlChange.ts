@@ -5,7 +5,7 @@ import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 export const useRefetchPersonOnUrlChange = () => {
-    const { aktorId } = useParams();
+    const { aktorId } = useParams<{ aktorId: string }>();
     const { hentPerson } = useContext(PersonContext);
     const { leggTilVarsel } = useUpdateVarsler();
 
