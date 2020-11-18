@@ -8,7 +8,6 @@ const ToastView = styled.div`
     min-height: 1rem;
     padding: 14px 16px;
     border-radius: 4px;
-    margin: 1rem;
     background: #3e3832;
     color: white;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
@@ -23,8 +22,8 @@ const spring: Spring = {
 
 const motionElementStyle: MotionStyle = {
     position: 'fixed',
-    bottom: '1rem',
-    left: `1rem`,
+    bottom: '1.5rem',
+    right: '1.5rem',
     zIndex: 1000,
 };
 
