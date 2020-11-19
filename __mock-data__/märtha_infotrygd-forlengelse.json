@@ -269,7 +269,7 @@
                         "medlemskapstatus": "VET_IKKE"
                     },
                     "simuleringsdata": {
-                        "totalbeløp": 23080,
+                        "totalbeløp": -23080,
                         "perioder": [
                             {
                                 "fom": "2020-03-01",
@@ -285,9 +285,9 @@
                                                 "faktiskFom": "2020-03-01",
                                                 "faktiskTom": "2020-03-31",
                                                 "konto": "2338020",
-                                                "beløp": 23080,
+                                                "beløp": -23080,
                                                 "tilbakeføring": false,
-                                                "sats": 1154,
+                                                "sats": -1154,
                                                 "typeSats": "DAG",
                                                 "antallSats": 20,
                                                 "uføregrad": 100,

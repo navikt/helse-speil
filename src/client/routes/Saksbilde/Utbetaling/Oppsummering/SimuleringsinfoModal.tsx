@@ -19,6 +19,11 @@ const Underliste = styled(Grid)`
     }
 `;
 
+const NegativtBeløp = styled(Normaltekst)`
+    color: #a13a28;
+    font-style: italic;
+`;
+
 const Luft = styled.div`
     grid-column-start: 1;
     grid-column-end: span 2;
@@ -37,14 +42,20 @@ export const SimuleringsinfoModal = ({ simulering, åpenModal, lukkModal }: Simu
     <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
         <Modalinnhold>
             <Grid gridTemplateColumns="1fr 1fr">
-                <Undertittel>Totalbeløp simulering</Undertittel>
-                <Undertittel>{toKronerOgØre(simulering.totalbeløp)} kr</Undertittel>
+                <Undertittel>Simulering</Undertittel>
             </Grid>
             {simulering.perioder.map((periode, index) => (
                 <Underliste gridTemplateColumns="1fr 1fr" key={`periode-${index}`}>
                     <Luft />
                     <Element>Periode</Element>
                     <Element>{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</Element>
+                    <Luft />
+                    <Normaltekst>Totalbeløp simulering</Normaltekst>
+                    {simulering.totalbeløp < 0 ? (
+                        <NegativtBeløp>{somPenger(simulering.totalbeløp)}</NegativtBeløp>
+                    ) : (
+                        <Normaltekst>{somPenger(simulering.totalbeløp)}</Normaltekst>
+                    )}
                     <Luft />
                     {periode.utbetalinger.map((utbetaling, index) => (
                         <Utbetalingsvisning utbetaling={utbetaling} index={index} key={`utbetaling-${index}`} />
@@ -82,13 +93,21 @@ const Utbetalingsdetaljvisning = ({ detalj, index }: UtbetalingsdetaljvisningPro
         <Normaltekst>Faktisk tom</Normaltekst>
         <Normaltekst>{formaterDato(detalj.faktiskTom)}</Normaltekst>
         <Normaltekst>Sats</Normaltekst>
-        <Normaltekst>{somPenger(detalj.sats)}</Normaltekst>
+        {detalj.sats < 0 ? (
+            <NegativtBeløp>{somPenger(detalj.sats)}</NegativtBeløp>
+        ) : (
+            <Normaltekst>{somPenger(detalj.sats)}</Normaltekst>
+        )}
         <Normaltekst>Antall sats</Normaltekst>
         <Normaltekst>{detalj.antallSats}</Normaltekst>
         <Normaltekst>Type sats</Normaltekst>
         <Normaltekst>{detalj.typeSats}</Normaltekst>
         <Normaltekst>Beløp</Normaltekst>
-        <Normaltekst>{somPenger(detalj.belop)}</Normaltekst>
+        {detalj.belop < 0 ? (
+            <NegativtBeløp>{somPenger(detalj.belop)}</NegativtBeløp>
+        ) : (
+            <Normaltekst>{somPenger(detalj.belop)}</Normaltekst>
+        )}
         <Normaltekst>Konto</Normaltekst>
         <Normaltekst>{detalj.konto}</Normaltekst>
         <Normaltekst>Klassekode</Normaltekst>

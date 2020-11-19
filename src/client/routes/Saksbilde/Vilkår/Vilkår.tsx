@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { tilKategoriserteVilkår } from './tilKategoriserteVilkår';
-import { MedPersonOgVedtaksperiode, PersonContext } from '../../../context/PersonContext';
+import { PersonContext } from '../../../context/PersonContext';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';

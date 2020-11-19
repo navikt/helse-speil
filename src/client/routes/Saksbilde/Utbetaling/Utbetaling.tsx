@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { PersonContext } from '../../../context/PersonContext';
-import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import Oppsummering from './Oppsummering/Oppsummering';
+import { Link } from 'react-router-dom';
+import { Flex } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
 import { somPenger } from '../../../utils/locale';
 import { Vilkårsliste } from './Vilkårsoversikt';
-import Oppsummering from './Oppsummering/Oppsummering';
+import { PersonContext } from '../../../context/PersonContext';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { Link } from 'react-router-dom';
-import { Flex } from '../../../components/Flex';
 import { Utbetalingsoversikt } from './Utbetalingsoversikt';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 
 const Container = styled.section`
     padding: 2rem 0;
