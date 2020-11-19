@@ -69,7 +69,7 @@ jest.mock('../../../../../io/http', () => ({
     postVedtak: async (_godkjent: boolean, _skjema?: Avvisningsskjema) => Promise.resolve(),
 }));
 
-describe('Utbetaling viser korrekt informasjon', () => {
+describe('Utbetalingsknapp vises ikke ved tilstand:', () => {
     test('Utbetalt', async () => {
         render(
             <UtbetalingView
@@ -77,7 +77,6 @@ describe('Utbetaling viser korrekt informasjon', () => {
                 vedtaksperiode={await vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Utbetalt)}
             />
         );
-        expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeInTheDocument();
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 
@@ -88,7 +87,6 @@ describe('Utbetaling viser korrekt informasjon', () => {
                 vedtaksperiode={await vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Avslag)}
             />
         );
-        expect(screen.getByText('Utbetalingen er sendt til annullering.')).toBeInTheDocument();
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 });
