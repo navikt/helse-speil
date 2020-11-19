@@ -6,6 +6,7 @@ import { OverstyringClient } from './overstyring/overstyringClient';
 import { StsClient } from './auth/stsClient';
 import { AktørIdLookup } from './aktørid/aktørIdLookup';
 import { Request } from 'express';
+import { PersonClient } from './person/personClient';
 
 export interface OidcConfig {
     providerBaseUrl: string;
@@ -51,6 +52,7 @@ export interface PersonDependencies {
     sparkelClient: SparkelClient;
     aktørIdLookup: AktørIdLookup;
     spesialistClient: SpesialistClient;
+    personClient: PersonClient;
     stsClient: StsClient;
     onBehalfOf: OnBehalfOf;
     cache: RedisClient;

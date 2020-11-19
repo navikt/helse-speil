@@ -1,6 +1,6 @@
 import { Tildeling } from 'internal-types';
 import { extractSpesialistToken } from '../utils/cookie';
-import { AnnulleringDTO, Options, OverstyringDTO } from './types';
+import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
 import { speilTildeling } from '../featureToggles';
 import { Avvisningsskjema } from '../routes/Saksbilde/Utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 
@@ -119,6 +119,9 @@ export const postAnnullering = async (annullering: AnnulleringDTO) =>
 
 export const postOverstyring = async (overstyring: OverstyringDTO) =>
     post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
+
+export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
+    post(`${baseUrl}/person/oppdater`, oppdatering);
 
 const spesialistAuthorization = () => ({ Authorization: `Bearer ${extractSpesialistToken()}` });
 

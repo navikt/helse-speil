@@ -4,13 +4,14 @@ import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import Dropdown from '../../../components/Dropdown';
 import { PersonContext } from '../../../context/PersonContext';
-import { annulleringerEnabled } from '../../../featureToggles';
+import { annulleringerEnabled, erKnudixEllerKevin } from '../../../featureToggles';
 import { Annullering } from '../../../components/Annullering';
 import { useEmail } from '../../../state/authentication';
 import { useOppgavetildeling } from '../../../hooks/useOppgavetildeling';
 import { useUpdateVarsler } from '../../../state/varslerState';
 import { Button } from '../../../components/Button';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
+import { OppdaterPersondata } from '../../../components/OppdaterPersondata';
 
 const Container = styled(Sakslinje)`
     border-left: none;
@@ -121,6 +122,7 @@ export const Verktøylinje = () => {
                 <StyledDropdown>
                     <Tildeling oppgavereferanse={aktivVedtaksperiode.oppgavereferanse} tildeltTil={tildeltTil} />
                     {visAnnulleringsmuligheter && <Annullering />}
+                    {erKnudixEllerKevin && <OppdaterPersondata />}
                 </StyledDropdown>
             }
         />

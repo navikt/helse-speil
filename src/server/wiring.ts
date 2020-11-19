@@ -26,6 +26,8 @@ import dummyClient from './dummy/dummyClient';
 import { Express } from 'express';
 import { RedisClient } from 'redis';
 import devDummyClient from './dummy/devDummyClient';
+import { personClient } from './person/personClient';
+import { devPersonClient } from './adapters/devPersonClient';
 
 const getDependencies = (app: Express) =>
     process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
@@ -33,11 +35,13 @@ const getDependencies = (app: Express) =>
 const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _devSpesialistClient = devSpesialistClient(instrumentation);
+    const _devPersonClient = devPersonClient(instrumentation);
     return {
         person: {
             sparkelClient: devSparkelClient,
             aktørIdLookup: devAktørIdLookup,
             spesialistClient: _devSpesialistClient,
+            personClient: _devPersonClient,
             stsClient: devStsClient,
             onBehalfOf: devOnBehalfOf,
             cache: devRedisClient,
@@ -63,11 +67,13 @@ const getProdDependencies = (app: Express) => {
     const _dummyClient = dummyClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     const _spesialistClient = spesialistClient(instrumentation);
+    const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
     return {
         person: {
             sparkelClient,
             aktørIdLookup,
             spesialistClient: _spesialistClient,
+            personClient: _personClient,
             stsClient,
             onBehalfOf: _onBehalfOf,
             cache: _redisClient,

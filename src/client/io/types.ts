@@ -25,3 +25,7 @@ export interface AnnulleringDTO {
     organisasjonsnummer: string;
     fagsystemId: string;
 }
+
+export interface PersonoppdateringDTO {
+    fødselsnummer: string;
+}
