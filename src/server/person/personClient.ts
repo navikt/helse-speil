@@ -1,10 +1,13 @@
 import request from 'request-promise-native';
-import { PersonoppdateringDTO } from '../../client/io/types';
 import { OidcConfig, OnBehalfOf } from '../types';
 import { Instrumentation } from '../instrumentation';
 
+export interface PersonoppdateringOptions {
+    fødselsnummer: string;
+}
+
 export interface PersonClient {
-    oppdaterPersoninfo: (oppdater: PersonoppdateringDTO, speilToken: string) => Promise<Response>;
+    oppdaterPersoninfo: (oppdater: PersonoppdateringOptions, speilToken: string) => Promise<Response>;
 }
 
 export const personClient = (
