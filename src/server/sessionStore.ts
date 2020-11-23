@@ -36,5 +36,3 @@ const createRedisSession = (config: AppConfig, redisClient: RedisClient) => {
         }),
     });
 };
-
-export default { sessionStore };

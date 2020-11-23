@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -20,7 +20,6 @@ import overstyringRoutes from './overstyring/overstyringRoutes';
 import tildelingRoutes from './tildeling/tildelingRoutes';
 import { SpeilRequest } from './types';
 import dummyRoutes from './dummy/dummyRoutes';
-import { Session, SessionData } from 'express-session';
 
 const app = express();
 const port = config.server.port;
