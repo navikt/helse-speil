@@ -1,6 +1,7 @@
-import { Request, Response, Router } from 'express';
+import { Response, Router } from 'express';
 import { OverstyringClient } from './overstyringClient';
 import logger from '../logging';
+import { SpeilRequest } from '../types';
 
 interface SetupOptions {
     overstyringClient: OverstyringClient;
@@ -8,7 +9,7 @@ interface SetupOptions {
 
 export default ({ overstyringClient }: SetupOptions) => {
     const router = Router();
-    router.post('/overstyr/dager', (req: Request, res: Response) => {
+    router.post('/overstyr/dager', (req: SpeilRequest, res: Response) => {
         overstyringClient
             .overstyrDager(req.body, req.session!.speilToken)
             .then(() => res.sendStatus(200))

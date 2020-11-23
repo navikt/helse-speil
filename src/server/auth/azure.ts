@@ -1,15 +1,15 @@
 'use strict';
 
-import { custom, Issuer } from 'openid-client';
+import { Client, custom, Issuer } from 'openid-client';
 import { OidcConfig } from '../types';
 import logger from '../logging';
-import proxy from './proxy';
+import { setup as proxy } from './proxy';
 
 let azureClient;
-const proxyAgent = proxy.setup(Issuer, custom);
+const proxyAgent = proxy(Issuer, custom);
 
 const setup = (config: OidcConfig) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void | Client>((resolve, reject) => {
         if (process.env.NODE_ENV === 'development') {
             resolve();
         }

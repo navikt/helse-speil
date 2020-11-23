@@ -2,7 +2,7 @@ import logger from '../logging';
 import { ipAddressFromRequest } from '../requestData';
 import { Request } from 'express';
 import { Client, TokenSet } from 'openid-client';
-import { OidcConfig, SpeilSession } from '../types';
+import { OidcConfig, SpeilRequest, SpeilSession } from '../types';
 
 interface IsValidInProps {
     seconds: number;
@@ -25,7 +25,7 @@ const redirectUrl = (req: Request, oidc: OidcConfig) => {
     }
 };
 
-const validateOidcCallback = (req: Request, azureClient: Client, config: OidcConfig) => {
+const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: OidcConfig) => {
     if (req.body.code === undefined) {
         return Promise.reject('missing data in POST after login');
     }

@@ -1,46 +1,60 @@
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import { varslerForScope } from '../state/varslerState';
 import { useOppgavetildeling } from './useOppgavetildeling';
 import { RecoilRoot, useRecoilValue } from 'recoil';
 import '@testing-library/jest-dom/extend-expect';
 
-describe('tildelOppgave', () => {
-    test('viser ikke varsel dersom tildelingen var vellykket', async () => {
-        render(
-            <RecoilRoot>
-                <UseOppgavetildelingContainer />
-            </RecoilRoot>
-        );
-        mockFetchSuccess().then(tildel).then(assertIngenVarsler);
-    });
-    test('returnerer feilkode og navnet på saksbehandler som har tildelingen om konflikt', async () => {
-        render(
-            <RecoilRoot>
-                <UseOppgavetildelingContainer />
-            </RecoilRoot>
-        );
-        mockFetchTildelingfeil().then(tildel).then(assertTildelingsvarselErSynlig);
-    });
+declare global {
+    namespace NodeJS {
+        interface Global {
+            fetch: jest.MockedFunction<any>;
+        }
+    }
+}
+
+afterEach(() => {
+    global.fetch = undefined;
 });
 
-describe('fjernTildeling', () => {
-    test('viser ikke varsel dersom fjerning av tildeling var vellykket', async () => {
-        render(
-            <RecoilRoot>
-                <UseOppgavetildelingContainer />
-            </RecoilRoot>
-        );
-        mockFetchSuccess().then(fjernTildeling).then(assertIngenVarsler);
+describe('oppgavetildeling', () => {
+    describe('tildelOppgave', () => {
+        test('viser ikke varsel dersom tildelingen var vellykket', async () => {
+            render(
+                <RecoilRoot>
+                    <UseOppgavetildelingContainer />
+                </RecoilRoot>
+            );
+            await act(() => mockFetchSuccess().then(tildel).then(assertIngenVarsler));
+        });
+        test('returnerer feilkode og navnet på saksbehandler som har tildelingen om konflikt', async () => {
+            render(
+                <RecoilRoot>
+                    <UseOppgavetildelingContainer />
+                </RecoilRoot>
+            );
+            await act(() => mockFetchTildelingfeil().then(tildel).then(assertTildelingsvarselErSynlig));
+        });
     });
-    test('viser varsel dersom fjerning av tildeling ikke var vellykket', async () => {
-        render(
-            <RecoilRoot>
-                <UseOppgavetildelingContainer />
-            </RecoilRoot>
-        );
-        mockFetchFail().then(fjernTildeling).then(assertFjernTildelingsvarselErSynlig);
+
+    describe('fjernTildeling', () => {
+        test('viser ikke varsel dersom fjerning av tildeling var vellykket', async () => {
+            render(
+                <RecoilRoot>
+                    <UseOppgavetildelingContainer />
+                </RecoilRoot>
+            );
+            await act(() => mockFetchSuccess().then(fjernTildeling).then(assertIngenVarsler));
+        });
+        test('viser varsel dersom fjerning av tildeling ikke var vellykket', async () => {
+            render(
+                <RecoilRoot>
+                    <UseOppgavetildelingContainer />
+                </RecoilRoot>
+            );
+            await act(() => mockFetchFail().then(fjernTildeling).then(assertFjernTildelingsvarselErSynlig));
+        });
     });
 });
 
@@ -72,8 +86,8 @@ const fjernTildeling = async () => userEvent.click(screen.getByTestId('fjern'));
 
 const assertIngenVarsler = () => waitFor(() => expect(screen.queryByTestId('varsel')).toBeNull());
 
-const assertVarselMedTekst = (varseltekst: string) =>
-    waitFor(() => {
+const assertVarselMedTekst = async (varseltekst: string) =>
+    await waitFor(() => {
         const varselElement = screen.getByTestId('varsel');
         expect(varselElement).toBeVisible();
         expect(varselElement).toHaveTextContent(varseltekst);

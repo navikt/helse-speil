@@ -20,6 +20,7 @@ import overstyringRoutes from './overstyring/overstyringRoutes';
 import tildelingRoutes from './tildeling/tildelingRoutes';
 import { SpeilRequest } from './types';
 import dummyRoutes from './dummy/dummyRoutes';
+import { Session, SessionData } from 'express-session';
 
 const app = express();
 const port = config.server.port;
@@ -48,8 +49,8 @@ app.get('/isAlive', (_, res) => res.send('alive'));
 app.get('/isReady', (_, res) => res.send('ready'));
 
 const setUpAuthentication = () => {
-    app.get('/login', (req: Request, res: Response) => {
-        const session = req.session!;
+    app.get('/login', (req: SpeilRequest, res: Response) => {
+        const session = req.session;
         session.nonce = generators.nonce();
         session.state = generators.state();
         const url = azureClient!.authorizationUrl({
@@ -65,8 +66,8 @@ const setUpAuthentication = () => {
     });
 
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.post('/callback', (req, res) => {
-        const session = req.session!;
+    app.post('/callback', (req: SpeilRequest, res: Response) => {
+        const session = req.session;
         auth.validateOidcCallback(req, azureClient!, config.oidc)
             .then((tokens: string[]) => {
                 const [accessToken, idToken, refreshToken] = tokens;

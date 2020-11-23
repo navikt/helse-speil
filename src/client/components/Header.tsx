@@ -28,7 +28,7 @@ export const Header = () => {
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
-    const onSøk = (value: string) => {
+    const onSøk = (value: string): Promise<void> =>
         hentPerson(value)
             .then((person: Person) => {
                 speilV2
@@ -37,8 +37,10 @@ export const Header = () => {
             })
             .catch((_) => {
                 /* Error håndtert i hentPerson i PersonContext */
+            })
+            .finally(() => {
+                return Promise.resolve();
             });
-    };
 
     return (
         <Container>

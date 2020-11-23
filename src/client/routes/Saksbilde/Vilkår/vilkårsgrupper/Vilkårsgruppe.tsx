@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 import { Vilkårsgruppetittel } from '../vilkårstitler';
 import { Vilkårgrid } from '../Vilkår.styles';
 
-type Ikontype = 'ok' | 'advarsel' | 'info' | 'kryss';
-
 const Container = styled.div`
     display: flex;
     flex-direction: column;
@@ -17,7 +15,6 @@ const Container = styled.div`
 interface Props {
     tittel: string;
     paragraf?: string;
-    ikontype?: Ikontype;
     children?: ReactNode | ReactNode[];
     className?: string;
 }

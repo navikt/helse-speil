@@ -52,7 +52,6 @@ interface VilkårsgruppetittelProps {
     oppfylt?: boolean;
     paragraf?: ReactNode;
     className?: string;
-    ikon?: ReactNode;
 }
 
 export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, className }: VilkårsgruppetittelProps) => (

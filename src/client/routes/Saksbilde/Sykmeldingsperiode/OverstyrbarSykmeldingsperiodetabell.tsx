@@ -148,7 +148,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(sendOverstyring)}>
                 <OverstyrbarTabell beskrivelse={tabellbeskrivelse} headere={headere} rader={rader} />
-                <Overstyringsskjema overstyrteDager={overstyrteDager} avbrytOverstyring={onToggleOverstyring} />
+                <Overstyringsskjema avbrytOverstyring={onToggleOverstyring} />
                 {overstyringserror && <Feilmelding role="alert">{overstyringserror}</Feilmelding>}
             </form>
         </FormProvider>

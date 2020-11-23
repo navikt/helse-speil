@@ -41,7 +41,6 @@ const Knappegruppe = styled.span`
 `;
 
 interface OverstyringsskjemaProps {
-    overstyrteDager: Sykdomsdag[];
     avbrytOverstyring: () => void;
 }
 

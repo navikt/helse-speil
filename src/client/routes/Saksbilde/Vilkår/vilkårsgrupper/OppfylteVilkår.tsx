@@ -3,11 +3,9 @@ import { Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
 import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { GrøntSjekkikon } from '../../../../components/ikoner/GrøntSjekkikon';
-import { Risikovurdering } from 'internal-types';
 
 interface OppfylteVilkårProps {
     vilkår: Vilkårdata[];
-    risikovurdering?: Risikovurdering;
 }
 
 export const OppfylteVilkår = ({ vilkår }: OppfylteVilkårProps) => (

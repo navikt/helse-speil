@@ -40,12 +40,12 @@ export const Opptjeningstid = ({ dagerIgjen, opptjening }: Vilkår) => (
     </>
 );
 
-interface Grunnbeløp {
+type GrunnbeløpProps = {
     grunnbeløp: number;
     alder: number;
-}
+};
 
-const Grunnbeløp = ({ grunnbeløp, alder }: Grunnbeløp) =>
+const Grunnbeløp = ({ grunnbeløp, alder }: GrunnbeløpProps) =>
     alder >= 67 ? (
         <Normaltekst>{`2G er ${toKronerOgØre(grunnbeløp * 2)} kr`}</Normaltekst>
     ) : (
@@ -110,9 +110,7 @@ export const DagerIgjen = ({ dagerIgjen, alder }: Vilkår) => (
     </>
 );
 
-export const Medlemskap = ({ medlemskap }: Vilkår) => (
-    <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" ikontype={medlemskap?.oppfylt ? 'ok' : 'kryss'} />
-);
+export const Medlemskap = ({ medlemskap }: Vilkår) => <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" />;
 
 const Vurderinger = styled.ul`
     list-style: initial;

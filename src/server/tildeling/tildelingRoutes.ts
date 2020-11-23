@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { TildelingClient } from './tildelingClient';
 import logger from '../logging';
+import { SpeilRequest } from '../types';
 
 interface SetupOptions {
     tildelingClient: TildelingClient;
@@ -8,9 +9,9 @@ interface SetupOptions {
 
 export default ({ tildelingClient }: SetupOptions) => {
     const router = Router();
-    router.post('/:oppgavereferanse', (req: Request, res: Response) => {
+    router.post('/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
         tildelingClient
-            .postTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session!.speilToken)
+            .postTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under tildeling: ${err}`);
@@ -22,9 +23,9 @@ export default ({ tildelingClient }: SetupOptions) => {
             });
     });
 
-    router.delete('/:oppgavereferanse', (req: Request, res: Response) => {
+    router.delete('/:oppgavereferanse', (req: SpeilRequest, res: Response) => {
         tildelingClient
-            .fjernTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session!.speilToken)
+            .fjernTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 if (err.feilkode) {

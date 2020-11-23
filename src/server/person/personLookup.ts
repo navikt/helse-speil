@@ -2,7 +2,7 @@ import authSupport from '../auth/authSupport';
 import logger from '../logging';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { SpesialistClient } from './spesialistClient';
-import { AppConfig, OnBehalfOf } from '../types';
+import { AppConfig, OnBehalfOf, SpeilRequest } from '../types';
 import { Request, Response } from 'express';
 import { Oppgave, SpesialistOppgave } from '../../types';
 
@@ -24,7 +24,7 @@ const setup = ({ spesialistClient: _spesialistClient, config, onBehalfOf: _onBeh
     onBehalfOf = _onBehalfOf;
 };
 
-const finnPerson = async (req: Request, res: Response) => {
+const finnPerson = async (req: SpeilRequest, res: Response) => {
     const undeterminedId = req.headers[personIdHeaderName] as string;
 
     auditLog(req, undeterminedId || 'missing person id');
@@ -39,7 +39,7 @@ const finnPerson = async (req: Request, res: Response) => {
         : spesialistClient.hentPersonByAktørId;
 
     return onBehalfOf
-        .hentFor(spesialistId, req.session!.speilToken)
+        .hentFor(spesialistId, req.session.speilToken)
         .then((token: string) => lookupPromise(undeterminedId, token))
         .then(async (apiResponse: any) => {
             res.status(apiResponse.status).send({
@@ -55,7 +55,7 @@ const finnPerson = async (req: Request, res: Response) => {
         });
 };
 
-const oppgaverForPeriode = (req: Request, res: Response) => {
+const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
     auditLogOversikt(req);
 
     const oppgaverMedTildelinger = async (response: Body): Promise<Oppgave[]> => {
@@ -90,13 +90,13 @@ const oppgaverForPeriode = (req: Request, res: Response) => {
         });
 };
 
-const auditLog = (req: Request, ...params: string[]) => {
+const auditLog = (req: SpeilRequest, ...params: string[]) => {
     logger.audit(`${speilUser(req)} is doing lookup with params: ${params.join(', ')}`);
 };
 
-export const speilUser = (req: Request) => authSupport.valueFromClaim('name', req.session!.speilToken);
+export const speilUser = (req: SpeilRequest) => authSupport.valueFromClaim('name', req.session.speilToken);
 
-const auditLogOversikt = (req: Request) => {
+const auditLogOversikt = (req: SpeilRequest) => {
     logger.audit(`${speilUser(req)} is viewing front page`);
 };
 

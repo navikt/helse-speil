@@ -1,7 +1,8 @@
 import logger from '../logging';
 import { AnnulleringClient } from './annulleringClient';
 import { VedtakClient } from './vedtakClient';
-import { Request, Response, Router } from 'express';
+import { Response, Router } from 'express';
+import { SpeilRequest } from '../types';
 
 interface SetupOptions {
     vedtakClient: VedtakClient;
@@ -11,7 +12,7 @@ interface SetupOptions {
 export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
     const router = Router();
 
-    router.post('/vedtak', (req: Request, res: Response) => {
+    router.post('/vedtak', (req: SpeilRequest, res: Response) => {
         const oppgavereferanse = req.body.oppgavereferanse;
         const saksbehandlerIdent = req.session!.user;
         if (
@@ -51,7 +52,7 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
             });
     });
 
-    router.post('/annullering', (req: Request, res: Response) => {
+    router.post('/annullering', (req: SpeilRequest, res: Response) => {
         annulleringClient
             .annuller({
                 aktørId: req.body.aktørId,

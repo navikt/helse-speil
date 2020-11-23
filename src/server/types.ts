@@ -7,6 +7,7 @@ import { StsClient } from './auth/stsClient';
 import { AktørIdLookup } from './aktørid/aktørIdLookup';
 import { Request } from 'express';
 import { PersonClient } from './person/personClient';
+import { Session } from 'express-session';
 
 export interface OidcConfig {
     providerBaseUrl: string;
@@ -63,9 +64,12 @@ export interface OverstyringDependencies {
     overstyringClient: OverstyringClient;
 }
 
-export interface SpeilSession extends Express.Session {
+export interface SpeilSession extends Session {
     speilToken: string;
     refreshToken: string;
+    nonce: string;
+    state: string;
+    user: string;
 }
 
 export interface SpeilRequest extends Request {

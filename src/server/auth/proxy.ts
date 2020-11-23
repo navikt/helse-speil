@@ -3,11 +3,9 @@
 import tunnel from 'tunnel';
 import logger from '../logging';
 import { custom, Issuer } from 'openid-client';
-import { Agent } from 'http';
 
-// @ts-ignore
-const setup = (issuer: typeof Issuer, custom: typeof custom) => {
-    let proxyAgent: Agent | null = null;
+export const setup = (issuer: typeof Issuer, bespoke: typeof custom) => {
+    let proxyAgent: any = null;
     if (process.env['HTTP_PROXY']) {
         let hostPort = process.env['HTTP_PROXY'].replace('https://', '').replace('http://', '').split(':', 2);
         proxyAgent = tunnel.httpsOverHttp({
@@ -19,8 +17,7 @@ const setup = (issuer: typeof Issuer, custom: typeof custom) => {
 
         logger.info(`proxying requests via ${process.env['HTTP_PROXY']}`);
 
-        // @ts-ignore
-        issuer[custom.http_options] = function (options: { agent: Agent | null }) {
+        issuer[bespoke.http_options] = function (options: { agent: any }) {
             options.agent = proxyAgent;
             return options;
         };
@@ -30,5 +27,3 @@ const setup = (issuer: typeof Issuer, custom: typeof custom) => {
 
     return proxyAgent;
 };
-
-export default { setup };

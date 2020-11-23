@@ -14,6 +14,18 @@ import { AnnulleringDTO } from '../../io/types';
 
 dayjs.extend(isSameOrAfter);
 
+declare global {
+    namespace NodeJS {
+        interface Global {
+            fetch: jest.MockedFunction<any>;
+        }
+    }
+}
+
+afterEach(() => {
+    global.fetch = undefined;
+});
+
 let cachedAnnullering: AnnulleringDTO;
 
 jest.mock('../../io/http', () => ({
@@ -78,7 +90,7 @@ const renderAnnulleringsmodal = async () =>
 
 const annullér = () => Promise.resolve(userEvent.click(screen.getByText('Annullér')));
 
-const fyllUtIdent = () => userEvent.type(screen.getByPlaceholderText('NAV brukerident'), 'S123456');
+const fyllUtIdent = () => Promise.resolve(userEvent.type(screen.getByPlaceholderText('NAV brukerident'), 'S123456'));
 
 const fyllUtFeilIdent = () => userEvent.type(screen.getByPlaceholderText('NAV brukerident'), 'S133769');
 
