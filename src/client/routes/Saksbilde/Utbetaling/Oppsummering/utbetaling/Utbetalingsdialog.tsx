@@ -10,6 +10,7 @@ import { useFjernEnToast, useLeggTilEnToast } from '../../../../../state/toastsS
 import { vedtaksstatusToast, vedtaksstatusToastKey } from '../../../../Oversikt/VedtaksstatusToast';
 import { FetchedPersonContext, PersonContext } from '../../../../../context/PersonContext';
 import { postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
+import { AmplitudeContext } from '../../../AmplitudeContext';
 
 enum Modalvisning {
     Godkjenning,
@@ -72,6 +73,7 @@ export const Utbetalingsdialog = () => {
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [modalvisning, setModalvisning] = useState<Modalvisning | undefined>();
+    const { logOppgaveForkastet, logOppgaveGodkjent } = useContext(AmplitudeContext);
 
     const åpneGodkjenningsmodal = () => setModalvisning(Modalvisning.Godkjenning);
     const åpneAvvisningsmodal = () => setModalvisning(Modalvisning.Avvisning);
@@ -87,6 +89,7 @@ export const Utbetalingsdialog = () => {
         setIsSending(true);
         postUtbetalingsgodkjenning(aktivVedtaksperiode.oppgavereferanse, personTilBehandling.aktørId)
             .then(() => {
+                logOppgaveGodkjent();
                 leggTilUtbetalingstoast();
                 history.push('/');
             })
@@ -97,6 +100,7 @@ export const Utbetalingsdialog = () => {
         setIsSending(true);
         postSendTilInfotrygd(aktivVedtaksperiode.oppgavereferanse, personTilBehandling.aktørId, skjema)
             .then(() => {
+                logOppgaveForkastet();
                 leggTilInfotrygdtoast();
                 history.push('/');
             })

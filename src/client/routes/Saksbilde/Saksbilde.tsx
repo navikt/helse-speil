@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Flex, FlexColumn } from '../../components/Flex';
 import { Tidslinje } from '../../components/tidslinje';
@@ -16,6 +16,7 @@ import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '
 import { Sakslinje } from './sakslinje/Sakslinje';
 import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
 import '@navikt/helse-frontend-logg/lib/main.css';
+import { AmplitudeProvider } from './AmplitudeContext';
 
 const Container = styled.div`
     display: flex;
@@ -95,28 +96,30 @@ export const Saksbilde = () => {
                     <Sakslinje />
                     <LoggHeader />
                 </Flex>
-                <Flex style={{ flex: 1 }}>
-                    <FlexColumn style={{ flex: 1 }}>
-                        <Toppvarsler />
-                        <Content>
-                            <Switch>
-                                <Route path={`${path}/utbetaling`}>
-                                    <Utbetaling />
-                                </Route>
-                                <Route path={`${path}/sykmeldingsperiode`}>
-                                    <Sykmeldingsperiode />
-                                </Route>
-                                <Route path={`${path}/vilkår`}>
-                                    <Vilkår />
-                                </Route>
-                                <Route path={`${path}/sykepengegrunnlag`}>
-                                    <Sykepengegrunnlag />
-                                </Route>
-                            </Switch>
-                        </Content>
-                    </FlexColumn>
-                    <LoggListe />
-                </Flex>
+                <AmplitudeProvider>
+                    <Flex style={{ flex: 1 }}>
+                        <FlexColumn style={{ flex: 1 }}>
+                            <Toppvarsler />
+                            <Content>
+                                <Switch>
+                                    <Route path={`${path}/utbetaling`}>
+                                        <Utbetaling />
+                                    </Route>
+                                    <Route path={`${path}/sykmeldingsperiode`}>
+                                        <Sykmeldingsperiode />
+                                    </Route>
+                                    <Route path={`${path}/vilkår`}>
+                                        <Vilkår />
+                                    </Route>
+                                    <Route path={`${path}/sykepengegrunnlag`}>
+                                        <Sykepengegrunnlag />
+                                    </Route>
+                                </Switch>
+                            </Content>
+                        </FlexColumn>
+                        <LoggListe />
+                    </Flex>
+                </AmplitudeProvider>
             </LoggProvider>
             <KalkulererOverstyringToast />
         </Container>

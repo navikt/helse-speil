@@ -17,3 +17,4 @@ export const annulleringerEnabled = erPreprod() || erLocal() || erSupersaksbehan
 export const speilTildeling = true;
 export const speilV2 = true;
 export const erKnudixEllerKevin = erLocal() || erKnudix() || erKevin();
+export const amplitudeEnabled = erLocal() || erPreprod();
