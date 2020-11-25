@@ -17,6 +17,7 @@ import { Sakslinje } from './sakslinje/Sakslinje';
 import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
 import '@navikt/helse-frontend-logg/lib/main.css';
 import { AmplitudeProvider } from './AmplitudeContext';
+import { Scopes, useVarselFilter } from '../../state/varslerState';
 
 const Container = styled.div`
     display: flex;
@@ -82,6 +83,8 @@ const LoggListe = styled(EksternLoggliste)`
 export const Saksbilde = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const { path } = useRouteMatch();
+
+    useVarselFilter(Scopes.SAKSBILDE);
 
     useRefetchPersonOnUrlChange();
 
