@@ -18,13 +18,16 @@ export const spesialistClient = (instrumentation: Instrumentation): SpesialistCl
             json: true,
         };
         const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/oppgaver');
-        return request.get(options).then((res) => {
-            tidtakning();
-            return Promise.resolve(({
-                status: res.statusCode,
-                body: res.body,
-            } as unknown) as Response);
-        });
+        return request
+            .get(options)
+            .then((res) => {
+                tidtakning();
+                return {
+                    status: res.statusCode,
+                    body: res.body,
+                } as Response;
+            })
+            .catch(feiloversetter);
     },
 
     hentPersonByAktørId: async (aktørId, onBehalfOfToken): Promise<Response> => {
@@ -37,13 +40,16 @@ export const spesialistClient = (instrumentation: Instrumentation): SpesialistCl
             json: true,
         };
         const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/person/aktorId');
-        return request.get(options).then((res) => {
-            tidtakning();
-            return Promise.resolve(({
-                status: res.statusCode,
-                body: res.body,
-            } as unknown) as Response);
-        });
+        return request
+            .get(options)
+            .then((res) => {
+                tidtakning();
+                return {
+                    status: res.statusCode,
+                    body: res.body,
+                } as Response;
+            })
+            .catch(feiloversetter);
     },
 
     hentPersonByFødselsnummer: async (fødselsnummer, onBehalfOfToken): Promise<Response> => {
@@ -56,14 +62,23 @@ export const spesialistClient = (instrumentation: Instrumentation): SpesialistCl
             json: true,
         };
         const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/person/fnr');
-        return request.get(options).then((res) => {
-            tidtakning();
-            return Promise.resolve(({
-                status: res.statusCode,
-                body: res.body,
-            } as unknown) as Response);
-        });
+        return request
+            .get(options)
+            .then((res) => {
+                tidtakning();
+                return {
+                    status: res.statusCode,
+                    body: res.body,
+                } as Response;
+            })
+            .catch(feiloversetter);
     },
 });
+
+const feiloversetter = (err: any) =>
+    ({
+        status: err.statusCode,
+        body: err.body,
+    } as Response);
 
 export default spesialistClient;

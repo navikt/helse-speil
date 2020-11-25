@@ -51,7 +51,7 @@ const finnPerson = async (req: SpeilRequest, res: Response) => {
         })
         .catch((err) => {
             logger.error(`[${speilUser(req)}] Error during data fetching for finnPerson: ${err}`);
-            res.sendStatus(503);
+            res.sendStatus(err.status || 503);
         });
 };
 
