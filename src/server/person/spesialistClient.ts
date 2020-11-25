@@ -27,7 +27,9 @@ export const spesialistClient = (instrumentation: Instrumentation): SpesialistCl
                     body: res.body,
                 } as Response;
             })
-            .catch(feiloversetter);
+            .catch((err) => {
+                throw oversettTilInterntFormat(err);
+            });
     },
 
     hentPersonByAktørId: async (aktørId, onBehalfOfToken): Promise<Response> => {
@@ -49,7 +51,9 @@ export const spesialistClient = (instrumentation: Instrumentation): SpesialistCl
                     body: res.body,
                 } as Response;
             })
-            .catch(feiloversetter);
+            .catch((err) => {
+                throw oversettTilInterntFormat(err);
+            });
     },
 
     hentPersonByFødselsnummer: async (fødselsnummer, onBehalfOfToken): Promise<Response> => {
@@ -71,11 +75,13 @@ export const spesialistClient = (instrumentation: Instrumentation): SpesialistCl
                     body: res.body,
                 } as Response;
             })
-            .catch(feiloversetter);
+            .catch((err) => {
+                throw oversettTilInterntFormat(err);
+            });
     },
 });
 
-const feiloversetter = (err: any) =>
+const oversettTilInterntFormat = (err: any) =>
     ({
         status: err.statusCode,
         body: err.body,

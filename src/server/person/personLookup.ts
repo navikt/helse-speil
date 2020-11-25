@@ -86,7 +86,7 @@ const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
         })
         .catch((err) => {
             logger.error(`[${speilUser(req)}] Error during data fetching for oversikt: ${err}`);
-            res.sendStatus(503);
+            res.sendStatus(err.status || 503);
         });
 };
 
