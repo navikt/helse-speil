@@ -17,7 +17,6 @@ const Knapp = styled(Button)`
     padding: 0;
     margin: 3px;
     border-radius: 50%;
-    transition: all 0.1s ease;
 
     &:hover,
     &:focus {
@@ -35,6 +34,7 @@ const Liste = styled.ul`
     min-width: 1rem;
     min-height: 1rem;
     z-index: 1000;
+    padding: 0.5rem 0;
 `;
 
 const OptionsIkon = () => (
@@ -56,7 +56,7 @@ export const DropdownContext = React.createContext<DropdownContextValue>({
     lukk: () => {},
 });
 
-const Dropdown: React.FC<DropdownProps> = ({ onClick, className, children }) => {
+export const Dropdown: React.FC<DropdownProps> = ({ onClick, className, children }) => {
     const [ekspandert, setEkspandert] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
 
@@ -86,5 +86,3 @@ const Dropdown: React.FC<DropdownProps> = ({ onClick, className, children }) => 
         </Container>
     );
 };
-
-export default Dropdown;

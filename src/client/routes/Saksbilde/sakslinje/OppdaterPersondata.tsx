@@ -1,28 +1,11 @@
 import React, { useContext } from 'react';
-import styled from '@emotion/styled';
-import { PersonContext } from '../context/PersonContext';
-import { Button } from './Button';
-import { PersonoppdateringDTO } from '../io/types';
-import { postForespørPersonoppdatering } from '../io/http';
-import { Scopes, useUpdateVarsler, Varsel } from '../state/varslerState';
+import { PersonContext } from '../../../context/PersonContext';
+import { PersonoppdateringDTO } from '../../../io/types';
+import { postForespørPersonoppdatering } from '../../../io/http';
+import { Scopes, useUpdateVarsler, Varsel } from '../../../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { DropdownContext } from './Dropdown';
-
-const OppdaterKnapp = styled(Button)`
-    border-radius: 0.25rem;
-    height: 30px;
-    width: 180px;
-    font-size: 1rem;
-    white-space: nowrap;
-
-    &:hover,
-    &:focus {
-        background: #e7e9e9;
-    }
-    &:active {
-        background: #e1e4e4;
-    }
-`;
+import { DropdownContext } from '../../../components/Dropdown';
+import { Dropdownknapp } from './Verktøylinje';
 
 const forespørPersonoppdatering = (
     oppdatering: PersonoppdateringDTO,
@@ -56,7 +39,7 @@ export const OppdaterPersondata = () => {
     const { lukk } = useContext(DropdownContext);
 
     return (
-        <OppdaterKnapp
+        <Dropdownknapp
             onClick={() =>
                 forespørPersonoppdatering(
                     { fødselsnummer: personTilBehandling?.fødselsnummer!! },
@@ -67,6 +50,6 @@ export const OppdaterPersondata = () => {
             }
         >
             Oppdater persondata
-        </OppdaterKnapp>
+        </Dropdownknapp>
     );
 };
