@@ -5,7 +5,7 @@ import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import Dropdown from '../../../components/Dropdown';
 import { PersonContext } from '../../../context/PersonContext';
 import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
-import { Annullering } from '../../../components/Annullering';
+import { Annullering } from '../annullering/Annullering';
 import { useEmail } from '../../../state/authentication';
 import { useOppgavetildeling } from '../../../hooks/useOppgavetildeling';
 import { useUpdateVarsler } from '../../../state/varslerState';

@@ -2,15 +2,15 @@ import React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import userEvent from '@testing-library/user-event';
-import { authState } from '../../state/authentication';
+import { authState } from '../../../state/authentication';
 import { RecoilRoot } from 'recoil';
-import { mapVedtaksperiode } from '../../mapping/vedtaksperiode';
+import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
 import { Annulleringsmodal } from './Annulleringsmodal';
 import { Kjønn, Overstyring } from 'internal-types';
-import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
+import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { AnnulleringDTO } from '../../io/types';
+import { AnnulleringDTO } from '../../../io/types';
 
 dayjs.extend(isSameOrAfter);
 

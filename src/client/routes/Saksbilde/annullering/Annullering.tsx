@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
-import { Annulleringsmodal } from './annulleringsmodal/Annulleringsmodal';
-import { PersonContext } from '../context/PersonContext';
-import { Button } from './Button';
-import { DropdownContext } from './Dropdown';
+import { Annulleringsmodal } from './Annulleringsmodal';
+import { PersonContext } from '../../../context/PersonContext';
+import { Button } from '../../../components/Button';
+import { DropdownContext } from '../../../components/Dropdown';
 
 const AnnullerKnapp = styled(Button)`
     border-radius: 0.25rem;
