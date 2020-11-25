@@ -14,7 +14,7 @@ const erKevin = () => extractIdent() === 'S151890';
 
 export const overstyrbareTabellerEnabled = true;
 export const annulleringerEnabled = erPreprod() || erLocal() || erSupersaksbehandler();
+export const oppdaterPersondataEnabled = erPreprod() || erLocal() || erSupersaksbehandler() || erKnudix() || erKevin();
 export const speilTildeling = true;
 export const speilV2 = true;
-export const erKnudixEllerKevin = erLocal() || erKnudix() || erKevin();
 export const amplitudeEnabled = erLocal() || erPreprod();

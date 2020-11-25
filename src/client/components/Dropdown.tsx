@@ -48,6 +48,14 @@ interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
     onClick?: (event: React.MouseEvent) => void;
 }
 
+interface DropdownContextValue {
+    lukk: () => void;
+}
+
+export const DropdownContext = React.createContext<DropdownContextValue>({
+    lukk: () => {},
+});
+
 const Dropdown: React.FC<DropdownProps> = ({ onClick, className, children }) => {
     const [ekspandert, setEkspandert] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
@@ -63,12 +71,18 @@ const Dropdown: React.FC<DropdownProps> = ({ onClick, className, children }) => 
         setEkspandert(!ekspandert);
     };
 
+    const lukk = () => {
+        setEkspandert(false);
+    };
+
     return (
         <Container ref={containerRef}>
             <Knapp onClick={onClickWrapper} className={classNames(className)}>
                 <OptionsIkon />
             </Knapp>
-            {ekspandert && <Liste>{children}</Liste>}
+            <DropdownContext.Provider value={{ lukk }}>
+                {ekspandert && <Liste>{children}</Liste>}
+            </DropdownContext.Provider>
         </Container>
     );
 };

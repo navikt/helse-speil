@@ -3,11 +3,12 @@ import styled from '@emotion/styled';
 import { Annulleringsmodal } from './annulleringsmodal/Annulleringsmodal';
 import { PersonContext } from '../context/PersonContext';
 import { Button } from './Button';
+import { DropdownContext } from './Dropdown';
 
 const AnnullerKnapp = styled(Button)`
     border-radius: 0.25rem;
     height: 30px;
-    width: 150px;
+    width: 180px;
     font-size: 1rem;
     white-space: nowrap;
 
@@ -22,6 +23,7 @@ const AnnullerKnapp = styled(Button)`
 
 export const Annullering = () => {
     const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
+    const { lukk } = useContext(DropdownContext);
     const [showModal, setShowModal] = useState<boolean>(false);
 
     return (
@@ -31,7 +33,10 @@ export const Annullering = () => {
                 <Annulleringsmodal
                     person={personTilBehandling!}
                     vedtaksperiode={aktivVedtaksperiode!}
-                    onClose={() => setShowModal(false)}
+                    onClose={() => {
+                        setShowModal(false);
+                        lukk();
+                    }}
                 />
             )}
         </>

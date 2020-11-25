@@ -4,7 +4,7 @@ import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import Dropdown from '../../../components/Dropdown';
 import { PersonContext } from '../../../context/PersonContext';
-import { annulleringerEnabled, erKnudixEllerKevin } from '../../../featureToggles';
+import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
 import { Annullering } from '../../../components/Annullering';
 import { useEmail } from '../../../state/authentication';
 import { useOppgavetildeling } from '../../../hooks/useOppgavetildeling';
@@ -53,7 +53,7 @@ const TildelingKnapp = styled(Button)`
     margin: 0.5rem 0;
     border-radius: 0.25rem;
     height: 30px;
-    width: 150px;
+    width: 180px;
     font-size: 1rem;
     white-space: nowrap;
 
@@ -121,8 +121,8 @@ export const Verktøylinje = () => {
             høyre={
                 <StyledDropdown>
                     <Tildeling oppgavereferanse={aktivVedtaksperiode.oppgavereferanse} tildeltTil={tildeltTil} />
+                    {oppdaterPersondataEnabled && <OppdaterPersondata />}
                     {visAnnulleringsmuligheter && <Annullering />}
-                    {erKnudixEllerKevin && <OppdaterPersondata />}
                 </StyledDropdown>
             }
         />
