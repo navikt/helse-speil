@@ -1,7 +1,8 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useContext } from 'react';
 import dayjs from 'dayjs';
 import amplitude from 'amplitude-js';
 import { amplitudeEnabled } from '../../featureToggles';
+import { PersonContext } from '../../context/PersonContext';
 
 amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {
@@ -21,22 +22,24 @@ export const AmplitudeContext = React.createContext<AmplitudeContextValue>({
 });
 
 export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+    const { aktivVedtaksperiode } = useContext(PersonContext);
+    if (!aktivVedtaksperiode) throw Error('Mangler aktiv vedtaksperiode');
+
     const oppgaveÅpnet = dayjs();
 
+    const eventProperties = () => ({
+        varighet: dayjs().diff(oppgaveÅpnet),
+        type: aktivVedtaksperiode.periodetype,
+        warnings: aktivVedtaksperiode.aktivitetslog,
+        antallWarnings: aktivVedtaksperiode.aktivitetslog.length,
+    });
+
     const logOppgaveGodkjent = () => {
-        amplitudeEnabled &&
-            amplitude?.getInstance().logEvent('oppgave godkjent', {
-                åpnet: oppgaveÅpnet.toDate(),
-                godkjent: dayjs().toDate(),
-            });
+        amplitudeEnabled && amplitude?.getInstance().logEvent('oppgave godkjent', eventProperties());
     };
 
     const logOppgaveForkastet = () => {
-        amplitudeEnabled &&
-            amplitude?.getInstance().logEvent('oppgave forkastet', {
-                åpnet: oppgaveÅpnet.toDate(),
-                forkastet: dayjs().toDate(),
-            });
+        amplitudeEnabled && amplitude?.getInstance().logEvent('oppgave forkastet', eventProperties());
     };
 
     return (

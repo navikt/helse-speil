@@ -6,8 +6,8 @@ interface ErrorBoundaryState {
 }
 
 type ErrorBoundaryProps = {
-    fallback: ReactNode;
-    onError: (error: Error) => void;
+    fallback: ReactNode | ((error: Error) => ReactNode);
+    onError?: (error: Error) => void;
 };
 
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -15,7 +15,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
 
     constructor(props: ErrorBoundaryProps) {
         super(props);
-        this.state = { hasError: false };
+        this.state = { hasError: false, error: undefined };
         this.errorMessageRef = createRef();
     }
 
@@ -24,7 +24,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     }
 
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-        this.props.onError(error);
+        this.props.onError?.(error);
     }
 
     componentDidUpdate(prevProps: ErrorBoundaryProps, prevState: ErrorBoundaryState) {
@@ -35,6 +35,12 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
     }
 
     render() {
-        return this.state.hasError ? this.props.fallback : this.props.children;
+        const { fallback, children } = this.props;
+        const { hasError, error } = this.state;
+        if (hasError && error) {
+            return typeof fallback === 'function' ? fallback(error) : fallback;
+        } else {
+            return children;
+        }
     }
 }

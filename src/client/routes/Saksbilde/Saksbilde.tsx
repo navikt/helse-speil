@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import { Flex, FlexColumn } from '../../components/Flex';
 import { Tidslinje } from '../../components/tidslinje';
@@ -18,6 +18,9 @@ import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOvers
 import '@navikt/helse-frontend-logg/lib/main.css';
 import { AmplitudeProvider } from './AmplitudeContext';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { Person } from 'internal-types';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Container = styled.div`
     display: flex;
@@ -80,6 +83,19 @@ const LoggListe = styled(EksternLoggliste)`
     }
 `;
 
+const TomtSaksbilde = ({ person }: { person: Person }) => (
+    <Container className="saksbilde">
+        <LoggProvider>
+            <Personlinje person={person} />
+            <Tidslinje person={person} />
+            <Flex justifyContent="space-between">
+                <Sakslinje />
+                <LoggHeader />
+            </Flex>
+        </LoggProvider>
+    </Container>
+);
+
 export const Saksbilde = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
     const { path } = useRouteMatch();
@@ -89,6 +105,7 @@ export const Saksbilde = () => {
     useRefetchPersonOnUrlChange();
 
     if (!personTilBehandling) return <div />;
+    if (!aktivVedtaksperiode) return <TomtSaksbilde person={personTilBehandling} />;
 
     return (
         <Container className="saksbilde">
@@ -99,30 +116,32 @@ export const Saksbilde = () => {
                     <Sakslinje />
                     <LoggHeader />
                 </Flex>
-                <AmplitudeProvider>
-                    <Flex style={{ flex: 1 }}>
-                        <FlexColumn style={{ flex: 1 }}>
-                            <Toppvarsler />
-                            <Content>
-                                <Switch>
-                                    <Route path={`${path}/utbetaling`}>
-                                        <Utbetaling />
-                                    </Route>
-                                    <Route path={`${path}/sykmeldingsperiode`}>
-                                        <Sykmeldingsperiode />
-                                    </Route>
-                                    <Route path={`${path}/vilkår`}>
-                                        <Vilkår />
-                                    </Route>
-                                    <Route path={`${path}/sykepengegrunnlag`}>
-                                        <Sykepengegrunnlag />
-                                    </Route>
-                                </Switch>
-                            </Content>
-                        </FlexColumn>
-                        <LoggListe />
-                    </Flex>
-                </AmplitudeProvider>
+                <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Feil}>{error.message}</Varsel>}>
+                    <AmplitudeProvider>
+                        <Flex style={{ flex: 1 }}>
+                            <FlexColumn style={{ flex: 1 }}>
+                                <Toppvarsler />
+                                <Content>
+                                    <Switch>
+                                        <Route path={`${path}/utbetaling`}>
+                                            <Utbetaling />
+                                        </Route>
+                                        <Route path={`${path}/sykmeldingsperiode`}>
+                                            <Sykmeldingsperiode />
+                                        </Route>
+                                        <Route path={`${path}/vilkår`}>
+                                            <Vilkår />
+                                        </Route>
+                                        <Route path={`${path}/sykepengegrunnlag`}>
+                                            <Sykepengegrunnlag />
+                                        </Route>
+                                    </Switch>
+                                </Content>
+                            </FlexColumn>
+                            <LoggListe />
+                        </Flex>
+                    </AmplitudeProvider>
+                </ErrorBoundary>
             </LoggProvider>
             <KalkulererOverstyringToast />
         </Container>
