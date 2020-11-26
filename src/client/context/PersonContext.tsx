@@ -82,7 +82,7 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                 if (err.statusCode !== 401) {
                     const message =
                         err.statusCode === 404
-                            ? `Personen har ingen utbetalinger i Nav Sykepenger`
+                            ? `Personen har ingen utbetalinger i NAV Sykepenger`
                             : 'Kunne ikke utføre søket. Prøv igjen senere.';
                     const technical = err.message?.length > 0 ? `Feilmelding til utviklere: ${err.message}` : undefined;
                     leggTilVarsel({ ...err, message, technical, type: Varseltype.Advarsel });
