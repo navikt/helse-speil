@@ -33,7 +33,10 @@ const mapPeriodetypeFarger = (tittel?: PeriodetypeTittel) => {
                 color: '#FFFFFF',
             };
         default:
-            return undefined;
+            return {
+                backgroundColor: '#C4C4C4',
+                width: '150px',
+            };
     }
 };
 
@@ -42,9 +45,11 @@ interface PeriodetypeProps {
 }
 
 const Container = styled.div((props: PeriodetypeProps) => ({
+    boxSizing: 'border-box',
     border: '1px solid transparent',
     borderRadius: '18px',
     padding: '4px 16px',
+    height: '24px',
     ...mapPeriodetypeFarger(props.tittel),
 }));
 

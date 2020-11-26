@@ -4,7 +4,7 @@ import { useOppgavetildeling } from '../../../hooks/useOppgavetildeling';
 import { useUpdateVarsler } from '../../../state/varslerState';
 import { PersonContext } from '../../../context/PersonContext';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { Dropdownknapp } from './Verktøylinje';
+import { DropdownMenyknapp } from './Verktøylinje';
 
 export const Tildelingsknapp = ({
     oppgavereferanse,
@@ -35,10 +35,10 @@ export const Tildelingsknapp = ({
     };
 
     return erTildeltInnloggetBruker ? (
-        <Dropdownknapp onClick={meldAvTildeling}>Meld av {erTildeltInnloggetBruker} </Dropdownknapp>
+        <DropdownMenyknapp onClick={meldAvTildeling}>Meld av {erTildeltInnloggetBruker} </DropdownMenyknapp>
     ) : (
-        <Dropdownknapp onClick={tildel} disabled={tildeltTil !== undefined}>
+        <DropdownMenyknapp onClick={tildel} disabled={tildeltTil !== undefined}>
             Tildel meg
-        </Dropdownknapp>
+        </DropdownMenyknapp>
     );
 };

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Annulleringsmodal } from './Annulleringsmodal';
 import { PersonContext } from '../../../context/PersonContext';
 import { DropdownContext } from '../../../components/Dropdown';
-import { Dropdownknapp } from '../sakslinje/Verktøylinje';
+import { DropdownMenyknapp } from '../sakslinje/Verktøylinje';
 
 export const Annullering = () => {
     const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
@@ -11,7 +11,7 @@ export const Annullering = () => {
 
     return (
         <>
-            <Dropdownknapp onClick={() => setShowModal(true)}>Annuller</Dropdownknapp>
+            <DropdownMenyknapp onClick={() => setShowModal(true)}>Annuller</DropdownMenyknapp>
             {showModal && (
                 <Annulleringsmodal
                     person={personTilBehandling!}

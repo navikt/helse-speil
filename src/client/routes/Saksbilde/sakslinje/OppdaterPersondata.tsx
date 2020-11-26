@@ -5,7 +5,7 @@ import { postForespørPersonoppdatering } from '../../../io/http';
 import { Scopes, useUpdateVarsler, Varsel } from '../../../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { DropdownContext } from '../../../components/Dropdown';
-import { Dropdownknapp } from './Verktøylinje';
+import { DropdownMenyknapp } from './Verktøylinje';
 
 const forespørPersonoppdatering = (
     oppdatering: PersonoppdateringDTO,
@@ -39,7 +39,7 @@ export const OppdaterPersondata = () => {
     const { lukk } = useContext(DropdownContext);
 
     return (
-        <Dropdownknapp
+        <DropdownMenyknapp
             onClick={() =>
                 forespørPersonoppdatering(
                     { fødselsnummer: personTilBehandling?.fødselsnummer!! },
@@ -50,6 +50,6 @@ export const OppdaterPersondata = () => {
             }
         >
             Oppdater persondata
-        </Dropdownknapp>
+        </DropdownMenyknapp>
     );
 };

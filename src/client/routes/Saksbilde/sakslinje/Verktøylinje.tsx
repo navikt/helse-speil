@@ -17,7 +17,7 @@ const Container = styled(Sakslinje)`
     border: 0;
     background: inherit;
     width: 50px;
-    margin-left: 24px;
+    margin-left: 10px;
 
     span {
         border: 0;
@@ -25,7 +25,6 @@ const Container = styled(Sakslinje)`
 `;
 
 const StyledDropdown = styled(Dropdown)`
-    margin-right: 0.5rem;
     border-radius: 50%;
     height: 3rem;
     width: 3rem;
@@ -42,7 +41,7 @@ const StyledDropdown = styled(Dropdown)`
     }
 `;
 
-export const Dropdownknapp = styled(Button)`
+export const DropdownMenyknapp = styled(Button)`
     height: 30px;
     width: 180px;
     font-size: 1rem;
@@ -81,14 +80,19 @@ export const Verktøylinje = () => {
         !vedtaksperiodeErAnnullert &&
         ((annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling) || utbetalinger?.personUtbetaling);
 
-    if (!aktivVedtaksperiode) return null;
-
     return (
         <Container
             høyre={
                 <StyledDropdown>
-                    <Tildelingsknapp oppgavereferanse={aktivVedtaksperiode.oppgavereferanse} tildeltTil={tildeltTil} />
-                    <Strek />
+                    {aktivVedtaksperiode && (
+                        <>
+                            <Tildelingsknapp
+                                oppgavereferanse={aktivVedtaksperiode.oppgavereferanse}
+                                tildeltTil={tildeltTil}
+                            />
+                            <Strek />
+                        </>
+                    )}
                     {oppdaterPersondataEnabled && <OppdaterPersondata />}
                     {visAnnulleringsmuligheter && <Annullering />}
                 </StyledDropdown>
