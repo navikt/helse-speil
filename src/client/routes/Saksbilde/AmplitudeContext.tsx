@@ -8,7 +8,7 @@ amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {
         apiEndpoint: 'amplitude.nav.no/collect-auto',
         saveEvents: false,
-        platform: window.location.toString(),
+        platform: window.location.origin.toString(),
     });
 
 interface AmplitudeContextValue {
