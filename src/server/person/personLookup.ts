@@ -50,7 +50,7 @@ const finnPerson = async (req: SpeilRequest, res: Response) => {
             });
         })
         .catch((err) => {
-            logger.error(`[${speilUser(req)}] Error during data fetching for finnPerson: ${err}`);
+            logger.error(`[${speilUser(req)}] Error during data fetching for finnPerson: ${JSON.stringify(err)}`);
             res.sendStatus(err.status || 503);
         });
 };
@@ -85,7 +85,7 @@ const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
             });
         })
         .catch((err) => {
-            logger.error(`[${speilUser(req)}] Error during data fetching for oversikt: ${err}`);
+            logger.error(`[${speilUser(req)}] Error during data fetching for oversikt: ${JSON.stringify(err)}`);
             res.sendStatus(err.status || 503);
         });
 };
