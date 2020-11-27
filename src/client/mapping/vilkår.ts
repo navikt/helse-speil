@@ -7,12 +7,7 @@ import {
     Søknadsfrist,
     Vilkår,
 } from 'internal-types';
-import {
-    SpesialistVedtaksperiode,
-    SpleisForlengelseFraInfotrygd,
-    SpleisMedlemskapstatus,
-    SpleisVilkår,
-} from 'external-types';
+import { SpesialistVedtaksperiode, SpleisForlengelseFraInfotrygd, SpleisMedlemskapstatus } from 'external-types';
 import { somDato, somKanskjeDato } from './vedtaksperiode';
 import { ReactNode } from 'react';
 
@@ -37,18 +32,18 @@ export interface Vilkårdata {
     paragraf?: ReactNode;
 }
 
-const alderVilkår = (vilkår: SpleisVilkår): Alder => ({
+const alderVilkår = ({ vilkår }: SpesialistVedtaksperiode): Alder => ({
     alderSisteSykedag: vilkår.alder.alderSisteSykedag,
     oppfylt: vilkår.alder.oppfylt,
 });
 
-const sykepengegrunnlagVilkår = (vilkår: SpleisVilkår): SykepengegrunnlagVilkår => ({
+const sykepengegrunnlagVilkår = ({ vilkår }: SpesialistVedtaksperiode): SykepengegrunnlagVilkår => ({
     sykepengegrunnlag: vilkår.sykepengegrunnlag.sykepengegrunnlag,
     oppfylt: vilkår.sykepengegrunnlag.oppfylt,
     grunnebeløp: vilkår.sykepengegrunnlag.grunnbeløp,
 });
 
-const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
+const dagerIgjenVilkår = ({ vilkår }: SpesialistVedtaksperiode): DagerIgjen => ({
     dagerBrukt: vilkår.sykepengedager.forbrukteSykedager,
     skjæringstidspunkt: somDato(vilkår.sykepengedager.beregningsdato),
     førsteSykepengedag: somKanskjeDato(vilkår.sykepengedager.førsteSykepengedag),
@@ -58,42 +53,56 @@ const dagerIgjenVilkår = (vilkår: SpleisVilkår): DagerIgjen => ({
     tidligerePerioder: [],
 });
 
-const søknadsfristVilkår = (vilkår: SpleisVilkår): Søknadsfrist | undefined =>
-    vilkår.søknadsfrist !== undefined
+const søknadsfristVilkår = ({ vilkår }: SpesialistVedtaksperiode): Søknadsfrist | undefined =>
+    vilkår.søknadsfrist
         ? {
               sendtNav: somDato(vilkår.søknadsfrist.sendtNav),
               søknadTom: somDato(vilkår.søknadsfrist.søknadTom),
-              // TODO: oppfylt undefined burde legge kravet i liste over ting vi ikke har sjekket
               oppfylt: vilkår.søknadsfrist.oppfylt,
           }
         : undefined;
 
-const opptjeningVilkår = (vilkår: SpleisVilkår): Opptjening | undefined =>
-    vilkår.opptjening !== undefined && vilkår.opptjening !== null
+const opptjeningVilkår = ({ vilkår, forlengelseFraInfotrygd }: SpesialistVedtaksperiode): Opptjening | undefined => {
+    if (forlengelseFraInfotrygd === SpleisForlengelseFraInfotrygd.JA) return { oppfylt: true } as Opptjening;
+    return vilkår.opptjening !== undefined && vilkår.opptjening !== null
         ? {
               antallOpptjeningsdagerErMinst: vilkår.opptjening.antallKjenteOpptjeningsdager,
               oppfylt: vilkår.opptjening.oppfylt,
               opptjeningFra: somDato(vilkår.opptjening.fom),
           }
         : undefined;
+};
 
-const medlemskapVilkår = (vilkår: SpleisVilkår): Basisvilkår | undefined =>
-    vilkår.medlemskapstatus === SpleisMedlemskapstatus.JA
-        ? {
-              oppfylt: true,
-          }
-        : undefined;
+const medlemskapVilkår = ({ vilkår }: SpesialistVedtaksperiode): Basisvilkår | undefined =>
+    vilkår.medlemskapstatus === SpleisMedlemskapstatus.JA ? { oppfylt: true } : undefined;
 
-export const mapVilkår = (unmapped: SpesialistVedtaksperiode): Vilkår | undefined =>
-    (unmapped.vilkår && {
-        alder: alderVilkår(unmapped.vilkår),
-        dagerIgjen: dagerIgjenVilkår(unmapped.vilkår),
-        opptjening:
-            unmapped.forlengelseFraInfotrygd === SpleisForlengelseFraInfotrygd.JA
-                ? { oppfylt: true }
-                : opptjeningVilkår(unmapped.vilkår),
-        søknadsfrist: søknadsfristVilkår(unmapped.vilkår),
-        sykepengegrunnlag: sykepengegrunnlagVilkår(unmapped.vilkår),
-        medlemskap: medlemskapVilkår(unmapped.vilkår),
-    }) ??
-    undefined;
+type MapVilkårResult = {
+    vilkår: Vilkår | undefined;
+    problems: Error[];
+};
+
+export const mapVilkår = async (unmapped: SpesialistVedtaksperiode): Promise<MapVilkårResult> => {
+    const problems: Error[] = [];
+
+    const mapVilkår = (callback: (unmapped: SpesialistVedtaksperiode) => any): any => {
+        try {
+            return callback(unmapped);
+        } catch (error) {
+            problems.push(error);
+        }
+    };
+
+    const vilkår = {
+        alder: mapVilkår(alderVilkår),
+        sykepengegrunnlag: mapVilkår(sykepengegrunnlagVilkår),
+        dagerIgjen: mapVilkår(dagerIgjenVilkår),
+        søknadsfrist: mapVilkår(søknadsfristVilkår),
+        opptjening: mapVilkår(opptjeningVilkår),
+        medlemskap: mapVilkår(medlemskapVilkår),
+    };
+
+    return {
+        vilkår: vilkår,
+        problems: problems,
+    };
+};

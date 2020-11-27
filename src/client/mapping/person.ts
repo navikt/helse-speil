@@ -10,9 +10,14 @@ type PartialMappingResult = {
         personinfoFraSparkel?: PersoninfoFraSparkel;
     };
     partial: Partial<Person>;
+    problems: Error[];
 };
 
-const appendUnmappedData = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendUnmappedData = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
@@ -21,9 +26,14 @@ const appendUnmappedData = async ({ unmapped, partial }: PartialMappingResult): 
         tildeltTil: unmapped.tildeltTil ?? undefined,
         fødselsnummer: unmapped.fødselsnummer,
     },
+    problems: problems,
 });
 
-const appendPersoninfo = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendPersoninfo = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
@@ -36,28 +46,42 @@ const appendPersoninfo = async ({ unmapped, partial }: PartialMappingResult): Pr
             fnr: unmapped.personinfoFraSparkel?.fnr ?? unmapped.fødselsnummer,
         },
     },
+    problems: problems,
 });
 
-const appendArbeidsgivere = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendArbeidsgivere = async ({
     unmapped,
-    partial: {
-        ...partial,
-        arbeidsgivere: await mapArbeidsgivere(unmapped.arbeidsgivere),
-    },
-});
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => {
+    const { arbeidsgivere, problems: arbeidsgiverProblems } = await mapArbeidsgivere(unmapped.arbeidsgivere);
+    return {
+        unmapped,
+        partial: {
+            ...partial,
+            arbeidsgivere: arbeidsgivere,
+        },
+        problems: [...problems, ...arbeidsgiverProblems],
+    };
+};
 
 const appendInfotrygdutbetalinger = async ({
     unmapped,
     partial,
+    problems,
 }: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
         infotrygdutbetalinger: mapInfotrygdutbetalinger(unmapped),
     },
+    problems: problems,
 });
 
-const finalize = (partialResult: PartialMappingResult): Person => partialResult.partial as Person;
+const finalize = (partialResult: PartialMappingResult): { person: Person; problems: Error[] } => ({
+    person: partialResult.partial as Person,
+    problems: partialResult.problems,
+});
 
 // Optional personinfo fra Sparkel kan fjernes når vi ikke lenger
 // kan komme til å hente person fra Spesialist som mangler kjønn
@@ -65,9 +89,9 @@ const finalize = (partialResult: PartialMappingResult): Person => partialResult.
 export const mapPerson = async (
     person: SpesialistPerson,
     personinfoFraSparkel?: PersoninfoFraSparkel
-): Promise<Person> => {
+): Promise<{ person: Person; problems: Error[] }> => {
     const unmapped = { ...person, personinfoFraSparkel };
-    return appendUnmappedData({ unmapped, partial: {} })
+    return appendUnmappedData({ unmapped: unmapped, partial: {}, problems: [] })
         .then(appendPersoninfo)
         .then(appendArbeidsgivere)
         .then(appendInfotrygdutbetalinger)

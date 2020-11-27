@@ -182,18 +182,21 @@ export const enSpeilVedtaksperiode = async ({
     forlengelseFraInfotrygd = false,
     automatiskBehandlet = false,
     periodetype = Periodetype.Førstegangsbehandling,
-}: EnSpeilVedtaksperiodeOptions): Promise<Vedtaksperiode> => ({
-    ...(await mapVedtaksperiode({
+}: EnSpeilVedtaksperiodeOptions): Promise<Vedtaksperiode> => {
+    const { vedtaksperiode } = await mapVedtaksperiode({
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         overstyringer: [],
-    })),
-    vilkår,
-    behandlet,
-    forlengelseFraInfotrygd,
-    automatiskBehandlet,
-    periodetype,
-});
+    });
+    return {
+        ...vedtaksperiode,
+        vilkår,
+        behandlet,
+        forlengelseFraInfotrygd,
+        automatiskBehandlet,
+        periodetype,
+    };
+};
 
 const harVilkårstype = (vilkårstype: Vilkårstype) => (vilkårdata: Vilkårdata) => vilkårdata.type === vilkårstype;
 

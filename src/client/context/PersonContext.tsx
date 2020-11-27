@@ -1,4 +1,4 @@
-import React, { createContext, ReactChild, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { fetchPerson, getPersoninfo } from '../io/http';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
@@ -17,10 +17,6 @@ export interface PersonContextValue {
 
 export type FetchedPersonContext = Required<PersonContextValue>;
 
-interface ProviderProps {
-    children: ReactChild;
-}
-
 export const defaultPersonContext = {
     personTilBehandling: undefined,
     markerPersonSomTildelt: (_: string) => null,
@@ -31,7 +27,7 @@ export const defaultPersonContext = {
 
 export const PersonContext = createContext<PersonContextValue>(defaultPersonContext);
 
-export const PersonProvider = ({ children }: ProviderProps) => {
+export const PersonProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const [personTilBehandling, setPersonTilBehandling] = useState<Person>();
     const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
     const [aktivVedtaksperiode, setAktivVedtaksperiode] = useState<Vedtaksperiode>();
@@ -46,6 +42,18 @@ export const PersonProvider = ({ children }: ProviderProps) => {
             setAktivVedtaksperiode(undefined);
         }
     }, [personTilBehandling]);
+
+    const leggTilMappingVarsler = (problems: Error[]) => {
+        const fjernDuplikater = (problem: Error, index: number, problems: Error[]) =>
+            !problems.slice(index + 1).find(({ message }) => message === problem.message);
+        problems.filter(fjernDuplikater).forEach((problem) => {
+            leggTilVarsel({
+                message: problem.message,
+                scope: Scopes.SAKSBILDE,
+                type: Varseltype.Feil,
+            });
+        });
+    };
 
     const hentPerson = (value: string) => {
         if (isNaN(Number(value))) {
@@ -68,7 +76,8 @@ export const PersonProvider = ({ children }: ProviderProps) => {
                               ...response.data,
                           }))
                         : undefined;
-                const person: Person = await mapPerson(spesialistPerson, personinfoFraSparkel);
+                const { person, problems } = await mapPerson(spesialistPerson, personinfoFraSparkel);
+                leggTilMappingVarsler(problems);
                 setPersonTilBehandling(person);
                 return person;
             })

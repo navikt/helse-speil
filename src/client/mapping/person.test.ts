@@ -23,7 +23,7 @@ import { umappetPerson } from '../../test/data/person';
 
 describe('personmapper', () => {
     test('mapper person', async () => {
-        const person = await mapPerson(umappetPerson(), defaultPersonInfo);
+        const { person } = await mapPerson(umappetPerson(), defaultPersonInfo);
         expect(person).toEqual(mappetPerson);
     });
 
@@ -35,7 +35,7 @@ describe('personmapper', () => {
 
         const vedtaksperiode = umappetVedtaksperiode({ aktivitetslogg: [spleisAktivitet] });
         const arbeidsgiver = umappetArbeidsgiver([vedtaksperiode]);
-        const person = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
+        const { person } = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
 
         const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
 
@@ -48,7 +48,7 @@ describe('personmapper', () => {
 
         const vedtaksperiode = umappetVedtaksperiode({ varsler: [melding] });
         const arbeidsgiver = umappetArbeidsgiver([vedtaksperiode]);
-        const person = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
+        const { person } = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
 
         const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
 
@@ -57,7 +57,7 @@ describe('personmapper', () => {
     });
 
     test('mapper person med flere vedtaksperioder', async () => {
-        let person = await mapPerson(
+        let { person } = await mapPerson(
             umappetPerson([
                 umappetArbeidsgiver([
                     umappetVedtaksperiode(),
@@ -121,14 +121,14 @@ describe('personmapper', () => {
 
         const førsteSykdomsdag = umappetVedtaksperiode().sykdomstidslinje[0];
         const vedtaksperiode = medLedendeSykdomsdager(umappetVedtaksperiode(), ledendeArbeidsdager);
-        const person = await mapPerson(umappetPerson([umappetArbeidsgiver([vedtaksperiode])]), defaultPersonInfo);
+        const { person } = await mapPerson(umappetPerson([umappetArbeidsgiver([vedtaksperiode])]), defaultPersonInfo);
         const mappetVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
 
         expect(mappetVedtaksperiode.sykdomstidslinje[0].dato).toEqual(somDato(førsteSykdomsdag.dagen));
     });
 
     test('Vedtaksperioder sorteres på fom i synkende rekkefølge', async () => {
-        const person = await mapPerson(
+        const { person } = await mapPerson(
             umappetPerson([
                 umappetArbeidsgiver([
                     medLedendeSykdomsdager(umappetVedtaksperiode(), [
@@ -173,7 +173,7 @@ describe('personmapper', () => {
                 },
             },
         ];
-        const person = await mapPerson(
+        const { person } = await mapPerson(
             umappetPerson([
                 umappetArbeidsgiver(
                     [medEkstraSykdomsdager(umappetVedtaksperiode(), ekstraDager)],

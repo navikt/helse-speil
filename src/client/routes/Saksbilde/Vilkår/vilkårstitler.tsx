@@ -63,7 +63,7 @@ export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, classN
             <Tittel tag="h3" data-testid={type}>
                 {children}
             </Tittel>
-            <Paragraf>{paragraf}</Paragraf>
+            {paragraf && <Paragraf>{paragraf}</Paragraf>}
         </TekstContainer>
     </Header>
 );

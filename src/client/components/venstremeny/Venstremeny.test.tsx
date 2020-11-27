@@ -6,12 +6,14 @@ import '@testing-library/jest-dom/extend-expect';
 import { mapVedtaksperiode } from '../../mapping/vedtaksperiode';
 import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
 
-const enSpeilVedtaksperiode = () =>
-    mapVedtaksperiode({
+const enSpeilVedtaksperiode = async () => {
+    const { vedtaksperiode } = await mapVedtaksperiode({
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         overstyringer: [],
     });
+    return vedtaksperiode;
+};
 
 describe('Venstremeny', () => {
     test('inneholder bare inaktive lenker når den ikke har en vedtaksperiode', () => {

@@ -9,8 +9,8 @@ import { Annulleringsmodal } from './Annulleringsmodal';
 import { Kjønn, Overstyring } from 'internal-types';
 import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import { AnnulleringDTO } from '../../../io/types';
+import '@testing-library/jest-dom/extend-expect';
 
 dayjs.extend(isSameOrAfter);
 
@@ -37,12 +37,14 @@ jest.mock('../../../io/http', () => ({
 
 global.fetch = jest.fn();
 
-const enSpeilVedtaksperiode = (fom: Dayjs = dayjs('2020-01-01'), tom: Dayjs = dayjs('2020-01-31')) =>
-    mapVedtaksperiode({
+const enSpeilVedtaksperiode = async (fom: Dayjs = dayjs('2020-01-01'), tom: Dayjs = dayjs('2020-01-31')) => {
+    const { vedtaksperiode } = await mapVedtaksperiode({
         ...umappetVedtaksperiode({ fom, tom }),
         organisasjonsnummer: '123456789',
         overstyringer: [],
     });
+    return vedtaksperiode;
+};
 
 const enPersoninfo = () => ({
     fornavn: 'Kari',

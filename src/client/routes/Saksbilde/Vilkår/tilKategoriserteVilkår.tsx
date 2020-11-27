@@ -13,30 +13,66 @@ import {
 } from './vilkårsgrupper/Vilkårsgrupper';
 import { Flex } from '../../../components/Flex';
 import { Infoikon } from '../../../components/ikoner/Infoikon';
+import { Normaltekst } from 'nav-frontend-typografi';
 
-const alder = (vilkår: Vilkår) => ({
-    type: Vilkårstype.Alder,
-    oppfylt: vilkår.alder.oppfylt,
-    tittel: 'Under 70 år',
-    paragraf: '§ 8-51',
-    komponent: <Alder data-testid="alder" {...vilkår} />,
-});
+const VilkårManglerData = () => <Normaltekst>Mangler data om vilkåret</Normaltekst>;
 
-const søknadsfrist = (vilkår: Vilkår) => ({
-    type: Vilkårstype.Søknadsfrist,
-    oppfylt: vilkår.søknadsfrist?.oppfylt,
-    tittel: 'Søknadsfrist',
-    paragraf: '§ 22-13',
-    komponent: <Søknadsfrist data-testid="søknadsfrist" {...vilkår} />,
-});
+const alder = (vilkår: Vilkår) => {
+    try {
+        return {
+            type: Vilkårstype.Alder,
+            oppfylt: vilkår.alder.oppfylt,
+            tittel: 'Under 70 år',
+            paragraf: '§ 8-51',
+            komponent: <Alder data-testid="alder" {...vilkår} />,
+        };
+    } catch (error) {
+        return {
+            type: Vilkårstype.Alder,
+            tittel: 'Under 70 år',
+            paragraf: '§ 8-51',
+            komponent: <VilkårManglerData />,
+        };
+    }
+};
 
-const opptjeningstid = (vilkår: Vilkår) => ({
-    type: Vilkårstype.Opptjeningstid,
-    oppfylt: vilkår.opptjening?.oppfylt,
-    tittel: 'Opptjeningstid',
-    paragraf: '§ 8-2',
-    komponent: <Opptjeningstid {...vilkår} />,
-});
+const søknadsfrist = (vilkår: Vilkår) => {
+    try {
+        return {
+            type: Vilkårstype.Søknadsfrist,
+            oppfylt: vilkår.søknadsfrist?.oppfylt,
+            tittel: 'Søknadsfrist',
+            paragraf: '§ 22-13',
+            komponent: <Søknadsfrist data-testid="søknadsfrist" {...vilkår} />,
+        };
+    } catch (error) {
+        return {
+            type: Vilkårstype.Søknadsfrist,
+            tittel: 'Søknadsfrist',
+            paragraf: '§ 22-13',
+            komponent: <VilkårManglerData />,
+        };
+    }
+};
+
+const opptjeningstid = (vilkår: Vilkår) => {
+    try {
+        return {
+            type: Vilkårstype.Opptjeningstid,
+            oppfylt: vilkår.opptjening?.oppfylt,
+            tittel: 'Opptjeningstid',
+            paragraf: '§ 8-2',
+            komponent: <Opptjeningstid {...vilkår} />,
+        };
+    } catch (error) {
+        return {
+            type: Vilkårstype.Opptjeningstid,
+            tittel: 'Opptjeningstid',
+            paragraf: '§ 8-2',
+            komponent: <VilkårManglerData />,
+        };
+    }
+};
 
 const AlderIkon = styled(Infoikon)`
     padding: 0 10px 0 2px;
@@ -45,37 +81,68 @@ const AlderIkon = styled(Infoikon)`
 const EndretParagrafContainer = Flex.withComponent('span');
 
 const sykepengegrunnlag = (vilkår: Vilkår) => {
-    const harEndretParagraf = vilkår.alder.alderSisteSykedag < 70 && vilkår.alder.alderSisteSykedag >= 67;
-    return {
-        type: Vilkårstype.Sykepengegrunnlag,
-        oppfylt: vilkår.sykepengegrunnlag.oppfylt,
-        tittel: 'Krav til minste sykepengegrunnlag',
-        paragraf: harEndretParagraf ? (
-            <EndretParagrafContainer style={{ alignItems: 'center' }}>
-                <AlderIkon width={16} height={16} />§ 8-51
-            </EndretParagrafContainer>
-        ) : (
-            '§ 8-3'
-        ),
-        komponent: <Sykepengegrunnlag {...vilkår} />,
-    };
+    try {
+        const harEndretParagraf = vilkår.alder.alderSisteSykedag < 70 && vilkår.alder.alderSisteSykedag >= 67;
+        return {
+            type: Vilkårstype.Sykepengegrunnlag,
+            oppfylt: vilkår.sykepengegrunnlag.oppfylt,
+            tittel: 'Krav til minste sykepengegrunnlag',
+            paragraf: harEndretParagraf ? (
+                <EndretParagrafContainer style={{ alignItems: 'center' }}>
+                    <AlderIkon width={16} height={16} />§ 8-51
+                </EndretParagrafContainer>
+            ) : (
+                '§ 8-3'
+            ),
+            komponent: <Sykepengegrunnlag {...vilkår} />,
+        };
+    } catch (error) {
+        return {
+            type: Vilkårstype.Sykepengegrunnlag,
+            tittel: 'Krav til minste sykepengegrunnlag',
+            paragraf: '§ 8-3',
+            komponent: <VilkårManglerData />,
+        };
+    }
 };
 
-const dagerIgjen = (vilkår: Vilkår) => ({
-    type: Vilkårstype.DagerIgjen,
-    oppfylt: vilkår.dagerIgjen.oppfylt,
-    tittel: 'Dager igjen',
-    paragraf: '§§ 8-11 og 8-12',
-    komponent: <DagerIgjen {...vilkår} />,
-});
+const dagerIgjen = (vilkår: Vilkår) => {
+    try {
+        return {
+            type: Vilkårstype.DagerIgjen,
+            oppfylt: vilkår.dagerIgjen.oppfylt,
+            tittel: 'Dager igjen',
+            paragraf: '§§ 8-11 og 8-12',
+            komponent: <DagerIgjen {...vilkår} />,
+        };
+    } catch (error) {
+        return {
+            type: Vilkårstype.DagerIgjen,
+            tittel: 'Dager igjen',
+            paragraf: '§§ 8-11 og 8-12',
+            komponent: <VilkårManglerData />,
+        };
+    }
+};
 
-const medlemskap = (vilkår: Vilkår) => ({
-    type: Vilkårstype.Medlemskap,
-    oppfylt: vilkår.medlemskap?.oppfylt,
-    tittel: 'Medlemskap',
-    paragraf: '§ 2',
-    komponent: null,
-});
+const medlemskap = (vilkår: Vilkår) => {
+    try {
+        return {
+            type: Vilkårstype.Medlemskap,
+            oppfylt: vilkår.medlemskap?.oppfylt,
+            tittel: 'Medlemskap',
+            paragraf: '§ 2',
+            komponent: null,
+        };
+    } catch (error) {
+        return {
+            type: Vilkårstype.Medlemskap,
+            tittel: 'Medlemskap',
+            paragraf: '§ 2',
+            komponent: <VilkårManglerData />,
+        };
+    }
+};
 
 const institusjonsopphold = (oppfylt?: boolean) => ({
     type: Vilkårstype.Institusjonsopphold,
@@ -86,16 +153,27 @@ const institusjonsopphold = (oppfylt?: boolean) => ({
 });
 
 const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => {
-    const oppfylt =
-        (risikovurdering && !risikovurdering.ufullstendig && risikovurdering.arbeidsuførhetvurdering.length === 0) ||
-        undefined;
-    return {
-        type: Vilkårstype.Arbeidsuførhet,
-        oppfylt: oppfylt,
-        tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
-        paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
-        komponent: <Arbeidsuførhet risikovurdering={risikovurdering} />,
-    };
+    try {
+        const oppfylt =
+            (risikovurdering &&
+                !risikovurdering.ufullstendig &&
+                risikovurdering.arbeidsuførhetvurdering.length === 0) ||
+            undefined;
+        return {
+            type: Vilkårstype.Arbeidsuførhet,
+            oppfylt: oppfylt,
+            tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
+            paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
+            komponent: <Arbeidsuførhet risikovurdering={risikovurdering} />,
+        };
+    } catch (error) {
+        return {
+            type: Vilkårstype.Arbeidsuførhet,
+            tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
+            paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
+            komponent: <VilkårManglerData />,
+        };
+    }
 };
 
 export interface KategoriserteVilkår {

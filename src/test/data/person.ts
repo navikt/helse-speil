@@ -11,8 +11,13 @@ export const umappetPerson = (arbeidsgivere = [umappetArbeidsgiver()]) => ({
     tildeltTil: null,
 });
 
-export const mappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], personinfoFraSparkel?: PersoninfoFraSparkel) =>
-    mapPerson(umappetPerson(arbeidsgivere), personinfoFraSparkel);
+export const mappetPerson = async (
+    arbeidsgivere = [umappetArbeidsgiver()],
+    personinfoFraSparkel?: PersoninfoFraSparkel
+) => {
+    const { person } = await mapPerson(umappetPerson(arbeidsgivere), personinfoFraSparkel);
+    return person;
+};
 
 export const personinfoFraSparkel = ({ kjønn = 'Mannebjørn', fødselsdato = '1956-12-12', fnr = '01019000123' }) => ({
     kjønn,

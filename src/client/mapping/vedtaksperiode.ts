@@ -1,6 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
-import { Periodetype, UferdigVedtaksperiode, Utbetaling, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import {
+    Periodetype,
+    UfullstendigVedtaksperiode,
+    Utbetaling,
+    Vedtaksperiode,
+    Vedtaksperiodetilstand,
+} from 'internal-types';
 import {
     SpesialistOverstyring,
     SpesialistVedtaksperiode,
@@ -26,6 +32,7 @@ type UnmappedPeriode = SpesialistVedtaksperiode & {
 type PartialMappingResult = {
     unmapped: UnmappedPeriode;
     partial: Partial<Vedtaksperiode>;
+    problems: Error[];
 };
 
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
@@ -66,15 +73,11 @@ const withoutLeadingArbeidsdager = (unmapped: UnmappedPeriode): UnmappedPeriode 
     };
 };
 
-export const mapUferdigVedtaksperiode = (unmapped: SpesialistVedtaksperiode): UferdigVedtaksperiode => ({
-    id: unmapped.id,
-    fom: dayjs(unmapped.fom),
-    tom: dayjs(unmapped.tom),
-    kanVelges: false,
-    tilstand: Vedtaksperiodetilstand[unmapped.tilstand] || Vedtaksperiodetilstand.Ukjent,
-});
-
-const appendUnmappedFields = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendUnmappedFields = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
@@ -85,20 +88,29 @@ const appendUnmappedFields = async ({ unmapped, partial }: PartialMappingResult)
         utbetalingsreferanse: unmapped.utbetalingsreferanse,
         kanVelges: true,
     },
+    problems: problems,
 });
 
-const appendVilkår = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        vilkår: mapVilkår(unmapped),
-    },
-});
+const appendVilkår = async ({ unmapped, partial, problems }: PartialMappingResult): Promise<PartialMappingResult> => {
+    const { vilkår, problems: vilkårProblems } = await mapVilkår(unmapped);
+    return {
+        unmapped,
+        partial: {
+            ...partial,
+            vilkår: vilkår,
+        },
+        problems: [...problems, ...vilkårProblems],
+    };
+};
 
 const inneholderAnnullerteDager = (vedtaksperiode: SpesialistVedtaksperiode): boolean =>
     !!vedtaksperiode.sykdomstidslinje.find((dag) => dag.type === SpleisSykdomsdagtype.ANNULLERT_DAG);
 
-const appendTilstand = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendTilstand = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
@@ -110,40 +122,61 @@ const appendTilstand = async ({ unmapped, partial }: PartialMappingResult): Prom
         ...(unmapped.godkjenttidspunkt && { godkjenttidspunkt: somKanskjeDato(unmapped.godkjenttidspunkt) }),
         forlengelseFraInfotrygd: mapForlengelseFraInfotrygd(unmapped.forlengelseFraInfotrygd),
     },
+    problems: problems,
 });
 
-const appendHendelser = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendHendelser = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
         hendelser: unmapped.hendelser.map(mapHendelse),
     },
+    problems: problems,
 });
 
-const appendFomAndTom = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendFomAndTom = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
         fom: somDato(unmapped.fom),
         tom: somDato(unmapped.tom),
     },
+    problems: problems,
 });
 
-const appendTidslinjer = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendTidslinjer = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
         utbetalingstidslinje: mapUtbetalingstidslinje(unmapped.utbetalingstidslinje),
         sykdomstidslinje: mapSykdomstidslinje(unmapped.sykdomstidslinje),
     },
+    problems: problems,
 });
 
-const appendSimulering = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendSimulering = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
         simuleringsdata: mapSimuleringsdata(unmapped.simuleringsdata),
     },
+    problems: problems,
 });
 
 const mapExistingPeriodetype = (spleisPeriodetype: SpleisPeriodetype): Periodetype => {
@@ -176,12 +209,17 @@ const mapPeriodetype = (spleisPeriode: SpesialistVedtaksperiode): Periodetype =>
     }
 };
 
-const appendPeriodetype = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendPeriodetype = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
         periodetype: mapPeriodetype(unmapped),
     },
+    problems: problems,
 });
 
 const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbetalinger): Utbetaling | undefined =>
@@ -195,7 +233,11 @@ const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbeta
         })),
     };
 
-const appendUtbetalinger = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendUtbetalinger = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
@@ -204,9 +246,14 @@ const appendUtbetalinger = async ({ unmapped, partial }: PartialMappingResult): 
             personUtbetaling: mapUtbetaling(unmapped.utbetalinger, 'personUtbetaling'),
         },
     },
+    problems: problems,
 });
 
-const appendOppsummering = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendOppsummering = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
@@ -215,9 +262,14 @@ const appendOppsummering = async ({ unmapped, partial }: PartialMappingResult): 
             totaltTilUtbetaling: unmapped.totalbeløpArbeidstaker,
         },
     },
+    problems: problems,
 });
 
-const appendInntektskilder = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendInntektskilder = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
@@ -231,9 +283,14 @@ const appendInntektskilder = async ({ unmapped, partial }: PartialMappingResult)
             },
         ],
     },
+    problems: problems,
 });
 
-const appendAktivitetslogg = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => {
+const appendAktivitetslogg = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => {
     const aktivitetsloggvarsler = unmapped.aktivitetslogg.map((aktivitet) => aktivitet.melding);
     return {
         unmapped,
@@ -244,39 +301,65 @@ const appendAktivitetslogg = async ({ unmapped, partial }: PartialMappingResult)
                     ? unmapped.varsler.filter((v, i) => unmapped.varsler.indexOf(v) === i)
                     : aktivitetsloggvarsler.filter((v, i) => aktivitetsloggvarsler.indexOf(v) === i),
         },
+        problems: problems,
     };
 };
 
-const appendRisikovurdering = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendRisikovurdering = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
         risikovurdering: unmapped.risikovurdering !== null ? unmapped.risikovurdering : undefined,
     },
+    problems: problems,
 });
 
-const appendSykepengegrunnlag = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendSykepengegrunnlag = async ({
     unmapped,
-    partial: {
-        ...partial,
-        sykepengegrunnlag: {
-            årsinntektFraAording: unmapped.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
-            årsinntektFraInntektsmelding: somÅrsinntekt(unmapped.inntektFraInntektsmelding),
-            avviksprosent: somProsent(unmapped.dataForVilkårsvurdering?.avviksprosent),
-            sykepengegrunnlag: unmapped.vilkår?.sykepengegrunnlag.sykepengegrunnlag,
-        },
-    },
-});
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => {
+    try {
+        return {
+            unmapped,
+            partial: {
+                ...partial,
+                sykepengegrunnlag: {
+                    årsinntektFraAording: unmapped.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
+                    årsinntektFraInntektsmelding: somÅrsinntekt(unmapped.inntektFraInntektsmelding),
+                    avviksprosent: somProsent(unmapped.dataForVilkårsvurdering?.avviksprosent),
+                    sykepengegrunnlag: unmapped.vilkår?.sykepengegrunnlag.sykepengegrunnlag,
+                },
+            },
+            problems: problems,
+        };
+    } catch (error) {
+        return {
+            unmapped,
+            partial: {
+                ...partial,
+                sykepengegrunnlag: {},
+            },
+            problems: [...problems, error],
+        };
+    }
+};
 
 const appendAutomatiskBehandlet = async ({
     unmapped,
     partial,
+    problems,
 }: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
         automatiskBehandlet: unmapped.automatiskBehandlet === true,
     },
+    problems: problems,
 });
 
 const tilhørerVedtaksperiode = (partial: Partial<Vedtaksperiode>, overstyring: SpesialistOverstyring) =>
@@ -284,7 +367,11 @@ const tilhørerVedtaksperiode = (partial: Partial<Vedtaksperiode>, overstyring: 
         .map((dag) => dayjs(dag.dato))
         .every((dato) => partial.fom?.isSameOrBefore(dato) && partial.tom?.isSameOrAfter(dato));
 
-const appendOverstyringer = async ({ unmapped, partial }: PartialMappingResult): Promise<PartialMappingResult> => ({
+const appendOverstyringer = async ({
+    unmapped,
+    partial,
+    problems,
+}: PartialMappingResult): Promise<PartialMappingResult> => ({
     unmapped,
     partial: {
         ...partial,
@@ -297,13 +384,40 @@ const appendOverstyringer = async ({ unmapped, partial }: PartialMappingResult):
             }))
             .sort((a, b) => (a.timestamp.isBefore(b.timestamp) ? 1 : -1)),
     },
+    problems: problems,
 });
 
-const finalize = (partialResult: PartialMappingResult): Vedtaksperiode => partialResult.partial as Vedtaksperiode;
+const finalize = (partialResult: PartialMappingResult): { vedtaksperiode: Vedtaksperiode; problems: Error[] } => ({
+    vedtaksperiode: partialResult.partial as Vedtaksperiode,
+    problems: partialResult.problems,
+});
 
-export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<Vedtaksperiode> => {
+type MapUfullstendigVedtaksperiodeResult = {
+    vedtaksperiode: UfullstendigVedtaksperiode;
+    problems: Error[];
+};
+
+export const mapUferdigVedtaksperiode = async (
+    unmapped: SpesialistVedtaksperiode
+): Promise<MapUfullstendigVedtaksperiodeResult> => ({
+    vedtaksperiode: {
+        id: unmapped.id,
+        fom: dayjs(unmapped.fom),
+        tom: dayjs(unmapped.tom),
+        kanVelges: false,
+        tilstand: Vedtaksperiodetilstand[unmapped.tilstand] || Vedtaksperiodetilstand.Ukjent,
+    },
+    problems: [],
+});
+
+type MapVedtaksperiodeResult = {
+    vedtaksperiode: Vedtaksperiode;
+    problems: Error[];
+};
+
+export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<MapVedtaksperiodeResult> => {
     const spesialistperiode = withoutLeadingArbeidsdager(unmapped);
-    return appendUnmappedFields({ unmapped: spesialistperiode, partial: {} })
+    return appendUnmappedFields({ unmapped: spesialistperiode, partial: {}, problems: [] })
         .then(appendVilkår)
         .then(appendTilstand)
         .then(appendHendelser)

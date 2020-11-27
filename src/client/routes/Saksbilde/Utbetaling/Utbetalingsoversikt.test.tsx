@@ -16,12 +16,14 @@ import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
 import '@testing-library/jest-dom/extend-expect';
 import dayjs from 'dayjs';
 
-const enIkkeUtbetaltVedtaksperiode = () =>
-    mapVedtaksperiode({
+const enIkkeUtbetaltVedtaksperiode = async () => {
+    const { vedtaksperiode } = await mapVedtaksperiode({
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         overstyringer: [],
     });
+    return vedtaksperiode;
+};
 
 describe('Utbetalingsoversikt', () => {
     test('Totalutbetaling blir 0 uten vedtaksperiode', () => {

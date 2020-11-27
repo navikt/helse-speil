@@ -6,6 +6,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { tilKategoriserteVilkår } from '../Vilkår/tilKategoriserteVilkår';
 import { Vedtaksperiode } from 'internal-types';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Vilkåroversikt = styled.li`
     display: flex;
@@ -43,6 +44,11 @@ const VurdertVilkår = ({ tittel, oppfylt }: VurdertVilkårProps) => (
 
 export const Vilkårsliste = ({ vedtaksperiode }: { vedtaksperiode: Vedtaksperiode }) => {
     const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = tilKategoriserteVilkår(vedtaksperiode);
+
+    if (!ikkeVurderteVilkår && !ikkeOppfylteVilkår && !oppfylteVilkår) {
+        return <Varsel type={Varseltype.Feil}>Vilkår mangler</Varsel>;
+    }
+
     return (
         <ul>
             {ikkeOppfylteVilkår?.map((vilkår, i) => (
@@ -51,7 +57,7 @@ export const Vilkårsliste = ({ vedtaksperiode }: { vedtaksperiode: Vedtaksperio
             {ikkeVurderteVilkår?.map((vilkår, i) => (
                 <VurdertVilkår key={i} tittel={vilkår.tittel} />
             ))}
-            {Object.values(oppfylteVilkår)
+            {Object.values(oppfylteVilkår ?? {})
                 .flat()
                 .map((vilkår, i) => (
                     <VurdertVilkår key={i} tittel={vilkår.tittel} oppfylt />

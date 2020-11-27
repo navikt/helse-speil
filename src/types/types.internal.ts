@@ -157,7 +157,7 @@ export enum Vedtaksperiodetilstand {
     AnnulleringFeilet = 'annulleringFeilet',
 }
 
-export interface UferdigVedtaksperiode {
+export interface UfullstendigVedtaksperiode {
     id: string;
     fom: Dayjs;
     tom: Dayjs;
@@ -220,7 +220,7 @@ export interface Arbeidsgiver {
     organisasjonsnummer: string;
     id: string;
     navn: string;
-    vedtaksperioder: (Vedtaksperiode | UferdigVedtaksperiode)[];
+    vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
 }
 
 export type Kjønn = 'Mann' | 'Kvinne' | 'Ukjent';

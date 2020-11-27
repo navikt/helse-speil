@@ -33,12 +33,14 @@ const vedtaksperiodeMedTilstand = async (tilstand: Vedtaksperiodetilstand) => ({
     tilstand,
 });
 
-const enSpeilVedtaksperiode = () =>
-    mapVedtaksperiode({
+const enSpeilVedtaksperiode = async () => {
+    const { vedtaksperiode } = await mapVedtaksperiode({
         overstyringer: [],
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
     });
+    return vedtaksperiode;
+};
 
 const enPersoninfo = () => ({
     fornavn: 'Kari',

@@ -14,4 +14,4 @@ export const umappetArbeidsgiver = (
 });
 
 export const mappetArbeidsgiver = (vedtaksperioder = [umappetVedtaksperiode()]) =>
-    mapArbeidsgivere([umappetArbeidsgiver(vedtaksperioder)]).then((arbeidsgivere) => arbeidsgivere.pop());
+    mapArbeidsgivere([umappetArbeidsgiver(vedtaksperioder)]).then(({ arbeidsgivere }) => arbeidsgivere.pop());

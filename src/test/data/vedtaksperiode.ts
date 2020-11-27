@@ -81,14 +81,16 @@ export const medEkstraSykdomsdager = (vedtaksperiode: SpesialistVedtaksperiode, 
     sykdomstidslinje: [...vedtaksperiode.sykdomstidslinje, ...sykdomsdager],
 });
 
-export const mappetVedtaksperiode = (
+export const mappetVedtaksperiode = async (
     fom: Dayjs = dayjs('2020-01-01'),
     tom: Dayjs = dayjs('2020-01-31'),
     organisasjonsnummer: string = 'et-organisasjonsnummer',
     overstyringer: SpesialistOverstyring[] = []
-): Promise<Vedtaksperiode> =>
-    mapVedtaksperiode({
+): Promise<Vedtaksperiode> => {
+    const { vedtaksperiode } = await mapVedtaksperiode({
         ...umappetVedtaksperiode({ fom, tom }),
         organisasjonsnummer,
         overstyringer,
     });
+    return vedtaksperiode;
+};

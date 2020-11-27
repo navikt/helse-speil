@@ -8,20 +8,24 @@ import { SpleisVedtaksperiodetilstand } from 'external-types';
 import { PersonContext, PersonContextValue } from '../../../context/PersonContext';
 import '@testing-library/jest-dom/extend-expect';
 
-const enIkkeUtbetaltVedtaksperiode = () =>
-    mapVedtaksperiode({
+const enIkkeUtbetaltVedtaksperiode = async () => {
+    const { vedtaksperiode } = await mapVedtaksperiode({
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         overstyringer: [],
     });
+    return vedtaksperiode;
+};
 
-const enUtbetaltVedtaksperiode = () =>
-    mapVedtaksperiode({
+const enUtbetaltVedtaksperiode = async () => {
+    const { vedtaksperiode } = await mapVedtaksperiode({
         ...umappetVedtaksperiode(),
         organisasjonsnummer: '123456789',
         overstyringer: [],
         tilstand: SpleisVedtaksperiodetilstand.Utbetalt,
     });
+    return vedtaksperiode;
+};
 
 const renderSykmeldingsperiodetabellMedState = (vedtaksperiode: Vedtaksperiode) => {
     const defaultContext: PersonContextValue = {
