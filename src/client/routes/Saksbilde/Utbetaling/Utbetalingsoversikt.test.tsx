@@ -11,18 +11,18 @@ import {
 } from './Utbetalingsoversikt';
 import { medUtbetalingstidslinje, umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
-import { SpleisUtbetalingsdagtype } from 'external-types';
-import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
+import { SpesialistArbeidsgiver, SpleisUtbetalingsdagtype } from 'external-types';
+import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 import '@testing-library/jest-dom/extend-expect';
 import dayjs from 'dayjs';
 
 const enIkkeUtbetaltVedtaksperiode = async () => {
-    const { vedtaksperiode } = await mapVedtaksperiode({
-        ...umappetVedtaksperiode(),
-        organisasjonsnummer: '123456789',
-        overstyringer: [],
-    });
-    return vedtaksperiode;
+    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+        .setVedtaksperiode(umappetVedtaksperiode())
+        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setOverstyringer([])
+        .build();
+    return vedtaksperiode as Vedtaksperiode;
 };
 
 describe('Utbetalingsoversikt', () => {

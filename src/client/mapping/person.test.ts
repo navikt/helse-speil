@@ -124,7 +124,7 @@ describe('personmapper', () => {
         const { person } = await mapPerson(umappetPerson([umappetArbeidsgiver([vedtaksperiode])]), defaultPersonInfo);
         const mappetVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
 
-        expect(mappetVedtaksperiode.sykdomstidslinje[0].dato).toEqual(somDato(førsteSykdomsdag.dagen));
+        expect(mappetVedtaksperiode.sykdomstidslinje[0].dato.format('YYYY-MM-DD')).toEqual(førsteSykdomsdag.dagen);
     });
 
     test('Vedtaksperioder sorteres på fom i synkende rekkefølge', async () => {

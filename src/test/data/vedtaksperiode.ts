@@ -5,6 +5,7 @@ import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
 import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
 import { hendelser } from './hendelser';
 import {
+    SpesialistArbeidsgiver,
     SpesialistOverstyring,
     SpesialistVedtaksperiode,
     SpleisAktivitet,
@@ -14,7 +15,7 @@ import {
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
-import { mapVedtaksperiode } from '../../client/mapping/vedtaksperiode';
+import { VedtaksperiodeBuilder } from '../../client/mapping/vedtaksperiode';
 import { Vedtaksperiode } from 'internal-types';
 import { aktivitetslogg } from './aktivitetslogg';
 
@@ -87,10 +88,10 @@ export const mappetVedtaksperiode = async (
     organisasjonsnummer: string = 'et-organisasjonsnummer',
     overstyringer: SpesialistOverstyring[] = []
 ): Promise<Vedtaksperiode> => {
-    const { vedtaksperiode } = await mapVedtaksperiode({
-        ...umappetVedtaksperiode({ fom, tom }),
-        organisasjonsnummer,
-        overstyringer,
-    });
-    return vedtaksperiode;
+    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+        .setVedtaksperiode(umappetVedtaksperiode({ fom, tom }))
+        .setArbeidsgiver({ organisasjonsnummer } as SpesialistArbeidsgiver)
+        .setOverstyringer(overstyringer)
+        .build();
+    return vedtaksperiode as Vedtaksperiode;
 };

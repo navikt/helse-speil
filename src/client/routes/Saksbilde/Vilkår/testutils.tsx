@@ -1,13 +1,13 @@
 import React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import { Periodetype, Person, Vedtaksperiode, Vilkår as VilkårType } from 'internal-types';
-import { SpleisForlengelseFraInfotrygd, SpleisVedtaksperiodetilstand } from 'external-types';
+import { SpesialistArbeidsgiver, SpleisForlengelseFraInfotrygd, SpleisVedtaksperiodetilstand } from 'external-types';
 import { mappetPerson } from 'test-data';
 import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { render, screen, within } from '@testing-library/react';
 import { defaultPersonContext, PersonContext } from '../../../context/PersonContext';
 import { Vilkår } from './Vilkår';
-import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
+import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import { HookResult } from '@testing-library/react-hooks';
 import { KategoriserteVilkår } from './tilKategoriserteVilkår';
@@ -183,11 +183,11 @@ export const enSpeilVedtaksperiode = async ({
     automatiskBehandlet = false,
     periodetype = Periodetype.Førstegangsbehandling,
 }: EnSpeilVedtaksperiodeOptions): Promise<Vedtaksperiode> => {
-    const { vedtaksperiode } = await mapVedtaksperiode({
-        ...umappetVedtaksperiode(),
-        organisasjonsnummer: '123456789',
-        overstyringer: [],
-    });
+    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+        .setVedtaksperiode(umappetVedtaksperiode())
+        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setOverstyringer([])
+        .build();
     return {
         ...vedtaksperiode,
         vilkår,
@@ -195,7 +195,7 @@ export const enSpeilVedtaksperiode = async ({
         forlengelseFraInfotrygd,
         automatiskBehandlet,
         periodetype,
-    };
+    } as Vedtaksperiode;
 };
 
 const harVilkårstype = (vilkårstype: Vilkårstype) => (vilkårdata: Vilkårdata) => vilkårdata.type === vilkårstype;

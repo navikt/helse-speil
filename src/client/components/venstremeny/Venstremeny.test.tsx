@@ -3,16 +3,18 @@ import { render, screen } from '@testing-library/react';
 import { Venstremeny } from './Venstremeny';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
-import { mapVedtaksperiode } from '../../mapping/vedtaksperiode';
+import { VedtaksperiodeBuilder } from '../../mapping/vedtaksperiode';
 import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
+import { SpesialistArbeidsgiver } from 'external-types';
+import { Vedtaksperiode } from 'internal-types';
 
 const enSpeilVedtaksperiode = async () => {
-    const { vedtaksperiode } = await mapVedtaksperiode({
-        ...umappetVedtaksperiode(),
-        organisasjonsnummer: '123456789',
-        overstyringer: [],
-    });
-    return vedtaksperiode;
+    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+        .setVedtaksperiode(umappetVedtaksperiode())
+        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setOverstyringer([])
+        .build();
+    return vedtaksperiode as Vedtaksperiode;
 };
 
 describe('Venstremeny', () => {

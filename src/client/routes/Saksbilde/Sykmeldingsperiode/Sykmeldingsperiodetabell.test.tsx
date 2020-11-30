@@ -1,30 +1,29 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
+import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
-import { SpleisVedtaksperiodetilstand } from 'external-types';
+import { SpesialistArbeidsgiver, SpleisVedtaksperiodetilstand } from 'external-types';
 import { PersonContext, PersonContextValue } from '../../../context/PersonContext';
 import '@testing-library/jest-dom/extend-expect';
 
 const enIkkeUtbetaltVedtaksperiode = async () => {
-    const { vedtaksperiode } = await mapVedtaksperiode({
-        ...umappetVedtaksperiode(),
-        organisasjonsnummer: '123456789',
-        overstyringer: [],
-    });
-    return vedtaksperiode;
+    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+        .setVedtaksperiode(umappetVedtaksperiode())
+        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setOverstyringer([])
+        .build();
+    return vedtaksperiode as Vedtaksperiode;
 };
 
 const enUtbetaltVedtaksperiode = async () => {
-    const { vedtaksperiode } = await mapVedtaksperiode({
-        ...umappetVedtaksperiode(),
-        organisasjonsnummer: '123456789',
-        overstyringer: [],
-        tilstand: SpleisVedtaksperiodetilstand.Utbetalt,
-    });
-    return vedtaksperiode;
+    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+        .setVedtaksperiode({ ...umappetVedtaksperiode(), tilstand: SpleisVedtaksperiodetilstand.Utbetalt })
+        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setOverstyringer([])
+        .build();
+    return vedtaksperiode as Vedtaksperiode;
 };
 
 const renderSykmeldingsperiodetabellMedState = (vedtaksperiode: Vedtaksperiode) => {

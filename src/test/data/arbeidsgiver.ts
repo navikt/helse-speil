@@ -1,4 +1,3 @@
-import { mapArbeidsgivere } from '../../client/mapping/arbeidsgiver';
 import { umappetVedtaksperiode } from './vedtaksperiode';
 import { SpesialistArbeidsgiver, SpesialistOverstyring } from 'external-types';
 
@@ -12,6 +11,3 @@ export const umappetArbeidsgiver = (
     vedtaksperioder: vedtaksperioder,
     overstyringer: overstyringer,
 });
-
-export const mappetArbeidsgiver = (vedtaksperioder = [umappetVedtaksperiode()]) =>
-    mapArbeidsgivere([umappetArbeidsgiver(vedtaksperioder)]).then(({ arbeidsgivere }) => arbeidsgivere.pop());

@@ -7,9 +7,10 @@ import { Avvisningsskjema } from './Utbetalingsdialog';
 import { Kjønn, Overstyring, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import '@testing-library/jest-dom/extend-expect';
 import '../../../../../tekster';
-import { mapVedtaksperiode } from '../../../../../mapping/vedtaksperiode';
+import { VedtaksperiodeBuilder } from '../../../../../mapping/vedtaksperiode';
 import { umappetVedtaksperiode } from '../../../../../../test/data/vedtaksperiode';
 import { PersonContext } from '../../../../../context/PersonContext';
+import { SpesialistArbeidsgiver } from 'external-types';
 
 const UtbetalingView = ({ vedtaksperiode, person }: { vedtaksperiode?: Vedtaksperiode; person: Person }) => (
     <MemoryRouter>
@@ -34,12 +35,12 @@ const vedtaksperiodeMedTilstand = async (tilstand: Vedtaksperiodetilstand) => ({
 });
 
 const enSpeilVedtaksperiode = async () => {
-    const { vedtaksperiode } = await mapVedtaksperiode({
-        overstyringer: [],
-        ...umappetVedtaksperiode(),
-        organisasjonsnummer: '123456789',
-    });
-    return vedtaksperiode;
+    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+        .setVedtaksperiode(umappetVedtaksperiode())
+        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setOverstyringer([])
+        .build();
+    return vedtaksperiode as Vedtaksperiode;
 };
 
 const enPersoninfo = () => ({

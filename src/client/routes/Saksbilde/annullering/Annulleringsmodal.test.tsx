@@ -4,13 +4,14 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import userEvent from '@testing-library/user-event';
 import { authState } from '../../../state/authentication';
 import { RecoilRoot } from 'recoil';
-import { mapVedtaksperiode } from '../../../mapping/vedtaksperiode';
+import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 import { Annulleringsmodal } from './Annulleringsmodal';
-import { Kjønn, Overstyring } from 'internal-types';
+import { Kjønn, Overstyring, Vedtaksperiode } from 'internal-types';
 import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { render, screen, waitFor } from '@testing-library/react';
 import { AnnulleringDTO } from '../../../io/types';
 import '@testing-library/jest-dom/extend-expect';
+import { SpesialistArbeidsgiver } from 'external-types';
 
 dayjs.extend(isSameOrAfter);
 
@@ -38,12 +39,12 @@ jest.mock('../../../io/http', () => ({
 global.fetch = jest.fn();
 
 const enSpeilVedtaksperiode = async (fom: Dayjs = dayjs('2020-01-01'), tom: Dayjs = dayjs('2020-01-31')) => {
-    const { vedtaksperiode } = await mapVedtaksperiode({
-        ...umappetVedtaksperiode({ fom, tom }),
-        organisasjonsnummer: '123456789',
-        overstyringer: [],
-    });
-    return vedtaksperiode;
+    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+        .setVedtaksperiode(umappetVedtaksperiode({ fom, tom }))
+        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setOverstyringer([])
+        .build();
+    return vedtaksperiode as Vedtaksperiode;
 };
 
 const enPersoninfo = () => ({

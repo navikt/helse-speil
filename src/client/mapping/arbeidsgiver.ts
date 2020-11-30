@@ -1,104 +1,52 @@
 import { SpesialistArbeidsgiver } from 'external-types';
-import { Arbeidsgiver, UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
 import dayjs from 'dayjs';
-import { mapUferdigVedtaksperiode, mapVedtaksperiode } from './vedtaksperiode';
+import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
-type PartialMappingResult = {
-    unmapped: SpesialistArbeidsgiver;
-    partial: Partial<Arbeidsgiver>;
-    problems: Error[];
-};
+export class ArbeidsgiverBuilder {
+    private unmapped: SpesialistArbeidsgiver;
+    private arbeidsgiver: Partial<Arbeidsgiver> = {};
+    private problems: Error[] = [];
 
-const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
+    addArbeidsgiver(arbeidsgiver: SpesialistArbeidsgiver) {
+        this.unmapped = arbeidsgiver;
+        return this;
+    }
 
-const appendUnmappedData = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        navn: unmapped.navn,
-        id: unmapped.id,
-        organisasjonsnummer: unmapped.organisasjonsnummer,
-    },
-    problems: problems,
-});
+    build(): { arbeidsgiver?: Arbeidsgiver; problems: Error[] } {
+        if (!this.unmapped) {
+            this.problems.push(Error('Mangler arbeidsgiverdata å mappe'));
+            return { problems: this.problems };
+        }
+        this.mapArbeidsgiverinfo();
+        this.mapVedtaksperioder();
+        this.sortVedtaksperioder();
+        return { arbeidsgiver: this.arbeidsgiver as Arbeidsgiver, problems: this.problems };
+    }
 
-type MapVedtaksperioderResult = {
-    vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
-    problems: Error[];
-};
-
-const mapVedtaksperioder = async (arbeidsgiver: SpesialistArbeidsgiver): Promise<MapVedtaksperioderResult> =>
-    Promise.all(
-        arbeidsgiver.vedtaksperioder.map((periode) =>
-            periode.fullstendig
-                ? mapVedtaksperiode({
-                      ...periode,
-                      organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                      overstyringer: arbeidsgiver.overstyringer,
-                  })
-                : mapUferdigVedtaksperiode(periode)
-        )
-    ).then((results) => ({
-        vedtaksperioder: results.map(({ vedtaksperiode }) => vedtaksperiode),
-        problems: results.map(({ problems }) => problems).flat(),
-    }));
-
-const appendVedtaksperioder = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => {
-    const { vedtaksperioder, problems: vedtaksperioderProblems } = await mapVedtaksperioder(unmapped);
-    return {
-        unmapped,
-        partial: {
-            ...partial,
-            vedtaksperioder: vedtaksperioder,
-        },
-        problems: [...problems, ...vedtaksperioderProblems],
+    private mapArbeidsgiverinfo = () => {
+        this.arbeidsgiver = {
+            ...this.arbeidsgiver,
+            navn: this.unmapped.navn,
+            id: this.unmapped.id,
+            organisasjonsnummer: this.unmapped.organisasjonsnummer,
+        };
     };
-};
 
-const sortVedtaksperioder = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        vedtaksperioder: partial.vedtaksperioder?.sort(reversert),
-    },
-    problems: problems,
-});
+    private mapVedtaksperioder = () => {
+        this.arbeidsgiver.vedtaksperioder = this.unmapped.vedtaksperioder.map((unmappedVedtaksperiode) => {
+            const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
+                .setVedtaksperiode(unmappedVedtaksperiode)
+                .setArbeidsgiver(this.unmapped)
+                .setOverstyringer(this.unmapped.overstyringer)
+                .build();
+            this.problems.push(...problems);
+            return vedtaksperiode as Vedtaksperiode;
+        });
+    };
 
-const finalize = (partialResult: PartialMappingResult): { arbeidsgiver: Arbeidsgiver; problems: Error[] } => ({
-    arbeidsgiver: partialResult.partial as Arbeidsgiver,
-    problems: partialResult.problems,
-});
-
-type MapArbeidsgiverResult = {
-    arbeidsgiver: Arbeidsgiver;
-    problems: Error[];
-};
-
-const mapArbeidsgiver = async (arbeidsgiver: SpesialistArbeidsgiver): Promise<MapArbeidsgiverResult> =>
-    appendUnmappedData({ unmapped: arbeidsgiver, partial: {}, problems: [] })
-        .then(appendVedtaksperioder)
-        .then(sortVedtaksperioder)
-        .then(finalize);
-
-type MapArbeidsgivereResult = {
-    arbeidsgivere: Arbeidsgiver[];
-    problems: Error[];
-};
-
-export const mapArbeidsgivere = async (arbeidsgivere: SpesialistArbeidsgiver[]): Promise<MapArbeidsgivereResult> =>
-    Promise.all(arbeidsgivere.map(mapArbeidsgiver)).then((results) => ({
-        arbeidsgivere: results.map((result) => result.arbeidsgiver),
-        problems: results.map((result) => result.problems).flat(),
-    }));
+    private sortVedtaksperioder = () => {
+        const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
+        this.arbeidsgiver.vedtaksperioder = this.arbeidsgiver.vedtaksperioder?.sort(reversert);
+    };
+}

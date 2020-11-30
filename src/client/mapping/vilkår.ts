@@ -81,7 +81,7 @@ type MapVilkårResult = {
     problems: Error[];
 };
 
-export const mapVilkår = async (unmapped: SpesialistVedtaksperiode): Promise<MapVilkårResult> => {
+export const mapVilkår = (unmapped: SpesialistVedtaksperiode): MapVilkårResult => {
     const problems: Error[] = [];
 
     const mapVilkår = (callback: (unmapped: SpesialistVedtaksperiode) => any): any => {

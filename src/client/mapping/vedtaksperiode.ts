@@ -8,6 +8,7 @@ import {
     Vedtaksperiodetilstand,
 } from 'internal-types';
 import {
+    SpesialistArbeidsgiver,
     SpesialistOverstyring,
     SpesialistVedtaksperiode,
     SpleisForlengelseFraInfotrygd,
@@ -24,17 +25,6 @@ import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
 import { tilOverstyrtDag } from './overstyring';
 
-type UnmappedPeriode = SpesialistVedtaksperiode & {
-    organisasjonsnummer: string;
-    overstyringer: SpesialistOverstyring[];
-};
-
-type PartialMappingResult = {
-    unmapped: UnmappedPeriode;
-    partial: Partial<Vedtaksperiode>;
-    problems: Error[];
-};
-
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
 
 export const somNorskDato = (dato: string): Dayjs => dayjs(dato, NORSK_DATOFORMAT);
@@ -43,186 +33,17 @@ export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somD
 
 export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
 
-const somProsent = (avviksprosent: number): number => avviksprosent * 100;
+export const somProsent = (avviksprosent: number): number => avviksprosent * 100;
 
-const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined =>
+export const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined =>
     inntekt ? +(inntekt * måneder).toFixed(2) : undefined;
 
-const somÅrsinntekt = (inntekt?: number): number | undefined => somInntekt(inntekt, 12);
+export const somÅrsinntekt = (inntekt?: number): number | undefined => somInntekt(inntekt, 12);
 
-const withoutLeadingArbeidsdager = (unmapped: UnmappedPeriode): UnmappedPeriode => {
-    const arbeidsdagEllerImplisittDag = (dag: SpleisSykdomsdag) =>
-        dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING ||
-        dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD ||
-        dag.type === SpleisSykdomsdagtype.IMPLISITT_DAG ||
-        dag.type === SpleisSykdomsdagtype.ARBEIDSDAG;
-    const førsteArbeidsdag = unmapped.sykdomstidslinje.findIndex(arbeidsdagEllerImplisittDag);
-    if (førsteArbeidsdag !== 0) return unmapped;
-
-    const førsteIkkeArbeidsdag = unmapped.sykdomstidslinje.findIndex(
-        (dag) =>
-            dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING &&
-            dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD &&
-            dag.type !== SpleisSykdomsdagtype.IMPLISITT_DAG &&
-            dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG
-    );
-
-    return {
-        ...unmapped,
-        sykdomstidslinje: [...unmapped.sykdomstidslinje.slice(førsteIkkeArbeidsdag)],
-    };
-};
-
-const appendUnmappedFields = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        id: unmapped.id,
-        gruppeId: unmapped.gruppeId,
-        ...(unmapped.godkjentAv && { godkjentAv: unmapped.godkjentAv }),
-        oppgavereferanse: unmapped.oppgavereferanse,
-        utbetalingsreferanse: unmapped.utbetalingsreferanse,
-        kanVelges: true,
-    },
-    problems: problems,
-});
-
-const appendVilkår = async ({ unmapped, partial, problems }: PartialMappingResult): Promise<PartialMappingResult> => {
-    const { vilkår, problems: vilkårProblems } = await mapVilkår(unmapped);
-    return {
-        unmapped,
-        partial: {
-            ...partial,
-            vilkår: vilkår,
-        },
-        problems: [...problems, ...vilkårProblems],
-    };
-};
-
-const inneholderAnnullerteDager = (vedtaksperiode: SpesialistVedtaksperiode): boolean =>
-    !!vedtaksperiode.sykdomstidslinje.find((dag) => dag.type === SpleisSykdomsdagtype.ANNULLERT_DAG);
-
-const appendTilstand = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        tilstand:
-            (inneholderAnnullerteDager(unmapped) && Vedtaksperiodetilstand.Annullert) ||
-            Vedtaksperiodetilstand[unmapped.tilstand] ||
-            Vedtaksperiodetilstand.Ukjent,
-        behandlet: !!unmapped.godkjentAv || !!unmapped.automatiskBehandlet,
-        ...(unmapped.godkjenttidspunkt && { godkjenttidspunkt: somKanskjeDato(unmapped.godkjenttidspunkt) }),
-        forlengelseFraInfotrygd: mapForlengelseFraInfotrygd(unmapped.forlengelseFraInfotrygd),
-    },
-    problems: problems,
-});
-
-const appendHendelser = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        hendelser: unmapped.hendelser.map(mapHendelse),
-    },
-    problems: problems,
-});
-
-const appendFomAndTom = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        fom: somDato(unmapped.fom),
-        tom: somDato(unmapped.tom),
-    },
-    problems: problems,
-});
-
-const appendTidslinjer = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        utbetalingstidslinje: mapUtbetalingstidslinje(unmapped.utbetalingstidslinje),
-        sykdomstidslinje: mapSykdomstidslinje(unmapped.sykdomstidslinje),
-    },
-    problems: problems,
-});
-
-const appendSimulering = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        simuleringsdata: mapSimuleringsdata(unmapped.simuleringsdata),
-    },
-    problems: problems,
-});
-
-const mapExistingPeriodetype = (spleisPeriodetype: SpleisPeriodetype): Periodetype => {
-    switch (spleisPeriodetype) {
-        case SpleisPeriodetype.FØRSTEGANGSBEHANDLING:
-            return Periodetype.Førstegangsbehandling;
-        case SpleisPeriodetype.OVERGANG_FRA_IT:
-        case SpleisPeriodetype.INFOTRYGDFORLENGELSE:
-            return Periodetype.Infotrygdforlengelse;
-        case SpleisPeriodetype.FORLENGELSE:
-        default:
-            return Periodetype.Forlengelse;
-    }
-};
-
-const erFørstegangsbehandling = (spleisPeriode: SpesialistVedtaksperiode): boolean => {
-    const førsteUtbetalingsdag = spleisPeriode.utbetalinger?.arbeidsgiverUtbetaling?.linjer[0].fom ?? dayjs(0);
-    return spleisPeriode.utbetalingstidslinje.some((dag) => dayjs(dag.dato).isSame(førsteUtbetalingsdag));
-};
-
-const mapPeriodetype = (spleisPeriode: SpesialistVedtaksperiode): Periodetype => {
-    if (spleisPeriode.periodetype) {
-        return mapExistingPeriodetype(spleisPeriode.periodetype);
-    } else if (erFørstegangsbehandling(spleisPeriode)) {
-        return Periodetype.Førstegangsbehandling;
-    } else if (spleisPeriode.forlengelseFraInfotrygd === SpleisForlengelseFraInfotrygd.JA) {
-        return Periodetype.Infotrygdforlengelse;
-    } else {
-        return Periodetype.Forlengelse;
-    }
-};
-
-const appendPeriodetype = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        periodetype: mapPeriodetype(unmapped),
-    },
-    problems: problems,
-});
-
-const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbetalinger): Utbetaling | undefined =>
+export const mapUtbetaling = (
+    utbetalinger: SpleisUtbetalinger,
+    key: keyof SpleisUtbetalinger
+): Utbetaling | undefined =>
     utbetalinger[key] && {
         fagsystemId: utbetalinger[key]!.fagsystemId,
         linjer: utbetalinger[key]!.linjer.map((value: SpleisUtbetalingslinje) => ({
@@ -233,205 +54,256 @@ const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbeta
         })),
     };
 
-const appendUtbetalinger = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        utbetalinger: unmapped.utbetalinger && {
-            arbeidsgiverUtbetaling: mapUtbetaling(unmapped.utbetalinger, 'arbeidsgiverUtbetaling'),
-            personUtbetaling: mapUtbetaling(unmapped.utbetalinger, 'personUtbetaling'),
-        },
-    },
-    problems: problems,
-});
+export class VedtaksperiodeBuilder {
+    private unmapped: SpesialistVedtaksperiode;
+    private arbeidsgiver: SpesialistArbeidsgiver;
+    private overstyringer: SpesialistOverstyring[] = [];
+    private vedtaksperiode: Partial<Vedtaksperiode> = {};
+    private problems: Error[] = [];
 
-const appendOppsummering = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        oppsummering: {
-            antallUtbetalingsdager: unmapped.utbetalingstidslinje.filter((dag) => !!dag.utbetaling).length,
-            totaltTilUtbetaling: unmapped.totalbeløpArbeidstaker,
-        },
-    },
-    problems: problems,
-});
-
-const appendInntektskilder = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        inntektskilder: [
-            {
-                organisasjonsnummer: unmapped.organisasjonsnummer,
-                månedsinntekt: somInntekt(unmapped.inntektFraInntektsmelding),
-                årsinntekt: somÅrsinntekt(unmapped.inntektFraInntektsmelding),
-                refusjon: true,
-                forskuttering: true,
-            },
-        ],
-    },
-    problems: problems,
-});
-
-const appendAktivitetslogg = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => {
-    const aktivitetsloggvarsler = unmapped.aktivitetslogg.map((aktivitet) => aktivitet.melding);
-    return {
-        unmapped,
-        partial: {
-            ...partial,
-            aktivitetslog:
-                unmapped.varsler?.length > 0
-                    ? unmapped.varsler.filter((v, i) => unmapped.varsler.indexOf(v) === i)
-                    : aktivitetsloggvarsler.filter((v, i) => aktivitetsloggvarsler.indexOf(v) === i),
-        },
-        problems: problems,
+    setVedtaksperiode = (vedtaksperiode: SpesialistVedtaksperiode) => {
+        this.unmapped = vedtaksperiode;
+        return this;
     };
-};
 
-const appendRisikovurdering = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        risikovurdering: unmapped.risikovurdering !== null ? unmapped.risikovurdering : undefined,
-    },
-    problems: problems,
-});
+    setArbeidsgiver = (arbeidsgiver: SpesialistArbeidsgiver) => {
+        this.arbeidsgiver = arbeidsgiver;
+        return this;
+    };
 
-const appendSykepengegrunnlag = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => {
-    try {
-        return {
-            unmapped,
-            partial: {
-                ...partial,
-                sykepengegrunnlag: {
-                    årsinntektFraAording: unmapped.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
-                    årsinntektFraInntektsmelding: somÅrsinntekt(unmapped.inntektFraInntektsmelding),
-                    avviksprosent: somProsent(unmapped.dataForVilkårsvurdering?.avviksprosent),
-                    sykepengegrunnlag: unmapped.vilkår?.sykepengegrunnlag.sykepengegrunnlag,
-                },
-            },
-            problems: problems,
+    setOverstyringer = (overstyringer: SpesialistOverstyring[]) => {
+        this.overstyringer = overstyringer;
+        return this;
+    };
+
+    setBehandlet = (behandlet: boolean) => {
+        this.vedtaksperiode.behandlet = behandlet;
+        return this;
+    };
+
+    setAutomatiskBehandlet = (automatiskBehandlet: boolean) => {
+        this.vedtaksperiode.automatiskBehandlet = automatiskBehandlet;
+        return this;
+    };
+
+    setForlengelseFraInfotrygd = (erForlengelse?: boolean) => {
+        this.vedtaksperiode.forlengelseFraInfotrygd = erForlengelse;
+    };
+
+    build = (): { vedtaksperiode?: Vedtaksperiode | UfullstendigVedtaksperiode; problems: Error[] } => {
+        if (!this.unmapped || !this.arbeidsgiver) {
+            this.problems.push(Error('Kan ikke mappe vedtaksperiode, mangler data.'));
+            return { problems: this.problems };
+        }
+        return this.unmapped.fullstendig ? this.buildVedtaksperiode() : this.buildUfullstendigVedtaksperiode();
+    };
+
+    private buildUfullstendigVedtaksperiode = (): {
+        vedtaksperiode: UfullstendigVedtaksperiode;
+        problems: Error[];
+    } => ({
+        vedtaksperiode: {
+            id: this.unmapped.id,
+            fom: dayjs(this.unmapped.fom),
+            tom: dayjs(this.unmapped.tom),
+            kanVelges: false,
+            tilstand: Vedtaksperiodetilstand[this.unmapped.tilstand] ?? Vedtaksperiodetilstand.Ukjent,
+        },
+        problems: this.problems,
+    });
+
+    private buildVedtaksperiode = (): {
+        vedtaksperiode: Vedtaksperiode;
+        problems: Error[];
+    } => {
+        this.trimLedendeArbeidsdager();
+        this.mapEnkleProperties();
+        this.mapVilkår();
+        this.mapTilstand();
+        this.mapFomOgTom();
+        this.mapHendelser();
+        this.mapTidslinjer();
+        this.mapSimulering();
+        this.mapPeriodetype();
+        this.mapUtbetalinger();
+        this.mapOppsummering();
+        this.mapOverstyringer();
+        this.mapInntektskilder();
+        this.mapAktivitetslogg();
+        this.mapRisikovurdering();
+        this.mapSykepengegrunnlag();
+        this.setBehandlet(!!this.unmapped.godkjentAv || this.unmapped.automatiskBehandlet);
+        this.setAutomatiskBehandlet(this.unmapped.automatiskBehandlet === true);
+        this.setForlengelseFraInfotrygd(mapForlengelseFraInfotrygd(this.unmapped.forlengelseFraInfotrygd));
+        return { vedtaksperiode: this.vedtaksperiode as Vedtaksperiode, problems: this.problems };
+    };
+
+    private trimLedendeArbeidsdager = () => {
+        const førsteArbeidsdag = this.unmapped.sykdomstidslinje.findIndex(
+            (dag: SpleisSykdomsdag) =>
+                dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING ||
+                dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD ||
+                dag.type === SpleisSykdomsdagtype.IMPLISITT_DAG ||
+                dag.type === SpleisSykdomsdagtype.ARBEIDSDAG
+        );
+        if (førsteArbeidsdag !== 0) return;
+        const førsteIkkearbeidsdag = this.unmapped.sykdomstidslinje.findIndex(
+            (dag) =>
+                dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING &&
+                dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD &&
+                dag.type !== SpleisSykdomsdagtype.IMPLISITT_DAG &&
+                dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG
+        );
+        this.unmapped.sykdomstidslinje = this.unmapped.sykdomstidslinje.slice(førsteIkkearbeidsdag);
+    };
+
+    private mapEnkleProperties = () => {
+        this.vedtaksperiode.id = this.unmapped.id;
+        this.vedtaksperiode.gruppeId = this.unmapped.gruppeId;
+        this.vedtaksperiode.godkjentAv = this.unmapped.godkjentAv;
+        this.vedtaksperiode.godkjenttidspunkt = this.unmapped.godkjenttidspunkt
+            ? somKanskjeDato(this.unmapped.godkjenttidspunkt)
+            : undefined;
+        this.vedtaksperiode.oppgavereferanse = this.unmapped.oppgavereferanse;
+        this.vedtaksperiode.utbetalingsreferanse = this.unmapped.utbetalingsreferanse;
+        this.vedtaksperiode.kanVelges = true;
+    };
+
+    private mapVilkår = () => {
+        const { vilkår, problems } = mapVilkår(this.unmapped);
+        this.vedtaksperiode.vilkår = vilkår;
+        this.problems.push(...problems);
+    };
+
+    private mapTilstand = () => {
+        this.vedtaksperiode.tilstand =
+            (this.inneholderAnnullerteDager() && Vedtaksperiodetilstand.Annullert) ||
+            Vedtaksperiodetilstand[this.unmapped.tilstand] ||
+            Vedtaksperiodetilstand.Ukjent;
+    };
+
+    private mapHendelser = () => {
+        this.vedtaksperiode.hendelser = this.unmapped.hendelser.map(mapHendelse);
+    };
+
+    private mapFomOgTom = () => {
+        this.vedtaksperiode.fom = somDato(this.unmapped.fom);
+        this.vedtaksperiode.tom = somDato(this.unmapped.tom);
+    };
+
+    private mapTidslinjer = () => {
+        this.vedtaksperiode.sykdomstidslinje = mapSykdomstidslinje(this.unmapped.sykdomstidslinje);
+        this.vedtaksperiode.utbetalingstidslinje = mapUtbetalingstidslinje(this.unmapped.utbetalingstidslinje);
+    };
+
+    private mapSimulering = () => {
+        this.vedtaksperiode.simuleringsdata = mapSimuleringsdata(this.unmapped.simuleringsdata);
+    };
+
+    private mapPeriodetype = () => {
+        const mapExistingPeriodetype = (): Periodetype => {
+            switch (this.unmapped.periodetype) {
+                case SpleisPeriodetype.FØRSTEGANGSBEHANDLING:
+                    return Periodetype.Førstegangsbehandling;
+                case SpleisPeriodetype.OVERGANG_FRA_IT:
+                case SpleisPeriodetype.INFOTRYGDFORLENGELSE:
+                    return Periodetype.Infotrygdforlengelse;
+                case SpleisPeriodetype.FORLENGELSE:
+                    return Periodetype.Forlengelse;
+            }
         };
-    } catch (error) {
-        return {
-            unmapped,
-            partial: {
-                ...partial,
-                sykepengegrunnlag: {},
-            },
-            problems: [...problems, error],
+        const mapPeriodetype = (): Periodetype => {
+            if (this.erFørstegangsbehandling()) {
+                return Periodetype.Førstegangsbehandling;
+            } else if (this.erInfotrygdforlengelse()) {
+                return Periodetype.Infotrygdforlengelse;
+            } else {
+                return Periodetype.Forlengelse;
+            }
         };
-    }
-};
+        this.vedtaksperiode.periodetype = this.unmapped.periodetype ? mapExistingPeriodetype() : mapPeriodetype();
+    };
 
-const appendAutomatiskBehandlet = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        automatiskBehandlet: unmapped.automatiskBehandlet === true,
-    },
-    problems: problems,
-});
+    private mapUtbetalinger = () => {
+        this.vedtaksperiode.utbetalinger = this.unmapped.utbetalinger && {
+            arbeidsgiverUtbetaling: mapUtbetaling(this.unmapped.utbetalinger, 'arbeidsgiverUtbetaling'),
+            personUtbetaling: mapUtbetaling(this.unmapped.utbetalinger, 'personUtbetaling'),
+        };
+    };
 
-const tilhørerVedtaksperiode = (partial: Partial<Vedtaksperiode>, overstyring: SpesialistOverstyring) =>
-    overstyring.overstyrteDager
-        .map((dag) => dayjs(dag.dato))
-        .every((dato) => partial.fom?.isSameOrBefore(dato) && partial.tom?.isSameOrAfter(dato));
+    private mapOppsummering = () => {
+        this.vedtaksperiode.oppsummering = {
+            antallUtbetalingsdager: this.unmapped.utbetalingstidslinje.filter((dag) => !!dag.utbetaling).length,
+            totaltTilUtbetaling: this.unmapped.totalbeløpArbeidstaker,
+        };
+    };
 
-const appendOverstyringer = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        overstyringer: unmapped.overstyringer
-            .filter((overstyring) => tilhørerVedtaksperiode(partial, overstyring))
+    private mapOverstyringer = () => {
+        this.vedtaksperiode.overstyringer = this.overstyringer
+            .filter((overstyring) =>
+                overstyring.overstyrteDager
+                    .map((dag) => dayjs(dag.dato))
+                    .every(
+                        (dato) =>
+                            this.vedtaksperiode.fom?.isSameOrBefore(dato) &&
+                            this.vedtaksperiode.tom?.isSameOrAfter(dato)
+                    )
+            )
             .map((overstyring) => ({
                 ...overstyring,
                 timestamp: dayjs(overstyring.timestamp),
                 overstyrteDager: overstyring.overstyrteDager.map(tilOverstyrtDag),
             }))
-            .sort((a, b) => (a.timestamp.isBefore(b.timestamp) ? 1 : -1)),
-    },
-    problems: problems,
-});
+            .sort((a, b) => (a.timestamp.isBefore(b.timestamp) ? 1 : -1));
+    };
 
-const finalize = (partialResult: PartialMappingResult): { vedtaksperiode: Vedtaksperiode; problems: Error[] } => ({
-    vedtaksperiode: partialResult.partial as Vedtaksperiode,
-    problems: partialResult.problems,
-});
+    private mapInntektskilder = () => {
+        this.vedtaksperiode.inntektskilder = [
+            {
+                organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,
+                månedsinntekt: somInntekt(this.unmapped.inntektFraInntektsmelding),
+                årsinntekt: somÅrsinntekt(this.unmapped.inntektFraInntektsmelding),
+                refusjon: true,
+                forskuttering: true,
+            },
+        ];
+    };
 
-type MapUfullstendigVedtaksperiodeResult = {
-    vedtaksperiode: UfullstendigVedtaksperiode;
-    problems: Error[];
-};
+    private mapRisikovurdering = () => {
+        this.vedtaksperiode.risikovurdering = this.unmapped.risikovurdering || undefined;
+    };
 
-export const mapUferdigVedtaksperiode = async (
-    unmapped: SpesialistVedtaksperiode
-): Promise<MapUfullstendigVedtaksperiodeResult> => ({
-    vedtaksperiode: {
-        id: unmapped.id,
-        fom: dayjs(unmapped.fom),
-        tom: dayjs(unmapped.tom),
-        kanVelges: false,
-        tilstand: Vedtaksperiodetilstand[unmapped.tilstand] || Vedtaksperiodetilstand.Ukjent,
-    },
-    problems: [],
-});
+    private mapAktivitetslogg = () => {
+        const fjernDuplikater = (varsel: string, i: number, varsler: string[]) =>
+            !varsler.slice(i + 1).find((v) => v === varsel);
+        this.vedtaksperiode.aktivitetslog =
+            this.unmapped.varsler?.length > 0
+                ? this.unmapped.varsler.filter(fjernDuplikater)
+                : this.unmapped.aktivitetslogg.map(({ melding }) => melding).filter(fjernDuplikater);
+    };
 
-type MapVedtaksperiodeResult = {
-    vedtaksperiode: Vedtaksperiode;
-    problems: Error[];
-};
+    private mapSykepengegrunnlag = () => {
+        try {
+            this.vedtaksperiode.sykepengegrunnlag = {
+                årsinntektFraAording: this.unmapped.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
+                årsinntektFraInntektsmelding: somÅrsinntekt(this.unmapped.inntektFraInntektsmelding),
+                avviksprosent: somProsent(this.unmapped.dataForVilkårsvurdering?.avviksprosent),
+                sykepengegrunnlag: this.unmapped.vilkår?.sykepengegrunnlag.sykepengegrunnlag,
+            };
+        } catch (error) {
+            this.vedtaksperiode.sykepengegrunnlag = {};
+            this.problems.push(error);
+        }
+    };
 
-export const mapVedtaksperiode = async (unmapped: UnmappedPeriode): Promise<MapVedtaksperiodeResult> => {
-    const spesialistperiode = withoutLeadingArbeidsdager(unmapped);
-    return appendUnmappedFields({ unmapped: spesialistperiode, partial: {}, problems: [] })
-        .then(appendVilkår)
-        .then(appendTilstand)
-        .then(appendHendelser)
-        .then(appendFomAndTom)
-        .then(appendTidslinjer)
-        .then(appendSimulering)
-        .then(appendPeriodetype)
-        .then(appendUtbetalinger)
-        .then(appendOppsummering)
-        .then(appendOverstyringer)
-        .then(appendInntektskilder)
-        .then(appendRisikovurdering)
-        .then(appendAktivitetslogg)
-        .then(appendSykepengegrunnlag)
-        .then(appendAutomatiskBehandlet)
-        .then(finalize);
-};
+    private erInfotrygdforlengelse = (): boolean =>
+        this.unmapped.forlengelseFraInfotrygd === SpleisForlengelseFraInfotrygd.JA;
+
+    private erFørstegangsbehandling = (): boolean => {
+        const førsteUtbetalingsdag = this.unmapped.utbetalinger?.arbeidsgiverUtbetaling?.linjer[0].fom ?? dayjs(0);
+        return this.unmapped.utbetalingstidslinje.some((dag) => dayjs(dag.dato).isSame(førsteUtbetalingsdag));
+    };
+
+    private inneholderAnnullerteDager = (): boolean =>
+        !!this.unmapped.sykdomstidslinje.find((dag) => dag.type === SpleisSykdomsdagtype.ANNULLERT_DAG);
+}

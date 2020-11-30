@@ -1,99 +1,86 @@
 import { PersoninfoFraSparkel } from '../../types';
 import { somDato } from './vedtaksperiode';
-import { Kjønn, Person } from 'internal-types';
-import { SpesialistPerson } from 'external-types';
-import { mapInfotrygdutbetalinger } from './infotrygd';
-import { mapArbeidsgivere } from './arbeidsgiver';
-
-type PartialMappingResult = {
-    unmapped: SpesialistPerson & {
-        personinfoFraSparkel?: PersoninfoFraSparkel;
-    };
-    partial: Partial<Person>;
-    problems: Error[];
-};
-
-const appendUnmappedData = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        enhet: unmapped.enhet,
-        aktørId: unmapped.aktørId,
-        tildeltTil: unmapped.tildeltTil ?? undefined,
-        fødselsnummer: unmapped.fødselsnummer,
-    },
-    problems: problems,
-});
-
-const appendPersoninfo = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        personinfo: {
-            fornavn: unmapped.personinfo.fornavn,
-            mellomnavn: unmapped.personinfo.mellomnavn,
-            etternavn: unmapped.personinfo.etternavn,
-            fødselsdato: somDato(unmapped.personinfoFraSparkel?.fødselsdato ?? unmapped.personinfo.fødselsdato!),
-            kjønn: (unmapped.personinfoFraSparkel?.kjønn ?? unmapped.personinfo.kjønn) as Kjønn,
-            fnr: unmapped.personinfoFraSparkel?.fnr ?? unmapped.fødselsnummer,
-        },
-    },
-    problems: problems,
-});
-
-const appendArbeidsgivere = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => {
-    const { arbeidsgivere, problems: arbeidsgiverProblems } = await mapArbeidsgivere(unmapped.arbeidsgivere);
-    return {
-        unmapped,
-        partial: {
-            ...partial,
-            arbeidsgivere: arbeidsgivere,
-        },
-        problems: [...problems, ...arbeidsgiverProblems],
-    };
-};
-
-const appendInfotrygdutbetalinger = async ({
-    unmapped,
-    partial,
-    problems,
-}: PartialMappingResult): Promise<PartialMappingResult> => ({
-    unmapped,
-    partial: {
-        ...partial,
-        infotrygdutbetalinger: mapInfotrygdutbetalinger(unmapped),
-    },
-    problems: problems,
-});
-
-const finalize = (partialResult: PartialMappingResult): { person: Person; problems: Error[] } => ({
-    person: partialResult.partial as Person,
-    problems: partialResult.problems,
-});
+import { Arbeidsgiver, Kjønn, Person } from 'internal-types';
+import { SpesialistInfotrygdtypetekst, SpesialistPerson } from 'external-types';
+import { mapInfotrygdutbetaling } from './infotrygd';
+import { ArbeidsgiverBuilder } from './arbeidsgiver';
 
 // Optional personinfo fra Sparkel kan fjernes når vi ikke lenger
 // kan komme til å hente person fra Spesialist som mangler kjønn
 // (og fødselsdato, som vi ikke bruker ennå)
 export const mapPerson = async (
-    person: SpesialistPerson,
+    personFraSpesialist: SpesialistPerson,
     personinfoFraSparkel?: PersoninfoFraSparkel
 ): Promise<{ person: Person; problems: Error[] }> => {
-    const unmapped = { ...person, personinfoFraSparkel };
-    return appendUnmappedData({ unmapped: unmapped, partial: {}, problems: [] })
-        .then(appendPersoninfo)
-        .then(appendArbeidsgivere)
-        .then(appendInfotrygdutbetalinger)
-        .then(finalize);
+    const { person, problems } = new PersonBuilder()
+        .addPerson(personFraSpesialist)
+        .addPersoninfo(personinfoFraSparkel)
+        .build();
+    return { person: person as Person, problems };
 };
+
+export class PersonBuilder {
+    private unmapped: SpesialistPerson;
+    private personinfo?: PersoninfoFraSparkel;
+    private person: Partial<Person> = {};
+    private problems: Error[] = [];
+
+    addPerson(person: SpesialistPerson): PersonBuilder {
+        this.unmapped = person;
+        return this;
+    }
+
+    addPersoninfo(personinfo?: PersoninfoFraSparkel): PersonBuilder {
+        this.personinfo = personinfo;
+        return this;
+    }
+
+    build(): { person?: Person; problems: Error[] } {
+        if (!this.unmapped) {
+            this.problems.push(Error('Mangler persondata å mappe'));
+            return { problems: this.problems };
+        }
+        this.mapEnkleProperties();
+        this.mapPersoninfo();
+        this.mapArbeidsgivere();
+        this.mapInfotrygdutbetalinger();
+        return { person: this.person as Person, problems: this.problems };
+    }
+
+    private mapEnkleProperties = () => {
+        this.person.enhet = this.unmapped.enhet;
+        this.person.aktørId = this.unmapped.aktørId;
+        this.person.tildeltTil = this.unmapped.tildeltTil ?? undefined;
+        this.person.fødselsnummer = this.unmapped.fødselsnummer;
+    };
+
+    private mapPersoninfo = () => {
+        this.person.personinfo = {
+            fornavn: this.unmapped.personinfo.fornavn,
+            mellomnavn: this.unmapped.personinfo.mellomnavn,
+            etternavn: this.unmapped.personinfo.etternavn,
+            fødselsdato: somDato(this.personinfo?.fødselsdato ?? this.unmapped.personinfo.fødselsdato!),
+            kjønn: (this.personinfo?.kjønn ?? this.unmapped.personinfo.kjønn) as Kjønn,
+            fnr: this.personinfo?.fnr ?? this.unmapped.fødselsnummer,
+        };
+    };
+
+    private mapArbeidsgivere = () => {
+        this.person.arbeidsgivere = this.unmapped.arbeidsgivere
+            .map((unmappedArbeidsgiver) => {
+                const { arbeidsgiver, problems } = new ArbeidsgiverBuilder()
+                    .addArbeidsgiver(unmappedArbeidsgiver)
+                    .build();
+                this.problems.push(...problems);
+                return arbeidsgiver;
+            })
+            .filter((arbeidsgiver) => arbeidsgiver) as Arbeidsgiver[];
+    };
+
+    private mapInfotrygdutbetalinger = () => {
+        this.person.infotrygdutbetalinger =
+            this.unmapped.infotrygdutbetalinger
+                ?.filter((utbetaling) => utbetaling.typetekst !== SpesialistInfotrygdtypetekst.TILBAKEFØRT)
+                .map(mapInfotrygdutbetaling) ?? [];
+    };
+}
