@@ -37,7 +37,7 @@ const toSykepengeperiode = (infotrygdutbetaling: Infotrygdutbetaling): Sykepenge
     tom: infotrygdutbetaling.tom.toDate(),
     status: status(infotrygdutbetaling.typetekst),
     disabled: true,
-    disabledLabel: (
+    hoverLabel: (
         <Label>
             <Tekst>
                 {`Sykepenger (${infotrygdutbetaling.fom.format(NORSK_DATOFORMAT)} - ${infotrygdutbetaling.tom.format(

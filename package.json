@@ -53,7 +53,7 @@
         "@navikt/helse-frontend-logg": "^2.0.1",
         "@navikt/helse-frontend-sakslinje": "^1.0.3",
         "@navikt/helse-frontend-tabell": "^2.0.1",
-        "@navikt/helse-frontend-tidslinje": "^5.0.1",
+        "@navikt/helse-frontend-tidslinje": "^6.0.0",
         "@navikt/helse-frontend-toggle": "^2.0.1",
         "@navikt/helse-frontend-tooltip": "^2.0.1",
         "@navikt/helse-frontend-varsel": "^3.0.1",
