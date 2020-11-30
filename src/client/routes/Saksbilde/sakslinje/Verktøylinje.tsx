@@ -77,8 +77,7 @@ export const Verktøylinje = () => {
     const vedtaksperiodeErAnnullert: boolean = aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;
 
     const visAnnulleringsmuligheter =
-        !vedtaksperiodeErAnnullert &&
-        ((annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling) || utbetalinger?.personUtbetaling);
+        !vedtaksperiodeErAnnullert && annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling;
 
     return (
         <Container
