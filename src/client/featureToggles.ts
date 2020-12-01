@@ -8,6 +8,7 @@ const erSupportsaksbehandler = () => erEliHåkonsen() || erEirinØdegård() || e
 const erEliHåkonsen = () => extractIdent() === 'H104215';
 const erEirinØdegård = () => extractIdent() === 'O130292';
 const erJanneFleten = () => extractIdent() === 'F111930';
+const erMartheOterhals = () => extractIdent() === 'O146470';
 
 const erEminem = () => extractIdent() === 'G103083';
 const erDonika = () => extractIdent() === 'D117949';
