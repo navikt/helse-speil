@@ -3,7 +3,7 @@ import { extractIdent } from './utils/cookie';
 const erLocal = () => location.hostname === 'localhost';
 const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
 const erSupersaksbehandler = () => erEminem() || erDonika() || erDaniel() || erMorten() || erAminet();
-const erSupportsaksbehandler = () => erEliHåkonsen() || erEirinØdegård() || erJanneFleten();
+const erSupportsaksbehandler = () => erEliHåkonsen() || erEirinØdegård() || erJanneFleten() || erMartheOterhals();
 
 const erEliHåkonsen = () => extractIdent() === 'H104215';
 const erEirinØdegård = () => extractIdent() === 'O130292';
