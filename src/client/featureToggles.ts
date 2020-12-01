@@ -3,12 +3,14 @@ import { extractIdent } from './utils/cookie';
 const erLocal = () => location.hostname === 'localhost';
 const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
 const erSupersaksbehandler = () => erEminem() || erDonika() || erDaniel() || erMorten() || erAminet();
-const erSupportsaksbehandler = () => erEliHåkonsen() || erEirinØdegård() || erJanneFleten() || erMartheOterhals();
+const erSupportsaksbehandler = () =>
+    erEliHåkonsen() || erEirinØdegård() || erJanneFleten() || erMartheOterhals() || erAnnHelenThorsen();
 
 const erEliHåkonsen = () => extractIdent() === 'H104215';
 const erEirinØdegård = () => extractIdent() === 'O130292';
 const erJanneFleten = () => extractIdent() === 'F111930';
 const erMartheOterhals = () => extractIdent() === 'O146470';
+const erAnnHelenThorsen = () => extractIdent() === 'T142719';
 
 const erEminem = () => extractIdent() === 'G103083';
 const erDonika = () => extractIdent() === 'D117949';
