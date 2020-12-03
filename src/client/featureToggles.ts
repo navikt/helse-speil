@@ -23,6 +23,8 @@ const erKnudix = () => extractIdent() === 'N143409';
 const erKevin = () => extractIdent() === 'S151890';
 
 export const overstyrbareTabellerEnabled = true;
+export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
+
 export const annulleringerEnabled =
     erPreprod() || erLocal() || erSupportsaksbehandler() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled = erPreprod() || erLocal() || erSupersaksbehandler() || erKnudix() || erKevin();

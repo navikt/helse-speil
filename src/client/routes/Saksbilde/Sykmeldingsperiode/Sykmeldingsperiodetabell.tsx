@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import Element from 'nav-frontend-typografi/lib/element';
-import { overstyrbareTabellerEnabled } from '../../../featureToggles';
+import { overstyrbareTabellerEnabled, overstyreUtbetaltPeriodeEnabled } from '../../../featureToggles';
 import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { PersonContext } from '../../../context/PersonContext';
 import { dato, gradering, ikon, kilde, tomCelle, type } from '../../../components/tabell/rader';
-import { Dagtype, Vedtaksperiodetilstand } from 'internal-types';
+import { Dagtype, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import classNames from 'classnames';
 import { Infoikon } from '../../../components/ikoner/Infoikon';
@@ -33,20 +33,33 @@ interface SykmeldingsperiodetabellProps {
 }
 
 export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: SykmeldingsperiodetabellProps) => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
     const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
     const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
     const tabellbeskrivelse = `Sykmeldingsperiode fra ${fom} til ${tom}`;
 
+    const visOverstyringAvUtbetaltPeriode = (vedtaksperiode: Vedtaksperiode): boolean => {
+        if (!personTilBehandling?.arbeidsgivere) return false;
+        const førstePeriode = personTilBehandling.arbeidsgivere[0].vedtaksperioder.sort((a, b) =>
+            a.fom.isAfter(b.fom) ? -1 : 1
+        )[0];
+        return (
+            overstyreUtbetaltPeriodeEnabled &&
+            aktivVedtaksperiode === førstePeriode &&
+            vedtaksperiode.tilstand === Vedtaksperiodetilstand.Utbetalt
+        );
+    };
+
     const visOverstyring =
         overstyrbareTabellerEnabled &&
         aktivVedtaksperiode &&
-        [
+        ([
             Vedtaksperiodetilstand.Oppgaver,
             Vedtaksperiodetilstand.Avslag,
             Vedtaksperiodetilstand.IngenUtbetaling,
             Vedtaksperiodetilstand.Feilet,
-        ].includes(aktivVedtaksperiode.tilstand);
+        ].includes(aktivVedtaksperiode.tilstand) ||
+            visOverstyringAvUtbetaltPeriode(aktivVedtaksperiode));
 
     const rader =
         aktivVedtaksperiode?.sykdomstidslinje.map((dag) => {
