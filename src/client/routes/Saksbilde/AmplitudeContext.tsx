@@ -13,7 +13,7 @@ amplitudeEnabled &&
 
 interface AmplitudeContextValue {
     logOppgaveGodkjent: () => void;
-    logOppgaveForkastet: () => void;
+    logOppgaveForkastet: (begrunnelser: string[]) => void;
 }
 
 export const AmplitudeContext = React.createContext<AmplitudeContextValue>({
@@ -27,19 +27,20 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
 
     const oppgaveÅpnet = dayjs();
 
-    const eventProperties = () => ({
+    const eventProperties = (begrunnelser: string[] | undefined = undefined) => ({
         varighet: dayjs().diff(oppgaveÅpnet),
         type: aktivVedtaksperiode.periodetype,
         warnings: aktivVedtaksperiode.aktivitetslog,
         antallWarnings: aktivVedtaksperiode.aktivitetslog.length,
+        begrunnelser: begrunnelser,
     });
 
     const logOppgaveGodkjent = () => {
         amplitudeEnabled && amplitude?.getInstance().logEvent('oppgave godkjent', eventProperties());
     };
 
-    const logOppgaveForkastet = () => {
-        amplitudeEnabled && amplitude?.getInstance().logEvent('oppgave forkastet', eventProperties());
+    const logOppgaveForkastet = (begrunnelser: string[]) => {
+        amplitudeEnabled && amplitude?.getInstance().logEvent('oppgave forkastet', eventProperties(begrunnelser));
     };
 
     return (

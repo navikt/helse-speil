@@ -98,9 +98,13 @@ export const Utbetalingsdialog = () => {
 
     const avvisUtbetaling = (skjema: Avvisningsskjema) => {
         setIsSending(true);
+        const skjemaBegrunnelser: string[] = skjema.begrunnelser?.map((begrunnelse) => begrunnelse.valueOf()) ?? [];
+        const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
+        const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
+
         postSendTilInfotrygd(aktivVedtaksperiode.oppgavereferanse, personTilBehandling.aktørId, skjema)
             .then(() => {
-                logOppgaveForkastet();
+                logOppgaveForkastet(begrunnelser);
                 leggTilInfotrygdtoast();
                 history.push('/');
             })
