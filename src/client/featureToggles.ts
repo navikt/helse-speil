@@ -18,13 +18,14 @@ const erDaniel = () => extractIdent() === 'A148751';
 const erMorten = () => extractIdent() === 'N115007';
 const erAminet = () => extractIdent() === 'C117102';
 
-const erAnnulleringsbois = () => erKnudix() || erKevin()
+const erAnnulleringsbois = () => erKnudix() || erKevin();
 const erKnudix = () => extractIdent() === 'N143409';
 const erKevin = () => extractIdent() === 'S151890';
 
 export const overstyrbareTabellerEnabled = true;
-export const annulleringerEnabled = erPreprod() || erLocal() || erSupportsaksbehandler() || erSupersaksbehandler() || erAnnulleringsbois();
+export const annulleringerEnabled =
+    erPreprod() || erLocal() || erSupportsaksbehandler() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled = erPreprod() || erLocal() || erSupersaksbehandler() || erKnudix() || erKevin();
 export const speilTildeling = true;
 export const speilV2 = true;
-export const amplitudeEnabled = erLocal() || erPreprod();
+export const amplitudeEnabled = true;
