@@ -88,7 +88,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 2,
-                            "beregningsdato": "2020-01-01",
+                            "skjæringstidspunkt": "2020-01-01",
                             "førsteSykepengedag": "2020-01-17",
                             "maksdato": "2020-12-29",
                             "gjenståendeDager": 239,
@@ -247,7 +247,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 2,
-                            "beregningsdato": "2020-01-17",
+                            "skjæringstidspunkt": "2020-01-17",
                             "førsteSykepengedag": "2020-01-19",
                             "maksdato": "2020-12-29",
                             "gjenståendeDager": 237,

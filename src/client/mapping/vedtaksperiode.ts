@@ -1,6 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 import {
+    Inntektkilde,
     Periodetype,
     UfullstendigVedtaksperiode,
     Utbetaling,
@@ -9,6 +10,7 @@ import {
 } from 'internal-types';
 import {
     SpesialistArbeidsgiver,
+    SpesialistInntektsgrunnlag,
     SpesialistOverstyring,
     SpesialistVedtaksperiode,
     SpleisForlengelseFraInfotrygd,
@@ -59,6 +61,7 @@ export class VedtaksperiodeBuilder {
     private arbeidsgiver: SpesialistArbeidsgiver;
     private overstyringer: SpesialistOverstyring[] = [];
     private vedtaksperiode: Partial<Vedtaksperiode> = {};
+    private inntektsgrunnlag?: SpesialistInntektsgrunnlag;
     private problems: Error[] = [];
 
     setVedtaksperiode = (vedtaksperiode: SpesialistVedtaksperiode) => {
@@ -73,6 +76,13 @@ export class VedtaksperiodeBuilder {
 
     setOverstyringer = (overstyringer: SpesialistOverstyring[]) => {
         this.overstyringer = overstyringer;
+        return this;
+    };
+
+    setInntektsgrunnlag = (inntektsgrunnlag: SpesialistInntektsgrunnlag[]) => {
+        this.inntektsgrunnlag = inntektsgrunnlag.find(
+            (element) => this.unmapped.vilkår.sykepengedager.skjæringstidspunkt === element.skjæringstidspunkt
+        );
         return this;
     };
 
@@ -131,6 +141,7 @@ export class VedtaksperiodeBuilder {
         this.mapInntektskilder();
         this.mapAktivitetslogg();
         this.mapRisikovurdering();
+        this.mapInntektsgrunnlag();
         this.mapSykepengegrunnlag();
         this.setBehandlet(!!this.unmapped.godkjentAv || this.unmapped.automatiskBehandlet);
         this.setAutomatiskBehandlet(this.unmapped.automatiskBehandlet === true);
@@ -292,6 +303,42 @@ export class VedtaksperiodeBuilder {
             };
         } catch (error) {
             this.vedtaksperiode.sykepengegrunnlag = {};
+            this.problems.push(error);
+        }
+    };
+
+    private mapInntektsgrunnlag = () => {
+        try {
+            this.vedtaksperiode.inntektsgrunnlag = this.inntektsgrunnlag && {
+                ...this.inntektsgrunnlag,
+                sammenligningsgrunnlag: this.inntektsgrunnlag.sammenligningsgrunnlag ?? undefined,
+                avviksprosent: this.inntektsgrunnlag.avviksprosent ?? undefined,
+                gjeldendeArbeidsgiver: this.arbeidsgiver.organisasjonsnummer,
+                skjæringstidspunkt: dayjs(this.inntektsgrunnlag.skjæringstidspunkt),
+                inntekter: this.inntektsgrunnlag.inntekter.map((arbeidsgiverinntekt) => ({
+                    ...arbeidsgiverinntekt,
+                    omregnetÅrsinntekt: {
+                        ...arbeidsgiverinntekt.omregnetÅrsinntekt,
+                        kilde: Inntektkilde[arbeidsgiverinntekt.omregnetÅrsinntekt.kilde],
+                        inntekterFraAOrdningen: arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen?.map(
+                            (inntekt) => ({
+                                ...inntekt,
+                            })
+                        ),
+                    },
+                    sammenligningsgrunnlag: arbeidsgiverinntekt.sammenligningsgrunnlag
+                        ? {
+                              ...arbeidsgiverinntekt.sammenligningsgrunnlag,
+                              inntekterFraAOrdningen: arbeidsgiverinntekt.sammenligningsgrunnlag.inntekterFraAOrdningen.map(
+                                  (inntekt) => ({
+                                      ...inntekt,
+                                  })
+                              ),
+                          }
+                        : undefined,
+                })),
+            };
+        } catch (error) {
             this.problems.push(error);
         }
     };

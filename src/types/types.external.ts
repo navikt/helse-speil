@@ -141,6 +141,7 @@ export interface SpesialistPerson {
     aktørId: string;
     fødselsnummer: string;
     arbeidsgivere: SpesialistArbeidsgiver[];
+    inntektsgrunnlag?: SpesialistInntektsgrunnlag[];
     personinfo: SpesialistPersoninfo;
     enhet: Enhet;
     tildeltTil: string | null;
@@ -244,7 +245,7 @@ export interface SpleisVilkår {
 
 export interface SpleisSykepengedager {
     forbrukteSykedager?: number;
-    beregningsdato: string;
+    skjæringstidspunkt: string;
     førsteSykepengedag?: string;
     maksdato?: string;
     gjenståendeDager?: number;
@@ -357,4 +358,44 @@ export enum SpleisPeriodetype {
     FORLENGELSE = 'FORLENGELSE',
     INFOTRYGDFORLENGELSE = 'INFOTRYGDFORLENGELSE',
     OVERGANG_FRA_IT = 'OVERGANG_FRA_IT',
+}
+
+export interface SpesialistInntektsgrunnlag {
+    skjæringstidspunkt: string;
+    sykepengegrunnlag: number;
+    omregnetÅrsinntekt: number;
+    sammenligningsgrunnlag?: number;
+    avviksprosent?: number;
+    maksUtbetalingPerDag: number;
+    inntekter: SpesialistArbeidsgiverinntekt[];
+}
+
+export interface SpesialistArbeidsgiverinntekt {
+    arbeidsgiver: string;
+    omregnetÅrsinntekt: SpesialistOmregnetÅrsinntekt;
+    sammenligningsgrunnlag?: SpesialistSammenligningsgrunnlag;
+}
+
+export interface SpesialistOmregnetÅrsinntekt {
+    kilde: SpesialistInntektkilde;
+    beløp: number;
+    månedsbeløp: number;
+    inntekterFraAOrdningen?: SpesialistInntekterFraAOrdningen[]; //kun gyldig for A-ordningen
+}
+
+export enum SpesialistInntektkilde {
+    Saksbehandler = 'Saksbehandler',
+    Inntektsmelding = 'Inntektsmelding',
+    Infotrygd = 'Infotrygd',
+    AOrdningen = 'AOrdningen',
+}
+
+export interface SpesialistInntekterFraAOrdningen {
+    måned: string;
+    sum: number;
+}
+
+export interface SpesialistSammenligningsgrunnlag {
+    beløp: number;
+    inntekterFraAOrdningen: SpesialistInntekterFraAOrdningen[];
 }

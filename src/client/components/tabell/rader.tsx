@@ -122,7 +122,7 @@ const skalViseGradering = (dag: Sykdomsdag) =>
     dag.gradering !== undefined && ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie].includes(dag.type);
 
 export const gradering = (dag: Sykdomsdag) =>
-    skalViseGradering(dag) ? <HøyrejustertTekst>{dag.gradering}%</HøyrejustertTekst> : undefined;
+    skalViseGradering(dag) ? <HøyrejustertTekst>{dag.gradering} %</HøyrejustertTekst> : undefined;
 
 export const overstyrbarGradering = (
     dag: Sykdomsdag,
@@ -135,6 +135,7 @@ export const overstyrbarGradering = (
 
 const HøyrejustertTekst = styled(Normaltekst)`
     text-align: right;
+    white-space: nowrap;
 `;
 
 export const utbetaling = (dag: Utbetalingsdag) => {

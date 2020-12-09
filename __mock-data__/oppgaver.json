@@ -218,5 +218,45 @@
             "id": "0228",
             "navn": "Nav Utland"
         }
+    },
+    {
+        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-85b66a8bbbbe",
+        "opprettet": "2020-07-15T23:04:09.454",
+        "fødselsnummer": "29040374862",
+        "aktørId": "4526426893428",
+        "personinfo": {
+            "fornavn": "Maud Angelica",
+            "mellomnavn": "",
+            "etternavn": "Behn",
+            "fødselsdato": "2003-04-29",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "57dba1fc-3078-42df-9654-abbb9a52d211",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        }
+    },
+    {
+        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-87866a8bbbbe",
+        "opprettet": "2020-07-15T23:04:09.454",
+        "fødselsnummer": "15061345612",
+        "aktørId": "6549846514988",
+        "personinfo": {
+            "fornavn": "Muffins",
+            "mellomnavn": "",
+            "etternavn": "Kråkebolle",
+            "fødselsdato": "2013-06-15",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "115f2217-a2aa-4356-90c8-062d3d0276dd",
+        "type": "INFOTRYGDFORLENGELSE",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        }
     }
 ]

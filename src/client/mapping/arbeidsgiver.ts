@@ -1,4 +1,4 @@
-import { SpesialistArbeidsgiver } from 'external-types';
+import { SpesialistArbeidsgiver, SpesialistInntektsgrunnlag } from 'external-types';
 import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
 import dayjs from 'dayjs';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
@@ -6,10 +6,16 @@ import { VedtaksperiodeBuilder } from './vedtaksperiode';
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
     private arbeidsgiver: Partial<Arbeidsgiver> = {};
+    private inntektsgrunnlag: SpesialistInntektsgrunnlag[];
     private problems: Error[] = [];
 
     addArbeidsgiver(arbeidsgiver: SpesialistArbeidsgiver) {
         this.unmapped = arbeidsgiver;
+        return this;
+    }
+
+    addInntektsgrunnlag(inntektsgrunnlag: SpesialistInntektsgrunnlag[]) {
+        this.inntektsgrunnlag = inntektsgrunnlag;
         return this;
     }
 
@@ -39,6 +45,7 @@ export class ArbeidsgiverBuilder {
                 .setVedtaksperiode(unmappedVedtaksperiode)
                 .setArbeidsgiver(this.unmapped)
                 .setOverstyringer(this.unmapped.overstyringer)
+                .setInntektsgrunnlag(this.inntektsgrunnlag)
                 .build();
             this.problems.push(...problems);
             return vedtaksperiode as Vedtaksperiode;

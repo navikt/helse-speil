@@ -184,6 +184,7 @@ export interface Vedtaksperiode {
     godkjenttidspunkt?: Dayjs;
     vilkår?: Vilkår;
     sykepengegrunnlag: Sykepengegrunnlag;
+    inntektsgrunnlag?: Inntektsgrunnlag;
     inntektskilder: Inntektskilde[];
     utbetalinger?: Utbetalinger;
     oppsummering: Oppsummering;
@@ -283,4 +284,45 @@ export interface OverstyrtDag {
     dato: Dayjs;
     type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
     grad?: number;
+}
+
+export interface Inntektsgrunnlag {
+    gjeldendeArbeidsgiver: string;
+    skjæringstidspunkt: Dayjs;
+    sykepengegrunnlag: number;
+    omregnetÅrsinntekt: number;
+    sammenligningsgrunnlag?: number;
+    avviksprosent?: number;
+    maksUtbetalingPerDag: number;
+    inntekter: Arbeidsgiverinntekt[];
+}
+
+export interface Arbeidsgiverinntekt {
+    arbeidsgiver: string;
+    omregnetÅrsinntekt: OmregnetÅrsinntekt;
+    sammenligningsgrunnlag?: Sammenligningsgrunnlag;
+}
+
+export interface OmregnetÅrsinntekt {
+    kilde: Inntektkilde;
+    beløp: number;
+    månedsbeløp: number;
+    inntekterFraAOrdningen?: InntekterFraAOrdningen[]; //kun gyldig for A-ordningen
+}
+
+export enum Inntektkilde {
+    Saksbehandler = 'Saksbehandler',
+    Inntektsmelding = 'Inntektsmelding',
+    Infotrygd = 'Infotrygd',
+    AOrdningen = 'AOrdningen',
+}
+
+export interface InntekterFraAOrdningen {
+    måned: string;
+    sum: number;
+}
+
+export interface Sammenligningsgrunnlag {
+    beløp: number;
+    inntekterFraAOrdningen: InntekterFraAOrdningen[];
 }

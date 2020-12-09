@@ -45,7 +45,7 @@ const sykepengegrunnlagVilkår = ({ vilkår }: SpesialistVedtaksperiode): Sykepe
 
 const dagerIgjenVilkår = ({ vilkår }: SpesialistVedtaksperiode): DagerIgjen => ({
     dagerBrukt: vilkår.sykepengedager.forbrukteSykedager,
-    skjæringstidspunkt: somDato(vilkår.sykepengedager.beregningsdato),
+    skjæringstidspunkt: somDato(vilkår.sykepengedager.skjæringstidspunkt),
     førsteSykepengedag: somKanskjeDato(vilkår.sykepengedager.førsteSykepengedag),
     maksdato: somKanskjeDato(vilkår.sykepengedager.maksdato),
     oppfylt: vilkår.sykepengedager.oppfylt,

@@ -4,9 +4,9 @@ import { somPenger } from '../../../utils/locale';
 import styled from '@emotion/styled';
 
 interface Props {
-    avvik: number;
-    totalOmregnetÅrsinntekt: number;
-    totalRapportertÅrsinntekt: number;
+    avvik?: number;
+    totalOmregnetÅrsinntekt?: number;
+    totalRapportertÅrsinntekt?: number;
 }
 
 const Sammenligning = styled.div`
@@ -35,7 +35,7 @@ const Avvikssammenligning = ({ avvik, totalOmregnetÅrsinntekt, totalRapportert�
             <Normaltekst>{somPenger(totalRapportertÅrsinntekt)}</Normaltekst>
             <Divider />
             <Element>Utregnet avvik</Element>
-            <Element>{Math.floor(avvik)}%</Element>
+            <Element>{avvik ? `${Math.floor(avvik)} %` : '-'}</Element>
         </Sammenligning>
     );
 };

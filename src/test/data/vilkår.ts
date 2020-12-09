@@ -17,7 +17,7 @@ export const umappedeVilkår = (tidslinje: SpleisSykdomsdag[]): SpleisVilkår =>
     return {
         sykepengedager: {
             forbrukteSykedager: 3,
-            beregningsdato: førsteSykedag.dagen,
+            skjæringstidspunkt: førsteSykedag.dagen,
             førsteSykepengedag: førsteSykedag.dagen,
             maksdato: dayjs(førsteSykedag.dagen).add(280, 'day').format('YYYY-MM-DD'),
             oppfylt: true,

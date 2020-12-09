@@ -448,7 +448,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "beregningsdato": "2020-01-20",
+                            "skjæringstidspunkt": "2020-01-20",
                             "førsteSykepengedag": "2020-03-02",
                             "maksdato": "2020-12-30",
                             "gjenståendeDager": 198,
@@ -985,7 +985,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "beregningsdato": "2020-01-20",
+                            "skjæringstidspunkt": "2020-01-20",
                             "førsteSykepengedag": "2020-01-02",
                             "maksdato": "2020-12-30",
                             "gjenståendeDager": 198,
@@ -1522,7 +1522,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "beregningsdato": "2019-11-20",
+                            "skjæringstidspunkt": "2019-11-20",
                             "førsteSykepengedag": "2019-11-02",
                             "maksdato": "2019-11-30",
                             "gjenståendeDager": 198,
@@ -1840,7 +1840,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "beregningsdato": "2019-11-20",
+                            "skjæringstidspunkt": "2019-11-20",
                             "førsteSykepengedag": "2019-11-02",
                             "maksdato": "2019-11-30",
                             "gjenståendeDager": 198,

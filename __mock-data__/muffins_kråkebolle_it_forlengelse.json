@@ -1,0 +1,388 @@
+{
+    "aktørId": "6549846514988",
+    "fødselsnummer": "15061345612",
+    "personinfo": {
+        "fornavn": "Muffins",
+        "mellomnavn": null,
+        "etternavn": "Kråkebolle",
+        "fødselsdato": null,
+        "kjønn": null
+    },
+    "arbeidsgivere": [
+        {
+            "organisasjonsnummer": "987654321",
+            "id": "826cf20c-3d38-42c8-9c18-5a4512100c2c",
+            "navn": "Slottet",
+            "vedtaksperioder": [
+                {
+                    "id": "115f2217-a2aa-4356-90c8-062d3d0276dd",
+                    "gruppeId": "13771335-4fff-4e90-a49f-5a2f4bf14c40",
+                    "fom": "2018-02-01",
+                    "tom": "2018-02-14",
+                    "tilstand": "TilUtbetaling",
+                    "fullstendig": true,
+                    "utbetalingsreferanse": null,
+                    "utbetalingstidslinje": [
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-01",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-02",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0,
+                            "dato": "2018-02-03",
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0,
+                            "dato": "2018-02-04",
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-05",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-06",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-07",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-08",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-09",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0,
+                            "dato": "2018-02-10",
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavHelgDag",
+                            "inntekt": 0,
+                            "dato": "2018-02-11",
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-12",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-13",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1431,
+                            "dato": "2018-02-14",
+                            "utbetaling": 1431,
+                            "grad": 100.0
+                        }
+                    ],
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": null,
+                        "personUtbetaling": null
+                    },
+                    "utbetalteUtbetalinger": {
+                        "arbeidsgiverUtbetaling": null,
+                        "personUtbetaling": null
+                    },
+                    "sykdomstidslinje": [
+                        {
+                            "dagen": "2018-02-01",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-02",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-03",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-04",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-05",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-06",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-07",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-08",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-09",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-10",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-11",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-12",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-13",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        },
+                        {
+                            "dagen": "2018-02-14",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf"
+                            },
+                            "grad": 100.0
+                        }
+                    ],
+                    "godkjentAv": "en_saksbehandler_ident",
+                    "godkjenttidspunkt": "2020-12-10T13:19:21.626336",
+                    "automatiskBehandlet": false,
+                    "vilkår": {
+                        "sykepengedager": {
+                            "forbrukteSykedager": 54,
+                            "skjæringstidspunkt": "2017-12-01",
+                            "beregningsdato": "2017-12-01",
+                            "førsteFraværsdag": "2017-12-01",
+                            "førsteSykepengedag": "2018-02-01",
+                            "maksdato": "2018-11-13",
+                            "gjenståendeDager": 194,
+                            "oppfylt": true
+                        },
+                        "alder": {
+                            "alderSisteSykedag": 18,
+                            "oppfylt": true
+                        },
+                        "opptjening": null,
+                        "søknadsfrist": {
+                            "sendtNav": "2018-02-19T12:00:00",
+                            "søknadFom": "2018-02-01",
+                            "søknadTom": "2018-02-14",
+                            "oppfylt": true
+                        },
+                        "sykepengegrunnlag": {
+                            "sykepengegrunnlag": 372000.0,
+                            "grunnbeløp": 93634,
+                            "oppfylt": true
+                        },
+                        "medlemskapstatus": null
+                    },
+                    "inntektsmeldingId": null,
+                    "inntektFraInntektsmelding": 31000.0,
+                    "totalbeløpArbeidstaker": 14310,
+                    "hendelser": [
+                        {
+                            "id": "76ef04d4-bfd6-4ada-abc4-579790e6d104",
+                            "fom": "2018-02-01",
+                            "tom": "2018-02-14",
+                            "rapportertdato": "2018-02-01T00:00:00",
+                            "type": "NY_SØKNAD"
+                        },
+                        {
+                            "id": "01b4c4b8-68df-4a7f-900c-e3c27e5585cf",
+                            "fom": "2018-02-01",
+                            "tom": "2018-02-14",
+                            "rapportertdato": "2018-02-19T12:00:00",
+                            "sendtNav": "2018-02-19T12:00:00",
+                            "type": "SENDT_SØKNAD_NAV"
+                        }
+                    ],
+                    "dataForVilkårsvurdering": null,
+                    "simuleringsdata": {
+                        "totalbeløp": 9999,
+                        "perioder": [
+                            {
+                                "fom": "2020-01-01",
+                                "tom": "2020-01-02",
+                                "utbetalinger": [
+                                    {
+                                        "utbetalesTilId": "987654321",
+                                        "utbetalesTilNavn": "Syk Nordmann",
+                                        "forfall": "2020-01-03",
+                                        "feilkonto": true,
+                                        "detaljer": [
+                                            {
+                                                "faktiskFom": "2020-01-01",
+                                                "faktiskTom": "2020-01-02",
+                                                "konto": "12345678910og1112",
+                                                "beløp": 9999,
+                                                "tilbakeføring": false,
+                                                "sats": 1111,
+                                                "typeSats": "DAGLIG",
+                                                "antallSats": 9,
+                                                "uføregrad": 100,
+                                                "klassekode": "SPREFAG-IOP",
+                                                "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                                                "utbetalingstype": "YTELSE",
+                                                "refunderesOrgNr": "987654321"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    "aktivitetslogg": [],
+                    "forlengelseFraInfotrygd": "JA",
+                    "periodetype": "OVERGANG_FRA_IT"
+                }
+            ],
+            "overstyringer": []
+        }
+    ],
+    "inntektsgrunnlag": [
+        {
+            "skjæringstidspunkt": "2017-12-01",
+            "sykepengegrunnlag": 744000.0,
+            "omregnetÅrsinntekt": 744000.0,
+            "sammenligningsgrunnlag": null,
+            "avviksprosent": null,
+            "maksUtbetalingPerDag": 1430.7692307692307,
+            "inntekter": [
+                {
+                    "arbeidsgiver": "987654321",
+                    "omregnetÅrsinntekt": {
+                        "kilde": "Infotrygd",
+                        "beløp": 372000.0,
+                        "månedsbeløp": 31000.0,
+                        "inntekterFraAOrdningen": null
+                    },
+                    "sammenligningsgrunnlag": null
+                },
+                {
+                    "arbeidsgiver": "345687654",
+                    "omregnetÅrsinntekt": {
+                        "kilde": "Infotrygd",
+                        "beløp": 372000.0,
+                        "månedsbeløp": 31000.0,
+                        "inntekterFraAOrdningen": null
+                    },
+                    "sammenligningsgrunnlag": null
+                }
+            ]
+        }
+    ],
+    "enhet": {
+        "id": "1234",
+        "navn": "Oslo"
+    }
+}

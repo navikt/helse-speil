@@ -1,5 +1,5 @@
 import { Sykepengegrunnlag } from 'internal-types';
-import Inntektssammenligning from './Inntektssammenligning';
+import InntektssammenligningOld from './InntektssammenligningOld';
 import Avvikssammenligning from './Avvikssammenligning';
 import { Element } from 'nav-frontend-typografi';
 import { somPenger } from '../../../utils/locale';
@@ -24,7 +24,7 @@ const Oppsummering = styled.div`
 const Sykepengegrunnlaginnhold = ({ sykepengegrunnlag, className }: SykepengegrunnlaginnholdProps) => (
     <div className={className}>
         {' '}
-        <Inntektssammenligning
+        <InntektssammenligningOld
             inntektskilde="Arbeidsgiver"
             årsinntektAordning={sykepengegrunnlag.årsinntektFraAording}
             årsinntektInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding!}
