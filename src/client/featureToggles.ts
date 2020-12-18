@@ -27,7 +27,7 @@ export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal
 
 export const annulleringerEnabled =
     erPreprod() || erLocal() || erSupportsaksbehandler() || erSupersaksbehandler() || erAnnulleringsbois();
-export const oppdaterPersondataEnabled = erPreprod() || erLocal() || erSupersaksbehandler() || erKnudix() || erKevin();
+export const oppdaterPersondataEnabled = erPreprod() || erLocal() || erSupersaksbehandler() || erKnudix() || erKevin() || erSupportsaksbehandler();
 export const speilTildeling = true;
 export const speilV2 = true;
 export const amplitudeEnabled = true;
