@@ -1,6 +1,7 @@
 {
     "aktørId": "12345",
     "fødselsnummer": "01010025676",
+    "utbetalinger": [],
     "personinfo": {
         "fornavn": "Sjaman",
         "mellomnavn": null,

@@ -1,6 +1,7 @@
 {
     "aktørId": "1234",
     "fødselsnummer": "01010025678",
+    "utbetalinger": [],
     "personinfo": {
         "fornavn": "Leah",
         "mellomnavn": null,

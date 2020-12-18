@@ -12,8 +12,15 @@ export const ISO_DATOFORMAT = 'YYYY-MM-DD';
 export const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export const findLatest = (dates: Dayjs[]): Dayjs => {
-    const sorted = dates.map((date) => date).sort((a, b) => (b.isAfter(a) ? -1 : a.isAfter(b) ? 1 : 0));
-    return sorted.pop()!;
+    return Array.from(dates)
+        .sort((a, b) => (b.isAfter(a) ? -1 : a.isAfter(b) ? 1 : 0))
+        .pop()!;
+};
+
+export const findEarliest = (dates: Dayjs[]): Dayjs => {
+    return Array.from(dates)
+        .sort((a, b) => (b.isBefore(a) ? -1 : a.isBefore(b) ? 1 : 0))
+        .pop()!;
 };
 
 export const daysBetween = (startdato: Dayjs, sluttdato: Dayjs): number => Math.abs(startdato.diff(sluttdato, 'day'));

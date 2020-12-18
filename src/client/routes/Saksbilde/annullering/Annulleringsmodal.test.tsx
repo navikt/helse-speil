@@ -67,6 +67,7 @@ const enArbeidsgiver = async () => ({
 const personTilBehandling = async () => ({
     aktørId: '12345',
     fødselsnummer: '12345678901',
+    utbetalinger: [],
     arbeidsgivere: [await enArbeidsgiver()],
     personinfo: enPersoninfo(),
     infotrygdutbetalinger: [],

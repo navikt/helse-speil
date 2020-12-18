@@ -26,6 +26,36 @@ export const mappetPerson: Person = {
         kjønn: 'Mannebjørn' as Kjønn,
         fnr: '01019000123',
     },
+    utbetalinger: [
+        {
+            status: 'UTBETALT',
+            type: 'UTBETALING',
+            arbeidsgiverOppdrag: {
+                orgnummer: '987654321',
+                fagsystemId: '6CFURRBEWJF3VGP5Q4BUTO6ABM',
+                utbetalingslinjer: [
+                    {
+                        fom: dayjs('2020-01-17'),
+                        tom: dayjs('2020-01-20'),
+                    },
+                ],
+            },
+        },
+        {
+            status: 'SENDT',
+            type: 'UTBETALING',
+            arbeidsgiverOppdrag: {
+                orgnummer: '987654321',
+                fagsystemId: '6CFURRBEWJF3VGP5Q4BUTO6ABM',
+                utbetalingslinjer: [
+                    {
+                        fom: dayjs('2020-01-17'),
+                        tom: dayjs('2020-01-25'),
+                    },
+                ],
+            },
+        },
+    ],
     arbeidsgivere: [
         {
             navn: 'Potetsekk AS',

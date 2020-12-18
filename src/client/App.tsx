@@ -20,6 +20,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from './context/PersonContext';
 import 'reset-css';
 import './App.less';
+import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingshistorikk';
 
 ReactModal.setAppElement('#root');
 
@@ -47,6 +48,9 @@ const App = withContextProviders(() => {
                 </Route>
                 <ProtectedRoute path={Routes.Oversikt} exact>
                     <Oversikt />
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.Utbetalingshistorikk}>
+                    <Utbetalingshistorikk />
                 </ProtectedRoute>
                 <ProtectedRoute path={Routes.Saksbilde}>
                     <Saksbilde />

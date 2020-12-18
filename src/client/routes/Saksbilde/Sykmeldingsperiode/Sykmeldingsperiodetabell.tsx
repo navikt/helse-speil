@@ -92,7 +92,6 @@ export const Sykmeldingsperiodetabell = ({ toggleOverstyring }: Sykmeldingsperio
             kolonner: 2,
         },
         <Element>Grad</Element>,
-
         '',
         visOverstyring ? <Overstyringsknapp overstyrer={false} toggleOverstyring={toggleOverstyring} /> : '',
     ];

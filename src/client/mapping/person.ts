@@ -1,9 +1,11 @@
 import { PersoninfoFraSparkel } from '../../types';
 import { somDato } from './vedtaksperiode';
 import { Arbeidsgiver, Kjønn, Person } from 'internal-types';
-import { SpesialistInfotrygdtypetekst, SpesialistPerson } from 'external-types';
+import { SpesialistInfotrygdtypetekst, SpesialistPerson, SpesialistUtbetaling } from 'external-types';
 import { mapInfotrygdutbetaling } from './infotrygd';
 import { ArbeidsgiverBuilder } from './arbeidsgiver';
+import dayjs from 'dayjs';
+import { utbetalingsoversikt } from '../featureToggles';
 
 // Optional personinfo fra Sparkel kan fjernes når vi ikke lenger
 // kan komme til å hente person fra Spesialist som mangler kjønn
@@ -42,6 +44,7 @@ export class PersonBuilder {
         }
         this.mapEnkleProperties();
         this.mapPersoninfo();
+        this.mapUtbetalinger();
         this.mapArbeidsgivere();
         this.mapInfotrygdutbetalinger();
         return { person: this.person as Person, problems: this.problems };
@@ -83,5 +86,26 @@ export class PersonBuilder {
             this.unmapped.infotrygdutbetalinger
                 ?.filter((utbetaling) => utbetaling.typetekst !== SpesialistInfotrygdtypetekst.TILBAKEFØRT)
                 .map(mapInfotrygdutbetaling) ?? [];
+    };
+
+    private mapUtbetalinger = () => {
+        this.person.utbetalinger = utbetalingsoversikt
+            ? this.unmapped.utbetalinger.map((utbetaling) => {
+                  return {
+                      type: utbetaling.type,
+                      status: utbetaling.status,
+                      arbeidsgiverOppdrag: {
+                          orgnummer: utbetaling.arbeidsgiverOppdrag.organisasjonsnummer,
+                          fagsystemId: utbetaling.arbeidsgiverOppdrag.fagsystemId,
+                          utbetalingslinjer: utbetaling.arbeidsgiverOppdrag.utbetalingslinjer.map((linje) => {
+                              return {
+                                  fom: dayjs(linje.fom),
+                                  tom: dayjs(linje.tom),
+                              };
+                          }),
+                      },
+                  };
+              })
+            : [];
     };
 }

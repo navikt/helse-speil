@@ -3,6 +3,7 @@ export const routeForMiljø = (route: string) =>
 
 export const Routes = {
     Oversikt: routeForMiljø('/'),
+    Utbetalingshistorikk: routeForMiljø('/person/:aktorId/utbetalingshistorikk'),
     Saksbilde: routeForMiljø('/person/:aktorId'),
     Uatutorisert: routeForMiljø('/uautorisert'),
     TildelingTest: routeForMiljø('/boomer'),

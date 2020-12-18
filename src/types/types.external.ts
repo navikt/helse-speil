@@ -16,6 +16,23 @@ export interface Utbetalingsdetalj {
     klassekodeBeskrivelse: string;
 }
 
+export interface SpesialistUtbetaling {
+    status: string;
+    type: string;
+    arbeidsgiverOppdrag: SpesialistArbeidsgiverOppdrag;
+}
+
+export interface SpesialistArbeidsgiverOppdrag {
+    organisasjonsnummer: string;
+    fagsystemId: string;
+    utbetalingslinjer: SpesialistUtbetalingslinje[];
+}
+
+export interface SpesialistUtbetalingslinje {
+    fom: string;
+    tom: string;
+}
+
 export interface Utbetaling {
     forfall: string;
     detaljer: Utbetalingsdetalj[];
@@ -140,6 +157,7 @@ export interface SpleisInntektsmelding extends SpleisHendelse {
 export interface SpesialistPerson {
     aktørId: string;
     fødselsnummer: string;
+    utbetalinger: SpesialistUtbetaling[];
     arbeidsgivere: SpesialistArbeidsgiver[];
     inntektsgrunnlag?: SpesialistInntektsgrunnlag[];
     personinfo: SpesialistPersoninfo;

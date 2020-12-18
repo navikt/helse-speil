@@ -1,6 +1,5 @@
 import { mapPerson } from './person';
-import { Vedtaksperiode } from 'internal-types';
-import { somDato } from './vedtaksperiode';
+import { Kjønn, Overstyring, Vedtaksperiode } from 'internal-types';
 import {
     SpleisSykdomsdag,
     SpleisSykdomsdagkildeType,
@@ -204,4 +203,13 @@ describe('personmapper', () => {
 
         expect(hendelseId).toBeDefined();
     });
+});
+
+export const enPersoninfo = () => ({
+    fornavn: 'Kari',
+    mellomnavn: null,
+    etternavn: 'Normann',
+    kjønn: 'Mann' as Kjønn,
+    fødselsdato: dayjs(),
+    overstyringer: new Map<string, Overstyring>(),
 });

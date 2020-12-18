@@ -238,6 +238,7 @@ export interface Personinfo {
 export interface Person {
     aktørId: string;
     arbeidsgivere: Arbeidsgiver[];
+    utbetalinger: UtbetalingshistorikkUtbetaling[];
     personinfo: Personinfo;
     fødselsnummer: string;
     infotrygdutbetalinger: Infotrygdutbetaling[];
@@ -325,4 +326,21 @@ export interface InntekterFraAOrdningen {
 export interface Sammenligningsgrunnlag {
     beløp: number;
     inntekterFraAOrdningen: InntekterFraAOrdningen[];
+}
+
+export interface UtbetalingshistorikkUtbetaling {
+    status: string;
+    type: string;
+    arbeidsgiverOppdrag: UtbetalingshistorikkArbeidsgiverOppdrag;
+}
+
+export interface UtbetalingshistorikkArbeidsgiverOppdrag {
+    orgnummer: string;
+    fagsystemId: string;
+    utbetalingslinjer: UtbetalingshistorikkUtbetalingslinje[];
+}
+
+export interface UtbetalingshistorikkUtbetalingslinje {
+    fom: Dayjs;
+    tom: Dayjs;
 }
