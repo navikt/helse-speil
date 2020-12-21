@@ -6,7 +6,7 @@ import {
     SpleisSøknad,
 } from 'external-types';
 import { Hendelse, Inntektsmelding, Kildetype, Sykmelding, Søknad } from 'internal-types';
-import { somDato, somKanskjeDato, somTidspunkt } from './vedtaksperiode';
+import { somDato, somKanskjeTidspunkt, somTidspunkt } from './vedtaksperiode';
 
 const mapInntektsmelding = (hendelse: SpleisHendelse): Inntektsmelding => ({
     id: hendelse.id,
@@ -21,7 +21,7 @@ const mapSøknad = (hendelse: SpleisHendelse): Søknad => ({
     fom: somDato((hendelse as SpleisSøknad).fom),
     tom: somDato((hendelse as SpleisSøknad).tom),
     sendtNav: somDato(((hendelse as SpleisSøknad) as SpleisSøknad).sendtNav),
-    rapportertDato: somKanskjeDato((hendelse as SpleisSøknad).rapportertdato),
+    rapportertDato: somKanskjeTidspunkt((hendelse as SpleisSøknad).rapportertdato),
 });
 
 const mapSykmelding = (hendelse: SpleisHendelse): Sykmelding => ({
@@ -29,7 +29,7 @@ const mapSykmelding = (hendelse: SpleisHendelse): Sykmelding => ({
     type: Kildetype.Sykmelding,
     fom: somDato((hendelse as SpleisSykmelding).fom),
     tom: somDato((hendelse as SpleisSykmelding).tom),
-    rapportertDato: somKanskjeDato((hendelse as SpleisSykmelding).rapportertdato),
+    rapportertDato: somKanskjeTidspunkt((hendelse as SpleisSykmelding).rapportertdato),
 });
 
 export const mapHendelse = (hendelse: SpleisHendelse): Hendelse => {

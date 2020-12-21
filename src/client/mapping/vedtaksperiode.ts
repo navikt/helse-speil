@@ -34,6 +34,7 @@ export const somNorskDato = (dato: string): Dayjs => dayjs(dato, NORSK_DATOFORMA
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
 
 export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
+export const somKanskjeTidspunkt = (dato?: string): Dayjs | undefined => (dato ? somTidspunkt(dato) : undefined);
 
 export const somProsent = (avviksprosent: number): number => avviksprosent * 100;
 

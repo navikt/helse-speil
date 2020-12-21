@@ -1,9 +1,9 @@
 import { Hendelse, Kildetype, Overstyring, Vedtaksperiode } from 'internal-types';
-import { NORSK_DATOFORMAT } from '../../utils/date';
 import { Hendelsetype } from '@navikt/helse-frontend-logg';
 import React from 'react';
 import styled from '@emotion/styled';
 import { HendelseMedId } from '@navikt/helse-frontend-logg/lib/src/types';
+import { Dayjs } from 'dayjs';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.5rem;
@@ -31,28 +31,23 @@ const navnForHendelse = (hendelse: Hendelse) => {
 const hendelseFørsteDato = (hendelse: Hendelse) =>
     hendelse.type === Kildetype.Inntektsmelding ? hendelse.mottattTidspunkt : hendelse.rapportertDato;
 
-const datoForHendelse = (hendelse: Hendelse) => {
-    const dato = hendelseFørsteDato(hendelse);
-    return dato ? dato.format(NORSK_DATOFORMAT) : 'Ukjent dato';
-};
-
-export const mapDokumenter = (vedtaksperiode?: Vedtaksperiode): HendelseMedId[] =>
+export const mapDokumenter = (vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] =>
     vedtaksperiode
         ? vedtaksperiode.hendelser
               .filter((hendelse) => hendelse?.id)
               .map((hendelse: Hendelse) => ({
                   id: hendelse.id,
-                  dato: datoForHendelse(hendelse),
+                  tidspunkt: hendelseFørsteDato(hendelse),
                   navn: navnForHendelse(hendelse),
                   type: Hendelsetype.Dokumenter,
                   className: hendelse.type,
               }))
         : [];
 
-export const mapOverstyringer = (vedtaksperiode?: Vedtaksperiode): HendelseMedId[] =>
+export const mapOverstyringer = (vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] =>
     vedtaksperiode?.overstyringer.map((overstyring: Overstyring) => ({
         id: overstyring.hendelseId,
-        dato: overstyring.timestamp.format(NORSK_DATOFORMAT),
+        tidspunkt: overstyring.timestamp,
         navn: 'Overstyrt: Sykmeldingsperiode',
         type: Hendelsetype.Historikk,
         beskrivelse: (
@@ -63,12 +58,12 @@ export const mapOverstyringer = (vedtaksperiode?: Vedtaksperiode): HendelseMedId
         ),
     })) ?? [];
 
-export const mapGodkjenninger = (vedtaksperiode?: Vedtaksperiode): HendelseMedId[] => {
-    const godkjenninger: HendelseMedId[] = [];
+export const mapGodkjenninger = (vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] => {
+    const godkjenninger: HendelseMedTidspunkt[] = [];
     if (vedtaksperiode?.automatiskBehandlet) {
         godkjenninger.push({
             id: 'automatisk',
-            dato: vedtaksperiode.godkjenttidspunkt!.format(NORSK_DATOFORMAT),
+            tidspunkt: vedtaksperiode.godkjenttidspunkt,
             navn: 'Automatisk godkjent',
             type: Hendelsetype.Historikk,
         });
@@ -76,11 +71,15 @@ export const mapGodkjenninger = (vedtaksperiode?: Vedtaksperiode): HendelseMedId
     if (vedtaksperiode?.godkjentAv) {
         godkjenninger.push({
             id: 'sendt-til-utbetaling',
-            dato: vedtaksperiode.godkjenttidspunkt!.format(NORSK_DATOFORMAT),
+            tidspunkt: vedtaksperiode.godkjenttidspunkt,
             navn: 'Sendt til utbetaling',
             type: Hendelsetype.Historikk,
             beskrivelse: <BegrunnelseTekst>{vedtaksperiode.godkjentAv}</BegrunnelseTekst>,
         });
     }
     return godkjenninger;
+};
+
+export declare type HendelseMedTidspunkt = HendelseMedId & {
+    tidspunkt?: Dayjs;
 };

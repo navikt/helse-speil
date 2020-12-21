@@ -1,11 +1,11 @@
 import React, { ReactNode, useContext } from 'react';
 import { PersonContext } from '../PersonContext';
-import { somNorskDato } from '../../mapping/vedtaksperiode';
 import { IkonDialog } from './icons/IkonDialog';
 import { IkonHistorikk } from './icons/IkonHistorikk';
 import { IkonDokumenter } from './icons/IkonDokumenter';
-import { mapDokumenter, mapGodkjenninger, mapOverstyringer } from './mapping';
+import { HendelseMedTidspunkt, mapDokumenter, mapGodkjenninger, mapOverstyringer } from './mapping';
 import { Hendelse as LoggHendelse, Hendelsetype, LoggProvider } from '@navikt/helse-frontend-logg';
+import { NORSK_DATOFORMAT } from '../../utils/date';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];
@@ -18,9 +18,7 @@ export default ({ children }: LoggProviderProps) => {
     const overstyringer = mapOverstyringer(aktivVedtaksperiode);
     const godkjenninger = mapGodkjenninger(aktivVedtaksperiode);
 
-    const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger]
-        .filter((hendelse) => hendelse.dato)
-        .sort((a, b) => (somNorskDato(a.dato!).isAfter(somNorskDato(b.dato!)) ? -1 : 1));
+    const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger].sort(hendelsesorterer).map(tilEksternType);
 
     return (
         <LoggProvider
@@ -46,4 +44,15 @@ export default ({ children }: LoggProviderProps) => {
             {children}
         </LoggProvider>
     );
+};
+
+const tilEksternType = (intern: HendelseMedTidspunkt) => ({
+    ...intern,
+    dato: intern.tidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato',
+});
+
+const hendelsesorterer = (a: HendelseMedTidspunkt, b: HendelseMedTidspunkt): number => {
+    if (a.tidspunkt === undefined) return -1;
+    if (b.tidspunkt === undefined) return 1;
+    return b.tidspunkt.diff(a.tidspunkt);
 };
