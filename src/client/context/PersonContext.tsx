@@ -35,11 +35,11 @@ export const PersonProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =>
 
     useEffect(() => {
         if (personTilBehandling) {
-            const tilBehandling = (vedtaksperiode: Vedtaksperiode) =>
-                vedtaksperiode.tilstand === Vedtaksperiodetilstand.Oppgaver;
-            const defaultVedtaksperiode = personTilBehandling.arbeidsgivere
-                .flatMap((it) => it.vedtaksperioder)
-                .find(tilBehandling);
+            const harOppgave = (vedtaksperiode: Vedtaksperiode) =>
+                Vedtaksperiodetilstand.Oppgaver === vedtaksperiode.tilstand;
+            const kanVelges = (vedtaksperiode: Vedtaksperiode) => vedtaksperiode.kanVelges;
+            const perioder = personTilBehandling.arbeidsgivere.flatMap((it) => it.vedtaksperioder);
+            const defaultVedtaksperiode = perioder.find(harOppgave) ?? perioder.find(kanVelges);
             setAktivVedtaksperiode(defaultVedtaksperiode as Vedtaksperiode);
         } else {
             setAktivVedtaksperiode(undefined);
