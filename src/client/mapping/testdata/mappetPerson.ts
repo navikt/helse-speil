@@ -1,15 +1,5 @@
-import {
-    Arbeidsgiver,
-    Dagtype,
-    Kildetype,
-    Kjønn,
-    Periodetype,
-    Person,
-    Vedtaksperiode,
-    Vedtaksperiodetilstand,
-    Vilkår,
-} from 'internal-types';
-import dayjs, { Dayjs } from 'dayjs';
+import { Dagtype, Kildetype, Kjønn, Periodetype, Person, Vedtaksperiodetilstand } from 'internal-types';
+import dayjs from 'dayjs';
 
 export const mappetPerson: Person = {
     enhet: {
@@ -580,28 +570,3 @@ export const mappetPerson: Person = {
     infotrygdutbetalinger: [],
     tildeltTil: undefined,
 };
-
-const arbeidsgiver = (): Arbeidsgiver => mappetPerson.arbeidsgivere[0];
-const vedtaksperiode = (): Vedtaksperiode => arbeidsgiver().vedtaksperioder[0] as Vedtaksperiode;
-const vilkår = (): Vilkår => vedtaksperiode().vilkår as Vilkår;
-
-export const mappetPersonMedMaksdato = (maksdato: Dayjs): Person => ({
-    ...mappetPerson,
-    arbeidsgivere: [
-        {
-            ...arbeidsgiver(),
-            vedtaksperioder: [
-                {
-                    ...vedtaksperiode(),
-                    vilkår: {
-                        ...vilkår(),
-                        dagerIgjen: {
-                            ...vilkår().dagerIgjen,
-                            maksdato,
-                        },
-                    },
-                },
-            ],
-        },
-    ],
-});

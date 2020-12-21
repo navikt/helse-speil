@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
-import { Person, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, Person, Vedtaksperiode } from 'internal-types';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { SpesialistArbeidsgiver, SpleisVedtaksperiodetilstand } from 'external-types';
 import { PersonContext, PersonContextValue } from '../../../context/PersonContext';
@@ -26,9 +26,12 @@ const enUtbetaltVedtaksperiode = async () => {
     return vedtaksperiode as Vedtaksperiode;
 };
 
-const renderSykmeldingsperiodetabellMedState = (vedtaksperiode: Vedtaksperiode) => {
+const renderSykmeldingsperiodetabellMedState = (
+    vedtaksperiode: Vedtaksperiode,
+    arbeidsgivere: Arbeidsgiver[] = [({ vedtaksperioder: [] } as unknown) as Arbeidsgiver]
+) => {
     const defaultContext: PersonContextValue = {
-        personTilBehandling: {} as Person,
+        personTilBehandling: { arbeidsgivere } as Person,
         hentPerson: (_: any) => Promise.resolve(undefined),
         markerPersonSomTildelt: (_: any) => null,
         isFetching: false,
@@ -53,6 +56,11 @@ describe('Sykmeldingsperiodetabell', () => {
     });
     test('rendrer ikke endreknapp ved ikke utbetalt vedtaksperiode', async () => {
         renderSykmeldingsperiodetabellMedState(await enUtbetaltVedtaksperiode());
+        expect(screen.queryByText('Endre')).toBeNull();
+    });
+    test('rendrer ikke endreknapp ved flere arbeidsgivere', async () => {
+        let toArbeidsgivere = [{} as Arbeidsgiver, {} as Arbeidsgiver];
+        renderSykmeldingsperiodetabellMedState(await enIkkeUtbetaltVedtaksperiode(), toArbeidsgivere);
         expect(screen.queryByText('Endre')).toBeNull();
     });
 });

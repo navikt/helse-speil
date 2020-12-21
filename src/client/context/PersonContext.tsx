@@ -1,6 +1,6 @@
 import React, { createContext, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { fetchPerson, getPersoninfo } from '../io/http';
-import { Person, Vedtaksperiode } from 'internal-types';
+import { Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { PersoninfoFraSparkel } from '../../types';
@@ -35,8 +35,11 @@ export const PersonProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =>
 
     useEffect(() => {
         if (personTilBehandling) {
-            const klarTilBehandling = (vedtaksperiode: Vedtaksperiode) => vedtaksperiode.kanVelges;
-            const defaultVedtaksperiode = personTilBehandling.arbeidsgivere[0].vedtaksperioder.find(klarTilBehandling);
+            const tilBehandling = (vedtaksperiode: Vedtaksperiode) =>
+                vedtaksperiode.tilstand === Vedtaksperiodetilstand.Oppgaver;
+            const defaultVedtaksperiode = personTilBehandling.arbeidsgivere
+                .flatMap((it) => it.vedtaksperioder)
+                .find(tilBehandling);
             setAktivVedtaksperiode(defaultVedtaksperiode as Vedtaksperiode);
         } else {
             setAktivVedtaksperiode(undefined);
@@ -98,9 +101,9 @@ export const PersonProvider: React.FC<PropsWithChildren<{}>> = ({ children }) =>
 
     const aktiverVedtaksperiode = useCallback(
         (periodeId: string) => {
-            const vedtaksperiode = personTilBehandling?.arbeidsgivere[0].vedtaksperioder.find(
-                (periode) => periode.id === periodeId
-            );
+            const vedtaksperiode = personTilBehandling?.arbeidsgivere
+                .find((arbeidsgiver) => arbeidsgiver.vedtaksperioder.find((periode) => periode.id === periodeId))
+                ?.vedtaksperioder.find((periode) => periode.id === periodeId);
             vedtaksperiode?.kanVelges && setAktivVedtaksperiode(vedtaksperiode as Vedtaksperiode);
         },
         [personTilBehandling]
