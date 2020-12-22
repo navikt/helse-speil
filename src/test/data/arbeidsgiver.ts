@@ -8,6 +8,7 @@ export const umappetArbeidsgiver = (
     organisasjonsnummer: '987654321',
     id: '3fb100f2-5d3d-4a89-84cd-e123544a4400',
     navn: 'Potetsekk AS',
+    bransjer: ['Sofasitting', 'TV-titting'],
     vedtaksperioder: vedtaksperioder,
     overstyringer: overstyringer,
 });

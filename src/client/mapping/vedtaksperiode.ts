@@ -1,7 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 import {
-    Arbeidsgiverinntekt,
     Inntektskildetype,
     Periodetype,
     UfullstendigVedtaksperiode,
@@ -281,6 +280,7 @@ export class VedtaksperiodeBuilder {
         this.vedtaksperiode.inntektskilder = [
             {
                 arbeidsgiver: this.arbeidsgiver.navn,
+                bransjer: this.arbeidsgiver.bransjer?.length > 0 ? this.arbeidsgiver.bransjer : ['Ukjent'],
                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,
                 månedsinntekt: somInntekt(this.unmapped.inntektFraInntektsmelding),
                 årsinntekt: somÅrsinntekt(this.unmapped.inntektFraInntektsmelding),

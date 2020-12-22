@@ -191,6 +191,7 @@ export interface SpesialistOverstyringDag {
 }
 
 export interface SpesialistArbeidsgiver {
+    bransjer: string[];
     id: string;
     organisasjonsnummer: string;
     vedtaksperioder: SpesialistVedtaksperiode[];

@@ -9,17 +9,19 @@ import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { Kilde } from '../../../components/Kilde';
 import { FlexColumn } from '../../../components/Flex';
 
-export interface InntektskilderinnholdProps {
-    inntektskilder: Inntektskilde[];
-}
-
 const Arbeidsgivertittel = styled.div`
     display: flex;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+
     > *:not(:last-child) {
         margin-right: 1rem;
     }
+`;
+
+const Bransjer = styled(Undertekst)`
+    margin-bottom: 2rem;
+    color: #78706a;
 `;
 
 const HeaderContainer = styled.div`
@@ -52,6 +54,10 @@ const Kolonnetittel = styled(Undertekst)`
     color: #3e3832;
 `;
 
+interface InntektskilderinnholdProps {
+    inntektskilder: Inntektskilde[];
+}
+
 const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) => {
     const { t } = useTranslation();
 
@@ -65,6 +71,10 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                     </Tittel>
                     <Kilde>Aa</Kilde>
                 </Arbeidsgivertittel>
+                <Bransjer>
+                    {`BRANSJE${inntektskilder[0].bransjer.length > 1 ? 'R' : ''}: `}
+                    {inntektskilder[0].bransjer.join(', ')}
+                </Bransjer>
                 <HeaderContainer>
                     <Tittel tag="h3">{t('inntektskilder.inntekt')}</Tittel>
                     <Kilde>IM</Kilde>

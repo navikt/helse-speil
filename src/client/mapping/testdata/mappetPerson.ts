@@ -547,6 +547,7 @@ export const mappetPerson: Person = {
                     inntektskilder: [
                         {
                             arbeidsgiver: 'Potetsekk AS',
+                            bransjer: ['Sofasitting', 'TV-titting'],
                             organisasjonsnummer: '987654321',
                             månedsinntekt: 31000,
                             årsinntekt: 372000,

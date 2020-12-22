@@ -58,6 +58,7 @@ export interface Sykepengegrunnlag {
 
 export interface Inntektskilde {
     arbeidsgiver: string;
+    bransjer: string[];
     organisasjonsnummer: string;
     forskuttering: boolean;
     refusjon: boolean;
