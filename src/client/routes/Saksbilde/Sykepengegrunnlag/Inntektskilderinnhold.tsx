@@ -8,6 +8,7 @@ import { Grid } from '../../../components/Grid';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { Kilde } from '../../../components/Kilde';
 import { FlexColumn } from '../../../components/Flex';
+import { Clipboard } from '../../../components/clipboard';
 
 const Arbeidsgivertittel = styled.div`
     display: flex;
@@ -34,6 +35,8 @@ const HeaderContainer = styled.div`
 `;
 
 const Tittel = styled(Undertittel)`
+    display: flex;
+    align-items: center;
     font-size: 18px;
     color: #3e3832;
 `;
@@ -67,7 +70,8 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
                     <Tittel>
-                        {inntektskilder[0].arbeidsgiver} ({inntektskilder[0].organisasjonsnummer})
+                        {inntektskilder[0].arbeidsgiver} (<Clipboard>{inntektskilder[0].organisasjonsnummer}</Clipboard>
+                        )
                     </Tittel>
                     <Kilde>Aa</Kilde>
                 </Arbeidsgivertittel>

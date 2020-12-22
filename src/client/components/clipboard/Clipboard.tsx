@@ -61,7 +61,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true }: P
     }, [didCopy]);
 
     return (
-        <Container alignItems="center">
+        <Container as="span" alignItems="center">
             <div ref={contentRef}>{children}</div>
             <ReactTooltip place="bottom" disable={!didCopy} />
             <Button data-tip="Kopiert!" data-tip-disable={!didCopy} onClick={copy} data-class="typo-undertekst">
