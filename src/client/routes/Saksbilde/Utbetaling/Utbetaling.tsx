@@ -12,6 +12,7 @@ import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { arbeidsgivernavnForVedtaksperiode } from '../../../mapping/selectors';
+import { Arbeidsforhold } from '../Arbeidsforhold';
 
 const Container = styled.section`
     padding: 2rem 0;
@@ -87,9 +88,7 @@ export const Utbetaling = () => {
 
     const periodeFom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
     const periodeTom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
-    const { organisasjonsnummer, månedsinntekt } = aktivVedtaksperiode.inntektskilder[0];
-
-    const arbeidsgivernavn = arbeidsgivernavnForVedtaksperiode(personTilBehandling, aktivVedtaksperiode.id);
+    const { arbeidsgiver, organisasjonsnummer, månedsinntekt, arbeidsforhold } = aktivVedtaksperiode.inntektskilder[0];
 
     return (
         <AgurkErrorBoundary sidenavn="Utbetaling">
@@ -114,13 +113,12 @@ export const Utbetaling = () => {
                     </Kort>
                     <Kort>
                         <Korttittel>
-                            <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>
-                                {arbeidsgivernavn}
-                            </Lenke>
+                            <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>{arbeidsgiver}</Lenke>
                         </Korttittel>
                         <Clipboard preserveWhitespace={false}>
                             <Normaltekst>{organisasjonsnummer}</Normaltekst>
                         </Clipboard>
+                        {arbeidsforhold?.[0] && <Arbeidsforhold {...arbeidsforhold[0]} />}
                         <Flex justifyContent="space-between">
                             <Normaltekst>Månedsbeløp</Normaltekst>
                             <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>

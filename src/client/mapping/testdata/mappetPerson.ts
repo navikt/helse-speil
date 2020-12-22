@@ -553,6 +553,7 @@ export const mappetPerson: Person = {
                             årsinntekt: 372000,
                             refusjon: true,
                             forskuttering: true,
+                            arbeidsforhold: [],
                         },
                     ],
                     aktivitetslog: ['Aktivitetsloggvarsel'],

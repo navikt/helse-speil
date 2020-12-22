@@ -286,6 +286,15 @@ export class VedtaksperiodeBuilder {
                 årsinntekt: somÅrsinntekt(this.unmapped.inntektFraInntektsmelding),
                 refusjon: true,
                 forskuttering: true,
+                arbeidsforhold:
+                    this.person?.arbeidsforhold
+                        ?.filter((it) => it.organisasjonsnummer === this.arbeidsgiver.organisasjonsnummer)
+                        .map((it) => ({
+                            stillingstittel: it.stillingstittel,
+                            stillingsprosent: it.stillingsprosent,
+                            startdato: dayjs(it.startdato),
+                            sluttdato: it.sluttdato ? dayjs(it.sluttdato) : undefined,
+                        })) ?? [],
             },
         ];
     };

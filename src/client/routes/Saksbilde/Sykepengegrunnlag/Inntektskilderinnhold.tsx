@@ -9,6 +9,7 @@ import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { Kilde } from '../../../components/Kilde';
 import { FlexColumn } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
+import { Arbeidsforhold } from '../Arbeidsforhold';
 
 const Arbeidsgivertittel = styled.div`
     display: flex;
@@ -21,7 +22,7 @@ const Arbeidsgivertittel = styled.div`
 `;
 
 const Bransjer = styled(Undertekst)`
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
     color: #78706a;
 `;
 
@@ -49,6 +50,11 @@ const Tabell = styled.div`
     margin: 0.5rem 0 4rem;
 `;
 
+const ArbeidsforholdTabell = styled(Tabell)`
+    margin-top: 0;
+    margin-bottom: 2rem;
+`;
+
 const Innhold = styled(Grid)`
     grid-column-gap: 6rem;
 `;
@@ -64,21 +70,34 @@ interface InntektskilderinnholdProps {
 const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) => {
     const { t } = useTranslation();
 
+    const {
+        arbeidsgiver,
+        organisasjonsnummer,
+        arbeidsforhold,
+        bransjer,
+        månedsinntekt,
+        årsinntekt,
+        refusjon,
+        forskuttering,
+    } = inntektskilder[0];
+
     return (
         <Innhold kolonner={2}>
             <FlexColumn>
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
                     <Tittel>
-                        {inntektskilder[0].arbeidsgiver} (<Clipboard>{inntektskilder[0].organisasjonsnummer}</Clipboard>
-                        )
+                        {arbeidsgiver} (<Clipboard>{organisasjonsnummer}</Clipboard>)
                     </Tittel>
                     <Kilde>Aa</Kilde>
                 </Arbeidsgivertittel>
                 <Bransjer>
-                    {`BRANSJE${inntektskilder[0].bransjer.length > 1 ? 'R' : ''}: `}
-                    {inntektskilder[0].bransjer.join(', ')}
+                    {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
+                    {bransjer.join(', ')}
                 </Bransjer>
+                <ArbeidsforholdTabell>
+                    {arbeidsforhold?.[0] && <Arbeidsforhold {...arbeidsforhold[0]} />}
+                </ArbeidsforholdTabell>
                 <HeaderContainer>
                     <Tittel tag="h3">{t('inntektskilder.inntekt')}</Tittel>
                     <Kilde>IM</Kilde>
@@ -86,17 +105,17 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 <Tabell>
                     <Kolonnetittel>{t('inntektskilder.månedsinntekt')}</Kolonnetittel>
                     <Kolonnetittel>{t('inntektskilder.årsinntekt')}</Kolonnetittel>
-                    <Element>{`${toKronerOgØre(inntektskilder[0].månedsinntekt!)} kr`}</Element>
-                    <Element>{`${toKronerOgØre(inntektskilder[0].årsinntekt!)} kr`}</Element>
+                    <Element>{`${toKronerOgØre(månedsinntekt!)} kr`}</Element>
+                    <Element>{`${toKronerOgØre(årsinntekt!)} kr`}</Element>
                 </Tabell>
                 <HeaderContainer>
                     <Tittel>{t('inntektskilder.inntektsmeldinger')}</Tittel>
                 </HeaderContainer>
                 <Tabell>
                     <Normaltekst>{t('inntektskilder.refusjon')}</Normaltekst>
-                    <Normaltekst>{inntektskilder[0].refusjon ? 'Ja' : 'Nei'}</Normaltekst>
+                    <Normaltekst>{refusjon ? 'Ja' : 'Nei'}</Normaltekst>
                     <Normaltekst>{t('inntektskilder.arbeidsgiverperiode')}</Normaltekst>
-                    <Normaltekst>{inntektskilder[0].forskuttering ? 'Ja' : 'Nei'}</Normaltekst>
+                    <Normaltekst>{forskuttering ? 'Ja' : 'Nei'}</Normaltekst>
                     <Normaltekst>{t('inntektskilder.relasjon')}</Normaltekst>
                     <Normaltekst>Ikke sjekket</Normaltekst>
                 </Tabell>

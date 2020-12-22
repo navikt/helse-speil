@@ -56,12 +56,20 @@ export interface Sykepengegrunnlag {
     årsinntektFraInntektsmelding?: number;
 }
 
+export interface Arbeidsforhold {
+    stillingstittel: string;
+    stillingsprosent: number;
+    startdato: Dayjs;
+    sluttdato?: Dayjs;
+}
+
 export interface Inntektskilde {
     arbeidsgiver: string;
     bransjer: string[];
     organisasjonsnummer: string;
     forskuttering: boolean;
     refusjon: boolean;
+    arbeidsforhold: Arbeidsforhold[];
     årsinntekt?: number;
     månedsinntekt?: number;
 }

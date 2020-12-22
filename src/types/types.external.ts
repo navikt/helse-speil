@@ -1,4 +1,5 @@
 import { SpesialistPersoninfo } from '../types';
+import { Dayjs } from 'dayjs';
 
 export interface Utbetalingsdetalj {
     sats: number;
@@ -154,6 +155,14 @@ export interface SpleisInntektsmelding extends SpleisHendelse {
     beregnetInntekt: number;
 }
 
+export interface SpesialistArbeidsforhold {
+    organisasjonsnummer: string;
+    stillingstittel: string;
+    stillingsprosent: number;
+    startdato: string;
+    sluttdato?: string;
+}
+
 export interface SpesialistPerson {
     aktørId: string;
     fødselsnummer: string;
@@ -163,6 +172,7 @@ export interface SpesialistPerson {
     personinfo: SpesialistPersoninfo;
     enhet: Enhet;
     tildeltTil: string | null;
+    arbeidsforhold: SpesialistArbeidsforhold[];
     infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
 }
 

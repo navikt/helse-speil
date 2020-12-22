@@ -11,6 +11,7 @@ export const umappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalin
     arbeidsgivere: arbeidsgivere,
     enhet: { id: '', navn: '' },
     tildeltTil: null,
+    arbeidsforhold: [],
 });
 
 export const mappetPerson = async (
