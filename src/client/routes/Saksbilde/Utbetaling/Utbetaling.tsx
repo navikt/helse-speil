@@ -11,6 +11,7 @@ import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { arbeidsgivernavnForVedtaksperiode } from '../../../mapping/selectors';
 
 const Container = styled.section`
     padding: 2rem 0;
@@ -42,9 +43,11 @@ const Korttittel = styled(Undertittel)`
 
     a {
         color: inherit;
+
         &:hover {
             text-decoration: none;
         }
+
         &:active,
         &:focus {
             outline: none;
@@ -58,9 +61,11 @@ const Korttittel = styled(Undertittel)`
 
 const Lenke = styled(Link)`
     color: inherit;
+
     &:hover {
         text-decoration: none;
     }
+
     &:active,
     &:focus-visible {
         outline: none;
@@ -74,7 +79,7 @@ const Lenke = styled(Link)`
 export const Utbetaling = () => {
     const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
 
-    if (!aktivVedtaksperiode) return null;
+    if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
     const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen?.skjæringstidspunkt
         ? aktivVedtaksperiode.vilkår.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT)
@@ -83,6 +88,8 @@ export const Utbetaling = () => {
     const periodeFom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
     const periodeTom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
     const { organisasjonsnummer, månedsinntekt } = aktivVedtaksperiode.inntektskilder[0];
+
+    const arbeidsgivernavn = arbeidsgivernavnForVedtaksperiode(personTilBehandling, aktivVedtaksperiode.id);
 
     return (
         <AgurkErrorBoundary sidenavn="Utbetaling">
@@ -107,7 +114,9 @@ export const Utbetaling = () => {
                     </Kort>
                     <Kort>
                         <Korttittel>
-                            <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>Arbeidsgiver</Lenke>
+                            <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>
+                                {arbeidsgivernavn}
+                            </Lenke>
                         </Korttittel>
                         <Clipboard preserveWhitespace={false}>
                             <Normaltekst>{organisasjonsnummer}</Normaltekst>

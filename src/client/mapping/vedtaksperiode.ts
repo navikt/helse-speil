@@ -1,7 +1,8 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 import {
-    Inntektkilde,
+    Arbeidsgiverinntekt,
+    Inntektskildetype,
     Periodetype,
     UfullstendigVedtaksperiode,
     Utbetaling,
@@ -12,6 +13,7 @@ import {
     SpesialistArbeidsgiver,
     SpesialistInntektsgrunnlag,
     SpesialistOverstyring,
+    SpesialistPerson,
     SpesialistVedtaksperiode,
     SpleisForlengelseFraInfotrygd,
     SpleisPeriodetype,
@@ -59,6 +61,7 @@ export const mapUtbetaling = (
 
 export class VedtaksperiodeBuilder {
     private unmapped: SpesialistVedtaksperiode;
+    private person: SpesialistPerson;
     private arbeidsgiver: SpesialistArbeidsgiver;
     private overstyringer: SpesialistOverstyring[] = [];
     private vedtaksperiode: Partial<Vedtaksperiode> = {};
@@ -67,6 +70,11 @@ export class VedtaksperiodeBuilder {
 
     setVedtaksperiode = (vedtaksperiode: SpesialistVedtaksperiode) => {
         this.unmapped = vedtaksperiode;
+        return this;
+    };
+
+    setPerson = (person: SpesialistPerson) => {
+        this.person = person;
         return this;
     };
 
@@ -272,6 +280,7 @@ export class VedtaksperiodeBuilder {
     private mapInntektskilder = () => {
         this.vedtaksperiode.inntektskilder = [
             {
+                arbeidsgiver: this.arbeidsgiver.navn,
                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,
                 månedsinntekt: somInntekt(this.unmapped.inntektFraInntektsmelding),
                 årsinntekt: somÅrsinntekt(this.unmapped.inntektFraInntektsmelding),
@@ -297,30 +306,39 @@ export class VedtaksperiodeBuilder {
     private mapSykepengegrunnlag = () => {
         try {
             this.vedtaksperiode.sykepengegrunnlag = {
+                arbeidsgivernavn: this.arbeidsgiver.navn,
                 årsinntektFraAording: this.unmapped.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
                 årsinntektFraInntektsmelding: somÅrsinntekt(this.unmapped.inntektFraInntektsmelding),
                 avviksprosent: somProsent(this.unmapped.dataForVilkårsvurdering?.avviksprosent),
                 sykepengegrunnlag: this.unmapped.vilkår?.sykepengegrunnlag.sykepengegrunnlag,
             };
         } catch (error) {
-            this.vedtaksperiode.sykepengegrunnlag = {};
+            this.vedtaksperiode.sykepengegrunnlag = {
+                arbeidsgivernavn: this.arbeidsgiver.navn,
+            };
             this.problems.push(error);
         }
     };
 
     private mapInntektsgrunnlag = () => {
+        const navnForOrganisasjonsnummer = (organisasjonsnummer: string): string =>
+            this.person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer)?.navn ??
+            'Arbeidsgiver';
         try {
             this.vedtaksperiode.inntektsgrunnlag = this.inntektsgrunnlag && {
-                ...this.inntektsgrunnlag,
+                sykepengegrunnlag: this.inntektsgrunnlag.sykepengegrunnlag,
+                omregnetÅrsinntekt: this.inntektsgrunnlag.omregnetÅrsinntekt,
+                maksUtbetalingPerDag: this.inntektsgrunnlag.maksUtbetalingPerDag,
                 sammenligningsgrunnlag: this.inntektsgrunnlag.sammenligningsgrunnlag ?? undefined,
                 avviksprosent: this.inntektsgrunnlag.avviksprosent ?? undefined,
-                gjeldendeArbeidsgiver: this.arbeidsgiver.organisasjonsnummer,
+                organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,
                 skjæringstidspunkt: dayjs(this.inntektsgrunnlag.skjæringstidspunkt),
                 inntekter: this.inntektsgrunnlag.inntekter.map((arbeidsgiverinntekt) => ({
-                    ...arbeidsgiverinntekt,
+                    arbeidsgivernavn: navnForOrganisasjonsnummer(arbeidsgiverinntekt.arbeidsgiver),
+                    organisasjonsnummer: arbeidsgiverinntekt.arbeidsgiver,
                     omregnetÅrsinntekt: {
                         ...arbeidsgiverinntekt.omregnetÅrsinntekt,
-                        kilde: Inntektkilde[arbeidsgiverinntekt.omregnetÅrsinntekt.kilde],
+                        kilde: Inntektskildetype[arbeidsgiverinntekt.omregnetÅrsinntekt.kilde],
                         inntekterFraAOrdningen: arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen?.map(
                             (inntekt) => ({
                                 ...inntekt,

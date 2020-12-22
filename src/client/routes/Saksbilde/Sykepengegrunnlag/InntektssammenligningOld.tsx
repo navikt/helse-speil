@@ -45,30 +45,26 @@ const Divider = styled.hr`
     margin: 0.25rem 0;
 `;
 
-const InntektssammenligningOld = ({ inntektskilde, årsinntektAordning, årsinntektInntektsmelding }: Props) => {
-    return (
-        <Sammenligning>
-            <div />
-            <Kategoritittel>Inntektsgrunnlag</Kategoritittel>
-            <Kategoritittel>Sammenligningsgrunnlag</Kategoritittel>
-            <Kolonnetittel>Inntektskilde</Kolonnetittel>
-            <Kolonnetittel>Omregnet årsinntekt</Kolonnetittel>
-            <Kolonnetittel>Rapportert årsinntekt</Kolonnetittel>
-            <Normaltekst>{inntektskilde}</Normaltekst>
-            <InntektMedKilde>
-                <Normaltekst>{somPenger(årsinntektInntektsmelding)}</Normaltekst>
-                <Kilde>IM</Kilde>
-            </InntektMedKilde>
-            <InntektMedKilde>
-                <Normaltekst>{somPenger(årsinntektAordning)}</Normaltekst>
-                <Kilde>Ao</Kilde>
-            </InntektMedKilde>
-            <Divider />
-            <Element>Total</Element>
-            <Element>{somPenger(årsinntektInntektsmelding)}</Element>
-            <Element>{somPenger(årsinntektAordning)}</Element>
-        </Sammenligning>
-    );
-};
-
-export default InntektssammenligningOld;
+export const InntektssammenligningOld = ({ inntektskilde, årsinntektAordning, årsinntektInntektsmelding }: Props) => (
+    <Sammenligning>
+        <div />
+        <Kategoritittel>Inntektsgrunnlag</Kategoritittel>
+        <Kategoritittel>Sammenligningsgrunnlag</Kategoritittel>
+        <Kolonnetittel>Inntektskilde</Kolonnetittel>
+        <Kolonnetittel>Omregnet årsinntekt</Kolonnetittel>
+        <Kolonnetittel>Rapportert årsinntekt</Kolonnetittel>
+        <Normaltekst>{inntektskilde}</Normaltekst>
+        <InntektMedKilde>
+            <Normaltekst>{somPenger(årsinntektInntektsmelding)}</Normaltekst>
+            <Kilde>IM</Kilde>
+        </InntektMedKilde>
+        <InntektMedKilde>
+            <Normaltekst>{somPenger(årsinntektAordning)}</Normaltekst>
+            <Kilde>Ao</Kilde>
+        </InntektMedKilde>
+        <Divider />
+        <Element>Total</Element>
+        <Element>{somPenger(årsinntektInntektsmelding)}</Element>
+        <Element>{somPenger(årsinntektAordning)}</Element>
+    </Sammenligning>
+);

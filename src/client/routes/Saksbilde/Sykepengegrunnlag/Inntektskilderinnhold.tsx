@@ -60,7 +60,9 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
             <FlexColumn>
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
-                    <Tittel>Arbeidsgiver ({inntektskilder[0].organisasjonsnummer})</Tittel>
+                    <Tittel>
+                        {inntektskilder[0].arbeidsgiver} ({inntektskilder[0].organisasjonsnummer})
+                    </Tittel>
                     <Kilde>Aa</Kilde>
                 </Arbeidsgivertittel>
                 <HeaderContainer>

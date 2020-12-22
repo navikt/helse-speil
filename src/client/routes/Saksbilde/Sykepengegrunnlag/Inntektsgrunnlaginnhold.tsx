@@ -42,6 +42,7 @@ const Kategoritittel = styled(Element)`
 `;
 
 const Kolonnetittel = styled(Undertekst)`
+    margin-left: 0.25rem;
     color: #3e3832;
 `;
 
@@ -56,10 +57,10 @@ const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag }: InntektsgrunnlaginnholdPr
             <Kolonnetittel>Rapportert årsinntekt</Kolonnetittel>
             {inntektsgrunnlag.inntekter.map((inntekt) => (
                 <Inntektssammenligning
-                    arbeidsgiver={`Arbeidsgiver (${inntekt.arbeidsgiver})`}
+                    arbeidsgiver={`${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`}
                     omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
                     sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
-                    erGjeldende={inntektsgrunnlag.gjeldendeArbeidsgiver === inntekt.arbeidsgiver}
+                    erGjeldende={inntektsgrunnlag.organisasjonsnummer === inntekt.organisasjonsnummer}
                 />
             ))}
             <Divider />

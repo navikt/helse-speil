@@ -72,6 +72,7 @@ export class PersonBuilder {
         this.person.arbeidsgivere = this.unmapped.arbeidsgivere
             .map((unmappedArbeidsgiver) => {
                 const { arbeidsgiver, problems } = new ArbeidsgiverBuilder()
+                    .addPerson(this.unmapped)
                     .addArbeidsgiver(unmappedArbeidsgiver)
                     .addInntektsgrunnlag(this.unmapped.inntektsgrunnlag ?? [])
                     .build();

@@ -1,5 +1,5 @@
 import { Sykepengegrunnlag } from 'internal-types';
-import InntektssammenligningOld from './InntektssammenligningOld';
+import { InntektssammenligningOld } from './InntektssammenligningOld';
 import Avvikssammenligning from './Avvikssammenligning';
 import { Element } from 'nav-frontend-typografi';
 import { somPenger } from '../../../utils/locale';
@@ -21,11 +21,11 @@ const Oppsummering = styled.div`
     }
 `;
 
-const Sykepengegrunnlaginnhold = ({ sykepengegrunnlag, className }: SykepengegrunnlaginnholdProps) => (
+export const Sykepengegrunnlaginnhold = ({ sykepengegrunnlag, className }: SykepengegrunnlaginnholdProps) => (
     <div className={className}>
         {' '}
         <InntektssammenligningOld
-            inntektskilde="Arbeidsgiver"
+            inntektskilde={sykepengegrunnlag.arbeidsgivernavn}
             årsinntektAordning={sykepengegrunnlag.årsinntektFraAording}
             årsinntektInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding!}
         />
@@ -44,5 +44,3 @@ const Sykepengegrunnlaginnhold = ({ sykepengegrunnlag, className }: Sykepengegru
         </Oppsummering>
     </div>
 );
-
-export default Sykepengegrunnlaginnhold;

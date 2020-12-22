@@ -546,6 +546,7 @@ export const mappetPerson: Person = {
                     overstyringer: [],
                     inntektskilder: [
                         {
+                            arbeidsgiver: 'Potetsekk AS',
                             organisasjonsnummer: '987654321',
                             månedsinntekt: 31000,
                             årsinntekt: 372000,
@@ -555,6 +556,7 @@ export const mappetPerson: Person = {
                     ],
                     aktivitetslog: ['Aktivitetsloggvarsel'],
                     sykepengegrunnlag: {
+                        arbeidsgivernavn: 'Potetsekk AS',
                         årsinntektFraAording: 372000,
                         årsinntektFraInntektsmelding: 372000,
                         avviksprosent: 0,

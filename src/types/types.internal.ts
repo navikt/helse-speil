@@ -49,6 +49,7 @@ export interface SykepengegrunnlagVilkår {
 }
 
 export interface Sykepengegrunnlag {
+    arbeidsgivernavn: string;
     sykepengegrunnlag?: number;
     avviksprosent?: number;
     årsinntektFraAording?: number;
@@ -56,6 +57,7 @@ export interface Sykepengegrunnlag {
 }
 
 export interface Inntektskilde {
+    arbeidsgiver: string;
     organisasjonsnummer: string;
     forskuttering: boolean;
     refusjon: boolean;
@@ -288,7 +290,7 @@ export interface OverstyrtDag {
 }
 
 export interface Inntektsgrunnlag {
-    gjeldendeArbeidsgiver: string;
+    organisasjonsnummer: string;
     skjæringstidspunkt: Dayjs;
     sykepengegrunnlag: number;
     omregnetÅrsinntekt: number;
@@ -299,19 +301,20 @@ export interface Inntektsgrunnlag {
 }
 
 export interface Arbeidsgiverinntekt {
-    arbeidsgiver: string;
+    arbeidsgivernavn: string;
+    organisasjonsnummer: string;
     omregnetÅrsinntekt: OmregnetÅrsinntekt;
     sammenligningsgrunnlag?: Sammenligningsgrunnlag;
 }
 
 export interface OmregnetÅrsinntekt {
-    kilde: Inntektkilde;
+    kilde: Inntektskildetype;
     beløp: number;
     månedsbeløp: number;
     inntekterFraAOrdningen?: InntekterFraAOrdningen[]; //kun gyldig for A-ordningen
 }
 
-export enum Inntektkilde {
+export enum Inntektskildetype {
     Saksbehandler = 'Saksbehandler',
     Inntektsmelding = 'Inntektsmelding',
     Infotrygd = 'Infotrygd',

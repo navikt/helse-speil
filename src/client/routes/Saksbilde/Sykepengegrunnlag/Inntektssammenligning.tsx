@@ -3,7 +3,7 @@ import React from 'react';
 import { somPenger } from '../../../utils/locale';
 import styled from '@emotion/styled';
 import { Kilde } from '../../../components/Kilde';
-import { Inntektkilde, OmregnetÅrsinntekt, Sammenligningsgrunnlag } from 'internal-types';
+import { Inntektskildetype, OmregnetÅrsinntekt, Sammenligningsgrunnlag } from 'internal-types';
 
 interface Props {
     arbeidsgiver: string;
@@ -40,15 +40,15 @@ const ArbeidsgiverRad = styled.div<ArbeidsgiverRadProps>`
     }
 `;
 
-const kilde = (kilde: Inntektkilde) => {
+const kilde = (kilde: Inntektskildetype) => {
     switch (kilde) {
-        case Inntektkilde.Saksbehandler:
+        case Inntektskildetype.Saksbehandler:
             return 'SB';
-        case Inntektkilde.Inntektsmelding:
+        case Inntektskildetype.Inntektsmelding:
             return 'IM';
-        case Inntektkilde.Infotrygd:
+        case Inntektskildetype.Infotrygd:
             return 'IT';
-        case Inntektkilde.AOrdningen:
+        case Inntektskildetype.AOrdningen:
             return 'AO';
     }
 };
@@ -61,7 +61,7 @@ const Inntektssammenligning = ({
     className = 'Inntektssammenligning',
 }: Props) => (
     <ArbeidsgiverRad erGjeldende={erGjeldende}>
-        <Normaltekst>{arbeidsgiver}</Normaltekst>
+        <Normaltekst style={{ marginLeft: '0.25rem' }}>{arbeidsgiver}</Normaltekst>
         <InntektMedKilde>
             <Normaltekst>{somPenger(omregnetÅrsinntekt.beløp)}</Normaltekst>
             <Kilde>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>
