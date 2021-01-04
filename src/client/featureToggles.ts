@@ -34,4 +34,4 @@ export const oppdaterPersondataEnabled =
 export const speilTildeling = true;
 export const speilV2 = true;
 export const amplitudeEnabled = true;
-export const utbetalingsoversikt = erUtvikler() || erLocal();
+export const utbetalingsoversikt = erUtvikler() || erLocal() || erEminem();
