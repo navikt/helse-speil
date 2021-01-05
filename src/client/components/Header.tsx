@@ -9,7 +9,6 @@ import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
 import { Link, useHistory } from 'react-router-dom';
 import { speilV2 } from '../featureToggles';
-import { tre, lue } from './julepakke';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -18,26 +17,6 @@ const Container = styled.div`
     > header {
         max-width: unset;
         box-sizing: border-box;
-        h1 {
-            a {
-                display: flex;
-                align-items: center;
-                position: relative;
-                ::before {
-                    content: '';
-                    position: absolute;
-                    background: no-repeat center/100% url(${lue});
-                    height: 15px;
-                    width: 15px;
-                    left: -8.5px;
-                    top: 13px;
-                    transform: rotate(-18deg);
-                }
-            }
-        }
-        img {
-            width: 50px;
-        }
     }
 `;
 
@@ -65,14 +44,7 @@ export const Header = () => {
 
     return (
         <Container>
-            <HeaderEnkel
-                tittel={
-                    <Link to="/">
-                        NAV <img src={tre} /> Sykepenger
-                    </Link>
-                }
-                brukerinfo={brukerinfo}
-            >
+            <HeaderEnkel tittel={<Link to="/">NAV Sykepenger</Link>} brukerinfo={brukerinfo}>
                 <Søk onSøk={onSøk} />
             </HeaderEnkel>
         </Container>
