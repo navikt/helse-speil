@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import ReactModal from 'react-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { hot } from 'react-hot-loader';
 import { Toast } from './components/toasts/Toast';
 import { Header } from './components/Header';
 import { Routes } from './routes';
@@ -14,13 +13,12 @@ import { Opptegnelse } from './routes/Saksbilde/Opptegnelse';
 import { useDebounce } from './hooks/useDebounce';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { OppgaverProvider } from './context/OppgaverContext';
 import { useAuthentication } from './state/authentication';
 import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingshistorikk';
 import { withContextProviders } from './context/withContextProviders';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from './context/PersonContext';
-
+import { hot } from 'react-hot-loader';
 import 'reset-css';
 import './App.less';
 
@@ -63,7 +61,7 @@ const App = withContextProviders(() => {
             </Switch>
         </>
     );
-}, [OppgaverProvider, PersonProvider]);
+}, [PersonProvider]);
 
 const withRoutingAndState = (Component: React.ComponentType) => () => (
     <BrowserRouter>

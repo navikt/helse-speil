@@ -1,18 +1,19 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
 import Panel from 'nav-frontend-paneler';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { useLocation } from 'react-router-dom';
-import { OppgaverContext } from '../../context/OppgaverContext';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { OppgaverTabell } from './OppgaverTabell';
-import { useEmail } from '../../state/authentication';
-import { useRecoilValue } from 'recoil';
 import { Tabs, tabState } from './tabs';
 import { Toast } from '../../components/toasts/Toast';
 import { VedtaksstatusBanner } from '../../components/VedtaksstatusBanner';
 import { useDebounce } from '../../hooks/useDebounce';
+import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
+import { useEmail } from '../../state/authentication';
+import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { Oppgave } from '../../../types';
 
 const Container = styled.div`
     position: relative;
@@ -36,16 +37,24 @@ const Spinner = styled(NavFrontendSpinner)`
 const useFiltrerteOppgaver = () => {
     const email = useEmail();
     const aktivTab = useRecoilValue(tabState);
-    const { oppgaver } = useContext(OppgaverContext);
+    const oppgaver = useRecoilValueLoadable(oppgaverState);
 
-    return aktivTab === 'alle' ? oppgaver : oppgaver.filter((oppgave) => email === oppgave.tildeltTil);
+    return {
+        state: oppgaver.state,
+        contents:
+            oppgaver.state === 'hasValue'
+                ? aktivTab === 'alle'
+                    ? oppgaver.contents
+                    : oppgaver.contents.filter(({ tildeltTil }) => email)
+                : oppgaver.contents,
+    };
 };
 
 export const Oversikt = () => {
     const location = useLocation();
+    const hentOppgaver = useRefetchOppgaver();
     const oppgaver = useFiltrerteOppgaver();
-    const { hentOppgaver, isFetchingOppgaver, error: oppgaverContextError } = useContext(OppgaverContext);
-    const showToast = useDebounce(isFetchingOppgaver);
+    const showToast = useDebounce(oppgaver.state === 'loading');
 
     useVarselFilter(Scopes.OVERSIKT);
 
@@ -60,10 +69,10 @@ export const Oversikt = () => {
                 Henter oppgaver
                 <Spinner type="XS" />
             </Toast>
-            {oppgaverContextError && <Varsel type={Varseltype.Feil}>{oppgaverContextError.message}</Varsel>}
+            {oppgaver.state === 'hasError' && <Varsel type={Varseltype.Feil}>{oppgaver.contents}</Varsel>}
             <Content>
                 <Tabs />
-                <OppgaverTabell oppgaver={oppgaver} />
+                <OppgaverTabell oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : []} />
             </Content>
         </Container>
     );

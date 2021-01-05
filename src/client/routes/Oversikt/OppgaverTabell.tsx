@@ -16,6 +16,8 @@ import { Paginering } from './Paginering';
 import { tabState } from './tabs';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
+import { useEmail } from '../../state/authentication';
+import { oppgaverState } from '../../state/oppgaver';
 
 const Oversiktstabell = styled(Tabell)`
     table-layout: fixed;
@@ -70,11 +72,7 @@ const useOppdaterTildelingsfilterVedFanebytte = (filtrering: UseTabellFiltrering
     }, [aktivTab, cachedFilter]);
 };
 
-interface Props {
-    oppgaver: Oppgave[];
-}
-
-export const OppgaverTabell: React.FunctionComponent<Props> = ({ oppgaver }) => {
+export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     const aktivTab = useRecoilValue(tabState);
 
     const headere = [
