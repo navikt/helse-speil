@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Oppgave, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
 import { NORSK_DATOFORMAT } from '../../utils/date';
@@ -11,10 +11,8 @@ import { somDato } from '../../mapping/vedtaksperiode';
 import { Tabellrad } from '@navikt/helse-frontend-tabell';
 import { speilV2 } from '../../featureToggles';
 import { useEmail } from '../../state/authentication';
-import { useOppgavetildeling } from '../../hooks/useOppgavetildeling';
-import { OppgaverContext } from '../../context/OppgaverContext';
 import { Flatknapp } from 'nav-frontend-knapper';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
+import { useFjernTildeling } from '../../state/oppgaver';
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
@@ -118,24 +116,13 @@ const Status = ({ oppgave }: { oppgave: Oppgave }) => (
 
 const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
     const email = useEmail();
-    const { fjernTildeling } = useOppgavetildeling();
-    const { leggTilVarsel } = useUpdateVarsler();
-    const { markerOppgaveSomTildelt } = useContext(OppgaverContext);
-    const tildelingsvarsel = (message: string) => ({ message, type: Varseltype.Advarsel });
+    const fjernTildeling = useFjernTildeling();
     const erTildeltInnloggetBruker = oppgave.tildeltTil === email;
-
-    const meldAvTildeling = () => {
-        fjernTildeling(oppgave.oppgavereferanse)
-            .then(() => markerOppgaveSomTildelt(oppgave))
-            .catch(() => {
-                leggTilVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
-            });
-    };
 
     return (
         <CellContainer>
             {erTildeltInnloggetBruker ? (
-                <Flatknapp mini tabIndex={0} onClick={meldAvTildeling}>
+                <Flatknapp mini tabIndex={0} onClick={() => fjernTildeling(oppgave)}>
                     Meld av
                 </Flatknapp>
             ) : (

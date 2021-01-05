@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
 import Panel from 'nav-frontend-paneler';
@@ -38,6 +38,13 @@ const useFiltrerteOppgaver = () => {
     const email = useEmail();
     const aktivTab = useRecoilValue(tabState);
     const oppgaver = useRecoilValueLoadable(oppgaverState);
+    const [cache, setCache] = useState<Oppgave[]>([]);
+
+    useEffect(() => {
+        if (oppgaver.state === 'hasValue') {
+            setCache(oppgaver.contents);
+        }
+    }, [oppgaver.state]);
 
     return {
         state: oppgaver.state,
@@ -47,6 +54,7 @@ const useFiltrerteOppgaver = () => {
                     ? oppgaver.contents
                     : oppgaver.contents.filter(({ tildeltTil }) => email)
                 : oppgaver.contents,
+        cache: cache,
     };
 };
 
@@ -72,7 +80,9 @@ export const Oversikt = () => {
             {oppgaver.state === 'hasError' && <Varsel type={Varseltype.Feil}>{oppgaver.contents}</Varsel>}
             <Content>
                 <Tabs />
-                <OppgaverTabell oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : []} />
+                <OppgaverTabell
+                    oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
+                />
             </Content>
         </Container>
     );

@@ -1,43 +1,29 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useEmail } from '../../../state/authentication';
-import { useOppgavetildeling } from '../../../hooks/useOppgavetildeling';
-import { useUpdateVarsler } from '../../../state/varslerState';
-import { PersonContext } from '../../../context/PersonContext';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { DropdownMenyknapp } from './Verktøylinje';
+import { useFjernTildeling, useTildelOppgave } from '../../../state/oppgaver';
+import { Oppgave } from '../../../../types';
 
-export const Tildelingsknapp = ({
-    oppgavereferanse,
-    tildeltTil,
-}: {
+interface TildelingsknappProps {
     oppgavereferanse: string;
     tildeltTil: string | undefined;
-}) => {
+}
+
+export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: TildelingsknappProps) => {
     const email = useEmail();
-    const { fjernTildeling, tildelOppgave } = useOppgavetildeling();
-    const { leggTilVarsel } = useUpdateVarsler();
-    const { markerPersonSomTildelt } = useContext(PersonContext);
-    const tildelingsvarsel = (message: string) => ({ message, type: Varseltype.Advarsel });
+    const tildelOppgave = useTildelOppgave();
+    const fjernTildeling = useFjernTildeling();
     const erTildeltInnloggetBruker = tildeltTil === email;
 
-    const meldAvTildeling = () => {
-        fjernTildeling(oppgavereferanse)
-            .then(() => markerPersonSomTildelt(email))
-            .catch(() => {
-                leggTilVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
-            });
-    };
-
-    const tildel = () => {
-        tildelOppgave(oppgavereferanse, email!)
-            .then(() => markerPersonSomTildelt(email))
-            .catch((assignedUser) => markerPersonSomTildelt(assignedUser));
-    };
-
     return erTildeltInnloggetBruker ? (
-        <DropdownMenyknapp onClick={meldAvTildeling}>Meld av {erTildeltInnloggetBruker} </DropdownMenyknapp>
+        <DropdownMenyknapp onClick={() => fjernTildeling({ oppgavereferanse } as Oppgave)}>
+            Meld av {erTildeltInnloggetBruker}{' '}
+        </DropdownMenyknapp>
     ) : (
-        <DropdownMenyknapp onClick={tildel} disabled={tildeltTil !== undefined}>
+        <DropdownMenyknapp
+            onClick={() => tildelOppgave({ oppgavereferanse } as Oppgave, email!)}
+            disabled={tildeltTil !== undefined}
+        >
             Tildel meg
         </DropdownMenyknapp>
     );

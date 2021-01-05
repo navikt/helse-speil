@@ -18,6 +18,7 @@ import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingsh
 import { withContextProviders } from './context/withContextProviders';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from './context/PersonContext';
+import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingshistorikk';
 import { hot } from 'react-hot-loader';
 import 'reset-css';
 import './App.less';
