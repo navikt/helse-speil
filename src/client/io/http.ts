@@ -150,3 +150,15 @@ export const deleteTildeling = async (oppgavereferanse: string) => {
         return del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
     }
 };
+
+export const postAbonnerPåAktør = async (aktørId: string) => {
+    return post(`${baseUrl}/opptegnelse/abonner/${aktørId}`, {});
+};
+
+export const getAlleOpptegnelser = async () => {
+    return get(`${baseUrl}/opptegnelse/hent`);
+};
+
+export const getOpptegnelser = async (sisteSekvensId: string) => {
+    return get(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`);
+};

@@ -10,17 +10,19 @@ import { Varsler } from './components/Varsler';
 import { Oversikt } from './routes/Oversikt';
 import { Saksbilde } from './routes/Saksbilde/Saksbilde';
 import { RecoilRoot } from 'recoil';
+import { Opptegnelse } from './routes/Saksbilde/Opptegnelse';
 import { useDebounce } from './hooks/useDebounce';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { OppgaverProvider } from './context/OppgaverContext';
 import { useAuthentication } from './state/authentication';
+import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingshistorikk';
 import { withContextProviders } from './context/withContextProviders';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from './context/PersonContext';
+
 import 'reset-css';
 import './App.less';
-import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingshistorikk';
 
 ReactModal.setAppElement('#root');
 
@@ -54,6 +56,9 @@ const App = withContextProviders(() => {
                 </ProtectedRoute>
                 <ProtectedRoute path={Routes.Saksbilde}>
                     <Saksbilde />
+                </ProtectedRoute>
+                <ProtectedRoute path={Routes.OpptengelseTest}>
+                    <Opptegnelse />
                 </ProtectedRoute>
             </Switch>
         </>

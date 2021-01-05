@@ -22,12 +22,14 @@ import devOverstyringClient from './overstyring/devOverstyringClient';
 import tildelingClient from './tildeling/tildelingClient';
 import devTildelingClient from './tildeling/devTildelingClient';
 import dummyClient from './dummy/dummyClient';
-
-import { Express } from 'express';
-import { RedisClient } from 'redis';
 import devDummyClient from './dummy/devDummyClient';
 import { personClient } from './person/personClient';
 import { devPersonClient } from './adapters/devPersonClient';
+import opptegnelseClient from './opptegnelse/opptegnelseClient';
+import devOpptegnelseClient from './opptegnelse/devOpptegnelseClient';
+
+import { Express } from 'express';
+import { RedisClient } from 'redis';
 
 const getDependencies = (app: Express) =>
     process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
@@ -51,6 +53,7 @@ const getDevDependencies = (app: Express) => {
         redisClient: devRedisClient,
         overstyring: { overstyringClient: devOverstyringClient },
         tildeling: { tildelingClient: devTildelingClient },
+        opptegnelse: { opptegnelseClient: devOpptegnelseClient },
         dummy: { dummyClient: devDummyClient },
     };
 };
@@ -68,6 +71,7 @@ const getProdDependencies = (app: Express) => {
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     const _spesialistClient = spesialistClient(instrumentation);
     const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
+    const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
     return {
         person: {
             sparkelClient,
@@ -83,6 +87,7 @@ const getProdDependencies = (app: Express) => {
         redisClient: _redisClient,
         overstyring: { overstyringClient: _overstyringClient },
         tildeling: { tildelingClient: _tildelingClient },
+        opptegnelse: { opptegnelseClient: _opptegnelseClient },
         dummy: { dummyClient: _dummyClient },
     };
 };

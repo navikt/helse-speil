@@ -20,6 +20,7 @@ import overstyringRoutes from './overstyring/overstyringRoutes';
 import tildelingRoutes from './tildeling/tildelingRoutes';
 import { SpeilRequest } from './types';
 import dummyRoutes from './dummy/dummyRoutes';
+import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
 
 const app = express();
 const port = config.server.port;
@@ -128,6 +129,7 @@ app.use('/api/payments', paymentRoutes(dependencies.payments));
 app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
 app.use('/api/tildeling', tildelingRoutes(dependencies.tildeling));
 app.use('/api/dummy', dummyRoutes(dependencies.dummy));
+app.use('/api/opptegnelse', opptegnelseRoutes(dependencies.opptegnelse));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {

@@ -7,4 +7,5 @@ export const Routes = {
     Saksbilde: routeForMiljø('/person/:aktorId'),
     Uatutorisert: routeForMiljø('/uautorisert'),
     TildelingTest: routeForMiljø('/boomer'),
+    OpptengelseTest: routeForMiljø('/remoob'),
 };
