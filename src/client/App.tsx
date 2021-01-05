@@ -14,7 +14,6 @@ import { useDebounce } from './hooks/useDebounce';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthentication } from './state/authentication';
-import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingshistorikk';
 import { withContextProviders } from './context/withContextProviders';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from './context/PersonContext';
