@@ -52,7 +52,7 @@ const useFiltrerteOppgaver = () => {
             oppgaver.state === 'hasValue'
                 ? aktivTab === 'alle'
                     ? oppgaver.contents
-                    : oppgaver.contents.filter(({ tildeltTil }) => email)
+                    : oppgaver.contents.filter(({ tildeltTil }) => tildeltTil === email)
                 : oppgaver.contents,
         cache: cache,
     };
@@ -65,6 +65,8 @@ export const Oversikt = () => {
     const showToast = useDebounce(oppgaver.state === 'loading');
 
     useVarselFilter(Scopes.OVERSIKT);
+
+    console.log(oppgaver.state);
 
     useEffect(() => {
         hentOppgaver();
