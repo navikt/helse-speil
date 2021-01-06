@@ -57,7 +57,13 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true }: P
     };
 
     useEffect(() => {
-        didCopy && setTimeout(() => setDidCopy(false), 2000);
+        let timeout: NodeJS.Timeout | null = null;
+        if (didCopy) {
+            timeout = setTimeout(() => setDidCopy(false), 2000);
+        }
+        return () => {
+            timeout && clearTimeout(timeout);
+        };
     }, [didCopy]);
 
     return (
