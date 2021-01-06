@@ -14,7 +14,6 @@ import { useDebounce } from './hooks/useDebounce';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthentication } from './state/authentication';
-import { withContextProviders } from './context/withContextProviders';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PersonContext, PersonProvider } from './context/PersonContext';
 import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingshistorikk';
@@ -28,7 +27,7 @@ const Spinner = styled(NavFrontendSpinner)`
     margin-left: 1rem;
 `;
 
-const App = withContextProviders(() => {
+const App = () => {
     useAuthentication();
     const { isFetching } = useContext(PersonContext);
 
@@ -61,12 +60,14 @@ const App = withContextProviders(() => {
             </Switch>
         </>
     );
-}, [PersonProvider]);
+};
 
 const withRoutingAndState = (Component: React.ComponentType) => () => (
     <BrowserRouter>
         <RecoilRoot>
-            <Component />
+            <PersonProvider>
+                <Component />
+            </PersonProvider>
         </RecoilRoot>
     </BrowserRouter>
 );
