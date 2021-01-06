@@ -48,9 +48,11 @@ export const oppgaverState = selector<Oppgave[]>({
 export const useRefetchOppgaver = () => {
     const fetchIntervalInSeconds = 5;
     const [key, setKey] = useRecoilState(oppgaverStateRefetchKey);
+    const setTildelinger = useSetRecoilState(tildelingerState);
     return () => {
         const newKey = new Date();
         if (newKey.getSeconds() - key.getSeconds() > fetchIntervalInSeconds) {
+            setTildelinger({});
             setKey(newKey);
         }
     };

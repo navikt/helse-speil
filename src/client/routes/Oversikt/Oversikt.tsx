@@ -66,8 +66,6 @@ export const Oversikt = () => {
 
     useVarselFilter(Scopes.OVERSIKT);
 
-    console.log(oppgaver.state);
-
     useEffect(() => {
         hentOppgaver();
     }, [location.key]);
