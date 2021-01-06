@@ -10,10 +10,10 @@ import { utbetalingsoversikt } from '../featureToggles';
 // Optional personinfo fra Sparkel kan fjernes når vi ikke lenger
 // kan komme til å hente person fra Spesialist som mangler kjønn
 // (og fødselsdato, som vi ikke bruker ennå)
-export const mapPerson = async (
+export const mapPerson = (
     personFraSpesialist: SpesialistPerson,
     personinfoFraSparkel?: PersoninfoFraSparkel
-): Promise<{ person: Person; problems: Error[] }> => {
+): { person: Person; problems: Error[] } => {
     const { person, problems } = new PersonBuilder()
         .addPerson(personFraSpesialist)
         .addPersoninfo(personinfoFraSparkel)
