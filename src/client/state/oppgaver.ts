@@ -1,4 +1,4 @@
-import { atom, selector, useRecoilState, useSetRecoilState } from 'recoil';
+import { atom, selector, useSetRecoilState } from 'recoil';
 import { Oppgave } from '../../types';
 import { deleteTildeling, fetchOppgaver, postTildeling } from '../io/http';
 import { useUpdateVarsler } from './varslerState';
@@ -46,15 +46,11 @@ export const oppgaverState = selector<Oppgave[]>({
 });
 
 export const useRefetchOppgaver = () => {
-    const fetchIntervalInSeconds = 5;
-    const [key, setKey] = useRecoilState(oppgaverStateRefetchKey);
+    const setKey = useSetRecoilState(oppgaverStateRefetchKey);
     const setTildelinger = useSetRecoilState(tildelingerState);
     return () => {
-        const newKey = new Date();
-        if (newKey.getSeconds() - key.getSeconds() > fetchIntervalInSeconds) {
-            setTildelinger({});
-            setKey(newKey);
-        }
+        setTildelinger({});
+        setKey(new Date());
     };
 };
 

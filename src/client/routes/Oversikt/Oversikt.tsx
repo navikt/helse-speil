@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { DependencyList, EffectCallback, useEffect, useRef, useState } from 'react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
 import Panel from 'nav-frontend-paneler';
@@ -59,7 +59,6 @@ const useFiltrerteOppgaver = () => {
 };
 
 export const Oversikt = () => {
-    const location = useLocation();
     const hentOppgaver = useRefetchOppgaver();
     const oppgaver = useFiltrerteOppgaver();
     const showToast = useDebounce(oppgaver.state === 'loading');
@@ -67,8 +66,10 @@ export const Oversikt = () => {
     useVarselFilter(Scopes.OVERSIKT);
 
     useEffect(() => {
-        hentOppgaver();
-    }, [location.key]);
+        if (oppgaver.state !== 'loading') {
+            hentOppgaver();
+        }
+    }, []);
 
     return (
         <Container>
