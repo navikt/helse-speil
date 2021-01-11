@@ -6,7 +6,7 @@ export interface TildelingClient {
     fjernTildeling: (tildeling: Tildeling, speilToken: string) => Promise<Response>;
 }
 
-interface Tildeling {
+export interface Tildeling {
     oppgavereferanse: string;
 }
 

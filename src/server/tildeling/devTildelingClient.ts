@@ -1,7 +1,10 @@
+import request from 'request-promise-native';
+import { Tildeling } from './tildelingClient';
+
 export default {
-    postTildeling: async (): Promise<any> =>
+    postTildeling: async (tildeling: Tildeling): Promise<any> =>
         Math.random() < 0.5
-            ? Promise.resolve()
+            ? request.post(`http://localhost:9001/api/v1/tildeling/${tildeling.oppgavereferanse}`)
             : Promise.reject({
                   feilkode: 409,
                   kildesystem: 'mockSpesialist',
