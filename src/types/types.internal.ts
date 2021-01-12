@@ -24,13 +24,6 @@ export interface Søknadsfrist extends Basisvilkår {
     sendtNav?: Dayjs;
 }
 
-export enum OppgaveType {
-    Forlengelse = 'FORLENGELSE',
-    Førstegangsbehandling = 'FØRSTEGANGSBEHANDLING',
-    Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
-    OvergangFraInfotrygd = 'OVERGANG_FRA_IT',
-}
-
 export interface Opptjening extends Basisvilkår {
     antallOpptjeningsdagerErMinst: number;
     opptjeningFra: Dayjs;
@@ -157,6 +150,11 @@ export enum Periodetype {
     Forlengelse = 'forlengelse',
     Infotrygdforlengelse = 'infotrygdForlengelse',
     Førstegangsbehandling = 'førstegangsbehandling',
+}
+
+export enum Oppgavetype {
+    Søknad = 'SØKNAD',
+    Stikkprøve = 'STIKKPRØVE',
 }
 
 export enum Vedtaksperiodetilstand {
