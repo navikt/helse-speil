@@ -1,26 +1,27 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { Flex, FlexColumn } from '../../components/Flex';
-import { Tidslinje } from '../../components/tidslinje';
-import { Personlinje } from '../../components/Personlinje';
-import { PersonContext } from '../../context/PersonContext';
-import { useRefetchPersonOnUrlChange } from '../../hooks/useRefetchPersonOnUrlChange';
+import { LasterTidslinje, Tidslinje } from '../../components/tidslinje';
+import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import { Vilkår } from './Vilkår/Vilkår';
 import { Utbetaling } from './Utbetaling/Utbetaling';
 import { Sykepengegrunnlag } from './Sykepengegrunnlag/Sykepengegrunnlag';
 import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
 import { Toppvarsler } from '../../components/Toppvarsler';
-import LoggProvider from '../../context/logg/LoggProvider';
+import { LoggProvider } from '../../context/logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import { Sakslinje } from './sakslinje/Sakslinje';
 import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
-import '@navikt/helse-frontend-logg/lib/main.css';
 import { AmplitudeProvider } from './AmplitudeContext';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { Person } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+import { usePerson } from '../../state/person';
+import { useRefreshPerson } from '../../hooks/useRefreshPerson';
+import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
+import '@navikt/helse-frontend-logg/lib/main.css';
 
 const Container = styled.div`
     display: flex;
@@ -83,6 +84,13 @@ const LoggListe = styled(EksternLoggliste)`
     }
 `;
 
+export const LasterSaksbilde = () => (
+    <Container className="saksbilde">
+        <LasterPersonlinje />
+        <LasterTidslinje />
+    </Container>
+);
+
 const TomtSaksbilde = ({ person }: { person: Person }) => (
     <Container className="saksbilde">
         <LoggProvider>
@@ -97,14 +105,14 @@ const TomtSaksbilde = ({ person }: { person: Person }) => (
 );
 
 export const Saksbilde = () => {
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
+    const personTilBehandling = usePerson();
     const { path } = useRouteMatch();
 
     useVarselFilter(Scopes.SAKSBILDE);
+    useRefreshPerson();
 
-    useRefetchPersonOnUrlChange();
-
-    if (!personTilBehandling) return <div />;
+    if (!personTilBehandling) return <LasterSaksbilde />;
     if (!aktivVedtaksperiode) return <TomtSaksbilde person={personTilBehandling} />;
 
     return (
@@ -130,7 +138,7 @@ export const Saksbilde = () => {
                                             <Sykmeldingsperiode />
                                         </Route>
                                         <Route path={`${path}/vilkår`}>
-                                            <Vilkår />
+                                            <Vilkår vedtaksperiode={aktivVedtaksperiode} person={personTilBehandling} />
                                         </Route>
                                         <Route path={`${path}/sykepengegrunnlag`}>
                                             <Sykepengegrunnlag />
@@ -147,3 +155,5 @@ export const Saksbilde = () => {
         </Container>
     );
 };
+
+export default { Saksbilde, LasterSaksbilde };

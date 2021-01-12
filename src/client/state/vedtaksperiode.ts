@@ -1,30 +1,28 @@
-import { atom, selector, useSetRecoilState } from 'recoil';
-import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
+import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
+import { Vedtaksperiode } from 'internal-types';
 import { personState } from './person';
 
-const aktivVedtaksperiodeId = atom<string | undefined>({
-    key: 'aktivVedtaksperiodeId',
+export const aktivVedtaksperiodeIdState = atom<string | undefined>({
+    key: 'aktivVedtaksperiodeIdState',
     default: undefined,
 });
 
 export const aktivVedtaksperiodeState = selector<Vedtaksperiode | undefined>({
     key: 'aktivVedtaksperiodeState',
     get: async ({ get }) => {
-        const state = await get(personState);
-        const periodeId = get(aktivVedtaksperiodeId);
+        const person = get(personState)?.person;
+        const periodeId = get(aktivVedtaksperiodeIdState) ?? person?.arbeidsgivere[0]?.vedtaksperioder[0]?.id;
 
-        if (!state || !periodeId) return undefined;
-
-        return state.person.arbeidsgivere.reduce(
-            (vedtaksperiode: Vedtaksperiode, { vedtaksperioder }: Arbeidsgiver) =>
-                vedtaksperiode ??
-                (vedtaksperioder.find(({ id, kanVelges }) => kanVelges && id === periodeId) as Vedtaksperiode),
-            undefined
-        );
+        return person && periodeId
+            ? person.arbeidsgivere.reduce(
+                  (periode: Vedtaksperiode, { vedtaksperioder }) =>
+                      periode ?? vedtaksperioder.find(({ id }) => id === periodeId),
+                  undefined
+              )
+            : undefined;
     },
 });
 
-export const useSetAktivVedtaksperiode = () => {
-    const setAktivVedtaksperiodeId = useSetRecoilState(aktivVedtaksperiodeId);
-    return (id: string) => setAktivVedtaksperiodeId(id);
-};
+export const useSetAktivVedtaksperiode = () => useSetRecoilState(aktivVedtaksperiodeIdState);
+
+export const useAktivVedtaksperiode = () => useRecoilValue(aktivVedtaksperiodeState);

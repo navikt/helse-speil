@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import ReactModal from 'react-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
@@ -7,7 +7,7 @@ import { Header } from './components/Header';
 import { Routes } from './routes';
 import { Varsler } from './components/Varsler';
 import { Oversikt } from './routes/Oversikt';
-import { Saksbilde } from './routes/Saksbilde/Saksbilde';
+import { LasterSaksbilde, Saksbilde } from './routes/Saksbilde/Saksbilde';
 import { RecoilRoot } from 'recoil';
 import { Opptegnelse } from './routes/Saksbilde/Opptegnelse';
 import { useDebounce } from './hooks/useDebounce';
@@ -15,8 +15,8 @@ import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthentication } from './state/authentication';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { PersonContext, PersonProvider } from './context/PersonContext';
 import { Utbetalingshistorikk } from './routes/Utbetalingshistorikk/Utbetalingshistorikk';
+import { useIsLoadingPerson } from './state/person';
 import { hot } from 'react-hot-loader';
 import 'reset-css';
 import './App.less';
@@ -29,9 +29,8 @@ const Spinner = styled(NavFrontendSpinner)`
 
 const App = () => {
     useAuthentication();
-    const { isFetching } = useContext(PersonContext);
-
-    const showToast = useDebounce(isFetching);
+    const isLoading = useIsLoadingPerson();
+    const showToast = useDebounce(isLoading);
 
     return (
         <>
@@ -52,7 +51,9 @@ const App = () => {
                     <Utbetalingshistorikk />
                 </ProtectedRoute>
                 <ProtectedRoute path={Routes.Saksbilde}>
-                    <Saksbilde />
+                    <React.Suspense fallback={<LasterSaksbilde />}>
+                        <Saksbilde />
+                    </React.Suspense>
                 </ProtectedRoute>
                 <ProtectedRoute path={Routes.OpptengelseTest}>
                     <Opptegnelse />
@@ -65,9 +66,7 @@ const App = () => {
 const withRoutingAndState = (Component: React.ComponentType) => () => (
     <BrowserRouter>
         <RecoilRoot>
-            <PersonProvider>
-                <Component />
-            </PersonProvider>
+            <Component />
         </RecoilRoot>
     </BrowserRouter>
 );

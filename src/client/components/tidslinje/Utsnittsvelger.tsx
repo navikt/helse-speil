@@ -42,12 +42,6 @@ const ValgtUtsnittIndikator = styled.div<{ valgt?: boolean }>`
     `}
 `;
 
-interface UtsnittsvelgerProps {
-    utsnitt: Tidslinjeutsnitt[];
-    aktivtUtsnitt: number;
-    setAktivtUtsnitt: (index: number) => void;
-}
-
 const useButtonWidth = () => {
     const ref = useRef<HTMLButtonElement>(null);
     const [width, setWidth] = useState<number>(0);
@@ -67,6 +61,21 @@ const useButtonWidths = () => {
     const { width: w3, ref: r3 } = useButtonWidth();
     return { widths: [w1, w2, w3], refs: [r1, r2, r3] };
 };
+
+interface UtsnittsvelgerProps {
+    utsnitt: Tidslinjeutsnitt[];
+    aktivtUtsnitt: number;
+    setAktivtUtsnitt: (index: number) => void;
+}
+
+export const LasterUtsnittsvelger = () => (
+    <Container>
+        <Togglegruppe toggles={[{ render: '6 mnd' }, { render: '1 år' }, { render: '3 år' }]} />
+        <Flex style={{ width: '100%', marginTop: '10px' }} alignItems="center">
+            <Separator />
+        </Flex>
+    </Container>
+);
 
 export const Utsnittsvelger = ({ utsnitt, aktivtUtsnitt, setAktivtUtsnitt }: UtsnittsvelgerProps) => {
     const { widths, refs } = useButtonWidths();

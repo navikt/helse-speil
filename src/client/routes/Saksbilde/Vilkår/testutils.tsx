@@ -5,7 +5,6 @@ import { SpesialistArbeidsgiver, SpleisForlengelseFraInfotrygd, SpleisVedtaksper
 import { mappetPerson } from 'test-data';
 import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { render, screen, within } from '@testing-library/react';
-import { defaultPersonContext, PersonContext } from '../../../context/PersonContext';
 import { Vilkår } from './Vilkår';
 import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
@@ -143,17 +142,7 @@ export const personMedModifiserteVilkår = async ({
 };
 
 export const renderVilkår = (person: Person) =>
-    render(
-        <PersonContext.Provider
-            value={{
-                ...defaultPersonContext,
-                personTilBehandling: person,
-                aktivVedtaksperiode: person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode,
-            }}
-        >
-            <Vilkår />
-        </PersonContext.Provider>
-    );
+    render(<Vilkår person={person} vedtaksperiode={person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode} />);
 
 export const expectGroupToContainVisible = (groupName: Group, ...ids: TestId[]) => {
     const group = screen.getByTestId(groupName);
@@ -200,23 +189,23 @@ export const enSpeilVedtaksperiode = async ({
 
 const harVilkårstype = (vilkårstype: Vilkårstype) => (vilkårdata: Vilkårdata) => vilkårdata.type === vilkårstype;
 
+const assertHarVilkår = (key: keyof KategoriserteVilkår, type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
+    expect(result.current[key]?.filter(harVilkårstype(type))).toHaveLength(1);
+
 export const assertHarOppfyltVilkår = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
-    expect(result.current.oppfylteVilkår?.filter(harVilkårstype(type))).toHaveLength(1);
+    assertHarVilkår('oppfylteVilkår', type, result);
 
 export const assertHarIkkeOppfyltVilkår = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
-    expect(result.current.ikkeOppfylteVilkår?.filter(harVilkårstype(type))).toHaveLength(1);
-
-export const assertHarIkkeVurdertVilkår = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
-    expect(result.current.ikkeVurderteVilkår?.filter(harVilkårstype(type))).toHaveLength(1);
+    assertHarVilkår('ikkeOppfylteVilkår', type, result);
 
 export const assertHarAutomatiskVurdertVilkår = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
-    expect(result.current.vilkårVurdertAutomatisk?.filter(harVilkårstype(type))).toHaveLength(1);
+    assertHarVilkår('vilkårVurdertAutomatisk', type, result);
 
 export const assertHarVilkårVurdertAvSaksbehandler = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
-    expect(result.current.vilkårVurdertAvSaksbehandler?.filter(harVilkårstype(type))).toHaveLength(1);
+    assertHarVilkår('vilkårVurdertAvSaksbehandler', type, result);
 
 export const assertHarVilkårVurdertIInfotrygd = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
-    expect(result.current.vilkårVurdertIInfotrygd?.filter(harVilkårstype(type))).toHaveLength(1);
+    assertHarVilkår('vilkårVurdertIInfotrygd', type, result);
 
 export const assertHarVilkårVurdertFørstePeriode = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
-    expect(result.current.vilkårVurdertFørstePeriode?.filter(harVilkårstype(type))).toHaveLength(1);
+    assertHarVilkår('vilkårVurdertFørstePeriode', type, result);

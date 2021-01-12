@@ -32,9 +32,11 @@ const Separator = styled(Normaltekst)`
 
 const Lenke = styled(Link)`
     color: inherit;
+
     &:hover {
         text-decoration: none;
     }
+
     &:active,
     &:focus-visible {
         outline: none;
@@ -45,7 +47,7 @@ const Lenke = styled(Link)`
     }
 `;
 
-const Kjønnsikon = ({ kjønn }: { kjønn: string }) => {
+const Kjønnsikon = ({ kjønn }: { kjønn: 'kvinne' | 'mann' | 'ukjent' }) => {
     switch (kjønn.toLowerCase()) {
         case 'kvinne':
             return <Kvinneikon />;
@@ -59,6 +61,47 @@ const Kjønnsikon = ({ kjønn }: { kjønn: string }) => {
 interface PersonlinjeProps {
     person?: Person;
 }
+
+const LoadingText = styled.div`
+    @keyframes placeHolderShimmer {
+        0% {
+            background-position: -468px 0;
+        }
+        100% {
+            background-position: 468px 0;
+        }
+    }
+
+    animation-duration: 1.25s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: transparent;
+    background: linear-gradient(to right, transparent 0%, #eaeaea 16%, transparent 33%);
+    background-size: 800px 104px;
+    border-radius: 4px;
+    height: 22px;
+    width: 150px;
+    margin: 4px 0;
+`;
+
+export const LasterPersonlinje = () => {
+    return (
+        <Container>
+            <KjønnsnøytraltIkon />
+            <LoadingText />
+            <Separator>/</Separator>
+            <LoadingText />
+            <Separator>/</Separator>
+            <LoadingText />
+            <Separator>/</Separator>
+            <LoadingText />
+            <Separator>/</Separator>
+            <LoadingText />
+        </Container>
+    );
+};
 
 export const Personlinje = ({ person }: PersonlinjeProps) => {
     if (!person) return <Container />;

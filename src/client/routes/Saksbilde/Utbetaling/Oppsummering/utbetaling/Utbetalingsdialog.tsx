@@ -8,9 +8,10 @@ import { Utbetalingsmodal } from './modal/Utbetalingsmodal';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../../../state/toastsState';
 import { vedtaksstatusToast, vedtaksstatusToastKey } from '../../../../Oversikt/VedtaksstatusToast';
-import { FetchedPersonContext, PersonContext } from '../../../../../context/PersonContext';
 import { postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
 import { AmplitudeContext } from '../../../AmplitudeContext';
+import { Person, Vedtaksperiode } from 'internal-types';
+import { usePerson } from '../../../../../state/person';
 
 enum Modalvisning {
     Godkjenning,
@@ -66,9 +67,14 @@ const useVedtakstoast = () => {
     return { leggTilUtbetalingstoast, leggTilInfotrygdtoast };
 };
 
-export const Utbetalingsdialog = () => {
+interface UtbetalingsdialogProps {
+    vedtaksperiode: Vedtaksperiode;
+    person: Person;
+}
+
+export const Utbetalingsdialog = ({ vedtaksperiode, person }: UtbetalingsdialogProps) => {
     const history = useHistory();
-    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext) as FetchedPersonContext;
+    const personTilBehandling = usePerson() as Person;
     const { leggTilUtbetalingstoast, leggTilInfotrygdtoast } = useVedtakstoast();
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isSending, setIsSending] = useState<boolean>(false);
@@ -87,7 +93,7 @@ export const Utbetalingsdialog = () => {
 
     const godkjennUtbetaling = () => {
         setIsSending(true);
-        postUtbetalingsgodkjenning(aktivVedtaksperiode.oppgavereferanse, personTilBehandling.aktørId)
+        postUtbetalingsgodkjenning(vedtaksperiode.oppgavereferanse, personTilBehandling.aktørId)
             .then(() => {
                 logOppgaveGodkjent();
                 leggTilUtbetalingstoast();
@@ -102,7 +108,7 @@ export const Utbetalingsdialog = () => {
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
         const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
 
-        postSendTilInfotrygd(aktivVedtaksperiode.oppgavereferanse, personTilBehandling.aktørId, skjema)
+        postSendTilInfotrygd(vedtaksperiode.oppgavereferanse, personTilBehandling.aktørId, skjema)
             .then(() => {
                 logOppgaveForkastet(begrunnelser);
                 leggTilInfotrygdtoast();

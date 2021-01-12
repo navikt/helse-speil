@@ -1,15 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { Periodetype } from './Periodetype';
+import { Periodelabel } from './Periodelabel';
 import { Verktøylinje } from './Verktøylinje';
 import { TabLink } from '../TabLink';
 import { Flex } from '../../../components/Flex';
-import { Location, useNavigation } from '../../../hooks/useNavigationV2';
+import { Location, useNavigation } from '../../../hooks/useNavigation';
 import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 import { Infolinje } from './Infolinje';
-import { PersonContext } from '../../../context/PersonContext';
+import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
+import { Vedtaksperiode } from 'internal-types';
 
-const SakslinjeWrapper = styled.div`
+const Container = styled.div`
     height: 74px;
     border-bottom: 1px solid #c6c2bf;
     display: flex;
@@ -26,9 +27,15 @@ const SakslinjeVenstre = styled(Flex)`
     border-right: 1px solid #c6c2bf;
 `;
 
+export const LasterSakslinje = () => (
+    <Container>
+        <SakslinjeVenstre></SakslinjeVenstre>
+    </Container>
+);
+
 export const Sakslinje = () => {
     const { pathForLocation, navigateToNext, navigateToPrevious } = useNavigation();
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
 
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
@@ -39,9 +46,9 @@ export const Sakslinje = () => {
     });
 
     return (
-        <SakslinjeWrapper>
+        <Container>
             <SakslinjeVenstre>
-                <Periodetype />
+                <Periodelabel periodetype={aktivVedtaksperiode?.periodetype} />
                 <Verktøylinje />
             </SakslinjeVenstre>
             <TabLink hjemIkon disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Utbetaling)}>
@@ -57,6 +64,6 @@ export const Sakslinje = () => {
                 Sykepengegrunnlag
             </TabLink>
             <Infolinje />
-        </SakslinjeWrapper>
+        </Container>
     );
 };

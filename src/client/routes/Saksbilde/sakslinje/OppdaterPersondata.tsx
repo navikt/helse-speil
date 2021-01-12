@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { PersonContext } from '../../../context/PersonContext';
 import { PersonoppdateringDTO } from '../../../io/types';
 import { postForespørPersonoppdatering } from '../../../io/http';
 import { Scopes, useUpdateVarsler, Varsel } from '../../../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { DropdownContext } from '../../../components/Dropdown';
 import { DropdownMenyknapp } from './Verktøylinje';
+import { usePerson } from '../../../state/person';
+import { Person } from 'internal-types';
 
 const forespørPersonoppdatering = (
     oppdatering: PersonoppdateringDTO,
@@ -34,19 +35,14 @@ const forespørPersonoppdatering = (
 };
 
 export const OppdaterPersondata = () => {
-    const { personTilBehandling } = useContext(PersonContext);
+    const person = usePerson() as Person;
     const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
     const { lukk } = useContext(DropdownContext);
 
     return (
         <DropdownMenyknapp
             onClick={() =>
-                forespørPersonoppdatering(
-                    { fødselsnummer: personTilBehandling?.fødselsnummer!! },
-                    leggTilVarsel,
-                    fjernVarsler,
-                    lukk
-                )
+                forespørPersonoppdatering({ fødselsnummer: person.fødselsnummer }, leggTilVarsel, fjernVarsler, lukk)
             }
         >
             Oppdater persondata

@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
-import { PersonContext } from '../context/PersonContext';
 import { Periodetype, Vedtaksperiodetilstand } from 'internal-types';
 import '@navikt/helse-frontend-varsel/lib/main.css';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../state/vedtaksperiode';
 
 export const Toppvarsler = () => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
     if (!aktivVedtaksperiode) return null;
 
-    const { aktivitetslog, periodetype, automatiskBehandlet, behandlet, tilstand } = aktivVedtaksperiode!;
+    const { aktivitetslog, periodetype, automatiskBehandlet, behandlet, tilstand } = aktivVedtaksperiode;
 
     const erKandidatForAutomatisering = () =>
         periodetype === Periodetype.Forlengelse && aktivitetslog.length === 0 && !automatiskBehandlet && !behandlet;

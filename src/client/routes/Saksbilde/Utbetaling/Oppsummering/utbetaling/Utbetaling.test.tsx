@@ -4,37 +4,25 @@ import { Utbetaling } from './Utbetaling';
 import { MemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
 import { Avvisningsskjema } from './Utbetalingsdialog';
-import { Kjønn, Overstyring, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { Arbeidsgiver, Kjønn, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import '@testing-library/jest-dom/extend-expect';
 import '../../../../../tekster';
 import { VedtaksperiodeBuilder } from '../../../../../mapping/vedtaksperiode';
 import { umappetVedtaksperiode } from '../../../../../../test/data/vedtaksperiode';
-import { PersonContext } from '../../../../../context/PersonContext';
 import { SpesialistArbeidsgiver } from 'external-types';
 
-const UtbetalingView = ({ vedtaksperiode, person }: { vedtaksperiode?: Vedtaksperiode; person: Person }) => (
+const UtbetalingView = ({ vedtaksperiode, person }: { vedtaksperiode: Vedtaksperiode; person: Person }) => (
     <MemoryRouter>
-        <PersonContext.Provider
-            value={{
-                personTilBehandling: person,
-                markerPersonSomTildelt: (_) => null,
-                hentPerson: (_) => Promise.resolve(undefined),
-                isFetching: false,
-                aktiverVedtaksperiode: (_) => null,
-                aktivVedtaksperiode: vedtaksperiode,
-            }}
-        >
-            <Utbetaling />
-        </PersonContext.Provider>
+        <Utbetaling person={person} vedtaksperiode={vedtaksperiode} />
     </MemoryRouter>
 );
 
-const vedtaksperiodeMedTilstand = async (tilstand: Vedtaksperiodetilstand) => ({
-    ...(await enSpeilVedtaksperiode()),
-    tilstand,
+const vedtaksperiodeMedTilstand = (tilstand: Vedtaksperiodetilstand) => ({
+    ...enSpeilVedtaksperiode(),
+    tilstand: tilstand,
 });
 
-const enSpeilVedtaksperiode = async () => {
+const enSpeilVedtaksperiode = (): Vedtaksperiode => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode(umappetVedtaksperiode())
         .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
@@ -51,18 +39,17 @@ const enPersoninfo = () => ({
     fødselsdato: dayjs(),
 });
 
-const enArbeidsgiver = async () => ({
+const enArbeidsgiver = (): Arbeidsgiver => ({
     id: '123',
     navn: 'En bedrift',
     organisasjonsnummer: '123456789',
-    vedtaksperioder: [await enSpeilVedtaksperiode()],
-    overstyringer: new Map<string, Overstyring>(),
+    vedtaksperioder: [enSpeilVedtaksperiode()],
 });
 
-const personTilBehandling = async () => ({
+const personTilBehandling = (): Person => ({
     aktørId: '12345',
     fødselsnummer: '12345678901',
-    arbeidsgivere: [await enArbeidsgiver()],
+    arbeidsgivere: [enArbeidsgiver()],
     utbetalinger: [],
     personinfo: enPersoninfo(),
     infotrygdutbetalinger: [],
@@ -77,8 +64,8 @@ describe('Utbetalingsknapp vises ikke ved tilstand:', () => {
     test('Utbetalt', async () => {
         render(
             <UtbetalingView
-                person={await personTilBehandling()}
-                vedtaksperiode={await vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Utbetalt)}
+                person={personTilBehandling()}
+                vedtaksperiode={vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Utbetalt)}
             />
         );
         expect(screen.queryAllByRole('button')).toHaveLength(0);
@@ -87,8 +74,8 @@ describe('Utbetalingsknapp vises ikke ved tilstand:', () => {
     test('Avslag', async () => {
         render(
             <UtbetalingView
-                person={await personTilBehandling()}
-                vedtaksperiode={await vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Avslag)}
+                person={personTilBehandling()}
+                vedtaksperiode={vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Avslag)}
             />
         );
         expect(screen.queryAllByRole('button')).toHaveLength(0);

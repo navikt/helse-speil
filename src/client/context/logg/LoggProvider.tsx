@@ -1,18 +1,48 @@
-import React, { ReactNode, useContext } from 'react';
-import { PersonContext } from '../PersonContext';
+import React, { ReactNode } from 'react';
 import { IkonDialog } from './icons/IkonDialog';
 import { IkonHistorikk } from './icons/IkonHistorikk';
 import { IkonDokumenter } from './icons/IkonDokumenter';
 import { HendelseMedTidspunkt, mapDokumenter, mapGodkjenninger, mapOverstyringer } from './mapping';
-import { Hendelse as LoggHendelse, Hendelsetype, LoggProvider } from '@navikt/helse-frontend-logg';
+import {
+    Hendelse as LoggHendelse,
+    Hendelsetype,
+    LoggProvider as EksternLoggProvider,
+} from '@navikt/helse-frontend-logg';
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../../state/vedtaksperiode';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];
 }
 
-export default ({ children }: LoggProviderProps) => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+export const LasterLoggProvider = ({ children }: LoggProviderProps) => (
+    <EksternLoggProvider
+        hendelser={[]}
+        filtere={[
+            {
+                filterFunction: (_: LoggHendelse) => true,
+                renderProp: <IkonHistorikk />,
+                disabled: true,
+            },
+            {
+                filterFunction: (_: LoggHendelse) => true,
+                renderProp: <IkonDokumenter />,
+                disabled: true,
+            },
+            {
+                filterFunction: (_: LoggHendelse) => true,
+                renderProp: <IkonDialog />,
+                disabled: true,
+            },
+        ]}
+    >
+        {children}
+    </EksternLoggProvider>
+);
+
+export const LoggProvider = ({ children }: LoggProviderProps) => {
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
 
     const dokumenter = mapDokumenter(aktivVedtaksperiode);
     const overstyringer = mapOverstyringer(aktivVedtaksperiode);
@@ -21,7 +51,7 @@ export default ({ children }: LoggProviderProps) => {
     const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger].sort(hendelsesorterer).map(tilEksternType);
 
     return (
-        <LoggProvider
+        <EksternLoggProvider
             hendelser={hendelser}
             filtere={[
                 {
@@ -42,7 +72,7 @@ export default ({ children }: LoggProviderProps) => {
             ]}
         >
             {children}
-        </LoggProvider>
+        </EksternLoggProvider>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Overstyringsskjema } from '../../../components/tabell/Overstyringsskjema';
 import {
     dato,
@@ -9,7 +9,6 @@ import {
     tomCelle,
 } from '../../../components/tabell/rader';
 import { Dagtype, Sykdomsdag } from 'internal-types';
-import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import Element from 'nav-frontend-typografi/lib/element';
 import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
@@ -25,6 +24,9 @@ import { useOverstyrteDager } from './useOverstyrteDager';
 import { pollEtterNyOppgave } from '../../../io/polling';
 import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
 import classNames from 'classnames';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { useHentPerson, usePerson } from '../../../state/person';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead tr th {
@@ -33,9 +35,11 @@ const OverstyrbarTabell = styled(Tabell)`
         padding-top: 0;
         padding-bottom: 10px;
     }
+
     tbody tr td:not(:first-of-type):not(:nth-of-type(3)):not(:nth-of-type(5)) {
         padding-right: 3rem;
     }
+
     tbody tr td {
         height: 48px;
     }
@@ -77,7 +81,9 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     onToggleOverstyring,
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
     const { overstyrteDager, leggTilOverstyrtDag, fjernOverstyrtDag } = useOverstyrteDager();
-    const { aktivVedtaksperiode, personTilBehandling, hentPerson } = useContext(PersonContext);
+    const personTilBehandling = usePerson();
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const hentPerson = useHentPerson();
     const [overstyringserror, setOverstyringserror] = useState<string>();
     const leggtilEnToast = useLeggTilEnToast();
     const fjernToast = useFjernEnToast();

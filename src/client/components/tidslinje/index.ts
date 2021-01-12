@@ -1,3 +1,3 @@
-import { Tidslinje } from './Tidslinje';
+import { Tidslinje, LasterTidslinje } from './Tidslinje';
 
-export { Tidslinje };
+export { Tidslinje, LasterTidslinje };

@@ -1,78 +1,52 @@
-import { useContext } from 'react';
 import { useHistory } from 'react-router';
-import { PersonContext } from '../context/PersonContext';
-import { Periodetype } from 'internal-types';
 import { routeForMiljø } from '../routes';
+import { usePerson } from '../state/person';
 
 export interface Navigation {
     toString: (location: Location) => string;
     navigateTo: (location: Location, aktørId?: string) => void;
     pathForLocation: (location: Location, aktørId?: string) => string;
-    navigateToNext?: () => void;
-    navigateToPrevious?: () => void;
+    navigateToNext: () => void;
+    navigateToPrevious: () => void;
 }
 
 export enum Location {
+    Utbetaling,
     Sykmeldingsperiode,
     Vilkår,
-    Inntektskilder,
     Sykepengegrunnlag,
-    Utbetalingsoversikt,
-    Oppsummering,
 }
 
-const locations = [
-    '/sykmeldingsperiode',
-    '/vilkår',
-    '/inntektskilder',
-    '/sykepengegrunnlag',
-    '/utbetalingsoversikt',
-    '/oppsummering',
-];
+const locations = ['/utbetaling', '/sykmeldingsperiode', '/vilkår', '/sykepengegrunnlag'];
 
 const locationFromCurrentPath = (path: string, locations: string[]) => {
-    const currentPathName = path.split('/')[1];
+    const currentPathName = path.split('/')[3];
     return locations.findIndex((location) => location.slice(1) === currentPathName);
 };
 
 export const useNavigation = (): Navigation => {
     const history = useHistory();
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    const personTilBehandling = usePerson();
 
-    const availableLocations =
-        aktivVedtaksperiode?.periodetype === Periodetype.Infotrygdforlengelse
-            ? locations.filter((l) => l !== locations[Location.Inntektskilder])
-            : locations;
+    const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), locations);
 
-    const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), availableLocations);
+    const canNavigateToNext = currentLocation !== locations.length - 1;
 
-    const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling?.aktørId) => {
-        history.push(routeForMiljø(`${availableLocations[location]}/${aktørId}`));
-    };
+    const canNavigateToPrevious = currentLocation !== 0;
 
-    const navigateToNext = () => {
-        if (currentLocation === availableLocations.length - 1) return;
-        navigateTo(currentLocation + 1);
-    };
-
-    const navigateToPrevious = () => {
-        if (currentLocation === 0) return;
-        navigateTo(currentLocation - 1);
-    };
+    const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling?.aktørId) =>
+        history.push(routeForMiljø(`/person/${aktørId}${locations[location]}`));
 
     const pathForLocation = (location: Location, aktørId?: string) =>
-        `${locations[location]}/${aktørId ?? personTilBehandling?.aktørId}`;
+        `/person/${aktørId ?? personTilBehandling?.aktørId}${locations[location]}`;
 
     const toString = (location: Location) => locations[location];
 
-    const canNavigateToNext = currentLocation !== availableLocations.length - 1;
-    const canNavigateToPrevious = currentLocation !== 0;
-
     return {
-        toString,
-        navigateTo,
-        pathForLocation,
-        navigateToNext: canNavigateToNext ? navigateToNext : undefined,
-        navigateToPrevious: canNavigateToPrevious ? navigateToPrevious : undefined,
+        toString: toString,
+        navigateTo: navigateTo,
+        pathForLocation: pathForLocation,
+        navigateToNext: () => canNavigateToNext && navigateTo(currentLocation + 1),
+        navigateToPrevious: () => canNavigateToPrevious && navigateTo(currentLocation - 1),
     };
 };

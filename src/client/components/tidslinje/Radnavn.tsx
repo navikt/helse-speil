@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Arbeidsgiverikon } from '../ikoner/Arbeidsgiverikon';
 import { Infotrygdikon } from '../ikoner/Infotrygdikon';
-import { PersonContext } from '../../context/PersonContext';
 import { UtbetalingerPerArbeidsgiver } from './useInfotrygdrader';
 import styled from '@emotion/styled';
+import { usePerson } from '../../state/person';
 
 interface RadnavnProps {
     infotrygdrader: UtbetalingerPerArbeidsgiver;
@@ -30,7 +30,7 @@ const Label = styled.label`
 const formaterArbeidsgivernavn = (navn: string) => (navn.length > 32 ? `${navn.substring(0, 32)}...` : navn);
 
 export const Radnavn = ({ infotrygdrader }: RadnavnProps) => {
-    const { personTilBehandling } = useContext(PersonContext);
+    const personTilBehandling = usePerson();
     const radnavnArbeidsgiver =
         personTilBehandling?.arbeidsgivere.map((arbeidsgiver) =>
             arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'

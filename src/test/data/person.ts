@@ -14,14 +14,11 @@ export const umappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalin
     arbeidsforhold: [],
 });
 
-export const mappetPerson = async (
+export const mappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
     utbetalinger = umappetUtbetalinger(),
     personinfoFraSparkel?: PersoninfoFraSparkel
-) => {
-    const { person } = await mapPerson(umappetPerson(arbeidsgivere, utbetalinger), personinfoFraSparkel);
-    return person;
-};
+) => mapPerson(umappetPerson(arbeidsgivere, utbetalinger), personinfoFraSparkel).person;
 
 export const personinfoFraSparkel = ({ kjønn = 'Mannebjørn', fødselsdato = '1956-12-12', fnr = '01019000123' }) => ({
     kjønn,

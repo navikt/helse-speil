@@ -1,19 +1,17 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { PersonContext } from '../context/PersonContext';
-import { Location, useNavigation } from '../hooks/useNavigation';
-import { Person } from 'internal-types';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../state/authentication';
 import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
 import { Link, useHistory } from 'react-router-dom';
-import { speilV2 } from '../featureToggles';
+import { erGyldigPersonId } from '../hooks/useRefreshPerson';
 
 const Container = styled.div`
     flex-shrink: 0;
     height: max-content;
     width: 100%;
+
     > header {
         max-width: unset;
         box-sizing: border-box;
@@ -22,25 +20,15 @@ const Container = styled.div`
 
 export const Header = () => {
     const { name, ident, isLoggedIn } = useRecoilValue(authState);
-    const { hentPerson } = useContext(PersonContext);
-    const { navigateTo } = useNavigation();
     const history = useHistory();
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
-    const onSøk = (value: string): Promise<void> =>
-        hentPerson(value)
-            .then((person: Person) => {
-                speilV2
-                    ? history.push(`/person/${person.aktørId}/utbetaling`)
-                    : navigateTo(Location.Sykmeldingsperiode, person.aktørId);
-            })
-            .catch((_) => {
-                /* Error håndtert i hentPerson i PersonContext */
-            })
-            .finally(() => {
-                return Promise.resolve();
-            });
+    const onSøk = (personId: string) => {
+        return erGyldigPersonId(personId)
+            ? Promise.resolve(history.push(`/person/${personId}/utbetaling`))
+            : Promise.reject('Oppgitt verdi er ikke en gyldig aktør-ID eller et gyldig fødselsnummer.');
+    };
 
     return (
         <Container>

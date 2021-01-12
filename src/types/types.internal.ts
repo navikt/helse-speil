@@ -86,6 +86,14 @@ export enum Kildetype {
     Saksbehandler = 'Saksbehandler',
 }
 
+export enum Periodetype {
+    Forlengelse = 'forlengelse',
+    Førstegangsbehandling = 'førstegangsbehandling',
+    Infotrygdforlengelse = 'infotrygdforlengelse',
+    OvergangFraInfotrygd = 'overgangFraIt',
+    Stikkprøve = 'stikkprøve',
+}
+
 export interface Søknad {
     id: string;
     type: Kildetype.Søknad;
@@ -144,12 +152,6 @@ export interface Utbetalingsdag {
     gradering?: number;
     utbetaling?: number;
     avvistÅrsak?: string;
-}
-
-export enum Periodetype {
-    Forlengelse = 'forlengelse',
-    Infotrygdforlengelse = 'infotrygdForlengelse',
-    Førstegangsbehandling = 'førstegangsbehandling',
 }
 
 export enum Vedtaksperiodetilstand {
@@ -235,7 +237,7 @@ export interface Arbeidsgiver {
     vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
 }
 
-export type Kjønn = 'Mann' | 'Kvinne' | 'Ukjent';
+export type Kjønn = 'mann' | 'kvinne' | 'ukjent';
 
 export interface Personinfo {
     fornavn: string;

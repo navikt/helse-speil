@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Utbetalingsdialog } from './Utbetalingsdialog';
-import { Vedtaksperiodetilstand } from 'internal-types';
-import { FetchedPersonContext, PersonContext } from '../../../../../context/PersonContext';
+import { Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 
-export const Utbetaling = () => {
-    const { aktivVedtaksperiode } = useContext(PersonContext) as FetchedPersonContext;
-    const harOppgavereferanse = aktivVedtaksperiode.oppgavereferanse && aktivVedtaksperiode.oppgavereferanse !== '';
+interface UtbetalingProps {
+    vedtaksperiode: Vedtaksperiode;
+    person: Person;
+}
 
-    return harOppgavereferanse && aktivVedtaksperiode.tilstand === Vedtaksperiodetilstand.Oppgaver ? (
-        <Utbetalingsdialog />
-    ) : null;
+export const Utbetaling = ({ vedtaksperiode, person }: UtbetalingProps) => {
+    const harOppgave =
+        vedtaksperiode.oppgavereferanse?.length > 0 && vedtaksperiode.tilstand === Vedtaksperiodetilstand.Oppgaver;
+
+    return harOppgave ? <Utbetalingsdialog vedtaksperiode={vedtaksperiode} person={person} /> : null;
 };

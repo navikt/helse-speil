@@ -5,10 +5,10 @@ import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { Arbeidsgiver, Person, Vedtaksperiode } from 'internal-types';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { SpesialistArbeidsgiver, SpleisVedtaksperiodetilstand } from 'external-types';
-import { PersonContext, PersonContextValue } from '../../../context/PersonContext';
 import '@testing-library/jest-dom/extend-expect';
+import { mappetPerson } from 'test-data';
 
-const enIkkeUtbetaltVedtaksperiode = async () => {
+const enIkkeUtbetaltVedtaksperiode = () => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode(umappetVedtaksperiode())
         .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
@@ -17,7 +17,7 @@ const enIkkeUtbetaltVedtaksperiode = async () => {
     return vedtaksperiode as Vedtaksperiode;
 };
 
-const enUtbetaltVedtaksperiode = async () => {
+const enUtbetaltVedtaksperiode = () => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode({ ...umappetVedtaksperiode(), tilstand: SpleisVedtaksperiodetilstand.Utbetalt })
         .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
@@ -26,41 +26,26 @@ const enUtbetaltVedtaksperiode = async () => {
     return vedtaksperiode as Vedtaksperiode;
 };
 
-const renderSykmeldingsperiodetabellMedState = (
-    vedtaksperiode: Vedtaksperiode,
-    arbeidsgivere: Arbeidsgiver[] = [({ vedtaksperioder: [] } as unknown) as Arbeidsgiver]
-) => {
-    const defaultContext: PersonContextValue = {
-        personTilBehandling: { arbeidsgivere } as Person,
-        hentPerson: (_: any) => Promise.resolve(undefined),
-        markerPersonSomTildelt: (_: any) => null,
-        isFetching: false,
-        aktiverVedtaksperiode: (_: any) => null,
-    };
-    return render(
-        <PersonContext.Provider value={{ ...defaultContext, aktivVedtaksperiode: vedtaksperiode }}>
-            <Sykmeldingsperiodetabell toggleOverstyring={() => true} />
-        </PersonContext.Provider>
-    );
-};
+const renderSykmeldingsperiodetabell = (vedtaksperiode: Vedtaksperiode, person: Person = mappetPerson()) =>
+    render(<Sykmeldingsperiodetabell person={person} vedtaksperiode={vedtaksperiode} toggleOverstyring={() => true} />);
 
 describe('Sykmeldingsperiodetabell', () => {
-    test('rendrer Sykmeldingsperiode- og Graderingskolonne', async () => {
-        renderSykmeldingsperiodetabellMedState(await enIkkeUtbetaltVedtaksperiode());
+    test('rendrer Sykmeldingsperiode- og Graderingskolonne', () => {
+        renderSykmeldingsperiodetabell(enUtbetaltVedtaksperiode());
         expect(screen.getByText('Dato')).toBeVisible();
         expect(screen.getByText('Grad')).toBeVisible();
     });
-    test('rendrer endreknapp ved ikke utbetalt vedtaksperiode', async () => {
-        renderSykmeldingsperiodetabellMedState(await enIkkeUtbetaltVedtaksperiode());
+    test('rendrer endreknapp ved ikke utbetalt vedtaksperiode', () => {
+        renderSykmeldingsperiodetabell(enIkkeUtbetaltVedtaksperiode());
         expect(screen.getByText('Endre')).toBeVisible();
     });
     test('rendrer ikke endreknapp ved ikke utbetalt vedtaksperiode', async () => {
-        renderSykmeldingsperiodetabellMedState(await enUtbetaltVedtaksperiode());
+        renderSykmeldingsperiodetabell(enUtbetaltVedtaksperiode());
         expect(screen.queryByText('Endre')).toBeNull();
     });
     test('rendrer ikke endreknapp ved flere arbeidsgivere', async () => {
-        let toArbeidsgivere = [{} as Arbeidsgiver, {} as Arbeidsgiver];
-        renderSykmeldingsperiodetabellMedState(await enIkkeUtbetaltVedtaksperiode(), toArbeidsgivere);
+        const person = { arbeidsgivere: [{} as Arbeidsgiver, {} as Arbeidsgiver] } as Person;
+        renderSykmeldingsperiodetabell(enIkkeUtbetaltVedtaksperiode(), person);
         expect(screen.queryByText('Endre')).toBeNull();
     });
 });

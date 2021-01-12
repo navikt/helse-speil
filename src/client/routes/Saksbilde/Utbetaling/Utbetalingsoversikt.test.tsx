@@ -1,15 +1,18 @@
 import React from 'react';
 import { mappetPerson } from 'test-data';
-import { Dagtype, Person, Vedtaksperiode } from 'internal-types';
+import { Dagtype, Vedtaksperiode } from 'internal-types';
 import { render, screen } from '@testing-library/react';
-import { defaultPersonContext, PersonContext } from '../../../context/PersonContext';
 import {
     totaltAntallUtbetalingsdager,
     totalUtbetaling,
     Utbetalingsoversikt,
     vedtaksperiodeDagerIgjen,
 } from './Utbetalingsoversikt';
-import { medUtbetalingstidslinje, umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
+import {
+    mappetVedtaksperiode,
+    medUtbetalingstidslinje,
+    umappetVedtaksperiode,
+} from '../../../../test/data/vedtaksperiode';
 import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
 import { SpesialistArbeidsgiver, SpleisUtbetalingsdagtype } from 'external-types';
 import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
@@ -100,15 +103,14 @@ describe('Utbetalingsoversikt', () => {
     });
 
     it('Alle dager er godkjent', async () => {
-        const person = await mappetPerson();
-        await renderUtbetalingsoversikt(person);
+        render(<Utbetalingsoversikt vedtaksperiode={mappetVedtaksperiode()} />);
 
         expect(screen.queryAllByText('Ingen utbetaling')).toStrictEqual([]);
         expect(screen.queryAllByText('100 %').length).toBe(23);
     });
 
     it('2 dager er avvist', async () => {
-        const person = await mappetPerson([
+        const vedtaksperiode = mappetPerson([
             umappetArbeidsgiver([
                 medUtbetalingstidslinje(umappetVedtaksperiode(), [
                     {
@@ -136,8 +138,9 @@ describe('Utbetalingsoversikt', () => {
                     },
                 ]),
             ]),
-        ]);
-        await renderUtbetalingsoversikt(person);
+        ]).arbeidsgivere[0].vedtaksperioder[0];
+
+        render(<Utbetalingsoversikt vedtaksperiode={vedtaksperiode as Vedtaksperiode} />);
 
         expect(screen.queryAllByText('-').length).toStrictEqual(2);
         expect(screen.queryAllByText('Personen er død').length).toStrictEqual(1);
@@ -146,16 +149,3 @@ describe('Utbetalingsoversikt', () => {
         expect(screen.queryAllByText('0 %').length).toStrictEqual(2);
     });
 });
-
-const renderUtbetalingsoversikt = (person: Person) =>
-    render(
-        <PersonContext.Provider
-            value={{
-                ...defaultPersonContext,
-                personTilBehandling: person,
-                aktivVedtaksperiode: person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode,
-            }}
-        >
-            <Utbetalingsoversikt />
-        </PersonContext.Provider>
-    );

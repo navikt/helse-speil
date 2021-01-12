@@ -1,14 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import { Dropdown } from '../../../components/Dropdown';
-import { PersonContext } from '../../../context/PersonContext';
 import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
 import { Annullering } from '../annullering/Annullering';
 import { Button } from '../../../components/Button';
 import { OppdaterPersondata } from './OppdaterPersondata';
 import { Tildelingsknapp } from './Tildelingsknapp';
+import { usePerson } from '../../../state/person';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
 
 const Container = styled(Sakslinje)`
     border-left: none;
@@ -34,6 +36,7 @@ const StyledDropdown = styled(Dropdown)`
         background-color: #e7e9e9;
         box-shadow: none;
     }
+
     &:focus {
         border: 3px solid #254b6d;
         background: inherit;
@@ -53,11 +56,14 @@ export const DropdownMenyknapp = styled(Button)`
     &:focus {
         background: #e7e9e9;
     }
+
     &:active {
         background: #e1e4e4;
     }
+
     &:disabled {
         color: #78706a;
+
         &:hover {
             background: inherit;
             cursor: not-allowed;
@@ -71,7 +77,8 @@ const Strek = styled.hr`
 `;
 
 export const Verktøylinje = () => {
-    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
+    const personTilBehandling = usePerson();
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
     const tildeltTil = personTilBehandling?.tildeltTil;
     const utbetalinger: Utbetalinger | undefined = aktivVedtaksperiode?.utbetalinger;
     const vedtaksperiodeErAnnullert: boolean = aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;

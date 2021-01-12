@@ -82,12 +82,12 @@ export const medEkstraSykdomsdager = (vedtaksperiode: SpesialistVedtaksperiode, 
     sykdomstidslinje: [...vedtaksperiode.sykdomstidslinje, ...sykdomsdager],
 });
 
-export const mappetVedtaksperiode = async (
+export const mappetVedtaksperiode = (
     fom: Dayjs = dayjs('2020-01-01'),
     tom: Dayjs = dayjs('2020-01-31'),
     organisasjonsnummer: string = 'et-organisasjonsnummer',
     overstyringer: SpesialistOverstyring[] = []
-): Promise<Vedtaksperiode> => {
+): Vedtaksperiode => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode(umappetVedtaksperiode({ fom, tom }))
         .setArbeidsgiver({ organisasjonsnummer } as SpesialistArbeidsgiver)

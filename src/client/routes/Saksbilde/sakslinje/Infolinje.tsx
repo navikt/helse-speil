@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import ReactTooltip from 'react-tooltip';
 import { Flex } from '../../../components/Flex';
-import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -24,6 +25,7 @@ const InfolinjeElement = styled(Flex)`
     align-items: center;
     margin-left: 1.25rem;
     line-height: 32px;
+
     svg {
         margin-right: 0.5rem;
     }
@@ -43,7 +45,7 @@ const Tooltip = styled(ReactTooltip)`
 `;
 
 export const Infolinje = () => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
     if (!aktivVedtaksperiode) return null;
 
     const fom = aktivVedtaksperiode.fom.format(NORSK_DATOFORMAT);

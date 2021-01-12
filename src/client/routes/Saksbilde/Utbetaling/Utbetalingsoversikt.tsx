@@ -1,15 +1,13 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import Element from 'nav-frontend-typografi/lib/element';
 import classNames from 'classnames';
 import { Tabell } from '@navikt/helse-frontend-tabell';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { Dagtype, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
 import { dato, gradering, ikon, merknad, type, utbetaling } from '../../../components/tabell/rader';
-import { PersonContext } from '../../../context/PersonContext';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { useMaksdato } from '../../../hooks/useMaksdato';
 import { toKronerOgØre } from '../../../utils/locale';
+import { maksdatoForPeriode } from '../../../mapping/selectors';
 
 type Utbetalingsceller = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];
 
@@ -65,21 +63,6 @@ const utbetalingstabellrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | s
     className: classNames(dag.type === Dagtype.Helg && 'disabled'),
 });
 
-const utbetalingsheadere = [
-    '',
-    <Element>Dato</Element>,
-    {
-        render: <Element>Utbet. dager</Element>,
-        kolonner: 2,
-    },
-    <Element>Grad</Element>,
-    <Element>Utbetaling</Element>,
-    {
-        render: <Element>Dager igjen</Element>,
-        kolonner: 2,
-    },
-];
-
 const TotalUtbetalingsdager = styled(Element)`
     &.dager {
         margin-left: -32px;
@@ -129,7 +112,7 @@ const genererTotalRad = (aktivVedtaksperiode: Vedtaksperiode | undefined): Utbet
 };
 
 export const vedtaksperiodeDagerIgjen = (aktivVedtaksperiode: Vedtaksperiode | undefined): number[] => {
-    let dagerIgjenPåDato: number = totaltAntallDagerIgjen(aktivVedtaksperiode);
+    let dagerIgjenPåDato = totaltAntallDagerIgjen(aktivVedtaksperiode);
 
     return (
         aktivVedtaksperiode?.utbetalingstidslinje.map((dag) => {
@@ -151,37 +134,48 @@ export const totaltAntallDagerIgjen = (aktivVedtaksperiode: Vedtaksperiode | und
     );
 };
 
-export const Utbetalingsoversikt = () => {
-    const { aktivVedtaksperiode } = useContext(PersonContext);
-    const { maksdato } = useMaksdato();
-    const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
-    const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
-    const gjenståendeDagerErSatt = aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager;
-    const dagerIgjenIVedtaksperiode: number[] = vedtaksperiodeDagerIgjen(aktivVedtaksperiode);
+interface UtbetalingsoversiktProps {
+    vedtaksperiode: Vedtaksperiode;
+}
+
+export const Utbetalingsoversikt = ({ vedtaksperiode }: UtbetalingsoversiktProps) => {
+    const maksdato = vedtaksperiode && maksdatoForPeriode(vedtaksperiode);
+    const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT);
+    const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT);
+    const gjenståendeDagerErSatt = vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
+    const dagerIgjenIVedtaksperiode: number[] = vedtaksperiodeDagerIgjen(vedtaksperiode);
 
     const erMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isSame(maksdato, 'day');
     const erAvvist = (dag: Utbetalingsdag) => dag.type === Dagtype.Avvist;
 
     const tilUtbetalingsrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string) =>
-        erMaksdato(dag) && maksdato && maksdato.format(NORSK_DATOFORMAT) < tom!!
+        erMaksdato(dag) && dag.dato.isBefore(vedtaksperiode.tom)
             ? maksdatorad(dag, dagerIgjenForDato)
             : erAvvist(dag)
             ? avvistRad(dag, dagerIgjenForDato)
             : utbetalingstabellrad(dag, dagerIgjenForDato);
 
     const rader =
-        aktivVedtaksperiode?.utbetalingstidslinje.map((dag, i) =>
+        vedtaksperiode.utbetalingstidslinje.map((dag, i) =>
             tilUtbetalingsrad(dag, gjenståendeDagerErSatt ? dagerIgjenIVedtaksperiode[i] : '')
         ) ?? [];
 
-    const raderPlussTotalRad: Utbetalingstabellrad[] = [genererTotalRad(aktivVedtaksperiode), ...rader];
+    const raderPlussTotalRad: Utbetalingstabellrad[] = [genererTotalRad(vedtaksperiode), ...rader];
 
-    const headere = utbetalingsheadere;
-    const tabellbeskrivelse = `Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`;
+    const headere = [
+        { render: '' },
+        { render: <Element>Dato</Element> },
+        { render: <Element>Utbet. dager</Element>, kolonner: 2 },
+        { render: <Element>Grad</Element> },
+        { render: <Element>Utbetaling</Element> },
+        { render: <Element>Dager igjen</Element>, kolonner: 2 },
+    ];
 
-    return rader ? (
-        <Utbetalingstabell beskrivelse={tabellbeskrivelse} rader={raderPlussTotalRad} headere={headere} />
-    ) : (
-        <Normaltekst>Ingen data</Normaltekst>
+    return (
+        <Utbetalingstabell
+            beskrivelse={`Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`}
+            rader={raderPlussTotalRad}
+            headere={headere}
+        />
     );
 };

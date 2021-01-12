@@ -61,7 +61,7 @@ const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgav
     return (
         <SkjultLenke
             className="lenke-skjult"
-            to={speilV2 ? `/person/${oppgave.aktørId}/utbetaling` : `/sykmeldingsperiode/${oppgave.aktørId}`}
+            to={`/person/${oppgave.aktørId}/utbetaling`}
             onClick={fjernVarsler}
             tabIndex={-1}
         />

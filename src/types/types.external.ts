@@ -387,6 +387,7 @@ export enum SpleisPeriodetype {
     FORLENGELSE = 'FORLENGELSE',
     INFOTRYGDFORLENGELSE = 'INFOTRYGDFORLENGELSE',
     OVERGANG_FRA_IT = 'OVERGANG_FRA_IT',
+    STIKKPRØVE = 'STIKKPRØVE',
 }
 
 export interface SpesialistInntektsgrunnlag {

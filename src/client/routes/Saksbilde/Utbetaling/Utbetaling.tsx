@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Oppsummering from './Oppsummering/Oppsummering';
 import { Link } from 'react-router-dom';
@@ -6,13 +6,14 @@ import { Flex } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
 import { somPenger } from '../../../utils/locale';
 import { Vilkårsliste } from './Vilkårsoversikt';
-import { PersonContext } from '../../../context/PersonContext';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
-import { arbeidsgivernavnForVedtaksperiode } from '../../../mapping/selectors';
 import { Arbeidsforhold } from '../Arbeidsforhold';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { usePerson } from '../../../state/person';
 
 const Container = styled.section`
     padding: 2rem 0;
@@ -78,7 +79,8 @@ const Lenke = styled(Link)`
 `;
 
 export const Utbetaling = () => {
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const personTilBehandling = usePerson();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
@@ -137,7 +139,7 @@ export const Utbetaling = () => {
                 </Arbeidsflate>
                 <VertikalStrek />
                 <Container>
-                    <Utbetalingsoversikt />
+                    <Utbetalingsoversikt vedtaksperiode={aktivVedtaksperiode} />
                 </Container>
             </Flex>
         </AgurkErrorBoundary>

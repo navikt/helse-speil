@@ -27,7 +27,6 @@ import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
 import { tilOverstyrtDag } from './overstyring';
-
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
 
 export const somNorskDato = (dato: string): Dayjs => dayjs(dato, NORSK_DATOFORMAT);
@@ -229,6 +228,8 @@ export class VedtaksperiodeBuilder {
                     return Periodetype.Infotrygdforlengelse;
                 case SpleisPeriodetype.FORLENGELSE:
                     return Periodetype.Forlengelse;
+                case SpleisPeriodetype.STIKKPRØVE:
+                    return Periodetype.Stikkprøve;
             }
         };
         const mapPeriodetype = (): Periodetype => {

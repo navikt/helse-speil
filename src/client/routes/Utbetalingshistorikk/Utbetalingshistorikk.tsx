@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Element from 'nav-frontend-typografi/lib/element';
 import { useHistory } from 'react-router';
 import { Personlinje } from '../../components/Personlinje';
-import { PersonContext } from '../../context/PersonContext';
-import { useRefetchPersonOnUrlChange } from '../../hooks/useRefetchPersonOnUrlChange';
+import { useRefreshPerson } from '../../hooks/useRefreshPerson';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { UtbetalingshistorikkUtbetaling } from 'internal-types';
 import { Annulleringsmodal } from './AnnulleringsModal';
 import { NORSK_DATOFORMAT_KORT } from '../../utils/date';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { usePerson } from '../../state/person';
 
 const Container = styled.div`
     display: flex;
@@ -76,10 +76,10 @@ const Lukknapp = styled.button`
 `;
 
 export const Utbetalingshistorikk = () => {
-    let { personTilBehandling } = useContext(PersonContext);
+    let personTilBehandling = usePerson();
     const [showModal, setShowModal] = useState<UtbetalingshistorikkUtbetaling | undefined>(undefined);
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<string[]>([]);
-    useRefetchPersonOnUrlChange();
+    useRefreshPerson();
     let history = useHistory();
     const goBack = () => {
         history.push(`/person/${personTilBehandling?.aktørId}/utbetaling`);

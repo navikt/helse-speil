@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { PersonContext } from '../../../context/PersonContext';
 import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
 import { Sykepengegrunnlaginnhold } from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
@@ -16,6 +15,9 @@ import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import Inntektsgrunnlaginnhold from './Inntektsgrunnlaginnhold';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { usePerson } from '../../../state/person';
 
 const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;
@@ -78,7 +80,8 @@ const Oversikt = ({ inntektsgrunnlag, inntektskilder, sykepengegrunnlag }: Overs
 );
 
 export const Sykepengegrunnlag = () => {
-    const { aktivVedtaksperiode, personTilBehandling } = useContext(PersonContext);
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const personTilBehandling = usePerson();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 

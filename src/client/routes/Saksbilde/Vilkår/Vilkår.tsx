@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { tilKategoriserteVilkår } from './tilKategoriserteVilkår';
-import { PersonContext } from '../../../context/PersonContext';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
@@ -13,6 +12,7 @@ import { førsteVedtaksperiode } from '../../../mapping/selectors';
 import { Flex } from '../../../components/Flex';
 import { Vilkårdata } from '../../../mapping/vilkår';
 import { Strek } from './Vilkår.styles';
+import { Person, Vedtaksperiode } from 'internal-types';
 
 const Container = styled.div`
     margin-top: 2rem;
@@ -24,9 +24,13 @@ const Separator = styled(Strek)`
 
 const harVilkår = (vilkår?: Vilkårdata[]) => vilkår && vilkår.length > 0;
 
-export const Vilkår = () => {
-    const { aktivVedtaksperiode: vedtaksperiode, personTilBehandling } = useContext(PersonContext);
-    if (!vedtaksperiode || personTilBehandling === undefined) return null;
+interface VilkårProps {
+    vedtaksperiode?: Vedtaksperiode;
+    person?: Person;
+}
+
+export const Vilkår = ({ vedtaksperiode, person }: VilkårProps) => {
+    if (!vedtaksperiode || person === undefined) return null;
 
     const {
         oppfylteVilkår,
@@ -38,7 +42,7 @@ export const Vilkår = () => {
         vilkårVurdertFørstePeriode,
     } = tilKategoriserteVilkår(vedtaksperiode);
 
-    const førstePeriode = førsteVedtaksperiode(vedtaksperiode, personTilBehandling!);
+    const førstePeriode = førsteVedtaksperiode(vedtaksperiode, person!);
 
     const harBehandledeVilkår =
         harVilkår(ikkeVurderteVilkår) || harVilkår(ikkeOppfylteVilkår) || harVilkår(oppfylteVilkår);

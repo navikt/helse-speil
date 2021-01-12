@@ -5,6 +5,10 @@ import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { OverstyrbarSykmeldingsperiodetabell } from './OverstyrbarSykmeldingsperiodetabell';
 import { OverstyringTimeoutModal } from './OverstyringTimeoutModal';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { usePerson } from '../../../state/person';
+import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 
 const Container = styled.div`
     display: flex;
@@ -13,6 +17,8 @@ const Container = styled.div`
 `;
 
 export const Sykmeldingsperiode = () => {
+    const person = usePerson();
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
     const [overstyrer, setOverstyrer] = useState(false);
     const [kalkulerer, setKalkulerer] = useState(false);
     const [overstyringTimedOut, setOverstyringTimedOut] = useState(false);
@@ -39,7 +45,14 @@ export const Sykmeldingsperiode = () => {
                         onToggleOverstyring={() => setOverstyrer((o) => !o)}
                     />
                 ) : (
-                    <Sykmeldingsperiodetabell toggleOverstyring={() => setOverstyrer((o) => !o)} />
+                    person &&
+                    aktivVedtaksperiode && (
+                        <Sykmeldingsperiodetabell
+                            person={person}
+                            vedtaksperiode={aktivVedtaksperiode}
+                            toggleOverstyring={() => setOverstyrer((o) => !o)}
+                        />
+                    )
                 )}
             </AgurkErrorBoundary>
             {overstyringTimedOut && <OverstyringTimeoutModal onRequestClose={() => setOverstyringTimedOut(false)} />}

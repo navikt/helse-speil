@@ -1,11 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { Annulleringsmodal } from './Annulleringsmodal';
-import { PersonContext } from '../../../context/PersonContext';
 import { DropdownContext } from '../../../components/Dropdown';
 import { DropdownMenyknapp } from '../sakslinje/Verktøylinje';
+import { usePerson } from '../../../state/person';
+import { useRecoilValue } from 'recoil';
+import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
 
 export const Annullering = () => {
-    const { personTilBehandling, aktivVedtaksperiode } = useContext(PersonContext);
+    const personTilBehandling = usePerson();
+    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
     const { lukk } = useContext(DropdownContext);
     const [showModal, setShowModal] = useState<boolean>(false);
 
