@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Vilkårsgruppe } from './Vilkårsgruppe';
 import { toKronerOgØre } from '../../../../utils/locale';
 import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
@@ -109,8 +108,6 @@ export const DagerIgjen = ({ dagerIgjen, alder }: Vilkår) => (
         </Vilkårsgrupperad>
     </>
 );
-
-export const Medlemskap = ({ medlemskap }: Vilkår) => <Vilkårsgruppe tittel="Medlemskap" paragraf="§ 2" />;
 
 const Vurderinger = styled.ul`
     list-style: initial;

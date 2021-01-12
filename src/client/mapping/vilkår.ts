@@ -11,6 +11,7 @@ import { SpesialistVedtaksperiode, SpleisForlengelseFraInfotrygd, SpleisMedlemsk
 import { somDato, somKanskjeDato } from './vedtaksperiode';
 import { ReactNode } from 'react';
 
+// noinspection JSUnusedGlobalSymbols
 export enum Vilkårstype {
     Alder = 'alder',
     Søknadsfrist = 'søknadsfrist',

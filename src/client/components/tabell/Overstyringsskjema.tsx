@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { Sykdomsdag } from 'internal-types';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Knapp from 'nav-frontend-knapper/lib/knapp';
 import Flatknapp from 'nav-frontend-knapper/lib/flatknapp';

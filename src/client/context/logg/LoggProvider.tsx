@@ -16,31 +16,6 @@ interface LoggProviderProps {
     children: ReactNode | ReactNode[];
 }
 
-export const LasterLoggProvider = ({ children }: LoggProviderProps) => (
-    <EksternLoggProvider
-        hendelser={[]}
-        filtere={[
-            {
-                filterFunction: (_: LoggHendelse) => true,
-                renderProp: <IkonHistorikk />,
-                disabled: true,
-            },
-            {
-                filterFunction: (_: LoggHendelse) => true,
-                renderProp: <IkonDokumenter />,
-                disabled: true,
-            },
-            {
-                filterFunction: (_: LoggHendelse) => true,
-                renderProp: <IkonDialog />,
-                disabled: true,
-            },
-        ]}
-    >
-        {children}
-    </EksternLoggProvider>
-);
-
 export const LoggProvider = ({ children }: LoggProviderProps) => {
     const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
 

@@ -8,7 +8,6 @@ import { Location, useNavigation } from '../../../hooks/useNavigation';
 import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 import { Infolinje } from './Infolinje';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
-import { Vedtaksperiode } from 'internal-types';
 
 const Container = styled.div`
     height: 74px;
@@ -26,12 +25,6 @@ const SakslinjeVenstre = styled(Flex)`
     align-items: center;
     border-right: 1px solid #c6c2bf;
 `;
-
-export const LasterSakslinje = () => (
-    <Container>
-        <SakslinjeVenstre></SakslinjeVenstre>
-    </Container>
-);
 
 export const Sakslinje = () => {
     const { pathForLocation, navigateToNext, navigateToPrevious } = useNavigation();

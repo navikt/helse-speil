@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 
 declare global {
     namespace NodeJS {
+        // noinspection JSUnusedGlobalSymbols
         interface Global {
             fetch: jest.MockedFunction<any>;
         }

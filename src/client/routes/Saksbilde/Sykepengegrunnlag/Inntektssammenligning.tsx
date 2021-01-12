@@ -10,7 +10,6 @@ interface Props {
     omregnetÅrsinntekt?: OmregnetÅrsinntekt;
     sammenligningsgrunnlag?: Sammenligningsgrunnlag;
     erGjeldende: boolean;
-    className?: string;
 }
 
 const InntektMedKilde = styled.div`
@@ -53,13 +52,7 @@ const kilde = (kilde: Inntektskildetype) => {
     }
 };
 
-const Inntektssammenligning = ({
-    arbeidsgiver,
-    omregnetÅrsinntekt,
-    sammenligningsgrunnlag,
-    erGjeldende,
-    className = 'Inntektssammenligning',
-}: Props) => (
+const Inntektssammenligning = ({ arbeidsgiver, omregnetÅrsinntekt, sammenligningsgrunnlag, erGjeldende }: Props) => (
     <ArbeidsgiverRad erGjeldende={erGjeldende}>
         <Normaltekst style={{ marginLeft: '0.25rem' }}>{arbeidsgiver}</Normaltekst>
         <InntektMedKilde>

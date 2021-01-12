@@ -69,10 +69,9 @@ const useVedtakstoast = () => {
 
 interface UtbetalingsdialogProps {
     vedtaksperiode: Vedtaksperiode;
-    person: Person;
 }
 
-export const Utbetalingsdialog = ({ vedtaksperiode, person }: UtbetalingsdialogProps) => {
+export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) => {
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
     const { leggTilUtbetalingstoast, leggTilInfotrygdtoast } = useVedtakstoast();

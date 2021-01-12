@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Response, Router } from 'express';
 import personinfoRepo from './personinfoRepo';
 import personLookup from './personLookup';
 import { PersonDependencies, SpeilRequest } from '../types';

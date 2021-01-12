@@ -10,7 +10,6 @@ import { Flex, FlexColumn } from '../Flex';
 import '@navikt/helse-frontend-tidslinje/lib/main.css';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { useSetAktivVedtaksperiode } from '../../state/vedtaksperiode';
-import dayjs from 'dayjs';
 
 const Container = styled(FlexColumn)`
     padding: 1rem 2rem;

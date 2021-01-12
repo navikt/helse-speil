@@ -6,7 +6,6 @@ import {
     Alder,
     Arbeidsuførhet,
     DagerIgjen,
-    Medlemskap,
     Opptjeningstid,
     Sykepengegrunnlag,
     Søknadsfrist,

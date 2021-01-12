@@ -154,6 +154,7 @@ export interface Utbetalingsdag {
     avvistÅrsak?: string;
 }
 
+// noinspection JSUnusedGlobalSymbols
 export enum Vedtaksperiodetilstand {
     TilUtbetaling = 'tilUtbetaling',
     Utbetalt = 'utbetalt',

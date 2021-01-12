@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 class Modal extends React.Component {
-    static setAppElement = string => null;
+    static setAppElement = (_) => null;
 
     constructor(props) {
         super(props);

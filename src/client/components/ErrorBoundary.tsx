@@ -23,6 +23,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
         return { hasError: true, error };
     }
 
+    // noinspection JSUnusedLocalSymbols
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
         this.props.onError?.(error);
     }

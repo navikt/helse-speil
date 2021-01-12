@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Response, Router } from 'express';
 import { DummyClient } from './dummyClient';
 import logger from '../logging';
 import { SpeilRequest } from '../types';

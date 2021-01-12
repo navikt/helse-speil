@@ -1,6 +1,7 @@
 import i18n, { Resource, ResourceKey } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+// noinspection JSUnusedLocalSymbols
 interface Translation {
     mvp: string;
     neste: string;
@@ -94,6 +95,7 @@ const resources: Resource = {
     },
 };
 
+// noinspection JSIgnoredPromiseFromCall
 i18n.use(initReactI18next).init({
     resources,
     lng: 'no',
@@ -102,4 +104,5 @@ i18n.use(initReactI18next).init({
     },
 });
 
+// noinspection JSUnusedGlobalSymbols
 export default i18n;

@@ -1,6 +1,7 @@
 import request from 'request-promise-native';
 import { OidcConfig, OnBehalfOf } from '../types';
 
+// noinspection JSUnusedGlobalSymbols
 enum Dagtype {
     Syk = 'Syk',
     Helg = 'Helg',

@@ -1,4 +1,3 @@
-// Finner første vedtaksperiode i en serie av sammenhengende vedtaksperioder
 import { Person, Vedtaksperiode } from 'internal-types';
 import { Dayjs } from 'dayjs';
 
@@ -13,9 +12,5 @@ export const førsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person
 export const organisasjonsnummerForPeriode = (nåværendePeriode: Vedtaksperiode, person: Person): string =>
     person.arbeidsgivere.find(({ vedtaksperioder }) => vedtaksperioder.find(({ id }) => id === nåværendePeriode.id))!
         .organisasjonsnummer;
-
-export const arbeidsgivernavnForPeriode = (person: Person, vedtaksperiodeId: string): string =>
-    person.arbeidsgivere.find(({ vedtaksperioder }) => vedtaksperioder.find(({ id }) => id === vedtaksperiodeId))
-        ?.navn ?? 'Arbeidsgiver';
 
 export const maksdatoForPeriode = ({ vilkår }: Vedtaksperiode): Dayjs | undefined => vilkår?.dagerIgjen.maksdato;

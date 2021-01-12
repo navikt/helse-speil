@@ -32,20 +32,7 @@ describe('personmapper', () => {
         const alvorlighetsgrad = 'W';
         const spleisAktivitet = enAktivitet(melding, tidsstempel, alvorlighetsgrad);
 
-        const vedtaksperiode = umappetVedtaksperiode({ aktivitetslogg: [spleisAktivitet] });
-        const arbeidsgiver = umappetArbeidsgiver([vedtaksperiode]);
-        const { person } = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
-
-        const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
-
-        expect(aktivitetslog).toHaveLength(1);
-        expect(aktivitetslog).toContainEqual(melding);
-    });
-
-    test('mapper varsler', async () => {
-        const melding = 'Aktivitetsvarsel';
-
-        const vedtaksperiode = umappetVedtaksperiode({ varsler: [melding] });
+        const vedtaksperiode = umappetVedtaksperiode({ varsler: [melding], aktivitetslogg: [spleisAktivitet] });
         const arbeidsgiver = umappetArbeidsgiver([vedtaksperiode]);
         const { person } = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
 

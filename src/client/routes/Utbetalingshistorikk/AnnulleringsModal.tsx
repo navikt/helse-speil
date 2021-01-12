@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Modal } from '../../components/Modal';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
-import { Person, UtbetalingshistorikkUtbetaling, Vedtaksperiode } from 'internal-types';
+import { Person, UtbetalingshistorikkUtbetaling } from 'internal-types';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { AnnulleringDTO } from '../../io/types';

@@ -15,18 +15,6 @@ import { SpesialistArbeidsgiver } from 'external-types';
 
 dayjs.extend(isSameOrAfter);
 
-declare global {
-    namespace NodeJS {
-        interface Global {
-            fetch: jest.MockedFunction<any>;
-        }
-    }
-}
-
-afterEach(() => {
-    global.fetch = undefined;
-});
-
 let cachedAnnullering: AnnulleringDTO;
 
 jest.mock('../../../io/http', () => ({
@@ -35,8 +23,6 @@ jest.mock('../../../io/http', () => ({
         return Promise.resolve();
     },
 }));
-
-global.fetch = jest.fn();
 
 const enSpeilVedtaksperiode = async (fom: Dayjs = dayjs('2020-01-01'), tom: Dayjs = dayjs('2020-01-31')) => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()

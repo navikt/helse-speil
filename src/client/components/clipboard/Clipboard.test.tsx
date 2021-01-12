@@ -6,6 +6,7 @@ import { act } from 'react-dom/test-utils';
 
 let copiedText = '';
 
+// noinspection JSUnusedGlobalSymbols
 jest.mock('./writeToClipboard', () => ({
     __esModule: true,
     writeToClipboard: (data: string) => {

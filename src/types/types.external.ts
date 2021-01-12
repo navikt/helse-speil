@@ -1,5 +1,4 @@
 import { SpesialistPersoninfo } from '../types';
-import { Dayjs } from 'dayjs';
 
 export interface Utbetalingsdetalj {
     sats: number;
@@ -253,6 +252,7 @@ export interface SpleisSimuleringutbetalingDetaljer {
     utbetalingstype: string;
 }
 
+// noinspection JSUnusedGlobalSymbols
 export enum SpleisVedtaksperiodetilstand {
     TilUtbetaling = 'TilUtbetaling',
     Utbetalt = 'Utbetalt',
@@ -305,6 +305,7 @@ interface SpleisSykepengegrunnlag {
     oppfylt?: boolean;
 }
 
+// noinspection JSUnusedGlobalSymbols
 export enum SpleisMedlemskapstatus {
     JA = 'JA',
     NEI = 'NEI',
@@ -413,6 +414,7 @@ export interface SpesialistOmregnetÅrsinntekt {
     inntekterFraAOrdningen?: SpesialistInntekterFraAOrdningen[]; //kun gyldig for A-ordningen
 }
 
+// noinspection JSUnusedGlobalSymbols
 export enum SpesialistInntektkilde {
     Saksbehandler = 'Saksbehandler',
     Inntektsmelding = 'Inntektsmelding',

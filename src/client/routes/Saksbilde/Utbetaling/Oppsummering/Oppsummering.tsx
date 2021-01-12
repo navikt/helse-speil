@@ -82,7 +82,7 @@ const Oppsummering = () => {
                     <Simuleringsfeilmelding>Mangler simulering</Simuleringsfeilmelding>
                 )}
             </Infogruppe>
-            <Utbetaling vedtaksperiode={aktivVedtaksperiode} person={personTilBehandling as Person} />
+            <Utbetaling vedtaksperiode={aktivVedtaksperiode} />
             {simuleringsdata && (
                 <SimuleringsinfoModal simulering={simuleringsdata} åpenModal={åpen} lukkModal={() => setÅpen(false)} />
             )}

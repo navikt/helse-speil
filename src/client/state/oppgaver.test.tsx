@@ -7,6 +7,7 @@ import { Oppgave, Periodetype } from '../../types';
 
 declare global {
     namespace NodeJS {
+        // noinspection JSUnusedGlobalSymbols
         interface Global {
             fetch: jest.MockedFunction<any>;
         }
@@ -70,7 +71,7 @@ describe('oppgavetildeling', () => {
             });
         });
 
-        test('thrower og returnerer navnet på tildelt saksbehandler ved konflikt', async () => {
+        test('thrower og returnerer navnet på tildelt saksbehandler ved konflikt', () => {
             mockTildelingsfeil();
             const { result } = renderHook(() => useTildelOppgave(), { wrapper });
 
@@ -90,7 +91,7 @@ describe('oppgavetildeling', () => {
             });
         });
 
-        test('thrower ved feil', async () => {
+        test('thrower ved feil', () => {
             mockTildelingsfeil();
             const { result } = renderHook(() => useFjernTildeling(), { wrapper });
 

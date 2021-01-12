@@ -7,14 +7,6 @@ import { UtbetalingshistorikkUtbetaling } from 'internal-types';
 import { enPersoninfo } from '../../mapping/person.test';
 import userEvent from '@testing-library/user-event';
 
-declare global {
-    namespace NodeJS {
-        interface Global {
-            fetch: jest.MockedFunction<any>;
-        }
-    }
-}
-
 let cachedAnnullering: AnnulleringDTO;
 
 jest.mock('../../io/http', () => ({
@@ -23,8 +15,6 @@ jest.mock('../../io/http', () => ({
         return Promise.resolve();
     },
 }));
-
-global.fetch = jest.fn();
 
 const personTilBehandling = async () => ({
     aktørId: '12345',

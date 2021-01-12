@@ -6,7 +6,7 @@ import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Utbetaling, Utbetalingsdetalj } from 'external-types';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { Grid } from '../../../../components/Grid';
-import { somPenger, toKronerOgØre } from '../../../../utils/locale';
+import { somPenger } from '../../../../utils/locale';
 import { Modal } from '../../../../components/Modal';
 
 const Modalinnhold = styled.article`

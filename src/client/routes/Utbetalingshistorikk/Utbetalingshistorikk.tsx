@@ -104,7 +104,7 @@ export const Utbetalingshistorikk = () => {
     }
 
     const rader =
-        personTilBehandling?.utbetalinger.map((utbetaling, i) => {
+        personTilBehandling?.utbetalinger.map((utbetaling) => {
             let utbetalingslinjer = utbetaling.arbeidsgiverOppdrag.utbetalingslinjer;
             return {
                 celler: [

@@ -1,8 +1,8 @@
 import React from 'react';
-import { renderHook } from '@testing-library/react-hooks';
+import { HookResult, renderHook } from '@testing-library/react-hooks';
 import { Vilkårstype } from '../../../mapping/vilkår';
 import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
-import { tilKategoriserteVilkår } from './tilKategoriserteVilkår';
+import { KategoriserteVilkår, tilKategoriserteVilkår } from './tilKategoriserteVilkår';
 import '@testing-library/jest-dom/extend-expect';
 import {
     assertHarAutomatiskVurdertVilkår,
@@ -29,6 +29,9 @@ const defaultVilkår: Vilkår = {
     medlemskap: oppfyltMedlemskap(),
 };
 
+const expectVilkårToBeEmpty = (result: HookResult<KategoriserteVilkår>, ...vilkår: (keyof KategoriserteVilkår)[]) =>
+    vilkår.forEach((it) => expect(result.current[it]).toHaveLength(0));
+
 describe('useKategoriserteVilkår', () => {
     test('førstegangsperiode, ikke behandlet', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({ vilkår: defaultVilkår });
@@ -45,9 +48,12 @@ describe('useKategoriserteVilkår', () => {
         assertHarOppfyltVilkår(Vilkårstype.Sykepengegrunnlag, result);
         assertHarOppfyltVilkår(Vilkårstype.Institusjonsopphold, result);
 
-        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(0);
-        expect(result.current.vilkårVurdertAutomatisk).toHaveLength(0);
-        expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(0);
+        expectVilkårToBeEmpty(
+            result,
+            'vilkårVurdertIInfotrygd',
+            'vilkårVurdertAutomatisk',
+            'vilkårVurdertAvSaksbehandler'
+        );
     });
     test('førstegangsperiode, behandlet av saksbehandler', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({ vilkår: defaultVilkår, behandlet: true });
@@ -63,11 +69,14 @@ describe('useKategoriserteVilkår', () => {
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.Sykepengegrunnlag, result);
         assertHarVilkårVurdertAvSaksbehandler(Vilkårstype.DagerIgjen, result);
 
-        expect(result.current.oppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeOppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeVurderteVilkår).toHaveLength(0);
-        expect(result.current.vilkårVurdertAutomatisk).toHaveLength(0);
-        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(0);
+        expectVilkårToBeEmpty(
+            result,
+            'oppfylteVilkår',
+            'ikkeOppfylteVilkår',
+            'ikkeVurderteVilkår',
+            'vilkårVurdertAutomatisk',
+            'vilkårVurdertIInfotrygd'
+        );
     });
     test('førstegangsperiode, behandlet automatisk', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({
@@ -87,11 +96,14 @@ describe('useKategoriserteVilkår', () => {
         assertHarAutomatiskVurdertVilkår(Vilkårstype.Sykepengegrunnlag, result);
         assertHarAutomatiskVurdertVilkår(Vilkårstype.DagerIgjen, result);
 
-        expect(result.current.oppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeOppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeVurderteVilkår).toHaveLength(0);
-        expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(0);
-        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(0);
+        expectVilkårToBeEmpty(
+            result,
+            'oppfylteVilkår',
+            'ikkeOppfylteVilkår',
+            'ikkeVurderteVilkår',
+            'vilkårVurdertAvSaksbehandler',
+            'vilkårVurdertIInfotrygd'
+        );
     });
     test('forlengelse fra Infotrygd, behandlet', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({
@@ -113,10 +125,13 @@ describe('useKategoriserteVilkår', () => {
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Sykepengegrunnlag, result);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Medlemskap, result);
 
-        expect(result.current.oppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeOppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeVurderteVilkår).toHaveLength(0);
-        expect(result.current.vilkårVurdertAutomatisk).toHaveLength(0);
+        expectVilkårToBeEmpty(
+            result,
+            'oppfylteVilkår',
+            'ikkeOppfylteVilkår',
+            'ikkeVurderteVilkår',
+            'vilkårVurdertAutomatisk'
+        );
     });
     test('forlengelse fra Infotrygd, behandlet automatisk', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({
@@ -139,10 +154,13 @@ describe('useKategoriserteVilkår', () => {
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Opptjeningstid, result);
         assertHarVilkårVurdertIInfotrygd(Vilkårstype.Sykepengegrunnlag, result);
 
-        expect(result.current.oppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeOppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeVurderteVilkår).toHaveLength(0);
-        expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(0);
+        expectVilkårToBeEmpty(
+            result,
+            'oppfylteVilkår',
+            'ikkeOppfylteVilkår',
+            'ikkeVurderteVilkår',
+            'vilkårVurdertAvSaksbehandler'
+        );
     });
     test('forlengelse fra Infotrygd, ikke behandlet', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({
@@ -181,11 +199,14 @@ describe('useKategoriserteVilkår', () => {
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Medlemskap, result);
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Opptjeningstid, result);
 
-        expect(result.current.oppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeOppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeVurderteVilkår).toHaveLength(0);
-        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(0);
-        expect(result.current.vilkårVurdertAvSaksbehandler).toHaveLength(0);
+        expectVilkårToBeEmpty(
+            result,
+            'oppfylteVilkår',
+            'ikkeOppfylteVilkår',
+            'ikkeVurderteVilkår',
+            'vilkårVurdertIInfotrygd',
+            'vilkårVurdertAvSaksbehandler'
+        );
     });
     test('vanlig forlengelse, behandlet', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({
@@ -207,11 +228,14 @@ describe('useKategoriserteVilkår', () => {
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Medlemskap, result);
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Opptjeningstid, result);
 
-        expect(result.current.oppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeOppfylteVilkår).toHaveLength(0);
-        expect(result.current.ikkeVurderteVilkår).toHaveLength(0);
-        expect(result.current.vilkårVurdertAutomatisk).toHaveLength(0);
-        expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(0);
+        expectVilkårToBeEmpty(
+            result,
+            'oppfylteVilkår',
+            'ikkeOppfylteVilkår',
+            'ikkeVurderteVilkår',
+            'vilkårVurdertAutomatisk',
+            'vilkårVurdertIInfotrygd'
+        );
     });
     test('vanlig forlengelse, ikke behandlet', async () => {
         const vedtaksperiode: Vedtaksperiode = await enSpeilVedtaksperiode({
@@ -224,6 +248,13 @@ describe('useKategoriserteVilkår', () => {
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Sykepengegrunnlag, result);
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Medlemskap, result);
         assertHarVilkårVurdertFørstePeriode(Vilkårstype.Opptjeningstid, result);
+
+        expectVilkårToBeEmpty(
+            result,
+            'vilkårVurdertAutomatisk',
+            'vilkårVurdertIInfotrygd',
+            'vilkårVurdertAvSaksbehandler'
+        );
 
         expect(result.current.vilkårVurdertAutomatisk).toHaveLength(0);
         expect(result.current.vilkårVurdertIInfotrygd).toHaveLength(0);

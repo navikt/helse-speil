@@ -9,7 +9,6 @@ import { IkkeTildelt, Tildelt } from './tildeling';
 import { useUpdateVarsler } from '../../state/varslerState';
 import { somDato } from '../../mapping/vedtaksperiode';
 import { Tabellrad } from '@navikt/helse-frontend-tabell';
-import { speilV2 } from '../../featureToggles';
 import { useEmail } from '../../state/authentication';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { useFjernTildeling } from '../../state/oppgaver';

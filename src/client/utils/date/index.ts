@@ -1,5 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { Periode } from 'internal-types';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 
@@ -48,13 +47,6 @@ export const arbeidsdagerMellom = (startdato: Dayjs, sluttdato: Dayjs): Dayjs[] 
     }
     return datoer;
 };
-
-export const first26WeeksInterval = (perioder: Periode[], førsteDag: Dayjs): number =>
-    perioder.findIndex((period, index) => {
-        const førsteDagForrigePeriode = index === 0 ? førsteDag : perioder[index - 1].fom;
-        const sisteDagNåværendePeriode = period.tom;
-        return Math.abs(førsteDagForrigePeriode.diff(sisteDagNåværendePeriode, 'week')) >= 26;
-    });
 
 export const workdaysBetween = (startdato: Dayjs, sluttdato: Dayjs): number => {
     let tempDate = startdato.clone();

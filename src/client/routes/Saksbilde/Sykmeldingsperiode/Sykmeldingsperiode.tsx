@@ -8,7 +8,6 @@ import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { useRecoilValue } from 'recoil';
 import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
 import { usePerson } from '../../../state/person';
-import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 
 const Container = styled.div`
     display: flex;
