@@ -9,6 +9,7 @@ WORKDIR /app
 COPY node_modules/ node_modules/
 COPY dist/server/ dist/server/
 COPY dist/client/ dist/client/
+COPY dist/types.js dist/types.js
 
 EXPOSE 3000
 

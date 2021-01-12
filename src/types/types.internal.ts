@@ -152,11 +152,6 @@ export enum Periodetype {
     Førstegangsbehandling = 'førstegangsbehandling',
 }
 
-export enum Oppgavetype {
-    Søknad = 'SØKNAD',
-    Stikkprøve = 'STIKKPRØVE',
-}
-
 export enum Vedtaksperiodetilstand {
     TilUtbetaling = 'tilUtbetaling',
     Utbetalt = 'utbetalt',

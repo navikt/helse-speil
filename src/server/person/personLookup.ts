@@ -3,7 +3,7 @@ import logger from '../logging';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf, SpeilRequest } from '../types';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { Oppgave, Oppgavetype, Periodetype, SpesialistOppgave } from '../../types';
 
 export interface SetupParameters {
