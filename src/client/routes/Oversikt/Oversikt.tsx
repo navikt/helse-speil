@@ -75,7 +75,9 @@ export const Oversikt = () => {
                 Henter oppgaver
                 <Spinner type="XS" />
             </Toast>
-            {oppgaver.state === 'hasError' && <Varsel type={Varseltype.Feil}>{oppgaver.contents}</Varsel>}
+            {oppgaver.state === 'hasError' && (
+                <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
+            )}
             <Content>
                 <Tabs />
                 <OppgaverTabell

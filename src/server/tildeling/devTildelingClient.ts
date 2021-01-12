@@ -3,7 +3,7 @@ import { Tildeling } from './tildelingClient';
 
 export default {
     postTildeling: async (tildeling: Tildeling): Promise<any> =>
-        Math.random() < 0.5
+        Math.random() < 1
             ? request.post(`http://localhost:9001/api/v1/tildeling/${tildeling.oppgavereferanse}`)
             : Promise.reject({
                   feilkode: 409,
@@ -12,5 +12,8 @@ export default {
                       tildeltTil: 'Saksbehandler Frank',
                   },
               }),
-    fjernTildeling: async (): Promise<any> => (Math.random() < 1 ? Promise.resolve() : Promise.reject()),
+    fjernTildeling: async (tildeling: Tildeling): Promise<any> =>
+        Math.random() < 1
+            ? request.delete(`http://localhost:9001/api/v1/tildeling/${tildeling.oppgavereferanse}`)
+            : Promise.reject(),
 };
