@@ -1,12 +1,11 @@
 import React from 'react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { Periodetype, Vedtaksperiodetilstand } from 'internal-types';
+import { useAktivVedtaksperiode } from '../state/vedtaksperiode';
 import '@navikt/helse-frontend-varsel/lib/main.css';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../state/vedtaksperiode';
 
 export const Toppvarsler = () => {
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
     if (!aktivVedtaksperiode) return null;
 
     const { aktivitetslog, periodetype, automatiskBehandlet, behandlet, tilstand } = aktivVedtaksperiode;

@@ -15,8 +15,7 @@ import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import Inntektsgrunnlaginnhold from './Inntektsgrunnlaginnhold';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { usePerson } from '../../../state/person';
 
 const StyledBehandletInnhold = styled(BehandletVarsel)`
@@ -80,7 +79,7 @@ const Oversikt = ({ inntektsgrunnlag, inntektskilder, sykepengegrunnlag }: Overs
 );
 
 export const Sykepengegrunnlag = () => {
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;

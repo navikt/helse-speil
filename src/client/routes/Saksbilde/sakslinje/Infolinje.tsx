@@ -6,8 +6,7 @@ import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -45,7 +44,7 @@ const Tooltip = styled(ReactTooltip)`
 `;
 
 export const Infolinje = () => {
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
     if (!aktivVedtaksperiode) return null;
 
     const fom = aktivVedtaksperiode.fom.format(NORSK_DATOFORMAT);

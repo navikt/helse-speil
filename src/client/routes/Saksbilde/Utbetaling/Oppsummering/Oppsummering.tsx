@@ -8,10 +8,8 @@ import { SimuleringsinfoModal } from './SimuleringsinfoModal';
 import { Link } from 'react-router-dom';
 import { Utbetaling } from './utbetaling/Utbetaling';
 import { Flex } from '../../../../components/Flex';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../../../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../../../state/vedtaksperiode';
 import { usePerson } from '../../../../state/person';
-import { Person } from 'internal-types';
 
 const Infogruppe = styled.section`
     margin-bottom: 2.5rem;
@@ -44,7 +42,7 @@ const Sykepengegrunnlagslenke = styled(Link)`
 `;
 
 const Oppsummering = () => {
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
     const { t } = useTranslation();
     const [åpen, setÅpen] = useState(false);

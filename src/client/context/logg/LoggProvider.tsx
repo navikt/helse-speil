@@ -9,15 +9,14 @@ import {
     LoggProvider as EksternLoggProvider,
 } from '@navikt/helse-frontend-logg';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];
 }
 
 export const LoggProvider = ({ children }: LoggProviderProps) => {
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
 
     const dokumenter = mapDokumenter(aktivVedtaksperiode);
     const overstyringer = mapOverstyringer(aktivVedtaksperiode);

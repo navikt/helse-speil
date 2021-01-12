@@ -2,8 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import dayjs from 'dayjs';
 import amplitude from 'amplitude-js';
 import { amplitudeEnabled } from '../../featureToggles';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
 
 amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {
@@ -23,7 +22,7 @@ export const AmplitudeContext = React.createContext<AmplitudeContextValue>({
 });
 
 export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
     if (!aktivVedtaksperiode) throw Error('Mangler aktiv vedtaksperiode');
 
     const oppgaveÅpnet = dayjs();

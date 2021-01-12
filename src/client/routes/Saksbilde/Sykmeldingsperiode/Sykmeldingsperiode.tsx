@@ -5,8 +5,7 @@ import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { OverstyrbarSykmeldingsperiodetabell } from './OverstyrbarSykmeldingsperiodetabell';
 import { OverstyringTimeoutModal } from './OverstyringTimeoutModal';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { usePerson } from '../../../state/person';
 
 const Container = styled.div`
@@ -17,7 +16,7 @@ const Container = styled.div`
 
 export const Sykmeldingsperiode = () => {
     const person = usePerson();
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
     const [overstyrer, setOverstyrer] = useState(false);
     const [kalkulerer, setKalkulerer] = useState(false);
     const [overstyringTimedOut, setOverstyringTimedOut] = useState(false);

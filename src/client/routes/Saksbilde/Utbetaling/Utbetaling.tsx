@@ -11,8 +11,7 @@ import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { Arbeidsforhold } from '../Arbeidsforhold';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { usePerson } from '../../../state/person';
 
 const Container = styled.section`
@@ -79,7 +78,7 @@ const Lenke = styled(Link)`
 `;
 
 export const Utbetaling = () => {
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;

@@ -24,8 +24,7 @@ import { useOverstyrteDager } from './useOverstyrteDager';
 import { pollEtterNyOppgave } from '../../../io/polling';
 import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
 import classNames from 'classnames';
-import { useRecoilValue } from 'recoil';
-import { aktivVedtaksperiodeState } from '../../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { useHentPerson, usePerson } from '../../../state/person';
 
 const OverstyrbarTabell = styled(Tabell)`
@@ -82,7 +81,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
     const { overstyrteDager, leggTilOverstyrtDag, fjernOverstyrtDag } = useOverstyrteDager();
     const personTilBehandling = usePerson();
-    const aktivVedtaksperiode = useRecoilValue(aktivVedtaksperiodeState);
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
     const hentPerson = useHentPerson();
     const [overstyringserror, setOverstyringserror] = useState<string>();
     const leggtilEnToast = useLeggTilEnToast();
