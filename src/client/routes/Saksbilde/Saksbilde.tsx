@@ -104,7 +104,7 @@ const TomtSaksbilde = ({ person }: { person: Person }) => (
     </Container>
 );
 
-export const Saksbilde = () => {
+const SaksbildeContent = () => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
     const { path } = useRouteMatch();
@@ -117,43 +117,49 @@ export const Saksbilde = () => {
 
     return (
         <Container className="saksbilde">
-            <LoggProvider>
-                <Personlinje person={personTilBehandling} />
-                <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
-                <Flex justifyContent="space-between">
-                    <Sakslinje />
-                    <LoggHeader />
-                </Flex>
-                <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Feil}>{error.message}</Varsel>}>
-                    <AmplitudeProvider>
-                        <Flex style={{ flex: 1 }}>
-                            <FlexColumn style={{ flex: 1 }}>
-                                <Toppvarsler />
-                                <Content>
-                                    <Switch>
-                                        <Route path={`${path}/utbetaling`}>
-                                            <Utbetaling />
-                                        </Route>
-                                        <Route path={`${path}/sykmeldingsperiode`}>
-                                            <Sykmeldingsperiode />
-                                        </Route>
-                                        <Route path={`${path}/vilkår`}>
-                                            <Vilkår vedtaksperiode={aktivVedtaksperiode} person={personTilBehandling} />
-                                        </Route>
-                                        <Route path={`${path}/sykepengegrunnlag`}>
-                                            <Sykepengegrunnlag />
-                                        </Route>
-                                    </Switch>
-                                </Content>
-                            </FlexColumn>
-                            <LoggListe />
-                        </Flex>
-                    </AmplitudeProvider>
-                </ErrorBoundary>
-            </LoggProvider>
+            <Personlinje person={personTilBehandling} />
+            <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
+            <Flex justifyContent="space-between">
+                <Sakslinje />
+                <LoggHeader />
+            </Flex>
+            <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Feil}>{error.message}</Varsel>}>
+                <AmplitudeProvider>
+                    <Flex style={{ flex: 1 }}>
+                        <FlexColumn style={{ flex: 1 }}>
+                            <Toppvarsler />
+                            <Content>
+                                <Switch>
+                                    <Route path={`${path}/utbetaling`}>
+                                        <Utbetaling />
+                                    </Route>
+                                    <Route path={`${path}/sykmeldingsperiode`}>
+                                        <Sykmeldingsperiode />
+                                    </Route>
+                                    <Route path={`${path}/vilkår`}>
+                                        <Vilkår vedtaksperiode={aktivVedtaksperiode} person={personTilBehandling} />
+                                    </Route>
+                                    <Route path={`${path}/sykepengegrunnlag`}>
+                                        <Sykepengegrunnlag />
+                                    </Route>
+                                </Switch>
+                            </Content>
+                        </FlexColumn>
+                        <LoggListe />
+                    </Flex>
+                </AmplitudeProvider>
+            </ErrorBoundary>
             <KalkulererOverstyringToast />
         </Container>
     );
 };
 
-export default { Saksbilde, LasterSaksbilde };
+export const Saksbilde = () => (
+    <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Advarsel}>{error.message}</Varsel>}>
+        <React.Suspense fallback={<LasterSaksbilde />}>
+            <LoggProvider>
+                <SaksbildeContent />
+            </LoggProvider>
+        </React.Suspense>
+    </ErrorBoundary>
+);

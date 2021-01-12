@@ -16,7 +16,7 @@ export const useRefreshPerson = () => {
             hentPerson(aktorId);
         } else {
             leggTilVarsel({
-                message: `'${aktorId}' er ikke en gyldig aktør-ID.`,
+                message: `'${aktorId}' er ikke en gyldig aktør-ID/fødselsnummer.`,
                 scope: Scopes.SAKSBILDE,
                 type: Varseltype.Feil,
             });

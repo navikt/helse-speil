@@ -19,7 +19,6 @@ const hentPerson = (id: string): Promise<PersonState> =>
             return { ...mapPerson(data.person, personinfo) };
         })
         .catch((error) => {
-            console.log('error', error);
             switch (error.statusCode) {
                 case 404:
                     throw Error('Personen har ingen utbetalinger i NAV Sykepenger');
@@ -43,12 +42,23 @@ export const personState = selector<PersonState>({
     },
 });
 
-export const useTildelPerson = () => {
-    // const setPerson = useSetRecoilState(personState);
-    // return (id: string) => setPerson((it) => ({ ...it, person: it.person && { ...it.person, tildeltTil: id } }));
-};
+const tildelingState = atom<string | undefined>({
+    key: 'tildelingState',
+    default: undefined,
+});
 
-export const usePerson = () => useRecoilValue(personState).person;
+export const useTildelPerson = () => useSetRecoilState(tildelingState);
+
+export const usePerson = () => {
+    const person = useRecoilValue(personState).person;
+    const tildeling = useRecoilValue(tildelingState);
+    return (
+        person && {
+            ...person,
+            tildeltTil: tildeling,
+        }
+    );
+};
 
 export const useHentPerson = () => {
     const setPerson = useSetRecoilState(personTilBehandlingState);

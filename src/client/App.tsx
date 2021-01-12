@@ -7,7 +7,7 @@ import { Header } from './components/Header';
 import { Routes } from './routes';
 import { Varsler } from './components/Varsler';
 import { Oversikt } from './routes/Oversikt';
-import { LasterSaksbilde, Saksbilde } from './routes/Saksbilde/Saksbilde';
+import { Saksbilde } from './routes/Saksbilde/Saksbilde';
 import { RecoilRoot } from 'recoil';
 import { Opptegnelse } from './routes/Saksbilde/Opptegnelse';
 import { useDebounce } from './hooks/useDebounce';
@@ -51,9 +51,7 @@ const App = () => {
                     <Utbetalingshistorikk />
                 </ProtectedRoute>
                 <ProtectedRoute path={Routes.Saksbilde}>
-                    <React.Suspense fallback={<LasterSaksbilde />}>
-                        <Saksbilde />
-                    </React.Suspense>
+                    <Saksbilde />
                 </ProtectedRoute>
                 <ProtectedRoute path={Routes.OpptengelseTest}>
                     <Opptegnelse />

@@ -6,6 +6,8 @@ import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
 import { Link, useHistory } from 'react-router-dom';
 import { erGyldigPersonId } from '../hooks/useRefreshPerson';
+import { Scopes, useUpdateVarsler } from '../state/varslerState';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -19,15 +21,24 @@ const Container = styled.div`
 `;
 
 export const Header = () => {
+    const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
     const { name, ident, isLoggedIn } = useRecoilValue(authState);
     const history = useHistory();
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
     const onSøk = (personId: string) => {
-        return erGyldigPersonId(personId)
-            ? Promise.resolve(history.push(`/person/${personId}/utbetaling`))
-            : Promise.reject('Oppgitt verdi er ikke en gyldig aktør-ID eller et gyldig fødselsnummer.');
+        fjernVarsler();
+        if (!erGyldigPersonId(personId)) {
+            leggTilVarsel({
+                message: `"${personId}" er verken en gyldig aktør-ID/fødselsnummer.`,
+                scope: Scopes.GLOBAL,
+                type: Varseltype.Feil,
+            });
+        } else {
+            history.push(`/person/${personId}/utbetaling`);
+        }
+        return Promise.resolve();
     };
 
     return (
