@@ -9,6 +9,7 @@ import {
     forlengelsesfilter,
     førstegangsfilter,
     overgangFraInfotrygdFilter,
+    stikkprøveFilter,
     ufordelteOppgaverFilter,
 } from './filtrering';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
@@ -16,8 +17,7 @@ import { Paginering } from './Paginering';
 import { tabState } from './tabs';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
-import { useEmail } from '../../state/authentication';
-import { oppgaverState } from '../../state/oppgaver';
+import { stikkprøve } from '../../featureToggles';
 
 const Oversiktstabell = styled(Tabell)`
     table-layout: fixed;
@@ -78,7 +78,12 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     const headere = [
         {
             render: 'Sakstype',
-            filtere: [førstegangsfilter(), forlengelsesfilter(), overgangFraInfotrygdFilter()],
+            filtere: [
+                førstegangsfilter(),
+                forlengelsesfilter(),
+                overgangFraInfotrygdFilter(),
+                ...(stikkprøve ? [stikkprøveFilter()] : []),
+            ],
         },
         'Søker',
         { render: 'Opprettet', sortFunction: sorterDateString },

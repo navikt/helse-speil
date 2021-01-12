@@ -1,9 +1,8 @@
-import React, { DependencyList, EffectCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
 import Panel from 'nav-frontend-paneler';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { useLocation } from 'react-router-dom';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { OppgaverTabell } from './OppgaverTabell';
 import { Tabs, tabState } from './tabs';

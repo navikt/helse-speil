@@ -79,7 +79,7 @@ const Sakslenke: React.FunctionComponent<{ oppgave: Oppgave; skjult?: boolean }>
 
 const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => (
     <CellContainer width={120}>
-        <Oppgaveetikett type={oppgave.type} />
+        <Oppgaveetikett type={oppgave.periodetype} />
         <SkjultSakslenke oppgave={oppgave} />
     </CellContainer>
 );
@@ -133,7 +133,7 @@ const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
 };
 
 export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
-    celler: [oppgave.type, oppgave, oppgave.opprettet, oppgave.boenhet.navn, oppgave.antallVarsler, oppgave],
+    celler: [oppgave.periodetype, oppgave, oppgave.opprettet, oppgave.boenhet.navn, oppgave.antallVarsler, oppgave],
     id: oppgave.oppgavereferanse,
 });
 

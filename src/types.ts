@@ -19,11 +19,17 @@ export interface SpesialistPersoninfo {
     fødselsdato: string | null;
 }
 
-export enum OppgaveType {
+export enum Periodetype {
     Forlengelse = 'FORLENGELSE',
     Førstegangsbehandling = 'FØRSTEGANGSBEHANDLING',
     Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
     OvergangFraInfotrygd = 'OVERGANG_FRA_IT',
+    Stikkprøve = 'STIKKPRØVE',
+}
+
+export enum Oppgavetype {
+    Søknad = 'SØKNAD',
+    Stikkprøve = 'STIKKPRØVE',
 }
 
 export interface SpesialistOppgave {
@@ -37,7 +43,8 @@ export interface SpesialistOppgave {
     fødselsnummer: string;
     aktørId: string;
     antallVarsler: number;
-    type: OppgaveType;
+    type: Periodetype;
+    oppgavetype: Oppgavetype;
     boenhet: Boenhet;
 }
 
@@ -50,7 +57,7 @@ export interface Oppgave {
     fødselsnummer: string;
     aktørId: string;
     antallVarsler: number;
-    type: OppgaveType;
+    periodetype: Periodetype;
     boenhet: Boenhet;
 }
 

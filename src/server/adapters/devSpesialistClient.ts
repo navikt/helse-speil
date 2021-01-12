@@ -106,6 +106,9 @@ const filenameForPersonId = (id: string) => {
             return 'maud-angelica_utbetalt.json';
         case '6549846514988':
             return 'muffins_kråkebolle_it_forlengelse.json';
+        case '1000000008971':
+        case '13019769420':
+            return 'marius-borg-høiby_stikkprøve.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

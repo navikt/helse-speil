@@ -258,5 +258,26 @@
             "id": "0228",
             "navn": "Nav Utland"
         }
+    },
+    {
+        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-87866a8ffffk",
+        "opprettet": "2020-07-15T23:04:09.454",
+        "fødselsnummer": "13019769420",
+        "aktørId": "1000000008971",
+        "personinfo": {
+            "fornavn": "Marius",
+            "mellomnavn": "Borg",
+            "etternavn": "Høiby",
+            "fødselsdato": "1997-01-13",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "115f2217-a2aa-4356-90c8-062d3d0276ff",
+        "type": "INFOTRYGDFORLENGELSE",
+        "oppgavetype": "STIKKPRØVE",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        }
     }
 ]

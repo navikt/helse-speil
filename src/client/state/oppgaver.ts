@@ -1,9 +1,10 @@
 import { atom, selector, useSetRecoilState } from 'recoil';
-import { Oppgave } from '../../types';
+import { Oppgave, Periodetype } from '../../types';
 import { deleteTildeling, fetchOppgaver, postTildeling } from '../io/http';
 import { useUpdateVarsler } from './varslerState';
 import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
+import { stikkprøve } from '../featureToggles';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -39,9 +40,11 @@ export const oppgaverState = selector<Oppgave[]>({
     get: async ({ get }) => {
         const tildelinger = get(tildelingerState);
         const oppgaver = await get(remoteOppgaverState);
-        return oppgaver.map((it) =>
-            tildelinger[it.oppgavereferanse] ? { ...it, tildeltTil: tildelinger[it.oppgavereferanse] } : it
-        );
+        return oppgaver
+            .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
+            .map((it) =>
+                tildelinger[it.oppgavereferanse] ? { ...it, tildeltTil: tildelinger[it.oppgavereferanse] } : it
+            );
     },
 });
 

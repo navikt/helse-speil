@@ -26,7 +26,6 @@ const erUtvikler = () => erKnudix() || erKevin() || erDavid();
 
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
-
 export const annulleringerEnabled =
     erPreprod() || erLocal() || erSupportsaksbehandler() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
@@ -35,3 +34,4 @@ export const speilTildeling = true;
 export const speilV2 = true;
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erEminem();
+export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
