@@ -42,9 +42,10 @@ export const oppgaverState = selector<Oppgave[]>({
         const oppgaver = await get(remoteOppgaverState);
         return oppgaver
             .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
-            .map((it) =>
-                tildelinger[it.oppgavereferanse] ? { ...it, tildeltTil: tildelinger[it.oppgavereferanse] } : it
-            );
+            .map((it) => {
+                const tildeling = tildelinger[it.oppgavereferanse];
+                return tildeling ? { ...it, tildeltTil: tildeling } : it;
+            });
     },
 });
 

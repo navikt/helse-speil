@@ -39,20 +39,18 @@ const useFiltrerteOppgaver = () => {
     const oppgaver = useRecoilValueLoadable(oppgaverState);
     const [cache, setCache] = useState<Oppgave[]>([]);
 
+    const filtrer = (oppgaver: Oppgave[]): Oppgave[] =>
+        aktivTab === 'alle' ? oppgaver : oppgaver.filter(({ tildeltTil }) => tildeltTil === email);
+
     useEffect(() => {
         if (oppgaver.state === 'hasValue') {
-            setCache(oppgaver.contents);
+            setCache(filtrer(oppgaver.contents));
         }
     }, [oppgaver.state]);
 
     return {
         state: oppgaver.state,
-        contents:
-            oppgaver.state === 'hasValue'
-                ? aktivTab === 'alle'
-                    ? oppgaver.contents
-                    : oppgaver.contents.filter(({ tildeltTil }) => tildeltTil === email)
-                : oppgaver.contents,
+        contents: oppgaver.state === 'hasValue' ? filtrer(oppgaver.contents) : oppgaver.contents,
         cache: cache,
     };
 };
