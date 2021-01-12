@@ -3,7 +3,7 @@ import logger from '../logging';
 import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf, SpeilRequest } from '../types';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { Oppgave, Oppgavetype, Periodetype, SpesialistOppgave } from '../../types';
 
 export interface SetupParameters {
@@ -70,7 +70,7 @@ const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
                 fødselsnummer: oppgave.fødselsnummer,
                 aktørId: oppgave.aktørId,
                 antallVarsler: oppgave.antallVarsler,
-                periodetype: oppgave.oppgavetype == Oppgavetype.Stikkprøve ? Periodetype.Stikkprøve : oppgave.type,
+                periodetype: oppgave.oppgavetype === Oppgavetype.Stikkprøve ? Periodetype.Stikkprøve : oppgave.type,
                 boenhet: oppgave.boenhet,
             })
         );
