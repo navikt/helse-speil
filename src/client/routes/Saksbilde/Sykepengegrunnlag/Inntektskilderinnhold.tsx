@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
-import { somPenger, toKronerOgØre } from '../../../utils/locale';
+import { somPenger } from '../../../utils/locale';
 import { Inntektskilde } from 'internal-types';
 import styled from '@emotion/styled';
 import { Grid } from '../../../components/Grid';
@@ -93,7 +93,7 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                     <Tittel maxwidth="500px">
                         <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
                         <Flex style={{ margin: '0 4px' }}>
-                            (<Clipboard>{organisasjonsnummer}</Clipboard>)
+                            (<Clipboard copyMessage="Organisasjonsnummer er kopiert">{organisasjonsnummer}</Clipboard>)
                         </Flex>
                     </Tittel>
                     <Kilde>Aa</Kilde>

@@ -115,7 +115,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             <Element>{`${fornavn} ${mellomnavn ? `${mellomnavn} ` : ' '}${etternavn}`}</Element>
             <Separator>/</Separator>
             {fnr ? (
-                <Clipboard preserveWhitespace={false}>
+                <Clipboard preserveWhitespace={false} copyMessage="Personnummer er kopiert">
                     <Normaltekst>{formatFnr(fnr)}</Normaltekst>
                 </Clipboard>
             ) : (
@@ -123,7 +123,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             )}
             <Separator>/</Separator>
             <Normaltekst>Aktør-ID:&nbsp;</Normaltekst>
-            <Clipboard preserveWhitespace={false}>
+            <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert">
                 <Normaltekst>{aktørId}</Normaltekst>
             </Clipboard>
             <Separator>/</Separator>

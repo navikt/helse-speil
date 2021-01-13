@@ -116,7 +116,7 @@ export const Utbetaling = () => {
                         <Korttittel>
                             <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>{arbeidsgiver}</Lenke>
                         </Korttittel>
-                        <Clipboard preserveWhitespace={false}>
+                        <Clipboard preserveWhitespace={false} copyMessage="Organisasjonsnummer er kopiert">
                             <Normaltekst>{organisasjonsnummer}</Normaltekst>
                         </Clipboard>
                         {arbeidsforhold?.[0] && <Arbeidsforhold {...arbeidsforhold[0]} />}

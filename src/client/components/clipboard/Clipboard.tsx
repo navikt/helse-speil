@@ -7,6 +7,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const Button = styled.button`
+    position: relative;
     background: none;
     cursor: pointer;
     padding: 2px 4px 0;
@@ -26,12 +27,12 @@ const Button = styled.button`
 `;
 
 const Popover = styled(Normaltekst)`
-    transform: translateY(8px) translateX(-6px);
     position: absolute;
     padding: 6px 8px;
     border: 1px solid #78706a;
     background: white;
     border-radius: 2px;
+    white-space: nowrap;
 
     &:before {
         position: absolute;
@@ -43,6 +44,7 @@ const Popover = styled(Normaltekst)`
         height: 10px;
         width: 10px;
         top: -6px;
+        left: 8px;
     }
 `;
 
@@ -90,10 +92,15 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
                     {didCopy && (
                         <motion.span
                             key="popover"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0 }}
-                            transition={{ type: 'spring' }}
+                            transition={{ type: 'tween', duration: 0.15 }}
+                            style={{
+                                position: 'absolute',
+                                bottom: -10,
+                                left: -2,
+                            }}
                         >
                             <Popover>{copyMessage ?? 'Kopiert!'}</Popover>
                         </motion.span>
