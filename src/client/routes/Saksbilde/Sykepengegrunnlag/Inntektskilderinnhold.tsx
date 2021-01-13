@@ -10,6 +10,8 @@ import { Kilde } from '../../../components/Kilde';
 import { FlexColumn } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
 import { Arbeidsforhold } from '../Arbeidsforhold';
+import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
+import { Tooltip } from '../../../components/Tooltip';
 
 const Arbeidsgivertittel = styled.div`
     display: flex;
@@ -40,6 +42,8 @@ const Tittel = styled(Undertittel)`
     align-items: center;
     font-size: 18px;
     color: #3e3832;
+
+    ${({ maxWidth }: { maxWidth?: string }) => maxWidth && `max-width: ${maxWidth};`}
 `;
 
 const Tabell = styled.div`
@@ -86,8 +90,9 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
             <FlexColumn>
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
-                    <Tittel>
-                        {arbeidsgiver} (<Clipboard>{organisasjonsnummer}</Clipboard>)
+                    <Tittel maxWidth="500px">
+                        <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>(
+                        <Clipboard>{organisasjonsnummer}</Clipboard>)
                     </Tittel>
                     <Kilde>Aa</Kilde>
                 </Arbeidsgivertittel>
@@ -120,6 +125,7 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                     <Normaltekst>Ikke sjekket</Normaltekst>
                 </Tabell>
             </FlexColumn>
+            <Tooltip />
         </Innhold>
     );
 };
