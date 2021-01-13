@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
-import { render, screen } from '@testing-library/react';
-import { Clipboard } from './Clipboard';
+import { render, screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
+import { Clipboard } from './Clipboard';
 
 let copiedText = '';
 
