@@ -12,6 +12,7 @@ import { Tabellrad } from '@navikt/helse-frontend-tabell';
 import { useEmail } from '../../state/authentication';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { useFjernTildeling } from '../../state/oppgaver';
+import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
@@ -35,16 +36,6 @@ const CellContainer = styled.div<{ width?: number }>`
         width: ${width}px;
         max-width: ${width}px;
     `}
-`;
-
-const TekstMedEllipsis = styled(Normaltekst)`
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    > a:focus {
-        box-shadow: 0 0 0 3px #254b6d;
-    }
 `;
 
 const SkjultLenke = styled(Link)`

@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import ReactTooltip from 'react-tooltip';
 import { Flex } from '../../../components/Flex';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
+import { Tooltip } from '../../../components/Tooltip';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -27,19 +27,6 @@ const InfolinjeElement = styled(Flex)`
 
     svg {
         margin-right: 0.5rem;
-    }
-`;
-
-const Tooltip = styled(ReactTooltip)`
-    padding: 2px 8px !important;
-    font-size: 14px !important;
-    line-height: 20px !important;
-    border-width: 0 !important;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px #b7b1a9;
-
-    &:after {
-        display: none !important; // fjerner default-pilen ned
     }
 `;
 
@@ -69,7 +56,7 @@ export const Infolinje = () => {
                 <Maksdatoikon />
                 {maksdato}
             </InfolinjeElement>
-            <Tooltip backgroundColor="#FFF5E8" textColor="#3E3832" borderColor="#B7B1A9" />
+            <Tooltip />
         </InfolinjeContainer>
     );
 };

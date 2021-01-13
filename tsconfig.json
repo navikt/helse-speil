@@ -23,19 +23,6 @@
             "internal-types": ["./src/types/types.internal"]
         }
     },
-    "exclude": [
-        "node_modules",
-        "build",
-        "scripts",
-        "acceptance-tests",
-        "webpack",
-        "jest",
-        "jest.config.js",
-        "src/setupTests.ts",
-        "__mock-data__",
-        "__mocks__",
-        "e2e-tests",
-        "dist"
-    ],
+    "exclude": ["node_modules", "jest.config.js", "__mock-data__", "__mocks__", "e2e-tests", "dist"],
     "types": ["typePatches"]
 }

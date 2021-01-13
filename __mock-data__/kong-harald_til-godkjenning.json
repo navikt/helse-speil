@@ -13,8 +13,8 @@
         {
             "organisasjonsnummer": "987654321",
             "id": "300061b8-77ec-43f5-be5f-c788eb067a9a",
-            "navn": "ARASAKA CORP.",
-            "bransjer": ["SHADY BIZ", "QUICK HACKZ", "BRAINDANCING"],
+            "navn": "KONGERIKET NORGE",
+            "bransjer": ["MONARKI"],
             "overstyringer": [
                 {
                     "hendelseId": "E6201F83-3104-4D85-840C-C7977B3E788D",
@@ -628,7 +628,7 @@
     "arbeidsforhold": [
         {
             "organisasjonsnummer": "987654321",
-            "stillingstittel": "Hans Majestet Kongen",
+            "stillingstittel": "HANS MAJESTET KONGEN",
             "stillingsprosent": 100,
             "startdato": "1991-01-17",
             "sluttdato": null

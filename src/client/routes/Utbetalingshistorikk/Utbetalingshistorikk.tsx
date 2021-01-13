@@ -144,3 +144,5 @@ export const Utbetalingshistorikk = () => {
         </Container>
     );
 };
+
+export default Utbetalingshistorikk;

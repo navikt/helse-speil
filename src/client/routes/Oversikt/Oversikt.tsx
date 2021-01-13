@@ -87,3 +87,5 @@ export const Oversikt = () => {
         </Container>
     );
 };
+
+export default Oversikt;

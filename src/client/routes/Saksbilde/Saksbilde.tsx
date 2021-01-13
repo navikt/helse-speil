@@ -163,3 +163,5 @@ export const Saksbilde = () => (
         </React.Suspense>
     </ErrorBoundary>
 );
+
+export default Saksbilde;
