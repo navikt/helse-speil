@@ -1,32 +1,22 @@
 import React, { ReactChild, useEffect, useRef, useState } from 'react';
-import ClipboardIcon from './icons/ClipboardIcon';
-import { AnimatePresence, motion } from 'framer-motion';
+import { ClipboardIcon } from './icons/ClipboardIcon';
 import { copyContentsToClipboard } from './util';
 import { Flex } from '../Flex';
 import styled from '@emotion/styled';
-
-const copyAnimation = {
-    initial: { y: 5, opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    exit: { y: 5, opacity: 0 },
-    transition: {
-        duration: 0.1,
-    },
-};
-
-const Container = styled(Flex)`
-    &:hover > div:first-of-type {
-        border-bottom: 1px dotted #000;
-    }
-`;
+import { Normaltekst } from 'nav-frontend-typografi';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Button = styled.button`
-    border: none;
-    border-radius: 0.625rem;
     background: none;
     cursor: pointer;
-    padding: 0.125rem;
+    padding: 2px 4px 0;
     margin-left: 0.25rem;
+    border: none;
+    border-radius: 1px;
+
+    &:hover {
+        background: #e7e9e9;
+    }
 
     &:focus,
     &:active,
@@ -35,13 +25,39 @@ const Button = styled.button`
     }
 `;
 
+const Popover = styled(Normaltekst)`
+    transform: translateY(8px) translateX(-6px);
+    position: absolute;
+    padding: 6px 8px;
+    border: 1px solid #78706a;
+    background: white;
+    border-radius: 2px;
+
+    &:before {
+        position: absolute;
+        content: '';
+        background: white;
+        border-top: 1px solid #78706a;
+        border-left: 1px solid #78706a;
+        transform: rotate(45deg);
+        height: 10px;
+        width: 10px;
+        top: -6px;
+    }
+`;
+
+const Container = styled(Flex)`
+    position: relative;
+`;
+
 interface Props {
     children: ReactChild;
     copySource?: React.RefObject<HTMLElement>;
     preserveWhitespace?: boolean;
+    copyMessage?: string;
 }
 
-export const Clipboard = ({ children, copySource, preserveWhitespace = true }: Props) => {
+export const Clipboard = ({ children, copySource, preserveWhitespace = true, copyMessage }: Props) => {
     const [didCopy, setDidCopy] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -69,10 +85,19 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true }: P
         <Container as="span" alignItems="center">
             <div ref={contentRef}>{children}</div>
             <Button onClick={copy}>
-                <AnimatePresence initial={false} exitBeforeEnter>
-                    <motion.div {...copyAnimation} key={didCopy ? 'check' : 'copy'}>
-                        <ClipboardIcon type={didCopy ? 'check' : 'copy'} />
-                    </motion.div>
+                <ClipboardIcon />
+                <AnimatePresence>
+                    {didCopy && (
+                        <motion.span
+                            key="popover"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ type: 'spring' }}
+                        >
+                            <Popover>{copyMessage ?? 'Kopiert!'}</Popover>
+                        </motion.span>
+                    )}
                 </AnimatePresence>
             </Button>
         </Container>
