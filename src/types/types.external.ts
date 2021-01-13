@@ -346,7 +346,7 @@ export interface SpesialistVedtaksperiode {
     godkjentAv?: string;
     godkjenttidspunkt?: string;
     vilkår: SpleisVilkår;
-    inntektFraInntektsmelding: number;
+    inntektFraInntektsmelding?: number;
     totalbeløpArbeidstaker: number;
     dataForVilkårsvurdering: SpleisDataForVilkårsvurdering;
     forlengelseFraInfotrygd: SpleisForlengelseFraInfotrygd;

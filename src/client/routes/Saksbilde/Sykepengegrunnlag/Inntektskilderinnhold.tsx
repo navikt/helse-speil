@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
-import { toKronerOgØre } from '../../../utils/locale';
+import { somPenger, toKronerOgØre } from '../../../utils/locale';
 import { Inntektskilde } from 'internal-types';
 import styled from '@emotion/styled';
 import { Grid } from '../../../components/Grid';
@@ -105,8 +105,8 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 <Tabell>
                     <Kolonnetittel>{t('inntektskilder.månedsinntekt')}</Kolonnetittel>
                     <Kolonnetittel>{t('inntektskilder.årsinntekt')}</Kolonnetittel>
-                    <Element>{`${toKronerOgØre(månedsinntekt!)} kr`}</Element>
-                    <Element>{`${toKronerOgØre(årsinntekt!)} kr`}</Element>
+                    <Element>{somPenger(månedsinntekt)}</Element>
+                    <Element>{somPenger(årsinntekt)}</Element>
                 </Tabell>
                 <HeaderContainer>
                     <Tittel>{t('inntektskilder.inntektsmeldinger')}</Tittel>
