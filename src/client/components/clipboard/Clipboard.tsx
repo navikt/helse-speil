@@ -1,5 +1,4 @@
 import React, { ReactChild, useEffect, useRef, useState } from 'react';
-import ReactTooltip from 'react-tooltip';
 import ClipboardIcon from './icons/ClipboardIcon';
 import { AnimatePresence, motion } from 'framer-motion';
 import { copyContentsToClipboard } from './util';
@@ -69,8 +68,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true }: P
     return (
         <Container as="span" alignItems="center">
             <div ref={contentRef}>{children}</div>
-            <ReactTooltip place="bottom" disable={!didCopy} />
-            <Button data-tip="Kopiert!" data-tip-disable={!didCopy} onClick={copy} data-class="typo-undertekst">
+            <Button onClick={copy}>
                 <AnimatePresence initial={false} exitBeforeEnter>
                     <motion.div {...copyAnimation} key={didCopy ? 'check' : 'copy'}>
                         <ClipboardIcon type={didCopy ? 'check' : 'copy'} />
