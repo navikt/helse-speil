@@ -20,6 +20,7 @@ const erAminet = () => extractIdent() === 'C117102';
 
 const erAnnulleringsbois = () => erKnudix() || erKevin();
 const erKnudix = () => extractIdent() === 'N143409';
+const erDigimort = () => extractIdent() === 'T127350';
 const erDavid = () => extractIdent() === 'S150563';
 const erKevin = () => extractIdent() === 'S151890';
 const erUtvikler = () => erKnudix() || erKevin() || erDavid();
@@ -33,5 +34,5 @@ export const oppdaterPersondataEnabled =
 export const speilTildeling = true;
 export const speilV2 = true;
 export const amplitudeEnabled = true;
-export const utbetalingsoversikt = erUtvikler() || erLocal() || erEminem();
+export const utbetalingsoversikt = erUtvikler() || erLocal() || erEminem() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
