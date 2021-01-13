@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 import { Grid } from '../../../components/Grid';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { Kilde } from '../../../components/Kilde';
-import { FlexColumn } from '../../../components/Flex';
+import { Flex, FlexColumn } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
@@ -43,7 +43,7 @@ const Tittel = styled(Undertittel)`
     font-size: 18px;
     color: #3e3832;
 
-    ${({ maxWidth }: { maxWidth?: string }) => maxWidth && `max-width: ${maxWidth};`}
+    ${({ maxwidth }: { maxwidth?: string }) => maxwidth && `max-width: ${maxwidth};`}
 `;
 
 const Tabell = styled.div`
@@ -90,9 +90,11 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
             <FlexColumn>
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
-                    <Tittel maxWidth="500px">
-                        <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>(
-                        <Clipboard>{organisasjonsnummer}</Clipboard>)
+                    <Tittel maxwidth="500px">
+                        <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
+                        <Flex style={{ margin: '0 4px' }}>
+                            (<Clipboard>{organisasjonsnummer}</Clipboard>)
+                        </Flex>
                     </Tittel>
                     <Kilde>Aa</Kilde>
                 </Arbeidsgivertittel>
