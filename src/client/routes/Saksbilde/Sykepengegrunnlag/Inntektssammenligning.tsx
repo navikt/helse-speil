@@ -7,7 +7,7 @@ import { Inntektskildetype, OmregnetÅrsinntekt, Sammenligningsgrunnlag } from '
 
 interface Props {
     arbeidsgiver: string;
-    omregnetÅrsinntekt: OmregnetÅrsinntekt;
+    omregnetÅrsinntekt?: OmregnetÅrsinntekt;
     sammenligningsgrunnlag?: Sammenligningsgrunnlag;
     erGjeldende: boolean;
     className?: string;
@@ -63,8 +63,8 @@ const Inntektssammenligning = ({
     <ArbeidsgiverRad erGjeldende={erGjeldende}>
         <Normaltekst style={{ marginLeft: '0.25rem' }}>{arbeidsgiver}</Normaltekst>
         <InntektMedKilde>
-            <Normaltekst>{somPenger(omregnetÅrsinntekt.beløp)}</Normaltekst>
-            <Kilde>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>
+            <Normaltekst>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</Normaltekst>
+            {omregnetÅrsinntekt && <Kilde>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>}
         </InntektMedKilde>
         <InntektMedKilde>
             <Normaltekst>{somPenger(sammenligningsgrunnlag?.beløp)}</Normaltekst>

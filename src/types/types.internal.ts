@@ -312,7 +312,7 @@ export interface Inntektsgrunnlag {
 export interface Arbeidsgiverinntekt {
     arbeidsgivernavn: string;
     organisasjonsnummer: string;
-    omregnetÅrsinntekt: OmregnetÅrsinntekt;
+    omregnetÅrsinntekt?: OmregnetÅrsinntekt;
     sammenligningsgrunnlag?: Sammenligningsgrunnlag;
 }
 

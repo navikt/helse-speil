@@ -345,15 +345,19 @@ export class VedtaksperiodeBuilder {
                 inntekter: this.inntektsgrunnlag.inntekter.map((arbeidsgiverinntekt) => ({
                     arbeidsgivernavn: navnForOrganisasjonsnummer(arbeidsgiverinntekt.arbeidsgiver),
                     organisasjonsnummer: arbeidsgiverinntekt.arbeidsgiver,
-                    omregnetÅrsinntekt: {
-                        ...arbeidsgiverinntekt.omregnetÅrsinntekt,
-                        kilde: Inntektskildetype[arbeidsgiverinntekt.omregnetÅrsinntekt.kilde],
-                        inntekterFraAOrdningen: arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen?.map(
-                            (inntekt) => ({
-                                ...inntekt,
-                            })
-                        ),
-                    },
+                    omregnetÅrsinntekt:
+                        arbeidsgiverinntekt.omregnetÅrsinntekt !== null &&
+                        arbeidsgiverinntekt.omregnetÅrsinntekt !== undefined
+                            ? {
+                                  ...arbeidsgiverinntekt.omregnetÅrsinntekt,
+                                  kilde: Inntektskildetype[arbeidsgiverinntekt.omregnetÅrsinntekt.kilde],
+                                  inntekterFraAOrdningen: arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen?.map(
+                                      (inntekt) => ({
+                                          ...inntekt,
+                                      })
+                                  ),
+                              }
+                            : undefined,
                     sammenligningsgrunnlag: arbeidsgiverinntekt.sammenligningsgrunnlag
                         ? {
                               ...arbeidsgiverinntekt.sammenligningsgrunnlag,
