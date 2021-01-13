@@ -55,7 +55,7 @@ export const usePerson = () => {
     return (
         person && {
             ...person,
-            tildeltTil: tildeling,
+            tildeltTil: person.tildeltTil ?? tildeling,
         }
     );
 };
@@ -63,9 +63,11 @@ export const usePerson = () => {
 export const useHentPerson = () => {
     const setPerson = useSetRecoilState(personTilBehandlingState);
     const resetAktivVedtaksperiode = useResetRecoilState(aktivVedtaksperiodeIdState);
+    const resetTildeling = useResetRecoilState(tildelingState);
     return (id: string) => {
-        setPerson(id);
+        resetTildeling();
         resetAktivVedtaksperiode();
+        setPerson(id);
     };
 };
 
