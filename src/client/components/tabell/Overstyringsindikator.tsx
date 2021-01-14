@@ -3,10 +3,10 @@ import React, { useRef, useState } from 'react';
 import { Tooltip } from '@navikt/helse-frontend-tooltip';
 import '@navikt/helse-frontend-tooltip/lib/main.css';
 import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
-import { NORSK_DATOFORMAT } from '../utils/date';
+import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-import { IkonOverstyrt } from './tabell/ikoner/IkonOverstyrt';
-import { useInteractOutside } from '../hooks/useInteractOutside';
+import { IkonOverstyrt } from './ikoner/IkonOverstyrt';
+import { useInteractOutside } from '../../hooks/useInteractOutside';
 
 interface OverstyringsindikatorProps {
     begrunnelse: string;
