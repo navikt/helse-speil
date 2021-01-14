@@ -1,37 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { toastsState, useFjernEnToast } from '../state/toastsState';
 import { vedtaksstatusToastKey } from '../routes/Oversikt/VedtaksstatusToast';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
+import { useTimeout } from '../hooks/useTimeout';
 
 const StyledVarsel = styled(Varsel)`
     position: absolute;
     box-sizing: border-box;
     width: 100%;
 `;
-
-interface UseTimeoutOptions {
-    trigger: boolean;
-    timeout: number;
-    callback: () => void;
-    cleanup?: () => void;
-}
-
-const useTimeout = ({ trigger, timeout, callback, cleanup }: UseTimeoutOptions) => {
-    useEffect(() => {
-        if (trigger) {
-            const timeoutId = setTimeout(callback, timeout);
-            return () => {
-                clearTimeout(timeoutId);
-            };
-        }
-        return () => {
-            cleanup?.();
-        };
-    }, [trigger]);
-};
 
 export const VedtaksstatusBanner = () => {
     const [showing, setShowing] = useState(true);
@@ -41,26 +21,12 @@ export const VedtaksstatusBanner = () => {
 
     const fjernToast = useFjernEnToast();
 
-    /*
     useTimeout({
         trigger: vedtaksstatusToast !== undefined,
         timeout: vedtaksstatusToast?.timeToLiveMs ?? 0,
         callback: () => setShowing(false),
-        cleanup: () => fjernToast(vedtaksstatusToastKey)
+        cleanup: () => fjernToast(vedtaksstatusToastKey),
     });
-     */
-
-    useEffect(() => {
-        if (vedtaksstatusToast) {
-            const timeoutId = setTimeout(() => setShowing(false), vedtaksstatusToast.timeToLiveMs);
-            return () => {
-                clearTimeout(timeoutId);
-            };
-        }
-        return () => {
-            fjernToast(vedtaksstatusToastKey);
-        };
-    }, [vedtaksstatusToast]);
 
     return (
         <AnimatePresence onExitComplete={() => fjernToast(vedtaksstatusToastKey)}>
