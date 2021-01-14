@@ -12,6 +12,27 @@ const StyledVarsel = styled(Varsel)`
     width: 100%;
 `;
 
+interface UseTimeoutOptions {
+    trigger: boolean;
+    timeout: number;
+    callback: () => void;
+    cleanup?: () => void;
+}
+
+const useTimeout = ({ trigger, timeout, callback, cleanup }: UseTimeoutOptions) => {
+    useEffect(() => {
+        if (trigger) {
+            const timeoutId = setTimeout(callback, timeout);
+            return () => {
+                clearTimeout(timeoutId);
+            };
+        }
+        return () => {
+            cleanup?.();
+        };
+    }, [trigger]);
+};
+
 export const VedtaksstatusBanner = () => {
     const [showing, setShowing] = useState(true);
     const vedtaksstatusToast = useRecoilValue(toastsState)
@@ -19,6 +40,15 @@ export const VedtaksstatusBanner = () => {
         .pop();
 
     const fjernToast = useFjernEnToast();
+
+    /*
+    useTimeout({
+        trigger: vedtaksstatusToast !== undefined,
+        timeout: vedtaksstatusToast?.timeToLiveMs ?? 0,
+        callback: () => setShowing(false),
+        cleanup: () => fjernToast(vedtaksstatusToastKey)
+    });
+     */
 
     useEffect(() => {
         if (vedtaksstatusToast) {
