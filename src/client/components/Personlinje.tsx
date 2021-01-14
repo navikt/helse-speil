@@ -106,7 +106,7 @@ export const LasterPersonlinje = () => {
 export const Personlinje = ({ person }: PersonlinjeProps) => {
     if (!person) return <Container />;
 
-    const { aktørId, personinfo } = person;
+    const { aktørId, personinfo, enhet } = person;
     const { fornavn, mellomnavn, etternavn, kjønn, fnr } = personinfo;
 
     return (
@@ -128,7 +128,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             </Clipboard>
             <Separator>/</Separator>
             <Normaltekst>
-                Boenhet: {person.enhet.id} ({person.enhet.navn})
+                Boenhet: {enhet.id} ({enhet.navn})
             </Normaltekst>
             {utbetalingsoversikt && (
                 <>
