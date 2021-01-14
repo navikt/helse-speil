@@ -34,7 +34,7 @@ const hendelseFørsteDato = (hendelse: Hendelse) =>
 export const mapDokumenter = (vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] =>
     vedtaksperiode
         ? vedtaksperiode.hendelser
-              .filter((hendelse) => hendelse?.id)
+              ?.filter((hendelse) => hendelse?.id)
               .map((hendelse: Hendelse) => ({
                   id: hendelse.id,
                   tidspunkt: hendelseFørsteDato(hendelse),
