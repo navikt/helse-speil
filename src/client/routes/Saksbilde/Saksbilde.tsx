@@ -127,7 +127,7 @@ const SaksbildeContent = () => {
                 <AmplitudeProvider>
                     <Flex style={{ flex: 1 }}>
                         <FlexColumn style={{ flex: 1 }}>
-                            <Toppvarsler />
+                            <Toppvarsler vedtaksperiode={aktivVedtaksperiode} />
                             <Content>
                                 <Switch>
                                     <Route path={`${path}/utbetaling`}>

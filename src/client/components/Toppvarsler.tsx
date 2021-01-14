@@ -1,21 +1,21 @@
 import React from 'react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
-import { Periodetype, Vedtaksperiodetilstand } from 'internal-types';
-import { useAktivVedtaksperiode } from '../state/vedtaksperiode';
+import { Periodetype, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import '@navikt/helse-frontend-varsel/lib/main.css';
 
-export const Toppvarsler = () => {
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
-    if (!aktivVedtaksperiode) return null;
+interface ToppvarslerProps {
+    vedtaksperiode: Vedtaksperiode;
+}
 
-    const { aktivitetslog, periodetype, automatiskBehandlet, behandlet, tilstand } = aktivVedtaksperiode;
+export const Toppvarsler = ({ vedtaksperiode }: ToppvarslerProps) => {
+    const { aktivitetslog, periodetype, automatiskBehandlet, behandlet, tilstand } = vedtaksperiode;
 
     const erKandidatForAutomatisering = () =>
         periodetype === Periodetype.Forlengelse && aktivitetslog.length === 0 && !automatiskBehandlet && !behandlet;
 
-    const harOppgavereferanse = aktivVedtaksperiode.oppgavereferanse && aktivVedtaksperiode.oppgavereferanse !== '';
+    const harOppgavereferanse = vedtaksperiode.oppgavereferanse && vedtaksperiode.oppgavereferanse !== '';
 
-    const aktivVedtaksperiodeTilstandVarsel = (tilstand: Vedtaksperiodetilstand) => {
+    const vedtaksperiodeTilstandVarsel = (tilstand: Vedtaksperiodetilstand) => {
         switch (tilstand) {
             case Vedtaksperiodetilstand.TilUtbetaling:
             case Vedtaksperiodetilstand.Utbetalt:
@@ -31,7 +31,7 @@ export const Toppvarsler = () => {
             case Vedtaksperiodetilstand.Avslag:
                 return <Varsel type={Varseltype.Info}>Utbetalingen er sendt til annullering.</Varsel>;
             case Vedtaksperiodetilstand.TilAnnullering:
-                return <Varsel type={Varseltype.Info}>Annullerer perioden</Varsel>;
+                return <Varsel type={Varseltype.Info}>Annullerer perioden.</Varsel>;
             case Vedtaksperiodetilstand.AnnulleringFeilet:
                 return <Varsel type={Varseltype.Feil}>Annullering feilet. Vennligst kontakt utvikler.</Varsel>;
             case Vedtaksperiodetilstand.Oppgaver:
@@ -48,7 +48,7 @@ export const Toppvarsler = () => {
 
     return (
         <>
-            {aktivVedtaksperiodeTilstandVarsel(tilstand)}
+            {vedtaksperiodeTilstandVarsel(tilstand)}
             {erKandidatForAutomatisering() && <Varsel type={Varseltype.Info}>Kandidat for automatisering</Varsel>}
             {automatiskBehandlet && <Varsel type={Varseltype.Info}>Perioden er automatisk godkjent</Varsel>}
             {aktivitetslog.length > 0 &&
