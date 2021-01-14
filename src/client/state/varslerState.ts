@@ -15,7 +15,7 @@ export interface Varsel {
     type: Varseltype;
 }
 
-const varslerState = atom<Varsel[]>({
+export const varslerState = atom<Varsel[]>({
     key: 'varsler',
     default: [],
 });
