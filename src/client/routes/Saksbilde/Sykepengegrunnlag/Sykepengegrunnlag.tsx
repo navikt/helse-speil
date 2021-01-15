@@ -7,20 +7,24 @@ import {
     Inntektsgrunnlag,
     Inntektskilde,
     Periodetype,
+    Person,
     Sykepengegrunnlag as Sykepengegrunnlagtype,
+    Vedtaksperiode,
 } from 'internal-types';
-import { førsteVedtaksperiode } from '../../../mapping/selectors';
+import { førsteVedtaksperiode, skjæringstidspunktForPeriode } from '../../../mapping/selectors';
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import Inntektsgrunnlaginnhold from './Inntektsgrunnlaginnhold';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
-import { usePerson } from '../../../state/person';
 
 const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;
     width: max-content;
+
+    > p:nth-child(2) {
+        margin-bottom: 1rem;
+    }
 `;
 
 const StyledBehandletAvInfotrygd = styled(BehandletAvInfotrygd)`
@@ -47,26 +51,35 @@ const Strek = styled.span`
     margin-right: 2rem;
 `;
 
-interface OversiktForInfotrygdProps {
+interface SykepengegrunnlagFraInfogtrygdProps {
     årsinntektFraInntektsmelding: number;
     inntektskilder: Inntektskilde[];
 }
 
-const OversiktForInfotrygd = ({ årsinntektFraInntektsmelding, inntektskilder }: OversiktForInfotrygdProps) => (
-    <OversiktContainer>
-        <Inntektskilderinnhold inntektskilder={inntektskilder} />
-        <Strek />
-        <SykepengegrunnlagInfotrygd årsinntektFraInntektsmelding={årsinntektFraInntektsmelding} />
-    </OversiktContainer>
+const SykepengegrunnlagFraInfogtrygd = ({
+    årsinntektFraInntektsmelding,
+    inntektskilder,
+}: SykepengegrunnlagFraInfogtrygdProps) => (
+    <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
+        <OversiktContainer>
+            <Inntektskilderinnhold inntektskilder={inntektskilder} />
+            <Strek />
+            <SykepengegrunnlagInfotrygd årsinntektFraInntektsmelding={årsinntektFraInntektsmelding} />
+        </OversiktContainer>
+    </StyledBehandletAvInfotrygd>
 );
 
-interface OversiktProps {
+interface UbehandletSykepengegrunnlagProps {
     inntektskilder: Inntektskilde[];
     sykepengegrunnlag: Sykepengegrunnlagtype;
     inntektsgrunnlag?: Inntektsgrunnlag;
 }
 
-const Oversikt = ({ inntektsgrunnlag, inntektskilder, sykepengegrunnlag }: OversiktProps) => (
+const UbehandletSykepengegrunnlag = ({
+    inntektsgrunnlag,
+    inntektskilder,
+    sykepengegrunnlag,
+}: UbehandletSykepengegrunnlagProps) => (
     <OversiktContainer>
         <Inntektskilderinnhold inntektskilder={inntektskilder} />
         <Strek />
@@ -78,48 +91,64 @@ const Oversikt = ({ inntektsgrunnlag, inntektskilder, sykepengegrunnlag }: Overs
     </OversiktContainer>
 );
 
-export const Sykepengegrunnlag = () => {
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
-    const personTilBehandling = usePerson();
+interface BehandletSykepengegrunnlagProps extends UbehandletSykepengegrunnlagProps {
+    førstePeriode: Vedtaksperiode;
+    skjæringstidspunkt: string;
+}
 
-    if (!aktivVedtaksperiode || !personTilBehandling) return null;
+const BehandletSykepengegrunnlag = ({
+    førstePeriode,
+    skjæringstidspunkt,
+    inntektsgrunnlag,
+    inntektskilder,
+    sykepengegrunnlag,
+}: BehandletSykepengegrunnlagProps) => (
+    <StyledBehandletInnhold
+        tittel={`Sykepengegrunnlag satt ved skjæringstidspunkt - ${skjæringstidspunkt}`}
+        saksbehandler={førstePeriode?.godkjentAv!}
+        vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
+        automatiskBehandlet={førstePeriode.automatiskBehandlet}
+    >
+        <UbehandletSykepengegrunnlag
+            inntektsgrunnlag={inntektsgrunnlag}
+            inntektskilder={inntektskilder}
+            sykepengegrunnlag={sykepengegrunnlag}
+        />
+    </StyledBehandletInnhold>
+);
 
-    const førstePeriode = førsteVedtaksperiode(aktivVedtaksperiode, personTilBehandling);
-    const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen?.skjæringstidspunkt
-        ? aktivVedtaksperiode.vilkår.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT)
-        : 'Ukjent dato';
+interface SykepengegrunnlagProps {
+    vedtaksperiode: Vedtaksperiode;
+    person: Person;
+}
 
-    const { periodetype, inntektsgrunnlag, inntektskilder, sykepengegrunnlag } = aktivVedtaksperiode;
+export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagProps) => {
+    const { periodetype, inntektsgrunnlag, inntektskilder, sykepengegrunnlag, behandlet } = vedtaksperiode;
 
     return (
         <Sykepengegrunnlagpanel>
             <AgurkErrorBoundary>
-                {periodetype === Periodetype.Førstegangsbehandling ? (
-                    <Oversikt
+                {periodetype === Periodetype.Førstegangsbehandling && !behandlet ? (
+                    <UbehandletSykepengegrunnlag
                         inntektsgrunnlag={inntektsgrunnlag}
                         inntektskilder={inntektskilder}
                         sykepengegrunnlag={sykepengegrunnlag}
                     />
                 ) : periodetype === Periodetype.Infotrygdforlengelse ? (
-                    <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
-                        <OversiktForInfotrygd
-                            årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding!}
-                            inntektskilder={aktivVedtaksperiode.inntektskilder}
-                        />
-                    </StyledBehandletAvInfotrygd>
+                    <SykepengegrunnlagFraInfogtrygd
+                        årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding!}
+                        inntektskilder={vedtaksperiode.inntektskilder}
+                    />
                 ) : (
-                    <StyledBehandletInnhold
-                        tittel={`Sykepengegrunnlag satt ved skjæringstidspunkt - ${skjæringstidspunkt}`}
-                        saksbehandler={førstePeriode?.godkjentAv!}
-                        vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
-                        automatiskBehandlet={førstePeriode.automatiskBehandlet}
-                    >
-                        <Oversikt
-                            inntektsgrunnlag={inntektsgrunnlag}
-                            inntektskilder={inntektskilder}
-                            sykepengegrunnlag={sykepengegrunnlag}
-                        />
-                    </StyledBehandletInnhold>
+                    <BehandletSykepengegrunnlag
+                        førstePeriode={førsteVedtaksperiode(vedtaksperiode, person)}
+                        skjæringstidspunkt={
+                            skjæringstidspunktForPeriode(vedtaksperiode)?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'
+                        }
+                        inntektskilder={inntektskilder}
+                        inntektsgrunnlag={inntektsgrunnlag}
+                        sykepengegrunnlag={sykepengegrunnlag}
+                    />
                 )}
             </AgurkErrorBoundary>
         </Sykepengegrunnlagpanel>

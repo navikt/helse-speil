@@ -14,3 +14,6 @@ export const organisasjonsnummerForPeriode = (nåværendePeriode: Vedtaksperiode
         .organisasjonsnummer;
 
 export const maksdatoForPeriode = ({ vilkår }: Vedtaksperiode): Dayjs | undefined => vilkår?.dagerIgjen.maksdato;
+
+export const skjæringstidspunktForPeriode = ({ vilkår }: Vedtaksperiode): Dayjs | undefined =>
+    vilkår?.dagerIgjen?.skjæringstidspunkt;

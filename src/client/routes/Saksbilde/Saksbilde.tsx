@@ -140,7 +140,10 @@ const SaksbildeContent = () => {
                                         <Vilkår vedtaksperiode={aktivVedtaksperiode} person={personTilBehandling} />
                                     </Route>
                                     <Route path={`${path}/sykepengegrunnlag`}>
-                                        <Sykepengegrunnlag />
+                                        <Sykepengegrunnlag
+                                            vedtaksperiode={aktivVedtaksperiode}
+                                            person={personTilBehandling}
+                                        />
                                     </Route>
                                 </Switch>
                             </Content>
