@@ -11,15 +11,15 @@ const enVedtaksperiode = mappetVedtaksperiode();
 
 const expectContainsStandardFields = () => {
     expect(screen.queryByText('Inntekt')).toBeVisible();
-    expect(screen.queryByText('31 000,00 kr')).toBeVisible();
-    expect(screen.queryAllByText('372 000,00 kr')).toHaveLength(8);
+    expect(screen.queryByText('Fra Inntektsmelding')).toBeVisible();
 };
 
 const expectContainsStandardFieldsInfotrygd = () => {
     expect(screen.queryByText('Sykepengegrunnlag satt i Infotrygd')).toBeVisible();
     expect(screen.queryByText('Inntekt')).toBeVisible();
-    expect(screen.queryByText('31 000,00 kr')).toBeVisible();
-    expect(screen.queryAllByText('372 000,00 kr')).toHaveLength(2);
+    expect(screen.queryByText('Fra Inntektsmelding')).toBeVisible();
+    expect(screen.queryByText('Inntektsgrunnlag')).toBeNull();
+    expect(screen.queryByText('Sammenligningsgrunnlag')).toBeNull();
 };
 
 describe('Sykepengegrunnlag', () => {
