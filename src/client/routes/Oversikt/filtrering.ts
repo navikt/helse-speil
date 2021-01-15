@@ -11,7 +11,7 @@ export const forlengelsesfilter = () => ({
 });
 
 export const overgangFraInfotrygdFilter = () => ({
-    label: 'Overgang fra IT',
+    label: 'Forlengelse - IT',
     func: (type: Periodetype) => type === Periodetype.OvergangFraInfotrygd,
 });
 
