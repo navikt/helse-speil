@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
 import { Sykepengegrunnlaginnhold } from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import {
@@ -12,7 +11,7 @@ import {
     Vedtaksperiode,
 } from 'internal-types';
 import { førsteVedtaksperiode, skjæringstidspunktForPeriode } from '../../../mapping/selectors';
-import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
+import { BehandletAvInfotrygdVarsel, BehandletVarsel } from '@navikt/helse-frontend-varsel';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import Inntektsgrunnlaginnhold from './Inntektsgrunnlaginnhold';
@@ -22,12 +21,12 @@ const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;
     width: max-content;
 
-    > p:nth-child(2) {
+    > p:nth-of-type(2) {
         margin-bottom: 1rem;
     }
 `;
 
-const StyledBehandletAvInfotrygd = styled(BehandletAvInfotrygd)`
+const StyledBehandletAvInfotrygd = styled(BehandletAvInfotrygdVarsel)`
     margin: 2rem 2rem;
     width: max-content;
 `;
@@ -60,7 +59,7 @@ const SykepengegrunnlagFraInfogtrygd = ({
     årsinntektFraInntektsmelding,
     inntektskilder,
 }: SykepengegrunnlagFraInfogtrygdProps) => (
-    <StyledBehandletAvInfotrygd tittel={`Sykepengegrunnlag satt i Infotrygd`}>
+    <StyledBehandletAvInfotrygd tittel="Sykepengegrunnlag satt i Infotrygd">
         <OversiktContainer>
             <Inntektskilderinnhold inntektskilder={inntektskilder} />
             <Strek />

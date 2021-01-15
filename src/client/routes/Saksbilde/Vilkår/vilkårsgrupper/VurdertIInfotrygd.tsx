@@ -1,8 +1,8 @@
 import React from 'react';
 import { Vilkårsgruppetittel } from '../vilkårstitler';
 import { Vilkårdata } from '../../../../mapping/vilkår';
-import BehandletAvInfotrygd from '@navikt/helse-frontend-behandlet-av-infotrygd';
 import { Vilkårkolonne, Vilkårgrid, BehandletVarselContent } from '../Vilkår.styles';
+import { BehandletAvInfotrygdVarsel } from '@navikt/helse-frontend-varsel';
 
 interface VurdertIInfotrygdProps {
     vilkår: Vilkårdata[];
@@ -10,7 +10,7 @@ interface VurdertIInfotrygdProps {
 
 export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
     <Vilkårkolonne data-testid="vurdert-i-infotrygd">
-        <BehandletAvInfotrygd tittel="Inngangsvilkår vurdert i Infotrygd">
+        <BehandletAvInfotrygdVarsel tittel="Inngangsvilkår vurdert i Infotrygd">
             <BehandletVarselContent>
                 {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
                     <React.Fragment key={i}>
@@ -21,6 +21,6 @@ export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
                     </React.Fragment>
                 ))}
             </BehandletVarselContent>
-        </BehandletAvInfotrygd>
+        </BehandletAvInfotrygdVarsel>
     </Vilkårkolonne>
 );
