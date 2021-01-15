@@ -9,6 +9,7 @@ import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { Tooltip } from '../../../components/Tooltip';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Undertekst } from 'nav-frontend-typografi';
+import { Vedtaksperiode } from 'internal-types';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -32,17 +33,19 @@ const InfolinjeElement = styled(Flex)`
     }
 `;
 
-export const Infolinje = () => {
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
-    if (!aktivVedtaksperiode) return null;
+interface InfolinjeProps {
+    vedtaksperiode?: Vedtaksperiode;
+}
 
-    const fom = aktivVedtaksperiode.fom.format(NORSK_DATOFORMAT);
-    const tom = aktivVedtaksperiode.tom.format(NORSK_DATOFORMAT);
+export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
+    if (!vedtaksperiode) return null;
+
+    const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT);
+    const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT);
     const skjæringstidspunkt =
-        aktivVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT) ??
-        'Ukjent skjæringstidspunkt';
-    const maksdato = aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ukjent maksdato';
-    const over67År = (aktivVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+        vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT) ?? 'Ukjent skjæringstidspunkt';
+    const maksdato = vedtaksperiode.vilkår?.dagerIgjen.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ukjent maksdato';
+    const over67År = (vedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
         <InfolinjeContainer alignItems="center">

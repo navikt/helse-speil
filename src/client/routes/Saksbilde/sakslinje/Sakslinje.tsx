@@ -56,7 +56,7 @@ export const Sakslinje = () => {
             <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Sykepengegrunnlag)}>
                 Sykepengegrunnlag
             </TabLink>
-            <Infolinje />
+            <Infolinje vedtaksperiode={aktivVedtaksperiode} />
         </Container>
     );
 };
