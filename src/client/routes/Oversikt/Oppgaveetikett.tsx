@@ -42,7 +42,7 @@ export const Oppgaveetikett = ({ type }: OppgaveetikettProps) => {
         case Periodetype.Førstegangsbehandling:
             return <Førstegangsbehandling>Førstegang.</Førstegangsbehandling>;
         case Periodetype.OvergangFraInfotrygd:
-            return <Infotrygdforlengelse>Overgang fra IT</Infotrygdforlengelse>;
+            return <Infotrygdforlengelse>Forlengelse - IT</Infotrygdforlengelse>;
         case Periodetype.Stikkprøve:
             return <Stikkprøve>Stikkprøve</Stikkprøve>;
         default:
