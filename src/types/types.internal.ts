@@ -151,7 +151,10 @@ export interface Utbetalingsdag {
     type: Dagtype;
     gradering?: number;
     utbetaling?: number;
-    avvistÅrsak?: string;
+    avvistÅrsak?: {
+        tekst: string;
+        paragraf?: string;
+    };
 }
 
 export enum Vedtaksperiodetilstand {

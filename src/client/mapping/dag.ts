@@ -5,6 +5,7 @@ import {
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdag,
     SpleisUtbetalingsdagtype,
+    SpleisVilkår,
 } from 'external-types';
 import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import { somDato } from './vedtaksperiode';
@@ -135,13 +136,21 @@ export const mapSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdo
         kildeId: dag.kilde?.kildeId ?? undefined,
     }));
 
-export const mapUtbetalingstidslinje = (utbetalingstidslinje: SpleisUtbetalingsdag[]): Utbetalingsdag[] =>
+export const mapUtbetalingstidslinje = (
+    utbetalingstidslinje: SpleisUtbetalingsdag[],
+    vilkår: SpleisVilkår
+): Utbetalingsdag[] =>
     utbetalingstidslinje.map((dag) => ({
         type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
         dato: somDato(dag.dato),
         gradering: somHeltall(dag.grad),
         utbetaling: dag.utbetaling,
-        avvistÅrsak: dag.begrunnelse,
+        avvistÅrsak: dag.begrunnelse
+            ? {
+                  tekst: dag.begrunnelse,
+                  paragraf: vilkår.alder.alderSisteSykedag >= 67 ? '8-51' : undefined,
+              }
+            : undefined,
     }));
 
 const somHeltall = (value?: number) => value && +value.toFixed(0);

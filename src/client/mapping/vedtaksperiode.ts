@@ -27,6 +27,7 @@ import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
 import { tilOverstyrtDag } from './overstyring';
+
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
 
 export const somNorskDato = (dato: string): Dayjs => dayjs(dato, NORSK_DATOFORMAT);
@@ -211,7 +212,10 @@ export class VedtaksperiodeBuilder {
 
     private mapTidslinjer = () => {
         this.vedtaksperiode.sykdomstidslinje = mapSykdomstidslinje(this.unmapped.sykdomstidslinje);
-        this.vedtaksperiode.utbetalingstidslinje = mapUtbetalingstidslinje(this.unmapped.utbetalingstidslinje);
+        this.vedtaksperiode.utbetalingstidslinje = mapUtbetalingstidslinje(
+            this.unmapped.utbetalingstidslinje,
+            this.unmapped.vilkår
+        );
     };
 
     private mapSimulering = () => {

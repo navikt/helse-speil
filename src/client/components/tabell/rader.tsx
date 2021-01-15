@@ -152,12 +152,12 @@ export const merknad = (dag: Utbetalingsdag, merknadTekst?: string) => {
     return undefined;
 };
 
-const tekstForAvvistÅrsak = (årsak?: string) => {
-    switch (årsak) {
+const tekstForAvvistÅrsak = (årsak?: { tekst: string; paragraf?: string }) => {
+    switch (årsak?.tekst) {
         case 'EtterDødsdato':
             return 'Personen er død';
         case 'SykepengedagerOppbrukt':
-            return '§ 8-12 Sykepengedager er oppbrukt';
+            return `§ ${årsak.paragraf ?? '8-12'} Sykepengedager er oppbrukt`;
         case 'MinimumSykdomsgrad':
             return '§ 8-13 Krav til nedsatt arbeidsevne er ikke oppfylt';
         case 'EgenmeldingUtenforArbeidsgiverperiode':
