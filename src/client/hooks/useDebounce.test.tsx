@@ -1,26 +1,18 @@
 import React from 'react';
 import { useDebounce } from './useDebounce';
-import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import { act } from 'react-dom/test-utils';
-
-const Consumer = ({ timeout = 20 }) => {
-    const show = useDebounce(true, timeout);
-    return <div data-testid="container">{show ? 'true' : 'false'}</div>;
-};
+import { renderHook, act } from '@testing-library/react-hooks';
+import { waitFor } from '@testing-library/react';
 
 describe('useDebounce', () => {
-    test('returnerer false før timeout', () => {
-        act(() => {
-            render(<Consumer />);
-            const container = screen.getByTestId('container');
-            waitFor(() => expect(container).toHaveTextContent('false'));
-        });
-    });
-    test('returnerer true etter timeout', async () => {
-        await act(async () => {
-            render(<Consumer timeout={0} />);
-            await waitFor(() => expect(screen.getByTestId('container')).toHaveTextContent('true'));
-        });
+    test('returnerer false før timeout, true etter timeout', () => {
+        let trigger = false;
+        const { result, rerender } = renderHook(() => useDebounce(trigger, 0));
+        expect(result.current).toBeFalsy();
+
+        trigger = true;
+        rerender();
+
+        expect(result.current).toBeFalsy();
+        waitFor(() => expect(result.current).toBeTruthy());
     });
 });
