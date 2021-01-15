@@ -7,6 +7,8 @@ import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringsti
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { Tooltip } from '../../../components/Tooltip';
+import { Advarselikon } from '../../../components/ikoner/Advarselikon';
+import { Undertekst } from 'nav-frontend-typografi';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -40,6 +42,7 @@ export const Infolinje = () => {
         aktivVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT) ??
         'Ukjent skjæringstidspunkt';
     const maksdato = aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato?.format(NORSK_DATOFORMAT) ?? 'Ukjent maksdato';
+    const over67År = (aktivVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
         <InfolinjeContainer alignItems="center">
@@ -55,6 +58,12 @@ export const Infolinje = () => {
             <InfolinjeElement data-tip="Maksdato">
                 <Maksdatoikon />
                 {maksdato}
+                {over67År && (
+                    <Flex alignItems="center" style={{ marginLeft: '8px' }}>
+                        <Advarselikon height={16} width={16} />
+                        <Undertekst>§ 8-51</Undertekst>
+                    </Flex>
+                )}
             </InfolinjeElement>
             <Tooltip />
         </InfolinjeContainer>
