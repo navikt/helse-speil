@@ -9,7 +9,7 @@ import { Utbetaling } from './Utbetaling/Utbetaling';
 import { Sykepengegrunnlag } from './Sykepengegrunnlag/Sykepengegrunnlag';
 import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
 import { Toppvarsler } from '../../components/Toppvarsler';
-import { LoggProvider } from '../../context/logg/LoggProvider';
+import { LoggProvider } from './logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import { Sakslinje } from './sakslinje/Sakslinje';
 import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';

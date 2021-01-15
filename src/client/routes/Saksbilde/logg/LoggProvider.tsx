@@ -8,8 +8,8 @@ import {
     Hendelsetype,
     LoggProvider as EksternLoggProvider,
 } from '@navikt/helse-frontend-logg';
-import { NORSK_DATOFORMAT } from '../../utils/date';
-import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
+import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];
