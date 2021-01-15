@@ -5,9 +5,9 @@ import { toKronerOgØre } from '../../../../utils/locale';
 import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { Opptjening, Risikovurdering as RisikovurderingType, Vilkår } from 'internal-types';
-import { Infoikon } from '../../../../components/ikoner/Infoikon';
 import { Flex } from '../../../../components/Flex';
 import { Paragraf } from '../vilkårstitler';
+import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 
 export const Alder = ({ alder }: Vilkår) => (
     <Vilkårsgrupperad label="Alder">{alder.alderSisteSykedag}</Vilkårsgrupperad>
@@ -62,7 +62,7 @@ export const Sykepengegrunnlag = ({ sykepengegrunnlag, alder }: Vilkår) => (
     </>
 );
 
-export const AlderIkon = styled(Infoikon)`
+export const AlderIkon = styled(Advarselikon)`
     padding: 0 10px;
 `;
 

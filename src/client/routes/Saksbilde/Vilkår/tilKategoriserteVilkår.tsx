@@ -13,6 +13,7 @@ import {
 import { Flex } from '../../../components/Flex';
 import { Infoikon } from '../../../components/ikoner/Infoikon';
 import { Normaltekst } from 'nav-frontend-typografi';
+import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 
 const VilkårManglerData = () => <Normaltekst>Mangler data om vilkåret</Normaltekst>;
 
@@ -73,7 +74,7 @@ const opptjeningstid = (vilkår: Vilkår) => {
     }
 };
 
-const AlderIkon = styled(Infoikon)`
+const AlderIkon = styled(Advarselikon)`
     padding: 0 10px 0 2px;
 `;
 
