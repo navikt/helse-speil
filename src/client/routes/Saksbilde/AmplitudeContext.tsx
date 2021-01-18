@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useEffect } from 'react';
 import dayjs from 'dayjs';
 import amplitude from 'amplitude-js';
 import { amplitudeEnabled } from '../../featureToggles';
@@ -33,7 +33,6 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
         warnings: aktivVedtaksperiode.aktivitetslog,
         antallWarnings: aktivVedtaksperiode.aktivitetslog.length,
         begrunnelser: begrunnelser,
-        skjermbredde: window.screen.width,
     });
 
     const logOppgaveGodkjent = () => {
@@ -43,6 +42,13 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
     const logOppgaveForkastet = (begrunnelser: string[]) => {
         amplitudeEnabled && amplitude?.getInstance().logEvent('oppgave forkastet', eventProperties(begrunnelser));
     };
+
+    useEffect(() => {
+        amplitudeEnabled &&
+            amplitude?.getInstance().setUserProperties({
+                skjermbredde: window.screen.width,
+            });
+    }, []);
 
     return (
         <AmplitudeContext.Provider
