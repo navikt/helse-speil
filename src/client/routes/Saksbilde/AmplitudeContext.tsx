@@ -33,6 +33,7 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
         warnings: aktivVedtaksperiode.aktivitetslog,
         antallWarnings: aktivVedtaksperiode.aktivitetslog.length,
         begrunnelser: begrunnelser,
+        skjermbredde: window.screen.width,
     });
 
     const logOppgaveGodkjent = () => {
