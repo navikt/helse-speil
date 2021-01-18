@@ -127,6 +127,8 @@ const hendelseType = (kilde: SpleisSykdomsdagkilde | undefined): Kildetype | und
     }
 };
 
+const somHeltall = (value?: number) => value && +value.toFixed(0);
+
 export const mapSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdomsdag[] =>
     sykdomstidslinje.map((dag) => ({
         type: sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype),
@@ -152,5 +154,3 @@ export const mapUtbetalingstidslinje = (
               }
             : undefined,
     }));
-
-const somHeltall = (value?: number) => value && +value.toFixed(0);
