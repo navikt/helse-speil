@@ -35,6 +35,7 @@ export const somNorskDato = (dato: string): Dayjs => dayjs(dato, NORSK_DATOFORMA
 export const somKanskjeDato = (dato?: string): Dayjs | undefined => (dato ? somDato(dato) : undefined);
 
 export const somTidspunkt = (dato: string): Dayjs => dayjs(dato, ISO_TIDSPUNKTFORMAT);
+
 export const somKanskjeTidspunkt = (dato?: string): Dayjs | undefined => (dato ? somTidspunkt(dato) : undefined);
 
 export const somProsent = (avviksprosent: number): number => avviksprosent * 100;
@@ -44,10 +45,7 @@ export const somInntekt = (inntekt?: number, måneder: number = 1): number | und
 
 export const somÅrsinntekt = (inntekt?: number): number | undefined => somInntekt(inntekt, 12);
 
-export const mapUtbetaling = (
-    utbetalinger: SpleisUtbetalinger,
-    key: keyof SpleisUtbetalinger
-): Utbetaling | undefined =>
+const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbetalinger): Utbetaling | undefined =>
     utbetalinger[key] && {
         fagsystemId: utbetalinger[key]!.fagsystemId,
         linjer: utbetalinger[key]!.linjer.map((value: SpleisUtbetalingslinje) => ({

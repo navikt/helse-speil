@@ -167,7 +167,7 @@ describe('mapUtbetalingstidslinje', () => {
         };
         const mappet = {
             type: Dagtype.Avvist,
-            utbetaling: 1234,
+            utbetaling: 0,
             dato: dayjs('2020-01-01'),
             gradering: 100,
             avvistÅrsak: {
@@ -175,7 +175,8 @@ describe('mapUtbetalingstidslinje', () => {
                 paragraf: undefined,
             },
         };
-        expect(mapUtbetalingstidslinje([umappet], {} as SpleisVilkår)).toEqual([mappet]);
+        const vilkår = { alder: { alderSisteSykedag: 20 } } as SpleisVilkår;
+        expect(mapUtbetalingstidslinje([umappet], vilkår)).toEqual([mappet]);
     });
     test('mapper avviste dager med paragraf 8-51', () => {
         const umappet = {
