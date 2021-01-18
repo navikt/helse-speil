@@ -4,6 +4,7 @@ import {
     Sykepengeperiode,
     Vedtaksperiodetilstand as TidslinjeVedtaksperiodetilstand,
 } from '@navikt/helse-frontend-tidslinje';
+import { HoverInfo } from './HoverInfo';
 
 export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeperiode => ({
     id: vedtaksperiode.id,
@@ -11,6 +12,7 @@ export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeper
     tom: vedtaksperiode.tom.toDate(),
     status: status(vedtaksperiode.tilstand, vedtaksperiode.automatiskBehandlet),
     disabled: !vedtaksperiode.kanVelges,
+    hoverLabel: <HoverInfo vedtaksperiode={vedtaksperiode} />,
 });
 
 const status = (tilstand: Vedtaksperiodetilstand, automatiskBehandlet: boolean): TidslinjeVedtaksperiodetilstand => {

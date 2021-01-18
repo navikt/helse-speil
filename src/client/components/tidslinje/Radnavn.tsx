@@ -10,13 +10,13 @@ interface RadnavnProps {
 }
 
 const Labels = styled.div`
-    margin-top: 56px;
+    margin-top: 44px;
     padding: 0 0 26px;
 `;
 
 const Label = styled.label`
     height: 1.5rem;
-    margin: 1.56rem 0;
+    margin: 0 0 1.5rem;
     display: flex;
     align-items: center;
     font-size: 14px;
