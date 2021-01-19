@@ -5,11 +5,11 @@ import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { Tooltip } from '../../../components/Tooltip';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Undertekst } from 'nav-frontend-typografi';
 import { Vedtaksperiode } from 'internal-types';
+import { LovdataLenke } from '../../../components/LovdataLenke';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -64,7 +64,9 @@ export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
                 {over67År && (
                     <Flex alignItems="center" style={{ marginLeft: '8px' }}>
                         <Advarselikon height={16} width={16} />
-                        <Undertekst>§ 8-51</Undertekst>
+                        <Undertekst>
+                            <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                        </Undertekst>
                     </Flex>
                 )}
             </InfolinjeElement>

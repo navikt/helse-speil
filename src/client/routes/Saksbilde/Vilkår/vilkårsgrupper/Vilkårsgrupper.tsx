@@ -8,6 +8,7 @@ import { Opptjening, Risikovurdering as RisikovurderingType, Vilkår } from 'int
 import { Flex } from '../../../../components/Flex';
 import { Paragraf } from '../vilkårstitler';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
+import { LovdataLenke } from '../../../../components/LovdataLenke';
 
 export const Alder = ({ alder }: Vilkår) => (
     <Vilkårsgrupperad label="Alder">{alder.alderSisteSykedag}</Vilkårsgrupperad>
@@ -77,7 +78,9 @@ const GjenståendeDager = ({ gjenståendeDager, alderSisteSykedag }: Gjenståend
         {alderSisteSykedag >= 67 && alderSisteSykedag < 70 && (
             <>
                 <AlderIkon width={16} height={16} />
-                <Paragraf>§ 8-51</Paragraf>
+                <Paragraf>
+                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                </Paragraf>
             </>
         )}
     </Flex>

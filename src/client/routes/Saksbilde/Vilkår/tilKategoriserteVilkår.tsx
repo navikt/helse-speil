@@ -11,9 +11,9 @@ import {
     Søknadsfrist,
 } from './vilkårsgrupper/Vilkårsgrupper';
 import { Flex } from '../../../components/Flex';
-import { Infoikon } from '../../../components/ikoner/Infoikon';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
+import { LovdataLenke } from '../../../components/LovdataLenke';
 
 const VilkårManglerData = () => <Normaltekst>Mangler data om vilkåret</Normaltekst>;
 
@@ -23,14 +23,14 @@ const alder = (vilkår: Vilkår) => {
             type: Vilkårstype.Alder,
             oppfylt: vilkår.alder.oppfylt,
             tittel: 'Under 70 år',
-            paragraf: '§ 8-51',
+            paragraf: <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>,
             komponent: <Alder data-testid="alder" {...vilkår} />,
         };
     } catch (error) {
         return {
             type: Vilkårstype.Alder,
             tittel: 'Under 70 år',
-            paragraf: '§ 8-51',
+            paragraf: <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>,
             komponent: <VilkårManglerData />,
         };
     }
@@ -42,14 +42,14 @@ const søknadsfrist = (vilkår: Vilkår) => {
             type: Vilkårstype.Søknadsfrist,
             oppfylt: vilkår.søknadsfrist?.oppfylt,
             tittel: 'Søknadsfrist',
-            paragraf: '§ 22-13',
+            paragraf: <LovdataLenke paragraf="22-13">§ 22-13</LovdataLenke>,
             komponent: <Søknadsfrist data-testid="søknadsfrist" {...vilkår} />,
         };
     } catch (error) {
         return {
             type: Vilkårstype.Søknadsfrist,
             tittel: 'Søknadsfrist',
-            paragraf: '§ 22-13',
+            paragraf: <LovdataLenke paragraf="22-13">§ 22-13</LovdataLenke>,
             komponent: <VilkårManglerData />,
         };
     }
@@ -61,14 +61,14 @@ const opptjeningstid = (vilkår: Vilkår) => {
             type: Vilkårstype.Opptjeningstid,
             oppfylt: vilkår.opptjening?.oppfylt,
             tittel: 'Opptjeningstid',
-            paragraf: '§ 8-2',
+            paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
             komponent: <Opptjeningstid {...vilkår} />,
         };
     } catch (error) {
         return {
             type: Vilkårstype.Opptjeningstid,
             tittel: 'Opptjeningstid',
-            paragraf: '§ 8-2',
+            paragraf: <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>,
             komponent: <VilkårManglerData />,
         };
     }
@@ -89,10 +89,11 @@ const sykepengegrunnlag = (vilkår: Vilkår) => {
             tittel: 'Krav til minste sykepengegrunnlag',
             paragraf: harEndretParagraf ? (
                 <EndretParagrafContainer style={{ alignItems: 'center' }}>
-                    <AlderIkon width={16} height={16} />§ 8-51
+                    <AlderIkon width={16} height={16} />
+                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
                 </EndretParagrafContainer>
             ) : (
-                '§ 8-3'
+                <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
             ),
             komponent: <Sykepengegrunnlag {...vilkår} />,
         };
@@ -100,7 +101,7 @@ const sykepengegrunnlag = (vilkår: Vilkår) => {
         return {
             type: Vilkårstype.Sykepengegrunnlag,
             tittel: 'Krav til minste sykepengegrunnlag',
-            paragraf: '§ 8-3',
+            paragraf: <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>,
             komponent: <VilkårManglerData />,
         };
     }
@@ -112,14 +113,24 @@ const dagerIgjen = (vilkår: Vilkår) => {
             type: Vilkårstype.DagerIgjen,
             oppfylt: vilkår.dagerIgjen.oppfylt,
             tittel: 'Dager igjen',
-            paragraf: '§§ 8-11 og 8-12',
+            paragraf: (
+                <>
+                    §§&nbsp;<LovdataLenke paragraf="8-11">8-11</LovdataLenke>&nbsp;og&nbsp;
+                    <LovdataLenke paragraf="8-12">8-12</LovdataLenke>
+                </>
+            ),
             komponent: <DagerIgjen {...vilkår} />,
         };
     } catch (error) {
         return {
             type: Vilkårstype.DagerIgjen,
             tittel: 'Dager igjen',
-            paragraf: '§§ 8-11 og 8-12',
+            paragraf: (
+                <>
+                    §§&nbsp;<LovdataLenke paragraf="8-11">8-11</LovdataLenke>&nbsp;og&nbsp;
+                    <LovdataLenke paragraf="8-12">8-12</LovdataLenke>
+                </>
+            ),
             komponent: <VilkårManglerData />,
         };
     }
@@ -131,14 +142,14 @@ const medlemskap = (vilkår: Vilkår) => {
             type: Vilkårstype.Medlemskap,
             oppfylt: vilkår.medlemskap?.oppfylt,
             tittel: 'Medlemskap',
-            paragraf: '§ 2',
+            paragraf: <LovdataLenke paragraf="2">$ 2</LovdataLenke>,
             komponent: null,
         };
     } catch (error) {
         return {
             type: Vilkårstype.Medlemskap,
             tittel: 'Medlemskap',
-            paragraf: '§ 2',
+            paragraf: <LovdataLenke paragraf="2">$ 2</LovdataLenke>,
             komponent: <VilkårManglerData />,
         };
     }
@@ -148,7 +159,12 @@ const institusjonsopphold = (oppfylt?: boolean) => ({
     type: Vilkårstype.Institusjonsopphold,
     oppfylt: oppfylt,
     tittel: 'Institusjonsopphold',
-    paragraf: '§ 8-53 og 8-54',
+    paragraf: (
+        <>
+            §§&nbsp;<LovdataLenke paragraf="8-53">8-53</LovdataLenke>&nbsp;og&nbsp;
+            <LovdataLenke paragraf="8-54">8-54</LovdataLenke>
+        </>
+    ),
     komponent: null,
 });
 
@@ -163,14 +179,24 @@ const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => {
             type: Vilkårstype.Arbeidsuførhet,
             oppfylt: oppfylt,
             tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
-            paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
+            paragraf: (
+                <>
+                    <LovdataLenke paragraf="8-4">§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD </LovdataLenke>&nbsp;og&nbsp;
+                    <LovdataLenke paragraf="8-8">§ 8-8</LovdataLenke>
+                </>
+            ),
             komponent: <Arbeidsuførhet risikovurdering={risikovurdering} />,
         };
     } catch (error) {
         return {
             type: Vilkårstype.Arbeidsuførhet,
             tittel: 'Arbeidsuførhet, aktivitetsplikt og medvirkning',
-            paragraf: '§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD og § 8-8',
+            paragraf: (
+                <>
+                    <LovdataLenke paragraf="8-4">§ 8-4 FØRSTE LEDD, § 8-4 ANDRE LEDD </LovdataLenke>&nbsp;og&nbsp;
+                    <LovdataLenke paragraf="8-8">§ 8-8</LovdataLenke>
+                </>
+            ),
             komponent: <VilkårManglerData />,
         };
     }

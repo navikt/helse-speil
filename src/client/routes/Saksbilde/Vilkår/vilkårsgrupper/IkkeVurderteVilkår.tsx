@@ -7,6 +7,7 @@ import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Flex, FlexColumn } from '../../../../components/Flex';
+import { LovdataLenke } from '../../../../components/LovdataLenke';
 
 const IkkeVurdertVilkårContainer = styled.div`
     margin-bottom: 2rem;
@@ -45,7 +46,9 @@ const Yrkeskadeinfo = () => (
                 <Infoikon />
             </IkonContainer>
             <Tittel>Systemet henter ikke inn yrkesskade</Tittel>
-            <Paragraf>§ 8-55</Paragraf>
+            <Paragraf>
+                <LovdataLenke paragraf="8-55">§ 8-55</LovdataLenke>
+            </Paragraf>
         </Flex>
         <Yrkesskadetekst>Systemet henter per i dag ikke inn informasjon om yrkesskade.</Yrkesskadetekst>
         <Yrkesskadetekst>Yrkesskade kan ha påvirkning på utfallet av enkelte vilkår.</Yrkesskadetekst>

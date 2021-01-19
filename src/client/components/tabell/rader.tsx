@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 import { IkonSyk } from './ikoner/IkonSyk';
@@ -17,6 +17,8 @@ import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
 import { IkonKryss } from './ikoner/IkonKryss';
 import { IkonArbeidsdag } from './ikoner/IkonArbeidsdag';
+import Lenke from 'nav-frontend-lenker';
+import { LovdataLenke } from '../LovdataLenke';
 
 export const tomCelle = () => undefined;
 
@@ -31,6 +33,19 @@ const IkonContainer = styled.div`
     align-items: center;
     height: 100%;
     margin-right: -1rem;
+`;
+
+const HøyrejustertTekst = styled(Normaltekst)`
+    text-align: right;
+    white-space: nowrap;
+`;
+
+const Feilmelding = styled(Normaltekst)`
+    margin-left: 1rem;
+`;
+
+const TypeContainer = styled.div`
+    min-width: 8rem;
 `;
 
 export const ikon = (dag: Sykdomsdag) => {
@@ -59,10 +74,6 @@ export const ikon = (dag: Sykdomsdag) => {
     })();
     return <IkonContainer>{ikon}</IkonContainer>;
 };
-
-const TypeContainer = styled.div`
-    min-width: 8rem;
-`;
 
 export const type = (dag: Sykdomsdag) => <TypeContainer>{dag.type}</TypeContainer>;
 
@@ -133,42 +144,46 @@ export const overstyrbarGradering = (
         <OverstyrbarGradering dag={dag} onOverstyr={onOverstyr} onFjernOverstyring={onFjernOverstyring} />
     ) : undefined;
 
-const HøyrejustertTekst = styled(Normaltekst)`
-    text-align: right;
-    white-space: nowrap;
-`;
-
 export const utbetaling = (dag: Utbetalingsdag) => {
     if (dag.type === Dagtype.Avvist) return <HøyrejustertTekst>-</HøyrejustertTekst>;
     return dag.utbetaling && <HøyrejustertTekst>{toKronerOgØre(dag.utbetaling)} kr</HøyrejustertTekst>;
 };
 
-export const merknad = (dag: Utbetalingsdag, merknadTekst?: string) => {
-    if (merknadTekst) return <Feilmelding>{merknadTekst}</Feilmelding>;
-    if (dag.type === Dagtype.Avvist) {
-        const tekst = tekstForAvvistÅrsak(dag.avvistÅrsak);
-        if (tekst) return <Feilmelding>{tekst}</Feilmelding>;
-    }
-    return undefined;
-};
+export const merknad = (dag: Utbetalingsdag, merknadTekst?: string): ReactNode =>
+    merknadTekst ? (
+        <Feilmelding>{merknadTekst}</Feilmelding>
+    ) : dag.type === Dagtype.Avvist ? (
+        <AvvistÅrsak dag={dag} />
+    ) : undefined;
 
-const tekstForAvvistÅrsak = (årsak?: { tekst: string; paragraf?: string }) => {
-    switch (årsak?.tekst) {
+const AvvistÅrsak = ({ dag }: { dag: Utbetalingsdag }) => {
+    switch (dag.avvistÅrsak?.tekst) {
         case 'EtterDødsdato':
-            return 'Personen er død';
+            return <Feilmelding>Personen er død</Feilmelding>;
         case 'SykepengedagerOppbrukt':
-            return `§ ${årsak.paragraf ?? '8-12'} Sykepengedager er oppbrukt`;
+            return (
+                <Feilmelding>
+                    <LovdataLenke paragraf={dag.avvistÅrsak.paragraf ?? '8-12'}>
+                        § {dag.avvistÅrsak.paragraf ?? '8-12'}
+                    </LovdataLenke>{' '}
+                    Sykepengedager er oppbrukt
+                </Feilmelding>
+            );
         case 'MinimumSykdomsgrad':
-            return '§ 8-13 Krav til nedsatt arbeidsevne er ikke oppfylt';
+            return (
+                <Feilmelding>
+                    <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke> Krav til nedsatt arbeidsevne er ikke oppfylt
+                </Feilmelding>
+            );
         case 'EgenmeldingUtenforArbeidsgiverperiode':
-            return 'Egenmelding er utenfor arbeidsgiverperiode';
+            return <Feilmelding>Egenmelding er utenfor arbeidsgiverperiode</Feilmelding>;
         case 'MinimumInntekt':
-            return '§ 8-3 Krav til minste sykepengegrunnlag er ikke oppfylt';
+            return (
+                <Feilmelding>
+                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke> Krav til minste sykepengegrunnlag er ikke oppfylt
+                </Feilmelding>
+            );
         default:
-            return undefined;
+            return null;
     }
 };
-
-export const Feilmelding = styled(Normaltekst)`
-    margin-left: 1rem;
-`;
