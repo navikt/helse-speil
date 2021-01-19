@@ -33,9 +33,9 @@ export const useTidslinjeutsnitt = (person?: Person) => {
             label: '1 år',
         },
         {
-            fom: sisteDato.subtract(3, 'year'),
+            fom: sisteDato.subtract(4, 'year'),
             tom: sisteDato,
-            label: '3 år',
+            label: '4 år',
         },
     ];
 
