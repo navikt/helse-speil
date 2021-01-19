@@ -10,7 +10,7 @@ import { Flex, FlexColumn } from '../Flex';
 import '@navikt/helse-frontend-tidslinje/lib/main.css';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { useSetAktivVedtaksperiode } from '../../state/vedtaksperiode';
-import { maksdatoForPeriode } from '../../mapping/selectors';
+import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
 import { Undertekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 
@@ -63,7 +63,8 @@ export const Tidslinje = React.memo(({ person, aktivVedtaksperiode }: Props) => 
     const sluttDato = utsnitt[aktivtUtsnitt].tom;
 
     const maksdato = () => {
-        const dato = aktivVedtaksperiode && maksdatoForPeriode(aktivVedtaksperiode);
+        const sistePeriode = sisteValgbarePeriode(person);
+        const dato = sistePeriode && maksdatoForPeriode(sistePeriode);
         return dato && dato.isBefore(sluttDato) && dato.isAfter(startDato)
             ? {
                   date: dato.toDate(),

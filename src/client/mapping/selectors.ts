@@ -17,3 +17,10 @@ export const maksdatoForPeriode = ({ vilkår }: Vedtaksperiode): Dayjs | undefin
 
 export const skjæringstidspunktForPeriode = ({ vilkår }: Vedtaksperiode): Dayjs | undefined =>
     vilkår?.dagerIgjen?.skjæringstidspunkt;
+
+export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined =>
+    person.arbeidsgivere
+        .flatMap(({ vedtaksperioder }) => vedtaksperioder)
+        .filter(({ kanVelges }) => kanVelges)
+        .map((periode) => periode as Vedtaksperiode)
+        .reduce((sistePeriode, it) => (it.tom.isAfter(sistePeriode.tom) ? it : sistePeriode));
