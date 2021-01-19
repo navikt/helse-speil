@@ -18,19 +18,20 @@ import { LovdataLenke } from '../../../components/LovdataLenke';
 const VilkårManglerData = () => <Normaltekst>Mangler data om vilkåret</Normaltekst>;
 
 const alder = (vilkår: Vilkår) => {
+    const paragraf = vilkår.alder.alderSisteSykedag >= 67 ? '8-51' : '8-12';
     try {
         return {
             type: Vilkårstype.Alder,
             oppfylt: vilkår.alder.oppfylt,
             tittel: 'Under 70 år',
-            paragraf: <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>,
+            paragraf: <LovdataLenke paragraf={paragraf}>§ {paragraf}</LovdataLenke>,
             komponent: <Alder data-testid="alder" {...vilkår} />,
         };
     } catch (error) {
         return {
             type: Vilkårstype.Alder,
             tittel: 'Under 70 år',
-            paragraf: <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>,
+            paragraf: <LovdataLenke paragraf={paragraf}>§ {paragraf}</LovdataLenke>,
             komponent: <VilkårManglerData />,
         };
     }
@@ -141,15 +142,13 @@ const medlemskap = (vilkår: Vilkår) => {
         return {
             type: Vilkårstype.Medlemskap,
             oppfylt: vilkår.medlemskap?.oppfylt,
-            tittel: 'Medlemskap',
-            paragraf: <LovdataLenke paragraf="2">$ 2</LovdataLenke>,
+            tittel: 'Lovvalg og medlemskap',
             komponent: null,
         };
     } catch (error) {
         return {
             type: Vilkårstype.Medlemskap,
-            tittel: 'Medlemskap',
-            paragraf: <LovdataLenke paragraf="2">$ 2</LovdataLenke>,
+            tittel: 'Lovvalg og medlemskap',
             komponent: <VilkårManglerData />,
         };
     }
