@@ -17,29 +17,12 @@ const Container = styled(Sakslinje)`
     max-width: 250px;
     border: 0;
     background: inherit;
-    width: 50px;
     margin-left: 10px;
+    height: 100%;
+    max-height: none;
 
     span {
         border: 0;
-    }
-`;
-
-const StyledDropdown = styled(Dropdown)`
-    border-radius: 50%;
-    height: 3rem;
-    width: 3rem;
-
-    &:hover,
-    &:active {
-        background-color: #e7e9e9;
-        box-shadow: none;
-    }
-
-    &:focus {
-        border: 3px solid #254b6d;
-        background: inherit;
-        box-shadow: none;
     }
 `;
 
@@ -88,7 +71,7 @@ export const Verktøylinje = () => {
     return (
         <Container
             høyre={
-                <StyledDropdown>
+                <Dropdown>
                     {aktivVedtaksperiode && (
                         <>
                             <Tildelingsknapp
@@ -100,7 +83,7 @@ export const Verktøylinje = () => {
                     )}
                     {oppdaterPersondataEnabled && <OppdaterPersondata />}
                     {visAnnulleringsmuligheter && <Annullering />}
-                </StyledDropdown>
+                </Dropdown>
             }
         />
     );
