@@ -1,5 +1,5 @@
 import { Person, Vedtaksperiode } from 'internal-types';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
 export const førsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person: Person): Vedtaksperiode =>
     person.arbeidsgivere
@@ -23,4 +23,8 @@ export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined
         .flatMap(({ vedtaksperioder }) => vedtaksperioder)
         .filter(({ kanVelges }) => kanVelges)
         .map((periode) => periode as Vedtaksperiode)
-        .reduce((sistePeriode, it) => (it.tom.isAfter(sistePeriode.tom) ? it : sistePeriode));
+        .reduce(
+            (sistePeriode: Vedtaksperiode | undefined, it) =>
+                it.tom.isAfter(sistePeriode?.tom ?? dayjs(0)) ? it : sistePeriode,
+            undefined
+        );
