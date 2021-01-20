@@ -1,6 +1,7 @@
 import { useHistory } from 'react-router';
 import { routeForMiljø } from '../routes';
 import { usePerson } from '../state/person';
+import { viseFaresignalTab } from '../featureToggles';
 
 export interface Navigation {
     toString: (location: Location) => string;
@@ -31,7 +32,7 @@ export const useNavigation = (): Navigation => {
 
     const currentLocation = locationFromCurrentPath(decodeURIComponent(history.location.pathname), locations);
 
-    const canNavigateToNext = currentLocation !== locations.length - 1;
+    const canNavigateToNext = currentLocation !== locations.length - (viseFaresignalTab ? 1 : 2);
 
     const canNavigateToPrevious = currentLocation !== 0;
 
