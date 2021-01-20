@@ -22,6 +22,7 @@ import { usePerson } from '../../state/person';
 import { useRefreshPerson } from '../../hooks/useRefreshPerson';
 import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
 import '@navikt/helse-frontend-logg/lib/main.css';
+import { Faresignaler } from './Faresignaler/Faresignaler';
 
 const Container = styled.div`
     display: flex;
@@ -144,6 +145,9 @@ const SaksbildeContent = () => {
                                             vedtaksperiode={aktivVedtaksperiode}
                                             person={personTilBehandling}
                                         />
+                                    </Route>
+                                    <Route path={`${path}/faresignaler`}>
+                                        <Faresignaler vedtaksperiode={aktivVedtaksperiode} />
                                     </Route>
                                 </Switch>
                             </Content>

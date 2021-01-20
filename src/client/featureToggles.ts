@@ -25,6 +25,9 @@ const erDavid = () => extractIdent() === 'S150563';
 const erKevin = () => extractIdent() === 'S151890';
 const erUtvikler = () => erKnudix() || erKevin() || erDavid();
 
+const erJonas = () => extractIdent() === 'H159657';
+const erPeter = () => extractIdent() === 'S159940';
+
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
 export const annulleringerEnabled =
@@ -36,3 +39,4 @@ export const speilV2 = true;
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
+export const viseFaresignalTab = erLocal() || erPreprod();

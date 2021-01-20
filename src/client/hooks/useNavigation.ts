@@ -15,9 +15,10 @@ export enum Location {
     Sykmeldingsperiode,
     Vilkår,
     Sykepengegrunnlag,
+    Faresignaler,
 }
 
-const locations = ['/utbetaling', '/sykmeldingsperiode', '/vilkår', '/sykepengegrunnlag'];
+const locations = ['/utbetaling', '/sykmeldingsperiode', '/vilkår', '/sykepengegrunnlag', '/faresignaler'];
 
 const locationFromCurrentPath = (path: string, locations: string[]) => {
     const currentPathName = path.split('/')[3];
