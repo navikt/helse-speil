@@ -403,7 +403,7 @@ export interface SpesialistInntektsgrunnlag {
 
 export interface SpesialistArbeidsgiverinntekt {
     arbeidsgiver: string;
-    omregnetÅrsinntekt: SpesialistOmregnetÅrsinntekt;
+    omregnetÅrsinntekt?: SpesialistOmregnetÅrsinntekt;
     sammenligningsgrunnlag?: SpesialistSammenligningsgrunnlag;
 }
 

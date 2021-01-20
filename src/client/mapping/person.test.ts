@@ -1,14 +1,13 @@
 import { mapPerson } from './person';
 import { Kjønn, Overstyring, Vedtaksperiode } from 'internal-types';
 import {
+    SpleisAktivitet,
+    SpleisAlvorlighetsgrad,
     SpleisSykdomsdag,
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
 } from 'external-types';
-import { mappetPerson } from './testdata/mappetPerson';
-import { defaultPersonInfo } from './testdata/defaultPersonInfo';
-import { enAktivitet } from './testdata/enAktivitetslogg';
 import dayjs from 'dayjs';
 import { ISO_TIDSPUNKTFORMAT } from '../utils/date';
 import {
@@ -18,12 +17,30 @@ import {
     umappetVedtaksperiode,
 } from '../../test/data/vedtaksperiode';
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
-import { umappetPerson } from '../../test/data/person';
+import { mappetPersonObject, umappetPerson } from '../../test/data/person';
+import { PersoninfoFraSparkel } from '../../types';
+
+const defaultPersonInfo: PersoninfoFraSparkel = {
+    kjønn: 'Mannebjørn',
+    fødselsdato: '1956-12-12',
+    fnr: '01019000123',
+};
+
+const enAktivitet = (
+    melding: string = 'Aktivitetsloggvarsel',
+    tidsstempel: string = '2020-04-03T07:40:47.261Z',
+    alvorlighetsgrad: SpleisAlvorlighetsgrad = 'W'
+): SpleisAktivitet => ({
+    vedtaksperiodeId: 'vedtaksperiodeId',
+    alvorlighetsgrad: alvorlighetsgrad,
+    melding: melding,
+    tidsstempel: tidsstempel,
+});
 
 describe('personmapper', () => {
     test('mapper person', async () => {
         const { person } = await mapPerson(umappetPerson(), defaultPersonInfo);
-        expect(person).toEqual(mappetPerson);
+        expect(person).toEqual(mappetPersonObject);
     });
 
     test('mapper aktivitetslogg', async () => {

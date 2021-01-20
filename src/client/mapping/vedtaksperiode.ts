@@ -334,7 +334,7 @@ export class VedtaksperiodeBuilder {
 
     private mapInntektsgrunnlag = () => {
         const navnForOrganisasjonsnummer = (organisasjonsnummer: string): string =>
-            this.person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer)?.navn ??
+            this.person?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer)?.navn ??
             'Arbeidsgiver';
         try {
             this.vedtaksperiode.inntektsgrunnlag = this.inntektsgrunnlag && {
@@ -349,28 +349,18 @@ export class VedtaksperiodeBuilder {
                     arbeidsgivernavn: navnForOrganisasjonsnummer(arbeidsgiverinntekt.arbeidsgiver),
                     organisasjonsnummer: arbeidsgiverinntekt.arbeidsgiver,
                     omregnetÅrsinntekt:
-                        arbeidsgiverinntekt.omregnetÅrsinntekt !== null &&
-                        arbeidsgiverinntekt.omregnetÅrsinntekt !== undefined
-                            ? {
-                                  ...arbeidsgiverinntekt.omregnetÅrsinntekt,
-                                  kilde: Inntektskildetype[arbeidsgiverinntekt.omregnetÅrsinntekt.kilde],
-                                  inntekterFraAOrdningen: arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen?.map(
-                                      (inntekt) => ({
-                                          ...inntekt,
-                                      })
-                                  ),
-                              }
-                            : undefined,
-                    sammenligningsgrunnlag: arbeidsgiverinntekt.sammenligningsgrunnlag
-                        ? {
-                              ...arbeidsgiverinntekt.sammenligningsgrunnlag,
-                              inntekterFraAOrdningen: arbeidsgiverinntekt.sammenligningsgrunnlag.inntekterFraAOrdningen.map(
-                                  (inntekt) => ({
-                                      ...inntekt,
-                                  })
-                              ),
-                          }
-                        : undefined,
+                        (arbeidsgiverinntekt.omregnetÅrsinntekt && {
+                            ...arbeidsgiverinntekt.omregnetÅrsinntekt,
+                            kilde: Inntektskildetype[arbeidsgiverinntekt.omregnetÅrsinntekt.kilde],
+                            inntekterFraAOrdningen: arbeidsgiverinntekt.omregnetÅrsinntekt.inntekterFraAOrdningen,
+                        }) ??
+                        undefined,
+                    sammenligningsgrunnlag:
+                        (arbeidsgiverinntekt.sammenligningsgrunnlag && {
+                            ...arbeidsgiverinntekt.sammenligningsgrunnlag,
+                            inntekterFraAOrdningen: arbeidsgiverinntekt.sammenligningsgrunnlag.inntekterFraAOrdningen,
+                        }) ??
+                        undefined,
                 })),
             };
         } catch (error) {
