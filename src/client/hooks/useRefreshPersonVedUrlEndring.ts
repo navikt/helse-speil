@@ -6,7 +6,7 @@ import { useHentPerson } from '../state/person';
 
 export const erGyldigPersonId = (value: string) => value.match(/^\d{1,15}$/) !== null;
 
-export const useRefreshPerson = () => {
+export const useRefreshPersonVedUrlEndring = () => {
     const { aktorId } = useParams<{ aktorId: string }>();
     const { leggTilVarsel } = useUpdateVarsler();
     const hentPerson = useHentPerson();

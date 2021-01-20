@@ -431,3 +431,15 @@ export interface SpesialistSammenligningsgrunnlag {
     beløp: number;
     inntekterFraAOrdningen: SpesialistInntekterFraAOrdningen[];
 }
+
+enum OpptegnelseType {
+    UTBETALING_ANNULLERING_FEILET,
+    UTBETALING_ANNULLERING_OK,
+}
+
+export interface OpptegnelseDTO {
+    aktørId: number;
+    sekvensnummer: number;
+    type: OpptegnelseType;
+    payload: string;
+}

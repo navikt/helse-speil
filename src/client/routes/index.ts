@@ -5,7 +5,7 @@ export const Routes = {
     Oversikt: routeForMiljø('/'),
     Saksbilde: routeForMiljø('/person/:aktorId'),
     Utbetalingshistorikk: routeForMiljø('/utbetalingshistorikk'),
-    Uatutorisert: routeForMiljø('/uautorisert'),
+    Uautorisert: routeForMiljø('/uautorisert'),
     TildelingTest: routeForMiljø('/boomer'),
-    OpptengelseTest: routeForMiljø('/remoob'),
+    OpptegnelseTest: routeForMiljø('/remoob'),
 };

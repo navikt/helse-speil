@@ -7,7 +7,7 @@ const abonnerPåAktør = (aktørId: string) => {
     postAbonnerPåAktør(aktørId).then((r) => console.log(r));
 };
 
-const hentOpptegnelser = (sisteSekvensId: string) => {
+const hentOpptegnelser = (sisteSekvensId: number) => {
     getOpptegnelser(sisteSekvensId).then((r) => console.log(r));
 };
 
@@ -17,7 +17,7 @@ const hentAlleOpptegnelser = () => {
 
 export const Opptegnelse = () => {
     const [aktørId, setAktørId] = useState('1230123');
-    const [sisteSekvensId, setSisteSekvensId] = useState('1');
+    const [sisteSekvensId, setSisteSekvensId] = useState(1);
 
     return (
         <>
@@ -28,7 +28,7 @@ export const Opptegnelse = () => {
             <Flatknapp onClick={() => abonnerPåAktør(aktørId)}>Abonner på aktør</Flatknapp>
 
             <br />
-            <input value={sisteSekvensId} onChange={(e) => setSisteSekvensId(e.target.value)}></input>
+            <input value={sisteSekvensId} onChange={(e) => setSisteSekvensId(Number(e.target.value))}></input>
             <Flatknapp onClick={() => hentOpptegnelser(sisteSekvensId)}>
                 Hent opptegnelser etter siste sekvensId
             </Flatknapp>

@@ -4,7 +4,7 @@ import request from 'request-promise-native';
 export interface OpptegnelseClient {
     abonnerPåAktør: (speilToken: string, aktorId: string) => Promise<Response>;
     getAlleOpptegnelser: (speilToken: string) => Promise<Response>;
-    getOpptegnelser: (speilToken: string, sisteSekvensId: string) => Promise<Response>;
+    getOpptegnelser: (speilToken: string, sisteSekvensId: number) => Promise<Response>;
 }
 
 export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OpptegnelseClient => ({
@@ -32,7 +32,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): OpptegnelseClie
         };
         return request.get(options);
     },
-    getOpptegnelser: async (speilToken: string, sisteSekvensId: string): Promise<Response> => {
+    getOpptegnelser: async (speilToken: string, sisteSekvensId: number): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/opptegnelse/hent/${sisteSekvensId}`,

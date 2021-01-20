@@ -5,9 +5,9 @@ import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typogra
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { AnnulleringDTO } from '../../../../io/types';
 import { Person, Vedtaksperiode } from 'internal-types';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { authState } from '../../../../state/authentication';
-import { postAnnullering } from '../../../../io/http';
+import { postAbonnerPåAktør, postAnnullering } from '../../../../io/http';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Annulleringsvarsel } from './Annulleringsvarsel';
 import { Modal } from '../../../../components/Modal';
@@ -15,6 +15,7 @@ import { organisasjonsnummerForPeriode } from '../../../../mapping/selectors';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { somPenger } from '../../../../utils/locale';
 import { useHistory } from 'react-router';
+import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -81,10 +82,10 @@ interface Props {
 }
 
 export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) => {
-    const history = useHistory();
     const { ident } = useRecoilValue(authState);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
+    const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
     const form = useForm({ mode: 'onBlur' });
     const organisasjonsnummer = organisasjonsnummerForPeriode(vedtaksperiode, person);
@@ -102,7 +103,9 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
         postAnnullering(annullering)
             .then(() => {
                 onClose();
-                history.push('/');
+                postAbonnerPåAktør(annullering.aktørId).then(() => {
+                    setOpptegnelsePollingTime(1000);
+                });
             })
             .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
             .finally(() => setIsSending(false));

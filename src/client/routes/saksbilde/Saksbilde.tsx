@@ -19,7 +19,8 @@ import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { Person } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { usePerson } from '../../state/person';
-import { useRefreshPerson } from '../../hooks/useRefreshPerson';
+import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
+import { useRefreshPersonVedAnnullering } from '../../hooks/useRefreshPersonVedAnnullering';
 import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
 import '@navikt/helse-frontend-logg/lib/main.css';
 import { Faresignaler } from './faresignaler/Faresignaler';
@@ -112,7 +113,8 @@ const SaksbildeContent = () => {
     const { path } = useRouteMatch();
 
     useVarselFilter(Scopes.SAKSBILDE);
-    useRefreshPerson();
+    useRefreshPersonVedUrlEndring();
+    useRefreshPersonVedAnnullering();
 
     if (!personTilBehandling) return <LasterSaksbilde />;
     if (!aktivVedtaksperiode) return <TomtSaksbilde person={personTilBehandling} />;

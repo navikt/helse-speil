@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import Element from 'nav-frontend-typografi/lib/element';
 import { useHistory } from 'react-router';
-import { useRefreshPerson } from '../../../hooks/useRefreshPerson';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { Person, UtbetalingshistorikkUtbetaling } from 'internal-types';
 import { Annulleringsmodal } from './Annulleringsmodal';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
 
 const Container = styled.div`
     display: flex;
@@ -78,7 +78,7 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
     const [valgtUtbetaling, setValgtUtbetaling] = useState<UtbetalingshistorikkUtbetaling | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<string[]>([]);
 
-    useRefreshPerson();
+    useRefreshPersonVedUrlEndring();
 
     const lukkUtbetalingshistorikk = () => history.push(`/person/${person.aktørId}/utbetaling`);
 

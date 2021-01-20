@@ -1,4 +1,11 @@
-import { getOppgavereferanse } from './http';
+import { getOppgavereferanse, getOpptegnelser } from './http';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import {
+    nyeOpptegnelserState,
+    opptegnelsePollingTimeState,
+    sisteSekvensIdOpptegnelseState,
+} from '../state/opptegnelser';
+import { useEffect } from 'react';
 
 const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -22,4 +29,30 @@ export const pollEtterNyOppgave = async (
         }
     }
     return Promise.reject();
+};
+
+export const usePollEtterOpptegnelser = () => {
+    const setOpptegnelser = useSetRecoilState(nyeOpptegnelserState);
+    const sisteSekvensId = useRecoilValue(sisteSekvensIdOpptegnelseState);
+    const [opptegnelsePollingTime, setOpptegnelsePollingTime] = useRecoilState(opptegnelsePollingTimeState);
+
+    useEffect(() => {
+        function tick() {
+            getOpptegnelser(sisteSekvensId)
+                .then((response) => {
+                    if (response.data.length > 0) {
+                        setOpptegnelser(response.data);
+                    } else {
+                        setOpptegnelsePollingTime(100_000_000_000);
+                    }
+                })
+                .catch((error) => {
+                    if (error.statusCode >= 500) {
+                        console.error(error);
+                    }
+                });
+        }
+        let id = setInterval(tick, opptegnelsePollingTime);
+        return () => clearInterval(id);
+    }, [opptegnelsePollingTime, sisteSekvensId]);
 };

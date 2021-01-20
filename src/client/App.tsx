@@ -13,6 +13,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthentication } from './state/authentication';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useIsLoadingPerson } from './state/person';
+import { usePollEtterOpptegnelser } from './io/polling';
 import { hot } from 'react-hot-loader';
 import 'reset-css';
 import './App.less';
@@ -31,6 +32,7 @@ const App = () => {
     useAuthentication();
     const isLoading = useIsLoadingPerson();
     const showToast = useDebounce(isLoading);
+    usePollEtterOpptegnelser();
 
     return (
         <>
@@ -42,7 +44,7 @@ const App = () => {
             <Varsler />
             <Switch>
                 <React.Suspense fallback={<div />}>
-                    <Route path={Routes.Uatutorisert}>
+                    <Route path={Routes.Uautorisert}>
                         <IkkeLoggetInn />
                     </Route>
                     <ProtectedRoute path={Routes.Oversikt} exact>
@@ -51,7 +53,7 @@ const App = () => {
                     <ProtectedRoute path={Routes.Saksbilde}>
                         <Saksbilde />
                     </ProtectedRoute>
-                    <ProtectedRoute path={Routes.OpptengelseTest}>
+                    <ProtectedRoute path={Routes.OpptegnelseTest}>
                         <Opptegnelse />
                     </ProtectedRoute>
                 </React.Suspense>

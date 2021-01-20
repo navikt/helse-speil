@@ -23,7 +23,7 @@ export default ({ opptegnelseClient }: SetupOptions) => {
     router.get('/hent', (req: SpeilRequest, res: Response) => {
         opptegnelseClient
             .getAlleOpptegnelser(req.session!.speilToken)
-            .then(() => res.sendStatus(200))
+            .then((it) => res.status(200).send(it))
             .catch((err) => {
                 logger.error(`Feil under henting av opptegnelser: ${err}`);
                 res.status(500).send('Feil under henting av opptegnelser');
@@ -32,11 +32,11 @@ export default ({ opptegnelseClient }: SetupOptions) => {
 
     router.get('/hent/:sisteSekvensId', (req: SpeilRequest, res: Response) => {
         opptegnelseClient
-            .getOpptegnelser(req.session!.speilToken, req.params['sisteSekvensId'])
-            .then(() => res.sendStatus(200))
+            .getOpptegnelser(req.session!.speilToken, Number(req.params['sisteSekvensId']))
+            .then((it) => res.status(200).send(it))
             .catch((err) => {
-                logger.error(`Feil under henting av opptegnelser: ${err}`);
-                res.status(500).send('Feil under henting av opptegnelser');
+                logger.error(`Feil under henting av opptegnelser med sisteSekvensId: ${err}`);
+                res.status(500).send('Feil under henting av opptegnelser med sisteSekvensId');
             });
     });
 

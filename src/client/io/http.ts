@@ -159,6 +159,6 @@ export const getAlleOpptegnelser = async () => {
     return get(`${baseUrl}/opptegnelse/hent`);
 };
 
-export const getOpptegnelser = async (sisteSekvensId: string) => {
-    return get(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`);
+export const getOpptegnelser = async (sisteSekvensId?: number) => {
+    return sisteSekvensId ? get(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`) : get(`${baseUrl}/opptegnelse/hent`);
 };

@@ -5,7 +5,7 @@ import { authState } from '../state/authentication';
 import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
 import { Link, useHistory } from 'react-router-dom';
-import { erGyldigPersonId } from '../hooks/useRefreshPerson';
+import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
