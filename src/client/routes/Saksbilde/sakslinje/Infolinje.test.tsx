@@ -11,11 +11,11 @@ const enVedtaksperiode = mappetVedtaksperiode(dayjs('2020-01-01'), dayjs('2020-0
 describe('Infolinje', () => {
     test('viser fom og tom', () => {
         render(<Infolinje vedtaksperiode={enVedtaksperiode} />);
-        expect(screen.getByText('01.01.2020 - 31.01.2020')).toBeVisible();
+        expect(screen.getByText('01.01.20 - 31.01.20')).toBeVisible();
     });
     test('viser skjæringstidspunkt', () => {
         render(<Infolinje vedtaksperiode={enVedtaksperiode} />);
-        expect(screen.getByText('01.01.2020', { exact: true })).toBeVisible();
+        expect(screen.getByText('01.01.20', { exact: true })).toBeVisible();
     });
     test('viser paragraf 8-51 ved alder 67 eller over', () => {
         const over67 = {
