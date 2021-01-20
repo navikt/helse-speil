@@ -87,7 +87,9 @@ export class VedtaksperiodeBuilder {
 
     setInntektsgrunnlag = (inntektsgrunnlag: SpesialistInntektsgrunnlag[]) => {
         this.inntektsgrunnlag = inntektsgrunnlag.find(
-            (element) => this.unmapped.vilkår.sykepengedager.skjæringstidspunkt === element.skjæringstidspunkt
+            (element) =>
+                this.unmapped.fullstendig &&
+                this.unmapped.vilkår.sykepengedager.skjæringstidspunkt === element.skjæringstidspunkt
         );
         return this;
     };

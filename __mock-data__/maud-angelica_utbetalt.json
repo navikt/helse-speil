@@ -16,6 +16,14 @@
             "navn": "Slottet",
             "vedtaksperioder": [
                 {
+                    "id": "02011154-5d09-4895-b4bc-fc86d3661216",
+                    "gruppeId": "aaaabbbb-36c5-47d7-a736-0e1ef707538d",
+                    "fom": "2017-01-01",
+                    "tom": "2017-01-03",
+                    "tilstand": "IngenUtbetaling",
+                    "fullstendig": false
+                },
+                {
                     "id": "57dba1fc-3078-42df-9654-abbb9a52d211",
                     "gruppeId": "9c8758cc-569e-4dce-9426-9633a093f94f",
                     "fom": "2018-01-01",
