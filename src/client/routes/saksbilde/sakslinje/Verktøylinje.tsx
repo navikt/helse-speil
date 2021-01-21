@@ -1,28 +1,27 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Sakslinje from '@navikt/helse-frontend-sakslinje';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import { Dropdown } from '../../../components/Dropdown';
 import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
-import { Annullering } from '../annullering/Annullering';
+import { Annullering } from './annullering/Annullering';
 import { Button } from '../../../components/Button';
 import { OppdaterPersondata } from './OppdaterPersondata';
 import { Tildelingsknapp } from './Tildelingsknapp';
 import { usePerson } from '../../../state/person';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 
-const Container = styled(Sakslinje)`
-    border-left: none;
-    border-right: none;
-    max-width: 250px;
-    border: 0;
-    background: inherit;
-    margin-left: 10px;
+const Container = styled.div`
+    display: flex;
+    align-items: center;
     height: 100%;
-    max-height: none;
+`;
 
-    span {
-        border: 0;
+const Dropdownknapp = styled(Dropdown)`
+    padding: 1rem 1.25rem;
+
+    &:hover,
+    &:active {
+        text-decoration: underline;
     }
 `;
 
@@ -69,22 +68,20 @@ export const Verktøylinje = () => {
         !vedtaksperiodeErAnnullert && annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling;
 
     return (
-        <Container
-            høyre={
-                <Dropdown>
-                    {aktivVedtaksperiode && (
-                        <>
-                            <Tildelingsknapp
-                                oppgavereferanse={aktivVedtaksperiode.oppgavereferanse}
-                                tildeltTil={tildeltTil}
-                            />
-                            <Strek />
-                        </>
-                    )}
-                    {oppdaterPersondataEnabled && <OppdaterPersondata />}
-                    {visAnnulleringsmuligheter && <Annullering />}
-                </Dropdown>
-            }
-        />
+        <Container>
+            <Dropdownknapp>
+                {aktivVedtaksperiode && (
+                    <>
+                        <Tildelingsknapp
+                            oppgavereferanse={aktivVedtaksperiode.oppgavereferanse}
+                            tildeltTil={tildeltTil}
+                        />
+                        <Strek />
+                    </>
+                )}
+                {oppdaterPersondataEnabled && <OppdaterPersondata />}
+                {visAnnulleringsmuligheter && <Annullering />}
+            </Dropdownknapp>
+        </Container>
     );
 };
