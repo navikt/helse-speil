@@ -1,10 +1,10 @@
-import { AnnulleringDTO } from '../../io/types';
+import { AnnulleringDTO } from '../../../io/types';
 import dayjs from 'dayjs';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { Annulleringsmodal } from './AnnulleringsModal';
+import { Annulleringsmodal } from './Annulleringsmodal';
 import { UtbetalingshistorikkUtbetaling } from 'internal-types';
-import { enPersoninfo } from '../../mapping/person.test';
+import { enPersoninfo } from '../../../mapping/person.test';
 import userEvent from '@testing-library/user-event';
 
 let cachedAnnullering: AnnulleringDTO;

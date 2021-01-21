@@ -14,14 +14,12 @@ import { useAuthentication } from './state/authentication';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useIsLoadingPerson } from './state/person';
 import { hot } from 'react-hot-loader';
+import 'reset-css';
+import './App.less';
 
-const Utbetalingshistorikk = React.lazy(() => import('./routes/Utbetalingshistorikk/Utbetalingshistorikk'));
 const Opptegnelse = React.lazy(() => import('./routes/Saksbilde/Opptegnelse'));
 const Saksbilde = React.lazy(() => import('./routes/Saksbilde/Saksbilde'));
 const Oversikt = React.lazy(() => import('./routes/Oversikt'));
-
-import 'reset-css';
-import './App.less';
 
 ReactModal.setAppElement('#root');
 
@@ -49,9 +47,6 @@ const App = () => {
                     </Route>
                     <ProtectedRoute path={Routes.Oversikt} exact>
                         <Oversikt />
-                    </ProtectedRoute>
-                    <ProtectedRoute path={Routes.Utbetalingshistorikk}>
-                        <Utbetalingshistorikk />
                     </ProtectedRoute>
                     <ProtectedRoute path={Routes.Saksbilde}>
                         <Saksbilde />
