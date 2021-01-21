@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import styled from '@emotion/styled';
-import { Vedtaksperiode } from 'internal-types';
+import { Risikovurdering } from 'internal-types';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
 import { FlexColumn } from '../../../components/Flex';
@@ -38,65 +38,53 @@ const IkonContainer = styled.div`
 const Kolonne = styled(FlexColumn)`
     max-width: 480px;
     min-width: 480px;
+
     &:not(:last-of-type) {
         margin-right: 1rem;
     }
 `;
 
 interface FaresignalerProps {
-    vedtaksperiode?: Vedtaksperiode;
+    risikovurdering: Risikovurdering;
 }
 
-export const Faresignaler = ({ vedtaksperiode }: FaresignalerProps) => {
-    if (!vedtaksperiode) return null;
-
-    return (
-        <AgurkErrorBoundary sidenavn="Faresignaler">
-            <Container className="faresignaler">
-                {vedtaksperiode.risikovurdering?.arbeidsuførhetvurdering && (
-                    <Faresignalkategori
-                        ikon={<Advarselikon />}
-                        overskrift="Faresignaler oppdaget"
-                        vurderinger={vedtaksperiode.risikovurdering.arbeidsuførhetvurdering}
-                        vurderingIkon={<Utropstegnikon />}
-                        testid="faresignaler-oppdaget"
-                    />
-                )}
-                {vedtaksperiode.risikovurdering?.arbeidsuførhetvurdering && (
-                    <Faresignalkategori
-                        ikon={<GrøntSjekkikon />}
-                        overskrift="Faresignaler kontrollert"
-                        vurderinger={vedtaksperiode.risikovurdering.arbeidsuførhetvurdering}
-                        vurderingIkon={<Sjekkikon />}
-                        testid="faresignaler-kontrollert"
-                    />
-                )}
-            </Container>
-        </AgurkErrorBoundary>
-    );
-};
+export const Faresignaler = ({ risikovurdering }: FaresignalerProps) => (
+    <AgurkErrorBoundary sidenavn="Faresignaler">
+        <Container className="faresignaler">
+            <Faresignalkategori
+                ikon={<Advarselikon />}
+                overskrift="Faresignaler oppdaget"
+                vurderinger={risikovurdering.arbeidsuførhetvurdering}
+                vurderingIkon={<Utropstegnikon />}
+            />
+            <Faresignalkategori
+                ikon={<GrøntSjekkikon />}
+                overskrift="Faresignaler kontrollert"
+                vurderinger={risikovurdering.arbeidsuførhetvurdering}
+                vurderingIkon={<Sjekkikon />}
+            />
+        </Container>
+    </AgurkErrorBoundary>
+);
 
 interface FaresignalkategoriProps {
     ikon: ReactNode;
     overskrift: String;
     vurderinger: String[];
     vurderingIkon: ReactNode;
-    testid: String;
 }
 
-const Faresignalkategori = ({ ikon, overskrift, vurderinger, vurderingIkon, testid }: FaresignalkategoriProps) => {
-    return (
-        <Kolonne data-testid={testid}>
+const Faresignalkategori = ({ ikon, overskrift, vurderinger, vurderingIkon }: FaresignalkategoriProps) => (
+    <Kolonne>
+        <Linje>
+            <IkonContainer>{ikon}</IkonContainer>
+            <Normaltekst>{overskrift}</Normaltekst>
+        </Linje>
+        {vurderinger.map((vurdering) => (
             <Linje>
-                <IkonContainer>{ikon}</IkonContainer>
-                <Normaltekst>{overskrift}</Normaltekst>
+                <IkonContainer>{vurderingIkon}</IkonContainer>
+                <Normaltekst>{vurdering}</Normaltekst>
             </Linje>
-            {vurderinger.map((vurdering) => (
-                <Linje>
-                    <IkonContainer>{vurderingIkon}</IkonContainer>
-                    <Normaltekst>{vurdering}</Normaltekst>
-                </Linje>
-            ))}
-        </Kolonne>
-    );
-};
+        ))}
+    </Kolonne>
+);

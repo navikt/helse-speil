@@ -146,9 +146,11 @@ const SaksbildeContent = () => {
                                             person={personTilBehandling}
                                         />
                                     </Route>
-                                    <Route path={`${path}/faresignaler`}>
-                                        <Faresignaler vedtaksperiode={aktivVedtaksperiode} />
-                                    </Route>
+                                    {aktivVedtaksperiode.risikovurdering && (
+                                        <Route path={`${path}/faresignaler`}>
+                                            <Faresignaler risikovurdering={aktivVedtaksperiode.risikovurdering} />
+                                        </Route>
+                                    )}
                                 </Switch>
                             </Content>
                         </FlexColumn>
