@@ -7,6 +7,7 @@ import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 import { Infolinje } from './Infolinje';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { viseFaresignalTab } from '../../../featureToggles';
+import { HjemIkon } from './icons/HjemIkon';
 
 const Container = styled.div`
     height: 74px;
@@ -14,6 +15,10 @@ const Container = styled.div`
     display: flex;
     flex: 1;
     padding: 0 2.5rem 0 2rem;
+`;
+
+const TabList = styled.span`
+    display: flex;
 `;
 
 export const Sakslinje = () => {
@@ -30,23 +35,42 @@ export const Sakslinje = () => {
 
     return (
         <Container>
-            <TabLink hjemIkon disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Utbetaling)}>
-                Utbetaling
-            </TabLink>
-            <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Sykmeldingsperiode)}>
-                Smperiode
-            </TabLink>
-            <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Vilkår)}>
-                Vilkår
-            </TabLink>
-            <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Sykepengegrunnlag)}>
-                Spgrunnlag
-            </TabLink>
-            {viseFaresignalTab && (
-                <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Faresignaler)}>
-                    Faresignaler
+            <TabList role="tablist">
+                <TabLink
+                    disabled={!aktivVedtaksperiode}
+                    to={pathForLocation(Location.Utbetaling)}
+                    title="Utbetaling"
+                    icon={<HjemIkon />}
+                >
+                    Utbetaling
                 </TabLink>
-            )}
+                <TabLink
+                    disabled={!aktivVedtaksperiode}
+                    to={pathForLocation(Location.Sykmeldingsperiode)}
+                    title="Smperiode"
+                >
+                    Smperiode
+                </TabLink>
+                <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Vilkår)} title="Vilkår">
+                    Vilkår
+                </TabLink>
+                <TabLink
+                    disabled={!aktivVedtaksperiode}
+                    to={pathForLocation(Location.Sykepengegrunnlag)}
+                    title="Spgrunnlag"
+                >
+                    Spgrunnlag
+                </TabLink>
+                {viseFaresignalTab && (
+                    <TabLink
+                        disabled={!aktivVedtaksperiode}
+                        to={pathForLocation(Location.Faresignaler)}
+                        title="Fargesignaler"
+                    >
+                        Faresignaler
+                    </TabLink>
+                )}
+            </TabList>
             <Verktøylinje />
             <Infolinje vedtaksperiode={aktivVedtaksperiode} />
         </Container>

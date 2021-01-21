@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 
@@ -12,41 +12,33 @@ const DisabledTabLink = styled.a`
     outline: none;
 `;
 
+const Content = styled.span`
+    color: transparent;
+    position: relative;
+
+    &:after {
+        content: attr(title);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #3e3832;
+        line-height: 22px;
+    }
+`;
+
 const StyledTabLink = styled(NavLink)`
     position: relative;
     display: flex;
     align-items: center;
     padding: 0 10px;
     margin: 0 4px;
-    color: transparent;
     outline: none;
-
-    &:nth-of-type(1) {
-        margin-left: 0;
-    }
-
-    &:after {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        content: attr(title);
-        color: #3e3832;
-        line-height: 22px;
-    }
-
-    &.hjem-ikon {
-        padding-left: 2.25rem;
-        background: url("data:image/svg+xml,%3Csvg width='16' height='18' viewBox='0 0 16 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M8 0L15.5 7.5V18H8.75V13.5H7.25V18H0.5V7.5L8 0ZM8 2.12175L2 8.121V16.5H5.75V12H10.25V16.5H14V8.12175L8 2.12175Z' fill='%233E3832'/%3E%3C/svg%3E%0A")
-            no-repeat 9px center;
-        &:after {
-            padding-left: 0.75rem;
-            transform: translateX(calc(-50% + 7px));
-        }
-    }
+    line-height: 22px;
+    text-decoration: none;
 
     &.active,
     &:hover {
-        &:after {
+        > .content:after {
             font-weight: 600;
         }
 
@@ -68,18 +60,29 @@ const StyledTabLink = styled(NavLink)`
     }
 `;
 
+const IconContainer = styled.span`
+    margin-right: 0.5rem;
+`;
+
 interface TabLinkProps {
-    children: string;
-    to: string;
+    children: ReactNode;
+    to?: string;
+    title?: string;
     disabled?: boolean;
-    hjemIkon?: boolean;
+    icon?: ReactNode;
 }
 
-export const TabLink = ({ children, to, disabled, hjemIkon = false }: TabLinkProps) =>
-    disabled ? (
-        <DisabledTabLink>{children}</DisabledTabLink>
+export const TabLink = ({ children, to, disabled, title, icon }: TabLinkProps) =>
+    disabled || !to ? (
+        <DisabledTabLink>
+            {icon && <IconContainer>{icon}</IconContainer>}
+            <Content>{children}</Content>
+        </DisabledTabLink>
     ) : (
-        <StyledTabLink title={children} to={to} className={hjemIkon ? 'hjem-ikon' : ''}>
-            {children}
+        <StyledTabLink role="tab" to={to}>
+            {icon && <IconContainer>{icon}</IconContainer>}
+            <Content className="content" title={title}>
+                {children}
+            </Content>
         </StyledTabLink>
     );
