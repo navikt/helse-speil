@@ -2,43 +2,17 @@ import React from 'react';
 import { Faresignaler } from './Faresignaler';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { Person, Vedtaksperiode } from 'internal-types';
-import { mappetPerson } from 'test-data';
-
-export const personMedFaresignaler = async (arbeidsuførhetvurdering: string[]): Promise<Person> => {
-    const person = await mappetPerson();
-    return {
-        ...person,
-        arbeidsgivere: [
-            {
-                ...person.arbeidsgivere[0],
-                vedtaksperioder: [
-                    {
-                        ...person.arbeidsgivere[0].vedtaksperioder[0],
-                        risikovurdering: {
-                            ufullstendig: false,
-                            arbeidsuførhetvurdering: arbeidsuførhetvurdering,
-                        },
-                    },
-                ],
-            },
-        ],
-    };
-};
-
-enum TestId {
-    faresignalerOppdaget = 'faresignaler-oppdaget',
-    faresignalerKontrollert = 'faresignaler-kontrollert',
-}
 
 describe('Faresignaler', () => {
-    it('faresignaler-oppdaget', async () => {
-        const person = await personMedFaresignaler(['Går alltid med solbriller', 'Spiser aldri lunsj']);
-        renderFaresignaler(person);
-        expect(screen.queryByTestId(TestId.faresignalerOppdaget)).toBeVisible();
-        expect(screen.queryByTestId(TestId.faresignalerKontrollert)).toBeVisible();
+    test('rendrer arbeidsuførhetsvurdering', async () => {
+        const enRisikovurdering = {
+            ufullstendig: false,
+            arbeidsuførhetvurdering: ['Går alltid med solbriller', 'Spiser aldri lunsj'],
+        };
+        render(<Faresignaler risikovurdering={enRisikovurdering} />);
+        expect(screen.queryByText('Faresignaler oppdaget')).toBeVisible();
+        expect(screen.queryByText('Faresignaler kontrollert')).toBeVisible();
+        expect(screen.queryAllByText('Går alltid med solbriller')).toHaveLength(2);
+        expect(screen.queryAllByText('Spiser aldri lunsj')).toHaveLength(2);
     });
 });
-
-export const renderFaresignaler = (person: Person) =>
-    render(<Faresignaler vedtaksperiode={person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode} />);
