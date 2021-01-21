@@ -13,7 +13,8 @@ const Knapp = styled(Button)`
     display: flex;
     align-items: center;
     color: #0067c5;
-    font-size: 100%;
+    font-size: 1rem;
+    font-weight: 600;
 
     i {
         margin-left: 0.5rem;
