@@ -1,4 +1,4 @@
-import { personState, useHentPerson } from '../state/person';
+import { personState, useHentPerson, useRefreshPerson } from '../state/person';
 import { useRecoilValue } from 'recoil';
 import { nyeOpptegnelserState } from '../state/opptegnelser';
 import { OpptegnelseDTO } from 'external-types';
@@ -11,8 +11,7 @@ export const useRefreshPersonVedAnnullering = () => {
     const opptegnelser = useRecoilValue(nyeOpptegnelserState);
     const valgtAktør = useRecoilValue(personState);
     const aktørId = valgtAktør?.person?.aktørId;
-    const hentPerson = useHentPerson();
-
+    const refreshPerson = useRefreshPerson();
     if (aktørId === undefined) return;
-    else if (personHarFåttOpptegnelse(opptegnelser, aktørId)) hentPerson(aktørId);
+    else if (personHarFåttOpptegnelse(opptegnelser, aktørId)) refreshPerson();
 };

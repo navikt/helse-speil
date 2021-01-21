@@ -34,10 +34,21 @@ export const personTilBehandlingState = atom<string | undefined>({
     default: undefined,
 });
 
+const personHentetSistState = atom<number>({
+    key: 'personTilBehandlingState',
+    default: Date.now(),
+});
+
+export const useRefreshPerson = () => {
+    const setter = useSetRecoilState(personHentetSistState);
+    return () => setter(Date.now());
+};
+
 export const personState = selector<PersonState>({
     key: 'personState',
     get: ({ get }) => {
         const personTilBehandling = get(personTilBehandlingState);
+        get(personHentetSistState);
         return personTilBehandling ? hentPerson(personTilBehandling) : {};
     },
 });
