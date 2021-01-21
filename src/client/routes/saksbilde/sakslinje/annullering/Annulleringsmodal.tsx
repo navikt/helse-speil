@@ -3,17 +3,17 @@ import styled from '@emotion/styled';
 import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { AnnulleringDTO } from '../../../io/types';
+import { AnnulleringDTO } from '../../../../io/types';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { useRecoilValue } from 'recoil';
-import { authState } from '../../../state/authentication';
-import { postAnnullering } from '../../../io/http';
+import { authState } from '../../../../state/authentication';
+import { postAnnullering } from '../../../../io/http';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Annulleringsvarsel } from './Annulleringsvarsel';
-import { Modal } from '../../../components/Modal';
-import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { somPenger } from '../../../utils/locale';
+import { Modal } from '../../../../components/Modal';
+import { organisasjonsnummerForPeriode } from '../../../../mapping/selectors';
+import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { somPenger } from '../../../../utils/locale';
 import { useHistory } from 'react-router';
 
 const ModalContainer = styled(Modal)`

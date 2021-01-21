@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Annulleringsmodal } from './Annulleringsmodal';
-import { DropdownContext } from '../../../components/Dropdown';
-import { DropdownMenyknapp } from '../sakslinje/Verktøylinje';
-import { usePerson } from '../../../state/person';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
+import { DropdownContext } from '../../../../components/Dropdown';
+import { DropdownMenyknapp } from '../Verktøylinje';
+import { usePerson } from '../../../../state/person';
+import { useAktivVedtaksperiode } from '../../../../state/vedtaksperiode';
 
 export const Annullering = () => {
     const personTilBehandling = usePerson();

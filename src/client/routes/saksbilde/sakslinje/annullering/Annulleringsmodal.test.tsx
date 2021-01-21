@@ -2,14 +2,14 @@ import React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import userEvent from '@testing-library/user-event';
-import { authState } from '../../../state/authentication';
+import { authState } from '../../../../state/authentication';
 import { RecoilRoot } from 'recoil';
-import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
+import { VedtaksperiodeBuilder } from '../../../../mapping/vedtaksperiode';
 import { Annulleringsmodal } from './Annulleringsmodal';
 import { Kjønn, Overstyring, Vedtaksperiode } from 'internal-types';
-import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
+import { umappetVedtaksperiode } from '../../../../../test/data/vedtaksperiode';
 import { render, screen, waitFor } from '@testing-library/react';
-import { AnnulleringDTO } from '../../../io/types';
+import { AnnulleringDTO } from '../../../../io/types';
 import '@testing-library/jest-dom/extend-expect';
 import { SpesialistArbeidsgiver } from 'external-types';
 
@@ -17,7 +17,7 @@ dayjs.extend(isSameOrAfter);
 
 let cachedAnnullering: AnnulleringDTO;
 
-jest.mock('../../../io/http', () => ({
+jest.mock('../../../../io/http', () => ({
     postAnnullering: (annullering: AnnulleringDTO) => {
         cachedAnnullering = annullering;
         return Promise.resolve();
