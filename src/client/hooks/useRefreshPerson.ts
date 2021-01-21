@@ -12,7 +12,7 @@ export const useRefreshPerson = () => {
     const hentPerson = useHentPerson();
 
     useLayoutEffect(() => {
-        if (erGyldigPersonId(aktorId)) {
+        if (aktorId && erGyldigPersonId(aktorId)) {
             hentPerson(aktorId);
         } else {
             leggTilVarsel({

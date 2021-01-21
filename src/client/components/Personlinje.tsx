@@ -86,22 +86,20 @@ const LoadingText = styled.div`
     margin: 4px 0;
 `;
 
-export const LasterPersonlinje = () => {
-    return (
-        <Container>
-            <KjønnsnøytraltIkon />
-            <LoadingText />
-            <Separator>/</Separator>
-            <LoadingText />
-            <Separator>/</Separator>
-            <LoadingText />
-            <Separator>/</Separator>
-            <LoadingText />
-            <Separator>/</Separator>
-            <LoadingText />
-        </Container>
-    );
-};
+export const LasterPersonlinje = () => (
+    <Container>
+        <KjønnsnøytraltIkon />
+        <LoadingText />
+        <Separator>/</Separator>
+        <LoadingText />
+        <Separator>/</Separator>
+        <LoadingText />
+        <Separator>/</Separator>
+        <LoadingText />
+        <Separator>/</Separator>
+        <LoadingText />
+    </Container>
+);
 
 export const Personlinje = ({ person }: PersonlinjeProps) => {
     if (!person) return <Container />;

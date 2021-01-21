@@ -7,7 +7,7 @@ import { Avvisningsmodal } from './modal/Avvisningsmodal';
 import { Utbetalingsmodal } from './modal/Utbetalingsmodal';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../../../state/toastsState';
-import { vedtaksstatusToast, vedtaksstatusToastKey } from '../../../../Oversikt/VedtaksstatusToast';
+import { vedtaksstatusToast, vedtaksstatusToastKey } from '../../../../oversikt/VedtaksstatusToast';
 import { postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
 import { AmplitudeContext } from '../../../AmplitudeContext';
 import { Person, Vedtaksperiode } from 'internal-types';

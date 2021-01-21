@@ -4,15 +4,15 @@ import { Flex, FlexColumn } from '../../components/Flex';
 import { LasterTidslinje, Tidslinje } from '../../components/tidslinje';
 import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import { Vilkår } from './Vilkår/Vilkår';
-import { Utbetaling } from './Utbetaling/Utbetaling';
-import { Sykepengegrunnlag } from './Sykepengegrunnlag/Sykepengegrunnlag';
-import { Sykmeldingsperiode } from './Sykmeldingsperiode/Sykmeldingsperiode';
+import { Vilkår } from './vilkår/Vilkår';
+import { Utbetaling } from './utbetaling/Utbetaling';
+import { Sykepengegrunnlag } from './sykepengegrunnlag/Sykepengegrunnlag';
+import { Sykmeldingsperiode } from './sykmeldingsperiode/Sykmeldingsperiode';
 import { Toppvarsler } from '../../components/Toppvarsler';
 import { LoggProvider } from './logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import { Sakslinje } from './sakslinje/Sakslinje';
-import { KalkulererOverstyringToast } from './Sykmeldingsperiode/KalkulererOverstyringToast';
+import { KalkulererOverstyringToast } from './sykmeldingsperiode/KalkulererOverstyringToast';
 import { AmplitudeProvider } from './AmplitudeContext';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
@@ -22,7 +22,8 @@ import { usePerson } from '../../state/person';
 import { useRefreshPerson } from '../../hooks/useRefreshPerson';
 import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
 import '@navikt/helse-frontend-logg/lib/main.css';
-import { Faresignaler } from './Faresignaler/Faresignaler';
+import { Faresignaler } from './faresignaler/Faresignaler';
+import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 
 const Container = styled.div`
     display: flex;
@@ -119,46 +120,58 @@ const SaksbildeContent = () => {
     return (
         <Container className="saksbilde">
             <Personlinje person={personTilBehandling} />
-            <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
-            <Flex justifyContent="space-between">
-                <Sakslinje />
-                <LoggHeader />
-            </Flex>
-            <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Feil}>{error.message}</Varsel>}>
-                <AmplitudeProvider>
-                    <Flex style={{ flex: 1 }}>
-                        <FlexColumn style={{ flex: 1 }}>
-                            <Toppvarsler vedtaksperiode={aktivVedtaksperiode} />
-                            <Content>
-                                <Switch>
-                                    <Route path={`${path}/utbetaling`}>
-                                        <Utbetaling />
-                                    </Route>
-                                    <Route path={`${path}/sykmeldingsperiode`}>
-                                        <Sykmeldingsperiode />
-                                    </Route>
-                                    <Route path={`${path}/vilkår`}>
-                                        <Vilkår vedtaksperiode={aktivVedtaksperiode} person={personTilBehandling} />
-                                    </Route>
-                                    <Route path={`${path}/sykepengegrunnlag`}>
-                                        <Sykepengegrunnlag
-                                            vedtaksperiode={aktivVedtaksperiode}
-                                            person={personTilBehandling}
-                                        />
-                                    </Route>
-                                    {aktivVedtaksperiode.risikovurdering && (
-                                        <Route path={`${path}/faresignaler`}>
-                                            <Faresignaler risikovurdering={aktivVedtaksperiode.risikovurdering} />
-                                        </Route>
-                                    )}
-                                </Switch>
-                            </Content>
-                        </FlexColumn>
-                        <LoggListe />
+            <Switch>
+                <Route path={`${path}/utbetalingshistorikk`}>
+                    <Utbetalingshistorikk person={personTilBehandling} />
+                </Route>
+                <Route>
+                    <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
+                    <Flex justifyContent="space-between">
+                        <Sakslinje />
+                        <LoggHeader />
                     </Flex>
-                </AmplitudeProvider>
-            </ErrorBoundary>
-            <KalkulererOverstyringToast />
+                    <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Feil}>{error.message}</Varsel>}>
+                        <AmplitudeProvider>
+                            <Flex style={{ flex: 1 }}>
+                                <FlexColumn style={{ flex: 1 }}>
+                                    <Toppvarsler vedtaksperiode={aktivVedtaksperiode} />
+                                    <Content>
+                                        <Switch>
+                                            <Route path={`${path}/utbetaling`}>
+                                                <Utbetaling />
+                                            </Route>
+                                            <Route path={`${path}/sykmeldingsperiode`}>
+                                                <Sykmeldingsperiode />
+                                            </Route>
+                                            <Route path={`${path}/vilkår`}>
+                                                <Vilkår
+                                                    vedtaksperiode={aktivVedtaksperiode}
+                                                    person={personTilBehandling}
+                                                />
+                                            </Route>
+                                            <Route path={`${path}/sykepengegrunnlag`}>
+                                                <Sykepengegrunnlag
+                                                    vedtaksperiode={aktivVedtaksperiode}
+                                                    person={personTilBehandling}
+                                                />
+                                            </Route>
+                                            {aktivVedtaksperiode.risikovurdering && (
+                                                <Route path={`${path}/faresignaler`}>
+                                                    <Faresignaler
+                                                        risikovurdering={aktivVedtaksperiode.risikovurdering}
+                                                    />
+                                                </Route>
+                                            )}
+                                        </Switch>
+                                    </Content>
+                                </FlexColumn>
+                                <LoggListe />
+                            </Flex>
+                        </AmplitudeProvider>
+                    </ErrorBoundary>
+                    <KalkulererOverstyringToast />
+                </Route>
+            </Switch>
         </Container>
     );
 };

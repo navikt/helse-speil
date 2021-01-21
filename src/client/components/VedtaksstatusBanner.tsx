@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { toastsState, useFjernEnToast } from '../state/toastsState';
-import { vedtaksstatusToastKey } from '../routes/Oversikt/VedtaksstatusToast';
+import { vedtaksstatusToastKey } from '../routes/oversikt/VedtaksstatusToast';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';

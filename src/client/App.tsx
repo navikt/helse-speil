@@ -17,9 +17,9 @@ import { hot } from 'react-hot-loader';
 import 'reset-css';
 import './App.less';
 
-const Opptegnelse = React.lazy(() => import('./routes/Saksbilde/Opptegnelse'));
-const Saksbilde = React.lazy(() => import('./routes/Saksbilde/Saksbilde'));
-const Oversikt = React.lazy(() => import('./routes/Oversikt'));
+const Opptegnelse = React.lazy(() => import('./routes/saksbilde/Opptegnelse'));
+const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
+const Oversikt = React.lazy(() => import('./routes/oversikt'));
 
 ReactModal.setAppElement('#root');
 

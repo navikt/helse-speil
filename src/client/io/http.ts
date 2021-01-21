@@ -2,7 +2,7 @@ import { Tildeling } from 'internal-types';
 import { extractSpesialistToken } from '../utils/cookie';
 import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
 import { speilTildeling } from '../featureToggles';
-import { Avvisningsskjema } from '../routes/Saksbilde/Utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
+import { Avvisningsskjema } from '../routes/saksbilde/utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,

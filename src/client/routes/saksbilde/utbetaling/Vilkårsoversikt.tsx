@@ -4,7 +4,7 @@ import { Feilikon } from '../../../components/ikoner/Feilikon';
 import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import { tilKategoriserteVilkår } from '../Vilkår/tilKategoriserteVilkår';
+import { tilKategoriserteVilkår } from '../vilkår/tilKategoriserteVilkår';
 import { Vedtaksperiode } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 

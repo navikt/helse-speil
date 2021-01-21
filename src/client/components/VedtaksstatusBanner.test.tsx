@@ -4,7 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { VedtaksstatusBanner } from './VedtaksstatusBanner';
 import { toastsState } from '../state/toastsState';
-import { vedtaksstatusToastKey } from '../routes/Oversikt/VedtaksstatusToast';
+import { vedtaksstatusToastKey } from '../routes/oversikt/VedtaksstatusToast';
 
 describe('VedtaksstatusBanner', () => {
     test('unmountes når den timer ut', async () => {
