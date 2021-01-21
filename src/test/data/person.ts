@@ -2,7 +2,7 @@ import { mapPerson } from '../../client/mapping/person';
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { PersoninfoFraSparkel } from '../../types';
 import { umappetUtbetalinger } from './SpesialistUtbetaling';
-import { Dagtype, Kildetype, Kjønn, Periodetype, Person, Vedtaksperiodetilstand } from 'internal-types';
+import { Dagtype, Kildetype, Kjønn, Overstyring, Periodetype, Person, Vedtaksperiodetilstand } from 'internal-types';
 import dayjs from 'dayjs';
 import { umappetSimuleringsdata } from './simulering';
 
@@ -23,6 +23,15 @@ export const mappetPerson = (
     utbetalinger = umappetUtbetalinger(),
     personinfoFraSparkel?: PersoninfoFraSparkel
 ) => mapPerson(umappetPerson(arbeidsgivere, utbetalinger), personinfoFraSparkel).person;
+
+export const mappetPersoninfo = () => ({
+    fornavn: 'Kari',
+    mellomnavn: null,
+    etternavn: 'Normann',
+    kjønn: 'Mann' as Kjønn,
+    fødselsdato: dayjs(),
+    overstyringer: new Map<string, Overstyring>(),
+});
 
 export const personinfoFraSparkel = ({ kjønn = 'Mannebjørn', fødselsdato = '1956-12-12', fnr = '01019000123' }) => ({
     kjønn,

@@ -87,14 +87,14 @@ const LoggListe = styled(EksternLoggliste)`
 `;
 
 export const LasterSaksbilde = () => (
-    <Container className="saksbilde">
+    <Container className="saksbilde" data-testid="laster-saksbilde">
         <LasterPersonlinje />
         <LasterTidslinje />
     </Container>
 );
 
 const TomtSaksbilde = ({ person }: { person: Person }) => (
-    <Container className="saksbilde">
+    <Container className="saksbilde" data-testid="tomt-saksbilde">
         <LoggProvider>
             <Personlinje person={person} />
             <Tidslinje person={person} />
@@ -118,7 +118,7 @@ const SaksbildeContent = () => {
     if (!aktivVedtaksperiode) return <TomtSaksbilde person={personTilBehandling} />;
 
     return (
-        <Container className="saksbilde">
+        <Container className="saksbilde" data-testid="saksbilde">
             <Personlinje person={personTilBehandling} />
             <Switch>
                 <Route path={`${path}/utbetalingshistorikk`}>

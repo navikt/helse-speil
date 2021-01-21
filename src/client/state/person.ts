@@ -29,7 +29,7 @@ const hentPerson = (id: string): Promise<PersonState> =>
             }
         });
 
-const personTilBehandlingState = atom<string | undefined>({
+export const personTilBehandlingState = atom<string | undefined>({
     key: 'personTilBehandlingState',
     default: undefined,
 });
