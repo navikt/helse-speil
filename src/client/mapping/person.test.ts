@@ -1,5 +1,5 @@
 import { mapPerson } from './person';
-import { Kjønn, Overstyring, Vedtaksperiode } from 'internal-types';
+import { Vedtaksperiode } from 'internal-types';
 import {
     SpleisAktivitet,
     SpleisAlvorlighetsgrad,
@@ -207,13 +207,4 @@ describe('personmapper', () => {
 
         expect(hendelseId).toBeDefined();
     });
-});
-
-export const enPersoninfo = () => ({
-    fornavn: 'Kari',
-    mellomnavn: null,
-    etternavn: 'Normann',
-    kjønn: 'Mann' as Kjønn,
-    fødselsdato: dayjs(),
-    overstyringer: new Map<string, Overstyring>(),
 });

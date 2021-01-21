@@ -4,12 +4,12 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { Annulleringsmodal } from './Annulleringsmodal';
 import { UtbetalingshistorikkUtbetaling } from 'internal-types';
-import { enPersoninfo } from '../../../mapping/person.test';
 import userEvent from '@testing-library/user-event';
+import { mappetPersoninfo } from '../../../../test/data/person';
 
 let cachedAnnullering: AnnulleringDTO;
 
-jest.mock('../../io/http', () => ({
+jest.mock('../../../io/http', () => ({
     postAnnullering: (annullering: AnnulleringDTO) => {
         cachedAnnullering = annullering;
         return Promise.resolve();
@@ -21,7 +21,7 @@ const personTilBehandling = async () => ({
     fødselsnummer: '12345678901',
     utbetalinger: [],
     arbeidsgivere: [],
-    personinfo: enPersoninfo(),
+    personinfo: mappetPersoninfo(),
     infotrygdutbetalinger: [],
     enhet: { id: '', navn: '' },
 });
