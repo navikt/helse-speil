@@ -7,8 +7,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { personTilBehandlingState } from '../../state/person';
 import { personinfoFraSparkel, umappetPerson } from '../../../test/data/person';
 
-jest.mock('../../hooks/useRefreshPerson', () => ({
-    useRefreshPerson: () => {},
+jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
+    useRefreshPersonVedUrlEndring: () => {},
 }));
 
 jest.mock('@navikt/helse-frontend-logg', () => ({

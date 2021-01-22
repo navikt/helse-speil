@@ -20,11 +20,11 @@ import { Person } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { usePerson } from '../../state/person';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
-import { useRefreshPersonVedAnnullering } from '../../hooks/useRefreshPersonVedAnnullering';
 import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
 import '@navikt/helse-frontend-logg/lib/main.css';
 import { Faresignaler } from './faresignaler/Faresignaler';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
+import { useRefreshPersonVedAnnullering } from '../../hooks/useRefreshPersonVedAnnullering';
 
 const Container = styled.div`
     display: flex;
