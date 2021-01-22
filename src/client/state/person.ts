@@ -35,7 +35,7 @@ export const personTilBehandlingState = atom<string | undefined>({
 });
 
 const personHentetSistState = atom<number>({
-    key: 'personTilBehandlingState',
+    key: 'personHentetSistState',
     default: Date.now(),
 });
 
