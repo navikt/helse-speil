@@ -8,7 +8,7 @@ export const opptegnelsePollingState = atom<boolean>({
 
 export const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
-    default: 1000,
+    default: 10_000,
 });
 
 export const nyeOpptegnelserState = atom<OpptegnelseDTO[]>({
@@ -22,11 +22,8 @@ export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
         const nyeOpptegnelser = get(nyeOpptegnelserState);
 
         if (nyeOpptegnelser.length > 0) {
-            const sekvensnummer = nyeOpptegnelser.reduce((acc, curr) => {
-                return curr.sekvensnummer > acc.sekvensnummer ? curr : acc;
-            }).sekvensnummer;
-
-            return sekvensnummer;
+            return nyeOpptegnelser.reduce((acc, curr) => (curr.sekvensnummer > acc.sekvensnummer ? curr : acc))
+                .sekvensnummer;
         }
 
         return undefined;

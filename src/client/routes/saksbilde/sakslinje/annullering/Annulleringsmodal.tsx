@@ -102,10 +102,10 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
         setPostAnnulleringFeil(undefined);
         postAnnullering(annullering)
             .then(() => {
-                onClose();
                 postAbonnerPåAktør(annullering.aktørId).then(() => {
                     setOpptegnelsePollingTime(1000);
                 });
+                onClose();
             })
             .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
             .finally(() => setIsSending(false));
