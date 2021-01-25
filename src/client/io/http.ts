@@ -103,8 +103,6 @@ export const post = async (url: string, data: any, headere?: Headers): Promise<S
     };
 };
 
-export const getPersoninfo = async (aktorId: string) => get(`${baseUrl}/person/${aktorId}/info`);
-
 const postVedtak = async (oppgavereferanse: string, aktørId: string, godkjent: boolean, skjema?: Avvisningsskjema) =>
     post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
 

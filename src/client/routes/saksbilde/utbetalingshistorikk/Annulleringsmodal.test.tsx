@@ -5,7 +5,7 @@ import React from 'react';
 import { Annulleringsmodal } from './Annulleringsmodal';
 import { UtbetalingshistorikkUtbetaling } from 'internal-types';
 import userEvent from '@testing-library/user-event';
-import { mappetPersoninfo } from '../../../../test/data/person';
+import { mappetPersonObject } from '../../../../test/data/person';
 
 let cachedAnnullering: AnnulleringDTO;
 
@@ -21,7 +21,7 @@ const personTilBehandling = async () => ({
     fødselsnummer: '12345678901',
     utbetalinger: [],
     arbeidsgivere: [],
-    personinfo: mappetPersoninfo(),
+    personinfo: mappetPersonObject.personinfo,
     infotrygdutbetalinger: [],
     enhet: { id: '', navn: '' },
 });

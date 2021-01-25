@@ -1,4 +1,3 @@
-import { PersoninfoFraSparkel } from '../../types';
 import { somDato } from './vedtaksperiode';
 import { Arbeidsgiver, Kjønn, Person } from 'internal-types';
 import { SpesialistInfotrygdtypetekst, SpesialistPerson } from 'external-types';
@@ -7,33 +6,18 @@ import { ArbeidsgiverBuilder } from './arbeidsgiver';
 import dayjs from 'dayjs';
 import { utbetalingsoversikt } from '../featureToggles';
 
-// Optional personinfo fra Sparkel kan fjernes når vi ikke lenger
-// kan komme til å hente person fra Spesialist som mangler kjønn
-// (og fødselsdato, som vi ikke bruker ennå)
-export const mapPerson = (
-    personFraSpesialist: SpesialistPerson,
-    personinfoFraSparkel?: PersoninfoFraSparkel
-): { person: Person; problems: Error[] } => {
-    const { person, problems } = new PersonBuilder()
-        .addPerson(personFraSpesialist)
-        .addPersoninfo(personinfoFraSparkel)
-        .build();
+export const mapPerson = (personFraSpesialist: SpesialistPerson): { person: Person; problems: Error[] } => {
+    const { person, problems } = new PersonBuilder().addPerson(personFraSpesialist).build();
     return { person: person as Person, problems };
 };
 
 export class PersonBuilder {
     private unmapped: SpesialistPerson;
-    private personinfo?: PersoninfoFraSparkel;
     private person: Partial<Person> = {};
     private problems: Error[] = [];
 
     addPerson(person: SpesialistPerson): PersonBuilder {
         this.unmapped = person;
-        return this;
-    }
-
-    addPersoninfo(personinfo?: PersoninfoFraSparkel): PersonBuilder {
-        this.personinfo = personinfo;
         return this;
     }
 
@@ -62,9 +46,9 @@ export class PersonBuilder {
             fornavn: this.unmapped.personinfo.fornavn,
             mellomnavn: this.unmapped.personinfo.mellomnavn,
             etternavn: this.unmapped.personinfo.etternavn,
-            fødselsdato: somDato(this.personinfo?.fødselsdato ?? this.unmapped.personinfo.fødselsdato!),
-            kjønn: (this.personinfo?.kjønn ?? this.unmapped.personinfo.kjønn) as Kjønn,
-            fnr: this.personinfo?.fnr ?? this.unmapped.fødselsnummer,
+            fødselsdato: this.unmapped.personinfo.fødselsdato ? somDato(this.unmapped.personinfo.fødselsdato) : null,
+            kjønn: (this.unmapped.personinfo.kjønn ?? 'ukjent') as Kjønn,
+            fnr: this.unmapped.fødselsnummer,
         };
     };
 

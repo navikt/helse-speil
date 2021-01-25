@@ -246,7 +246,7 @@ export interface Personinfo {
     fornavn: string;
     mellomnavn: string | null;
     etternavn: string;
-    fødselsdato: Dayjs;
+    fødselsdato: Dayjs | null;
     kjønn: Kjønn;
     fnr?: string;
 }

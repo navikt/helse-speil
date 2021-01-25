@@ -18,13 +18,6 @@ import {
 } from '../../test/data/vedtaksperiode';
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { mappetPersonObject, umappetPerson } from '../../test/data/person';
-import { PersoninfoFraSparkel } from '../../types';
-
-const defaultPersonInfo: PersoninfoFraSparkel = {
-    kjønn: 'Mannebjørn',
-    fødselsdato: '1956-12-12',
-    fnr: '01019000123',
-};
 
 const enAktivitet = (
     melding: string = 'Aktivitetsloggvarsel',
@@ -39,7 +32,7 @@ const enAktivitet = (
 
 describe('personmapper', () => {
     test('mapper person', async () => {
-        const { person } = await mapPerson(umappetPerson(), defaultPersonInfo);
+        const { person } = await mapPerson(umappetPerson());
         expect(person).toEqual(mappetPersonObject);
     });
 
@@ -51,7 +44,7 @@ describe('personmapper', () => {
 
         const vedtaksperiode = umappetVedtaksperiode({ varsler: [melding], aktivitetslogg: [spleisAktivitet] });
         const arbeidsgiver = umappetArbeidsgiver([vedtaksperiode]);
-        const { person } = await mapPerson(umappetPerson([arbeidsgiver]), defaultPersonInfo);
+        const { person } = await mapPerson(umappetPerson([arbeidsgiver]));
 
         const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
 
@@ -91,8 +84,7 @@ describe('personmapper', () => {
                         },
                     ]),
                 ]),
-            ]),
-            defaultPersonInfo
+            ])
         );
 
         const andreVvedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[1] as Vedtaksperiode;
@@ -124,7 +116,7 @@ describe('personmapper', () => {
 
         const førsteSykdomsdag = umappetVedtaksperiode().sykdomstidslinje[0];
         const vedtaksperiode = medLedendeSykdomsdager(umappetVedtaksperiode(), ledendeArbeidsdager);
-        const { person } = await mapPerson(umappetPerson([umappetArbeidsgiver([vedtaksperiode])]), defaultPersonInfo);
+        const { person } = await mapPerson(umappetPerson([umappetArbeidsgiver([vedtaksperiode])]));
         const mappetVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
 
         expect(mappetVedtaksperiode.sykdomstidslinje[0].dato.format('YYYY-MM-DD')).toEqual(førsteSykdomsdag.dagen);
@@ -146,8 +138,7 @@ describe('personmapper', () => {
                     ]),
                     umappetVedtaksperiode(),
                 ]),
-            ]),
-            defaultPersonInfo
+            ])
         );
 
         const vedtaksperioder = person.arbeidsgivere[0].vedtaksperioder;
@@ -196,8 +187,7 @@ describe('personmapper', () => {
                         },
                     ]
                 ),
-            ]),
-            defaultPersonInfo
+            ])
         );
 
         const førsteVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;

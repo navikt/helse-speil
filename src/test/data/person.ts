@@ -1,15 +1,20 @@
 import { mapPerson } from '../../client/mapping/person';
 import { umappetArbeidsgiver } from './arbeidsgiver';
-import { PersoninfoFraSparkel } from '../../types';
 import { umappetUtbetalinger } from './SpesialistUtbetaling';
-import { Dagtype, Kildetype, Kjønn, Overstyring, Periodetype, Person, Vedtaksperiodetilstand } from 'internal-types';
+import { Dagtype, Kildetype, Kjønn, Periodetype, Person, Vedtaksperiodetilstand } from 'internal-types';
 import dayjs from 'dayjs';
 import { umappetSimuleringsdata } from './simulering';
 
 export const umappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalinger = umappetUtbetalinger()) => ({
     aktørId: '1211109876233',
     fødselsnummer: '01019000123',
-    personinfo: { fornavn: 'Kringle', mellomnavn: null, etternavn: 'Krangel', fødselsdato: null, kjønn: null },
+    personinfo: {
+        fornavn: 'Kringle',
+        mellomnavn: null,
+        etternavn: 'Krangel',
+        fødselsdato: '1956-12-12T00:00:00.000Z',
+        kjønn: 'Mannebjørn',
+    },
     utbetalinger: utbetalinger,
     arbeidsgivere: arbeidsgivere,
     enhet: { id: '', navn: '' },
@@ -18,26 +23,8 @@ export const umappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalin
     simuleringsdata: umappetSimuleringsdata,
 });
 
-export const mappetPerson = (
-    arbeidsgivere = [umappetArbeidsgiver()],
-    utbetalinger = umappetUtbetalinger(),
-    personinfoFraSparkel?: PersoninfoFraSparkel
-) => mapPerson(umappetPerson(arbeidsgivere, utbetalinger), personinfoFraSparkel).person;
-
-export const mappetPersoninfo = () => ({
-    fornavn: 'Kari',
-    mellomnavn: null,
-    etternavn: 'Normann',
-    kjønn: 'Mann' as Kjønn,
-    fødselsdato: dayjs(),
-    overstyringer: new Map<string, Overstyring>(),
-});
-
-export const personinfoFraSparkel = ({ kjønn = 'Mannebjørn', fødselsdato = '1956-12-12', fnr = '01019000123' }) => ({
-    kjønn,
-    fødselsdato,
-    fnr,
-});
+export const mappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalinger = umappetUtbetalinger()) =>
+    mapPerson(umappetPerson(arbeidsgivere, utbetalinger)).person;
 
 export const mappetPersonObject: Person = {
     enhet: {

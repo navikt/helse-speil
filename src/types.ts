@@ -1,16 +1,3 @@
-export interface UnmappedPersoninfo {
-    fdato: string;
-    kjønn: string;
-    fornavn: string;
-    etternavn?: string;
-}
-
-export interface PersoninfoFraSparkel {
-    kjønn: string;
-    fødselsdato: string;
-    fnr?: string;
-}
-
 export interface SpesialistPersoninfo {
     fornavn: string;
     mellomnavn: string | null;

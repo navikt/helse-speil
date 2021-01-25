@@ -1,23 +1,12 @@
 import { Response, Router } from 'express';
-import personinfoRepo from './personinfoRepo';
 import personLookup from './personLookup';
 import { PersonDependencies, SpeilRequest } from '../types';
-import { PersonoppdateringOptions, PersonClient } from './personClient';
+import { PersonClient, PersonoppdateringOptions } from './personClient';
 import logger from '../logging';
 
 const router = Router();
 
-const setup = ({
-    sparkelClient,
-    aktørIdLookup,
-    spesialistClient,
-    personClient,
-    stsClient,
-    cache,
-    config,
-    onBehalfOf,
-}: PersonDependencies) => {
-    personinfoRepo.setup({ sparkelClient, aktørIdLookup, stsClient, cache });
+const setup = ({ spesialistClient, personClient, config, onBehalfOf }: PersonDependencies) => {
     personLookup.setup({ spesialistClient, config, onBehalfOf });
     routes(router, personClient);
     return router;
@@ -26,7 +15,6 @@ const setup = ({
 const routes = (router: Router, personClient: PersonClient) => {
     router.get('/', personLookup.oppgaverForPeriode);
     router.get('/sok', personLookup.finnPerson);
-    router.get('/:aktorId/info', personinfoRepo.getPersoninfo);
 
     router.post('/oppdater', (req: SpeilRequest, res: Response) => {
         personClient

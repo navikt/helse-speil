@@ -5,7 +5,7 @@ import { RecoilRoot } from 'recoil';
 import { MemoryRouter } from 'react-router';
 import '@testing-library/jest-dom/extend-expect';
 import { personTilBehandlingState } from '../../state/person';
-import { personinfoFraSparkel, umappetPerson } from '../../../test/data/person';
+import { umappetPerson } from '../../../test/data/person';
 
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
@@ -75,7 +75,6 @@ describe('Saksbilde', () => {
         mockPersonResponse({
             person: {
                 ...umappetPerson([]),
-                personinfo: personinfoFraSparkel({}),
             },
         });
         render(<Saksbilde />, { wrapper: wrapper('987654321') });
@@ -90,7 +89,6 @@ describe('Saksbilde', () => {
         mockPersonResponse({
             person: {
                 ...umappetPerson(),
-                personinfo: personinfoFraSparkel({}),
             },
         });
         render(<Saksbilde />, { wrapper: wrapper('987654321') });

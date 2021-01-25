@@ -1,6 +1,6 @@
 import { Person } from 'internal-types';
 import { atom, selector, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { fetchPerson, getPersoninfo } from '../io/http';
+import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
 import { aktivVedtaksperiodeIdState } from './vedtaksperiode';
 
@@ -11,13 +11,7 @@ interface PersonState {
 
 const hentPerson = (id: string): Promise<PersonState> =>
     fetchPerson(id)
-        .then(async ({ data }) => {
-            const personinfo =
-                data.person.personinfo.kjønn === null
-                    ? await getPersoninfo(data.person.aktørId).then(({ data }) => data)
-                    : undefined;
-            return { ...mapPerson(data.person, personinfo) };
-        })
+        .then(async ({ data }) => ({ ...mapPerson(data.person) }))
         .catch((error) => {
             switch (error.statusCode) {
                 case 404:

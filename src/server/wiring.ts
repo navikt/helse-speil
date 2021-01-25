@@ -4,17 +4,13 @@ import devRedisClient from './devRedisClient';
 
 import instrumentationModule, { Instrumentation } from './instrumentation';
 import stsClient from './auth/stsClient';
-import devStsClient from './auth/devStsClient';
 import onBehalfOf from './auth/onBehalfOf';
 import devOnBehalfOf from './auth/devOnBehalfOf';
-import sparkelClient from './adapters/sparkelClient';
-import devSparkelClient from './adapters/devSparkelClient';
 import vedtakClient from './payment/vedtakClient';
 import devVedtakClient from './payment/devVedtakClient';
 import annulleringClient from './payment/annulleringClient';
 import devAnnulleringClient from './payment/devAnnulleringClient';
 import aktørIdLookup from './aktørid/aktørIdLookup';
-import devAktørIdLookup from './aktørid/devAktørIdLookup';
 import spesialistClient from './person/spesialistClient';
 import devSpesialistClient from './adapters/devSpesialistClient';
 import overstyringClient from './overstyring/overstyringClient';
@@ -40,13 +36,9 @@ const getDevDependencies = (app: Express) => {
     const _devPersonClient = devPersonClient(instrumentation);
     return {
         person: {
-            sparkelClient: devSparkelClient,
-            aktørIdLookup: devAktørIdLookup,
             spesialistClient: _devSpesialistClient,
             personClient: _devPersonClient,
-            stsClient: devStsClient,
             onBehalfOf: devOnBehalfOf,
-            cache: devRedisClient,
             config,
         },
         payments: { vedtakClient: devVedtakClient, annulleringClient: devAnnulleringClient },
@@ -74,13 +66,9 @@ const getProdDependencies = (app: Express) => {
     const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
     return {
         person: {
-            sparkelClient,
-            aktørIdLookup,
             spesialistClient: _spesialistClient,
             personClient: _personClient,
-            stsClient,
             onBehalfOf: _onBehalfOf,
-            cache: _redisClient,
             config,
         },
         payments: { vedtakClient: _vedtakClient, annulleringClient: _annulleringClient },

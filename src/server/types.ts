@@ -1,10 +1,6 @@
 import { ResponseType } from 'openid-client';
-import { RedisClient } from 'redis';
-import { SparkelClient } from './adapters/sparkelClient';
 import { SpesialistClient } from './person/spesialistClient';
 import { OverstyringClient } from './overstyring/overstyringClient';
-import { StsClient } from './auth/stsClient';
-import { AktørIdLookup } from './aktørid/aktørIdLookup';
 import { Request } from 'express';
 import { PersonClient } from './person/personClient';
 import { Session } from 'express-session';
@@ -50,13 +46,9 @@ export interface NavConfig {
 export type OnBehalfOf = { hentFor: (tjenesteId: string, token: string) => Promise<string> };
 
 export interface PersonDependencies {
-    sparkelClient: SparkelClient;
-    aktørIdLookup: AktørIdLookup;
     spesialistClient: SpesialistClient;
     personClient: PersonClient;
-    stsClient: StsClient;
     onBehalfOf: OnBehalfOf;
-    cache: RedisClient;
     config: AppConfig;
 }
 
