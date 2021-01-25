@@ -9,6 +9,7 @@ import { Flex } from '../../../../components/Flex';
 import { Paragraf } from '../vilkårstitler';
 import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import { LovdataLenke } from '../../../../components/LovdataLenke';
+import { har8_4Kategori } from '../tilKategoriserteVilkår';
 
 export const Alder = ({ alder }: Vilkår) => (
     <Vilkårsgrupperad label="Alder">{alder.alderSisteSykedag}</Vilkårsgrupperad>
@@ -119,9 +120,9 @@ const Vurderinger = styled.ul`
 
 export const Arbeidsuførhet = ({ risikovurdering }: { risikovurdering?: RisikovurderingType }) => (
     <Vurderinger>
-        {risikovurdering?.arbeidsuførhetvurdering?.map((vurdering, i) => (
+        {risikovurdering?.funn.filter(har8_4Kategori).map((funn, i) => (
             <li key={i}>
-                <Normaltekst>{vurdering}</Normaltekst>
+                <Normaltekst>{funn.beskrivelse}</Normaltekst>
             </li>
         ))}
     </Vurderinger>

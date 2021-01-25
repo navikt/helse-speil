@@ -181,8 +181,14 @@ interface Enhet {
 }
 
 export interface SpesialistRisikovurdering {
-    arbeidsuførhetvurdering: string[];
-    ufullstendig: boolean;
+    funn: Faresignal[];
+    kontrollertOk: Faresignal[];
+}
+
+interface Faresignal {
+    kreverSupersaksbehandler: boolean;
+    beskrivelse: string;
+    kategori: string[];
 }
 
 export interface SpesialistOverstyring {

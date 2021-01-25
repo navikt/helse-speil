@@ -1,6 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Periodetype, Risikovurdering as RisikovurderingType, Vedtaksperiode, Vilkår } from 'internal-types';
+import {
+    Faresignal,
+    Periodetype,
+    Risikovurdering as RisikovurderingType,
+    Vedtaksperiode,
+    Vilkår,
+} from 'internal-types';
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
 import {
     Alder,
@@ -167,13 +173,12 @@ const institusjonsopphold = (oppfylt?: boolean) => ({
     komponent: null,
 });
 
+const er8_4 = (funn: string) => funn === '8-4';
+export const har8_4Kategori = (funn: Faresignal) => funn.kategori.find(er8_4);
+
 const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => {
     try {
-        const oppfylt =
-            (risikovurdering &&
-                !risikovurdering.ufullstendig &&
-                risikovurdering.arbeidsuførhetvurdering.length === 0) ||
-            undefined;
+        const oppfylt = (risikovurdering && risikovurdering.funn.filter(har8_4Kategori).length === 0) || undefined;
         return {
             type: Vilkårstype.Arbeidsuførhet,
             oppfylt: oppfylt,

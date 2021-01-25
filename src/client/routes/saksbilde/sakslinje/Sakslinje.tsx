@@ -6,7 +6,6 @@ import { Location, useNavigation } from '../../../hooks/useNavigation';
 import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 import { Infolinje } from './Infolinje';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
-import { viseFaresignalTab } from '../../../featureToggles';
 import { HjemIkon } from './icons/HjemIkon';
 
 const Container = styled.div`
@@ -61,15 +60,13 @@ export const Sakslinje = () => {
                 >
                     Spgrunnlag
                 </TabLink>
-                {viseFaresignalTab && (
-                    <TabLink
-                        disabled={!aktivVedtaksperiode}
-                        to={pathForLocation(Location.Faresignaler)}
-                        title="Fargesignaler"
-                    >
-                        Faresignaler
-                    </TabLink>
-                )}
+                <TabLink
+                    disabled={!aktivVedtaksperiode}
+                    to={pathForLocation(Location.Faresignaler)}
+                    title="Fargesignaler"
+                >
+                    Faresignaler
+                </TabLink>
             </TabList>
             <Verktøylinje />
             <Infolinje vedtaksperiode={aktivVedtaksperiode} />

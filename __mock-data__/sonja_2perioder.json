@@ -23,8 +23,29 @@
                     "oppgavereferanse": null,
                     "fullstendig": true,
                     "risikovurdering": {
-                        "arbeidsuførhetvurdering": ["går for ofte med solbriller", "hva skjer med tweed"],
-                        "ufullstendig": false
+                        "funn": [],
+                        "kontrollertOk": [
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Vokste opp på Vindern",
+                                "kategori": []
+                            },
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Pannebånd er in",
+                                "kategori": []
+                            },
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "går for ofte med solbriller",
+                                "kategori": ["8-4"]
+                            },
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "hva skjer med tweed",
+                                "kategori": ["8-4"]
+                            }
+                        ]
                     },
                     "utbetalinger": {
                         "arbeidsgiverUtbetaling": {
@@ -573,8 +594,30 @@
                     "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5f",
                     "fullstendig": true,
                     "risikovurdering": {
-                        "arbeidsuførhetvurdering": ["går for ofte med solbriller", "hva skjer med tweed"],
-                        "ufullstendig": false
+                        "funn": [
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "går for ofte med solbriller",
+                                "kategori": ["8-4"]
+                            },
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "hva skjer med tweed",
+                                "kategori": ["8-4"]
+                            },
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Pannebånd er in",
+                                "kategori": []
+                            }
+                        ],
+                        "kontrollertOk": [
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Vokste opp på Vindern",
+                                "kategori": []
+                            }
+                        ]
                     },
                     "utbetalinger": {
                         "arbeidsgiverUtbetaling": {

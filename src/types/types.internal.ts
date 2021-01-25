@@ -119,8 +119,14 @@ export interface Inntektsmelding {
 }
 
 export interface Risikovurdering {
-    arbeidsuførhetvurdering: string[];
-    ufullstendig: boolean;
+    funn: Faresignal[];
+    kontrollertOk: Faresignal[];
+}
+
+export interface Faresignal {
+    kreverSupersaksbehandler: boolean;
+    beskrivelse: string;
+    kategori: string[];
 }
 
 export type Hendelse = Søknad | Sykmelding | Inntektsmelding;

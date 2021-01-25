@@ -589,7 +589,7 @@ export const mappetPersonObject: Person = {
                         avviksprosent: 0,
                         sykepengegrunnlag: 372000,
                     },
-                    risikovurdering: { arbeidsuførhetvurdering: [], ufullstendig: false },
+                    risikovurdering: { funn: [], kontrollertOk: [] },
                     simuleringsdata: {
                         totalbeløp: 9999,
                         perioder: [
