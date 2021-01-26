@@ -138,19 +138,26 @@ export const mapSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdo
         kildeId: dag.kilde?.kildeId ?? undefined,
     }));
 
-export const mapUtbetalingstidslinje = (
-    utbetalingstidslinje: SpleisUtbetalingsdag[],
-    vilkår: SpleisVilkår
-): Utbetalingsdag[] =>
-    utbetalingstidslinje.map((dag) => ({
-        type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
-        dato: somDato(dag.dato),
-        gradering: somHeltall(dag.grad),
-        utbetaling: dag.utbetaling,
-        avvistÅrsak: dag.begrunnelse
+export const mapUtbetalingsdag = (vilkår?: SpleisVilkår) => (dag: SpleisUtbetalingsdag) => {
+    const avvistÅrsak =
+        dag.begrunnelse && vilkår
             ? {
                   tekst: dag.begrunnelse,
                   paragraf: vilkår.alder.alderSisteSykedag >= 67 ? '8-51' : undefined,
               }
-            : undefined,
-    }));
+            : dag.begrunnelse
+            ? { tekst: dag.begrunnelse }
+            : undefined;
+    return {
+        type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
+        dato: somDato(dag.dato),
+        gradering: somHeltall(dag.grad),
+        utbetaling: dag.utbetaling,
+        avvistÅrsak: avvistÅrsak,
+    };
+};
+
+export const mapUtbetalingstidslinje = (
+    utbetalingstidslinje: SpleisUtbetalingsdag[],
+    vilkår?: SpleisVilkår
+): Utbetalingsdag[] => utbetalingstidslinje.map(mapUtbetalingsdag(vilkår));

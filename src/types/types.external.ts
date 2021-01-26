@@ -366,6 +366,16 @@ export interface SpesialistVedtaksperiode {
     varsler: string[];
 }
 
+export interface UfullstendigSpesialistVedtaksperiode {
+    id: string;
+    fom: string;
+    tom: string;
+    gruppeId: string;
+    tilstand: SpleisVedtaksperiodetilstand;
+    fullstendig: boolean;
+    utbetalingstidslinje?: SpleisUtbetalingsdag[];
+}
+
 export interface SpesialistInfotrygdutbetaling {
     fom: string;
     tom: string;

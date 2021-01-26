@@ -20,9 +20,10 @@ import {
     SpleisSykdomsdagtype,
     SpleisUtbetalinger,
     SpleisUtbetalingslinje,
+    UfullstendigSpesialistVedtaksperiode,
 } from 'external-types';
 import { mapForlengelseFraInfotrygd } from './infotrygd';
-import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
+import { mapSykdomstidslinje, mapUtbetalingsdag, mapUtbetalingstidslinje } from './dag';
 import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
@@ -119,16 +120,20 @@ export class VedtaksperiodeBuilder {
     private buildUfullstendigVedtaksperiode = (): {
         vedtaksperiode: UfullstendigVedtaksperiode;
         problems: Error[];
-    } => ({
-        vedtaksperiode: {
-            id: this.unmapped.id,
-            fom: dayjs(this.unmapped.fom),
-            tom: dayjs(this.unmapped.tom),
-            kanVelges: false,
-            tilstand: Vedtaksperiodetilstand[this.unmapped.tilstand] ?? Vedtaksperiodetilstand.Ukjent,
-        },
-        problems: this.problems,
-    });
+    } => {
+        const ufullstendigPeriode = this.unmapped as UfullstendigSpesialistVedtaksperiode;
+        return {
+            vedtaksperiode: {
+                id: ufullstendigPeriode.id,
+                fom: dayjs(ufullstendigPeriode.fom),
+                tom: dayjs(ufullstendigPeriode.tom),
+                kanVelges: false,
+                tilstand: Vedtaksperiodetilstand[ufullstendigPeriode.tilstand] ?? Vedtaksperiodetilstand.Ukjent,
+                utbetalingstidslinje: ufullstendigPeriode.utbetalingstidslinje?.map(mapUtbetalingsdag()),
+            },
+            problems: this.problems,
+        };
+    };
 
     private buildVedtaksperiode = (): {
         vedtaksperiode: Vedtaksperiode;

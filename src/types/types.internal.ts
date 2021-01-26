@@ -185,6 +185,7 @@ export interface UfullstendigVedtaksperiode {
     tom: Dayjs;
     kanVelges: boolean;
     tilstand: Vedtaksperiodetilstand;
+    utbetalingstidslinje?: Utbetalingsdag[];
 }
 
 export interface Vedtaksperiode {

@@ -1,5 +1,4 @@
 {
-
     "utbetalinger": [
         {
             "status": "UTBETALT",
@@ -51,7 +50,12 @@
                     "fom": "2020-01-01",
                     "tom": "2020-01-03",
                     "tilstand": "IngenUtbetaling",
-                    "fullstendig": false
+                    "fullstendig": false,
+                    "utbetalingstidslinje": [
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-01" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-02" },
+                        { "type": "ArbeidsgiverperiodeDag", "inntekt": 1431, "dato": "2020-01-03" }
+                    ]
                 },
                 {
                     "id": "b288b1a7-36c5-47d7-a736-0d1ef707538d",
