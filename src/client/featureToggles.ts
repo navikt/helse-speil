@@ -4,13 +4,23 @@ const erLocal = () => location.hostname === 'localhost';
 const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
 const erSupersaksbehandler = () => erEminem() || erDonika() || erDaniel() || erMorten() || erAminet();
 const erSupportsaksbehandler = () =>
-    erEliHåkonsen() || erEirinØdegård() || erJanneFleten() || erMartheOterhals() || erAnnHelenThorsen();
+    erEliHåkonsen() ||
+    erEirinØdegård() ||
+    erJanneFleten() ||
+    erMartheOterhals() ||
+    erAnnHelenThorsen() ||
+    erOttarNerland() ||
+    erAnjaHøiås() ||
+    erGeirArildMannes();
 
 const erEliHåkonsen = () => extractIdent() === 'H104215';
 const erEirinØdegård = () => extractIdent() === 'O130292';
 const erJanneFleten = () => extractIdent() === 'F111930';
 const erMartheOterhals = () => extractIdent() === 'O146470';
 const erAnnHelenThorsen = () => extractIdent() === 'T142719';
+const erOttarNerland = () => extractIdent() === 'N116980';
+const erAnjaHøiås = () => extractIdent() === 'K105430';
+const erGeirArildMannes = () => extractIdent() === 'M106091';
 
 const erEminem = () => extractIdent() === 'G103083';
 const erDonika = () => extractIdent() === 'D117949';
