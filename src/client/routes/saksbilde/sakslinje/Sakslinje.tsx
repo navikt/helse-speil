@@ -63,7 +63,7 @@ export const Sakslinje = () => {
                 <TabLink
                     disabled={!aktivVedtaksperiode}
                     to={pathForLocation(Location.Faresignaler)}
-                    title="Fargesignaler"
+                    title="Faresignaler"
                 >
                     Faresignaler
                 </TabLink>
