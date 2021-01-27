@@ -33,6 +33,7 @@ const Popover = styled(Normaltekst)`
     background: white;
     border-radius: 2px;
     white-space: nowrap;
+    z-index: 1000;
 
     &:before {
         position: absolute;
@@ -76,7 +77,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
     useEffect(() => {
         let timeout: NodeJS.Timeout | null | number = null;
         if (didCopy) {
-            timeout = setTimeout(() => setDidCopy(false), 2000);
+            timeout = setTimeout(() => setDidCopy(false), 3000);
         }
         return () => {
             timeout && clearTimeout(timeout as NodeJS.Timeout);
