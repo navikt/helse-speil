@@ -20,12 +20,11 @@ const tilstandsvarsel = ({ tilstand }: Vedtaksperiode): VarselObject | null => {
         case Vedtaksperiodetilstand.Feilet:
             return { grad: Varseltype.Feil, melding: 'Utbetalingen feilet.' };
         case Vedtaksperiodetilstand.Annullert:
-        case Vedtaksperiodetilstand.Avslag:
-            return { grad: Varseltype.Info, melding: 'Utbetalingen er sendt til annullering.' };
+            return { grad: Varseltype.Info, melding: 'Utbetalingen er annullert.' };
         case Vedtaksperiodetilstand.TilAnnullering:
-            return { grad: Varseltype.Info, melding: 'Annullerer perioden.' };
+            return { grad: Varseltype.Info, melding: 'Annullering venter.' };
         case Vedtaksperiodetilstand.AnnulleringFeilet:
-            return { grad: Varseltype.Feil, melding: 'Annullering feilet. Vennligst kontakt utvikler.' };
+            return { grad: Varseltype.Feil, melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
         default:
             return null;
     }

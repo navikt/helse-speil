@@ -39,22 +39,17 @@ describe('Toppvarsler', () => {
     test('viser infovarsel om saken er annullert', () => {
         const periode = vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Annullert);
         render(<Toppvarsler vedtaksperiode={periode} />);
-        expect(screen.getByText('Utbetalingen er sendt til annullering.')).toBeVisible();
-    });
-    test('viser infovarsel om saken er avslått', () => {
-        const periode = vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Avslag);
-        render(<Toppvarsler vedtaksperiode={periode} />);
-        expect(screen.getByText('Utbetalingen er sendt til annullering.')).toBeVisible();
+        expect(screen.getByText('Utbetalingen er annullert.')).toBeVisible();
     });
     test('viser infovarsel om saken er sendt til annullering', () => {
         const periode = vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.TilAnnullering);
         render(<Toppvarsler vedtaksperiode={periode} />);
-        expect(screen.getByText('Annullerer perioden.')).toBeVisible();
+        expect(screen.getByText('Annullering venter.')).toBeVisible();
     });
     test('viser feilvarsel om annullering feilet', () => {
         const periode = vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.AnnulleringFeilet);
         render(<Toppvarsler vedtaksperiode={periode} />);
-        expect(screen.getByText('Annullering feilet. Vennligst kontakt utvikler.')).toBeVisible();
+        expect(screen.getByText('Annulleringen feilet. Kontakt utviklerteamet.')).toBeVisible();
     });
     test('viser feilvarsel om saken har en aktiv oppgave men mangler oppgavereferanse', () => {
         const periode = { ...vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Oppgaver), oppgavereferanse: '' };
