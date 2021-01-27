@@ -37,4 +37,22 @@ describe('HoverInfo', () => {
         render(<HoverInfo vedtaksperiode={enPeriode} />);
         expect(screen.getByText('Periode: 01.01.2020 - 31.01.2020')).toBeVisible();
     });
+
+    test('viser antall dager igjen for fullverdig vedtaksperiode', () => {
+        const periodeMedDagerIgjen = { ...enPeriode, vilkår: { dagerIgjen: { gjenståendeDager: 10 } } };
+        render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
+        expect(screen.getByText('Dager igjen: 10')).toHaveStyle('color:#3e3832');
+    });
+
+    test('viser antall dager igjen for fullverdig vedtaksperiode med rødt hvis null', () => {
+        const periodeMedDagerIgjen = { ...enPeriode, vilkår: { dagerIgjen: { gjenståendeDager: 0 } } };
+        render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
+        expect(screen.getByText('Dager igjen: 0')).toHaveStyle('color:#A13A28');
+    });
+
+    test('Viser ikke dager igjen for ufullstendig periode', () => {
+        const periodeMedDagerIgjen = { ...enPeriode, kanVelges: false };
+        render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
+        expect(screen.queryByText('Dager igjen', { exact: false })).toBeNull();
+    });
 });

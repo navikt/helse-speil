@@ -13,6 +13,7 @@ const Container = styled(FlexColumn)`
 const Linje = styled(Undertekst)`
     white-space: nowrap;
     user-select: text;
+    color: ${(props: { erAdvarsel?: boolean }) => (props.erAdvarsel ? '#A13A28' : '#3e3832')};
 `;
 
 const utbetaltForPeriode = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number | undefined => {
@@ -41,6 +42,9 @@ interface HoverInfoProps {
 export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
     const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT);
     const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT);
+    const dagerIgjen = vedtaksperiode.kanVelges
+        ? (vedtaksperiode as Vedtaksperiode).vilkår?.dagerIgjen.gjenståendeDager
+        : undefined;
 
     const utbetalt = utbetaltForPeriode(vedtaksperiode);
     const arbeidsgiverperiodedager = antallArbeidsgiverperiodedager(vedtaksperiode);
@@ -54,6 +58,7 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
             {utbetalt && utbetalt !== 0 && <Linje>Utbetalt: {somPenger(utbetalt)} kr</Linje>}
             {arbeidsgiverperiodedager !== 0 && <Linje>Arbeidsgiverperiode: {arbeidsgiverperiodedager} dager</Linje>}
             {feriedager !== 0 && <Linje>Ferie: {feriedager} dager</Linje>}
+            {dagerIgjen !== undefined && <Linje erAdvarsel={dagerIgjen <= 0}>Dager igjen: {dagerIgjen}</Linje>}
         </Container>
     );
 };
