@@ -9,6 +9,7 @@ const Container = styled(Accordion)`
         flex-direction: column;
     }
     > div:first-of-type > button:first-of-type {
+        user-select: text;
         cursor: pointer;
         position: relative;
         flex: 1;
