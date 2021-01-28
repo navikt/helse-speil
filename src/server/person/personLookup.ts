@@ -70,7 +70,12 @@ const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
                 fødselsnummer: oppgave.fødselsnummer,
                 aktørId: oppgave.aktørId,
                 antallVarsler: oppgave.antallVarsler,
-                periodetype: oppgave.oppgavetype === Oppgavetype.Stikkprøve ? Periodetype.Stikkprøve : oppgave.type,
+                periodetype:
+                    oppgave.oppgavetype === Oppgavetype.Stikkprøve
+                        ? Periodetype.Stikkprøve
+                        : oppgave.oppgavetype === Oppgavetype.RiskQa
+                        ? Periodetype.RiskQa
+                        : oppgave.type,
                 boenhet: oppgave.boenhet,
             })
         );

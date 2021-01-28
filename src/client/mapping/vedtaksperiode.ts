@@ -239,6 +239,8 @@ export class VedtaksperiodeBuilder {
                     return Periodetype.Forlengelse;
                 case SpleisPeriodetype.STIKKPRØVE:
                     return Periodetype.Stikkprøve;
+                case SpleisPeriodetype.RISK_QA:
+                    return Periodetype.RiskQa;
             }
         };
         const mapPeriodetype = (): Periodetype => {

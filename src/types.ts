@@ -12,11 +12,13 @@ export enum Periodetype {
     Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
     OvergangFraInfotrygd = 'OVERGANG_FRA_IT',
     Stikkprøve = 'STIKKPRØVE',
+    RiskQa = 'RISK_QA',
 }
 
 export enum Oppgavetype {
     Søknad = 'SØKNAD',
     Stikkprøve = 'STIKKPRØVE',
+    RiskQa = 'RISK_QA',
 }
 
 export interface SpesialistOppgave {

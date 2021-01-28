@@ -30,6 +30,12 @@ const Stikkprøve = styled(Etikett)`
     color: #fff;
 `;
 
+const RiskQa = styled(Etikett)`
+    background: #ffdbab;
+    border: 1px solid #d87f0a;
+    color: #3e3832;
+`;
+
 interface OppgaveetikettProps {
     type: Periodetype;
 }
@@ -45,6 +51,8 @@ export const Oppgaveetikett = ({ type }: OppgaveetikettProps) => {
             return <Infotrygdforlengelse>Forlengelse - IT</Infotrygdforlengelse>;
         case Periodetype.Stikkprøve:
             return <Stikkprøve>Stikkprøve</Stikkprøve>;
+        case Periodetype.RiskQa:
+            return <RiskQa>Risk QA</RiskQa>;
         default:
             return null;
     }
