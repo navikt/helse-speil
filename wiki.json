@@ -15,7 +15,7 @@
     },
     {
         "varsel": "Direkte overgang fra Infotrygd. Dagsatsen har endret seg minst én gang i Infotrygd. Kontroller at sykepengegrunnlaget er riktig.",
-        "betydning": "Infotrygd inneholder utbetalinger med varierende dagsats for en sammenhengende periode:",
+        "betydning": "Infotrygd inneholder utbetalinger med varierende dagsats for en sammenhengende periode.",
         "årsak": "Dagsatsen endret seg minst én gang (f. eks. pga. gradering)",
         "løsning": "Sjekk sykepengegrunnlaget nøye, spesielt dersom det har blitt endret på SP VT i den tilstøtende Infotrygd-perioden",
         "viktighet": "Lav"
@@ -245,14 +245,14 @@
         "viktighet": "Lav"
     },
     {
-        "varsel": "Arbeidsuførhet. Aktivitetsplikt og/eller medvirkning må vurderes",
+        "varsel": "Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.",
         "betydning": "Ftrl. § 8-4, første og andre ledd samt § 8-8 må vurderes",
         "årsak": "Den nye løsningen finner uklarheter i et eller flere av disse vilkårene.",
         "løsning": "Sjekk saken nøye og vurder om den skal sendes lokalt kontor for nærmere vurdering om arbeidsuførhet.",
         "viktighet": "Høy"
     },
     {
-        "varsel": "Det finnes åpne oppgaver på sykepenger i Gosys.",
+        "varsel": "Det finnes åpne oppgaver på sykepenger i Gosys",
         "betydning": "Det er oppgaver med tema sykepenger i Gosys.",
         "årsak": "Når det ligger aktiv Gosys oppgaver med tema sykepenger.",
         "løsning": "Sjekk Gosys oppgaven(ene) og vurder om de påvirker saksbehandlingen.",
