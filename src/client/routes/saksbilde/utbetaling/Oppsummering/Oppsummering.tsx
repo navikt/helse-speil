@@ -36,7 +36,7 @@ const Sykepengegrunnlagslenke = styled(Link)`
         outline: none;
         color: #fff;
         text-decoration: none;
-        background-color: #254b6d;
+        background-color: ;
         box-shadow: 0 0 0 2px #254b6d;
     }
 `;

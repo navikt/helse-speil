@@ -14,7 +14,7 @@ const opptegnelse2 = {
 
 export default {
     abonnerPåAktør: async (): Promise<any> => Promise.resolve(),
-    getAlleOpptegnelser: async (): Promise<any> => Promise.resolve({ status: 200, body: [opptegnelse] }),
+    getAlleOpptegnelser: async (): Promise<any> => Promise.resolve({ status: 200, body: [] }),
     getOpptegnelser: async (speilToken: string, sisteSekvensId: number): Promise<any> =>
         Promise.resolve({ status: 200, body: [opptegnelse2].filter((it) => it.sekvensnummer > sisteSekvensId) }),
 };

@@ -1,0 +1,303 @@
+[
+    {
+        "varsel": "Utbetaling i Infotrygd innen samme arbeidsgiverperiode. Kontroller mot Infotrygd at arbeidsgiverperioden blir riktig",
+        "betydning": "Har utbetalt periode i Infotrygd nærmere enn 18 dager fra første dag:",
+        "årsak": "Det er så kort tid mellom sykmeldingsperiode i Infotrygd og denne perioden at det ikke er noen ny arbeidsgiverperiode.",
+        "løsning": "Behandle saken. Sjekk om arbeidsgiverperioden er utbetalt knyttet til det forrige sykefraværet i Infotrygd",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Sjekk medlemskap og lovvalg",
+        "betydning": "Lovvalg og medlemskap må vurderes manuelt",
+        "årsak": "Medlemskapssjekken har ikke klart å entydig konkludere med at bruker er medlem",
+        "løsning": "Sjekk om personen er medlem i folketrygden og se i medlemskapsfanen i Gosys. Sjekk bostedsadressen og hvor arbeidet utføres. Hvis bokommune er 0393 eller 2101 skal saken avvises og behandles av NAV Utland. Kilder: Gosys og Aa-registeret. ",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Direkte overgang fra Infotrygd. Dagsatsen har endret seg minst én gang i Infotrygd. Kontroller at sykepengegrunnlaget er riktig.",
+        "betydning": "Infotrygd inneholder utbetalinger med varierende dagsats for en sammenhengende periode:",
+        "årsak": "Dagsatsen endret seg minst én gang (f. eks. pga. gradering)",
+        "løsning": "Sjekk sykepengegrunnlaget nøye, spesielt dersom det har blitt endret på SP VT i den tilstøtende Infotrygd-perioden",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Perioden er lagt inn i Infotrygd - men mangler inntektsopplysninger. Fjern perioden fra SP UB hvis du utbetaler via speil.",
+        "betydning": "Det er en utbetalingsperiode som er lagt inn i Infotrygd uten at inntektsopplysninger er registrert",
+        "årsak": "Det ligger registrert en søknad om sykepenger på SP UB for samme periode som i ny løsning",
+        "løsning": "Fjern perioden fra SP UB hvis du utbetaler via speil.",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "ArbeidsforholdsID er fylt ut i inntektsmeldingen. Kontroller om brukeren har flere arbeidsforhold i samme virksomhet. Flere arbeidsforhold støttes ikke av systemet",
+        "betydning": "ArbeidsforholdsID fra inntektsmeldingen er utfylt:",
+        "årsak": "ArbeidsforholdsID fra inntektsmeldingen er utfylt:",
+        "løsning": "Sjekk om bruker har flere arbeidsforhold i samme virksomhet",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Inntekter fra mer enn én arbeidsgiver i A-ordningen siste tre måneder. Kontroller om brukeren har flere arbeidsforhold på sykmeldingstidspunktet. Flere arbeidsforhold støttes ikke av systemet.",
+        "betydning": "Finnes inntekter fra flere virksomheter siste tre måneder",
+        "årsak": "Det finnes inntekter fra mer enn én arbeidsgiver i A-ordningen i de siste tre månedene",
+        "løsning": "Sjekk om bruker har flere arbeidsforhold på sykmeldingstidspunktet",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Søknaden inneholder permittering. Vurder om permittering har konsekvens for rett til sykepenger",
+        "betydning": "Søknaden inneholder permittering - se om det har innvirkning på saken før du utbetaler",
+        "årsak": "Bruker har oppgitt permittering på søknad om sykepenger",
+        "løsning": "Kontrollér at permitteringen ikke påvirker sykepengerettighetene",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Første fraværsdag i inntektsmeldingen er ulik skjæringstidspunktet.Kontrollér at inntektsmeldingen er knyttet til riktig periode.",
+        "betydning": "Første fraværsdag i inntektsmeldingen er ulik første fraværsdag i sykdomsperioden:",
+        "årsak": "Første fraværsdag i inntektsmeldingen er ulik første fraværsdag i sykdomsperioden:",
+        "løsning": "Kontroller at skjæringstidspunktet er riktig.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Første fraværsdag i inntektsmeldingen er utenfor søknadsperioden. Kontroller at inntektsmeldingen er knyttet til riktig periode.",
+        "betydning": "Første fraværsdag i inntektsmeldingen er utenfor sykmeldingsperioden",
+        "årsak": "Første fraværsdag i inntektsmeldingen er utenfor sykmeldingsperioden",
+        "løsning": "Kontrollér at inntektsmeldingen er knyttet til riktig periode. Sjekk at sykdoms- og utbetalingslinjer blir riktige",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Mottatt flere inntektsmeldinger - den første inntektsmeldingen som ble mottatt er lagt til grunn. Utbetal kun hvis det blir korrekt",
+        "betydning": "Mottatt flere inntektsmeldinger - den første inntektsmeldingen som ble mottatt er lagt til grunn",
+        "årsak": "Mottatt flere inntektsmeldinger - den første inntektsmeldingen som ble mottatt er lagt til grunn",
+        "løsning": "Kun behandle saken dersom den kronologisk første inntektsmeldingen faktisk er den riktige",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Mottatt flere søknader for perioden - den første søknaden som ble mottatt er lagt til grunn. Utbetal kun hvis det blir korrekt",
+        "betydning": "Mottatt flere søknader - den første søknaden som ble mottatt er lagt til grunn",
+        "årsak": "Mottatt flere søknader - den første søknaden som ble mottatt er lagt til grunn",
+        "løsning": "Samme som for inntektsmelding, se over.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Mottatt flere sykmeldinger for perioden - den første sykmeldingen som ble mottatt er lagt til grunn. Utbetal kun hvis det blir korrekt",
+        "betydning": "",
+        "årsak": "",
+        "løsning": "",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet permittering. Vurder om permittering har konsekvens for rett til sykepenger",
+        "betydning": "Arbeidsgiver har redusert utbetaling av arbeidsgiverperioden på grunn av: Permittering",
+        "årsak": "Arbeidsgiverperioden er ikke utbetalt pga. permittering.",
+        "løsning": "Vurder om permittering har konsekvens for brukers rett til sykepenger.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet manglende opptjening. Vurder §8-2 og §8-18",
+        "betydning": "Arbeidsgiver har redusert utbetaling av arbeidsgiverperioden på grunn av: ManglerOpptjening",
+        "årsak": "Arbeidsgiverperioden er ikke utbetalt pga. manglende opptjening",
+        "løsning": "Vurder opptjeningstid jf. § 8-2 og § 8-18.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet lovlig fravær med lønn. Vurder om fraværet har konsekvens for rett til sykepenger",
+        "betydning": "Arbeidsgiver har redusert utbetaling av arbeidsgiverperioden på grunn av: LovligFravaer",
+        "årsak": "Arbeidsgiverperioden er ikke utbetalt pga. lovlig fravær med lønn",
+        "løsning": "Vurder om fravær har konsekvens for rett til sykepenger",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet sen varsling om fravær. Vurder § 8-22",
+        "betydning": "Arbeidsgiver har redusert utbetaling av arbeidsgiverperioden på grunn av: BeskjedGittForSent",
+        "årsak": "Arbeidsgiverperioden er ikke utbetalt fordi bruker varslet for sent om fravær",
+        "løsning": "Hvis ikke 8-22 sak kan saken behandles i ny løsning",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet manglende fravær. Kontroller at det kun er én arbeidsgiver. Flere arbeidsforhold støttes ikke av systemet",
+        "betydning": "Arbeidsgiver har redusert utbetaling av arbeidsgiverperioden på grunn av: IkkeFravaer",
+        "årsak": "Arbeidsgiverperioden er ikke utbetalt fordi bruker jobber i dette arbeidsforholdet",
+        "løsning": "Kontrollér at det kun er én arbeidsgiver. Skal kun komme ved flere arbeidsforhold i samme virksomhet.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet ikke mottatt lønn. Vurder tilknytning til arbeidsforhold og konsekvens for rett til sykepenger",
+        "betydning": "Arbeidsgiver har redusert utbetaling av arbeidsgiverperioden på grunn av: IkkeLoenn",
+        "årsak": "Arbeidsgiverperioden er ikke utbetalt fordi bruker ikke skulle mottatt lønn",
+        "løsning": "Vurder tilknytning til arbeidsforholdet og konsekvens for sykepengerett",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet opphør av arbeidsforholdet. Vurder konsekvens for rett til sykepenger",
+        "betydning": "Arbeidsgiver har redusert utbetaling av arbeidsgiverperioden på grunn av: ArbeidOpphoert",
+        "årsak": "Arbeidsgiverperioden er ikke utbetalt pga. opphør av arbeidsforholdet i arbeidsgiverperioden",
+        "løsning": "Vurder konsekvens for sykepengerett",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet nødvendig kontrollundersøkelse eller donor. Sykepenger innvilges fra 17. dag. Kontroller at det blir riktig",
+        "betydning": "Arbeidsgiver har redusert utbetaling av arbeidsgiverperioden på grunn av: Saerregler",
+        "årsak": "Arbeidsgiverperioden er ikke utbetalt fordi fraværet skyldes nødvendig kontrollundersøkelse eller at bruker er donor",
+        "løsning": "Innvilge SP fra 17. dag",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Inntektsmelding inneholder ikke arbeidsgiverperiode. Kontroller at det kun er én arbeidsgiver. Flere arbeidsforhold støttes ikke av systemet",
+        "betydning": "Inntektsmelding inneholder ikke arbeidsgiverperiode",
+        "årsak": "Selvforklarende. Oppstår dersom inntektsmelding kommer inn for et arbeidsforhold bruker ikke er sykmeldt i.",
+        "løsning": "Kontrollér at det kun er én arbeidsgiver. Skal kun komme ved flere arbeidsforhold i samme virksomhet.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Simulering kom frem til et annet totalbeløp. Kontroller beløpet til utbetaling",
+        "betydning": "Simulering kom frem til et annet totalbeløp",
+        "årsak": "Simulering kom frem til et annet totalbeløp",
+        "løsning": "Varslingen vil snart bli fjernet",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Bruker har mottatt AAP innenfor 6 måneder av første fraværsdag. Kontroller at brukeren har rett til sykepenger",
+        "betydning": "Bruker har mottatt AAP innenfor 6 måneder av første fraværsdag",
+        "årsak": "Bruker har mottatt AAP innenfor 6 måneder av første fraværsdag",
+        "løsning": "Kontrollér ny opptjeningstid etter maxdato",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arena inneholdt en eller flere AAP-perioder med ugyldig fom/tom",
+        "betydning": "Det foreligger AAP-perioder med ugyldig fom/tom",
+        "årsak": "Det foreligger AAP-perioder med ugyldig fom/tom",
+        "løsning": "Kontrollér ny opptjeningstid etter maxdato",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Bruker har mottatt dagpenger innenfor 4 uker av første fraværsdag. Kontroller om bruker er dagpengemottaker. Kombinerte ytelser støttes foreløpig ikke av systemet",
+        "betydning": "Bruker har mottatt dagpenger innenfor 4 uker av første fraværsdag:",
+        "årsak": "Bruker har mottatt dagpenger innenfor 4 uker av første fraværsdag:",
+        "løsning": "Sjekk om bruker er dagpengemottaker på sykmeldingstidspunktet. Hvis ja kan ikke saken behandles i dette systemet ennå.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arena inneholdt en eller flere Dagpengeperioder med ugyldig fom/tom",
+        "betydning": "Det foreligger Dagpengeperioder med ugyldig fom/tom",
+        "årsak": "Det foreligger Dagpengeperioder med ugyldig fom/tom",
+        "løsning": "Sjekk om bruker er dagpengemottaker på sykmeldingstidspunktet. Hvis ja kan ikke saken behandles i dette systemet ennå.",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Maks antall sykepengedager er nådd i perioden",
+        "betydning": "Maks antall sykepengedager er nådd i perioden",
+        "årsak": "Maks antall sykepengedager er nådd i perioden",
+        "løsning": "Dersom du er enig med vurderingen, send avslag fra Infotrygd. Dersom du er uenig, send saken til Gosys for manuell vurdering.",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20",
+        "betydning": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20",
+        "årsak": "Minst én dag uten utbetaling på grunn av sykdomsgrad under 20",
+        "løsning": "Dersom du er enig med vurderingen, send avslag fra Infotrygd. Dersom du er uenig, send saken til Gosys for manuell vurdering.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Søknaden inneholder egenmeldingsdager som ikke er oppgitt i inntektsmeldingen",
+        "betydning": "Egenmeldingsdager er ikke oppgitt i inntektsmeldingen",
+        "årsak": "Egenmeldingsdager er ikke oppgitt i inntektsmeldingen, men i søknaden",
+        "løsning": "Sjekk om arbeidsgiver har oppgitt riktig arbeidsgiverperioden.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Søknaden inneholder egenmeldingsdager etter sykmeldingsperioden",
+        "betydning": "Egenmeldingsdager etter sykmeldingsperioden",
+        "årsak": "Det foreligger egenmeldingsdager etter sykmeldingsperioden",
+        "løsning": "Egenmeldinger kan ikke benyttes rett etter en sykmelding, sjekk arbeidsgiverperioden og utbetalingsoversikten.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Inntekt under krav til minste sykepengegrunnlag",
+        "betydning": "Inntekt under krav til minste sykepengegrunnlag",
+        "årsak": "Inntekt under krav til minste sykepengegrunnlag",
+        "løsning": "Dersom du er enig med vurderingen, send avslag fra Infotrygd. Dersom du er uenig, send saken til Gosys for manuell vurdering.",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Ukjent meldingstype ${melding::class.simpleName}: melding lagres ikke",
+        "betydning": "Ukjent meldingstype",
+        "årsak": "Ukjent meldingstype",
+        "løsning": "Send saken til manuell behandling i Infotrygd.",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Personen har blitt tilbakestilt og kan derfor ha avvik i historikken fra infotrygd.",
+        "betydning": "Avvik i historikken fra infotrygd.",
+        "årsak": "Personen har blitt tilbakestilt i den nye løsningen",
+        "løsning": "Sjekk at antall dager brukt og maksdato",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Ingenting ble simulert",
+        "betydning": "Ingen utbetaling anvises",
+        "årsak": "Når det er oppgitt ferieavvikling i hele søknadsperioden",
+        "løsning": "Sjekk om ferieavvikling er oppgitt i søknaden",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Simulering inneholder ikke alle periodene som skal betales",
+        "betydning": "Perioder som  anvises mangler i simuleringen",
+        "årsak": "Perioder som  anvises mangler i simuleringen",
+        "løsning": "Send saken til manuell behandling i Infotrygd.",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Arbeidsuførhet. Aktivitetsplikt og/eller medvirkning må vurderes",
+        "betydning": "Ftrl. § 8-4, første og andre ledd samt § 8-8 må vurderes",
+        "årsak": "Den nye løsningen finner uklarheter i et eller flere av disse vilkårene.",
+        "løsning": "Sjekk saken nøye og vurder om den skal sendes lokalt kontor for nærmere vurdering om arbeidsuførhet.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Det finnes åpne oppgaver på sykepenger i Gosys.",
+        "betydning": "Det er oppgaver med tema sykepenger i Gosys.",
+        "årsak": "Når det ligger aktiv Gosys oppgaver med tema sykepenger.",
+        "løsning": "Sjekk Gosys oppgaven(ene) og vurder om de påvirker saksbehandlingen.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Ikke registrert eller mangler samtykke i Kontakt-og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform.",
+        "betydning": "Personen har reservert seg mot å få ting digitalt.",
+        "årsak": "Brukeren ikke har bekreftet valget om reservasjon de siste 18 månedene.",
+        "løsning": "Dersom vi ønsker å kommunisere med brukeren, enten for å sende et vedtak eller hente inn informasjon, må det være på brev og ikke i automatiske løsninger.",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Perioden forlenger en behandling i Infotrygd, og har historikk fra ny løsning: Undersøk at antall dager igjen er beregnet riktig.",
+        "betydning": "Saken har historikk både i Speil og Infotrygd.",
+        "årsak": "Varselet kommer når saken har sykepengehistorikk både i Speil og Infotrygd.",
+        "løsning": "Sjekk at Speil henter inn riktig opplysninger ( forbrukte dager, dagsats, etc.)",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Første fraværsdag oppgitt i inntektsmeldingen er ulik den systemet har beregnet. Utbetal kun hvis dagsatsen er korrekt",
+        "betydning": "Differanse i beregningstidspunktet(skjæringstidspunktet) for beregningsgrunnlag.",
+        "årsak": "Når det er forskjell mellom det arbeidsgiver oppgir som første fraværsdag og sykmeldings fra og med dato.",
+        "løsning": "Sjekk om dagsatsen er riktig, og om saken faktisk er under 25 prosent avvik med sammenligningsgrunnlaget.",
+        "viktighet": "Lav"
+    },
+    {
+        "varsel": "Det er lagt inn statslønn i Infotrygd, undersøk at utbetalingen blir riktig.",
+        "betydning": "",
+        "årsak": "Det ligger statslønn på en SP VT-ident i Infotrygd",
+        "løsning": "Kontrollér at bruker kun har ett arbeidsforhold/inntektskilde i det sykefraværet som skal dekkes i Speil",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Korrigert søknad er mottatt med nye opplysninger - kontroller dagene i sykmeldingsperioden",
+        "betydning": "",
+        "årsak": "Det har kommet en korrigert søknad som er lagt til grunn",
+        "løsning": "Kontroller at dagene i sykmeldingsperioden blir riktig",
+        "viktighet": ""
+    },
+    {
+        "varsel": "Kunne ikke sjekke åpne oppgaver på Sykepenger i Gosys",
+        "betydning": "",
+        "årsak": "Den automatiske sjekken etter Gosys-oppgaver har feilet, og vi vet ikke om det finnes Gosys-oppgaver eller ikke",
+        "løsning": "Undersøk om det er åpne Gosys-oppgaver på sykepenger på bruker, og vurder om saken kan behandles ut i fra innholdet i oppgaven(e)",
+        "viktighet": "Lav"
+    }
+]

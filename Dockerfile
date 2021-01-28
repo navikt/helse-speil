@@ -10,6 +10,7 @@ COPY node_modules/ node_modules/
 COPY dist/server/ dist/server/
 COPY dist/client/ dist/client/
 COPY dist/types.js dist/types.js
+COPY wiki.json wiki.json
 
 EXPOSE 3000
 

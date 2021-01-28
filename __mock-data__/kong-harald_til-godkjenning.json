@@ -611,13 +611,13 @@
                     "aktivitetslogg": [
                         {
                             "alvorlighetsgrad": "W",
-                            "melding": "Forventet ikke sykmelding i TIL_GODKJENNING",
+                            "melding": "Arbeidsuførhet. Aktivitetsplikt og/eller medvirkning må vurderes",
                             "tidsstempel": "2020-04-03 09:00:59.434"
                         },
                         {
                             "vedtaksperiodeId": "956189c8-a904-40e7-b1e1-eab46e997ddb",
                             "alvorlighetsgrad": "W",
-                            "melding": "Simulering kom frem til et annet totalbeløp",
+                            "melding": "Maks antall sykepengedager er nådd i perioden",
                             "tidsstempel": "2020-04-15 10:25:46.225"
                         }
                     ]

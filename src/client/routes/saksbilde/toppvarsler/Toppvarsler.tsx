@@ -2,6 +2,8 @@ import React from 'react';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { Periodetype, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import '@navikt/helse-frontend-varsel/lib/main.css';
+import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface ToppvarslerProps {
     vedtaksperiode: Vedtaksperiode;
@@ -74,14 +76,10 @@ export const Toppvarsler = ({ vedtaksperiode }: ToppvarslerProps) => {
 
     return (
         <>
-            {vedtaksperiode.aktivitetslog.map((aktivitet, index) => (
-                <Varsel type={Varseltype.Advarsel} key={index}>
-                    {aktivitet}
-                </Varsel>
-            ))}
+            <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
             {varsler.map(({ grad, melding }, index) => (
                 <Varsel type={grad} key={index}>
-                    {melding}
+                    <Normaltekst>{melding}</Normaltekst>
                 </Varsel>
             ))}
         </>

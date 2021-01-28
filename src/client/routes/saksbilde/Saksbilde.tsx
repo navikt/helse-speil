@@ -8,7 +8,7 @@ import { Vilkår } from './vilkår/Vilkår';
 import { Utbetaling } from './utbetaling/Utbetaling';
 import { Sykepengegrunnlag } from './sykepengegrunnlag/Sykepengegrunnlag';
 import { Sykmeldingsperiode } from './sykmeldingsperiode/Sykmeldingsperiode';
-import { Toppvarsler } from '../../components/Toppvarsler';
+import { Toppvarsler } from './toppvarsler/Toppvarsler';
 import { LoggProvider } from './logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import { Sakslinje } from './sakslinje/Sakslinje';

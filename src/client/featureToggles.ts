@@ -1,7 +1,7 @@
 import { extractIdent } from './utils/cookie';
 
-const erLocal = () => location.hostname === 'localhost';
-const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
+export const erLocal = () => location.hostname === 'localhost';
+export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
 const erSupersaksbehandler = () => erEminem() || erDonika() || erDaniel() || erMorten() || erAminet();
 const erSupportsaksbehandler = () =>
     erEliHåkonsen() ||
