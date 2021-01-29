@@ -2,12 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useRecoilValue } from 'recoil';
 import { authState } from '../state/authentication';
-import { HeaderEnkel, Søk } from '@navikt/helse-frontend-header';
+import { Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
+import { InternalHeader, InternalHeaderTitle, InternalHeaderUser } from '@navikt/ds-react';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -17,6 +18,19 @@ const Container = styled.div`
     > header {
         max-width: unset;
         box-sizing: border-box;
+    }
+
+    input {
+        margin-left: 1.5rem;
+    }
+
+    .navds-header__title > span > a:focus {
+        box-shadow: none;
+    }
+
+    .navds-header__title > span > a:focus-visible {
+        box-shadow: var(--navds-shadow-focus-on-dark);
+        outline: none;
     }
 `;
 
@@ -43,9 +57,13 @@ export const Header = () => {
 
     return (
         <Container>
-            <HeaderEnkel tittel={<Link to="/">NAV Sykepenger</Link>} brukerinfo={brukerinfo}>
+            <InternalHeader>
+                <InternalHeaderTitle>
+                    <Link to="/">NAV Sykepenger</Link>
+                </InternalHeaderTitle>
                 <Søk onSøk={onSøk} />
-            </HeaderEnkel>
+                <InternalHeaderUser name={brukerinfo.navn} ident={brukerinfo.ident} />
+            </InternalHeader>
         </Container>
     );
 };
