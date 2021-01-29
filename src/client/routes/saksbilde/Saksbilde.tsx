@@ -41,8 +41,8 @@ const Content = styled.div`
 const LoggHeader = styled(EksternLoggheader)`
     width: 336px;
     box-sizing: border-box;
-    border-left: 1px solid #c6c2bf;
-    box-shadow: inset 0 -1px 0 0 #c6c2bf;
+    border-left: 1px solid var(--navds-color-border);
+    box-shadow: inset 0 -1px 0 0 var(--navds-color-border);
     height: 75px;
 
     & > button {
@@ -53,7 +53,7 @@ const LoggHeader = styled(EksternLoggheader)`
 const LoggListe = styled(EksternLoggliste)`
     width: 336px;
     box-sizing: border-box;
-    border-left: 1px solid #c6c2bf;
+    border-left: 1px solid var(--navds-color-border);
     border-top: none;
 
     .Sykmelding:before,
@@ -61,8 +61,8 @@ const LoggListe = styled(EksternLoggliste)`
     .Inntektsmelding:before {
         position: absolute;
         font-size: 14px;
-        border: 1px solid #59514b;
-        color: #59514b;
+        border: 1px solid var(--navds-color-text-primary);
+        color: var(--navds-color-text-primary);
         border-radius: 4px;
         width: 28px;
         height: 18px;

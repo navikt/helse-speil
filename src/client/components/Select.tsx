@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 
 const StyledSelect = styled.select`
     width: 100%;
-    background: #fff;
+    background: var(--navds-color-background);
     border-radius: 3px;
-    border: 1px solid #78706a;
-    color: #3e3832;
+    border: 1px solid var(--navds-color-border);
+    color: var(--navds-color-text-primary);
     font-size: 16px;
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     appearance: none;
@@ -18,7 +18,7 @@ const StyledSelect = styled.select`
     }
 
     &:focus {
-        box-shadow: 0 0 0 2px #254b6d;
+        box-shadow: 0 0 0 2px var(--navds-text-focus);
     }
 `;
 
@@ -28,7 +28,7 @@ const chevron = (angle: number, right: number) => `
     width: 10px;
     height: 2px;
     border-radius: 2px;
-    background: #3e3832;
+    background: var(--navds-color-text-primary);
     right: ${right}px;
     top: calc(50% + 1px);
     transform: translateY(-50%) rotate(${angle}deg);

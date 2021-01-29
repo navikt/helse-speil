@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CopyIcon = ({ width = 24, height = 24, stroke = '#3E3832' }) => {
+const CopyIcon = ({ width = 24, height = 24, stroke = 'var(--navds-color-text-primary)' }) => {
     return (
         <svg width={`${width}px`} height={`${height}px`} viewBox="0 0 24 24">
             <g

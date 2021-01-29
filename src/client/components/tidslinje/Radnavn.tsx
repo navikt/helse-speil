@@ -20,7 +20,7 @@ const Label = styled.label`
     display: flex;
     align-items: center;
     font-size: 14px;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 
     > svg {
         margin-right: 10px;

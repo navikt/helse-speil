@@ -32,7 +32,7 @@ const Lukknapp = styled.button`
 
     &:before,
     &:after {
-        color: #0067c5;
+        color: var(--navds-color-action-default);
         content: '';
         position: absolute;
         width: 1.25rem;
@@ -52,11 +52,11 @@ const Lukknapp = styled.button`
 
     &:hover,
     &:focus {
-        background: #0067c5;
+        background: var(--navds-color-action-default);
     }
 
     &:active {
-        background: #254b6d;
+        background: var(--navds-text-focus);
     }
 
     &:hover:before,
@@ -65,7 +65,7 @@ const Lukknapp = styled.button`
     &:focus:after,
     &:active:before,
     &:active:after {
-        background: #fff;
+        background: var(--navds-color-background);
     }
 `;
 

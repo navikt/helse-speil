@@ -34,7 +34,7 @@ const StyledTooltip = styled(Tooltip)`
 `;
 
 const Begrunnelsetekst = styled(Normaltekst)`
-    color: #ffffff;
+    color: var(--navds-color-text-inverse);
 `;
 
 const StyledUndertekst = styled(Undertekst)`

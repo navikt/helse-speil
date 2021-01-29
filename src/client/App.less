@@ -5,8 +5,24 @@
     flex: 1;
 }
 
+:root {
+    --speil-background-secondary: #f8f8f8;
+    --speil-light-hover: #e9e7e7;
+
+    --speil-etikett-forlengelse-background: #e0f5fb;
+    --speil-etikett-forlengelse-border: #5690a2;
+    --speil-etikett-forstegangs-background: #e0dae7;
+    --speil-etikett-forstegangs-border: #634689;
+    --speil-etikett-forlengelse-it-background: #59514b;
+    --speil-etikett-forlengelse-it-border: #59514b;
+    --speil-etikett-stikkprove-background: #c86151;
+    --speil-etikett-stikkprove-border: #ba3a26;
+    --speil-etikett-risk-background: #ffdbab;
+    --speil-etikett-risk-border: #d87f0a;
+}
+
 body {
-    background-color: #fff;
+    background-color: var(--navds-color-background);
     font-family: 'Source Sans Pro', Helvetica, sans-serif;
     min-width: max-content;
     min-height: 100vh;
@@ -23,5 +39,5 @@ body {
 }
 
 .typo-normal {
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 }

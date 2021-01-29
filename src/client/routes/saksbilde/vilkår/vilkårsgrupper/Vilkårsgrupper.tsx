@@ -115,7 +115,7 @@ export const DagerIgjen = ({ dagerIgjen, alder }: Vilkår) => (
 
 const Vurderinger = styled.ul`
     list-style: initial;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 `;
 
 export const Arbeidsuførhet = ({ risikovurdering }: { risikovurdering?: RisikovurderingType }) => (

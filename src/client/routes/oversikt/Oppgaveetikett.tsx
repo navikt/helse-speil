@@ -9,31 +9,31 @@ const Etikett = styled.div`
 `;
 
 const Forlengelse = styled(Etikett)`
-    background: #e0f5fb;
-    border: 1px solid #5690a2;
+    background: var(--speil-etikett-forlengelse-background);
+    border: 1px solid var(--speil-etikett-forlengelse-border);
 `;
 
 const Førstegangsbehandling = styled(Etikett)`
-    background: #e0dae7;
-    border: 1px solid #634689;
+    background: var(--speil-etikett-forstegangs-background);
+    border: 1px solid var(--speil-etikett-forstegangs-border);
 `;
 
 const Infotrygdforlengelse = styled(Etikett)`
-    background: #59514b;
-    border: 1px solid #59514b;
-    color: #fff;
+    background: var(--speil-etikett-forlengelse-it-background);
+    border: 1px solid var(--speil-etikett-forlengelse-it-border);
+    color: var(--navds-color-text-inverse);
 `;
 
 const Stikkprøve = styled(Etikett)`
-    background: #c86151;
-    border: 1px solid #ba3a26;
-    color: #fff;
+    background: var(--speil-etikett-stikkprove-background);
+    border: 1px solid var(--speil-etikett-stikkprove-border);
+    color: var(--navds-color-text-inverse);
 `;
 
 const RiskQa = styled(Etikett)`
-    background: #ffdbab;
-    border: 1px solid #d87f0a;
-    color: #3e3832;
+    background: var(--speil-etikett-risk-background);
+    border: 1px solid var(--speil-etikett-risk-border);
+    color: var(--navds-color-text-primary);
 `;
 
 interface OppgaveetikettProps {

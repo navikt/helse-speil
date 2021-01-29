@@ -13,7 +13,8 @@ const Container = styled(FlexColumn)`
 const Linje = styled(Undertekst)`
     white-space: nowrap;
     user-select: text;
-    color: ${(props: { erAdvarsel?: boolean }) => (props.erAdvarsel ? '#A13A28' : '#3e3832')};
+    color: ${(props: { erAdvarsel?: boolean }) =>
+        props.erAdvarsel ? 'var(--navds-color-text-error)' : 'var(--navds-color-text-primary)'};
 `;
 
 const utbetaltForPeriode = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number | undefined => {

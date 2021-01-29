@@ -8,7 +8,7 @@ export const tabState = atom<'alle' | 'mine'>({
 });
 
 const Tablist = styled.div`
-    border-bottom: 1px solid #c6c2bf;
+    border-bottom: 1px solid var(--navds-color-border);
     margin-bottom: 2rem;
 `;
 
@@ -19,18 +19,18 @@ const Tab = styled.button<{ active: boolean }>`
     font-family: inherit;
     font-size: 1.25rem;
     font-weight: 600;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
     cursor: pointer;
     transition: box-shadow 0.1s ease;
-    box-shadow: inset 0 0 0 0 #0067c5;
+    box-shadow: inset 0 0 0 0 var(--navds-color-action-default);
     outline: none;
 
     &:hover,
     &:focus {
-        color: #0067c5;
+        color: var(--navds-color-action-default);
     }
 
-    ${({ active }) => active && `box-shadow: inset 0 -5px 0 0 #0067c5;`}
+    ${({ active }) => active && `box-shadow: inset 0 -5px 0 0 var(--navds-color-action-default);`}
 `;
 
 const AlleSakerTab = () => {

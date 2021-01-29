@@ -25,5 +25,5 @@ export const Strek = styled.hr`
     margin: 0;
     border: 0;
     height: 0;
-    border-top: 1px solid #c6c2bf;
+    border-top: 1px solid var(--navds-color-border);
 `;

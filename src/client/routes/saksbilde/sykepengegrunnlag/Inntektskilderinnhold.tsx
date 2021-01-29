@@ -25,7 +25,7 @@ const Arbeidsgivertittel = styled.div`
 
 const Bransjer = styled(Undertekst)`
     margin-bottom: 0.5rem;
-    color: #78706a;
+    color: var(--navds-color-text-disabled);
 `;
 
 const HeaderContainer = styled.div`
@@ -41,7 +41,7 @@ const Tittel = styled(Undertittel)`
     display: flex;
     align-items: center;
     font-size: 18px;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 
     ${({ maxwidth }: { maxwidth?: string }) => maxwidth && `max-width: ${maxwidth};`}
 `;
@@ -64,7 +64,7 @@ const Innhold = styled(Grid)`
 `;
 
 const Kolonnetittel = styled(Undertekst)`
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 `;
 
 interface InntektskilderinnholdProps {

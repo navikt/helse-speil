@@ -1,6 +1,11 @@
 import React from 'react';
 
-export const IkonOverstyrt = ({ width = 16, height = 16, fill = '#0067c5', className = 'IkonOverstyrt' }) => (
+export const IkonOverstyrt = ({
+    width = 16,
+    height = 16,
+    fill = 'var(--navds-color-action-default)',
+    className = 'IkonOverstyrt',
+}) => (
     <svg
         width={width}
         height={height}

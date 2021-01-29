@@ -18,7 +18,7 @@ const Container = styled(Accordion)`
         outline: none;
 
         &:focus-visible {
-            box-shadow: 0 0 0 3px #254b6d;
+            box-shadow: 0 0 0 3px var(--navds-text-focus);
         }
 
         &:before {
@@ -27,7 +27,7 @@ const Container = styled(Accordion)`
             right: 54px;
             top: 50%;
             transform: translateY(-50%);
-            color: #3e3832;
+            color: var(--navds-color-text-primary);
             font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
             font-size: 16px;
             font-weight: 600;
@@ -59,7 +59,7 @@ const Container = styled(Accordion)`
 `;
 
 const Content = styled.div`
-    background: #fff2e0;
+    background: var(--navds-color-warning-background);
     padding: 0.5rem 3.5rem;
 `;
 

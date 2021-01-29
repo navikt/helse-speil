@@ -7,10 +7,10 @@ export const Tooltip = styled(ReactTooltip)`
     line-height: 20px !important;
     border-width: 0 !important;
     border-radius: 4px;
-    box-shadow: 0 1px 2px #b7b1a9;
-    background-color: #fff5e8 !important;
-    color: #3e3832 !important;
-    border-color: #b7b1a9 !important;
+    box-shadow: 0 1px 2px var(--navds-color-border);
+    background-color: var(--navds-color-orange-10) !important;
+    color: var(--navds-color-text-primary) !important;
+    border-color: var(--navds-color-border) !important;
 
     &:after {
         display: none !important;

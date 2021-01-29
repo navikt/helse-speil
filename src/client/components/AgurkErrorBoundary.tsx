@@ -22,7 +22,7 @@ const Agurktekst = styled(Normaltekst)`
 const Utviklermelding = styled.span`
     display: flex;
     align-items: center;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
     :hover .Clipboard__children {
         border-bottom: none;
     }
@@ -31,8 +31,8 @@ const Feilmelding = styled.p`
     display: block;
     white-space: pre;
     margin: 1em 0;
-    background-color: #fff0f0;
-    color: #ff0000;
+    background-color: var(--navds-color-error-background);
+    color: var(--navds-color-text-error);
     padding: 1rem;
 `;
 

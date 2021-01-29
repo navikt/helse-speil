@@ -24,7 +24,7 @@ const Oversiktstabell = styled(Tabell)`
     border-collapse: collapse;
 
     thead tr th {
-        border-color: #c6c2bf;
+        border-color: var(--navds-color-border);
     }
     tbody tr td {
         white-space: nowrap;
@@ -35,7 +35,7 @@ const Oversiktstabell = styled(Tabell)`
     }
 
     tbody tr:hover td {
-        background: #e9e7e7;
+        background: var(--speil-light-hover);
         &:not(:last-of-type) {
             cursor: pointer;
         }

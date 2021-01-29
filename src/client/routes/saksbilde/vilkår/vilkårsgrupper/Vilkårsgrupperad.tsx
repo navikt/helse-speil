@@ -14,7 +14,7 @@ const Navn = styled(Normaltekst)`
 const Verdi = styled.div`
     font-family: 'Source Sans Pro', Arial, Helvetica, sans-serif;
     font-size: 1rem;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
     text-align: left;
     min-width: 100px;
 `;

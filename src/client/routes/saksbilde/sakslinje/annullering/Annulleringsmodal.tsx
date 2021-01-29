@@ -32,7 +32,7 @@ const Form = styled.form`
 const Tittel = styled.h1`
     font-size: 1.5rem;
     font-weight: 600;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
     margin-bottom: 1.5rem;
 `;
 
@@ -46,7 +46,7 @@ const IdentInput = styled(Input)`
 
     input {
         font-size: 1rem;
-        color: #3e3832;
+        color: var(--navds-color-text-primary);
     }
 `;
 
@@ -68,7 +68,7 @@ const Utbetalingsgruppe = styled.div`
 
 const CheckboxTekst = styled.p`
     font-weight: bold;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 `;
 
 const CheckboxFeilmelding = styled(NavFeilmelding)`

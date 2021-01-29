@@ -35,15 +35,11 @@ export const DropdownMenyknapp = styled(Button)`
 
     &:hover,
     &:focus {
-        background: #e7e9e9;
-    }
-
-    &:active {
-        background: #e1e4e4;
+        background: var(--speil-light-hover);
     }
 
     &:disabled {
-        color: #78706a;
+        color: var(--navds-color-text-disabled);
 
         &:hover {
             background: inherit;
@@ -54,7 +50,7 @@ export const DropdownMenyknapp = styled(Button)`
 
 const Strek = styled.hr`
     border: none;
-    border-top: 1px solid #c6c2bf;
+    border-top: 1px solid var(--navds-color-border);
 `;
 
 export const Verktøylinje = () => {

@@ -30,7 +30,7 @@ const ArbeidsgiverRad = styled.div<ArbeidsgiverRadProps>`
     display: contents;
 
     > * {
-        ${(props) => (props.erGjeldende ? 'background-color: #E7E9E9' : '')};
+        ${(props) => (props.erGjeldende ? 'background-color: var(--speil-light-hover)' : '')};
     }
 
     > *:not(:first-child) {

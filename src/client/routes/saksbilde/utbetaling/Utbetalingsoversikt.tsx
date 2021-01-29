@@ -29,7 +29,7 @@ const Utbetalingstabell = styled(Tabell)`
 
     thead tr th,
     tbody tr:first-of-type td {
-        border-bottom: 1px solid #3e3832;
+        border-bottom: 1px solid var(--navds-color-text-primary);
     }
 `;
 

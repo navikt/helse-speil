@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const IkonArbeidsgiverperiode = ({ width = 16, height = 10, fill = '#3E3832' }) => (
+export const IkonArbeidsgiverperiode = ({ width = 16, height = 10, fill = 'var(--navds-color-text-primary)' }) => (
     <svg
         width={width}
         height={height}

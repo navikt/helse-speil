@@ -11,12 +11,12 @@ interface Props {
 }
 
 const Kategoritittel = styled(Element)`
-    color: #59514b;
+    color: var(--navds-color-text-primary);
     margin-bottom: 1rem;
 `;
 
 const Kolonnetittel = styled(Undertekst)`
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 `;
 
 const Sammenligning = styled.div`
@@ -39,7 +39,7 @@ const InntektMedKilde = styled.div`
 
 const Divider = styled.hr`
     border: none;
-    border-bottom: 1px solid #3e3832;
+    border-bottom: 1px solid var(--navds-color-text-primary);
     grid-column-start: 1;
     grid-column-end: 4;
     margin: 0.25rem 0;

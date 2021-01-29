@@ -10,7 +10,7 @@ import { HjemIkon } from './icons/HjemIkon';
 
 const Container = styled.div`
     height: 74px;
-    border-bottom: 1px solid #c6c2bf;
+    border-bottom: 1px solid var(--navds-color-border);
     display: flex;
     flex: 1;
     padding: 0 2.5rem 0 2rem;

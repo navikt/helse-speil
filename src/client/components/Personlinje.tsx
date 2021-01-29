@@ -17,9 +17,9 @@ const Container = styled.div`
     flex-shrink: 0;
     height: 48px;
     padding: 0 2rem;
-    background: #f8f8f8;
-    border-bottom: 1px solid #c6c2bf;
-    color: #3e3832;
+    background: var(--speil-background-secondary);
+    border-bottom: 1px solid var(--navds-color-border);
+    color: var(--navds-color-text-primary);
 
     > svg {
         margin-right: 0.5rem;
@@ -40,10 +40,10 @@ const Lenke = styled(Link)`
     &:active,
     &:focus-visible {
         outline: none;
-        color: #fff;
+        color: var(--navds-color-text-inverse);
         text-decoration: none;
-        background-color: #254b6d;
-        box-shadow: 0 0 0 2px #254b6d;
+        background-color: var(--navds-text-focus);
+        box-shadow: 0 0 0 2px var(--navds-text-focus);
     }
 `;
 

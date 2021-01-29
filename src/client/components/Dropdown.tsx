@@ -12,7 +12,7 @@ const Container = styled.span`
 const Knapp = styled(Button)`
     display: flex;
     align-items: center;
-    color: #0067c5;
+    color: var(--navds-color-action-default);
     font-size: 1rem;
     font-weight: 600;
 
@@ -24,7 +24,7 @@ const Knapp = styled(Button)`
 const Liste = styled.ul`
     position: absolute;
     list-style: none;
-    background: #ffffff;
+    background: var(--navds-color-background);
     border-radius: 0.25rem;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
     min-width: 1rem;

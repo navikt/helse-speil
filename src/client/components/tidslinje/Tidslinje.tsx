@@ -17,7 +17,7 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 const Container = styled(FlexColumn)`
     position: relative;
     padding: 14px 32px 16px 32px;
-    border-bottom: 1px solid #c6c2bf;
+    border-bottom: 1px solid var(--navds-color-border);
 
     > div:last-of-type {
         right: 48px;

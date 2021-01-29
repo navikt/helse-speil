@@ -8,7 +8,7 @@ const ToastView = styled.div`
     min-height: 1rem;
     padding: 14px 16px;
     border-radius: 4px;
-    background: #3e3832;
+    background: var(--navds-color-text-primary);
     color: white;
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
 `;

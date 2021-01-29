@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const IkonKryss = ({ width = 14, height = 14, fill = '#3E3832' }) => (
+export const IkonKryss = ({ width = 14, height = 14, fill = 'var(--navds-color-text-primary)' }) => (
     <svg
         width={width}
         height={height}

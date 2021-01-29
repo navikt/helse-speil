@@ -12,7 +12,7 @@ const Container = styled(FlexColumn)`
 `;
 
 const Tittel = styled(Element)`
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 `;
 
 interface VarselseksjonProps {

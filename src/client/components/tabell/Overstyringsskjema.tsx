@@ -8,7 +8,7 @@ import { useFormContext } from 'react-hook-form';
 import { Feiloppsummering, TextareaControlled } from 'nav-frontend-skjema';
 
 const Overstyringsskjemagruppe = styled(SkjemaGruppe)`
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
     margin: 2.5rem 0 0;
 `;
 

@@ -27,7 +27,7 @@ const Arbeidsflate = styled(Container)`
 
 const VertikalStrek = styled.div`
     width: 1px;
-    background: #c6c2bf;
+    background: var(--navds-color-border);
     margin: 0 2rem;
 `;
 
@@ -52,10 +52,10 @@ const Korttittel = styled(Undertittel)`
         &:active,
         &:focus {
             outline: none;
-            color: #fff;
+            color: var(--navds-color-text-inverse);
             text-decoration: none;
-            background-color: #254b6d;
-            box-shadow: 0 0 0 2px #254b6d;
+            background-color: var(--navds-text-focus);
+            box-shadow: 0 0 0 2px var(--navds-text-focus);
         }
     }
 `;
@@ -70,10 +70,10 @@ const Lenke = styled(Link)`
     &:active,
     &:focus-visible {
         outline: none;
-        color: #fff;
+        color: var(--navds-color-text-inverse);
         text-decoration: none;
-        background-color: #254b6d;
-        box-shadow: 0 0 0 2px #254b6d;
+        background-color: var(--navds-text-focus);
+        box-shadow: 0 0 0 2px var(--navds-text-focus);
     }
 `;
 

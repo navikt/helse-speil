@@ -21,7 +21,7 @@ const Strek = styled.hr`
     width: 1px;
     height: 2rem;
     border: 0;
-    background-color: #59514b;
+    background-color: var(--navds-color-border);
 `;
 
 const InfolinjeElement = styled(Flex)`

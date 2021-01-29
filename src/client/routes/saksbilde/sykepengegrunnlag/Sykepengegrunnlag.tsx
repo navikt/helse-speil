@@ -43,7 +43,7 @@ const OversiktContainer = styled.div`
 `;
 
 const Strek = styled.span`
-    border-right: 1px solid #c6c2bf;
+    border-right: 1px solid var(--navds-color-border);
     height: inherit;
     display: inline-block;
     margin-left: 5rem;

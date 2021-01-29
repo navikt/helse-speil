@@ -8,7 +8,7 @@ const DisabledTabLink = styled.a`
     align-items: center;
     padding: 0 10px;
     margin: 0 4px;
-    color: #78706a;
+    color: var(--navds-color-text-disabled);
     outline: none;
 `;
 
@@ -21,7 +21,7 @@ const Content = styled.span`
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        color: #3e3832;
+        color: var(--navds-color-text-primary);
         line-height: 22px;
     }
 `;
@@ -47,7 +47,7 @@ const StyledTabLink = styled(NavLink)`
             content: '';
             height: 4px;
             width: 100%;
-            background: #0067c5;
+            background: var(--navds-color-action-default);
             bottom: 0;
             left: 0;
             border-top-left-radius: 2px;
@@ -56,7 +56,7 @@ const StyledTabLink = styled(NavLink)`
     }
 
     &:focus-visible {
-        box-shadow: inset 0 0 0 3px #254b6d;
+        box-shadow: inset 0 0 0 3px var(--navds-text-focus);
     }
 `;
 

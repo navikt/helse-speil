@@ -7,7 +7,7 @@ import { Dayjs } from 'dayjs';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.5rem;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
     line-height: 1.375rem;
 
     > p:not(:last-of-type) {

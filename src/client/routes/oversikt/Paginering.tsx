@@ -28,24 +28,24 @@ const Sideknapp = styled.button<{ active?: boolean }>`
     min-width: 2rem;
 
     &:focus {
-        box-shadow: 0 0 0 3px #254b6d;
+        box-shadow: 0 0 0 3px var(--navds-text-focus);
     }
 
     &:hover {
-        color: #fff;
-        background: #0067c5;
+        color: var(--navds-color-text-inverse);
+        background: var(--navds-color-action-default);
     }
 
     &:active {
-        color: #fff;
-        background: #254b6d;
+        color: var(--navds-color-text-inverse);
+        background: var(--navds-text-focus);
     }
 
     ${({ active }) =>
         active &&
         `
-        background: #0067c5;
-        color: #fff;
+        background: var(--navds-color-action-default);
+        color: var(--navds-color-text-inverse);
         `}
 `;
 

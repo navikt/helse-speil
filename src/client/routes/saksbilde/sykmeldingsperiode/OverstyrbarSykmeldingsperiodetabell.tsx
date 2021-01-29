@@ -45,7 +45,7 @@ const OverstyrbarTabell = styled(Tabell)`
 `;
 
 const Feilmelding = styled.p`
-    color: #ba3a26;
+    color: var(--navds-color-text-error);
     margin: 1rem 0 0;
     font-weight: 600;
 `;

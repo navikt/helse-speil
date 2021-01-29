@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const IkonEgenmelding = ({ width = 16, height = 16, fill = '#3E3832' }) => (
+export const IkonEgenmelding = ({ width = 16, height = 16, fill = 'var(--navds-color-text-primary)' }) => (
     <svg
         width={width}
         height={height}

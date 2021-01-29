@@ -16,7 +16,7 @@ const Button = styled.button`
     border-radius: 1px;
 
     &:hover {
-        background: #e7e9e9;
+        background: var(--navds-color-hover);
     }
 
     &:focus,
@@ -29,7 +29,7 @@ const Button = styled.button`
 const Popover = styled(Normaltekst)`
     position: absolute;
     padding: 6px 8px;
-    border: 1px solid #78706a;
+    border: 1px solid var(--navds-color-border);
     background: white;
     border-radius: 2px;
     white-space: nowrap;
@@ -39,8 +39,8 @@ const Popover = styled(Normaltekst)`
         position: absolute;
         content: '';
         background: white;
-        border-top: 1px solid #78706a;
-        border-left: 1px solid #78706a;
+        border-top: 1px solid var(--navds-color-border);
+        border-left: 1px solid var(--navds-color-border);
         transform: rotate(45deg);
         height: 10px;
         width: 10px;

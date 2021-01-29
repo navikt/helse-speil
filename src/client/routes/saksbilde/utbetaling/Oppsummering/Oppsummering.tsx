@@ -25,7 +25,7 @@ const Simuleringsfeilmelding = styled(Feilmelding)`
 `;
 
 const Sykepengegrunnlagslenke = styled(Link)`
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
 
     &:hover {
         text-decoration: none;
@@ -34,10 +34,10 @@ const Sykepengegrunnlagslenke = styled(Link)`
     &:active,
     &:focus-visible {
         outline: none;
-        color: #fff;
+        color: var(--navds-color-text-inverse);
         text-decoration: none;
-        background-color: ;
-        box-shadow: 0 0 0 2px #254b6d;
+        background-color: var(--navds-text-focus);
+        box-shadow: 0 0 0 2px var(--navds-text-focus);
     }
 `;
 

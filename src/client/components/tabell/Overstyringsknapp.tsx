@@ -10,7 +10,7 @@ const RedigerKnapp = styled.button`
     align-items: flex-end;
     outline: none;
     cursor: pointer;
-    color: #0067c5;
+    color: var(--navds-color-action-default);
     font-size: 1rem;
     font-family: inherit;
 

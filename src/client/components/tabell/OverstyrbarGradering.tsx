@@ -13,7 +13,7 @@ const Container = styled.span`
 
 const Error = styled.label`
     vertical-align: center;
-    color: #ba3a26;
+    color: var(--navds-color-text-error);
     display: flex;
     align-items: center;
     font-weight: 600;
@@ -26,27 +26,27 @@ const GraderingInput = styled.input<{ error: boolean }>`
     width: 4rem;
     padding: 3px 8px;
     border-radius: 3px;
-    border: 1px solid #78706a;
+    border: 1px solid var(--navds-color-border);
     font-size: 14px;
     font-family: inherit;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
     outline: none;
 
     &:hover {
-        border-color: #254b6d;
+        border-color: var(--navds-text-focus);
         box-shadow: none;
     }
 
     &:focus {
-        border-color: #254b6d;
-        box-shadow: 0 0 0 2px #254b6d;
+        border-color: var(--navds-text-focus);
+        box-shadow: 0 0 0 2px var(--navds-text-focus);
     }
 
     ${({ error }) =>
         error &&
         `
-        border-color: #ba3a26;
-        box-shadow: 0 0 0 1px #ba3a26;
+        border-color: var(--navds-color-text-error);
+        box-shadow: 0 0 0 1px var(--navds-color-text-error);
     `}
 `;
 

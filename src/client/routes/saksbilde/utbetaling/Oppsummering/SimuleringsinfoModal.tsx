@@ -20,7 +20,7 @@ const Underliste = styled(Grid)`
 `;
 
 const NegativtBeløp = styled(Normaltekst)`
-    color: #a13a28;
+    color: var(--navds-color-text-error);
     font-style: italic;
 `;
 

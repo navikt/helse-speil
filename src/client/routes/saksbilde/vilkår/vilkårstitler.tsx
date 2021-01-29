@@ -31,7 +31,7 @@ const TekstContainer = styled.div`
 export const Tittel = styled(Undertittel)`
     display: flex;
     align-items: center;
-    color: #3e3832;
+    color: var(--navds-color-text-primary);
     font-size: 18px;
     margin-right: 0.5rem;
     white-space: nowrap;
@@ -41,7 +41,7 @@ export const Tittel = styled(Undertittel)`
 export const Paragraf = styled(Undertekst)`
     display: flex;
     align-items: center;
-    color: #78706a;
+    color: var(--navds-color-text-disabled);
     white-space: nowrap;
     min-height: 1.5rem;
 `;

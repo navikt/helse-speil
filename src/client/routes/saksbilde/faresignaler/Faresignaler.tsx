@@ -44,32 +44,28 @@ const Kolonne = styled(FlexColumn)`
     }
 `;
 
-export const Faresignaler = ({ risikovurdering }: { risikovurdering: Risikovurdering }) => {
-    if (risikovurdering === null) return null;
-
-    return (
-        <AgurkErrorBoundary sidenavn="Faresignaler">
-            <Container className="faresignaler">
-                {risikovurdering && risikovurdering.funn.length > 0 && (
-                    <Faresignalkategori
-                        ikon={<Advarselikon />}
-                        overskrift="Faresignaler oppdaget"
-                        faresignaler={risikovurdering.funn}
-                        vurderingIkon={<Utropstegnikon />}
-                    />
-                )}
-                {risikovurdering && risikovurdering.kontrollertOk.length > 0 && (
-                    <Faresignalkategori
-                        ikon={<GrøntSjekkikon />}
-                        overskrift="Faresignaler kontrollert"
-                        faresignaler={risikovurdering.kontrollertOk}
-                        vurderingIkon={<Sjekkikon />}
-                    />
-                )}
-            </Container>
-        </AgurkErrorBoundary>
-    );
-};
+export const Faresignaler = ({ risikovurdering }: { risikovurdering: Risikovurdering }) => (
+    <AgurkErrorBoundary sidenavn="Faresignaler">
+        <Container className="faresignaler">
+            {risikovurdering && risikovurdering.funn.length > 0 && (
+                <Faresignalkategori
+                    ikon={<Advarselikon />}
+                    overskrift="Faresignaler oppdaget"
+                    faresignaler={risikovurdering.funn}
+                    vurderingIkon={<Utropstegnikon />}
+                />
+            )}
+            {risikovurdering && risikovurdering.kontrollertOk.length > 0 && (
+                <Faresignalkategori
+                    ikon={<GrøntSjekkikon />}
+                    overskrift="Faresignaler kontrollert"
+                    faresignaler={risikovurdering.kontrollertOk}
+                    vurderingIkon={<Sjekkikon />}
+                />
+            )}
+        </Container>
+    </AgurkErrorBoundary>
+);
 
 interface FaresignalkategoriProps {
     ikon: ReactNode;

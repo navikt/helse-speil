@@ -41,13 +41,13 @@ describe('HoverInfo', () => {
     test('viser antall dager igjen for fullverdig vedtaksperiode', () => {
         const periodeMedDagerIgjen = { ...enPeriode, vilkår: { dagerIgjen: { gjenståendeDager: 10 } } };
         render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
-        expect(screen.getByText('Dager igjen: 10')).toHaveStyle('color:#3e3832');
+        expect(screen.getByText('Dager igjen: 10')).toHaveStyle('color:var(--navds-color-text-primary)');
     });
 
     test('viser antall dager igjen for fullverdig vedtaksperiode med rødt hvis null', () => {
         const periodeMedDagerIgjen = { ...enPeriode, vilkår: { dagerIgjen: { gjenståendeDager: 0 } } };
         render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
-        expect(screen.getByText('Dager igjen: 0')).toHaveStyle('color:#A13A28');
+        expect(screen.getByText('Dager igjen: 0')).toHaveStyle('color:var(--navds-color-error-text)');
     });
 
     test('Viser ikke dager igjen for ufullstendig periode', () => {
