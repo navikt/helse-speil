@@ -7,7 +7,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 1rem;
+    margin-top: 1rem;
 `;
 
 const SideknappContainer = styled.div`
@@ -75,9 +75,6 @@ export const Paginering = ({
 
     return (
         <Container>
-            <p>
-                Viser {førsteSynligeElement} til {sisteSynligeElement} av {antallOppgaver} oppgaver
-            </p>
             <SideknappContainer>
                 <Sideknapp onClick={dekrementerSidenummer}>Forrige</Sideknapp>
                 {genererSidetall(sidenummer, antallSider, 9).map((element) =>
@@ -95,6 +92,9 @@ export const Paginering = ({
                 )}
                 <Sideknapp onClick={inkrementerSidenummer}>Neste</Sideknapp>
             </SideknappContainer>
+            <p>
+                Viser {førsteSynligeElement} til {sisteSynligeElement} av {antallOppgaver} oppgaver
+            </p>
         </Container>
     );
 };
