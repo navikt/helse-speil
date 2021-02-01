@@ -83,6 +83,7 @@ export const mappetPersonObject: Person = {
                     oppgavereferanse: 'en-oppgavereferanse',
                     utbetalingsreferanse: 'en-utbetalingsreferanse',
                     kanVelges: true,
+                    erNyeste: true,
                     vilkår: {
                         alder: {
                             alderSisteSykedag: 28,

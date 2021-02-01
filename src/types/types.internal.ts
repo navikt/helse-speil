@@ -187,6 +187,7 @@ export interface UfullstendigVedtaksperiode {
     kanVelges: boolean;
     tilstand: Vedtaksperiodetilstand;
     utbetalingstidslinje?: Utbetalingsdag[];
+    erNyeste?: boolean;
 }
 
 export interface Vedtaksperiode {
@@ -217,6 +218,7 @@ export interface Vedtaksperiode {
     aktivitetslog: string[];
     risikovurdering?: Risikovurdering;
     overstyringer: Overstyring[];
+    erNyeste: boolean;
 }
 
 export interface Utbetalinger {

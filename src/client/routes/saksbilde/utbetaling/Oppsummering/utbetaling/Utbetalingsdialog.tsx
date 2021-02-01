@@ -8,10 +8,12 @@ import { Utbetalingsmodal } from './modal/Utbetalingsmodal';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { useFjernEnToast, useLeggTilEnToast } from '../../../../../state/toastsState';
 import { vedtaksstatusToast, vedtaksstatusToastKey } from '../../../../oversikt/VedtaksstatusToast';
-import { postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
+import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
 import { AmplitudeContext } from '../../../AmplitudeContext';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { usePerson } from '../../../../../state/person';
+import { useSetRecoilState } from 'recoil';
+import { opptegnelsePollingTimeState } from '../../../../../state/opptegnelser';
 
 enum Modalvisning {
     Godkjenning,
@@ -79,6 +81,7 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
     const [isSending, setIsSending] = useState<boolean>(false);
     const [modalvisning, setModalvisning] = useState<Modalvisning | undefined>();
     const { logOppgaveForkastet, logOppgaveGodkjent } = useContext(AmplitudeContext);
+    const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
     const åpneGodkjenningsmodal = () => setModalvisning(Modalvisning.Godkjenning);
     const åpneAvvisningsmodal = () => setModalvisning(Modalvisning.Avvisning);
@@ -96,7 +99,14 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
             .then(() => {
                 logOppgaveGodkjent();
                 leggTilUtbetalingstoast();
-                history.push('/');
+                if (vedtaksperiode.erNyeste) {
+                    history.push('/');
+                } else {
+                    lukkModal();
+                    postAbonnerPåAktør(personTilBehandling.aktørId).then(() => {
+                        setOpptegnelsePollingTime(1000);
+                    });
+                }
             })
             .catch(onError);
     };

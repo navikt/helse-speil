@@ -46,7 +46,7 @@ export class ArbeidsgiverBuilder {
     };
 
     private mapVedtaksperioder = () => {
-        this.arbeidsgiver.vedtaksperioder = this.unmapped.vedtaksperioder.map((unmappedVedtaksperiode) => {
+        this.arbeidsgiver.vedtaksperioder = this.unmapped.vedtaksperioder.map((unmappedVedtaksperiode, index) => {
             const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
                 .setVedtaksperiode(unmappedVedtaksperiode)
                 .setPerson(this.person)
@@ -54,6 +54,7 @@ export class ArbeidsgiverBuilder {
                 .setOverstyringer(this.unmapped.overstyringer)
                 .setInntektsgrunnlag(this.inntektsgrunnlag)
                 .build();
+            if (vedtaksperiode) vedtaksperiode.erNyeste = index === 0;
             this.problems.push(...problems);
             return vedtaksperiode as Vedtaksperiode;
         });
