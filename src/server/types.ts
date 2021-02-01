@@ -31,16 +31,8 @@ export interface RedisConfig {
 
 export interface AppConfig {
     oidc: OidcConfig;
-    nav: NavConfig;
     redis: object;
     server: ServerConfig;
-}
-
-export interface NavConfig {
-    serviceUserName?: string;
-    serviceUserPassword?: string;
-    stsUrl: string;
-    aktoerregisterUrl?: string;
 }
 
 export type OnBehalfOf = { hentFor: (tjenesteId: string, token: string) => Promise<string> };

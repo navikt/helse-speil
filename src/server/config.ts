@@ -1,6 +1,6 @@
 'use strict';
 
-import { NavConfig, OidcConfig, ServerConfig } from './types';
+import { OidcConfig, ServerConfig } from './types';
 import env from 'dotenv';
 import fs from 'fs';
 
@@ -35,13 +35,6 @@ const server: ServerConfig = {
     sessionSecret: process.env.SESSION_SECRET,
 };
 
-const nav: NavConfig = {
-    serviceUserName: process.env.SERVICE_USER_NAME,
-    serviceUserPassword: process.env.SERVICE_USER_PASSWORD,
-    stsUrl: process.env.STS_URL || 'http://security-token-service.svc.nais.local',
-    aktoerregisterUrl: process.env.AKTOERREGISTER_URL,
-};
-
 const redis = {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
@@ -49,7 +42,6 @@ const redis = {
 };
 
 export default {
-    nav,
     oidc,
     redis,
     server,

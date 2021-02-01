@@ -3,14 +3,12 @@ import redisClient from './redisClient';
 import devRedisClient from './devRedisClient';
 
 import instrumentationModule, { Instrumentation } from './instrumentation';
-import stsClient from './auth/stsClient';
 import onBehalfOf from './auth/onBehalfOf';
 import devOnBehalfOf from './auth/devOnBehalfOf';
 import vedtakClient from './payment/vedtakClient';
 import devVedtakClient from './payment/devVedtakClient';
 import annulleringClient from './payment/annulleringClient';
 import devAnnulleringClient from './payment/devAnnulleringClient';
-import aktørIdLookup from './aktørid/aktørIdLookup';
 import spesialistClient from './person/spesialistClient';
 import devSpesialistClient from './adapters/devSpesialistClient';
 import overstyringClient from './overstyring/overstyringClient';
@@ -52,8 +50,6 @@ const getDevDependencies = (app: Express) => {
 
 const getProdDependencies = (app: Express) => {
     const _redisClient: RedisClient = redisClient.init(config.redis);
-    stsClient.init(config.nav);
-    aktørIdLookup.init(stsClient, config.nav);
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
