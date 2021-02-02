@@ -17,7 +17,7 @@ export const useRefreshPersonVedOpptegnelse = () => {
     useEffect(() => {
         if (aktørId && personHarFåttOpptegnelse(opptegnelser, aktørId)) {
             console.log('Henter person på nytt pga. opptegnelser');
-            refreshPerson();
+            // refreshPerson();
         }
     }, [opptegnelser]);
 };

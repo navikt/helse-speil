@@ -78,6 +78,7 @@ export const useHentPerson = () => {
                 setPerson(res);
                 return res;
             })
+            .catch((err) => {})
             .finally(() => setLoadingPerson(false));
     };
 };
