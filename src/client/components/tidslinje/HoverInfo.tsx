@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { FlexColumn } from '../Flex';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
@@ -13,8 +13,7 @@ const Container = styled(FlexColumn)`
 const Linje = styled(Undertekst)`
     white-space: nowrap;
     user-select: text;
-    color: ${(props: { erAdvarsel?: boolean }) =>
-        props.erAdvarsel ? 'var(--navds-color-text-error)' : 'var(--navds-color-text-primary)'};
+    color: var(--text-color);
 `;
 
 const utbetaltForPeriode = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number | undefined => {
@@ -59,7 +58,18 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
             {utbetalt && utbetalt !== 0 && <Linje>Utbetalt: {somPenger(utbetalt)} kr</Linje>}
             {arbeidsgiverperiodedager !== 0 && <Linje>Arbeidsgiverperiode: {arbeidsgiverperiodedager} dager</Linje>}
             {feriedager !== 0 && <Linje>Ferie: {feriedager} dager</Linje>}
-            {dagerIgjen !== undefined && <Linje erAdvarsel={dagerIgjen <= 0}>Dager igjen: {dagerIgjen}</Linje>}
+            {dagerIgjen !== undefined && (
+                <Linje
+                    style={
+                        {
+                            '--text-color':
+                                dagerIgjen <= 0 ? 'var(--navds-color-text-error)' : 'var(--navds-color-text-primary)',
+                        } as CSSProperties
+                    }
+                >
+                    Dager igjen: {dagerIgjen}
+                </Linje>
+            )}
         </Container>
     );
 };
