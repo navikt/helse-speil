@@ -1,5 +1,5 @@
 import { Person } from 'internal-types';
-import { atom, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { atom, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
 import { aktivVedtaksperiodeIdState } from './vedtaksperiode';
@@ -22,21 +22,6 @@ const hentPerson = (id: string): Promise<PersonState> =>
                     throw Error('Kunne ikke utføre søket. Prøv igjen senere');
             }
         });
-
-export const personTilBehandlingState = atom<string | undefined>({
-    key: 'personTilBehandlingState',
-    default: undefined,
-});
-
-const personHentetSistState = atom<number>({
-    key: 'personHentetSistState',
-    default: Date.now(),
-});
-
-export const useRefreshPerson = () => {
-    const setter = useSetRecoilState(personHentetSistState);
-    return () => setter(Date.now());
-};
 
 export const personState = atom<PersonState | undefined>({
     key: 'personState',
@@ -64,6 +49,17 @@ export const usePerson = () => {
             tildeltTil: person.tildeltTil ?? tildeling,
         }
     );
+};
+
+export const useRefreshPerson = () => {
+    const setPerson = useSetRecoilState(personState);
+    const person = useRecoilValue(personState)?.person;
+
+    return () => {
+        if (person?.aktørId) {
+            hentPerson(person.aktørId).then((res) => setPerson(res));
+        }
+    };
 };
 
 export const useHentPerson = () => {

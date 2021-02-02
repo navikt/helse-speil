@@ -24,7 +24,7 @@ import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
 import '@navikt/helse-frontend-logg/lib/main.css';
 import { Faresignaler } from './faresignaler/Faresignaler';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
-import { useRefreshPersonVedAnnullering } from '../../hooks/useRefreshPersonVedAnnullering';
+import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
 
 const Container = styled.div`
     display: flex;
@@ -114,7 +114,7 @@ const SaksbildeContent = () => {
 
     useVarselFilter(Scopes.SAKSBILDE);
     useRefreshPersonVedUrlEndring();
-    useRefreshPersonVedAnnullering();
+    useRefreshPersonVedOpptegnelse();
 
     if (!personTilBehandling) return <LasterSaksbilde />;
     if (!aktivVedtaksperiode) return <TomtSaksbilde person={personTilBehandling} />;

@@ -621,6 +621,14 @@
                             "tidsstempel": "2020-04-15 10:25:46.225"
                         }
                     ]
+                },
+                {
+                    "id": "956189c8-a904-40e7-b1e1-eab46e997ddc",
+                    "gruppeId": "956189c8-a904-40e7-b1e1-eab46e997ddb",
+                    "fom": "2018-02-01",
+                    "tom": "2018-02-20",
+                    "tilstand": "Venter",
+                    "fullstendig": false
                 }
             ]
         }
