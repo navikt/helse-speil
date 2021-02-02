@@ -33,7 +33,14 @@ export class ArbeidsgiverBuilder {
         this.mapArbeidsgiverinfo();
         this.mapVedtaksperioder();
         this.sortVedtaksperioder();
+        this.markerNyestePeriode();
         return { arbeidsgiver: this.arbeidsgiver as Arbeidsgiver, problems: this.problems };
+    }
+
+    private markerNyestePeriode() {
+        if (this.arbeidsgiver.vedtaksperioder?.length ?? -1 > 0) {
+            this.arbeidsgiver.vedtaksperioder![0].erNyeste = true;
+        }
     }
 
     private mapArbeidsgiverinfo = () => {
@@ -54,7 +61,6 @@ export class ArbeidsgiverBuilder {
                 .setOverstyringer(this.unmapped.overstyringer)
                 .setInntektsgrunnlag(this.inntektsgrunnlag)
                 .build();
-            if (vedtaksperiode) vedtaksperiode.erNyeste = index === 0;
             this.problems.push(...problems);
             return vedtaksperiode as Vedtaksperiode;
         });
