@@ -10,7 +10,7 @@ import {
 import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import { somDato } from './vedtaksperiode';
 
-const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
+export const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {
     switch (dag) {
         case SpleisUtbetalingsdagtype.ARBEIDSGIVERPERIODE:
             return Dagtype.Arbeidsgiverperiode;

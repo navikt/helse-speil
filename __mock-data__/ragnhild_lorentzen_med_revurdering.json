@@ -267,6 +267,7 @@
             }
           ],
           "utbetaling": {
+            "status": "IKKE_UTBETALT",
             "utbetalingstidslinje": [
               {
                 "type": "ArbeidsgiverperiodeDag",

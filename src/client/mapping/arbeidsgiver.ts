@@ -1,7 +1,16 @@
 import { SpesialistArbeidsgiver, SpesialistInntektsgrunnlag, SpesialistPerson } from 'external-types';
-import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
-import dayjs from 'dayjs';
+import {
+    Arbeidsgiver,
+    Dagtype,
+    Kildetype,
+    Sykdomsdag,
+    Utbetalingsdag,
+    UtbetalingshistorikkArbeidsgiverOppdrag,
+    Vedtaksperiode,
+} from 'internal-types';
+import dayjs, { Dayjs } from 'dayjs';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
+import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -30,6 +39,7 @@ export class ArbeidsgiverBuilder {
             this.problems.push(Error('Mangler arbeidsgiverdata å mappe'));
             return { problems: this.problems };
         }
+        this.mapTidslinjer();
         this.mapArbeidsgiverinfo();
         this.mapVedtaksperioder();
         this.sortVedtaksperioder();
@@ -52,6 +62,31 @@ export class ArbeidsgiverBuilder {
         };
     };
 
+    private mapTidslinjer = () => {
+        this.arbeidsgiver = {
+            ...this.arbeidsgiver,
+            tidslinjer: this.unmapped.tidslinjer?.map((tidslinje) => ({
+                sykdomstidslinje: tidslinje.sykdomstidslinje.map((dag) => ({
+                    dato: dayjs(dag.dagen),
+                    type: sykdomstidslinjedag(dag.type),
+                })),
+                hendelseTidslinje: tidslinje.hendelseTidslinje.map((dag) => ({
+                    dato: dayjs(dag.dagen),
+                    type: sykdomstidslinjedag(dag.type),
+                })),
+                utbetaling: tidslinje.utbetaling
+                    ? {
+                          status: tidslinje.utbetaling.status,
+                          utbetalingstidslinje: tidslinje.utbetaling.utbetalingstidslinje.map((dag) => ({
+                              dato: dayjs(dag.dato),
+                              type: utbetalingstidslinjedag(dag.type),
+                          })),
+                      }
+                    : undefined,
+            })),
+        };
+    };
+
     private mapVedtaksperioder = () => {
         this.arbeidsgiver.vedtaksperioder = this.unmapped.vedtaksperioder.map((unmappedVedtaksperiode, index) => {
             const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
@@ -68,6 +103,6 @@ export class ArbeidsgiverBuilder {
 
     private sortVedtaksperioder = () => {
         const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
-        this.arbeidsgiver.vedtaksperioder = this.arbeidsgiver.vedtaksperioder?.sort(reversert);
+        this.arbeidsgiver.vedtaksperioder?.sort(reversert);
     };
 }
