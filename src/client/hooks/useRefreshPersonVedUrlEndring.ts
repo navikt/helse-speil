@@ -13,8 +13,8 @@ export const useRefreshPersonVedUrlEndring = () => {
     const person = usePerson();
 
     useLayoutEffect(() => {
-        if (aktorId && erGyldigPersonId(aktorId) && (person === undefined || person?.aktørId !== aktorId)) {
-            hentPerson(aktorId);
+        if (aktorId && erGyldigPersonId(aktorId)) {
+            (person === undefined || person?.aktørId !== aktorId) && hentPerson(aktorId);
         } else {
             leggTilVarsel({
                 message: `'${aktorId}' er ikke en gyldig aktør-ID/fødselsnummer.`,
