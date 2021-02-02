@@ -304,6 +304,26 @@
         }
     },
     {
+        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-87866a8awdaw",
+        "opprettet": "2020-07-15T23:04:09.454",
+        "fødselsnummer": "01010025677",
+        "aktørId": "1000000123432",
+        "personinfo": {
+            "fornavn": "Ragnhild",
+            "mellomnavn": "",
+            "etternavn": "Lorentzen",
+            "fødselsdato": "1930-06-09",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "956189c8-a904-40e7-b1e1-eab46e997dkt",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        }
+    },
+    {
         "oppgavereferanse": "e3474113-1100-9999-0000-ea5d644b4a6b",
         "opprettet": "2021-02-01T23:04:09.454",
         "fødselsnummer": "21042662423",

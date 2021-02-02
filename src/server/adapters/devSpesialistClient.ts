@@ -99,6 +99,7 @@ const filenameForPersonId = (id: string) => {
         case '12345':
         case '01010025676':
             return 'durek_med-overstyringer.json';
+        case '1000000123432': return 'ragnhild_lorentzen_med_revurdering.json';
         case '102030':
             return 'emma-tallulah_til-utbetaling-automatisk-behandlet.json';
         case '1672157246605':
