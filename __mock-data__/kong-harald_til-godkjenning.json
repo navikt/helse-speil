@@ -41,8 +41,8 @@
                     "fullstendig": true,
                     "utbetalingsreferanse": "SVQYTSFJARAOPMPB5K2G5GL53M",
                     "risikovurdering": {
-                        "arbeidsuførhetvurdering": [],
-                        "ufullstendig": false
+                        "funn": [],
+                        "kontrollertOk": []
                     },
                     "utbetalingstidslinje": [
                         {
