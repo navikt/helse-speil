@@ -13,6 +13,8 @@ import { useEmail } from '../../state/authentication';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { useFjernTildeling } from '../../state/oppgaver';
 import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
+import { useResetRecoilState } from 'recoil';
+import { personState } from '../../state/person';
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
@@ -48,11 +50,18 @@ const SkjultLenke = styled(Link)`
 
 const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const { fjernVarsler } = useUpdateVarsler();
+    const fjernPerson = useResetRecoilState(personState);
+
+    const onNavigate = () => {
+        fjernVarsler();
+        fjernPerson();
+    };
+
     return (
         <SkjultLenke
             className="lenke-skjult"
             to={`/person/${oppgave.aktørId}/utbetaling`}
-            onClick={fjernVarsler}
+            onClick={onNavigate}
             tabIndex={-1}
         />
     );

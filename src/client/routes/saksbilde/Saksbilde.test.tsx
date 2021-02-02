@@ -4,8 +4,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import { MemoryRouter } from 'react-router';
 import '@testing-library/jest-dom/extend-expect';
-import { personTilBehandlingState } from '../../state/person';
-import { umappetPerson } from '../../../test/data/person';
+import { personState } from '../../state/person';
+import { mappetPerson } from '../../../test/data/person';
+import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
+import { Person } from 'internal-types';
 
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
@@ -27,33 +29,11 @@ jest.mock('../../components/tidslinje', () => ({
     Tidslinje: () => null,
 }));
 
-declare global {
-    namespace NodeJS {
-        // noinspection JSUnusedGlobalSymbols
-        interface Global {
-            fetch: jest.MockedFunction<any>;
-        }
-    }
-}
-
-afterEach(() => {
-    global.fetch = undefined;
-});
-
-const mockPersonResponse = (response: object | undefined) => {
-    global.fetch = jest.fn().mockImplementation(() => {
-        return Promise.resolve({
-            status: 200,
-            json: () => Promise.resolve(response),
-        });
-    });
-};
-
-const wrapper = (personTilBehandling?: string): React.FC => ({ children }) => (
+const wrapper = (personTilBehandling?: Person): React.FC => ({ children }) => (
     <MemoryRouter>
         <RecoilRoot
             initializeState={({ set }) => {
-                personTilBehandling && set(personTilBehandlingState, personTilBehandling);
+                personTilBehandling && set(personState, { person: personTilBehandling });
             }}
         >
             {children}
@@ -72,12 +52,8 @@ describe('Saksbilde', () => {
         });
     });
     test('rendrer tomt saksbilde for personer uten vedtaksperioder', async () => {
-        mockPersonResponse({
-            person: {
-                ...umappetPerson([]),
-            },
-        });
-        render(<Saksbilde />, { wrapper: wrapper('987654321') });
+        const personUtenVedtaksperioder = mappetPerson([umappetArbeidsgiver([])]);
+        render(<Saksbilde />, { wrapper: wrapper(personUtenVedtaksperioder) });
         await waitFor(() => {
             expect(screen.queryByTestId('tomt-saksbilde')).toBeVisible();
 
@@ -86,12 +62,8 @@ describe('Saksbilde', () => {
         });
     });
     test('rendrer saksbilde med innhold dersom både person og vedtaksperioder finnes', async () => {
-        mockPersonResponse({
-            person: {
-                ...umappetPerson(),
-            },
-        });
-        render(<Saksbilde />, { wrapper: wrapper('987654321') });
+        const person = mappetPerson();
+        render(<Saksbilde />, { wrapper: wrapper(person) });
         await waitFor(() => {
             expect(screen.queryByTestId('saksbilde')).toBeVisible();
 

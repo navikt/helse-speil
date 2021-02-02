@@ -1,5 +1,5 @@
 import { Person } from 'internal-types';
-import { atom, selector, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { atom, useRecoilValue, useRecoilValueLoadable, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
 import { aktivVedtaksperiodeIdState } from './vedtaksperiode';
@@ -38,13 +38,9 @@ export const useRefreshPerson = () => {
     return () => setter(Date.now());
 };
 
-export const personState = selector<PersonState>({
+export const personState = atom<PersonState | undefined>({
     key: 'personState',
-    get: ({ get }) => {
-        const personTilBehandling = get(personTilBehandlingState);
-        get(personHentetSistState);
-        return personTilBehandling ? hentPerson(personTilBehandling) : {};
-    },
+    default: undefined,
 });
 
 const tildelingState = atom<string | undefined>({
@@ -52,10 +48,15 @@ const tildelingState = atom<string | undefined>({
     default: undefined,
 });
 
+const loadingPersonState = atom<boolean>({
+    key: 'loadingPersonState',
+    default: false,
+});
+
 export const useTildelPerson = () => useSetRecoilState(tildelingState);
 
 export const usePerson = () => {
-    const person = useRecoilValue(personState).person;
+    const person = useRecoilValue(personState)?.person;
     const tildeling = useRecoilValue(tildelingState);
     return (
         person && {
@@ -66,14 +67,23 @@ export const usePerson = () => {
 };
 
 export const useHentPerson = () => {
-    const setPerson = useSetRecoilState(personTilBehandlingState);
+    const setPerson = useSetRecoilState(personState);
+    const setLoadingPerson = useSetRecoilState(loadingPersonState);
     const resetAktivVedtaksperiode = useResetRecoilState(aktivVedtaksperiodeIdState);
     const resetTildeling = useResetRecoilState(tildelingState);
+
     return (id: string) => {
         resetTildeling();
         resetAktivVedtaksperiode();
-        setPerson(id);
+        setPerson(undefined);
+        setLoadingPerson(true);
+        return hentPerson(id)
+            .then((res) => {
+                setPerson(res);
+                return res;
+            })
+            .finally(() => setLoadingPerson(false));
     };
 };
 
-export const useIsLoadingPerson = () => useRecoilValueLoadable(personState).state === 'loading';
+export const useIsLoadingPerson = () => useRecoilValue(loadingPersonState);

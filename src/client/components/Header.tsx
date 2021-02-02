@@ -9,6 +9,7 @@ import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { InternalHeader, InternalHeaderTitle, InternalHeaderUser } from '@navikt/ds-react';
+import { useHentPerson, usePerson } from '../state/person';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -38,6 +39,7 @@ export const Header = () => {
     const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
     const { name, ident, isLoggedIn } = useRecoilValue(authState);
     const history = useHistory();
+    const hentPerson = useHentPerson();
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
@@ -50,7 +52,7 @@ export const Header = () => {
                 type: Varseltype.Feil,
             });
         } else {
-            history.push(`/person/${personId}/utbetaling`);
+            hentPerson(personId).then(({ person }) => history.push(`/person/${person?.aktørId}/utbetaling`));
         }
         return Promise.resolve();
     };
