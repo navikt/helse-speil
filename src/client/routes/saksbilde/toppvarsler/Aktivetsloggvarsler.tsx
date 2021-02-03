@@ -20,7 +20,13 @@ export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[
     const [wiki, setWiki] = useState<WikiEntry[] | null>(null);
 
     useEffect(() => {
-        (erPreprod() || erLocal()) && loadWiki().then((res) => setWiki(res.default));
+        let skalLasteWiki = true;
+        if ((erPreprod() || erLocal()) && skalLasteWiki) {
+            loadWiki().then((res) => setWiki(res.default));
+        }
+        return () => {
+            skalLasteWiki = false;
+        };
     }, []);
 
     return (

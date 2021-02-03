@@ -1,22 +1,23 @@
 import { atom, useSetRecoilState } from 'recoil';
+import { ReactNode } from 'react';
 
 export interface ToastObject {
     key: string;
-    message: string;
+    message: ReactNode;
     timeToLiveMs?: number;
     type?: 'info' | 'advarsel' | 'suksess' | 'feil';
     callback?: () => void;
 }
 
-export const useLeggTilEnToast = () => {
+export const useAddToast = () => {
     const setToasts = useSetRecoilState(toastsState);
 
     return (toast: ToastObject) => {
-        setToasts((staleToasts) => [...staleToasts, toast]);
+        setToasts((staleToasts) => [...staleToasts.filter((it) => it.key !== toast.key), toast]);
     };
 };
 
-export const useFjernEnToast = () => {
+export const useRemoveToast = () => {
     const setToasts = useSetRecoilState(toastsState);
 
     return (key: string) => {

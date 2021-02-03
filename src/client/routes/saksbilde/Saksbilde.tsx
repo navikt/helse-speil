@@ -12,7 +12,7 @@ import { Toppvarsler } from './toppvarsler/Toppvarsler';
 import { LoggProvider } from './logg/LoggProvider';
 import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import { Sakslinje } from './sakslinje/Sakslinje';
-import { KalkulererOverstyringToast } from './sykmeldingsperiode/KalkulererOverstyringToast';
+import { KalkulererOverstyringToast } from './sykmeldingsperiode/kalkuleringstoasts';
 import { AmplitudeProvider } from './AmplitudeContext';
 import { Scopes, useVarselFilter } from '../../state/varslerState';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
@@ -171,7 +171,6 @@ const SaksbildeContent = () => {
                             </Flex>
                         </AmplitudeProvider>
                     </ErrorBoundary>
-                    <KalkulererOverstyringToast />
                 </Route>
             </Switch>
         </Container>

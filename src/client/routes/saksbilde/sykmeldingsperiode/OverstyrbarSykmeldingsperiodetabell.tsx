@@ -17,8 +17,8 @@ import { Tabell } from '@navikt/helse-frontend-tabell';
 import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { FormProvider, useForm } from 'react-hook-form';
 import { postOverstyring } from '../../../io/http';
-import { useFjernEnToast, useLeggTilEnToast } from '../../../state/toastsState';
-import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from './KalkulererOverstyringToast';
+import { useRemoveToast, useAddToast } from '../../../state/toastsState';
+import { kalkulererToastKey, kalkulererToast, kalkuleringFerdigToast } from './kalkuleringstoasts';
 import { OverstyrtDagDTO } from '../../../io/types';
 import { useOverstyrteDager } from './useOverstyrteDager';
 import { pollEtterNyOppgave } from '../../../io/polling';
@@ -84,8 +84,8 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const hentPerson = useHentPerson();
     const [overstyringserror, setOverstyringserror] = useState<string>();
-    const leggtilEnToast = useLeggTilEnToast();
-    const fjernToast = useFjernEnToast();
+    const leggtilEnToast = useAddToast();
+    const fjernToast = useRemoveToast();
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
 
     const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
@@ -127,7 +127,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     const refetchPerson = () => hentPerson(personTilBehandling!.fødselsnummer);
 
     const visOverstyringFerdigToast = () =>
-        leggtilEnToast(kalkuleringFerdigToast({ callback: () => fjernToast(kalkulererFerdigToastKey) }));
+        leggtilEnToast(kalkuleringFerdigToast({ callback: () => fjernToast(kalkulererToastKey) }));
 
     const overstyring = () => ({
         aktørId: personTilBehandling!.aktørId,

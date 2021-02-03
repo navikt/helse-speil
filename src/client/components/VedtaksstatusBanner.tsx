@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { toastsState, useFjernEnToast } from '../state/toastsState';
+import { toastsState, useRemoveToast } from '../state/toastsState';
 import { vedtaksstatusToastKey } from '../routes/oversikt/VedtaksstatusToast';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
@@ -19,7 +19,7 @@ export const VedtaksstatusBanner = () => {
         .filter((toast) => toast.key === vedtaksstatusToastKey)
         .pop();
 
-    const fjernToast = useFjernEnToast();
+    const fjernToast = useRemoveToast();
 
     useTimeout({
         trigger: vedtaksstatusToast !== undefined,

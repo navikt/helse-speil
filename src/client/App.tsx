@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import ReactModal from 'react-modal';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Toast } from './components/toasts/Toast';
 import { Header } from './components/Header';
 import { Routes } from './routes';
 import { Varsler } from './components/Varsler';
@@ -17,6 +16,9 @@ import { usePollEtterOpptegnelser } from './io/polling';
 import { hot } from 'react-hot-loader';
 import 'reset-css';
 import './App.less';
+import { Toasts } from './components/Toasts';
+import { useAddToast, useRemoveToast } from './state/toastsState';
+import { nanoid } from 'nanoid';
 
 const Opptegnelse = React.lazy(() => import('./routes/saksbilde/Opptegnelse'));
 const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
@@ -28,18 +30,36 @@ const Spinner = styled(NavFrontendSpinner)`
     margin-left: 1rem;
 `;
 
+const useHenterPersonToast = (isLoading: boolean) => {
+    const showToast = useDebounce(isLoading);
+    const addToast = useAddToast();
+    const removeToast = useRemoveToast();
+
+    useEffect(() => {
+        const key = nanoid();
+        if (showToast) {
+            addToast({
+                key: key,
+                message: (
+                    <>
+                        Henter person <Spinner type="XS" />
+                    </>
+                ),
+            });
+        } else {
+            removeToast(key);
+        }
+        return () => removeToast(key);
+    }, [showToast]);
+};
+
 const App = () => {
     useAuthentication();
-    const isLoading = useIsLoadingPerson();
-    const showToast = useDebounce(isLoading);
     usePollEtterOpptegnelser();
+    useHenterPersonToast(useIsLoadingPerson());
 
     return (
         <>
-            <Toast isShowing={showToast}>
-                Henter person
-                <Spinner type="XS" />
-            </Toast>
             <Header />
             <Varsler />
             <Switch>
@@ -58,6 +78,7 @@ const App = () => {
                     </ProtectedRoute>
                 </React.Suspense>
             </Switch>
+            <Toasts />
         </>
     );
 };

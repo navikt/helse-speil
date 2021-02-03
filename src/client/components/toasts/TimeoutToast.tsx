@@ -4,6 +4,7 @@ import { AnimatedToast } from './AnimatedToast';
 import { ToastProps } from './Toast';
 
 interface TimeoutToastProps extends ToastProps {
+    key: string;
     className?: string;
     callback?: () => void;
     timeToLiveMs?: number;
@@ -11,7 +12,7 @@ interface TimeoutToastProps extends ToastProps {
 }
 
 export const TimeoutToast = React.memo(
-    ({ children, timeToLiveMs, callback, className, containerStyles }: TimeoutToastProps) => {
+    ({ key, children, timeToLiveMs, callback, className, containerStyles }: TimeoutToastProps) => {
         const [showing, setShowing] = useState(true);
 
         useEffect(() => {
@@ -19,9 +20,11 @@ export const TimeoutToast = React.memo(
             if (children && !!timeToLiveMs) {
                 timeoutId = setTimeout(() => {
                     setShowing(false);
+                    callback?.();
                 }, timeToLiveMs);
             }
             return () => {
+                callback?.();
                 !!timeoutId && clearTimeout(timeoutId);
             };
         }, [children, timeToLiveMs]);
@@ -29,7 +32,7 @@ export const TimeoutToast = React.memo(
         return (
             <AnimatePresence onExitComplete={() => callback?.()}>
                 {showing && (
-                    <AnimatedToast containerStyles={containerStyles} className={className}>
+                    <AnimatedToast key={key} containerStyles={containerStyles} className={className}>
                         {children}
                     </AnimatedToast>
                 )}

@@ -6,7 +6,7 @@ import { Error } from '../../../../../../types';
 import { Avvisningsmodal } from './modal/Avvisningsmodal';
 import { Utbetalingsmodal } from './modal/Utbetalingsmodal';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { useFjernEnToast, useLeggTilEnToast } from '../../../../../state/toastsState';
+import { useRemoveToast, useAddToast } from '../../../../../state/toastsState';
 import { vedtaksstatusToast, vedtaksstatusToastKey } from '../../../../oversikt/VedtaksstatusToast';
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
 import { AmplitudeContext } from '../../../AmplitudeContext';
@@ -56,8 +56,8 @@ const Knapper = styled.div`
 `;
 
 const useVedtakstoast = () => {
-    const fjernEnToast = useFjernEnToast();
-    const leggtilEnToast = useLeggTilEnToast();
+    const fjernEnToast = useRemoveToast();
+    const leggtilEnToast = useAddToast();
     const fjernVedtakstoast = () => fjernEnToast(vedtaksstatusToastKey);
 
     const leggTilUtbetalingstoast = () =>

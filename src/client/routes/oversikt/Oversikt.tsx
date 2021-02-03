@@ -14,6 +14,8 @@ import { useEmail } from '../../state/authentication';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 import { Oppgave } from '../../../types';
 import { personState } from '../../state/person';
+import { useAddToast, useRemoveToast } from '../../state/toastsState';
+import { nanoid } from 'nanoid';
 
 const Container = styled.div`
     position: relative;
@@ -56,11 +58,35 @@ const useFiltrerteOppgaver = () => {
     };
 };
 
+const useHenterOppgaverToast = (isLoading: boolean) => {
+    const showToast = useDebounce(isLoading);
+    const addToast = useAddToast();
+    const removeToast = useRemoveToast();
+
+    useEffect(() => {
+        const key = nanoid();
+        if (showToast) {
+            addToast({
+                key: key,
+                message: (
+                    <>
+                        Henter oppgaver <Spinner type="XS" />
+                    </>
+                ),
+            });
+        } else {
+            removeToast(key);
+        }
+        return () => removeToast(key);
+    }, [showToast]);
+};
+
 export const Oversikt = () => {
     const hentOppgaver = useRefetchOppgaver();
     const oppgaver = useFiltrerteOppgaver();
-    const showToast = useDebounce(oppgaver.state === 'loading');
     const resetPerson = useResetRecoilState(personState);
+
+    useHenterOppgaverToast(oppgaver.state === 'loading');
 
     useVarselFilter(Scopes.OVERSIKT);
 
@@ -74,10 +100,6 @@ export const Oversikt = () => {
     return (
         <Container>
             <VedtaksstatusBanner />
-            <Toast isShowing={showToast}>
-                Henter oppgaver
-                <Spinner type="XS" />
-            </Toast>
             {oppgaver.state === 'hasError' && (
                 <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
             )}
