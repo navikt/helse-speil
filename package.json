@@ -26,8 +26,7 @@
         "prettier": "prettier --write \"src/**/*.{jsx,js,css,less,ts,tsx}\"",
         "e2e-test": "e2e-tests/run.sh",
         "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh",
-        "spesialist-mock": "ts-node-dev spesialistMock/mockServer.ts",
-        "github-pages": "NODE_ENV=github_pages && parcel build src/client/index.html --out-dir pages --public-url ./"
+        "spesialist-mock": "ts-node-dev spesialistMock/mockServer.ts"
     },
     "husky": {
         "hooks": {

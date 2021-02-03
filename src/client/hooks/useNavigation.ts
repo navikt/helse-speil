@@ -1,5 +1,4 @@
 import { useHistory } from 'react-router';
-import { routeForMiljø } from '../routes';
 import { usePerson } from '../state/person';
 
 export interface Navigation {
@@ -36,7 +35,7 @@ export const useNavigation = (): Navigation => {
     const canNavigateToPrevious = currentLocation !== 0;
 
     const navigateTo = (location: Location, aktørId: string | undefined = personTilBehandling?.aktørId) =>
-        history.push(routeForMiljø(`/person/${aktørId}${locations[location]}`));
+        history.push(`/person/${aktørId}${locations[location]}`);
 
     const pathForLocation = (location: Location, aktørId?: string) =>
         `/person/${aktørId ?? personTilBehandling?.aktørId}${locations[location]}`;
