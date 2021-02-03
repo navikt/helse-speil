@@ -11,8 +11,9 @@ import { VedtaksstatusBanner } from '../../components/VedtaksstatusBanner';
 import { useDebounce } from '../../hooks/useDebounce';
 import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { useEmail } from '../../state/authentication';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
+import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 import { Oppgave } from '../../../types';
+import { personState } from '../../state/person';
 
 const Container = styled.div`
     position: relative;
@@ -59,10 +60,12 @@ export const Oversikt = () => {
     const hentOppgaver = useRefetchOppgaver();
     const oppgaver = useFiltrerteOppgaver();
     const showToast = useDebounce(oppgaver.state === 'loading');
+    const resetPerson = useResetRecoilState(personState);
 
     useVarselFilter(Scopes.OVERSIKT);
 
     useEffect(() => {
+        resetPerson();
         if (oppgaver.state !== 'loading') {
             hentOppgaver();
         }
