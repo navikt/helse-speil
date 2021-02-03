@@ -24,3 +24,8 @@ export const stikkprøveFilter = () => ({
     label: 'Stikkprøver',
     func: (type: Periodetype) => type === Periodetype.Stikkprøve,
 });
+
+export const riskQaFilter = () => ({
+    label: 'Risk QA',
+    func: (type: Periodetype) => type === Periodetype.RiskQa,
+});

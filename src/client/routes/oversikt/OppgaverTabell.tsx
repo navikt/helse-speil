@@ -9,6 +9,7 @@ import {
     forlengelsesfilter,
     førstegangsfilter,
     overgangFraInfotrygdFilter,
+    riskQaFilter,
     stikkprøveFilter,
     ufordelteOppgaverFilter,
 } from './filtrering';
@@ -18,6 +19,10 @@ import { tabState } from './tabs';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
 import { stikkprøve } from '../../featureToggles';
+
+const Container = styled.div`
+    min-height: 300px;
+`;
 
 const Oversiktstabell = styled(Tabell)`
     table-layout: fixed;
@@ -83,6 +88,7 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
                 forlengelsesfilter(),
                 overgangFraInfotrygdFilter(),
                 ...(stikkprøve ? [stikkprøveFilter()] : []),
+                riskQaFilter(),
             ],
         },
         'Søker',
@@ -116,9 +122,9 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     }, [aktivTab]);
 
     return (
-        <>
+        <Container>
             <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
             <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
-        </>
+        </Container>
     );
 };
