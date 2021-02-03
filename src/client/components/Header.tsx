@@ -4,12 +4,13 @@ import { useRecoilValue } from 'recoil';
 import { authState } from '../state/authentication';
 import { Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
-import { useHistory, Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { InternalHeader, InternalHeaderTitle, InternalHeaderUser } from '@navikt/ds-react';
-import { useHentPerson, usePerson } from '../state/person';
+import { useHentPerson } from '../state/person';
+import { Person } from 'internal-types';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -52,7 +53,9 @@ export const Header = () => {
                 type: Varseltype.Feil,
             });
         } else {
-            hentPerson(personId).then(({ person }) => history.push(`/person/${person?.aktørId}/utbetaling`));
+            hentPerson(personId).then(
+                (res: { person?: Person }) => res.person && history.push(`/person/${res.person.aktørId}/utbetaling`)
+            );
         }
         return Promise.resolve();
     };
