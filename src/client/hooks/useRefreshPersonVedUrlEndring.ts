@@ -1,7 +1,7 @@
 import { useParams } from 'react-router';
 import { Scopes, useUpdateVarsler } from '../state/varslerState';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 import { useHentPerson, usePerson } from '../state/person';
 
 export const erGyldigPersonId = (value: string) => value.match(/^\d{1,15}$/) !== null;
@@ -12,7 +12,7 @@ export const useRefreshPersonVedUrlEndring = () => {
     const hentPerson = useHentPerson();
     const person = usePerson();
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (aktorId && erGyldigPersonId(aktorId)) {
             (person === undefined || person?.aktørId !== aktorId) && hentPerson(aktorId);
         } else {
