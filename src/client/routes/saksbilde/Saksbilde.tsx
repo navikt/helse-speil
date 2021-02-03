@@ -116,8 +116,6 @@ const SaksbildeContent = () => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
 
-    console.log(personTilBehandling);
-
     const { path } = useRouteMatch();
 
     useVarselFilter(Scopes.SAKSBILDE);

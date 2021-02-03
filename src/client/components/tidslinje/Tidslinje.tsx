@@ -17,6 +17,7 @@ import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
 import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
 import { Undertekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import { useRevurderingsrader } from './useRevurderingsrader';
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
 import { useSkalAnonymiserePerson } from '../../state/person';
@@ -127,6 +128,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
 
     const tidslinjerader = useTidslinjerader(person, fom, tom, anonymiseringEnabled, aktivVedtaksperiode);
     const infotrygdrader = useInfotrygdrader(person, fom, tom, anonymiseringEnabled);
+    const revurderingsrader = useRevurderingsrader(person);
 
     const tidslinjeradOffset = 250;
 
