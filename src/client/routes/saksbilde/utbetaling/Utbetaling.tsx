@@ -89,7 +89,11 @@ export const Utbetaling = () => {
 
     const periodeFom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
     const periodeTom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
-    const { arbeidsgiver, organisasjonsnummer, månedsinntekt, arbeidsforhold } = aktivVedtaksperiode.inntektskilder[0];
+    const arbeidsgiverinntekt = aktivVedtaksperiode.inntektsgrunnlag.inntekter.find(
+        (it) => it.organisasjonsnummer === aktivVedtaksperiode.inntektsgrunnlag.organisasjonsnummer
+    );
+
+    const { arbeidsgivernavn, organisasjonsnummer, omregnetÅrsinntekt, arbeidsforhold } = arbeidsgiverinntekt!;
 
     return (
         <AgurkErrorBoundary sidenavn="Utbetaling">
@@ -114,7 +118,9 @@ export const Utbetaling = () => {
                     </Kort>
                     <Kort>
                         <Korttittel>
-                            <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>{arbeidsgiver}</Lenke>
+                            <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>
+                                {arbeidsgivernavn}
+                            </Lenke>
                         </Korttittel>
                         <Clipboard preserveWhitespace={false} copyMessage="Organisasjonsnummer er kopiert">
                             <Normaltekst>{organisasjonsnummer}</Normaltekst>
@@ -122,7 +128,7 @@ export const Utbetaling = () => {
                         {arbeidsforhold?.[0] && <Arbeidsforhold {...arbeidsforhold[0]} />}
                         <Flex justifyContent="space-between">
                             <Normaltekst>Månedsbeløp</Normaltekst>
-                            <Normaltekst>{somPenger(månedsinntekt)}</Normaltekst>
+                            <Normaltekst>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Normaltekst>
                         </Flex>
                     </Kort>
                     <Kort>

@@ -8,14 +8,12 @@ import {
     somTidspunkt,
     VedtaksperiodeBuilder,
 } from './vedtaksperiode';
-import { ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
-import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
-import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
+import {ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT} from '../utils/date';
+import {umappetArbeidsgiver} from '../../test/data/arbeidsgiver';
+import {mappetVedtaksperiode, umappetVedtaksperiode} from '../../test/data/vedtaksperiode';
 import {
-    Arbeidsforhold,
     Dagtype,
     Inntektsgrunnlag,
-    Inntektskilde,
     Inntektskildetype,
     Overstyring,
     Periodetype,
@@ -23,14 +21,15 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
-import { mappetSimuleringsdata } from '../../test/data/simulering';
-import { umappetOverstyring } from '../../test/data/overstyring';
+import {mappetSimuleringsdata} from '../../test/data/simulering';
+import {umappetOverstyring} from '../../test/data/overstyring';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { umappetArbeidsforhold } from '../../test/data/arbeidsforhold';
-import { SpesialistPerson } from 'external-types';
-import { umappetInntektsgrunnlag } from '../../test/data/inntektsgrunnlag';
+import {SpesialistInntektkilde, SpesialistPerson} from 'external-types';
+import {
+    umappetInntektsgrunnlag,
+} from '../../test/data/inntektsgrunnlag';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -86,9 +85,11 @@ describe('VedtaksperiodeBuilder', () => {
         });
     });
     test('bygger vedtaksperiode', () => {
+
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
-            .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
+            .setVedtaksperiode(umappetVedtaksperiode())
+            .setInntektsgrunnlag([umappetInntektsgrunnlag(SpesialistInntektkilde.Inntektsmelding)])
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
         expect(vedtaksperiode).toEqual(mappetVedtaksperiode());
@@ -176,37 +177,11 @@ describe('VedtaksperiodeBuilder', () => {
         expect(mappetOverstyring.overstyrteDager[0].type).toEqual(Dagtype.Syk);
         expect(mappetOverstyring.overstyrteDager[0].grad).toEqual(60);
     });
-    test('mapper inntektskilder', () => {
+    test('mapper inntektsgrunnlag infotrygd', () => {
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
-            .setPerson({ arbeidsforhold: [umappetArbeidsforhold] } as SpesialistPerson)
-            .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
-
-        expect(problems).toHaveLength(0);
-        expect(vedtaksperiode.inntektskilder).toHaveLength(1);
-
-        const inntektskilde = vedtaksperiode.inntektskilder.pop() as Inntektskilde;
-        expect(inntektskilde.arbeidsgiver).toEqual('Potetsekk AS');
-        expect(inntektskilde.bransjer).toEqual(['Sofasitting', 'TV-titting']);
-        expect(inntektskilde.organisasjonsnummer).toEqual('987654321');
-        expect(inntektskilde.forskuttering).toBeTruthy();
-        expect(inntektskilde.refusjon).toBeTruthy();
-        expect(inntektskilde.årsinntekt).toEqual(372000);
-        expect(inntektskilde.månedsinntekt).toEqual(31000);
-        expect(inntektskilde.arbeidsforhold).toHaveLength(1);
-
-        const arbeidsforhold = inntektskilde.arbeidsforhold.pop() as Arbeidsforhold;
-        expect(arbeidsforhold.stillingsprosent).toEqual(100);
-        expect(arbeidsforhold.stillingstittel).toEqual('UNNASLUNTRER');
-        expect(arbeidsforhold.sluttdato).toBeUndefined();
-        expect(arbeidsforhold.startdato.format(NORSK_DATOFORMAT)).toEqual('17.01.1991');
-    });
-    test('mapper inntektsgrunnlag', () => {
-        const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
-            .setVedtaksperiode(umappetVedtaksperiode())
-            .setArbeidsgiver(umappetArbeidsgiver())
-            .setInntektsgrunnlag([umappetInntektsgrunnlag])
+            .setInntektsgrunnlag([umappetInntektsgrunnlag(SpesialistInntektkilde.Infotrygd)])
             .setPerson({ arbeidsgivere: [umappetArbeidsgiver()] } as SpesialistPerson)
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
@@ -214,24 +189,69 @@ describe('VedtaksperiodeBuilder', () => {
 
         const { inntektsgrunnlag } = vedtaksperiode;
         expect(Object.entries(inntektsgrunnlag ?? {})).toHaveLength(8);
-        expect(inntektsgrunnlag?.organisasjonsnummer).toEqual('987654321');
-        expect(inntektsgrunnlag?.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
-        expect(inntektsgrunnlag?.sykepengegrunnlag).toEqual(744000);
-        expect(inntektsgrunnlag?.omregnetÅrsinntekt).toEqual(740000);
-        expect(inntektsgrunnlag?.sammenligningsgrunnlag).toBeUndefined();
-        expect(inntektsgrunnlag?.avviksprosent).toBeUndefined();
-        expect(Math.floor(inntektsgrunnlag?.maksUtbetalingPerDag ?? 0)).toEqual(1430);
-        expect(inntektsgrunnlag?.inntekter).toHaveLength(2);
+        expect(inntektsgrunnlag.organisasjonsnummer).toEqual('987654321');
+        expect(inntektsgrunnlag.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
+        expect(inntektsgrunnlag.sykepengegrunnlag).toEqual(372000);
+        expect(inntektsgrunnlag.omregnetÅrsinntekt).toEqual(372000);
+        expect(inntektsgrunnlag.sammenligningsgrunnlag).toBeUndefined();
+        expect(inntektsgrunnlag.avviksprosent).toEqual(0);
+        expect(Math.floor(inntektsgrunnlag.maksUtbetalingPerDag ?? 0)).toEqual(1430);
+        expect(inntektsgrunnlag.inntekter).toHaveLength(1);
 
         const [inntekt] = (inntektsgrunnlag as Inntektsgrunnlag).inntekter;
 
-        expect(Object.entries(inntekt)).toHaveLength(4);
+        expect(Object.entries(inntekt)).toHaveLength(8);
         expect(inntekt.arbeidsgivernavn).toEqual('Potetsekk AS');
         expect(inntekt.organisasjonsnummer).toEqual('987654321');
-        expect(inntekt.sammenligningsgrunnlag).toBeUndefined();
         expect(inntekt.omregnetÅrsinntekt?.beløp).toEqual(372000);
         expect(inntekt.omregnetÅrsinntekt?.månedsbeløp).toEqual(31000);
         expect(inntekt.omregnetÅrsinntekt?.kilde).toEqual(Inntektskildetype.Infotrygd);
         expect(inntekt.omregnetÅrsinntekt?.inntekterFraAOrdningen).toBeUndefined();
+        expect(inntekt.sammenligningsgrunnlag).toBeUndefined();
+        expect(inntekt.bransjer).toEqual(["Sofasitting", "TV-titting"])
+        expect(inntekt.refusjon).toEqual(true)
+        expect(inntekt.forskuttering).toEqual(true)
+        expect(inntekt.arbeidsforhold).toHaveLength(0)
+    });
+
+    // TODO: dis is okay?
+    test('mapper inntektsgrunnlag inntektsmelding', () => {
+        const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
+            .setVedtaksperiode(umappetVedtaksperiode())
+            .setArbeidsgiver(umappetArbeidsgiver())
+            .setInntektsgrunnlag([umappetInntektsgrunnlag()])
+            .setPerson({ arbeidsgivere: [umappetArbeidsgiver()] } as SpesialistPerson)
+            .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
+
+        expect(problems).toHaveLength(0);
+
+        const { inntektsgrunnlag } = vedtaksperiode;
+        expect(Object.entries(inntektsgrunnlag ?? {})).toHaveLength(8);
+        expect(inntektsgrunnlag.organisasjonsnummer).toEqual('987654321');
+        expect(inntektsgrunnlag.skjæringstidspunkt.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
+        expect(inntektsgrunnlag.sykepengegrunnlag).toEqual(372000);
+        expect(inntektsgrunnlag.omregnetÅrsinntekt).toEqual(372000);
+        expect(inntektsgrunnlag.sammenligningsgrunnlag).toEqual(372000);
+        expect(inntektsgrunnlag.avviksprosent).toEqual(0);
+        expect(Math.floor(inntektsgrunnlag.maksUtbetalingPerDag ?? 0)).toEqual(1430);
+        expect(inntektsgrunnlag.inntekter).toHaveLength(1);
+
+        const [inntekt] = (inntektsgrunnlag as Inntektsgrunnlag).inntekter;
+
+        expect(Object.entries(inntekt)).toHaveLength(8);
+        expect(inntekt.arbeidsgivernavn).toEqual('Potetsekk AS');
+        expect(inntekt.organisasjonsnummer).toEqual('987654321');
+        expect(inntekt.omregnetÅrsinntekt?.beløp).toEqual(372000);
+        expect(inntekt.omregnetÅrsinntekt?.månedsbeløp).toEqual(31000);
+        expect(inntekt.omregnetÅrsinntekt?.kilde).toEqual(Inntektskildetype.Inntektsmelding);
+        expect(inntekt.omregnetÅrsinntekt?.inntekterFraAOrdningen).toBeUndefined();
+
+        expect(inntekt.sammenligningsgrunnlag?.beløp).toEqual(372000);
+        expect(inntekt.sammenligningsgrunnlag?.inntekterFraAOrdningen).toHaveLength(12);
+        expect(inntekt.sammenligningsgrunnlag?.inntekterFraAOrdningen[0].sum).toEqual(31000);
+        expect(inntekt.bransjer).toEqual(["Sofasitting", "TV-titting"])
+        expect(inntekt.refusjon).toEqual(true)
+        expect(inntekt.forskuttering).toEqual(true)
+        expect(inntekt.arbeidsforhold).toHaveLength(0)
     });
 });

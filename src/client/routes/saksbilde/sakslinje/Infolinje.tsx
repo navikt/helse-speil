@@ -53,8 +53,8 @@ export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
         <InfolinjeContainer alignItems="center">
             <Strek />
             <InfolinjeElement data-tip="Arbeidsgiver">
-                <Arbeidsgiverikon />{' '}
-                {(vedtaksperiode as Vedtaksperiode).inntektskilder?.[0].arbeidsgiver ?? 'Ukjent arbeidsgiver'}
+                <Arbeidsgiverikon />
+                {(vedtaksperiode as Vedtaksperiode).arbeidsgivernavn ?? 'Ukjent arbeidsgiver'}
             </InfolinjeElement>
             <InfolinjeElement data-tip="Sykmeldingsperiode">
                 <Sykmeldingsperiodeikon />

@@ -4,6 +4,7 @@ import { somPenger } from '../../../utils/locale';
 import styled from '@emotion/styled';
 import { Kilde } from '../../../components/Kilde';
 import { Inntektskildetype, OmregnetÅrsinntekt, Sammenligningsgrunnlag } from 'internal-types';
+import { kilde } from '../../../utils/inntektskilde';
 
 interface Props {
     arbeidsgiver: string;
@@ -33,28 +34,17 @@ const ArbeidsgiverRad = styled.div<ArbeidsgiverRadProps>`
         ${(props) => (props.erGjeldende ? 'background-color: var(--speil-light-hover)' : '')};
     }
 
-    > *:not(:first-child) {
+    > *:not(:first-of-type) {
         margin: 0 0 0 -2rem;
         padding: 0 2rem;
     }
 `;
 
-const kilde = (kilde: Inntektskildetype) => {
-    switch (kilde) {
-        case Inntektskildetype.Saksbehandler:
-            return 'SB';
-        case Inntektskildetype.Inntektsmelding:
-            return 'IM';
-        case Inntektskildetype.Infotrygd:
-            return 'IT';
-        case Inntektskildetype.AOrdningen:
-            return 'AO';
-    }
-};
-
 const Inntektssammenligning = ({ arbeidsgiver, omregnetÅrsinntekt, sammenligningsgrunnlag, erGjeldende }: Props) => (
     <ArbeidsgiverRad erGjeldende={erGjeldende}>
-        <Normaltekst style={{ marginLeft: '0.25rem' }}>{arbeidsgiver}</Normaltekst>
+        <div>
+            <Normaltekst style={{ marginLeft: '0.25rem' }}>{arbeidsgiver}</Normaltekst>
+        </div>
         <InntektMedKilde>
             <Normaltekst>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</Normaltekst>
             {omregnetÅrsinntekt && <Kilde>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>}

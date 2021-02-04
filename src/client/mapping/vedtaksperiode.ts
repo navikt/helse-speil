@@ -78,6 +78,7 @@ export class VedtaksperiodeBuilder {
 
     setArbeidsgiver = (arbeidsgiver: SpesialistArbeidsgiver) => {
         this.arbeidsgiver = arbeidsgiver;
+        this.vedtaksperiode.arbeidsgivernavn = arbeidsgiver.navn;
         return this;
     };
 
@@ -151,7 +152,6 @@ export class VedtaksperiodeBuilder {
         this.mapUtbetalinger();
         this.mapOppsummering();
         this.mapOverstyringer();
-        this.mapInntektskilder();
         this.mapAktivitetslogg();
         this.mapRisikovurdering();
         this.mapInntektsgrunnlag();
@@ -288,29 +288,6 @@ export class VedtaksperiodeBuilder {
             .sort((a, b) => (a.timestamp.isBefore(b.timestamp) ? 1 : -1));
     };
 
-    private mapInntektskilder = () => {
-        this.vedtaksperiode.inntektskilder = [
-            {
-                arbeidsgiver: this.arbeidsgiver.navn,
-                bransjer: this.arbeidsgiver.bransjer?.length > 0 ? this.arbeidsgiver.bransjer : ['Ukjent'],
-                organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,
-                månedsinntekt: somInntekt(this.unmapped.inntektFraInntektsmelding),
-                årsinntekt: somÅrsinntekt(this.unmapped.inntektFraInntektsmelding),
-                refusjon: true,
-                forskuttering: true,
-                arbeidsforhold:
-                    this.person?.arbeidsforhold
-                        ?.filter((it) => it.organisasjonsnummer === this.arbeidsgiver.organisasjonsnummer)
-                        .map((it) => ({
-                            stillingstittel: it.stillingstittel,
-                            stillingsprosent: it.stillingsprosent,
-                            startdato: dayjs(it.startdato),
-                            sluttdato: it.sluttdato ? dayjs(it.sluttdato) : undefined,
-                        })) ?? [],
-            },
-        ];
-    };
-
     private mapRisikovurdering = () => {
         this.vedtaksperiode.risikovurdering = this.unmapped.risikovurdering || undefined;
     };
@@ -342,9 +319,9 @@ export class VedtaksperiodeBuilder {
     };
 
     private mapInntektsgrunnlag = () => {
-        const navnForOrganisasjonsnummer = (organisasjonsnummer: string): string =>
-            this.person?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer)?.navn ??
-            'Arbeidsgiver';
+        const arbeidsgiverForOrganisasjonsnummer = (organisasjonsnummer: string): SpesialistArbeidsgiver | undefined =>
+            this.person?.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer);
+
         try {
             this.vedtaksperiode.inntektsgrunnlag = this.inntektsgrunnlag && {
                 sykepengegrunnlag: this.inntektsgrunnlag.sykepengegrunnlag,
@@ -355,7 +332,8 @@ export class VedtaksperiodeBuilder {
                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,
                 skjæringstidspunkt: dayjs(this.inntektsgrunnlag.skjæringstidspunkt),
                 inntekter: this.inntektsgrunnlag.inntekter.map((arbeidsgiverinntekt) => ({
-                    arbeidsgivernavn: navnForOrganisasjonsnummer(arbeidsgiverinntekt.arbeidsgiver),
+                    arbeidsgivernavn:
+                        arbeidsgiverForOrganisasjonsnummer(arbeidsgiverinntekt.arbeidsgiver)?.navn ?? 'Arbeidsgiver',
                     organisasjonsnummer: arbeidsgiverinntekt.arbeidsgiver,
                     omregnetÅrsinntekt:
                         (arbeidsgiverinntekt.omregnetÅrsinntekt && {
@@ -370,6 +348,20 @@ export class VedtaksperiodeBuilder {
                             inntekterFraAOrdningen: arbeidsgiverinntekt.sammenligningsgrunnlag.inntekterFraAOrdningen,
                         }) ??
                         undefined,
+                    bransjer: arbeidsgiverForOrganisasjonsnummer(arbeidsgiverinntekt.arbeidsgiver)?.bransjer?.length
+                        ? arbeidsgiverForOrganisasjonsnummer(arbeidsgiverinntekt.arbeidsgiver)?.bransjer!
+                        : ['Ukjent'],
+                    refusjon: true,
+                    forskuttering: true,
+                    arbeidsforhold:
+                        this.person?.arbeidsforhold
+                            ?.filter((it) => it.organisasjonsnummer === arbeidsgiverinntekt.arbeidsgiver)
+                            .map((it) => ({
+                                stillingstittel: it.stillingstittel,
+                                stillingsprosent: it.stillingsprosent,
+                                startdato: dayjs(it.startdato),
+                                sluttdato: it.sluttdato ? dayjs(it.sluttdato) : undefined,
+                            })) ?? [],
                 })),
             };
         } catch (error) {

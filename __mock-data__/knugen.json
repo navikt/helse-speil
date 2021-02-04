@@ -450,7 +450,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "skjæringstidspunkt": "2020-01-20",
+                            "skjæringstidspunkt": "2020-04-10",
                             "førsteSykepengedag": "2020-03-02",
                             "maksdato": "2020-12-30",
                             "gjenståendeDager": 198,
@@ -988,7 +988,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "skjæringstidspunkt": "2020-01-20",
+                            "skjæringstidspunkt": "2020-02-20",
                             "førsteSykepengedag": "2020-03-02",
                             "maksdato": "2020-12-30",
                             "gjenståendeDager": 198,
@@ -2124,11 +2124,11 @@
                         }
                     ],
                     "godkjentAv": "Saksbehandler",
-                    "godkjenttidspunkt": "2019-11-311",
+                    "godkjenttidspunkt": "2019-11-31",
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "skjæringstidspunkt": "2019-11-20",
+                            "skjæringstidspunkt": "2019-11-01",
                             "førsteSykepengedag": "2019-11-02",
                             "maksdato": "2019-11-30",
                             "gjenståendeDager": 198,
@@ -2446,7 +2446,7 @@
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 50,
-                            "skjæringstidspunkt": "2019-11-20",
+                            "skjæringstidspunkt": "2019-11-01",
                             "førsteSykepengedag": "2019-11-02",
                             "maksdato": "2019-11-30",
                             "gjenståendeDager": 198,
@@ -2539,6 +2539,296 @@
                 }
             ],
             "overstyringer": []
+        }
+    ],
+    "inntektsgrunnlag": [
+        {
+            "skjæringstidspunkt": "2019-11-01",
+            "sykepengegrunnlag": 581298.0,
+            "omregnetÅrsinntekt": 744000.0,
+            "sammenligningsgrunnlag": 744000.0,
+            "avviksprosent": 0.0,
+            "maksUtbetalingPerDag": 2235.761538461538462,
+            "inntekter": [
+                {
+                    "arbeidsgiver": "982708672",
+                    "omregnetÅrsinntekt": {
+                        "kilde": "Inntektsmelding",
+                        "beløp": 599148.0,
+                        "månedsbeløp": 49929.0,
+                        "inntekterFraAOrdningen": null
+                    },
+                    "sammenligningsgrunnlag": {
+                        "beløp": 599148.0,
+                        "inntekterFraAOrdningen": [
+                            {
+                                "måned": "2017-01",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-02",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-03",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-04",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-05",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-06",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-07",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-08",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-09",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-10",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-11",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-12",
+                                "sum": 49929.0
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "skjæringstidspunkt": "2020-01-01",
+            "sykepengegrunnlag": 581298.0,
+            "omregnetÅrsinntekt": 744000.0,
+            "sammenligningsgrunnlag": 744000.0,
+            "avviksprosent": 0.0,
+            "maksUtbetalingPerDag": 2235.761538461538462,
+            "inntekter": [
+                {
+                    "arbeidsgiver": "982708672",
+                    "omregnetÅrsinntekt": {
+                        "kilde": "Inntektsmelding",
+                        "beløp": 599148.0,
+                        "månedsbeløp": 49929.0,
+                        "inntekterFraAOrdningen": null
+                    },
+                    "sammenligningsgrunnlag": {
+                        "beløp": 599148.0,
+                        "inntekterFraAOrdningen": [
+                            {
+                                "måned": "2017-01",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-02",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-03",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-04",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-05",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-06",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-07",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-08",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-09",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-10",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-11",
+                                "sum": 49929.0
+                            },
+                            {
+                                "måned": "2017-12",
+                                "sum": 49929.0
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "skjæringstidspunkt": "2020-02-20",
+            "sykepengegrunnlag": 581298.0,
+            "omregnetÅrsinntekt": 744000.0,
+            "sammenligningsgrunnlag": 744000.0,
+            "avviksprosent": 0.0,
+            "maksUtbetalingPerDag": 2235.761538461538462,
+            "inntekter": [
+                {
+                    "arbeidsgiver": "982708672",
+                    "omregnetÅrsinntekt": {
+                        "kilde": "Infotrygd",
+                        "beløp": 372000.0,
+                        "månedsbeløp": 31000.0,
+                        "inntekterFraAOrdningen": null
+                    },
+                    "sammenligningsgrunnlag": {
+                        "beløp": 372000.0,
+                        "inntekterFraAOrdningen": [
+                            {
+                                "måned": "2017-01",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-02",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-03",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-04",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-05",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-06",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-07",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-08",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-09",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-10",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-11",
+                                "sum": 31000.0
+                            },
+                            {
+                                "måned": "2017-12",
+                                "sum": 31000.0
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "skjæringstidspunkt": "2020-04-10",
+            "sykepengegrunnlag": 581298.0,
+            "omregnetÅrsinntekt": 744000.0,
+            "sammenligningsgrunnlag": 744000.0,
+            "avviksprosent": 0.0,
+            "maksUtbetalingPerDag": 2235.761538461538462,
+            "inntekter": [
+                {
+                    "arbeidsgiver": "982708672",
+                    "omregnetÅrsinntekt": {
+                        "kilde": "Infotrygd",
+                        "beløp": 350000.0,
+                        "månedsbeløp": 29166.7,
+                        "inntekterFraAOrdningen": null
+                    },
+                    "sammenligningsgrunnlag": {
+                        "beløp": 350000.0,
+                        "inntekterFraAOrdningen": [
+                            {
+                                "måned": "2017-01",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-02",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-03",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-04",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-05",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-06",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-07",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-08",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-09",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-10",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-11",
+                                "sum": 29166.7
+                            },
+                            {
+                                "måned": "2017-12",
+                                "sum": 29166.7
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     ],
     "infotrygdutbetalinger": [

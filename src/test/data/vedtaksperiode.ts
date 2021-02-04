@@ -5,6 +5,7 @@ import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
 import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
 import { hendelser } from './hendelser';
 import {
+    SpesialistInntektsgrunnlag,
     SpesialistOverstyring,
     SpesialistVedtaksperiode,
     SpleisAktivitet,
@@ -19,6 +20,7 @@ import { Vedtaksperiode } from 'internal-types';
 import { aktivitetslogg } from './aktivitetslogg';
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetSimuleringsdata } from './simulering';
+import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
 
 type UmappetVedtaksperiodeOptions = {
     fom?: Dayjs;
@@ -87,13 +89,15 @@ export const medEkstraSykdomsdager = (vedtaksperiode: SpesialistVedtaksperiode, 
 export const mappetVedtaksperiode = (
     fom: Dayjs = dayjs('2020-01-01'),
     tom: Dayjs = dayjs('2020-01-31'),
-    organisasjonsnummer: string = 'et-organisasjonsnummer',
-    overstyringer: SpesialistOverstyring[] = []
+    overstyringer: SpesialistOverstyring[] = [],
+    inntektsgrunnlag: SpesialistInntektsgrunnlag[] = [umappetInntektsgrunnlag()]
 ): Vedtaksperiode => {
-    const { vedtaksperiode } = new VedtaksperiodeBuilder()
+    let { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode(umappetVedtaksperiode({ fom, tom }))
         .setArbeidsgiver(umappetArbeidsgiver())
         .setOverstyringer(overstyringer)
+        .setInntektsgrunnlag(inntektsgrunnlag)
         .build();
+    
     return vedtaksperiode as Vedtaksperiode;
 };

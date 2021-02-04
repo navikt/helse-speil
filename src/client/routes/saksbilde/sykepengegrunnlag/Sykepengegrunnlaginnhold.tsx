@@ -23,7 +23,6 @@ const Oppsummering = styled.div`
 
 export const Sykepengegrunnlaginnhold = ({ sykepengegrunnlag, className }: SykepengegrunnlaginnholdProps) => (
     <div className={className}>
-        {' '}
         <InntektssammenligningOld
             inntektskilde={sykepengegrunnlag.arbeidsgivernavn}
             årsinntektAordning={sykepengegrunnlag.årsinntektFraAording}

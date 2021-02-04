@@ -63,17 +63,6 @@ export interface Arbeidsforhold {
     sluttdato?: Dayjs;
 }
 
-export interface Inntektskilde {
-    arbeidsgiver: string;
-    bransjer: string[];
-    organisasjonsnummer: string;
-    forskuttering: boolean;
-    refusjon: boolean;
-    arbeidsforhold: Arbeidsforhold[];
-    årsinntekt?: number;
-    månedsinntekt?: number;
-}
-
 export interface Oppsummering {
     antallUtbetalingsdager: number;
     totaltTilUtbetaling: number;
@@ -195,6 +184,7 @@ export interface Vedtaksperiode {
     fom: Dayjs;
     tom: Dayjs;
     gruppeId: string;
+    arbeidsgivernavn: string;
     forlengelseFraInfotrygd?: boolean;
     periodetype: Periodetype;
     behandlet: boolean;
@@ -209,8 +199,7 @@ export interface Vedtaksperiode {
     godkjenttidspunkt?: Dayjs;
     vilkår?: Vilkår;
     sykepengegrunnlag: Sykepengegrunnlag;
-    inntektsgrunnlag?: Inntektsgrunnlag;
-    inntektskilder: Inntektskilde[];
+    inntektsgrunnlag: Inntektsgrunnlag;
     utbetalinger?: Utbetalinger;
     oppsummering: Oppsummering;
     simuleringsdata?: Simulering;
@@ -329,6 +318,10 @@ export interface Arbeidsgiverinntekt {
     organisasjonsnummer: string;
     omregnetÅrsinntekt?: OmregnetÅrsinntekt;
     sammenligningsgrunnlag?: Sammenligningsgrunnlag;
+    bransjer: string[];
+    forskuttering: boolean;
+    refusjon: boolean;
+    arbeidsforhold: Arbeidsforhold[];
 }
 
 export interface OmregnetÅrsinntekt {

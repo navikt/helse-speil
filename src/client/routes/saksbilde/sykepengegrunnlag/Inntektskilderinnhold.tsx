@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import { somPenger } from '../../../utils/locale';
-import { Inntektskilde } from 'internal-types';
+import { Arbeidsgiverinntekt, Inntektskildetype } from 'internal-types';
 import styled from '@emotion/styled';
 import { Grid } from '../../../components/Grid';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
@@ -12,6 +12,7 @@ import { Clipboard } from '../../../components/clipboard';
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
+import { kilde } from '../../../utils/inntektskilde';
 
 const Arbeidsgivertittel = styled.div`
     display: flex;
@@ -68,22 +69,20 @@ const Kolonnetittel = styled(Undertekst)`
 `;
 
 interface InntektskilderinnholdProps {
-    inntektskilder: Inntektskilde[];
+    inntektskilde: Arbeidsgiverinntekt;
 }
 
-const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) => {
+const Inntektskilderinnhold = ({ inntektskilde }: InntektskilderinnholdProps) => {
     const { t } = useTranslation();
-
     const {
-        arbeidsgiver,
+        arbeidsgivernavn,
         organisasjonsnummer,
         arbeidsforhold,
         bransjer,
-        månedsinntekt,
-        årsinntekt,
+        omregnetÅrsinntekt,
         refusjon,
         forskuttering,
-    } = inntektskilder[0];
+    } = inntektskilde;
 
     return (
         <Innhold kolonner={2}>
@@ -91,7 +90,7 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
                     <Tittel maxwidth="500px">
-                        <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
+                        <TekstMedEllipsis data-tip={arbeidsgivernavn}>{arbeidsgivernavn}</TekstMedEllipsis>
                         <Flex style={{ margin: '0 4px' }}>
                             (<Clipboard copyMessage="Organisasjonsnummer er kopiert">{organisasjonsnummer}</Clipboard>)
                         </Flex>
@@ -107,25 +106,29 @@ const Inntektskilderinnhold = ({ inntektskilder }: InntektskilderinnholdProps) =
                 </ArbeidsforholdTabell>
                 <HeaderContainer>
                     <Tittel tag="h3">{t('inntektskilder.inntekt')}</Tittel>
-                    <Kilde>IM</Kilde>
+                    <Kilde>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                 </HeaderContainer>
                 <Tabell>
                     <Kolonnetittel>{t('inntektskilder.månedsinntekt')}</Kolonnetittel>
                     <Kolonnetittel>{t('inntektskilder.årsinntekt')}</Kolonnetittel>
-                    <Element>{somPenger(månedsinntekt)}</Element>
-                    <Element>{somPenger(årsinntekt)}</Element>
+                    <Element>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Element>
+                    <Element>{somPenger(omregnetÅrsinntekt?.beløp)}</Element>
                 </Tabell>
-                <HeaderContainer>
-                    <Tittel>{t('inntektskilder.inntektsmeldinger')}</Tittel>
-                </HeaderContainer>
-                <Tabell>
-                    <Normaltekst>{t('inntektskilder.refusjon')}</Normaltekst>
-                    <Normaltekst>{refusjon ? 'Ja' : 'Nei'}</Normaltekst>
-                    <Normaltekst>{t('inntektskilder.arbeidsgiverperiode')}</Normaltekst>
-                    <Normaltekst>{forskuttering ? 'Ja' : 'Nei'}</Normaltekst>
-                    <Normaltekst>{t('inntektskilder.relasjon')}</Normaltekst>
-                    <Normaltekst>Ikke sjekket</Normaltekst>
-                </Tabell>
+                {omregnetÅrsinntekt?.kilde === Inntektskildetype.Inntektsmelding && (
+                    <>
+                        <HeaderContainer>
+                            <Tittel>{t('inntektskilder.inntektsmeldinger')}</Tittel>
+                        </HeaderContainer>
+                        <Tabell>
+                            <Normaltekst>{t('inntektskilder.refusjon')}</Normaltekst>
+                            <Normaltekst>{refusjon ? 'Ja' : 'Nei'}</Normaltekst>
+                            <Normaltekst>{t('inntektskilder.arbeidsgiverperiode')}</Normaltekst>
+                            <Normaltekst>{forskuttering ? 'Ja' : 'Nei'}</Normaltekst>
+                            <Normaltekst>{t('inntektskilder.relasjon')}</Normaltekst>
+                            <Normaltekst>Ikke sjekket</Normaltekst>
+                        </Tabell>
+                    </>
+                )}
             </FlexColumn>
             <Tooltip />
         </Innhold>

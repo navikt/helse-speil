@@ -121,6 +121,7 @@
         "request-promise-native": "^1.0.9",
         "reset-css": "^5.0.1",
         "snyk": "^1.430.1",
+        "src": "^1.1.2",
         "tunnel": "0.0.6",
         "uuid": "^8.3.1",
         "winston": "^3.3.3"

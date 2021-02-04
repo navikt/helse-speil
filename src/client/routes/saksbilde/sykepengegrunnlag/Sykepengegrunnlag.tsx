@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Sykepengegrunnlaginnhold } from './Sykepengegrunnlaginnhold';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import {
+    Arbeidsgiverinntekt,
     Inntektsgrunnlag,
-    Inntektskilde,
     Periodetype,
     Person,
     Sykepengegrunnlag as Sykepengegrunnlagtype,
@@ -51,42 +50,33 @@ const Strek = styled.span`
 `;
 
 interface SykepengegrunnlagFraInfogtrygdProps {
-    årsinntektFraInntektsmelding: number;
-    inntektskilder: Inntektskilde[];
+    inntektsgrunnlag: Inntektsgrunnlag;
+    inntekt: Arbeidsgiverinntekt;
 }
 
 const SykepengegrunnlagFraInfogtrygd = ({
-    årsinntektFraInntektsmelding,
-    inntektskilder,
+    inntektsgrunnlag,
+    inntekt,
 }: SykepengegrunnlagFraInfogtrygdProps) => (
     <StyledBehandletAvInfotrygd tittel="Sykepengegrunnlag satt i Infotrygd">
         <OversiktContainer>
-            <Inntektskilderinnhold inntektskilder={inntektskilder} />
+            <Inntektskilderinnhold inntektskilde={inntekt!} />
             <Strek />
-            <SykepengegrunnlagInfotrygd årsinntektFraInntektsmelding={årsinntektFraInntektsmelding} />
+            <SykepengegrunnlagInfotrygd inntektsgrunnlag={inntektsgrunnlag} />
         </OversiktContainer>
     </StyledBehandletAvInfotrygd>
 );
 
 interface UbehandletSykepengegrunnlagProps {
-    inntektskilder: Inntektskilde[];
-    sykepengegrunnlag: Sykepengegrunnlagtype;
-    inntektsgrunnlag?: Inntektsgrunnlag;
+    inntektsgrunnlag: Inntektsgrunnlag;
+    inntektskilde?: Arbeidsgiverinntekt;
 }
 
-const UbehandletSykepengegrunnlag = ({
-    inntektsgrunnlag,
-    inntektskilder,
-    sykepengegrunnlag,
-}: UbehandletSykepengegrunnlagProps) => (
+const UbehandletSykepengegrunnlag = ({ inntektsgrunnlag, inntektskilde }: UbehandletSykepengegrunnlagProps) => (
     <OversiktContainer>
-        <Inntektskilderinnhold inntektskilder={inntektskilder} />
+        <Inntektskilderinnhold inntektskilde={inntektskilde!} />
         <Strek />
-        {inntektsgrunnlag ? (
-            <Inntektsgrunnlaginnhold inntektsgrunnlag={inntektsgrunnlag} />
-        ) : (
-            <Sykepengegrunnlaginnhold sykepengegrunnlag={sykepengegrunnlag} />
-        )}
+        <Inntektsgrunnlaginnhold inntektsgrunnlag={inntektsgrunnlag} />
     </OversiktContainer>
 );
 
@@ -99,8 +89,7 @@ const BehandletSykepengegrunnlag = ({
     førstePeriode,
     skjæringstidspunkt,
     inntektsgrunnlag,
-    inntektskilder,
-    sykepengegrunnlag,
+    inntektskilde,
 }: BehandletSykepengegrunnlagProps) => (
     <StyledBehandletInnhold
         tittel={`Sykepengegrunnlag satt ved skjæringstidspunkt - ${skjæringstidspunkt}`}
@@ -108,11 +97,7 @@ const BehandletSykepengegrunnlag = ({
         vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
         automatiskBehandlet={førstePeriode.automatiskBehandlet}
     >
-        <UbehandletSykepengegrunnlag
-            inntektsgrunnlag={inntektsgrunnlag}
-            inntektskilder={inntektskilder}
-            sykepengegrunnlag={sykepengegrunnlag}
-        />
+        <UbehandletSykepengegrunnlag inntektsgrunnlag={inntektsgrunnlag} inntektskilde={inntektskilde} />
     </StyledBehandletInnhold>
 );
 
@@ -122,7 +107,11 @@ interface SykepengegrunnlagProps {
 }
 
 export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagProps) => {
-    const { periodetype, inntektsgrunnlag, inntektskilder, sykepengegrunnlag, behandlet } = vedtaksperiode;
+    const { periodetype, inntektsgrunnlag, behandlet } = vedtaksperiode;
+
+    const arbeidsgiverinntekt = inntektsgrunnlag.inntekter.find(
+        (it) => it.organisasjonsnummer === inntektsgrunnlag.organisasjonsnummer
+    );
 
     return (
         <Sykepengegrunnlagpanel>
@@ -130,25 +119,25 @@ export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagP
                 {periodetype === Periodetype.Førstegangsbehandling && !behandlet ? (
                     <UbehandletSykepengegrunnlag
                         inntektsgrunnlag={inntektsgrunnlag}
-                        inntektskilder={inntektskilder}
-                        sykepengegrunnlag={sykepengegrunnlag}
+                        inntektskilde={arbeidsgiverinntekt}
                     />
                 ) : periodetype === Periodetype.Infotrygdforlengelse ? (
                     <SykepengegrunnlagFraInfogtrygd
-                        årsinntektFraInntektsmelding={sykepengegrunnlag.årsinntektFraInntektsmelding!}
-                        inntektskilder={vedtaksperiode.inntektskilder}
-                    />
-                ) : (
-                    <BehandletSykepengegrunnlag
-                        førstePeriode={førsteVedtaksperiode(vedtaksperiode, person)}
-                        skjæringstidspunkt={
-                            skjæringstidspunktForPeriode(vedtaksperiode)?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'
-                        }
-                        inntektskilder={inntektskilder}
                         inntektsgrunnlag={inntektsgrunnlag}
-                        sykepengegrunnlag={sykepengegrunnlag}
+                        inntekt={arbeidsgiverinntekt!}
                     />
-                )}
+                )
+
+                        : (
+                            <BehandletSykepengegrunnlag
+                                førstePeriode={førsteVedtaksperiode(vedtaksperiode, person)}
+                                skjæringstidspunkt={
+                                    skjæringstidspunktForPeriode(vedtaksperiode)?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'
+                                }
+                                inntektsgrunnlag={inntektsgrunnlag}
+                                inntektskilde={arbeidsgiverinntekt}
+                            />
+                        )}
             </AgurkErrorBoundary>
         </Sykepengegrunnlagpanel>
     );

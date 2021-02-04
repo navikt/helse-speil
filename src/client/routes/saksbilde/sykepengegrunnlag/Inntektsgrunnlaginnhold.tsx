@@ -55,8 +55,9 @@ const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag }: InntektsgrunnlaginnholdPr
             <Kolonnetittel>Inntektskilde</Kolonnetittel>
             <Kolonnetittel>Omregnet årsinntekt</Kolonnetittel>
             <Kolonnetittel>Rapportert årsinntekt</Kolonnetittel>
-            {inntektsgrunnlag.inntekter.map((inntekt) => (
+            {inntektsgrunnlag.inntekter.map((inntekt, index) => (
                 <Inntektssammenligning
+                    key={inntekt.organisasjonsnummer + index}
                     arbeidsgiver={`${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`}
                     omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
                     sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}

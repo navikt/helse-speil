@@ -646,17 +646,12 @@
                 {
                     "id": "eeeba1fc-3078-42df-9654-abbb9a52d211",
                     "gruppeId": "eee758cc-569e-4dce-9426-9633a093f94f",
-                    "fom": "2018-01-01",
+                    "fom": "2018-01-02",
                     "tom": "2018-01-31",
                     "tilstand": "Utbetalt",
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [
-                        {
-                            "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 999,
-                            "dato": "2018-01-01"
-                        },
                         {
                             "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 999,
@@ -733,11 +728,9 @@
                             "dato": "2018-01-16"
                         },
                         {
-                            "type": "NavDag",
+                            "type": "ArbeidsgiverperiodeDag",
                             "inntekt": 999,
-                            "dato": "2018-01-17",
-                            "utbetaling": 999,
-                            "grad": 100.0
+                            "dato": "2018-01-17"
                         },
                         {
                             "type": "NavDag",
@@ -838,7 +831,7 @@
                         "arbeidsgiverUtbetaling": {
                             "linjer": [
                                 {
-                                    "fom": "2018-01-17",
+                                    "fom": "2018-01-18",
                                     "tom": "2018-01-31",
                                     "dagsats": 999,
                                     "grad": 100.0
@@ -869,15 +862,6 @@
                         }
                     },
                     "sykdomstidslinje": [
-                        {
-                            "dagen": "2018-01-01",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad",
-                                "kildeId": "99692ba3-18f7-4ac0-9ed5-7f24b8b16f7f"
-                            },
-                            "grad": 99.0
-                        },
                         {
                             "dagen": "2018-01-02",
                             "type": "SYKEDAG",

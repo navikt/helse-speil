@@ -1,11 +1,20 @@
-import { mapPerson } from '../../client/mapping/person';
-import { umappetArbeidsgiver } from './arbeidsgiver';
-import { umappetUtbetalinger } from './SpesialistUtbetaling';
-import { Dagtype, Kildetype, Kjønn, Periodetype, Person, Vedtaksperiodetilstand } from 'internal-types';
+import {mapPerson} from '../../client/mapping/person';
+import {umappetArbeidsgiver} from './arbeidsgiver';
+import {umappetUtbetalinger} from './SpesialistUtbetaling';
+import {
+    Dagtype,
+    Inntektskildetype,
+    Kildetype,
+    Kjønn,
+    Periodetype,
+    Person,
+    Vedtaksperiodetilstand
+} from 'internal-types';
 import dayjs from 'dayjs';
-import { umappetSimuleringsdata } from './simulering';
+import {umappetSimuleringsdata} from './simulering';
+import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
 
-export const umappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalinger = umappetUtbetalinger()) => ({
+export const umappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalinger = umappetUtbetalinger(), inntektsgrunnlag = [umappetInntektsgrunnlag()]) => ({
     aktørId: '1211109876233',
     fødselsnummer: '01019000123',
     personinfo: {
@@ -15,16 +24,24 @@ export const umappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalin
         fødselsdato: '1956-12-12T00:00:00.000Z',
         kjønn: 'Mannebjørn',
     },
-    utbetalinger: utbetalinger,
-    arbeidsgivere: arbeidsgivere,
-    enhet: { id: '', navn: '' },
+    utbetalinger,
+    arbeidsgivere,
+    enhet: {id: '', navn: ''},
     tildeltTil: null,
-    arbeidsforhold: [],
+    arbeidsforhold: [
+        {
+            organisasjonsnummer: '987654321',
+            stillingstittel: 'Potetplukker',
+            stillingsprosent: 100,
+            startdato: '2018-01-01'
+        }
+    ],
     simuleringsdata: umappetSimuleringsdata,
+    inntektsgrunnlag,
 });
 
-export const mappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalinger = umappetUtbetalinger()) =>
-    mapPerson(umappetPerson(arbeidsgivere, utbetalinger)).person;
+export const mappetPerson = (arbeidsgivere = [umappetArbeidsgiver()], utbetalinger = umappetUtbetalinger(), inntektsgrunnlag = [umappetInntektsgrunnlag()]) =>
+    mapPerson(umappetPerson(arbeidsgivere, utbetalinger, inntektsgrunnlag)).person;
 
 export const mappetPersonObject: Person = {
     enhet: {
@@ -80,6 +97,7 @@ export const mappetPersonObject: Person = {
                 {
                     id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
                     gruppeId: 'en-gruppeId',
+                    arbeidsgivernavn: 'Potetsekk AS',
                     oppgavereferanse: 'en-oppgavereferanse',
                     utbetalingsreferanse: 'en-utbetalingsreferanse',
                     kanVelges: true,
@@ -113,7 +131,7 @@ export const mappetPersonObject: Person = {
                             oppfylt: true,
                             grunnebeløp: 99858,
                         },
-                        medlemskap: { oppfylt: true },
+                        medlemskap: {oppfylt: true},
                     },
                     tilstand: Vedtaksperiodetilstand.Oppgaver,
                     behandlet: false,
@@ -569,19 +587,53 @@ export const mappetPersonObject: Person = {
                         antallUtbetalingsdager: 23,
                         totaltTilUtbetaling: 34500,
                     },
+                    inntektsgrunnlag: {
+                        organisasjonsnummer: '987654321',
+                        skjæringstidspunkt: dayjs('2020-01-01T00:00:00.000Z'),
+                        sykepengegrunnlag: 372000,
+                        omregnetÅrsinntekt: 372000,
+                        sammenligningsgrunnlag: 372000,
+                        avviksprosent: 0.0,
+                        maksUtbetalingPerDag: 1430.7692307692,
+                        inntekter: [
+                            {
+                                arbeidsgivernavn: 'Potetsekk AS',
+                                organisasjonsnummer: '987654321',
+                                omregnetÅrsinntekt: {
+                                    kilde: Inntektskildetype.Inntektsmelding,
+                                    beløp: 372000,
+                                    månedsbeløp: 31000.0,
+                                    inntekterFraAOrdningen: undefined
+                                },
+                                sammenligningsgrunnlag: {
+                                    beløp: 372000,
+                                    inntekterFraAOrdningen: [
+                                        {måned: "2019-01", sum: 31000.0},
+                                        {måned: "2019-02", sum: 31000.0},
+                                        {måned: "2019-03", sum: 31000.0},
+                                        {måned: "2019-04", sum: 31000.0},
+                                        {måned: "2019-05", sum: 31000.0},
+                                        {måned: "2019-06", sum: 31000.0},
+                                        {måned: "2019-07", sum: 31000.0},
+                                        {måned: "2019-08", sum: 31000.0},
+                                        {måned: "2019-09", sum: 31000.0},
+                                        {måned: "2019-10", sum: 31000.0},
+                                        {måned: "2019-11", sum: 31000.0},
+                                        {måned: "2019-12", sum: 31000.0},
+                                    ]
+                                },
+                                bransjer: ['Sofasitting', 'TV-titting'],
+                                forskuttering: true,
+                                refusjon: true,
+                                arbeidsforhold: [{
+                                    stillingstittel: 'Potetplukker',
+                                    stillingsprosent: 100,
+                                    startdato: dayjs('2018-01-01T00:00:00.000Z')
+                                }]
+                            },
+                        ]
+                    },
                     overstyringer: [],
-                    inntektskilder: [
-                        {
-                            arbeidsgiver: 'Potetsekk AS',
-                            bransjer: ['Sofasitting', 'TV-titting'],
-                            organisasjonsnummer: '987654321',
-                            månedsinntekt: 31000,
-                            årsinntekt: 372000,
-                            refusjon: true,
-                            forskuttering: true,
-                            arbeidsforhold: [],
-                        },
-                    ],
                     aktivitetslog: ['Aktivitetsloggvarsel'],
                     sykepengegrunnlag: {
                         arbeidsgivernavn: 'Potetsekk AS',
@@ -590,7 +642,7 @@ export const mappetPersonObject: Person = {
                         avviksprosent: 0,
                         sykepengegrunnlag: 372000,
                     },
-                    risikovurdering: { funn: [], kontrollertOk: [] },
+                    risikovurdering: {funn: [], kontrollertOk: []},
                     simuleringsdata: {
                         totalbeløp: 9999,
                         perioder: [
