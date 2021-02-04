@@ -1,10 +1,11 @@
 import { Inntektsgrunnlag } from 'internal-types';
 import Inntektssammenligning from './Inntektssammenligning';
-import { Element, Undertekst } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { somPenger } from '../../../utils/locale';
 import React from 'react';
 import styled from '@emotion/styled';
 import Avvikssammenligning from './Avvikssammenligning';
+import { Divider, Kategoritittel, Kolonnetittel } from './InntekttabellKomponenter';
 
 interface InntektsgrunnlaginnholdProps {
     inntektsgrunnlag: Inntektsgrunnlag;
@@ -26,24 +27,6 @@ const Sammenligning = styled.div`
     grid-gap: 0.5rem;
     grid-column-gap: 2rem;
     margin-bottom: 4.5rem;
-`;
-
-const Divider = styled.hr`
-    border: none;
-    border-bottom: 1px solid var(--navds-color-text-primary);
-    grid-column-start: 1;
-    grid-column-end: 4;
-    margin: 0.25rem 0;
-`;
-
-const Kategoritittel = styled(Element)`
-    color: var(--navds-color-text-primary);
-    margin-bottom: 1rem;
-`;
-
-const Kolonnetittel = styled(Undertekst)`
-    margin-left: 0.25rem;
-    color: var(--navds-color-text-primary);
 `;
 
 const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag }: InntektsgrunnlaginnholdProps) => (

@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { Kilde } from '../../../components/Kilde';
 import { Inntektskildetype, OmregnetÅrsinntekt, Sammenligningsgrunnlag } from 'internal-types';
 import { kilde } from '../../../utils/inntektskilde';
+import { ArbeidsgiverRad, InntektMedKilde } from './InntekttabellKomponenter';
 
 interface Props {
     arbeidsgiver: string;
@@ -12,33 +13,6 @@ interface Props {
     sammenligningsgrunnlag?: Sammenligningsgrunnlag;
     erGjeldende: boolean;
 }
-
-const InntektMedKilde = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: left;
-
-    > *:not(:last-child) {
-        margin-right: 0.5rem;
-    }
-`;
-
-type ArbeidsgiverRadProps = {
-    erGjeldende: boolean;
-};
-
-const ArbeidsgiverRad = styled.div<ArbeidsgiverRadProps>`
-    display: contents;
-
-    > * {
-        ${(props) => (props.erGjeldende ? 'background-color: var(--speil-light-hover)' : '')};
-    }
-
-    > *:not(:first-of-type) {
-        margin: 0 0 0 -2rem;
-        padding: 0 2rem;
-    }
-`;
 
 const Inntektssammenligning = ({ arbeidsgiver, omregnetÅrsinntekt, sammenligningsgrunnlag, erGjeldende }: Props) => (
     <ArbeidsgiverRad erGjeldende={erGjeldende}>
