@@ -15,7 +15,7 @@ import { Sakslinje } from './sakslinje/Sakslinje';
 import { AmplitudeProvider } from './AmplitudeContext';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
-import { Person } from 'internal-types';
+import { Person, Vedtaksperiodetilstand } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { usePerson } from '../../state/person';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
@@ -118,6 +118,19 @@ const SaksbildeContent = () => {
     if (!personTilBehandling) return <LasterSaksbilde />;
     if (!aktivVedtaksperiode) return <TomtSaksbilde person={personTilBehandling} />;
 
+    const errorMelding = (error: Error) =>
+        aktivVedtaksperiode.tilstand === Vedtaksperiodetilstand.Venter ? (
+            <Varsel type={Varseltype.Info}>
+                Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til behandling.
+            </Varsel>
+        ) : aktivVedtaksperiode.tilstand === Vedtaksperiodetilstand.Ukjent ? (
+            <Varsel type={Varseltype.Feil}>
+                Kunne ikke vise informasjon om vedtaksperioden. Dette kan skyldes manglende data.
+            </Varsel>
+        ) : (
+            <Varsel type={Varseltype.Feil}>{error.message}</Varsel>
+        );
+
     return (
         <Container className="saksbilde" data-testid="saksbilde">
             <Personlinje person={personTilBehandling} />
@@ -131,7 +144,7 @@ const SaksbildeContent = () => {
                         <Sakslinje />
                         <LoggHeader />
                     </Flex>
-                    <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Feil}>{error.message}</Varsel>}>
+                    <ErrorBoundary key={aktivVedtaksperiode.id} fallback={errorMelding}>
                         <AmplitudeProvider>
                             <Flex style={{ flex: 1 }}>
                                 <FlexColumn style={{ flex: 1 }}>

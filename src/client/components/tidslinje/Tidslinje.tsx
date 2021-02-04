@@ -57,7 +57,10 @@ export const Tidslinje = React.memo(({ person, aktivVedtaksperiode }: Props) => 
             undefined
         );
 
-    const onSelectPeriode = (periode: Periode) => setAktivVedtaksperiode(periode.id!);
+    const onSelectPeriode = (periode: Periode) => {
+        console.log(periode);
+        setAktivVedtaksperiode(periode.id!);
+    };
 
     const startDato = utsnitt[aktivtUtsnitt].fom;
     const sluttDato = utsnitt[aktivtUtsnitt].tom;

@@ -69,7 +69,7 @@ export const Sakslinje = () => {
                 </TabLink>
             </TabList>
             <Verktøylinje />
-            <Infolinje vedtaksperiode={aktivVedtaksperiode} />
+            {aktivVedtaksperiode && <Infolinje vedtaksperiode={aktivVedtaksperiode} />}
         </Container>
     );
 };

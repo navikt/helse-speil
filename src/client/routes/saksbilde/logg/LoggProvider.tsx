@@ -10,17 +10,23 @@ import {
 } from '@navikt/helse-frontend-logg';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
+import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];
 }
 
 export const LoggProvider = ({ children }: LoggProviderProps) => {
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
+    const aktivVedtaksperiode = useAktivVedtaksperiode() as Vedtaksperiode | UfullstendigVedtaksperiode;
 
-    const dokumenter = mapDokumenter(aktivVedtaksperiode);
-    const overstyringer = mapOverstyringer(aktivVedtaksperiode);
-    const godkjenninger = mapGodkjenninger(aktivVedtaksperiode);
+    const erFullstendig = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean => !!periode?.kanVelges;
+
+    const dokumenter =
+        (erFullstendig(aktivVedtaksperiode) && mapDokumenter(aktivVedtaksperiode as Vedtaksperiode)) || [];
+    const overstyringer =
+        (erFullstendig(aktivVedtaksperiode) && mapOverstyringer(aktivVedtaksperiode as Vedtaksperiode)) || [];
+    const godkjenninger =
+        (erFullstendig(aktivVedtaksperiode) && mapGodkjenninger(aktivVedtaksperiode as Vedtaksperiode)) || [];
 
     const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger].sort(hendelsesorterer).map(tilEksternType);
 

@@ -17,7 +17,7 @@ export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeper
     fom: vedtaksperiode.fom.toDate(),
     tom: vedtaksperiode.tom.toDate(),
     status: status(vedtaksperiode.tilstand, vedtaksperiode.automatiskBehandlet),
-    disabled: !vedtaksperiode.kanVelges,
+    disabled: false,
     hoverLabel: <HoverInfo vedtaksperiode={vedtaksperiode} />,
     infoPin: skalViseInfoPin(vedtaksperiode),
 });

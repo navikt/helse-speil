@@ -273,7 +273,7 @@ export class VedtaksperiodeBuilder {
         this.vedtaksperiode.overstyringer = this.overstyringer
             .filter((overstyring) =>
                 overstyring.overstyrteDager
-                    .map((dag) => dayjs(dag.dato))
+                    ?.map((dag) => dayjs(dag.dato))
                     .every(
                         (dato) =>
                             this.vedtaksperiode.fom?.isSameOrBefore(dato) &&

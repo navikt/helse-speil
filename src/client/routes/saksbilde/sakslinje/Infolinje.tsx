@@ -8,7 +8,7 @@ import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Tooltip } from '../../../components/Tooltip';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Undertekst } from 'nav-frontend-typografi';
-import { Vedtaksperiode } from 'internal-types';
+import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { LovdataLenke } from '../../../components/LovdataLenke';
 
@@ -35,25 +35,26 @@ const InfolinjeElement = styled(Flex)`
 `;
 
 interface InfolinjeProps {
-    vedtaksperiode?: Vedtaksperiode;
+    vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode;
 }
 
 export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
-    if (!vedtaksperiode) return null;
-
     const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT_KORT);
     const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT_KORT);
     const skjæringstidspunkt =
-        vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT_KORT) ??
+        (vedtaksperiode as Vedtaksperiode).vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT_KORT) ??
         'Ukjent skjæringstidspunkt';
-    const maksdato = vedtaksperiode.vilkår?.dagerIgjen.maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato';
-    const over67År = (vedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+    const maksdato =
+        (vedtaksperiode as Vedtaksperiode).vilkår?.dagerIgjen.maksdato?.format(NORSK_DATOFORMAT_KORT) ??
+        'Ukjent maksdato';
+    const over67År = ((vedtaksperiode as Vedtaksperiode).vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
         <InfolinjeContainer alignItems="center">
             <Strek />
             <InfolinjeElement data-tip="Arbeidsgiver">
-                <Arbeidsgiverikon /> {vedtaksperiode.inntektskilder[0].arbeidsgiver}
+                <Arbeidsgiverikon />{' '}
+                {(vedtaksperiode as Vedtaksperiode).inntektskilder?.[0].arbeidsgiver ?? 'Ukjent arbeidsgiver'}
             </InfolinjeElement>
             <InfolinjeElement data-tip="Sykmeldingsperiode">
                 <Sykmeldingsperiodeikon />

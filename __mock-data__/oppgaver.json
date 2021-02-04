@@ -279,5 +279,25 @@
             "id": "0228",
             "navn": "Nav Utland"
         }
+    },
+    {
+        "oppgavereferanse": "e3474113-1100-9999-0000-ea5d644b4a6b",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "21042662423",
+        "aktørId": "87850000962123",
+        "personinfo": {
+            "fornavn": "Elizabeth",
+            "mellomnavn": "Alexandra Mary",
+            "etternavn": "Windsor",
+            "fødselsdato": "1926-04-21",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "63b9b345-bbc1-4532-a5c6-43827f70b871",
+        "type": "OVERGANG_FRA_IT",
+        "antallVarsler": 2,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        }
     }
 ]
