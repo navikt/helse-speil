@@ -24,15 +24,15 @@ const spring: Spring = {
 };
 
 interface AnimatedToastProps {
-    key: string;
+    toastKey: string;
     containerStyles?: CSSProperties;
     className?: string;
 }
 
-export const AnimatedToast: React.FC<AnimatedToastProps> = ({ key, children, className, containerStyles }) => {
+export const AnimatedToast: React.FC<AnimatedToastProps> = ({ toastKey, children, className, containerStyles }) => {
     return (
         <motion.div
-            key={key}
+            key={`framer-${toastKey}`}
             initial={{ y: '150%', opacity: 1 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ opacity: 0 }}

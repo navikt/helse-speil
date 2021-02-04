@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { Oppgaveetikett } from './Oppgaveetikett';
 import { IkkeTildelt, Tildelt } from './tildeling';
-import { useUpdateVarsler } from '../../state/varslerState';
+import { useRemoveAlleVarsler } from '../../state/varsler';
 import { somDato } from '../../mapping/vedtaksperiode';
 import { Tabellrad } from '@navikt/helse-frontend-tabell';
 import { useEmail } from '../../state/authentication';
@@ -47,10 +47,10 @@ const SkjultLenke = styled(Link)`
 `;
 
 const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgave }) => {
-    const { fjernVarsler } = useUpdateVarsler();
+    const removeAlleVarsler = useRemoveAlleVarsler();
 
     const onNavigate = () => {
-        fjernVarsler();
+        removeAlleVarsler();
     };
 
     return (
@@ -64,9 +64,9 @@ const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgav
 };
 
 const Sakslenke: React.FunctionComponent<{ oppgave: Oppgave; skjult?: boolean }> = ({ oppgave, children }) => {
-    const { fjernVarsler } = useUpdateVarsler();
+    const removeAlleVarsler = useRemoveAlleVarsler();
     return (
-        <Link className="lenke" to={`/sykmeldingsperiode/${oppgave.aktørId}`} onClick={fjernVarsler}>
+        <Link className="lenke" to={`/sykmeldingsperiode/${oppgave.aktørId}`} onClick={removeAlleVarsler}>
             {children}
         </Link>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { toastsState } from '../state/toastsState';
+import { toastsState } from '../state/toasts';
 import { Toast } from './toasts/Toast';
 import styled from '@emotion/styled';
 import { AnimatePresence } from 'framer-motion';
@@ -23,9 +23,16 @@ export const Toasts = () => {
             <AnimatePresence>
                 {toasts.map((it) =>
                     it.timeToLiveMs !== undefined ? (
-                        <TimeoutToast {...it}>{it.message}</TimeoutToast>
+                        <TimeoutToast
+                            key={it.key}
+                            toastKey={it.key}
+                            callback={it.callback}
+                            timeToLiveMs={it.timeToLiveMs}
+                        >
+                            {it.message}
+                        </TimeoutToast>
                     ) : (
-                        <Toast key={it.key} isShowing={true}>
+                        <Toast key={it.key} toastKey={it.key} isShowing={true}>
                             {it.message}
                         </Toast>
                     )

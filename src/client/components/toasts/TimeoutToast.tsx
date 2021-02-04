@@ -2,41 +2,42 @@ import React, { CSSProperties, useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { AnimatedToast } from './AnimatedToast';
 import { ToastProps } from './Toast';
+import { useRemoveToast } from '../../state/toasts';
 
 interface TimeoutToastProps extends ToastProps {
-    key: string;
+    toastKey: string;
+    timeToLiveMs: number;
     className?: string;
     callback?: () => void;
-    timeToLiveMs?: number;
     containerStyles?: CSSProperties;
 }
 
-export const TimeoutToast = React.memo(
-    ({ key, children, timeToLiveMs, callback, className, containerStyles }: TimeoutToastProps) => {
-        const [showing, setShowing] = useState(true);
+export const TimeoutToast = ({
+    toastKey,
+    children,
+    timeToLiveMs,
+    callback,
+    className,
+    containerStyles,
+}: TimeoutToastProps) => {
+    const removeToast = useRemoveToast();
 
-        useEffect(() => {
-            let timeoutId: any;
-            if (children && !!timeToLiveMs) {
-                timeoutId = setTimeout(() => {
-                    setShowing(false);
-                    callback?.();
-                }, timeToLiveMs);
-            }
-            return () => {
-                callback?.();
-                !!timeoutId && clearTimeout(timeoutId);
-            };
-        }, [children, timeToLiveMs]);
+    const onRemove = () => {
+        callback?.();
+        removeToast(toastKey);
+    };
 
-        return (
-            <AnimatePresence onExitComplete={() => callback?.()}>
-                {showing && (
-                    <AnimatedToast key={key} containerStyles={containerStyles} className={className}>
-                        {children}
-                    </AnimatedToast>
-                )}
-            </AnimatePresence>
-        );
-    }
-);
+    useEffect(() => {
+        let timeoutId = setTimeout(onRemove, timeToLiveMs);
+        return () => {
+            clearTimeout(timeoutId);
+            onRemove();
+        };
+    }, [children, timeToLiveMs]);
+
+    return (
+        <AnimatedToast toastKey={toastKey} containerStyles={containerStyles} className={className}>
+            {children}
+        </AnimatedToast>
+    );
+};

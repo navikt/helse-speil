@@ -1,7 +1,7 @@
 import { atom, selector, useSetRecoilState } from 'recoil';
 import { Oppgave, Periodetype } from '../../types';
 import { deleteTildeling, fetchOppgaver, postTildeling } from '../io/http';
-import { useUpdateVarsler } from './varslerState';
+import { useAddVarsel, useRemoveVarsel } from './varsler';
 import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { stikkprøve } from '../featureToggles';
@@ -66,14 +66,17 @@ type TildelingError = {
     };
 };
 
-const tildelingsvarsel = (message: string) => ({ message, type: Varseltype.Advarsel });
+const tildelingskey = 'tildeling';
+
+const tildelingsvarsel = (message: string) => ({ key: tildelingskey, message: message, type: Varseltype.Advarsel });
 
 export const useTildelOppgave = () => {
-    const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
     const setTildelinger = useSetRecoilState(tildelingerState);
 
     return ({ oppgavereferanse }: Oppgave, userId: string) => {
-        fjernVarsler();
+        removeVarsel(tildelingskey);
         return postTildeling({ oppgavereferanse, userId })
             .then((response) => {
                 setTildelinger((it) => ({ ...it, [oppgavereferanse]: userId }));
@@ -85,7 +88,7 @@ export const useTildelOppgave = () => {
                     const tildeltSaksbehandler = respons.kontekst.tildeltTil;
                     if (tildeltSaksbehandler) {
                         setTildelinger((it) => ({ ...it, [oppgavereferanse]: tildeltSaksbehandler }));
-                        leggTilVarsel(
+                        addVarsel(
                             tildelingsvarsel(
                                 `${capitalizeName(extractNameFromEmail(tildeltSaksbehandler))} har allerede tatt saken.`
                             )
@@ -93,7 +96,7 @@ export const useTildelOppgave = () => {
                     }
                     return Promise.reject(tildeltSaksbehandler);
                 } else {
-                    leggTilVarsel(tildelingsvarsel('Kunne ikke tildele sak.'));
+                    addVarsel(tildelingsvarsel('Kunne ikke tildele sak.'));
                     return Promise.reject();
                 }
             });
@@ -101,18 +104,19 @@ export const useTildelOppgave = () => {
 };
 
 export const useFjernTildeling = () => {
-    const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
     const setTildelinger = useSetRecoilState(tildelingerState);
 
     return ({ oppgavereferanse }: Oppgave) => {
-        fjernVarsler();
+        removeVarsel(tildelingskey);
         return deleteTildeling(oppgavereferanse)
             .then((response) => {
                 setTildelinger((it) => ({ ...it, [oppgavereferanse]: undefined }));
                 return Promise.resolve(response);
             })
             .catch(() => {
-                leggTilVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
+                addVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
                 return Promise.reject();
             });
     };

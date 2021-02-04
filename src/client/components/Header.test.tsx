@@ -5,19 +5,19 @@ import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from './Header';
 import { RecoilRoot } from 'recoil';
-import { Varsel } from '../state/varslerState';
+import { VarselObject } from '../state/varsler';
 
-let cachedVarsel: Varsel | null = null;
+let cachedVarsel: VarselObject | null = null;
 
-jest.mock('../state/varslerState', () => ({
+jest.mock('../state/varsler', () => ({
     __esModule: true,
     Scopes: { GLOBAL: '/' },
-    useUpdateVarsler: () => ({
-        fjernVarsler: () => {},
-        leggTilVarsel: (varsel: Varsel) => {
-            cachedVarsel = varsel;
-        },
-    }),
+    useAddVarsel: () => (varsel: VarselObject) => {
+        cachedVarsel = varsel;
+    },
+    useRemoveVarsel: () => (_: string) => {
+        cachedVarsel = null;
+    },
 }));
 
 afterEach(() => {

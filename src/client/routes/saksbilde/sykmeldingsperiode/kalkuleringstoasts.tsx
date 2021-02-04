@@ -1,5 +1,5 @@
 import React from 'react';
-import { ToastObject } from '../../../state/toastsState';
+import { ToastObject } from '../../../state/toasts';
 import styled from '@emotion/styled';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 

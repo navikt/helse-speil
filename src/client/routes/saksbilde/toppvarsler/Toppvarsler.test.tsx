@@ -84,7 +84,7 @@ describe('Toppvarsler', () => {
         render(<Toppvarsler vedtaksperiode={periode} />);
         expect(screen.getByText('Perioden er automatisk godkjent')).toBeVisible();
     });
-    test('viser varsler fra aktivitetsloggen', () => {
+    test('viser varslerState fra aktivitetsloggen', () => {
         const periode = {
             ...mappetVedtaksperiode(),
             aktivitetslog: ['Dette er en aktivitet', 'Dette er også en aktivitet'],

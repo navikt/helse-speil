@@ -3,18 +3,16 @@ import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
 import Panel from 'nav-frontend-paneler';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Scopes, useVarselFilter } from '../../state/varslerState';
+import { Scopes, useVarselFilter } from '../../state/varsler';
 import { OppgaverTabell } from './OppgaverTabell';
 import { Tabs, tabState } from './tabs';
-import { Toast } from '../../components/toasts/Toast';
-import { VedtaksstatusBanner } from '../../components/VedtaksstatusBanner';
 import { useDebounce } from '../../hooks/useDebounce';
 import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { useEmail } from '../../state/authentication';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 import { Oppgave } from '../../../types';
 import { personState } from '../../state/person';
-import { useAddToast, useRemoveToast } from '../../state/toastsState';
+import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { nanoid } from 'nanoid';
 
 const Container = styled.div`
@@ -99,7 +97,6 @@ export const Oversikt = () => {
 
     return (
         <Container>
-            <VedtaksstatusBanner />
             {oppgaver.state === 'hasError' && (
                 <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
             )}

@@ -1,0 +1,73 @@
+import { atom, selector, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+
+export const Scopes = {
+    GLOBAL: undefined,
+    OVERSIKT: '/',
+    SAKSBILDE: '/*',
+};
+
+export interface VarselObject {
+    key: string;
+    type: Varseltype;
+    message: string;
+    scope?: string;
+    technical?: string;
+    ephemeral?: boolean;
+}
+
+export const varslerState = atom<VarselObject[]>({
+    key: 'varslerState',
+    default: [],
+});
+
+export const varselFilterState = atom<string | undefined>({
+    key: 'varselFilter',
+    default: Scopes.GLOBAL,
+});
+
+export const varslerForScope = selector({
+    key: 'varslerForScope',
+    get: ({ get }) => {
+        const varselFilter = get(varselFilterState);
+        const varsler = get(varslerState);
+        return varsler.filter(({ scope }) => scope === undefined || scope === varselFilter);
+    },
+});
+
+export const useVarselFilter = (scope?: string) => {
+    const setVarselFilter = useSetRecoilState(varselFilterState);
+
+    useEffect(() => {
+        setVarselFilter(scope);
+    }, []);
+};
+
+export const useAddVarsel = () => {
+    const setVarsler = useSetRecoilState(varslerState);
+
+    return (varsel: VarselObject) => {
+        setVarsler((varsler) => [...varsler.filter((it) => it.key !== varsel.key), varsel]);
+    };
+};
+
+export const useRemoveVarsel = () => {
+    const setVarsler = useSetRecoilState(varslerState);
+
+    return (key: string) => {
+        setVarsler((varsler) => varsler.filter((it) => it.key !== key));
+    };
+};
+
+export const useAddEphemeralVarsel = () => {
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
+
+    return (varsel: VarselObject, timeToLiveMs: number) => {
+        addVarsel({ ...varsel, ephemeral: true });
+        setTimeout(() => removeVarsel(varsel.key), timeToLiveMs);
+    };
+};
+
+export const useRemoveAlleVarsler = () => useResetRecoilState(varslerState);

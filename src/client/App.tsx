@@ -17,7 +17,7 @@ import { hot } from 'react-hot-loader';
 import 'reset-css';
 import './App.less';
 import { Toasts } from './components/Toasts';
-import { useAddToast, useRemoveToast } from './state/toastsState';
+import { useAddToast, useRemoveToast } from './state/toasts';
 import { nanoid } from 'nanoid';
 
 const Opptegnelse = React.lazy(() => import('./routes/saksbilde/Opptegnelse'));
@@ -54,9 +54,11 @@ const useHenterPersonToast = (isLoading: boolean) => {
 };
 
 const App = () => {
+    const isLoading = useIsLoadingPerson();
+    useHenterPersonToast(isLoading);
+
     useAuthentication();
     usePollEtterOpptegnelser();
-    useHenterPersonToast(useIsLoadingPerson());
 
     return (
         <>

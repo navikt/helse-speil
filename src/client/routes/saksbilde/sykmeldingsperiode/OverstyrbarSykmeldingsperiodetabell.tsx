@@ -17,7 +17,7 @@ import { Tabell } from '@navikt/helse-frontend-tabell';
 import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { FormProvider, useForm } from 'react-hook-form';
 import { postOverstyring } from '../../../io/http';
-import { useRemoveToast, useAddToast } from '../../../state/toastsState';
+import { useRemoveToast, useAddToast } from '../../../state/toasts';
 import { kalkulererToastKey, kalkulererToast, kalkuleringFerdigToast } from './kalkuleringstoasts';
 import { OverstyrtDagDTO } from '../../../io/types';
 import { useOverstyrteDager } from './useOverstyrteDager';

@@ -6,13 +6,11 @@ import { Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
 import { Link, useHistory } from 'react-router-dom';
 import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
-import { Scopes, useUpdateVarsler } from '../state/varslerState';
+import { useAddVarsel, useRemoveVarsel } from '../state/varsler';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { InternalHeader, InternalHeaderTitle, InternalHeaderUser } from '@navikt/ds-react';
 import { useHentPerson } from '../state/person';
 import { Person } from 'internal-types';
-import { ToastObject, useAddToast, useRemoveToast } from '../state/toastsState';
-import { nanoid } from 'nanoid';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -38,31 +36,37 @@ const Container = styled.div`
     }
 `;
 
-let toasts: ToastObject[] = [];
-
 export const Header = () => {
-    const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
-    const { name, ident, isLoggedIn } = useRecoilValue(authState);
     const history = useHistory();
     const hentPerson = useHentPerson();
+    const removeVarsel = useRemoveVarsel();
+    const addVarsel = useAddVarsel();
 
-    const addToast = useAddToast();
-    const removeToast = useRemoveToast();
+    const { name, ident, isLoggedIn } = useRecoilValue(authState);
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
     const onSøk = (personId: string) => {
-        fjernVarsler();
+        const key = 'ugyldig-søk';
+        removeVarsel(key);
         if (!erGyldigPersonId(personId)) {
-            leggTilVarsel({
-                message: `"${personId}" er verken en gyldig aktør-ID/fødselsnummer.`,
-                scope: Scopes.GLOBAL,
+            addVarsel({
+                key: key,
+                message: `"${personId}" er ikke en gyldig aktør-ID/fødselsnummer.`,
                 type: Varseltype.Feil,
             });
         } else {
-            hentPerson(personId).then(
-                (res: { person?: Person }) => res.person && history.push(`/person/${res.person.aktørId}/utbetaling`)
-            );
+            hentPerson(personId)
+                .then(
+                    (res: { person?: Person }) => res.person && history.push(`/person/${res.person.aktørId}/utbetaling`)
+                )
+                .catch((err) =>
+                    addVarsel({
+                        key: key,
+                        message: err.message,
+                        type: Varseltype.Feil,
+                    })
+                );
         }
         return Promise.resolve();
     };
@@ -74,23 +78,6 @@ export const Header = () => {
                     <Link to="/">NAV Sykepenger</Link>
                 </InternalHeaderTitle>
                 <Søk onSøk={onSøk} />
-                <button
-                    onClick={() => {
-                        const toast = { key: nanoid(), message: nanoid() };
-                        toasts.push(toast);
-                        addToast(toast);
-                    }}
-                >
-                    Legg til toast
-                </button>
-                <button
-                    onClick={() => {
-                        const toast = toasts.splice(Math.floor(Math.random() * toasts.length), 1).pop();
-                        toast && removeToast(toast.key);
-                    }}
-                >
-                    Fjern toast
-                </button>
                 <InternalHeaderUser name={brukerinfo.navn} ident={brukerinfo.ident} />
             </InternalHeader>
         </Container>

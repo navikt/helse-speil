@@ -1,28 +1,67 @@
 import React from 'react';
 import { Varsel } from '@navikt/helse-frontend-varsel';
 import { useRecoilValue } from 'recoil';
-import { varslerForScope } from '../state/varslerState';
+import { VarselObject, varslerForScope } from '../state/varsler';
 import styled from '@emotion/styled';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Separator = styled.span`
     margin-left: 1rem;
     margin-right: 1rem;
 `;
 
-export const Varsler = () => (
-    <>
-        {useRecoilValue(varslerForScope)
-            .filter((it) => it)
-            .map(({ type, message, technical }) => (
-                <Varsel type={type}>
-                    {message}
-                    {technical && (
-                        <>
-                            <Separator>|</Separator>
-                            {technical}
-                        </>
-                    )}
-                </Varsel>
-            ))}
-    </>
+const Container = styled.div`
+    position: relative;
+    height: max-content;
+    width: 100vw;
+    z-index: 1000;
+`;
+
+const EphemeralContainer = styled.div`
+    position: absolute;
+    overflow-y: hidden;
+    width: 100vw;
+`;
+
+const TechnicalVarsel = ({ type, message, technical }: VarselObject) => (
+    <Varsel type={type}>
+        {message}
+        {technical && (
+            <>
+                <Separator>|</Separator>
+                {technical}
+            </>
+        )}
+    </Varsel>
 );
+
+export const Varsler = () => {
+    const varsler = useRecoilValue(varslerForScope).filter((it) => it);
+    const constant = varsler.filter((it) => !it.ephemeral);
+    const ephemeral = varsler.filter((it) => it.ephemeral);
+    return (
+        <Container>
+            {constant.map(({ key, type, message, technical }) => (
+                <TechnicalVarsel key={key} type={type} message={message} technical={technical} />
+            ))}
+            <EphemeralContainer>
+                <AnimatePresence>
+                    {ephemeral.map(({ key, type, message, technical }) => (
+                        <motion.div
+                            key={key}
+                            initial={{ y: -100 }}
+                            animate={{ y: 0 }}
+                            exit={{ y: -100 }}
+                            transition={{
+                                type: 'tween',
+                                ease: 'easeInOut',
+                            }}
+                        >
+                            <TechnicalVarsel key={key} type={type} message={message} technical={technical} />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
+            </EphemeralContainer>
+        </Container>
+    );
+};

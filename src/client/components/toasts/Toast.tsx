@@ -1,13 +1,12 @@
 import React, { ReactNode } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import { AnimatedToast } from './AnimatedToast';
 
 export interface ToastProps {
-    key: string;
+    toastKey: string;
     children: ReactNode | ReactNode[];
     isShowing?: boolean;
 }
 
-export const Toast = ({ key, children, isShowing }: ToastProps) => (
-    <>{isShowing && <AnimatedToast key={key}>{children}</AnimatedToast>}</>
+export const Toast = ({ toastKey, children, isShowing }: ToastProps) => (
+    <>{isShowing && <AnimatedToast toastKey={toastKey}>{children}</AnimatedToast>}</>
 );

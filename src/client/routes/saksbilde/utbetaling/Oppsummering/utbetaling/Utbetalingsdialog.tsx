@@ -6,14 +6,16 @@ import { Error } from '../../../../../../types';
 import { Avvisningsmodal } from './modal/Avvisningsmodal';
 import { Utbetalingsmodal } from './modal/Utbetalingsmodal';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { useRemoveToast, useAddToast } from '../../../../../state/toastsState';
-import { vedtaksstatusToast, vedtaksstatusToastKey } from '../../../../oversikt/VedtaksstatusToast';
+import { useAddToast } from '../../../../../state/toasts';
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
 import { AmplitudeContext } from '../../../AmplitudeContext';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { usePerson } from '../../../../../state/person';
 import { useSetRecoilState } from 'recoil';
 import { opptegnelsePollingTimeState } from '../../../../../state/opptegnelser';
+import { Scopes, useAddEphemeralVarsel } from '../../../../../state/varsler';
+import { nanoid } from 'nanoid';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 enum Modalvisning {
     Godkjenning,
@@ -56,17 +58,34 @@ const Knapper = styled.div`
 `;
 
 const useVedtakstoast = () => {
-    const fjernEnToast = useRemoveToast();
-    const leggtilEnToast = useAddToast();
-    const fjernVedtakstoast = () => fjernEnToast(vedtaksstatusToastKey);
+    const timeToLiveMs = 5000;
+    const addVarsel = useAddEphemeralVarsel();
 
-    const leggTilUtbetalingstoast = () =>
-        leggtilEnToast(vedtaksstatusToast('Utbetalingen er sendt til oppdragsystemet.', fjernVedtakstoast));
+    const addUtbetalingstoast = () => {
+        addVarsel(
+            {
+                key: nanoid(),
+                message: 'Utbetalingen er sendt til oppdragssystemet.',
+                type: Varseltype.Suksess,
+                scope: Scopes.GLOBAL,
+            },
+            timeToLiveMs
+        );
+    };
 
-    const leggTilInfotrygdtoast = () =>
-        leggtilEnToast(vedtaksstatusToast('Saken er sendt til behandling i Infotrygd.', fjernVedtakstoast));
+    const addInfotrygdtoast = () => {
+        addVarsel(
+            {
+                key: nanoid(),
+                message: 'Saken er sendt til behandling i Infotrygd.',
+                type: Varseltype.Suksess,
+                scope: Scopes.GLOBAL,
+            },
+            timeToLiveMs
+        );
+    };
 
-    return { leggTilUtbetalingstoast, leggTilInfotrygdtoast };
+    return { addUtbetalingstoast: addUtbetalingstoast, addInfotrygdtoast: addInfotrygdtoast };
 };
 
 interface UtbetalingsdialogProps {
@@ -76,7 +95,7 @@ interface UtbetalingsdialogProps {
 export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) => {
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
-    const { leggTilUtbetalingstoast, leggTilInfotrygdtoast } = useVedtakstoast();
+    const { addUtbetalingstoast, addInfotrygdtoast } = useVedtakstoast();
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [modalvisning, setModalvisning] = useState<Modalvisning | undefined>();
@@ -98,17 +117,21 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
         postUtbetalingsgodkjenning(vedtaksperiode.oppgavereferanse, personTilBehandling.aktørId)
             .then(() => {
                 logOppgaveGodkjent();
-                leggTilUtbetalingstoast();
+                addUtbetalingstoast();
                 if (vedtaksperiode.erNyeste) {
                     history.push('/');
                 } else {
                     lukkModal();
+                    setIsSending(false);
                     postAbonnerPåAktør(personTilBehandling.aktørId).then(() => {
                         setOpptegnelsePollingTime(1000);
                     });
                 }
             })
-            .catch(onError);
+            .catch((error) => {
+                onError(error);
+                setIsSending(false);
+            });
     };
 
     const avvisUtbetaling = (skjema: Avvisningsskjema) => {
@@ -120,10 +143,13 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
         postSendTilInfotrygd(vedtaksperiode.oppgavereferanse, personTilBehandling.aktørId, skjema)
             .then(() => {
                 logOppgaveForkastet(begrunnelser);
-                leggTilInfotrygdtoast();
+                addInfotrygdtoast();
                 history.push('/');
             })
-            .catch(onError);
+            .catch((error) => {
+                setIsSending(false);
+                onError(error);
+            });
     };
 
     return (

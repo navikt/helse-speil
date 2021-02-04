@@ -1,51 +1,43 @@
 import React, { useContext } from 'react';
-import { PersonoppdateringDTO } from '../../../io/types';
 import { postForespørPersonoppdatering } from '../../../io/http';
-import { Scopes, useUpdateVarsler, Varsel } from '../../../state/varslerState';
+import { Scopes, useAddVarsel, useRemoveVarsel } from '../../../state/varsler';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { DropdownContext } from '../../../components/Dropdown';
 import { DropdownMenyknapp } from './Verktøylinje';
 import { usePerson } from '../../../state/person';
 import { Person } from 'internal-types';
 
-const forespørPersonoppdatering = (
-    oppdatering: PersonoppdateringDTO,
-    varsel: (varsel: Varsel) => void,
-    fjernVarsel: () => void,
-    lukk: () => void
-) => {
-    fjernVarsel();
-    postForespørPersonoppdatering(oppdatering)
-        .then(() => {
-            varsel({
-                message:
-                    'Opplysningene om personen vil bli oppdatert. Dette kan ta noe tid og du må oppdatere skjermbildet (F5) for å se resultatet.',
-                type: Varseltype.Info,
-                scope: Scopes.SAKSBILDE,
-            });
-        })
-        .catch(() => {
-            varsel({
-                message: 'Personoppdatering feilet. Prøv igjen om litt.',
-                type: Varseltype.Feil,
-                scope: Scopes.SAKSBILDE,
-            });
-        })
-        .finally(lukk);
-};
+const personoppdateringvarselKey = 'personoppdatering';
+
+const personoppdateringvarsel = (message: string, type: Varseltype) => ({
+    key: personoppdateringvarselKey,
+    message: message,
+    type: type,
+    scope: Scopes.SAKSBILDE,
+});
 
 export const OppdaterPersondata = () => {
     const person = usePerson() as Person;
-    const { leggTilVarsel, fjernVarsler } = useUpdateVarsler();
+    const addVarsel = useAddVarsel();
+    const removeVarsel = useRemoveVarsel();
     const { lukk } = useContext(DropdownContext);
 
-    return (
-        <DropdownMenyknapp
-            onClick={() =>
-                forespørPersonoppdatering({ fødselsnummer: person.fødselsnummer }, leggTilVarsel, fjernVarsler, lukk)
-            }
-        >
-            Oppdater persondata
-        </DropdownMenyknapp>
-    );
+    const forespørPersonoppdatering = () => {
+        removeVarsel(personoppdateringvarselKey);
+        postForespørPersonoppdatering({ fødselsnummer: person.fødselsnummer })
+            .then(() => {
+                addVarsel(
+                    personoppdateringvarsel(
+                        'Opplysningene om personen vil bli oppdatert. Dette kan ta noe tid og du må oppdatere skjermbildet (F5) for å se resultatet.',
+                        Varseltype.Info
+                    )
+                );
+            })
+            .catch(() => {
+                addVarsel(personoppdateringvarsel('Personoppdatering feilet. Prøv igjen om litt.', Varseltype.Feil));
+            })
+            .finally(lukk);
+    };
+
+    return <DropdownMenyknapp onClick={forespørPersonoppdatering}>Oppdater persondata</DropdownMenyknapp>;
 };
