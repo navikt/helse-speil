@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { Inntektsgrunnlag } from 'internal-types';
 import { Kilde } from '../../../components/Kilde';
 import { kilde } from '../../../utils/inntektskilde';
-import { ArbeidsgiverRad, Divider, InntektMedKilde, Kategoritittel, Kolonnetittel } from './InntekttabellKomponenter';
+import { ArbeidsgiverRad, InntektMedKilde, Kategoritittel, Kolonnetittel } from './InntekttabellKomponenter';
 
 interface SykepengegrunnlagInfotrygdProps {
     inntektsgrunnlag: Inntektsgrunnlag;
@@ -30,8 +30,16 @@ const Sammenligning = styled.div`
     margin-bottom: 4.5rem;
 `;
 
+export const Divider = styled.hr`
+    border: none;
+    border-bottom: 1px solid var(--navds-color-text-primary);
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 0.25rem 0;
+`;
+
 const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: SykepengegrunnlagInfotrygdProps) => (
-    <>
+    <div>
         <Sammenligning>
             <div />
             <Kategoritittel>Inntektsgrunnlag</Kategoritittel>
@@ -63,7 +71,7 @@ const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: Sykepengegr
             <Element>Sykepengegrunnlag</Element>
             <Element>{somPenger(inntektsgrunnlag.sykepengegrunnlag as number | undefined)}</Element>
         </Oppsummering>
-    </>
+    </div>
 );
 
 export default SykepengegrunnlagInfotrygd;

@@ -8,7 +8,7 @@ const AZURE_PATH = '/var/run/secrets/nais.io/azure';
 
 const readAzureCredential = (name: string): string => {
     try {
-        return fs.readFileSync(`${AZURE_PATH}/${name}`, { encoding: 'UTF-8', flag: 'r' });
+        return fs.readFileSync(`${AZURE_PATH}/${name}`, { encoding: 'utf-8', flag: 'r' });
     } catch (e) {
         console.warn(`Fant ikke ${name} i ${AZURE_PATH}, defaulter til 'unknown'`);
         return 'unknown';

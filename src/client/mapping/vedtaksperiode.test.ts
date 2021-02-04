@@ -8,9 +8,9 @@ import {
     somTidspunkt,
     VedtaksperiodeBuilder,
 } from './vedtaksperiode';
-import {ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT} from '../utils/date';
-import {umappetArbeidsgiver} from '../../test/data/arbeidsgiver';
-import {mappetVedtaksperiode, umappetVedtaksperiode} from '../../test/data/vedtaksperiode';
+import { ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
+import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
+import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
 import {
     Dagtype,
     Inntektsgrunnlag,
@@ -21,15 +21,13 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
-import {mappetSimuleringsdata} from '../../test/data/simulering';
-import {umappetOverstyring} from '../../test/data/overstyring';
+import { mappetSimuleringsdata } from '../../test/data/simulering';
+import { umappetOverstyring } from '../../test/data/overstyring';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import {SpesialistInntektkilde, SpesialistPerson} from 'external-types';
-import {
-    umappetInntektsgrunnlag,
-} from '../../test/data/inntektsgrunnlag';
+import { SpesialistInntektkilde, SpesialistPerson } from 'external-types';
+import { umappetInntektsgrunnlag } from '../../test/data/inntektsgrunnlag';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
@@ -85,7 +83,6 @@ describe('VedtaksperiodeBuilder', () => {
         });
     });
     test('bygger vedtaksperiode', () => {
-
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
             .setArbeidsgiver(umappetArbeidsgiver())
             .setVedtaksperiode(umappetVedtaksperiode())
@@ -208,13 +205,12 @@ describe('VedtaksperiodeBuilder', () => {
         expect(inntekt.omregnetÅrsinntekt?.kilde).toEqual(Inntektskildetype.Infotrygd);
         expect(inntekt.omregnetÅrsinntekt?.inntekterFraAOrdningen).toBeUndefined();
         expect(inntekt.sammenligningsgrunnlag).toBeUndefined();
-        expect(inntekt.bransjer).toEqual(["Sofasitting", "TV-titting"])
-        expect(inntekt.refusjon).toEqual(true)
-        expect(inntekt.forskuttering).toEqual(true)
-        expect(inntekt.arbeidsforhold).toHaveLength(0)
+        expect(inntekt.bransjer).toEqual(['Sofasitting', 'TV-titting']);
+        expect(inntekt.refusjon).toEqual(true);
+        expect(inntekt.forskuttering).toEqual(true);
+        expect(inntekt.arbeidsforhold).toHaveLength(0);
     });
 
-    // TODO: dis is okay?
     test('mapper inntektsgrunnlag inntektsmelding', () => {
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
             .setVedtaksperiode(umappetVedtaksperiode())
@@ -249,9 +245,9 @@ describe('VedtaksperiodeBuilder', () => {
         expect(inntekt.sammenligningsgrunnlag?.beløp).toEqual(372000);
         expect(inntekt.sammenligningsgrunnlag?.inntekterFraAOrdningen).toHaveLength(12);
         expect(inntekt.sammenligningsgrunnlag?.inntekterFraAOrdningen[0].sum).toEqual(31000);
-        expect(inntekt.bransjer).toEqual(["Sofasitting", "TV-titting"])
-        expect(inntekt.refusjon).toEqual(true)
-        expect(inntekt.forskuttering).toEqual(true)
-        expect(inntekt.arbeidsforhold).toHaveLength(0)
+        expect(inntekt.bransjer).toEqual(['Sofasitting', 'TV-titting']);
+        expect(inntekt.refusjon).toEqual(true);
+        expect(inntekt.forskuttering).toEqual(true);
+        expect(inntekt.arbeidsforhold).toHaveLength(0);
     });
 });

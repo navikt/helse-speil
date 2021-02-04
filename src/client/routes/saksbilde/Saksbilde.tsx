@@ -118,18 +118,37 @@ const SaksbildeContent = () => {
     if (!personTilBehandling) return <LasterSaksbilde />;
     if (!aktivVedtaksperiode) return <TomtSaksbilde person={personTilBehandling} />;
 
-    const errorMelding = (error: Error) =>
-        aktivVedtaksperiode.tilstand === Vedtaksperiodetilstand.Venter ? (
-            <Varsel type={Varseltype.Info}>
-                Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til behandling.
-            </Varsel>
-        ) : aktivVedtaksperiode.tilstand === Vedtaksperiodetilstand.Ukjent ? (
-            <Varsel type={Varseltype.Feil}>
-                Kunne ikke vise informasjon om vedtaksperioden. Dette kan skyldes manglende data.
-            </Varsel>
-        ) : (
-            <Varsel type={Varseltype.Feil}>{error.message}</Varsel>
-        );
+    const errorMelding = (error: Error) => {
+        switch (aktivVedtaksperiode.tilstand) {
+            case Vedtaksperiodetilstand.Venter:
+                return (
+                    <Varsel type={Varseltype.Info}>
+                        Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til
+                        behandling.
+                    </Varsel>
+                );
+            case Vedtaksperiodetilstand.KunFerie:
+                return (
+                    <Varsel type={Varseltype.Info}>
+                        Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun ferie.
+                    </Varsel>
+                );
+            case Vedtaksperiodetilstand.IngenUtbetaling:
+                return (
+                    <Varsel type={Varseltype.Info}>
+                        Kunne ikke vise informasjon om vedtaksperioden. Perioden har ingen utbetaling.
+                    </Varsel>
+                );
+            case Vedtaksperiodetilstand.Ukjent:
+                return (
+                    <Varsel type={Varseltype.Feil}>
+                        Kunne ikke vise informasjon om vedtaksperioden. Dette kan skyldes manglende data.
+                    </Varsel>
+                );
+            default:
+                return <Varsel type={Varseltype.Feil}>{error.message}</Varsel>;
+        }
+    };
 
     return (
         <Container className="saksbilde" data-testid="saksbilde">

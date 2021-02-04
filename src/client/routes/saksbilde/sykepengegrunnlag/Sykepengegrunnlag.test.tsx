@@ -1,27 +1,28 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import {Sykepengegrunnlag} from './Sykepengegrunnlag';
-import {mappetPerson, mappetVedtaksperiode} from 'test-data';
+import { Sykepengegrunnlag } from './Sykepengegrunnlag';
+import { mappetPerson, mappetVedtaksperiode } from 'test-data';
 import '../../../tekster';
-import {Periodetype} from 'internal-types';
-import {mappetInntektsgrunnlag, umappetInntektsgrunnlag} from '../../../../test/data/inntektsgrunnlag'
-import {SpesialistInntektkilde} from "external-types";
+import { Periodetype } from 'internal-types';
+import { mappetInntektsgrunnlag, umappetInntektsgrunnlag } from '../../../../test/data/inntektsgrunnlag';
+import { SpesialistInntektkilde } from 'external-types';
 
 const enPerson = mappetPerson();
 const enVedtaksperiodeIM = mappetVedtaksperiode();
-const enVedtaksperiodeIT = mappetVedtaksperiode(undefined, undefined, undefined, [umappetInntektsgrunnlag(SpesialistInntektkilde.Infotrygd)]);
+const enVedtaksperiodeIT = mappetVedtaksperiode(undefined, undefined, undefined, [
+    umappetInntektsgrunnlag(SpesialistInntektkilde.Infotrygd),
+]);
 
 const expectContainsStandardFields = () => {
     expect(screen.queryByText('Inntekt')).toBeVisible();
     expect(screen.queryByText('Fra Inntektsmelding')).toBeVisible();
 };
 
-// TODO: revurder etter avklaring fra Nina på skisser 
 const expectContainsStandardFieldsInfotrygd = () => {
     expect(screen.queryByText('Sykepengegrunnlag satt i Infotrygd')).toBeVisible();
     expect(screen.queryByText('Inntekt')).toBeVisible();
-    expect(screen.queryByText('Inntektsgrunnlag')).toBeNull();
+    expect(screen.queryByText('Inntektsgrunnlag')).toBeVisible();
     expect(screen.queryByText('Sammenligningsgrunnlag')).toBeNull();
 };
 

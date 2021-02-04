@@ -22,7 +22,7 @@ describe('ArbeidsgiverBuilder', () => {
         const { arbeidsgiver } = new ArbeidsgiverBuilder()
             .addPerson(person)
             .addArbeidsgiver(arbeidsgiverMedToVedtaksperioder)
-            .addInntektsgrunnlag([umappetInntektsgrunnlag])
+            .addInntektsgrunnlag([umappetInntektsgrunnlag()])
             .build();
 
         expect(arbeidsgiver?.vedtaksperioder?.[0].erNyeste).toBeTruthy();
