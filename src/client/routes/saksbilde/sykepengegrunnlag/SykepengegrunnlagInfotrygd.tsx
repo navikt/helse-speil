@@ -1,7 +1,7 @@
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { somPenger } from '../../../utils/locale';
 import React from 'react';
 import styled from '@emotion/styled';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { somPenger } from '../../../utils/locale';
 import { Inntektsgrunnlag } from 'internal-types';
 import { Kilde } from '../../../components/Kilde';
 import { kilde } from '../../../utils/inntektskilde';
@@ -44,7 +44,7 @@ const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: Sykepengegr
             <div />
             <Kategoritittel>Inntektsgrunnlag</Kategoritittel>
             <Kolonnetittel>Inntektskilde</Kolonnetittel>
-            <Kolonnetittel>Omregnet årsinntekt</Kolonnetittel>
+            <Kolonnetittel>Sykepengegrunnlag før 6G</Kolonnetittel>
             {inntektsgrunnlag.inntekter.map((inntekt, index) => (
                 <ArbeidsgiverRad
                     key={index}

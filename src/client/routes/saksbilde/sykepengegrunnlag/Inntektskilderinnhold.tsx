@@ -110,7 +110,11 @@ const Inntektskilderinnhold = ({ inntektskilde }: InntektskilderinnholdProps) =>
                 </HeaderContainer>
                 <Tabell>
                     <Kolonnetittel>{t('inntektskilder.månedsinntekt')}</Kolonnetittel>
-                    <Kolonnetittel>{t('inntektskilder.årsinntekt')}</Kolonnetittel>
+                    <Kolonnetittel>
+                        {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
+                            ? t('inntektskilder.sykepengegrunnlag')
+                            : t('inntektskilder.årsinntekt')}
+                    </Kolonnetittel>
                     <Element>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Element>
                     <Element>{somPenger(omregnetÅrsinntekt?.beløp)}</Element>
                 </Tabell>

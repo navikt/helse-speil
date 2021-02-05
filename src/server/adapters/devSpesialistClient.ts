@@ -111,7 +111,7 @@ const filenameForPersonId = (id: string) => {
             return 'marius-borg-høiby_stikkprøve.json';
         case '87850000962123':
         case '21042662423':
-            return 'elizabeth-alexandra-mary-windsor.json'
+            return 'elizabeth-alexandra-mary-windsor.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

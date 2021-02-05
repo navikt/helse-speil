@@ -98,6 +98,6 @@ export const mappetVedtaksperiode = (
         .setOverstyringer(overstyringer)
         .setInntektsgrunnlag(inntektsgrunnlag)
         .build();
-    
+
     return vedtaksperiode as Vedtaksperiode;
 };

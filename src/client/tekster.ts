@@ -50,6 +50,7 @@ const resources: Resource = {
                 relasjon: 'Nær relasjon',
                 kilder: 'Inntektskilde som må sjekkes manuelt',
                 sjekket_ytelser: 'Ytelser som er sjekket',
+                sykepengegrunnlag: 'Sykepengegrunnlag før 6G',
                 ikke_sjekket_ytelser: 'Ytelser som må sjekkes manuelt',
                 foreldrepenger: 'Foreldrepenger',
                 svangerskapspenger: 'Svangerskapspenger',

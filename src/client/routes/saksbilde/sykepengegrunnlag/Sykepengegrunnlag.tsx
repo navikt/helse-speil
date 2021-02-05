@@ -1,14 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import {
-    Arbeidsgiverinntekt,
-    Inntektsgrunnlag,
-    Periodetype,
-    Person,
-    Sykepengegrunnlag as Sykepengegrunnlagtype,
-    Vedtaksperiode,
-} from 'internal-types';
+import { Arbeidsgiverinntekt, Inntektsgrunnlag, Periodetype, Person, Vedtaksperiode } from 'internal-types';
 import { førsteVedtaksperiode, skjæringstidspunktForPeriode } from '../../../mapping/selectors';
 import { BehandletAvInfotrygdVarsel, BehandletVarsel } from '@navikt/helse-frontend-varsel';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
@@ -54,10 +47,7 @@ interface SykepengegrunnlagFraInfogtrygdProps {
     inntekt: Arbeidsgiverinntekt;
 }
 
-const SykepengegrunnlagFraInfogtrygd = ({
-    inntektsgrunnlag,
-    inntekt,
-}: SykepengegrunnlagFraInfogtrygdProps) => (
+const SykepengegrunnlagFraInfogtrygd = ({ inntektsgrunnlag, inntekt }: SykepengegrunnlagFraInfogtrygdProps) => (
     <StyledBehandletAvInfotrygd tittel="Sykepengegrunnlag satt i Infotrygd">
         <OversiktContainer>
             <Inntektskilderinnhold inntektskilde={inntekt!} />
@@ -126,18 +116,16 @@ export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagP
                         inntektsgrunnlag={inntektsgrunnlag}
                         inntekt={arbeidsgiverinntekt!}
                     />
-                )
-
-                        : (
-                            <BehandletSykepengegrunnlag
-                                førstePeriode={førsteVedtaksperiode(vedtaksperiode, person)}
-                                skjæringstidspunkt={
-                                    skjæringstidspunktForPeriode(vedtaksperiode)?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'
-                                }
-                                inntektsgrunnlag={inntektsgrunnlag}
-                                inntektskilde={arbeidsgiverinntekt}
-                            />
-                        )}
+                ) : (
+                    <BehandletSykepengegrunnlag
+                        førstePeriode={førsteVedtaksperiode(vedtaksperiode, person)}
+                        skjæringstidspunkt={
+                            skjæringstidspunktForPeriode(vedtaksperiode)?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'
+                        }
+                        inntektsgrunnlag={inntektsgrunnlag}
+                        inntektskilde={arbeidsgiverinntekt}
+                    />
+                )}
             </AgurkErrorBoundary>
         </Sykepengegrunnlagpanel>
     );

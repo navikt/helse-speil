@@ -34,7 +34,7 @@ const enAktivitet = (
 describe('personmapper', () => {
     test('mapper person', async () => {
         const { person } = await mapPerson(umappetPerson());
-        const a = mappetPersonObject
+        const a = mappetPersonObject;
         expect(person).toEqual(mappetPersonObject);
     });
 
