@@ -9,7 +9,7 @@ import {
     Textarea,
 } from 'nav-frontend-skjema';
 import { Controller, useFormContext } from 'react-hook-form';
-import { Begrunnelse, Årsak } from '../Utbetalingsdialog';
+import { Begrunnelse, Årsak } from './Utbetalingsdialog';
 
 const Container = styled(SkjemaGruppe)`
     margin-top: 1.5rem;

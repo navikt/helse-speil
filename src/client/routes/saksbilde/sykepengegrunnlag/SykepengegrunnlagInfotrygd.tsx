@@ -16,7 +16,7 @@ const Oppsummering = styled.div`
     margin-top: 4rem;
     display: grid;
     grid-template-columns: 27rem max-content;
-}
+
     > * {
         margin-bottom: 3rem;
     }

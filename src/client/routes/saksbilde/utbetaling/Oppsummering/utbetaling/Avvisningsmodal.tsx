@@ -4,8 +4,8 @@ import { Systemtittel } from 'nav-frontend-typografi';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Avvisningsskjema, Begrunnelse, Årsak } from '../Utbetalingsdialog';
-import { Modal } from '../../../../../../components/Modal';
+import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';
+import { Modal } from '../../../../../components/Modal';
 
 const OkKnapp = styled(Hovedknapp)`
     margin-top: 2rem;
