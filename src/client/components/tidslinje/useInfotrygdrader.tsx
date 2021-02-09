@@ -4,6 +4,12 @@ import { v4 as uuid } from 'uuid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
+import { nanoid } from 'nanoid';
+import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/components/calc';
+import { TidslinjeperiodeObject } from './Tidslinje.types';
+import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
+import { Dayjs } from 'dayjs';
+import { utbetaling } from '../tabell/rader';
 
 export type UtbetalingerPerArbeidsgiver = { [organisasjonsnummer: string]: Sykepengeperiode[] };
 
@@ -51,16 +57,46 @@ const toSykepengeperiode = (infotrygdutbetaling: Infotrygdutbetaling): Sykepenge
     ),
 });
 
-export const useInfotrygdrader = (person?: Person): UtbetalingerPerArbeidsgiver =>
-    useMemo(
-        () =>
-            person?.infotrygdutbetalinger.reduce((rader: UtbetalingerPerArbeidsgiver, utbetaling) => {
-                const infotrygdtidslinje = rader[utbetaling.organisasjonsnummer];
-                const nyTidslinje =
-                    infotrygdtidslinje !== undefined
-                        ? [...infotrygdtidslinje, toSykepengeperiode(utbetaling)]
-                        : [toSykepengeperiode(utbetaling)];
-                return { ...rader, [utbetaling.organisasjonsnummer]: nyTidslinje };
-            }, {}) ?? {},
-        [person]
-    );
+interface InfotrygdperiodeObject extends PeriodObject {
+    tilstand: Vedtaksperiodetilstand;
+}
+
+type Infotrygdrader = { [arbeidsgiver: string]: InfotrygdperiodeObject[] };
+
+const hoverLabel = (infotrygdutbetaling: Infotrygdutbetaling) => (
+    <Label>
+        <Tekst>
+            {`Sykepenger (${infotrygdutbetaling.fom.format(NORSK_DATOFORMAT)} - ${infotrygdutbetaling.tom.format(
+                NORSK_DATOFORMAT
+            )})`}
+        </Tekst>
+        <Tekst>{`Type: ${infotrygdutbetaling.typetekst}`}</Tekst>
+        {infotrygdutbetaling.grad !== undefined && <Tekst>{`Grad: ${infotrygdutbetaling.grad} %`}</Tekst>}
+        {infotrygdutbetaling.dagsats !== undefined && <Tekst>{`Dagsats: ${infotrygdutbetaling.dagsats} kr`}</Tekst>}
+    </Label>
+);
+
+export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs) =>
+    useMemo(() => {
+        const infotrygdutbetalinger = person.infotrygdutbetalinger.reduce((rader: Infotrygdrader, utbetalingen) => {
+            const infotrygdtidslinje = rader[utbetalingen.organisasjonsnummer];
+            const periode = {
+                id: nanoid(),
+                start: utbetalingen.fom.toDate(),
+                end: utbetalingen.tom.toDate(),
+                tilstand: status(utbetalingen.typetekst),
+                hoverLabel: hoverLabel(utbetalingen),
+            };
+            const nyTidslinje: InfotrygdperiodeObject[] =
+                infotrygdtidslinje !== undefined ? [...infotrygdtidslinje, periode] : [periode];
+            return { ...rader, [utbetalingen.organisasjonsnummer]: nyTidslinje };
+        }, {});
+
+        return Object.entries(infotrygdutbetalinger).map(([organisasjonsnummer, perioder]) => [
+            `Infotrygd - ${
+                person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer)?.navn ??
+                organisasjonsnummer
+            }`,
+            getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
+        ]) as [string, TidslinjeperiodeObject[]][];
+    }, [person]);
