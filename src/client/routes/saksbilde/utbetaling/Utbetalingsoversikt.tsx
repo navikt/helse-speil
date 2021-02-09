@@ -4,12 +4,23 @@ import Element from 'nav-frontend-typografi/lib/element';
 import classNames from 'classnames';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { Dagtype, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
-import { dato, gradering, ikon, merknad, type, utbetaling } from '../../../components/tabell/rader';
+import { dato, gradering, ikon, merknad, totalGradering, type, utbetaling } from '../../../components/tabell/rader';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { toKronerOgØre } from '../../../utils/locale';
 import { maksdatoForPeriode } from '../../../mapping/selectors';
 
-type Utbetalingsceller = [ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode, ReactNode];
+type Utbetalingsceller = [
+    ReactNode,
+    ReactNode,
+    ReactNode,
+    ReactNode,
+    ReactNode,
+    ReactNode,
+    ReactNode,
+    ReactNode,
+    ReactNode,
+    ReactNode
+];
 
 type Utbetalingstabellrad = {
     celler: Utbetalingsceller;
@@ -43,6 +54,8 @@ const utbetalingsceller = (
     ikon(dag),
     type(dag),
     gradering(dag),
+    totalGradering(dag),
+    undefined,
     utbetaling(dag),
     dagerIgjenForDato,
     merknad(dag, merknadTekst),
@@ -99,6 +112,8 @@ const genererTotalRad = (aktivVedtaksperiode: Vedtaksperiode | undefined): Utbet
         'TOTAL',
         undefined,
         <TotalUtbetalingsdager className="dager">{antallDager} dager</TotalUtbetalingsdager>,
+        undefined,
+        undefined,
         undefined,
         <UtbetalingTotal>{`${toKronerOgØre(totalBeløp)} kr`}</UtbetalingTotal>,
         <Element>{aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager ? dagerIgjen : ''}</Element>,
@@ -167,6 +182,7 @@ export const Utbetalingsoversikt = ({ vedtaksperiode }: UtbetalingsoversiktProps
         { render: <Element>Dato</Element> },
         { render: <Element>Utbet. dager</Element>, kolonner: 2 },
         { render: <Element>Grad</Element> },
+        { render: <Element>Total grad</Element>, kolonner: 2 },
         { render: <Element>Utbetaling</Element> },
         { render: <Element>Dager igjen</Element>, kolonner: 2 },
     ];

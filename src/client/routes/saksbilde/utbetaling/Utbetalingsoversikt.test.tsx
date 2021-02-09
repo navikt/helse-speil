@@ -109,6 +109,16 @@ describe('Utbetalingsoversikt', () => {
         expect(screen.queryAllByText('100 %').length).toBe(23);
     });
 
+    it('Alle kolonnene i tabellen er til stede', async () => {
+        render(<Utbetalingsoversikt vedtaksperiode={mappetVedtaksperiode()} />);
+        expect(screen.queryByText('Dato')).toBeVisible();
+        expect(screen.queryByText('Utbet. dager')).toBeVisible();
+        expect(screen.queryByText('Grad')).toBeVisible();
+        expect(screen.queryByText('Total grad')).toBeVisible();
+        expect(screen.queryByText('Utbetaling')).toBeVisible();
+        expect(screen.queryByText('Dager igjen')).toBeVisible();
+    });
+
     it('2 dager er avvist', async () => {
         const vedtaksperiode = mappetPerson([
             umappetArbeidsgiver([

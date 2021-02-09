@@ -135,6 +135,12 @@ const skalViseGradering = (dag: Sykdomsdag) =>
 export const gradering = (dag: Sykdomsdag) =>
     skalViseGradering(dag) ? <HøyrejustertTekst>{dag.gradering} %</HøyrejustertTekst> : undefined;
 
+const skalViseTotalGradering = (dag: Utbetalingsdag) =>
+    dag.totalGradering !== undefined && ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie].includes(dag.type);
+
+export const totalGradering = (dag: Utbetalingsdag) =>
+    skalViseTotalGradering(dag) ? <HøyrejustertTekst>{dag.totalGradering} %</HøyrejustertTekst> : undefined;
+
 export const overstyrbarGradering = (
     dag: Sykdomsdag,
     onOverstyr: (dag: Sykdomsdag) => void,

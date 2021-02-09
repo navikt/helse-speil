@@ -146,6 +146,7 @@ export interface Utbetalingsdag {
     dato: Dayjs;
     type: Dagtype;
     gradering?: number;
+    totalGradering?: number;
     utbetaling?: number;
     avvistÅrsak?: {
         tekst: string;

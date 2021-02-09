@@ -152,6 +152,7 @@ export const mapUtbetalingsdag = (vilkår?: SpleisVilkår) => (dag: SpleisUtbeta
         type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
         dato: somDato(dag.dato),
         gradering: somHeltall(dag.grad),
+        totalGradering: somHeltall(dag.totalGrad),
         utbetaling: dag.utbetaling,
         avvistÅrsak: avvistÅrsak,
     };
