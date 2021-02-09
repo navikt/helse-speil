@@ -12,7 +12,7 @@ import { Dayjs } from 'dayjs';
 const harDagtyper = (dagtyper: Dagtype[], periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
     !!periode.utbetalingstidslinje?.find((it) => dagtyper.includes(it.type));
 
-const skalViseInfoPin = (vedtaksperiode: Vedtaksperiode): boolean =>
+const skalViseInfoPin = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
     harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode], vedtaksperiode);
 
 // export const toSykepengeperiode = (vedtaksperiode: Vedtaksperiode): Sykepengeperiode => ({
@@ -59,6 +59,7 @@ export const useTidslinjerader = (
                     end: it.tom.toDate(),
                     tilstand: status(it),
                     hoverLabel: <HoverInfo vedtaksperiode={it} />,
+                    skalVisePin: skalViseInfoPin(it),
                 }));
 
                 const posisjonertePerioder = getPositionedPeriods(

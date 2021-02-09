@@ -86,6 +86,7 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs) =>
                 end: utbetalingen.tom.toDate(),
                 tilstand: status(utbetalingen.typetekst),
                 hoverLabel: hoverLabel(utbetalingen),
+                skalVisePin: false,
             };
             const nyTidslinje: InfotrygdperiodeObject[] =
                 infotrygdtidslinje !== undefined ? [...infotrygdtidslinje, periode] : [periode];

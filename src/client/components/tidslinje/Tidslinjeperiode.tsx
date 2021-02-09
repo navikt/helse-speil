@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState, ReactNode, RefObject } from 'react';
+import React, { useLayoutEffect, useRef, useState, ReactNode, RefObject } from 'react';
 import styled from '@emotion/styled';
 import { Period } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
@@ -121,7 +121,29 @@ interface TidslinjeperiodeProps extends PeriodProps {
     className: Vedtaksperiodetilstand;
     erAktiv?: boolean;
     hoverLabel?: ReactNode;
+    skalVisePin: boolean;
 }
+
+const PeriodePin = styled.div`
+    position: absolute;
+    background: #0067c5;
+    height: 6px;
+    width: 2px;
+    top: 0;
+    left: 50%;
+    transform: translate(-1px, -7px);
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        background: #0067c5;
+        transform: translate(-5px, -100%);
+        border-radius: 50%;
+    }
+`;
 
 export const Tidslinjeperiode = (props: TidslinjeperiodeProps) => {
     const ref = useRef<HTMLButtonElement>(null);
@@ -148,6 +170,7 @@ export const Tidslinjeperiode = (props: TidslinjeperiodeProps) => {
         <div onMouseEnter={enableHoverLabel} onMouseLeave={disableHoverLabel}>
             <StyledPeriod erMini={erMini} erAktiv={props.erAktiv} ref={ref} {...props}>
                 {showHoverLabel && props.hoverLabel}
+                {props.skalVisePin && <PeriodePin />}
             </StyledPeriod>
         </div>
     );

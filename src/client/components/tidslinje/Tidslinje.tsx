@@ -96,6 +96,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                                     style={it.style}
                                     className={it.tilstand}
                                     hoverLabel={<TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip>}
+                                    skalVisePin={it.skalVisePin}
                                     onClick={setAktivVedtaksperiode}
                                     erAktiv={it.id === aktivVedtaksperiode?.id}
                                 />
@@ -115,6 +116,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                                     key={it.id}
                                     id={it.id}
                                     style={it.style}
+                                    skalVisePin={it.skalVisePin}
                                     className={it.tilstand}
                                     hoverLabel={<TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip>}
                                 />
