@@ -1,4 +1,4 @@
-import { Oppgave, Periodetype } from '../../../types';
+import { Inntektskilde, Oppgave, Periodetype } from '../../../types';
 
 export const førstegangsfilter = () => ({
     label: 'Førstegang.',
@@ -28,4 +28,14 @@ export const stikkprøveFilter = () => ({
 export const riskQaFilter = () => ({
     label: 'Risk QA',
     func: (type: Periodetype) => type === Periodetype.RiskQa,
+});
+
+export const enArbeidsgiverFilter = () => ({
+    label: 'Én arbeidsgiver',
+    func: (type: Inntektskilde) => type === Inntektskilde.EnArbeidsgiver,
+});
+
+export const flereArbeidsgivereFilter = () => ({
+    label: 'Flere arbeidsgivere',
+    func: (type: Inntektskilde) => type === Inntektskilde.FlereArbeidsgivere,
 });

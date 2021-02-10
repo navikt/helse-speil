@@ -4,7 +4,7 @@ import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf, SpeilRequest } from '../types';
 import { Response } from 'express';
-import { Oppgave, Oppgavetype, Periodetype, SpesialistOppgave } from '../../types';
+import { Inntektskilde, Oppgave, Oppgavetype, Periodetype, SpesialistOppgave } from '../../types';
 
 export interface SetupParameters {
     spesialistClient: SpesialistClient;
@@ -77,6 +77,7 @@ const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
                         ? Periodetype.RiskQa
                         : oppgave.type,
                 boenhet: oppgave.boenhet,
+                inntektskilde: oppgave.inntektskilde ?? Inntektskilde.EnArbeidsgiver,
             })
         );
     };

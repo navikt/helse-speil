@@ -3,7 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useFjernTildeling, useTildelOppgave } from './oppgaver';
 import { RecoilRoot } from 'recoil';
-import { Oppgave, Periodetype } from '../../types';
+import { Inntektskilde, Oppgave, Periodetype } from '../../types';
 
 declare global {
     namespace NodeJS {
@@ -40,6 +40,7 @@ const enOppgave = (): Oppgave => ({
         id: '1234',
         navn: 'Boenhet',
     },
+    inntektskilde: Inntektskilde.EnArbeidsgiver,
 });
 
 const mockSuccessfulFetch = () =>

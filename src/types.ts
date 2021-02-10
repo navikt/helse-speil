@@ -15,6 +15,11 @@ export enum Periodetype {
     RiskQa = 'RISK_QA',
 }
 
+export enum Inntektskilde {
+    EnArbeidsgiver = 'EN_ARBEIDSGIVER',
+    FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
+}
+
 export enum Oppgavetype {
     Søknad = 'SØKNAD',
     Stikkprøve = 'STIKKPRØVE',
@@ -35,6 +40,7 @@ export interface SpesialistOppgave {
     type: Periodetype;
     oppgavetype: Oppgavetype;
     boenhet: Boenhet;
+    inntektskilde?: Inntektskilde;
 }
 
 export interface Oppgave {
@@ -47,6 +53,7 @@ export interface Oppgave {
     aktørId: string;
     antallVarsler: number;
     periodetype: Periodetype;
+    inntektskilde: Inntektskilde;
     boenhet: Boenhet;
 }
 

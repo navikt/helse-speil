@@ -1,11 +1,13 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
-import { renderer, tilOversiktsrad } from './rader';
+import { renderer, rendererMedInntektskilde, tilOversiktsrad, tilOversiktsradMedInntektskilde } from './rader';
 import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { Oppgave } from '../../../types';
 import {
+    enArbeidsgiverFilter,
+    flereArbeidsgivereFilter,
     forlengelsesfilter,
     førstegangsfilter,
     overgangFraInfotrygdFilter,
@@ -18,7 +20,7 @@ import { Paginering } from './Paginering';
 import { tabState } from './tabs';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
-import { stikkprøve } from '../../featureToggles';
+import { stikkprøve, viseInntektskilde } from '../../featureToggles';
 
 const Container = styled.div`
     min-height: 300px;
@@ -99,12 +101,35 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
         { render: '' },
     ];
 
-    const rader = oppgaver.map(tilOversiktsrad);
+    const headereMedInntektskilde = [
+        {
+            render: 'Sakstype',
+            filtere: [
+                førstegangsfilter(),
+                forlengelsesfilter(),
+                overgangFraInfotrygdFilter(),
+                ...(stikkprøve ? [stikkprøveFilter()] : []),
+                riskQaFilter(),
+            ],
+        },
+        'Søker',
+        {
+            render: 'Inntektskilde',
+            filtere: [enArbeidsgiverFilter(), flereArbeidsgivereFilter()],
+        },
+        { render: 'Opprettet', sortFunction: sorterDateString },
+        { render: 'Bosted', sortFunction: sorterTekstAlfabetisk },
+        { render: 'Status', sortFunction: sorterTall },
+        { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
+        { render: '' },
+    ];
+
+    const rader = oppgaver.map(viseInntektskilde ? tilOversiktsradMedInntektskilde : tilOversiktsrad);
 
     const tabell = useTabell({
         rader: rader,
-        headere: headere,
-        renderer: renderer,
+        headere: viseInntektskilde ? headereMedInntektskilde : headere,
+        renderer: viseInntektskilde ? rendererMedInntektskilde : renderer,
         defaultSortering: useRecoilValue(sorteringState),
         defaultFiltrering: useRecoilValue(filtreringState),
         defaultPaginering: {

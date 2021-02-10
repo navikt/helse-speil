@@ -1,6 +1,6 @@
 import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Oppgave, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
+import { Inntektskilde, Oppgave, SpesialistPersoninfo, TildeltOppgave } from '../../../types';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -88,6 +88,25 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => (
     </CellContainer>
 );
 
+const InntektskildeLabel = ({ inntektskilde }: { inntektskilde: Inntektskilde }) => {
+    const label =
+        inntektskilde === Inntektskilde.EnArbeidsgiver
+            ? 'Én arbeidsgiver'
+            : inntektskilde === Inntektskilde.FlereArbeidsgivere
+            ? 'Flere arbeidsg.'
+            : inntektskilde;
+    return <Normaltekst>{label}</Normaltekst>;
+};
+
+const Inntektskildetype = ({ oppgave }: { oppgave: Oppgave }) => (
+    <CellContainer width={120}>
+        <TekstMedEllipsis>
+            <InntektskildeLabel inntektskilde={oppgave.inntektskilde ?? Inntektskilde.EnArbeidsgiver} />
+            <SkjultSakslenke oppgave={oppgave} />
+        </TekstMedEllipsis>
+    </CellContainer>
+);
+
 const Opprettet = ({ oppgave }: { oppgave: Oppgave }) => (
     <CellContainer>
         <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
@@ -132,6 +151,19 @@ export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
     id: oppgave.oppgavereferanse,
 });
 
+export const tilOversiktsradMedInntektskilde = (oppgave: Oppgave): Tabellrad => ({
+    celler: [
+        oppgave.periodetype,
+        oppgave,
+        oppgave.inntektskilde,
+        oppgave.opprettet,
+        oppgave.boenhet.navn,
+        oppgave.antallVarsler,
+        oppgave,
+    ],
+    id: oppgave.oppgavereferanse,
+});
+
 export const renderer = (rad: Tabellrad): Tabellrad => {
     const oppgave = rad.celler[1] as Oppgave;
 
@@ -140,6 +172,24 @@ export const renderer = (rad: Tabellrad): Tabellrad => {
         celler: [
             <Sakstype oppgave={oppgave} />,
             <Søker oppgave={oppgave} />,
+            <Opprettet oppgave={oppgave} />,
+            <Bosted oppgave={oppgave} />,
+            <Status oppgave={oppgave} />,
+            oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />,
+            <MeldAv oppgave={oppgave} />,
+        ],
+    };
+};
+
+export const rendererMedInntektskilde = (rad: Tabellrad): Tabellrad => {
+    const oppgave = rad.celler[1] as Oppgave;
+
+    return {
+        ...rad,
+        celler: [
+            <Sakstype oppgave={oppgave} />,
+            <Søker oppgave={oppgave} />,
+            <Inntektskildetype oppgave={oppgave} />,
             <Opprettet oppgave={oppgave} />,
             <Bosted oppgave={oppgave} />,
             <Status oppgave={oppgave} />,
