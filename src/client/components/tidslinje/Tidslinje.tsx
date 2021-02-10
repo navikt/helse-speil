@@ -1,20 +1,20 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { LasterUtsnittsvelger } from './Utsnittsvelger';
+import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
 import { useTidslinjerader } from './useTidslinjerader';
 import { useInfotrygdrader } from './useInfotrygdrader';
 import { Flex, FlexColumn } from '../Flex';
 import '@navikt/helse-frontend-tidslinje/lib/main.css';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { useSetAktivVedtaksperiode } from '../../state/vedtaksperiode';
-import { Row } from '@navikt/helse-frontend-timeline/lib';
+import { AxisLabels, Row } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
-import dayjs from 'dayjs';
 import { TekstMedEllipsis } from '../TekstMedEllipsis';
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { Arbeidsgiverikon } from '../ikoner/Arbeidsgiverikon';
 import { Infotrygdikon } from '../ikoner/Infotrygdikon';
 import { TidslinjeTooltip } from './TidslinjeTooltip';
+import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
 
 const Container = styled(FlexColumn)`
     position: relative;
@@ -46,17 +46,31 @@ const RadContainer = styled(Flex)`
     }
 `;
 
-const Arbeidsgivernavn = styled(Flex)`
+interface AxisLabelsContainerProps {
+    horizontalOffset: number;
+}
+
+const AxisLabelsContainer = styled.div<AxisLabelsContainerProps>`
+    ${({ horizontalOffset }) => `margin-left: ${horizontalOffset}px;`}
+`;
+
+interface ArbeidsgivernavnProps {
+    width: number;
+}
+
+const Arbeidsgivernavn = styled(Flex)<ArbeidsgivernavnProps>`
     align-items: center;
     font-size: 14px;
     color: var(--navds-color-text-primary);
     line-height: 1rem;
-    width: 250px;
-    margin-right: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
 
     > svg:first-of-type {
         margin-right: 1rem;
     }
+
+    ${({ width }) => `width: ${width}px;`};
 `;
 
 const Tidslinjerad = styled(Row)`
@@ -65,26 +79,25 @@ const Tidslinjerad = styled(Row)`
 
 export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
     const setAktivVedtaksperiode = useSetAktivVedtaksperiode();
+    const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
 
-    const tomInfotrygd = person.infotrygdutbetalinger.flatMap((it) => it.tom);
-    const tomSpeil = person.arbeidsgivere.flatMap((it) => it.vedtaksperioder);
-
-    const tom = [...tomInfotrygd, ...tomSpeil.flatMap((it) => it.tom)].reduce(
-        (tom, it) => (it.isAfter(tom) ? it : tom),
-        dayjs(0)
-    );
-
-    const fom = tom.subtract(6, 'month');
+    const fom = utsnitt[aktivtUtsnitt].fom;
+    const tom = utsnitt[aktivtUtsnitt].tom;
 
     const tidslinjerader = useTidslinjerader(person, fom, tom, aktivVedtaksperiode);
     const infotrygdrader = useInfotrygdrader(person, fom, tom);
 
+    const tidslinjeradOffset = 250;
+
     return (
         <Container>
             <FlexColumn>
+                <AxisLabelsContainer horizontalOffset={tidslinjeradOffset}>
+                    <AxisLabels start={fom} slutt={tom} direction={'right'} />
+                </AxisLabelsContainer>
                 {tidslinjerader.map(({ id, perioder, arbeidsgiver }) => (
                     <RadContainer key={id}>
-                        <Arbeidsgivernavn>
+                        <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Arbeidsgiverikon />
                             <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
                         </Arbeidsgivernavn>
@@ -106,7 +119,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                 ))}
                 {infotrygdrader.map(([arbeidsgiver, perioder]) => (
                     <RadContainer key={arbeidsgiver}>
-                        <Arbeidsgivernavn>
+                        <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Infotrygdikon />
                             <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
                         </Arbeidsgivernavn>
@@ -124,6 +137,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                         </Tidslinjerad>
                     </RadContainer>
                 ))}
+                <Utsnittsvelger utsnitt={utsnitt} aktivtUtsnitt={aktivtUtsnitt} setAktivtUtsnitt={setAktivtUtsnitt} />
             </FlexColumn>
         </Container>
     );

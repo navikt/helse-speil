@@ -100,4 +100,4 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs) =>
             }`,
             getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
         ]) as [string, TidslinjeperiodeObject[]][];
-    }, [person]);
+    }, [person, fom, tom]);

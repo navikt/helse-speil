@@ -5,7 +5,6 @@ import '@navikt/helse-frontend-toggle/lib/main.css';
 import styled from '@emotion/styled';
 
 const Container = styled.div`
-    position: absolute;
     bottom: 0;
     right: 0;
     display: flex;

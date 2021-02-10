@@ -76,5 +76,5 @@ export const useTidslinjerader = (
                     erAktiv: perioder.find((it) => it.id === aktivVedtaksperiode?.id) !== undefined,
                 };
             }) ?? [],
-        [person, aktivVedtaksperiode]
+        [person, aktivVedtaksperiode, fom, tom]
     );
