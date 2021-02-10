@@ -195,7 +195,7 @@ export class VedtaksperiodeBuilder {
     };
 
     private mapVilkår = () => {
-        const { vilkår, problems } = mapVilkår(this.unmapped);
+        const { vilkår, problems } = mapVilkår(this.unmapped, this.inntektsgrunnlag);
         this.vedtaksperiode.vilkår = vilkår;
         this.problems.push(...problems);
     };

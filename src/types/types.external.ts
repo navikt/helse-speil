@@ -417,6 +417,8 @@ export interface SpesialistInntektsgrunnlag {
     avviksprosent?: number;
     maksUtbetalingPerDag: number;
     inntekter: SpesialistArbeidsgiverinntekt[];
+    oppfyllerKravOmMinstelønn?: boolean;
+    grunnbeløp?: number;
 }
 
 export interface SpesialistArbeidsgiverinntekt {

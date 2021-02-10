@@ -557,11 +557,6 @@
                             "søknadTom": "2018-01-31",
                             "oppfylt": true
                         },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": -372000.0,
-                            "grunnbeløp": -93634,
-                            "oppfylt": true
-                        },
                         "medlemskapstatus": "JA"
                     },
                     "inntektsmeldingId": "7dac6aa9-f662-44f9-b511-3c94c9d62262",
@@ -1161,11 +1156,6 @@
                             "søknadTom": "2018-01-31",
                             "oppfylt": true
                         },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": -372000.0,
-                            "grunnbeløp": -93634,
-                            "oppfylt": true
-                        },
                         "medlemskapstatus": "JA"
                     },
                     "inntektsmeldingId": "eeec6aa9-f662-44f9-b511-3c94c9d62262",
@@ -1376,7 +1366,9 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "oppfyllerKravOmMinstelønn": true,
+            "grunnbeløp": 99858
         }
     ],
     "enhet": {

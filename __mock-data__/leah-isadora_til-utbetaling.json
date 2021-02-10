@@ -492,11 +492,6 @@
                             "søknadFom": "2018-01-01",
                             "søknadTom": "2018-01-31",
                             "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 372000.0,
-                            "grunnbeløp": 93634,
-                            "oppfylt": true
                         }
                     },
                     "inntektFraInntektsmelding": 31000.0,
@@ -787,11 +782,6 @@
                             "søknadFom": "2018-02-01",
                             "søknadTom": "2018-02-14",
                             "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 372000.0,
-                            "grunnbeløp": 93634,
-                            "oppfylt": true
                         }
                     },
                     "inntektFraInntektsmelding": 31000.0,
@@ -897,7 +887,9 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "oppfyllerKravOmMinstelønn": true,
+            "grunnbeløp": 99858
         }
     ],
     "enhet": {

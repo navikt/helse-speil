@@ -7,7 +7,13 @@ import {
     Søknadsfrist,
     Vilkår,
 } from 'internal-types';
-import { SpesialistVedtaksperiode, SpleisForlengelseFraInfotrygd, SpleisMedlemskapstatus } from 'external-types';
+import {
+    SpesialistInntektsgrunnlag,
+    SpesialistVedtaksperiode,
+    SpleisForlengelseFraInfotrygd,
+    SpleisMedlemskapstatus,
+    SpleisVilkår,
+} from 'external-types';
 import { somDato, somKanskjeDato } from './vedtaksperiode';
 import { ReactNode } from 'react';
 
@@ -38,10 +44,13 @@ const alderVilkår = ({ vilkår }: SpesialistVedtaksperiode): Alder => ({
     oppfylt: vilkår.alder.oppfylt,
 });
 
-const sykepengegrunnlagVilkår = ({ vilkår }: SpesialistVedtaksperiode): SykepengegrunnlagVilkår => ({
-    sykepengegrunnlag: vilkår.sykepengegrunnlag.sykepengegrunnlag,
-    oppfylt: vilkår.sykepengegrunnlag.oppfylt,
-    grunnebeløp: vilkår.sykepengegrunnlag.grunnbeløp,
+const sykepengegrunnlagVilkår = (
+    vilkår: SpleisVilkår,
+    inntektsgrunnlag?: SpesialistInntektsgrunnlag
+): SykepengegrunnlagVilkår => ({
+    sykepengegrunnlag: inntektsgrunnlag?.sykepengegrunnlag ?? vilkår.sykepengegrunnlag.sykepengegrunnlag,
+    oppfylt: inntektsgrunnlag?.oppfyllerKravOmMinstelønn ?? vilkår.sykepengegrunnlag.oppfylt,
+    grunnebeløp: inntektsgrunnlag?.grunnbeløp ?? vilkår.sykepengegrunnlag.grunnbeløp,
 });
 
 const dagerIgjenVilkår = ({ vilkår }: SpesialistVedtaksperiode): DagerIgjen => ({
@@ -82,7 +91,10 @@ type MapVilkårResult = {
     problems: Error[];
 };
 
-export const mapVilkår = (unmapped: SpesialistVedtaksperiode): MapVilkårResult => {
+export const mapVilkår = (
+    unmapped: SpesialistVedtaksperiode,
+    inntektsgrunnlag?: SpesialistInntektsgrunnlag
+): MapVilkårResult => {
     const problems: Error[] = [];
 
     const mapVilkår = (callback: (unmapped: SpesialistVedtaksperiode) => any): any => {
@@ -95,7 +107,7 @@ export const mapVilkår = (unmapped: SpesialistVedtaksperiode): MapVilkårResult
 
     const vilkår = {
         alder: mapVilkår(alderVilkår),
-        sykepengegrunnlag: mapVilkår(sykepengegrunnlagVilkår),
+        sykepengegrunnlag: mapVilkår(() => sykepengegrunnlagVilkår(unmapped.vilkår, inntektsgrunnlag)),
         dagerIgjen: mapVilkår(dagerIgjenVilkår),
         søknadsfrist: mapVilkår(søknadsfristVilkår),
         opptjening: mapVilkår(opptjeningVilkår),

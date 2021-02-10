@@ -143,11 +143,6 @@
                             "søknadFom": "2020-06-11",
                             "søknadTom": "2020-06-14",
                             "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 533328,
-                            "grunnbeløp": 99858,
-                            "oppfylt": true
                         }
                     },
                     "inntektFraInntektsmelding": 44444,
@@ -359,7 +354,9 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "oppfyllerKravOmMinstelønn": true,
+            "grunnbeløp": 99858
         }
     ],
     "infotrygdutbetalinger": [

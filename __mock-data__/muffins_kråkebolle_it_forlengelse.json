@@ -280,11 +280,6 @@
                             "søknadTom": "2018-02-14",
                             "oppfylt": true
                         },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 372000.0,
-                            "grunnbeløp": 93634,
-                            "oppfylt": true
-                        },
                         "medlemskapstatus": null
                     },
                     "inntektsmeldingId": null,
@@ -379,7 +374,9 @@
                     },
                     "sammenligningsgrunnlag": null
                 }
-            ]
+            ],
+            "oppfyllerKravOmMinstelønn": true,
+            "grunnbeløp": 99858
         }
     ],
     "enhet": {

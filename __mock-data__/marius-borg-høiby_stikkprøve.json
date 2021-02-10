@@ -510,11 +510,6 @@
                             "søknadTom": "2018-01-31",
                             "oppfylt": true
                         },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 372000.0,
-                            "grunnbeløp": 93634,
-                            "oppfylt": true
-                        },
                         "medlemskapstatus": "JA"
                     },
                     "inntektFraInntektsmelding": 31000.0,
@@ -696,7 +691,9 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "oppfyllerKravOmMinstelønn": true,
+            "grunnbeløp": 99858
         }
     ],
     "arbeidsforhold": [

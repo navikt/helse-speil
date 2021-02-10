@@ -235,11 +235,6 @@
                             "søknadFom": "2020-03-28",
                             "søknadTom": "2020-04-14",
                             "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 300000,
-                            "grunnbeløp": 99858,
-                            "oppfylt": true
                         }
                     },
                     "inntektFraInntektsmelding": 25000,
@@ -791,11 +786,6 @@
                             "søknadFom": "2020-03-01",
                             "søknadTom": "2020-03-27",
                             "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 300000,
-                            "grunnbeløp": 99858,
-                            "oppfylt": true
                         }
                     },
                     "inntektFraInntektsmelding": 25000,
@@ -1322,11 +1312,6 @@
                             "sendtNav": "2020-04-16T00:00:00",
                             "søknadFom": "2020-01-01",
                             "søknadTom": "2020-01-27",
-                            "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 300000,
-                            "grunnbeløp": 99858,
                             "oppfylt": true
                         }
                     },
@@ -1855,11 +1840,6 @@
                             "søknadFom": "2019-11-01",
                             "søknadTom": "2019-11-27",
                             "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 300000,
-                            "grunnbeløp": 99858,
-                            "oppfylt": true
                         }
                     },
                     "inntektFraInntektsmelding": 25000,
@@ -2171,11 +2151,6 @@
                             "søknadFom": "2019-11-01",
                             "søknadTom": "2019-11-27",
                             "oppfylt": true
-                        },
-                        "sykepengegrunnlag": {
-                            "sykepengegrunnlag": 300000,
-                            "grunnbeløp": 99858,
-                            "oppfylt": true
                         }
                     },
                     "inntektFraInntektsmelding": 25000,
@@ -2318,7 +2293,9 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "oppfyllerKravOmMinstelønn": true,
+            "grunnbeløp": 99858
         },
         {
             "skjæringstidspunkt": "2020-01-01",
@@ -2390,8 +2367,10 @@
                         ]
                     }
                 }
-            ]
-        }, 
+            ],
+            "oppfyllerKravOmMinstelønn": true,
+            "grunnbeløp": 99858
+        },
         {
             "skjæringstidspunkt": "2019-11-01",
             "sykepengegrunnlag": 300000.0,
@@ -2462,7 +2441,9 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "oppfyllerKravOmMinstelønn": true,
+            "grunnbeløp": 99858
         }
     ],
     "infotrygdutbetalinger": [
