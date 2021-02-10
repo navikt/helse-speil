@@ -13,14 +13,12 @@ const Separator = styled.span`
 const Container = styled.div`
     position: relative;
     height: max-content;
-    width: 100vw;
     z-index: 1000;
 `;
 
 const EphemeralContainer = styled.div`
     position: absolute;
     overflow-y: hidden;
-    width: 100vw;
 `;
 
 const TechnicalVarsel = ({ type, message, technical }: VarselObject) => (

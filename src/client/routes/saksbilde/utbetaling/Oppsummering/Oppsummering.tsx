@@ -12,7 +12,6 @@ import { useAktivVedtaksperiode } from '../../../../state/vedtaksperiode';
 import { usePerson } from '../../../../state/person';
 
 const Infogruppe = styled.section`
-    margin-bottom: 2.5rem;
     line-height: 22px;
 `;
 

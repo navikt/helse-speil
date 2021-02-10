@@ -40,7 +40,6 @@ const Content = styled.div`
 const LoggHeader = styled(EksternLoggheader)`
     width: 336px;
     box-sizing: border-box;
-    border-left: 1px solid var(--navds-color-border);
     box-shadow: inset 0 -1px 0 0 var(--navds-color-border);
     height: 75px;
 
@@ -52,7 +51,6 @@ const LoggHeader = styled(EksternLoggheader)`
 const LoggListe = styled(EksternLoggliste)`
     width: 336px;
     box-sizing: border-box;
-    border-left: 1px solid var(--navds-color-border);
     border-top: none;
 
     .Sykmelding:before,
@@ -84,6 +82,14 @@ const LoggListe = styled(EksternLoggliste)`
     .Inntektsmelding:before {
         content: 'IM';
     }
+`;
+
+const SaksbildeContainer = styled.div`
+    flex: auto;
+`;
+
+const LoggContainer = styled.div`
+    border-left: 1px solid var(--navds-color-border);
 `;
 
 export const LasterSaksbilde = () => (
@@ -160,48 +166,52 @@ const SaksbildeContent = () => {
                 <Route>
                     <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
                     <Flex justifyContent="space-between">
-                        <Sakslinje />
-                        <LoggHeader />
+                        <SaksbildeContainer>
+                            <Sakslinje />
+                            <ErrorBoundary key={aktivVedtaksperiode.id} fallback={errorMelding}>
+                                <AmplitudeProvider>
+                                    <Flex style={{ flex: 1 }}>
+                                        <FlexColumn style={{ flex: 1 }}>
+                                            <Toppvarsler vedtaksperiode={aktivVedtaksperiode} />
+                                            <Content>
+                                                <Switch>
+                                                    <Route path={`${path}/utbetaling`}>
+                                                        <Utbetaling />
+                                                    </Route>
+                                                    <Route path={`${path}/sykmeldingsperiode`}>
+                                                        <Sykmeldingsperiode />
+                                                    </Route>
+                                                    <Route path={`${path}/vilkår`}>
+                                                        <Vilkår
+                                                            vedtaksperiode={aktivVedtaksperiode}
+                                                            person={personTilBehandling}
+                                                        />
+                                                    </Route>
+                                                    <Route path={`${path}/sykepengegrunnlag`}>
+                                                        <Sykepengegrunnlag
+                                                            vedtaksperiode={aktivVedtaksperiode}
+                                                            person={personTilBehandling}
+                                                        />
+                                                    </Route>
+                                                    {aktivVedtaksperiode.risikovurdering && (
+                                                        <Route path={`${path}/faresignaler`}>
+                                                            <Faresignaler
+                                                                risikovurdering={aktivVedtaksperiode.risikovurdering}
+                                                            />
+                                                        </Route>
+                                                    )}
+                                                </Switch>
+                                            </Content>
+                                        </FlexColumn>
+                                    </Flex>
+                                </AmplitudeProvider>
+                            </ErrorBoundary>
+                        </SaksbildeContainer>
+                        <LoggContainer>
+                            <LoggHeader />
+                            <LoggListe />
+                        </LoggContainer>
                     </Flex>
-                    <ErrorBoundary key={aktivVedtaksperiode.id} fallback={errorMelding}>
-                        <AmplitudeProvider>
-                            <Flex style={{ flex: 1 }}>
-                                <FlexColumn style={{ flex: 1 }}>
-                                    <Toppvarsler vedtaksperiode={aktivVedtaksperiode} />
-                                    <Content>
-                                        <Switch>
-                                            <Route path={`${path}/utbetaling`}>
-                                                <Utbetaling />
-                                            </Route>
-                                            <Route path={`${path}/sykmeldingsperiode`}>
-                                                <Sykmeldingsperiode />
-                                            </Route>
-                                            <Route path={`${path}/vilkår`}>
-                                                <Vilkår
-                                                    vedtaksperiode={aktivVedtaksperiode}
-                                                    person={personTilBehandling}
-                                                />
-                                            </Route>
-                                            <Route path={`${path}/sykepengegrunnlag`}>
-                                                <Sykepengegrunnlag
-                                                    vedtaksperiode={aktivVedtaksperiode}
-                                                    person={personTilBehandling}
-                                                />
-                                            </Route>
-                                            {aktivVedtaksperiode.risikovurdering && (
-                                                <Route path={`${path}/faresignaler`}>
-                                                    <Faresignaler
-                                                        risikovurdering={aktivVedtaksperiode.risikovurdering}
-                                                    />
-                                                </Route>
-                                            )}
-                                        </Switch>
-                                    </Content>
-                                </FlexColumn>
-                                <LoggListe />
-                            </Flex>
-                        </AmplitudeProvider>
-                    </ErrorBoundary>
                 </Route>
             </Switch>
         </Container>

@@ -33,7 +33,9 @@ const VertikalStrek = styled.div`
 
 const Kort = styled.section`
     padding-bottom: 0;
-    margin-bottom: 2rem;
+    &:not(:last-of-type) {
+        margin-bottom: 2rem;
+    }
 `;
 
 const Korttittel = styled(Undertittel)`

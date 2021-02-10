@@ -51,6 +51,7 @@ export type Avvisningsskjema = {
 const Knapper = styled.div`
     display: flex;
     align-items: center;
+    margin-top: 2.5rem;
 
     > *:not(:last-child) {
         margin-right: 1rem;
