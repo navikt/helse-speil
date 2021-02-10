@@ -326,9 +326,9 @@ export class VedtaksperiodeBuilder {
 
         try {
             this.vedtaksperiode.inntektsgrunnlag = this.inntektsgrunnlag && {
-                sykepengegrunnlag: this.inntektsgrunnlag.sykepengegrunnlag,
-                omregnetÅrsinntekt: this.inntektsgrunnlag.omregnetÅrsinntekt,
-                maksUtbetalingPerDag: this.inntektsgrunnlag.maksUtbetalingPerDag,
+                sykepengegrunnlag: this.inntektsgrunnlag.sykepengegrunnlag ?? undefined,
+                omregnetÅrsinntekt: this.inntektsgrunnlag.omregnetÅrsinntekt ?? undefined,
+                maksUtbetalingPerDag: this.inntektsgrunnlag.maksUtbetalingPerDag ?? undefined,
                 sammenligningsgrunnlag: this.inntektsgrunnlag.sammenligningsgrunnlag ?? undefined,
                 avviksprosent: this.inntektsgrunnlag.avviksprosent ?? undefined,
                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer,

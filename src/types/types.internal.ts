@@ -306,11 +306,11 @@ export interface OverstyrtDag {
 export interface Inntektsgrunnlag {
     organisasjonsnummer: string;
     skjæringstidspunkt: Dayjs;
-    sykepengegrunnlag: number;
-    omregnetÅrsinntekt: number;
+    sykepengegrunnlag?: number;
+    omregnetÅrsinntekt?: number;
     sammenligningsgrunnlag?: number;
     avviksprosent?: number;
-    maksUtbetalingPerDag: number;
+    maksUtbetalingPerDag?: number;
     inntekter: Arbeidsgiverinntekt[];
 }
 

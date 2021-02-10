@@ -411,11 +411,11 @@ export enum SpleisPeriodetype {
 
 export interface SpesialistInntektsgrunnlag {
     skjæringstidspunkt: string;
-    sykepengegrunnlag: number;
-    omregnetÅrsinntekt: number;
+    sykepengegrunnlag?: number;
+    omregnetÅrsinntekt?: number;
     sammenligningsgrunnlag?: number;
     avviksprosent?: number;
-    maksUtbetalingPerDag: number;
+    maksUtbetalingPerDag?: number;
     inntekter: SpesialistArbeidsgiverinntekt[];
     oppfyllerKravOmMinstelønn?: boolean;
     grunnbeløp?: number;
