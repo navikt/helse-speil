@@ -114,7 +114,7 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
 
     const godkjennUtbetaling = () => {
         setIsSending(true);
-        postUtbetalingsgodkjenning(vedtaksperiode.oppgavereferanse, personTilBehandling.aktørId)
+        postUtbetalingsgodkjenning(vedtaksperiode.oppgavereferanse!, personTilBehandling.aktørId)
             .then(() => {
                 logOppgaveGodkjent();
                 addUtbetalingstoast();
@@ -140,7 +140,7 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
         const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
 
-        postSendTilInfotrygd(vedtaksperiode.oppgavereferanse, personTilBehandling.aktørId, skjema)
+        postSendTilInfotrygd(vedtaksperiode.oppgavereferanse!, personTilBehandling.aktørId, skjema)
             .then(() => {
                 logOppgaveForkastet(begrunnelser);
                 addInfotrygdtoast();

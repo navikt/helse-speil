@@ -190,7 +190,7 @@ export interface Vedtaksperiode {
     periodetype: Periodetype;
     behandlet: boolean;
     tilstand: Vedtaksperiodetilstand;
-    oppgavereferanse: string;
+    oppgavereferanse?: string;
     kanVelges: boolean;
     utbetalingsreferanse?: string;
     utbetalingstidslinje: Utbetalingsdag[];

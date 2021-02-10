@@ -19,7 +19,8 @@ import {
     SpleisSykdomsdag,
     SpleisSykdomsdagtype,
     SpleisUtbetalinger,
-    SpleisUtbetalingslinje, SpleisVedtaksperiodetilstand,
+    SpleisUtbetalingslinje,
+    SpleisVedtaksperiodetilstand,
     UfullstendigSpesialistVedtaksperiode,
 } from 'external-types';
 import { mapForlengelseFraInfotrygd } from './infotrygd';
@@ -188,7 +189,7 @@ export class VedtaksperiodeBuilder {
         this.vedtaksperiode.godkjenttidspunkt = this.unmapped.godkjenttidspunkt
             ? somKanskjeDato(this.unmapped.godkjenttidspunkt)
             : undefined;
-        this.vedtaksperiode.oppgavereferanse = this.unmapped.oppgavereferanse;
+        this.vedtaksperiode.oppgavereferanse = this.unmapped.oppgavereferanse || undefined;
         this.vedtaksperiode.utbetalingsreferanse = this.unmapped.utbetalingsreferanse;
         this.vedtaksperiode.kanVelges = true;
     };

@@ -68,10 +68,12 @@ export const Verktøylinje = () => {
             <Dropdownknapp>
                 {aktivVedtaksperiode && (
                     <>
-                        <Tildelingsknapp
-                            oppgavereferanse={aktivVedtaksperiode.oppgavereferanse}
-                            tildeltTil={tildeltTil}
-                        />
+                        {aktivVedtaksperiode.oppgavereferanse && (
+                            <Tildelingsknapp
+                                oppgavereferanse={aktivVedtaksperiode.oppgavereferanse}
+                                tildeltTil={tildeltTil}
+                            />
+                        )}
                         <Strek />
                     </>
                 )}

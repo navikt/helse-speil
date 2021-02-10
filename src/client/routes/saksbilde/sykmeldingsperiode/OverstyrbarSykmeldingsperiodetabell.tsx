@@ -142,7 +142,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             .then(() => {
                 leggtilEnToast(kalkulererToast({}));
                 onOverstyr();
-                pollEtterNyOppgave(personTilBehandling!.fødselsnummer, aktivVedtaksperiode!.oppgavereferanse)
+                pollEtterNyOppgave(personTilBehandling!.fødselsnummer, aktivVedtaksperiode!.oppgavereferanse!)
                     .then(refetchPerson)
                     .then(visOverstyringFerdigToast);
             })
