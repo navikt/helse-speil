@@ -344,7 +344,7 @@ export interface SpesialistVedtaksperiode {
     tom: string;
     gruppeId: string;
     tilstand: SpleisVedtaksperiodetilstand;
-    oppgavereferanse: string;
+    oppgavereferanse: string | null;
     fullstendig: boolean;
     utbetalingsreferanse?: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];

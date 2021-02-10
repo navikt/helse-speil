@@ -26,7 +26,7 @@ import { umappetOverstyring } from '../../test/data/overstyring';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { SpesialistInntektkilde, SpesialistPerson } from 'external-types';
+import { SpesialistInntektkilde, SpesialistPerson, SpleisVedtaksperiodetilstand } from 'external-types';
 import { umappetInntektsgrunnlag } from '../../test/data/inntektsgrunnlag';
 
 dayjs.extend(isSameOrAfter);
@@ -249,5 +249,18 @@ describe('VedtaksperiodeBuilder', () => {
         expect(inntekt.refusjon).toEqual(true);
         expect(inntekt.forskuttering).toEqual(true);
         expect(inntekt.arbeidsforhold).toHaveLength(0);
+    });
+
+    test('vedtaksperiodetilstand skal være venter frem til Spesialist har opprettet oppgave', () => {
+        const { vedtaksperiode } = new VedtaksperiodeBuilder()
+            .setVedtaksperiode({
+                ...umappetVedtaksperiode(),
+                tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
+                oppgavereferanse: null,
+            })
+            .setArbeidsgiver(umappetArbeidsgiver())
+            .build() as { vedtaksperiode: Vedtaksperiode };
+
+        expect(vedtaksperiode.tilstand).toEqual(Vedtaksperiodetilstand.Venter);
     });
 });

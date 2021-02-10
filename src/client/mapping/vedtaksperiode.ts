@@ -19,7 +19,7 @@ import {
     SpleisSykdomsdag,
     SpleisSykdomsdagtype,
     SpleisUtbetalinger,
-    SpleisUtbetalingslinje,
+    SpleisUtbetalingslinje, SpleisVedtaksperiodetilstand,
     UfullstendigSpesialistVedtaksperiode,
 } from 'external-types';
 import { mapForlengelseFraInfotrygd } from './infotrygd';
@@ -202,6 +202,7 @@ export class VedtaksperiodeBuilder {
     private mapTilstand = () => {
         this.vedtaksperiode.tilstand =
             (this.inneholderAnnullerteDager() && Vedtaksperiodetilstand.Annullert) ||
+            (this.venterPåSaksbehandleroppgave() && Vedtaksperiodetilstand.Venter) ||
             Vedtaksperiodetilstand[this.unmapped.tilstand] ||
             Vedtaksperiodetilstand.Ukjent;
     };
@@ -379,4 +380,7 @@ export class VedtaksperiodeBuilder {
 
     private inneholderAnnullerteDager = (): boolean =>
         !!this.unmapped.sykdomstidslinje.find((dag) => dag.type === SpleisSykdomsdagtype.ANNULLERT_DAG);
+
+    private venterPåSaksbehandleroppgave = (): boolean =>
+        this.unmapped.tilstand === SpleisVedtaksperiodetilstand.Oppgaver && this.unmapped.oppgavereferanse === null;
 }
