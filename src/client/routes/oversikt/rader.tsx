@@ -22,6 +22,16 @@ const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
 const formatertVarsel = (antallVarsler?: number) =>
     !antallVarsler ? '' : antallVarsler === 1 ? '1 varsel' : `${antallVarsler} varsler`;
 
+const inntektskildeLabel = (inntektskilde: Inntektskilde) => {
+    switch (inntektskilde) {
+        case Inntektskilde.FlereArbeidsgivere:
+            return 'Flere arbeidsg.';
+        case Inntektskilde.EnArbeidsgiver:
+        default:
+            return 'Én arbeidsgiver';
+    }
+};
+
 const CellContainer = styled.div<{ width?: number }>`
     position: relative;
     height: 48px;
@@ -88,20 +98,10 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => (
     </CellContainer>
 );
 
-const InntektskildeLabel = ({ inntektskilde }: { inntektskilde: Inntektskilde }) => {
-    const label =
-        inntektskilde === Inntektskilde.EnArbeidsgiver
-            ? 'Én arbeidsgiver'
-            : inntektskilde === Inntektskilde.FlereArbeidsgivere
-            ? 'Flere arbeidsg.'
-            : inntektskilde;
-    return <Normaltekst>{label}</Normaltekst>;
-};
-
 const Inntektskildetype = ({ oppgave }: { oppgave: Oppgave }) => (
     <CellContainer width={120}>
         <TekstMedEllipsis>
-            <InntektskildeLabel inntektskilde={oppgave.inntektskilde ?? Inntektskilde.EnArbeidsgiver} />
+            {inntektskildeLabel(oppgave.inntektskilde)}
             <SkjultSakslenke oppgave={oppgave} />
         </TekstMedEllipsis>
     </CellContainer>
@@ -147,11 +147,6 @@ const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
 };
 
 export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
-    celler: [oppgave.periodetype, oppgave, oppgave.opprettet, oppgave.boenhet.navn, oppgave.antallVarsler, oppgave],
-    id: oppgave.oppgavereferanse,
-});
-
-export const tilOversiktsradMedInntektskilde = (oppgave: Oppgave): Tabellrad => ({
     celler: [
         oppgave.periodetype,
         oppgave,
@@ -165,23 +160,6 @@ export const tilOversiktsradMedInntektskilde = (oppgave: Oppgave): Tabellrad => 
 });
 
 export const renderer = (rad: Tabellrad): Tabellrad => {
-    const oppgave = rad.celler[1] as Oppgave;
-
-    return {
-        ...rad,
-        celler: [
-            <Sakstype oppgave={oppgave} />,
-            <Søker oppgave={oppgave} />,
-            <Opprettet oppgave={oppgave} />,
-            <Bosted oppgave={oppgave} />,
-            <Status oppgave={oppgave} />,
-            oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />,
-            <MeldAv oppgave={oppgave} />,
-        ],
-    };
-};
-
-export const rendererMedInntektskilde = (rad: Tabellrad): Tabellrad => {
     const oppgave = rad.celler[1] as Oppgave;
 
     return {

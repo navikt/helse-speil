@@ -33,7 +33,8 @@ const erKnudix = () => extractIdent() === 'N143409';
 const erDigimort = () => extractIdent() === 'T127350';
 const erDavid = () => extractIdent() === 'S150563';
 const erKevin = () => extractIdent() === 'S151890';
-const erUtvikler = () => erKnudix() || erKevin() || erDavid();
+const erMarthe = () => extractIdent() === 'S151399';
+const erUtvikler = () => erKnudix() || erKevin() || erDavid() || erMarthe();
 
 const erJonas = () => extractIdent() === 'H159657';
 const erPeter = () => extractIdent() === 'S159940';
@@ -49,4 +50,4 @@ export const speilV2 = true;
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
-export const viseInntektskilde = false;
+export const flereArbeidsgivere = erUtvikler() || erLocal() || erPreprod() || erDigimort();

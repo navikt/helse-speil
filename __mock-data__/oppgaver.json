@@ -38,8 +38,7 @@
         "boenhet": {
             "id": "1504",
             "navn": "Ålesund"
-        },
-        "inntektskilde": "FLERE_ARBEIDSGIVERE"
+        }
     },
     {
         "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5g",
@@ -300,6 +299,7 @@
         "boenhet": {
             "id": "0228",
             "navn": "Nav Utland"
-        }
+        },
+        "inntektskilde": "FLERE_ARBEIDSGIVERE"
     }
 ]

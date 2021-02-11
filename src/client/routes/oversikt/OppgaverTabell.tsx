@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
-import { renderer, rendererMedInntektskilde, tilOversiktsrad, tilOversiktsradMedInntektskilde } from './rader';
+import { renderer, tilOversiktsrad } from './rader';
 import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
 import { Oppgave } from '../../../types';
@@ -20,7 +20,7 @@ import { Paginering } from './Paginering';
 import { tabState } from './tabs';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
-import { stikkprøve, viseInntektskilde } from '../../featureToggles';
+import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
 
 const Container = styled.div`
     min-height: 300px;
@@ -94,28 +94,9 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
             ],
         },
         'Søker',
-        { render: 'Opprettet', sortFunction: sorterDateString },
-        { render: 'Bosted', sortFunction: sorterTekstAlfabetisk },
-        { render: 'Status', sortFunction: sorterTall },
-        { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
-        { render: '' },
-    ];
-
-    const headereMedInntektskilde = [
-        {
-            render: 'Sakstype',
-            filtere: [
-                førstegangsfilter(),
-                forlengelsesfilter(),
-                overgangFraInfotrygdFilter(),
-                ...(stikkprøve ? [stikkprøveFilter()] : []),
-                riskQaFilter(),
-            ],
-        },
-        'Søker',
         {
             render: 'Inntektskilde',
-            filtere: [enArbeidsgiverFilter(), flereArbeidsgivereFilter()],
+            filtere: flereArbeidsgivere ? [enArbeidsgiverFilter(), flereArbeidsgivereFilter()] : undefined,
         },
         { render: 'Opprettet', sortFunction: sorterDateString },
         { render: 'Bosted', sortFunction: sorterTekstAlfabetisk },
@@ -124,12 +105,12 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
         { render: '' },
     ];
 
-    const rader = oppgaver.map(viseInntektskilde ? tilOversiktsradMedInntektskilde : tilOversiktsrad);
+    const rader = oppgaver.map(tilOversiktsrad);
 
     const tabell = useTabell({
         rader: rader,
-        headere: viseInntektskilde ? headereMedInntektskilde : headere,
-        renderer: viseInntektskilde ? rendererMedInntektskilde : renderer,
+        headere: headere,
+        renderer: renderer,
         defaultSortering: useRecoilValue(sorteringState),
         defaultFiltrering: useRecoilValue(filtreringState),
         defaultPaginering: {

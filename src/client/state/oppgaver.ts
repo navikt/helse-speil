@@ -1,10 +1,10 @@
 import { atom, selector, useSetRecoilState } from 'recoil';
-import { Oppgave, Periodetype } from '../../types';
+import { Inntektskilde, Oppgave, Periodetype } from '../../types';
 import { deleteTildeling, fetchOppgaver, postTildeling } from '../io/http';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
 import { capitalizeName, extractNameFromEmail } from '../utils/locale';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { stikkprøve } from '../featureToggles';
+import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -42,6 +42,7 @@ export const oppgaverState = selector<Oppgave[]>({
         const oppgaver = await get(remoteOppgaverState);
         return oppgaver
             .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
+            .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != Inntektskilde.FlereArbeidsgivere)
             .map((it) => {
                 const tildeling = tildelinger[it.oppgavereferanse];
                 return tildeling ? { ...it, tildeltTil: tildeling } : it;
