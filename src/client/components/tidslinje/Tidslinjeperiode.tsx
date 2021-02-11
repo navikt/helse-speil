@@ -16,8 +16,8 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
         `
         box-shadow: 0 0 0 2px var(--navds-text-focus);
         border-color: var(--navds-text-focus);
-        z-index: 100;
     `}
+    z-index: 100;
 
     &.oppgaver {
         --period-background-color: var(--navds-color-orange-10);

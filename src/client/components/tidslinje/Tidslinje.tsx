@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
 import { useTidslinjerader } from './useTidslinjerader';
 import { useInfotrygdrader } from './useInfotrygdrader';
 import { Flex, FlexColumn } from '../Flex';
-import '@navikt/helse-frontend-tidslinje/lib/main.css';
 import { Person, Vedtaksperiode } from 'internal-types';
 import { useSetAktivVedtaksperiode } from '../../state/vedtaksperiode';
-import { AxisLabels, Row } from '@navikt/helse-frontend-timeline/lib';
+import { AxisLabels, Pins, Row } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
 import { TekstMedEllipsis } from '../TekstMedEllipsis';
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { Arbeidsgiverikon } from '../ikoner/Arbeidsgiverikon';
 import { Infotrygdikon } from '../ikoner/Infotrygdikon';
-import { TidslinjeTooltip } from './TidslinjeTooltip';
+import { PinsTooltip, TidslinjeTooltip } from './TidslinjeTooltip';
 import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
+import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
+import { Undertekst } from 'nav-frontend-typografi';
+import { NORSK_DATOFORMAT } from '../../utils/date';
+import dayjs from 'dayjs';
+import 'dayjs/locale/nb';
+
+dayjs.locale('nb');
 
 const Container = styled(FlexColumn)`
     position: relative;
@@ -22,8 +28,8 @@ const Container = styled(FlexColumn)`
     border-bottom: 1px solid var(--navds-color-border);
 
     > div:last-of-type {
-        right: 48px;
-        bottom: 16px;
+        position: relative;
+        margin-top: 1rem;
     }
 `;
 
@@ -46,12 +52,19 @@ const RadContainer = styled(Flex)`
     }
 `;
 
-interface AxisLabelsContainerProps {
+interface HorizontalOffsetProps {
     horizontalOffset: number;
 }
 
-const AxisLabelsContainer = styled.div<AxisLabelsContainerProps>`
+const AxisLabelsContainer = styled.div<HorizontalOffsetProps>`
     ${({ horizontalOffset }) => `margin-left: ${horizontalOffset}px;`}
+`;
+
+const PinsContainer = styled.div<HorizontalOffsetProps>`
+    ${({ horizontalOffset }) => `margin-left: ${horizontalOffset}px;
+    width: calc(100% - ${horizontalOffset}px);`}
+    position: absolute;
+    height: 100%;
 `;
 
 interface ArbeidsgivernavnProps {
@@ -89,12 +102,38 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
 
     const tidslinjeradOffset = 250;
 
+    const maksdato = () => {
+        const sistePeriode = sisteValgbarePeriode(person);
+        const dato = sistePeriode && maksdatoForPeriode(sistePeriode);
+        return dato && dato.isBefore(tom) && dato.isAfter(fom)
+            ? {
+                  date: dato.toDate(),
+                  render: (
+                      <PinsTooltip>
+                          <Undertekst>Maksdato: {dato.format(NORSK_DATOFORMAT)}</Undertekst>
+                      </PinsTooltip>
+                  ),
+                  style: {
+                      zIndex: 1,
+                  },
+              }
+            : undefined;
+    };
+
+    const pins = (): { date: Date; render: ReactNode; style: CSSProperties }[] => {
+        const _maksdato = maksdato();
+        return _maksdato ? [_maksdato] : [];
+    };
+
     return (
         <Container>
             <FlexColumn>
                 <AxisLabelsContainer horizontalOffset={tidslinjeradOffset}>
                     <AxisLabels start={fom} slutt={tom} direction={'right'} />
                 </AxisLabelsContainer>
+                <PinsContainer horizontalOffset={tidslinjeradOffset}>
+                    <Pins start={fom.toDate()} slutt={tom.toDate()} direction={'right'} pins={pins()} />
+                </PinsContainer>
                 {tidslinjerader.map(({ id, perioder, arbeidsgiver }) => (
                     <RadContainer key={id}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>

@@ -62,3 +62,7 @@ interface TooltipProps {
 export const TidslinjeTooltip = ({ children }: TooltipProps) => (
     <StyledTidslinjeTooltip>{children}</StyledTidslinjeTooltip>
 );
+
+export const PinsTooltip = styled(StyledTidslinjeTooltip)`
+    top: -18px !important;
+`;
