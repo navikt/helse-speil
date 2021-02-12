@@ -552,20 +552,7 @@
                             }
                         ]
                     },
-                    "aktivitetslogg": [
-                        {
-                            "vedtaksperiodeId": "63b9b345-bbc1-4532-a5c6-43827f70b871",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Perioden er en direkte overgang fra periode i Infotrygd",
-                            "tidsstempel": "2020-05-13 09:58:50.447"
-                        },
-                        {
-                            "vedtaksperiodeId": "63b9b345-bbc1-4532-a5c6-43827f70b871",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Lovvalg og medlemskap må vurderes manuelt",
-                            "tidsstempel": "2020-05-13 09:58:51.158"
-                        }
-                    ],
+                    "aktivitetslogg": [],
                     "forlengelseFraInfotrygd": "JA"
                 }
             ],
@@ -1113,20 +1100,7 @@
                             }
                         ]
                     },
-                    "aktivitetslogg": [
-                        {
-                            "vedtaksperiodeId": "63b9b345-bbc1-4555-a5c6-43827f70b871",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Perioden er en direkte overgang fra periode i Infotrygd",
-                            "tidsstempel": "2020-05-13 09:58:50.447"
-                        },
-                        {
-                            "vedtaksperiodeId": "63b9b345-bbc1-4555-a5c6-43827f70b871",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Lovvalg og medlemskap må vurderes manuelt",
-                            "tidsstempel": "2020-05-13 09:58:51.158"
-                        }
-                    ],
+                    "aktivitetslogg": [],
                     "forlengelseFraInfotrygd": "JA"
                 }
             ],
@@ -1136,18 +1110,18 @@
     "inntektsgrunnlag": [
         {
             "skjæringstidspunkt": "2020-02-20",
-            "sykepengegrunnlag": 600000.0,
-            "omregnetÅrsinntekt": 600000.0,
+            "sykepengegrunnlag": 608106.0,
+            "omregnetÅrsinntekt": 700000.0,
             "sammenligningsgrunnlag": null,
             "avviksprosent": null,
-            "maksUtbetalingPerDag": 2307.6923076923,
+            "maksUtbetalingPerDag": 2338.8692307692,
             "inntekter": [
                 {
                     "arbeidsgiver": "987654321",
                     "omregnetÅrsinntekt": {
                         "kilde": "Infotrygd",
-                        "beløp": 300000.0,
-                        "månedsbeløp": 25000.0,
+                        "beløp": 350000.0,
+                        "månedsbeløp": 29166.67,
                         "inntekterFraAOrdningen": null
                     }
                 },
@@ -1155,14 +1129,14 @@
                     "arbeidsgiver": "123456789",
                     "omregnetÅrsinntekt": {
                         "kilde": "Infotrygd",
-                        "beløp": 300000.0,
-                        "månedsbeløp": 25000.0,
+                        "beløp": 350000.0,
+                        "månedsbeløp": 29166.67,
                         "inntekterFraAOrdningen": null
                     }
                 }
             ],
             "oppfyllerKravOmMinstelønn": true,
-            "grunnbeløp": 99858
+            "grunnbeløp": 101351
         }
     ],
     "infotrygdutbetalinger": [

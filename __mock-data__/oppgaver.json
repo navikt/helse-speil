@@ -295,7 +295,7 @@
         },
         "vedtaksperiodeId": "63b9b345-bbc1-4532-a5c6-43827f70b871",
         "type": "OVERGANG_FRA_IT",
-        "antallVarsler": 2,
+        "antallVarsler": 0,
         "boenhet": {
             "id": "0228",
             "navn": "Nav Utland"
