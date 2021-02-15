@@ -121,14 +121,11 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                           <Undertekst>Maksdato: {dato.format(NORSK_DATOFORMAT)}</Undertekst>
                       </PinsTooltip>
                   ),
-                  style: {
-                      zIndex: 1,
-                  },
               }
             : undefined;
     };
 
-    const pins = (): { date: Date; render: ReactNode; style: CSSProperties }[] => {
+    const pins = (): { date: Date; render: ReactNode; style?: CSSProperties }[] => {
         const _maksdato = maksdato();
         return _maksdato ? [_maksdato] : [];
     };

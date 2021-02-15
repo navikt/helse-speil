@@ -11,14 +11,12 @@ interface StyledPeriodProps {
 }
 
 export const StyledPeriod = styled(Period)<StyledPeriodProps>`
-    z-index: 20;
-
     ${({ erAktiv }) =>
         erAktiv &&
         `
         box-shadow: 0 0 0 2px var(--navds-text-focus);
         border-color: var(--navds-text-focus);
-        z-index: 30;
+        z-index: 20;
     `}
 
     &.oppgaver {
