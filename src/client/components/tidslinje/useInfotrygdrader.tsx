@@ -1,6 +1,5 @@
 import { InfotrygdTypetekst, Infotrygdutbetaling, Person } from 'internal-types';
 import React, { useMemo } from 'react';
-import { v4 as uuid } from 'uuid';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
@@ -9,7 +8,6 @@ import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/compon
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 import { Dayjs } from 'dayjs';
-import { utbetaling } from '../tabell/rader';
 
 export type UtbetalingerPerArbeidsgiver = { [organisasjonsnummer: string]: Sykepengeperiode[] };
 
@@ -36,26 +34,6 @@ const status = (typetekst: InfotrygdTypetekst) => {
             return Vedtaksperiodetilstand.Infotrygdukjent;
     }
 };
-
-const toSykepengeperiode = (infotrygdutbetaling: Infotrygdutbetaling): Sykepengeperiode => ({
-    id: uuid(),
-    fom: infotrygdutbetaling.fom.toDate(),
-    tom: infotrygdutbetaling.tom.toDate(),
-    status: status(infotrygdutbetaling.typetekst),
-    disabled: true,
-    hoverLabel: (
-        <Label>
-            <Tekst>
-                {`Sykepenger (${infotrygdutbetaling.fom.format(NORSK_DATOFORMAT)} - ${infotrygdutbetaling.tom.format(
-                    NORSK_DATOFORMAT
-                )})`}
-            </Tekst>
-            <Tekst>{`Type: ${infotrygdutbetaling.typetekst}`}</Tekst>
-            {infotrygdutbetaling.grad !== undefined && <Tekst>{`Grad: ${infotrygdutbetaling.grad} %`}</Tekst>}
-            {infotrygdutbetaling.dagsats !== undefined && <Tekst>{`Dagsats: ${infotrygdutbetaling.dagsats} kr`}</Tekst>}
-        </Label>
-    ),
-});
 
 interface InfotrygdperiodeObject extends PeriodObject {
     tilstand: Vedtaksperiodetilstand;

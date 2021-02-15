@@ -11,13 +11,15 @@ interface StyledPeriodProps {
 }
 
 export const StyledPeriod = styled(Period)<StyledPeriodProps>`
+    z-index: 20;
+
     ${({ erAktiv }) =>
         erAktiv &&
         `
         box-shadow: 0 0 0 2px var(--navds-text-focus);
         border-color: var(--navds-text-focus);
+        z-index: 30;
     `}
-    z-index: 100;
 
     &.oppgaver {
         --period-background-color: var(--navds-color-orange-10);
@@ -165,7 +167,6 @@ export const Tidslinjeperiode = (props: TidslinjeperiodeProps) => {
         }
     }, [ref.current]);
 
-    // @ts-ignore
     return (
         <div onMouseEnter={enableHoverLabel} onMouseLeave={disableHoverLabel}>
             <StyledPeriod erMini={erMini} erAktiv={props.erAktiv} ref={ref} {...props}>
