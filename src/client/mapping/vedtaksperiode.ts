@@ -156,7 +156,6 @@ export class VedtaksperiodeBuilder {
         this.mapAktivitetslogg();
         this.mapRisikovurdering();
         this.mapInntektsgrunnlag();
-        this.mapSykepengegrunnlag();
         this.setBehandlet(!!this.unmapped.godkjentAv || this.unmapped.automatiskBehandlet);
         this.setAutomatiskBehandlet(this.unmapped.automatiskBehandlet === true);
         this.setForlengelseFraInfotrygd(mapForlengelseFraInfotrygd(this.unmapped.forlengelseFraInfotrygd));
@@ -301,23 +300,6 @@ export class VedtaksperiodeBuilder {
             this.unmapped.varsler?.length > 0
                 ? this.unmapped.varsler.filter(fjernDuplikater)
                 : this.unmapped.aktivitetslogg.map(({ melding }) => melding).filter(fjernDuplikater);
-    };
-
-    private mapSykepengegrunnlag = () => {
-        try {
-            this.vedtaksperiode.sykepengegrunnlag = {
-                arbeidsgivernavn: this.arbeidsgiver.navn,
-                årsinntektFraAording: this.unmapped.dataForVilkårsvurdering?.beregnetÅrsinntektFraInntektskomponenten,
-                årsinntektFraInntektsmelding: somÅrsinntekt(this.unmapped.inntektFraInntektsmelding),
-                avviksprosent: somProsent(this.unmapped.dataForVilkårsvurdering?.avviksprosent),
-                sykepengegrunnlag: this.unmapped.vilkår?.sykepengegrunnlag.sykepengegrunnlag,
-            };
-        } catch (error) {
-            this.vedtaksperiode.sykepengegrunnlag = {
-                arbeidsgivernavn: this.arbeidsgiver.navn,
-            };
-            this.problems.push(error);
-        }
     };
 
     private mapInntektsgrunnlag = () => {

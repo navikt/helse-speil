@@ -47,7 +47,7 @@ const Oppsummering = () => {
     const [åpen, setÅpen] = useState(false);
     if (!aktivVedtaksperiode) return null;
 
-    const { oppsummering, sykepengegrunnlag, simuleringsdata } = aktivVedtaksperiode;
+    const { oppsummering, inntektsgrunnlag, simuleringsdata } = aktivVedtaksperiode;
 
     return (
         <>
@@ -56,7 +56,7 @@ const Oppsummering = () => {
                     <Sykepengegrunnlagslenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>
                         {t('oppsummering.sykepengegrunnlag')}
                     </Sykepengegrunnlagslenke>
-                    <Normaltekst>{somPenger(sykepengegrunnlag.sykepengegrunnlag!)}</Normaltekst>
+                    <Normaltekst>{somPenger(inntektsgrunnlag.sykepengegrunnlag)}</Normaltekst>
                 </Flex>
                 <Flex justifyContent="space-between">
                     <Normaltekst>{t('oppsummering.antall_utbetalingsdager')}</Normaltekst>

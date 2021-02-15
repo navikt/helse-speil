@@ -144,20 +144,6 @@ describe('VedtaksperiodeBuilder', () => {
 
         expect(vedtaksperiode.simuleringsdata).toEqual(mappetSimuleringsdata);
     });
-    test('mapper sykepengegrunnlag', () => {
-        const { vedtaksperiode } = new VedtaksperiodeBuilder()
-            .setVedtaksperiode(umappetVedtaksperiode())
-            .setArbeidsgiver(umappetArbeidsgiver())
-            .build() as { vedtaksperiode: Vedtaksperiode };
-
-        const { sykepengegrunnlag } = vedtaksperiode;
-        expect(Object.entries(sykepengegrunnlag)).toHaveLength(5);
-        expect(sykepengegrunnlag.arbeidsgivernavn).toEqual('Potetsekk AS');
-        expect(sykepengegrunnlag.avviksprosent).toEqual(0);
-        expect(sykepengegrunnlag.sykepengegrunnlag).toEqual(372000);
-        expect(sykepengegrunnlag.årsinntektFraAording).toEqual(372000);
-        expect(sykepengegrunnlag.årsinntektFraInntektsmelding).toEqual(372000);
-    });
     test('mapper overstyringer', () => {
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
             .setVedtaksperiode(umappetVedtaksperiode())

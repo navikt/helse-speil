@@ -48,14 +48,6 @@ export interface SykepengegrunnlagVilkår {
     grunnebeløp: number;
 }
 
-export interface Sykepengegrunnlag {
-    arbeidsgivernavn: string;
-    sykepengegrunnlag?: number;
-    avviksprosent?: number;
-    årsinntektFraAording?: number;
-    årsinntektFraInntektsmelding?: number;
-}
-
 export interface Arbeidsforhold {
     stillingstittel: string;
     stillingsprosent: number;
@@ -199,7 +191,6 @@ export interface Vedtaksperiode {
     godkjentAv?: string;
     godkjenttidspunkt?: Dayjs;
     vilkår?: Vilkår;
-    sykepengegrunnlag: Sykepengegrunnlag;
     inntektsgrunnlag: Inntektsgrunnlag;
     utbetalinger?: Utbetalinger;
     oppsummering: Oppsummering;

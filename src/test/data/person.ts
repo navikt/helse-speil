@@ -644,13 +644,6 @@ export const mappetPersonObject: Person = {
                     },
                     overstyringer: [],
                     aktivitetslog: ['Aktivitetsloggvarsel'],
-                    sykepengegrunnlag: {
-                        arbeidsgivernavn: 'Potetsekk AS',
-                        årsinntektFraAording: 372000,
-                        årsinntektFraInntektsmelding: 372000,
-                        avviksprosent: 0,
-                        sykepengegrunnlag: 372000,
-                    },
                     risikovurdering: { funn: [], kontrollertOk: [] },
                     simuleringsdata: {
                         totalbeløp: 9999,
