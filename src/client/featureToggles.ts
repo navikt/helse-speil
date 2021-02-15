@@ -29,12 +29,15 @@ const erMorten = () => extractIdent() === 'N115007';
 const erAminet = () => extractIdent() === 'C117102';
 
 const erAnnulleringsbois = () => erKnudix() || erKevin();
+const erSpiceGirls = () => erMarthe() || erMarte() || erKevin() || erAnders();
 const erKnudix = () => extractIdent() === 'N143409';
 const erDigimort = () => extractIdent() === 'T127350';
 const erDavid = () => extractIdent() === 'S150563';
 const erKevin = () => extractIdent() === 'S151890';
 const erMarthe = () => extractIdent() === 'S151399';
-const erUtvikler = () => erKnudix() || erKevin() || erDavid() || erMarthe();
+const erMarte = () => extractIdent() === 'T141884';
+const erAnders = () => extractIdent() === 'O142910';
+const erUtvikler = () => erKnudix() || erDavid() || erSpiceGirls();
 
 const erJonas = () => extractIdent() === 'H159657';
 const erPeter = () => extractIdent() === 'S159940';
@@ -50,4 +53,4 @@ export const speilV2 = true;
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
-export const flereArbeidsgivere = erUtvikler() || erLocal() || erPreprod() || erDigimort();
+export const flereArbeidsgivere = erSpiceGirls() || erLocal() || erPreprod() || erDigimort();
