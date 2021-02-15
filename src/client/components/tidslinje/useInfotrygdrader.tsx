@@ -96,7 +96,7 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs) =>
         return Object.entries(infotrygdutbetalinger).map(([organisasjonsnummer, perioder]) => [
             `Infotrygd - ${
                 person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer)?.navn ??
-                organisasjonsnummer
+                (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
             }`,
             getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
         ]) as [string, TidslinjeperiodeObject[]][];
