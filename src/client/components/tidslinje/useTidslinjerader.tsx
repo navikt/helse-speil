@@ -11,6 +11,7 @@ import { HoverInfo } from './HoverInfo';
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/components/calc';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { Dayjs } from 'dayjs';
+import { arbeidsgiverNavn } from './Tidslinje';
 
 const harDagtyper = (dagtyper: Dagtype[], periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
     !!periode.utbetalingstidslinje?.find((it) => dagtyper.includes(it.type));
@@ -35,12 +36,6 @@ type TidslinjeradObject = {
     perioder: TidslinjeperiodeObject[];
     arbeidsgiver: string;
     erAktiv: boolean;
-};
-
-const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver): string => {
-    return arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'
-        ? arbeidsgiver.navn
-        : arbeidsgiver.organisasjonsnummer;
 };
 
 export const useTidslinjerader = (

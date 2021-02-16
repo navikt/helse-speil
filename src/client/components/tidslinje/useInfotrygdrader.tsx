@@ -8,6 +8,7 @@ import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/compon
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 import { Dayjs } from 'dayjs';
+import { arbeidsgiverNavn } from './Tidslinje';
 
 export type UtbetalingerPerArbeidsgiver = { [organisasjonsnummer: string]: Sykepengeperiode[] };
 
@@ -73,8 +74,10 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs) =>
 
         return Object.entries(infotrygdutbetalinger).map(([organisasjonsnummer, perioder]) => [
             `Infotrygd - ${
-                person.arbeidsgivere.find((it) => it.organisasjonsnummer === organisasjonsnummer)?.navn ??
-                (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
+                person.arbeidsgivere
+                    .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
+                    .map((arb) => arbeidsgiverNavn(arb))
+                    .pop() ?? (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
             }`,
             getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
         ]) as [string, TidslinjeperiodeObject[]][];

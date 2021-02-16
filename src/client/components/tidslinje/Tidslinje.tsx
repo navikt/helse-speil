@@ -4,7 +4,7 @@ import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
 import { useTidslinjerader } from './useTidslinjerader';
 import { useInfotrygdrader } from './useInfotrygdrader';
 import { Flex, FlexColumn } from '../Flex';
-import { Person, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, Person, Vedtaksperiode } from 'internal-types';
 import { useSetAktivVedtaksperiode } from '../../state/vedtaksperiode';
 import { AxisLabels, Pins, Row } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
@@ -44,6 +44,12 @@ export const LasterTidslinje = () => {
             <LasterUtsnittsvelger />
         </Container>
     );
+};
+
+export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver): string => {
+    return arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'
+        ? arbeidsgiver.navn
+        : arbeidsgiver.organisasjonsnummer;
 };
 
 const RadContainer = styled(Flex)`
