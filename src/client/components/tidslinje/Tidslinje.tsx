@@ -115,7 +115,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
         const dato = sistePeriode && maksdatoForPeriode(sistePeriode);
         return dato && dato.isBefore(tom) && dato.isAfter(fom)
             ? {
-                  date: dato.toDate(),
+                  date: dato.endOf('day').toDate(),
                   render: (
                       <PinsTooltip>
                           <Undertekst>Maksdato: {dato.format(NORSK_DATOFORMAT)}</Undertekst>
