@@ -4,6 +4,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { Personlinje } from './Personlinje';
 import { Person } from 'internal-types';
 import { MemoryRouter } from 'react-router';
+import { anonymiserPersonState } from '../state/person';
+import { RecoilRoot } from 'recoil';
 
 describe('Personlinje', () => {
     test('rendrer personinfo', () => {
@@ -23,7 +25,9 @@ describe('Personlinje', () => {
         } as Person;
         render(
             <MemoryRouter>
-                <Personlinje person={person} />
+                <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+                    <Personlinje person={person} />
+                </RecoilRoot>
             </MemoryRouter>
         );
         expect(screen.getByText('A B C')).toBeVisible();

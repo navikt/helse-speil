@@ -38,6 +38,14 @@ const loadingPersonState = atom<boolean>({
     default: false,
 });
 
+export const anonymiserPersonState = atom<boolean>({
+    key: 'anonymiserPersonState',
+    default: false,
+});
+
+export const useAnonymiserPerson = () => useSetRecoilState(anonymiserPersonState);
+export const useSkalAnonymiserePerson = () => useRecoilValue(anonymiserPersonState);
+
 export const useTildelPerson = () => useSetRecoilState(tildelingState);
 
 export const usePerson = () => {

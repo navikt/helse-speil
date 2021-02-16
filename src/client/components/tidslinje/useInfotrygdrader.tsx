@@ -9,6 +9,7 @@ import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 import { Dayjs } from 'dayjs';
 import { arbeidsgiverNavn } from './Tidslinje';
+import { useSkalAnonymiserePerson } from '../../state/person';
 
 export type UtbetalingerPerArbeidsgiver = { [organisasjonsnummer: string]: Sykepengeperiode[] };
 
@@ -55,7 +56,7 @@ const hoverLabel = (infotrygdutbetaling: Infotrygdutbetaling) => (
     </Label>
 );
 
-export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs) =>
+export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, skalAnonymisereData: boolean) =>
     useMemo(() => {
         const infotrygdutbetalinger = person.infotrygdutbetalinger.reduce((rader: Infotrygdrader, utbetalingen) => {
             const infotrygdtidslinje = rader[utbetalingen.organisasjonsnummer];
@@ -76,7 +77,7 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs) =>
             `Infotrygd - ${
                 person.arbeidsgivere
                     .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-                    .map((arb) => arbeidsgiverNavn(arb))
+                    .map((arb) => arbeidsgiverNavn(arb, skalAnonymisereData))
                     .pop() ?? (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
             }`,
             getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),

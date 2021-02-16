@@ -11,6 +11,8 @@ import { Undertekst } from 'nav-frontend-typografi';
 import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { LovdataLenke } from '../../../components/LovdataLenke';
+import { useSkalAnonymiserePerson } from '../../../state/person';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../featureToggles';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -39,6 +41,8 @@ interface InfolinjeProps {
 }
 
 export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
+    const skalAnonymisereData = useSkalAnonymiserePerson();
+
     const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT_KORT);
     const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT_KORT);
     const skjæringstidspunkt =
@@ -54,7 +58,11 @@ export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
             <Strek />
             <InfolinjeElement data-tip="Arbeidsgiver">
                 <Arbeidsgiverikon />
-                {(vedtaksperiode as Vedtaksperiode).arbeidsgivernavn ?? 'Ukjent arbeidsgiver'}
+                {skalAnonymisereData
+                    ? getAnonymArbeidsgiverForOrgnr(
+                          (vedtaksperiode as Vedtaksperiode).inntektsgrunnlag.organisasjonsnummer
+                      ).navn
+                    : (vedtaksperiode as Vedtaksperiode).arbeidsgivernavn ?? 'Ukjent arbeidsgiver'}
             </InfolinjeElement>
             <InfolinjeElement data-tip="Sykmeldingsperiode">
                 <Sykmeldingsperiodeikon />

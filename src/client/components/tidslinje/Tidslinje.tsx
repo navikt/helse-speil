@@ -19,6 +19,8 @@ import { Undertekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
+import { useSkalAnonymiserePerson } from '../../state/person';
+import { getAnonymArbeidsgiverForOrgnr } from '../../featureToggles';
 
 dayjs.locale('nb');
 
@@ -46,7 +48,8 @@ export const LasterTidslinje = () => {
     );
 };
 
-export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver): string => {
+export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver, skalAnonymiseres: boolean): string => {
+    if (skalAnonymiseres) return getAnonymArbeidsgiverForOrgnr(arbeidsgiver.organisasjonsnummer).navn;
     return arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'
         ? arbeidsgiver.navn
         : arbeidsgiver.organisasjonsnummer;
@@ -107,12 +110,13 @@ const TidslinjeContainer = styled.div`
 export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
     const setAktivVedtaksperiode = useSetAktivVedtaksperiode();
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
+    const skalAnonymisereData = useSkalAnonymiserePerson();
 
     const fom = utsnitt[aktivtUtsnitt].fom;
     const tom = utsnitt[aktivtUtsnitt].tom;
 
-    const tidslinjerader = useTidslinjerader(person, fom, tom, aktivVedtaksperiode);
-    const infotrygdrader = useInfotrygdrader(person, fom, tom);
+    const tidslinjerader = useTidslinjerader(person, fom, tom, skalAnonymisereData, aktivVedtaksperiode);
+    const infotrygdrader = useInfotrygdrader(person, fom, tom, skalAnonymisereData);
 
     const tidslinjeradOffset = 250;
 

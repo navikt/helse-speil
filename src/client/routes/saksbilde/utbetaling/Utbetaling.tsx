@@ -12,7 +12,9 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
-import { usePerson } from '../../../state/person';
+import { usePerson, useSkalAnonymiserePerson } from '../../../state/person';
+import { arbeidsgiverNavn } from '../../../components/tidslinje/Tidslinje';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../featureToggles';
 
 const Container = styled.section`
     padding: 2rem 0;
@@ -82,6 +84,7 @@ const Lenke = styled(Link)`
 export const Utbetaling = () => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
+    const skalAnonymisereData = useSkalAnonymiserePerson();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
@@ -121,11 +124,17 @@ export const Utbetaling = () => {
                     <Kort>
                         <Korttittel>
                             <Lenke to={`${personTilBehandling?.aktørId}/../sykepengegrunnlag`}>
-                                {arbeidsgivernavn}
+                                {skalAnonymisereData
+                                    ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
+                                    : arbeidsgivernavn}
                             </Lenke>
                         </Korttittel>
                         <Clipboard preserveWhitespace={false} copyMessage="Organisasjonsnummer er kopiert">
-                            <Normaltekst>{organisasjonsnummer}</Normaltekst>
+                            <Normaltekst>
+                                {skalAnonymisereData
+                                    ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr
+                                    : organisasjonsnummer}
+                            </Normaltekst>
                         </Clipboard>
                         {arbeidsforhold?.[0] && <Arbeidsforhold {...arbeidsforhold[0]} />}
                         <Flex justifyContent="space-between">

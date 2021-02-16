@@ -2,13 +2,14 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import { Dropdown } from '../../../components/Dropdown';
-import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
+import { annulleringerEnabled, oppdaterPersondataEnabled, visAnonymisering } from '../../../featureToggles';
 import { Annullering } from './annullering/Annullering';
 import { Button } from '../../../components/Button';
 import { OppdaterPersondata } from './OppdaterPersondata';
 import { Tildelingsknapp } from './Tildelingsknapp';
 import { usePerson } from '../../../state/person';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
+import { AnonymiserData } from './AnonymiserData';
 
 const Container = styled.div`
     display: flex;
@@ -78,6 +79,7 @@ export const Verktøylinje = () => {
                     </>
                 )}
                 {oppdaterPersondataEnabled && <OppdaterPersondata />}
+                {visAnonymisering && <AnonymiserData />}
                 {visAnnulleringsmuligheter && <Annullering />}
             </Dropdownknapp>
         </Container>

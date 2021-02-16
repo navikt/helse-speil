@@ -13,13 +13,14 @@ import { Arbeidsforhold } from '../Arbeidsforhold';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
 import { kilde } from '../../../utils/inntektskilde';
+import { useSkalAnonymiserePerson } from '../../../state/person';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../featureToggles';
 
 const Arbeidsgivertittel = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-
-    > *:not(:last-child) {
+    o > *:not(:last-child) {
         margin-right: 1rem;
     }
 `;
@@ -74,6 +75,7 @@ interface InntektskilderinnholdProps {
 
 const Inntektskilderinnhold = ({ inntektskilde }: InntektskilderinnholdProps) => {
     const { t } = useTranslation();
+    const skalAnonymisereData = useSkalAnonymiserePerson();
     const {
         arbeidsgivernavn,
         organisasjonsnummer,
@@ -90,9 +92,19 @@ const Inntektskilderinnhold = ({ inntektskilde }: InntektskilderinnholdProps) =>
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
                     <Tittel maxwidth="500px">
-                        <TekstMedEllipsis data-tip={arbeidsgivernavn}>{arbeidsgivernavn}</TekstMedEllipsis>
+                        <TekstMedEllipsis data-tip={arbeidsgivernavn}>
+                            {skalAnonymisereData
+                                ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
+                                : arbeidsgivernavn}
+                        </TekstMedEllipsis>
                         <Flex style={{ margin: '0 4px' }}>
-                            (<Clipboard copyMessage="Organisasjonsnummer er kopiert">{organisasjonsnummer}</Clipboard>)
+                            (
+                            <Clipboard copyMessage="Organisasjonsnummer er kopiert">
+                                {skalAnonymisereData
+                                    ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr
+                                    : organisasjonsnummer}
+                            </Clipboard>
+                            )
                         </Flex>
                     </Tittel>
                     <Kilde>Aa</Kilde>

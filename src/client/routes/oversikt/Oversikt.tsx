@@ -11,7 +11,7 @@ import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { useEmail } from '../../state/authentication';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 import { Oppgave } from '../../../types';
-import { personState } from '../../state/person';
+import { personState, useAnonymiserPerson } from '../../state/person';
 import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { nanoid } from 'nanoid';
 
@@ -38,7 +38,9 @@ const useFiltrerteOppgaver = () => {
     const email = useEmail();
     const aktivTab = useRecoilValue(tabState);
     const oppgaver = useRecoilValueLoadable(oppgaverState);
+    const setAnonymisering = useAnonymiserPerson();
     const [cache, setCache] = useState<Oppgave[]>([]);
+    setAnonymisering(false);
 
     const filtrer = (oppgaver: Oppgave[]): Oppgave[] =>
         aktivTab === 'alle' ? oppgaver : oppgaver.filter(({ tildeltTil }) => tildeltTil === email);

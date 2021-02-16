@@ -7,6 +7,8 @@ import '../../../tekster';
 import { Periodetype } from 'internal-types';
 import { mappetInntektsgrunnlag, umappetInntektsgrunnlag } from '../../../../test/data/inntektsgrunnlag';
 import { SpesialistInntektkilde } from 'external-types';
+import { RecoilRoot } from 'recoil';
+import { anonymiserPersonState } from '../../../state/person';
 
 const enPerson = mappetPerson();
 const enVedtaksperiodeIM = mappetVedtaksperiode();
@@ -28,7 +30,11 @@ const expectContainsStandardFieldsInfotrygd = () => {
 
 describe('Sykepengegrunnlag', () => {
     test('rendrer ubehandlet sykepengegrunnlag', () => {
-        render(<Sykepengegrunnlag vedtaksperiode={enVedtaksperiodeIM} person={enPerson} />);
+        render(
+            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+                <Sykepengegrunnlag vedtaksperiode={enVedtaksperiodeIM} person={enPerson} />
+            </RecoilRoot>
+        );
         expect(screen.queryByText('Sykepengegrunnlag satt ved skjæringstidspunkt - 01.01.2020')).toBeNull();
         expectContainsStandardFields();
     });
@@ -38,7 +44,11 @@ describe('Sykepengegrunnlag', () => {
             periodetype: Periodetype.Førstegangsbehandling,
             behandlet: true,
         };
-        render(<Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />);
+        render(
+            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+                <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
+            </RecoilRoot>
+        );
         expect(screen.queryByText('Sykepengegrunnlag satt ved skjæringstidspunkt - 01.01.2020')).toBeVisible();
         expectContainsStandardFields();
     });
@@ -49,7 +59,11 @@ describe('Sykepengegrunnlag', () => {
             periodetype: Periodetype.Forlengelse,
             behandlet: true,
         };
-        render(<Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />);
+        render(
+            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+                <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
+            </RecoilRoot>
+        );
         expect(screen.queryByText('Sykepengegrunnlag satt ved skjæringstidspunkt - 01.01.2020')).toBeVisible();
         expectContainsStandardFields();
     });
@@ -59,7 +73,11 @@ describe('Sykepengegrunnlag', () => {
             periodetype: Periodetype.Infotrygdforlengelse,
             behandlet: true,
         };
-        render(<Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />);
+        render(
+            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+                <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
+            </RecoilRoot>
+        );
         expectContainsStandardFieldsInfotrygd();
     });
     test('rendrer ubehandlet sykepengegrunnlag for infotrygdforlengelser', () => {
@@ -68,7 +86,11 @@ describe('Sykepengegrunnlag', () => {
             periodetype: Periodetype.Infotrygdforlengelse,
             behandlet: false,
         };
-        render(<Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />);
+        render(
+            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+                <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
+            </RecoilRoot>
+        );
         expectContainsStandardFieldsInfotrygd();
     });
 });

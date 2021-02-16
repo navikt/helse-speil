@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Person } from 'internal-types';
+import { Kjønn, Person } from 'internal-types';
 import { Clipboard } from './clipboard';
 import { Manneikon } from './ikoner/Manneikon';
 import { Kvinneikon } from './ikoner/Kvinneikon';
@@ -8,6 +8,7 @@ import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import { utbetalingsoversikt } from '../featureToggles';
+import { useSkalAnonymiserePerson } from '../state/person';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
@@ -101,11 +102,23 @@ export const LasterPersonlinje = () => (
     </Container>
 );
 
+const anonymisertPersoninfo = {
+    fornavn: 'Agurk',
+    mellomnavn: 'Squash',
+    etternavn: 'Agurksen',
+    fødselsdato: null,
+    kjønn: 'ukjent' as Kjønn,
+    fnr: '11001100111',
+};
+
 export const Personlinje = ({ person }: PersonlinjeProps) => {
     if (!person) return <Container />;
+    const anonymisereData = useSkalAnonymiserePerson;
 
-    const { aktørId, personinfo, enhet } = person;
-    const { fornavn, mellomnavn, etternavn, kjønn, fnr } = personinfo;
+    const { aktørId, personinfo, enhet } = anonymisereData()
+        ? { ...person, enhet: { id: 1000, navn: 'Agurkheim' } }
+        : person;
+    const { fornavn, mellomnavn, etternavn, kjønn, fnr } = anonymisereData() ? anonymisertPersoninfo : personinfo;
 
     return (
         <Container>

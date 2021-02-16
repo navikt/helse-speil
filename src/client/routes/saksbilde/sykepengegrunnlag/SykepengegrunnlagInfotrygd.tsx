@@ -6,6 +6,8 @@ import { Inntektsgrunnlag } from 'internal-types';
 import { Kilde } from '../../../components/Kilde';
 import { kilde } from '../../../utils/inntektskilde';
 import { ArbeidsgiverRad, InntektMedKilde, Kategoritittel, Kolonnetittel } from './InntekttabellKomponenter';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../featureToggles';
+import { useSkalAnonymiserePerson } from '../../../state/person';
 
 interface SykepengegrunnlagInfotrygdProps {
     inntektsgrunnlag: Inntektsgrunnlag;
@@ -38,40 +40,45 @@ export const Divider = styled.hr`
     margin: 0.25rem 0;
 `;
 
-const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: SykepengegrunnlagInfotrygdProps) => (
-    <div>
-        <Sammenligning>
-            <div />
-            <Kategoritittel>Inntektsgrunnlag</Kategoritittel>
-            <Kolonnetittel>Inntektskilde</Kolonnetittel>
-            <Kolonnetittel>Sykepengegrunnlag før 6G</Kolonnetittel>
-            {inntektsgrunnlag.inntekter.map((inntekt, index) => (
-                <ArbeidsgiverRad
-                    key={index}
-                    erGjeldende={inntektsgrunnlag.organisasjonsnummer === inntekt.organisasjonsnummer}
-                >
-                    <div>
-                        <Normaltekst
-                            style={{ marginLeft: '0.25rem' }}
-                        >{`${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`}</Normaltekst>
-                    </div>
-                    <InntektMedKilde>
-                        <Normaltekst>
-                            {inntekt.omregnetÅrsinntekt ? somPenger(inntekt.omregnetÅrsinntekt.beløp) : 'Ukjent'}
-                        </Normaltekst>
-                        {inntekt.omregnetÅrsinntekt && <Kilde>{kilde(inntekt.omregnetÅrsinntekt.kilde)}</Kilde>}
-                    </InntektMedKilde>
-                </ArbeidsgiverRad>
-            ))}
-            <Divider />
-            <Element>Total</Element>
-            <Element>{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Element>
-        </Sammenligning>
-        <Oppsummering className={className}>
-            <Element>Sykepengegrunnlag</Element>
-            <Element>{somPenger(inntektsgrunnlag.sykepengegrunnlag as number | undefined)}</Element>
-        </Oppsummering>
-    </div>
-);
+const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: SykepengegrunnlagInfotrygdProps) => {
+    const skalAnonymisereData = useSkalAnonymiserePerson();
+    return (
+        <div>
+            <Sammenligning>
+                <div />
+                <Kategoritittel>Inntektsgrunnlag</Kategoritittel>
+                <Kolonnetittel>Inntektskilde</Kolonnetittel>
+                <Kolonnetittel>Sykepengegrunnlag før 6G</Kolonnetittel>
+                {inntektsgrunnlag.inntekter.map((inntekt, index) => (
+                    <ArbeidsgiverRad
+                        key={index}
+                        erGjeldende={inntektsgrunnlag.organisasjonsnummer === inntekt.organisasjonsnummer}
+                    >
+                        <div>
+                            <Normaltekst style={{ marginLeft: '0.25rem' }}>
+                                {skalAnonymisereData
+                                    ? `${getAnonymArbeidsgiverForOrgnr(inntekt.organisasjonsnummer).navn}`
+                                    : `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`}
+                            </Normaltekst>
+                        </div>
+                        <InntektMedKilde>
+                            <Normaltekst>
+                                {inntekt.omregnetÅrsinntekt ? somPenger(inntekt.omregnetÅrsinntekt.beløp) : 'Ukjent'}
+                            </Normaltekst>
+                            {inntekt.omregnetÅrsinntekt && <Kilde>{kilde(inntekt.omregnetÅrsinntekt.kilde)}</Kilde>}
+                        </InntektMedKilde>
+                    </ArbeidsgiverRad>
+                ))}
+                <Divider />
+                <Element>Total</Element>
+                <Element>{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Element>
+            </Sammenligning>
+            <Oppsummering className={className}>
+                <Element>Sykepengegrunnlag</Element>
+                <Element>{somPenger(inntektsgrunnlag.sykepengegrunnlag as number | undefined)}</Element>
+            </Oppsummering>
+        </div>
+    );
+};
 
 export default SykepengegrunnlagInfotrygd;

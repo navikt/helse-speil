@@ -42,6 +42,7 @@ export const useTidslinjerader = (
     person: Person,
     fom: Dayjs,
     tom: Dayjs,
+    skalAnonymisereData: boolean,
     aktivVedtaksperiode?: Vedtaksperiode
 ): TidslinjeradObject[] =>
     useMemo(
@@ -66,9 +67,9 @@ export const useTidslinjerader = (
                 return {
                     id: it.organisasjonsnummer,
                     perioder: posisjonertePerioder,
-                    arbeidsgiver: arbeidsgiverNavn(it),
+                    arbeidsgiver: arbeidsgiverNavn(it, skalAnonymisereData),
                     erAktiv: perioder.find((it) => it.id === aktivVedtaksperiode?.id) !== undefined,
                 };
             }) ?? [],
-        [person, aktivVedtaksperiode, fom, tom]
+        [person, aktivVedtaksperiode, fom, tom, skalAnonymisereData]
     );
