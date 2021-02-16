@@ -1,4 +1,11 @@
-import { Dagtype, Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import {
+    Arbeidsgiver,
+    Dagtype,
+    Person,
+    UfullstendigVedtaksperiode,
+    Vedtaksperiode,
+    Vedtaksperiodetilstand,
+} from 'internal-types';
 import React, { useMemo } from 'react';
 import { HoverInfo } from './HoverInfo';
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/components/calc';
@@ -30,6 +37,12 @@ type TidslinjeradObject = {
     erAktiv: boolean;
 };
 
+const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver): string => {
+    return arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'
+        ? arbeidsgiver.navn
+        : arbeidsgiver.organisasjonsnummer;
+};
+
 export const useTidslinjerader = (
     person: Person,
     fom: Dayjs,
@@ -58,7 +71,7 @@ export const useTidslinjerader = (
                 return {
                     id: it.organisasjonsnummer,
                     perioder: posisjonertePerioder,
-                    arbeidsgiver: it.navn,
+                    arbeidsgiver: arbeidsgiverNavn(it),
                     erAktiv: perioder.find((it) => it.id === aktivVedtaksperiode?.id) !== undefined,
                 };
             }) ?? [],
