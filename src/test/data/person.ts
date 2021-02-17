@@ -683,6 +683,7 @@ export const mappetPersonObject: Person = {
                     automatiskBehandlet: false,
                 },
             ],
+            utbetalingshistorikk: [],
         },
     ],
     infotrygdutbetalinger: [],

@@ -45,8 +45,9 @@ describe('useRevurderingsrader', () => {
 
     test('Tom tidslinje', () => {
         const tidslinje = {
-            sykdomstidslinje: [],
-            hendelseTidslinje: [],
+            beregnettidslinje: [],
+            hendelsetidslinje: [],
+            utbetalinger: [],
         };
 
         const builder = new PerioderBuilder();
@@ -56,13 +57,14 @@ describe('useRevurderingsrader', () => {
 
     test('Kan konvertere sykedag til periode', () => {
         const tidslinje = {
-            sykdomstidslinje: [
+            beregnettidslinje: [
                 {
                     dato: dayjs('2018-01-01'),
                     type: Dagtype.Syk,
                 },
             ],
-            hendelseTidslinje: [],
+            hendelsetidslinje: [],
+            utbetalinger: [],
         };
 
         const builder = new PerioderBuilder();
@@ -72,7 +74,7 @@ describe('useRevurderingsrader', () => {
 
     test('Konverterer ikke ubestemt dag til periode', () => {
         const tidslinje = {
-            sykdomstidslinje: [
+            beregnettidslinje: [
                 {
                     dato: dayjs('2018-01-01'),
                     type: Dagtype.Syk,
@@ -82,7 +84,8 @@ describe('useRevurderingsrader', () => {
                     type: Dagtype.Ubestemt,
                 },
             ],
-            hendelseTidslinje: [],
+            hendelsetidslinje: [],
+            utbetalinger: [],
         };
 
         const builder = new PerioderBuilder();
@@ -92,7 +95,7 @@ describe('useRevurderingsrader', () => {
 
     test('Sykedag på hver side av en ubestemt dag medfører to perioder', () => {
         const tidslinje = {
-            sykdomstidslinje: [
+            beregnettidslinje: [
                 {
                     dato: dayjs('2018-01-01'),
                     type: Dagtype.Syk,
@@ -106,7 +109,8 @@ describe('useRevurderingsrader', () => {
                     type: Dagtype.Syk,
                 },
             ],
-            hendelseTidslinje: [],
+            hendelsetidslinje: [],
+            utbetalinger: [],
         };
 
         const builder = new PerioderBuilder();
@@ -116,7 +120,7 @@ describe('useRevurderingsrader', () => {
 
     test('Ikke ny periode ved ukjent dagtype', () => {
         const tidslinje = {
-            sykdomstidslinje: [
+            beregnettidslinje: [
                 {
                     dato: dayjs('2018-01-01'),
                     type: Dagtype.Syk,
@@ -134,7 +138,8 @@ describe('useRevurderingsrader', () => {
                     type: Dagtype.Syk,
                 },
             ],
-            hendelseTidslinje: [],
+            hendelsetidslinje: [],
+            utbetalinger: [],
         };
 
         const builder = new PerioderBuilder();

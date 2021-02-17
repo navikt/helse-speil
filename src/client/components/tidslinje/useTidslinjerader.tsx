@@ -31,7 +31,7 @@ const status = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): Ve
     }
 };
 
-type TidslinjeradObject = {
+export type TidslinjeradObject = {
     id: string;
     perioder: TidslinjeperiodeObject[];
     arbeidsgiver: string;

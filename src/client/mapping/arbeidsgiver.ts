@@ -1,13 +1,5 @@
 import { SpesialistArbeidsgiver, SpesialistInntektsgrunnlag, SpesialistPerson } from 'external-types';
-import {
-    Arbeidsgiver,
-    Dagtype,
-    Kildetype,
-    Sykdomsdag,
-    Utbetalingsdag,
-    UtbetalingshistorikkArbeidsgiverOppdrag,
-    Vedtaksperiode,
-} from 'internal-types';
+import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
 import dayjs, { Dayjs } from 'dayjs';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
@@ -39,7 +31,7 @@ export class ArbeidsgiverBuilder {
             this.problems.push(Error('Mangler arbeidsgiverdata å mappe'));
             return { problems: this.problems };
         }
-        this.mapTidslinjer();
+        this.mapUtbetalingshistorikk();
         this.mapArbeidsgiverinfo();
         this.mapVedtaksperioder();
         this.sortVedtaksperioder();
@@ -62,28 +54,27 @@ export class ArbeidsgiverBuilder {
         };
     };
 
-    private mapTidslinjer = () => {
+    private mapUtbetalingshistorikk = () => {
         this.arbeidsgiver = {
             ...this.arbeidsgiver,
-            tidslinjer: this.unmapped.tidslinjer?.map((tidslinje) => ({
-                sykdomstidslinje: tidslinje.sykdomstidslinje.map((dag) => ({
-                    dato: dayjs(dag.dagen),
-                    type: sykdomstidslinjedag(dag.type),
-                })),
-                hendelseTidslinje: tidslinje.hendelseTidslinje.map((dag) => ({
-                    dato: dayjs(dag.dagen),
-                    type: sykdomstidslinjedag(dag.type),
-                })),
-                utbetaling: tidslinje.utbetaling
-                    ? {
-                          status: tidslinje.utbetaling.status,
-                          utbetalingstidslinje: tidslinje.utbetaling.utbetalingstidslinje.map((dag) => ({
-                              dato: dayjs(dag.dato),
-                              type: utbetalingstidslinjedag(dag.type),
-                          })),
-                      }
-                    : undefined,
-            })),
+            utbetalingshistorikk:
+                this.unmapped.utbetalingshistorikk?.map((tidslinje) => ({
+                    beregnettidslinje: tidslinje.beregnettidslinje.map((dag) => ({
+                        dato: dayjs(dag.dagen),
+                        type: sykdomstidslinjedag(dag.type),
+                    })),
+                    hendelsetidslinje: tidslinje.hendelsetidslinje.map((dag) => ({
+                        dato: dayjs(dag.dagen),
+                        type: sykdomstidslinjedag(dag.type),
+                    })),
+                    utbetalinger: tidslinje.utbetalinger.map((utbetaling) => ({
+                        status: utbetaling.status,
+                        utbetalingstidslinje: utbetaling.utbetalingstidslinje.map((dag) => ({
+                            dato: dayjs(dag.dato),
+                            type: utbetalingstidslinjedag(dag.type),
+                        })),
+                    })),
+                })) ?? [],
         };
     };
 

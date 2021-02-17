@@ -10,10 +10,10 @@ import {
 } from 'internal-types';
 
 // External
-export interface Tidslinje {
-    sykdomstidslinje: EksternSykdomsdag[];
-    hendelseTidslinje: EksternSykdomsdag[];
-    utbetaling?: EksternUtbetaling;
+export interface EksternUtbetalingshistorikkElement {
+    beregnettidslinje: EksternSykdomsdag[];
+    hendelsetidslinje: EksternSykdomsdag[];
+    utbetalinger: EksternUtbetaling[];
 }
 
 export interface EksternSykdomsdag {
@@ -29,13 +29,13 @@ export interface EksternUtbetaling {
 }
 
 // Internal
-export interface InternTidslinje {
-    sykdomstidslinje: Sykdomsdag[];
-    hendelseTidslinje: Sykdomsdag[];
-    utbetaling?: InternUtbetaling;
+export interface UtbetalingshistorikkElement {
+    beregnettidslinje: Sykdomsdag[];
+    hendelsetidslinje: Sykdomsdag[];
+    utbetalinger: Utbetaling[];
 }
 
-export interface InternUtbetaling {
+export interface Utbetaling {
     status: string;
     utbetalingstidslinje: Utbetalingsdag[];
 }

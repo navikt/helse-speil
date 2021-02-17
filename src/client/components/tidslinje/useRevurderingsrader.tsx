@@ -1,4 +1,4 @@
-import { InternTidslinje } from '../../../types/types.tidslinjer';
+import { UtbetalingshistorikkElement } from '../../../types/types.tidslinjer';
 import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 import { Dagtype, Person } from 'internal-types';
 import { useMemo } from 'react';
@@ -42,8 +42,8 @@ export class PerioderBuilder {
 
     add = (periode: Periode) => this.perioder.push(periode);
 
-    build = (tidslinje: InternTidslinje): Periode[] => {
-        tidslinje.sykdomstidslinje.forEach((dag, index) => {
+    build = (element: UtbetalingshistorikkElement): Periode[] => {
+        element.beregnettidslinje.forEach((dag, index) => {
             switch (dag.type) {
                 case Dagtype.Ubestemt:
                     this.tilstand.ukjentDag(this, dag.dato.toDate());
@@ -52,7 +52,7 @@ export class PerioderBuilder {
                     this.tilstand.sykedag(this, dag.dato.toDate());
                     break;
             }
-            if (tidslinje.sykdomstidslinje.length - 1 === index) {
+            if (element.beregnettidslinje.length - 1 === index) {
                 this.byttTilstand(new Ferdig(), dag.dato.toDate());
                 return;
             }
@@ -91,26 +91,27 @@ class Ferdig implements PerioderTilstand {
     ukjentDag = (builder: PerioderBuilder, dagen: Date) => {};
 }
 
-export const toSykepengeperiode = (tidslinje: InternTidslinje): Sykepengeperiode[] => {
+export const toSykepengeperiode = (tidslinje: UtbetalingshistorikkElement): Sykepengeperiode[] => {
     const perioder: Periode[] = new PerioderBuilder().build(tidslinje);
     return perioder.map((periode, index) => ({
         id: index.toString(),
         fom: periode.fom,
         tom: periode.tom,
-        status: periode.erTilRevurdering(tidslinje.hendelseTidslinje[0].dato.toDate())
+        status: periode.erTilRevurdering(tidslinje.hendelsetidslinje[0].dato.toDate())
             ? Vedtaksperiodetilstand.Oppgaver
             : Vedtaksperiodetilstand.Ukjent,
     }));
 };
 
 export const useRevurderingsrader = (person?: Person): Sykepengeperiode[][] =>
+    // for hver arbeidsgiver returnere en liste av TidslinjeradObject
     useMemo(
         () =>
             person?.arbeidsgivere.map((arbeidsgiver) => {
-                if (!arbeidsgiver.tidslinjer) {
+                if (!arbeidsgiver.utbetalingshistorikk) {
                     return [];
                 } else {
-                    const first: InternTidslinje = arbeidsgiver.tidslinjer[0]!!;
+                    const first: UtbetalingshistorikkElement = arbeidsgiver.utbetalingshistorikk[0]!!;
                     return toSykepengeperiode(first);
                 }
             }) ?? [],

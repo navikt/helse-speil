@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
-import { InternTidslinje } from './types.tidslinjer';
+import { UtbetalingshistorikkElement } from './types.tidslinjer';
 
 export interface Periode {
     fom: Dayjs;
@@ -230,7 +230,7 @@ export interface Arbeidsgiver {
     organisasjonsnummer: string;
     id: string;
     navn: string;
-    tidslinjer?: InternTidslinje[];
+    utbetalingshistorikk: UtbetalingshistorikkElement[];
     vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
 }
 

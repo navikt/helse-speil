@@ -1,5 +1,5 @@
 import { SpesialistPersoninfo } from '../types';
-import { Tidslinje } from './types.tidslinjer';
+import { EksternUtbetalingshistorikkElement } from './types.tidslinjer';
 
 export interface Utbetalingsdetalj {
     sats: number;
@@ -215,7 +215,7 @@ export interface SpesialistArbeidsgiver {
     vedtaksperioder: SpesialistVedtaksperiode[];
     navn: string;
     overstyringer: SpesialistOverstyring[];
-    tidslinjer?: Tidslinje[];
+    utbetalingshistorikk?: EksternUtbetalingshistorikkElement[];
 }
 
 export interface SpleisDataForVilkårsvurdering {
