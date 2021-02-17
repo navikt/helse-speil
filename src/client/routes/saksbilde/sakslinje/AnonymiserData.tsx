@@ -6,16 +6,16 @@ import { useAnonymiserPerson, useSkalAnonymiserePerson } from '../../../state/pe
 export const AnonymiserData = () => {
     const { lukk } = useContext(DropdownContext);
     const anonymiserPersondata = useAnonymiserPerson();
-    const skalAnonymisereData = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     const anonymiserData = () => {
         lukk();
-        anonymiserPersondata(!skalAnonymisereData);
+        anonymiserPersondata(!anonymiseringEnabled);
     };
 
     return (
         <DropdownMenyknapp onClick={anonymiserData}>
-            {skalAnonymisereData ? 'Fjern anonymisering' : 'Anonymiser person'}
+            {anonymiseringEnabled ? 'Fjern anonymisering' : 'Anonymiser person'}
         </DropdownMenyknapp>
     );
 };

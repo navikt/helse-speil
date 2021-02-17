@@ -12,7 +12,7 @@ import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { LovdataLenke } from '../../../components/LovdataLenke';
 import { useSkalAnonymiserePerson } from '../../../state/person';
-import { getAnonymArbeidsgiverForOrgnr } from '../../../featureToggles';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -41,7 +41,7 @@ interface InfolinjeProps {
 }
 
 export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
-    const skalAnonymisereData = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT_KORT);
     const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT_KORT);
@@ -58,7 +58,7 @@ export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
             <Strek />
             <InfolinjeElement data-tip="Arbeidsgiver">
                 <Arbeidsgiverikon />
-                {skalAnonymisereData
+                {anonymiseringEnabled
                     ? getAnonymArbeidsgiverForOrgnr(
                           (vedtaksperiode as Vedtaksperiode).inntektsgrunnlag.organisasjonsnummer
                       ).navn

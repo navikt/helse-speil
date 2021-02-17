@@ -8,6 +8,7 @@ import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import Inntektskilderinnhold from './Inntektskilderinnhold';
 import Inntektsgrunnlaginnhold from './Inntektsgrunnlaginnhold';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
+import { useSkalAnonymiserePerson } from '../../../state/person';
 
 const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;
@@ -45,12 +46,17 @@ const Strek = styled.span`
 interface SykepengegrunnlagFraInfogtrygdProps {
     inntektsgrunnlag: Inntektsgrunnlag;
     inntekt: Arbeidsgiverinntekt;
+    anonymiseringEnabled: boolean;
 }
 
-const SykepengegrunnlagFraInfogtrygd = ({ inntektsgrunnlag, inntekt }: SykepengegrunnlagFraInfogtrygdProps) => (
+const SykepengegrunnlagFraInfogtrygd = ({
+    inntektsgrunnlag,
+    inntekt,
+    anonymiseringEnabled,
+}: SykepengegrunnlagFraInfogtrygdProps) => (
     <StyledBehandletAvInfotrygd tittel="Sykepengegrunnlag satt i Infotrygd">
         <OversiktContainer>
-            <Inntektskilderinnhold inntektskilde={inntekt!} />
+            <Inntektskilderinnhold inntektskilde={inntekt!} anonymiseringEnabled={anonymiseringEnabled} />
             <Strek />
             <SykepengegrunnlagInfotrygd inntektsgrunnlag={inntektsgrunnlag} />
         </OversiktContainer>
@@ -60,13 +66,18 @@ const SykepengegrunnlagFraInfogtrygd = ({ inntektsgrunnlag, inntekt }: Sykepenge
 interface UbehandletSykepengegrunnlagProps {
     inntektsgrunnlag: Inntektsgrunnlag;
     inntektskilde?: Arbeidsgiverinntekt;
+    anonymiseringEnabled: boolean;
 }
 
-const UbehandletSykepengegrunnlag = ({ inntektsgrunnlag, inntektskilde }: UbehandletSykepengegrunnlagProps) => (
+const UbehandletSykepengegrunnlag = ({
+    inntektsgrunnlag,
+    inntektskilde,
+    anonymiseringEnabled,
+}: UbehandletSykepengegrunnlagProps) => (
     <OversiktContainer>
-        <Inntektskilderinnhold inntektskilde={inntektskilde!} />
+        <Inntektskilderinnhold inntektskilde={inntektskilde!} anonymiseringEnabled={anonymiseringEnabled} />
         <Strek />
-        <Inntektsgrunnlaginnhold inntektsgrunnlag={inntektsgrunnlag} />
+        <Inntektsgrunnlaginnhold inntektsgrunnlag={inntektsgrunnlag} anonymiseringEnabled={anonymiseringEnabled} />
     </OversiktContainer>
 );
 
@@ -80,6 +91,7 @@ const BehandletSykepengegrunnlag = ({
     skjæringstidspunkt,
     inntektsgrunnlag,
     inntektskilde,
+    anonymiseringEnabled,
 }: BehandletSykepengegrunnlagProps) => (
     <StyledBehandletInnhold
         tittel={`Sykepengegrunnlag satt ved skjæringstidspunkt - ${skjæringstidspunkt}`}
@@ -87,7 +99,11 @@ const BehandletSykepengegrunnlag = ({
         vurderingsdato={førstePeriode?.godkjenttidspunkt?.format(NORSK_DATOFORMAT)}
         automatiskBehandlet={førstePeriode.automatiskBehandlet}
     >
-        <UbehandletSykepengegrunnlag inntektsgrunnlag={inntektsgrunnlag} inntektskilde={inntektskilde} />
+        <UbehandletSykepengegrunnlag
+            inntektsgrunnlag={inntektsgrunnlag}
+            inntektskilde={inntektskilde}
+            anonymiseringEnabled={anonymiseringEnabled}
+        />
     </StyledBehandletInnhold>
 );
 
@@ -98,6 +114,7 @@ interface SykepengegrunnlagProps {
 
 export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagProps) => {
     const { periodetype, inntektsgrunnlag, behandlet } = vedtaksperiode;
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     const arbeidsgiverinntekt = inntektsgrunnlag.inntekter.find(
         (it) => it.organisasjonsnummer === inntektsgrunnlag.organisasjonsnummer
@@ -110,11 +127,13 @@ export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagP
                     <UbehandletSykepengegrunnlag
                         inntektsgrunnlag={inntektsgrunnlag}
                         inntektskilde={arbeidsgiverinntekt}
+                        anonymiseringEnabled={anonymiseringEnabled}
                     />
                 ) : periodetype === Periodetype.Infotrygdforlengelse ? (
                     <SykepengegrunnlagFraInfogtrygd
                         inntektsgrunnlag={inntektsgrunnlag}
                         inntekt={arbeidsgiverinntekt!}
+                        anonymiseringEnabled={anonymiseringEnabled}
                     />
                 ) : (
                     <BehandletSykepengegrunnlag
@@ -124,6 +143,7 @@ export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagP
                         }
                         inntektsgrunnlag={inntektsgrunnlag}
                         inntektskilde={arbeidsgiverinntekt}
+                        anonymiseringEnabled={anonymiseringEnabled}
                     />
                 )}
             </AgurkErrorBoundary>

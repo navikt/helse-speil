@@ -8,11 +8,20 @@ interface ArbeidsforholdProps {
     stillingstittel: string;
     startdato: Dayjs;
     sluttdato?: Dayjs;
+    anonymiseringEnabled: boolean;
 }
 
-export const Arbeidsforhold = ({ stillingsprosent, stillingstittel, startdato, sluttdato }: ArbeidsforholdProps) => (
+export const Arbeidsforhold = ({
+    stillingsprosent,
+    stillingstittel,
+    startdato,
+    sluttdato,
+    anonymiseringEnabled,
+}: ArbeidsforholdProps) => (
     <>
-        <Normaltekst>{`${stillingstittel}, ${stillingsprosent} %`}</Normaltekst>
+        <Normaltekst>{`${
+            anonymiseringEnabled ? 'Agurkifisert stillingstittel' : stillingstittel
+        }, ${stillingsprosent} %`}</Normaltekst>
         <Normaltekst>
             {startdato.format(NORSK_DATOFORMAT)}
             {' - '}

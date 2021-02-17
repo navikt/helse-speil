@@ -20,7 +20,7 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
 import { useSkalAnonymiserePerson } from '../../state/person';
-import { getAnonymArbeidsgiverForOrgnr } from '../../featureToggles';
+import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
 
 dayjs.locale('nb');
 
@@ -110,13 +110,13 @@ const TidslinjeContainer = styled.div`
 export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
     const setAktivVedtaksperiode = useSetAktivVedtaksperiode();
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
-    const skalAnonymisereData = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     const fom = utsnitt[aktivtUtsnitt].fom;
     const tom = utsnitt[aktivtUtsnitt].tom;
 
-    const tidslinjerader = useTidslinjerader(person, fom, tom, skalAnonymisereData, aktivVedtaksperiode);
-    const infotrygdrader = useInfotrygdrader(person, fom, tom, skalAnonymisereData);
+    const tidslinjerader = useTidslinjerader(person, fom, tom, anonymiseringEnabled, aktivVedtaksperiode);
+    const infotrygdrader = useInfotrygdrader(person, fom, tom, anonymiseringEnabled);
 
     const tidslinjeradOffset = 250;
 

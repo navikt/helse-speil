@@ -13,8 +13,7 @@ import { Arbeidsforhold } from '../Arbeidsforhold';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
 import { kilde } from '../../../utils/inntektskilde';
-import { useSkalAnonymiserePerson } from '../../../state/person';
-import { getAnonymArbeidsgiverForOrgnr } from '../../../featureToggles';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 
 const Arbeidsgivertittel = styled.div`
     display: flex;
@@ -71,11 +70,11 @@ const Kolonnetittel = styled(Undertekst)`
 
 interface InntektskilderinnholdProps {
     inntektskilde: Arbeidsgiverinntekt;
+    anonymiseringEnabled: boolean;
 }
 
-const Inntektskilderinnhold = ({ inntektskilde }: InntektskilderinnholdProps) => {
+const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: InntektskilderinnholdProps) => {
     const { t } = useTranslation();
-    const skalAnonymisereData = useSkalAnonymiserePerson();
     const {
         arbeidsgivernavn,
         organisasjonsnummer,
@@ -93,14 +92,14 @@ const Inntektskilderinnhold = ({ inntektskilde }: InntektskilderinnholdProps) =>
                     <Arbeidsgiverikon />
                     <Tittel maxwidth="500px">
                         <TekstMedEllipsis data-tip={arbeidsgivernavn}>
-                            {skalAnonymisereData
+                            {anonymiseringEnabled
                                 ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
                                 : arbeidsgivernavn}
                         </TekstMedEllipsis>
                         <Flex style={{ margin: '0 4px' }}>
                             (
                             <Clipboard copyMessage="Organisasjonsnummer er kopiert">
-                                {skalAnonymisereData
+                                {anonymiseringEnabled
                                     ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr
                                     : organisasjonsnummer}
                             </Clipboard>
@@ -111,10 +110,12 @@ const Inntektskilderinnhold = ({ inntektskilde }: InntektskilderinnholdProps) =>
                 </Arbeidsgivertittel>
                 <Bransjer>
                     {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
-                    {bransjer.join(', ')}
+                    {anonymiseringEnabled ? 'Agurkifisert bransje' : bransjer.join(', ')}
                 </Bransjer>
                 <ArbeidsforholdTabell>
-                    {arbeidsforhold?.[0] && <Arbeidsforhold {...arbeidsforhold[0]} />}
+                    {arbeidsforhold?.[0] && (
+                        <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...arbeidsforhold[0]} />
+                    )}
                 </ArbeidsforholdTabell>
                 <HeaderContainer>
                     <Tittel tag="h3">{t('inntektskilder.inntekt')}</Tittel>

@@ -9,6 +9,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Link } from 'react-router-dom';
 import { utbetalingsoversikt } from '../featureToggles';
 import { useSkalAnonymiserePerson } from '../state/person';
+import { anonymisertPersoninfo } from '../agurkdata';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
@@ -102,23 +103,14 @@ export const LasterPersonlinje = () => (
     </Container>
 );
 
-const anonymisertPersoninfo = {
-    fornavn: 'Agurk',
-    mellomnavn: 'Squash',
-    etternavn: 'Agurksen',
-    fødselsdato: null,
-    kjønn: 'ukjent' as Kjønn,
-    fnr: '11001100111',
-};
-
 export const Personlinje = ({ person }: PersonlinjeProps) => {
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
     if (!person) return <Container />;
-    const anonymisereData = useSkalAnonymiserePerson;
 
-    const { aktørId, personinfo, enhet } = anonymisereData()
-        ? { ...person, enhet: { id: 1000, navn: 'Agurkheim' } }
+    const { aktørId, personinfo, enhet } = anonymiseringEnabled
+        ? { ...person, aktørId: '1000000000000', enhet: { id: 1000, navn: 'Agurkheim' } }
         : person;
-    const { fornavn, mellomnavn, etternavn, kjønn, fnr } = anonymisereData() ? anonymisertPersoninfo : personinfo;
+    const { fornavn, mellomnavn, etternavn, kjønn, fnr } = anonymiseringEnabled ? anonymisertPersoninfo : personinfo;
 
     return (
         <Container>

@@ -6,11 +6,11 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Avvikssammenligning from './Avvikssammenligning';
 import { Divider, Kategoritittel, Kolonnetittel } from './InntekttabellKomponenter';
-import { useSkalAnonymiserePerson } from '../../../state/person';
-import { getAnonymArbeidsgiverForOrgnr } from '../../../featureToggles';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 
 interface InntektsgrunnlaginnholdProps {
     inntektsgrunnlag: Inntektsgrunnlag;
+    anonymiseringEnabled: boolean;
 }
 
 const Oppsummering = styled.div`
@@ -31,9 +31,7 @@ const Sammenligning = styled.div`
     margin-bottom: 4.5rem;
 `;
 
-const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag }: InntektsgrunnlaginnholdProps) => {
-    const skalAnonymisereData = useSkalAnonymiserePerson();
-
+const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag, anonymiseringEnabled }: InntektsgrunnlaginnholdProps) => {
     return (
         <div>
             <Sammenligning>
@@ -47,7 +45,7 @@ const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag }: InntektsgrunnlaginnholdPr
                     <Inntektssammenligning
                         key={inntekt.organisasjonsnummer + index}
                         arbeidsgiver={
-                            skalAnonymisereData
+                            anonymiseringEnabled
                                 ? `${getAnonymArbeidsgiverForOrgnr(inntekt.organisasjonsnummer).navn}`
                                 : `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`
                         }

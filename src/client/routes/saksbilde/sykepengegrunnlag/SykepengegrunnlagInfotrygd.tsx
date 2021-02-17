@@ -6,8 +6,8 @@ import { Inntektsgrunnlag } from 'internal-types';
 import { Kilde } from '../../../components/Kilde';
 import { kilde } from '../../../utils/inntektskilde';
 import { ArbeidsgiverRad, InntektMedKilde, Kategoritittel, Kolonnetittel } from './InntekttabellKomponenter';
-import { getAnonymArbeidsgiverForOrgnr } from '../../../featureToggles';
 import { useSkalAnonymiserePerson } from '../../../state/person';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 
 interface SykepengegrunnlagInfotrygdProps {
     inntektsgrunnlag: Inntektsgrunnlag;
@@ -41,7 +41,7 @@ export const Divider = styled.hr`
 `;
 
 const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: SykepengegrunnlagInfotrygdProps) => {
-    const skalAnonymisereData = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
     return (
         <div>
             <Sammenligning>
@@ -56,7 +56,7 @@ const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: Sykepengegr
                     >
                         <div>
                             <Normaltekst style={{ marginLeft: '0.25rem' }}>
-                                {skalAnonymisereData
+                                {anonymiseringEnabled
                                     ? `${getAnonymArbeidsgiverForOrgnr(inntekt.organisasjonsnummer).navn}`
                                     : `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`}
                             </Normaltekst>

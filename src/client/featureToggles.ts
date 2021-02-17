@@ -1,4 +1,5 @@
 import { extractIdent } from './utils/cookie';
+import { Kjønn } from 'internal-types';
 
 export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
@@ -60,24 +61,3 @@ export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehan
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
 export const flereArbeidsgivere = erSpiceGirls() || erLocal() || erPreprod() || erDigimort();
 export const visAnonymisering = erSpiceGirls() || erLocal() || erPreprod() || erDigimort() || erMorten();
-const navneliste = [
-    'Pølseboden',
-    'CucumberService AS',
-    'CucumberHeaven',
-    'AgurkNytt',
-    'Agurk Bilglass',
-    'Agurk Skole',
-    'Pølse og Agurk ASA',
-];
-const orgnrGenerator = () => Math.random().toString().substr(2, 9);
-
-const anonymeArbeidsgiverNavn: { [key: string]: { navn: string; orgnr: string } } = {};
-
-export const getAnonymArbeidsgiverForOrgnr = (organisasjonsnummer: string): { navn: string; orgnr: string } => {
-    if (anonymeArbeidsgiverNavn[organisasjonsnummer]) return anonymeArbeidsgiverNavn[organisasjonsnummer];
-    anonymeArbeidsgiverNavn[organisasjonsnummer] = {
-        navn: navneliste.splice(Math.floor(Math.random() * navneliste.length), 1).pop()!!,
-        orgnr: orgnrGenerator(),
-    };
-    return anonymeArbeidsgiverNavn[organisasjonsnummer];
-};
