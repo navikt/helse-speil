@@ -183,11 +183,11 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                         </Tidslinjerad>
                     </RadContainer>
                 ))}
-                {infotrygdrader.map(([arbeidsgiver, perioder]) => (
-                    <RadContainer key={arbeidsgiver}>
+                {infotrygdrader.map(({ arbeidsgivernavn, perioder }) => (
+                    <RadContainer key={arbeidsgivernavn}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Infotrygdikon />
-                            <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
+                            <TekstMedEllipsis data-tip={arbeidsgivernavn}>{arbeidsgivernavn}</TekstMedEllipsis>
                         </Arbeidsgivernavn>
                         <Tidslinjerad erAktiv={false}>
                             {perioder.map((it) => (

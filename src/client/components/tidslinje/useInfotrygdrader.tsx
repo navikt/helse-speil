@@ -56,7 +56,12 @@ const hoverLabel = (infotrygdutbetaling: Infotrygdutbetaling) => (
     </Label>
 );
 
-export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, anonymiseringEnabled: boolean) =>
+type InfotrygdradObject = {
+    arbeidsgivernavn: string;
+    perioder: TidslinjeperiodeObject[];
+};
+
+export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, anonymiseringEnabled: boolean): InfotrygdradObject[] =>
     useMemo(() => {
         const infotrygdutbetalinger = person.infotrygdutbetalinger.reduce((rader: Infotrygdrader, utbetalingen) => {
             const infotrygdtidslinje = rader[utbetalingen.organisasjonsnummer];
@@ -79,18 +84,18 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, anonym
                     person.arbeidsgivere?.findIndex((arb) => a[0] === arb.organisasjonsnummer) -
                     person.arbeidsgivere?.findIndex((arb) => b[0] === arb.organisasjonsnummer)
             )
-            .map(([organisasjonsnummer, perioder]) => [
-                `Infotrygd - ${
-                    person.arbeidsgivere
-                        .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-                        .map((arb) => arbeidsgiverNavn(arb, anonymiseringEnabled))
-                        .pop() ??
-                    (organisasjonsnummer !== '0'
-                        ? anonymiseringEnabled
-                            ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
-                            : organisasjonsnummer
-                        : 'Ingen utbetaling')
-                }`,
-                getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
-            ]) as [string, TidslinjeperiodeObject[]][];
+            .map(([organisasjonsnummer, perioder]) => ({
+                arbeidsgivernavn: `Infotrygd - ${
+                person.arbeidsgivere
+                    .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
+                    .map((arb) => arbeidsgiverNavn(arb, anonymiseringEnabled))
+                    .pop() ??
+                (organisasjonsnummer !== '0'
+                    ? anonymiseringEnabled
+                        ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
+                        : organisasjonsnummer
+                    : 'Ingen utbetaling')
+            }`,
+            perioder: getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
+        })) as InfotrygdradObject[];
     }, [person, fom, tom, anonymiseringEnabled]);
