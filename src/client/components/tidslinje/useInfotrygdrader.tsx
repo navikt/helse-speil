@@ -4,7 +4,7 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 import { nanoid } from 'nanoid';
-import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/components/calc';
+import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 import { Dayjs } from 'dayjs';
@@ -61,7 +61,12 @@ type InfotrygdradObject = {
     perioder: TidslinjeperiodeObject[];
 };
 
-export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, anonymiseringEnabled: boolean): InfotrygdradObject[] =>
+export const useInfotrygdrader = (
+    person: Person,
+    fom: Dayjs,
+    tom: Dayjs,
+    anonymiseringEnabled: boolean
+): InfotrygdradObject[] =>
     useMemo(() => {
         const infotrygdutbetalinger = person.infotrygdutbetalinger.reduce((rader: Infotrygdrader, utbetalingen) => {
             const infotrygdtidslinje = rader[utbetalingen.organisasjonsnummer];

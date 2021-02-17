@@ -3,6 +3,7 @@ import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
 import dayjs, { Dayjs } from 'dayjs';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
+import { nanoid } from 'nanoid';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -58,17 +59,19 @@ export class ArbeidsgiverBuilder {
         this.arbeidsgiver = {
             ...this.arbeidsgiver,
             utbetalingshistorikk:
-                this.unmapped.utbetalingshistorikk?.map((tidslinje) => ({
-                    beregnettidslinje: tidslinje.beregnettidslinje.map((dag) => ({
+                this.unmapped.utbetalingshistorikk?.map((element) => ({
+                    id: element.id,
+                    beregnettidslinje: element.beregnettidslinje.map((dag) => ({
                         dato: dayjs(dag.dagen),
                         type: sykdomstidslinjedag(dag.type),
                     })),
-                    hendelsetidslinje: tidslinje.hendelsetidslinje.map((dag) => ({
+                    hendelsetidslinje: element.hendelsetidslinje.map((dag) => ({
                         dato: dayjs(dag.dagen),
                         type: sykdomstidslinjedag(dag.type),
                     })),
-                    utbetalinger: tidslinje.utbetalinger.map((utbetaling) => ({
+                    utbetalinger: element.utbetalinger.map((utbetaling) => ({
                         status: utbetaling.status,
+                        type: utbetaling.type,
                         utbetalingstidslinje: utbetaling.utbetalingstidslinje.map((dag) => ({
                             dato: dayjs(dag.dato),
                             type: utbetalingstidslinjedag(dag.type),

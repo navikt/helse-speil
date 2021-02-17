@@ -369,6 +369,7 @@ export interface SpesialistVedtaksperiode {
     aktivitetslogg: SpleisAktivitet[];
     risikovurdering: SpesialistRisikovurdering | null;
     varsler: string[];
+    beregningId?: string;
 }
 
 export interface UfullstendigSpesialistVedtaksperiode {

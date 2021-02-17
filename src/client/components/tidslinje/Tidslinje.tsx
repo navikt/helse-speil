@@ -128,7 +128,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
 
     const tidslinjerader = useTidslinjerader(person, fom, tom, anonymiseringEnabled, aktivVedtaksperiode);
     const infotrygdrader = useInfotrygdrader(person, fom, tom, anonymiseringEnabled);
-    const revurderingsrader = useRevurderingsrader(person);
+    const revurderingsrader = useRevurderingsrader(person, anonymiseringEnabled);
 
     const tidslinjeradOffset = 250;
 

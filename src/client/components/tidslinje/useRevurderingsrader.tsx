@@ -2,6 +2,10 @@ import { UtbetalingshistorikkElement } from '../../../types/types.tidslinjer';
 import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 import { Dagtype, Person } from 'internal-types';
 import { useMemo } from 'react';
+import { TidslinjeradObject } from './useTidslinjerader';
+import { TidslinjeperiodeObject } from './Tidslinje.types';
+import { arbeidsgiverNavn } from './Tidslinje';
+import dayjs from 'dayjs';
 
 export interface PerioderTilstand {
     sykedag: (builder: PerioderBuilder, dagen: Date) => void;
@@ -91,29 +95,38 @@ class Ferdig implements PerioderTilstand {
     ukjentDag = (builder: PerioderBuilder, dagen: Date) => {};
 }
 
-export const toSykepengeperiode = (tidslinje: UtbetalingshistorikkElement): Sykepengeperiode[] => {
-    const perioder: Periode[] = new PerioderBuilder().build(tidslinje);
+export const toTidslinjeperioder = (element: UtbetalingshistorikkElement): TidslinjeperiodeObject[] => {
+    const perioder: Periode[] = new PerioderBuilder().build(element);
     return perioder.map((periode, index) => ({
-        id: index.toString(),
+        id: element.id,
+        start: dayjs(periode.fom),
+        end: dayjs(periode.tom),
+        tilstand: Vedtaksperiodetilstand.Ukjent,
+        skalVisePin: false,
+
+        /*   id: index.toString(),
         fom: periode.fom,
         tom: periode.tom,
         status: periode.erTilRevurdering(tidslinje.hendelsetidslinje[0].dato.toDate())
             ? Vedtaksperiodetilstand.Oppgaver
-            : Vedtaksperiodetilstand.Ukjent,
+            : Vedtaksperiodetilstand.Ukjent,*/
     }));
 };
 
-export const useRevurderingsrader = (person?: Person): Sykepengeperiode[][] =>
+export const useRevurderingsrader = (person: Person, anonymiseringEnabled: boolean): TidslinjeradObject[][] =>
     // for hver arbeidsgiver returnere en liste av TidslinjeradObject
     useMemo(
         () =>
-            person?.arbeidsgivere.map((arbeidsgiver) => {
-                if (!arbeidsgiver.utbetalingshistorikk) {
-                    return [];
-                } else {
-                    const first: UtbetalingshistorikkElement = arbeidsgiver.utbetalingshistorikk[0]!!;
-                    return toSykepengeperiode(first);
-                }
-            }) ?? [],
+            person.arbeidsgivere.map((arbeidsgiver) => {
+                return arbeidsgiver.utbetalingshistorikk.map(
+                    (element) =>
+                        ({
+                            id: arbeidsgiver.organisasjonsnummer,
+                            perioder: toTidslinjeperioder(element),
+                            arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, anonymiseringEnabled),
+                            erAktiv: false,
+                        } as TidslinjeradObject)
+                );
+            }),
         [person]
     );

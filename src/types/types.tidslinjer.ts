@@ -11,6 +11,7 @@ import {
 
 // External
 export interface EksternUtbetalingshistorikkElement {
+    id: string;
     beregnettidslinje: EksternSykdomsdag[];
     hendelsetidslinje: EksternSykdomsdag[];
     utbetalinger: EksternUtbetaling[];
@@ -25,11 +26,13 @@ export interface EksternSykdomsdag {
 
 export interface EksternUtbetaling {
     status: string;
+    type: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
 }
 
 // Internal
 export interface UtbetalingshistorikkElement {
+    id: string;
     beregnettidslinje: Sykdomsdag[];
     hendelsetidslinje: Sykdomsdag[];
     utbetalinger: Utbetaling[];
@@ -37,5 +40,6 @@ export interface UtbetalingshistorikkElement {
 
 export interface Utbetaling {
     status: string;
+    type: string;
     utbetalingstidslinje: Utbetalingsdag[];
 }
