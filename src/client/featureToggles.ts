@@ -60,4 +60,3 @@ export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
 export const flereArbeidsgivere = erSpiceGirls() || erLocal() || erPreprod() || erDigimort();
-export const visAnonymisering = erSpiceGirls() || erLocal() || erPreprod() || erDigimort() || erMorten();

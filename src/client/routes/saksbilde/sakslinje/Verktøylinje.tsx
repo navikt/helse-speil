@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import { Dropdown } from '../../../components/Dropdown';
-import { annulleringerEnabled, oppdaterPersondataEnabled, visAnonymisering } from '../../../featureToggles';
+import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
 import { Annullering } from './annullering/Annullering';
 import { Button } from '../../../components/Button';
 import { OppdaterPersondata } from './OppdaterPersondata';
@@ -79,7 +79,7 @@ export const Verktøylinje = () => {
                     </>
                 )}
                 {oppdaterPersondataEnabled && <OppdaterPersondata />}
-                {visAnonymisering && <AnonymiserData />}
+                <AnonymiserData />
                 {visAnnulleringsmuligheter && <Annullering />}
             </Dropdownknapp>
         </Container>
