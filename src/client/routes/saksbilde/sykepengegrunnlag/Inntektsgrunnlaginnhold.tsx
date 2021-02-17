@@ -47,7 +47,9 @@ const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag, anonymiseringEnabled }: Inn
                         arbeidsgiver={
                             anonymiseringEnabled
                                 ? `${getAnonymArbeidsgiverForOrgnr(inntekt.organisasjonsnummer).navn}`
-                                : `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`
+                                : inntekt.arbeidsgivernavn.toLowerCase() !== 'ikke tilgjengelig'
+                                ? `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`
+                                : inntekt.organisasjonsnummer
                         }
                         omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
                         sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}

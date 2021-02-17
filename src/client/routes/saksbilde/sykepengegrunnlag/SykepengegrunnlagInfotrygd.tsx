@@ -58,7 +58,9 @@ const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: Sykepengegr
                             <Normaltekst style={{ marginLeft: '0.25rem' }}>
                                 {anonymiseringEnabled
                                     ? `${getAnonymArbeidsgiverForOrgnr(inntekt.organisasjonsnummer).navn}`
-                                    : `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`}
+                                    : inntekt.arbeidsgivernavn.toLowerCase() !== 'ikke tilgjengelig'
+                                    ? `${inntekt.arbeidsgivernavn} (${inntekt.organisasjonsnummer})`
+                                    : inntekt.organisasjonsnummer}
                             </Normaltekst>
                         </div>
                         <InntektMedKilde>
