@@ -1,9 +1,11 @@
 import dayjs, { Dayjs } from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 
 dayjs.extend(isoWeek);
 dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 export const NORSK_DATOFORMAT = 'DD.MM.YYYY';
 export const NORSK_DATOFORMAT_KORT = 'DD.MM.YY';

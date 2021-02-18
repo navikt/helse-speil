@@ -1,75 +1,139 @@
+import { Utbetaling, UtbetalingshistorikkElement } from '../../../types/types.tidslinjer';
 import {
     Arbeidsgiver,
-    Dagtype,
     Person,
+    Sykdomsdag,
     UfullstendigVedtaksperiode,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
-import React, { useMemo } from 'react';
-import { HoverInfo } from './HoverInfo';
-import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/components/calc';
+import { useMemo } from 'react';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
-import { Dayjs } from 'dayjs';
 import { arbeidsgiverNavn } from './Tidslinje';
-
-const harDagtyper = (dagtyper: Dagtype[], periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
-    !!periode.utbetalingstidslinje?.find((it) => dagtyper.includes(it.type));
-
-const skalViseInfoPin = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
-    harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode], vedtaksperiode);
-
-const status = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): Vedtaksperiodetilstand | string => {
-    if ((vedtaksperiode as Vedtaksperiode).automatiskBehandlet) {
-        return vedtaksperiode.tilstand === Vedtaksperiodetilstand.TilUtbetaling
-            ? 'tilUtbetalingAutomatisk'
-            : vedtaksperiode.tilstand === Vedtaksperiodetilstand.Utbetalt
-            ? 'utbetaltAutomatisk'
-            : vedtaksperiode.tilstand;
-    } else {
-        return vedtaksperiode.tilstand;
-    }
-};
+import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
+import { PerioderBuilder } from './perioderBuilder';
+import { Dayjs } from 'dayjs';
 
 export type TidslinjeradObject = {
     id: string;
     perioder: TidslinjeperiodeObject[];
     arbeidsgiver: string;
     erAktiv: boolean;
+    radtype?: string;
+};
+
+export interface CollapsedUtbetalingshistorikkElement {
+    ider: string[];
+    beregnettidslinje: Sykdomsdag[];
+    hendelsetidslinje: Sykdomsdag[];
+    utbetalinger: Utbetaling[];
+}
+
+type IntermediateElement = CollapsedUtbetalingshistorikkElement & {
+    ider: string[];
+    erstattet: boolean;
+};
+
+const skalErstatteNeste = (element: IntermediateElement, neste: IntermediateElement) => {
+    return (
+        element.utbetalinger[0].type === 'UTBETALING' &&
+        ['REVURDERING', 'UTBETALING'].includes(neste.utbetalinger[0].type)
+    );
+};
+
+const fjernOverflødigeRader = (rader: UtbetalingshistorikkElement[]) => {
+    return rader
+        .map((it) => ({ ...it, ider: [it.id], erstattet: false }))
+        .map((rad, index, all) => {
+            const nesteRad = all[index + 1];
+            if (!nesteRad) return rad;
+            if (skalErstatteNeste(rad, nesteRad)) {
+                rad.ider = [rad.id, nesteRad.id];
+                nesteRad.erstattet = true;
+            }
+            return rad;
+        })
+        .filter((it) => !it.erstattet)
+        .map((it) => ({
+            ider: it.ider,
+            beregnettidslinje: it.beregnettidslinje,
+            hendelsetidslinje: it.hendelsetidslinje,
+            utbetalinger: it.utbetalinger,
+        }));
+};
+
+const venterEllerTilhørerRad = (
+    vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode,
+    radIder: string[],
+    radIndex: number
+) => {
+    return (
+        radIder.includes(vedtaksperiode.beregningId!) ||
+        (radIndex === 0 && vedtaksperiode.tilstand === Vedtaksperiodetilstand.Venter)
+    );
+};
+
+export const toTidslinjeperioder = (
+    element: CollapsedUtbetalingshistorikkElement,
+    fom: Dayjs,
+    tom: Dayjs,
+    arbeidsgiver: Arbeidsgiver,
+    radIndex: number
+): TidslinjeperiodeObject[] => {
+    const vedtaksperioder =
+        arbeidsgiver.vedtaksperioder
+            .filter((it) => venterEllerTilhørerRad(it, element.ider, radIndex))
+            .map((periode) => {
+                return {
+                    id: periode.id,
+                    start: periode.fom.toDate(),
+                    end: periode.tom.toDate(),
+                    tilstand: periode.tilstand,
+                    skalVisePin: false,
+                };
+            }) ?? [];
+
+    const perioder = new PerioderBuilder().build(element, vedtaksperioder).map((periode) => {
+        return {
+            id: element.ider[element.ider.length - 1],
+            start: periode.fom,
+            end: periode.tom,
+            tilstand: Vedtaksperiodetilstand.Ukjent,
+            skalVisePin: false,
+        };
+    });
+
+    return getPositionedPeriods(
+        fom.toDate(),
+        tom.toDate(),
+        [...perioder, ...vedtaksperioder],
+        'right'
+    ) as TidslinjeperiodeObject[];
 };
 
 export const useTidslinjerader = (
     person: Person,
     fom: Dayjs,
     tom: Dayjs,
-    skalAnonymisereData: boolean,
-    aktivVedtaksperiode?: Vedtaksperiode
-): TidslinjeradObject[] =>
+    skalAnonymisereData: boolean
+): { id: string; navn: string; rader: TidslinjeradObject[] }[] =>
     useMemo(
         () =>
-            person.arbeidsgivere.map((it) => {
-                const perioder = it.vedtaksperioder.map((it: Vedtaksperiode | UfullstendigVedtaksperiode) => ({
-                    id: it.id,
-                    start: it.fom.toDate(),
-                    end: it.tom.toDate(),
-                    tilstand: status(it),
-                    hoverLabel: <HoverInfo vedtaksperiode={it} />,
-                    skalVisePin: skalViseInfoPin(it),
-                }));
-
-                const posisjonertePerioder = getPositionedPeriods(
-                    fom.toDate(),
-                    tom.toDate(),
-                    perioder,
-                    'right'
-                ) as TidslinjeperiodeObject[];
-
+            person.arbeidsgivere.map((arbeidsgiver) => {
                 return {
-                    id: it.organisasjonsnummer,
-                    perioder: posisjonertePerioder,
-                    arbeidsgiver: arbeidsgiverNavn(it, skalAnonymisereData),
-                    erAktiv: perioder.find((it) => it.id === aktivVedtaksperiode?.id) !== undefined,
+                    id: arbeidsgiver.organisasjonsnummer,
+                    navn: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
+                    rader: fjernOverflødigeRader(arbeidsgiver.utbetalingshistorikk).map(
+                        (element, radIndex) =>
+                            ({
+                                id: element.ider[element.ider.length - 1],
+                                perioder: toTidslinjeperioder(element, fom, tom, arbeidsgiver, radIndex),
+                                arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
+                                erAktiv: false,
+                                radtype: element.utbetalinger[0].type,
+                            } as TidslinjeradObject)
+                    ),
                 };
-            }) ?? [],
-        [person, aktivVedtaksperiode, fom, tom, skalAnonymisereData]
+            }),
+        [person, fom, tom]
     );

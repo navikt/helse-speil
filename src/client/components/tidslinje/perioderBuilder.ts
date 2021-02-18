@@ -1,17 +1,15 @@
-import { UtbetalingshistorikkElement } from '../../../types/types.tidslinjer';
-import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
-import { Dagtype, Person } from 'internal-types';
-import { useMemo } from 'react';
-import { TidslinjeradObject } from './useTidslinjerader';
-import { TidslinjeperiodeObject } from './Tidslinje.types';
-import { arbeidsgiverNavn } from './Tidslinje';
 import dayjs from 'dayjs';
+import { Dagtype } from 'internal-types';
+import { CollapsedUtbetalingshistorikkElement } from './useTidslinjerader';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+dayjs.extend(isSameOrAfter);
 
 export interface PerioderTilstand {
     sykedag: (builder: PerioderBuilder, dagen: Date) => void;
     ukjentDag: (builder: PerioderBuilder, dagen: Date) => void;
     entering: (builder: PerioderBuilder, dagen: Date) => void;
     leaving: (builder: PerioderBuilder, dagen: Date) => void;
+    vedtaksperiodeDag: (builder: PerioderBuilder, dagen: Date) => void;
 }
 
 export class Periode {
@@ -21,12 +19,6 @@ export class Periode {
     extend = (tom: Date): void => {
         this.tom = tom;
     };
-
-    erTilRevurdering = (dato: Date): boolean => this.senereEnn(dato) || this.overlapperMed(dato);
-
-    private senereEnn = (dato: Date): boolean => dato <= this.fom;
-
-    private overlapperMed = (dato: Date): boolean => dato <= this.tom && this.fom <= dato;
 
     constructor(fom: Date) {
         this.fom = fom;
@@ -46,8 +38,19 @@ export class PerioderBuilder {
 
     add = (periode: Periode) => this.perioder.push(periode);
 
-    build = (element: UtbetalingshistorikkElement): Periode[] => {
+    build = (
+        element: CollapsedUtbetalingshistorikkElement,
+        vedtaksperioder: { start: Date; end: Date }[]
+    ): Periode[] => {
         element.beregnettidslinje.forEach((dag, index) => {
+            if (
+                vedtaksperioder.some(
+                    ({ start, end }) => dayjs(start).isSameOrBefore(dag.dato) && dayjs(end).isSameOrAfter(dag.dato)
+                )
+            ) {
+                this.tilstand.vedtaksperiodeDag(this, dag.dato.toDate());
+                return;
+            }
             switch (dag.type) {
                 case Dagtype.Ubestemt:
                     this.tilstand.ukjentDag(this, dag.dato.toDate());
@@ -70,6 +73,16 @@ class Start implements PerioderTilstand {
     leaving = (builder: PerioderBuilder, dagen: Date) => {};
     sykedag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new NyPeriode(), dagen);
     ukjentDag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new UtenforPeriode(), dagen);
+    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) =>
+        builder.byttTilstand(new VedtaksperiodeTilstand(), dagen);
+}
+
+class VedtaksperiodeTilstand implements PerioderTilstand {
+    entering = (builder: PerioderBuilder, dagen: Date) => {};
+    leaving = (builder: PerioderBuilder, dagen: Date) => {};
+    sykedag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new NyPeriode(), dagen);
+    ukjentDag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new UtenforPeriode(), dagen);
+    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) => {};
 }
 
 class NyPeriode implements PerioderTilstand {
@@ -79,6 +92,8 @@ class NyPeriode implements PerioderTilstand {
     leaving = (builder: PerioderBuilder, dagen: Date) => builder.add(this.periode);
     sykedag = (builder: PerioderBuilder, dagen: Date) => this.periode.extend(dagen);
     ukjentDag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new UtenforPeriode(), dagen);
+    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) =>
+        builder.byttTilstand(new VedtaksperiodeTilstand(), dagen);
 }
 
 class UtenforPeriode implements PerioderTilstand {
@@ -86,6 +101,8 @@ class UtenforPeriode implements PerioderTilstand {
     leaving = (builder: PerioderBuilder, dagen: Date) => {};
     sykedag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new NyPeriode(), dagen);
     ukjentDag = (builder: PerioderBuilder, dagen: Date) => {};
+    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) =>
+        builder.byttTilstand(new VedtaksperiodeTilstand(), dagen);
 }
 
 class Ferdig implements PerioderTilstand {
@@ -93,40 +110,5 @@ class Ferdig implements PerioderTilstand {
     leaving = (builder: PerioderBuilder, dagen: Date) => {};
     sykedag = (builder: PerioderBuilder, dagen: Date) => {};
     ukjentDag = (builder: PerioderBuilder, dagen: Date) => {};
+    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) => {};
 }
-
-export const toTidslinjeperioder = (element: UtbetalingshistorikkElement): TidslinjeperiodeObject[] => {
-    const perioder: Periode[] = new PerioderBuilder().build(element);
-    return perioder.map((periode, index) => ({
-        id: element.id,
-        start: dayjs(periode.fom),
-        end: dayjs(periode.tom),
-        tilstand: Vedtaksperiodetilstand.Ukjent,
-        skalVisePin: false,
-
-        /*   id: index.toString(),
-        fom: periode.fom,
-        tom: periode.tom,
-        status: periode.erTilRevurdering(tidslinje.hendelsetidslinje[0].dato.toDate())
-            ? Vedtaksperiodetilstand.Oppgaver
-            : Vedtaksperiodetilstand.Ukjent,*/
-    }));
-};
-
-export const useRevurderingsrader = (person: Person, anonymiseringEnabled: boolean): TidslinjeradObject[][] =>
-    // for hver arbeidsgiver returnere en liste av TidslinjeradObject
-    useMemo(
-        () =>
-            person.arbeidsgivere.map((arbeidsgiver) => {
-                return arbeidsgiver.utbetalingshistorikk.map(
-                    (element) =>
-                        ({
-                            id: arbeidsgiver.organisasjonsnummer,
-                            perioder: toTidslinjeperioder(element),
-                            arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, anonymiseringEnabled),
-                            erAktiv: false,
-                        } as TidslinjeradObject)
-                );
-            }),
-        [person]
-    );
