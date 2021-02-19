@@ -59,9 +59,11 @@ export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
             <InfolinjeElement data-tip="Arbeidsgiver">
                 <Arbeidsgiverikon />
                 {anonymiseringEnabled
-                    ? getAnonymArbeidsgiverForOrgnr(
-                          (vedtaksperiode as Vedtaksperiode).inntektsgrunnlag.organisasjonsnummer
-                      ).navn
+                    ? (vedtaksperiode as Vedtaksperiode).inntektsgrunnlag
+                        ? getAnonymArbeidsgiverForOrgnr(
+                              (vedtaksperiode as Vedtaksperiode).inntektsgrunnlag.organisasjonsnummer
+                          ).navn
+                        : '-'
                     : (vedtaksperiode as Vedtaksperiode).arbeidsgivernavn ?? 'Ukjent arbeidsgiver'}
             </InfolinjeElement>
             <InfolinjeElement data-tip="Sykmeldingsperiode">
