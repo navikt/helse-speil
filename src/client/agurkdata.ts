@@ -17,6 +17,7 @@ const navneliste = [
     { navn: 'Agurk Bilglass', orgnr: '555555555' },
     { navn: 'Agurk Skole', orgnr: '444444444' },
     { navn: 'Pølse og Agurk ASA', orgnr: '333333333' },
+    { navn: 'Nissemyra', orgnr: '222222222' },
 ];
 
 const anonymeArbeidsgiverNavn: { [key: string]: { navn: string; orgnr: string } } = {};
