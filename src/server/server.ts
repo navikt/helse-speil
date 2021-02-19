@@ -25,7 +25,7 @@ import oppgaveRoutes from './oppgave/oppgaveRoutes';
 
 const app = express();
 const port = config.server.port;
-const helsesjekk: Helsesjekk = { redis: false };
+const helsesjekk = { redis: false };
 const dependencies = wiring.getDependencies(app, helsesjekk);
 
 app.use(bodyParser.json());
