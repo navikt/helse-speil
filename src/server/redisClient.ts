@@ -1,7 +1,7 @@
 import redis from 'redis';
-import { RedisConfig } from './types';
+import { Helsesjekk, RedisConfig } from './types';
 
-const init = (config: RedisConfig) => {
+const init = (config: RedisConfig, helsesjekk: Helsesjekk) => {
     const redisClient = redis.createClient({
         host: config.host,
         port: config.port ? +config.port : undefined,
@@ -10,7 +10,14 @@ const init = (config: RedisConfig) => {
     redisClient.on('connect', () => {
         console.log('Redis client connected');
     });
+
+    redisClient.on('ready', () => {
+        helsesjekk.redis = true;
+        console.log('Redis client ready');
+    });
+
     redisClient.on('error', (err) => {
+        helsesjekk.redis = false;
         console.log('Redis error: ', err);
     });
 

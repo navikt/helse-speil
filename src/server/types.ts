@@ -5,6 +5,10 @@ import { Request } from 'express';
 import { PersonClient } from './person/personClient';
 import { Session } from 'express-session';
 
+export interface Helsesjekk {
+    redis: boolean;
+}
+
 export interface OidcConfig {
     providerBaseUrl: string;
     clientID: string;

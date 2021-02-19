@@ -25,7 +25,8 @@ import oppgaveRoutes from './oppgave/oppgaveRoutes';
 
 const app = express();
 const port = config.server.port;
-const dependencies = wiring.getDependencies(app);
+const helsesjekk: Helsesjekk = { redis: false };
+const dependencies = wiring.getDependencies(app, helsesjekk);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -47,7 +48,15 @@ azure
 
 // Unprotected routes
 app.get('/isAlive', (_, res) => res.send('alive'));
-app.get('/isReady', (_, res) => res.send('ready'));
+app.get('/isReady', (_, res) => {
+    if (helsesjekk.redis) {
+        return res.send('ready');
+    } else {
+        console.log('Svarer not ready på isReady');
+        res.statusCode = 503;
+        return res.send('NOT READY');
+    }
+});
 
 const setUpAuthentication = () => {
     app.get('/login', (req: SpeilRequest, res: Response) => {

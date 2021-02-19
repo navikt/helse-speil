@@ -26,9 +26,10 @@ import oppgaveClient from './oppgave/oppgaveClient';
 
 import { Express } from 'express';
 import { RedisClient } from 'redis';
+import { Helsesjekk } from './types';
 
-const getDependencies = (app: Express) =>
-    process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app);
+const getDependencies = (app: Express, helsesjekk: Helsesjekk) =>
+    process.env.NODE_ENV === 'development' ? getDevDependencies(app) : getProdDependencies(app, helsesjekk);
 
 const getDevDependencies = (app: Express) => {
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
@@ -51,8 +52,8 @@ const getDevDependencies = (app: Express) => {
     };
 };
 
-const getProdDependencies = (app: Express) => {
-    const _redisClient: RedisClient = redisClient.init(config.redis);
+const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
+    const _redisClient: RedisClient = redisClient.init(config.redis, helsesjekk);
     const instrumentation: Instrumentation = instrumentationModule.setup(app);
     const _onBehalfOf = onBehalfOf(config.oidc, instrumentation);
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
