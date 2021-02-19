@@ -1,10 +1,10 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering} from './state';
-import {renderer, tilOversiktsrad} from './rader';
-import {Tabell, useTabell, UseTabellPaginering} from '@navikt/helse-frontend-tabell';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
+import { renderer, tilOversiktsrad } from './rader';
+import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
-import {Oppgave} from '../../../types';
+import { Oppgave } from '../../../types';
 import {
     enArbeidsgiverFilter,
     flereArbeidsgivereFilter,
@@ -15,12 +15,12 @@ import {
     stikkprøveFilter,
     ufordelteOppgaverFilter,
 } from './filtrering';
-import {sorterDateString, sorterTall, sorterTekstAlfabetisk} from './sortering';
-import {Paginering} from './Paginering';
-import {tabState} from './tabs';
-import {UseTabellFiltrering} from '@navikt/helse-frontend-tabell/lib/src/useTabell';
-import {Filtrering} from '@navikt/helse-frontend-tabell/lib/src/filtrering';
-import {flereArbeidsgivere, stikkprøve} from '../../featureToggles';
+import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
+import { Paginering } from './Paginering';
+import { tabState } from './tabs';
+import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
+import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
+import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
 
 const Container = styled.div`
     min-height: 300px;
@@ -55,7 +55,7 @@ const Oversiktstabell = styled(Tabell)`
 
 const useOppdaterTildelingsfilterVedFanebytte = (filtrering: UseTabellFiltrering) => {
     const aktivTab = useRecoilValue(tabState);
-    const [cachedFilter, setCachedFilter] = useState<Filtrering | undefined>();
+    const [stashedFilter, setStashedFilter] = useState<Filtrering | undefined>();
 
     const deaktiverFiltere = () =>
         filtrering?.set((f) => ({
@@ -63,20 +63,20 @@ const useOppdaterTildelingsfilterVedFanebytte = (filtrering: UseTabellFiltrering
             filtere: f.filtere.map((filter) => ({ ...filter, active: false })),
         }));
 
-    const gjenopprettCachedFilter = () => {
-        if (!cachedFilter) return;
-        filtrering?.set((f) => ({ ...f, filtere: cachedFilter.filtere }));
+    const gjennopprettStashedFilter = () => {
+        if (!stashedFilter) return;
+        filtrering?.set((f) => ({ ...f, filtere: stashedFilter.filtere }));
     };
 
     useLayoutEffect(() => {
-        if (aktivTab === 'mine' && !cachedFilter) {
-            setCachedFilter(filtrering);
+        if (aktivTab === 'mine' && !stashedFilter) {
+            setStashedFilter(filtrering);
             deaktiverFiltere();
-        } else if (aktivTab === 'alle' && cachedFilter) {
-            gjenopprettCachedFilter();
-            setCachedFilter(undefined);
+        } else if (aktivTab === 'alle' && stashedFilter) {
+            gjennopprettStashedFilter();
+            setStashedFilter(undefined);
         }
-    }, [aktivTab, cachedFilter]);
+    }, [aktivTab, stashedFilter]);
 };
 
 const useVisDefaultUfordelteOppgaverFiltering = (filtrering: UseTabellFiltrering) => {

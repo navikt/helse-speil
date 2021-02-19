@@ -64,6 +64,7 @@ const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
             (oppgave: SpesialistOppgave): Oppgave => ({
                 oppgavereferanse: oppgave.oppgavereferanse,
                 tildeltTil: oppgave.saksbehandlerepost ?? undefined,
+                erPåVent: oppgave.erPåVent ?? undefined,
                 opprettet: oppgave.opprettet,
                 vedtaksperiodeId: oppgave.vedtaksperiodeId,
                 personinfo: oppgave.personinfo,

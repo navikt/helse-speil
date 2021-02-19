@@ -251,6 +251,7 @@ export interface Person {
     infotrygdutbetalinger: Infotrygdutbetaling[];
     enhet: Enhetsinfo;
     tildeltTil?: string;
+    erPåVent?: boolean;
 }
 
 export interface Enhetsinfo {

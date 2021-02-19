@@ -133,6 +133,10 @@ const spesialistOptions = (headere?: Headers) => ({
 export const getOppgavereferanse = async (fødselsnummer: string) =>
     get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
+export const postLeggPåVent = async (oppgavereferanse: string) => post(`${baseUrl}/oppgave/vent`, { oppgavereferanse });
+
+export const deletePåVent = async (oppgavereferanse: string) => del(`${baseUrl}/oppgave/vent`, { oppgavereferanse });
+
 export const postTildeling = async (tildeling: Tildeling) => {
     if (speilTildeling) {
         return post(`${baseUrl}/tildeling/${tildeling.oppgavereferanse}`, {});

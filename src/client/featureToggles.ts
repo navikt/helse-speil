@@ -42,6 +42,7 @@ const erUtvikler = () => erKnudix() || erDavid() || erSpiceGirls();
 
 const erJonas = () => extractIdent() === 'H159657';
 const erPeter = () => extractIdent() === 'S159940';
+const erSindre = () => extractIdent() === 'B159939';
 
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
@@ -60,3 +61,4 @@ export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
 export const flereArbeidsgivere = erSpiceGirls() || erLocal() || erPreprod() || erDigimort() || erMorten();
+export const påVent = erPreprod() || erLocal() || erJonas() || erSindre();

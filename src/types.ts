@@ -41,11 +41,13 @@ export interface SpesialistOppgave {
     oppgavetype: Oppgavetype;
     boenhet: Boenhet;
     inntektskilde?: Inntektskilde;
+    erPåVent?: boolean;
 }
 
 export interface Oppgave {
     oppgavereferanse: string;
     tildeltTil?: string;
+    erPåVent?: boolean;
     opprettet: string;
     vedtaksperiodeId: string;
     personinfo: SpesialistPersoninfo;

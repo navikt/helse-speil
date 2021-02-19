@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { atom, useRecoilState } from 'recoil';
+import { påVent } from "../../featureToggles";
 
-export const tabState = atom<'alle' | 'mine'>({
+export const tabState = atom<'alle' | 'mine' | 'ventende'>({
     key: 'tabState',
     default: 'alle',
 });
@@ -61,9 +62,24 @@ const MineSakerTab = () => {
     );
 };
 
+const VentendeTab = () => {
+    const [aktivTab, setAktivTab] = useRecoilState(tabState);
+    return (
+        <Tab
+            role="tab"
+            aria-selected={aktivTab === 'ventende'}
+            active={aktivTab === 'ventende'}
+            onClick={() => setAktivTab('ventende')}
+        >
+            Ventende saker
+        </Tab>
+    );
+};
+
 export const Tabs = () => (
     <Tablist>
         <AlleSakerTab />
         <MineSakerTab />
+        { påVent && <VentendeTab /> }
     </Tablist>
 );

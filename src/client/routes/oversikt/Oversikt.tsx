@@ -43,7 +43,9 @@ const useFiltrerteOppgaver = () => {
     setAnonymisering(false);
 
     const filtrer = (oppgaver: Oppgave[]): Oppgave[] =>
-        aktivTab === 'alle' ? oppgaver : oppgaver.filter(({ tildeltTil }) => tildeltTil === email);
+        aktivTab === 'alle' ? oppgaver
+            : aktivTab === 'ventende' ? oppgaver.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)
+            : oppgaver.filter(({ tildeltTil, erPåVent}) => tildeltTil === email && !erPåVent);
 
     useEffect(() => {
         if (oppgaver.state === 'hasValue') {
