@@ -10,25 +10,25 @@ export const anonymisertPersoninfo = {
 };
 
 const navneliste = [
-    'Pølseboden',
-    'CucumberService AS',
-    'CucumberHeaven',
-    'AgurkNytt',
-    'Agurk Bilglass',
-    'Agurk Skole',
-    'Pølse og Agurk ASA',
+    { navn: 'Pølseboden', orgnr: '999999999' },
+    { navn: 'CucumberService AS', orgnr: '888888888' },
+    { navn: 'CucumberHeaven', orgnr: '777777777' },
+    { navn: 'AgurkNytt', orgnr: '666666666' },
+    { navn: 'Agurk Bilglass', orgnr: '555555555' },
+    { navn: 'Agurk Skole', orgnr: '444444444' },
+    { navn: 'Pølse og Agurk ASA', orgnr: '333333333' },
 ];
-const orgnrGenerator = () => Math.random().toString().substr(2, 9);
 
 const anonymeArbeidsgiverNavn: { [key: string]: { navn: string; orgnr: string } } = {};
 
 export const getAnonymArbeidsgiverForOrgnr = (organisasjonsnummer: string): { navn: string; orgnr: string } => {
     if (anonymeArbeidsgiverNavn[organisasjonsnummer]) return anonymeArbeidsgiverNavn[organisasjonsnummer];
-    console.log({ navneliste });
 
-    anonymeArbeidsgiverNavn[organisasjonsnummer] = {
-        navn: navneliste.splice(Math.floor(Math.random() * navneliste.length), 1).pop() ?? 'Enda en arbeidsgiver',
-        orgnr: orgnrGenerator(),
+    anonymeArbeidsgiverNavn[organisasjonsnummer] = navneliste
+        .splice(Math.floor(Math.random() * navneliste.length), 1)
+        .pop() ?? {
+        navn: 'Enda en arbeidsgiver',
+        orgnr: '000000000',
     };
     return anonymeArbeidsgiverNavn[organisasjonsnummer];
 };
