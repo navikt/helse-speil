@@ -57,7 +57,10 @@ const dagerIgjenVilkår = ({ vilkår }: SpesialistVedtaksperiode): DagerIgjen =>
     dagerBrukt: vilkår.sykepengedager.forbrukteSykedager,
     skjæringstidspunkt: somDato(vilkår.sykepengedager.skjæringstidspunkt),
     førsteSykepengedag: somKanskjeDato(vilkår.sykepengedager.førsteSykepengedag),
-    maksdato: somKanskjeDato(vilkår.sykepengedager.maksdato),
+    maksdato:
+        vilkår.sykepengedager.maksdato !== '+999999999-12-31'
+            ? somKanskjeDato(vilkår.sykepengedager.maksdato)
+            : undefined,
     oppfylt: vilkår.sykepengedager.oppfylt,
     gjenståendeDager: vilkår.sykepengedager.gjenståendeDager,
     tidligerePerioder: [],

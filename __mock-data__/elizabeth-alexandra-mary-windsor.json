@@ -1019,7 +1019,7 @@
                             "forbrukteSykedager": 50,
                             "skjæringstidspunkt": "2020-02-20",
                             "førsteSykepengedag": "2020-03-02",
-                            "maksdato": "2020-12-30",
+                            "maksdato": "+999999999-12-31",
                             "gjenståendeDager": 198,
                             "oppfylt": true
                         },
