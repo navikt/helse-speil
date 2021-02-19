@@ -157,7 +157,7 @@ export const Utbetalingsoversikt = ({ vedtaksperiode }: UtbetalingsoversiktProps
     const maksdato = vedtaksperiode && maksdatoForPeriode(vedtaksperiode);
     const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT);
     const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT);
-    const gjenståendeDagerErSatt = vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
+    const gjenståendeDagerErSatt = vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager !== undefined;
     const dagerIgjenIVedtaksperiode: number[] = vedtaksperiodeDagerIgjen(vedtaksperiode);
 
     const erMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isSame(maksdato, 'day');
