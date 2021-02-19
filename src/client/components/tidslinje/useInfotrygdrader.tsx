@@ -9,7 +9,7 @@ import { TidslinjeperiodeObject } from './Tidslinje.types';
 import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 import { Dayjs } from 'dayjs';
 import { arbeidsgiverNavn } from './Tidslinje';
-import { useSkalAnonymiserePerson } from '../../state/person';
+import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
 
 export type UtbetalingerPerArbeidsgiver = { [organisasjonsnummer: string]: Sykepengeperiode[] };
 
@@ -56,7 +56,7 @@ const hoverLabel = (infotrygdutbetaling: Infotrygdutbetaling) => (
     </Label>
 );
 
-export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, skalAnonymisereData: boolean) =>
+export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, anonymiseringEnabled: boolean) =>
     useMemo(() => {
         const infotrygdutbetalinger = person.infotrygdutbetalinger.reduce((rader: Infotrygdrader, utbetalingen) => {
             const infotrygdtidslinje = rader[utbetalingen.organisasjonsnummer];
@@ -77,9 +77,14 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, skalAn
             `Infotrygd - ${
                 person.arbeidsgivere
                     .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-                    .map((arb) => arbeidsgiverNavn(arb, skalAnonymisereData))
-                    .pop() ?? (organisasjonsnummer !== '0' ? organisasjonsnummer : 'Ingen utbetaling')
+                    .map((arb) => arbeidsgiverNavn(arb, anonymiseringEnabled))
+                    .pop() ??
+                (organisasjonsnummer !== '0'
+                    ? anonymiseringEnabled
+                        ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
+                        : organisasjonsnummer
+                    : 'Ingen utbetaling')
             }`,
             getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
         ]) as [string, TidslinjeperiodeObject[]][];
-    }, [person, fom, tom]);
+    }, [person, fom, tom, anonymiseringEnabled]);
