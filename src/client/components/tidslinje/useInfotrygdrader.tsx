@@ -56,7 +56,7 @@ const hoverLabel = (infotrygdutbetaling: Infotrygdutbetaling) => (
     </Label>
 );
 
-type InfotrygdradObject = {
+export type InfotrygdradObject = {
     arbeidsgivernavn: string;
     perioder: TidslinjeperiodeObject[];
 };

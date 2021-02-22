@@ -1,10 +1,10 @@
 import React, { CSSProperties, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
-import { useInfotrygdrader } from './useInfotrygdrader';
+import { InfotrygdradObject, useInfotrygdrader } from './useInfotrygdrader';
 import { Flex, FlexColumn } from '../Flex';
 import { Arbeidsgiver, Person, Vedtaksperiode } from 'internal-types';
-import { useSetAktivVedtaksperiode } from '../../state/vedtaksperiode';
+import { useAktivVedtaksperiode, useSetAktivVedtaksperiode } from '../../state/vedtaksperiode';
 import { AxisLabels, Pins, Row } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
 import { TekstMedEllipsis } from '../TekstMedEllipsis';
@@ -16,11 +16,12 @@ import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
 import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
 import { Undertekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import { useTidslinjerader } from './useTidslinjerader';
-import dayjs from 'dayjs';
-import 'dayjs/locale/nb';
+import { TidslinjeradObject, useTidslinjerader } from './useTidslinjerader';
 import { useSkalAnonymiserePerson } from '../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
+
+import dayjs from 'dayjs';
+import 'dayjs/locale/nb';
 
 dayjs.locale('nb');
 
@@ -86,27 +87,52 @@ const PinsContainer = styled.div<HorizontalOffsetProps>`
 `;
 
 interface TidslinjeradProps {
-    erAktiv: boolean;
+    rad: TidslinjeradObject | InfotrygdradObject;
+    index: number;
+    erKlikkbar: boolean;
 }
 
-const Tidslinjerad = styled(Row)<TidslinjeradProps>`
-    ${({ erAktiv }) =>
-        erAktiv
-            ? `
+const Tidslinjerad = ({ rad, index, erKlikkbar = true }: TidslinjeradProps) => {
+    const setAktivVedtaksperiode = useSetAktivVedtaksperiode();
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
+
+    const erAktiv = erKlikkbar && !!rad.perioder.find((it) => it.id === aktivVedtaksperiode?.id);
+
+    const Tidslinjerad = styled(Row)<{ erAktiv: boolean }>`
+        ${({ erAktiv }) =>
+            erAktiv
+                ? `
     background-color: #E5F3FF;
     `
-            : `
+                : `
     button:hover {
         z-index: 20;
     }
     `}
-    box-sizing: border-box;
-    margin-bottom: 10px;
-`;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    `;
+
+    return (
+        <Tidslinjerad erAktiv={erAktiv} key={index}>
+            {rad.perioder.map((it, index) => (
+                <Tidslinjeperiode
+                    key={index}
+                    id={it.id}
+                    style={it.style}
+                    className={it.tilstand}
+                    hoverLabel={it.hoverLabel ? <TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip> : undefined}
+                    skalVisePin={it.skalVisePin}
+                    onClick={erKlikkbar ? setAktivVedtaksperiode : undefined}
+                    erAktiv={erKlikkbar ? it.id === aktivVedtaksperiode?.id : false}
+                />
+            ))}
+        </Tidslinjerad>
+    );
+};
 
 interface Props {
     person: Person;
-    aktivVedtaksperiode?: Vedtaksperiode;
 }
 
 export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver, skalAnonymiseres: boolean): string => {
@@ -124,8 +150,7 @@ export const LasterTidslinje = () => {
     );
 };
 
-export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
-    const setAktivVedtaksperiode = useSetAktivVedtaksperiode();
+export const Tidslinje = ({ person }: Props) => {
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
     const anonymiseringEnabled = useSkalAnonymiserePerson();
 
@@ -173,51 +198,21 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                             <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
                         </Arbeidsgivernavn>
                         <RaderContainer>
-                            {rader.map((it, index) => (
-                                <Tidslinjerad
-                                    key={index}
-                                    erAktiv={!!it.perioder.find((it) => it.id === aktivVedtaksperiode?.id)}
-                                >
-                                    {it.perioder.map((it, index) => (
-                                        <Tidslinjeperiode
-                                            key={index}
-                                            id={it.id}
-                                            style={it.style}
-                                            className={it.tilstand}
-                                            hoverLabel={
-                                                it.hoverLabel ? (
-                                                    <TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip>
-                                                ) : undefined
-                                            }
-                                            skalVisePin={it.skalVisePin}
-                                            onClick={setAktivVedtaksperiode}
-                                            erAktiv={it.id === aktivVedtaksperiode?.id}
-                                        />
-                                    ))}
-                                </Tidslinjerad>
+                            <Tidslinjerad rad={rader[0]} index={0} erKlikkbar={true} />
+                            {rader.slice(1).map((it, index) => (
+                                <Tidslinjerad rad={it} index={index} erKlikkbar={true} />
                             ))}
                         </RaderContainer>
                     </ArbeidsgiverContainer>
                 ))}
-                {infotrygdrader.map(({ arbeidsgivernavn, perioder }) => (
-                    <ArbeidsgiverContainer key={arbeidsgivernavn}>
+                {infotrygdrader.map((it, index) => (
+                    <ArbeidsgiverContainer key={it.arbeidsgivernavn}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Infotrygdikon />
-                            <TekstMedEllipsis data-tip={arbeidsgivernavn}>{arbeidsgivernavn}</TekstMedEllipsis>
+                            <TekstMedEllipsis data-tip={it.arbeidsgivernavn}>{it.arbeidsgivernavn}</TekstMedEllipsis>
                         </Arbeidsgivernavn>
                         <RaderContainer>
-                            <Tidslinjerad erAktiv={false}>
-                                {perioder.map((it) => (
-                                    <Tidslinjeperiode
-                                        key={it.id}
-                                        id={it.id}
-                                        style={it.style}
-                                        skalVisePin={it.skalVisePin}
-                                        className={it.tilstand}
-                                        hoverLabel={<TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip>}
-                                    />
-                                ))}
-                            </Tidslinjerad>
+                            <Tidslinjerad rad={it} index={index} erKlikkbar={false} />
                         </RaderContainer>
                     </ArbeidsgiverContainer>
                 ))}

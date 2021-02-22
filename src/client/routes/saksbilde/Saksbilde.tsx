@@ -165,7 +165,7 @@ const SaksbildeContent = () => {
                     <Utbetalingshistorikk person={personTilBehandling} />
                 </Route>
                 <Route>
-                    <Tidslinje person={personTilBehandling} aktivVedtaksperiode={aktivVedtaksperiode} />
+                    <Tidslinje person={personTilBehandling} />
                     <Flex justifyContent="space-between" flex={1}>
                         <SaksbildeContainer>
                             <Sakslinje />
