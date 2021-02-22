@@ -8,7 +8,6 @@ import { erLocal, erPreprod } from '../../../featureToggles';
 type WikiEntry = {
     varsel: string;
     betydning: string;
-    årsak: string;
     løsning: string;
     viktighet: string;
 };
