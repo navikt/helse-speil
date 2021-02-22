@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { EkspanderbartVarsel } from '../../../components/EkspanderbartVarsel';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Varselseksjon } from './Varselseksjon';
-import { erLocal, erPreprod } from '../../../featureToggles';
+import wiki from '../../../../../wiki.json';
 
 type WikiEntry = {
     varsel: string;
@@ -12,26 +12,11 @@ type WikiEntry = {
     viktighet: string;
 };
 
-const loadWiki = (): Promise<{ default: WikiEntry[] }> =>
-    erLocal() ? import('../../../../../wiki.json') : Promise.resolve({ default: [] });
-
 export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[] }) => {
-    const [wiki, setWiki] = useState<WikiEntry[] | null>(null);
-
-    useEffect(() => {
-        let skalLasteWiki = true;
-        if ((erPreprod() || erLocal()) && skalLasteWiki) {
-            loadWiki().then((res) => setWiki(res.default));
-        }
-        return () => {
-            skalLasteWiki = false;
-        };
-    }, []);
-
     return (
         <>
             {varsler.map((aktivitet, index) => {
-                const wikiAktivitet = wiki?.find((it) => it.varsel === aktivitet);
+                const wikiAktivitet: WikiEntry | undefined = wiki.find((it) => it.varsel === aktivitet);
                 if (wikiAktivitet) {
                     return (
                         <EkspanderbartVarsel
