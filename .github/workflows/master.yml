@@ -56,7 +56,7 @@ jobs:
       - name: build docker image
         run: |
           npm prune --production
-          rm -rf node_modules/@snyk
+          rm -rf node_modules/@snyk .git
           docker build . --pull -t ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
       - name: push docker image
         run: |
