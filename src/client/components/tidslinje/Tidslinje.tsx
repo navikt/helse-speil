@@ -11,14 +11,15 @@ import { TekstMedEllipsis } from '../TekstMedEllipsis';
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { Arbeidsgiverikon } from '../ikoner/Arbeidsgiverikon';
 import { Infotrygdikon } from '../ikoner/Infotrygdikon';
-import { PinsTooltip, TidslinjeTooltip } from './TidslinjeTooltip';
+import { PinsTooltip } from './TidslinjeTooltip';
 import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
 import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
 import { Undertekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import { TidslinjeradObject, useTidslinjerader } from './useTidslinjerader';
+import { useTidslinjerader } from './useTidslinjerader';
 import { useSkalAnonymiserePerson } from '../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
+import { Tidslinjerad } from './Tidslinjerad';
 
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
@@ -70,6 +71,7 @@ const Arbeidsgivernavn = styled(Flex)<ArbeidsgivernavnProps>`
 
     ${({ width }) => `width: ${width}px;`};
 `;
+
 interface HorizontalOffsetProps {
     horizontalOffset: number;
 }
@@ -86,55 +88,6 @@ const PinsContainer = styled.div<HorizontalOffsetProps>`
     top: 0;
 `;
 
-interface TidslinjeradProps {
-    rad: TidslinjeradObject | InfotrygdradObject;
-    index: number;
-    erKlikkbar: boolean;
-}
-
-const Tidslinjerad = ({ rad, index, erKlikkbar = true }: TidslinjeradProps) => {
-    const setAktivVedtaksperiode = useSetAktivVedtaksperiode();
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
-
-    const erAktiv = erKlikkbar && !!rad.perioder.find((it) => it.id === aktivVedtaksperiode?.id);
-
-    const Tidslinjerad = styled(Row)<{ erAktiv: boolean }>`
-        ${({ erAktiv }) =>
-            erAktiv
-                ? `
-    background-color: #E5F3FF;
-    `
-                : `
-    button:hover {
-        z-index: 20;
-    }
-    `}
-        box-sizing: border-box;
-        margin-bottom: 10px;
-    `;
-
-    return (
-        <Tidslinjerad erAktiv={erAktiv} key={index}>
-            {rad.perioder.map((it, index) => (
-                <Tidslinjeperiode
-                    key={index}
-                    id={it.id}
-                    style={it.style}
-                    className={it.tilstand}
-                    hoverLabel={it.hoverLabel ? <TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip> : undefined}
-                    skalVisePin={it.skalVisePin}
-                    onClick={erKlikkbar ? setAktivVedtaksperiode : undefined}
-                    erAktiv={erKlikkbar ? it.id === aktivVedtaksperiode?.id : false}
-                />
-            ))}
-        </Tidslinjerad>
-    );
-};
-
-interface Props {
-    person: Person;
-}
-
 export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver, skalAnonymiseres: boolean): string => {
     if (skalAnonymiseres) return getAnonymArbeidsgiverForOrgnr(arbeidsgiver.organisasjonsnummer).navn;
     return arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'
@@ -149,6 +102,10 @@ export const LasterTidslinje = () => {
         </Container>
     );
 };
+
+interface Props {
+    person: Person;
+}
 
 export const Tidslinje = ({ person }: Props) => {
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
