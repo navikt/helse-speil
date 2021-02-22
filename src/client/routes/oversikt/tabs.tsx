@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { atom, useRecoilState } from 'recoil';
-import { påVent } from "../../featureToggles";
+import {atom, useRecoilState, useRecoilValueLoadable} from 'recoil';
+import {påVent} from '../../featureToggles';
+import {Oppgave} from '../../../types';
+import {useEmail} from '../../state/authentication';
+import {oppgaverState} from '../../state/oppgaver';
 
 export const tabState = atom<'alle' | 'mine' | 'ventende'>({
     key: 'tabState',
@@ -48,7 +51,7 @@ const AlleSakerTab = () => {
     );
 };
 
-const MineSakerTab = () => {
+const MineSakerTab = ({ antall }: { antall: number }) => {
     const [aktivTab, setAktivTab] = useRecoilState(tabState);
     return (
         <Tab
@@ -57,12 +60,12 @@ const MineSakerTab = () => {
             active={aktivTab === 'mine'}
             onClick={() => setAktivTab('mine')}
         >
-            Mine saker
+            Mine saker ({antall})
         </Tab>
     );
 };
 
-const VentendeTab = () => {
+const VentendeTab = ({ antall }: { antall: number }) => {
     const [aktivTab, setAktivTab] = useRecoilState(tabState);
     return (
         <Tab
@@ -71,15 +74,28 @@ const VentendeTab = () => {
             active={aktivTab === 'ventende'}
             onClick={() => setAktivTab('ventende')}
         >
-            Ventende saker
+            På vent ({antall})
         </Tab>
     );
 };
 
-export const Tabs = () => (
-    <Tablist>
-        <AlleSakerTab />
-        <MineSakerTab />
-        { påVent && <VentendeTab /> }
-    </Tablist>
-);
+export const Tabs = () => {
+    const email = useEmail();
+    const alleOppgaver = useRecoilValueLoadable(oppgaverState);
+    const oppgaver = alleOppgaver.state === 'hasValue' ? (alleOppgaver.contents as Oppgave[]) : [];
+    return (
+        <Tablist>
+            <AlleSakerTab />
+            <MineSakerTab
+                antall={oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && !erPåVent)?.length ?? 0}
+            />
+            {påVent && (
+                <VentendeTab
+                    antall={
+                        oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)?.length ?? 0
+                    }
+                />
+            )}
+        </Tablist>
+    );
+};

@@ -1,7 +1,7 @@
-import { Response, Router } from 'express';
-import { OppgaveClient } from './oppgaveClient';
+import {Response, Router} from 'express';
+import {OppgaveClient} from './oppgaveClient';
 import logger from '../logging';
-import { SpeilRequest } from '../types';
+import {SpeilRequest} from '../types';
 
 interface SetupOptions {
     oppgaveClient: OppgaveClient;
@@ -12,7 +12,7 @@ export default ({ oppgaveClient }: SetupOptions) => {
 
     router.post('/oppgave/vent', (req: SpeilRequest, res: Response) => {
         oppgaveClient
-            .leggPåVent(req.session!.speilToken, req.params['aktorId'])
+            .leggPåVent(req.session!.speilToken, req.body.oppgaveReferanse)
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under abonnering på aktør: ${err}`);
@@ -22,7 +22,7 @@ export default ({ oppgaveClient }: SetupOptions) => {
 
     router.delete('/oppgave/vent', (req: SpeilRequest, res: Response) => {
         oppgaveClient
-            .fjernPåVent(req.session!.speilToken, req.params['aktorId'])
+            .fjernPåVent(req.session!.speilToken, req.body.oppgaveReferanse)
             .then(() => res.sendStatus(200))
             .catch((err) => {
                 logger.error(`Feil under abonnering på aktør: ${err}`);
