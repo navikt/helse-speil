@@ -11,6 +11,7 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { InternalHeader, InternalHeaderTitle, InternalHeaderUser } from '@navikt/ds-react';
 import { useHentPerson } from '../state/person';
 import { Person } from 'internal-types';
+import EasterEgg from '../EasterEgg';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -78,6 +79,7 @@ export const Header = () => {
                     <Link to="/">NAV Sykepenger</Link>
                 </InternalHeaderTitle>
                 <Søk onSøk={onSøk} />
+                <EasterEgg />
                 <InternalHeaderUser name={brukerinfo.navn} ident={brukerinfo.ident} />
             </InternalHeader>
         </Container>
