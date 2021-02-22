@@ -5,7 +5,7 @@ import { OpptegnelseDTO } from 'external-types';
 import { useEffect } from 'react';
 
 const personHarFåttOpptegnelse = (opptegnelser: OpptegnelseDTO[], valgtAktørId: string): boolean =>
-    opptegnelser.filter((opptegnelse) => opptegnelse.aktørId.toString() === valgtAktørId).length > 0;
+    opptegnelser.some((opptegnelse) => opptegnelse.aktørId.toString() === valgtAktørId);
 
 export const useRefreshPersonVedOpptegnelse = () => {
     const opptegnelser = useRecoilValue(nyeOpptegnelserState);
