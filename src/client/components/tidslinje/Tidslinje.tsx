@@ -96,7 +96,21 @@ const Arbeidsgivernavn = styled(Flex)<ArbeidsgivernavnProps>`
     ${({ width }) => `width: ${width}px;`};
 `;
 
-const Tidslinjerad = styled(Row)`
+interface TidslinjeradProps {
+    erAktiv: boolean;
+}
+
+const Tidslinjerad = styled(Row)<TidslinjeradProps>`
+    ${({ erAktiv }) =>
+        erAktiv
+            ? `
+    background-color: #E5F3FF;
+    `
+            : `
+    button:hover {
+        z-index: 20;
+    }
+    `}
     flex: 1;
 `;
 
@@ -156,7 +170,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                                 <Arbeidsgiverikon />
                                 <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
                             </Arbeidsgivernavn>
-                            <Tidslinjerad>
+                            <Tidslinjerad erAktiv={!!perioder.find((it) => it.id === aktivVedtaksperiode?.id)}>
                                 {perioder.map((it) => (
                                     <Tidslinjeperiode
                                         key={it.id}
@@ -178,7 +192,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
                                 <Infotrygdikon />
                                 <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
                             </Arbeidsgivernavn>
-                            <Tidslinjerad>
+                            <Tidslinjerad erAktiv={false}>
                                 {perioder.map((it) => (
                                     <Tidslinjeperiode
                                         key={it.id}
