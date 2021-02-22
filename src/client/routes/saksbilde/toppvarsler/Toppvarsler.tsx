@@ -37,7 +37,7 @@ const utbetalingsvarsel = ({ tilstand, automatiskBehandlet }: Vedtaksperiode): V
         ? { grad: Varseltype.Info, melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : null;
 
-const ingenUtbetalingsvarsel = ({ tilstand, oppgavereferanse }: Vedtaksperiode): boolean =>
+const vedtaksperiodeVenterVarsel = ({ tilstand, oppgavereferanse }: Vedtaksperiode): boolean =>
     tilstand === Vedtaksperiodetilstand.Venter;
 
 const manglendeOppgavereferansevarsel = ({ tilstand, oppgavereferanse }: Vedtaksperiode): VarselObject | null =>
@@ -79,9 +79,9 @@ export const Toppvarsler = ({ vedtaksperiode }: ToppvarslerProps) => {
 
     return (
         <>
-            {ingenUtbetalingsvarsel(vedtaksperiode) && (
+            {vedtaksperiodeVenterVarsel(vedtaksperiode) && (
                 <Varsel type={Varseltype.Info}>
-                    <Normaltekst>Ikke klar for utbetaling. Avventer behandling av tidligere periode.</Normaltekst>
+                    <Normaltekst>Ikke klar til behandling - avventer system</Normaltekst>
                 </Varsel>
             )}
             <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
