@@ -28,53 +28,14 @@ const Container = styled(FlexColumn)`
     position: relative;
     padding: 14px 32px 16px 32px;
     border-bottom: 1px solid var(--navds-color-border);
-
-    > div:last-of-type {
-        position: relative;
-        margin-top: 1rem;
-    }
+    margin-top: 1rem;
 `;
 
-interface Props {
-    person: Person;
-    aktivVedtaksperiode?: Vedtaksperiode;
-}
-
-export const LasterTidslinje = () => {
-    return (
-        <Container>
-            <LasterUtsnittsvelger />
-        </Container>
-    );
-};
-
-export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver, skalAnonymiseres: boolean): string => {
-    if (skalAnonymiseres) return getAnonymArbeidsgiverForOrgnr(arbeidsgiver.organisasjonsnummer).navn;
-    return arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'
-        ? arbeidsgiver.navn
-        : arbeidsgiver.organisasjonsnummer;
-};
-
-const RadContainer = styled(Flex)`
-    &:not(:last-of-type) {
-        margin-bottom: 24px;
-    }
-`;
-
-interface HorizontalOffsetProps {
-    horizontalOffset: number;
-}
-
-const AxisLabelsContainer = styled.div<HorizontalOffsetProps>`
-    ${({ horizontalOffset }) => `margin-left: ${horizontalOffset}px;`}
-`;
-
-const PinsContainer = styled.div<HorizontalOffsetProps>`
-    ${({ horizontalOffset }) => `margin-left: ${horizontalOffset}px;
-    width: calc(100% - ${horizontalOffset}px);`}
-    position: absolute;
+const TidslinjeContainer = styled.div`
+    position: relative;
     height: 100%;
-    top: 0;
+    padding-bottom: calc(1rem - 2px);
+    margin-bottom: 2px;
 `;
 
 interface ArbeidsgivernavnProps {
@@ -96,6 +57,28 @@ const Arbeidsgivernavn = styled(Flex)<ArbeidsgivernavnProps>`
     ${({ width }) => `width: ${width}px;`};
 `;
 
+interface HorizontalOffsetProps {
+    horizontalOffset: number;
+}
+
+const AxisLabelsContainer = styled.div<HorizontalOffsetProps>`
+    ${({ horizontalOffset }) => `margin-left: ${horizontalOffset}px;`}
+`;
+
+const PinsContainer = styled.div<HorizontalOffsetProps>`
+    ${({ horizontalOffset }) => `margin-left: ${horizontalOffset}px;
+    width: calc(100% - ${horizontalOffset}px);`}
+    position: absolute;
+    height: 100%;
+    top: 0;
+`;
+
+const RadContainer = styled(Flex)`
+    &:not(:last-of-type) {
+        margin-bottom: 24px;
+    }
+`;
+
 interface TidslinjeradProps {
     erAktiv: boolean;
 }
@@ -114,12 +97,25 @@ const Tidslinjerad = styled(Row)<TidslinjeradProps>`
     flex: 1;
 `;
 
-const TidslinjeContainer = styled.div`
-    position: relative;
-    height: 100%;
-    padding-bottom: calc(1rem - 2px);
-    margin-bottom: 2px;
-`;
+interface Props {
+    person: Person;
+    aktivVedtaksperiode?: Vedtaksperiode;
+}
+
+export const arbeidsgiverNavn = (arbeidsgiver: Arbeidsgiver, skalAnonymiseres: boolean): string => {
+    if (skalAnonymiseres) return getAnonymArbeidsgiverForOrgnr(arbeidsgiver.organisasjonsnummer).navn;
+    return arbeidsgiver.navn.toLowerCase() !== 'ukjent' && arbeidsgiver.navn.toLowerCase() !== 'ikke tilgjengelig'
+        ? arbeidsgiver.navn
+        : arbeidsgiver.organisasjonsnummer;
+};
+
+export const LasterTidslinje = () => {
+    return (
+        <Container>
+            <LasterUtsnittsvelger />
+        </Container>
+    );
+};
 
 export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
     const setAktivVedtaksperiode = useSetAktivVedtaksperiode();
@@ -156,59 +152,57 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
 
     return (
         <Container>
-            <FlexColumn>
-                <TidslinjeContainer>
-                    <AxisLabelsContainer horizontalOffset={tidslinjeradOffset}>
-                        <AxisLabels start={fom} slutt={tom} direction={'right'} />
-                    </AxisLabelsContainer>
-                    <PinsContainer horizontalOffset={tidslinjeradOffset}>
-                        <Pins start={fom.toDate()} slutt={tom.toDate()} direction={'right'} pins={pins()} />
-                    </PinsContainer>
-                    {tidslinjerader.map(({ id, perioder, arbeidsgiver }) => (
-                        <RadContainer key={id}>
-                            <Arbeidsgivernavn width={tidslinjeradOffset}>
-                                <Arbeidsgiverikon />
-                                <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
-                            </Arbeidsgivernavn>
-                            <Tidslinjerad erAktiv={!!perioder.find((it) => it.id === aktivVedtaksperiode?.id)}>
-                                {perioder.map((it) => (
-                                    <Tidslinjeperiode
-                                        key={it.id}
-                                        id={it.id}
-                                        style={it.style}
-                                        className={it.tilstand}
-                                        hoverLabel={<TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip>}
-                                        skalVisePin={it.skalVisePin}
-                                        onClick={setAktivVedtaksperiode}
-                                        erAktiv={it.id === aktivVedtaksperiode?.id}
-                                    />
-                                ))}
-                            </Tidslinjerad>
-                        </RadContainer>
-                    ))}
-                    {infotrygdrader.map(([arbeidsgiver, perioder]) => (
-                        <RadContainer key={arbeidsgiver}>
-                            <Arbeidsgivernavn width={tidslinjeradOffset}>
-                                <Infotrygdikon />
-                                <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
-                            </Arbeidsgivernavn>
-                            <Tidslinjerad erAktiv={false}>
-                                {perioder.map((it) => (
-                                    <Tidslinjeperiode
-                                        key={it.id}
-                                        id={it.id}
-                                        style={it.style}
-                                        skalVisePin={it.skalVisePin}
-                                        className={it.tilstand}
-                                        hoverLabel={<TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip>}
-                                    />
-                                ))}
-                            </Tidslinjerad>
-                        </RadContainer>
-                    ))}
-                </TidslinjeContainer>
-                <Utsnittsvelger utsnitt={utsnitt} aktivtUtsnitt={aktivtUtsnitt} setAktivtUtsnitt={setAktivtUtsnitt} />
-            </FlexColumn>
+            <TidslinjeContainer>
+                <AxisLabelsContainer horizontalOffset={tidslinjeradOffset}>
+                    <AxisLabels start={fom} slutt={tom} direction={'right'} />
+                </AxisLabelsContainer>
+                <PinsContainer horizontalOffset={tidslinjeradOffset}>
+                    <Pins start={fom.toDate()} slutt={tom.toDate()} direction={'right'} pins={pins()} />
+                </PinsContainer>
+                {tidslinjerader.map(({ id, perioder, arbeidsgiver }) => (
+                    <RadContainer key={id}>
+                        <Arbeidsgivernavn width={tidslinjeradOffset}>
+                            <Arbeidsgiverikon />
+                            <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
+                        </Arbeidsgivernavn>
+                        <Tidslinjerad erAktiv={!!perioder.find((it) => it.id === aktivVedtaksperiode?.id)}>
+                            {perioder.map((it) => (
+                                <Tidslinjeperiode
+                                    key={it.id}
+                                    id={it.id}
+                                    style={it.style}
+                                    className={it.tilstand}
+                                    hoverLabel={<TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip>}
+                                    skalVisePin={it.skalVisePin}
+                                    onClick={setAktivVedtaksperiode}
+                                    erAktiv={it.id === aktivVedtaksperiode?.id}
+                                />
+                            ))}
+                        </Tidslinjerad>
+                    </RadContainer>
+                ))}
+                {infotrygdrader.map(([arbeidsgiver, perioder]) => (
+                    <RadContainer key={arbeidsgiver}>
+                        <Arbeidsgivernavn width={tidslinjeradOffset}>
+                            <Infotrygdikon />
+                            <TekstMedEllipsis data-tip={arbeidsgiver}>{arbeidsgiver}</TekstMedEllipsis>
+                        </Arbeidsgivernavn>
+                        <Tidslinjerad erAktiv={false}>
+                            {perioder.map((it) => (
+                                <Tidslinjeperiode
+                                    key={it.id}
+                                    id={it.id}
+                                    style={it.style}
+                                    skalVisePin={it.skalVisePin}
+                                    className={it.tilstand}
+                                    hoverLabel={<TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip>}
+                                />
+                            ))}
+                        </Tidslinjerad>
+                    </RadContainer>
+                ))}
+            </TidslinjeContainer>
+            <Utsnittsvelger utsnitt={utsnitt} aktivtUtsnitt={aktivtUtsnitt} setAktivtUtsnitt={setAktivtUtsnitt} />
         </Container>
     );
 };
