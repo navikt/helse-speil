@@ -9,7 +9,7 @@ export const anonymisertPersoninfo = {
     fnr: '11001100111',
 };
 
-const navneliste = [
+const agurkArbeidsgivere = [
     { navn: 'Pølseboden', orgnr: '999999999' },
     { navn: 'CucumberService AS', orgnr: '888888888' },
     { navn: 'CucumberHeaven', orgnr: '777777777' },
@@ -20,7 +20,13 @@ const navneliste = [
     { navn: 'Nissemyra', orgnr: '222222222' },
 ];
 
-const anonymeArbeidsgiverNavn: { [key: string]: { navn: string; orgnr: string } } = {};
+let navneliste = [...agurkArbeidsgivere];
+let anonymeArbeidsgiverNavn: { [key: string]: { navn: string; orgnr: string } } = {};
+
+export const nullstillAgurkData = () => {
+    anonymeArbeidsgiverNavn = {};
+    navneliste = [...agurkArbeidsgivere];
+};
 
 export const getAnonymArbeidsgiverForOrgnr = (organisasjonsnummer: string): { navn: string; orgnr: string } => {
     if (anonymeArbeidsgiverNavn[organisasjonsnummer]) return anonymeArbeidsgiverNavn[organisasjonsnummer];

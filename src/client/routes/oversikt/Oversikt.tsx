@@ -14,6 +14,7 @@ import { Oppgave } from '../../../types';
 import { personState, useAnonymiserPerson } from '../../state/person';
 import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { nanoid } from 'nanoid';
+import { nullstillAgurkData } from '../../agurkdata';
 
 const Container = styled.div`
     position: relative;
@@ -41,11 +42,14 @@ const useFiltrerteOppgaver = () => {
     const setAnonymisering = useAnonymiserPerson();
     const [cache, setCache] = useState<Oppgave[]>([]);
     setAnonymisering(false);
+    nullstillAgurkData();
 
     const filtrer = (oppgaver: Oppgave[]): Oppgave[] =>
-        aktivTab === 'alle' ? oppgaver
-            : aktivTab === 'ventende' ? oppgaver.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)
-            : oppgaver.filter(({ tildeltTil, erPåVent}) => tildeltTil === email && !erPåVent);
+        aktivTab === 'alle'
+            ? oppgaver
+            : aktivTab === 'ventende'
+            ? oppgaver.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)
+            : oppgaver.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && !erPåVent);
 
     useEffect(() => {
         if (oppgaver.state === 'hasValue') {
