@@ -1,14 +1,12 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, ReactNode, useState } from 'react';
 import styled from '@emotion/styled';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
-import { InfotrygdradObject, useInfotrygdrader } from './useInfotrygdrader';
+import { useInfotrygdrader } from './useInfotrygdrader';
 import { Flex, FlexColumn } from '../Flex';
-import { Arbeidsgiver, Person, Vedtaksperiode } from 'internal-types';
-import { useAktivVedtaksperiode, useSetAktivVedtaksperiode } from '../../state/vedtaksperiode';
-import { AxisLabels, Pins, Row } from '@navikt/helse-frontend-timeline/lib';
+import { Arbeidsgiver, Person } from 'internal-types';
+import { AxisLabels, Pins } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
 import { TekstMedEllipsis } from '../TekstMedEllipsis';
-import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { Arbeidsgiverikon } from '../ikoner/Arbeidsgiverikon';
 import { Infotrygdikon } from '../ikoner/Infotrygdikon';
 import { PinsTooltip } from './TidslinjeTooltip';
@@ -20,11 +18,17 @@ import { useTidslinjerader } from './useTidslinjerader';
 import { useSkalAnonymiserePerson } from '../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
 import { Tidslinjerad } from './Tidslinjerad';
-
+import NavFrontendChevron from 'nav-frontend-chevron';
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 dayjs.locale('nb');
+
+const aktivChevronState = atom<{ [organisasjonsnummer: string]: boolean }>({
+    key: 'aktivChevronState',
+    default: {},
+});
 
 const Container = styled(FlexColumn)`
     position: relative;
@@ -72,9 +76,50 @@ const Arbeidsgivernavn = styled(Flex)<ArbeidsgivernavnProps>`
     ${({ width }) => `width: ${width}px;`};
 `;
 
+interface ChevronProps {
+    organisasjonsnummer: string;
+}
+
+const Chevron = ({ organisasjonsnummer }: ChevronProps) => {
+    const [erAktiv, setErAktiv] = useRecoilState(aktivChevronState);
+
+    const erDenneAktiv = erAktiv[organisasjonsnummer];
+
+    const StyledChevron = styled(NavFrontendChevron)`
+        align-content: flex-end;
+        justify-self: end;
+    `;
+
+    return (
+        <div
+            onClick={() => {
+                setErAktiv({
+                    [organisasjonsnummer]: !erDenneAktiv,
+                });
+            }}
+        >
+            <StyledChevron type={erDenneAktiv ? 'ned' : 'høyre'} />
+        </div>
+    );
+};
+
 interface HorizontalOffsetProps {
     horizontalOffset: number;
 }
+
+interface AccordionProps {
+    erSynlig: boolean;
+}
+
+const Accordion = styled.div<AccordionProps>`
+    ${({ erSynlig }) =>
+        erSynlig
+            ? `
+    display: initial;
+    `
+            : `    
+    display: none;`}
+`;
 
 const AxisLabelsContainer = styled.div<HorizontalOffsetProps>`
     ${({ horizontalOffset }) => `margin-left: ${horizontalOffset}px;`}
@@ -110,6 +155,8 @@ interface Props {
 export const Tidslinje = ({ person }: Props) => {
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
     const anonymiseringEnabled = useSkalAnonymiserePerson();
+
+    const erAktiv = useRecoilValue(aktivChevronState);
 
     const fom = utsnitt[aktivtUtsnitt].fom;
     const tom = utsnitt[aktivtUtsnitt].tom;
@@ -148,20 +195,27 @@ export const Tidslinje = ({ person }: Props) => {
                 <PinsContainer horizontalOffset={tidslinjeradOffset}>
                     <Pins start={fom.toDate()} slutt={tom.toDate()} direction={'right'} pins={pins()} />
                 </PinsContainer>
-                {tidslinjerader.map(({ id, navn, rader }) => (
-                    <ArbeidsgiverContainer key={id}>
-                        <Arbeidsgivernavn width={tidslinjeradOffset}>
-                            <Arbeidsgiverikon />
-                            <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
-                        </Arbeidsgivernavn>
-                        <RaderContainer>
-                            <Tidslinjerad rad={rader[0]} index={0} erKlikkbar={true} />
-                            {rader.slice(1).map((it, index) => (
-                                <Tidslinjerad rad={it} index={index} erKlikkbar={true} />
-                            ))}
-                        </RaderContainer>
-                    </ArbeidsgiverContainer>
-                ))}
+                {tidslinjerader.map(({ id, navn, rader }) => {
+                    return (
+                        <ArbeidsgiverContainer key={id}>
+                            <Arbeidsgivernavn width={tidslinjeradOffset}>
+                                <Arbeidsgiverikon />
+                                <TekstMedEllipsis data-tip={navn} style={{ flex: 1 }}>
+                                    {navn}
+                                </TekstMedEllipsis>
+                                {rader.length > 1 && <Chevron organisasjonsnummer={id} />}
+                            </Arbeidsgivernavn>
+                            <RaderContainer>
+                                <Tidslinjerad rad={rader[0]} index={0} erKlikkbar={true} />
+                                <Accordion erSynlig={erAktiv[id]}>
+                                    {rader.slice(1).map((it, index) => (
+                                        <Tidslinjerad rad={it} index={index} erKlikkbar={true} />
+                                    ))}
+                                </Accordion>
+                            </RaderContainer>
+                        </ArbeidsgiverContainer>
+                    );
+                })}
                 {infotrygdrader.map((it, index) => (
                     <ArbeidsgiverContainer key={it.arbeidsgivernavn}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>
