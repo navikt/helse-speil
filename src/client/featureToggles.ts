@@ -4,10 +4,8 @@ export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
 const erSupersaksbehandler = () => erEminem() || erDonika() || erDaniel() || erMorten() || erAminet();
 const erFaktiskSupportsaksbehandler = () => erEliHåkonsen() || erEirinØdegård() || erJanneFleten(); // ref @support på Slack
-const erSupportsaksbehandler = () =>
-    erEliHåkonsen() ||
-    erEirinØdegård() ||
-    erJanneFleten() ||
+const harUtvidetTilgang = () =>
+    erFaktiskSupportsaksbehandler() ||
     erMartheOterhals() ||
     erAnnHelenThorsen() ||
     erOttarNerland() ||
@@ -47,14 +45,9 @@ const erSindre = () => extractIdent() === 'B159939';
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
 export const annulleringerEnabled =
-    erPreprod() || erLocal() || erSupportsaksbehandler() || erSupersaksbehandler() || erAnnulleringsbois();
+    erPreprod() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
-    erPreprod() ||
-    erLocal() ||
-    erSupersaksbehandler() ||
-    erAnnulleringsbois() ||
-    erSpiceGirls() ||
-    erSupportsaksbehandler();
+    erPreprod() || erLocal() || erSupersaksbehandler() || erAnnulleringsbois() || erSpiceGirls() || harUtvidetTilgang();
 export const speilTildeling = true;
 export const speilV2 = true;
 export const amplitudeEnabled = true;
