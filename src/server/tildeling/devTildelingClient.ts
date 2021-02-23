@@ -4,7 +4,7 @@ import { Tildeling } from './tildelingClient';
 export default {
     postTildeling: async (tildeling: Tildeling): Promise<any> =>
         Math.random() < 1
-            ? request.post(`http://localhost:9001/api/v1/tildeling/${tildeling.oppgavereferanse}`)
+            ? request.post(`http://localhost:9001/api/tildeling/${tildeling.oppgavereferanse}`)
             : Promise.reject({
                   feilkode: 409,
                   kildesystem: 'mockSpesialist',
@@ -14,6 +14,6 @@ export default {
               }),
     fjernTildeling: async (tildeling: Tildeling): Promise<any> =>
         Math.random() < 1
-            ? request.delete(`http://localhost:9001/api/v1/tildeling/${tildeling.oppgavereferanse}`)
+            ? request.delete(`http://localhost:9001/api/tildeling/${tildeling.oppgavereferanse}`)
             : Promise.reject(),
 };

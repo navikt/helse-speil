@@ -19,7 +19,6 @@ import paymentRoutes from './payment/paymentRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
 import tildelingRoutes from './tildeling/tildelingRoutes';
 import { SpeilRequest } from './types';
-import dummyRoutes from './dummy/dummyRoutes';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
 import oppgaveRoutes from './oppgave/oppgaveRoutes';
 
@@ -138,7 +137,6 @@ app.use('/api/person', person.setup({ ...dependencies.person }));
 app.use('/api/payments', paymentRoutes(dependencies.payments));
 app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
 app.use('/api/tildeling', tildelingRoutes(dependencies.tildeling));
-app.use('/api/dummy', dummyRoutes(dependencies.dummy));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies.opptegnelse));
 app.use('/api/oppgave', oppgaveRoutes(dependencies.oppgave));
 

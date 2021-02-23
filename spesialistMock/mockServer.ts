@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 
 const tildelinger: { [oppgavereferanse: string]: string } = {};
 
-app.get('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
+app.get('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
 
     if (tildelinger[oppgavereferanse]) {
@@ -26,19 +26,13 @@ app.get('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => 
     }
 });
 
-app.post('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
+app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
     tildelinger[oppgavereferanse] = 'dev@nav.no';
     res.sendStatus(200);
 });
 
-app.post('/api/v1/dummytildeling/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-    tildelinger[oppgavereferanse] = 'dev@nav.no';
-    res.sendStatus(200);
-});
-
-app.delete('/api/v1/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
+app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
     delete tildelinger[oppgavereferanse];
     res.sendStatus(200);

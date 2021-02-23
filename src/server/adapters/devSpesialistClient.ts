@@ -45,7 +45,7 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
 
 const hentTildeling = (oppgavereferanse: string) => {
     const options = {
-        uri: `http://localhost:9001/api/v1/tildeling/${oppgavereferanse}`,
+        uri: `http://localhost:9001/api/tildeling/${oppgavereferanse}`,
         resolveWithFullResponse: true,
     };
     return request
@@ -56,7 +56,7 @@ const hentTildeling = (oppgavereferanse: string) => {
 
 export const tildel = (oppgavereferanse: string) => {
     const options = {
-        uri: `http://localhost:9001/api/v1/tildeling/${oppgavereferanse}`,
+        uri: `http://localhost:9001/api/tildeling/${oppgavereferanse}`,
         resolveWithFullResponse: true,
     };
     return request

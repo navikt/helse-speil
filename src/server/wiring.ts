@@ -15,8 +15,6 @@ import overstyringClient from './overstyring/overstyringClient';
 import devOverstyringClient from './overstyring/devOverstyringClient';
 import tildelingClient from './tildeling/tildelingClient';
 import devTildelingClient from './tildeling/devTildelingClient';
-import dummyClient from './dummy/dummyClient';
-import devDummyClient from './dummy/devDummyClient';
 import { personClient } from './person/personClient';
 import { devPersonClient } from './adapters/devPersonClient';
 import opptegnelseClient from './opptegnelse/opptegnelseClient';
@@ -48,7 +46,6 @@ const getDevDependencies = (app: Express) => {
         tildeling: { tildelingClient: devTildelingClient },
         opptegnelse: { opptegnelseClient: devOpptegnelseClient },
         oppgave: { oppgaveClient: devOppgaveClient },
-        dummy: { dummyClient: devDummyClient },
     };
 };
 
@@ -59,7 +56,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _vedtakClient = vedtakClient(config.oidc, _onBehalfOf);
     const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
     const _tildelingClient = tildelingClient(config.oidc, _onBehalfOf);
-    const _dummyClient = dummyClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
     const _spesialistClient = spesialistClient(instrumentation);
     const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
@@ -78,7 +74,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         tildeling: { tildelingClient: _tildelingClient },
         opptegnelse: { opptegnelseClient: _opptegnelseClient },
         oppgave: { oppgaveClient: _oppgaveClient },
-        dummy: { dummyClient: _dummyClient },
     };
 };
 
