@@ -11,6 +11,14 @@
     },
     "arbeidsgivere": [
         {
+            "bransjer": ["Barnehager"],
+            "id": "315372b8-77ec-43f5-cc2f-c788eb067a9a",
+            "navn": "Ikke tilgjengelig",
+            "organisasjonsnummer": "999654123",
+            "overstyringer": [],
+            "vedtaksperioder": []
+        },
+        {
             "organisasjonsnummer": "987654321",
             "id": "300061b8-77ec-43f5-cc2f-c788eb067a9a",
             "navn": "The Commonwealth",
