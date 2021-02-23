@@ -3,6 +3,7 @@ import { extractIdent } from './utils/cookie';
 export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
 const erSupersaksbehandler = () => erEminem() || erDonika() || erDaniel() || erMorten() || erAminet();
+const erFaktiskSupportsaksbehandler = () => erEliHåkonsen() || erEirinØdegård() || erJanneFleten(); // ref @support på Slack
 const erSupportsaksbehandler = () =>
     erEliHåkonsen() ||
     erEirinØdegård() ||
@@ -60,5 +61,10 @@ export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
 export const flereArbeidsgivere =
-    erSpiceGirls() || erLocal() || erPreprod() || erDigimort() || erSupersaksbehandler() || erSupportsaksbehandler();
+    erSpiceGirls() ||
+    erLocal() ||
+    erPreprod() ||
+    erDigimort() ||
+    erSupersaksbehandler() ||
+    erFaktiskSupportsaksbehandler();
 export const påVent = erPreprod() || erLocal() || erJonas() || erSindre();
