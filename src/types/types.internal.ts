@@ -151,6 +151,7 @@ export enum Vedtaksperiodetilstand {
     Utbetalt = 'utbetalt',
     Oppgaver = 'oppgaver',
     Venter = 'venter',
+    VenterPåKiling = 'venterPåKiling',
     Avslag = 'avslag',
     IngenUtbetaling = 'ingenUtbetaling',
     KunFerie = 'kunFerie',

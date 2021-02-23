@@ -8,7 +8,7 @@ import { Utbetalingsmodal } from './Utbetalingsmodal';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
 import { AmplitudeContext } from '../../../AmplitudeContext';
-import { Person, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { usePerson } from '../../../../../state/person';
 import { useSetRecoilState } from 'recoil';
 import { opptegnelsePollingTimeState } from '../../../../../state/opptegnelser';
@@ -92,6 +92,13 @@ interface UtbetalingsdialogProps {
     vedtaksperiode: Vedtaksperiode;
 }
 
+const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
+    personTilBehandling.arbeidsgivere
+        .flatMap((arbeidsgiver: Arbeidsgiver) =>
+            arbeidsgiver.vedtaksperioder.flatMap((vedtaksperiode: Vedtaksperiode) => vedtaksperiode.tilstand)
+        )
+        .some((tilstand) => tilstand === Vedtaksperiodetilstand.VenterPåKiling);
+
 export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) => {
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
@@ -118,14 +125,14 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
             .then(() => {
                 logOppgaveGodkjent();
                 addUtbetalingstoast();
-                if (vedtaksperiode.erNyeste) {
-                    history.push('/');
-                } else {
+                if (skalPolleEtterNestePeriode(personTilBehandling)) {
                     lukkModal();
                     setIsSending(false);
                     postAbonnerPåAktør(personTilBehandling.aktørId).then(() => {
                         setOpptegnelsePollingTime(1000);
                     });
+                } else {
+                    history.push('/');
                 }
             })
             .catch((error) => {

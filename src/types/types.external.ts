@@ -265,6 +265,7 @@ export enum SpleisVedtaksperiodetilstand {
     Utbetalt = 'Utbetalt',
     Oppgaver = 'Oppgaver',
     Venter = 'Venter',
+    VenterPåKiling = 'VenterPåKiling',
     IngenUtbetaling = 'IngenUtbetaling',
     Feilet = 'Feilet',
     TilInfotrygd = 'TilInfotrygd',
