@@ -1,5 +1,4 @@
 import { extractIdent } from './utils/cookie';
-import { Kjønn } from 'internal-types';
 
 export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
@@ -60,5 +59,6 @@ export const speilV2 = true;
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
-export const flereArbeidsgivere = erSpiceGirls() || erLocal() || erPreprod() || erDigimort() || erMorten();
+export const flereArbeidsgivere =
+    erSpiceGirls() || erLocal() || erPreprod() || erDigimort() || erSupersaksbehandler() || erSupportsaksbehandler();
 export const påVent = erPreprod() || erLocal() || erJonas() || erSindre();
