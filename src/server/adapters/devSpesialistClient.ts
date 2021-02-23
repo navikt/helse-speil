@@ -9,10 +9,14 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
         const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
         const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/oppgaver');
         const oppgaver = await Promise.all(
-            JSON.parse(fromFile).map(async (oppgave: SpesialistOppgave) => ({
-                ...oppgave,
-                saksbehandlerepost: await hentTildeling(oppgave.oppgavereferanse),
-            }))
+            JSON.parse(fromFile).map(async (oppgave: SpesialistOppgave) => {
+                const { tildeltTil, erPåVent } = (await hentPersonStatus(oppgave.aktørId)) || {};
+                return {
+                    ...oppgave,
+                    saksbehandlerepost: tildeltTil,
+                    erPåVent,
+                };
+            })
         );
         tidtakning();
         return Promise.resolve(({
@@ -26,9 +30,10 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
         const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/person/aktørId');
         const person = JSON.parse(fromFile);
         tidtakning();
+        const { tildeltTil, erPåVent } = (await hentPersonStatus(person.aktørId)) || {};
         return Promise.resolve({
             status: 200,
-            body: person,
+            body: { ...person, erPåVent, saksbehandlerepost: tildeltTil },
         } as Response);
     },
     hentPersonByFødselsnummer: async (aktørId: string): Promise<Response> => {
@@ -36,22 +41,25 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
         const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
         const person = JSON.parse(fromFile);
         tidtakning();
+        const { tildeltTil, erPåVent } = (await hentPersonStatus(person.aktørId)) || {};
         return Promise.resolve({
             status: 200,
-            body: person,
+            body: { ...person, erPåVent, saksbehandlerepost: tildeltTil },
         } as Response);
     },
 });
 
-const hentTildeling = (oppgavereferanse: string) => {
+const hentPersonStatus = async (aktørId: string): Promise<{ tildeltTil?: string; erPåVent?: boolean } | undefined> => {
     const options = {
-        uri: `http://localhost:9001/api/tildeling/${oppgavereferanse}`,
+        uri: `http://localhost:9001/api/mock/personstatus/${aktørId}`,
         resolveWithFullResponse: true,
     };
-    return request
-        .get(options)
-        .then((res) => res.body)
-        .catch(() => {});
+    try {
+        const res = await request.get(options);
+        return JSON.parse(res.body);
+    } catch (ignore) {
+        return undefined;
+    }
 };
 
 export const tildel = (oppgavereferanse: string) => {

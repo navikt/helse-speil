@@ -172,6 +172,7 @@ export interface SpesialistPerson {
     personinfo: SpesialistPersoninfo;
     enhet: Enhet;
     tildeltTil: string | null;
+    erPåVent: boolean | null;
     arbeidsforhold: SpesialistArbeidsforhold[];
     infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
 }

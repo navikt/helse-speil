@@ -38,6 +38,7 @@ export class PersonBuilder {
         this.person.enhet = this.unmapped.enhet;
         this.person.aktørId = this.unmapped.aktørId;
         this.person.tildeltTil = this.unmapped.tildeltTil ?? undefined;
+        this.person.erPåVent = this.unmapped.erPåVent ?? undefined;
         this.person.fødselsnummer = this.unmapped.fødselsnummer;
     };
 

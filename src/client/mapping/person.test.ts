@@ -1,7 +1,6 @@
 import { mapPerson } from './person';
 import { Vedtaksperiode } from 'internal-types';
 import {
-    SpesialistPerson,
     SpleisAktivitet,
     SpleisAlvorlighetsgrad,
     SpleisSykdomsdag,
@@ -34,7 +33,6 @@ const enAktivitet = (
 describe('personmapper', () => {
     test('mapper person', async () => {
         const { person } = await mapPerson(umappetPerson());
-        const a = mappetPersonObject;
         expect(person).toEqual(mappetPersonObject);
     });
 

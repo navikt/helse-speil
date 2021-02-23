@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import oppgaveFil from '../__mock-data__/oppgaver.json';
 
 const app = express();
 const port = 9001;
@@ -14,7 +15,23 @@ app.use((req, res, next) => {
     next();
 });
 
-const tildelinger: { [oppgavereferanse: string]: string } = {};
+const tildelinger: { [oppgavereferanse: string]: string } = {
+    ['ea5d644b-0000-9999-0000-f93744554d5e']: 'dev@nav.no',
+    ['ab3344fa-92e6-4f11-abcd-87866a8bbbbe']: 'dev@nav.no',
+};
+
+const venter: { [oppgavereferanse: string]: boolean } = {
+    ['ab3344fa-92e6-4f11-abcd-87866a8bbbbe']: true,
+};
+
+const personer: { [aktørId: string]: string } = oppgaveFil
+    .map(({ aktørId, oppgavereferanse }: { aktørId: string; oppgavereferanse: string }) => [aktørId, oppgavereferanse])
+    .reduce((acc, [aktørId, oppgavereferanse]) => {
+        let ret: {
+            [aktørId: string]: string;
+        } = { ...acc, [aktørId]: oppgavereferanse };
+        return ret;
+    }, {});
 
 app.get('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
@@ -35,7 +52,28 @@ app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
 app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
     delete tildelinger[oppgavereferanse];
+    delete venter[oppgavereferanse];
     res.sendStatus(200);
+});
+
+app.post('/api/leggpåvent/:oppgaveReferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgaveReferanse;
+    venter[oppgavereferanse] = true;
+    res.sendStatus(200);
+});
+
+app.delete('/api/leggpåvent/:oppgaveReferanse', (req: Request, res: Response) => {
+    const oppgavereferanse = req.params.oppgaveReferanse;
+    delete venter[oppgavereferanse];
+    res.sendStatus(200);
+});
+
+app.get('/api/mock/personstatus/:aktørId', (req: Request, res: Response) => {
+    const aktørId = req.params.aktørId;
+    const oppgavereferanse = personer[aktørId];
+    const erPåVent = venter[oppgavereferanse];
+    const tildeltTil = tildelinger[oppgavereferanse];
+    res.send({ erPåVent, tildeltTil });
 });
 
 let pollCounter = 0;

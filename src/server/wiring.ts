@@ -19,8 +19,8 @@ import { personClient } from './person/personClient';
 import { devPersonClient } from './adapters/devPersonClient';
 import opptegnelseClient from './opptegnelse/opptegnelseClient';
 import devOpptegnelseClient from './opptegnelse/devOpptegnelseClient';
-import devOppgaveClient from './oppgave/devOppgaveClient';
-import oppgaveClient from './oppgave/oppgaveClient';
+import devLeggPåVentClient from './leggpåvent/devLeggPåVentClient';
+import leggPåVentClient from './leggpåvent/leggPåVentClient';
 
 import { Express } from 'express';
 import { RedisClient } from 'redis';
@@ -45,7 +45,7 @@ const getDevDependencies = (app: Express) => {
         overstyring: { overstyringClient: devOverstyringClient },
         tildeling: { tildelingClient: devTildelingClient },
         opptegnelse: { opptegnelseClient: devOpptegnelseClient },
-        oppgave: { oppgaveClient: devOppgaveClient },
+        leggPåVent: { leggPåVentClient: devLeggPåVentClient },
     };
 };
 
@@ -60,7 +60,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _spesialistClient = spesialistClient(instrumentation);
     const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
     const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
-    const _oppgaveClient = oppgaveClient(config.oidc, _onBehalfOf);
+    const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
     return {
         person: {
             spesialistClient: _spesialistClient,
@@ -73,7 +73,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         overstyring: { overstyringClient: _overstyringClient },
         tildeling: { tildelingClient: _tildelingClient },
         opptegnelse: { opptegnelseClient: _opptegnelseClient },
-        oppgave: { oppgaveClient: _oppgaveClient },
+        leggPåVent: { leggPåVentClient: _leggPåVentClient },
     };
 };
 

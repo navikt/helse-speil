@@ -32,6 +32,7 @@ export const umappetPerson = (
     arbeidsgivere,
     enhet: { id: '', navn: '' },
     tildeltTil: null,
+    erPåVent: null,
     arbeidsforhold: [
         {
             organisasjonsnummer: '987654321',
