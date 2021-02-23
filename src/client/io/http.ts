@@ -1,7 +1,6 @@
 import { Tildeling } from 'internal-types';
 import { extractSpesialistToken } from '../utils/cookie';
 import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
-import { speilTildeling } from '../featureToggles';
 import { Avvisningsskjema } from '../routes/saksbilde/utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
@@ -133,24 +132,16 @@ const spesialistOptions = (headere?: Headers) => ({
 export const getOppgavereferanse = async (fødselsnummer: string) =>
     get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
-export const postLeggPåVent = async (oppgavereferanse: string) => post(`${baseUrl}/oppgave/vent`, { oppgavereferanse });
+export const postLeggPåVent = async (oppgavereferanse: string) => post(`${baseUrl}/leggpåvent/${oppgavereferanse}`, {});
 
-export const deletePåVent = async (oppgavereferanse: string) => del(`${baseUrl}/oppgave/vent`, { oppgavereferanse });
+export const deletePåVent = async (oppgavereferanse: string) => del(`${baseUrl}/leggpåvent/${oppgavereferanse}`, {});
 
 export const postTildeling = async (tildeling: Tildeling) => {
-    if (speilTildeling) {
-        return post(`${baseUrl}/tildeling/${tildeling.oppgavereferanse}`, {});
-    } else {
-        return post(`${baseUrlSpesialist}/tildeling/${tildeling.oppgavereferanse}`, {}, spesialistAuthorization());
-    }
+    return post(`${baseUrl}/tildeling/${tildeling.oppgavereferanse}`, {});
 };
 
 export const deleteTildeling = async (oppgavereferanse: string) => {
-    if (speilTildeling) {
-        return del(`${baseUrl}/tildeling/${oppgavereferanse}`, {});
-    } else {
-        return del(`${baseUrlSpesialist}/tildeling/${oppgavereferanse}`, {}, spesialistOptions());
-    }
+    return del(`${baseUrl}/tildeling/${oppgavereferanse}`, {});
 };
 
 export const postAbonnerPåAktør = async (aktørId: string) => {

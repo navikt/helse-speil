@@ -38,9 +38,12 @@ const erMarte = () => extractIdent() === 'T141884';
 const erAnders = () => extractIdent() === 'O142910';
 const erUtvikler = () => erKnudix() || erDavid() || erSpiceGirls();
 
+const erSolør = () => erJakob() || erJonas() || erSindre() || erErlend() || erPeter();
 const erJonas = () => extractIdent() === 'H159657';
 const erPeter = () => extractIdent() === 'S159940';
 const erSindre = () => extractIdent() === 'B159939';
+const erErlend = () => extractIdent() === 'v159649';
+const erJakob = () => extractIdent() === 'E156407';
 
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
@@ -48,8 +51,6 @@ export const annulleringerEnabled =
     erPreprod() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
     erPreprod() || erLocal() || erSupersaksbehandler() || erAnnulleringsbois() || erSpiceGirls() || harUtvidetTilgang();
-export const speilTildeling = true;
-export const speilV2 = true;
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
@@ -60,4 +61,4 @@ export const flereArbeidsgivere =
     erDigimort() ||
     erSupersaksbehandler() ||
     erFaktiskSupportsaksbehandler();
-export const påVent = erPreprod() || erLocal() || erJonas() || erSindre();
+export const påVent = erPreprod() || erLocal() || erSolør();
