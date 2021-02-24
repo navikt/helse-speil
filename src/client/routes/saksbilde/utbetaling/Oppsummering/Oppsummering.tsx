@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { Utbetaling } from './utbetaling/Utbetaling';
 import { Flex } from '../../../../components/Flex';
 import { useAktivVedtaksperiode } from '../../../../state/vedtaksperiode';
-import { usePerson } from '../../../../state/person';
+import { usePerson, useSkalAnonymiserePerson } from '../../../../state/person';
 
 const Infogruppe = styled.section`
     line-height: 22px;
@@ -48,6 +48,7 @@ const Oppsummering = () => {
     if (!aktivVedtaksperiode) return null;
 
     const { oppsummering, inntektsgrunnlag, simuleringsdata } = aktivVedtaksperiode;
+    const anonymiseringEnabled = useSkalAnonymiserePerson;
 
     return (
         <>
@@ -81,7 +82,12 @@ const Oppsummering = () => {
             </Infogruppe>
             <Utbetaling vedtaksperiode={aktivVedtaksperiode} />
             {simuleringsdata && (
-                <SimuleringsinfoModal simulering={simuleringsdata} åpenModal={åpen} lukkModal={() => setÅpen(false)} />
+                <SimuleringsinfoModal
+                    simulering={simuleringsdata}
+                    åpenModal={åpen}
+                    lukkModal={() => setÅpen(false)}
+                    anonymiseringEnabled={anonymiseringEnabled()}
+                />
             )}
         </>
     );

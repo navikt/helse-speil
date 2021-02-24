@@ -8,6 +8,7 @@ import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { Grid } from '../../../../components/Grid';
 import { somPenger } from '../../../../utils/locale';
 import { Modal } from '../../../../components/Modal';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../../agurkdata';
 
 const Modalinnhold = styled.article`
     padding: 0 4rem 2rem 4rem;
@@ -36,9 +37,15 @@ type SimuleringsmodalProps = {
     simulering: Simulering;
     åpenModal: boolean;
     lukkModal: () => void;
+    anonymiseringEnabled: boolean;
 };
 
-export const SimuleringsinfoModal = ({ simulering, åpenModal, lukkModal }: SimuleringsmodalProps) => (
+export const SimuleringsinfoModal = ({
+    simulering,
+    åpenModal,
+    lukkModal,
+    anonymiseringEnabled,
+}: SimuleringsmodalProps) => (
     <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
         <Modalinnhold>
             <Grid gridTemplateColumns="1fr 1fr">
@@ -58,7 +65,12 @@ export const SimuleringsinfoModal = ({ simulering, åpenModal, lukkModal }: Simu
                     )}
                     <Luft />
                     {periode.utbetalinger.map((utbetaling, index) => (
-                        <Utbetalingsvisning utbetaling={utbetaling} index={index} key={`utbetaling-${index}`} />
+                        <Utbetalingsvisning
+                            utbetaling={utbetaling}
+                            index={index}
+                            key={`utbetaling-${index}`}
+                            anonymiseringEnabled={anonymiseringEnabled}
+                        />
                     ))}
                 </Underliste>
             ))}
@@ -66,26 +78,39 @@ export const SimuleringsinfoModal = ({ simulering, åpenModal, lukkModal }: Simu
     </Modal>
 );
 
-type UtbetalingsvisningProps = { utbetaling: Utbetaling; index: number };
-const Utbetalingsvisning = ({ utbetaling, index }: UtbetalingsvisningProps) => (
+type UtbetalingsvisningProps = { utbetaling: Utbetaling; index: number; anonymiseringEnabled: boolean };
+const Utbetalingsvisning = ({ utbetaling, index, anonymiseringEnabled }: UtbetalingsvisningProps) => (
     <React.Fragment>
         {index > 0 && <Luft />}
         <Normaltekst>Utbetales til ID</Normaltekst>
-        <Normaltekst>{utbetaling.utbetalesTilId}</Normaltekst>
+        <Normaltekst>
+            {anonymiseringEnabled
+                ? getAnonymArbeidsgiverForOrgnr(utbetaling.utbetalesTilId).orgnr
+                : utbetaling.utbetalesTilId}
+        </Normaltekst>
         <Normaltekst>Utbetales til navn</Normaltekst>
-        <Normaltekst>{utbetaling.utbetalesTilNavn}</Normaltekst>
+        <Normaltekst>
+            {anonymiseringEnabled
+                ? getAnonymArbeidsgiverForOrgnr(utbetaling.utbetalesTilId).navn
+                : utbetaling.utbetalesTilNavn}
+        </Normaltekst>
         <Normaltekst>Forfall</Normaltekst>
         <Normaltekst>{formaterDato(utbetaling.forfall)}</Normaltekst>
         <Normaltekst>Feilkonto</Normaltekst>
         <Normaltekst>{utbetaling.feilkonto ? 'Ja' : 'Nei'}</Normaltekst>
         {utbetaling.detaljer.map((detalj: Utbetalingsdetalj, index: number) => (
-            <Utbetalingsdetaljvisning detalj={detalj} index={index} key={`detalj-${index}`} />
+            <Utbetalingsdetaljvisning
+                detalj={detalj}
+                index={index}
+                key={`detalj-${index}`}
+                anonymiseringEnabled={anonymiseringEnabled}
+            />
         ))}
     </React.Fragment>
 );
 
-type UtbetalingsdetaljvisningProps = { detalj: Utbetalingsdetalj; index: number };
-const Utbetalingsdetaljvisning = ({ detalj, index }: UtbetalingsdetaljvisningProps) => (
+type UtbetalingsdetaljvisningProps = { detalj: Utbetalingsdetalj; index: number; anonymiseringEnabled: boolean };
+const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: UtbetalingsdetaljvisningProps) => (
     <React.Fragment>
         {index > 0 && <Luft />}
         <Normaltekst>Faktisk fom</Normaltekst>
@@ -109,7 +134,7 @@ const Utbetalingsdetaljvisning = ({ detalj, index }: UtbetalingsdetaljvisningPro
             <Normaltekst>{somPenger(detalj.belop)}</Normaltekst>
         )}
         <Normaltekst>Konto</Normaltekst>
-        <Normaltekst>{detalj.konto}</Normaltekst>
+        <Normaltekst>{anonymiseringEnabled ? 'Agurkifisert konto' : detalj.konto}</Normaltekst>
         <Normaltekst>Klassekode</Normaltekst>
         <Normaltekst>{detalj.klassekode}</Normaltekst>
         <Normaltekst>Klassekodebeskrivelse</Normaltekst>
@@ -119,7 +144,11 @@ const Utbetalingsdetaljvisning = ({ detalj, index }: UtbetalingsdetaljvisningPro
         <Normaltekst>Utbetalingstype</Normaltekst>
         <Normaltekst>{detalj.utbetalingsType}</Normaltekst>
         <Normaltekst>Refunderes orgnummer</Normaltekst>
-        <Normaltekst>{detalj.refunderesOrgNr}</Normaltekst>
+        <Normaltekst>
+            {anonymiseringEnabled
+                ? getAnonymArbeidsgiverForOrgnr(detalj.refunderesOrgNr).orgnr
+                : detalj.refunderesOrgNr}
+        </Normaltekst>
         <Normaltekst>Tilbakeføring</Normaltekst>
         <Normaltekst>{detalj.tilbakeforing ? 'Ja' : 'Nei'}</Normaltekst>
     </React.Fragment>
