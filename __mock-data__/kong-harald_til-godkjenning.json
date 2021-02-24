@@ -41,8 +41,25 @@
                     "fullstendig": true,
                     "utbetalingsreferanse": "SVQYTSFJARAOPMPB5K2G5GL53M",
                     "risikovurdering": {
-                        "funn": [],
-                        "kontrollertOk": []
+                        "funn": [
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Seilbåten er vekk",
+                                "kategori": []
+                            },
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Seilbåten er vekk",
+                                "kategori": ["8-4"]
+                            }
+                        ],
+                        "kontrollertOk": [
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Er konge",
+                                "kategori": []
+                            }
+                        ]
                     },
                     "utbetalingstidslinje": [
                         {
