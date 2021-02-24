@@ -576,7 +576,7 @@
                     "gruppeId": "2c745efc-5355-ffff-af95-9f421a307e51",
                     "fom": "2020-03-01",
                     "tom": "2020-03-27",
-                    "tilstand": "Venter",
+                    "tilstand": "VenterPåKiling",
                     "periodetype": "OVERGANG_FRA_IT",
                     "oppgavereferanse": "e3474113-1100-9999-0000-ea5d644b4a6b",
                     "fullstendig": true,
