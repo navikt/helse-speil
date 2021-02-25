@@ -67,14 +67,6 @@ const kandidatForAutomatiseringsvarsel = ({
 const automatiskBehandletvarsel = ({ automatiskBehandlet }: Vedtaksperiode): VarselObject | null =>
     automatiskBehandlet ? { grad: Varseltype.Info, melding: 'Perioden er automatisk godkjent' } : null;
 
-const riskvarsel = ({ risikovurdering }: Vedtaksperiode): VarselObject | null =>
-    risikovurdering?.funn?.filter((it) => !it.kategori.includes('8-4')).length ?? 0 > 0
-        ? {
-              grad: Varseltype.Advarsel,
-              melding: 'Faresignaler oppdaget. Kontroller om faresignalene påvirker retten til sykepenger',
-          }
-        : null;
-
 export const Toppvarsler = ({ vedtaksperiode }: ToppvarslerProps) => {
     const varsler: VarselObject[] = [
         tilstandsvarsel(vedtaksperiode),
@@ -83,7 +75,6 @@ export const Toppvarsler = ({ vedtaksperiode }: ToppvarslerProps) => {
         automatiskBehandletvarsel(vedtaksperiode),
         manglendeOppgavereferansevarsel(vedtaksperiode),
         kandidatForAutomatiseringsvarsel(vedtaksperiode),
-        riskvarsel(vedtaksperiode),
     ].filter((it) => it) as VarselObject[];
 
     return (
