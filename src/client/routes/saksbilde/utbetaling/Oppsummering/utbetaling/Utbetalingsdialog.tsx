@@ -119,6 +119,8 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
         lukkModal();
     };
 
+    const { oppsummering } = vedtaksperiode;
+
     const godkjennUtbetaling = () => {
         setIsSending(true);
         postUtbetalingsgodkjenning(vedtaksperiode.oppgavereferanse!, personTilBehandling.aktørId)
@@ -163,7 +165,7 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
         <>
             <Knapper>
                 <Hovedknapp mini onClick={åpneGodkjenningsmodal}>
-                    Utbetal
+                    {oppsummering.totaltTilUtbetaling > 0 ? 'Utbetal' : 'Godkjenn'}
                 </Hovedknapp>
                 <Knapp mini onClick={åpneAvvisningsmodal}>
                     Avvis
