@@ -623,8 +623,13 @@
                     "aktivitetslogg": [
                         {
                             "alvorlighetsgrad": "W",
-                            "melding": "Arbeidsuførhet. Aktivitetsplikt og/eller medvirkning må vurderes",
+                            "melding": "Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.",
                             "tidsstempel": "2020-04-03 09:00:59.434"
+                        },
+                        {
+                            "alvorlighetsgrad": "W",
+                            "melding": "Faresignaler oppdaget. Kontroller om faresignalene påvirker retten til sykepenger.",
+                            "tidsstempel": "2020-04-03 09:00:59.436"
                         },
                         {
                             "vedtaksperiodeId": "956189c8-a904-40e7-b1e1-eab46e997ddb",

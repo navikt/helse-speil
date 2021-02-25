@@ -1,13 +1,13 @@
-import React, { ReactNode } from 'react';
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import React, {ReactNode} from 'react';
+import {AgurkErrorBoundary} from '../../../components/AgurkErrorBoundary';
 import styled from '@emotion/styled';
-import { Faresignal, Risikovurdering } from 'internal-types';
-import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
-import { FlexColumn } from '../../../components/Flex';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Utropstegnikon } from '../../../components/ikoner/Utropstegnikon';
-import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
+import {Faresignal, Risikovurdering} from 'internal-types';
+import {Advarselikon} from '../../../components/ikoner/Advarselikon';
+import {GrøntSjekkikon} from '../../../components/ikoner/GrøntSjekkikon';
+import {FlexColumn} from '../../../components/Flex';
+import {Normaltekst} from 'nav-frontend-typografi';
+import {Utropstegnikon} from '../../../components/ikoner/Utropstegnikon';
+import {Sjekkikon} from '../../../components/ikoner/Sjekkikon';
 
 const Container = styled.div`
     margin-top: 2rem;
@@ -47,7 +47,7 @@ const Kolonne = styled(FlexColumn)`
 export const Faresignaler = ({ risikovurdering }: { risikovurdering: Risikovurdering }) => (
     <AgurkErrorBoundary sidenavn="Faresignaler">
         <Container className="faresignaler">
-            {risikovurdering && risikovurdering.funn.length > 0 && (
+            {risikovurdering && (risikovurdering.funn?.length ?? 0) > 0 && (
                 <Faresignalkategori
                     ikon={<Advarselikon />}
                     overskrift="Faresignaler oppdaget"
@@ -55,7 +55,7 @@ export const Faresignaler = ({ risikovurdering }: { risikovurdering: Risikovurde
                     vurderingIkon={<Utropstegnikon />}
                 />
             )}
-            {risikovurdering && risikovurdering.kontrollertOk.length > 0 && (
+            {risikovurdering && (risikovurdering.kontrollertOk?.length ?? 0) > 0 && (
                 <Faresignalkategori
                     ikon={<GrøntSjekkikon />}
                     overskrift="Faresignaler kontrollert"
