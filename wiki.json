@@ -140,7 +140,7 @@
     {
         "varsel": "Maks antall sykepengedager er nådd i perioden. Vurder å sende brev",
         "betydning": "Maks antall sykepengedager er nådd i perioden",
-        "løsning": "Dersom du er enig med vurderingen, send avslag fra Infotrygd. Dersom du er uenig, send saken til Gosys for manuell vurdering.",
+        "løsning": "Du trenger ikke å sende avslag når bruker har sammenhengende sykmelding fra maksdatoen. Søknaden behandles og «utbetales» i ny løsning selv om det ikke fører til noen utbetaling.",
         "viktighet": "Lav"
     },
     {
