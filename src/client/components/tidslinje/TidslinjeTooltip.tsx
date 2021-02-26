@@ -32,16 +32,6 @@ const StyledTidslinjeTooltip = styled.div`
         transform: translateX(-50%) translateY(50%) rotate(45deg);
     }
 
-    &:after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 12px;
-        background: transparent;
-        bottom: -12px;
-        left: 0;
-    }
-
     @keyframes fadeIn {
         from {
             opacity: 0;

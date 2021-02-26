@@ -166,11 +166,20 @@ export const Tidslinjeperiode = (props: TidslinjeperiodeProps) => {
         }
     }, [ref.current]);
 
+    const stop = (e: React.MouseEvent) => {
+        setShowHoverLabel(false);
+        e.stopPropagation();
+    };
+
     return (
-        <div onMouseEnter={enableHoverLabel} onMouseLeave={disableHoverLabel}>
+        <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel}>
             <StyledPeriod erMini={erMini} erAktiv={props.erAktiv} ref={ref} {...props}>
-                {showHoverLabel && props.hoverLabel}
-                {props.skalVisePin && <PeriodePin />}
+                {props.skalVisePin && (
+                    <div onMouseOver={stop}>
+                        <PeriodePin />
+                    </div>
+                )}
+                {showHoverLabel && <div onMouseOver={stop}>{props.hoverLabel}</div>}
             </StyledPeriod>
         </div>
     );
