@@ -39,9 +39,7 @@ const useFiltrerteOppgaver = () => {
     const email = useEmail();
     const aktivTab = useRecoilValue(tabState);
     const oppgaver = useRecoilValueLoadable(oppgaverState);
-    const setAnonymisering = useAnonymiserPerson();
     const [cache, setCache] = useState<Oppgave[]>([]);
-    setAnonymisering(false);
     nullstillAgurkData();
 
     const filtrer = (oppgaver: Oppgave[]): Oppgave[] =>

@@ -13,6 +13,8 @@ import { useEmail } from '../../state/authentication';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { useFjernTildeling } from '../../state/oppgaver';
 import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
+import { useSkalAnonymiserePerson } from '../../state/person';
+import { anonymisertPersoninfo } from '../../agurkdata';
 
 const formatertNavn = (personinfo: SpesialistPersoninfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
@@ -89,14 +91,20 @@ const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => (
     </CellContainer>
 );
 
-const Søker = ({ oppgave }: { oppgave: Oppgave }) => (
-    <CellContainer width={200}>
-        <TekstMedEllipsis>
-            <Sakslenke oppgave={oppgave}>{formatertNavn(oppgave.personinfo)}</Sakslenke>
-        </TekstMedEllipsis>
-        <SkjultSakslenke oppgave={oppgave} />
-    </CellContainer>
-);
+const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
+
+    return (
+        <CellContainer width={200}>
+            <TekstMedEllipsis>
+                <Sakslenke oppgave={oppgave}>
+                    {formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
+                </Sakslenke>
+            </TekstMedEllipsis>
+            <SkjultSakslenke oppgave={oppgave} />
+        </CellContainer>
+    );
+};
 
 const Inntektskildetype = ({ oppgave }: { oppgave: Oppgave }) => (
     <CellContainer width={120}>
@@ -114,12 +122,16 @@ const Opprettet = ({ oppgave }: { oppgave: Oppgave }) => (
     </CellContainer>
 );
 
-const Bosted = ({ oppgave }: { oppgave: Oppgave }) => (
-    <CellContainer width={200}>
-        <TekstMedEllipsis>{oppgave.boenhet.navn}</TekstMedEllipsis>
-        <SkjultSakslenke oppgave={oppgave} />
-    </CellContainer>
-);
+const Bosted = ({ oppgave }: { oppgave: Oppgave }) => {
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
+
+    return (
+        <CellContainer width={200}>
+            <TekstMedEllipsis>{anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}</TekstMedEllipsis>
+            <SkjultSakslenke oppgave={oppgave} />
+        </CellContainer>
+    );
+};
 
 const Status = ({ oppgave }: { oppgave: Oppgave }) => (
     <CellContainer>
