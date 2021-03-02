@@ -1,4 +1,4 @@
-import { extractIdent } from './utils/cookie';
+import {extractIdent} from './utils/cookie';
 
 export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
@@ -61,4 +61,4 @@ export const flereArbeidsgivere =
     erDigimort() ||
     erSupersaksbehandler() ||
     erFaktiskSupportsaksbehandler();
-export const påVent = erPreprod() || erLocal() || erSolør() || erMorten();
+export const påVent = erPreprod() || erLocal() || erSolør() || erMorten() || erDigimort();
