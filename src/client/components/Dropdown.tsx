@@ -1,9 +1,9 @@
-import React, { HTMLAttributes, useRef, useState } from 'react';
+import React, {HTMLAttributes, useRef, useState} from 'react';
 import classNames from 'classnames';
 import styled from '@emotion/styled';
-import { useInteractOutside } from '../hooks/useInteractOutside';
-import { Button } from './Button';
-import { NedChevron, OppChevron } from 'nav-frontend-chevron';
+import {useInteractOutside} from '../hooks/useInteractOutside';
+import {Button} from './Button';
+import {NedChevron, OppChevron} from 'nav-frontend-chevron';
 
 const Container = styled.span`
     position: relative;
@@ -56,7 +56,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
     onClick,
     className,
     children,
-    tittel = 'Velg',
+    tittel = 'Meny',
     venstrestilt = false,
 }) => {
     const [ekspandert, setEkspandert] = useState(false);
