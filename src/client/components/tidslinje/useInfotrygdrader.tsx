@@ -73,18 +73,24 @@ export const useInfotrygdrader = (person: Person, fom: Dayjs, tom: Dayjs, anonym
             return { ...rader, [utbetalingen.organisasjonsnummer]: nyTidslinje };
         }, {});
 
-        return Object.entries(infotrygdutbetalinger).map(([organisasjonsnummer, perioder]) => [
-            `Infotrygd - ${
-                person.arbeidsgivere
-                    .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-                    .map((arb) => arbeidsgiverNavn(arb, anonymiseringEnabled))
-                    .pop() ??
-                (organisasjonsnummer !== '0'
-                    ? anonymiseringEnabled
-                        ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
-                        : organisasjonsnummer
-                    : 'Ingen utbetaling')
-            }`,
-            getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
-        ]) as [string, TidslinjeperiodeObject[]][];
+        return Object.entries(infotrygdutbetalinger)
+            .sort(
+                (a, b) =>
+                    person.arbeidsgivere?.findIndex((arb) => a[0] === arb.organisasjonsnummer) -
+                    person.arbeidsgivere?.findIndex((arb) => b[0] === arb.organisasjonsnummer)
+            )
+            .map(([organisasjonsnummer, perioder]) => [
+                `Infotrygd - ${
+                    person.arbeidsgivere
+                        .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
+                        .map((arb) => arbeidsgiverNavn(arb, anonymiseringEnabled))
+                        .pop() ??
+                    (organisasjonsnummer !== '0'
+                        ? anonymiseringEnabled
+                            ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
+                            : organisasjonsnummer
+                        : 'Ingen utbetaling')
+                }`,
+                getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
+            ]) as [string, TidslinjeperiodeObject[]][];
     }, [person, fom, tom, anonymiseringEnabled]);
