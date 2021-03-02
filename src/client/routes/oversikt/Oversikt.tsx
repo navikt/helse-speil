@@ -11,7 +11,7 @@ import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { useEmail } from '../../state/authentication';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 import { Oppgave } from '../../../types';
-import { personState, useAnonymiserPerson } from '../../state/person';
+import { personState } from '../../state/person';
 import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { nanoid } from 'nanoid';
 import { nullstillAgurkData } from '../../agurkdata';

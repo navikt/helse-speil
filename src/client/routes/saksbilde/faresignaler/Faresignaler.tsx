@@ -1,13 +1,13 @@
-import React, {ReactNode} from 'react';
-import {AgurkErrorBoundary} from '../../../components/AgurkErrorBoundary';
+import React, { ReactNode } from 'react';
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import styled from '@emotion/styled';
-import {Faresignal, Risikovurdering} from 'internal-types';
-import {Advarselikon} from '../../../components/ikoner/Advarselikon';
-import {GrøntSjekkikon} from '../../../components/ikoner/GrøntSjekkikon';
-import {FlexColumn} from '../../../components/Flex';
-import {Normaltekst} from 'nav-frontend-typografi';
-import {Utropstegnikon} from '../../../components/ikoner/Utropstegnikon';
-import {Sjekkikon} from '../../../components/ikoner/Sjekkikon';
+import { Faresignal, Risikovurdering } from 'internal-types';
+import { Advarselikon } from '../../../components/ikoner/Advarselikon';
+import { GrøntSjekkikon } from '../../../components/ikoner/GrøntSjekkikon';
+import { FlexColumn } from '../../../components/Flex';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { Utropstegnikon } from '../../../components/ikoner/Utropstegnikon';
+import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
 
 const Container = styled.div`
     margin-top: 2rem;

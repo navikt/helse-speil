@@ -21,7 +21,11 @@ const Knapp = styled(Button)`
     }
 `;
 
-const Liste = styled.ul`
+interface ListeProps {
+    venstrestilt: boolean;
+}
+
+const Liste = styled.ul<ListeProps>`
     position: absolute;
     list-style: none;
     background: var(--navds-color-background);
@@ -31,10 +35,13 @@ const Liste = styled.ul`
     min-height: 1rem;
     z-index: 1000;
     padding: 0.5rem 0;
+    ${(props) => (props.venstrestilt ? 'right: 0' : '')}
 `;
 
 interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
     onClick?: (event: React.MouseEvent) => void;
+    tittel?: string;
+    venstrestilt?: boolean;
 }
 
 interface DropdownContextValue {
@@ -45,7 +52,13 @@ export const DropdownContext = React.createContext<DropdownContextValue>({
     lukk: () => {},
 });
 
-export const Dropdown: React.FC<DropdownProps> = ({ onClick, className, children }) => {
+export const Dropdown: React.FC<DropdownProps> = ({
+    onClick,
+    className,
+    children,
+    tittel = 'Velg',
+    venstrestilt = false,
+}) => {
     const [ekspandert, setEkspandert] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
 
@@ -67,10 +80,10 @@ export const Dropdown: React.FC<DropdownProps> = ({ onClick, className, children
     return (
         <Container ref={containerRef}>
             <Knapp onClick={onClickWrapper} className={classNames(className)}>
-                Velg {ekspandert ? <OppChevron /> : <NedChevron />}
+                {tittel} {ekspandert ? <OppChevron /> : <NedChevron />}
             </Knapp>
             <DropdownContext.Provider value={{ lukk }}>
-                {ekspandert && <Liste>{children}</Liste>}
+                {ekspandert && <Liste venstrestilt={venstrestilt}>{children}</Liste>}
             </DropdownContext.Provider>
         </Container>
     );

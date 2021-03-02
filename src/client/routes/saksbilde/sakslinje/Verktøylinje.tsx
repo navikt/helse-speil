@@ -18,7 +18,7 @@ const Container = styled.div`
     height: 100%;
 `;
 
-const Dropdownknapp = styled(Dropdown)`
+export const Dropdownknapp = styled(Dropdown)`
     padding: 1rem 1.25rem;
 
     &:hover,
@@ -29,7 +29,7 @@ const Dropdownknapp = styled(Dropdown)`
 
 export const DropdownMenyknapp = styled(Button)`
     height: 30px;
-    width: 180px;
+    min-width: 180px;
     font-size: 1rem;
     white-space: nowrap;
     text-align: left;

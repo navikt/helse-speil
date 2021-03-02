@@ -1,9 +1,9 @@
 import React from 'react';
-import {Varsel, Varseltype} from '@navikt/helse-frontend-varsel';
-import {Periodetype, Vedtaksperiode, Vedtaksperiodetilstand} from 'internal-types';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+import { Periodetype, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import '@navikt/helse-frontend-varsel/lib/main.css';
-import {Aktivitetsloggvarsler} from './Aktivetsloggvarsler';
-import {Normaltekst} from 'nav-frontend-typografi';
+import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface ToppvarslerProps {
     vedtaksperiode: Vedtaksperiode;

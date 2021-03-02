@@ -11,11 +11,12 @@ export const AnonymiserData = () => {
     const anonymiserData = () => {
         lukk();
         anonymiserPersondata(!anonymiseringEnabled);
+        localStorage.setItem('agurkmodus', (!anonymiseringEnabled).toString());
     };
 
     return (
         <DropdownMenyknapp onClick={anonymiserData}>
-            {anonymiseringEnabled ? 'Fjern anonymisering' : 'Anonymiser person'}
+            {anonymiseringEnabled ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
         </DropdownMenyknapp>
     );
 };

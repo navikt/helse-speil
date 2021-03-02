@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Oppsummering from './Oppsummering/Oppsummering';
-import {Link} from 'react-router-dom';
-import {Flex} from '../../../components/Flex';
-import {Clipboard} from '../../../components/clipboard';
-import {somPenger} from '../../../utils/locale';
-import {Vilkårsliste} from './Vilkårsoversikt';
-import {AgurkErrorBoundary} from '../../../components/AgurkErrorBoundary';
-import {Utbetalingsoversikt} from './Utbetalingsoversikt';
-import {Normaltekst, Undertittel} from 'nav-frontend-typografi';
-import {NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT} from '../../../utils/date';
-import {Arbeidsforhold} from '../Arbeidsforhold';
-import {useAktivVedtaksperiode} from '../../../state/vedtaksperiode';
-import {usePerson, useSkalAnonymiserePerson} from '../../../state/person';
-import {getAnonymArbeidsgiverForOrgnr} from '../../../agurkdata';
+import { Link } from 'react-router-dom';
+import { Flex } from '../../../components/Flex';
+import { Clipboard } from '../../../components/clipboard';
+import { somPenger } from '../../../utils/locale';
+import { Vilkårsliste } from './Vilkårsoversikt';
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import { Utbetalingsoversikt } from './Utbetalingsoversikt';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { Arbeidsforhold } from '../Arbeidsforhold';
+import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
+import { usePerson, useSkalAnonymiserePerson } from '../../../state/person';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 
 const Container = styled.section`
     flex: 1;

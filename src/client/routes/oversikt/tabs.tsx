@@ -1,10 +1,20 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import {atom, useRecoilState, useRecoilValueLoadable} from 'recoil';
-import {påVent} from '../../featureToggles';
-import {Oppgave} from '../../../types';
-import {useEmail} from '../../state/authentication';
-import {oppgaverState} from '../../state/oppgaver';
+import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
+import { påVent } from '../../featureToggles';
+import { Oppgave } from '../../../types';
+import { useEmail } from '../../state/authentication';
+import { oppgaverState } from '../../state/oppgaver';
+import { Dropdownknapp } from '../saksbilde/sakslinje/Verktøylinje';
+import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
+
+const Container = styled.div`
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-self: flex-end;
+    align-self: center;
+`;
 
 export const tabState = atom<'alle' | 'mine' | 'ventende'>({
     key: 'tabState',
@@ -14,6 +24,9 @@ export const tabState = atom<'alle' | 'mine' | 'ventende'>({
 const Tablist = styled.div`
     border-bottom: 1px solid var(--navds-color-border);
     margin-bottom: 2rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 `;
 
 const Tab = styled.button<{ active: boolean }>`
@@ -85,17 +98,27 @@ export const Tabs = () => {
     const oppgaver = alleOppgaver.state === 'hasValue' ? (alleOppgaver.contents as Oppgave[]) : [];
     return (
         <Tablist>
-            <AlleSakerTab />
-            <MineSakerTab
-                antall={oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && !erPåVent)?.length ?? 0}
-            />
-            {påVent && (
-                <VentendeTab
+            <div>
+                <AlleSakerTab />
+                <MineSakerTab
                     antall={
-                        oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)?.length ?? 0
+                        oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && !erPåVent)?.length ?? 0
                     }
                 />
-            )}
+                {påVent && (
+                    <VentendeTab
+                        antall={
+                            oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)?.length ??
+                            0
+                        }
+                    />
+                )}
+            </div>
+            <Container>
+                <Dropdownknapp tittel={'Meny'} venstrestilt={true}>
+                    <AnonymiserData />
+                </Dropdownknapp>
+            </Container>
         </Tablist>
     );
 };
