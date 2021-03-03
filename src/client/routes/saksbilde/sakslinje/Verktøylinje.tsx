@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import { Dropdown } from '../../../components/Dropdown';
-import { annulleringerEnabled, oppdaterPersondataEnabled, påVent } from '../../../featureToggles';
+import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
 import { Annullering } from './annullering/Annullering';
 import { Button } from '../../../components/Button';
 import { OppdaterPersondata } from './OppdaterPersondata';
@@ -80,7 +80,7 @@ export const Verktøylinje = () => {
                         <Strek />
                     </>
                 )}
-                {aktivVedtaksperiode && tildeltTilMeg && påVent && <PåVentKnapp />}
+                {aktivVedtaksperiode && tildeltTilMeg && <PåVentKnapp />}
                 {oppdaterPersondataEnabled && <OppdaterPersondata />}
                 <AnonymiserData />
                 {visAnnulleringsmuligheter && <Annullering />}

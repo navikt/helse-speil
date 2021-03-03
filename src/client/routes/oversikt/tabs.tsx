@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
-import { påVent } from '../../featureToggles';
 import { Oppgave } from '../../../types';
 import { useEmail } from '../../state/authentication';
 import { oppgaverState } from '../../state/oppgaver';
@@ -105,14 +104,11 @@ export const Tabs = () => {
                         oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && !erPåVent)?.length ?? 0
                     }
                 />
-                {påVent && (
-                    <VentendeTab
-                        antall={
-                            oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)?.length ??
-                            0
-                        }
-                    />
-                )}
+                <VentendeTab
+                    antall={
+                        oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)?.length ?? 0
+                    }
+                />
             </div>
             <Container>
                 <Dropdownknapp tittel={'Meny'} venstrestilt={true}>

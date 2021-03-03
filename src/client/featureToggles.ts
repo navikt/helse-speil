@@ -61,4 +61,3 @@ export const flereArbeidsgivere =
     erDigimort() ||
     erSupersaksbehandler() ||
     erFaktiskSupportsaksbehandler();
-export const påVent = erPreprod() || erLocal() || erSolør() || erMorten() || erDigimort();
