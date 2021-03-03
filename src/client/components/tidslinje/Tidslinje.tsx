@@ -154,7 +154,7 @@ export const Tidslinje = ({ person, aktivVedtaksperiode }: Props) => {
         <Container>
             <TidslinjeContainer>
                 <AxisLabelsContainer horizontalOffset={tidslinjeradOffset}>
-                    <AxisLabels start={fom} slutt={tom} direction={'right'} />
+                    <AxisLabels start={fom.toDate()} slutt={tom.toDate()} direction={'right'} />
                 </AxisLabelsContainer>
                 <PinsContainer horizontalOffset={tidslinjeradOffset}>
                     <Pins start={fom.toDate()} slutt={tom.toDate()} direction={'right'} pins={pins()} />

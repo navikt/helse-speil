@@ -751,6 +751,14 @@
             "grad": "100",
             "typetekst": "ArbRef",
             "organisasjonsnummer": "987654322"
+        },
+        {
+            "fom": "2016-12-01",
+            "tom": "2016-12-29",
+            "dagsats": 1154,
+            "grad": "100",
+            "typetekst": "ArbRef",
+            "organisasjonsnummer": "987654322"
         }
     ],
     "enhet": {
