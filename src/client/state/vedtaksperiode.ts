@@ -17,9 +17,9 @@ const periodeMedId = (person: Person, periodeId: string): Vedtaksperiode | undef
 
 const defaultPeriode = (person: Person): Vedtaksperiode | undefined =>
     person.arbeidsgivere
-        .map((arb) => arb.vedtaksperioder)
-        .flat()
-        .filter((it) => it.kanVelges)[0] as Vedtaksperiode;
+        .flatMap((arb) => arb.vedtaksperioder)
+        .filter((periode) => periode.kanVelges)
+        .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1))?.[0] as Vedtaksperiode;
 
 export const useAktivVedtaksperiode = () => {
     const person = usePerson();
