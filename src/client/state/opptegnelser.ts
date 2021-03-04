@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { OpptegnelseDTO } from 'external-types';
+import { Opptegnelse, OpptegnelseType } from 'external-types';
 
 export const opptegnelsePollingState = atom<boolean>({
     key: 'opptegnelsePollingState',
@@ -11,18 +11,27 @@ export const opptegnelsePollingTimeState = atom<number>({
     default: 10_000,
 });
 
-export const nyeOpptegnelserState = atom<OpptegnelseDTO[]>({
-    key: 'nyeOpptegnelserState',
+export const nyesteOpptegnelserState = atom<Opptegnelse[]>({
+    key: 'nyesteOpptegnelserState',
     default: [],
+});
+
+export const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
+    key: 'nyesteOpptegnelseMedTypeOppgaveState',
+    get: ({ get }) => {
+        return get(nyesteOpptegnelserState).find(
+            (opptegnelse) => opptegnelse.type === OpptegnelseType.NY_SAKSBEHANDLEROPPGAVE
+        );
+    },
 });
 
 export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
     key: 'sisteSekvensIdOpptegnelseState',
     get: ({ get }) => {
-        const nyeOpptegnelser = get(nyeOpptegnelserState);
+        const nyesteOpptegnelser = get(nyesteOpptegnelserState);
 
-        if (nyeOpptegnelser.length > 0) {
-            return nyeOpptegnelser.reduce((acc, curr) => (curr.sekvensnummer > acc.sekvensnummer ? curr : acc))
+        if (nyesteOpptegnelser.length > 0) {
+            return nyesteOpptegnelser.reduce((acc, curr) => (curr.sekvensnummer > acc.sekvensnummer ? curr : acc))
                 .sekvensnummer;
         }
 

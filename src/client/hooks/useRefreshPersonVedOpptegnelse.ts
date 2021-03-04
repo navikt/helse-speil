@@ -1,14 +1,14 @@
 import { personState, useRefreshPerson } from '../state/person';
 import { useRecoilValue } from 'recoil';
-import { nyeOpptegnelserState } from '../state/opptegnelser';
-import { OpptegnelseDTO } from 'external-types';
+import { nyesteOpptegnelserState } from '../state/opptegnelser';
+import { Opptegnelse } from 'external-types';
 import { useEffect } from 'react';
 
-const personHarFåttOpptegnelse = (opptegnelser: OpptegnelseDTO[], valgtAktørId: string): boolean =>
+const personHarFåttOpptegnelse = (opptegnelser: Opptegnelse[], valgtAktørId: string): boolean =>
     opptegnelser.some((opptegnelse) => opptegnelse.aktørId.toString() === valgtAktørId);
 
 export const useRefreshPersonVedOpptegnelse = () => {
-    const opptegnelser = useRecoilValue(nyeOpptegnelserState);
+    const opptegnelser = useRecoilValue(nyesteOpptegnelserState);
     const valgtAktør = useRecoilValue(personState);
     const aktørId = valgtAktør?.person?.aktørId;
     const refreshPerson = useRefreshPerson();

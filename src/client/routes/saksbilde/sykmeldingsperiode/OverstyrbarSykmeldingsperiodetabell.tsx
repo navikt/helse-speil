@@ -16,16 +16,17 @@ import styled from '@emotion/styled';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { FormProvider, useForm } from 'react-hook-form';
-import { postOverstyring } from '../../../io/http';
-import { useRemoveToast, useAddToast } from '../../../state/toasts';
-import { kalkulererToastKey, kalkulererToast, kalkuleringFerdigToast } from './kalkuleringstoasts';
+import { postAbonnerPåAktør, postOverstyring } from '../../../io/http';
+import { useAddToast } from '../../../state/toasts';
+import { kalkulererToast } from './kalkuleringstoasts';
 import { OverstyrtDagDTO } from '../../../io/types';
 import { useOverstyrteDager } from './useOverstyrteDager';
-import { pollEtterNyOppgave } from '../../../io/polling';
 import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
 import classNames from 'classnames';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
-import { useHentPerson, usePerson } from '../../../state/person';
+import { usePerson } from '../../../state/person';
+import { opptegnelsePollingTimeState } from '../../../state/opptegnelser';
+import { useSetRecoilState } from 'recoil';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead tr th {
@@ -82,11 +83,10 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
     const { overstyrteDager, leggTilOverstyrtDag, fjernOverstyrtDag } = useOverstyrteDager();
     const personTilBehandling = usePerson();
     const aktivVedtaksperiode = useAktivVedtaksperiode();
-    const hentPerson = useHentPerson();
     const [overstyringserror, setOverstyringserror] = useState<string>();
     const leggtilEnToast = useAddToast();
-    const fjernToast = useRemoveToast();
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
+    const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
     const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
     const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
@@ -124,11 +124,6 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
 
     const rader = aktivVedtaksperiode?.sykdomstidslinje.map(tilTabellrad) ?? [];
 
-    const refetchPerson = () => hentPerson(personTilBehandling!.fødselsnummer);
-
-    const visOverstyringFerdigToast = () =>
-        leggtilEnToast(kalkuleringFerdigToast({ callback: () => fjernToast(kalkulererToastKey) }));
-
     const overstyring = () => ({
         aktørId: personTilBehandling!.aktørId,
         fødselsnummer: personTilBehandling!.fødselsnummer,
@@ -142,9 +137,9 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             .then(() => {
                 leggtilEnToast(kalkulererToast({}));
                 onOverstyr();
-                pollEtterNyOppgave(personTilBehandling!.fødselsnummer, aktivVedtaksperiode!.oppgavereferanse!)
-                    .then(refetchPerson)
-                    .then(visOverstyringFerdigToast);
+                postAbonnerPåAktør(personTilBehandling!.aktørId).then(() => {
+                    setOpptegnelsePollingTime(1000);
+                });
             })
             .catch(() => setOverstyringserror('Feil under sending av overstyring. Prøv igjen senere.'));
     };

@@ -1,38 +1,14 @@
-import { getOppgavereferanse, getOpptegnelser } from './http';
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { getOpptegnelser } from './http';
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import {
-    nyeOpptegnelserState,
+    nyesteOpptegnelserState,
     opptegnelsePollingTimeState,
     sisteSekvensIdOpptegnelseState,
 } from '../state/opptegnelser';
 import { useEffect } from 'react';
 
-const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-export const pollEtterNyOppgave = async (
-    fødselsnummer: string,
-    oppgavereferanse: string,
-    timeout: number = 1000
-): Promise<void> => {
-    for (let _ = 0; _ < 10; _++) {
-        await delay(timeout);
-        const nyOppgavereferanse = await getOppgavereferanse(fødselsnummer)
-            .then((response) => response.data.oppgavereferanse)
-            .catch((error) => {
-                if (error.statusCode >= 500) {
-                    console.error(error);
-                }
-            });
-
-        if (nyOppgavereferanse && nyOppgavereferanse !== oppgavereferanse) {
-            return Promise.resolve();
-        }
-    }
-    return Promise.reject();
-};
-
 export const usePollEtterOpptegnelser = () => {
-    const setOpptegnelser = useSetRecoilState(nyeOpptegnelserState);
+    const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserState);
     const sisteSekvensId = useRecoilValue(sisteSekvensIdOpptegnelseState);
     const opptegnelsePollingTime = useRecoilValue(opptegnelsePollingTimeState);
     const resetPollefrekvens = useResetRecoilState(opptegnelsePollingTimeState);

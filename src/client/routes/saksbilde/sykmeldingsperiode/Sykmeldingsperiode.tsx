@@ -7,6 +7,10 @@ import { OverstyringTimeoutModal } from './OverstyringTimeoutModal';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { usePerson } from '../../../state/person';
+import { kalkulererToastKey, kalkuleringFerdigToast } from './kalkuleringstoasts';
+import { useAddToast, useRemoveToast } from '../../../state/toasts';
+import { nyesteOpptegnelseMedTypeOppgaveState } from '../../../state/opptegnelser';
+import { useRecoilValue } from 'recoil';
 
 const Container = styled.div`
     display: flex;
@@ -20,6 +24,16 @@ export const Sykmeldingsperiode = () => {
     const [overstyrer, setOverstyrer] = useState(false);
     const [kalkulerer, setKalkulerer] = useState(false);
     const [overstyringTimedOut, setOverstyringTimedOut] = useState(false);
+    const leggtilEnToast = useAddToast();
+    const fjernToast = useRemoveToast();
+    const opptegnelser = useRecoilValue(nyesteOpptegnelseMedTypeOppgaveState);
+
+    useEffect(() => {
+        if (opptegnelser && kalkulerer) {
+            leggtilEnToast(kalkuleringFerdigToast({ callback: () => fjernToast(kalkulererToastKey) }));
+            setKalkulerer(false);
+        }
+    }, [opptegnelser]);
 
     useEffect(() => {
         let timeoutId: any;

@@ -454,12 +454,13 @@ export interface SpesialistSammenligningsgrunnlag {
     inntekterFraAOrdningen: SpesialistInntekterFraAOrdningen[];
 }
 
-enum OpptegnelseType {
-    UTBETALING_ANNULLERING_FEILET,
-    UTBETALING_ANNULLERING_OK,
+export enum OpptegnelseType {
+    UTBETALING_ANNULLERING_FEILET = 'UTBETALING_ANNULLERING_FEILET',
+    UTBETALING_ANNULLERING_OK = 'UTBETALING_ANNULLERING_OK',
+    NY_SAKSBEHANDLEROPPGAVE = 'NY_SAKSBEHANDLEROPPGAVE',
 }
 
-export interface OpptegnelseDTO {
+export interface Opptegnelse {
     aktørId: number;
     sekvensnummer: number;
     type: OpptegnelseType;
