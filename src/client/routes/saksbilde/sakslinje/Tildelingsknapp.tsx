@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEmail } from '../../../state/authentication';
 import { DropdownMenyknapp } from './Verktøylinje';
 import { useFjernTildeling, useTildelOppgave } from '../../../state/oppgaver';
 import { Oppgave } from '../../../../types';
-import { usePerson, useTildelPerson } from '../../../state/person';
+import { usePerson, useRefreshPerson, useTildelPerson } from '../../../state/person';
+import { DropdownContext } from '../../../components/Dropdown';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;
@@ -23,16 +24,29 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: Tildelingsknap
     const tildelTilPerson = useTildelPerson();
     const tildelOppgave = useTildelOppgave();
     const fjernTildeling = useFjernTildeling();
+    const refreshPerson = useRefreshPerson();
+    const { lukk } = useContext(DropdownContext);
 
     return erTildeltInnloggetBruker ? (
         <DropdownMenyknapp
-            onClick={() => fjernTildeling({ oppgavereferanse } as Oppgave).then(() => tildelTilPerson(undefined))}
+            onClick={() =>
+                fjernTildeling({ oppgavereferanse } as Oppgave).then(() => {
+                    lukk();
+                    tildelTilPerson(undefined);
+                    refreshPerson();
+                })
+            }
         >
-            Meld av {erTildeltInnloggetBruker}{' '}
+            Meld av
         </DropdownMenyknapp>
     ) : (
         <DropdownMenyknapp
-            onClick={() => tildelOppgave({ oppgavereferanse } as Oppgave, email!).then(() => tildelTilPerson(email))}
+            onClick={() =>
+                tildelOppgave({ oppgavereferanse } as Oppgave, email!).then(() => {
+                    lukk();
+                    tildelTilPerson(email);
+                })
+            }
             disabled={tildeltTil !== undefined}
         >
             Tildel meg

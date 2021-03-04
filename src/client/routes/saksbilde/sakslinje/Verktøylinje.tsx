@@ -34,6 +34,7 @@ export const DropdownMenyknapp = styled(Button)`
     white-space: nowrap;
     text-align: left;
     padding: 0.25rem 1rem;
+    width: 100%;
 
     &:hover,
     &:focus {
@@ -77,10 +78,10 @@ export const Verktøylinje = () => {
                                 tildeltTil={tildeltTil}
                             />
                         )}
+                        {tildeltTilMeg && <PåVentKnapp />}
                         <Strek />
                     </>
                 )}
-                {aktivVedtaksperiode && tildeltTilMeg && <PåVentKnapp />}
                 {oppdaterPersondataEnabled && <OppdaterPersondata />}
                 <AnonymiserData />
                 {visAnnulleringsmuligheter && <Annullering />}

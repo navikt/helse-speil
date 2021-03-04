@@ -17,11 +17,11 @@ app.use((req, res, next) => {
 
 const tildelinger: { [oppgavereferanse: string]: string } = {
     ['ea5d644b-0000-9999-0000-f93744554d5e']: 'dev@nav.no',
-    ['ab3344fa-92e6-4f11-abcd-87866a8bbbbe']: 'dev@nav.no',
+    ['f9374455-0000-9999-0000-ea5d644b4d5g']: 'dev@nav.no',
 };
 
 const venter: { [oppgavereferanse: string]: boolean } = {
-    ['ab3344fa-92e6-4f11-abcd-87866a8bbbbe']: true,
+    ['f9374455-0000-9999-0000-ea5d644b4d5g']: true,
 };
 
 const personer: { [aktørId: string]: string } = oppgaveFil
@@ -68,8 +68,8 @@ app.delete('/api/leggpåvent/:oppgaveReferanse', (req: Request, res: Response) =
     res.sendStatus(200);
 });
 
-app.get('/api/mock/personstatus/:aktørId', (req: Request, res: Response) => {
-    const aktørId = req.params.aktørId;
+app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
+    const aktørId = req.params.aktorId;
     const oppgavereferanse = personer[aktørId];
     const erPåVent = venter[oppgavereferanse];
     const tildeltTil = tildelinger[oppgavereferanse];

@@ -108,10 +108,8 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
 
 const Inntektskildetype = ({ oppgave }: { oppgave: Oppgave }) => (
     <CellContainer width={120}>
-        <TekstMedEllipsis>
-            {inntektskildeLabel(oppgave.inntektskilde)}
-            <SkjultSakslenke oppgave={oppgave} />
-        </TekstMedEllipsis>
+        <TekstMedEllipsis>{inntektskildeLabel(oppgave.inntektskilde)}</TekstMedEllipsis>
+        <SkjultSakslenke oppgave={oppgave} />
     </CellContainer>
 );
 

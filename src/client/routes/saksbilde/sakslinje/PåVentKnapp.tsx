@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { DropdownMenyknapp } from './Verktøylinje';
-import { usePerson } from '../../../state/person';
+import { usePerson, useRefreshPerson } from '../../../state/person';
 import { deletePåVent, postLeggPåVent } from '../../../io/http';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { useOperasjonsvarsel } from '../../../state/varsler';
 import { useHistory } from 'react-router';
+import { DropdownContext } from '../../../components/Dropdown';
 
 const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {
     promise.catch(onError);
@@ -15,6 +16,9 @@ export const PåVentKnapp = () => {
     const erPåVent = usePerson()?.erPåVent;
     const oppgavereferanse = useAktivVedtaksperiode()?.oppgavereferanse;
     const errorHandler = useOperasjonsvarsel('Legg på vent');
+    const { lukk } = useContext(DropdownContext);
+    const refreshPerson = useRefreshPerson();
+
     if (!oppgavereferanse) {
         return null;
     }
@@ -26,7 +30,10 @@ export const PåVentKnapp = () => {
     };
     const fjernPåVent = () => {
         ignorePromise(
-            deletePåVent(oppgavereferanse).then(() => history.push('/')),
+            deletePåVent(oppgavereferanse).then((response) => {
+                lukk();
+                refreshPerson();
+            }),
             errorHandler
         );
     };
