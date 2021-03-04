@@ -5,13 +5,10 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { Oppgaveetikett } from './Oppgaveetikett';
-import { IkkeTildelt, Tildelt } from './tildeling';
+import { IkkeTildelt, MeldAv, Tildelt } from './tildeling';
 import { useRemoveAlleVarsler } from '../../state/varsler';
 import { somDato } from '../../mapping/vedtaksperiode';
 import { Tabellrad } from '@navikt/helse-frontend-tabell';
-import { useEmail } from '../../state/authentication';
-import { Flatknapp } from 'nav-frontend-knapper';
-import { useFjernTildeling } from '../../state/oppgaver';
 import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
 import { useSkalAnonymiserePerson } from '../../state/person';
 import { anonymisertPersoninfo } from '../../agurkdata';
@@ -137,24 +134,6 @@ const Status = ({ oppgave }: { oppgave: Oppgave }) => (
         <SkjultSakslenke oppgave={oppgave} />
     </CellContainer>
 );
-
-const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
-    const email = useEmail();
-    const fjernTildeling = useFjernTildeling();
-    const erTildeltInnloggetBruker = oppgave.tildeltTil === email;
-
-    return (
-        <CellContainer>
-            {erTildeltInnloggetBruker ? (
-                <Flatknapp mini tabIndex={0} onClick={() => fjernTildeling(oppgave)}>
-                    Meld av
-                </Flatknapp>
-            ) : (
-                ''
-            )}
-        </CellContainer>
-    );
-};
 
 export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
     celler: [

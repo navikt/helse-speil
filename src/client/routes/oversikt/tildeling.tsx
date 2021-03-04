@@ -3,9 +3,9 @@ import { Oppgave, TildeltOppgave } from '../../../types';
 import { useEmail } from '../../state/authentication';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
+import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
-import { useTildelOppgave } from '../../state/oppgaver';
+import { useFjernTildeling, useTildelOppgave } from '../../state/oppgaver';
 
 const Flex = styled.span`
     display: flex;
@@ -24,19 +24,37 @@ export const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
 
 export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
     const email = useEmail();
-    const [tildeler, setTildeler] = useState(false);
+    const [isFetching, setIsFetching] = useState(false);
     const tildelOppgave = useTildelOppgave();
 
     const tildel = () => {
         if (!email) return;
-        if (tildeler) return;
-        setTildeler(true);
-        tildelOppgave(oppgave, email).catch(() => setTildeler(false));
+        if (isFetching) return;
+        setIsFetching(true);
+        tildelOppgave(oppgave, email).catch(() => setIsFetching(false));
     };
 
     return (
-        <Knapp mini onClick={tildel} spinner={tildeler}>
+        <Knapp mini onClick={tildel} spinner={isFetching}>
             Tildel meg
         </Knapp>
     );
+};
+
+export const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
+    const email = useEmail();
+    const [isFetching, setIsFetching] = useState(false);
+    const fjernTildeling = useFjernTildeling();
+    const erTildeltInnloggetBruker = oppgave.tildeltTil === email;
+
+    const meldAv = () => {
+        setIsFetching(true);
+        fjernTildeling(oppgave).finally(() => setIsFetching(false));
+    };
+
+    return erTildeltInnloggetBruker ? (
+        <Flatknapp mini tabIndex={0} onClick={meldAv} spinner={isFetching}>
+            Meld av
+        </Flatknapp>
+    ) : null;
 };
