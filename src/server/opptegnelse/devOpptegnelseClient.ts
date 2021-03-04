@@ -1,23 +1,21 @@
-import { OpptegnelseType } from '../../types/types.external';
-
 const opptegnelse = {
     aktørId: 12341234,
     sekvensnummer: 12121212,
-    type: OpptegnelseType.UTBETALING_ANNULLERING_OK,
+    type: 'UTBETALING_ANNULLERING_OK',
     payload: 'payload',
 };
 
 const opptegnelse2 = {
     aktørId: 1000000009871,
     sekvensnummer: 12121213,
-    type: OpptegnelseType.UTBETALING_ANNULLERING_FEILET,
+    type: 'UTBETALING_ANNULLERING_FEILET',
     payload: 'payload2',
 };
 
 const opptegnelse3 = {
     aktørId: 1000000009871,
     sekvensnummer: 12121214,
-    type: OpptegnelseType.NY_SAKSBEHANDLEROPPGAVE,
+    type: 'NY_SAKSBEHANDLEROPPGAVE',
     payload: 'payload3',
 };
 
