@@ -16,12 +16,12 @@ app.use((req, res, next) => {
 });
 
 const tildelinger: { [oppgavereferanse: string]: string } = {
-    ['ea5d644b-0000-9999-0000-f93744554d5e']: 'dev@nav.no',
-    ['f9374455-0000-9999-0000-ea5d644b4d5g']: 'dev@nav.no',
+    'ea5d644b-0000-9999-0000-f93744554d5e': 'dev@nav.no',
+    'f9374455-0000-9999-0000-ea5d644b4d5g': 'dev@nav.no',
 };
 
 const venter: { [oppgavereferanse: string]: boolean } = {
-    ['f9374455-0000-9999-0000-ea5d644b4d5g']: true,
+    'f9374455-0000-9999-0000-ea5d644b4d5g': true,
 };
 
 const personer: { [aktørId: string]: string } = oppgaveFil
@@ -32,16 +32,6 @@ const personer: { [aktørId: string]: string } = oppgaveFil
         } = { ...acc, [aktørId]: oppgavereferanse };
         return ret;
     }, {});
-
-app.get('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-
-    if (tildelinger[oppgavereferanse]) {
-        res.status(200).send(tildelinger[oppgavereferanse]);
-    } else {
-        res.sendStatus(404);
-    }
-});
 
 app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
