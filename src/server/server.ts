@@ -115,7 +115,6 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
             const url = req?.originalUrl?.split('/') ?? [];
             logger.audit(`Someone is making request to ${url.slice(0, url.length - 1).join()}`);
 
-            res.cookie('spesialist', req.session.speilToken, { secure: true, sameSite: true });
             next();
         } else {
             if (req.session!.speilToken) {

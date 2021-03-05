@@ -53,8 +53,6 @@ const extractTokenFromCookie = (tokenName: string): string =>
 
 export const extractSpeilToken = (): string => extractTokenFromCookie('speil');
 
-export const extractSpesialistToken = (): string => extractTokenFromCookie('spesialist');
-
 export const extractValues = (values: ArrayLike<any>) => {
     const decodedCookie = document.cookie
         .split(';')

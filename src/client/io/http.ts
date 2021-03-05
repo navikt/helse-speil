@@ -1,5 +1,4 @@
 import { Tildeling } from 'internal-types';
-import { extractSpesialistToken } from '../utils/cookie';
 import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
 import { Avvisningsskjema } from '../routes/saksbilde/utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 
@@ -17,8 +16,6 @@ type Headers = { [key: string]: any };
 
 // eslint-disable-next-line no-undef
 const baseUrl = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : '') + '/api';
-
-const baseUrlSpesialist = process.env.NODE_ENV === 'development' ? 'http://localhost:9001/api/v1' : '/api/v1';
 
 const getData = async (response: Response) => {
     try {
@@ -119,18 +116,6 @@ export const postOverstyring = async (overstyring: OverstyringDTO) =>
 
 export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
     post(`${baseUrl}/person/oppdater`, oppdatering);
-
-const spesialistAuthorization = () => ({ Authorization: `Bearer ${extractSpesialistToken()}` });
-
-const spesialistOptions = (headere?: Headers) => ({
-    headers: {
-        ...headere,
-        ...spesialistAuthorization(),
-    },
-});
-
-export const getOppgavereferanse = async (fødselsnummer: string) =>
-    get(`${baseUrlSpesialist}/oppgave`, spesialistOptions({ fodselsnummer: fødselsnummer }));
 
 export const postLeggPåVent = async (oppgavereferanse: string) =>
     post(`${baseUrl}/leggpaavent/${oppgavereferanse}`, {});
