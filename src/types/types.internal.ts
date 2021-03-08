@@ -257,6 +257,7 @@ export interface Person {
     enhet: Enhetsinfo;
     tildeltTil?: string;
     erPåVent?: boolean;
+    dødsdato?: Dayjs;
 }
 
 export interface Enhetsinfo {

@@ -176,6 +176,7 @@ export interface SpesialistPerson {
     erPåVent: boolean | null;
     arbeidsforhold: SpesialistArbeidsforhold[];
     infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
+    dødsdato?: string;
 }
 
 interface Enhet {

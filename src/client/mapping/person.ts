@@ -40,6 +40,7 @@ export class PersonBuilder {
         this.person.tildeltTil = this.unmapped.tildeltTil ?? undefined;
         this.person.erPåVent = this.unmapped.erPåVent ?? undefined;
         this.person.fødselsnummer = this.unmapped.fødselsnummer;
+        this.person.dødsdato = this.unmapped.dødsdato ? somDato(this.unmapped.dødsdato) : undefined;
     };
 
     private mapPersoninfo = () => {

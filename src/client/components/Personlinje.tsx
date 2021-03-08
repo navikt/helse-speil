@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { utbetalingsoversikt } from '../featureToggles';
 import { useSkalAnonymiserePerson } from '../state/person';
 import { anonymisertPersoninfo } from '../agurkdata';
+import { NORSK_DATOFORMAT } from '../utils/date';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
@@ -47,6 +48,18 @@ const Lenke = styled(Link)`
         background-color: var(--navds-text-focus);
         box-shadow: 0 0 0 2px var(--navds-text-focus);
     }
+`;
+
+const Etikett = styled.div`
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    width: max-content;
+`;
+
+const DødsdatoEtikett = styled(Etikett)`
+    background: var(--speil-etikett-forlengelse-it-background);
+    border: 1px solid var(--speil-etikett-forlengelse-it-border);
+    color: var(--navds-color-text-inverse);
 `;
 
 const Kjønnsikon = ({ kjønn }: { kjønn: 'kvinne' | 'mann' | 'ukjent' }) => {
@@ -137,6 +150,12 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
                 <>
                     <Separator>/</Separator>
                     <Lenke to={`${person.aktørId}/../utbetalingshistorikk`}>Utbetalingsoversikt</Lenke>
+                </>
+            )}
+            {person?.dødsdato && (
+                <>
+                    <Separator>/</Separator>
+                    <DødsdatoEtikett>Død {person?.dødsdato?.format(NORSK_DATOFORMAT)}</DødsdatoEtikett>
                 </>
             )}
         </Container>
