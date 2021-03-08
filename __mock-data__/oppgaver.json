@@ -343,5 +343,26 @@
             "navn": "Nav Utland"
         },
         "inntektskilde": "FLERE_ARBEIDSGIVERE"
+    },
+    {
+        "oppgavereferanse": "e3474115-1100-9999-0000-ea5d644b4a6b",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "19047622436",
+        "aktørId": "2836012894592",
+        "personinfo": {
+            "fornavn": "Astrid",
+            "mellomnavn": "Maud Ingeborg",
+            "etternavn": "Ferner",
+            "fødselsdato": "1932-02-12",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "e81d7188-02f7-4bb7-b474-f1094dabecc8",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]

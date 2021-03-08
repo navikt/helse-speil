@@ -1,0 +1,3203 @@
+{
+  "aktørId": "2836012894592",
+  "fødselsnummer": "19047622436",
+  "utbetalinger": [],
+  "personinfo": {
+    "fornavn": "Astrid",
+    "mellomnavn": "Maud Ingeborg",
+    "etternavn": "Ferner",
+    "fødselsdato": null,
+    "kjønn": null
+  },
+  "arbeidsgivere": [
+    {
+      "organisasjonsnummer": "805824352",
+      "id": "23fa2128-d3d4-486d-aa3a-1c75e491c579",
+      "navn": "Kongehuset",
+      "vedtaksperioder": [
+        {
+          "id": "522982fd-03d2-496c-a96d-9e3254f307b5",
+          "gruppeId": "f9e4480d-e41f-4355-8ae5-14d84b85a979",
+          "fom": "2021-01-01",
+          "tom": "2021-01-31",
+          "tilstand": "Utbetalt",
+          "fullstendig": true,
+          "utbetalingstidslinje": [
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-01"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-02"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-03"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-04"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-05"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-06"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-07"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-08"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-09"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-10"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-11"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-12"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-13"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-14"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-15"
+            },
+            {
+              "type": "ArbeidsgiverperiodeDag",
+              "inntekt": 1481,
+              "dato": "2021-01-16"
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-01-17",
+              "grad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-18",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-19",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-20",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-21",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-22",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-01-23",
+              "grad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-01-24",
+              "grad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-25",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-26",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-27",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-28",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-01-29",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-01-30",
+              "grad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-01-31",
+              "grad": 100.0
+            }
+          ],
+          "inntektskilde": "EN_ARBEIDSGIVER",
+          "utbetalingsreferanse": null,
+          "utbetalinger": {
+            "arbeidsgiverUtbetaling": {
+              "linjer": [
+                {
+                  "fom": "2021-01-17",
+                  "tom": "2021-01-31",
+                  "dagsats": 1481,
+                  "grad": 100.0
+                }
+              ],
+              "fagsystemId": "MGPXY3MLPVDBDLRIV66WLZP544"
+            },
+            "personUtbetaling": {
+              "linjer": [],
+              "fagsystemId": "SDOHDGEGZJD45KW2QAI5RDMDLI"
+            }
+          },
+          "utbetalteUtbetalinger": {
+            "arbeidsgiverUtbetaling": {
+              "linjer": [
+                {
+                  "fom": "2021-01-17",
+                  "tom": "2021-01-31",
+                  "dagsats": 1481,
+                  "grad": 100.0
+                }
+              ],
+              "fagsystemId": "MGPXY3MLPVDBDLRIV66WLZP544"
+            },
+            "personUtbetaling": {
+              "linjer": [],
+              "fagsystemId": "SDOHDGEGZJD45KW2QAI5RDMDLI"
+            }
+          },
+          "sykdomstidslinje": [
+            {
+              "dagen": "2021-01-01",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-02",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-03",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-04",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-05",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-06",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-07",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-08",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-09",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-10",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-11",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-12",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-13",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-14",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-15",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-16",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-17",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-18",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-19",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-20",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-21",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-22",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-23",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-24",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-25",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-26",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-27",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-28",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-29",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-30",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-31",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            }
+          ],
+          "godkjentAv": "U160607",
+          "godkjenttidspunkt": "2021-03-08T13:55:34.796057",
+          "automatiskBehandlet": false,
+          "vilkår": {
+            "sykepengedager": {
+              "forbrukteSykedager": 10,
+              "skjæringstidspunkt": "2021-01-01",
+              "beregningsdato": "2021-01-01",
+              "førsteFraværsdag": "2021-01-01",
+              "førsteSykepengedag": "2021-01-18",
+              "maksdato": "2021-12-29",
+              "gjenståendeDager": 238,
+              "oppfylt": true
+            },
+            "alder": {
+              "alderSisteSykedag": 44,
+              "oppfylt": true
+            },
+            "opptjening": {
+              "antallKjenteOpptjeningsdager": 7294,
+              "fom": "2001-01-12",
+              "oppfylt": true
+            },
+            "søknadsfrist": {
+              "sendtNav": "2021-02-01T00:00:00",
+              "søknadFom": "2021-01-01",
+              "søknadTom": "2021-01-31",
+              "oppfylt": true
+            },
+            "medlemskapstatus": "VET_IKKE"
+          },
+          "inntektsmeldingId": "fd1c600c-2e77-40ef-aef2-a53895aed525",
+          "inntektFraInntektsmelding": 32083.0,
+          "totalbeløpArbeidstaker": 14810,
+          "hendelser": [
+            {
+              "id": "ba560ff9-dd86-49e1-a5b7-44fe3e2d7e63",
+              "fom": "2021-01-01",
+              "tom": "2021-01-31",
+              "rapportertdato": "2021-03-08T11:36:52.5618929",
+              "type": "NY_SØKNAD"
+            },
+            {
+              "id": "8628db9f-db44-49f8-bf35-a23977d9397a",
+              "fom": "2021-01-01",
+              "tom": "2021-01-31",
+              "rapportertdato": "2021-03-08T11:36:53.18665278",
+              "sendtNav": "2021-02-01T00:00:00",
+              "type": "SENDT_SØKNAD_NAV"
+            },
+            {
+              "id": "fd1c600c-2e77-40ef-aef2-a53895aed525",
+              "mottattDato": "2021-03-08T11:36:53.207373635",
+              "beregnetInntekt": 32083.0,
+              "type": "INNTEKTSMELDING"
+            }
+          ],
+          "dataForVilkårsvurdering": {
+            "beregnetÅrsinntektFraInntektskomponenten": 420000.0,
+            "avviksprosent": 0.08334285714285715,
+            "antallOpptjeningsdagerErMinst": 7294,
+            "harOpptjening": true,
+            "medlemskapstatus": "VET_IKKE"
+          },
+          "simuleringsdata": {
+            "totalbeløp": 14810,
+            "perioder": [
+              {
+                "fom": "2021-01-17",
+                "tom": "2021-01-31",
+                "utbetalinger": [
+                  {
+                    "utbetalesTilId": "928497704",
+                    "utbetalesTilNavn": "BESK KAFE",
+                    "forfall": "2021-03-08",
+                    "feilkonto": false,
+                    "detaljer": [
+                      {
+                        "faktiskFom": "2021-01-17",
+                        "faktiskTom": "2021-01-31",
+                        "konto": "2338020",
+                        "beløp": 14810,
+                        "tilbakeføring": false,
+                        "sats": 1481,
+                        "typeSats": "DAG",
+                        "antallSats": 10,
+                        "uføregrad": 100,
+                        "klassekode": "SPREFAG-IOP",
+                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                        "utbetalingstype": "YTEL",
+                        "refunderesOrgNr": "805824352"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "aktivitetslogg": [
+            {
+              "vedtaksperiodeId": "522982fd-03d2-496c-a96d-9e3254f307b5",
+              "alvorlighetsgrad": "W",
+              "melding": "Vurder lovvalg og medlemskap",
+              "tidsstempel": "2021-03-08 11:36:55.663"
+            }
+          ],
+          "forlengelseFraInfotrygd": "NEI",
+          "periodetype": "FØRSTEGANGSBEHANDLING",
+          "beregningIder": [
+            "35782d79-f995-4ff6-878d-748175c39a7c"
+          ]
+        },
+        {
+          "id": "e81d7188-02f7-4bb7-b474-f1094dabecc8",
+          "gruppeId": "f9e4480d-e41f-4355-8ae5-14d84b85a979",
+          "fom": "2021-02-01",
+          "tom": "2021-02-28",
+          "tilstand": "Oppgaver",
+          "oppgavereferanse": "e3474115-1100-9999-0000-ea5d644b4a6b",
+          "fullstendig": true,
+          "utbetalingstidslinje": [
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-01",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-02",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-03",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-04",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-05",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-02-06",
+              "grad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-02-07",
+              "grad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-08",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-09",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-10",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-11",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-12",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-02-13",
+              "grad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-02-14",
+              "grad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-15",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-16",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-17",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-18",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-19",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-02-20",
+              "grad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-02-21",
+              "grad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-22",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-23",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-24",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-25",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavDag",
+              "inntekt": 1481,
+              "dato": "2021-02-26",
+              "utbetaling": 1481,
+              "grad": 100.0,
+              "totalGrad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-02-27",
+              "grad": 100.0
+            },
+            {
+              "type": "NavHelgDag",
+              "inntekt": 0,
+              "dato": "2021-02-28",
+              "grad": 100.0
+            }
+          ],
+          "inntektskilde": "EN_ARBEIDSGIVER",
+          "utbetalingsreferanse": null,
+          "utbetalinger": {
+            "arbeidsgiverUtbetaling": {
+              "linjer": [
+                {
+                  "fom": "2021-01-17",
+                  "tom": "2021-01-31",
+                  "dagsats": 1481,
+                  "grad": 100.0
+                }
+              ],
+              "fagsystemId": "MGPXY3MLPVDBDLRIV66WLZP544"
+            },
+            "personUtbetaling": null
+          },
+          "utbetalteUtbetalinger": {
+            "arbeidsgiverUtbetaling": {
+              "linjer": [
+                {
+                  "fom": "2021-01-17",
+                  "tom": "2021-01-31",
+                  "dagsats": 1481,
+                  "grad": 100.0
+                }
+              ],
+              "fagsystemId": "MGPXY3MLPVDBDLRIV66WLZP544"
+            },
+            "personUtbetaling": null
+          },
+          "sykdomstidslinje": [
+            {
+              "dagen": "2021-02-01",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-02",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-03",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-04",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-05",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-06",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-07",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-08",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-09",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-10",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-11",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-12",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-13",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-14",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-15",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-16",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-17",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-18",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-19",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-20",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-21",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-22",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-23",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-24",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-25",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-26",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-27",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-28",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            }
+          ],
+          "godkjentAv": null,
+          "godkjenttidspunkt": null,
+          "automatiskBehandlet": false,
+          "vilkår": {
+            "sykepengedager": {
+              "forbrukteSykedager": 30,
+              "skjæringstidspunkt": "2021-01-01",
+              "beregningsdato": "2021-01-01",
+              "førsteFraværsdag": "2021-01-01",
+              "førsteSykepengedag": "2021-02-01",
+              "maksdato": "2021-12-29",
+              "gjenståendeDager": 218,
+              "oppfylt": true
+            },
+            "alder": {
+              "alderSisteSykedag": 44,
+              "oppfylt": true
+            },
+            "opptjening": {
+              "antallKjenteOpptjeningsdager": 7294,
+              "fom": "2001-01-12",
+              "oppfylt": true
+            },
+            "søknadsfrist": {
+              "sendtNav": "2021-03-01T00:00:00",
+              "søknadFom": "2021-02-01",
+              "søknadTom": "2021-02-28",
+              "oppfylt": true
+            },
+            "medlemskapstatus": "VET_IKKE"
+          },
+          "inntektsmeldingId": "fd1c600c-2e77-40ef-aef2-a53895aed525",
+          "inntektFraInntektsmelding": 32083.0,
+          "totalbeløpArbeidstaker": 29620,
+          "hendelser": [
+            {
+              "id": "7bff5075-8437-4598-81d7-7f9705bb50a7",
+              "fom": "2021-02-01",
+              "tom": "2021-02-28",
+              "rapportertdato": "2021-03-08T13:57:00.664331731",
+              "type": "NY_SØKNAD"
+            },
+            {
+              "id": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1",
+              "fom": "2021-02-01",
+              "tom": "2021-02-28",
+              "rapportertdato": "2021-03-08T13:57:00.704079223",
+              "sendtNav": "2021-03-01T00:00:00",
+              "type": "SENDT_SØKNAD_NAV"
+            },
+            {
+              "id": "fd1c600c-2e77-40ef-aef2-a53895aed525",
+              "mottattDato": "2021-03-08T11:36:53.207373635",
+              "beregnetInntekt": 32083.0,
+              "type": "INNTEKTSMELDING"
+            }
+          ],
+          "dataForVilkårsvurdering": {
+            "beregnetÅrsinntektFraInntektskomponenten": 420000.0,
+            "avviksprosent": 0.08334285714285715,
+            "antallOpptjeningsdagerErMinst": 7294,
+            "harOpptjening": true,
+            "medlemskapstatus": "VET_IKKE"
+          },
+          "simuleringsdata": {
+            "totalbeløp": 44430,
+            "perioder": [
+              {
+                "fom": "2021-01-17",
+                "tom": "2021-01-31",
+                "utbetalinger": [
+                  {
+                    "utbetalesTilId": "928497704",
+                    "utbetalesTilNavn": "BESK KAFE",
+                    "forfall": "2021-03-08",
+                    "feilkonto": false,
+                    "detaljer": [
+                      {
+                        "faktiskFom": "2021-01-17",
+                        "faktiskTom": "2021-01-31",
+                        "konto": "2338020",
+                        "beløp": 14810,
+                        "tilbakeføring": false,
+                        "sats": 1481,
+                        "typeSats": "DAG",
+                        "antallSats": 10,
+                        "uføregrad": 100,
+                        "klassekode": "SPREFAG-IOP",
+                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                        "utbetalingstype": "YTEL",
+                        "refunderesOrgNr": "805824352"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "fom": "2021-02-01",
+                "tom": "2021-02-28",
+                "utbetalinger": [
+                  {
+                    "utbetalesTilId": "928497704",
+                    "utbetalesTilNavn": "BESK KAFE",
+                    "forfall": "2021-03-08",
+                    "feilkonto": false,
+                    "detaljer": [
+                      {
+                        "faktiskFom": "2021-02-01",
+                        "faktiskTom": "2021-02-28",
+                        "konto": "2338020",
+                        "beløp": 29620,
+                        "tilbakeføring": false,
+                        "sats": 1481,
+                        "typeSats": "DAG",
+                        "antallSats": 20,
+                        "uføregrad": 100,
+                        "klassekode": "SPREFAG-IOP",
+                        "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
+                        "utbetalingstype": "YTEL",
+                        "refunderesOrgNr": "805824352"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "aktivitetslogg": [],
+          "forlengelseFraInfotrygd": "NEI",
+          "periodetype": "FORLENGELSE",
+          "beregningIder": [
+            "e2a7cd87-17e2-4a83-8f93-db9959191c1a"
+          ]
+        }
+      ],
+      "overstyringer": [],
+      "sykdomshistorikk": [],
+      "utbetalingshistorikk": [
+        {
+          "hendelsetidslinje": [
+            {
+              "dagen": "2021-02-01",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-02",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-03",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-04",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-05",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-06",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-07",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-08",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-09",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-10",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-11",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-12",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-13",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-14",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-15",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-16",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-17",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-18",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-19",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-20",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-21",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-22",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-23",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-24",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-25",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-26",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-27",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-28",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            }
+          ],
+          "beregnettidslinje": [
+            {
+              "dagen": "2021-01-01",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-02",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-03",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-04",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-05",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-06",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-07",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-08",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-09",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-10",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-11",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-12",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-13",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-14",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-15",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-16",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-17",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-18",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-19",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-20",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-21",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-22",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-23",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-24",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-25",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-26",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-27",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-28",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-29",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-30",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-31",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-01",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-02",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-03",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-04",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-05",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-06",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-07",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-08",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-09",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-10",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-11",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-12",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-13",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-14",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-15",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-16",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-17",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-18",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-19",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-20",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-21",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-22",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-23",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-24",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-25",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-26",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-27",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-02-28",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "6b4fcb96-9ff2-4723-8cbf-9c3e715a2eb1"
+              },
+              "grad": 100.0
+            }
+          ],
+          "beregningId": "e2a7cd87-17e2-4a83-8f93-db9959191c1a",
+          "utbetalinger": [
+            {
+              "utbetalingstidslinje": [
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-01"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-02"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-03"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-04"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-05"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-06"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-07"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-08"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-09"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-10"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-11"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-12"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-13"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-14"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-15"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-16"
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-17",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-18",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-19",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-20",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-21",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-22",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-23",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-24",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-25",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-26",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-27",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-28",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-29",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-30",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-31",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-01",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-02",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-03",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-04",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-05",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-02-06",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-02-07",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-08",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-09",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-10",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-11",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-12",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-02-13",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-02-14",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-15",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-16",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-17",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-18",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-19",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-02-20",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-02-21",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-22",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-23",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-24",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-25",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-02-26",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-02-27",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-02-28",
+                  "grad": 100.0
+                }
+              ],
+              "type": "UTBETALING",
+              "maksdato": "2021-12-29"
+            }
+          ]
+        },
+        {
+          "hendelsetidslinje": [
+            {
+              "dagen": "2021-01-01",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-02",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-03",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-04",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-05",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-06",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-07",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-08",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-09",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-10",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-11",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-12",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-13",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-14",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-15",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-16",
+              "type": "ARBEIDSGIVERDAG",
+              "kilde": {
+                "type": "Inntektsmelding",
+                "kildeId": "fd1c600c-2e77-40ef-aef2-a53895aed525"
+              },
+              "grad": 100.0
+            }
+          ],
+          "beregnettidslinje": [
+            {
+              "dagen": "2021-01-01",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-02",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-03",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-04",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-05",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-06",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-07",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-08",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-09",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-10",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-11",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-12",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-13",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-14",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-15",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-16",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-17",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-18",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-19",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-20",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-21",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-22",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-23",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-24",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-25",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-26",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-27",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-28",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-29",
+              "type": "SYKEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-30",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            },
+            {
+              "dagen": "2021-01-31",
+              "type": "SYK_HELGEDAG",
+              "kilde": {
+                "type": "Søknad",
+                "kildeId": "8628db9f-db44-49f8-bf35-a23977d9397a"
+              },
+              "grad": 100.0
+            }
+          ],
+          "beregningId": "35782d79-f995-4ff6-878d-748175c39a7c",
+          "utbetalinger": [
+            {
+              "utbetalingstidslinje": [
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-01"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-02"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-03"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-04"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-05"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-06"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-07"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-08"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-09"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-10"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-11"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-12"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-13"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-14"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-15"
+                },
+                {
+                  "type": "ArbeidsgiverperiodeDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-16"
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-17",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-18",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-19",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-20",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-21",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-22",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-23",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-24",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-25",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-26",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-27",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-28",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavDag",
+                  "inntekt": 1481,
+                  "dato": "2021-01-29",
+                  "utbetaling": 1481,
+                  "grad": 100.0,
+                  "totalGrad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-30",
+                  "grad": 100.0
+                },
+                {
+                  "type": "NavHelgDag",
+                  "inntekt": 0,
+                  "dato": "2021-01-31",
+                  "grad": 100.0
+                }
+              ],
+              "type": "UTBETALING",
+              "maksdato": "2021-12-29"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "inntektsgrunnlag": [
+    {
+      "skjæringstidspunkt": "2021-01-01",
+      "sykepengegrunnlag": 384996.0,
+      "omregnetÅrsinntekt": 384996.0,
+      "sammenligningsgrunnlag": 420000.0,
+      "avviksprosent": 8.334285714285715,
+      "maksUtbetalingPerDag": 1480.753846153846,
+      "inntekter": [
+        {
+          "arbeidsgiver": "805824352",
+          "omregnetÅrsinntekt": {
+            "kilde": "Inntektsmelding",
+            "beløp": 384996.0,
+            "månedsbeløp": 32083.0,
+            "inntekterFraAOrdningen": null
+          },
+          "sammenligningsgrunnlag": {
+            "beløp": 420000.0,
+            "inntekterFraAOrdningen": [
+              {
+                "måned": "2020-06",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-08",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-03",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-12",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-01",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-02",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-10",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-07",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-05",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-11",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-04",
+                "sum": 35000.0
+              },
+              {
+                "måned": "2020-09",
+                "sum": 35000.0
+              }
+            ]
+          }
+        }
+      ],
+      "oppfyllerKravOmMinstelønn": true,
+      "grunnbeløp": 101351
+    }
+  ],
+  "arbeidsforhold": [
+    {
+      "organisasjonsnummer": "805824352",
+      "stillingstittel": "SØSTRA TIL HARALD",
+      "stillingsprosent": 110,
+      "startdato": "1937-02-21",
+      "sluttdato": null
+    }
+  ],
+  "infotrygdutbetalinger": [],
+  "enhet": {
+    "id": "1234",
+    "navn": "Oslo"
+  }
+}
