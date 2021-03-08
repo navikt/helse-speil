@@ -1,5 +1,5 @@
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { Person, Vedtaksperiode } from 'internal-types';
+import { Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { usePerson } from './person';
 
 export const aktivVedtaksperiodeIdState = atom<string | undefined>({
@@ -15,11 +15,14 @@ const periodeMedId = (person: Person, periodeId: string): Vedtaksperiode | undef
         undefined
     );
 
-const defaultPeriode = (person: Person): Vedtaksperiode | undefined =>
-    person.arbeidsgivere
+const defaultPeriode = (person: Person): Vedtaksperiode | undefined => {
+    const velgbarePerioder = person.arbeidsgivere
         .flatMap((arb) => arb.vedtaksperioder)
         .filter((periode) => periode.kanVelges)
-        .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1))?.[0] as Vedtaksperiode;
+        .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
+    return (velgbarePerioder?.find((periode) => periode.tilstand === Vedtaksperiodetilstand.Oppgaver) ??
+        velgbarePerioder?.[0]) as Vedtaksperiode;
+};
 
 export const useAktivVedtaksperiode = () => {
     const person = usePerson();
