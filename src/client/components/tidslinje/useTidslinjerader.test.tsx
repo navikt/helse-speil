@@ -11,7 +11,7 @@ describe('useTidslinjerader', () => {
         person = mappetPersonObject;
         person.arbeidsgivere[0].vedtaksperioder[0].fom = dayjs('2018-01-01');
         person.arbeidsgivere[0].vedtaksperioder[0].tom = dayjs('2018-01-02');
-        person.arbeidsgivere[0].vedtaksperioder[0].beregningId = '1234';
+        person.arbeidsgivere[0].vedtaksperioder[0].beregningIder = ['1234'];
     });
 
     test('ett utbetalingshistorikkelement medfører én tidslinjerad', () => {
@@ -51,7 +51,7 @@ describe('useTidslinjerader', () => {
     test('to utbetalingshistorikkelementer med én revurdering medfører to tidslinjerader', () => {
         person.arbeidsgivere[0].vedtaksperioder[0].fom = dayjs('2018-01-01');
         person.arbeidsgivere[0].vedtaksperioder[0].tom = dayjs('2018-01-02');
-        person.arbeidsgivere[0].vedtaksperioder[0].beregningId = '1234';
+        person.arbeidsgivere[0].vedtaksperioder[0].beregningIder = ['1234'];
         person.arbeidsgivere[0].utbetalingshistorikk = [
             {
                 id: '1235',
@@ -118,7 +118,7 @@ describe('useTidslinjerader', () => {
             ...person.arbeidsgivere[0].vedtaksperioder[0],
             fom: dayjs('2018-01-03'),
             tom: dayjs('2018-01-04'),
-            beregningId: '1236',
+            beregningIder: ['1236'],
         });
         person.arbeidsgivere[0].utbetalingshistorikk = [
             {

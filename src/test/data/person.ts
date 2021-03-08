@@ -681,6 +681,7 @@ export const mappetPersonObject: Person = {
                         ],
                     },
                     automatiskBehandlet: false,
+                    beregningIder: [],
                 },
             ],
             utbetalingshistorikk: [],

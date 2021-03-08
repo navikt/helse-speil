@@ -11,7 +11,7 @@ import {
 
 // External
 export interface EksternUtbetalingshistorikkElement {
-    id: string;
+    beregningId: string;
     beregnettidslinje: EksternSykdomsdag[];
     hendelsetidslinje: EksternSykdomsdag[];
     utbetalinger: EksternUtbetaling[];

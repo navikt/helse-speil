@@ -67,9 +67,14 @@ const venterEllerTilhørerRad = (
     radIder: string[],
     radIndex: number
 ) => {
+    const tilstanderUtenBeregning = [
+        Vedtaksperiodetilstand.Venter,
+        Vedtaksperiodetilstand.IngenUtbetaling,
+        Vedtaksperiodetilstand.VenterPåKiling,
+    ];
     return (
-        radIder.includes(vedtaksperiode.beregningId!) ||
-        (radIndex === 0 && vedtaksperiode.tilstand === Vedtaksperiodetilstand.Venter)
+        vedtaksperiode.beregningIder?.some((id) => radIder.includes(id)) ||
+        (radIndex === 0 && tilstanderUtenBeregning.includes(vedtaksperiode.tilstand))
     );
 };
 

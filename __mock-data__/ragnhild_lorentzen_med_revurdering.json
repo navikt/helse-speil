@@ -536,7 +536,7 @@
                         }
                     ],
                     "aktivitetslogg": [],
-                    "beregningId": "1234"
+                    "beregningIder": ["1234"]
                 },
                 {
                     "id": "956189c8-a904-40e7-b1e1-eab46e997dks",
@@ -1059,7 +1059,7 @@
                         }
                     ],
                     "aktivitetslogg": [],
-                    "beregningId": "123455"
+                    "beregningIder": ["123455"]
                 },
                 {
                     "id": "956189c8-a904-40e7-b1e1-eab46e997dkf",
@@ -1582,7 +1582,7 @@
                         }
                     ],
                     "aktivitetslogg": [],
-                    "beregningId": "123456"
+                    "beregningIder": ["123456"]
                 },
                 {
                     "id": "956189c8-a904-40e7-b1e1-eab46e997dke",
@@ -2105,7 +2105,7 @@
                         }
                     ],
                     "aktivitetslogg": [],
-                    "beregningId": "123458"
+                    "beregningIder": ["123458"]
                 }
             ],
             "overstyringer": [],
@@ -2119,7 +2119,7 @@
             ],
             "utbetalingshistorikk": [
                 {
-                    "id": "123459",
+                    "beregningId": "123459",
                     "hendelsetidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -3863,7 +3863,7 @@
                     ]
                 },
                 {
-                    "id": "123458",
+                    "beregningId": "123458",
                     "hendelsetidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -5112,7 +5112,7 @@
                     ],
                     "utbetalinger": [
                         {
-                            "status": "IKKE_UTBETALT",
+                            "status": "UTBETALT",
                             "type": "UTBETALING",
                             "utbetalingstidslinje": [
                                 {
@@ -5309,7 +5309,7 @@
                     ]
                 },
                 {
-                    "id": "123457",
+                    "beregningId": "123457",
                     "hendelsetidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -6378,7 +6378,7 @@
                     ],
                     "utbetalinger": [
                         {
-                            "status": "IKKE_UTBETALT",
+                            "status": "UTBETALT",
                             "type": "REVURDERING",
                             "utbetalingstidslinje": [
                                 {
@@ -6575,7 +6575,7 @@
                     ]
                 },
                 {
-                    "id": "123456",
+                    "beregningId": "123456",
                     "hendelsetidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -7644,7 +7644,7 @@
                     ],
                     "utbetalinger": [
                         {
-                            "status": "IKKE_UTBETALT",
+                            "status": "UTBETALT",
                             "type": "UTBETALING",
                             "utbetalingstidslinje": [
                                 {
@@ -7841,7 +7841,7 @@
                     ]
                 },
                 {
-                    "id": "123455",
+                    "beregningId": "123455",
                     "hendelsetidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -8658,7 +8658,7 @@
                     ],
                     "utbetalinger": [
                         {
-                            "status": "IKKE_UTBETALT",
+                            "status": "UTBETALT",
                             "type": "UTBETALING",
                             "utbetalingstidslinje": [
                                 {
@@ -8855,7 +8855,7 @@
                     ]
                 },
                 {
-                    "id": "12345",
+                    "beregningId": "12345",
                     "hendelsetidslinje": [
                         {
                             "dagen": "2018-01-01",
@@ -9420,7 +9420,7 @@
                     ],
                     "utbetalinger": [
                         {
-                            "status": "IKKE_UTBETALT",
+                            "status": "UTBETALT",
                             "type": "REVURDERING",
                             "utbetalingstidslinje": [
                                 {
@@ -9617,7 +9617,7 @@
                     ]
                 },
                 {
-                    "id": "1234",
+                    "beregningId": "1234",
                     "hendelsetidslinje": [
                         {
                             "dagen": "2018-01-01",

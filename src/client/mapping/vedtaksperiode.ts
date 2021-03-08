@@ -182,7 +182,7 @@ export class VedtaksperiodeBuilder {
     };
 
     private mapEnkleProperties = () => {
-        this.vedtaksperiode.beregningId = this.unmapped.beregningId;
+        this.vedtaksperiode.beregningIder = this.unmapped.beregningIder ?? [];
         this.vedtaksperiode.id = this.unmapped.id;
         this.vedtaksperiode.gruppeId = this.unmapped.gruppeId;
         this.vedtaksperiode.godkjentAv = this.unmapped.godkjentAv;

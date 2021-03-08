@@ -60,7 +60,7 @@ export class ArbeidsgiverBuilder {
             ...this.arbeidsgiver,
             utbetalingshistorikk:
                 this.unmapped.utbetalingshistorikk?.map((element) => ({
-                    id: element.id,
+                    id: element.beregningId,
                     beregnettidslinje: element.beregnettidslinje.map((dag) => ({
                         dato: dayjs(dag.dagen),
                         type: sykdomstidslinjedag(dag.type),
