@@ -92,6 +92,7 @@ const useVisDefaultUfordelteOppgaverFiltering = (filtrering: UseTabellFiltrering
 
 export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     const aktivTab = useRecoilValue(tabState);
+    const aktiveFiltere = useRecoilValue(filtreringState);
 
     const headere = [
         {
@@ -123,7 +124,7 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
         headere: headere,
         renderer: renderer,
         defaultSortering: useRecoilValue(sorteringState),
-        defaultFiltrering: useRecoilValue(filtreringState),
+        defaultFiltrering: aktiveFiltere,
         defaultPaginering: {
             sidenummer: 1,
             antallRaderPerSide: 15,
@@ -137,7 +138,7 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
 
     useEffect(() => {
         tabell.paginering?.set((p) => ({ ...p, sidenummer: 1 }));
-    }, [aktivTab]);
+    }, [aktivTab, aktiveFiltere]);
 
     return (
         <Container>
