@@ -45,27 +45,25 @@ const harDagtyper = (dagtyper: Dagtype[], tidslinje: Utbetalingsdag[]): boolean 
 const skalViseInfoPin = (tidslinje: Utbetalingsdag[]): boolean =>
     harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode], tidslinje);
 
-const skalErstatteNeste = (element: IntermediateElement, neste: IntermediateElement) => {
-    return (
-        element.utbetalinger[0].type === 'UTBETALING' &&
-        ['REVURDERING', 'UTBETALING'].includes(neste.utbetalinger[0].type)
-    );
-};
+const erstattesAvNeste = (element: IntermediateElement, neste: IntermediateElement) =>
+    neste.utbetalinger[0].type === 'UTBETALING' && ['REVURDERING', 'UTBETALING'].includes(element.utbetalinger[0].type);
 
 const fjernErstattedeRader = (rader: UtbetalingshistorikkElement[]) => {
     return rader
         .map((it) => ({ ...it, ider: [it.id], erstattet: false }))
+        .reverse()
         .map((rad, index, all) => {
             const nesteRad = all[index + 1];
             if (!nesteRad) return rad;
-            if (skalErstatteNeste(rad, nesteRad)) {
-                rad.ider = [rad.id, nesteRad.id];
-                rad.utbetalinger = rad.utbetalinger.concat(nesteRad.utbetalinger);
-                nesteRad.erstattet = true;
+            if (erstattesAvNeste(rad, nesteRad)) {
+                nesteRad.ider = [...nesteRad.ider, ...rad.ider];
+                nesteRad.utbetalinger = [...nesteRad.utbetalinger, ...rad.utbetalinger];
+                rad.erstattet = true;
             }
             return rad;
         })
         .filter((it) => !it.erstattet)
+        .reverse()
         .map((it) => ({
             ider: it.ider,
             beregnettidslinje: it.beregnettidslinje,
