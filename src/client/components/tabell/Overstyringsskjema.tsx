@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import SkjemaGruppe from 'nav-frontend-skjema/lib/skjema-gruppe';
 import { useFormContext } from 'react-hook-form';
 import { Feiloppsummering, TextareaControlled } from 'nav-frontend-skjema';
+import { Sykdomsdag } from 'internal-types';
 
 const Overstyringsskjemagruppe = styled(SkjemaGruppe)`
     color: var(--navds-color-text-primary);
@@ -41,9 +42,10 @@ const Knappegruppe = styled.span`
 
 interface OverstyringsskjemaProps {
     avbrytOverstyring: () => void;
+    overstyrteDager: Sykdomsdag[];
 }
 
-export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProps) => {
+export const Overstyringsskjema = ({ avbrytOverstyring, overstyrteDager }: OverstyringsskjemaProps) => {
     const { register, errors, formState } = useFormContext();
 
     const oppsummeringRef = useRef<HTMLDivElement>(null);
@@ -84,7 +86,9 @@ export const Overstyringsskjema = ({ avbrytOverstyring }: OverstyringsskjemaProp
                 </FeiloppsummeringContainer>
             )}
             <Knappegruppe>
-                <Knapp mini>Oppdater</Knapp>
+                <Knapp disabled={overstyrteDager.length < 1} mini>
+                    Oppdater
+                </Knapp>
                 <Flatknapp mini onClick={avbrytOverstyring}>
                     Avbryt
                 </Flatknapp>
