@@ -77,16 +77,8 @@ export const ikon = (dag: Sykdomsdag) => {
 
 export const type = (dag: Sykdomsdag) => <TypeContainer>{dag.type}</TypeContainer>;
 
-export const overstyrbarType = (
-    dag: Sykdomsdag,
-    onOverstyr: (dag: Sykdomsdag) => void,
-    onFjernOverstyring: (dag: Sykdomsdag) => void
-) =>
-    dag.type !== Dagtype.Helg ? (
-        <OverstyrbarDagtype dag={dag} onOverstyr={onOverstyr} onFjernOverstyring={onFjernOverstyring} />
-    ) : (
-        type(dag)
-    );
+export const overstyrbarType = (dag: Sykdomsdag, onOverstyr: (dag: Sykdomsdag) => void) =>
+    dag.type !== Dagtype.Helg ? <OverstyrbarDagtype dag={dag} onOverstyr={onOverstyr} /> : type(dag);
 
 const KildeContainer = styled.div`
     display: flex;
@@ -141,14 +133,8 @@ const skalViseTotalGradering = (dag: Utbetalingsdag) =>
 export const totalGradering = (dag: Utbetalingsdag) =>
     skalViseTotalGradering(dag) ? <HøyrejustertTekst>{dag.totalGradering} %</HøyrejustertTekst> : undefined;
 
-export const overstyrbarGradering = (
-    dag: Sykdomsdag,
-    onOverstyr: (dag: Sykdomsdag) => void,
-    onFjernOverstyring: (dag: Sykdomsdag) => void
-) =>
-    skalViseGradering(dag) ? (
-        <OverstyrbarGradering dag={dag} onOverstyr={onOverstyr} onFjernOverstyring={onFjernOverstyring} />
-    ) : undefined;
+export const overstyrbarGradering = (dag: Sykdomsdag, onOverstyr: (dag: Sykdomsdag) => void) =>
+    skalViseGradering(dag) ? <OverstyrbarGradering dag={dag} onOverstyr={onOverstyr} /> : undefined;
 
 export const utbetaling = (dag: Utbetalingsdag) => {
     if (dag.type === Dagtype.Avvist) return <HøyrejustertTekst>-</HøyrejustertTekst>;

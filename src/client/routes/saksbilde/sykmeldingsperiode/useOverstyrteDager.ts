@@ -1,23 +1,20 @@
 import { useState } from 'react';
 import { Sykdomsdag } from 'internal-types';
 
-export const useOverstyrteDager = () => {
+export const useOverstyrteDager = (originaleDager?: Sykdomsdag[]) => {
     const [overstyrteDager, setOverstyrteDager] = useState<Sykdomsdag[]>([]);
 
+    const erLikOriginal = (other: Sykdomsdag) => {
+        const originalDag = originaleDager?.find((dag) => dag.dato.isSame(other.dato));
+        return originalDag && originalDag.type == other.type && originalDag.gradering == other.gradering;
+    };
+
     const leggTilOverstyrtDag = (nyDag: Sykdomsdag) => {
-        const finnesFraFør = overstyrteDager.find((dag) => dag.dato.isSame(nyDag.dato));
-        if (!finnesFraFør) {
-            setOverstyrteDager((dager) => [...dager, nyDag]);
-        } else {
-            setOverstyrteDager((dager) =>
-                dager.map((gammelDag) => (gammelDag.dato.isSame(nyDag.dato) ? nyDag : gammelDag))
-            );
-        }
+        setOverstyrteDager((dager) => {
+            const andreDager = [...dager].filter((dag) => !dag.dato.isSame(nyDag.dato));
+            return [...andreDager, nyDag].filter((dag) => !erLikOriginal(dag));
+        });
     };
 
-    const fjernOverstyrtDag = (dagen: Sykdomsdag) => {
-        setOverstyrteDager((dager) => dager.filter((overstyrtDag) => !overstyrtDag.dato.isSame(dagen.dato)));
-    };
-
-    return { overstyrteDager, leggTilOverstyrtDag, fjernOverstyrtDag };
+    return { overstyrteDager, leggTilOverstyrtDag };
 };

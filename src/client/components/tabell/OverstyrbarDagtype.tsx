@@ -11,20 +11,15 @@ const OverstyrbarSelect = styled(Select)`
 interface OverstyrbarDagtypeProps {
     dag: Sykdomsdag;
     onOverstyr: (dag: Sykdomsdag) => void;
-    onFjernOverstyring: (dag: Sykdomsdag) => void;
 }
 
 const valgbareDager = [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding];
 
-export const OverstyrbarDagtype = ({ dag, onOverstyr, onFjernOverstyring }: OverstyrbarDagtypeProps) => {
+export const OverstyrbarDagtype = ({ dag, onOverstyr }: OverstyrbarDagtypeProps) => {
     const [opprinneligDagtype] = useState(dag.type);
     const onSelectDagtype = ({ target }: ChangeEvent<HTMLSelectElement>) => {
         const nyDagtype = target.value as Dagtype;
-        if (nyDagtype === dag.type) {
-            onFjernOverstyring(dag);
-        } else {
-            onOverstyr({ ...dag, type: nyDagtype });
-        }
+        onOverstyr({ ...dag, type: nyDagtype });
     };
 
     return (

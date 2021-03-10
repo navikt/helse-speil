@@ -74,13 +74,15 @@ const tilOverstyrteDager = (dager: Sykdomsdag[]): OverstyrtDagDTO[] =>
 interface OverstyrbarSykmeldingsperiodetabellProps {
     onOverstyr: () => void;
     onToggleOverstyring: () => void;
+    originaleDager?: Sykdomsdag[];
 }
 
 export const OverstyrbarSykmeldingsperiodetabell = ({
     onOverstyr,
     onToggleOverstyring,
+    originaleDager,
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
-    const { overstyrteDager, leggTilOverstyrtDag, fjernOverstyrtDag } = useOverstyrteDager();
+    const { overstyrteDager, leggTilOverstyrtDag } = useOverstyrteDager(originaleDager);
     const personTilBehandling = usePerson();
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const [overstyringserror, setOverstyringserror] = useState<string>();
@@ -111,8 +113,8 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
                 tomCelle(),
                 dato(dagen),
                 ikon(dagen),
-                overstyrbarType(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
-                overstyrbarGradering(dagen, leggTilOverstyrtDag, fjernOverstyrtDag),
+                overstyrbarType(dagen, leggTilOverstyrtDag),
+                overstyrbarGradering(dagen, leggTilOverstyrtDag),
                 overstyrbarKilde(dagen, erOverstyrt),
                 tomCelle(),
             ],

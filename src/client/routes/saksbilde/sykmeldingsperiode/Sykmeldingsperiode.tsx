@@ -55,6 +55,7 @@ export const Sykmeldingsperiode = () => {
                             setKalkulerer(true);
                         }}
                         onToggleOverstyring={() => setOverstyrer((o) => !o)}
+                        originaleDager={aktivVedtaksperiode?.sykdomstidslinje}
                     />
                 ) : (
                     person &&

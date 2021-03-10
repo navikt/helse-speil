@@ -53,10 +53,9 @@ const GraderingInput = styled.input<{ error: boolean }>`
 interface OverstyrbarDagtypeProps {
     dag: Sykdomsdag;
     onOverstyr: (dag: Sykdomsdag) => void;
-    onFjernOverstyring: (dag: Sykdomsdag) => void;
 }
 
-export const OverstyrbarGradering = ({ dag, onOverstyr, onFjernOverstyring }: OverstyrbarDagtypeProps) => {
+export const OverstyrbarGradering = ({ dag, onOverstyr }: OverstyrbarDagtypeProps) => {
     const { register, errors, trigger } = useFormContext();
 
     const name = dag.dato.format('YYYY-MM-DD');
@@ -64,11 +63,7 @@ export const OverstyrbarGradering = ({ dag, onOverstyr, onFjernOverstyring }: Ov
 
     const onChangeGradering = ({ target }: ChangeEvent<HTMLInputElement>) => {
         const nyGradering = +target.value;
-        if (nyGradering === dag.gradering) {
-            onFjernOverstyring(dag);
-        } else {
-            onOverstyr({ ...dag, gradering: nyGradering });
-        }
+        onOverstyr({ ...dag, gradering: nyGradering });
     };
 
     return (
