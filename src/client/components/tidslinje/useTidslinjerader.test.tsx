@@ -1,224 +1,121 @@
-import dayjs from 'dayjs';
-import { Dagtype, Kildetype } from 'internal-types';
+import dayjs, { Dayjs } from 'dayjs';
+import { Dagtype, Sykdomsdag, UfullstendigVedtaksperiode, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
 import { useTidslinjerader } from './useTidslinjerader';
 import { mappetPersonObject } from '../../../test/data/person';
 import { renderHook } from '@testing-library/react-hooks';
+import { UtbetalingshistorikkElement } from '../../modell/UtbetalingshistorikkElement';
+
+type Vedtaksperioder = (Vedtaksperiode | UfullstendigVedtaksperiode)[];
 
 let person = mappetPersonObject;
 
 describe('useTidslinjerader', () => {
+    const førsteVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0];
+    const vedtaksperiodene = person.arbeidsgivere[0].vedtaksperioder;
     beforeEach(() => {
         person = mappetPersonObject;
-        person.arbeidsgivere[0].vedtaksperioder[0].fom = dayjs('2018-01-01');
-        person.arbeidsgivere[0].vedtaksperioder[0].tom = dayjs('2018-01-02');
-        person.arbeidsgivere[0].vedtaksperioder[0].beregningIder = ['1234'];
+        førsteVedtaksperiode.fom = dayjs('2018-01-01');
+        førsteVedtaksperiode.tom = dayjs('2018-01-02');
+        førsteVedtaksperiode.beregningIder = ['1234'];
     });
 
     test('ett utbetalingshistorikkelement medfører én tidslinjerad', () => {
         person.arbeidsgivere[0].utbetalingshistorikk = [
-            {
-                id: '1234',
-                beregnettidslinje: [
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-01T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-02T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                ],
-                hendelsetidslinje: [],
-                utbetalinger: [
-                    {
-                        status: 'IKKE_UTBETALT',
-                        type: 'UTBETALING',
-                        utbetalingstidslinje: [],
-                    },
-                ],
-            },
+            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene),
         ];
         const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
         expect(result.current[0].rader.length).toEqual(1);
+        expect(result.current[0].rader[0].perioder.length).toEqual(1);
+        expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
     });
 
     test('to utbetalingshistorikkelementer med én revurdering medfører to tidslinjerader', () => {
-        person.arbeidsgivere[0].vedtaksperioder[0].fom = dayjs('2018-01-01');
-        person.arbeidsgivere[0].vedtaksperioder[0].tom = dayjs('2018-01-02');
-        person.arbeidsgivere[0].vedtaksperioder[0].beregningIder = ['1234'];
         person.arbeidsgivere[0].utbetalingshistorikk = [
-            {
-                id: '1235',
-                beregnettidslinje: [
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-01T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-02T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                ],
-                hendelsetidslinje: [],
-                utbetalinger: [
-                    {
-                        status: 'IKKE_UTBETALT',
-                        type: 'REVURDERING',
-                        utbetalingstidslinje: [],
-                    },
-                ],
-            },
-            {
-                id: '1234',
-                beregnettidslinje: [
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-01T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-02T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                ],
-                hendelsetidslinje: [],
-                utbetalinger: [
-                    {
-                        status: 'IKKE_UTBETALT',
-                        type: 'UTBETALING',
-                        utbetalingstidslinje: [],
-                    },
-                ],
-            },
+            nyttElement('1235', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene, true),
+            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene),
         ];
 
         const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-02'), false));
         expect(result.current[0].rader.length).toEqual(2);
+        expect(result.current[0].rader[0].perioder.length).toEqual(1);
+        expect(result.current[0].rader[1].perioder.length).toEqual(1);
+        expect(result.current[0].rader[1].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
+        expect(result.current[0].rader[1].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
     });
 
     test('tre utbetalingshistorikkelementer med utb. - rev. - utb. medfører to tidslinjerader', () => {
+        førsteVedtaksperiode.beregningIder = ['1234', '1236'];
         person.arbeidsgivere[0].vedtaksperioder.push({
-            ...person.arbeidsgivere[0].vedtaksperioder[0],
+            ...førsteVedtaksperiode,
             fom: dayjs('2018-01-03'),
             tom: dayjs('2018-01-04'),
             beregningIder: ['1236'],
         });
         person.arbeidsgivere[0].utbetalingshistorikk = [
-            {
-                id: '1236',
-                beregnettidslinje: [
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-01T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-02T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-03T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-04T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                ],
-                hendelsetidslinje: [],
-                utbetalinger: [
-                    {
-                        status: 'IKKE_UTBETALT',
-                        type: 'UTBETALING',
-                        utbetalingstidslinje: [],
-                    },
-                ],
-            },
-            {
-                id: '1235',
-                beregnettidslinje: [
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-01T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-02T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                ],
-                hendelsetidslinje: [],
-                utbetalinger: [
-                    {
-                        status: 'IKKE_UTBETALT',
-                        type: 'REVURDERING',
-                        utbetalingstidslinje: [],
-                    },
-                ],
-            },
-            {
-                id: '1234',
-                beregnettidslinje: [
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-01T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                    {
-                        type: Dagtype.Syk,
-                        dato: dayjs('2018-01-02T00:00:00.000Z'),
-                        kilde: Kildetype.Sykmelding,
-                        kildeId: 'DC7A5F57-DE63-4648-9631-B50C100859BA',
-                        gradering: 100,
-                    },
-                ],
-                hendelsetidslinje: [],
-                utbetalinger: [
-                    {
-                        status: 'IKKE_UTBETALT',
-                        type: 'UTBETALING',
-                        utbetalingstidslinje: [],
-                    },
-                ],
-            },
+            nyttElement('1236', dayjs('2018-01-01'), dayjs('2018-01-04'), vedtaksperiodene, false, false),
+            nyttElement('1235', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene, true),
+            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene),
         ];
 
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-02'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-04'), false));
         expect(result.current[0].rader.length).toEqual(2);
+        expect(result.current[0].rader[0].perioder.length).toEqual(2);
+        expect(result.current[0].rader[1].perioder.length).toEqual(1);
+        expect(result.current[0].rader[1].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
+        expect(result.current[0].rader[1].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[1].start.isSame(dayjs('2018-01-03'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[1].end.isSame(dayjs('2018-01-04'), 'day')).toBe(true);
     });
 });
+
+const nyttElement = (
+    id: string,
+    fom: Dayjs,
+    tom: Dayjs,
+    vedtaksperioder: Vedtaksperioder,
+    erRevurdering: boolean = false,
+    erUtbetalt = true
+): UtbetalingshistorikkElement => {
+    return new UtbetalingshistorikkElement(
+        id,
+        sykdomstidslinje(fom, tom),
+        sykdomstidslinje(fom, tom),
+        [
+            {
+                status: erUtbetalt ? 'UTBETALT' : 'IKKE_UTBETALT',
+                type: erRevurdering ? 'REVURDERING' : 'UTBETALING',
+                utbetalingstidslinje: utbetalingstidslinje(fom, tom),
+            },
+        ],
+        vedtaksperioder
+    );
+};
+
+const utbetalingstidslinje = (fom: Dayjs, tom: Dayjs) => {
+    const antallDager = Math.abs(tom.diff(fom, 'day')) + 1;
+    const utbetalingsdager: Utbetalingsdag[] = [];
+    for (let step = 0; step < antallDager; step++) {
+        utbetalingsdager.push({
+            dato: fom.add(step, 'day'),
+            type: Dagtype.Syk,
+        });
+    }
+    return utbetalingsdager;
+};
+
+const sykdomstidslinje = (fom: Dayjs, tom: Dayjs) => {
+    const antallDager = Math.abs(tom.diff(fom, 'day')) + 1;
+    const sykdomsdager: Sykdomsdag[] = [];
+    for (let step = 0; step < antallDager; step++) {
+        sykdomsdager.push({
+            dato: fom.add(step, 'day'),
+            type: Dagtype.Syk,
+        });
+    }
+    return sykdomsdager;
+};

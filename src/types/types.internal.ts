@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
-import { UtbetalingshistorikkElement } from './types.tidslinjer';
+import { UtbetalingshistorikkElement } from '../client/modell/UtbetalingshistorikkElement';
 import { Inntektskilde } from '../types';
 
 export interface Periode {

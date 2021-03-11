@@ -536,7 +536,7 @@
                         }
                     ],
                     "aktivitetslogg": [],
-                    "beregningIder": ["1234"]
+                    "beregningIder": ["1234", "12345"]
                 },
                 {
                     "id": "956189c8-a904-40e7-b1e1-eab46e997dks",
@@ -1582,7 +1582,7 @@
                         }
                     ],
                     "aktivitetslogg": [],
-                    "beregningIder": ["123456"]
+                    "beregningIder": ["123456", "123457"]
                 },
                 {
                     "id": "956189c8-a904-40e7-b1e1-eab46e997dke",
@@ -2105,7 +2105,7 @@
                         }
                     ],
                     "aktivitetslogg": [],
-                    "beregningIder": ["123458"]
+                    "beregningIder": ["123458", "123459"]
                 }
             ],
             "overstyringer": [],

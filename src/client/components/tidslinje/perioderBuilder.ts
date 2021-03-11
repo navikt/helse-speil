@@ -1,66 +1,48 @@
-import dayjs from 'dayjs';
-import { Dagtype } from 'internal-types';
-import { CollapsedUtbetalingshistorikkElement } from './useTidslinjerader';
+import dayjs, { Dayjs } from 'dayjs';
+import { Dagtype, Sykdomsdag } from 'internal-types';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import { Tidslinjeperiode, Utbetalingstatus } from '../../modell/UtbetalingshistorikkElement';
 dayjs.extend(isSameOrAfter);
 
 export interface PerioderTilstand {
-    sykedag: (builder: PerioderBuilder, dagen: Date) => void;
-    ukjentDag: (builder: PerioderBuilder, dagen: Date) => void;
-    entering: (builder: PerioderBuilder, dagen: Date) => void;
-    leaving: (builder: PerioderBuilder, dagen: Date) => void;
-    vedtaksperiodeDag: (builder: PerioderBuilder, dagen: Date) => void;
-}
-
-export class Periode {
-    fom: Date;
-    tom: Date;
-
-    extend = (tom: Date): void => {
-        this.tom = tom;
-    };
-
-    constructor(fom: Date) {
-        this.fom = fom;
-        this.tom = fom;
-    }
+    sykedag: (builder: PerioderBuilder, dagen: Dayjs) => void;
+    ukjentDag: (builder: PerioderBuilder, dagen: Dayjs) => void;
+    entering: (builder: PerioderBuilder, dagen: dayjs.Dayjs) => void;
+    leaving: (builder: PerioderBuilder, dagen: Dayjs) => void;
 }
 
 export class PerioderBuilder {
-    tilstand: PerioderTilstand = new Start();
-    perioder: Periode[] = [];
+    id: string;
+    utbetalingstatus: Utbetalingstatus;
+    constructor(id: string, utbetalingstatus: Utbetalingstatus) {
+        this.id = id;
+        this.tilstand = new UtenforPeriode();
+        this.utbetalingstatus = utbetalingstatus;
+    }
 
-    byttTilstand = (nyTilstand: PerioderTilstand, dagen: Date) => {
+    tilstand: PerioderTilstand;
+    perioder: Tidslinjeperiode[] = [];
+
+    byttTilstand = (nyTilstand: PerioderTilstand, dagen: Dayjs) => {
         this.tilstand.leaving(this, dagen);
         this.tilstand = nyTilstand;
         this.tilstand.entering(this, dagen);
     };
 
-    add = (periode: Periode) => this.perioder.push(periode);
+    add = (periode: Tidslinjeperiode) => this.perioder.push(periode);
 
-    build = (
-        element: CollapsedUtbetalingshistorikkElement,
-        vedtaksperioder: { start: Date; end: Date }[]
-    ): Periode[] => {
-        element.beregnettidslinje.forEach((dag, index) => {
-            if (
-                vedtaksperioder.some(
-                    ({ start, end }) => dayjs(start).isSameOrBefore(dag.dato) && dayjs(end).isSameOrAfter(dag.dato)
-                )
-            ) {
-                this.tilstand.vedtaksperiodeDag(this, dag.dato.toDate());
-                return;
-            }
-            switch (dag.type) {
+    build = (sykdomstidslinje: Sykdomsdag[]): Tidslinjeperiode[] => {
+        sykdomstidslinje.forEach(({ dato, type }, index) => {
+            switch (type) {
                 case Dagtype.Ubestemt:
-                    this.tilstand.ukjentDag(this, dag.dato.toDate());
+                    this.tilstand.ukjentDag(this, dato);
                     break;
                 default:
-                    this.tilstand.sykedag(this, dag.dato.toDate());
+                    this.tilstand.sykedag(this, dato);
                     break;
             }
-            if (element.beregnettidslinje.length - 1 === index) {
-                this.byttTilstand(new Ferdig(), dag.dato.toDate());
+            if (sykdomstidslinje.length - 1 === index) {
+                this.byttTilstand(new UtenforPeriode(), dato);
                 return;
             }
         });
@@ -68,47 +50,22 @@ export class PerioderBuilder {
     };
 }
 
-class Start implements PerioderTilstand {
-    entering = (builder: PerioderBuilder, dagen: Date) => {};
-    leaving = (builder: PerioderBuilder, dagen: Date) => {};
-    sykedag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new NyPeriode(), dagen);
-    ukjentDag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new UtenforPeriode(), dagen);
-    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) =>
-        builder.byttTilstand(new VedtaksperiodeTilstand(), dagen);
-}
+class Revurderingsperiode implements PerioderTilstand {
+    periode: Tidslinjeperiode;
 
-class VedtaksperiodeTilstand implements PerioderTilstand {
-    entering = (builder: PerioderBuilder, dagen: Date) => {};
-    leaving = (builder: PerioderBuilder, dagen: Date) => {};
-    sykedag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new NyPeriode(), dagen);
-    ukjentDag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new UtenforPeriode(), dagen);
-    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) => {};
-}
-
-class NyPeriode implements PerioderTilstand {
-    periode: Periode;
-
-    entering = (builder: PerioderBuilder, dagen: Date) => (this.periode = new Periode(dagen));
-    leaving = (builder: PerioderBuilder, dagen: Date) => builder.add(this.periode);
-    sykedag = (builder: PerioderBuilder, dagen: Date) => this.periode.extend(dagen);
-    ukjentDag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new UtenforPeriode(), dagen);
-    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) =>
-        builder.byttTilstand(new VedtaksperiodeTilstand(), dagen);
+    entering = (builder: PerioderBuilder, dagen: Dayjs): void => {
+        this.periode = Tidslinjeperiode.nyRevurderingsperiode(builder.id, dagen, builder.utbetalingstatus);
+    };
+    leaving = (builder: PerioderBuilder, dagen: Dayjs): void => {
+        builder.add(this.periode);
+    };
+    sykedag = (builder: PerioderBuilder, dagen: Dayjs): void => this.periode.extend(dagen);
+    ukjentDag = (builder: PerioderBuilder, dagen: Dayjs): void => builder.byttTilstand(new UtenforPeriode(), dagen);
 }
 
 class UtenforPeriode implements PerioderTilstand {
-    entering = (builder: PerioderBuilder, dagen: Date) => {};
-    leaving = (builder: PerioderBuilder, dagen: Date) => {};
-    sykedag = (builder: PerioderBuilder, dagen: Date) => builder.byttTilstand(new NyPeriode(), dagen);
-    ukjentDag = (builder: PerioderBuilder, dagen: Date) => {};
-    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) =>
-        builder.byttTilstand(new VedtaksperiodeTilstand(), dagen);
-}
-
-class Ferdig implements PerioderTilstand {
-    entering = (builder: PerioderBuilder, dagen: Date) => {};
-    leaving = (builder: PerioderBuilder, dagen: Date) => {};
-    sykedag = (builder: PerioderBuilder, dagen: Date) => {};
-    ukjentDag = (builder: PerioderBuilder, dagen: Date) => {};
-    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Date) => {};
+    entering = (builder: PerioderBuilder, dagen: Dayjs): void => {};
+    leaving = (builder: PerioderBuilder, dagen: Dayjs): void => {};
+    sykedag = (builder: PerioderBuilder, dagen: Dayjs): void => builder.byttTilstand(new Revurderingsperiode(), dagen);
+    ukjentDag = (builder: PerioderBuilder, dagen: Dayjs): void => {};
 }
