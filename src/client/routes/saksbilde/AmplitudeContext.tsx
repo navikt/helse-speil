@@ -30,6 +30,7 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
     const eventProperties = (begrunnelser: string[] | undefined = undefined) => ({
         varighet: dayjs().diff(oppgaveÅpnet),
         type: aktivVedtaksperiode.periodetype,
+        inntektskilde: aktivVedtaksperiode.inntektskilde,
         warnings: aktivVedtaksperiode.aktivitetslog,
         antallWarnings: aktivVedtaksperiode.aktivitetslog.length,
         begrunnelser: begrunnelser,

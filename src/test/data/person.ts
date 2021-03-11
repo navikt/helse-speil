@@ -13,6 +13,7 @@ import {
 import dayjs from 'dayjs';
 import { umappetSimuleringsdata } from './simulering';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
+import { Inntektskilde } from '../../types';
 
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
@@ -682,6 +683,7 @@ export const mappetPersonObject: Person = {
                     },
                     automatiskBehandlet: false,
                     beregningIder: [],
+                    inntektskilde: Inntektskilde.EnArbeidsgiver,
                 },
             ],
             utbetalingshistorikk: [],

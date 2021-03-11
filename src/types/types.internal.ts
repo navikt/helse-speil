@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
 import { UtbetalingshistorikkElement } from './types.tidslinjer';
+import { Inntektskilde } from '../types';
 
 export interface Periode {
     fom: Dayjs;
@@ -204,6 +205,7 @@ export interface Vedtaksperiode {
     overstyringer: Overstyring[];
     erNyeste: boolean;
     beregningIder: string[];
+    inntektskilde: Inntektskilde;
 }
 
 export interface Utbetalinger {
