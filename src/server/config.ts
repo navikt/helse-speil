@@ -28,7 +28,9 @@ const oidc: OidcConfig = {
     responseType: ['code'],
     redirectUrl: process.env.REDIRECT_URL,
     clientSecret: process.env.AZURE_APP_CLIENT_SECRET ?? readAzureCredential('client_secret'),
-    scope: `profile offline_access openid email ${readAzureCredential('client_id')}/.default`,
+    scope: `profile offline_access openid email ${
+        process.env.AZURE_APP_CLIENT_ID ?? readAzureCredential('client_id')
+    }/.default`,
     requiredGroup: process.env.REQUIRED_GROUP,
 };
 
