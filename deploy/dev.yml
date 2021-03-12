@@ -51,7 +51,7 @@ spec:
     enabled: true
   env:
     - name: OAUTH_SCOPE
-      value: api://dev-fss.tbd.speil/.default
+      value: dev-fss.tbd.speil/.default
     - name: DEBUG
       value: global-tunnel
     - name: REDIS_HOST
