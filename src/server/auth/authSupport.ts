@@ -17,7 +17,7 @@ const isValidIn = ({ seconds, token }: IsValidInProps) => {
 };
 
 const redirectUrl = (req: Request, oidc: OidcConfig) => {
-    return oidc.redirectUrl ?? req.protocol + '://' + req.get('Host') + '/oauth2/callback';
+    return oidc.redirectUrl ?? 'https://' + req.get('Host') + '/oauth2/callback';
 };
 
 const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: OidcConfig) => {
