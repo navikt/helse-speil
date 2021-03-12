@@ -29,21 +29,13 @@ export type TidslinjeradObject = {
     radtype?: string;
 };
 
-export interface CollapsedUtbetalingshistorikkElement {
-    ider: string[];
-    beregnettidslinje: Sykdomsdag[];
-    hendelsetidslinje: Sykdomsdag[];
-    utbetalinger: Utbetaling[];
-}
-
 const harDagtyper = (dagtyper: Dagtype[], tidslinje: Utbetalingsdag[]): boolean =>
     !!tidslinje.find((it) => dagtyper.includes(it.type));
 
 const skalViseInfoPin = (tidslinje: Utbetalingsdag[]): boolean =>
     harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode], tidslinje);
 
-const inngårINyereHistorikk = (element: Historikkelement, neste?: Historikkelement) =>
-    neste && neste.utbetalinger[neste.utbetalinger.length - 1].type === 'UTBETALING';
+const inngårINyereHistorikk = (neste?: Historikkelement) => neste && neste.erUtbetaling;
 
 export const toVedtaksperioder = (vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[]) => {
     return (
@@ -96,6 +88,7 @@ interface Historikkelement {
     beregnettidslinje: Sykdomsdag[];
     hendelsetidslinje: Sykdomsdag[];
     utbetalinger: Utbetaling[];
+    erUtbetaling: boolean;
 }
 
 const tilHistorikkelement = (element: UtbetalingshistorikkElement): Historikkelement => {
@@ -105,6 +98,7 @@ const tilHistorikkelement = (element: UtbetalingshistorikkElement): Historikkele
         beregnettidslinje: element.beregnettidslinje,
         hendelsetidslinje: element.hendelsetidslinje,
         utbetalinger: element.utbetalinger,
+        erUtbetaling: element.erUtbetaling(),
     };
 };
 
@@ -114,7 +108,7 @@ const fjernOverlappende = (utbetalingshistorikk: UtbetalingshistorikkElement[]):
         .reverse()
         .filter((it, index, alle) => {
             const nesteRad = alle[index + 1];
-            if (inngårINyereHistorikk(it, nesteRad)) {
+            if (inngårINyereHistorikk(nesteRad)) {
                 nesteRad.perioder = [...nesteRad.perioder, ...it.perioder];
                 return false;
             }

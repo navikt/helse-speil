@@ -1,23 +1,22 @@
-import { PerioderBuilder, PerioderTilstand } from './perioderBuilder';
+import { Periode, PeriodeBuilder, PerioderTilstand } from './periodeBuilder';
 import dayjs, { Dayjs } from 'dayjs';
 import { Dagtype, Sykdomsdag } from 'internal-types';
-import { Tidslinjeperiode, Utbetalingstatus } from '../../modell/UtbetalingshistorikkElement';
 
 describe('useRevurderingsrader', () => {
     test('kan utvide periode', () => {
-        const periode = Tidslinjeperiode.nyRevurderingsperiode('', dayjs('2018-01-01'), Utbetalingstatus.UTBETALT);
+        const periode = new Periode(dayjs('2018-01-01'));
         periode.extend(dayjs('2018-01-31'));
         expect(periode.tom).toEqual(dayjs('2018-01-31'));
     });
 
     test('builder add legger til periode i perioder-objektet', () => {
-        const builder = new PerioderBuilder('id', Utbetalingstatus.UTBETALT);
-        builder.add(Tidslinjeperiode.nyRevurderingsperiode('', dayjs('2018-01-01'), Utbetalingstatus.UTBETALT));
+        const builder = new PeriodeBuilder();
+        builder.add(new Periode(dayjs('2018-01-01')));
         expect(builder.perioder.length).toEqual(1);
     });
 
     test('Kan bytte tilstand', () => {
-        const builder = new PerioderBuilder('id', Utbetalingstatus.UTBETALT);
+        const builder = new PeriodeBuilder();
         builder.byttTilstand(new TestState(), dayjs('2018-01-01'));
         expect(builder.tilstand).toBeInstanceOf(TestState);
     });
@@ -25,7 +24,7 @@ describe('useRevurderingsrader', () => {
     test('Tom tidslinje', () => {
         const tidslinje: Sykdomsdag[] = [];
 
-        const builder = new PerioderBuilder('id', Utbetalingstatus.UTBETALT);
+        const builder = new PeriodeBuilder();
         builder.build(tidslinje);
         expect(builder.perioder.length).toEqual(0);
     });
@@ -38,7 +37,7 @@ describe('useRevurderingsrader', () => {
             },
         ];
 
-        const builder = new PerioderBuilder('id', Utbetalingstatus.UTBETALT);
+        const builder = new PeriodeBuilder();
         builder.build(tidslinje);
         expect(builder.perioder.length).toEqual(1);
     });
@@ -55,7 +54,7 @@ describe('useRevurderingsrader', () => {
             },
         ];
 
-        const builder = new PerioderBuilder('id', Utbetalingstatus.UTBETALT);
+        const builder = new PeriodeBuilder();
         builder.build(tidslinje);
         expect(builder.perioder.length).toEqual(1);
     });
@@ -76,7 +75,7 @@ describe('useRevurderingsrader', () => {
             },
         ];
 
-        const builder = new PerioderBuilder('id', Utbetalingstatus.UTBETALT);
+        const builder = new PeriodeBuilder();
         builder.build(tidslinje);
         expect(builder.perioder.length).toEqual(2);
     });
@@ -101,16 +100,16 @@ describe('useRevurderingsrader', () => {
             },
         ];
 
-        const builder = new PerioderBuilder('id', Utbetalingstatus.UTBETALT);
+        const builder = new PeriodeBuilder();
         builder.build(tidslinje);
         expect(builder.perioder.length).toEqual(2);
     });
 });
 
 class TestState implements PerioderTilstand {
-    entering = (builder: PerioderBuilder, dagen: Dayjs): void => {};
-    leaving = (builder: PerioderBuilder, dagen: Dayjs): void => {};
-    sykedag = (builder: PerioderBuilder, dagen: Dayjs): void => {};
-    ukjentDag = (builder: PerioderBuilder, dagen: Dayjs): void => {};
-    vedtaksperiodeDag = (builder: PerioderBuilder, dagen: Dayjs): void => {};
+    entering = (builder: PeriodeBuilder, dagen: Dayjs): void => {};
+    leaving = (builder: PeriodeBuilder, dagen: Dayjs): void => {};
+    sykedag = (builder: PeriodeBuilder, dagen: Dayjs): void => {};
+    ukjentDag = (builder: PeriodeBuilder, dagen: Dayjs): void => {};
+    vedtaksperiodeDag = (builder: PeriodeBuilder, dagen: Dayjs): void => {};
 }
