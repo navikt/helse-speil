@@ -10,15 +10,14 @@ export interface Helsesjekk {
 }
 
 export interface OidcConfig {
-    providerBaseUrl: string;
+    wellKnownEndpoint: string;
+    tokenEndpoint: string;
     clientID: string;
     clientIDSpesialist: string;
     responseType: ResponseType[];
-    redirectUrl: string;
+    redirectUrl?: string;
     clientSecret: string;
-    issuer: string[];
     scope: string;
-    tenantID?: string;
     requiredGroup?: string;
 }
 

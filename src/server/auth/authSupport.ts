@@ -17,12 +17,7 @@ const isValidIn = ({ seconds, token }: IsValidInProps) => {
 };
 
 const redirectUrl = (req: Request, oidc: OidcConfig) => {
-    const hostHeader = req.get('Host');
-    if (hostHeader?.startsWith('localhost')) {
-        return 'http://' + hostHeader + '/callback';
-    } else {
-        return oidc.redirectUrl;
-    }
+    return oidc.redirectUrl ?? req.protocol + '://' + req.get('Host') + '/oauth2/callback';
 };
 
 const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: OidcConfig) => {
@@ -48,7 +43,7 @@ const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: Oi
 
             const requiredGroup = config.requiredGroup;
             const username = valueFromClaim('name', idToken);
-            if (accessToken && isMemberOf(accessToken, requiredGroup)) {
+            if (accessToken && (requiredGroup === undefined || isMemberOf(accessToken, requiredGroup))) {
                 logger.info(`User ${username} has been authenticated, from IP address ${ipAddressFromRequest(req)}`);
                 return [accessToken, idToken, refreshToken];
             } else {

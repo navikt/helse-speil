@@ -14,13 +14,13 @@ const setup = (config: OidcConfig) => {
             resolve();
         }
 
-        Issuer.discover(`${config.providerBaseUrl}/v2.0/.well-known/openid-configuration`)
+        Issuer.discover(config.wellKnownEndpoint)
             .then((azure) => {
                 logger.info(`Discovered issuer ${azure.issuer}`);
                 azureClient = new azure.Client({
                     client_id: config.clientID,
                     client_secret: config.clientSecret,
-                    redirect_uris: [config.redirectUrl, 'http://localhost:3000'],
+                    redirect_uris: config.redirectUrl !== undefined ? [config.redirectUrl] : [],
                     response_types: ['code'],
                 });
 

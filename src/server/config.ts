@@ -17,16 +17,19 @@ const readAzureCredential = (name: string): string => {
 
 env.config();
 
+const speilScope = process.env.OAUTH_SCOPE ?? `${readAzureCredential('client_id')}/.default`;
+const providerBaseUrl = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID ?? process.env.TENANT_ID}`;
+
 const oidc: OidcConfig = {
-    tenantID: process.env.TENANT_ID,
-    providerBaseUrl: `https://login.microsoftonline.com/${process.env.TENANT_ID}`,
-    clientID: readAzureCredential('client_id'),
+    wellKnownEndpoint:
+        process.env.AZURE_APP_WELL_KNOWN_URL ?? `${providerBaseUrl}/v2.0/.well-known/openid-configuration`,
+    tokenEndpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT ?? `${providerBaseUrl}/oauth2/v2.0/token`,
+    clientID: process.env.AZURE_APP_CLIENT_ID ?? readAzureCredential('client_id'),
     clientIDSpesialist: process.env.CLIENT_ID_SPESIALIST || 'unknown',
     responseType: ['code'],
-    redirectUrl: process.env.REDIRECT_URL || 'http://localhost',
-    clientSecret: readAzureCredential('client_secret'),
-    issuer: [`https://login.microsoftonline.com/${process.env.TENANT_ID}/v2.0`],
-    scope: `profile offline_access openid email ${readAzureCredential('client_id')}/.default`,
+    redirectUrl: process.env.REDIRECT_URL,
+    clientSecret: process.env.AZURE_APP_CLIENT_SECRET ?? readAzureCredential('client_secret'),
+    scope: `profile offline_access openid email ${speilScope}`,
     requiredGroup: process.env.REQUIRED_GROUP,
 };
 

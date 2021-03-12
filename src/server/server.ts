@@ -75,7 +75,13 @@ const setUpAuthentication = () => {
     });
 
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.post('/callback', (req: SpeilRequest, res: Response) => {
+
+    app.post('/callback', handleAuthCallback());
+    app.post('/oauth2/callback', handleAuthCallback());
+};
+
+function handleAuthCallback() {
+    return (req: SpeilRequest, res: Response) => {
         const session = req.session;
         auth.validateOidcCallback(req, azureClient!, config.oidc)
             .then((tokens: string[]) => {
@@ -94,8 +100,8 @@ const setUpAuthentication = () => {
                 session.destroy(() => {});
                 res.sendStatus(403);
             });
-    });
-};
+    };
+}
 
 setUpAuthentication();
 

@@ -51,4 +51,4 @@ spec:
     - name: REDIS_PORT
       value: '6379'
     - name: CLIENT_ID_SPESIALIST
-      value: c0430474-9abb-4062-9974-0dfe6a375046
+      value: api://c0430474-9abb-4062-9974-0dfe6a375046/.default

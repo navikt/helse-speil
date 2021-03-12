@@ -35,17 +35,23 @@ spec:
       memory: 128Mi
   prometheus:
     enabled: true
+  azure:
+    application:
+      enabled: true
+      claims:
+        extra:
+          - "NAVident"
+        groups:
+          - id: "611669fa-de5c-4dc2-a0e8-6041a019992a"
+          - id: "f787f900-6697-440d-a086-d5bb56e26a9c"
   vault:
     enabled: true
-    paths:
-      - mountPath: /var/run/secrets/nais.io/azure
-        kvPath: /azuread/data/dev/creds/helse-speil
   webproxy: true
   secureLogs:
     enabled: true
   env:
-    - name: REDIRECT_URL
-      value: https://speil.dev.intern.nav.no/callback
+    - name: OAUTH_SCOPE
+      value: api://dev-fss.tbd.speil/.default
     - name: DEBUG
       value: global-tunnel
     - name: REDIS_HOST
@@ -53,4 +59,4 @@ spec:
     - name: REDIS_PORT
       value: '6379'
     - name: CLIENT_ID_SPESIALIST
-      value: 59a28456-4992-492f-97f2-f03838f23c5b
+      value: api://dev-fss.tbd.spesialist/.default

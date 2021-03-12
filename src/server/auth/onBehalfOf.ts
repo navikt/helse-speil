@@ -17,7 +17,7 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
             counter.inc(targetClientId);
 
             const options = {
-                uri: `${config.providerBaseUrl}/oauth2/v2.0/token`,
+                uri: config.tokenEndpoint,
                 json: true,
                 method: 'POST',
                 form: {
@@ -25,7 +25,7 @@ export default (config: OidcConfig, instrumentation: Instrumentation) => {
                     client_id: config.clientID, // our own
                     client_secret: config.clientSecret,
                     assertion: accessToken,
-                    scope: `api://${targetClientId}/.default`, // the app we're reaching out to
+                    scope: targetClientId, // the app we're reaching out to
                     requested_token_use: 'on_behalf_of',
                 },
             };
