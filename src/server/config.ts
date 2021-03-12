@@ -17,7 +17,6 @@ const readAzureCredential = (name: string): string => {
 
 env.config();
 
-const speilScope = process.env.OAUTH_SCOPE ?? `${readAzureCredential('client_id')}/.default`;
 const providerBaseUrl = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID ?? process.env.TENANT_ID}`;
 
 const oidc: OidcConfig = {
@@ -29,7 +28,7 @@ const oidc: OidcConfig = {
     responseType: ['code'],
     redirectUrl: process.env.REDIRECT_URL,
     clientSecret: process.env.AZURE_APP_CLIENT_SECRET ?? readAzureCredential('client_secret'),
-    scope: `profile offline_access openid email ${speilScope}`,
+    scope: `profile offline_access openid email ${readAzureCredential('client_id')}/.default`,
     requiredGroup: process.env.REQUIRED_GROUP,
 };
 
