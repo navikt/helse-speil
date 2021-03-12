@@ -17,7 +17,7 @@ const readAzureCredential = (name: string): string => {
 
 env.config();
 
-const speilScope = process.env.OAUTH_SCOPE ?? `${readAzureCredential('client_id')}/.default`;
+const speilScope = fs.existsSync(`${AZURE_PATH}/client_id`) ? `${readAzureCredential('client_id')}/.default` : '';
 const providerBaseUrl = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID ?? process.env.TENANT_ID}`;
 
 const oidc: OidcConfig = {
