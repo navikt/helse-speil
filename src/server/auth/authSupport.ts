@@ -33,9 +33,7 @@ const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: Oi
         .callback(redirectUrl(req, config), params, { nonce, state })
         .catch((err) => Promise.reject(`error in oidc callback: ${err}`))
         .then(async (tokenSet: TokenSet) => {
-            if (process.env.NAIS_CLUSTER_NAME !== undefined && process.env.NAIS_CLUSTER_NAME === 'dev-fss') {
-                logger.audit(`oidc callback, req = ${JSON.stringify(req)}, tokenSet = ${JSON.stringify(tokenSet)}`);
-            }
+            logger.audit(`oidc callback, req = ${JSON.stringify(req)}, tokenSet = ${JSON.stringify(tokenSet)}`);
             const [accessToken, idToken, refreshToken] = await retrieveTokens(
                 tokenSet,
                 'access_token',
