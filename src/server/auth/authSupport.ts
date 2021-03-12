@@ -33,9 +33,6 @@ const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: Oi
         .callback(redirectUrl(req, config), params, { nonce, state })
         .catch((err) => Promise.reject(`error in oidc callback: ${err}`))
         .then(async (tokenSet: TokenSet) => {
-            logger.audit(
-                `oidc callback, req = ${JSON.stringify(req.rawHeaders)}, tokenSet = ${JSON.stringify(tokenSet)}`
-            );
             const [accessToken, idToken, refreshToken] = await retrieveTokens(
                 tokenSet,
                 'access_token',
