@@ -10,14 +10,14 @@ const stdoutLogger = winston.createLogger({
     format: winston.format.json(),
     transports: [
         new winston.transports.Console({
-            format: winston.format.logstash(),
+            format: winston.format.json(),
         }),
     ],
 });
 
 const auditLogger = winston.createLogger({
     level: 'info',
-    format: winston.format.logstash(),
+    format: winston.format.json(),
     transports: [new winston.transports.File({ filename: auditLogPath(), maxsize: 5242880 })],
 });
 
