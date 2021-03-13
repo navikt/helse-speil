@@ -98,13 +98,37 @@ const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
 };
 
 const auditLog = (req: SpeilRequest, ...params: string[]) => {
-    logger.audit(`${speilUser(req)} is doing lookup with params: ${params.join(', ')}`);
+    logger.audit(`${speilUser(req)} is doing lookup with params: ${params.join(', ')}`, {
+        headers: req.headers,
+        method: req.method,
+        url: req.url,
+        httpVersion: req.httpVersion,
+        path: req.path,
+        protocol: req.protocol,
+        query: req.query,
+        hostname: req.hostname,
+        ip: req.ip,
+        originalUrl: req.originalUrl,
+        params: req.params,
+    });
 };
 
 export const speilUser = (req: SpeilRequest) => authSupport.valueFromClaim('name', req.session.speilToken);
 
 const auditLogOversikt = (req: SpeilRequest) => {
-    logger.audit(`${speilUser(req)} is viewing front page`);
+    logger.audit(`${speilUser(req)} is viewing front page`, {
+        headers: req.headers,
+        method: req.method,
+        url: req.url,
+        httpVersion: req.httpVersion,
+        path: req.path,
+        protocol: req.protocol,
+        query: req.query,
+        hostname: req.hostname,
+        ip: req.ip,
+        originalUrl: req.originalUrl,
+        params: req.params,
+    });
 };
 
 module.exports = {
