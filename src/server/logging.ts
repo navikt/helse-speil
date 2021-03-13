@@ -8,11 +8,7 @@ const auditLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secur
 const stdoutLogger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
-    transports: [
-        new winston.transports.Console({
-            format: winston.format.json(),
-        }),
-    ],
+    transports: [new winston.transports.Console()],
 });
 
 const auditLogger = winston.createLogger({
