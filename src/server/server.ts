@@ -119,7 +119,7 @@ app.use('/*', async (req: SpeilRequest, res, next) => {
             (await auth.refreshAccessToken(azureClient!, req.session!))
         ) {
             const url = req?.originalUrl?.split('/') ?? [];
-            logger.audit(`Someone is making request to ${url.slice(0, url.length - 1).join()}`);
+            logger.sikker.info(`Someone is making request to ${url.slice(0, url.length - 1).join()}`);
 
             next();
         } else {

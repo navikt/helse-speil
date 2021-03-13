@@ -1,5 +1,6 @@
 import redis from 'redis';
 import { Helsesjekk, RedisConfig } from './types';
+import logger from './logging';
 
 const init = (config: RedisConfig, helsesjekk: Helsesjekk) => {
     const redisClient = redis.createClient({
@@ -8,17 +9,17 @@ const init = (config: RedisConfig, helsesjekk: Helsesjekk) => {
         password: config.password,
     });
     redisClient.on('connect', () => {
-        console.log('Redis client connected');
+        logger.info('Redis client connected');
     });
 
     redisClient.on('ready', () => {
         helsesjekk.redis = true;
-        console.log('Redis client ready');
+        logger.info('Redis client ready');
     });
 
     redisClient.on('error', (err) => {
         helsesjekk.redis = false;
-        console.log('Redis error: ', err);
+        logger.error('Redis error: ', err);
     });
 
     return redisClient;

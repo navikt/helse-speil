@@ -15,7 +15,8 @@ export default ({ opptegnelseClient }: SetupOptions) => {
             .abonnerPåAktør(req.session!.speilToken, req.params['aktorId'])
             .then(() => res.sendStatus(200))
             .catch((err) => {
-                logger.error(`Feil under abonnering på aktør: ${err}`);
+                logger.error(`Feil under abonnering på aktør (se sikkerLogg for detaljer)`);
+                logger.sikker.error(`Feil under abonnering på aktør: ${err}`, { error: err });
                 res.status(500).send('Feil under abonnering på aktør');
             });
     });
@@ -25,7 +26,8 @@ export default ({ opptegnelseClient }: SetupOptions) => {
             .getAlleOpptegnelser(req.session!.speilToken)
             .then((it) => res.status(200).send(it.body))
             .catch((err) => {
-                logger.error(`Feil under henting av opptegnelser: ${err}`);
+                logger.error(`Feil under henting av opptegnelser (se sikkerLogg for detaljer)`);
+                logger.sikker.error(`Feil under henting av opptegnelser: ${err}`, { error: err });
                 res.status(500).send('Feil under henting av opptegnelser');
             });
     });
@@ -35,7 +37,8 @@ export default ({ opptegnelseClient }: SetupOptions) => {
             .getOpptegnelser(req.session!.speilToken, Number(req.params['sisteSekvensId']))
             .then((it) => res.status(200).send(it.body))
             .catch((err) => {
-                logger.error(`Feil under henting av opptegnelser med sisteSekvensId: ${err}`);
+                logger.error(`Feil under henting av opptegnelser med sisteSekvensId (se sikkerLogg for detaljer)`);
+                logger.sikker.error(`Feil under henting av opptegnelser med sisteSekvensId: ${err}`, { error: err });
                 res.status(500).send('Feil under henting av opptegnelser med sisteSekvensId');
             });
     });
