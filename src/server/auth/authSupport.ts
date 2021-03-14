@@ -2,7 +2,7 @@ import logger from '../logging';
 import { ipAddressFromRequest } from '../requestData';
 import { Request } from 'express';
 import { Client, TokenSet } from 'openid-client';
-import { OidcConfig, SpeilRequest, SpeilSession } from '../types';
+import { AuthError, OidcConfig, SpeilRequest, SpeilSession } from '../types';
 import { speilUser } from '../person/personLookup';
 
 interface IsValidInProps {
@@ -18,12 +18,22 @@ const isValidIn = ({ seconds, token }: IsValidInProps) => {
 };
 
 const redirectUrl = (req: Request, oidc: OidcConfig) => {
+    if (process.env.NODE_ENV === 'development') return 'http://localhost:3000/oauth2/callback';
     return oidc.redirectUrl ?? 'https://' + req.get('Host') + '/oauth2/callback';
+};
+
+const authError = (statusCode: number, reason: string, cause?: any): AuthError => {
+    return {
+        name: 'auth_error',
+        message: reason,
+        statusCode: statusCode,
+        cause: cause,
+    };
 };
 
 const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: OidcConfig) => {
     if (req.body.code === undefined) {
-        return Promise.reject('missing data in POST after login');
+        return Promise.reject(authError(400, 'missing data in POST after login'));
     }
     const params = azureClient.callbackParams(req);
     const nonce = req.session!.nonce;
@@ -31,43 +41,31 @@ const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: Oi
 
     return azureClient
         .callback(redirectUrl(req, config), params, { nonce, state })
-        .catch((err) => Promise.reject(`error in oidc callback: ${err}`))
-        .then(async (tokenSet: TokenSet) => {
-            const [accessToken, idToken, refreshToken] = await retrieveTokens(
-                tokenSet,
-                'access_token',
-                'id_token',
-                'refresh_token'
-            ).catch((errorMessages) => {
-                return Promise.reject(errorMessages);
-            });
-
+        .catch((err) => Promise.reject(authError(500, `Azure error: ${err.error_description}`, err)))
+        .then((tokenSet: TokenSet) => retrieveTokens(tokenSet, 'access_token', 'id_token', 'refresh_token'))
+        .then(([accessToken, idToken, refreshToken]) => {
             const requiredGroup = config.requiredGroup;
-            const username = valueFromClaim('name', idToken);
-            if (accessToken && (requiredGroup === undefined || isMemberOf(accessToken, requiredGroup))) {
-                logger.info(`User ${username} has been authenticated, from IP address ${ipAddressFromRequest(req)}`);
-                return [accessToken, idToken, refreshToken];
-            } else {
-                return Promise.reject(`'${username}' is not member of '${requiredGroup}', denying access`);
+            const username = valueFromClaim('name', idToken as string);
+            if (requiredGroup !== undefined && !isMemberOf(accessToken as string, requiredGroup)) {
+                return Promise.reject(
+                    authError(403, `'${username}' is not member of '${requiredGroup}', denying access`)
+                );
             }
+
+            logger.info(`User ${username} has been authenticated, from IP address ${ipAddressFromRequest(req)}`);
+            return [accessToken, idToken, refreshToken];
         });
 };
 
 const retrieveTokens = (tokenSet: TokenSet, ...tokenKeys: string[]): Promise<string[]> => {
     const tokens = tokenKeys.map((key) => tokenSet[key]);
-    const errorMessages = checkAzureResponseContainsTokens(tokenSet, ...tokenKeys);
-
-    if (errorMessages.length > 0) {
-        return Promise.reject(`Access denied: ${errorMessages.join(' ')}`);
+    for (let key of tokenKeys) {
+        if (tokenSet[key] === undefined) {
+            return Promise.reject(authError(500, `Missing ${key} in response from Azure AD.`));
+        }
     }
-
     return Promise.resolve(tokens as string[]);
 };
-
-const checkAzureResponseContainsTokens = (tokenSet: TokenSet, ...tokens: string[]) =>
-    [...tokens]
-        .filter((tokenName) => tokenSet[tokenName] === undefined)
-        .map((tokenName) => `Missing ${[tokenName]} in response from Azure AD.`);
 
 const isMemberOf = (token: string, group?: string) => {
     const claims = claimsFrom(token);

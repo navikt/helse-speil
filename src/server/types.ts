@@ -62,3 +62,8 @@ export interface SpeilSession extends Session {
 export interface SpeilRequest extends Request {
     session: SpeilSession;
 }
+
+export interface AuthError extends Error {
+    statusCode: number;
+    cause?: any;
+}

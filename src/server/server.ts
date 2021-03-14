@@ -18,7 +18,7 @@ import person from './person/personRoutes';
 import paymentRoutes from './payment/paymentRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
 import tildelingRoutes from './tildeling/tildelingRoutes';
-import { SpeilRequest } from './types';
+import { AuthError, SpeilRequest } from './types';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
 import oppgaveRoutes from './leggpåvent/leggPåVentRoutes';
 
@@ -95,10 +95,11 @@ function handleAuthCallback() {
                 session.user = auth.valueFromClaim('NAVident', idToken);
                 res.redirect(303, '/');
             })
-            .catch((err: Error) => {
-                logger.error(err.message, err);
+            .catch((err: AuthError) => {
+                logger.error(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
+                logger.sikker.error(`Error caught during login: ${err.message}`, err);
                 session.destroy(() => {});
-                res.sendStatus(403);
+                res.sendStatus(err.statusCode);
             });
     };
 }
