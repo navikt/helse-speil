@@ -38,6 +38,7 @@ spec:
   azure:
     application:
       enabled: true
+      tenant: nav.no
       claims:
         extra:
           - "NAVident"
@@ -50,8 +51,6 @@ spec:
   secureLogs:
     enabled: true
   env:
-    - name: OAUTH_SCOPE
-      value: dev-fss.tbd.speil/.default
     - name: DEBUG
       value: global-tunnel
     - name: REDIS_HOST
