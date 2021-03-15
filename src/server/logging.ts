@@ -2,6 +2,8 @@
 
 import winston from 'winston';
 import fs from 'fs';
+import { SpeilRequest } from './types';
+import authSupport from './auth/authSupport';
 
 const sikkerLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log');
 
@@ -41,6 +43,24 @@ const sikkerError = (message: string, ...meta: any[]) => {
     sikkerLogger.error(message, ...meta);
 };
 
+const requestMeta = (req: SpeilRequest) => {
+    return {
+        speilUser: authSupport.valueFromClaim('name', req.session.speilToken),
+        navIdent: authSupport.valueFromClaim('NAVident', req.session.speilToken),
+        headers: req.headers,
+        method: req.method,
+        url: req.url,
+        httpVersion: req.httpVersion,
+        path: req.path,
+        protocol: req.protocol,
+        query: req.query,
+        hostname: req.hostname,
+        ip: req.ip,
+        originalUrl: req.originalUrl,
+        params: req.params,
+    };
+};
+
 export default {
     info,
     warning,
@@ -50,4 +70,5 @@ export default {
         warning: sikkerWarning,
         error: sikkerError,
     },
+    requestMeta,
 };

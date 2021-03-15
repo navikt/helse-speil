@@ -3,7 +3,6 @@ import { ipAddressFromRequest } from '../requestData';
 import { Request } from 'express';
 import { Client, TokenSet } from 'openid-client';
 import { AuthError, OidcConfig, SpeilRequest, SpeilSession } from '../types';
-import { speilUser } from '../person/personLookup';
 
 interface IsValidInProps {
     seconds: number;

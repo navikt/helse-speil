@@ -31,7 +31,7 @@ const finnPerson = async (req: SpeilRequest, res: Response) => {
     if (!undeterminedId) {
         logger.error(`Missing header '${personIdHeaderName}' in request`);
         logger.sikker.error(`Missing header '${personIdHeaderName}' in request`, {
-            request: requestMeta(req),
+            request: logger.requestMeta(req),
         });
         res.status(400).send(`Påkrevd header '${personIdHeaderName}' mangler`);
         return;
@@ -58,7 +58,7 @@ const finnPerson = async (req: SpeilRequest, res: Response) => {
                 `[${speilUser(req)}] Error during data fetching for finnPerson: ${JSON.stringify(err)}`,
                 {
                     error: err,
-                    request: requestMeta(req),
+                    request: logger.requestMeta(req),
                 }
             );
             res.sendStatus(err.status || 503);
@@ -105,37 +105,20 @@ const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
             logger.error(`[${speilUser(req)}] Error during data fetching for oversikt: (se sikkerLogg for detaljer)`);
             logger.sikker.error(`[${speilUser(req)}] Error during data fetching for oversikt: ${JSON.stringify(err)}`, {
                 error: err,
-                request: requestMeta(req),
+                request: logger.requestMeta(req),
             });
             res.sendStatus(err.status || 503);
         });
 };
 
 const auditLog = (req: SpeilRequest, ...params: string[]) => {
-    logger.sikker.info(`${speilUser(req)} is doing lookup with params: ${params.join(', ')}`, requestMeta(req));
+    logger.sikker.info(`${speilUser(req)} is doing lookup with params: ${params.join(', ')}`, logger.requestMeta(req));
 };
 
-export const speilUser = (req: SpeilRequest) => authSupport.valueFromClaim('name', req.session.speilToken);
+const speilUser = (req: SpeilRequest) => authSupport.valueFromClaim('name', req.session.speilToken);
 
 const auditLogOversikt = (req: SpeilRequest) => {
-    logger.sikker.info(`${speilUser(req)} is viewing front page`, requestMeta(req));
-};
-
-const requestMeta = (req: SpeilRequest) => {
-    return {
-        speilUser: speilUser(req),
-        headers: req.headers,
-        method: req.method,
-        url: req.url,
-        httpVersion: req.httpVersion,
-        path: req.path,
-        protocol: req.protocol,
-        query: req.query,
-        hostname: req.hostname,
-        ip: req.ip,
-        originalUrl: req.originalUrl,
-        params: req.params,
-    };
+    logger.sikker.info(`${speilUser(req)} is viewing front page`, logger.requestMeta(req));
 };
 
 module.exports = {
