@@ -19,6 +19,7 @@ export interface OidcConfig {
     clientSecret: string;
     scope: string;
     requiredGroup?: string;
+    logoutUrl: string;
 }
 
 export interface ServerConfig {

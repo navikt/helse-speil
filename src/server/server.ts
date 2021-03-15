@@ -73,6 +73,11 @@ const setUpAuthentication = () => {
         });
         res.redirect(url);
     });
+    app.get('/logout', (req: SpeilRequest, res: Response) => {
+        req.session.destroy(() => {});
+        res.clearCookie('speil');
+        res.redirect(302, config.oidc.logoutUrl);
+    });
 
     app.use(bodyParser.urlencoded({ extended: false }));
 

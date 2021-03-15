@@ -33,6 +33,7 @@ const oidc: OidcConfig = {
         process.env.AZURE_APP_CLIENT_ID ?? readAzureCredential('client_id')
     }/.default`,
     requiredGroup: process.env.REQUIRED_GROUP,
+    logoutUrl: process.env.LOGOUT_URL ?? 'https://navno.sharepoint.com/sites/intranett',
 };
 
 const server: ServerConfig = {
