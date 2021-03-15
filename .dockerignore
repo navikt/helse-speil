@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Allow files and directories
+!/node_modules/*
+!/dist/*
+!/wiki.json
+
+# Ignore inside allowed directory
+node_modules/@snyk
