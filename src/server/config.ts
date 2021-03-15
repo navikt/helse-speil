@@ -2,37 +2,17 @@
 
 import { OidcConfig, ServerConfig } from './types';
 import env from 'dotenv';
-import fs from 'fs';
-import logger from './logging';
-
-const AZURE_PATH = '/var/run/secrets/nais.io/azure';
-
-const readAzureCredential = (name: string): string => {
-    try {
-        return fs.readFileSync(`${AZURE_PATH}/${name}`, { encoding: 'utf-8', flag: 'r' });
-    } catch (e) {
-        logger.info(`Fant ikke ${name} i ${AZURE_PATH}, defaulter til 'unknown'`);
-        return 'unknown';
-    }
-};
 
 env.config();
 
-const providerBaseUrl = `https://login.microsoftonline.com/${process.env.AZURE_APP_TENANT_ID ?? process.env.TENANT_ID}`;
-
 const oidc: OidcConfig = {
-    wellKnownEndpoint:
-        process.env.AZURE_APP_WELL_KNOWN_URL ?? `${providerBaseUrl}/v2.0/.well-known/openid-configuration`,
-    tokenEndpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT ?? `${providerBaseUrl}/oauth2/v2.0/token`,
-    clientID: process.env.AZURE_APP_CLIENT_ID ?? readAzureCredential('client_id'),
+    wellKnownEndpoint: process.env.AZURE_APP_WELL_KNOWN_URL || 'unknown',
+    tokenEndpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT || 'unknown',
+    clientID: process.env.AZURE_APP_CLIENT_ID || 'unknown',
     clientIDSpesialist: process.env.CLIENT_ID_SPESIALIST || 'unknown',
     responseType: ['code'],
-    redirectUrl: process.env.REDIRECT_URL,
-    clientSecret: process.env.AZURE_APP_CLIENT_SECRET ?? readAzureCredential('client_secret'),
-    scope: `profile offline_access openid email ${
-        process.env.AZURE_APP_CLIENT_ID ?? readAzureCredential('client_id')
-    }/.default`,
-    requiredGroup: process.env.REQUIRED_GROUP,
+    clientSecret: process.env.AZURE_APP_CLIENT_SECRET || 'unknown',
+    scope: `profile offline_access openid email ${process.env.AZURE_APP_CLIENT_ID}/.default`,
     logoutUrl: process.env.LOGOUT_URL ?? 'https://navno.sharepoint.com/sites/intranett',
 };
 

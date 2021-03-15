@@ -16,9 +16,9 @@ const isValidIn = ({ seconds, token }: IsValidInProps) => {
     return timeToCheck < expirationTime;
 };
 
-const redirectUrl = (req: Request, oidc: OidcConfig) => {
+const redirectUrl = (req: Request) => {
     if (process.env.NODE_ENV === 'development') return 'http://localhost:3000/oauth2/callback';
-    return oidc.redirectUrl ?? 'https://' + req.get('Host') + '/oauth2/callback';
+    return 'https://' + req.get('Host') + '/oauth2/callback';
 };
 
 const authError = (statusCode: number, reason: string, cause?: any): AuthError => {
@@ -39,18 +39,11 @@ const validateOidcCallback = (req: SpeilRequest, azureClient: Client, config: Oi
     const state = req.session!.state;
 
     return azureClient
-        .callback(redirectUrl(req, config), params, { nonce, state })
+        .callback(redirectUrl(req), params, { nonce, state })
         .catch((err) => Promise.reject(authError(500, `Azure error: ${err.error_description}`, err)))
         .then((tokenSet: TokenSet) => retrieveTokens(tokenSet, 'access_token', 'id_token', 'refresh_token'))
         .then(([accessToken, idToken, refreshToken]) => {
-            const requiredGroup = config.requiredGroup;
             const username = valueFromClaim('name', idToken as string);
-            if (requiredGroup !== undefined && !isMemberOf(accessToken as string, requiredGroup)) {
-                return Promise.reject(
-                    authError(403, `'${username}' is not member of '${requiredGroup}', denying access`)
-                );
-            }
-
             logger.info(`User ${username} has been authenticated, from IP address ${ipAddressFromRequest(req)}`);
             return [accessToken, idToken, refreshToken];
         });

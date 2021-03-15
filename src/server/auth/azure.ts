@@ -20,7 +20,7 @@ const setup = (config: OidcConfig) => {
                 azureClient = new azure.Client({
                     client_id: config.clientID,
                     client_secret: config.clientSecret,
-                    redirect_uris: config.redirectUrl !== undefined ? [config.redirectUrl] : [],
+                    redirect_uris: [],
                     response_types: ['code'],
                 });
 

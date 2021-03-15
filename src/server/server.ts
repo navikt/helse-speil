@@ -64,7 +64,7 @@ const setUpAuthentication = () => {
         session.state = generators.state();
         const url = azureClient!.authorizationUrl({
             scope: config.oidc.scope,
-            redirect_uri: auth.redirectUrl(req, config.oidc),
+            redirect_uri: auth.redirectUrl(req),
             response_type: config.oidc.responseType[0],
             prompt: 'select_account',
             response_mode: 'form_post',
@@ -81,12 +81,7 @@ const setUpAuthentication = () => {
 
     app.use(bodyParser.urlencoded({ extended: false }));
 
-    app.post('/callback', handleAuthCallback());
-    app.post('/oauth2/callback', handleAuthCallback());
-};
-
-function handleAuthCallback() {
-    return (req: SpeilRequest, res: Response) => {
+    app.post('/oauth2/callback', (req: SpeilRequest, res: Response) => {
         const session = req.session;
         auth.validateOidcCallback(req, azureClient!, config.oidc)
             .then((tokens: string[]) => {
@@ -106,8 +101,8 @@ function handleAuthCallback() {
                 session.destroy(() => {});
                 res.sendStatus(err.statusCode);
             });
-    };
-}
+    });
+};
 
 setUpAuthentication();
 

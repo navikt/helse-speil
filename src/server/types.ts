@@ -15,10 +15,8 @@ export interface OidcConfig {
     clientID: string;
     clientIDSpesialist: string;
     responseType: ResponseType[];
-    redirectUrl?: string;
     clientSecret: string;
     scope: string;
-    requiredGroup?: string;
     logoutUrl: string;
 }
 
