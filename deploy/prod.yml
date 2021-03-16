@@ -2,7 +2,7 @@ apiVersion: nais.io/v1alpha1
 kind: Application
 metadata:
   name: {{app}}
-  namespace: tbd
+  namespace: {{team}}
   labels:
     team: {{team}}
 spec:
@@ -43,11 +43,12 @@ spec:
         groups:
           - id: "611669fa-de5c-4dc2-a0e8-6041a019992a"
           - id: "f787f900-6697-440d-a086-d5bb56e26a9c"
-  vault:
-    enabled: true
   webproxy: true
   secureLogs:
     enabled: true
+  envFrom:
+    - secret: speil
+    - secret: speil-redis
   env:
     - name: DEBUG
       value: global-tunnel

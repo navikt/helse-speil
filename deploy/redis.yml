@@ -4,7 +4,7 @@ metadata:
   labels:
     team: {{team}}
   name: {{app}}-redis
-  namespace: tbd
+  namespace: {{team}}
 spec:
   image: navikt/secure-redis:5.0.3-alpine-2
   port: 6379
@@ -20,5 +20,5 @@ spec:
       memory: 256Mi
   service:
     port: 6379
-  vault:
-    enabled: true
+  envFrom:
+    - secret: speil-redis
