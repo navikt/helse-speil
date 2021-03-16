@@ -6,7 +6,7 @@ metadata:
   name: {{app}}-redis
   namespace: {{team}}
 spec:
-  image: navikt/secure-redis:5.0.3-alpine-2
+  image: bitnami/redis:6.2
   port: 6379
   replicas:
     max: 1
@@ -20,5 +20,6 @@ spec:
       memory: 256Mi
   service:
     port: 6379
+    protocol: redis
   envFrom:
     - secret: speil-redis
