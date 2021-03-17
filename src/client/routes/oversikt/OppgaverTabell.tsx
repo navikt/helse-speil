@@ -95,6 +95,8 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     const aktiveFiltere = useRecoilValue(filtreringState);
 
     const headere = [
+        { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
+        { render: '' },
         {
             render: 'Sakstype',
             filtere: [
@@ -113,8 +115,6 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
         { render: 'Opprettet', sortFunction: sorterDateString },
         { render: 'Bosted', sortFunction: sorterTekstAlfabetisk },
         { render: 'Status', sortFunction: sorterTall },
-        { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
-        { render: '' },
     ];
 
     const rader = oppgaver.map(tilOversiktsrad);

@@ -135,15 +135,23 @@ const Status = ({ oppgave }: { oppgave: Oppgave }) => (
     </CellContainer>
 );
 
+const TildeltMedSkjultSakslenke = ({ oppgave }: { oppgave: Oppgave }) => (
+    <CellContainer width={160}>
+        <Tildelt oppgave={oppgave as TildeltOppgave} />
+        <SkjultSakslenke oppgave={oppgave} />
+    </CellContainer>
+);
+
 export const tilOversiktsrad = (oppgave: Oppgave): Tabellrad => ({
     celler: [
+        oppgave,
+        oppgave,
         oppgave.periodetype,
         oppgave,
         oppgave.inntektskilde,
         oppgave.opprettet,
         oppgave.boenhet.navn,
         oppgave.antallVarsler,
-        oppgave,
     ],
     id: oppgave.oppgavereferanse,
 });
@@ -154,14 +162,22 @@ export const renderer = (rad: Tabellrad): Tabellrad => {
     return {
         ...rad,
         celler: [
+            oppgave.tildeltTil ? (
+                <TildeltMedSkjultSakslenke oppgave={oppgave} />
+            ) : (
+                <CellContainer width={160}>
+                    <IkkeTildelt oppgave={oppgave} />
+                </CellContainer>
+            ),
+            <CellContainer width={120}>
+                <MeldAv oppgave={oppgave} />
+            </CellContainer>,
             <Sakstype oppgave={oppgave} />,
             <Søker oppgave={oppgave} />,
             <Inntektskildetype oppgave={oppgave} />,
             <Opprettet oppgave={oppgave} />,
             <Bosted oppgave={oppgave} />,
             <Status oppgave={oppgave} />,
-            oppgave.tildeltTil ? <Tildelt oppgave={oppgave as TildeltOppgave} /> : <IkkeTildelt oppgave={oppgave} />,
-            <MeldAv oppgave={oppgave} />,
         ],
     };
 };
