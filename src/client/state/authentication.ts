@@ -7,6 +7,7 @@ interface AuthInfo {
     name: string;
     email?: string;
     ident?: string;
+    oid?: string;
     isLoggedIn?: boolean;
 }
 
@@ -16,6 +17,7 @@ export const authState = atom<AuthInfo>({
         name: '',
         ident: undefined,
         email: undefined,
+        oid: undefined,
         isLoggedIn: undefined,
     },
 });
@@ -25,7 +27,7 @@ export const useEmail = () => useRecoilValue(authState).email;
 export const useAuthentication = () => {
     const [authInfo, setAuthInfo] = useRecoilState(authState);
     const resetAuthInfo = useResetRecoilState(authState);
-    const [name, ident, email] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL]);
+    const [name, ident, email, oid] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL, Keys.OID]);
 
     useEffect(() => {
         if (name && name !== authInfo.name) {
@@ -33,6 +35,7 @@ export const useAuthentication = () => {
                 name,
                 ident,
                 email,
+                oid,
                 isLoggedIn: true,
             });
         }
