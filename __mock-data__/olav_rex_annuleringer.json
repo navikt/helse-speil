@@ -1,7 +1,26 @@
 {
     "aktørId": "11650007744423",
     "fødselsnummer": "02070312413",
-    "utbetalinger": [],
+    "utbetalinger": [
+        {
+            "status": "ANNULLERT",
+            "type": "UTBETALING",
+            "arbeidsgiverOppdrag": {
+                "utbetalingslinjer": [
+                    {
+                        "fom": "2020-03-01",
+                        "tom": "2020-03-27"
+                    }
+                ],
+                "fagsystemId": "T5BN7EE3GVHPJOI2CN6AKINSR4",
+                "organisasjonsnummer": "987654321"
+            },
+            "annullertAvSaksbehandler": {
+                "annullertTidspunkt": "2020-05-20T15:24:33.257358",
+                "saksbehandlerNavn": "Kevders Chilleby"
+            }
+        }
+    ],
     "dødsdato": "1991-01-17",
     "personinfo": {
         "fornavn": "Olav",

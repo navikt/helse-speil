@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { IkonDialog } from './icons/IkonDialog';
 import { IkonHistorikk } from './icons/IkonHistorikk';
 import { IkonDokumenter } from './icons/IkonDokumenter';
-import { HendelseMedTidspunkt, mapDokumenter, mapGodkjenninger, mapOverstyringer } from './mapping';
+import { HendelseMedTidspunkt, mapAnnullering, mapDokumenter, mapGodkjenninger, mapOverstyringer } from './mapping';
 import {
     Hendelse as LoggHendelse,
     Hendelsetype,
@@ -11,6 +11,7 @@ import {
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
+import { usePerson } from '../../../state/person';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];
@@ -18,6 +19,12 @@ interface LoggProviderProps {
 
 export const LoggProvider = ({ children }: LoggProviderProps) => {
     const aktivVedtaksperiode = useAktivVedtaksperiode() as Vedtaksperiode | UfullstendigVedtaksperiode;
+    const person = usePerson();
+    const annullertAvSaksbehandler = person?.utbetalinger?.find(
+        (utb) =>
+            utb.arbeidsgiverOppdrag.fagsystemId ===
+            (aktivVedtaksperiode as Vedtaksperiode)?.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId
+    )?.annullering;
 
     const erFullstendig = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean => !!periode?.kanVelges;
 
@@ -27,8 +34,13 @@ export const LoggProvider = ({ children }: LoggProviderProps) => {
         (erFullstendig(aktivVedtaksperiode) && mapOverstyringer(aktivVedtaksperiode as Vedtaksperiode)) || [];
     const godkjenninger =
         (erFullstendig(aktivVedtaksperiode) && mapGodkjenninger(aktivVedtaksperiode as Vedtaksperiode)) || [];
+    const annullering =
+        (erFullstendig(aktivVedtaksperiode) && annullertAvSaksbehandler && mapAnnullering(annullertAvSaksbehandler)) ||
+        [];
 
-    const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger].sort(hendelsesorterer).map(tilEksternType);
+    const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger, ...annullering]
+        .sort(hendelsesorterer)
+        .map(tilEksternType);
 
     return (
         <EksternLoggProvider

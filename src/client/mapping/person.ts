@@ -91,6 +91,12 @@ export class PersonBuilder {
                               };
                           }),
                       },
+                      annullering: utbetaling.annullertAvSaksbehandler
+                          ? {
+                                annullertTidspunkt: dayjs(utbetaling.annullertAvSaksbehandler.annullertTidspunkt),
+                                saksbehandlerNavn: utbetaling.annullertAvSaksbehandler.saksbehandlerNavn,
+                            }
+                          : undefined,
                   };
               })
             : [];

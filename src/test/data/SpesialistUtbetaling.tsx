@@ -13,7 +13,8 @@ export const umappetUtbetalinger = (): SpesialistUtbetaling[] => [
                     tom: '2020-01-20',
                 },
             ],
-        }
+        },
+        annullertAvSaksbehandler: null,
     },
     {
         status: 'SENDT',
@@ -27,6 +28,6 @@ export const umappetUtbetalinger = (): SpesialistUtbetaling[] => [
                     tom: '2020-01-25',
                 },
             ],
-        }
+        },
     },
 ];

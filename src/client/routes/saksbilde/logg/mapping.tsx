@@ -1,4 +1,4 @@
-import { Hendelse, Kildetype, Overstyring, Vedtaksperiode } from 'internal-types';
+import { AnnullertAvSaksbehandler, Hendelse, Kildetype, Overstyring, Vedtaksperiode } from 'internal-types';
 import { Hendelsetype } from '@navikt/helse-frontend-logg';
 import React from 'react';
 import styled from '@emotion/styled';
@@ -78,6 +78,18 @@ export const mapGodkjenninger = (vedtaksperiode?: Vedtaksperiode): HendelseMedTi
         });
     }
     return godkjenninger;
+};
+
+export const mapAnnullering = (annullertAvSaksbehandler: AnnullertAvSaksbehandler): HendelseMedTidspunkt[] => {
+    return [
+        {
+            id: 'annullering',
+            tidspunkt: annullertAvSaksbehandler.annullertTidspunkt,
+            navn: 'Annullert',
+            type: Hendelsetype.Historikk,
+            beskrivelse: <BegrunnelseTekst>{annullertAvSaksbehandler.saksbehandlerNavn}</BegrunnelseTekst>,
+        },
+    ];
 };
 
 export declare type HendelseMedTidspunkt = HendelseMedId & {

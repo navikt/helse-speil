@@ -12,7 +12,8 @@
                         "tom": "2020-12-31"
                     }
                 ]
-            }
+            },
+            "annullertAvSaksbehandler": null
         },
         {
             "type": "UTBETALING",

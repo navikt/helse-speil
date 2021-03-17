@@ -225,6 +225,11 @@ export interface Utbetalingslinje {
     grad: number;
 }
 
+export interface AnnullertAvSaksbehandler {
+    annullertTidspunkt: Dayjs;
+    saksbehandlerNavn: string;
+}
+
 export interface Simulering {
     totalbeløp: number;
     perioder: Utbetalingsperiode[];
@@ -353,6 +358,7 @@ export interface UtbetalingshistorikkUtbetaling {
     status: string;
     type: string;
     arbeidsgiverOppdrag: UtbetalingshistorikkArbeidsgiverOppdrag;
+    annullering?: AnnullertAvSaksbehandler;
 }
 
 export interface UtbetalingshistorikkArbeidsgiverOppdrag {
