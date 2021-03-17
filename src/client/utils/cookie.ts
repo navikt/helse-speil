@@ -2,12 +2,14 @@ export const Keys = {
     NAME: 'name',
     IDENT: 'NAVident',
     EMAIL: 'email',
+    OID: 'oid',
 };
 
 export enum CookieKey {
     Name = 'name',
     Ident = 'NAVident',
     Email = 'email',
+    Oid = 'oid',
 }
 
 if (process.env.NODE_ENV === 'development') {
@@ -16,6 +18,7 @@ if (process.env.NODE_ENV === 'development') {
             name: 'Lokal utvikler',
             NAVident: 'dev-ident',
             email: 'dev@nav.no',
+            oid: 'uuid',
         })
     )}.ignored-part`;
 }
