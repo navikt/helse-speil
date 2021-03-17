@@ -23,7 +23,7 @@ const Error = styled.label`
 const GraderingInput = styled.input<{ error: boolean }>`
     box-sizing: border-box;
     height: 26px;
-    width: 4rem;
+    width: 2.5rem;
     padding: 3px 8px;
     border-radius: 3px;
     border: 1px solid var(--navds-color-border);
@@ -31,6 +31,10 @@ const GraderingInput = styled.input<{ error: boolean }>`
     font-family: inherit;
     color: var(--navds-color-text-primary);
     outline: none;
+    ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+    -moz-appearance: textfield;
 
     &:hover {
         border-color: var(--navds-text-focus);
