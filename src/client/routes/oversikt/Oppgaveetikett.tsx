@@ -1,6 +1,6 @@
 import React from 'react';
-import { Periodetype } from '../../../types';
 import styled from '@emotion/styled';
+import {Periodetype} from "internal-types";
 
 const Etikett = styled.div`
     padding: 0.25rem 0.5rem;

@@ -3,8 +3,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useFjernTildeling, useTildelOppgave } from './oppgaver';
 import { RecoilRoot } from 'recoil';
-import { Inntektskilde } from '../../types';
-import {Oppgave, Periodetype} from "internal-types";
+import {Inntektskilde, Oppgave, Periodetype} from "internal-types";
 import dayjs from "dayjs";
 
 declare global {

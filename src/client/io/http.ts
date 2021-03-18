@@ -1,5 +1,6 @@
 import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
 import { Avvisningsskjema } from '../routes/saksbilde/utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
+import {SpesialistOppgave} from "../../types";
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -73,7 +74,8 @@ export const fetchPerson = async (personId?: string) =>
         headers: { 'nav-person-id': personId },
     });
 
-export const fetchOppgaver = async () => get(`${baseUrl}/person/`);
+export const fetchOppgaver = async () => get(`${baseUrl}/person/`)
+    .then((response) => response.data.oppgaver as SpesialistOppgave[])
 
 export const post = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse> => {
     const response = await fetch(url, {

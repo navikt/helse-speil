@@ -5,12 +5,11 @@ import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
 import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
 import { hendelser } from './hendelser';
 import {
-    SpesialistInntektsgrunnlag,
+    SpesialistInntektsgrunnlag, SpesialistInntektskilde,
     SpesialistOverstyring,
     SpesialistVedtaksperiode,
     SpleisAktivitet,
     SpleisForlengelseFraInfotrygd,
-    SpleisInntektskilde,
     SpleisPeriodetype,
     SpleisSykdomsdag,
     SpleisUtbetalingsdag,
@@ -64,7 +63,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         risikovurdering: { funn: [], kontrollertOk: [] },
         varsler: varslene,
         simuleringsdata: umappetSimuleringsdata,
-        inntektskilde: SpleisInntektskilde.EN_ARBEIDSGIVER,
+        inntektskilde: SpesialistInntektskilde.EnArbeidsgiver,
     };
 };
 

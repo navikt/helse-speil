@@ -1,11 +1,11 @@
 import {atom, selector, useSetRecoilState} from 'recoil';
-import {Inntektskilde} from '../../types';
 import {deleteTildeling, fetchOppgaver, postTildeling} from '../io/http';
 import {useAddVarsel, useRemoveVarsel} from './varsler';
 import {capitalizeName, extractNameFromEmail} from '../utils/locale';
 import {Varseltype} from '@navikt/helse-frontend-varsel';
 import {flereArbeidsgivere, stikkprøve} from '../featureToggles';
-import {Oppgave, Periodetype} from "internal-types";
+import {Inntektskilde, Oppgave, Periodetype} from "internal-types";
+import {tilOppgave} from "../mapping/oppgaver/oppgaver";
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -17,7 +17,7 @@ const remoteOppgaverState = selector<Oppgave[]>({
     get: async ({ get }) => {
         get(oppgaverStateRefetchKey);
         return await fetchOppgaver()
-            .then(({ data }) => data.oppgaver)
+            .then((oppgaver) => oppgaver.map(tilOppgave))
             .catch((error) => {
                 switch (error.statusCode) {
                     case 404:

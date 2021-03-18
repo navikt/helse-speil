@@ -4,9 +4,7 @@ import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf, SpeilRequest } from '../types';
 import { Response } from 'express';
-import { Inntektskilde, Oppgavetype, SpesialistOppgave, Periodetype as SpesialistPeriodetype} from '../../types';
-import {Kjønn, Oppgave, Periodetype} from "internal-types";
-import dayjs from "dayjs";
+import { SpesialistOppgave} from '../../types';
 
 export interface SetupParameters {
     spesialistClient: SpesialistClient;
@@ -70,74 +68,12 @@ const finnPerson = async (req: SpeilRequest, res: Response) => {
 const oppgaverForPeriode = (req: SpeilRequest, res: Response) => {
     auditLogOversikt(req);
 
-    const kjønn = (kjønn: string | null): Kjønn => {
-        if (!kjønn) return 'ukjent'
-        switch (kjønn.toLowerCase()) {
-            case 'mann': return 'mann'
-            case 'kvinne': return 'kvinne'
-            default: return 'ukjent'
-        }
-    }
-
-    const oppgaverMedTildelinger = async (response: Body): Promise<Oppgave[]> => {
-        const body: any = response.body;
-        const periodeType = (type: SpesialistPeriodetype) => {
-            switch(type) {
-                case SpesialistPeriodetype.Forlengelse:
-                    return Periodetype.Forlengelse
-                case SpesialistPeriodetype.Førstegangsbehandling:
-                    return Periodetype.Førstegangsbehandling
-                case SpesialistPeriodetype.Infotrygdforlengelse:
-                    return Periodetype.Infotrygdforlengelse
-                case SpesialistPeriodetype.OvergangFraInfotrygd:
-                    return Periodetype.OvergangFraInfotrygd
-                case SpesialistPeriodetype.Stikkprøve:
-                    return Periodetype.Stikkprøve
-                case SpesialistPeriodetype.RiskQa:
-                    return Periodetype.RiskQa
-            }
-        }
-        return body.map(
-            (oppgave: SpesialistOppgave): Oppgave => ({
-                oppgavereferanse: oppgave.oppgavereferanse,
-                tildeltTil: oppgave.saksbehandlerepost ?? undefined,
-                erPåVent: oppgave.erPåVent ?? undefined,
-                opprettet: oppgave.opprettet,
-                vedtaksperiodeId: oppgave.vedtaksperiodeId,
-                personinfo: {
-                    fornavn: oppgave.personinfo.fornavn,
-                    mellomnavn: oppgave.personinfo.mellomnavn,
-                    etternavn: oppgave.personinfo.etternavn,
-                    kjønn: kjønn(oppgave.personinfo.kjønn),
-                    fødselsdato: oppgave.personinfo.fødselsdato ? dayjs(oppgave.personinfo.fødselsdato) : null,
-                    fnr: undefined
-                },
-                fødselsnummer: oppgave.fødselsnummer,
-                aktørId: oppgave.aktørId,
-                antallVarsler: oppgave.antallVarsler,
-                periodetype:
-                    oppgave.oppgavetype === Oppgavetype.Stikkprøve
-                        ? Periodetype.Stikkprøve
-                        : oppgave.oppgavetype === Oppgavetype.RiskQa
-                        ? Periodetype.RiskQa
-                        : periodeType(oppgave.type),
-                boenhet: oppgave.boenhet,
-                inntektskilde: oppgave.inntektskilde ?? Inntektskilde.EnArbeidsgiver,
-                tildeling: oppgave.tildeling ? {
-                    epost: oppgave.tildeling.epost,
-                    oid: oppgave.tildeling.oid,
-                    påVent: oppgave.tildeling.påVent,
-                } : undefined
-            })
-        );
-    };
-
     onBehalfOf
         .hentFor(spesialistId, req.session!.speilToken)
         .then((behalfOfToken) => spesialistClient.behandlingerForPeriode(behalfOfToken))
         .then(async (apiResponse) => {
             res.status(apiResponse.status).send({
-                oppgaver: await oppgaverMedTildelinger(apiResponse),
+                oppgaver: await apiResponse.body,
             });
         })
         .catch((err) => {

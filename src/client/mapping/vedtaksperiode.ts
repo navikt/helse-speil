@@ -15,7 +15,6 @@ import {
     SpesialistPerson,
     SpesialistVedtaksperiode,
     SpleisForlengelseFraInfotrygd,
-    SpleisInntektskilde,
     SpleisPeriodetype,
     SpleisSykdomsdag,
     SpleisSykdomsdagtype,
@@ -30,7 +29,7 @@ import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
 import { tilOverstyrtDag } from './overstyring';
-import { Inntektskilde } from '../../types';
+import {inntektskilde} from "./oppgaver/oppgaver";
 
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
 
@@ -261,14 +260,7 @@ export class VedtaksperiodeBuilder {
     };
 
     private mapInntektskilde = () => {
-        this.vedtaksperiode.inntektskilde = ((): Inntektskilde => {
-            switch (this.unmapped.inntektskilde) {
-                case SpleisInntektskilde.EN_ARBEIDSGIVER:
-                    return Inntektskilde.EnArbeidsgiver;
-                case SpleisInntektskilde.FLERE_ARBEIDSGIVERE:
-                    return Inntektskilde.FlereArbeidsgivere;
-            }
-        })();
+        this.vedtaksperiode.inntektskilde = inntektskilde(this.unmapped.inntektskilde)
     };
 
     private mapUtbetalinger = () => {

@@ -2,7 +2,7 @@ import { mapPerson } from '../../client/mapping/person';
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetUtbetalinger } from './SpesialistUtbetaling';
 import {
-    Dagtype,
+    Dagtype, Inntektskilde,
     Inntektskildetype,
     Kildetype,
     Kjønn,
@@ -13,7 +13,7 @@ import {
 import dayjs from 'dayjs';
 import { umappetSimuleringsdata } from './simulering';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
-import { Inntektskilde } from '../../types';
+
 
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],

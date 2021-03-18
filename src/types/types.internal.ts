@@ -1,7 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
 import { UtbetalingshistorikkElement } from '../client/modell/UtbetalingshistorikkElement';
-import {Inntektskilde} from '../types';
 
 export interface Periode {
     fom: Dayjs;
@@ -396,5 +395,10 @@ interface Boenhet {
 
 export interface TildeltOppgave extends Oppgave {
     tildeltTil: string;
+}
+
+export enum Inntektskilde {
+    EnArbeidsgiver = 'EN_ARBEIDSGIVER',
+    FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
 }
 

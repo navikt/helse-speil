@@ -377,7 +377,7 @@ export interface SpesialistVedtaksperiode {
     risikovurdering: SpesialistRisikovurdering | null;
     varsler: string[];
     beregningIder?: string[];
-    inntektskilde: SpleisInntektskilde;
+    inntektskilde: SpesialistInntektskilde;
 }
 
 export interface UfullstendigSpesialistVedtaksperiode {
@@ -422,9 +422,9 @@ export enum SpleisPeriodetype {
     RISK_QA = 'RISK_QA',
 }
 
-export enum SpleisInntektskilde {
-    EN_ARBEIDSGIVER = 'EN_ARBEIDSGIVER',
-    FLERE_ARBEIDSGIVERE = 'FLERE_ARBEIDSGIVERE',
+export enum SpesialistInntektskilde {
+    EnArbeidsgiver = 'EN_ARBEIDSGIVER',
+    FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
 }
 
 export interface SpesialistInntektsgrunnlag {

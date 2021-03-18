@@ -1,6 +1,5 @@
 import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Inntektskilde } from '../../../types';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
@@ -12,7 +11,7 @@ import { Tabellrad } from '@navikt/helse-frontend-tabell';
 import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
 import { useSkalAnonymiserePerson } from '../../state/person';
 import { anonymisertPersoninfo } from '../../agurkdata';
-import {Oppgave, Personinfo, TildeltOppgave} from "internal-types";
+import {Oppgave, Personinfo, TildeltOppgave, Inntektskilde} from "internal-types";
 
 const formatertNavn = (personinfo: Personinfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
