@@ -27,11 +27,11 @@ const utbetalingsdagtype = (sykdomsdagtype: SpleisSykdomsdagtype): SpleisUtbetal
             return SpleisUtbetalingsdagtype.HELGEDAG;
         case SpleisSykdomsdagtype.STUDIEDAG:
         case SpleisSykdomsdagtype.UBESTEMTDAG:
-        case SpleisSykdomsdagtype.PERMISJONSDAG:
-        case SpleisSykdomsdagtype.PERMISJONSDAG_AAREG:
-        case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
         case SpleisSykdomsdagtype.ANNULLERT_DAG:
             return SpleisUtbetalingsdagtype.UKJENTDAG;
+        case SpleisSykdomsdagtype.PERMISJONSDAG:
+        case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
+            return SpleisUtbetalingsdagtype.PERMISJONSDAG;
         case SpleisSykdomsdagtype.SYKEDAG:
         case SpleisSykdomsdagtype.SYKEDAG_SØKNAD:
         case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:

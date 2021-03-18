@@ -7,7 +7,7 @@ export interface Options {
 
 export interface OverstyrtDagDTO {
     dato: string;
-    type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
+    type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | Dagtype;
     grad?: number;
 }
 

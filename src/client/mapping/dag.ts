@@ -21,6 +21,8 @@ export const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype 
             return Dagtype.Helg;
         case SpleisUtbetalingsdagtype.FERIEDAG:
             return Dagtype.Ferie;
+        case SpleisUtbetalingsdagtype.PERMISJONSDAG:
+            return Dagtype.Permisjon;
         case SpleisUtbetalingsdagtype.UKJENTDAG:
             return Dagtype.Ubestemt;
         case SpleisUtbetalingsdagtype.ARBEIDSDAG:
@@ -38,11 +40,11 @@ export const sykdomstidslinjedag = (dag: SpleisSykdomsdagtype): Dagtype => {
         case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:
         case SpleisSykdomsdagtype.SYKEDAG:
             return Dagtype.Syk;
+        case SpleisSykdomsdagtype.PERMISJONSDAG:
         case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
-        case SpleisSykdomsdagtype.PERMISJONSDAG_AAREG:
+            return Dagtype.Permisjon;
         case SpleisSykdomsdagtype.FERIEDAG_INNTEKTSMELDING:
         case SpleisSykdomsdagtype.FERIEDAG_SØKNAD:
-        case SpleisSykdomsdagtype.PERMISJONSDAG:
         case SpleisSykdomsdagtype.FERIEDAG:
             return Dagtype.Ferie;
         case SpleisSykdomsdagtype.UTENLANDSDAG:
@@ -97,7 +99,6 @@ const hendelseTypeGammel = (type: SpleisSykdomsdagtype): Kildetype | undefined =
         case SpleisSykdomsdagtype.FORELDET_SYKEDAG:
         case SpleisSykdomsdagtype.UBESTEMTDAG:
         case SpleisSykdomsdagtype.IMPLISITT_DAG:
-        case SpleisSykdomsdagtype.PERMISJONSDAG_AAREG:
             return undefined;
 
         // For å slippe typescript-warning om ufullstendig code path defineres de nye typene også

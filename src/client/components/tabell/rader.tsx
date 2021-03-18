@@ -17,7 +17,7 @@ import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
 import { IkonKryss } from './ikoner/IkonKryss';
 import { IkonArbeidsdag } from './ikoner/IkonArbeidsdag';
-import Lenke from 'nav-frontend-lenker';
+import { IkonPermisjon } from './ikoner/IkonPermisjon';
 import { LovdataLenke } from '../LovdataLenke';
 
 export const tomCelle = () => undefined;
@@ -55,6 +55,8 @@ export const ikon = (dag: Sykdomsdag) => {
                 return <IkonSyk />;
             case Dagtype.Ferie:
                 return <IkonFerie />;
+            case Dagtype.Permisjon:
+                return <IkonPermisjon />;
             case Dagtype.Arbeidsdag:
                 return <IkonArbeidsdag />;
             case Dagtype.Egenmelding:
@@ -122,13 +124,15 @@ export const overstyrbarKilde = (dag: Sykdomsdag, erOverstyrt: boolean) =>
     );
 
 const skalViseGradering = (dag: Sykdomsdag) =>
-    dag.gradering !== undefined && ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie].includes(dag.type);
+    dag.gradering !== undefined &&
+    ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon].includes(dag.type);
 
 export const gradering = (dag: Sykdomsdag) =>
     skalViseGradering(dag) ? <HøyrejustertTekst>{dag.gradering} %</HøyrejustertTekst> : undefined;
 
 const skalViseTotalGradering = (dag: Utbetalingsdag) =>
-    dag.totalGradering !== undefined && ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie].includes(dag.type);
+    dag.totalGradering !== undefined &&
+    ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon].includes(dag.type);
 
 export const totalGradering = (dag: Utbetalingsdag) =>
     skalViseTotalGradering(dag) ? <HøyrejustertTekst>{dag.totalGradering} %</HøyrejustertTekst> : undefined;

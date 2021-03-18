@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react';
 import styled from '@emotion/styled';
 import { Select } from '../Select';
 import { Dagtype, Sykdomsdag } from 'internal-types';
+import { overstyrPermisjonsdagerEnabled } from '../../featureToggles';
 
 const OverstyrbarSelect = styled(Select)`
     font-size: 14px;
@@ -21,6 +22,7 @@ export const OverstyrbarDagtype = ({ dag, onOverstyr }: OverstyrbarDagtypeProps)
         const nyDagtype = target.value as Dagtype;
         onOverstyr({ ...dag, type: nyDagtype });
     };
+    if (overstyrPermisjonsdagerEnabled) valgbareDager.push(Dagtype.Permisjon);
 
     return (
         <OverstyrbarSelect defaultValue={dag.type} onChange={onSelectDagtype}>

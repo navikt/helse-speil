@@ -140,6 +140,12 @@ const SaksbildeContent = () => {
                         Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun ferie.
                     </Varsel>
                 );
+            case Vedtaksperiodetilstand.KunPermisjon:
+                return (
+                    <Varsel type={Varseltype.Info}>
+                        Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun permisjon.
+                    </Varsel>
+                );
             case Vedtaksperiodetilstand.IngenUtbetaling:
                 return (
                     <Varsel type={Varseltype.Info}>

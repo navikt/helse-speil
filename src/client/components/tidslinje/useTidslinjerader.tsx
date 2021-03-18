@@ -33,7 +33,7 @@ const harDagtyper = (dagtyper: Dagtype[], tidslinje: Utbetalingsdag[]): boolean 
     !!tidslinje.find((it) => dagtyper.includes(it.type));
 
 const skalViseInfoPin = (tidslinje: Utbetalingsdag[]): boolean =>
-    harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode], tidslinje);
+    harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode, Dagtype.Permisjon], tidslinje);
 
 const inngårINyereHistorikk = (neste?: Historikkelement) => neste && neste.erUtbetaling;
 

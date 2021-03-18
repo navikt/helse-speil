@@ -1,4 +1,4 @@
-import {extractIdent} from './utils/cookie';
+import { extractIdent } from './utils/cookie';
 
 export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
@@ -45,6 +45,7 @@ const erSindre = () => extractIdent() === 'B159939';
 const erErlend = () => extractIdent() === 'v159649';
 const erJakob = () => extractIdent() === 'E156407';
 
+export const overstyrPermisjonsdagerEnabled = erLocal() || erPreprod();
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
 export const annulleringerEnabled =

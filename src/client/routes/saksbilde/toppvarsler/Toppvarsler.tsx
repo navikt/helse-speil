@@ -17,6 +17,7 @@ type VarselObject = {
 const tilstandsvarsel = ({ tilstand }: Vedtaksperiode): VarselObject | null => {
     switch (tilstand) {
         case Vedtaksperiodetilstand.KunFerie:
+        case Vedtaksperiodetilstand.KunPermisjon:
         case Vedtaksperiodetilstand.IngenUtbetaling:
             return { grad: Varseltype.Info, melding: 'Perioden er godkjent, ingen utbetaling.' };
         case Vedtaksperiodetilstand.Feilet:

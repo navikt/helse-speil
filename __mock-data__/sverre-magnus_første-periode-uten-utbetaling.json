@@ -16,6 +16,15 @@
             "id": "813303d0-bbbb-cccc-beb7-1b2ad4b96e51",
             "vedtaksperioder": [
                 {
+                    "id": "421a1a73-cccc-b96d-a033-ee74ba2a4c79",
+                    "gruppeId": "ea4fccff-bbbb-ffff-cde4-d1a50c4df057",
+                    "fom": "2020-03-25",
+                    "tom": "2020-04-10",
+                    "tilstand": "KunPermisjon",
+                    "fullstendig": false,
+                    "oppgavereferanse": null
+                },
+                {
                     "id": "321a1a73-cccc-b96d-a033-ee74ba2a4c87",
                     "gruppeId": "ea4fccff-bbbb-ffff-cde4-d1a50c4df057",
                     "fom": "2020-05-01",
@@ -64,6 +73,18 @@
                             "type": "NavHelgDag",
                             "inntekt": 0,
                             "dato": "2020-06-14",
+                            "grad": 100
+                        },
+                        {
+                            "type": "Permisjonsdag",
+                            "inntekt": 0,
+                            "dato": "2020-06-15",
+                            "grad": 100
+                        },
+                        {
+                            "type": "Feriedag",
+                            "inntekt": 0,
+                            "dato": "2020-06-16",
                             "grad": 100
                         }
                     ],

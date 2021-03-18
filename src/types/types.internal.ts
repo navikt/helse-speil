@@ -125,6 +125,7 @@ export enum Dagtype {
     Foreldet = 'Foreldet',
     Arbeidsgiverperiode = 'Arbeidsgiverperiode',
     Annullert = 'Annullert',
+    Permisjon = 'Permisjon',
 }
 
 export interface Sykdomsdag {
@@ -156,6 +157,7 @@ export enum Vedtaksperiodetilstand {
     Avslag = 'avslag',
     IngenUtbetaling = 'ingenUtbetaling',
     KunFerie = 'kunFerie',
+    KunPermisjon = 'kunPermisjon',
     Feilet = 'feilet',
     Ukjent = 'ukjent',
     TilInfotrygd = 'tilInfotrygd',

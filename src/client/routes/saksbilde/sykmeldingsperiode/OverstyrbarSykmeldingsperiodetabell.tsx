@@ -51,12 +51,14 @@ const Feilmelding = styled.p`
     font-weight: 600;
 `;
 
-const tilOverstyrtDagtype = (type: Dagtype): 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype => {
+const tilOverstyrtDagtype = (type: Dagtype): 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | Dagtype => {
     switch (type) {
         case Dagtype.Syk:
             return 'Sykedag';
         case Dagtype.Ferie:
             return 'Feriedag';
+        case Dagtype.Permisjon:
+            return 'Permisjonsdag';
         case Dagtype.Egenmelding:
             return 'Egenmeldingsdag';
         default:

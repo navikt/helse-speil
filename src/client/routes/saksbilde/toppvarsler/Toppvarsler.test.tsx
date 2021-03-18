@@ -31,6 +31,11 @@ describe('Toppvarsler', () => {
         render(<Toppvarsler vedtaksperiode={ferieperiode} />);
         expect(screen.getByText('Perioden er godkjent, ingen utbetaling.')).toBeVisible();
     });
+    test('viser infovarsel når saken kun inneholder permisjon', () => {
+        const permisjonperiode = vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.KunPermisjon);
+        render(<Toppvarsler vedtaksperiode={permisjonperiode} />);
+        expect(screen.getByText('Perioden er godkjent, ingen utbetaling.')).toBeVisible();
+    });
     test('viser feilvarsel om utbetaling har feilet', () => {
         const feiletperiode = vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Feilet);
         render(<Toppvarsler vedtaksperiode={feiletperiode} />);

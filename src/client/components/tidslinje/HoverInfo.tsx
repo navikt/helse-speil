@@ -35,6 +35,9 @@ const antallArbeidsgiverperiodedager = (vedtaksperiode: Vedtaksperiode | Ufullst
 const antallFeriedager = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number =>
     vedtaksperiode.utbetalingstidslinje?.filter(({ type }) => type === Dagtype.Ferie).length ?? 0;
 
+const antallPermisjonsdager = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number =>
+    vedtaksperiode.utbetalingstidslinje?.filter(({ type }) => type === Dagtype.Permisjon).length ?? 0;
+
 interface HoverInfoProps {
     vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode;
 }
@@ -49,6 +52,7 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
     const utbetalt = utbetaltForPeriode(vedtaksperiode);
     const arbeidsgiverperiodedager = antallArbeidsgiverperiodedager(vedtaksperiode);
     const feriedager = antallFeriedager(vedtaksperiode);
+    const permisjonsdager = antallPermisjonsdager(vedtaksperiode);
 
     return (
         <Container>
@@ -58,6 +62,7 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
             {utbetalt && utbetalt !== 0 && <Linje>Utbetalt: {somPenger(utbetalt)} kr</Linje>}
             {arbeidsgiverperiodedager !== 0 && <Linje>Arbeidsgiverperiode: {arbeidsgiverperiodedager} dager</Linje>}
             {feriedager !== 0 && <Linje>Ferie: {feriedager} dager</Linje>}
+            {permisjonsdager !== 0 && <Linje>Permisjon: {permisjonsdager} dager</Linje>}
             {dagerIgjen !== undefined && (
                 <Linje
                     style={
