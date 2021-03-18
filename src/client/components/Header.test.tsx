@@ -34,7 +34,7 @@ describe('Header', () => {
             </RecoilRoot>
         );
         userEvent.type(screen.getByRole('textbox'), 'test');
-        userEvent.click(screen.getByRole('button'));
+        userEvent.click(screen.getAllByRole('button')[0]);
         expect(cachedVarsel).not.toBeNull();
     });
     test('legger ikke til varsel ved gyldig søk', async () => {
@@ -46,7 +46,7 @@ describe('Header', () => {
             </RecoilRoot>
         );
         userEvent.type(screen.getByRole('textbox'), '12345678910');
-        userEvent.click(screen.getByRole('button'));
+        userEvent.click(screen.getAllByRole('button')[0]);
         expect(cachedVarsel).toBeNull();
     });
 });

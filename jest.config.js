@@ -15,6 +15,7 @@ module.exports = {
         'external-types': '<rootDir>/src/types/types.external',
         'internal-types': '<rootDir>/src/types/types.internal',
         'test-data': '<rootDir>/src/test/data',
+        '@navikt/ds-icons(.*)': '@navikt/ds-icons/cjs$1',
     },
     transformIgnorePatterns: ['<rootDir>/node_modules'],
     watchPathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/node_modules'],

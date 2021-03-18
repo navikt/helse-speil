@@ -68,3 +68,4 @@ export const flereArbeidsgivere =
     erDigimort() ||
     erSupersaksbehandler() ||
     erFaktiskSupportsaksbehandler();
+export const bentoMenyEnabled = erLocal() || erSolør() || erSupersaksbehandler() || erFaktiskSupportsaksbehandler();

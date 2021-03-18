@@ -12,6 +12,8 @@ import { InternalHeader, InternalHeaderTitle, InternalHeaderUser } from '@navikt
 import { useHentPerson } from '../state/person';
 import { Person } from 'internal-types';
 import EasterEgg from '../EasterEgg';
+import { BentoMeny } from './BentoMeny';
+import { bentoMenyEnabled } from '../featureToggles';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -80,6 +82,7 @@ export const Header = () => {
                 </InternalHeaderTitle>
                 <Søk onSøk={onSøk} />
                 <EasterEgg />
+                {bentoMenyEnabled && <BentoMeny />}
                 <InternalHeaderUser name={brukerinfo.navn} ident={brukerinfo.ident} />
             </InternalHeader>
         </Container>
