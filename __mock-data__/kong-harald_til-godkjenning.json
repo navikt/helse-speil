@@ -636,6 +636,13 @@
                             "alvorlighetsgrad": "W",
                             "melding": "Maks antall sykepengedager er nådd i perioden",
                             "tidsstempel": "2020-04-15 10:25:46.225"
+                        },
+                        {
+                            "alvorlighetsgrad": "W",
+                            "melding": "Utenlandsopphold oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingperioden"
+                        },
+                        {
+                            "melding": "Utdanning oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden"
                         }
                     ],
                     "beregningId": "1234"

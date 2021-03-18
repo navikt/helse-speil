@@ -220,5 +220,17 @@
         "betydning": "Den automatiske sjekken etter Gosys-oppgaver har feilet, og vi vet ikke om det finnes Gosys-oppgaver eller ikke",
         "løsning": "Undersøk om det er åpne Gosys-oppgaver på sykepenger på bruker, og vurder om saken kan behandles ut i fra innholdet i oppgaven(e)",
         "viktighet": "Lav"
+    },
+    {
+        "varsel": "Utenlandsopphold oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingperioden",
+        "betydning": "",
+        "løsning": "",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Utdanning oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden",
+        "betydning": "",
+        "løsning": "",
+        "viktighet": "Høy"
     }
 ]

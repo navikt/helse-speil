@@ -1,8 +1,8 @@
 import React from 'react';
-import { EkspanderbartVarsel } from '../../../components/EkspanderbartVarsel';
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Varselseksjon } from './Varselseksjon';
+import {EkspanderbartVarsel} from '../../../components/EkspanderbartVarsel';
+import {Varsel, Varseltype} from '@navikt/helse-frontend-varsel';
+import {Normaltekst} from 'nav-frontend-typografi';
+import {Varselseksjon} from './Varselseksjon';
 import wiki from '../../../../../wiki.json';
 
 type WikiEntry = {
@@ -17,7 +17,7 @@ export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[
         <>
             {varsler.map((aktivitet, index) => {
                 const wikiAktivitet: WikiEntry | undefined = wiki.find((it) => it.varsel === aktivitet);
-                if (wikiAktivitet) {
+                if (wikiAktivitet && (wikiAktivitet.betydning.length > 0 || wikiAktivitet.løsning.length > 0)) {
                     return (
                         <EkspanderbartVarsel
                             key={index}
