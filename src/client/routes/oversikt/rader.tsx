@@ -55,7 +55,7 @@ const SkjultLenke = styled(Link)`
     outline: none;
 `;
 
-const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgave }) => {
+export const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const removeAlleVarsler = useRemoveAlleVarsler();
 
     const onNavigate = () => {

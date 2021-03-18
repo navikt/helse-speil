@@ -6,6 +6,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
 import { useFjernTildeling, useTildelOppgave } from '../../state/oppgaver';
+import { SkjultSakslenke } from './rader';
 
 const Flex = styled.span`
     display: flex;
@@ -56,5 +57,10 @@ export const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
         <Flatknapp mini tabIndex={0} onClick={meldAv} spinner={isFetching}>
             Meld av
         </Flatknapp>
-    ) : null;
+    ) : (
+        <div>
+            &nbsp;
+            <SkjultSakslenke oppgave={oppgave} />
+        </div>
+    );
 };
