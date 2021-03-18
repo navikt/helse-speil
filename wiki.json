@@ -232,5 +232,23 @@
         "betydning": "",
         "løsning": "",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Permisjon oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden",
+        "betydning": "",
+        "løsning": "",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Søknaden inneholder en Papirsykmeldingsperiode",
+        "betydning": "",
+        "løsning": "",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Søknaden inneholder en Permisjonsperiode",
+        "betydning": "",
+        "løsning": "",
+        "viktighet": "Høy"
     }
 ]
