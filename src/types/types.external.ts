@@ -1,5 +1,4 @@
 import { SpesialistPersoninfo } from '../types';
-import { EksternUtbetalingshistorikkElement } from './types.tidslinjer';
 
 export interface Utbetalingsdetalj {
     sats: number;
@@ -213,6 +212,26 @@ export interface SpesialistOverstyringDag {
     dato: string;
     dagtype: SpleisSykdomsdagtype;
     grad?: number;
+}
+
+export interface EksternUtbetalingshistorikkElement {
+    beregningId: string;
+    beregnettidslinje: EksternSykdomsdag[];
+    hendelsetidslinje: EksternSykdomsdag[];
+    utbetalinger: EksternUtbetaling[];
+}
+
+export interface EksternSykdomsdag {
+    dagen: string;
+    type: SpleisSykdomsdagtype;
+    kilde?: SpleisSykdomsdagkilde;
+    grad?: number;
+}
+
+export interface EksternUtbetaling {
+    status: string;
+    type: string;
+    utbetalingstidslinje: SpleisUtbetalingsdag[];
 }
 
 export interface SpesialistArbeidsgiver {

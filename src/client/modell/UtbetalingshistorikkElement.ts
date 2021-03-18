@@ -2,9 +2,9 @@ import {
     Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
+    UtbetalingshistorikkUtbetaling2,
     Vedtaksperiode as FullstendigVedtaksperiode,
 } from 'internal-types';
-import { Utbetaling } from '../../types/types.tidslinjer';
 import { Dayjs } from 'dayjs';
 import { PeriodeBuilder } from '../components/tidslinje/periodeBuilder';
 import { nanoid } from 'nanoid';
@@ -16,14 +16,14 @@ export class UtbetalingshistorikkElement {
     perioder: Tidslinjeperiode[];
     beregnettidslinje: Sykdomsdag[];
     hendelsetidslinje: Sykdomsdag[];
-    utbetalinger: Utbetaling[];
+    utbetalinger: UtbetalingshistorikkUtbetaling2[];
     kilde: string;
 
     constructor(
         id: string,
         beregnettidslinje: Sykdomsdag[],
         hendelsetidslinje: Sykdomsdag[],
-        utbetalinger: Utbetaling[],
+        utbetalinger: UtbetalingshistorikkUtbetaling2[],
         vedtaksperioder: Vedtaksperiode[]
     ) {
         this.id = id;
