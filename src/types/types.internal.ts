@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
 import { UtbetalingshistorikkElement } from '../client/modell/UtbetalingshistorikkElement';
-import { Inntektskilde } from '../types';
+import {Inntektskilde} from '../types';
 
 export interface Periode {
     fom: Dayjs;
@@ -272,11 +272,6 @@ export interface Enhetsinfo {
     navn: string;
 }
 
-export interface Tildeling {
-    oppgavereferanse: string;
-    userId: string;
-}
-
 export interface Infotrygdutbetaling {
     fom: Dayjs;
     tom: Dayjs;
@@ -371,3 +366,35 @@ export interface UtbetalingshistorikkUtbetalingslinje {
     fom: Dayjs;
     tom: Dayjs;
 }
+
+export interface Oppgave {
+    oppgavereferanse: string;
+    tildeltTil?: string;
+    erPåVent?: boolean;
+    opprettet: string;
+    vedtaksperiodeId: string;
+    personinfo: Personinfo;
+    fødselsnummer: string;
+    aktørId: string;
+    antallVarsler: number;
+    periodetype: Periodetype;
+    inntektskilde: Inntektskilde;
+    boenhet: Boenhet;
+    tildeling?: Tildeling
+}
+
+interface Tildeling {
+    epost: string,
+    oid: string,
+    påVent: boolean
+}
+
+interface Boenhet {
+    id: string;
+    navn: string;
+}
+
+export interface TildeltOppgave extends Oppgave {
+    tildeltTil: string;
+}
+

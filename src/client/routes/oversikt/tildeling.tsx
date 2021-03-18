@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Oppgave, TildeltOppgave } from '../../../types';
 import { useEmail } from '../../state/authentication';
 import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -7,6 +6,7 @@ import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
 import { useFjernTildeling, useTildelOppgave } from '../../state/oppgaver';
 import { SkjultSakslenke } from './rader';
+import {Oppgave, TildeltOppgave} from "internal-types";
 
 const Flex = styled.span`
     display: flex;

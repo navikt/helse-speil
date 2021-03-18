@@ -1,4 +1,3 @@
-import { Tildeling } from 'internal-types';
 import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
 import { Avvisningsskjema } from '../routes/saksbilde/utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 
@@ -122,8 +121,8 @@ export const postLeggPåVent = async (oppgavereferanse: string) =>
 
 export const deletePåVent = async (oppgavereferanse: string) => del(`${baseUrl}/leggpaavent/${oppgavereferanse}`, {});
 
-export const postTildeling = async (tildeling: Tildeling) => {
-    return post(`${baseUrl}/tildeling/${tildeling.oppgavereferanse}`, {});
+export const postTildeling = async (oppgavereferanse: string) => {
+    return post(`${baseUrl}/tildeling/${oppgavereferanse}`, {});
 };
 
 export const deleteTildeling = async (oppgavereferanse: string) => {

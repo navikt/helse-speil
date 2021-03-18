@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
-import { Oppgave } from '../../../types';
 import { useEmail } from '../../state/authentication';
 import { oppgaverState } from '../../state/oppgaver';
 import { Dropdownknapp } from '../saksbilde/sakslinje/Verktøylinje';
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
+import {Oppgave} from "internal-types";
 
 const Container = styled.div`
     display: flex;

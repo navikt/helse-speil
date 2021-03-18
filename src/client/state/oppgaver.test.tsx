@@ -3,7 +3,9 @@ import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useFjernTildeling, useTildelOppgave } from './oppgaver';
 import { RecoilRoot } from 'recoil';
-import { Inntektskilde, Oppgave, Periodetype } from '../../types';
+import { Inntektskilde } from '../../types';
+import {Oppgave, Periodetype} from "internal-types";
+import dayjs from "dayjs";
 
 declare global {
     namespace NodeJS {
@@ -29,8 +31,8 @@ const enOppgave = (): Oppgave => ({
         fornavn: 'Alfa',
         mellomnavn: 'Beta',
         etternavn: 'Omega',
-        kjønn: 'Kvinne',
-        fødselsdato: '1980-01-01',
+        kjønn: 'kvinne',
+        fødselsdato: dayjs('1980-01-01'),
     },
     fødselsnummer: '12345678910',
     aktørId: '12345678910',
@@ -41,6 +43,7 @@ const enOppgave = (): Oppgave => ({
         navn: 'Boenhet',
     },
     inntektskilde: Inntektskilde.EnArbeidsgiver,
+    tildeling: undefined
 });
 
 const mockSuccessfulFetch = () =>

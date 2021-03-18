@@ -10,11 +10,11 @@ import { useDebounce } from '../../hooks/useDebounce';
 import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { useEmail } from '../../state/authentication';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
-import { Oppgave } from '../../../types';
 import { personState } from '../../state/person';
 import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { nanoid } from 'nanoid';
 import { nullstillAgurkData } from '../../agurkdata';
+import {Oppgave} from "internal-types";
 
 const Container = styled.div`
     position: relative;

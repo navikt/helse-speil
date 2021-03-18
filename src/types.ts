@@ -39,33 +39,20 @@ export interface SpesialistOppgave {
     antallVarsler: number;
     type: Periodetype;
     oppgavetype: Oppgavetype;
-    boenhet: Boenhet;
+    boenhet: SpesialistBoenhet;
     inntektskilde?: Inntektskilde;
     erPåVent?: boolean;
+    tildeling?: SpesialistTildeling
 }
-
-export interface Oppgave {
-    oppgavereferanse: string;
-    tildeltTil?: string;
-    erPåVent?: boolean;
-    opprettet: string;
-    vedtaksperiodeId: string;
-    personinfo: SpesialistPersoninfo;
-    fødselsnummer: string;
-    aktørId: string;
-    antallVarsler: number;
-    periodetype: Periodetype;
-    inntektskilde: Inntektskilde;
-    boenhet: Boenhet;
-}
-
-export interface TildeltOppgave extends Oppgave {
-    tildeltTil: string;
-}
-
-interface Boenhet {
+interface SpesialistBoenhet {
     id: string;
     navn: string;
+}
+
+export interface SpesialistTildeling {
+    epost: string,
+    oid: string,
+    påVent: boolean
 }
 
 export interface Error {

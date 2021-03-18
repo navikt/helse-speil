@@ -1,10 +1,11 @@
 import {atom, selector, useSetRecoilState} from 'recoil';
-import {Inntektskilde, Oppgave, Periodetype} from '../../types';
+import {Inntektskilde} from '../../types';
 import {deleteTildeling, fetchOppgaver, postTildeling} from '../io/http';
 import {useAddVarsel, useRemoveVarsel} from './varsler';
 import {capitalizeName, extractNameFromEmail} from '../utils/locale';
 import {Varseltype} from '@navikt/helse-frontend-varsel';
 import {flereArbeidsgivere, stikkprøve} from '../featureToggles';
+import {Oppgave, Periodetype} from "internal-types";
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -78,7 +79,7 @@ export const useTildelOppgave = () => {
 
     return ({ oppgavereferanse }: Oppgave, userId: string) => {
         removeVarsel(tildelingskey);
-        return postTildeling({ oppgavereferanse, userId })
+        return postTildeling(oppgavereferanse)
             .then((response) => {
                 setTildelinger((it) => ({ ...it, [oppgavereferanse]: userId }));
                 return Promise.resolve(response);
