@@ -381,13 +381,13 @@ export interface Oppgave {
     periodetype: Periodetype;
     inntektskilde: Inntektskilde;
     boenhet: Boenhet;
-    tildeling?: Tildeling
+    tildeling?: Tildeling;
 }
 
 interface Tildeling {
-    epost: string,
-    oid: string,
-    påVent: boolean
+    epost: string;
+    oid: string;
+    påVent: boolean;
 }
 
 interface Boenhet {
@@ -404,3 +404,8 @@ export enum Inntektskilde {
     FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
 }
 
+export interface UtbetalingshistorikkUtbetaling2 {
+    status: string;
+    type: string;
+    utbetalingstidslinje: Utbetalingsdag[];
+}

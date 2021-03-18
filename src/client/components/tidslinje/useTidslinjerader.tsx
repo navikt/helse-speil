@@ -1,10 +1,10 @@
-import { Utbetaling } from '../../../types/types.tidslinjer';
 import {
     Dagtype,
     Person,
     Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
+    UtbetalingshistorikkUtbetaling2,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
@@ -87,7 +87,7 @@ interface Historikkelement {
     perioder: Tidslinjeperiode[];
     beregnettidslinje: Sykdomsdag[];
     hendelsetidslinje: Sykdomsdag[];
-    utbetalinger: Utbetaling[];
+    utbetalinger: UtbetalingshistorikkUtbetaling2[];
     erUtbetaling: boolean;
 }
 

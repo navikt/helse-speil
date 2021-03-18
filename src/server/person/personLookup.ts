@@ -4,7 +4,6 @@ import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf, SpeilRequest } from '../types';
 import { Response } from 'express';
-import { SpesialistOppgave} from '../../types';
 
 export interface SetupParameters {
     spesialistClient: SpesialistClient;
