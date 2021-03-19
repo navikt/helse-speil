@@ -17,7 +17,7 @@
         "pretest": "npm run test:eslint && npm run validate-ts",
         "start": "cross-env NODE_ENV=development parcel src/client/index.html",
         "start-mac": "cross-env NODE_ENV=development parcel src/client/index.html --open 'Google Chrome'",
-        "start-express": "npm run build-server && TZ=Europe/Oslo NODE_ENV=development node dist/server/server.js --experimental-modules",
+        "start-express": "npm run build-server && TZ=Europe/Oslo node dist/server/server.js --experimental-modules",
         "dev-express": "cross-env-shell NODE_ENV=development SESSION_SECRET=whatever ts-node-dev --respawn --transpile-only ./src/server/server.ts",
         "oppgulp": "npm run dev-express",
         "build": "npm run clean:dist && npm run test && parcel build src/client/index.html --out-dir dist/client --public-url /static",
