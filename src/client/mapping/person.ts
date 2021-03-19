@@ -45,10 +45,12 @@ export class PersonBuilder {
     private mapTildeling = () => {
         this.person.tildeling = this.unmapped.tildeling
             ? {
-                  oid: this.unmapped.tildeling.oid,
-                  epost: this.unmapped.tildeling.epost,
+                  saksbehandler: {
+                      oid: this.unmapped.tildeling.oid,
+                      epost: this.unmapped.tildeling.epost,
+                      navn: this.unmapped.tildeling.navn,
+                  },
                   påVent: this.unmapped.tildeling.påVent,
-                  navn: this.unmapped.tildeling.navn,
               }
             : undefined;
     };

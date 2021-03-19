@@ -1,11 +1,11 @@
-import {atom, selector, useSetRecoilState} from 'recoil';
-import {deleteTildeling, fetchOppgaver, postTildeling} from '../io/http';
-import {useAddVarsel, useRemoveVarsel} from './varsler';
-import {capitalizeName, extractNameFromEmail} from '../utils/locale';
-import {Varseltype} from '@navikt/helse-frontend-varsel';
-import {flereArbeidsgivere, stikkprøve} from '../featureToggles';
-import {Inntektskilde, Oppgave, Periodetype, Tildeling} from "internal-types";
-import {tilOppgave} from "../mapping/oppgaver/oppgaver";
+import { atom, selector, useSetRecoilState } from 'recoil';
+import { deleteTildeling, fetchOppgaver, postTildeling } from '../io/http';
+import { useAddVarsel, useRemoveVarsel } from './varsler';
+import { capitalizeName} from '../utils/locale';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
+import { Inntektskilde, Oppgave, Periodetype, Saksbehandler, Tildeling} from 'internal-types';
+import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -47,7 +47,7 @@ export const oppgaverState = selector<Oppgave[]>({
             .map((it) => {
                 const tildeling = tildelinger[it.oppgavereferanse];
                 return it.oppgavereferanse in tildelinger
-                    ? { ...it, tildeltTil: tildeling?.navn, tildeling: tildeling }
+                    ? { ...it, tildeltTil: tildeling?.saksbehandler.navn, tildeling: tildeling }
                     : it;
             });
     },
@@ -67,7 +67,12 @@ type TildelingError = {
     kildesystem: string;
     kontekst: {
         tildeltTil: string;
-        tildeling: Tildeling;
+        tildeling: {
+            oid: string;
+            navn: string;
+            epost: string;
+            påVent: boolean;
+        };
     };
 };
 
@@ -80,19 +85,22 @@ export const useTildelOppgave = () => {
     const removeVarsel = useRemoveVarsel();
     const setTildelinger = useSetRecoilState(tildelingerState);
 
-    return ({ oppgavereferanse }: Oppgave, tildeling: Tildeling) => {
+    return ({ oppgavereferanse }: Oppgave, saksbehandler: Saksbehandler) => {
         removeVarsel(tildelingskey);
         return postTildeling(oppgavereferanse)
             .then((response) => {
-                setTildelinger((it) => ({ ...it, [oppgavereferanse]: tildeling }));
+                setTildelinger((it) => ({ ...it, [oppgavereferanse]: { saksbehandler, påVent: false } }));
                 return Promise.resolve(response);
             })
             .catch(async (error) => {
                 if (error.statusCode === 409) {
                     const respons: TildelingError = (await JSON.parse(error.message)) as TildelingError;
-                    const { oid, navn } = respons.kontekst.tildeling;
+                    const { oid, navn, epost, påVent } = respons.kontekst.tildeling;
                     if (oid) {
-                        setTildelinger((it) => ({ ...it, [oppgavereferanse]: respons.kontekst.tildeling }));
+                        setTildelinger((it) => ({
+                            ...it,
+                            [oppgavereferanse]: { saksbehandler: { oid, navn, epost }, påVent: påVent },
+                        }));
                         addVarsel(tildelingsvarsel(`${capitalizeName(navn)} har allerede tatt saken.`));
                     }
                     return Promise.reject(oid);

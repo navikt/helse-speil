@@ -54,7 +54,7 @@ export const usePerson = () => {
     return (
         person && {
             ...person,
-            tildeltTil: person.tildeling?.oid ?? tildeling,
+            tildeltTil: person.tildeling?.saksbehandler.oid ?? tildeling,
         }
     );
 };

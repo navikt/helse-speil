@@ -68,10 +68,12 @@ export const tilOppgave = (oppgave: SpesialistOppgave): Oppgave => ({
     inntektskilde: inntektskilde(oppgave.inntektskilde),
     tildeling: oppgave.tildeling
         ? {
-              epost: oppgave.tildeling.epost,
-              oid: oppgave.tildeling.oid,
+              saksbehandler: {
+                  epost: oppgave.tildeling.epost,
+                  oid: oppgave.tildeling.oid,
+                  navn: oppgave.tildeling.navn,
+              },
               påVent: oppgave.tildeling.påVent,
-              navn: oppgave.tildeling.navn,
           }
         : undefined,
 });

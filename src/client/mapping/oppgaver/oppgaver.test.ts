@@ -32,10 +32,10 @@ describe('oppgavemapper', () => {
     test('mapper oppgave med tildeling', () => {
         const oppgave = tilOppgave(oppgaveMedildeling);
 
-        expect(oppgave.tildeling?.epost).toEqual('saksbehandler@nav.no');
-        expect(oppgave.tildeling?.oid).toEqual('uuid');
+        expect(oppgave.tildeling?.saksbehandler.epost).toEqual('saksbehandler@nav.no');
+        expect(oppgave.tildeling?.saksbehandler.oid).toEqual('uuid');
+        expect(oppgave.tildeling?.saksbehandler.navn).toEqual('saksbehandler');
         expect(oppgave.tildeling?.påVent).toEqual(false);
-        expect(oppgave.tildeling?.navn).toEqual('saksbehandler');
     });
 });
 

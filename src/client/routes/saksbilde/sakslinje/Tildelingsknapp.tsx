@@ -27,14 +27,6 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: Tildelingsknap
     const refreshPerson = useRefreshPerson();
     const { lukk } = useContext(DropdownContext);
 
-    const toTildeling = () => {
-        return {
-            oid: saksbehandler.oid!,
-            epost: saksbehandler.email!,
-            navn: saksbehandler.name!,
-            påVent: false,
-        };
-    };
 
     return erTildeltInnloggetBruker ? (
         <DropdownMenyknapp
@@ -51,7 +43,7 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: Tildelingsknap
     ) : (
         <DropdownMenyknapp
             onClick={() =>
-                tildelOppgave({ oppgavereferanse } as Oppgave, toTildeling()).then(() => {
+                tildelOppgave({ oppgavereferanse } as Oppgave, saksbehandler).then(() => {
                     lukk();
                     tildelTilPerson(saksbehandler.oid);
                 })

@@ -390,10 +390,8 @@ export interface Oppgave {
 }
 
 export interface Tildeling {
-    epost: string;
-    oid: string;
+    saksbehandler: Saksbehandler;
     påVent: boolean;
-    navn: string;
 }
 
 interface Boenhet {
@@ -428,4 +426,10 @@ export interface Error {
     message: string;
     statusCode?: number;
     technical?: string;
+}
+
+export interface Saksbehandler {
+    oid: string;
+    epost: string;
+    navn: string;
 }

@@ -52,6 +52,12 @@ const mockSuccessfulFetch = () =>
         });
     }));
 
+const saksbehandler = {
+    oid: 'uuid',
+    navn: 'enSaksbehandler',
+    epost: 'saksbehandler@nav.no',
+};
+
 const mockTildelingsfeil = () =>
     (global.fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve({
@@ -59,11 +65,9 @@ const mockTildelingsfeil = () =>
             text: () =>
                 JSON.stringify({
                     kontekst: {
-                        tildeltTil: 'enSaksbehandler',
+                        tildeltTil: saksbehandler.navn,
                         tildeling: {
-                            oid: 'uuid',
-                            navn: 'enSaksbehandler',
-                            epost: 'saksbehandler@nav.no',
+                            ...saksbehandler,
                             påVent: false,
                         },
                     },
@@ -80,7 +84,7 @@ describe('oppgavetildeling', () => {
             const { result } = renderHook(() => useTildelOppgave(), { wrapper });
 
             act(async () => {
-                expect(await result.current(enOppgave(), 'enEpost')).toHaveProperty('status', 200);
+                expect(await result.current(enOppgave(), saksbehandler)).toHaveProperty('status', 200);
             });
         });
 
@@ -89,7 +93,7 @@ describe('oppgavetildeling', () => {
             const { result } = renderHook(() => useTildelOppgave(), { wrapper });
 
             act(async () => {
-                const errorMessage = await result.current(enOppgave(), 'enEpost').catch((err) => err);
+                const errorMessage = await result.current(enOppgave(), saksbehandler).catch((err) => err);
                 expect(errorMessage).toEqual('uuid');
             });
         });

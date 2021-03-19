@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { capitalizeName, extractNameFromEmail } from '../../utils/locale';
+import { capitalizeName } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
@@ -14,7 +14,7 @@ const Flex = styled.span`
 `;
 
 export const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
-    const tildeltBrukernavn = capitalizeName(extractNameFromEmail(oppgave.tildeling.epost));
+    const tildeltBrukernavn = capitalizeName(oppgave.tildeling.saksbehandler.navn);
 
     return (
         <Flex>
@@ -28,20 +28,11 @@ export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
     const [isFetching, setIsFetching] = useState(false);
     const tildelOppgave = useTildelOppgave();
 
-    const toTildeling = () => {
-        return {
-            oid: saksbehandler.oid!,
-            epost: saksbehandler.email!,
-            navn: saksbehandler.name!,
-            påVent: false,
-        };
-    };
-
     const tildel = () => {
-        if (!saksbehandler.isLoggedIn) return;
+        if (!saksbehandler) return;
         if (isFetching) return;
         setIsFetching(true);
-        tildelOppgave(oppgave, toTildeling()).catch(() => setIsFetching(false));
+        tildelOppgave(oppgave, saksbehandler).catch(() => setIsFetching(false));
     };
 
     return (
@@ -55,7 +46,7 @@ export const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
     const { oid } = useInnloggetSaksbehandler();
     const [isFetching, setIsFetching] = useState(false);
     const fjernTildeling = useFjernTildeling();
-    const erTildeltInnloggetBruker = oppgave.tildeling?.oid === oid;
+    const erTildeltInnloggetBruker = oppgave.tildeling?.saksbehandler.oid === oid;
 
     const meldAv = () => {
         setIsFetching(true);

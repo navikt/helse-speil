@@ -46,8 +46,8 @@ const useFiltrerteOppgaver = () => {
         aktivTab === 'alle'
             ? oppgaver
             : aktivTab === 'ventende'
-            ? oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && tildeling?.påVent)
-            : oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && !tildeling?.påVent);
+            ? oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid && tildeling?.påVent)
+            : oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid && !tildeling?.påVent);
 
     useEffect(() => {
         if (oppgaver.state === 'hasValue') {

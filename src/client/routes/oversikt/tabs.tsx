@@ -95,7 +95,7 @@ export const Tabs = () => {
     const { oid } = useInnloggetSaksbehandler();
     const alleOppgaver = useRecoilValueLoadable(oppgaverState);
     const oppgaver = alleOppgaver.state === 'hasValue' ? (alleOppgaver.contents as Oppgave[]) : [];
-    const mineOppgaver = oppgaver.filter(({ tildeling }) => tildeling?.oid === oid);
+    const mineOppgaver = oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid);
     return (
         <Tablist>
             <div>
