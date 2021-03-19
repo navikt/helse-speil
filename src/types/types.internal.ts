@@ -271,9 +271,8 @@ export interface Person {
     fødselsnummer: string;
     infotrygdutbetalinger: Infotrygdutbetaling[];
     enhet: Enhetsinfo;
-    tildeltTil?: string;
-    erPåVent?: boolean;
     dødsdato?: Dayjs;
+    tildeling?: Tildeling;
 }
 
 export interface Enhetsinfo {
@@ -378,8 +377,6 @@ export interface UtbetalingshistorikkUtbetalingslinje {
 
 export interface Oppgave {
     oppgavereferanse: string;
-    tildeltTil?: string;
-    erPåVent?: boolean;
     opprettet: string;
     vedtaksperiodeId: string;
     personinfo: Personinfo;
@@ -392,10 +389,11 @@ export interface Oppgave {
     tildeling?: Tildeling;
 }
 
-interface Tildeling {
+export interface Tildeling {
     epost: string;
     oid: string;
     påVent: boolean;
+    navn: string;
 }
 
 interface Boenhet {
@@ -404,7 +402,7 @@ interface Boenhet {
 }
 
 export interface TildeltOppgave extends Oppgave {
-    tildeltTil: string;
+    tildeling: Tildeling;
 }
 
 export enum Inntektskilde {
@@ -424,4 +422,10 @@ export enum Utbetalingstype {
     ETTERUTBETALING = 'ETTERUTBETALING',
     REVURDERING = 'REVURDERING',
     UKJENT = 'UKJENT',
+}
+
+export interface Error {
+    message: string;
+    statusCode?: number;
+    technical?: string;
 }

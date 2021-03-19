@@ -1,11 +1,11 @@
-import { atom, selector, useSetRecoilState } from 'recoil';
-import { deleteTildeling, fetchOppgaver, postTildeling } from '../io/http';
-import { useAddVarsel, useRemoveVarsel } from './varsler';
-import { capitalizeName, extractNameFromEmail } from '../utils/locale';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
-import { Inntektskilde, Oppgave, Periodetype } from 'internal-types';
-import { tilOppgave } from '../mapping/oppgaver/oppgaver';
+import {atom, selector, useSetRecoilState} from 'recoil';
+import {deleteTildeling, fetchOppgaver, postTildeling} from '../io/http';
+import {useAddVarsel, useRemoveVarsel} from './varsler';
+import {capitalizeName, extractNameFromEmail} from '../utils/locale';
+import {Varseltype} from '@navikt/helse-frontend-varsel';
+import {flereArbeidsgivere, stikkprøve} from '../featureToggles';
+import {Inntektskilde, Oppgave, Periodetype, Tildeling} from "internal-types";
+import {tilOppgave} from "../mapping/oppgaver/oppgaver";
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -31,7 +31,7 @@ const remoteOppgaverState = selector<Oppgave[]>({
     },
 });
 
-const tildelingerState = atom<{ [oppgavereferanse: string]: string | undefined }>({
+const tildelingerState = atom<{ [oppgavereferanse: string]: Tildeling | undefined }>({
     key: 'tildelingerState',
     default: {},
 });
@@ -46,7 +46,9 @@ export const oppgaverState = selector<Oppgave[]>({
             .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != Inntektskilde.FlereArbeidsgivere)
             .map((it) => {
                 const tildeling = tildelinger[it.oppgavereferanse];
-                return it.oppgavereferanse in tildelinger ? { ...it, tildeltTil: tildeling } : it;
+                return it.oppgavereferanse in tildelinger
+                    ? { ...it, tildeltTil: tildeling?.navn, tildeling: tildeling }
+                    : it;
             });
     },
 });
@@ -65,6 +67,7 @@ type TildelingError = {
     kildesystem: string;
     kontekst: {
         tildeltTil: string;
+        tildeling: Tildeling;
     };
 };
 
@@ -77,26 +80,22 @@ export const useTildelOppgave = () => {
     const removeVarsel = useRemoveVarsel();
     const setTildelinger = useSetRecoilState(tildelingerState);
 
-    return ({ oppgavereferanse }: Oppgave, userId: string) => {
+    return ({ oppgavereferanse }: Oppgave, tildeling: Tildeling) => {
         removeVarsel(tildelingskey);
         return postTildeling(oppgavereferanse)
             .then((response) => {
-                setTildelinger((it) => ({ ...it, [oppgavereferanse]: userId }));
+                setTildelinger((it) => ({ ...it, [oppgavereferanse]: tildeling }));
                 return Promise.resolve(response);
             })
             .catch(async (error) => {
                 if (error.statusCode === 409) {
                     const respons: TildelingError = (await JSON.parse(error.message)) as TildelingError;
-                    const tildeltSaksbehandler = respons.kontekst.tildeltTil;
-                    if (tildeltSaksbehandler) {
-                        setTildelinger((it) => ({ ...it, [oppgavereferanse]: tildeltSaksbehandler }));
-                        addVarsel(
-                            tildelingsvarsel(
-                                `${capitalizeName(extractNameFromEmail(tildeltSaksbehandler))} har allerede tatt saken.`
-                            )
-                        );
+                    const { oid, navn } = respons.kontekst.tildeling;
+                    if (oid) {
+                        setTildelinger((it) => ({ ...it, [oppgavereferanse]: respons.kontekst.tildeling }));
+                        addVarsel(tildelingsvarsel(`${capitalizeName(navn)} har allerede tatt saken.`));
                     }
-                    return Promise.reject(tildeltSaksbehandler);
+                    return Promise.reject(oid);
                 } else {
                     addVarsel(tildelingsvarsel('Kunne ikke tildele sak.'));
                     return Promise.reject();

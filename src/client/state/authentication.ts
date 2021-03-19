@@ -22,7 +22,7 @@ export const authState = atom<AuthInfo>({
     },
 });
 
-export const useEmail = () => useRecoilValue(authState).email;
+export const useInnloggetSaksbehandler = () => useRecoilValue(authState);
 
 export const useAuthentication = () => {
     const [authInfo, setAuthInfo] = useRecoilState(authState);

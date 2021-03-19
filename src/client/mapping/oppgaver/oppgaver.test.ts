@@ -8,8 +8,6 @@ describe('oppgavemapper', () => {
         const oppgave = tilOppgave(oppgaveUtenTildeling);
 
         expect(oppgave.oppgavereferanse).toEqual(oppgaveUtenTildeling.oppgavereferanse);
-        expect(oppgave.tildeltTil).toEqual(undefined);
-        expect(oppgave.erPåVent).toEqual(oppgaveUtenTildeling.erPåVent);
         expect(oppgave.opprettet).toEqual(oppgaveUtenTildeling.opprettet);
         expect(oppgave.vedtaksperiodeId).toEqual(oppgaveUtenTildeling.vedtaksperiodeId);
 
@@ -34,20 +32,17 @@ describe('oppgavemapper', () => {
     test('mapper oppgave med tildeling', () => {
         const oppgave = tilOppgave(oppgaveMedildeling);
 
-        expect(oppgave.tildeltTil).toEqual('saksbehandler@nav.no');
-        expect(oppgave.erPåVent).toEqual(false);
         expect(oppgave.tildeling?.epost).toEqual('saksbehandler@nav.no');
         expect(oppgave.tildeling?.oid).toEqual('uuid');
         expect(oppgave.tildeling?.påVent).toEqual(false);
+        expect(oppgave.tildeling?.navn).toEqual('saksbehandler');
     });
 });
 
 const oppgaveUtenTildeling: SpesialistOppgave = {
-    erPåVent: undefined,
     oppgavetype: Oppgavetype.Søknad,
     periodeFom: '2018-02-27',
     periodeTom: '2018-03-15',
-    saksbehandlerepost: null,
     oppgavereferanse: 'ea5d644b-0000-9999-0000-f93744554d5e',
     opprettet: '2018-02-27T08:38:00.728127',
     fødselsnummer: '21023701901',
@@ -71,11 +66,9 @@ const oppgaveUtenTildeling: SpesialistOppgave = {
 };
 
 const oppgaveMedildeling: SpesialistOppgave = {
-    erPåVent: false,
     oppgavetype: Oppgavetype.Søknad,
     periodeFom: '2018-02-27',
     periodeTom: '2018-03-15',
-    saksbehandlerepost: 'saksbehandler@nav.no',
     oppgavereferanse: 'ea5d644b-0000-9999-0000-f93744554d5e',
     opprettet: '2018-02-27T08:38:00.728127',
     fødselsnummer: '21023701901',
@@ -99,5 +92,6 @@ const oppgaveMedildeling: SpesialistOppgave = {
         epost: 'saksbehandler@nav.no',
         oid: 'uuid',
         påVent: false,
+        navn: 'saksbehandler',
     },
 };

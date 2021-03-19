@@ -27,6 +27,7 @@ export class PersonBuilder {
             return { problems: this.problems };
         }
         this.mapEnkleProperties();
+        this.mapTildeling();
         this.mapPersoninfo();
         this.mapUtbetalinger();
         this.mapArbeidsgivere();
@@ -37,10 +38,19 @@ export class PersonBuilder {
     private mapEnkleProperties = () => {
         this.person.enhet = this.unmapped.enhet;
         this.person.aktørId = this.unmapped.aktørId;
-        this.person.tildeltTil = this.unmapped.tildeltTil ?? undefined;
-        this.person.erPåVent = this.unmapped.erPåVent ?? undefined;
         this.person.fødselsnummer = this.unmapped.fødselsnummer;
         this.person.dødsdato = this.unmapped.dødsdato ? somDato(this.unmapped.dødsdato) : undefined;
+    };
+
+    private mapTildeling = () => {
+        this.person.tildeling = this.unmapped.tildeling
+            ? {
+                  oid: this.unmapped.tildeling.oid,
+                  epost: this.unmapped.tildeling.epost,
+                  påVent: this.unmapped.tildeling.påVent,
+                  navn: this.unmapped.tildeling.navn,
+              }
+            : undefined;
     };
 
     private mapPersoninfo = () => {

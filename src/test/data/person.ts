@@ -19,7 +19,6 @@ import {
     Periodetype as UtbetalingshistorikkPeriodetype,
     Utbetalingstatus,
 } from '../../client/modell/UtbetalingshistorikkElement';
-
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
     utbetalinger = umappetUtbetalinger(),
@@ -740,5 +739,5 @@ export const mappetPersonObject: Person = {
         },
     ],
     infotrygdutbetalinger: [],
-    tildeltTil: undefined,
+    tildeling: undefined,
 };

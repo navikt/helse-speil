@@ -162,7 +162,7 @@ export const renderer = (rad: Tabellrad): Tabellrad => {
     return {
         ...rad,
         celler: [
-            oppgave.tildeltTil ? (
+            oppgave.tildeling ? (
                 <TildeltMedSkjultSakslenke oppgave={oppgave} />
             ) : (
                 <CellContainer width={160}>

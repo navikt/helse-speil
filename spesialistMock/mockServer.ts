@@ -16,8 +16,8 @@ app.use((req, res, next) => {
 });
 
 const tildelinger: { [oppgavereferanse: string]: string } = {
-    'ea5d644b-0000-9999-0000-f93744554d5e': 'dev@nav.no',
-    'f9374455-0000-9999-0000-ea5d644b4d5g': 'dev@nav.no',
+    'ea5d644b-0000-9999-0000-f93744554d5e': 'uuid',
+    'f9374455-0000-9999-0000-ea5d644b4d5g': 'uuid',
 };
 
 const venter: { [oppgavereferanse: string]: boolean } = {
@@ -35,7 +35,7 @@ const personer: { [aktørId: string]: string } = oppgaveFil
 
 app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
-    tildelinger[oppgavereferanse] = 'dev@nav.no';
+    tildelinger[oppgavereferanse] = 'uuid';
     res.sendStatus(200);
 });
 

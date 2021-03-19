@@ -1,5 +1,3 @@
-import { SpesialistPersoninfo } from '../types';
-
 export interface Utbetalingsdetalj {
     sats: number;
     konto: string;
@@ -170,6 +168,51 @@ export interface SpesialistArbeidsforhold {
     sluttdato?: string;
 }
 
+export interface SpesialistPersoninfo {
+    fornavn: string;
+    mellomnavn: string | null;
+    etternavn: string;
+    kjønn: string | null;
+    fødselsdato: string | null;
+}
+
+export enum SpesialistPeriodetype {
+    Forlengelse = 'FORLENGELSE',
+    Førstegangsbehandling = 'FØRSTEGANGSBEHANDLING',
+    Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
+    OvergangFraInfotrygd = 'OVERGANG_FRA_IT',
+    Stikkprøve = 'STIKKPRØVE',
+    RiskQa = 'RISK_QA',
+}
+
+export enum Oppgavetype {
+    Søknad = 'SØKNAD',
+    Stikkprøve = 'STIKKPRØVE',
+    RiskQa = 'RISK_QA',
+}
+
+export interface SpesialistOppgave {
+    oppgavereferanse: string;
+    opprettet: string;
+    vedtaksperiodeId: string;
+    periodeFom: string;
+    periodeTom: string;
+    personinfo: SpesialistPersoninfo;
+    fødselsnummer: string;
+    aktørId: string;
+    antallVarsler: number;
+    type: SpesialistPeriodetype;
+    oppgavetype: Oppgavetype;
+    boenhet: SpesialistBoenhet;
+    inntektskilde?: SpesialistInntektskilde;
+    tildeling?: EksternTildeling;
+}
+
+interface SpesialistBoenhet {
+    id: string;
+    navn: string;
+}
+
 export interface SpesialistPerson {
     aktørId: string;
     fødselsnummer: string;
@@ -178,11 +221,17 @@ export interface SpesialistPerson {
     inntektsgrunnlag?: SpesialistInntektsgrunnlag[];
     personinfo: SpesialistPersoninfo;
     enhet: Enhet;
-    tildeltTil: string | null;
-    erPåVent: boolean | null;
     arbeidsforhold: SpesialistArbeidsforhold[];
     infotrygdutbetalinger?: SpesialistInfotrygdutbetaling[];
     dødsdato?: string;
+    tildeling?: EksternTildeling;
+}
+
+interface EksternTildeling {
+    oid: string;
+    epost: string;
+    påVent: boolean;
+    navn: string;
 }
 
 interface Enhet {

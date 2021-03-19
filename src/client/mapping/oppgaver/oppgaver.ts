@@ -45,8 +45,6 @@ export const inntektskilde = (inntektskilde?: SpesialistInntektskilde): Inntekts
 
 export const tilOppgave = (oppgave: SpesialistOppgave): Oppgave => ({
     oppgavereferanse: oppgave.oppgavereferanse,
-    tildeltTil: oppgave.saksbehandlerepost ?? undefined,
-    erPåVent: oppgave.erPåVent ?? undefined,
     opprettet: oppgave.opprettet,
     vedtaksperiodeId: oppgave.vedtaksperiodeId,
     personinfo: {
@@ -73,6 +71,7 @@ export const tilOppgave = (oppgave: SpesialistOppgave): Oppgave => ({
               epost: oppgave.tildeling.epost,
               oid: oppgave.tildeling.oid,
               påVent: oppgave.tildeling.påVent,
+              navn: oppgave.tildeling.navn,
           }
         : undefined,
 });

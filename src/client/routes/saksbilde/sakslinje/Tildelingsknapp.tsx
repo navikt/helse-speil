@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useEmail } from '../../../state/authentication';
+import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { DropdownMenyknapp } from './Verktøylinje';
 import { useFjernTildeling, useTildelOppgave } from '../../../state/oppgaver';
 import { usePerson, useRefreshPerson, useTildelPerson } from '../../../state/person';
@@ -14,18 +14,27 @@ interface TildelingsknappProps {
 export const useErTildeltInnloggetBruker = () => {
     const personTilBehandling = usePerson();
     const tildeltTil = personTilBehandling?.tildeltTil;
-    const email = useEmail();
-    return tildeltTil === email;
+    const { oid } = useInnloggetSaksbehandler();
+    return tildeltTil === oid;
 };
 
 export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: TildelingsknappProps) => {
     const erTildeltInnloggetBruker = useErTildeltInnloggetBruker();
-    const email = useEmail();
+    const saksbehandler = useInnloggetSaksbehandler();
     const tildelTilPerson = useTildelPerson();
     const tildelOppgave = useTildelOppgave();
     const fjernTildeling = useFjernTildeling();
     const refreshPerson = useRefreshPerson();
     const { lukk } = useContext(DropdownContext);
+
+    const toTildeling = () => {
+        return {
+            oid: saksbehandler.oid!,
+            epost: saksbehandler.email!,
+            navn: saksbehandler.name!,
+            påVent: false,
+        };
+    };
 
     return erTildeltInnloggetBruker ? (
         <DropdownMenyknapp
@@ -42,9 +51,9 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: Tildelingsknap
     ) : (
         <DropdownMenyknapp
             onClick={() =>
-                tildelOppgave({ oppgavereferanse } as Oppgave, email!).then(() => {
+                tildelOppgave({ oppgavereferanse } as Oppgave, toTildeling()).then(() => {
                     lukk();
-                    tildelTilPerson(email);
+                    tildelTilPerson(saksbehandler.oid);
                 })
             }
             disabled={tildeltTil !== undefined}

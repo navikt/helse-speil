@@ -17,7 +17,7 @@ export const overgangFraInfotrygdFilter = () => ({
 
 export const ufordelteOppgaverFilter = () => ({
     label: 'Ufordelte saker',
-    func: (oppgave: Oppgave) => !oppgave?.tildeltTil,
+    func: (oppgave: Oppgave) => !oppgave?.tildeling,
 });
 
 export const stikkprøveFilter = () => ({

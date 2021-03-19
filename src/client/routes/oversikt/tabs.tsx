@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
-import { useEmail } from '../../state/authentication';
+import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { oppgaverState } from '../../state/oppgaver';
 import { Dropdownknapp } from '../saksbilde/sakslinje/Verktøylinje';
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
@@ -92,23 +92,16 @@ const VentendeTab = ({ antall }: { antall: number }) => {
 };
 
 export const Tabs = () => {
-    const email = useEmail();
+    const { oid } = useInnloggetSaksbehandler();
     const alleOppgaver = useRecoilValueLoadable(oppgaverState);
     const oppgaver = alleOppgaver.state === 'hasValue' ? (alleOppgaver.contents as Oppgave[]) : [];
+    const mineOppgaver = oppgaver.filter(({ tildeling }) => tildeling?.oid === oid);
     return (
         <Tablist>
             <div>
                 <AlleSakerTab />
-                <MineSakerTab
-                    antall={
-                        oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && !erPåVent)?.length ?? 0
-                    }
-                />
-                <VentendeTab
-                    antall={
-                        oppgaver?.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)?.length ?? 0
-                    }
-                />
+                <MineSakerTab antall={mineOppgaver?.filter(({ tildeling }) => !tildeling?.påVent)?.length ?? 0} />
+                <VentendeTab antall={mineOppgaver?.filter(({ tildeling }) => tildeling?.påVent)?.length ?? 0} />
             </div>
             <Container>
                 <Dropdownknapp tittel={'Meny'} venstrestilt={true}>

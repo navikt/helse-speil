@@ -23,7 +23,6 @@ const enOppgavereferanse = '123456';
 
 const enOppgave = (): Oppgave => ({
     oppgavereferanse: enOppgavereferanse,
-    tildeltTil: undefined,
     opprettet: '2020-01-01',
     vedtaksperiodeId: '234567',
     personinfo: {
@@ -57,7 +56,18 @@ const mockTildelingsfeil = () =>
     (global.fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve({
             status: 409,
-            text: () => '{ "kontekst": { "tildeltTil": "enSaksbehandler" } }',
+            text: () =>
+                JSON.stringify({
+                    kontekst: {
+                        tildeltTil: 'enSaksbehandler',
+                        tildeling: {
+                            oid: 'uuid',
+                            navn: 'enSaksbehandler',
+                            epost: 'saksbehandler@nav.no',
+                            påVent: false,
+                        },
+                    },
+                }),
         });
     }));
 
@@ -80,7 +90,7 @@ describe('oppgavetildeling', () => {
 
             act(async () => {
                 const errorMessage = await result.current(enOppgave(), 'enEpost').catch((err) => err);
-                expect(errorMessage).toEqual('enSaksbehandler');
+                expect(errorMessage).toEqual('uuid');
             });
         });
     });

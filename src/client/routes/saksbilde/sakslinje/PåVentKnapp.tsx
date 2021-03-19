@@ -13,7 +13,7 @@ const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => 
 
 export const PåVentKnapp = () => {
     const history = useHistory();
-    const erPåVent = usePerson()?.erPåVent;
+    const erPåVent = usePerson()?.tildeling?.påVent;
     const oppgavereferanse = useAktivVedtaksperiode()?.oppgavereferanse;
     const errorHandler = useOperasjonsvarsel('Legg på vent');
     const { lukk } = useContext(DropdownContext);

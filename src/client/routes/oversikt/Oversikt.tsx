@@ -8,7 +8,7 @@ import { OppgaverTabell } from './OppgaverTabell';
 import { Tabs, tabState } from './tabs';
 import { useDebounce } from '../../hooks/useDebounce';
 import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
-import { useEmail } from '../../state/authentication';
+import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 import { personState } from '../../state/person';
 import { useAddToast, useRemoveToast } from '../../state/toasts';
@@ -36,7 +36,7 @@ const Spinner = styled(NavFrontendSpinner)`
 `;
 
 const useFiltrerteOppgaver = () => {
-    const email = useEmail();
+    const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useRecoilValue(tabState);
     const oppgaver = useRecoilValueLoadable(oppgaverState);
     const [cache, setCache] = useState<Oppgave[]>([]);
@@ -46,8 +46,8 @@ const useFiltrerteOppgaver = () => {
         aktivTab === 'alle'
             ? oppgaver
             : aktivTab === 'ventende'
-            ? oppgaver.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && erPåVent)
-            : oppgaver.filter(({ tildeltTil, erPåVent }) => tildeltTil === email && !erPåVent);
+            ? oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && tildeling?.påVent)
+            : oppgaver.filter(({ tildeling }) => tildeling?.oid === oid && !tildeling?.påVent);
 
     useEffect(() => {
         if (oppgaver.state === 'hasValue') {
