@@ -235,14 +235,14 @@
     },
     {
         "varsel": "Permisjon oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden",
-        "betydning": "",
-        "løsning": "",
+        "betydning": "Det skal ikke utbetales sykepenger under permisjon.",
+        "løsning": "Vurder retten til sykepenger hvis perioden med sykmelding er lenger enn permisjonen. Vurder å sende brev til brukeren. Gjelder det mer enn 14 dager, skal det alltid sendes vedtak.",
         "viktighet": "Høy"
     },
     {
         "varsel": "Søknaden inneholder en Papirsykmeldingsperiode",
-        "betydning": "",
-        "løsning": "",
+        "betydning": "Sjekk om papirsykmeldingen er med i arbeidsgiverperioden hvis det er en førstegangssak. Sjekk om papirsykmeldingen medfører endring i grad hvis det er en forlengelse.",
+        "løsning": "Utbetal kun hvis arbeidsgiverperioden er korrekt. Korriger eventuelt grad.",
         "viktighet": "Høy"
     }
 ]
