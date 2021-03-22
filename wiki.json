@@ -7,8 +7,8 @@
     },
     {
         "varsel": "Perioden er lagt inn i Infotrygd, men ikke utbetalt. Fjern fra Infotrygd hvis det utbetales via speil.",
-        "betydning": "Det ligger registrert en søknad om sykepenger på SP UB for samme periode som i ny løsning",
-        "løsning": "Fjern perioden fra SP UB hvis du utbetaler via speil.",
+        "betydning": "Det ligger registrert en søknad om sykepenger på SP UB.",
+        "løsning": "Dette varselet betyr ikke at perioden må behandles i Infotrygd. Fjern perioden fra SP UB når du utbetaler via speil. Hvis inntekten er registert så kan den slettes på SP-VT. Hvis det er en forutgående periode i Infotrygd som enda ikke er behandlet, trenger du ikke å avvise perioden hvis det er flere sykepengedager igjen er enn det som ligger til behandling i Infotrygd.",
         "viktighet": "Lav"
     },
     {
