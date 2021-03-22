@@ -51,7 +51,13 @@ export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal
 export const annulleringerEnabled =
     erPreprod() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
-    erPreprod() || erLocal() || erSupersaksbehandler() || erAnnulleringsbois() || erSpiceGirls() || harUtvidetTilgang();
+    erPreprod() ||
+    erLocal() ||
+    erSupersaksbehandler() ||
+    erAnnulleringsbois() ||
+    erSpiceGirls() ||
+    harUtvidetTilgang() ||
+    erSolør();
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
