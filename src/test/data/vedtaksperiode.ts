@@ -64,6 +64,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         varsler: varslene,
         simuleringsdata: umappetSimuleringsdata,
         inntektskilde: SpesialistInntektskilde.EnArbeidsgiver,
+        beregningIder: ['id1']
     };
 };
 

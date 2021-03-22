@@ -16,6 +16,7 @@ import { Dayjs } from 'dayjs';
 import { nanoid } from 'nanoid';
 import { HoverInfo } from './HoverInfo';
 import {
+    erUtbetaling, sisteUtbetaling,
     Tidslinjeperiode,
     UtbetalingshistorikkElement,
     Utbetalingstatus,
@@ -98,7 +99,7 @@ const tilHistorikkelement = (element: UtbetalingshistorikkElement): Historikkele
         beregnettidslinje: element.beregnettidslinje,
         hendelsetidslinje: element.hendelsetidslinje,
         utbetalinger: element.utbetalinger,
-        erUtbetaling: element.erUtbetaling(),
+        erUtbetaling: erUtbetaling(sisteUtbetaling(element)),
     };
 };
 

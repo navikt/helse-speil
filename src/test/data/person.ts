@@ -1,19 +1,19 @@
-import { mapPerson } from '../../client/mapping/person';
-import { umappetArbeidsgiver } from './arbeidsgiver';
-import { umappetUtbetalinger } from './SpesialistUtbetaling';
+import {mapPerson} from '../../client/mapping/person';
+import {umappetArbeidsgiver} from './arbeidsgiver';
+import {umappetUtbetalinger} from './SpesialistUtbetaling';
 import {
-    Dagtype, Inntektskilde,
+    Dagtype,
+    Inntektskilde,
     Inntektskildetype,
     Kildetype,
-    Kjønn,
-    Periodetype,
+    Kjønn, Periodetype,
     Person,
     Vedtaksperiodetilstand,
 } from 'internal-types';
 import dayjs from 'dayjs';
-import { umappetSimuleringsdata } from './simulering';
-import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
-
+import {umappetSimuleringsdata} from './simulering';
+import {umappetInntektsgrunnlag} from './inntektsgrunnlag';
+import {Periodetype as UtbetalingshistorikkPeriodetype, Utbetalingstatus} from '../../client/modell/UtbetalingshistorikkElement';
 
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
@@ -682,11 +682,47 @@ export const mappetPersonObject: Person = {
                         ],
                     },
                     automatiskBehandlet: false,
-                    beregningIder: [],
+                    beregningIder: ['id1'],
                     inntektskilde: Inntektskilde.EnArbeidsgiver,
                 },
             ],
-            utbetalingshistorikk: [],
+            utbetalingshistorikk:
+                [{
+                    id: 'id1',
+                    perioder: [
+                        {
+                            beregningId: 'id1',
+                            fom: dayjs('2018-01-01'),
+                            tom: dayjs('2018-01-01'),
+                            id: 'nanoid',
+                            tilstand: Utbetalingstatus.IKKE_UTBETALT,
+                            type: UtbetalingshistorikkPeriodetype.REVURDERING,
+                            utbetalingstidslinje: [{
+                                dato: dayjs('2018-01-01'),
+                                type: Dagtype.Syk
+                            }]
+                        }
+                    ],
+                    kilde: 'Utbetaling',
+                    beregnettidslinje: [{
+                        dato: dayjs('2018-01-01'),
+                        type: Dagtype.Syk,
+                    }],
+                    hendelsetidslinje: [
+                        {
+                            dato: dayjs('2018-01-01'),
+                            type: Dagtype.Syk,
+                        }
+                    ],
+                    utbetalinger: [{
+                        status: 'IKKE_UTBETALT',
+                        type: 'Utbetaling',
+                        utbetalingstidslinje: [{
+                            dato: dayjs('2018-01-01'),
+                            type: Dagtype.Syk,
+                        }]
+                    }]
+                }],
         },
     ],
     infotrygdutbetalinger: [],

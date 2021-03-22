@@ -19,6 +19,10 @@ import {
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { mappetPersonObject, umappetPerson } from '../../test/data/person';
 
+jest.mock('nanoid', () => ({
+    nanoid: () => 'nanoid',
+}));
+
 const enAktivitet = (
     melding: string = 'Aktivitetsloggvarsel',
     tidsstempel: string = '2020-04-03T07:40:47.261Z',
@@ -32,6 +36,7 @@ const enAktivitet = (
 
 describe('personmapper', () => {
     test('mapper person', async () => {
+
         const { person } = await mapPerson(umappetPerson());
         expect(person).toEqual(mappetPersonObject);
     });

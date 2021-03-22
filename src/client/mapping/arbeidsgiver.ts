@@ -3,7 +3,7 @@ import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
 import dayjs from 'dayjs';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
-import { UtbetalingshistorikkElement } from '../modell/UtbetalingshistorikkElement';
+import { utbetalingshistorikkelement } from '../modell/UtbetalingshistorikkElement';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -65,29 +65,28 @@ export class ArbeidsgiverBuilder {
                             periode.beregningIder?.includes(it.beregningId)
                         );
                     })
-                    .map(
-                        (element) =>
-                            new UtbetalingshistorikkElement(
-                                element.beregningId,
-                                element.beregnettidslinje.map((dag) => ({
-                                    dato: dayjs(dag.dagen),
-                                    type: sykdomstidslinjedag(dag.type),
+                    .map((element) => {
+                        return utbetalingshistorikkelement(
+                            element.beregningId,
+                            element.beregnettidslinje.map((dag) => ({
+                                dato: dayjs(dag.dagen),
+                                type: sykdomstidslinjedag(dag.type),
+                            })),
+                            element.hendelsetidslinje.map((dag) => ({
+                                dato: dayjs(dag.dagen),
+                                type: sykdomstidslinjedag(dag.type),
+                            })),
+                            element.utbetalinger.map((utbetaling) => ({
+                                status: utbetaling.status,
+                                type: utbetaling.type,
+                                utbetalingstidslinje: utbetaling.utbetalingstidslinje.map((dag) => ({
+                                    dato: dayjs(dag.dato),
+                                    type: utbetalingstidslinjedag(dag.type),
                                 })),
-                                element.hendelsetidslinje.map((dag) => ({
-                                    dato: dayjs(dag.dagen),
-                                    type: sykdomstidslinjedag(dag.type),
-                                })),
-                                element.utbetalinger.map((utbetaling) => ({
-                                    status: utbetaling.status,
-                                    type: utbetaling.type,
-                                    utbetalingstidslinje: utbetaling.utbetalingstidslinje.map((dag) => ({
-                                        dato: dayjs(dag.dato),
-                                        type: utbetalingstidslinjedag(dag.type),
-                                    })),
-                                })),
-                                this.arbeidsgiver.vedtaksperioder ?? []
-                            )
-                    ) ?? [],
+                            })),
+                            this.arbeidsgiver.vedtaksperioder ?? []
+                        );
+                    }) ?? [],
         };
     };
 

@@ -3,7 +3,7 @@ import { Dagtype, Sykdomsdag, UfullstendigVedtaksperiode, Utbetalingsdag, Vedtak
 import { useTidslinjerader } from './useTidslinjerader';
 import { mappetPersonObject } from '../../../test/data/person';
 import { renderHook } from '@testing-library/react-hooks';
-import { UtbetalingshistorikkElement } from '../../modell/UtbetalingshistorikkElement';
+import {utbetalingshistorikkelement, UtbetalingshistorikkElement} from '../../modell/UtbetalingshistorikkElement';
 
 type Vedtaksperioder = (Vedtaksperiode | UfullstendigVedtaksperiode)[];
 
@@ -81,7 +81,7 @@ const nyttElement = (
     erRevurdering: boolean = false,
     erUtbetalt = true
 ): UtbetalingshistorikkElement => {
-    return new UtbetalingshistorikkElement(
+    return utbetalingshistorikkelement(
         id,
         sykdomstidslinje(fom, tom),
         sykdomstidslinje(fom, tom),
