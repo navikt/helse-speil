@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
-import {UtbetalingshistorikkElement} from '../client/modell/UtbetalingshistorikkElement';
+import { UtbetalingshistorikkElement, Utbetalingstatus } from '../client/modell/UtbetalingshistorikkElement';
 
 export interface Periode {
     fom: Dayjs;
@@ -146,6 +146,12 @@ export interface Utbetalingsdag {
         tekst: string;
         paragraf?: string;
     };
+}
+
+export enum Revuderingtilstand {
+    IRevudering = 'IRevudering',
+    Revurdert = 'Revudert',
+    RevurdertIngenEndring = 'RevudertIngenEndring',
 }
 
 export enum Vedtaksperiodetilstand {
@@ -405,7 +411,15 @@ export enum Inntektskilde {
 }
 
 export interface UtbetalingshistorikkUtbetaling2 {
-    status: string;
-    type: string;
+    status: Utbetalingstatus;
+    type: Utbetalingstype;
     utbetalingstidslinje: Utbetalingsdag[];
+}
+
+export enum Utbetalingstype {
+    UTBETALING = 'UTBETALING',
+    ANNULLERING = 'ANNULLERING',
+    ETTERUTBETALING = 'ETTERUTBETALING',
+    REVUDERING = 'REVUDERING',
+    UKJENT = 'UKJENT'
 }

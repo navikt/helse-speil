@@ -65,7 +65,7 @@ const tidslinjevedtaksperioder = (
                 fom: it.fom,
                 tom: it.tom,
                 type: Periodetype.VEDTAKSPERIODE,
-                tilstand: utbetalingsstatus(utbetaling),
+                tilstand: utbetaling?.status ?? Utbetalingstatus.INGEN_UTBETALING,
                 utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
             };
         });
@@ -86,23 +86,11 @@ const revurderingsperioder = (
             beregningId: beregningsId,
             fom: it.fom,
             tom: it.tom,
-            tilstand: utbetalingsstatus(utbetaling),
+            tilstand: utbetaling.status ?? Utbetalingstatus.INGEN_UTBETALING,
             utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
             type: Periodetype.REVURDERING,
         };
     });
-};
-
-const utbetalingsstatus = (utbetaling?: UtbetalingshistorikkUtbetaling2) => {
-    if (!utbetaling) return Utbetalingstatus.INGEN_UTBETALING;
-    switch (utbetaling.status) {
-        case 'IKKE_UTBETALT':
-            return Utbetalingstatus.IKKE_UTBETALT;
-        case 'UTBETALT':
-            return Utbetalingstatus.UTBETALT;
-        default:
-            return Utbetalingstatus.UKJENT;
-    }
 };
 
 const isUfullstendig = (vedtaksperiode: Vedtaksperiode) => {

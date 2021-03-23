@@ -1,19 +1,24 @@
-import {mapPerson} from '../../client/mapping/person';
-import {umappetArbeidsgiver} from './arbeidsgiver';
-import {umappetUtbetalinger} from './SpesialistUtbetaling';
+import { mapPerson } from '../../client/mapping/person';
+import { umappetArbeidsgiver } from './arbeidsgiver';
+import { umappetUtbetalinger } from './SpesialistUtbetaling';
 import {
     Dagtype,
     Inntektskilde,
     Inntektskildetype,
     Kildetype,
-    Kjønn, Periodetype,
+    Kjønn,
+    Periodetype,
     Person,
+    Utbetalingstype,
     Vedtaksperiodetilstand,
 } from 'internal-types';
 import dayjs from 'dayjs';
-import {umappetSimuleringsdata} from './simulering';
-import {umappetInntektsgrunnlag} from './inntektsgrunnlag';
-import {Periodetype as UtbetalingshistorikkPeriodetype, Utbetalingstatus} from '../../client/modell/UtbetalingshistorikkElement';
+import { umappetSimuleringsdata } from './simulering';
+import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
+import {
+    Periodetype as UtbetalingshistorikkPeriodetype,
+    Utbetalingstatus,
+} from '../../client/modell/UtbetalingshistorikkElement';
 
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
@@ -703,7 +708,7 @@ export const mappetPersonObject: Person = {
                             }]
                         }
                     ],
-                    kilde: 'Utbetaling',
+                    kilde: Utbetalingstype.REVUDERING,
                     beregnettidslinje: [{
                         dato: dayjs('2018-01-01'),
                         type: Dagtype.Syk,
@@ -715,8 +720,8 @@ export const mappetPersonObject: Person = {
                         }
                     ],
                     utbetalinger: [{
-                        status: 'IKKE_UTBETALT',
-                        type: 'Utbetaling',
+                        status: Utbetalingstatus.IKKE_UTBETALT,
+                        type: Utbetalingstype.REVUDERING,
                         utbetalingstidslinje: [{
                             dato: dayjs('2018-01-01'),
                             type: Dagtype.Syk,

@@ -52,7 +52,7 @@ export const umappetArbeidsgiver = (
                             dato: '2018-01-01',
                         },
                     ],
-                    type: 'Utbetaling',
+                    type: 'Revudering',
                 },
             ],
         },

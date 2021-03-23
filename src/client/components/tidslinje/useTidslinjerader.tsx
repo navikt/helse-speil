@@ -1,10 +1,10 @@
 import {
     Dagtype,
-    Person,
+    Person, Revuderingtilstand,
     Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
-    UtbetalingshistorikkUtbetaling2,
+    UtbetalingshistorikkUtbetaling2, Utbetalingstype,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
@@ -67,12 +67,35 @@ const toVedtaksperiodetilstand = (utbetalingstatus: Utbetalingstatus) => {
     }
 };
 
+export const tilPeriodetilstand = (utbetaling: UtbetalingshistorikkUtbetaling2) => {
+    switch (utbetaling.type) {
+        case Utbetalingstype.REVUDERING:
+            switch (utbetaling.status) {
+                case Utbetalingstatus.IKKE_UTBETALT:
+                    return Revuderingtilstand.IRevudering;
+                case Utbetalingstatus.UTBETALT:
+                    return Revuderingtilstand.Revurdert;
+                case Utbetalingstatus.INGEN_UTBETALING:
+                case Utbetalingstatus.UKJENT:
+                    return Revuderingtilstand.RevurdertIngenEndring;
+            }
+            break;
+        case Utbetalingstype.ETTERUTBETALING:
+        case Utbetalingstype.ANNULLERING:
+        case Utbetalingstype.UTBETALING:
+            return toVedtaksperiodetilstand(utbetaling.status);
+        case Utbetalingstype.UKJENT: return Vedtaksperiodetilstand.Ukjent
+    }
+}
+
 export const toTidslinjeperioder = (element: Historikkelement, fom: Dayjs, tom: Dayjs): TidslinjeperiodeObject[] => {
+    const sisteUtbetaling = element.utbetalinger[element.utbetalinger.length - 1]
+
     const perioder = element.perioder.map((it) => ({
         id: it.id,
         start: it.fom.toDate(),
         end: it.tom.toDate(),
-        tilstand: toVedtaksperiodetilstand(it.tilstand), // IKKE_UTBETALT, UTBETALT, INGEN_UTBETALING
+        tilstand: tilPeriodetilstand(sisteUtbetaling),
         utbetalingstype: it.type.toString().toLowerCase(),
         skalVisePin: false,
     }));

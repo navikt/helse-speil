@@ -1,9 +1,9 @@
 import { SpesialistArbeidsgiver, SpesialistInntektsgrunnlag, SpesialistPerson } from 'external-types';
-import { Arbeidsgiver, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, Utbetalingstype, Vedtaksperiode } from 'internal-types';
 import dayjs from 'dayjs';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
-import { utbetalingshistorikkelement } from '../modell/UtbetalingshistorikkElement';
+import { utbetalingshistorikkelement, Utbetalingstatus } from '../modell/UtbetalingshistorikkElement';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -77,8 +77,8 @@ export class ArbeidsgiverBuilder {
                                 type: sykdomstidslinjedag(dag.type),
                             })),
                             element.utbetalinger.map((utbetaling) => ({
-                                status: utbetaling.status,
-                                type: utbetaling.type,
+                                status: this.utbetalingsstatus(utbetaling.status),
+                                type: this.utbetalingstype(utbetaling.type),
                                 utbetalingstidslinje: utbetaling.utbetalingstidslinje.map((dag) => ({
                                     dato: dayjs(dag.dato),
                                     type: utbetalingstidslinjedag(dag.type),
@@ -107,5 +107,33 @@ export class ArbeidsgiverBuilder {
     private sortVedtaksperioder = () => {
         const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
         this.arbeidsgiver.vedtaksperioder?.sort(reversert);
+    };
+
+    private utbetalingstype = (type: string): Utbetalingstype => {
+        switch (type.toUpperCase()) {
+            case 'UTBETALING':
+                return Utbetalingstype.UTBETALING;
+            case 'ANNULLERING':
+                return Utbetalingstype.ANNULLERING;
+            case 'ETTERUTBETALING':
+                return Utbetalingstype.ETTERUTBETALING;
+            case 'REVUDERING':
+                return Utbetalingstype.REVUDERING;
+            default: return Utbetalingstype.UKJENT
+        }
+    };
+
+    private utbetalingsstatus = (type: string): Utbetalingstatus => {
+        switch (type.toUpperCase()) {
+            case 'IKKE_UTBETALT':
+                return Utbetalingstatus.IKKE_UTBETALT;
+            case 'UTBETALT':
+                return Utbetalingstatus.UTBETALT;
+            case 'INGEN_UTBETALING':
+                return Utbetalingstatus.INGEN_UTBETALING;
+            case 'UKJENT':
+                return Utbetalingstatus.UKJENT;
+            default: return Utbetalingstatus.UKJENT
+        }
     };
 }

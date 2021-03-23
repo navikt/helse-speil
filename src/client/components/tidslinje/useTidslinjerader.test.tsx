@@ -1,9 +1,20 @@
-import dayjs, { Dayjs } from 'dayjs';
-import { Dagtype, Sykdomsdag, UfullstendigVedtaksperiode, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
-import { useTidslinjerader } from './useTidslinjerader';
-import { mappetPersonObject } from '../../../test/data/person';
-import { renderHook } from '@testing-library/react-hooks';
-import {utbetalingshistorikkelement, UtbetalingshistorikkElement} from '../../modell/UtbetalingshistorikkElement';
+import dayjs, {Dayjs} from 'dayjs';
+import {
+    Dagtype, Revuderingtilstand,
+    Sykdomsdag,
+    UfullstendigVedtaksperiode,
+    Utbetalingsdag,
+    Utbetalingstype,
+    Vedtaksperiode,
+} from 'internal-types';
+import {tilPeriodetilstand, useTidslinjerader} from './useTidslinjerader';
+import {mappetPersonObject} from '../../../test/data/person';
+import {renderHook} from '@testing-library/react-hooks';
+import {
+    utbetalingshistorikkelement,
+    UtbetalingshistorikkElement,
+    Utbetalingstatus,
+} from '../../modell/UtbetalingshistorikkElement';
 
 type Vedtaksperioder = (Vedtaksperiode | UfullstendigVedtaksperiode)[];
 
@@ -71,7 +82,20 @@ describe('useTidslinjerader', () => {
         expect(result.current[0].rader[0].perioder[1].start.isSame(dayjs('2018-01-03'), 'day')).toBe(true);
         expect(result.current[0].rader[0].perioder[1].end.isSame(dayjs('2018-01-04'), 'day')).toBe(true);
     });
+
+
 });
+
+describe('tilPeriodetype', () => {
+    test('mapper periode til revudering', () => {
+        const tilstand = tilPeriodetilstand({
+            status: Utbetalingstatus.IKKE_UTBETALT,
+            type: Utbetalingstype.REVUDERING,
+            utbetalingstidslinje: []
+        })
+        expect(tilstand).toEqual(Revuderingtilstand.IRevudering)
+    })
+})
 
 const nyttElement = (
     id: string,
@@ -87,8 +111,8 @@ const nyttElement = (
         sykdomstidslinje(fom, tom),
         [
             {
-                status: erUtbetalt ? 'UTBETALT' : 'IKKE_UTBETALT',
-                type: erRevurdering ? 'REVURDERING' : 'UTBETALING',
+                status: erUtbetalt ? Utbetalingstatus.UTBETALT : Utbetalingstatus.IKKE_UTBETALT,
+                type: erRevurdering ? Utbetalingstype.REVUDERING : Utbetalingstype.UTBETALING,
                 utbetalingstidslinje: utbetalingstidslinje(fom, tom),
             },
         ],
