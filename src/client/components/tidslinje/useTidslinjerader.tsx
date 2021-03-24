@@ -41,6 +41,18 @@ const skalViseInfoPin = (tidslinje: Utbetalingsdag[]): boolean =>
 
 const inngårINyereHistorikk = (neste?: Historikkelement) => neste && neste.erUtbetaling;
 
+const tilstand = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): Vedtaksperiodetilstand | string => {
+    if ((vedtaksperiode as Vedtaksperiode).automatiskBehandlet) {
+        return vedtaksperiode.tilstand === Vedtaksperiodetilstand.TilUtbetaling
+            ? 'tilUtbetalingAutomatisk'
+            : vedtaksperiode.tilstand === Vedtaksperiodetilstand.Utbetalt
+            ? 'utbetaltAutomatisk'
+            : vedtaksperiode.tilstand;
+    } else {
+        return vedtaksperiode.tilstand;
+    }
+};
+
 export const toVedtaksperioder = (vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[]) => {
     return (
         vedtaksperioder.map((periode) => {
@@ -48,7 +60,7 @@ export const toVedtaksperioder = (vedtaksperioder: (Vedtaksperiode | Ufullstendi
                 id: periode.id,
                 start: periode.fom.toDate(),
                 end: periode.tom.toDate(),
-                tilstand: periode.tilstand,
+                tilstand: tilstand(periode),
                 utbetalingstype: 'utbetaling',
                 skalVisePin: periode.utbetalingstidslinje && skalViseInfoPin(periode.utbetalingstidslinje),
                 hoverLabel: <HoverInfo vedtaksperiode={periode} />,
