@@ -3,8 +3,15 @@ import { FlexColumn } from '../Flex';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Undertekst } from 'nav-frontend-typografi';
-import { Dagtype, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import {
+    Dagtype,
+    UfullstendigVedtaksperiode,
+    Utbetalingsdag,
+    Vedtaksperiode,
+    Vedtaksperiodetilstand,
+} from 'internal-types';
 import { somPenger } from '../../utils/locale';
+import { Dayjs } from 'dayjs';
 
 const Container = styled(FlexColumn)`
     align-items: flex-start;
@@ -29,14 +36,46 @@ const utbetaltForPeriode = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaks
     }
 };
 
-const antallArbeidsgiverperiodedager = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number =>
-    vedtaksperiode.utbetalingstidslinje?.filter(({ type }) => type === Dagtype.Arbeidsgiverperiode).length ?? 0;
+interface Periode {
+    fom: Dayjs;
+    tom: Dayjs;
+}
 
-const antallFeriedager = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number =>
-    vedtaksperiode.utbetalingstidslinje?.filter(({ type }) => type === Dagtype.Ferie).length ?? 0;
+export const tilPeriode = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dagtype): String | undefined => {
+    const split = splitPerioderPåDagtype(utbetalingstidslinje, dagtype);
+    const antallDager = utbetalingstidslinje.filter(({ type }) => type === dagtype).length;
+    return periodetekst(antallDager, split);
+};
 
-const antallPermisjonsdager = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number =>
-    vedtaksperiode.utbetalingstidslinje?.filter(({ type }) => type === Dagtype.Permisjon).length ?? 0;
+const splitPerioderPåDagtype = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dagtype): Periode[] => {
+    let resultat: Periode[] = [];
+    let påbegyntPeriode: Dayjs | undefined;
+    utbetalingstidslinje.forEach((dag) => {
+        if (dag.type === dagtype && !påbegyntPeriode) {
+            påbegyntPeriode = dag.dato;
+        }
+        if (påbegyntPeriode && dag.type !== dagtype && dag.type !== Dagtype.Helg) {
+            resultat = [...resultat, { fom: påbegyntPeriode, tom: dag.dato.subtract(1, 'day') }];
+            påbegyntPeriode = undefined;
+        }
+    });
+    if (påbegyntPeriode) {
+        resultat = [
+            ...resultat,
+            { fom: påbegyntPeriode, tom: utbetalingstidslinje[utbetalingstidslinje.length - 1].dato },
+        ];
+    }
+    return resultat;
+};
+
+const periodetekst = (antallDager: number, perioder: Periode[]): string | undefined => {
+    if (perioder.length === 0) return undefined;
+    if (perioder.length === 1) {
+        if (perioder[0].fom.isSame(perioder[0].tom)) return perioder[0].fom.format(NORSK_DATOFORMAT);
+        return `${perioder[0].fom.format(NORSK_DATOFORMAT)} - ${perioder[0].tom.format(NORSK_DATOFORMAT)}`;
+    }
+    return `${antallDager} dager`;
+};
 
 const statusType = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): string => {
     switch (periode.tilstand) {
@@ -97,9 +136,10 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
         : undefined;
 
     const utbetalt = utbetaltForPeriode(vedtaksperiode);
-    const arbeidsgiverperiodedager = antallArbeidsgiverperiodedager(vedtaksperiode);
-    const feriedager = antallFeriedager(vedtaksperiode);
-    const permisjonsdager = antallPermisjonsdager(vedtaksperiode);
+    const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje ?? [];
+    const arbeidsgiverperiode = tilPeriode(utbetalingstidslinje, Dagtype.Arbeidsgiverperiode);
+    const ferieperiode = tilPeriode(utbetalingstidslinje, Dagtype.Ferie);
+    const permisjonsperiode = tilPeriode(utbetalingstidslinje, Dagtype.Permisjon);
 
     return (
         <Container>
@@ -117,20 +157,22 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
                     <LinjeFelt>Utbetalt: </LinjeFelt> <LinjeVerdi>{somPenger(utbetalt)} </LinjeVerdi>
                 </Linje>
             )}
-            {arbeidsgiverperiodedager !== 0 && (
+            {arbeidsgiverperiode && (
                 <Linje>
                     <LinjeFelt>Arbeidsgiverperiode: </LinjeFelt>
-                    <LinjeVerdi>{arbeidsgiverperiodedager} dager </LinjeVerdi>
+                    <LinjeVerdi>{arbeidsgiverperiode} </LinjeVerdi>
                 </Linje>
             )}
-            {feriedager !== 0 && (
+            {ferieperiode && (
                 <Linje>
-                    <LinjeFelt>Ferie:</LinjeFelt> <LinjeVerdi>{feriedager} dager</LinjeVerdi>
+                    <LinjeFelt>Ferie: </LinjeFelt>
+                    <LinjeVerdi>{ferieperiode} </LinjeVerdi>
                 </Linje>
             )}
-            {permisjonsdager !== 0 && (
+            {permisjonsperiode && (
                 <Linje>
-                    <LinjeFelt>Permisjon:</LinjeFelt> <LinjeVerdi>{permisjonsdager} dager</LinjeVerdi>
+                    <LinjeFelt>Permisjon: </LinjeFelt>
+                    <LinjeVerdi>{permisjonsperiode} </LinjeVerdi>
                 </Linje>
             )}
             {dagerIgjen !== undefined && (

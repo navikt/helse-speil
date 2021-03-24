@@ -119,13 +119,13 @@ const nyttElement = (
     );
 };
 
-const utbetalingstidslinje = (fom: Dayjs, tom: Dayjs) => {
+export const utbetalingstidslinje = (fom: Dayjs, tom: Dayjs, dagtype: Dagtype = Dagtype.Syk) => {
     const antallDager = Math.abs(tom.diff(fom, 'day')) + 1;
     const utbetalingsdager: Utbetalingsdag[] = [];
     for (let step = 0; step < antallDager; step++) {
         utbetalingsdager.push({
             dato: fom.add(step, 'day'),
-            type: Dagtype.Syk,
+            type: dagtype,
         });
     }
     return utbetalingsdager;
