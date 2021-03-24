@@ -23,7 +23,8 @@ describe('HoverInfo', () => {
             ],
         };
         render(<HoverInfo vedtaksperiode={periodeMedArbeidsgiverperiodedager} />);
-        expect(screen.getByText('Arbeidsgiverperiode: 16 dager')).toBeVisible();
+        expect(screen.getByText('Arbeidsgiverperiode:')).toBeVisible();
+        expect(screen.getByText('16 dager')).toBeVisible();
     });
     test('viser antall feriedager', () => {
         const periodeMedFerie = {
@@ -31,23 +32,27 @@ describe('HoverInfo', () => {
             utbetalingstidslinje: [...enPeriode.utbetalingstidslinje, { dato: dayjs(), type: Dagtype.Ferie }],
         };
         render(<HoverInfo vedtaksperiode={periodeMedFerie} />);
-        expect(screen.getByText('Ferie: 1 dager')).toBeVisible();
+        expect(screen.getByText('Ferie:')).toBeVisible();
+        expect(screen.getByText('1 dager')).toBeVisible();
     });
     test('viser fom og tom for perioden', () => {
         render(<HoverInfo vedtaksperiode={enPeriode} />);
-        expect(screen.getByText('Periode: 01.01.2020 - 31.01.2020')).toBeVisible();
+        expect(screen.getByText('Periode:')).toBeVisible();
+        expect(screen.getByText('01.01.2020 - 31.01.2020')).toBeVisible();
     });
 
     test('viser antall dager igjen for fullverdig vedtaksperiode', () => {
         const periodeMedDagerIgjen = { ...enPeriode, vilkår: { dagerIgjen: { gjenståendeDager: 10 } } };
         render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
-        expect(screen.getByText('Dager igjen: 10')).toHaveStyle('color:var(--navds-color-text-primary)');
+        expect(screen.getByText('Dager igjen:')).toHaveStyle('color:var(--navds-color-text-primary)');
+        expect(screen.getByText('10')).toHaveStyle('color:var(--navds-color-text-primary)');
     });
 
     test('viser antall dager igjen for fullverdig vedtaksperiode med rødt hvis null', () => {
         const periodeMedDagerIgjen = { ...enPeriode, vilkår: { dagerIgjen: { gjenståendeDager: 0 } } };
         render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
-        expect(screen.getByText('Dager igjen: 0')).toHaveStyle('color:var(--navds-color-error-text)');
+        expect(screen.getByText('Dager igjen:')).toHaveStyle('color:var(--navds-color-error-text)');
+        expect(screen.getByText('0')).toHaveStyle('color:var(--navds-color-error-text)');
     });
 
     test('Viser ikke dager igjen for ufullstendig periode', () => {

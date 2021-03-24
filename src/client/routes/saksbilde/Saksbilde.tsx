@@ -29,7 +29,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    overflow: auto;
+    overflow: visible;
 `;
 
 const Content = styled.div`
