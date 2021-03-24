@@ -91,16 +91,16 @@ export const useInfotrygdrader = (
             )
             .map(([organisasjonsnummer, perioder]) => ({
                 arbeidsgivernavn: `Infotrygd - ${
-                person.arbeidsgivere
-                    .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-                    .map((arb) => arbeidsgiverNavn(arb, anonymiseringEnabled))
-                    .pop() ??
-                (organisasjonsnummer !== '0'
-                    ? anonymiseringEnabled
-                        ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
-                        : organisasjonsnummer
-                    : 'Ingen utbetaling')
-            }`,
-            perioder: getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
-        })) as InfotrygdradObject[];
+                    person.arbeidsgivere
+                        .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
+                        .map((arb) => arbeidsgiverNavn(arb, anonymiseringEnabled))
+                        .pop() ??
+                    (organisasjonsnummer !== '0'
+                        ? anonymiseringEnabled
+                            ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
+                            : organisasjonsnummer
+                        : 'Ingen utbetaling')
+                }`,
+                perioder: getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right'),
+            })) as InfotrygdradObject[];
     }, [person, fom, tom, anonymiseringEnabled]);

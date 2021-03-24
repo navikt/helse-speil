@@ -119,7 +119,8 @@ export class ArbeidsgiverBuilder {
                 return Utbetalingstype.ETTERUTBETALING;
             case 'REVUDERING':
                 return Utbetalingstype.REVUDERING;
-            default: return Utbetalingstype.UKJENT
+            default:
+                return Utbetalingstype.UKJENT;
         }
     };
 
@@ -133,7 +134,8 @@ export class ArbeidsgiverBuilder {
                 return Utbetalingstatus.INGEN_UTBETALING;
             case 'UKJENT':
                 return Utbetalingstatus.UKJENT;
-            default: return Utbetalingstatus.UKJENT
+            default:
+                return Utbetalingstatus.UKJENT;
         }
     };
 }

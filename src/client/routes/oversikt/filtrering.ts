@@ -1,4 +1,4 @@
-import {Inntektskilde, Oppgave, Periodetype} from "internal-types";
+import { Inntektskilde, Oppgave, Periodetype } from 'internal-types';
 
 export const førstegangsfilter = () => ({
     label: 'Førstegang.',

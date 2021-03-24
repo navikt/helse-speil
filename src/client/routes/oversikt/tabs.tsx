@@ -5,7 +5,7 @@ import { useEmail } from '../../state/authentication';
 import { oppgaverState } from '../../state/oppgaver';
 import { Dropdownknapp } from '../saksbilde/sakslinje/Verktøylinje';
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
-import {Oppgave} from "internal-types";
+import { Oppgave } from 'internal-types';
 
 const Container = styled.div`
     display: flex;

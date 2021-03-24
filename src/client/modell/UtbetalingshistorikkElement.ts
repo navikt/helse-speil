@@ -27,7 +27,6 @@ export const utbetalingshistorikkelement = (
     utbetalinger: UtbetalingshistorikkUtbetaling2[],
     vedtaksperioder: Vedtaksperiode[]
 ): UtbetalingshistorikkElement => {
-
     const sisteUtbetaling = utbetalinger[utbetalinger.length - 1];
     const erUtbetaling = sisteUtbetaling.type === 'UTBETALING';
 

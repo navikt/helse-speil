@@ -14,7 +14,7 @@ import { personState } from '../../state/person';
 import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { nanoid } from 'nanoid';
 import { nullstillAgurkData } from '../../agurkdata';
-import {Oppgave} from "internal-types";
+import { Oppgave } from 'internal-types';
 
 const Container = styled.div`
     position: relative;

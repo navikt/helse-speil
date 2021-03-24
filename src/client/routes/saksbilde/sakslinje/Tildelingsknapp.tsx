@@ -4,7 +4,7 @@ import { DropdownMenyknapp } from './Verktøylinje';
 import { useFjernTildeling, useTildelOppgave } from '../../../state/oppgaver';
 import { usePerson, useRefreshPerson, useTildelPerson } from '../../../state/person';
 import { DropdownContext } from '../../../components/Dropdown';
-import {Oppgave} from "internal-types";
+import { Oppgave } from 'internal-types';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;

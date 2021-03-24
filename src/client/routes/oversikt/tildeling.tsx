@@ -6,7 +6,7 @@ import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
 import { useFjernTildeling, useTildelOppgave } from '../../state/oppgaver';
 import { SkjultSakslenke } from './rader';
-import {Oppgave, TildeltOppgave} from "internal-types";
+import { Oppgave, TildeltOppgave } from 'internal-types';
 
 const Flex = styled.span`
     display: flex;

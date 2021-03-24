@@ -691,8 +691,8 @@ export const mappetPersonObject: Person = {
                     inntektskilde: Inntektskilde.EnArbeidsgiver,
                 },
             ],
-            utbetalingshistorikk:
-                [{
+            utbetalingshistorikk: [
+                {
                     id: 'id1',
                     perioder: [
                         {
@@ -702,32 +702,41 @@ export const mappetPersonObject: Person = {
                             id: 'nanoid',
                             tilstand: Utbetalingstatus.IKKE_UTBETALT,
                             type: UtbetalingshistorikkPeriodetype.REVURDERING,
-                            utbetalingstidslinje: [{
-                                dato: dayjs('2018-01-01'),
-                                type: Dagtype.Syk
-                            }]
-                        }
+                            utbetalingstidslinje: [
+                                {
+                                    dato: dayjs('2018-01-01'),
+                                    type: Dagtype.Syk,
+                                },
+                            ],
+                        },
                     ],
                     kilde: Utbetalingstype.REVUDERING,
-                    beregnettidslinje: [{
-                        dato: dayjs('2018-01-01'),
-                        type: Dagtype.Syk,
-                    }],
+                    beregnettidslinje: [
+                        {
+                            dato: dayjs('2018-01-01'),
+                            type: Dagtype.Syk,
+                        },
+                    ],
                     hendelsetidslinje: [
                         {
                             dato: dayjs('2018-01-01'),
                             type: Dagtype.Syk,
-                        }
+                        },
                     ],
-                    utbetalinger: [{
-                        status: Utbetalingstatus.IKKE_UTBETALT,
-                        type: Utbetalingstype.REVUDERING,
-                        utbetalingstidslinje: [{
-                            dato: dayjs('2018-01-01'),
-                            type: Dagtype.Syk,
-                        }]
-                    }]
-                }],
+                    utbetalinger: [
+                        {
+                            status: Utbetalingstatus.IKKE_UTBETALT,
+                            type: Utbetalingstype.REVUDERING,
+                            utbetalingstidslinje: [
+                                {
+                                    dato: dayjs('2018-01-01'),
+                                    type: Dagtype.Syk,
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
         },
     ],
     infotrygdutbetalinger: [],

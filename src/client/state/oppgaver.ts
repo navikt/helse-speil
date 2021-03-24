@@ -1,11 +1,11 @@
-import {atom, selector, useSetRecoilState} from 'recoil';
-import {deleteTildeling, fetchOppgaver, postTildeling} from '../io/http';
-import {useAddVarsel, useRemoveVarsel} from './varsler';
-import {capitalizeName, extractNameFromEmail} from '../utils/locale';
-import {Varseltype} from '@navikt/helse-frontend-varsel';
-import {flereArbeidsgivere, stikkprøve} from '../featureToggles';
-import {Inntektskilde, Oppgave, Periodetype} from "internal-types";
-import {tilOppgave} from "../mapping/oppgaver/oppgaver";
+import { atom, selector, useSetRecoilState } from 'recoil';
+import { deleteTildeling, fetchOppgaver, postTildeling } from '../io/http';
+import { useAddVarsel, useRemoveVarsel } from './varsler';
+import { capitalizeName, extractNameFromEmail } from '../utils/locale';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
+import { Inntektskilde, Oppgave, Periodetype } from 'internal-types';
+import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',

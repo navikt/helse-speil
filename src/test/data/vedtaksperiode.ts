@@ -5,7 +5,8 @@ import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
 import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
 import { hendelser } from './hendelser';
 import {
-    SpesialistInntektsgrunnlag, SpesialistInntektskilde,
+    SpesialistInntektsgrunnlag,
+    SpesialistInntektskilde,
     SpesialistOverstyring,
     SpesialistVedtaksperiode,
     SpleisAktivitet,
@@ -64,7 +65,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         varsler: varslene,
         simuleringsdata: umappetSimuleringsdata,
         inntektskilde: SpesialistInntektskilde.EnArbeidsgiver,
-        beregningIder: ['id1']
+        beregningIder: ['id1'],
     };
 };
 

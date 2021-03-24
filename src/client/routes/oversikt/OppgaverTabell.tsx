@@ -20,7 +20,7 @@ import { tabState } from './tabs';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
 import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
-import {Oppgave} from "internal-types";
+import { Oppgave } from 'internal-types';
 
 const Container = styled.div`
     min-height: 300px;

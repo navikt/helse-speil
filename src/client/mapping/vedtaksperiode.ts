@@ -29,7 +29,7 @@ import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
 import { tilOverstyrtDag } from './overstyring';
-import {inntektskilde} from "./oppgaver/oppgaver";
+import { inntektskilde } from './oppgaver/oppgaver';
 
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
 
@@ -260,7 +260,7 @@ export class VedtaksperiodeBuilder {
     };
 
     private mapInntektskilde = () => {
-        this.vedtaksperiode.inntektskilde = inntektskilde(this.unmapped.inntektskilde)
+        this.vedtaksperiode.inntektskilde = inntektskilde(this.unmapped.inntektskilde);
     };
 
     private mapUtbetalinger = () => {

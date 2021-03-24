@@ -1,10 +1,12 @@
 import {
     Dagtype,
-    Person, Revuderingtilstand,
+    Person,
+    Revuderingtilstand,
     Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
-    UtbetalingshistorikkUtbetaling2, Utbetalingstype,
+    UtbetalingshistorikkUtbetaling2,
+    Utbetalingstype,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
@@ -16,7 +18,8 @@ import { Dayjs } from 'dayjs';
 import { nanoid } from 'nanoid';
 import { HoverInfo } from './HoverInfo';
 import {
-    erUtbetaling, sisteUtbetaling,
+    erUtbetaling,
+    sisteUtbetaling,
     Tidslinjeperiode,
     UtbetalingshistorikkElement,
     Utbetalingstatus,
@@ -84,12 +87,13 @@ export const tilPeriodetilstand = (utbetaling: UtbetalingshistorikkUtbetaling2) 
         case Utbetalingstype.ANNULLERING:
         case Utbetalingstype.UTBETALING:
             return toVedtaksperiodetilstand(utbetaling.status);
-        case Utbetalingstype.UKJENT: return Vedtaksperiodetilstand.Ukjent
+        case Utbetalingstype.UKJENT:
+            return Vedtaksperiodetilstand.Ukjent;
     }
-}
+};
 
 export const toTidslinjeperioder = (element: Historikkelement, fom: Dayjs, tom: Dayjs): TidslinjeperiodeObject[] => {
-    const sisteUtbetaling = element.utbetalinger[element.utbetalinger.length - 1]
+    const sisteUtbetaling = element.utbetalinger[element.utbetalinger.length - 1];
 
     const perioder = element.perioder.map((it) => ({
         id: it.id,

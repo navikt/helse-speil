@@ -1,4 +1,4 @@
-import {SpesialistInntektskilde} from "external-types";
+import { SpesialistInntektskilde } from 'external-types';
 
 //TODO: OBS: Målet med denne fila er å bli kvitt den og fordele typene på internal / external
 
@@ -16,7 +16,7 @@ export enum SpesialistPeriodetype {
     Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
     OvergangFraInfotrygd = 'OVERGANG_FRA_IT',
     Stikkprøve = 'STIKKPRØVE',
-    RiskQa = 'RISK_QA'
+    RiskQa = 'RISK_QA',
 }
 
 export enum Oppgavetype {
@@ -41,7 +41,7 @@ export interface SpesialistOppgave {
     boenhet: SpesialistBoenhet;
     inntektskilde?: SpesialistInntektskilde;
     erPåVent?: boolean;
-    tildeling?: SpesialistTildeling
+    tildeling?: SpesialistTildeling;
 }
 
 interface SpesialistBoenhet {
@@ -50,9 +50,9 @@ interface SpesialistBoenhet {
 }
 
 export interface SpesialistTildeling {
-    epost: string,
-    oid: string,
-    påVent: boolean
+    epost: string;
+    oid: string;
+    påVent: boolean;
 }
 
 export interface Error {

@@ -1,15 +1,16 @@
-import dayjs, {Dayjs} from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import {
-    Dagtype, Revuderingtilstand,
+    Dagtype,
+    Revuderingtilstand,
     Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
     Utbetalingstype,
     Vedtaksperiode,
 } from 'internal-types';
-import {tilPeriodetilstand, useTidslinjerader} from './useTidslinjerader';
-import {mappetPersonObject} from '../../../test/data/person';
-import {renderHook} from '@testing-library/react-hooks';
+import { tilPeriodetilstand, useTidslinjerader } from './useTidslinjerader';
+import { mappetPersonObject } from '../../../test/data/person';
+import { renderHook } from '@testing-library/react-hooks';
 import {
     utbetalingshistorikkelement,
     UtbetalingshistorikkElement,
@@ -82,8 +83,6 @@ describe('useTidslinjerader', () => {
         expect(result.current[0].rader[0].perioder[1].start.isSame(dayjs('2018-01-03'), 'day')).toBe(true);
         expect(result.current[0].rader[0].perioder[1].end.isSame(dayjs('2018-01-04'), 'day')).toBe(true);
     });
-
-
 });
 
 describe('tilPeriodetype', () => {
@@ -91,11 +90,11 @@ describe('tilPeriodetype', () => {
         const tilstand = tilPeriodetilstand({
             status: Utbetalingstatus.IKKE_UTBETALT,
             type: Utbetalingstype.REVUDERING,
-            utbetalingstidslinje: []
-        })
-        expect(tilstand).toEqual(Revuderingtilstand.IRevudering)
-    })
-})
+            utbetalingstidslinje: [],
+        });
+        expect(tilstand).toEqual(Revuderingtilstand.IRevudering);
+    });
+});
 
 const nyttElement = (
     id: string,
