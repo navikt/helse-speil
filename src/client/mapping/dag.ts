@@ -139,23 +139,26 @@ export const mapSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdo
         kildeId: dag.kilde?.kildeId ?? undefined,
     }));
 
+const getAvvistÅrsak = (begrunnelse: string, vilkår?: SpleisVilkår) =>
+    vilkår
+        ? {
+              tekst: begrunnelse,
+              paragraf: vilkår.alder.alderSisteSykedag >= 67 ? '8-51' : undefined,
+          }
+        : { tekst: begrunnelse };
+
 export const mapUtbetalingsdag = (vilkår?: SpleisVilkår) => (dag: SpleisUtbetalingsdag) => {
-    const avvistÅrsak =
-        dag.begrunnelse && vilkår
-            ? {
-                  tekst: dag.begrunnelse,
-                  paragraf: vilkår.alder.alderSisteSykedag >= 67 ? '8-51' : undefined,
-              }
-            : dag.begrunnelse
-            ? { tekst: dag.begrunnelse }
-            : undefined;
+    const avvistÅrsak = dag.begrunnelse && getAvvistÅrsak(dag.begrunnelse, vilkår);
+    const avvistÅrsaker =
+        dag.begrunnelser?.map((begrunnelse) => getAvvistÅrsak(begrunnelse, vilkår)) ??
+        (avvistÅrsak ? [avvistÅrsak!!] : undefined);
     return {
         type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
         dato: somDato(dag.dato),
         gradering: somHeltall(dag.grad),
         totalGradering: somHeltall(dag.totalGrad),
         utbetaling: dag.utbetaling,
-        avvistÅrsak: avvistÅrsak,
+        avvistÅrsaker,
     };
 };
 

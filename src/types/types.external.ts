@@ -81,6 +81,7 @@ export interface SpleisUtbetalingsdag {
     grad?: number;
     totalGrad?: number;
     begrunnelse?: string;
+    begrunnelser?: string[];
 }
 
 export enum SpleisSykdomsdagtype {

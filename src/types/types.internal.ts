@@ -142,10 +142,12 @@ export interface Utbetalingsdag {
     gradering?: number;
     totalGradering?: number;
     utbetaling?: number;
-    avvistÅrsak?: {
-        tekst: string;
-        paragraf?: string;
-    };
+    avvistÅrsaker?: AvvistBegrunnelse[];
+}
+
+export interface AvvistBegrunnelse {
+    tekst: string;
+    paragraf?: string;
 }
 
 export enum Revuderingtilstand {

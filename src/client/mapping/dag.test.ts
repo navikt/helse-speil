@@ -152,7 +152,7 @@ describe('mapUtbetalingstidslinje', () => {
             utbetaling: 1234,
             dato: dayjs('2020-01-01'),
             gradering: 100,
-            avvistÅrsak: undefined,
+            avvistÅrsaker: undefined,
         };
         expect(mapUtbetalingstidslinje([umappet], {} as SpleisVilkår)).toEqual([mappet]);
     });
@@ -170,10 +170,12 @@ describe('mapUtbetalingstidslinje', () => {
             utbetaling: 0,
             dato: dayjs('2020-01-01'),
             gradering: 100,
-            avvistÅrsak: {
-                tekst: 'Fordi',
-                paragraf: undefined,
-            },
+            avvistÅrsaker: [
+                {
+                    tekst: 'Fordi',
+                    paragraf: undefined,
+                },
+            ],
         };
         const vilkår = { alder: { alderSisteSykedag: 20 } } as SpleisVilkår;
         expect(mapUtbetalingstidslinje([umappet], vilkår)).toEqual([mappet]);
@@ -192,12 +194,46 @@ describe('mapUtbetalingstidslinje', () => {
             utbetaling: 0,
             dato: dayjs('2020-01-01'),
             gradering: 100,
-            avvistÅrsak: {
-                tekst: 'Fordi',
-                paragraf: '8-51',
-            },
+            avvistÅrsaker: [
+                {
+                    tekst: 'Fordi',
+                    paragraf: '8-51',
+                },
+            ],
         };
         const vilkår = { alder: { alderSisteSykedag: 67 } } as SpleisVilkår;
+        expect(mapUtbetalingstidslinje([umappet], vilkår)).toEqual([mappet]);
+    });
+    test('mapper avviste dager med flere begrunnelser', () => {
+        const umappet = {
+            type: SpleisUtbetalingsdagtype.AVVISTDAG,
+            inntekt: 1234,
+            dato: '2020-01-01',
+            utbetaling: 0,
+            grad: 100,
+            begrunnelser: ['Fordi', 'Derfor', 'Sånn er det'],
+        };
+        const mappet = {
+            type: Dagtype.Avvist,
+            utbetaling: 0,
+            dato: dayjs('2020-01-01'),
+            gradering: 100,
+            avvistÅrsaker: [
+                {
+                    tekst: 'Fordi',
+                    paragraf: undefined,
+                },
+                {
+                    tekst: 'Derfor',
+                    paragraf: undefined,
+                },
+                {
+                    tekst: 'Sånn er det',
+                    paragraf: undefined,
+                },
+            ],
+        };
+        const vilkår = { alder: { alderSisteSykedag: 20 } } as SpleisVilkår;
         expect(mapUtbetalingstidslinje([umappet], vilkår)).toEqual([mappet]);
     });
 });

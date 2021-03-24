@@ -191,7 +191,7 @@
                         },
                         {
                             "type": "AvvistDag",
-                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "begrunnelser": ["SykepengedagerOppbrukt", "EgenmeldingUtenforArbeidsgiverperiode"],
                             "inntekt": 0,
                             "dato": "2018-01-24",
                             "utbetaling": 1431,

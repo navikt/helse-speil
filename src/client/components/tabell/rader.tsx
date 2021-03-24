@@ -11,7 +11,7 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 import { OverstyrbarDagtype } from './OverstyrbarDagtype';
 import { OverstyrbarGradering } from './OverstyrbarGradering';
 import { Overstyringsindikator } from './Overstyringsindikator';
-import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag, AvvistBegrunnelse } from 'internal-types';
 import { Kilde } from '../Kilde';
 import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
@@ -152,34 +152,48 @@ export const merknad = (dag: Utbetalingsdag, merknadTekst?: string): ReactNode =
         <AvvistÅrsak dag={dag} />
     ) : undefined;
 
-const AvvistÅrsak = ({ dag }: { dag: Utbetalingsdag }) => {
-    switch (dag.avvistÅrsak?.tekst) {
+const avvistBegrunnelser = (avvistBegrunnelse: AvvistBegrunnelse, index: number) => {
+    let paragraf = null;
+    let tekst = null;
+    const prefix = index > 0 ? ', ' : '';
+
+    switch (avvistBegrunnelse.tekst) {
         case 'EtterDødsdato':
-            return <Feilmelding>Personen er død</Feilmelding>;
-        case 'SykepengedagerOppbrukt':
-            return (
-                <Feilmelding>
-                    <LovdataLenke paragraf={dag.avvistÅrsak.paragraf ?? '8-12'}>
-                        § {dag.avvistÅrsak.paragraf ?? '8-12'}
-                    </LovdataLenke>{' '}
-                    Sykepengedager er oppbrukt
-                </Feilmelding>
-            );
-        case 'MinimumSykdomsgrad':
-            return (
-                <Feilmelding>
-                    <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke> Krav til nedsatt arbeidsevne er ikke oppfylt
-                </Feilmelding>
-            );
+            tekst = 'Personen er død';
+            break;
         case 'EgenmeldingUtenforArbeidsgiverperiode':
-            return <Feilmelding>Egenmelding er utenfor arbeidsgiverperiode</Feilmelding>;
+            tekst = 'Egenmelding er utenfor arbeidsgiverperiode';
+            break;
+        case 'MinimumSykdomsgrad':
+            tekst = 'Krav til nedsatt arbeidsevne er ikke oppfylt';
+            paragraf = <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>;
+            break;
         case 'MinimumInntekt':
-            return (
-                <Feilmelding>
-                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke> Krav til minste sykepengegrunnlag er ikke oppfylt
-                </Feilmelding>
+            tekst = 'Krav til minste sykepengegrunnlag er ikke oppfylt';
+            paragraf = <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>;
+            break;
+        case 'SykepengedagerOppbrukt':
+            tekst = 'Sykepengedager er oppbrukt';
+            paragraf = (
+                <LovdataLenke paragraf={avvistBegrunnelse.paragraf ?? '8-12'}>
+                    § {avvistBegrunnelse.paragraf ?? '8-12'}
+                </LovdataLenke>
             );
-        default:
-            return null;
     }
+
+    if (tekst === null) return null;
+
+    return (
+        <>
+            {paragraf && <>{paragraf} </>}
+            <>{prefix + tekst}</>
+        </>
+    );
+};
+
+const AvvistÅrsak = ({ dag }: { dag: Utbetalingsdag }) => {
+    const avvistÅrsaker = dag.avvistÅrsaker ?? [];
+    return (
+        <Feilmelding>{avvistÅrsaker.map((avvistÅrsak, index) => avvistBegrunnelser(avvistÅrsak, index))}</Feilmelding>
+    );
 };
