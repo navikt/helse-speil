@@ -19,7 +19,7 @@ import { Person, Vedtaksperiodetilstand } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { usePerson } from '../../state/person';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
-import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../state/tidslinje';
 import { Faresignaler } from './faresignaler/Faresignaler';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';

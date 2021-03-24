@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useEffect } from 'react';
 import dayjs from 'dayjs';
 import amplitude from 'amplitude-js';
 import { amplitudeEnabled } from '../../featureToggles';
-import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../state/tidslinje';
 
 amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {

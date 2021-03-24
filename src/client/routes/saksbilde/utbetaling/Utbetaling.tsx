@@ -11,9 +11,9 @@ import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { Arbeidsforhold } from '../Arbeidsforhold';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { usePerson, useSkalAnonymiserePerson } from '../../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 
 const Container = styled.section`
     flex: 1;

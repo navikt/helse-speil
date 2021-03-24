@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { DropdownMenyknapp } from './Verktøylinje';
 import { usePerson, useRefreshPerson } from '../../../state/person';
 import { deletePåVent, postLeggPåVent } from '../../../io/http';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { useOperasjonsvarsel } from '../../../state/varsler';
 import { useHistory } from 'react-router';
 import { DropdownContext } from '../../../components/Dropdown';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 
 const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {
     promise.catch(onError);

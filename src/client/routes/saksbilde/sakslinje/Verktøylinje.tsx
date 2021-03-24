@@ -8,9 +8,9 @@ import { Button } from '../../../components/Button';
 import { OppdaterPersondata } from './OppdaterPersondata';
 import { Tildelingsknapp, useErTildeltInnloggetBruker } from './Tildelingsknapp';
 import { usePerson } from '../../../state/person';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { PåVentKnapp } from './PåVentKnapp';
 import { AnonymiserData } from './AnonymiserData';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 
 const Container = styled.div`
     display: flex;

@@ -8,8 +8,8 @@ import { SimuleringsinfoModal } from './SimuleringsinfoModal';
 import { Link } from 'react-router-dom';
 import { Utbetaling } from './utbetaling/Utbetaling';
 import { Flex } from '../../../../components/Flex';
-import { useAktivVedtaksperiode } from '../../../../state/vedtaksperiode';
 import { usePerson, useSkalAnonymiserePerson } from '../../../../state/person';
+import { useAktivVedtaksperiode } from '../../../../state/tidslinje';
 
 const Infogruppe = styled.section`
     line-height: 22px;

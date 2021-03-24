@@ -5,8 +5,8 @@ import { TabLink } from '../TabLink';
 import { Location, useNavigation } from '../../../hooks/useNavigation';
 import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 import { Infolinje } from './Infolinje';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { HjemIkon } from './icons/HjemIkon';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 
 const Container = styled.div`
     height: 74px;

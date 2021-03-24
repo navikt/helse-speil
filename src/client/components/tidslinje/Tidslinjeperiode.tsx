@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef, useState, ReactNode, RefObject } from '
 import styled from '@emotion/styled';
 import { Period } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
-import { Vedtaksperiodetilstand } from 'internal-types';
+import { Revuderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
 
 interface StyledPeriodProps {
     erAktiv?: boolean;
@@ -25,6 +25,9 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
         --period-border-color: var(--navds-color-tag-warning-border);
     }
 
+    &.iRevurdering {
+        --period-background-color: red;
+    }
     &.tilUtbetaling,
     &.tilUtbetalingAutomatisk,
     &.utbetalt,
@@ -123,7 +126,7 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
 interface TidslinjeperiodeProps extends PeriodProps {
     id: string;
     style: React.CSSProperties;
-    className: Vedtaksperiodetilstand;
+    className: Vedtaksperiodetilstand | Revuderingtilstand;
     erAktiv?: boolean;
     hoverLabel?: ReactNode;
     skalVisePin: boolean;

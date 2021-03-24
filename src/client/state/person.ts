@@ -2,7 +2,7 @@ import { Person } from 'internal-types';
 import { atom, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
-import { aktivVedtaksperiodeIdState } from './vedtaksperiode';
+import { aktivPeriodeState } from './tidslinje';
 
 interface PersonState {
     problems?: Error[];
@@ -73,12 +73,12 @@ export const useRefreshPerson = () => {
 export const useHentPerson = () => {
     const setPerson = useSetRecoilState(personState);
     const setLoadingPerson = useSetRecoilState(loadingPersonState);
-    const resetAktivVedtaksperiode = useResetRecoilState(aktivVedtaksperiodeIdState);
+    const resetAktivPeriode = useResetRecoilState(aktivPeriodeState);
     const resetTildeling = useResetRecoilState(tildelingState);
 
     return (id: string) => {
         resetTildeling();
-        resetAktivVedtaksperiode();
+        resetAktivPeriode();
         setPerson(undefined);
         setLoadingPerson(true);
         return hentPerson(id)

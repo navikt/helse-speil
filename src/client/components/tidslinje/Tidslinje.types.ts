@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { PositionedPeriod } from '@navikt/helse-frontend-timeline/lib';
-import { Vedtaksperiodetilstand } from 'internal-types';
+import { Revuderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
 import { ReactNode } from 'react';
 
 export interface Tidslinjeutsnitt {
@@ -10,7 +10,7 @@ export interface Tidslinjeutsnitt {
 }
 
 export type TidslinjeperiodeObject = PositionedPeriod & {
-    tilstand: Vedtaksperiodetilstand;
+    tilstand: Vedtaksperiodetilstand | Revuderingtilstand;
     hoverLabel?: ReactNode;
     skalVisePin: boolean;
 };

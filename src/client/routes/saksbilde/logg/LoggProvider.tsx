@@ -9,9 +9,9 @@ import {
     LoggProvider as EksternLoggProvider,
 } from '@navikt/helse-frontend-logg';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import { usePerson } from '../../../state/person';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];

@@ -8,7 +8,7 @@ import {
     overstyrbarType,
     tomCelle,
 } from '../../../components/tabell/rader';
-import { Dagtype, Sykdomsdag } from 'internal-types';
+import { Dagtype, Sykdomsdag, Vedtaksperiode } from 'internal-types';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import Element from 'nav-frontend-typografi/lib/element';
 import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
@@ -23,10 +23,10 @@ import { OverstyrtDagDTO } from '../../../io/types';
 import { useOverstyrteDager } from './useOverstyrteDager';
 import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
 import classNames from 'classnames';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { usePerson } from '../../../state/person';
 import { opptegnelsePollingTimeState } from '../../../state/opptegnelser';
 import { useSetRecoilState } from 'recoil';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead tr th {

@@ -3,7 +3,7 @@ import { Annulleringsmodal } from './Annulleringsmodal';
 import { DropdownContext } from '../../../../components/Dropdown';
 import { DropdownMenyknapp } from '../Verktøylinje';
 import { usePerson } from '../../../../state/person';
-import { useAktivVedtaksperiode } from '../../../../state/vedtaksperiode';
+import { useAktivVedtaksperiode } from '../../../../state/tidslinje';
 
 export const Annullering = () => {
     const personTilBehandling = usePerson();

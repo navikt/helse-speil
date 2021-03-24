@@ -5,12 +5,12 @@ import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { OverstyrbarSykmeldingsperiodetabell } from './OverstyrbarSykmeldingsperiodetabell';
 import { OverstyringTimeoutModal } from './OverstyringTimeoutModal';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { useAktivVedtaksperiode } from '../../../state/vedtaksperiode';
 import { usePerson } from '../../../state/person';
 import { kalkulererToastKey, kalkuleringFerdigToast } from './kalkuleringstoasts';
 import { useAddToast, useRemoveToast } from '../../../state/toasts';
 import { nyesteOpptegnelseMedTypeOppgaveState } from '../../../state/opptegnelser';
 import { useRecoilValue } from 'recoil';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 
 const Container = styled.div`
     display: flex;
