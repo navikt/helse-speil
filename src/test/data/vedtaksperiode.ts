@@ -28,6 +28,7 @@ type UmappetVedtaksperiodeOptions = {
     tom?: Dayjs;
     aktivitetslogg?: SpleisAktivitet[];
     varsler?: string[];
+    id?: string;
 };
 
 export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): SpesialistVedtaksperiode => {
@@ -35,12 +36,13 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
     const tom = options?.tom ?? dayjs('2020-01-31');
     const aktivitetsloggen = options?.aktivitetslogg ?? aktivitetslogg();
     const varslene = options?.varsler ?? [];
+    const id = options?.id ?? 'fa02d7a5-daf2-488c-9798-2539edd7fe3f';
 
     const sykdomsdager = sykdomstidslinje(fom, tom);
     const utbetalingsdager = utbetalingstidslinje(sykdomsdager, 1500);
     const utbetalingene = utbetalinger(utbetalingsdager, true);
     return {
-        id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
+        id: id,
         fom: fom.format('YYYY-MM-DD'),
         tom: tom.format('YYYY-MM-DD'),
         gruppeId: 'en-gruppeId',
