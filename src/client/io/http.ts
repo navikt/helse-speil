@@ -1,6 +1,6 @@
 import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
 import { Avvisningsskjema } from '../routes/saksbilde/utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
-import { SpesialistOppgave } from '../../types';
+import { SpesialistOppgave } from 'external-types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,

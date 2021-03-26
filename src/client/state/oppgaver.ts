@@ -1,10 +1,10 @@
 import { atom, selector, useSetRecoilState } from 'recoil';
 import { deleteTildeling, fetchOppgaver, postTildeling } from '../io/http';
 import { useAddVarsel, useRemoveVarsel } from './varsler';
-import { capitalizeName} from '../utils/locale';
+import { capitalizeName } from '../utils/locale';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
-import { Inntektskilde, Oppgave, Periodetype, Saksbehandler, Tildeling} from 'internal-types';
+import { Inntektskilde, Oppgave, Periodetype, Saksbehandler, Tildeling } from 'internal-types';
 import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
 const oppgaverStateRefetchKey = atom<Date>({

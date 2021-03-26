@@ -27,7 +27,6 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: Tildelingsknap
     const refreshPerson = useRefreshPerson();
     const { lukk } = useContext(DropdownContext);
 
-
     return erTildeltInnloggetBruker ? (
         <DropdownMenyknapp
             onClick={() =>

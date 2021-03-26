@@ -1,7 +1,6 @@
-import { Oppgavetype, SpesialistPeriodetype, SpesialistOppgave } from '../../../types';
 import { tilOppgave } from './oppgaver';
 import { Periodetype, Inntektskilde } from 'internal-types';
-import { SpesialistInntektskilde } from 'external-types';
+import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave, SpesialistPeriodetype } from 'external-types';
 
 describe('oppgavemapper', () => {
     test('mapper oppgave uten tildeling', () => {

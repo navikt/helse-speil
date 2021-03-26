@@ -1,7 +1,6 @@
 import { Inntektskilde, Kjønn, Oppgave, Periodetype } from 'internal-types';
-import { Oppgavetype, SpesialistPeriodetype, SpesialistOppgave } from '../../../types';
 import dayjs from 'dayjs';
-import { SpesialistInntektskilde } from 'external-types';
+import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave, SpesialistPeriodetype } from 'external-types';
 
 const kjønn = (kjønn: string | null): Kjønn => {
     if (!kjønn) return 'ukjent';
