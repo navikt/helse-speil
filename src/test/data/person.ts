@@ -710,7 +710,7 @@ export const mappetPersonObject: Person = {
                             ],
                         },
                     ],
-                    kilde: Utbetalingstype.REVUDERING,
+                    kilde: Utbetalingstype.REVURDERING,
                     beregnettidslinje: [
                         {
                             dato: dayjs('2018-01-01'),
@@ -726,7 +726,7 @@ export const mappetPersonObject: Person = {
                     utbetalinger: [
                         {
                             status: Utbetalingstatus.IKKE_UTBETALT,
-                            type: Utbetalingstype.REVUDERING,
+                            type: Utbetalingstype.REVURDERING,
                             utbetalingstidslinje: [
                                 {
                                     dato: dayjs('2018-01-01'),

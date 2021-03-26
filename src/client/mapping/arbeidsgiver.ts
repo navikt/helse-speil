@@ -117,8 +117,8 @@ export class ArbeidsgiverBuilder {
                 return Utbetalingstype.ANNULLERING;
             case 'ETTERUTBETALING':
                 return Utbetalingstype.ETTERUTBETALING;
-            case 'REVUDERING':
-                return Utbetalingstype.REVUDERING;
+            case 'REVURDERING':
+                return Utbetalingstype.REVURDERING;
             default:
                 return Utbetalingstype.UKJENT;
         }

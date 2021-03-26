@@ -1,7 +1,7 @@
 import {
     Dagtype,
     Person,
-    Revuderingtilstand,
+    Revurderingtilstand,
     Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
@@ -19,6 +19,7 @@ import { nanoid } from 'nanoid';
 import { HoverInfo } from './HoverInfo';
 import {
     erUtbetaling,
+    Periodetype,
     sisteUtbetaling,
     Tidslinjeperiode,
     UtbetalingshistorikkElement,
@@ -82,39 +83,36 @@ const toVedtaksperiodetilstand = (utbetalingstatus: Utbetalingstatus) => {
     }
 };
 
-export const tilPeriodetilstand = (utbetaling: UtbetalingshistorikkUtbetaling2) => {
-    switch (utbetaling.type) {
-        case Utbetalingstype.REVUDERING:
+export const tilPeriodetilstand = (utbetaling: UtbetalingshistorikkUtbetaling2, type: Periodetype) => {
+    switch (type) {
+        case Periodetype.REVURDERING:
             switch (utbetaling.status) {
                 case Utbetalingstatus.IKKE_UTBETALT:
-                    return Revuderingtilstand.IRevudering;
+                    return Revurderingtilstand.Revurderes;
                 case Utbetalingstatus.UTBETALT:
-                    return Revuderingtilstand.Revurdert;
+                    return Revurderingtilstand.Revurdert;
                 case Utbetalingstatus.INGEN_UTBETALING:
                 case Utbetalingstatus.UKJENT:
-                    return Revuderingtilstand.RevurdertIngenEndring;
+                    return Revurderingtilstand.Ukjent;
             }
             break;
-        case Utbetalingstype.ETTERUTBETALING:
-        case Utbetalingstype.ANNULLERING:
-        case Utbetalingstype.UTBETALING:
+        default:
             return toVedtaksperiodetilstand(utbetaling.status);
-        case Utbetalingstype.UKJENT:
-            return Vedtaksperiodetilstand.Ukjent;
     }
 };
 
 export const toTidslinjeperioder = (element: Historikkelement, fom: Dayjs, tom: Dayjs): TidslinjeperiodeObject[] => {
     const sisteUtbetaling = element.utbetalinger[element.utbetalinger.length - 1];
-
-    const perioder = element.perioder.map((it) => ({
-        id: it.id,
-        start: it.fom.toDate(),
-        end: it.tom.toDate(),
-        tilstand: tilPeriodetilstand(sisteUtbetaling),
-        utbetalingstype: it.type.toString().toLowerCase(),
-        skalVisePin: false,
-    }));
+    const perioder = element.perioder.map((it, i) => {
+        return {
+            id: it.id,
+            start: it.fom.toDate(),
+            end: it.tom.toDate(),
+            tilstand: tilPeriodetilstand(sisteUtbetaling, it.type),
+            utbetalingstype: it.type.toString().toLowerCase(),
+            skalVisePin: false,
+        };
+    });
 
     return getPositionedPeriods(fom.toDate(), tom.toDate(), perioder, 'right') as TidslinjeperiodeObject[];
 };
@@ -150,6 +148,7 @@ const fjernOverlappende = (utbetalingshistorikk: UtbetalingshistorikkElement[]):
             const nesteRad = alle[index + 1];
             if (inngårINyereHistorikk(nesteRad)) {
                 nesteRad.perioder = [...nesteRad.perioder, ...it.perioder];
+                nesteRad.utbetalinger = [...nesteRad.utbetalinger, ...it.utbetalinger];
                 return false;
             }
             return true;

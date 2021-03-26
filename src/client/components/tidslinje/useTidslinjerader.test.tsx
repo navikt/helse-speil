@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import {
     Dagtype,
-    Revuderingtilstand,
+    Revurderingtilstand,
     Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
@@ -12,6 +12,7 @@ import { tilPeriodetilstand, useTidslinjerader } from './useTidslinjerader';
 import { mappetPersonObject } from '../../../test/data/person';
 import { renderHook } from '@testing-library/react-hooks';
 import {
+    Periodetype,
     utbetalingshistorikkelement,
     UtbetalingshistorikkElement,
     Utbetalingstatus,
@@ -86,13 +87,16 @@ describe('useTidslinjerader', () => {
 });
 
 describe('tilPeriodetype', () => {
-    test('mapper periode til revudering', () => {
-        const tilstand = tilPeriodetilstand({
-            status: Utbetalingstatus.IKKE_UTBETALT,
-            type: Utbetalingstype.REVUDERING,
-            utbetalingstidslinje: [],
-        });
-        expect(tilstand).toEqual(Revuderingtilstand.IRevudering);
+    test('mapper periode til revurdering', () => {
+        const tilstand = tilPeriodetilstand(
+            {
+                status: Utbetalingstatus.IKKE_UTBETALT,
+                type: Utbetalingstype.REVURDERING,
+                utbetalingstidslinje: [],
+            },
+            Periodetype.REVURDERING
+        );
+        expect(tilstand).toEqual(Revurderingtilstand.Revurderes);
     });
 });
 
@@ -111,7 +115,7 @@ const nyttElement = (
         [
             {
                 status: erUtbetalt ? Utbetalingstatus.UTBETALT : Utbetalingstatus.IKKE_UTBETALT,
-                type: erRevurdering ? Utbetalingstype.REVUDERING : Utbetalingstype.UTBETALING,
+                type: erRevurdering ? Utbetalingstype.REVURDERING : Utbetalingstype.UTBETALING,
                 utbetalingstidslinje: utbetalingstidslinje(fom, tom),
             },
         ],

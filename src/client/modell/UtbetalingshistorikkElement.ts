@@ -3,6 +3,7 @@ import {
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
     UtbetalingshistorikkUtbetaling2,
+    Utbetalingstype,
     Vedtaksperiode as FullstendigVedtaksperiode,
 } from 'internal-types';
 import { Dayjs } from 'dayjs';
@@ -28,7 +29,7 @@ export const utbetalingshistorikkelement = (
     vedtaksperioder: Vedtaksperiode[]
 ): UtbetalingshistorikkElement => {
     const sisteUtbetaling = utbetalinger[utbetalinger.length - 1];
-    const erUtbetaling = sisteUtbetaling.type === 'UTBETALING';
+    const erUtbetaling = sisteUtbetaling.type === Utbetalingstype.UTBETALING;
 
     return {
         id: id,
@@ -45,7 +46,8 @@ export const utbetalingshistorikkelement = (
 export const sisteUtbetaling = (element: UtbetalingshistorikkElement): UtbetalingshistorikkUtbetaling2 =>
     element.utbetalinger[element.utbetalinger.length - 1];
 
-export const erUtbetaling = (utbetaling: UtbetalingshistorikkUtbetaling2) => utbetaling.type === 'UTBETALING';
+export const erUtbetaling = (utbetaling: UtbetalingshistorikkUtbetaling2) =>
+    utbetaling.type === Utbetalingstype.UTBETALING;
 
 const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkUtbetaling2, fom: Dayjs, tom: Dayjs) =>
     utbetaling.utbetalingstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));

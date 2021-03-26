@@ -150,10 +150,10 @@ export interface AvvistBegrunnelse {
     paragraf?: string;
 }
 
-export enum Revuderingtilstand {
-    IRevudering = 'IRevudering',
-    Revurdert = 'Revudert',
-    RevurdertIngenEndring = 'RevudertIngenEndring',
+export enum Revurderingtilstand {
+    Revurderes = 'revurderes',
+    Revurdert = 'revurdert',
+    Ukjent = 'ukjent',
 }
 
 export enum Vedtaksperiodetilstand {
@@ -422,6 +422,6 @@ export enum Utbetalingstype {
     UTBETALING = 'UTBETALING',
     ANNULLERING = 'ANNULLERING',
     ETTERUTBETALING = 'ETTERUTBETALING',
-    REVUDERING = 'REVUDERING',
+    REVURDERING = 'REVURDERING',
     UKJENT = 'UKJENT',
 }
