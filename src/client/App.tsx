@@ -12,7 +12,6 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthentication } from './state/authentication';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useAnonymiserPerson, useIsLoadingPerson } from './state/person';
-import { usePollEtterOpptegnelser } from './io/polling';
 import { hot } from 'react-hot-loader';
 import 'reset-css';
 import './App.less';
@@ -58,7 +57,6 @@ const App = () => {
     useHenterPersonToast(isLoading);
 
     useAuthentication();
-    usePollEtterOpptegnelser();
     const agurkmodusAktiv = localStorage.getItem('agurkmodus') === 'true';
     const anonymiserPerson = useAnonymiserPerson();
     anonymiserPerson(agurkmodusAktiv);

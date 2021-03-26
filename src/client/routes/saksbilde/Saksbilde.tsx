@@ -20,10 +20,12 @@ import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { usePerson } from '../../state/person';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
 import { useAktivVedtaksperiode } from '../../state/vedtaksperiode';
-import '@navikt/helse-frontend-logg/lib/main.css';
 import { Faresignaler } from './faresignaler/Faresignaler';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
+import { usePollEtterOpptegnelser } from '../../io/polling';
+
+import '@navikt/helse-frontend-logg/lib/main.css';
 
 const Container = styled.div`
     display: flex;
@@ -118,6 +120,7 @@ const SaksbildeContent = () => {
 
     const { path } = useRouteMatch();
 
+    usePollEtterOpptegnelser();
     useVarselFilter(Scopes.SAKSBILDE);
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
