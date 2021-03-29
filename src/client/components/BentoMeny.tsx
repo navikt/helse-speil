@@ -20,6 +20,8 @@ const BentoButton = styled(Button)`
     font-size: 1.25rem;
     display: flex;
     padding: 0 0.825rem;
+    align-self: stretch;
+    align-items: center;
 `;
 
 const StyledLenke = styled(Lenke)`
@@ -58,13 +60,9 @@ export const BentoMeny = () => {
                 tabIndex={-1}
             >
                 <div>
-                    <BentoLenke href="https://modapp.adeo.no/a-inntekt/" tekst="AInntekt" />
-                    <BentoLenke href="https://modapp.adeo.no/aareg-web/" tekst="A-registeret" />
+                    <BentoLenke href="https://modapp.adeo.no/a-inntekt/" tekst="A-inntekt" />
+                    <BentoLenke href="https://modapp.adeo.no/aareg-web/" tekst="Aa-registeret" />
                     <BentoLenke href="https://gosys-nais.nais.adeo.no/gosys/bruker/brukeroversikt.jsf" tekst="GoSys" />
-                    <BentoLenke
-                        href="https://gosys-nais.nais.adeo.no/gosys/person/personhistorikk.jsf"
-                        tekst="Personhistorikk"
-                    />
                     <BentoLenke href="https://app.adeo.no/modiapersonoversikt/" tekst="Modia Personoversikt" />
                     <BentoLenke
                         href="https://syfomodiaperson.nais.adeo.no/sykefravaer/"
