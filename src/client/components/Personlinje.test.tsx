@@ -30,7 +30,7 @@ describe('Personlinje', () => {
                 </RecoilRoot>
             </MemoryRouter>
         );
-        expect(screen.getByText('A B C')).toBeVisible();
+        expect(screen.getByText('C, A B')).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();
         expect(screen.getByText('123456789')).toBeVisible();
         expect(screen.getByText('Boenhet: 123 (Huttiheiti)')).toBeVisible();

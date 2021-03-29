@@ -128,7 +128,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
     return (
         <Container>
             <Kjønnsikon kjønn={kjønn} />
-            <Element>{`${fornavn} ${mellomnavn ? `${mellomnavn} ` : ' '}${etternavn}`}</Element>
+            <Element>{`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`}</Element>
             <Separator>/</Separator>
             {fnr ? (
                 <Clipboard preserveWhitespace={false} copyMessage="Personnummer er kopiert">
