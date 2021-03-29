@@ -59,7 +59,7 @@ const Strek = styled.hr`
 export const Verktøylinje = () => {
     const personTilBehandling = usePerson();
     const aktivVedtaksperiode = useAktivVedtaksperiode();
-    const tildeltTil = personTilBehandling?.tildeltTil;
+    const tildeling = personTilBehandling?.tildeling;
     const tildeltTilMeg = useErTildeltInnloggetBruker();
     const utbetalinger: Utbetalinger | undefined = aktivVedtaksperiode?.utbetalinger;
     const vedtaksperiodeErAnnullert: boolean = aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;
@@ -75,7 +75,7 @@ export const Verktøylinje = () => {
                         {aktivVedtaksperiode.oppgavereferanse && (
                             <Tildelingsknapp
                                 oppgavereferanse={aktivVedtaksperiode.oppgavereferanse}
-                                tildeltTil={tildeltTil}
+                                tildeling={tildeling}
                             />
                         )}
                         {tildeltTilMeg && <PåVentKnapp />}

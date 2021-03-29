@@ -1,5 +1,5 @@
-import { Person } from 'internal-types';
-import { atom, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { Person, Saksbehandler, Tildeling } from 'internal-types';
+import { atom, DefaultValue, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
 import { aktivPeriodeState } from './tidslinje';
@@ -28,9 +28,22 @@ export const personState = atom<PersonState | undefined>({
     default: undefined,
 });
 
-const tildelingState = atom<string | undefined>({
+const tildelingState = atom<Tildeling | undefined>({
     key: 'tildelingState',
     default: undefined,
+});
+
+export const saksbehandlerTildelingSelector = selector<Saksbehandler | undefined>({
+    key: 'saksbehandlerTildeling',
+    get: ({ get }) => get(tildelingState)?.saksbehandler,
+    set: ({ set }, saksbehandler) =>
+        set(
+            tildelingState,
+            saksbehandler && {
+                saksbehandler: saksbehandler,
+                påVent: false,
+            }
+        ),
 });
 
 const loadingPersonState = atom<boolean>({
@@ -46,7 +59,7 @@ export const anonymiserPersonState = atom<boolean>({
 export const useAnonymiserPerson = () => useSetRecoilState(anonymiserPersonState);
 export const useSkalAnonymiserePerson = () => useRecoilValue(anonymiserPersonState);
 
-export const useTildelPerson = () => useSetRecoilState(tildelingState);
+export const useTildelPerson = () => useSetRecoilState(saksbehandlerTildelingSelector);
 
 export const usePerson = () => {
     const person = useRecoilValue(personState)?.person;
@@ -54,7 +67,7 @@ export const usePerson = () => {
     return (
         person && {
             ...person,
-            tildeltTil: person.tildeling?.saksbehandler.oid ?? tildeling,
+            tildeling: person.tildeling ?? tildeling,
         }
     );
 };

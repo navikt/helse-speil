@@ -4,24 +4,24 @@ import { DropdownMenyknapp } from './Verktøylinje';
 import { useFjernTildeling, useTildelOppgave } from '../../../state/oppgaver';
 import { usePerson, useRefreshPerson, useTildelPerson } from '../../../state/person';
 import { DropdownContext } from '../../../components/Dropdown';
-import { Oppgave } from 'internal-types';
+import { Oppgave, Tildeling } from 'internal-types';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;
-    tildeltTil: string | undefined;
+    tildeling?: Tildeling;
 }
 
 export const useErTildeltInnloggetBruker = () => {
     const personTilBehandling = usePerson();
-    const tildeltTil = personTilBehandling?.tildeltTil;
+    const tildeling = personTilBehandling?.tildeling;
     const { oid } = useInnloggetSaksbehandler();
-    return tildeltTil === oid;
+    return tildeling?.saksbehandler.oid === oid;
 };
 
-export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: TildelingsknappProps) => {
+export const Tildelingsknapp = ({ oppgavereferanse, tildeling }: TildelingsknappProps) => {
     const erTildeltInnloggetBruker = useErTildeltInnloggetBruker();
     const saksbehandler = useInnloggetSaksbehandler();
-    const tildelTilPerson = useTildelPerson();
+    const tildelPerson = useTildelPerson();
     const tildelOppgave = useTildelOppgave();
     const fjernTildeling = useFjernTildeling();
     const refreshPerson = useRefreshPerson();
@@ -32,7 +32,7 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: Tildelingsknap
             onClick={() =>
                 fjernTildeling({ oppgavereferanse } as Oppgave).then(() => {
                     lukk();
-                    tildelTilPerson(undefined);
+                    tildelPerson(undefined);
                     refreshPerson();
                 })
             }
@@ -44,10 +44,10 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeltTil }: Tildelingsknap
             onClick={() =>
                 tildelOppgave({ oppgavereferanse } as Oppgave, saksbehandler).then(() => {
                     lukk();
-                    tildelTilPerson(saksbehandler.oid);
+                    tildelPerson(saksbehandler);
                 })
             }
-            disabled={tildeltTil !== undefined}
+            disabled={tildeling !== undefined}
         >
             Tildel meg
         </DropdownMenyknapp>
