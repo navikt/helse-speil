@@ -6,6 +6,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Button } from './Button';
 import { ExternalLink, SystemFilled } from '@navikt/ds-icons';
+import { usePerson } from '../state/person';
 
 const BentoMenyContainer = styled.div`
     display: flex;
@@ -47,6 +48,31 @@ const BentoLenke = ({ href, tekst }: BentoLenkeProps) => (
 
 export const BentoMeny = () => {
     const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
+    const person = usePerson();
+
+    const links: { tekst: string; href: string }[] = [];
+    if (person) {
+        links.push({
+            tekst: 'A-inntekt',
+            href: `https://modapp.adeo.no/a-inntekt/person/${person.fødselsnummer}?4&soekekontekst=PERSON&modia.global.hent.person.begrunnet=false#!PersonInntektLamell`,
+        });
+        links.push({
+            tekst: 'Aa-registeret',
+            href: `https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker&ident=${person.fødselsnummer}#!arbeidsforhold`,
+        });
+        links.push({ tekst: 'GoSys', href: 'https://gosys-nais.nais.adeo.no/gosys/bruker/brukeroversikt.jsf' });
+        links.push({
+            tekst: 'Modia Personoversikt',
+            href: `https://app.adeo.no/modiapersonoversikt/person/${person.fødselsnummer}`,
+        });
+        links.push({
+            tekst: 'Modia Sykefraværsoppfølging',
+            href: `https://syfomodiaperson.nais.adeo.no/sykefravaer/${person.fødselsnummer}`,
+        });
+        links.push({ tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' });
+    } else {
+        links.push({ tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' });
+    }
 
     return (
         <BentoMenyContainer>
@@ -60,15 +86,9 @@ export const BentoMeny = () => {
                 tabIndex={-1}
             >
                 <div>
-                    <BentoLenke href="https://modapp.adeo.no/a-inntekt/" tekst="A-inntekt" />
-                    <BentoLenke href="https://modapp.adeo.no/aareg-web/" tekst="Aa-registeret" />
-                    <BentoLenke href="https://gosys-nais.nais.adeo.no/gosys/bruker/brukeroversikt.jsf" tekst="GoSys" />
-                    <BentoLenke href="https://app.adeo.no/modiapersonoversikt/" tekst="Modia Personoversikt" />
-                    <BentoLenke
-                        href="https://syfomodiaperson.nais.adeo.no/sykefravaer/"
-                        tekst="Modia Sykefraværsoppfølging"
-                    />
-                    <BentoLenke href="https://lovdata.no/nav/folketrygdloven/kap8" tekst="Folketrygdloven kapittel 8" />
+                    {links.map((link) => (
+                        <BentoLenke href={link.href} tekst={link.tekst} key={link.href} />
+                    ))}
                 </div>
             </Popover>
         </BentoMenyContainer>
