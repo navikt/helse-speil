@@ -5,6 +5,7 @@ import PåskeEgg from './components/ikoner/PåskeEgg';
 const Container = styled.div`
     display: flex;
     margin-left: 1rem;
+    flex-grow: 1;
 `;
 
 const EasterEgg = () => (

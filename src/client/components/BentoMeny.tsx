@@ -10,14 +10,16 @@ import { ExternalLink, SystemFilled } from '@navikt/ds-icons';
 const BentoMenyContainer = styled.div`
     display: flex;
     justify-content: flex-end;
-    flex-grow: 1;
+    align-self: stretch;
+    align-items: center;
+    border-left: 1px solid var(--navds-color-gray-40);
 `;
 
 const BentoButton = styled(Button)`
     color: inherit;
     font-size: 1.25rem;
-    padding: 1rem 0.875rem 0.5rem;
-    border-left: 1px solid var(--navds-color-gray-40);
+    display: flex;
+    padding: 0 0.825rem;
 `;
 
 const StyledLenke = styled(Lenke)`
