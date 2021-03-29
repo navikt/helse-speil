@@ -60,7 +60,10 @@ export const BentoMeny = () => {
             tekst: 'Aa-registeret',
             href: `https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker&ident=${person.fødselsnummer}#!arbeidsforhold`,
         });
-        links.push({ tekst: 'GoSys', href: 'https://gosys-nais.nais.adeo.no/gosys/bruker/brukeroversikt.jsf' });
+        links.push({
+            tekst: 'GoSys',
+            href: 'https://gosys-nais.nais.adeo.no/gosys/personoversikt/fnr=${person.fødselsnummer}',
+        });
         links.push({
             tekst: 'Modia Personoversikt',
             href: `https://app.adeo.no/modiapersonoversikt/person/${person.fødselsnummer}`,
