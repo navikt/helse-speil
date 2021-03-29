@@ -52,27 +52,29 @@ export const BentoMeny = () => {
 
     const links: { tekst: string; href: string }[] = [];
     if (person) {
-        links.push({
-            tekst: 'A-inntekt',
-            href: `https://modapp.adeo.no/a-inntekt/person/${person.fødselsnummer}?4&soekekontekst=PERSON&modia.global.hent.person.begrunnet=false#!PersonInntektLamell`,
-        });
-        links.push({
-            tekst: 'Aa-registeret',
-            href: `https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker&ident=${person.fødselsnummer}#!arbeidsforhold`,
-        });
-        links.push({
-            tekst: 'GoSys',
-            href: 'https://gosys-nais.nais.adeo.no/gosys/personoversikt/fnr=${person.fødselsnummer}',
-        });
-        links.push({
-            tekst: 'Modia Personoversikt',
-            href: `https://app.adeo.no/modiapersonoversikt/person/${person.fødselsnummer}`,
-        });
-        links.push({
-            tekst: 'Modia Sykefraværsoppfølging',
-            href: `https://syfomodiaperson.nais.adeo.no/sykefravaer/${person.fødselsnummer}`,
-        });
-        links.push({ tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' });
+        links.push(
+            {
+                tekst: 'A-inntekt',
+                href: `https://modapp.adeo.no/a-inntekt/person/${person.fødselsnummer}?4&soekekontekst=PERSON&modia.global.hent.person.begrunnet=false#!PersonInntektLamell`,
+            },
+            {
+                tekst: 'Aa-registeret',
+                href: `https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker&ident=${person.fødselsnummer}#!arbeidsforhold`,
+            },
+            {
+                tekst: 'GoSys',
+                href: 'https://gosys-nais.nais.adeo.no/gosys/personoversikt/fnr=${person.fødselsnummer}',
+            },
+            {
+                tekst: 'Modia Personoversikt',
+                href: `https://app.adeo.no/modiapersonoversikt/person/${person.fødselsnummer}`,
+            },
+            {
+                tekst: 'Modia Sykefraværsoppfølging',
+                href: `https://syfomodiaperson.nais.adeo.no/sykefravaer/${person.fødselsnummer}`,
+            },
+            { tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' }
+        );
     } else {
         links.push({ tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' });
     }
