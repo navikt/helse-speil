@@ -15,7 +15,7 @@ import { Oppgave, Personinfo, TildeltOppgave, Inntektskilde } from 'internal-typ
 
 const formatertNavn = (personinfo: Personinfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
-    return [fornavn, mellomnavn, etternavn].filter((n) => n).join(' ');
+    return `${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`;
 };
 
 const formatertVarsel = (antallVarsler?: number) =>
