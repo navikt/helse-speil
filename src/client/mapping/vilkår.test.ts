@@ -31,7 +31,7 @@ describe('mapVilkår', () => {
     test('mapper søknadsfrist', () => {
         const { søknadsfrist } = vilkår;
         expect(søknadsfrist?.sendtNav?.format(NORSK_DATOFORMAT)).toEqual('01.02.2020');
-        expect(søknadsfrist?.søknadTom?.format(NORSK_DATOFORMAT)).toEqual('31.01.2020');
+        expect(søknadsfrist?.søknadFom?.format(NORSK_DATOFORMAT)).toEqual('01.01.2020');
         expect(søknadsfrist?.oppfylt).toBeTruthy();
     });
     test('mapper opptjening', () => {

@@ -137,7 +137,7 @@ export const mappetPersonObject: Person = {
                         },
                         søknadsfrist: {
                             sendtNav: dayjs('2020-02-01T00:00:00.000Z'),
-                            søknadTom: dayjs('2020-01-31T00:00:00.000Z'),
+                            søknadFom: dayjs('2020-01-01T00:00:00.000Z'),
                             oppfylt: true,
                         },
                         sykepengegrunnlag: {

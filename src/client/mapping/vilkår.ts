@@ -70,7 +70,7 @@ const søknadsfristVilkår = ({ vilkår }: SpesialistVedtaksperiode): Søknadsfr
     vilkår.søknadsfrist
         ? {
               sendtNav: somDato(vilkår.søknadsfrist.sendtNav),
-              søknadTom: somDato(vilkår.søknadsfrist.søknadTom),
+              søknadFom: somDato(vilkår.søknadsfrist.søknadFom),
               oppfylt: vilkår.søknadsfrist.oppfylt,
           }
         : undefined;

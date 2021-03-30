@@ -20,8 +20,8 @@ export const Søknadsfrist = ({ søknadsfrist }: Vilkår) => (
         <Vilkårsgrupperad label="Sendt NAV">
             {søknadsfrist?.sendtNav!.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'}
         </Vilkårsgrupperad>
-        <Vilkårsgrupperad label="Siste sykepengedag">
-            {søknadsfrist?.søknadTom?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'}
+        <Vilkårsgrupperad label="Første sykepengedag">
+            {søknadsfrist?.søknadFom?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'}
         </Vilkårsgrupperad>
         <Vilkårsgrupperad label="Innen 3 mnd">{søknadsfrist?.oppfylt ? 'Ja' : 'Nei'}</Vilkårsgrupperad>
     </>

@@ -21,7 +21,7 @@ export interface DagerIgjen extends Basisvilkår {
 }
 
 export interface Søknadsfrist extends Basisvilkår {
-    søknadTom?: Dayjs;
+    søknadFom?: Dayjs;
     sendtNav?: Dayjs;
 }
 
