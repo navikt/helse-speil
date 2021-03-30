@@ -51,34 +51,43 @@ export const BentoMeny = () => {
     const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
     const person = usePerson();
 
-    const links: { tekst: string; href: string }[] = [];
-    if (person) {
-        links.push(
-            {
-                tekst: 'A-inntekt',
-                href: `https://modapp.adeo.no/a-inntekt/person/${person.fødselsnummer}?4&soekekontekst=PERSON&modia.global.hent.person.begrunnet=false#!PersonInntektLamell`,
-            },
-            {
-                tekst: 'Aa-registeret',
-                href: `https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker&ident=${person.fødselsnummer}#!arbeidsforhold`,
-            },
-            {
-                tekst: 'GoSys',
-                href: 'https://gosys-nais.nais.adeo.no/gosys/personoversikt/fnr=${person.fødselsnummer}',
-            },
-            {
-                tekst: 'Modia Personoversikt',
-                href: `https://app.adeo.no/modiapersonoversikt/person/${person.fødselsnummer}`,
-            },
-            {
-                tekst: 'Modia Sykefraværsoppfølging',
-                href: `https://syfomodiaperson.nais.adeo.no/sykefravaer/${person.fødselsnummer}`,
-            },
-            { tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' }
-        );
-    } else {
-        links.push({ tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' });
-    }
+    const links: { tekst: string; href: string }[] = [
+        {
+            tekst: 'A-inntekt',
+            href: person
+                ? `https://modapp.adeo.no/a-inntekt/person/${person.fødselsnummer}?4&soekekontekst=PERSON&modia.global.hent.person.begrunnet=false#!PersonInntektLamell`
+                : 'https://modapp.adeo.no/a-inntekt/',
+        },
+        {
+            tekst: 'Aa-registeret',
+            href: person
+                ? `https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker&ident=${person.fødselsnummer}#!arbeidsforhold`
+                : 'https://modapp.adeo.no/aareg-web/?2&rolle=arbeidstaker',
+        },
+        {
+            tekst: 'Gosys',
+            href: person
+                ? `https://gosys-nais.nais.adeo.no/gosys/personoversikt/fnr=${person.fødselsnummer}`
+                : 'https://gosys-nais.nais.adeo.no/gosys/',
+        },
+        {
+            tekst: 'Modia Personoversikt',
+            href: person
+                ? `https://app.adeo.no/modiapersonoversikt/person/${person.fødselsnummer}`
+                : 'https://app.adeo.no/modiapersonoversikt',
+        },
+        {
+            tekst: 'Modia Sykefraværsoppfølging',
+            href: `https://syfomodiaperson.nais.adeo.no/sykefravaer/${person ? person.fødselsnummer : ''}`,
+        },
+        {
+            tekst: 'Arena',
+            href: person
+                ? `http://arena.adeo.no/forms/arenaMod.html?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${person.fødselsnummer}`
+                : 'http://arena.adeo.no/forms/frmservlet?config=arena',
+        },
+        { tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' },
+    ];
 
     return (
         <BentoMenyContainer>
