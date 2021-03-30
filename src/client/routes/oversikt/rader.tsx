@@ -173,11 +173,11 @@ export const renderer = (rad: Tabellrad): Tabellrad => {
                 <MeldAv oppgave={oppgave} />
             </CellContainer>,
             <Sakstype oppgave={oppgave} />,
-            <Søker oppgave={oppgave} />,
-            <Inntektskildetype oppgave={oppgave} />,
-            <Opprettet oppgave={oppgave} />,
             <Bosted oppgave={oppgave} />,
+            <Inntektskildetype oppgave={oppgave} />,
             <Status oppgave={oppgave} />,
+            <Søker oppgave={oppgave} />,
+            <Opprettet oppgave={oppgave} />,
         ],
     };
 };

@@ -107,14 +107,14 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
                 riskQaFilter(),
             ],
         },
-        'Søker',
+        { render: 'Bosted', sortFunction: sorterTekstAlfabetisk },
         {
             render: 'Inntektskilde',
             filtere: flereArbeidsgivere ? [enArbeidsgiverFilter(), flereArbeidsgivereFilter()] : undefined,
         },
-        { render: 'Opprettet', sortFunction: sorterDateString },
-        { render: 'Bosted', sortFunction: sorterTekstAlfabetisk },
         { render: 'Status', sortFunction: sorterTall },
+        'Søker',
+        { render: 'Opprettet', sortFunction: sorterDateString },
     ];
 
     const rader = oppgaver.map(tilOversiktsrad);
