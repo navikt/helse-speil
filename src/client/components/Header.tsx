@@ -14,11 +14,12 @@ import { Person } from 'internal-types';
 import EasterEgg from '../EasterEgg';
 import { BentoMeny } from './BentoMeny';
 import { bentoMenyEnabled } from '../featureToggles';
+import Brukermeny from './Brukermeny';
 
 const Container = styled.div`
     flex-shrink: 0;
-    height: max-content;
     width: 100%;
+    height: 48px;
 
     > header {
         max-width: unset;
@@ -74,6 +75,7 @@ export const Header = () => {
         return Promise.resolve();
     };
 
+    //<InternalHeaderUser name={brukerinfo.navn} ident={brukerinfo.ident} />
     return (
         <Container>
             <InternalHeader>
@@ -83,7 +85,7 @@ export const Header = () => {
                 <Søk onSøk={onSøk} />
                 <EasterEgg />
                 {bentoMenyEnabled && <BentoMeny />}
-                <InternalHeaderUser name={brukerinfo.navn} ident={brukerinfo.ident} />
+                <Brukermeny navn={brukerinfo.navn} ident={brukerinfo.ident} />
             </InternalHeader>
         </Container>
     );

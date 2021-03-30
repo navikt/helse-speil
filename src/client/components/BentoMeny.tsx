@@ -14,6 +14,7 @@ const BentoMenyContainer = styled.div`
     align-self: stretch;
     align-items: center;
     border-left: 1px solid var(--navds-color-gray-40);
+    border-right: 1px solid var(--navds-color-gray-40);
 `;
 
 const BentoButton = styled(Button)`

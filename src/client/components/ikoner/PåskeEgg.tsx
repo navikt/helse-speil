@@ -3,7 +3,7 @@ import { IkonProps } from './Ikon';
 
 const PåskeEgg = ({ ...props }: IkonProps) => {
     return (
-        <svg width={211} height={57} viewBox="0 0 211 57" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <svg height={48} viewBox="0 0 211 57" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <path
                 d="M44.717 33.062c1.353 7.283-2.347 13.887-8.016 14.94-5.67 1.053-11.494-3.78-12.847-11.064-1.353-7.283 2.347-13.886 8.016-14.94 5.67-1.053 11.494 3.781 12.847 11.064z"
                 fill="#FFEB09"
