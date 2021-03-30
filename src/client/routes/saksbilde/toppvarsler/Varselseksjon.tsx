@@ -5,6 +5,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 const Container = styled(FlexColumn)`
     margin: 0.5rem 0;
+    max-width: 75%;
 
     &:not(:last-of-type) {
         margin-bottom: 1rem;

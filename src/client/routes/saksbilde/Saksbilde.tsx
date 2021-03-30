@@ -175,7 +175,7 @@ const SaksbildeContent = () => {
                 </Route>
                 <Route>
                     <Tidslinje person={personTilBehandling} />
-                    <Flex justifyContent="space-between" flex={1}>
+                    <Flex justifyContent="space-between" style={{ width: '100vw' }} flex={1}>
                         <SaksbildeContainer>
                             <Sakslinje />
                             <ErrorBoundary key={aktivVedtaksperiode.id} fallback={errorMelding}>
