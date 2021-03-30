@@ -58,3 +58,5 @@ spec:
       value: '6379'
     - name: CLIENT_ID_SPESIALIST
       value: api://prod-fss.tbd.spesialist/.default
+    - name: LOGOUT_URL
+      value: https://speil.nais.adeo.no
