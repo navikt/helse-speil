@@ -74,7 +74,7 @@ const setUpAuthentication = () => {
         res.redirect(url);
     });
     app.get('/logout', (req: SpeilRequest, res: Response) => {
-        azureClient?.revoke(req.cookies.get('speil'));
+        azureClient?.revoke(req.session.speilToken);
         req.session.destroy(() => {});
         res.clearCookie('speil');
         res.redirect(302, config.oidc.logoutUrl);
