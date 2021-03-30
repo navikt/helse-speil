@@ -3,6 +3,7 @@ import { NedChevron } from 'nav-frontend-chevron';
 import styled from '@emotion/styled';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import Lenke from 'nav-frontend-lenker';
+import { Element, Ingress, Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 const BrukermenyContainer = styled.div`
     margin-left: 16px;
@@ -19,13 +20,40 @@ const Neddropp = styled.div`
     justify-content: center;
     align-items: center;
 `;
-
-const Brukerinfo = styled.div`
+const Strek = styled.hr`
+    border: none;
+    height: 1px;
+    background-color: var(--navds-color-gray-40);
+    /*border: none none 1px none solid var(--navds-color-gray-40);
     border-bottom: 1px solid var(--navds-color-gray-40);
+    border-bottom: 1px solid var(--navds-color-gray-40);*/
+`;
+
+const MenyNavn = styled(Normaltekst)`
+    color: var(--navds-color-text-secondary);
+    min-width: 180px;
 `;
 
 const BrukerLenke = styled(Lenke)`
-    margin-right: 10px;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
+const BrukerNavn = styled(Element)`
+    color: var(--navds-color-text-primary);
+`;
+
+const Underelement = styled(Undertekst)`
+    color: var(--navds-color-text-primary);
+    margin-bottom: 8px;
+    margin-top: 8px;
+`;
+
+const PopoverElementContainer = styled.div`
+    width: 180px;
+    margin: 16px 8px;
 `;
 
 interface BrukermenyProps {
@@ -37,7 +65,7 @@ const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
     const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
     return (
         <BrukermenyContainer>
-            <p>{navn}</p>
+            <MenyNavn>{navn}</MenyNavn>
             <Neddropp onClick={(e) => (anchor ? setAnchor(undefined) : setAnchor(e.currentTarget))}>
                 <NedChevron />
             </Neddropp>
@@ -47,10 +75,14 @@ const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
                 orientering={PopoverOrientering.Under}
                 tabIndex={-1}
             >
-                <Brukerinfo>
-                    <h5>ident</h5>
-                </Brukerinfo>
-                <BrukerLenke href={'/logout'}>Logg ut</BrukerLenke>
+                <PopoverElementContainer>
+                    <BrukerNavn>{navn}</BrukerNavn>
+                    <Underelement>{ident}</Underelement>
+                </PopoverElementContainer>
+                <Strek />
+                <PopoverElementContainer>
+                    <BrukerLenke href={'/logout'}>Logg ut</BrukerLenke>
+                </PopoverElementContainer>
             </Popover>
         </BrukermenyContainer>
     );

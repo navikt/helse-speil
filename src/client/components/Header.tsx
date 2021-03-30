@@ -75,7 +75,6 @@ export const Header = () => {
         return Promise.resolve();
     };
 
-    //<InternalHeaderUser name={brukerinfo.navn} ident={brukerinfo.ident} />
     return (
         <Container>
             <InternalHeader>
