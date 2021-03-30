@@ -80,12 +80,6 @@ export const BentoMeny = () => {
             tekst: 'Modia Sykefraværsoppfølging',
             href: `https://syfomodiaperson.nais.adeo.no/sykefravaer/${person ? person.fødselsnummer : ''}`,
         },
-        {
-            tekst: 'Arena',
-            href: person
-                ? `http://arena.adeo.no/forms/arenaMod.html?oppstart_skj=AS_REGPERSONALIA&fodselsnr=${person.fødselsnummer}`
-                : 'http://arena.adeo.no/forms/frmservlet?config=arena',
-        },
         { tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' },
     ];
 

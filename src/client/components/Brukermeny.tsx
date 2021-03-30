@@ -3,7 +3,7 @@ import { NedChevron } from 'nav-frontend-chevron';
 import styled from '@emotion/styled';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import Lenke from 'nav-frontend-lenker';
-import { Element, Ingress, Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 const BrukermenyContainer = styled.div`
     margin-left: 16px;
@@ -24,9 +24,6 @@ const Strek = styled.hr`
     border: none;
     height: 1px;
     background-color: var(--navds-color-gray-40);
-    /*border: none none 1px none solid var(--navds-color-gray-40);
-    border-bottom: 1px solid var(--navds-color-gray-40);
-    border-bottom: 1px solid var(--navds-color-gray-40);*/
 `;
 
 const MenyNavn = styled(Normaltekst)`

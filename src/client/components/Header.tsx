@@ -8,12 +8,11 @@ import { Link, useHistory } from 'react-router-dom';
 import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
 import { useAddVarsel, useRemoveVarsel } from '../state/varsler';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { InternalHeader, InternalHeaderTitle, InternalHeaderUser } from '@navikt/ds-react';
+import { InternalHeader, InternalHeaderTitle } from '@navikt/ds-react';
 import { useHentPerson } from '../state/person';
 import { Person } from 'internal-types';
 import EasterEgg from '../EasterEgg';
 import { BentoMeny } from './BentoMeny';
-import { bentoMenyEnabled } from '../featureToggles';
 import Brukermeny from './Brukermeny';
 
 const Container = styled.div`
@@ -83,7 +82,7 @@ export const Header = () => {
                 </InternalHeaderTitle>
                 <Søk onSøk={onSøk} />
                 <EasterEgg />
-                {bentoMenyEnabled && <BentoMeny />}
+                <BentoMeny />
                 <Brukermeny navn={brukerinfo.navn} ident={brukerinfo.ident} />
             </InternalHeader>
         </Container>
