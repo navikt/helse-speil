@@ -16,6 +16,8 @@ const BrukermenyContainer = styled.div`
 const Neddropp = styled.div`
     height: 48px;
     width: 48px;
+    margin-right: 16px;
+    margin-left: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,7 +47,7 @@ const BrukerNavn = styled(Element)`
 const Underelement = styled(Undertekst)`
     color: var(--navds-color-text-primary);
     margin-bottom: 8px;
-    margin-top: 8px;
+    margin-top: 0;
 `;
 
 const PopoverElementContainer = styled.div`
@@ -69,7 +71,7 @@ const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
             <Popover
                 ankerEl={anchor}
                 onRequestClose={() => setAnchor(undefined)}
-                orientering={PopoverOrientering.Under}
+                orientering={PopoverOrientering.UnderHoyre}
                 tabIndex={-1}
             >
                 <PopoverElementContainer>
