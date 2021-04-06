@@ -15,6 +15,7 @@ const personByAktørId = {
             ],
         },
     ],
+    tildeling: null,
 };
 
 const personByFnr = {
@@ -27,6 +28,7 @@ const personByFnr = {
             ],
         },
     ],
+    tildeling: null,
 };
 
 const spesialistClient = {
@@ -65,7 +67,7 @@ describe('oppslag på person', () => {
         };
         await personLookup.finnPerson(requestWithAktørId, mockResponse);
 
-        expect(personFromResponse()).toStrictEqual({ ...personByAktørId, tildeling: undefined });
+        expect(personFromResponse()).toStrictEqual({ ...personByAktørId, tildeling: null });
     });
 
     test('med fødselsnummer kaller spesialistClient.hentPersonByFødselsnummer', async () => {
@@ -75,7 +77,7 @@ describe('oppslag på person', () => {
         };
         await personLookup.finnPerson(requestWithFnr, mockResponse);
 
-        expect(personFromResponse()).toStrictEqual({ ...personByFnr, tildeling: undefined });
+        expect(personFromResponse()).toStrictEqual({ ...personByFnr, tildeling: null });
     });
 });
 

@@ -61,7 +61,7 @@ app.delete('/api/leggpåvent/:oppgaveReferanse', (req: Request, res: Response) =
 app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
     const aktørId = req.params.aktorId;
     const oppgavereferanse = personer[aktørId];
-    const påVent = venter[oppgavereferanse];
+    const påVent = venter[oppgavereferanse] || false;
     const oid = tildelinger[oppgavereferanse];
     res.send(oid ? { påVent, oid, epost: 'dev@nav.no', navn: 'dev' } : undefined);
 });

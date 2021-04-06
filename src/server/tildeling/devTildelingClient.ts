@@ -5,21 +5,25 @@ import { Tildeling } from './tildelingClient';
 const passeLenge = () => Math.random() * 500 + 200;
 
 export default {
-    postTildeling: async (tildeling: Tildeling): Promise<any> =>
+    postTildeling: (tildeling: Tildeling): Promise<any> =>
         sleep(passeLenge()).then(() => {
-            Math.random() < 1
+            return Math.random() < 1
                 ? request.post(`http://localhost:9001/api/tildeling/${tildeling.oppgavereferanse}`)
                 : Promise.reject({
                       feilkode: 409,
                       kildesystem: 'mockSpesialist',
                       kontekst: {
-                          tildeltTil: 'Saksbehandler Frank',
+                          tildeling: {
+                              navn: 'Saksbehandler Frank',
+                              epost: 'frank@nav.no',
+                              oid: 'en annen oid',
+                          },
                       },
                   });
         }),
-    fjernTildeling: async (tildeling: Tildeling): Promise<any> =>
+    fjernTildeling: (tildeling: Tildeling): Promise<any> =>
         sleep(passeLenge()).then(() => {
-            Math.random() < 1
+            return Math.random() < 1
                 ? request.delete(`http://localhost:9001/api/tildeling/${tildeling.oppgavereferanse}`)
                 : Promise.reject();
         }),

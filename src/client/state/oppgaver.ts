@@ -40,7 +40,7 @@ export const oppgaverState = selector<Oppgave[]>({
     key: 'oppgaverState',
     get: async ({ get }) => {
         const tildelinger = get(tildelingerState);
-        const oppgaver = await get(remoteOppgaverState);
+        const oppgaver = get(remoteOppgaverState);
         return oppgaver
             .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
             .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != Inntektskilde.FlereArbeidsgivere)
