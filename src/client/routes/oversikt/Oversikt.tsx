@@ -15,6 +15,8 @@ import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { nanoid } from 'nanoid';
 import { nullstillAgurkData } from '../../agurkdata';
 import { Oppgave } from 'internal-types';
+import { Flex } from '../../components/Flex';
+import { Oppgavestatistikk } from './Oppgavestatistikk';
 
 const Container = styled.div`
     position: relative;
@@ -29,6 +31,7 @@ const Content = styled(Panel)`
     overflow: auto;
     height: 100%;
     box-sizing: border-box;
+    width: 100%;
 `;
 
 const Spinner = styled(NavFrontendSpinner)`
@@ -106,12 +109,15 @@ export const Oversikt = () => {
             {oppgaver.state === 'hasError' && (
                 <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
             )}
-            <Content>
-                <Tabs />
-                <OppgaverTabell
-                    oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
-                />
-            </Content>
+            <Flex>
+                <Content>
+                    <Tabs />
+                    <OppgaverTabell
+                        oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
+                    />
+                </Content>
+                <Oppgavestatistikk />
+            </Flex>
         </Container>
     );
 };

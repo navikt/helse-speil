@@ -18,7 +18,6 @@ import Brukermeny from './Brukermeny';
 const Container = styled.div`
     flex-shrink: 0;
     width: 100%;
-    height: 48px;
 
     > header {
         max-width: unset;

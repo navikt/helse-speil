@@ -30,6 +30,7 @@ const erSindre = () => extractIdent() === 'B159939';
 const erErlend = () => extractIdent() === 'v159649';
 const erJakob = () => extractIdent() === 'E156407';
 
+export const saksbehandlingsstatistikkEnabled = erLocal() || erPreprod();
 export const overstyrPermisjonsdagerEnabled = erLocal() || erPreprod();
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
