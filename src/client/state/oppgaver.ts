@@ -75,7 +75,7 @@ type TildelingError = {
 
 const tildelingskey = 'tildeling';
 
-const tildelingsvarsel = (message: string) => ({ key: tildelingskey, message: message, type: Varseltype.Advarsel });
+const tildelingsvarsel = (message: string) => ({ key: tildelingskey, message: message, type: Varseltype.Info });
 
 export const useTildelOppgave = () => {
     const addVarsel = useAddVarsel();
