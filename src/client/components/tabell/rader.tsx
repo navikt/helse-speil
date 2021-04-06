@@ -172,6 +172,21 @@ const avvistBegrunnelser = (avvistBegrunnelse: AvvistBegrunnelse, index: number)
             tekst = 'Krav til minste sykepengegrunnlag er ikke oppfylt';
             paragraf = <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>;
             break;
+        case 'ManglerOpptjening':
+            tekst = 'Krav til 4 ukers opptjening er ikke oppfylt';
+            paragraf = <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>;
+            break;
+        case 'ManglerMedlemskap':
+            tekst = 'Krav til medlemskap er ikke oppfylt';
+            paragraf = (
+                <>
+                    <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke> og{' '}
+                    <LovdataLenke paragraf="2-" harParagraf={false}>
+                        kap. 2
+                    </LovdataLenke>
+                </>
+            );
+            break;
         case 'SykepengedagerOppbrukt':
             tekst = 'Sykepengedager er oppbrukt';
             paragraf = (
@@ -185,8 +200,9 @@ const avvistBegrunnelser = (avvistBegrunnelse: AvvistBegrunnelse, index: number)
 
     return (
         <>
+            {prefix && <>{prefix} </>}
             {paragraf && <>{paragraf} </>}
-            <>{prefix + tekst}</>
+            <>{tekst}</>
         </>
     );
 };
