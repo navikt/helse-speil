@@ -47,7 +47,6 @@ const finnPerson = async (req: SpeilRequest, res: Response) => {
             res.status(apiResponse.status).send({
                 person: {
                     ...apiResponse.body,
-                    tildeling: apiResponse.body.tildeling,
                 },
             });
         })

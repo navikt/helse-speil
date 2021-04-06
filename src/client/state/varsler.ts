@@ -30,9 +30,10 @@ export const varselFilterState = atom<string | undefined>({
 export const varslerForScope = selector({
     key: 'varslerForScope',
     get: ({ get }) => {
-        const varselFilter = get(varselFilterState);
+        // Må hente listen før filter, bug i recoil?
         const varsler = get(varslerState);
-        return varsler.filter(({ scope }) => scope === undefined || scope === varselFilter);
+        const varselFilter = get(varselFilterState);
+        return varsler.filter(({ scope }) => scope === Scopes.GLOBAL || scope === varselFilter);
     },
 });
 

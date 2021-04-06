@@ -65,7 +65,6 @@ const mockTildelingsfeil = () =>
             text: () =>
                 JSON.stringify({
                     kontekst: {
-                        tildeltTil: saksbehandler.navn,
                         tildeling: {
                             ...saksbehandler,
                             påVent: false,

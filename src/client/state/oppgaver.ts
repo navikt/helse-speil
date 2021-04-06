@@ -44,11 +44,9 @@ export const oppgaverState = selector<Oppgave[]>({
         return oppgaver
             .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
             .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != Inntektskilde.FlereArbeidsgivere)
-            .map((it) => {
-                const tildeling = tildelinger[it.oppgavereferanse];
-                return it.oppgavereferanse in tildelinger
-                    ? { ...it, tildeltTil: tildeling?.saksbehandler.navn, tildeling: tildeling }
-                    : it;
+            .map((oppgave) => {
+                const tildeling = tildelinger[oppgave.oppgavereferanse];
+                return { ...oppgave, tildeling: tildeling ?? oppgave.tildeling };
             });
     },
 });
@@ -66,7 +64,6 @@ type TildelingError = {
     feilkode: string;
     kildesystem: string;
     kontekst: {
-        tildeltTil: string;
         tildeling: {
             oid: string;
             navn: string;
