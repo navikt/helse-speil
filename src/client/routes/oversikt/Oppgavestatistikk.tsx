@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst, Element } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
 import { Progresjonsbar } from '@navikt/helse-frontend-progresjonsbar';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
@@ -75,18 +75,16 @@ interface StatistikkboksProps {
 }
 
 const Statistikkboks = ({ tittel, upperBound, elementer }: StatistikkboksProps) => {
-    const førsteElement = elementer.slice(0, 1)[0];
-    const resten = elementer.slice(1);
     const [erAktiv, setErAktiv] = useState(false);
     return (
         <>
             <Flex alignItems={'center'} style={{ marginBottom: '.5rem' }}>
-                <Undertekst style={{ flexGrow: 1, color: '#78706A' }}>{tittel}</Undertekst>
+                <Undertekst style={{ color: '#78706A', marginRight: '.5rem' }}>{tittel}</Undertekst>
+                <Element style={{ flexGrow: 1, color: '#78706A' }}>{upperBound}</Element>
                 <div onClick={() => setErAktiv(!erAktiv)}>{erAktiv ? <OppChevron /> : <NedChevron />}</div>
             </Flex>
-            <Statistikklinje label={førsteElement.label} upperBound={upperBound} currentValue={førsteElement.value} />
             <Accordion erSynlig={erAktiv}>
-                {resten.map((element) => (
+                {elementer.map((element) => (
                     <Statistikklinje label={element.label} upperBound={upperBound} currentValue={element.value} />
                 ))}
             </Accordion>
