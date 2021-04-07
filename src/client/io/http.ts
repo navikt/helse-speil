@@ -142,3 +142,7 @@ export const getAlleOpptegnelser = async () => {
 export const getOpptegnelser = async (sisteSekvensId?: number) => {
     return sisteSekvensId ? get(`${baseUrl}/opptegnelse/hent/${sisteSekvensId}`) : get(`${baseUrl}/opptegnelse/hent`);
 };
+
+export const getBehandlingsstatistikk = async () => {
+    return get(`${baseUrl}/behandlingsstatistikk`);
+};

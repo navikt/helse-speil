@@ -57,7 +57,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _overstyringClient = overstyringClient(config.oidc, _onBehalfOf);
     const _tildelingClient = tildelingClient(config.oidc, _onBehalfOf);
     const _annulleringClient = annulleringClient(config, _onBehalfOf);
-    const _spesialistClient = spesialistClient(instrumentation);
+    const _spesialistClient = spesialistClient(instrumentation, config.oidc, _onBehalfOf);
     const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
     const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);

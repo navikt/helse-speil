@@ -21,6 +21,7 @@ import tildelingRoutes from './tildeling/tildelingRoutes';
 import { AuthError, SpeilRequest } from './types';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
 import oppgaveRoutes from './leggpåvent/leggPåVentRoutes';
+import behandlingsstatistikkRoutes from './behandlingsstatistikk/behandlingsstatistikkRoutes';
 
 const app = express();
 const port = config.server.port;
@@ -148,6 +149,7 @@ app.use('/api/overstyring', overstyringRoutes(dependencies.overstyring));
 app.use('/api/tildeling', tildelingRoutes(dependencies.tildeling));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies.opptegnelse));
 app.use('/api/leggpaavent', oppgaveRoutes(dependencies.leggPåVent));
+app.use('/api/behandlingsstatistikk', behandlingsstatistikkRoutes(dependencies.person.spesialistClient));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {

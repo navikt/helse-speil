@@ -43,6 +43,36 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
             body: { ...person, tildeling },
         } as Response);
     },
+    hentBehandlingsstatistikk: async (): Promise<any> => {
+        return Promise.resolve({
+            status: 200,
+            body: {
+                antallOppgavertilGodkjenning: {
+                    totalt: 1000,
+                    perPeriodetype: {
+                        FØRSTEGANGSBEHANDLING: 500,
+                        FORLENGELSE: 100,
+                        INFOTRYGDFORLENGELSE: 150,
+                        OVERGANG_FRA_IT: 250,
+                    },
+                },
+                antallBehandlinger: {
+                    manuell: 1000,
+                    automatisert: 5000,
+                    annulleringer: 45,
+                },
+                antallTildelteOppgaver: {
+                    totalt: 300,
+                    perPeriodetype: {
+                        FØRSTEGANGSBEHANDLING: 100,
+                        FORLENGELSE: 15,
+                        INFOTRYGDFORLENGELSE: 85,
+                        OVERGANG_FRA_IT: 100,
+                    },
+                },
+            },
+        });
+    },
 });
 
 const hentPersonStatus = async (aktørId: string): Promise<any> => {
