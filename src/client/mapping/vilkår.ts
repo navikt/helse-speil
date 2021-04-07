@@ -87,7 +87,11 @@ const opptjeningVilkår = ({ vilkår, forlengelseFraInfotrygd }: SpesialistVedta
 };
 
 const medlemskapVilkår = ({ vilkår }: SpesialistVedtaksperiode): Basisvilkår | undefined =>
-    vilkår.medlemskapstatus === SpleisMedlemskapstatus.JA ? { oppfylt: true } : undefined;
+    vilkår.medlemskapstatus === SpleisMedlemskapstatus.JA
+        ? { oppfylt: true }
+        : vilkår.medlemskapstatus === SpleisMedlemskapstatus.NEI
+        ? { oppfylt: false }
+        : undefined;
 
 type MapVilkårResult = {
     vilkår: Vilkår | undefined;
