@@ -555,11 +555,11 @@ export interface Opptegnelse {
 export interface EksternBehandlingstatistikk {
     antallOppgaverTilGodkjenning: {
         totalt: number;
-        perPeriodetype: [{ periodetype: SpesialistPeriodetype; antall: number }];
+        perPeriodetype: [{ periodetypeForSpeil: SpesialistPeriodetype; antall: number }];
     };
     antallTildelteOppgaver: {
         totalt: number;
-        perPeriodetype: [{ periodetype: SpesialistPeriodetype; antall: number }];
+        perPeriodetype: [{ periodetypeForSpeil: SpesialistPeriodetype; antall: number }];
     };
     fullførteBehandlinger: {
         totalt: number;

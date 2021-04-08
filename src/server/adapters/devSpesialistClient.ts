@@ -50,10 +50,10 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
                 antallOppgaverTilGodkjenning: {
                     totalt: 1000,
                     perPeriodetype: [
-                        { periodetype: 'FØRSTEGANGSBEHANDLING', antall: 500 },
-                        { periodetype: 'FORLENGELSE', antall: 100 },
-                        { periodetype: 'INFOTRYGDFORLENGELSE', antall: 150 },
-                        { periodetype: 'OVERGANG_FRA_IT', antall: 250 },
+                        { periodetypeForSpeil: 'FØRSTEGANGSBEHANDLING', antall: 500 },
+                        { periodetypeForSpeil: 'FORLENGELSE', antall: 100 },
+                        { periodetypeForSpeil: 'INFOTRYGDFORLENGELSE', antall: 150 },
+                        { periodetypeForSpeil: 'OVERGANG_FRA_IT', antall: 250 },
                     ],
                 },
                 fullførteBehandlinger: {
@@ -65,10 +65,10 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
                 antallTildelteOppgaver: {
                     totalt: 300,
                     perPeriodetype: [
-                        { periodetype: 'FØRSTEGANGSBEHANDLING', antall: 100 },
-                        { periodetype: 'FORLENGELSE', antall: 15 },
-                        { periodetype: 'INFOTRYGDFORLENGELSE', antall: 85 },
-                        { periodetype: 'OVERGANG_FRA_IT', antall: 100 },
+                        { periodetypeForSpeil: 'FØRSTEGANGSBEHANDLING', antall: 100 },
+                        { periodetypeForSpeil: 'FORLENGELSE', antall: 15 },
+                        { periodetypeForSpeil: 'INFOTRYGDFORLENGELSE', antall: 85 },
+                        { periodetypeForSpeil: 'OVERGANG_FRA_IT', antall: 100 },
                     ],
                 },
             },

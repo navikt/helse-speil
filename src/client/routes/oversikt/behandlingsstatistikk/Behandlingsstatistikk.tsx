@@ -105,18 +105,20 @@ const toStatistikk = (eksternStatistikk: EksternBehandlingstatistikk): Statistik
     antallOppgaverTilGodkjenning: {
         ...eksternStatistikk.antallOppgaverTilGodkjenning,
         perPeriodetype: eksternStatistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
-            ({ antall, periodetype }) => ({
-                periodetype: tilPeriodetype(periodetype),
+            ({ antall, periodetypeForSpeil }) => ({
+                periodetype: tilPeriodetype(periodetypeForSpeil),
                 antall: antall,
             })
         ),
     },
     antallTildelteOppgaver: {
         ...eksternStatistikk.antallTildelteOppgaver,
-        perPeriodetype: eksternStatistikk.antallTildelteOppgaver.perPeriodetype.map(({ antall, periodetype }) => ({
-            periodetype: tilPeriodetype(periodetype),
-            antall: antall,
-        })),
+        perPeriodetype: eksternStatistikk.antallTildelteOppgaver.perPeriodetype.map(
+            ({ antall, periodetypeForSpeil }) => ({
+                periodetype: tilPeriodetype(periodetypeForSpeil),
+                antall: antall,
+            })
+        ),
     },
 });
 
