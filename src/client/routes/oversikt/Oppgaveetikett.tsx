@@ -1,36 +1,45 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import styled from '@emotion/styled';
 import { Periodetype } from 'internal-types';
 
-const Etikett = styled.div`
+export interface EtikettProps {
+    style?: CSSProperties;
+}
+
+const Etikett = styled.div<EtikettProps>`
+    width: max-content;
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
-    width: max-content;
+    ${({ style }) =>
+        style &&
+        `
+        ${style};
+    `}
 `;
 
-const Forlengelse = styled(Etikett)`
+export const Forlengelse = styled(Etikett)`
     background: var(--speil-etikett-forlengelse-background);
     border: 1px solid var(--speil-etikett-forlengelse-border);
 `;
 
-const Førstegangsbehandling = styled(Etikett)`
+export const Førstegangsbehandling = styled(Etikett)`
     background: var(--speil-etikett-forstegangs-background);
     border: 1px solid var(--speil-etikett-forstegangs-border);
 `;
 
-const Infotrygdforlengelse = styled(Etikett)`
+export const Infotrygdforlengelse = styled(Etikett)`
     background: var(--speil-etikett-forlengelse-it-background);
     border: 1px solid var(--speil-etikett-forlengelse-it-border);
     color: var(--navds-color-text-inverse);
 `;
 
-const Stikkprøve = styled(Etikett)`
+export const Stikkprøve = styled(Etikett)`
     background: var(--speil-etikett-stikkprove-background);
     border: 1px solid var(--speil-etikett-stikkprove-border);
     color: var(--navds-color-text-inverse);
 `;
 
-const RiskQa = styled(Etikett)`
+export const RiskQa = styled(Etikett)`
     background: var(--speil-etikett-risk-background);
     border: 1px solid var(--speil-etikett-risk-border);
     color: var(--navds-color-text-primary);

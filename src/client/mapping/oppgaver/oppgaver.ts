@@ -1,6 +1,7 @@
 import { Inntektskilde, Kjønn, Oppgave, Periodetype } from 'internal-types';
 import dayjs from 'dayjs';
 import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave, SpesialistPeriodetype } from 'external-types';
+import { tilPeriodetype } from '../periodetype';
 
 const kjønn = (kjønn: string | null): Kjønn => {
     if (!kjønn) return 'ukjent';
@@ -11,23 +12,6 @@ const kjønn = (kjønn: string | null): Kjønn => {
             return 'kvinne';
         default:
             return 'ukjent';
-    }
-};
-
-const periodeType = (type: SpesialistPeriodetype) => {
-    switch (type) {
-        case SpesialistPeriodetype.Forlengelse:
-            return Periodetype.Forlengelse;
-        case SpesialistPeriodetype.Førstegangsbehandling:
-            return Periodetype.Førstegangsbehandling;
-        case SpesialistPeriodetype.Infotrygdforlengelse:
-            return Periodetype.Infotrygdforlengelse;
-        case SpesialistPeriodetype.OvergangFraInfotrygd:
-            return Periodetype.OvergangFraInfotrygd;
-        case SpesialistPeriodetype.Stikkprøve:
-            return Periodetype.Stikkprøve;
-        case SpesialistPeriodetype.RiskQa:
-            return Periodetype.RiskQa;
     }
 };
 
@@ -62,7 +46,7 @@ export const tilOppgave = (oppgave: SpesialistOppgave): Oppgave => ({
             ? Periodetype.Stikkprøve
             : oppgave.oppgavetype === Oppgavetype.RiskQa
             ? Periodetype.RiskQa
-            : periodeType(oppgave.type),
+            : tilPeriodetype(oppgave.type),
     boenhet: oppgave.boenhet,
     inntektskilde: inntektskilde(oppgave.inntektskilde),
     tildeling: oppgave.tildeling

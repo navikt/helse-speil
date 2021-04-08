@@ -5,10 +5,14 @@ import { SpesialistClient } from '../person/spesialistClient';
 
 export default (spesialistClient: SpesialistClient) => {
     const router = Router();
-    router.get('/behandlingsstatistikk', (req: SpeilRequest, res: Response) => {
+    router.get('/', (req: SpeilRequest, res: Response) => {
         spesialistClient
             .hentBehandlingsstatistikk(req.session!.speilToken)
-            .then(() => res.sendStatus(200))
+            .then((it) => {
+                res.send({
+                    behandlingsstatistikk: it.body,
+                });
+            })
             .catch((err) => {
                 logger.error(`Feil under henting av behandlingsstatistikk: ${err}`);
                 res.status(err.statusCode).send('Feil under henting av behandlingsstatistikk');

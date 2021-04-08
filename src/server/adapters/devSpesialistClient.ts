@@ -43,35 +43,36 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
             body: { ...person, tildeling },
         } as Response);
     },
-    hentBehandlingsstatistikk: async (): Promise<any> => {
-        return Promise.resolve({
+    hentBehandlingsstatistikk: async (): Promise<Response> => {
+        return Promise.resolve(({
             status: 200,
             body: {
                 antallOppgavertilGodkjenning: {
                     totalt: 1000,
-                    perPeriodetype: {
-                        FØRSTEGANGSBEHANDLING: 500,
-                        FORLENGELSE: 100,
-                        INFOTRYGDFORLENGELSE: 150,
-                        OVERGANG_FRA_IT: 250,
-                    },
+                    perPeriodetype: [
+                        { periodetype: 'FØRSTEGANGSBEHANDLING', antall: 500 },
+                        { periodetype: 'FORLENGELSE', antall: 100 },
+                        { periodetype: 'INFOTRYGDFORLENGELSE', antall: 150 },
+                        { periodetype: 'OVERGANG_FRA_IT', antall: 250 },
+                    ],
                 },
-                antallBehandlinger: {
-                    manuell: 1000,
-                    automatisert: 5000,
+                fullførteBehandlinger: {
+                    totalt: 6045,
+                    manuelt: 1000,
+                    automatisk: 5000,
                     annulleringer: 45,
                 },
                 antallTildelteOppgaver: {
                     totalt: 300,
-                    perPeriodetype: {
-                        FØRSTEGANGSBEHANDLING: 100,
-                        FORLENGELSE: 15,
-                        INFOTRYGDFORLENGELSE: 85,
-                        OVERGANG_FRA_IT: 100,
-                    },
+                    perPeriodetype: [
+                        { periodetype: 'FØRSTEGANGSBEHANDLING', antall: 100 },
+                        { periodetype: 'FORLENGELSE', antall: 15 },
+                        { periodetype: 'INFOTRYGDFORLENGELSE', antall: 85 },
+                        { periodetype: 'OVERGANG_FRA_IT', antall: 100 },
+                    ],
                 },
             },
-        });
+        } as unknown) as Response);
     },
 });
 

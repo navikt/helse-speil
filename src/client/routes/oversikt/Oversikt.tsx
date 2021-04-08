@@ -16,7 +16,7 @@ import { nanoid } from 'nanoid';
 import { nullstillAgurkData } from '../../agurkdata';
 import { Oppgave } from 'internal-types';
 import { Flex } from '../../components/Flex';
-import { Oppgavestatistikk } from './Oppgavestatistikk';
+import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 
 const Container = styled.div`
     position: relative;
@@ -116,7 +116,7 @@ export const Oversikt = () => {
                         oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
                     />
                 </Content>
-                <Oppgavestatistikk />
+                <Behandlingsstatistikk />
             </Flex>
         </Container>
     );

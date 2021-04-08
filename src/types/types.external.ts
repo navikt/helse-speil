@@ -551,3 +551,20 @@ export interface Opptegnelse {
     type: OpptegnelseType;
     payload: string;
 }
+
+export interface EksternBehandlingstatistikk {
+    antallOppgavertilGodkjenning: {
+        totalt: number;
+        perPeriodetype: [{ periodetype: SpesialistPeriodetype; antall: number }];
+    };
+    antallTildelteOppgaver: {
+        totalt: number;
+        perPeriodetype: [{ periodetype: SpesialistPeriodetype; antall: number }];
+    };
+    fullførteBehandlinger: {
+        totalt: number;
+        manuelt: number;
+        automatisk: number;
+        annulleringer: number;
+    };
+}

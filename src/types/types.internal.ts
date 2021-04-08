@@ -433,3 +433,26 @@ export interface Saksbehandler {
     epost: string;
     navn: string;
 }
+
+export interface Behandlingsstatistikk {
+    antallOppgavertilGodkjenning: {
+        totalt: number;
+        perPeriodetype: {
+            periodetype: Periodetype;
+            antall: number;
+        }[];
+    };
+    antallTildelteOppgaver: {
+        totalt: number;
+        perPeriodetype: {
+            periodetype: Periodetype;
+            antall: number;
+        }[];
+    };
+    fullførteBehandlinger: {
+        totalt: number;
+        manuelt: number;
+        automatisk: number;
+        annulleringer: number;
+    };
+}

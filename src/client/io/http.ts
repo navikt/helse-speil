@@ -1,6 +1,6 @@
 import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
 import { Avvisningsskjema } from '../routes/saksbilde/utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
-import { SpesialistOppgave } from 'external-types';
+import { EksternBehandlingstatistikk, SpesialistOppgave } from 'external-types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -144,5 +144,7 @@ export const getOpptegnelser = async (sisteSekvensId?: number) => {
 };
 
 export const getBehandlingsstatistikk = async () => {
-    return get(`${baseUrl}/behandlingsstatistikk`);
+    return get(`${baseUrl}/behandlingsstatistikk`).then(
+        (response) => response.data.behandlingsstatistikk as EksternBehandlingstatistikk
+    );
 };
