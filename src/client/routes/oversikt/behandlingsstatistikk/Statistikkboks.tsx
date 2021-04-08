@@ -1,23 +1,9 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode} from 'react';
 import { Flex } from '../../../components/Flex';
 import { Element, Undertekst } from 'nav-frontend-typografi';
-import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import styled from '@emotion/styled';
 import { Statistikklinje } from './Statistikklinje';
-
-interface AccordionProps {
-    erSynlig: boolean;
-}
-
-const Accordion = styled.div<AccordionProps>`
-    ${({ erSynlig }) =>
-        erSynlig
-            ? `
-    display: initial;
-    `
-            : `    
-    display: none;`}
-`;
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 
 interface StatistikkboksProps {
     tittel: string;
@@ -27,14 +13,13 @@ interface StatistikkboksProps {
 }
 
 export const Statistikkboks = ({ tittel, upperBound, elementer, visesByDefault = false }: StatistikkboksProps) => {
-    const [erAktiv, setErAktiv] = useState(visesByDefault);
-
-    const Container = styled.div`
-        margin-bottom: 2rem;
-    `;
-
-    const Header = styled(Flex)`
-        margin-bottom: 0.5rem;
+    const StyledEkspanderbartPanel = styled(Ekspanderbartpanel)`
+        box-shadow: none !important;
+        margin-bottom: 1.75rem;
+        
+        & button {
+            padding: 0.25rem;
+        }
     `;
 
     const Tittel = styled(Undertekst)`
@@ -47,23 +32,23 @@ export const Statistikkboks = ({ tittel, upperBound, elementer, visesByDefault =
         color: var(--navds-color-gray-80);
     `;
 
+    const Heading = () => {
+        return <Flex alignItems={'center'}>
+            <Tittel>{tittel}</Tittel>
+            <StyledElement>{upperBound}</StyledElement>
+        </Flex>
+    }
+
     return (
-        <Container>
-            <Header alignItems={'center'}>
-                <Tittel>{tittel}</Tittel>
-                <StyledElement>{upperBound}</StyledElement>
-                <div onClick={() => setErAktiv(!erAktiv)}>{erAktiv ? <OppChevron /> : <NedChevron />}</div>
-            </Header>
-            <Accordion erSynlig={erAktiv}>
-                {elementer.map((element, index) => (
-                    <Statistikklinje
-                        key={index}
-                        etikett={element.etikett}
-                        upperBound={upperBound}
-                        currentValue={element.antall}
-                    />
-                ))}
-            </Accordion>
-        </Container>
+        <StyledEkspanderbartPanel tittel={<Heading/>} border={false} apen={visesByDefault}>
+            {elementer.map((element, index) => (
+                <Statistikklinje
+                    key={index}
+                    etikett={element.etikett}
+                    upperBound={upperBound}
+                    currentValue={element.antall}
+                />
+            ))}
+        </StyledEkspanderbartPanel>
     );
 };

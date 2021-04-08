@@ -73,7 +73,7 @@ export const Behandlingsstatistikk = () => {
                         }))}
                     />
                     <Statistikkboks
-                        tittel={'FULLFØRTE BEHANDLINGER I DAG'}
+                        tittel={'FULLFØRTE BEHANDLINGER'}
                         upperBound={statistikk.fullførteBehandlinger.totalt}
                         elementer={[
                             {
