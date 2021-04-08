@@ -51,7 +51,7 @@ const requestHistogram = () => {
 const routes = (app: Express) => {
     app.get('/metrics', (req, res) => {
         res.set('Content-Type', prometheus.register.contentType);
-        res.end(prometheus.register.metrics());
+        prometheus.register.metrics().then((metrics) => res.end(metrics));
     });
 };
 
