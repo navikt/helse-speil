@@ -553,7 +553,7 @@ export interface Opptegnelse {
 }
 
 export interface EksternBehandlingstatistikk {
-    antallOppgavertilGodkjenning: {
+    antallOppgaverTilGodkjenning: {
         totalt: number;
         perPeriodetype: [{ periodetype: SpesialistPeriodetype; antall: number }];
     };

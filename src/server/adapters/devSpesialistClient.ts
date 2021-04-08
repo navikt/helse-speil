@@ -47,7 +47,7 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
         return Promise.resolve(({
             status: 200,
             body: {
-                antallOppgavertilGodkjenning: {
+                antallOppgaverTilGodkjenning: {
                     totalt: 1000,
                     perPeriodetype: [
                         { periodetype: 'FØRSTEGANGSBEHANDLING', antall: 500 },

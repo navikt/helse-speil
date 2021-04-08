@@ -435,7 +435,7 @@ export interface Saksbehandler {
 }
 
 export interface Behandlingsstatistikk {
-    antallOppgavertilGodkjenning: {
+    antallOppgaverTilGodkjenning: {
         totalt: number;
         perPeriodetype: {
             periodetype: Periodetype;

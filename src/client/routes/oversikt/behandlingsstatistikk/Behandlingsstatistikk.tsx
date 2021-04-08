@@ -55,8 +55,8 @@ export const Behandlingsstatistikk = () => {
                 <>
                     <Statistikkboks
                         tittel={'TILGJENGELIGE SAKER'}
-                        upperBound={statistikk.antallOppgavertilGodkjenning.totalt}
-                        elementer={statistikk.antallOppgavertilGodkjenning.perPeriodetype.map(
+                        upperBound={statistikk.antallOppgaverTilGodkjenning.totalt}
+                        elementer={statistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
                             ({ periodetype, antall }) => ({
                                 etikett: <Periodetypeetikett type={periodetype} />,
                                 antall: antall,
@@ -102,9 +102,9 @@ export const Behandlingsstatistikk = () => {
 
 const toStatistikk = (eksternStatistikk: EksternBehandlingstatistikk): Statistikk => ({
     ...eksternStatistikk,
-    antallOppgavertilGodkjenning: {
-        ...eksternStatistikk.antallOppgavertilGodkjenning,
-        perPeriodetype: eksternStatistikk.antallOppgavertilGodkjenning.perPeriodetype.map(
+    antallOppgaverTilGodkjenning: {
+        ...eksternStatistikk.antallOppgaverTilGodkjenning,
+        perPeriodetype: eksternStatistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
             ({ antall, periodetype }) => ({
                 periodetype: tilPeriodetype(periodetype),
                 antall: antall,
