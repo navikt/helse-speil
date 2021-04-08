@@ -201,8 +201,8 @@ const avvistBegrunnelser = (avvistBegrunnelse: AvvistBegrunnelse, index: number)
     return (
         <>
             {prefix && <>{prefix} </>}
-            {paragraf && <>{paragraf} </>}
-            <>{tekst}</>
+            {paragraf && <span data-tip={tekst}>{paragraf} </span>}
+            {!paragraf && <>{tekst}</>}
         </>
     );
 };
