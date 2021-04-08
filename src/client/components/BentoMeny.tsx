@@ -81,6 +81,8 @@ export const BentoMeny = () => {
             href: `https://syfomodiaperson.nais.adeo.no/sykefravaer/${person ? person.fødselsnummer : ''}`,
         },
         { tekst: 'Folketrygdloven kapittel 8', href: 'https://lovdata.no/nav/folketrygdloven/kap8' },
+        { tekst: 'Brønnøysundregisteret', href: 'https://brreg.no' },
+        { tekst: 'purehelp.no', href: 'https://purehelp.no' },
     ];
 
     return (
