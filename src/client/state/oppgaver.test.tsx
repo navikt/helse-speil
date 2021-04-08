@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useFjernTildeling, useTildelOppgave } from './oppgaver';
+import { useTildeling } from './oppgaver';
 import { RecoilRoot } from 'recoil';
 import { Inntektskilde, Oppgave, Periodetype } from 'internal-types';
 import dayjs from 'dayjs';
@@ -80,7 +80,7 @@ describe('oppgavetildeling', () => {
     describe('useTildelOppgave', () => {
         test('thrower ikke ved suksess', () => {
             mockSuccessfulFetch();
-            const { result } = renderHook(() => useTildelOppgave(), { wrapper });
+            const { result } = renderHook(() => useTildeling().tildelOppgave, { wrapper });
 
             act(async () => {
                 expect(await result.current(enOppgave(), saksbehandler)).toHaveProperty('status', 200);
@@ -89,7 +89,7 @@ describe('oppgavetildeling', () => {
 
         test('thrower og returnerer navnet på tildelt saksbehandler ved konflikt', () => {
             mockTildelingsfeil();
-            const { result } = renderHook(() => useTildelOppgave(), { wrapper });
+            const { result } = renderHook(() => useTildeling().tildelOppgave, { wrapper });
 
             act(async () => {
                 const errorMessage = await result.current(enOppgave(), saksbehandler).catch((err) => err);
@@ -100,7 +100,7 @@ describe('oppgavetildeling', () => {
     describe('useFjernTildeling', () => {
         test('thrower ikke ved suksess', () => {
             mockSuccessfulFetch();
-            const { result } = renderHook(() => useFjernTildeling(), { wrapper });
+            const { result } = renderHook(() => useTildeling().fjernTildeling, { wrapper });
 
             act(async () => {
                 expect(await result.current(enOppgave())).toHaveProperty('status', 200);
@@ -109,7 +109,7 @@ describe('oppgavetildeling', () => {
 
         test('thrower ved feil', () => {
             mockTildelingsfeil();
-            const { result } = renderHook(() => useFjernTildeling(), { wrapper });
+            const { result } = renderHook(() => useTildeling().fjernTildeling, { wrapper });
 
             act(() => {
                 expect(async () => await result.current(enOppgave())).rejects.toBeUndefined();

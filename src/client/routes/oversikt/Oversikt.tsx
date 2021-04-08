@@ -7,9 +7,9 @@ import { Scopes, useVarselFilter } from '../../state/varsler';
 import { OppgaverTabell } from './OppgaverTabell';
 import { Tabs, tabState } from './tabs';
 import { useDebounce } from '../../hooks/useDebounce';
-import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
+import { useOppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
-import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { personState } from '../../state/person';
 import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { nanoid } from 'nanoid';
@@ -41,7 +41,7 @@ const Spinner = styled(NavFrontendSpinner)`
 const useFiltrerteOppgaver = () => {
     const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useRecoilValue(tabState);
-    const oppgaver = useRecoilValueLoadable(oppgaverState);
+    const oppgaver = useOppgaverState();
     const [cache, setCache] = useState<Oppgave[]>([]);
     nullstillAgurkData();
 

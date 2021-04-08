@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
-import { oppgaverState } from '../../state/oppgaver';
+import { useOppgaverState } from '../../state/oppgaver';
 import { Dropdownknapp } from '../saksbilde/sakslinje/Verktøylinje';
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
 import { Oppgave } from 'internal-types';
@@ -93,7 +93,7 @@ const VentendeTab = ({ antall }: { antall: number }) => {
 
 export const Tabs = () => {
     const { oid } = useInnloggetSaksbehandler();
-    const alleOppgaver = useRecoilValueLoadable(oppgaverState);
+    const alleOppgaver = useOppgaverState();
     const oppgaver = alleOppgaver.state === 'hasValue' ? (alleOppgaver.contents as Oppgave[]) : [];
     const mineOppgaver = oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid);
     return (

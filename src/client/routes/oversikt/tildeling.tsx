@@ -3,7 +3,7 @@ import { capitalizeName } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
-import { useFjernTildeling, useTildelOppgave } from '../../state/oppgaver';
+import { useTildeling } from '../../state/oppgaver';
 import { SkjultSakslenke } from './rader';
 import { Oppgave, TildeltOppgave } from 'internal-types';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
@@ -26,7 +26,7 @@ export const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
 export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
     const saksbehandler = useInnloggetSaksbehandler();
     const [isFetching, setIsFetching] = useState(false);
-    const tildelOppgave = useTildelOppgave();
+    const { tildelOppgave } = useTildeling();
 
     const tildel = () => {
         if (!saksbehandler) return;
@@ -45,7 +45,7 @@ export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
 export const MeldAv = ({ oppgave }: { oppgave: Oppgave }) => {
     const { oid } = useInnloggetSaksbehandler();
     const [isFetching, setIsFetching] = useState(false);
-    const fjernTildeling = useFjernTildeling();
+    const { fjernTildeling } = useTildeling();
     const erTildeltInnloggetBruker = oppgave.tildeling?.saksbehandler.oid === oid;
 
     const meldAv = () => {

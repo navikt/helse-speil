@@ -91,7 +91,7 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
                     <Tittel maxwidth="500px">
-                        <TekstMedEllipsis data-tip={arbeidsgivernavn}>
+                        <TekstMedEllipsis data-tip="Arbeidsgivernavn">
                             {anonymiseringEnabled
                                 ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
                                 : arbeidsgivernavn}
@@ -147,7 +147,7 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
                     </>
                 )}
             </FlexColumn>
-            <Tooltip />
+            <Tooltip effect="solid" />
         </Innhold>
     );
 };

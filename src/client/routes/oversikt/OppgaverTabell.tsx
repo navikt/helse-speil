@@ -21,6 +21,7 @@ import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTa
 import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
 import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
 import { Oppgave } from 'internal-types';
+import { useTildeling } from '../../state/oppgaver';
 
 const Container = styled.div`
     min-height: 300px;
@@ -94,9 +95,10 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     const aktivTab = useRecoilValue(tabState);
     const aktiveFiltere = useRecoilValue(filtreringState);
 
+    const { fjernTildeling, fjernPåVent, tildelOppgave, leggPåVent } = useTildeling();
+
     const headere = [
         { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
-        { render: '' },
         {
             render: 'Sakstype',
             filtere: [
@@ -115,14 +117,15 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
         { render: 'Status', sortFunction: sorterTall },
         'Søker',
         { render: 'Opprettet', sortFunction: sorterDateString },
+        { render: '' },
     ];
 
     const rader = oppgaver.map(tilOversiktsrad);
 
     const tabell = useTabell({
-        rader: rader,
-        headere: headere,
-        renderer: renderer,
+        rader,
+        headere,
+        renderer: (rad) => renderer(rad, fjernTildeling, tildelOppgave, fjernPåVent, leggPåVent),
         defaultSortering: useRecoilValue(sorteringState),
         defaultFiltrering: aktiveFiltere,
         defaultPaginering: {

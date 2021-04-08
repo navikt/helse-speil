@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { DropdownMenyknapp } from './Verktøylinje';
-import { useFjernTildeling, useTildelOppgave } from '../../../state/oppgaver';
+import { useTildeling } from '../../../state/oppgaver';
 import { usePerson, useRefreshPerson, useTildelPerson } from '../../../state/person';
 import { DropdownContext } from '../../../components/Dropdown';
 import { Oppgave, Tildeling } from 'internal-types';
@@ -22,8 +22,7 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling }: Tildelingsknapp
     const erTildeltInnloggetBruker = useErTildeltInnloggetBruker();
     const saksbehandler = useInnloggetSaksbehandler();
     const tildelPerson = useTildelPerson();
-    const tildelOppgave = useTildelOppgave();
-    const fjernTildeling = useFjernTildeling();
+    const { fjernTildeling, tildelOppgave } = useTildeling();
     const refreshPerson = useRefreshPerson();
     const { lukk } = useContext(DropdownContext);
 

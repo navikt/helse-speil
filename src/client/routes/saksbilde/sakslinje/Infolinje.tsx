@@ -86,7 +86,7 @@ export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
                     </Flex>
                 )}
             </InfolinjeElement>
-            <Tooltip />
+            <Tooltip effect="solid" />
         </InfolinjeContainer>
     );
 };

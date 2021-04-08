@@ -190,37 +190,35 @@ export const Tidslinje = ({ person }: Props) => {
         <Container>
             <TidslinjeContainer>
                 <AxisLabelsContainer horizontalOffset={tidslinjeradOffset}>
-                    <AxisLabels start={fom.toDate()} slutt={tom.toDate()} direction={'right'} />
+                    <AxisLabels start={fom.toDate()} slutt={tom.toDate()} direction="right" />
                 </AxisLabelsContainer>
                 <PinsContainer horizontalOffset={tidslinjeradOffset}>
-                    <Pins start={fom.toDate()} slutt={tom.toDate()} direction={'right'} pins={pins()} />
+                    <Pins start={fom.toDate()} slutt={tom.toDate()} direction="right" pins={pins()} />
                 </PinsContainer>
-                {tidslinjerader.map(({ id, navn, rader }) => {
-                    return (
-                        <ArbeidsgiverContainer key={id}>
-                            <Arbeidsgivernavn width={tidslinjeradOffset}>
-                                <Arbeidsgiverikon />
-                                <TekstMedEllipsis data-tip={navn} style={{ flex: 1 }}>
-                                    {navn}
-                                </TekstMedEllipsis>
-                                {rader.length > 1 && <Chevron organisasjonsnummer={id} />}
-                            </Arbeidsgivernavn>
-                            <RaderContainer>
-                                <Tidslinjerad rad={rader[0]} index={0} erKlikkbar={true} />
-                                <Accordion erSynlig={erAktiv[id]}>
-                                    {rader.slice(1).map((it, index) => (
-                                        <Tidslinjerad rad={it} index={index} erKlikkbar={true} />
-                                    ))}
-                                </Accordion>
-                            </RaderContainer>
-                        </ArbeidsgiverContainer>
-                    );
-                })}
+                {tidslinjerader.map(({ id, navn, rader }) => (
+                    <ArbeidsgiverContainer key={id}>
+                        <Arbeidsgivernavn width={tidslinjeradOffset}>
+                            <Arbeidsgiverikon />
+                            <TekstMedEllipsis data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
+                            {rader.length > 1 && <Chevron organisasjonsnummer={id} />}
+                        </Arbeidsgivernavn>
+                        <RaderContainer>
+                            <Tidslinjerad rad={rader[0]} index={0} erKlikkbar={true} />
+                            <Accordion erSynlig={erAktiv[id]}>
+                                {rader.slice(1).map((it, index) => (
+                                    <Tidslinjerad rad={it} index={index} erKlikkbar={true} />
+                                ))}
+                            </Accordion>
+                        </RaderContainer>
+                    </ArbeidsgiverContainer>
+                ))}
                 {infotrygdrader.map((it, index) => (
                     <ArbeidsgiverContainer key={it.arbeidsgivernavn}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Infotrygdikon />
-                            <TekstMedEllipsis data-tip={it.arbeidsgivernavn}>{it.arbeidsgivernavn}</TekstMedEllipsis>
+                            <TekstMedEllipsis data-tip="Arbeidsgiver (Infotrygd)">
+                                {it.arbeidsgivernavn}
+                            </TekstMedEllipsis>
                         </Arbeidsgivernavn>
                         <RaderContainer>
                             <Tidslinjerad rad={it} index={index} erKlikkbar={false} />
