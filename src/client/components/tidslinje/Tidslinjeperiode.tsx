@@ -72,74 +72,74 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
         top: 50%;
         left: 6px;
         transform: translateY(-50%);
-        background-image: url('${ukjent}');
+        background-image: url(${ukjent});
         background-repeat: no-repeat;
     }
 
     &.kunPermisjon:before {
-        background-image: url('${kunPermisjon}');
+        background-image: url(${kunPermisjon});
     }
 
     &.kunFerie:before {
-        background-image: url('${kunFerie}');
+        background-image: url(${kunFerie});
     }
 
     &.infotrygdferie:before {
-        background-image: url('${infotrygdferie}');
+        background-image: url(${infotrygdferie});
     }
 
     &.infotrygdukjent:before {
-        background-image: url('${infotrygdukjent}');
+        background-image: url(${infotrygdukjent});
     }
 
     &.utbetalt:before {
-        background-image: url('${utbetalt}');
+        background-image: url(${utbetalt});
     }
 
     &.utbetaltIInfotrygd:before {
-        background-image: url('${utbetaltIInfotrygd}');
+        background-image: url(${utbetaltIInfotrygd});
     }
 
     &.revurdert:before,
     &.revurderes:before {
-        background-image: url('${revurdert}');
+        background-image: url(${revurdert});
     }
 
     &.oppgaver:before {
-        background-image: url('${oppgaver}');
+        background-image: url(${oppgaver});
     }
 
     &.avslag:before {
-        background-image: url('${avslag}');
+        background-image: url(${avslag});
     }
 
     &.tilUtbetaling:before {
-        background-image: url('${tilUtbetaling}');
+        background-image: url(${tilUtbetaling});
     }
 
     &.venter:before,
     &.venterPåKiling:before {
-        background-image: url('${venter}');
+        background-image: url(${venter});
     }
 
     &.ingenUtbetaling:before {
-        background-image: url('${ingenUtbetaling}');
+        background-image: url(${ingenUtbetaling});
     }
 
     &.annullert:before {
-        background-image: url('${annullert}');
+        background-image: url(${annullert});
     }
 
     &.tilAnnullering:before {
-        background-image: url('${tilAnnullering}');
+        background-image: url(${tilAnnullering});
     }
 
     &.utbetaltAutomatisk:before {
-        background-image: url('${utbetaltAutomatisk}');
+        background-image: url(${utbetaltAutomatisk});
     }
 
     &.tilUtbetalingAutomatisk:before {
-        background-image: url('${tilUtbetalingAutomatisk}');
+        background-image: url(${tilUtbetalingAutomatisk});
     }
 
     ${({ erMini }) => erMini && `&:before { display: none; }`}
