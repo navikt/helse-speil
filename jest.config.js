@@ -16,6 +16,8 @@ module.exports = {
         'internal-types': '<rootDir>/src/types/types.internal',
         'test-data': '<rootDir>/src/test/data',
         '@navikt/ds-icons(.*)': '@navikt/ds-icons/cjs$1',
+        '@navikt/ds-react(.*)': '@navikt/ds-react/cjs$1',
+        '@navikt/ds-css(.*)': '<rootDir>/__mocks__/styleMock.js',
     },
     transformIgnorePatterns: ['<rootDir>/node_modules'],
     watchPathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/node_modules'],

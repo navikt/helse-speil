@@ -14,6 +14,7 @@ import { Person } from 'internal-types';
 import EasterEgg from '../EasterEgg';
 import { BentoMeny } from './BentoMeny';
 import Brukermeny from './Brukermeny';
+import '@navikt/ds-css';
 
 const Container = styled.div`
     flex-shrink: 0;
