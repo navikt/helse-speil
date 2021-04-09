@@ -14,11 +14,19 @@ interface StatistikkboksProps {
 
 export const Statistikkboks = ({ tittel, upperBound, elementer, visesByDefault = false }: StatistikkboksProps) => {
     const StyledEkspanderbartPanel = styled(Ekspanderbartpanel)`
-        box-shadow: none !important;
         margin-bottom: 1.75rem;
-
-        & button {
+        box-shadow: none !important;
+        
+        :hover > button:focus {
+            box-shadow: 0 0 0 3px var(--navds-color-blue-80) !important;
+        }
+        
+        button {
             padding: 0.25rem;
+            
+            :focus {
+                border-radius: 4px;
+            }
         }
     `;
 

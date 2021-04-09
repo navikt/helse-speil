@@ -48,7 +48,7 @@ export const Behandlingsstatistikk = () => {
 
     return (
         <Container>
-            <Header>Totalt behandlede saker i dag</Header>
+            <Header>Behandlingsoversikt</Header>
             <Separator />
             {statistikk ? (
                 <>
