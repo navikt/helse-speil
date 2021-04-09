@@ -1,9 +1,9 @@
-import React, { ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import { Flex } from '../../../components/Flex';
 import { Element, Undertekst } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
 import { Statistikklinje } from './Statistikklinje';
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 
 interface StatistikkboksProps {
     tittel: string;
@@ -16,7 +16,7 @@ export const Statistikkboks = ({ tittel, upperBound, elementer, visesByDefault =
     const StyledEkspanderbartPanel = styled(Ekspanderbartpanel)`
         box-shadow: none !important;
         margin-bottom: 1.75rem;
-        
+
         & button {
             padding: 0.25rem;
         }
@@ -33,14 +33,16 @@ export const Statistikkboks = ({ tittel, upperBound, elementer, visesByDefault =
     `;
 
     const Heading = () => {
-        return <Flex alignItems={'center'}>
-            <Tittel>{tittel}</Tittel>
-            <StyledElement>{upperBound}</StyledElement>
-        </Flex>
-    }
+        return (
+            <Flex alignItems={'center'}>
+                <Tittel>{tittel}</Tittel>
+                <StyledElement>{upperBound}</StyledElement>
+            </Flex>
+        );
+    };
 
     return (
-        <StyledEkspanderbartPanel tittel={<Heading/>} border={false} apen={visesByDefault}>
+        <StyledEkspanderbartPanel tittel={<Heading />} border={false} apen={visesByDefault}>
             {elementer.map((element, index) => (
                 <Statistikklinje
                     key={index}

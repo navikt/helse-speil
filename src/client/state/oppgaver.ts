@@ -74,6 +74,8 @@ const oppgaverState = selector<Oppgave[]>({
             .map((oppgave) => {
                 const harTildeling = Object.keys(tildelinger).includes(oppgave.oppgavereferanse);
                 const tildeling = tildelinger[oppgave.oppgavereferanse];
+                console.log('oppgaveState - oppgave: ', oppgave);
+                console.log('oppgaveState - tildeling: ', tildelinger);
                 return { ...oppgave, tildeling: harTildeling ? tildeling : oppgave.tildeling };
             });
     },
@@ -114,7 +116,11 @@ const tildelOppgave = (
         removeVarsel(tildelingskey);
         return postTildeling(oppgavereferanse)
             .then((response) => {
-                setTildelinger((it) => ({ ...it, [oppgavereferanse]: { saksbehandler, påVent: false } }));
+                setTildelinger((it) => {
+                    console.log('Oppgaver: ', it);
+                    console.log('Oppgavereferanse: ', oppgavereferanse);
+                    return { ...it, [oppgavereferanse]: { saksbehandler, påVent: false } };
+                });
                 return Promise.resolve(response);
             })
             .catch(async (error) => {
