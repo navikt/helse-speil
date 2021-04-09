@@ -30,7 +30,7 @@
                     "tom": "2020-03-27",
                     "tilstand": "Oppgaver",
                     "periodetype": "OVERGANG_FRA_IT",
-                    "oppgavereferanse": "e3474113-1100-9999-0000-ea5d644b4a6b",
+                    "oppgavereferanse": "258",
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [
@@ -578,7 +578,7 @@
                     "tom": "2020-03-27",
                     "tilstand": "VenterPåKiling",
                     "periodetype": "OVERGANG_FRA_IT",
-                    "oppgavereferanse": "e3474113-1100-9999-0000-ea5d644b4a6b",
+                    "oppgavereferanse": null,
                     "fullstendig": true,
                     "utbetalingsreferanse": null,
                     "utbetalingstidslinje": [

@@ -72,7 +72,7 @@ const oppgaverState = selector<Oppgave[]>({
             .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
             .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != Inntektskilde.FlereArbeidsgivere)
             .map((oppgave) => {
-                const harTildeling = Object.keys(tildelinger).includes('' + oppgave.oppgavereferanse);
+                const harTildeling = Object.keys(tildelinger).includes(String(oppgave.oppgavereferanse));
                 const tildeling = tildelinger[oppgave.oppgavereferanse];
                 return { ...oppgave, tildeling: harTildeling ? tildeling : oppgave.tildeling };
             });

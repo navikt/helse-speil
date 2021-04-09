@@ -1,6 +1,6 @@
 [
     {
-        "oppgavereferanse": "ea5d644b-0000-9999-0000-f93744554d5e",
+        "oppgavereferanse": "123",
         "opprettet": "2018-02-27T08:38:00.728127",
         "fødselsnummer": "21023701901",
         "aktørId": "1000000009871",
@@ -21,7 +21,7 @@
         "inntektskilde": "EN_ARBEIDSGIVER"
     },
     {
-        "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5f",
+        "oppgavereferanse": "234",
         "opprettet": "2018-02-10T08:38:00.728127",
         "fødselsnummer": "04073732100",
         "aktørId": "87654321962123",
@@ -41,7 +41,7 @@
         }
     },
     {
-        "oppgavereferanse": "f9374455-0000-9999-0000-ea5d644b4d5g",
+        "oppgavereferanse": "345",
         "opprettet": "2018-02-10T09:38:00.728127",
         "fødselsnummer": "20077362124",
         "aktørId": "87654321962124",
@@ -61,7 +61,7 @@
         }
     },
     {
-        "oppgavereferanse": "e3474433-0000-9999-0000-ea5d644b4a6b",
+        "oppgavereferanse": "456",
         "opprettet": "2018-02-10T09:38:00.728127",
         "fødselsnummer": "21010462423",
         "aktørId": "1672157246605",
@@ -81,7 +81,7 @@
         }
     },
     {
-        "oppgavereferanse": "e3474433-0000-9999-0000-ea5d644b4a6c",
+        "oppgavereferanse": "567",
         "opprettet": "2018-02-10T09:38:00.728127",
         "fødselsnummer": "21010462423",
         "aktørId": "87650000962123",
@@ -102,7 +102,7 @@
         }
     },
     {
-        "oppgavereferanse": "e3474433-ffff-9999-dddd-ea5d644b4a6b",
+        "oppgavereferanse": "678",
         "opprettet": "2018-03-11T19:38:00.728127",
         "fødselsnummer": "22097112413",
         "aktørId": "57650000444423",
@@ -122,7 +122,7 @@
         }
     },
     {
-        "oppgavereferanse": "e3474433-ffff-9999-dddd-ea5d644b4a6c",
+        "oppgavereferanse": "789",
         "opprettet": "2018-03-11T19:38:00.728127",
         "fødselsnummer": "02070312413",
         "aktørId": "11650007744423",
@@ -142,7 +142,7 @@
         }
     },
     {
-        "oppgavereferanse": "ee4443fa-92e6-4f11-aaaa-59b66a8aaaaa",
+        "oppgavereferanse": "891",
         "opprettet": "2020-06-15T23:04:09.454",
         "fødselsnummer": "03120520135",
         "aktørId": "1000000000009",
@@ -162,7 +162,7 @@
         }
     },
     {
-        "oppgavereferanse": "ee4443fa-92e6-4f11-aaaa-59b66a8bbbbb",
+        "oppgavereferanse": "911",
         "opprettet": "2020-06-15T23:04:09.454",
         "fødselsnummer": "01010025678",
         "aktørId": "1234",
@@ -182,7 +182,7 @@
         }
     },
     {
-        "oppgavereferanse": "ee4443fa-92e6-4f11-aaaa-59b66a8ccccc",
+        "oppgavereferanse": "700",
         "opprettet": "2020-06-15T23:04:09.454",
         "fødselsnummer": "01010025676",
         "aktørId": "12345",
@@ -202,7 +202,7 @@
         }
     },
     {
-        "oppgavereferanse": "ab3344fa-92e6-4f11-aaaa-59b66a8bbbbe",
+        "oppgavereferanse": "113",
         "opprettet": "2020-07-15T23:04:09.454",
         "fødselsnummer": "30090812345",
         "aktørId": "102030",
@@ -222,7 +222,7 @@
         }
     },
     {
-        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-59b66a8bbbbe",
+        "oppgavereferanse": "420",
         "opprettet": "2020-07-15T23:04:09.454",
         "fødselsnummer": "27018221468",
         "aktørId": "1672157246605",
@@ -242,7 +242,7 @@
         }
     },
     {
-        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-85b66a8bbbbe",
+        "oppgavereferanse": "314",
         "opprettet": "2020-07-15T23:04:09.454",
         "fødselsnummer": "29040374862",
         "aktørId": "4526426893428",
@@ -263,7 +263,7 @@
         }
     },
     {
-        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-87866a8bbbbe",
+        "oppgavereferanse": "489",
         "opprettet": "2020-07-15T23:04:09.454",
         "fødselsnummer": "15061345612",
         "aktørId": "6549846514988",
@@ -283,7 +283,7 @@
         }
     },
     {
-        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-87866a8ffffk",
+        "oppgavereferanse": "666",
         "opprettet": "2020-07-15T23:04:09.454",
         "fødselsnummer": "13019769420",
         "aktørId": "1000000008971",
@@ -304,7 +304,7 @@
         }
     },
     {
-        "oppgavereferanse": "ab3344fa-92e6-4f11-abcd-87866a8awdaw",
+        "oppgavereferanse": "333",
         "opprettet": "2020-07-15T23:04:09.454",
         "fødselsnummer": "01010025677",
         "aktørId": "1000000123432",
@@ -324,7 +324,7 @@
         }
     },
     {
-        "oppgavereferanse": "e3474113-1100-9999-0000-ea5d644b4a6b",
+        "oppgavereferanse": "258",
         "opprettet": "2021-02-01T23:04:09.454",
         "fødselsnummer": "21042662423",
         "aktørId": "87850000962123",
@@ -345,7 +345,7 @@
         "inntektskilde": "FLERE_ARBEIDSGIVERE"
     },
     {
-        "oppgavereferanse": "e3474115-1100-9999-0000-ea5d644b4a6b",
+        "oppgavereferanse": "112",
         "opprettet": "2021-02-01T23:04:09.454",
         "fødselsnummer": "19047622436",
         "aktørId": "2836012894592",

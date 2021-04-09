@@ -16,12 +16,12 @@ app.use((req, res, next) => {
 });
 
 const tildelinger: { [oppgavereferanse: string]: string } = {
-    'ea5d644b-0000-9999-0000-f93744554d5e': 'uuid',
-    'f9374455-0000-9999-0000-ea5d644b4d5g': 'uuid',
+    '123': 'uuid',
+    '345': 'uuid',
 };
 
 const venter: { [oppgavereferanse: string]: boolean } = {
-    'f9374455-0000-9999-0000-ea5d644b4d5g': true,
+    '345': true,
 };
 
 const personer: { [aktørId: string]: string } = oppgaveFil
