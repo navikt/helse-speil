@@ -72,8 +72,15 @@ const oppgaverState = selector<Oppgave[]>({
             .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
             .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != Inntektskilde.FlereArbeidsgivere)
             .map((oppgave) => {
-                const harTildeling = Object.keys(tildelinger).includes(oppgave.oppgavereferanse);
+                const harTildeling = Object.keys(tildelinger).includes('' + oppgave.oppgavereferanse);
                 const tildeling = tildelinger[oppgave.oppgavereferanse];
+                Object.keys(tildelinger).forEach((key) =>
+                    console.log(
+                        `Key: ${key}(${typeof key}) xoxo Oppg.ref: ${
+                            oppgave.oppgavereferanse
+                        }(${typeof oppgave.oppgavereferanse}) xoxo Key === oppgref: ${key === oppgave.oppgavereferanse}`
+                    )
+                );
                 console.log('oppgaveState - oppgave: ', oppgave);
                 console.log('oppgaveState - tildeling: ', tildelinger);
                 return { ...oppgave, tildeling: harTildeling ? tildeling : oppgave.tildeling };
