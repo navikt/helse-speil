@@ -26,12 +26,8 @@
         "prettier": "prettier --write \"src/**/*.{jsx,js,css,less,ts,tsx}\"",
         "e2e-test": "e2e-tests/run.sh",
         "e2e-test-local": "e2e-tests/run.sh; e2e-tests/stop.sh",
-        "spesialist-mock": "ts-node-dev spesialistMock/mockServer.ts"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
+        "spesialist-mock": "ts-node-dev spesialistMock/mockServer.ts",
+        "prepare": "husky install"
     },
     "lint-staged": {
         "*.{js,jsx,ts,tsx,css,json,md}": [
