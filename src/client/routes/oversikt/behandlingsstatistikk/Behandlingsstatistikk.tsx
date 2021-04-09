@@ -1,7 +1,6 @@
 import React from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
-import { saksbehandlingsstatistikkEnabled } from '../../../featureToggles';
 import { getBehandlingsstatistikk } from '../../../io/http';
 import { Behandlingsstatistikk as Statistikk } from 'internal-types';
 import { EksternBehandlingstatistikk } from 'external-types';
@@ -47,7 +46,7 @@ export const Behandlingsstatistikk = () => {
         background-color: var(--navds-color-border);
     `;
 
-    return saksbehandlingsstatistikkEnabled ? (
+    return (
         <Container>
             <Header>Totalt behandlede saker i dag</Header>
             <Separator />
@@ -95,8 +94,6 @@ export const Behandlingsstatistikk = () => {
                 <LoadingText />
             )}
         </Container>
-    ) : (
-        <></>
     );
 };
 
@@ -142,6 +139,6 @@ export const LoadingText = styled.div`
     background-size: 800px 104px;
     border-radius: 4px;
     height: 22px;
-    width: 150px;
+    width: 100%;
     margin: 4px 0;
 `;
