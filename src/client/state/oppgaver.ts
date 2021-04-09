@@ -74,15 +74,6 @@ const oppgaverState = selector<Oppgave[]>({
             .map((oppgave) => {
                 const harTildeling = Object.keys(tildelinger).includes('' + oppgave.oppgavereferanse);
                 const tildeling = tildelinger[oppgave.oppgavereferanse];
-                Object.keys(tildelinger).forEach((key) =>
-                    console.log(
-                        `Key: ${key}(${typeof key}) xoxo Oppg.ref: ${
-                            oppgave.oppgavereferanse
-                        }(${typeof oppgave.oppgavereferanse}) xoxo Key === oppgref: ${key === oppgave.oppgavereferanse}`
-                    )
-                );
-                console.log('oppgaveState - oppgave: ', oppgave);
-                console.log('oppgaveState - tildeling: ', tildelinger);
                 return { ...oppgave, tildeling: harTildeling ? tildeling : oppgave.tildeling };
             });
     },
@@ -124,8 +115,6 @@ const tildelOppgave = (
         return postTildeling(oppgavereferanse)
             .then((response) => {
                 setTildelinger((it) => {
-                    console.log('Oppgaver: ', it);
-                    console.log('Oppgavereferanse: ', oppgavereferanse);
                     return { ...it, [oppgavereferanse]: { saksbehandler, påVent: false } };
                 });
                 return Promise.resolve(response);
