@@ -52,7 +52,7 @@ app.get('/isReady', (_, res) => {
     if (helsesjekk.redis) {
         return res.send('ready');
     } else {
-        console.log('Svarer not ready på isReady');
+        logger.warning('Svarer not ready på isReady');
         res.statusCode = 503;
         return res.send('NOT READY');
     }

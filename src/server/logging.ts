@@ -9,7 +9,7 @@ const sikkerLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secu
 
 const stdoutLogger = winston.createLogger({
     level: 'info',
-    format: winston.format.json(),
+    format: process.env.NODE_ENV === 'development' ? winston.format.cli() : winston.format.json(),
     transports: [new winston.transports.Console()],
 });
 
