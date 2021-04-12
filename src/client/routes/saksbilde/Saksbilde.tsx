@@ -107,7 +107,7 @@ const TomtSaksbilde = ({ person }: { person: Person }) => (
             <Personlinje person={person} />
             <Tidslinje person={person} />
             <Flex justifyContent="space-between">
-                <Sakslinje />
+                <Sakslinje aktivVedtaksperiode={false} />
                 <LoggHeader />
             </Flex>
         </LoggProvider>
@@ -177,7 +177,16 @@ const SaksbildeContent = () => {
                     <Tidslinje person={personTilBehandling} />
                     <Flex justifyContent="space-between" style={{ width: '100vw' }} flex={1}>
                         <SaksbildeContainer>
-                            <Sakslinje />
+                            <Sakslinje
+                                aktivVedtaksperiode={true}
+                                arbeidsgivernavn={aktivVedtaksperiode.arbeidsgivernavn}
+                                arbeidsgiverOrgnr={aktivVedtaksperiode.inntektsgrunnlag.organisasjonsnummer}
+                                fom={aktivVedtaksperiode.fom}
+                                tom={aktivVedtaksperiode.tom}
+                                skjæringstidspunkt={aktivVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
+                                maksdato={aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato}
+                                over67År={(aktivVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67}
+                            />
                             <ErrorBoundary key={aktivVedtaksperiode.id} fallback={errorMelding}>
                                 <AmplitudeProvider>
                                     <Flex style={{ flex: 1, height: 'calc(100% - 75px)' }}>

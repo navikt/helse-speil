@@ -8,11 +8,11 @@ import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Tooltip } from '../../../components/Tooltip';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Undertekst } from 'nav-frontend-typografi';
-import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { LovdataLenke } from '../../../components/LovdataLenke';
 import { useSkalAnonymiserePerson } from '../../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import { Dayjs } from 'dayjs';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;
@@ -37,21 +37,31 @@ const InfolinjeElement = styled(Flex)`
 `;
 
 interface InfolinjeProps {
-    vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode;
+    arbeidsgivernavn?: string;
+    arbeidsgiverOrgnr?: string;
+    fom?: Dayjs;
+    tom?: Dayjs;
+    skjæringstidspunkt?: Dayjs;
+    maksdato?: Dayjs;
+    over67År?: boolean;
 }
 
-export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
+export const Infolinje = ({
+    arbeidsgivernavn,
+    arbeidsgiverOrgnr,
+    fom,
+    tom,
+    skjæringstidspunkt,
+    maksdato,
+    over67År,
+}: InfolinjeProps) => {
     const anonymiseringEnabled = useSkalAnonymiserePerson();
 
-    const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT_KORT);
-    const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT_KORT);
-    const skjæringstidspunkt =
-        (vedtaksperiode as Vedtaksperiode).vilkår?.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT_KORT) ??
-        'Ukjent skjæringstidspunkt';
-    const maksdato =
-        (vedtaksperiode as Vedtaksperiode).vilkår?.dagerIgjen.maksdato?.format(NORSK_DATOFORMAT_KORT) ??
-        'Ukjent maksdato';
-    const over67År = ((vedtaksperiode as Vedtaksperiode).vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+    const fomForVisning = fom?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent periodestart';
+    const tomForVisning = tom?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent periodeslutt';
+    const skjæringstidspunktForVisning =
+        skjæringstidspunkt?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent skjæringstidspunkt';
+    const maksDatoForVisning = maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato';
 
     return (
         <InfolinjeContainer alignItems="center">
@@ -59,24 +69,22 @@ export const Infolinje = ({ vedtaksperiode }: InfolinjeProps) => {
             <InfolinjeElement data-tip="Arbeidsgiver">
                 <Arbeidsgiverikon />
                 {anonymiseringEnabled
-                    ? (vedtaksperiode as Vedtaksperiode).inntektsgrunnlag
-                        ? getAnonymArbeidsgiverForOrgnr(
-                              (vedtaksperiode as Vedtaksperiode).inntektsgrunnlag.organisasjonsnummer
-                          ).navn
+                    ? arbeidsgiverOrgnr
+                        ? getAnonymArbeidsgiverForOrgnr(arbeidsgiverOrgnr).navn
                         : '-'
-                    : (vedtaksperiode as Vedtaksperiode).arbeidsgivernavn ?? 'Ukjent arbeidsgiver'}
+                    : arbeidsgivernavn}
             </InfolinjeElement>
             <InfolinjeElement data-tip="Sykmeldingsperiode">
                 <Sykmeldingsperiodeikon />
-                {`${fom} - ${tom}`}
+                {`${fomForVisning} - ${tomForVisning}`}
             </InfolinjeElement>
             <InfolinjeElement data-tip="Skjæringstidspunkt">
                 <Skjæringstidspunktikon />
-                {skjæringstidspunkt}
+                {skjæringstidspunktForVisning}
             </InfolinjeElement>
             <InfolinjeElement data-tip="Maksdato">
                 <Maksdatoikon />
-                {maksdato}
+                {maksDatoForVisning}
                 {over67År && (
                     <Flex alignItems="center" style={{ marginLeft: '8px' }}>
                         <Advarselikon height={16} width={16} />

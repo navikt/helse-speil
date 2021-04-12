@@ -6,7 +6,7 @@ import { Location, useNavigation } from '../../../hooks/useNavigation';
 import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 import { Infolinje } from './Infolinje';
 import { HjemIkon } from './icons/HjemIkon';
-import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import { Dayjs } from 'dayjs';
 
 const Container = styled.div`
     height: 74px;
@@ -20,9 +20,28 @@ const TabList = styled.span`
     display: flex;
 `;
 
-export const Sakslinje = () => {
+interface SakslinjeProps {
+    aktivVedtaksperiode: Boolean;
+    arbeidsgivernavn?: string;
+    arbeidsgiverOrgnr?: string;
+    fom?: Dayjs;
+    tom?: Dayjs;
+    skjæringstidspunkt?: Dayjs;
+    maksdato?: Dayjs;
+    over67År?: boolean;
+}
+
+export const Sakslinje = ({
+    aktivVedtaksperiode,
+    arbeidsgivernavn,
+    arbeidsgiverOrgnr,
+    fom,
+    tom,
+    skjæringstidspunkt,
+    maksdato,
+    over67År,
+}: SakslinjeProps) => {
     const { pathForLocation, navigateToNext, navigateToPrevious } = useNavigation();
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
 
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
@@ -69,7 +88,17 @@ export const Sakslinje = () => {
                 </TabLink>
             </TabList>
             <Verktøylinje />
-            {aktivVedtaksperiode && <Infolinje vedtaksperiode={aktivVedtaksperiode} />}
+            {
+                <Infolinje
+                    arbeidsgivernavn={arbeidsgivernavn}
+                    arbeidsgiverOrgnr={arbeidsgiverOrgnr}
+                    fom={fom}
+                    tom={tom}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    maksdato={maksdato}
+                    over67År={over67År}
+                />
+            }
         </Container>
     );
 };

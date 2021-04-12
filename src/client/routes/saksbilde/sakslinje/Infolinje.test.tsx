@@ -14,7 +14,15 @@ describe('Infolinje', () => {
     test('viser fom og tom', () => {
         render(
             <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
-                <Infolinje vedtaksperiode={enVedtaksperiode} />
+                <Infolinje
+                    arbeidsgivernavn={enVedtaksperiode.arbeidsgivernavn}
+                    arbeidsgiverOrgnr={enVedtaksperiode.inntektsgrunnlag.organisasjonsnummer}
+                    fom={enVedtaksperiode.fom}
+                    tom={enVedtaksperiode.tom}
+                    skjæringstidspunkt={enVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
+                    maksdato={enVedtaksperiode.vilkår?.dagerIgjen.maksdato}
+                    over67År={(enVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67}
+                />
             </RecoilRoot>
         );
         expect(screen.getByText('01.01.20 - 31.01.20')).toBeVisible();
@@ -22,7 +30,15 @@ describe('Infolinje', () => {
     test('viser skjæringstidspunkt', () => {
         render(
             <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
-                <Infolinje vedtaksperiode={enVedtaksperiode} />
+                <Infolinje
+                    arbeidsgivernavn={enVedtaksperiode.arbeidsgivernavn}
+                    arbeidsgiverOrgnr={enVedtaksperiode.inntektsgrunnlag.organisasjonsnummer}
+                    fom={enVedtaksperiode.fom}
+                    tom={enVedtaksperiode.tom}
+                    skjæringstidspunkt={enVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
+                    maksdato={enVedtaksperiode.vilkår?.dagerIgjen.maksdato}
+                    over67År={(enVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67}
+                />
             </RecoilRoot>
         );
         expect(screen.getByText('01.01.20', { exact: true })).toBeVisible();
@@ -40,7 +56,15 @@ describe('Infolinje', () => {
 
         render(
             <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
-                <Infolinje vedtaksperiode={over67} />
+                <Infolinje
+                    arbeidsgivernavn={over67.arbeidsgivernavn}
+                    arbeidsgiverOrgnr={over67.inntektsgrunnlag.organisasjonsnummer}
+                    fom={over67.fom}
+                    tom={over67.tom}
+                    skjæringstidspunkt={over67.vilkår?.dagerIgjen.skjæringstidspunkt}
+                    maksdato={over67.vilkår?.dagerIgjen.maksdato}
+                    over67År={(over67.vilkår?.alder.alderSisteSykedag ?? 0) >= 67}
+                />
             </RecoilRoot>
         );
         expect(screen.getByText('§ 8-51')).toBeVisible();
@@ -57,7 +81,15 @@ describe('Infolinje', () => {
         } as Vedtaksperiode;
         render(
             <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
-                <Infolinje vedtaksperiode={under67} />
+                <Infolinje
+                    arbeidsgivernavn={under67.arbeidsgivernavn}
+                    arbeidsgiverOrgnr={under67.inntektsgrunnlag.organisasjonsnummer}
+                    fom={under67.fom}
+                    tom={under67.tom}
+                    skjæringstidspunkt={under67.vilkår?.dagerIgjen.skjæringstidspunkt}
+                    maksdato={under67.vilkår?.dagerIgjen.maksdato}
+                    over67År={(under67.vilkår?.alder.alderSisteSykedag ?? 0) >= 67}
+                />
             </RecoilRoot>
         );
         expect(screen.queryByText('§ 8-51')).toBeNull();
