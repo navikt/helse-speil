@@ -15,17 +15,19 @@ import { Sakslinje } from './sakslinje/Sakslinje';
 import { AmplitudeProvider } from './AmplitudeContext';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
-import { Person, Vedtaksperiodetilstand } from 'internal-types';
+import { Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { usePerson } from '../../state/person';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
-import { useAktivVedtaksperiode } from '../../state/tidslinje';
+import { useAktivPeriode } from '../../state/tidslinje';
 import { Faresignaler } from './faresignaler/Faresignaler';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
 import { usePollEtterOpptegnelser } from '../../io/polling';
 
 import '@navikt/helse-frontend-logg/lib/main.css';
+import { erTidslinjeperiode, Tidslinjeperiode, useMaksdato } from '../../modell/UtbetalingshistorikkElement';
+import { useArbeidsgivernavn } from '../../modell/Arbeidsgiver';
 
 const Container = styled.div`
     display: flex;
@@ -114,20 +116,44 @@ const TomtSaksbilde = ({ person }: { person: Person }) => (
     </Container>
 );
 
-const SaksbildeContent = () => {
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
-    const personTilBehandling = usePerson();
+interface SaksbildeRevurderingProps {
+    personTilBehandling: Person;
+    aktivPeriode: Tidslinjeperiode;
+}
 
-    const { path } = useRouteMatch();
+const SaksbildeRevurdering = ({ personTilBehandling, aktivPeriode }: SaksbildeRevurderingProps) => {
+    const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer);
+    const maksdato = useMaksdato(aktivPeriode.beregningId);
+    return (
+        <Container className="saksbilde" data-testid="tomt-saksbilde">
+            <LoggProvider>
+                <Personlinje person={personTilBehandling} />
+                <Tidslinje person={personTilBehandling} />
+                <Flex justifyContent="space-between">
+                    <Sakslinje
+                        aktivVedtaksperiode={false}
+                        arbeidsgivernavn={arbeidsgivernavn}
+                        arbeidsgiverOrgnr={aktivPeriode.organisasjonsnummer}
+                        fom={aktivPeriode.fom}
+                        tom={aktivPeriode.tom}
+                        skjæringstidspunkt={undefined}
+                        maksdato={maksdato}
+                        over67År={undefined}
+                    />
+                    <LoggHeader />
+                </Flex>
+            </LoggProvider>
+        </Container>
+    );
+};
 
-    usePollEtterOpptegnelser();
-    useVarselFilter(Scopes.SAKSBILDE);
-    useRefreshPersonVedUrlEndring();
-    useRefreshPersonVedOpptegnelse();
+interface SaksbildeVedtaksperiodeProps {
+    personTilBehandling: Person;
+    aktivVedtaksperiode: Vedtaksperiode;
+    path: String;
+}
 
-    if (!personTilBehandling) return <LasterSaksbilde />;
-    if (!aktivVedtaksperiode) return <TomtSaksbilde person={personTilBehandling} />;
-
+const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivVedtaksperiode, path }: SaksbildeVedtaksperiodeProps) => {
     const errorMelding = (error: Error) => {
         switch (aktivVedtaksperiode.tilstand) {
             case Vedtaksperiodetilstand.Venter:
@@ -234,6 +260,37 @@ const SaksbildeContent = () => {
                 </Route>
             </Switch>
         </Container>
+    );
+};
+
+const SaksbildeContent = () => {
+    const aktivPeriode: Vedtaksperiode | UfullstendigVedtaksperiode | Tidslinjeperiode | undefined = useAktivPeriode();
+    const personTilBehandling = usePerson();
+
+    const { path } = useRouteMatch();
+
+    usePollEtterOpptegnelser();
+    useVarselFilter(Scopes.SAKSBILDE);
+    useRefreshPersonVedUrlEndring();
+    useRefreshPersonVedOpptegnelse();
+
+    if (!personTilBehandling) return <LasterSaksbilde />;
+    if (!aktivPeriode) return <TomtSaksbilde person={personTilBehandling} />;
+
+    if (erTidslinjeperiode(aktivPeriode)) {
+        return (
+            <SaksbildeRevurdering
+                personTilBehandling={personTilBehandling}
+                aktivPeriode={aktivPeriode as Tidslinjeperiode}
+            />
+        );
+    }
+    return (
+        <SaksbildeVedtaksperiode
+            personTilBehandling={personTilBehandling}
+            aktivVedtaksperiode={aktivPeriode as Vedtaksperiode}
+            path={path}
+        />
     );
 };
 

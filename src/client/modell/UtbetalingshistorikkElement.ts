@@ -101,6 +101,9 @@ const revurderingsperioder = (
     });
 };
 
+export const erTidslinjeperiode = (obj: any): obj is Tidslinjeperiode =>
+    (obj as Tidslinjeperiode).beregningId !== undefined;
+
 const isUfullstendig = (vedtaksperiode: Vedtaksperiode) => {
     return (
         (vedtaksperiode as UfullstendigVedtaksperiode) !== undefined &&
