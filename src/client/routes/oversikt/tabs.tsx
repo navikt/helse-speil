@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
+import { atom, useRecoilState} from 'recoil';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { useOppgaverState } from '../../state/oppgaver';
-import { Dropdownknapp } from '../saksbilde/sakslinje/Verktøylinje';
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
 import { Oppgave } from 'internal-types';
+import {Dropdown} from "../../components/dropdown/Dropdown";
 
 const Container = styled.div`
     display: flex;
@@ -104,9 +104,9 @@ export const Tabs = () => {
                 <VentendeTab antall={mineOppgaver?.filter(({ tildeling }) => tildeling?.påVent)?.length ?? 0} />
             </div>
             <Container>
-                <Dropdownknapp tittel={'Meny'} venstrestilt={true}>
+                <Dropdown orientering={'venstre'}>
                     <AnonymiserData />
-                </Dropdownknapp>
+                </Dropdown>
             </Container>
         </Tablist>
     );

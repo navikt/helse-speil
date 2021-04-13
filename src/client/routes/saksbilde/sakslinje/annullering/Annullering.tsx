@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Annulleringsmodal } from './Annulleringsmodal';
-import { DropdownContext } from '../../../../components/Dropdown';
-import { DropdownMenyknapp } from '../Verktøylinje';
+import {DropdownContext, DropdownMenyknapp} from '../../../../components/dropdown/Dropdown';
 import { usePerson } from '../../../../state/person';
 import { useAktivVedtaksperiode } from '../../../../state/tidslinje';
 

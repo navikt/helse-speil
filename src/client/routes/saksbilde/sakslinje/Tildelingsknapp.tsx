@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { useInnloggetSaksbehandler } from '../../../state/authentication';
-import { DropdownMenyknapp } from './Verktøylinje';
-import { useTildeling } from '../../../state/oppgaver';
-import { usePerson, useRefreshPerson, useTildelPerson } from '../../../state/person';
-import { DropdownContext } from '../../../components/Dropdown';
-import { Oppgave, Tildeling } from 'internal-types';
+import React, {useContext, useState} from 'react';
+import {useInnloggetSaksbehandler} from '../../../state/authentication';
+import {useTildeling} from '../../../state/oppgaver';
+import {usePerson, useRefreshPerson, useTildelPerson} from '../../../state/person';
+import {DropdownContext, DropdownMenyknapp} from '../../../components/dropdown/Dropdown';
+import {Oppgave, Tildeling} from 'internal-types';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;
     tildeling?: Tildeling;
+    erTildeltInnloggetBruker: boolean;
 }
 
 export const useErTildeltInnloggetBruker = () => {
@@ -18,8 +18,8 @@ export const useErTildeltInnloggetBruker = () => {
     return tildeling?.saksbehandler.oid === oid;
 };
 
-export const Tildelingsknapp = ({ oppgavereferanse, tildeling }: TildelingsknappProps) => {
-    const erTildeltInnloggetBruker = useErTildeltInnloggetBruker();
+export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnloggetBruker }: TildelingsknappProps) => {
+    const [isFetching, setIsFetching] = useState(false);
     const saksbehandler = useInnloggetSaksbehandler();
     const tildelPerson = useTildelPerson();
     const { fjernTildeling, tildelOppgave } = useTildeling();
@@ -28,25 +28,31 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling }: Tildelingsknapp
 
     return erTildeltInnloggetBruker ? (
         <DropdownMenyknapp
-            onClick={() =>
-                fjernTildeling({ oppgavereferanse } as Oppgave).then(() => {
+            spinner={isFetching}
+            onClick={() => {
+                setIsFetching(true);
+                fjernTildeling({oppgavereferanse} as Oppgave).then(() => {
                     lukk();
                     tildelPerson(undefined);
                     refreshPerson();
+                    setIsFetching(false);
                 })
-            }
+            }}
         >
             Meld av
         </DropdownMenyknapp>
     ) : (
         <DropdownMenyknapp
-            onClick={() =>
-                tildelOppgave({ oppgavereferanse } as Oppgave, saksbehandler).then(() => {
+            disabled={tildeling !== undefined}
+            spinner={isFetching}
+            onClick={() => {
+                setIsFetching(true)
+                tildelOppgave({oppgavereferanse} as Oppgave, saksbehandler).then(() => {
                     lukk();
                     tildelPerson(saksbehandler);
+                    setIsFetching(false);
                 })
-            }
-            disabled={tildeling !== undefined}
+            }}
         >
             Tildel meg
         </DropdownMenyknapp>

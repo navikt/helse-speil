@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { DropdownContext } from '../../../components/Dropdown';
-import { DropdownMenyknapp } from './Verktøylinje';
+import {DropdownContext, DropdownMenyknapp} from '../../../components/dropdown/Dropdown';
 import { useAnonymiserPerson, useSkalAnonymiserePerson } from '../../../state/person';
 
 export const AnonymiserData = () => {

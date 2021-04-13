@@ -1,46 +1,59 @@
-import React, { useContext } from 'react';
-import { DropdownMenyknapp } from './Verktøylinje';
-import { usePerson, useRefreshPerson } from '../../../state/person';
-import { deletePåVent, postLeggPåVent } from '../../../io/http';
-import { useOperasjonsvarsel } from '../../../state/varsler';
-import { useHistory } from 'react-router';
-import { DropdownContext } from '../../../components/Dropdown';
-import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import React, {useContext, useState} from 'react';
+import {useRefreshPerson} from '../../../state/person';
+import {useOperasjonsvarsel} from '../../../state/varsler';
+import {useHistory} from 'react-router';
+import {DropdownContext, DropdownMenyknapp} from '../../../components/dropdown/Dropdown';
+import {useTildeling} from "../../../state/oppgaver";
+import {Oppgave} from "internal-types";
 
 const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {
     promise.catch(onError);
 };
 
-export const PåVentKnapp = () => {
+export interface PåVentKnappProps {
+    erPåVent?: boolean;
+    oppgavereferanse?: string;
+}
+
+export const PåVentKnapp = ({erPåVent, oppgavereferanse}: PåVentKnappProps) => {
+    const [isFetching, setIsFetching] = useState(false);
     const history = useHistory();
-    const erPåVent = usePerson()?.tildeling?.påVent;
-    const oppgavereferanse = useAktivVedtaksperiode()?.oppgavereferanse;
     const errorHandler = useOperasjonsvarsel('Legg på vent');
     const { lukk } = useContext(DropdownContext);
     const refreshPerson = useRefreshPerson();
+    const { leggPåVent, fjernPåVent } = useTildeling()
 
     if (!oppgavereferanse) {
         return null;
     }
-    const leggpåVent = () => {
-        ignorePromise(
-            postLeggPåVent(oppgavereferanse).then(() => history.push('/')),
-            errorHandler
-        );
-    };
-    const fjernPåVent = () => {
-        ignorePromise(
-            deletePåVent(oppgavereferanse).then((response) => {
-                lukk();
-                refreshPerson();
-            }),
-            errorHandler
-        );
-    };
 
     return erPåVent ? (
-        <DropdownMenyknapp onClick={fjernPåVent}>Fjern fra på vent</DropdownMenyknapp>
+        <DropdownMenyknapp
+            spinner={isFetching}
+            onClick={() => {
+                setIsFetching(true)
+                ignorePromise(fjernPåVent({oppgavereferanse} as Oppgave).then(() => {
+                    lukk();
+                    refreshPerson();
+                    setIsFetching(false)
+                }), errorHandler)
+            }}
+        >
+            Fjern fra på vent
+        </DropdownMenyknapp>
     ) : (
-        <DropdownMenyknapp onClick={leggpåVent}>Legg på vent</DropdownMenyknapp>
+        <DropdownMenyknapp
+            spinner={isFetching}
+            onClick={() => {
+                setIsFetching(true)
+                ignorePromise(leggPåVent({oppgavereferanse} as Oppgave).then(() => {
+                    lukk()
+                    history.push('/');
+                    setIsFetching(false)
+                }), errorHandler)
+            }}
+        >
+            Legg på vent
+        </DropdownMenyknapp>
     );
 };
