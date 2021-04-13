@@ -10,6 +10,7 @@ import {
 import { Dayjs } from 'dayjs';
 import { PeriodeBuilder } from '../components/tidslinje/periodeBuilder';
 import { nanoid } from 'nanoid';
+import { usePerson } from '../state/person';
 
 type Vedtaksperiode = FullstendigVedtaksperiode | UfullstendigVedtaksperiode;
 
@@ -105,6 +106,14 @@ const isUfullstendig = (vedtaksperiode: Vedtaksperiode) => {
         (vedtaksperiode as UfullstendigVedtaksperiode) !== undefined &&
         (vedtaksperiode as FullstendigVedtaksperiode) === undefined
     );
+};
+
+export const useMaksdato = (beregningId: string) => {
+    const historikkElement = usePerson()
+        ?.arbeidsgivere.flatMap((arb: Arbeidsgiver) => arb.utbetalingshistorikk)
+        .find((element: UtbetalingshistorikkElement) => element.id === beregningId);
+
+    return historikkElement ? sisteUtbetaling(historikkElement).maksdato : undefined;
 };
 
 export interface Tidslinjeperiode {
