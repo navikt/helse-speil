@@ -1,4 +1,5 @@
 import {
+    Arbeidsgiver,
     Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
@@ -26,7 +27,8 @@ export const utbetalingshistorikkelement = (
     beregnettidslinje: Sykdomsdag[],
     hendelsetidslinje: Sykdomsdag[],
     utbetalinger: UtbetalingshistorikkUtbetaling2[],
-    vedtaksperioder: Vedtaksperiode[]
+    vedtaksperioder: Vedtaksperiode[],
+    organisasjonsnummer: string
 ): UtbetalingshistorikkElement => {
     const sisteUtbetaling = utbetalinger[utbetalinger.length - 1];
     const erUtbetaling = sisteUtbetaling.type === Utbetalingstype.UTBETALING;
@@ -34,8 +36,8 @@ export const utbetalingshistorikkelement = (
     return {
         id: id,
         perioder: erUtbetaling
-            ? tidslinjevedtaksperioder(id, vedtaksperioder, sisteUtbetaling)
-            : revurderingsperioder(id, beregnettidslinje, sisteUtbetaling),
+            ? tidslinjevedtaksperioder(id, vedtaksperioder, organisasjonsnummer, sisteUtbetaling)
+            : revurderingsperioder(id, beregnettidslinje, organisasjonsnummer, sisteUtbetaling),
         beregnettidslinje: beregnettidslinje,
         hendelsetidslinje: hendelsetidslinje,
         utbetalinger: utbetalinger,
@@ -55,6 +57,7 @@ const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkUtbetaling2, fom: 
 const tidslinjevedtaksperioder = (
     beregningsId: string,
     vedtaksperioder: Vedtaksperiode[],
+    organisasjonsnummer: string,
     utbetaling?: UtbetalingshistorikkUtbetaling2
 ) => {
     return vedtaksperioder
@@ -68,6 +71,7 @@ const tidslinjevedtaksperioder = (
                 type: Periodetype.VEDTAKSPERIODE,
                 tilstand: utbetaling?.status ?? Utbetalingstatus.INGEN_UTBETALING,
                 utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
+                organisasjonsnummer: organisasjonsnummer,
             };
         });
 };
@@ -75,6 +79,7 @@ const tidslinjevedtaksperioder = (
 const revurderingsperioder = (
     beregningsId: string,
     beregnetTidslinje: Sykdomsdag[],
+    organisasjonsnummer: string,
     utbetaling?: UtbetalingshistorikkUtbetaling2
 ) => {
     if (!utbetaling) return [];
@@ -90,6 +95,7 @@ const revurderingsperioder = (
             tilstand: utbetaling.status ?? Utbetalingstatus.INGEN_UTBETALING,
             utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
             type: Periodetype.REVURDERING,
+            organisasjonsnummer: organisasjonsnummer,
         };
     });
 };
@@ -109,6 +115,7 @@ export interface Tidslinjeperiode {
     type: Periodetype;
     tilstand: Utbetalingstatus;
     utbetalingstidslinje: Utbetalingsdag[];
+    organisasjonsnummer: string;
 }
 
 export enum Utbetalingstatus {

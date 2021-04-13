@@ -34,6 +34,7 @@ export const umappetUtbetalingshistorikk = () => ({
                     dato: '2018-01-01',
                 },
             ],
+            maksdato: '2018-08-08',
             type: 'REVURDERING',
         },
     ],

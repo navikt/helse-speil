@@ -1,4 +1,9 @@
-import { SpesialistArbeidsgiver, SpesialistInntektsgrunnlag, SpesialistPerson } from 'external-types';
+import {
+    EksternUtbetalingshistorikkElement,
+    SpesialistArbeidsgiver,
+    SpesialistInntektsgrunnlag,
+    SpesialistPerson,
+} from 'external-types';
 import { Arbeidsgiver, Utbetalingstype, Vedtaksperiode } from 'internal-types';
 import dayjs from 'dayjs';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
@@ -65,7 +70,7 @@ export class ArbeidsgiverBuilder {
                             periode.beregningIder?.includes(it.beregningId)
                         );
                     })
-                    .map((element) => {
+                    .map((element: EksternUtbetalingshistorikkElement) => {
                         return utbetalingshistorikkelement(
                             element.beregningId,
                             element.beregnettidslinje.map((dag) => ({
@@ -83,8 +88,10 @@ export class ArbeidsgiverBuilder {
                                     dato: dayjs(dag.dato),
                                     type: utbetalingstidslinjedag(dag.type),
                                 })),
+                                maksdato: dayjs(utbetaling.maksdato),
                             })),
-                            this.arbeidsgiver.vedtaksperioder ?? []
+                            this.arbeidsgiver.vedtaksperioder ?? [],
+                            this.arbeidsgiver.organisasjonsnummer!
                         );
                     }) ?? [],
         };

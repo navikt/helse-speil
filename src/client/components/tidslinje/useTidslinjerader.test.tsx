@@ -34,7 +34,7 @@ describe('useTidslinjerader', () => {
 
     test('ett utbetalingshistorikkelement medfører én tidslinjerad', () => {
         person.arbeidsgivere[0].utbetalingshistorikk = [
-            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene),
+            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene),
         ];
         const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
         expect(result.current[0].rader.length).toEqual(1);
@@ -45,8 +45,8 @@ describe('useTidslinjerader', () => {
 
     test('to utbetalingshistorikkelementer med én revurdering medfører to tidslinjerader', () => {
         person.arbeidsgivere[0].utbetalingshistorikk = [
-            nyttElement('1235', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene, true),
-            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene),
+            nyttElement('1235', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene, true),
+            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene),
         ];
 
         const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-02'), false));
@@ -68,9 +68,17 @@ describe('useTidslinjerader', () => {
             beregningIder: ['1236'],
         });
         person.arbeidsgivere[0].utbetalingshistorikk = [
-            nyttElement('1236', dayjs('2018-01-01'), dayjs('2018-01-04'), vedtaksperiodene, false, false),
-            nyttElement('1235', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene, true),
-            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), vedtaksperiodene),
+            nyttElement(
+                '1236',
+                dayjs('2018-01-01'),
+                dayjs('2018-01-04'),
+                dayjs('2018-08-08'),
+                vedtaksperiodene,
+                false,
+                false
+            ),
+            nyttElement('1235', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene, true),
+            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene),
         ];
 
         const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-04'), false));
@@ -93,6 +101,7 @@ describe('tilPeriodetype', () => {
                 status: Utbetalingstatus.IKKE_UTBETALT,
                 type: Utbetalingstype.REVURDERING,
                 utbetalingstidslinje: [],
+                maksdato: dayjs('2018-08-08'),
             },
             Periodetype.REVURDERING
         );
@@ -104,9 +113,11 @@ const nyttElement = (
     id: string,
     fom: Dayjs,
     tom: Dayjs,
+    maksdato: Dayjs,
     vedtaksperioder: Vedtaksperioder,
     erRevurdering: boolean = false,
-    erUtbetalt = true
+    erUtbetalt = true,
+    organisasjonsnummer = '123'
 ): UtbetalingshistorikkElement => {
     return utbetalingshistorikkelement(
         id,
@@ -117,9 +128,11 @@ const nyttElement = (
                 status: erUtbetalt ? Utbetalingstatus.UTBETALT : Utbetalingstatus.IKKE_UTBETALT,
                 type: erRevurdering ? Utbetalingstype.REVURDERING : Utbetalingstype.UTBETALING,
                 utbetalingstidslinje: utbetalingstidslinje(fom, tom),
+                maksdato: maksdato,
             },
         ],
-        vedtaksperioder
+        vedtaksperioder,
+        organisasjonsnummer
     );
 };
 

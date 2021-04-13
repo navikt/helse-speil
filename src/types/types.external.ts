@@ -282,6 +282,7 @@ export interface EksternUtbetaling {
     status: string;
     type: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
+    maksdato: string;
 }
 
 export interface SpesialistArbeidsgiver {

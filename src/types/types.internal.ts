@@ -412,6 +412,7 @@ export interface UtbetalingshistorikkUtbetaling2 {
     status: Utbetalingstatus;
     type: Utbetalingstype;
     utbetalingstidslinje: Utbetalingsdag[];
+    maksdato: Dayjs;
 }
 
 export enum Utbetalingstype {
