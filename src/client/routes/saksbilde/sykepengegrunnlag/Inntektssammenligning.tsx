@@ -1,9 +1,8 @@
 import { Normaltekst } from 'nav-frontend-typografi';
 import React from 'react';
 import { somPenger } from '../../../utils/locale';
-import styled from '@emotion/styled';
 import { Kilde } from '../../../components/Kilde';
-import { Inntektskildetype, OmregnetÅrsinntekt, Sammenligningsgrunnlag } from 'internal-types';
+import { OmregnetÅrsinntekt, Sammenligningsgrunnlag } from 'internal-types';
 import { kilde } from '../../../utils/inntektskilde';
 import { ArbeidsgiverRad, InntektMedKilde } from './InntekttabellKomponenter';
 

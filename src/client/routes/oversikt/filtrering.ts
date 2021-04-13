@@ -20,6 +20,11 @@ export const ufordelteOppgaverFilter = () => ({
     func: (oppgave: Oppgave) => !oppgave?.tildeling,
 });
 
+export const tildelteOppgaverFilter = () => ({
+    label: 'Tildelte saker',
+    func: (oppgave: Oppgave) => oppgave?.tildeling,
+});
+
 export const stikkprøveFilter = () => ({
     label: 'Stikkprøver',
     func: (type: Periodetype) => type === Periodetype.Stikkprøve,

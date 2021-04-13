@@ -12,6 +12,7 @@ import {
     overgangFraInfotrygdFilter,
     riskQaFilter,
     stikkprøveFilter,
+    tildelteOppgaverFilter,
     ufordelteOppgaverFilter,
 } from './filtrering';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
@@ -98,7 +99,7 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     const { fjernTildeling, fjernPåVent, tildelOppgave, leggPåVent } = useTildeling();
 
     const headere = [
-        { render: 'Tildelt', filtere: [ufordelteOppgaverFilter()] },
+        { render: 'Tildelt', filtere: [ufordelteOppgaverFilter(), tildelteOppgaverFilter()] },
         {
             render: 'Sakstype',
             filtere: [
