@@ -5,7 +5,7 @@ import { somPenger } from '../../../utils/locale';
 import React from 'react';
 import styled from '@emotion/styled';
 import Avvikssammenligning from './Avvikssammenligning';
-import { Divider, Kategoritittel, Kolonnetittel } from './InntekttabellKomponenter';
+import { Divider, Kategoritittel, Kolonnetittel, Total } from './InntekttabellKomponenter';
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 
 interface InntektsgrunnlaginnholdProps {
@@ -58,8 +58,8 @@ const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag, anonymiseringEnabled }: Inn
                 ))}
                 <Divider />
                 <Element>Total</Element>
-                <Element>{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Element>
-                <Element>{somPenger(inntektsgrunnlag.sammenligningsgrunnlag)}</Element>
+                <Total>{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Total>
+                <Total>{somPenger(inntektsgrunnlag.sammenligningsgrunnlag)}</Total>
             </Sammenligning>
             <Avvikssammenligning
                 avvik={inntektsgrunnlag.avviksprosent}

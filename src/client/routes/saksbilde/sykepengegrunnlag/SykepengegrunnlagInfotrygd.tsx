@@ -5,7 +5,7 @@ import { somPenger } from '../../../utils/locale';
 import { Inntektsgrunnlag } from 'internal-types';
 import { Kilde } from '../../../components/Kilde';
 import { kilde } from '../../../utils/inntektskilde';
-import { ArbeidsgiverRad, InntektMedKilde, Kategoritittel, Kolonnetittel } from './InntekttabellKomponenter';
+import { ArbeidsgiverRad, InntektMedKilde, Kategoritittel, Kolonnetittel, Total } from './InntekttabellKomponenter';
 import { useSkalAnonymiserePerson } from '../../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 
@@ -17,7 +17,7 @@ interface SykepengegrunnlagInfotrygdProps {
 const Oppsummering = styled.div`
     margin-top: 4rem;
     display: grid;
-    grid-template-columns: 27rem max-content;
+    grid-template-columns: 27rem auto;
 
     > * {
         margin-bottom: 3rem;
@@ -73,11 +73,11 @@ const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: Sykepengegr
                 ))}
                 <Divider />
                 <Element>Total</Element>
-                <Element>{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Element>
+                <Total>{somPenger(inntektsgrunnlag.omregnetÅrsinntekt)}</Total>
             </Sammenligning>
             <Oppsummering className={className}>
                 <Element>Sykepengegrunnlag</Element>
-                <Element>{somPenger(inntektsgrunnlag.sykepengegrunnlag as number | undefined)}</Element>
+                <Total>{somPenger(inntektsgrunnlag.sykepengegrunnlag as number | undefined)}</Total>
             </Oppsummering>
         </div>
     );
