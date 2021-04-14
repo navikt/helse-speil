@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { capitalizeName } from '../../utils/locale';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
@@ -14,7 +13,7 @@ const Flex = styled.span`
 `;
 
 export const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
-    const tildeltBrukernavn = capitalizeName(oppgave.tildeling.saksbehandler.navn);
+    const tildeltBrukernavn = oppgave.tildeling.saksbehandler.navn;
 
     return (
         <Flex>

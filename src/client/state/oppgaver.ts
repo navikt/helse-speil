@@ -1,7 +1,6 @@
 import { atom, selector, SetterOrUpdater, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 import { deletePåVent, deleteTildeling, fetchOppgaver, postLeggPåVent, postTildeling } from '../io/http';
 import { useAddVarsel, useRemoveVarsel, VarselObject } from './varsler';
-import { capitalizeName } from '../utils/locale';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
 import { Inntektskilde, Oppgave, Periodetype, Saksbehandler, Tildeling } from 'internal-types';
@@ -128,7 +127,7 @@ const tildelOppgave = (
                             ...it,
                             [oppgavereferanse]: { saksbehandler: { oid, navn, epost }, påVent: påVent },
                         }));
-                        addVarsel(tildelingsvarsel(`${capitalizeName(navn)} har allerede tatt saken.`));
+                        addVarsel(tildelingsvarsel(`${navn} har allerede tatt saken.`));
                     }
                     return Promise.reject(oid);
                 } else {
