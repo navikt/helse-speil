@@ -39,16 +39,15 @@ export const DropdownMenyknapp = styled(Knapp)`
         background: var(--speil-light-hover);
         color: var(--navds-primary-text);
     }
-
+    
     &:disabled {
-        color: var(--navds-color-text-disabled);
-
-        &:hover {
-            background: inherit;
-            cursor: not-allowed;
-        }
-    }
+        &, &:hover {
+            background-color: transparent;
+            color: var(--navds-color-text-disabled);
+        }  
+    } 
 `;
+
 export const Strek = styled.hr`
     border: none;
     border-top: 1px solid var(--navds-color-border);
@@ -68,6 +67,17 @@ const Liste = styled.ul<ListeProps>`
     min-height: 1rem;
     z-index: 1000;
     padding: 0.5rem 0;
+
+    &:before {
+        position: absolute;
+        width: 24px;
+        height: 10px;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        content: '';
+    }
+    
     ${(props) => (
         props.orientering === 'venstre'
         ? 'right: 0;'
