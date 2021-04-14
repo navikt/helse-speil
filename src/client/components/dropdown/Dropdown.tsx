@@ -38,6 +38,7 @@ export const DropdownMenyknapp = styled(Knapp)`
     &:focus {
         background: var(--speil-light-hover);
         color: var(--navds-primary-text);
+        cursor: pointer;
     }
     
     &:disabled {
