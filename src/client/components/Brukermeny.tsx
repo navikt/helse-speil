@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NedChevron } from 'nav-frontend-chevron';
+import NavFrontendChevron, { NedChevron } from 'nav-frontend-chevron';
 import styled from '@emotion/styled';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import Lenke from 'nav-frontend-lenker';
@@ -65,8 +65,8 @@ const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
     return (
         <BrukermenyContainer>
             <MenyNavn>{navn}</MenyNavn>
-            <Neddropp onClick={(e) => (anchor ? setAnchor(undefined) : setAnchor(e.currentTarget))}>
-                <NedChevron />
+            <Neddropp onClick={(e) => anchor ? setAnchor(undefined) : setAnchor(e.currentTarget)}>
+                <NavFrontendChevron type={anchor ? 'opp' : 'ned'} />
             </Neddropp>
             <Popover
                 ankerEl={anchor}
