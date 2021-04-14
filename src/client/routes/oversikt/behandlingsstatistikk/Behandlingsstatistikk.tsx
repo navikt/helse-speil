@@ -28,7 +28,7 @@ export const Behandlingsstatistikk = () => {
 
     const Container = styled.div`
         border-left: 1px solid var(--navds-color-border);
-        padding: 2rem;
+        padding: 1.5rem;
     `;
 
     const Header = styled(Normaltekst)`
