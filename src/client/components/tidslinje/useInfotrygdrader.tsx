@@ -1,8 +1,7 @@
-import { InfotrygdTypetekst, Infotrygdutbetaling, Person } from 'internal-types';
+import {Infotrygdperiodetilstand, InfotrygdTypetekst, Infotrygdutbetaling, Person} from 'internal-types';
 import React, { useMemo } from 'react';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-import { Sykepengeperiode, Vedtaksperiodetilstand } from '@navikt/helse-frontend-tidslinje';
 import { nanoid } from 'nanoid';
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
@@ -10,8 +9,6 @@ import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 import { Dayjs } from 'dayjs';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
-
-export type UtbetalingerPerArbeidsgiver = { [organisasjonsnummer: string]: Sykepengeperiode[] };
 
 const Label = styled.div`
     display: flex;
@@ -29,16 +26,16 @@ const status = (typetekst: InfotrygdTypetekst) => {
     switch (typetekst) {
         case InfotrygdTypetekst.UTBETALING:
         case InfotrygdTypetekst.ARBEIDSGIVERREFUSJON:
-            return Vedtaksperiodetilstand.UtbetaltIInfotrygd;
+            return Infotrygdperiodetilstand.UtbetaltIInfotrygd;
         case InfotrygdTypetekst.FERIE:
-            return Vedtaksperiodetilstand.Infotrygdferie;
+            return Infotrygdperiodetilstand.Infotrygdferie;
         default:
-            return Vedtaksperiodetilstand.Infotrygdukjent;
+            return Infotrygdperiodetilstand.Infotrygdukjent;
     }
 };
 
 interface InfotrygdperiodeObject extends PeriodObject {
-    tilstand: Vedtaksperiodetilstand;
+    tilstand: Infotrygdperiodetilstand;
 }
 
 type Infotrygdrader = { [arbeidsgiver: string]: InfotrygdperiodeObject[] };

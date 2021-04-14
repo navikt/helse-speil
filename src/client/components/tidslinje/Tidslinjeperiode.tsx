@@ -1,35 +1,19 @@
-import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from 'react';
+import React, {ReactNode, RefObject, useLayoutEffect, useRef, useState} from 'react';
 import styled from '@emotion/styled';
-import { Period } from '@navikt/helse-frontend-timeline/lib';
-import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
-import { Revurderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
-import {
-    annullert,
-    avslag,
-    infotrygdferie,
-    infotrygdukjent,
-    ingenUtbetaling,
-    kunFerie,
-    kunPermisjon,
-    oppgaver,
-    revurdert,
-    tilAnnullering,
-    tilUtbetaling,
-    tilUtbetalingAutomatisk,
-    ukjent,
-    utbetalt,
-    utbetaltAutomatisk,
-    utbetaltIInfotrygd,
-    venter,
-} from '../ikoner/Tidslinjeperiodeikoner';
+import {Period} from '@navikt/helse-frontend-timeline/lib';
+import {PeriodProps} from '@navikt/helse-frontend-timeline/lib/components/Period';
+import {Infotrygdperiodetilstand, Revurderingtilstand, Vedtaksperiodetilstand} from 'internal-types';
+import {TidslinjeperiodeIkon} from '../ikoner/Tidslinjeperiodeikoner';
+import classNames from "classnames";
 
 interface StyledPeriodProps {
     erAktiv?: boolean;
-    erMini?: boolean;
     ref?: RefObject<HTMLButtonElement>;
 }
 
 export const StyledPeriod = styled(Period)<StyledPeriodProps>`
+    display: flex;
+    align-items: center;
     ${({ erAktiv }) =>
         erAktiv &&
         `
@@ -37,119 +21,65 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
         border-color: var(--navds-text-focus);
         z-index: 20;
     `}
-    &.revurderes,
-    &.oppgaver {
-        --period-background-color: var(--navds-color-orange-10);
-        --period-hover-color: var(--navds-color-tag-warning-background);
-        --period-border-color: var(--navds-color-tag-warning-border);
+    &.foreldet {
+        &.tilUtbetaling,
+        &.tilUtbetalingAutomatisk,
+        &.utbetalt,
+        &.revurdert,
+        &.utbetaltAutomatisk {
+            --period-background-color: var(--nav-lime-gronn-lighten-80);
+            --period-hover-color: #DADE99;
+            --period-border-color: var(--nav-lime-gronn-darken-40);
+        }
+
+        &.avslag,
+        &.feilet,
+        &.annullert,
+        &.tilAnnullering,
+        &.annulleringFeilet {
+            --period-background-color: var(--navds-color-red-10);
+            --period-hover-color: var(--navds-color-tag-error-background);
+            --period-border-color: var(--navds-color-tag-error-border);
+        }
     }
 
-    &.tilUtbetaling,
-    &.tilUtbetalingAutomatisk,
-    &.utbetalt,
-    &.revurdert,
-    &.utbetaltAutomatisk {
-        --period-background-color: var(--navds-color-green-10);
-        --period-hover-color: var(--navds-color-tag-success-background);
-        --period-border-color: var(--navds-color-tag-success-border);
+    &.gjeldende {
+        &.revurderes,
+        &.oppgaver {
+            --period-background-color: var(--navds-color-orange-10);
+            --period-hover-color: var(--navds-color-tag-warning-background);
+            --period-border-color: var(--navds-color-tag-warning-border);
+        }
+
+        &.tilUtbetaling,
+        &.tilUtbetalingAutomatisk,
+        &.utbetalt,
+        &.revurdert,
+        &.utbetaltAutomatisk {
+            --period-background-color: var(--navds-color-green-10);
+            --period-hover-color: var(--navds-color-tag-success-background);
+            --period-border-color: var(--navds-color-tag-success-border);
+        }
+
+        &.avslag,
+        &.feilet,
+        &.annullert,
+        &.tilAnnullering,
+        &.annulleringFeilet {
+            --period-background-color: var(--navds-color-red-10);
+            --period-hover-color: var(--navds-color-tag-error-background);
+            --period-border-color: var(--navds-color-tag-error-border);
+        }
     }
 
-    &.avslag,
-    &.feilet,
-    &.annullert,
-    &.tilAnnullering,
-    &.annulleringFeilet {
-        --period-background-color: var(--navds-color-red-10);
-        --period-hover-color: var(--navds-color-tag-error-background);
-        --period-border-color: var(--navds-color-tag-error-border);
-    }
-
-    &:before {
-        content: '';
-        position: absolute;
-        height: 15px;
-        width: 16px;
-        top: 50%;
-        left: 6px;
-        transform: translateY(-50%);
-        background-image: url(\"${ukjent}\");
-        background-repeat: no-repeat;
-    }
-
-    &.kunPermisjon:before {
-        background-image: url(\"${kunPermisjon}\");
-    }
-
-    &.kunFerie:before {
-        background-image: url(\"${kunFerie}\");
-    }
-
-    &.infotrygdferie:before {
-        background-image: url(\"${infotrygdferie}\");
-    }
-
-    &.infotrygdukjent:before {
-        background-image: url(\"${infotrygdukjent}\");
-    }
-
-    &.utbetalt:before {
-        background-image: url(\"${utbetalt}\");
-    }
-
-    &.utbetaltIInfotrygd:before {
-        background-image: url(\"${utbetaltIInfotrygd}\");
-    }
-
-    &.revurdert:before,
-    &.revurderes:before {
-        background-image: url(\"${revurdert}\");
-    }
-
-    &.oppgaver:before {
-        background-image: url(\"${oppgaver}\");
-    }
-
-    &.avslag:before {
-        background-image: url(\"${avslag}\");
-    }
-
-    &.tilUtbetaling:before {
-        background-image: url(\"${tilUtbetaling}\");
-    }
-
-    &.venter:before,
-    &.venterPåKiling:before {
-        background-image: url(\"${venter}\");
-    }
-
-    &.ingenUtbetaling:before {
-        background-image: url(\"${ingenUtbetaling}\");
-    }
-
-    &.annullert:before {
-        background-image: url(\"${annullert}\");
-    }
-
-    &.tilAnnullering:before {
-        background-image: url(\"${tilAnnullering}\");
-    }
-
-    &.utbetaltAutomatisk:before {
-        background-image: url(\"${utbetaltAutomatisk}\");
-    }
-
-    &.tilUtbetalingAutomatisk:before {
-        background-image: url(\"${tilUtbetalingAutomatisk}\");
-    }
-
-    ${({ erMini }) => erMini && `&:before { display: none; }`}
 `;
 
 interface TidslinjeperiodeProps extends PeriodProps {
     id: string;
     style: React.CSSProperties;
-    className: Vedtaksperiodetilstand | Revurderingtilstand;
+    tilstand: Vedtaksperiodetilstand | Revurderingtilstand | Infotrygdperiodetilstand;
     erAktiv?: boolean;
+    erForeldet?: boolean;
     hoverLabel?: ReactNode;
     skalVisePin: boolean;
 }
@@ -202,7 +132,10 @@ export const Tidslinjeperiode = (props: TidslinjeperiodeProps) => {
 
     return (
         <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel}>
-            <StyledPeriod erMini={erMini} erAktiv={props.erAktiv} ref={ref} {...props}>
+            <StyledPeriod erAktiv={props.erAktiv} ref={ref} className={classNames(props.tilstand, props.erForeldet ? 'foreldet' : 'gjeldende')} {...props}>
+                {!erMini &&
+                    <TidslinjeperiodeIkon tilstand={props.tilstand} styles={{marginLeft: '0.5rem', pointerEvents:'none'}}/>
+                }
                 {props.skalVisePin && (
                     <div onMouseOver={preventHoverRender}>
                         <PeriodePin />

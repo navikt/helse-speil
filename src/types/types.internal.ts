@@ -172,6 +172,14 @@ export enum Vedtaksperiodetilstand {
     Annullert = 'annullert',
     TilAnnullering = 'tilAnnullering',
     AnnulleringFeilet = 'annulleringFeilet',
+    UtbetaltAutomatisk = 'utbetaltAutomatisk',
+    TilUtbetalingAutomatisk = 'tilUtbetalingAutomatisk'
+}
+
+export enum Infotrygdperiodetilstand {
+    UtbetaltIInfotrygd = 'utbetaltIInfotrygd',
+    Infotrygdferie = 'infotrygdferie',
+    Infotrygdukjent = 'infotrygdukjent'
 }
 
 export interface UfullstendigVedtaksperiode {

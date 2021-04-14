@@ -11,9 +11,10 @@ interface TidslinjeradProps {
     rad: TidslinjeradObject | InfotrygdradObject;
     index: number;
     erKlikkbar: boolean;
+    erForeldet?: boolean;
 }
 
-export const Tidslinjerad = ({ rad, index, erKlikkbar = true }: TidslinjeradProps) => {
+export const Tidslinjerad = ({ rad, index, erKlikkbar = true, erForeldet = false }: TidslinjeradProps) => {
     const setAktivPeriode = useSetAktivPeriode();
     const aktivPeriode = useAktivPeriode();
 
@@ -31,7 +32,6 @@ export const Tidslinjerad = ({ rad, index, erKlikkbar = true }: TidslinjeradProp
     }
     `}
         box-sizing: border-box;
-        margin-bottom: 10px;
     `;
 
     return (
@@ -41,7 +41,8 @@ export const Tidslinjerad = ({ rad, index, erKlikkbar = true }: TidslinjeradProp
                     key={index}
                     id={it.id}
                     style={it.style}
-                    className={it.tilstand}
+                    tilstand={it.tilstand}
+                    erForeldet={erForeldet}
                     hoverLabel={it.hoverLabel ? <TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip> : undefined}
                     skalVisePin={it.skalVisePin}
                     onClick={erKlikkbar ? setAktivPeriode : undefined}

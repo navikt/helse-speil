@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, useState } from 'react';
+import React, { CSSProperties, ReactNode} from 'react';
 import styled from '@emotion/styled';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
 import { useInfotrygdrader } from './useInfotrygdrader';
@@ -46,7 +46,7 @@ const TidslinjeContainer = styled.div`
 
 const ArbeidsgiverContainer = styled(Flex)`
     &:not(:last-of-type) {
-        margin-bottom: 24px;
+        margin-bottom: 1.5rem;
     }
     align-items: start;
 `;
@@ -82,13 +82,7 @@ interface ChevronProps {
 
 const Chevron = ({ organisasjonsnummer }: ChevronProps) => {
     const [erAktiv, setErAktiv] = useRecoilState(aktivChevronState);
-
     const erDenneAktiv = erAktiv[organisasjonsnummer];
-
-    const StyledChevron = styled(NavFrontendChevron)`
-        align-content: flex-end;
-        justify-self: end;
-    `;
 
     return (
         <div
@@ -98,7 +92,7 @@ const Chevron = ({ organisasjonsnummer }: ChevronProps) => {
                 });
             }}
         >
-            <StyledChevron type={erDenneAktiv ? 'ned' : 'høyre'} />
+            <NavFrontendChevron type={erDenneAktiv ? 'ned' : 'høyre'} />
         </div>
     );
 };
@@ -112,13 +106,13 @@ interface AccordionProps {
 }
 
 const Accordion = styled.div<AccordionProps>`
-    ${({ erSynlig }) =>
-        erSynlig
-            ? `
-    display: initial;
-    `
-            : `    
-    display: none;`}
+    background-color: #F8F8F8;
+    padding: 0.25rem 0;
+    display: none;
+    & > div:not(:last-of-type) {
+        margin-bottom: 0.5rem;
+    }
+    ${({ erSynlig }) => erSynlig && `display: initial;`}
 `;
 
 const AxisLabelsContainer = styled.div<HorizontalOffsetProps>`
@@ -199,14 +193,14 @@ export const Tidslinje = ({ person }: Props) => {
                     <ArbeidsgiverContainer key={id}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Arbeidsgiverikon />
-                            <TekstMedEllipsis data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
+                            <TekstMedEllipsis style={{flex: 1}} data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
                             {rader.length > 1 && <Chevron organisasjonsnummer={id} />}
                         </Arbeidsgivernavn>
                         <RaderContainer>
                             <Tidslinjerad rad={rader[0]} index={0} erKlikkbar={true} />
                             <Accordion erSynlig={erAktiv[id]}>
                                 {rader.slice(1).map((it, index) => (
-                                    <Tidslinjerad rad={it} index={index} erKlikkbar={true} />
+                                    <Tidslinjerad rad={it} index={index} erKlikkbar={true} erForeldet />
                                 ))}
                             </Accordion>
                         </RaderContainer>
