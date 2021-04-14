@@ -19,6 +19,7 @@ import { Flex } from '../../components/Flex';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 
 const Container = styled.div`
+    height: 100%;
     position: relative;
     overflow: hidden;
     flex: 1;
@@ -29,7 +30,7 @@ const Content = styled(Panel)`
     padding: 0;
     color: var(--navds-color-text-primary);
     overflow: auto;
-    height: 100%;
+    height: inherit;
     box-sizing: border-box;
     width: 100%;
 `;
@@ -109,7 +110,7 @@ export const Oversikt = () => {
             {oppgaver.state === 'hasError' && (
                 <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
             )}
-            <Flex>
+            <Flex style={{height: 'inherit'}}>
                 <Content>
                     <Tabs />
                     <OppgaverTabell
