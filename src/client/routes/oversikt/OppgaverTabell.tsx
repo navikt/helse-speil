@@ -33,17 +33,28 @@ const Oversiktstabell = styled(Tabell)`
 
     thead tr th {
         border-color: var(--navds-color-border);
+        padding: 0 1rem 1.5rem 1rem;
+        
+        &, button {
+            font-size: 1rem;
+            font-weight: normal;
+        }
     }
-    tbody tr td {
-        white-space: nowrap;
-        height: 48px;
+    tbody tr {
+        :nth-of-type(2n + 1) {
+            background-color: #F8F8F8;
+        }
+        td {
+            white-space: nowrap;
+            padding: 0 1.5rem 0 1rem;
+        }
     }
     tbody tr:last-of-type td {
-        border: none;
+        border-bottom: 1px solid #c6c2bf;
     }
 
     tbody tr:hover td {
-        background: var(--speil-light-hover);
+        background: var(--speil-light-hover-tabell);
         &:not(:last-of-type) {
             cursor: pointer;
         }
@@ -128,7 +139,7 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
         defaultFiltrering: aktiveFiltere,
         defaultPaginering: {
             sidenummer: 1,
-            antallRaderPerSide: 15,
+            antallRaderPerSide: 20,
         },
     });
 

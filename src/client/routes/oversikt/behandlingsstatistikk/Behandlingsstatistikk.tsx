@@ -7,7 +7,8 @@ import { EksternBehandlingstatistikk } from 'external-types';
 import { selector, useRecoilValueLoadable } from 'recoil';
 import { tilPeriodetype } from '../../../mapping/periodetype';
 import { Statistikkboks } from './Statistikkboks';
-import { Behandlingstypeetikett, Periodetypeetikett } from './Etiketter';
+import { Behandlingstypeetikett} from './Behandlingstypeetikett';
+import {Oppgaveetikett} from "../Oppgaveetikett";
 
 const behandlingsstatistikkState = selector<Statistikk>({
     key: 'behandlingsstatistikkState',
@@ -34,9 +35,7 @@ export const Behandlingsstatistikk = () => {
         width: 100%;
         font-family: inherit;
         font-weight: 600;
-        font-size: 1.25rem;
-        padding-top: 1rem;
-        height: 26px;
+        font-size: 1rem;
     `;
 
     const Separator = styled.div`
@@ -57,7 +56,7 @@ export const Behandlingsstatistikk = () => {
                         upperBound={statistikk.antallOppgaverTilGodkjenning.totalt}
                         elementer={statistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
                             ({ periodetype, antall }) => ({
-                                etikett: <Periodetypeetikett type={periodetype} />,
+                                etikett: <Oppgaveetikett type={periodetype} størrelse={'s'} style={{marginRight: '1.25rem'}} />,
                                 antall: antall,
                             })
                         )}
@@ -67,7 +66,7 @@ export const Behandlingsstatistikk = () => {
                         tittel={'TILDELTE SAKER'}
                         upperBound={statistikk.antallTildelteOppgaver.totalt}
                         elementer={statistikk.antallTildelteOppgaver.perPeriodetype.map(({ periodetype, antall }) => ({
-                            etikett: <Periodetypeetikett type={periodetype} />,
+                            etikett: <Oppgaveetikett type={periodetype} størrelse={'s'} style={{marginRight: '1.25rem'}}/>,
                             antall: antall,
                         }))}
                     />

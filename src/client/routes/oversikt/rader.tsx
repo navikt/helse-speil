@@ -43,8 +43,6 @@ const CellContainer = styled.div<{ width?: number }>`
     height: 2rem;
     display: flex;
     align-items: center;
-    margin: 0 -1rem 0 -1rem;
-    padding: 0 1rem;
 
     ${({ width }) =>
         width &&
@@ -89,8 +87,8 @@ const Sakslenke: React.FunctionComponent<{ oppgave: Oppgave; skjult?: boolean }>
 };
 
 const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => (
-    <CellContainer width={120}>
-        <Oppgaveetikett type={oppgave.periodetype} />
+    <CellContainer width={128}>
+        <Oppgaveetikett type={oppgave.periodetype} medLabel={true} />
         <SkjultSakslenke oppgave={oppgave} />
     </CellContainer>
 );
@@ -99,26 +97,26 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     return (
-        <CellContainer width={200}>
-            <TekstMedEllipsis>
-                <Sakslenke oppgave={oppgave}>
+        <CellContainer width={128} data-for={'tabell-søker-tooltip'} data-tip={formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}>
+            <TekstMedEllipsis >
+                <SkjultSakslenke oppgave={oppgave} />
                     {formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
-                </Sakslenke>
             </TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
+            <Tooltip id={'tabell-søker-tooltip'}/>
         </CellContainer>
     );
 };
 
 const Inntektskildetype = ({ oppgave }: { oppgave: Oppgave }) => (
-    <CellContainer width={120}>
+    <CellContainer width={128}>
         <TekstMedEllipsis>{inntektskildeLabel(oppgave.inntektskilde)}</TekstMedEllipsis>
         <SkjultSakslenke oppgave={oppgave} />
     </CellContainer>
 );
 
 const Opprettet = ({ oppgave }: { oppgave: Oppgave }) => (
-    <CellContainer>
+    <CellContainer width={100}>
         <Normaltekst>{`${somDato(oppgave.opprettet).format(NORSK_DATOFORMAT)}`}</Normaltekst>
         <SkjultSakslenke oppgave={oppgave} />
     </CellContainer>
@@ -128,26 +126,31 @@ const Bosted = ({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     return (
-        <CellContainer width={200}>
+        <CellContainer width={128} data-for={'tabell-bosted-tooltip'} data-tip={anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}>
             <TekstMedEllipsis>{anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}</TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
+            <Tooltip id={'tabell-bosted-tooltip'}/>
         </CellContainer>
     );
 };
 
 const Status = ({ oppgave }: { oppgave: Oppgave }) => (
-    <CellContainer>
+    <CellContainer width={100}>
         <Element>{formatertVarsel(oppgave.antallVarsler)}</Element>
         <SkjultSakslenke oppgave={oppgave} />
     </CellContainer>
 );
 
-const TildeltMedSkjultSakslenke = ({ oppgave }: { oppgave: Oppgave }) => (
-    <CellContainer width={160}>
-        <Tildelt oppgave={oppgave as TildeltOppgave} />
-        <SkjultSakslenke oppgave={oppgave} />
-    </CellContainer>
-);
+const TildeltMedSkjultSakslenke = ({ oppgave }: { oppgave: Oppgave }) => {
+    const tildeltTilNavn = (oppgave as TildeltOppgave).tildeling.saksbehandler.navn
+    return (
+        <CellContainer width={128} data-tip={tildeltTilNavn} data-for={'tabell-tildelt-til-tooltip'}>
+            <Tildelt tildeltBrukernavn={tildeltTilNavn}/>
+            <SkjultSakslenke oppgave={oppgave}/>
+            <Tooltip id={'tabell-tildelt-til-tooltip'}/>
+        </CellContainer>
+    );
+};
 
 interface KjøttbolleProps {
     oppgave: Oppgave;
@@ -170,15 +173,18 @@ const Kjøttbolle = ({oppgave}: KjøttbolleProps) => {
 
     return (
         <CellContainer>
-            <StyledDropdown labelRenderer={(_, onClick) => <StyledMeatball data-tip="Mer" onClick={onClick}/>}>
-                <Tildelingsknapp
-                    oppgavereferanse={oppgave.oppgavereferanse}
-                    tildeling={oppgave.tildeling}
-                    erTildeltInnloggetBruker={erTildeltInnloggetBruker}
-                />
-                {erTildeltInnloggetBruker && <PåVentKnapp erPåVent={oppgave.tildeling?.påVent} oppgavereferanse={oppgave.oppgavereferanse}/>}
-            </StyledDropdown>
-            <Tooltip effect="solid" />
+            <span data-tip="Mer" data-for={'kjottbolle'}>
+                <StyledDropdown labelRenderer={(_, onClick) => <StyledMeatball onClick={onClick}/>}>
+                    <Tildelingsknapp
+                        oppgavereferanse={oppgave.oppgavereferanse}
+                        tildeling={oppgave.tildeling}
+                        erTildeltInnloggetBruker={erTildeltInnloggetBruker}
+                    />
+                    {erTildeltInnloggetBruker &&
+                    <PåVentKnapp erPåVent={oppgave.tildeling?.påVent} oppgavereferanse={oppgave.oppgavereferanse}/>}
+                </StyledDropdown>
+            </span>
+            <Tooltip id={'kjottbolle'} effect={'solid'} offset={{top: -10}}/>
         </CellContainer>
     );
 };
@@ -209,7 +215,7 @@ export const renderer = (rad: Tabellrad): Tabellrad => {
             oppgave.tildeling ? (
                 <TildeltMedSkjultSakslenke oppgave={oppgave} />
             ) : (
-                <CellContainer width={160}>
+                <CellContainer width={128}>
                     <IkkeTildelt oppgave={oppgave} />
                 </CellContainer>
             ),
@@ -219,7 +225,7 @@ export const renderer = (rad: Tabellrad): Tabellrad => {
             <Status oppgave={oppgave} />,
             <Søker oppgave={oppgave} />,
             <Opprettet oppgave={oppgave} />,
-            <Kjøttbolle oppgave={oppgave}/>,
+            <Kjøttbolle oppgave={oppgave}/>
         ],
     };
 };

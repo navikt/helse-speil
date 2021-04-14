@@ -25,8 +25,8 @@ const Container = styled.div`
 `;
 
 const Content = styled(Panel)`
-    margin: 1rem;
-    padding: 1rem;
+    margin: 1.5rem;
+    padding: 0;
     color: var(--navds-color-text-primary);
     overflow: auto;
     height: 100%;

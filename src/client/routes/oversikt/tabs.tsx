@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import styled from '@emotion/styled';
 import { atom, useRecoilState} from 'recoil';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
@@ -6,6 +6,8 @@ import { useOppgaverState } from '../../state/oppgaver';
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
 import { Oppgave } from 'internal-types';
 import {Dropdown} from "../../components/dropdown/Dropdown";
+import {Normaltekst} from "nav-frontend-typografi";
+import {Flex} from "../../components/Flex";
 
 const Container = styled.div`
     display: flex;
@@ -31,9 +33,10 @@ const Tablist = styled.div`
 const Tab = styled.button<{ active: boolean }>`
     background: none;
     border: none;
-    padding: 1rem 1.5rem;
+    padding: 0 0 1rem 0;
+    margin: 0 1rem;
     font-family: inherit;
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--navds-color-text-primary);
     cursor: pointer;
@@ -49,7 +52,11 @@ const Tab = styled.button<{ active: boolean }>`
     ${({ active }) => active && `box-shadow: inset 0 -5px 0 0 var(--navds-color-action-default);`}
 `;
 
-const AlleSakerTab = () => {
+const Antall = ({children} : {children: ReactNode}) => {
+    return <Normaltekst style={{marginLeft: '0.25rem'}}>{children}</Normaltekst>
+}
+
+const AlleSakerTab = ({ antall }: { antall: number }) => {
     const [aktivTab, setAktivTab] = useRecoilState(tabState);
     return (
         <Tab
@@ -58,7 +65,7 @@ const AlleSakerTab = () => {
             active={aktivTab === 'alle'}
             onClick={() => setAktivTab('alle')}
         >
-            Saker
+            <Flex alignItems={'center'}>Til godkjenning<Antall>({antall})</Antall></Flex>
         </Tab>
     );
 };
@@ -72,7 +79,7 @@ const MineSakerTab = ({ antall }: { antall: number }) => {
             active={aktivTab === 'mine'}
             onClick={() => setAktivTab('mine')}
         >
-            Mine saker ({antall})
+            <Flex alignItems={'center'}>Mine saker<Antall>({antall})</Antall></Flex>
         </Tab>
     );
 };
@@ -86,7 +93,7 @@ const VentendeTab = ({ antall }: { antall: number }) => {
             active={aktivTab === 'ventende'}
             onClick={() => setAktivTab('ventende')}
         >
-            På vent ({antall})
+            <Flex alignItems={'center'}>På vent<Antall>({antall})</Antall></Flex>
         </Tab>
     );
 };
@@ -99,7 +106,7 @@ export const Tabs = () => {
     return (
         <Tablist>
             <div>
-                <AlleSakerTab />
+                <AlleSakerTab antall={oppgaver.length ?? 0}/>
                 <MineSakerTab antall={mineOppgaver?.filter(({ tildeling }) => !tildeling?.påVent)?.length ?? 0} />
                 <VentendeTab antall={mineOppgaver?.filter(({ tildeling }) => tildeling?.påVent)?.length ?? 0} />
             </div>

@@ -31,7 +31,7 @@ const Sideknapp = styled.button<{ active?: boolean }>`
         box-shadow: 0 0 0 3px var(--navds-text-focus);
     }
 
-    &:hover {
+    &:hover && :not(:disabled) {
         color: var(--navds-color-text-inverse);
         background: var(--navds-color-action-default);
     }
@@ -60,6 +60,7 @@ export const Paginering = ({
     sidenummer,
     førsteSynligeElement,
     sisteSynligeElement,
+    antallRaderPerSide
 }: PagineringProps) => {
     const inkrementerSidenummer = () =>
         setPaginering((p) => ({
@@ -76,7 +77,7 @@ export const Paginering = ({
     return (
         <Container>
             <SideknappContainer>
-                <Sideknapp onClick={dekrementerSidenummer}>Forrige</Sideknapp>
+                <Sideknapp disabled={sidenummer === 1} onClick={dekrementerSidenummer}>Forrige</Sideknapp>
                 {genererSidetall(sidenummer, antallSider, 9).map((element) =>
                     isNaN(element) ? (
                         <Sideknapp key={element}>{element}</Sideknapp>
@@ -90,7 +91,7 @@ export const Paginering = ({
                         </Sideknapp>
                     )
                 )}
-                <Sideknapp onClick={inkrementerSidenummer}>Neste</Sideknapp>
+                <Sideknapp disabled={antallOppgaver <= antallRaderPerSide || sidenummer === antallSider} onClick={inkrementerSidenummer}>Neste</Sideknapp>
             </SideknappContainer>
             <p>
                 Viser {førsteSynligeElement} til {sisteSynligeElement} av {antallOppgaver} oppgaver

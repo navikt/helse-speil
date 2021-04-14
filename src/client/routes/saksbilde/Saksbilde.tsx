@@ -201,7 +201,7 @@ const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivVedtaksperiode, pat
                 </Route>
                 <Route>
                     <Tidslinje person={personTilBehandling} />
-                    <Flex justifyContent="space-between" style={{ width: '100vw' }} flex={1}>
+                    <Flex justifyContent="space-between" flex={1}>
                         <SaksbildeContainer>
                             <Sakslinje
                                 aktivVedtaksperiode={true}

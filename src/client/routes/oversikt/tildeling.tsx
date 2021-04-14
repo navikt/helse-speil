@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
 import { useTildeling } from '../../state/oppgaver';
 import { SkjultSakslenke } from './rader';
-import { Oppgave, TildeltOppgave } from 'internal-types';
+import { Oppgave} from 'internal-types';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
+import {TekstMedEllipsis} from "../../components/TekstMedEllipsis";
 
-const Flex = styled.span`
-    display: flex;
-    align-items: center;
-`;
-
-export const Tildelt = ({ oppgave }: { oppgave: TildeltOppgave }) => {
-    const tildeltBrukernavn = oppgave.tildeling.saksbehandler.navn;
+export const Tildelt = ({ tildeltBrukernavn }: { tildeltBrukernavn: string }) => {
 
     return (
-        <Flex>
-            <Normaltekst>{tildeltBrukernavn}</Normaltekst>
-        </Flex>
+        <TekstMedEllipsis>{tildeltBrukernavn}</TekstMedEllipsis>
     );
 };
 
@@ -34,10 +26,18 @@ export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
         tildelOppgave(oppgave, saksbehandler).catch(() => setIsFetching(false));
     };
 
+    const StyledKnapp = styled(Knapp)`
+        min-height: 0;
+        height: 1.5rem;
+        padding: 0 0.75rem;
+        box-sizing: border-box;
+        font-size: var(--navds-font-size-xs);
+    `
+
     return (
-        <Knapp mini onClick={tildel} spinner={isFetching}>
+        <StyledKnapp mini onClick={tildel} spinner={isFetching}>
             Tildel meg
-        </Knapp>
+        </StyledKnapp>
     );
 };
 
