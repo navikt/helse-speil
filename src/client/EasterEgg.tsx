@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import PåskeEgg from './components/ikoner/PåskeEgg';
 
 const Container = styled.div`
     display: flex;
@@ -8,10 +7,6 @@ const Container = styled.div`
     flex-grow: 1;
 `;
 
-const EasterEgg = () => (
-    <Container>
-        <PåskeEgg />
-    </Container>
-);
+const EasterEgg = () => <Container></Container>;
 
 export default EasterEgg;
