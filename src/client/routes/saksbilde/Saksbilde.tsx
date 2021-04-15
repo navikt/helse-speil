@@ -58,12 +58,10 @@ export const getVedtaksperiodeTilstandError = (tilstand: Vedtaksperiodetilstand)
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden har ingen utbetaling.
                 </Varsel>
             );
+        case Vedtaksperiodetilstand.VenterPåKiling:
+            return <Varsel type={Varseltype.Info}>Ikke klar til behandling - avventer system.</Varsel>;
         case Vedtaksperiodetilstand.Ukjent:
-            return (
-                <Varsel type={Varseltype.Feil}>
-                    Kunne ikke vise informasjon om vedtaksperioden. Dette kan skyldes manglende data.
-                </Varsel>
-            );
+            return <Varsel type={Varseltype.Feil}>Kunne ikke lese informasjon om sakens tilstand.</Varsel>;
         default:
             return undefined;
     }
