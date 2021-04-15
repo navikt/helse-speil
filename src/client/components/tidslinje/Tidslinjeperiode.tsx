@@ -1,10 +1,10 @@
-import React, {ReactNode, RefObject, useLayoutEffect, useRef, useState} from 'react';
+import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import {Period} from '@navikt/helse-frontend-timeline/lib';
-import {PeriodProps} from '@navikt/helse-frontend-timeline/lib/components/Period';
-import {Infotrygdperiodetilstand, Revurderingtilstand, Vedtaksperiodetilstand} from 'internal-types';
-import {TidslinjeperiodeIkon} from '../ikoner/Tidslinjeperiodeikoner';
-import classNames from "classnames";
+import { Period } from '@navikt/helse-frontend-timeline/lib';
+import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
+import { Infotrygdperiodetilstand, Revurderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
+import { TidslinjeperiodeIkon } from '../ikoner/Tidslinjeperiodeikoner';
+import classNames from 'classnames';
 
 interface StyledPeriodProps {
     erAktiv?: boolean;
@@ -28,7 +28,7 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
         &.revurdert,
         &.utbetaltAutomatisk {
             --period-background-color: var(--nav-lime-gronn-lighten-80);
-            --period-hover-color: #DADE99;
+            --period-hover-color: #dade99;
             --period-border-color: var(--nav-lime-gronn-darken-40);
         }
 
@@ -71,7 +71,6 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
             --period-border-color: var(--navds-color-tag-error-border);
         }
     }
-
 `;
 
 interface TidslinjeperiodeProps extends PeriodProps {
@@ -131,11 +130,19 @@ export const Tidslinjeperiode = (props: TidslinjeperiodeProps) => {
     };
 
     return (
-        <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel}>
-            <StyledPeriod erAktiv={props.erAktiv} ref={ref} className={classNames(props.tilstand, props.erForeldet ? 'foreldet' : 'gjeldende')} {...props}>
-                {!erMini &&
-                    <TidslinjeperiodeIkon tilstand={props.tilstand} styles={{marginLeft: '0.5rem', pointerEvents:'none'}}/>
-                }
+        <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel} data-testid="tidslinjeperiode">
+            <StyledPeriod
+                erAktiv={props.erAktiv}
+                ref={ref}
+                className={classNames(props.tilstand, props.erForeldet ? 'foreldet' : 'gjeldende')}
+                {...props}
+            >
+                {!erMini && (
+                    <TidslinjeperiodeIkon
+                        tilstand={props.tilstand}
+                        styles={{ marginLeft: '0.5rem', pointerEvents: 'none' }}
+                    />
+                )}
                 {props.skalVisePin && (
                     <div onMouseOver={preventHoverRender}>
                         <PeriodePin />

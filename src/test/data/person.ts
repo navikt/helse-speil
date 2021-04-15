@@ -733,7 +733,7 @@ export const mappetPersonObject: Person = {
                                     type: Dagtype.Syk,
                                 },
                             ],
-                            maksdato: dayjs('2018-08-08'),
+                            maksdato: dayjs('2018-03-01'),
                         },
                     ],
                 },

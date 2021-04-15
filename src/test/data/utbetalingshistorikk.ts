@@ -1,10 +1,15 @@
+import dayjs, { Dayjs } from 'dayjs';
 import { SpleisSykdomsdagkildeType, SpleisSykdomsdagtype, SpleisUtbetalingsdagtype } from 'external-types';
 
-export const umappetUtbetalingshistorikk = () => ({
-    beregningId: 'id1',
+export const umappetUtbetalingshistorikk = (
+    beregningId: string = 'id1',
+    erRevurdering: Boolean = true,
+    dag: Dayjs = dayjs('2018-01-01')
+) => ({
+    beregningId: beregningId,
     hendelsetidslinje: [
         {
-            dagen: '2018-01-01',
+            dagen: dag.format('YYYY-MM-DD'),
             type: SpleisSykdomsdagtype.SYKEDAG,
             kilde: {
                 type: SpleisSykdomsdagkildeType.SAKSBEHANDLER,
@@ -15,7 +20,7 @@ export const umappetUtbetalingshistorikk = () => ({
     ],
     beregnettidslinje: [
         {
-            dagen: '2018-01-01',
+            dagen: dag.format('YYYY-MM-DD'),
             type: SpleisSykdomsdagtype.SYKEDAG,
             kilde: {
                 type: SpleisSykdomsdagkildeType.SAKSBEHANDLER,
@@ -31,11 +36,11 @@ export const umappetUtbetalingshistorikk = () => ({
                 {
                     type: SpleisUtbetalingsdagtype.NAVDAG,
                     inntekt: 1431,
-                    dato: '2018-01-01',
+                    dato: dag.format('YYYY-MM-DD'),
                 },
             ],
-            maksdato: '2018-08-08',
-            type: 'REVURDERING',
+            maksdato: dag.add(2, 'month').format('YYYY-MM-DD'),
+            type: erRevurdering ? 'REVURDERING' : 'UTBETALING',
         },
     ],
 });
