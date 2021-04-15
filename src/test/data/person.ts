@@ -113,7 +113,7 @@ export const mappetPersonObject: Person = {
                     arbeidsgivernavn: 'Potetsekk AS',
                     oppgavereferanse: 'en-oppgavereferanse',
                     utbetalingsreferanse: 'en-utbetalingsreferanse',
-                    kanVelges: true,
+                    fullstendig: true,
                     erNyeste: true,
                     vilkår: {
                         alder: {

@@ -12,7 +12,7 @@ export const useSetAktivPeriode = () => useSetRecoilState(aktivPeriodeState);
 const defaultPeriode = (person: Person): Vedtaksperiode | undefined => {
     const velgbarePerioder = person.arbeidsgivere
         .flatMap((arb) => arb.vedtaksperioder)
-        .filter((periode) => periode.kanVelges)
+        .filter((periode) => periode.fullstendig)
         .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
     return (velgbarePerioder?.find((periode) => periode.tilstand === Vedtaksperiodetilstand.Oppgaver) ??
         velgbarePerioder?.[0]) as Vedtaksperiode;

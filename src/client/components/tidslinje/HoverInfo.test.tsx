@@ -60,7 +60,7 @@ describe('HoverInfo', () => {
     });
 
     test('Viser ikke dager igjen for ufullstendig periode', () => {
-        const periodeMedDagerIgjen = { ...enPeriode, kanVelges: false };
+        const periodeMedDagerIgjen = { ...enPeriode, fullstendig: false };
         render(<HoverInfo vedtaksperiode={periodeMedDagerIgjen} />);
         expect(screen.queryByText('Dager igjen', { exact: false })).toBeNull();
     });

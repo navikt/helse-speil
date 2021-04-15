@@ -4,7 +4,7 @@ import dayjs, { Dayjs } from 'dayjs';
 export const førsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person: Person): Vedtaksperiode =>
     person.arbeidsgivere
         .flatMap((arbeidsgiver) => arbeidsgiver.vedtaksperioder)
-        .filter((periode) => periode.kanVelges)
+        .filter((periode) => periode.fullstendig)
         .map((periode) => periode as Vedtaksperiode)
         .filter((periode) => periode.gruppeId === nåværendePeriode.gruppeId)
         .sort((a, b) => (a.sykdomstidslinje[0].dato.isAfter(b.sykdomstidslinje[0].dato) ? 1 : -1))[0];
@@ -21,7 +21,7 @@ export const skjæringstidspunktForPeriode = ({ vilkår }: Vedtaksperiode): Dayj
 export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined =>
     person.arbeidsgivere
         .flatMap(({ vedtaksperioder }) => vedtaksperioder)
-        .filter(({ kanVelges }) => kanVelges)
+        .filter(({ fullstendig }) => fullstendig)
         .map((periode) => periode as Vedtaksperiode)
         .reduce(
             (sistePeriode: Vedtaksperiode | undefined, it) =>

@@ -26,7 +26,7 @@ export const LoggProvider = ({ children }: LoggProviderProps) => {
             (aktivVedtaksperiode as Vedtaksperiode)?.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId
     )?.annullering;
 
-    const erFullstendig = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean => !!periode?.kanVelges;
+    const erFullstendig = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean => !!periode?.fullstendig;
 
     const dokumenter =
         (erFullstendig(aktivVedtaksperiode) && mapDokumenter(aktivVedtaksperiode as Vedtaksperiode)) || [];

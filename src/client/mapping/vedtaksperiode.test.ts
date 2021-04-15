@@ -97,7 +97,7 @@ describe('VedtaksperiodeBuilder', () => {
         expect(vedtaksperiode.gruppeId).toEqual('en-gruppeId');
         expect(vedtaksperiode.tilstand).toEqual(Vedtaksperiodetilstand.Oppgaver);
         expect(vedtaksperiode.behandlet).toBeFalsy();
-        expect(vedtaksperiode.kanVelges).toBeTruthy();
+        expect(vedtaksperiode.fullstendig).toBeTruthy();
         expect(vedtaksperiode.godkjentAv).toBeUndefined();
         expect(vedtaksperiode.periodetype).toEqual(Periodetype.Førstegangsbehandling);
         expect(vedtaksperiode.oppgavereferanse).toEqual('en-oppgavereferanse');

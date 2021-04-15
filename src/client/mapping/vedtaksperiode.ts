@@ -130,7 +130,7 @@ export class VedtaksperiodeBuilder {
                 id: ufullstendigPeriode.id,
                 fom: dayjs(ufullstendigPeriode.fom),
                 tom: dayjs(ufullstendigPeriode.tom),
-                kanVelges: false,
+                fullstendig: false,
                 tilstand: Vedtaksperiodetilstand[ufullstendigPeriode.tilstand] ?? Vedtaksperiodetilstand.Ukjent,
                 utbetalingstidslinje: ufullstendigPeriode.utbetalingstidslinje?.map(mapUtbetalingsdag()),
             },
@@ -193,7 +193,7 @@ export class VedtaksperiodeBuilder {
             : undefined;
         this.vedtaksperiode.oppgavereferanse = this.unmapped.oppgavereferanse || undefined;
         this.vedtaksperiode.utbetalingsreferanse = this.unmapped.utbetalingsreferanse;
-        this.vedtaksperiode.kanVelges = true;
+        this.vedtaksperiode.fullstendig = true;
     };
 
     private mapVilkår = () => {

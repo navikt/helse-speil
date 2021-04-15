@@ -24,7 +24,7 @@ const Linje = styled.div`
 `;
 
 const utbetaltForPeriode = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): number | undefined => {
-    if (vedtaksperiode.kanVelges) {
+    if (vedtaksperiode.fullstendig) {
         const { behandlet, automatiskBehandlet, utbetalingstidslinje } = vedtaksperiode as Vedtaksperiode;
         return (
             ((behandlet || automatiskBehandlet) &&
@@ -131,7 +131,7 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
     const status = statusType(vedtaksperiode);
     const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT);
     const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT);
-    const dagerIgjen = vedtaksperiode.kanVelges
+    const dagerIgjen = vedtaksperiode.fullstendig
         ? (vedtaksperiode as Vedtaksperiode).vilkår?.dagerIgjen.gjenståendeDager
         : undefined;
 

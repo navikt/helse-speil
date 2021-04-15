@@ -60,7 +60,7 @@ const SaksbildeContent = () => {
             />
         );
     }
-    return aktivPeriode.kanVelges ? (
+    return aktivPeriode.fullstendig ? (
         <SaksbildeVedtaksperiode
             personTilBehandling={personTilBehandling}
             aktivVedtaksperiode={aktivPeriode as Vedtaksperiode}

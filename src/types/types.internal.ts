@@ -173,20 +173,20 @@ export enum Vedtaksperiodetilstand {
     TilAnnullering = 'tilAnnullering',
     AnnulleringFeilet = 'annulleringFeilet',
     UtbetaltAutomatisk = 'utbetaltAutomatisk',
-    TilUtbetalingAutomatisk = 'tilUtbetalingAutomatisk'
+    TilUtbetalingAutomatisk = 'tilUtbetalingAutomatisk',
 }
 
 export enum Infotrygdperiodetilstand {
     UtbetaltIInfotrygd = 'utbetaltIInfotrygd',
     Infotrygdferie = 'infotrygdferie',
-    Infotrygdukjent = 'infotrygdukjent'
+    Infotrygdukjent = 'infotrygdukjent',
 }
 
 export interface UfullstendigVedtaksperiode {
     id: string;
     fom: Dayjs;
     tom: Dayjs;
-    kanVelges: boolean;
+    fullstendig: boolean;
     tilstand: Vedtaksperiodetilstand;
     utbetalingstidslinje?: Utbetalingsdag[];
     erNyeste?: boolean;
@@ -204,7 +204,7 @@ export interface Vedtaksperiode {
     behandlet: boolean;
     tilstand: Vedtaksperiodetilstand;
     oppgavereferanse?: string;
-    kanVelges: boolean;
+    fullstendig: boolean;
     utbetalingsreferanse?: string;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
