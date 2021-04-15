@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode} from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
 import { useInfotrygdrader } from './useInfotrygdrader';
@@ -22,6 +22,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { Button } from '../Button';
 
 dayjs.locale('nb');
 
@@ -76,24 +77,18 @@ const Arbeidsgivernavn = styled(Flex)<ArbeidsgivernavnProps>`
     ${({ width }) => `width: ${width}px;`};
 `;
 
-interface ChevronProps {
-    organisasjonsnummer: string;
-}
-
-const Chevron = ({ organisasjonsnummer }: ChevronProps) => {
+const Chevron = ({ organisasjonsnummer }: { organisasjonsnummer: string }) => {
     const [erAktiv, setErAktiv] = useRecoilState(aktivChevronState);
     const erDenneAktiv = erAktiv[organisasjonsnummer];
 
     return (
-        <div
+        <Button
             onClick={() => {
-                setErAktiv({
-                    [organisasjonsnummer]: !erDenneAktiv,
-                });
+                setErAktiv({ [organisasjonsnummer]: !erDenneAktiv });
             }}
         >
             <NavFrontendChevron type={erDenneAktiv ? 'ned' : 'høyre'} />
-        </div>
+        </Button>
     );
 };
 
@@ -106,7 +101,7 @@ interface AccordionProps {
 }
 
 const Accordion = styled.div<AccordionProps>`
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
     padding: 0.25rem 0;
     display: none;
     & > div:not(:last-of-type) {
@@ -155,8 +150,10 @@ export const Tidslinje = ({ person }: Props) => {
     const fom = utsnitt[aktivtUtsnitt].fom;
     const tom = utsnitt[aktivtUtsnitt].tom;
 
-    const infotrygdrader = useInfotrygdrader(person, fom, tom, anonymiseringEnabled);
     const tidslinjerader = useTidslinjerader(person, fom, tom, anonymiseringEnabled);
+    const infotrygdrader = useInfotrygdrader(person, fom, tom, anonymiseringEnabled);
+    let alleRaderIndex = 0;
+    const nesteRadIndex = (): number => alleRaderIndex++;
 
     const tidslinjeradOffset = 250;
 
@@ -193,20 +190,22 @@ export const Tidslinje = ({ person }: Props) => {
                     <ArbeidsgiverContainer key={id}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Arbeidsgiverikon />
-                            <TekstMedEllipsis style={{flex: 1}} data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
+                            <TekstMedEllipsis style={{ flex: 1 }} data-tip="Arbeidsgiver">
+                                {navn}
+                            </TekstMedEllipsis>
                             {rader.length > 1 && <Chevron organisasjonsnummer={id} />}
                         </Arbeidsgivernavn>
                         <RaderContainer>
-                            <Tidslinjerad rad={rader[0]} index={0} erKlikkbar={true} />
+                            <Tidslinjerad rad={rader[0]} index={nesteRadIndex()} erKlikkbar={true} />
                             <Accordion erSynlig={erAktiv[id]}>
-                                {rader.slice(1).map((it, index) => (
-                                    <Tidslinjerad rad={it} index={index} erKlikkbar={true} erForeldet />
+                                {rader.slice(1).map((it) => (
+                                    <Tidslinjerad rad={it} index={nesteRadIndex()} erKlikkbar={true} erForeldet />
                                 ))}
                             </Accordion>
                         </RaderContainer>
                     </ArbeidsgiverContainer>
                 ))}
-                {infotrygdrader.map((it, index) => (
+                {infotrygdrader.map((it) => (
                     <ArbeidsgiverContainer key={it.arbeidsgivernavn}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Infotrygdikon />
@@ -215,7 +214,7 @@ export const Tidslinje = ({ person }: Props) => {
                             </TekstMedEllipsis>
                         </Arbeidsgivernavn>
                         <RaderContainer>
-                            <Tidslinjerad rad={it} index={index} erKlikkbar={false} />
+                            <Tidslinjerad rad={it} index={nesteRadIndex()} erKlikkbar={false} />
                         </RaderContainer>
                     </ArbeidsgiverContainer>
                 ))}

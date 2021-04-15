@@ -117,12 +117,12 @@ interface HoverInfoProps {
 }
 
 const LinjeFelt = styled(Undertekst)`
-    font-size: 14px;
+    font-size: 0.875rem;
     display: inline;
 `;
 
 const LinjeVerdi = styled(Undertekst)`
-    font-size: 16px;
+    font-size: 1rem;
     color: var(--text-color);
     display: inline;
 `;
@@ -144,7 +144,8 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
     return (
         <Container>
             <Linje>
-                <LinjeFelt>Status: </LinjeFelt> <LinjeVerdi> {status} </LinjeVerdi>
+                <LinjeFelt>Status: </LinjeFelt>
+                <LinjeVerdi> {status} </LinjeVerdi>
             </Linje>
             <Linje>
                 <LinjeFelt>Periode: </LinjeFelt>
@@ -154,7 +155,8 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
             </Linje>
             {utbetalt && utbetalt !== 0 && (
                 <Linje>
-                    <LinjeFelt>Utbetalt: </LinjeFelt> <LinjeVerdi>{somPenger(utbetalt)} </LinjeVerdi>
+                    <LinjeFelt>Utbetalt: </LinjeFelt>
+                    <LinjeVerdi>{somPenger(utbetalt)} </LinjeVerdi>
                 </Linje>
             )}
             {arbeidsgiverperiode && (

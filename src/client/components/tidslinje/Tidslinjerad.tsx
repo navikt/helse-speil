@@ -19,7 +19,6 @@ export const Tidslinjerad = ({ rad, index, erKlikkbar = true, erForeldet = false
     const aktivPeriode = useAktivPeriode();
 
     const erAktiv = erKlikkbar && !!rad.perioder.find((it) => it.id === aktivPeriode?.id);
-
     const Tidslinjerad = styled(Row)<{ erAktiv: boolean }>`
         ${({ erAktiv }) =>
             erAktiv
@@ -36,9 +35,9 @@ export const Tidslinjerad = ({ rad, index, erKlikkbar = true, erForeldet = false
 
     return (
         <Tidslinjerad erAktiv={erAktiv} key={index}>
-            {rad.perioder.map((it, index) => (
+            {rad.perioder.reverse().map((it, periodeIndex) => (
                 <Tidslinjeperiode
-                    key={index}
+                    key={index + periodeIndex}
                     id={it.id}
                     style={it.style}
                     tilstand={it.tilstand}
