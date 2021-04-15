@@ -1,21 +1,23 @@
-import { Person } from 'internal-types';
+import { Person, UfullstendigVedtaksperiode } from 'internal-types';
 import { Personlinje } from '../../../components/Personlinje';
 import { Tidslinje } from '../../../components/tidslinje';
 import { Flex } from '../../../components/Flex';
 import styled from '@emotion/styled';
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import '@navikt/helse-frontend-logg/lib/main.css';
+import { getVedtaksperiodeTilstandError } from '../Saksbilde';
 
 interface SaksbildeUfullstendigVedtaksperiodeProps {
     personTilBehandling: Person;
+    aktivVedtaksperiode: UfullstendigVedtaksperiode;
 }
 
 export const SaksbildeUfullstendigVedtaksperiode = ({
     personTilBehandling,
+    aktivVedtaksperiode,
 }: SaksbildeUfullstendigVedtaksperiodeProps) => {
-    const StyledVarsel = styled(Varsel)`
+    const ErrorContainer = styled.div`
         width: 100%;
     `;
 
@@ -26,6 +28,8 @@ export const SaksbildeUfullstendigVedtaksperiode = ({
         overflow: visible;
     `;
 
+    const errorMelding = getVedtaksperiodeTilstandError(aktivVedtaksperiode.tilstand);
+
     return (
         <Container className="saksbilde" data-testid="saksbilde-ufullstendig-vedtaksperiode">
             <Personlinje person={personTilBehandling} />
@@ -33,10 +37,7 @@ export const SaksbildeUfullstendigVedtaksperiode = ({
                 <Route>
                     <Tidslinje person={personTilBehandling} />
                     <Flex justifyContent="space-between">
-                        <StyledVarsel type={Varseltype.Info}>
-                            Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til
-                            behandling.
-                        </StyledVarsel>
+                        <ErrorContainer>{errorMelding}</ErrorContainer>
                     </Flex>
                 </Route>
             </Switch>

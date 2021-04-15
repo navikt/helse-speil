@@ -5,7 +5,7 @@ import { LoggProvider } from './logg/LoggProvider';
 import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
-import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
+import { UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { usePerson } from '../../state/person';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
@@ -19,6 +19,55 @@ import { LasterSaksbilde } from './saksbilder/SaksbildeLaster';
 import { SaksbildeVedtaksperiode } from './saksbilder/SaksbildeVedtaksperiode';
 import { SaksbildeRevurdering } from './saksbilder/SaksbildeRevurdering';
 import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
+
+export const getErrorMelding = (tilstand: Vedtaksperiodetilstand) => {
+    const vedtaksperiodetilstandErrorMessage = getVedtaksperiodeTilstandError(tilstand);
+    return (error: Error) => {
+        return vedtaksperiodetilstandErrorMessage ? (
+            vedtaksperiodetilstandErrorMessage
+        ) : (
+            <Varsel type={Varseltype.Feil}>{error.message}</Varsel>
+        );
+    };
+};
+
+export const getVedtaksperiodeTilstandError = (tilstand: Vedtaksperiodetilstand) => {
+    switch (tilstand) {
+        case Vedtaksperiodetilstand.Venter:
+            return (
+                <Varsel type={Varseltype.Info}>
+                    Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til
+                    behandling.
+                </Varsel>
+            );
+        case Vedtaksperiodetilstand.KunFerie:
+            return (
+                <Varsel type={Varseltype.Info}>
+                    Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun ferie.
+                </Varsel>
+            );
+        case Vedtaksperiodetilstand.KunPermisjon:
+            return (
+                <Varsel type={Varseltype.Info}>
+                    Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun permisjon.
+                </Varsel>
+            );
+        case Vedtaksperiodetilstand.IngenUtbetaling:
+            return (
+                <Varsel type={Varseltype.Info}>
+                    Kunne ikke vise informasjon om vedtaksperioden. Perioden har ingen utbetaling.
+                </Varsel>
+            );
+        case Vedtaksperiodetilstand.Ukjent:
+            return (
+                <Varsel type={Varseltype.Feil}>
+                    Kunne ikke vise informasjon om vedtaksperioden. Dette kan skyldes manglende data.
+                </Varsel>
+            );
+        default:
+            return undefined;
+    }
+};
 
 export const SaksbildeContainer = styled.div`
     display: flex;
@@ -67,7 +116,10 @@ const SaksbildeContent = () => {
             path={path}
         />
     ) : (
-        <SaksbildeUfullstendigVedtaksperiode personTilBehandling={personTilBehandling} />
+        <SaksbildeUfullstendigVedtaksperiode
+            personTilBehandling={personTilBehandling}
+            aktivVedtaksperiode={aktivPeriode as UfullstendigVedtaksperiode}
+        />
     );
 };
 
