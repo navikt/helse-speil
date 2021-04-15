@@ -23,3 +23,4 @@ module.exports = {
     watchPathIgnorePatterns: ['<rootDir>/dist', '<rootDir>/node_modules'],
     setupFilesAfterEnv: ['<rootDir>/__mocks__/jest-setup.js'],
 };
+process.env.TZ = 'UTC';
