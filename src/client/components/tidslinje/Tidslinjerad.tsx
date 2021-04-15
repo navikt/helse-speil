@@ -9,7 +9,7 @@ import { useAktivPeriode, useSetAktivPeriode } from '../../state/tidslinje';
 
 interface TidslinjeradProps {
     rad: TidslinjeradObject | InfotrygdradObject;
-    index: number;
+    index: () => number;
     erKlikkbar: boolean;
     erForeldet?: boolean;
 }
@@ -34,20 +34,24 @@ export const Tidslinjerad = ({ rad, index, erKlikkbar = true, erForeldet = false
     `;
 
     return (
-        <Tidslinjerad erAktiv={erAktiv} key={index}>
-            {rad.perioder.reverse().map((it, periodeIndex) => (
-                <Tidslinjeperiode
-                    key={index + periodeIndex}
-                    id={it.id}
-                    style={it.style}
-                    tilstand={it.tilstand}
-                    erForeldet={erForeldet}
-                    hoverLabel={it.hoverLabel ? <TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip> : undefined}
-                    skalVisePin={it.skalVisePin}
-                    onClick={erKlikkbar ? setAktivPeriode : undefined}
-                    erAktiv={erKlikkbar ? it.id === aktivPeriode?.id : false}
-                />
-            ))}
+        <Tidslinjerad erAktiv={erAktiv}>
+            {rad.perioder.reverse().map((it) => {
+                const periodeIndex = index();
+                return (
+                    <Tidslinjeperiode
+                        key={periodeIndex}
+                        index={periodeIndex}
+                        id={it.id}
+                        style={it.style}
+                        tilstand={it.tilstand}
+                        erForeldet={erForeldet}
+                        hoverLabel={it.hoverLabel ? <TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip> : undefined}
+                        skalVisePin={it.skalVisePin}
+                        onClick={erKlikkbar ? setAktivPeriode : undefined}
+                        erAktiv={erKlikkbar ? it.id === aktivPeriode?.id : false}
+                    />
+                );
+            })}
         </Tidslinjerad>
     );
 };

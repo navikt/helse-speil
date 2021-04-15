@@ -75,6 +75,7 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
 
 interface TidslinjeperiodeProps extends PeriodProps {
     id: string;
+    index: number;
     style: React.CSSProperties;
     tilstand: Vedtaksperiodetilstand | Revurderingtilstand | Infotrygdperiodetilstand;
     erAktiv?: boolean;
@@ -104,19 +105,23 @@ const PeriodePin = styled.div`
     }
 `;
 
-export const Tidslinjeperiode = (props: TidslinjeperiodeProps) => {
+export const Tidslinjeperiode = ({
+    hoverLabel,
+    erAktiv,
+    index,
+    tilstand,
+    erForeldet,
+    skalVisePin,
+    ...props
+}: TidslinjeperiodeProps) => {
     const ref = useRef<HTMLButtonElement>(null);
     const [erMini, setErMini] = useState(false);
 
     const [showHoverLabel, setShowHoverLabel] = useState(false);
 
-    const enableHoverLabel = () => {
-        props.hoverLabel && setShowHoverLabel(true);
-    };
+    const enableHoverLabel = () => hoverLabel && setShowHoverLabel(true);
 
-    const disableHoverLabel = () => {
-        props.hoverLabel && setShowHoverLabel(false);
-    };
+    const disableHoverLabel = () => hoverLabel && setShowHoverLabel(false);
 
     useLayoutEffect(() => {
         if (ref.current && ref.current.offsetWidth <= 30.0) {
@@ -130,25 +135,25 @@ export const Tidslinjeperiode = (props: TidslinjeperiodeProps) => {
     };
 
     return (
-        <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel} data-testid="tidslinjeperiode">
+        <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel} data-testid={`tidslinjeperiode-${index}`}>
             <StyledPeriod
-                erAktiv={props.erAktiv}
+                erAktiv={erAktiv}
                 ref={ref}
-                className={classNames(props.tilstand, props.erForeldet ? 'foreldet' : 'gjeldende')}
+                className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende')}
                 {...props}
             >
                 {!erMini && (
                     <TidslinjeperiodeIkon
-                        tilstand={props.tilstand}
+                        tilstand={tilstand}
                         styles={{ marginLeft: '0.5rem', pointerEvents: 'none' }}
                     />
                 )}
-                {props.skalVisePin && (
+                {skalVisePin && (
                     <div onMouseOver={preventHoverRender}>
                         <PeriodePin />
                     </div>
                 )}
-                {showHoverLabel && <div onMouseOver={preventHoverRender}>{props.hoverLabel}</div>}
+                {showHoverLabel && <div onMouseOver={preventHoverRender}>{hoverLabel}</div>}
             </StyledPeriod>
         </div>
     );

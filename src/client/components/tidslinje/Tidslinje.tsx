@@ -152,8 +152,10 @@ export const Tidslinje = ({ person }: Props) => {
 
     const tidslinjerader = useTidslinjerader(person, fom, tom, anonymiseringEnabled);
     const infotrygdrader = useInfotrygdrader(person, fom, tom, anonymiseringEnabled);
+
     let alleRaderIndex = 0;
-    const nesteRadIndex = (): number => alleRaderIndex++;
+    let allePerioderIndex = 0;
+    const nestePeriodeIndex = () => allePerioderIndex++;
 
     const tidslinjeradOffset = 250;
 
@@ -196,10 +198,21 @@ export const Tidslinje = ({ person }: Props) => {
                             {rader.length > 1 && <Chevron organisasjonsnummer={id} />}
                         </Arbeidsgivernavn>
                         <RaderContainer>
-                            <Tidslinjerad rad={rader[0]} index={nesteRadIndex()} erKlikkbar={true} />
+                            <Tidslinjerad
+                                key={alleRaderIndex++}
+                                rad={rader[0]}
+                                index={nestePeriodeIndex}
+                                erKlikkbar={true}
+                            />
                             <Accordion erSynlig={erAktiv[id]}>
                                 {rader.slice(1).map((it) => (
-                                    <Tidslinjerad rad={it} index={nesteRadIndex()} erKlikkbar={true} erForeldet />
+                                    <Tidslinjerad
+                                        key={alleRaderIndex++}
+                                        rad={it}
+                                        index={nestePeriodeIndex}
+                                        erKlikkbar={true}
+                                        erForeldet
+                                    />
                                 ))}
                             </Accordion>
                         </RaderContainer>
@@ -214,7 +227,12 @@ export const Tidslinje = ({ person }: Props) => {
                             </TekstMedEllipsis>
                         </Arbeidsgivernavn>
                         <RaderContainer>
-                            <Tidslinjerad rad={it} index={nesteRadIndex()} erKlikkbar={false} />
+                            <Tidslinjerad
+                                key={alleRaderIndex++}
+                                rad={it}
+                                index={nestePeriodeIndex}
+                                erKlikkbar={false}
+                            />
                         </RaderContainer>
                     </ArbeidsgiverContainer>
                 ))}
