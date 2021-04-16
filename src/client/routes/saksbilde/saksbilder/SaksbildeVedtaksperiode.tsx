@@ -102,17 +102,17 @@ export const SaksbildeVedtaksperiode = ({
                     <Tidslinje person={personTilBehandling} />
                     <Flex justifyContent="space-between" style={{ width: '100vw' }} flex={1}>
                         <AutoFlexContainer>
+                            <Sakslinje
+                                aktivVedtaksperiode={true}
+                                arbeidsgivernavn={arbeidsgivernavn}
+                                arbeidsgiverOrgnr={organisasjonsnummer}
+                                fom={fom}
+                                tom={tom}
+                                skjæringstidspunkt={skjæringstidspunkt}
+                                maksdato={maksdato}
+                                over67År={over67år}
+                            />
                             <ErrorBoundary key={aktivVedtaksperiode.id} fallback={errorMelding}>
-                                <Sakslinje
-                                    aktivVedtaksperiode={true}
-                                    arbeidsgivernavn={arbeidsgivernavn}
-                                    arbeidsgiverOrgnr={organisasjonsnummer}
-                                    fom={fom}
-                                    tom={tom}
-                                    skjæringstidspunkt={skjæringstidspunkt}
-                                    maksdato={maksdato}
-                                    over67År={over67år}
-                                />
                                 <AmplitudeProvider>
                                     <Flex style={{ flex: 1, height: 'calc(100% - 75px)' }}>
                                         <FlexColumn style={{ flex: 1, height: '100%' }}>
