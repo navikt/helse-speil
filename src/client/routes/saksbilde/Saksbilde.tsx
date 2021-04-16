@@ -20,6 +20,10 @@ import { SaksbildeRevurdering } from './saksbilder/SaksbildeRevurdering';
 import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
 import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
 import { LasterTidslinje, Tidslinje } from '../../components/tidslinje';
+import { copyString } from '../../components/clipboard/util';
+import { Key, useKeyboard } from '../../hooks/useKeyboard';
+import { useNavigation } from '../../hooks/useNavigation';
+import { ToastObject, useAddToast } from '../../state/toasts';
 
 export const getErrorMelding = (tilstand: Vedtaksperiodetilstand) => {
     const vedtaksperiodetilstandErrorMessage = getVedtaksperiodeTilstandError(tilstand);
@@ -86,14 +90,36 @@ export const LoggHeader = styled(EksternLoggheader)`
     }
 `;
 
+export const kopiertFødelsnummerToast = ({
+    message = 'Fødselsnummer kopiert',
+    timeToLiveMs = 3000,
+}: Partial<ToastObject>): ToastObject => ({
+    key: 'kopierFødselsnummerToastKey',
+    message,
+    timeToLiveMs,
+});
+
 interface SaksbildeSwitchProps {
     personTilBehandling: Person;
 }
 
 const SaksbildeSwitch = ({ personTilBehandling }: SaksbildeSwitchProps) => {
     const aktivPeriode: Vedtaksperiode | UfullstendigVedtaksperiode | Tidslinjeperiode | undefined = useAktivPeriode();
-
+    const { navigateToNext, navigateToPrevious } = useNavigation();
+    const clickPrevious = () => navigateToPrevious?.();
+    const clickNext = () => navigateToNext?.();
+    const addToast = useAddToast();
+    const copyFødselsnummer = () => {
+        copyString(personTilBehandling?.fødselsnummer ?? '', false);
+        addToast(kopiertFødelsnummerToast({}));
+    };
     const { path } = useRouteMatch();
+
+    useKeyboard({
+        [Key.Left]: { action: clickPrevious, ignoreIfModifiers: true },
+        [Key.Right]: { action: clickNext, ignoreIfModifiers: true },
+        [Key.C]: { action: copyFødselsnummer, ignoreIfModifiers: false },
+    });
 
     if (!aktivPeriode) return <TomtSaksbilde />;
 

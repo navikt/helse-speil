@@ -9,9 +9,9 @@ export enum Key {
     Left = 'ArrowLeft',
     Right = 'ArrowRight',
     Enter = 'Enter',
-    Space = 'Space',
     Backspace = 'Backspace',
     Escape = 'Escape',
+    C = 'KeyC',
 }
 
 const shouldDisableKeyboard = () =>
@@ -24,7 +24,7 @@ export const useKeyboard = (actions: { [key: string]: Action }) => {
         if (!action || shouldDisableKeyboard() || (action?.ignoreIfModifiers && hasActiveModifiers)) {
             return;
         }
-        actions[event.code]?.action();
+        event.code === 'KeyC' ? event.altKey && actions[event.code]?.action() : actions[event.code]?.action();
     };
 
     useEffect(() => {

@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { Verktøylinje } from './Verktøylinje';
 import { TabLink } from '../TabLink';
 import { Location, useNavigation } from '../../../hooks/useNavigation';
-import { Key, useKeyboard } from '../../../hooks/useKeyboard';
 import { Infolinje } from './Infolinje';
 import { HjemIkon } from './icons/HjemIkon';
 import { Dayjs } from 'dayjs';
@@ -41,15 +40,7 @@ export const Sakslinje = ({
     maksdato,
     over67År,
 }: SakslinjeProps) => {
-    const { pathForLocation, navigateToNext, navigateToPrevious } = useNavigation();
-
-    const clickPrevious = () => navigateToPrevious?.();
-    const clickNext = () => navigateToNext?.();
-
-    useKeyboard({
-        [Key.Left]: { action: clickPrevious, ignoreIfModifiers: true },
-        [Key.Right]: { action: clickNext, ignoreIfModifiers: true },
-    });
+    const { pathForLocation } = useNavigation();
 
     return (
         <Container>

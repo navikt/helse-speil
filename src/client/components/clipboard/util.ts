@@ -8,7 +8,7 @@ const hasInnerText = (node?: HTMLElement) => node?.innerText !== undefined;
 
 const removeSpaces = (s: string) => s.replace(/\s/g, '');
 
-const copyString = (data: string, preserveWhitespace: boolean) =>
+export const copyString = (data: string, preserveWhitespace: boolean) =>
     writeToClipboard(preserveWhitespace ? data : removeSpaces(data))
         .then(() => true)
         .catch(() => false);

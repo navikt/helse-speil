@@ -14,6 +14,7 @@ const Consumer = () => {
         [Key.Left]: { action: () => setPressedKey(Key.Left) },
         [Key.Backspace]: { action: () => setPressedKey(Key.Backspace) },
         [Key.Enter]: { action: () => setPressedKey(Key.Enter) },
+        [Key.C]: { action: () => setPressedKey(Key.C) },
     });
 
     return (
@@ -33,8 +34,8 @@ describe('useKeyboard', () => {
         expect(container).toHaveTextContent(Key.Right);
         fireEvent.keyDown(container, { code: Key.Left });
         expect(container).toHaveTextContent(Key.Left);
-        fireEvent.keyDown(container, { code: Key.Escape });
-        expect(container).not.toHaveTextContent(Key.Escape);
+        fireEvent.keyDown(container, { code: Key.C, altKey: true });
+        expect(container).toHaveTextContent(Key.C);
     });
     test('registrerer ikke tastetrykk når et inputelement har fokus', () => {
         render(<Consumer />);
@@ -45,5 +46,7 @@ describe('useKeyboard', () => {
         expect(input).toHaveFocus();
         fireEvent.keyDown(container, { code: Key.Right });
         expect(container).not.toHaveTextContent(Key.Right);
+        fireEvent.keyDown(container, { code: Key.C, altKey: true });
+        expect(container).not.toHaveTextContent(Key.C);
     });
 });
