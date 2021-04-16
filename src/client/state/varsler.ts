@@ -81,8 +81,9 @@ export const useAddEphemeralVarsel = () => {
     const removeVarsel = useRemoveVarsel();
 
     return (varsel: VarselObject, timeToLiveMs: number) => {
+        console.log(varsel);
         addVarsel({ ...varsel, ephemeral: true });
-        setTimeout(() => removeVarsel(varsel.key), timeToLiveMs);
+        // setTimeout(() => removeVarsel(varsel.key), timeToLiveMs);
     };
 };
 

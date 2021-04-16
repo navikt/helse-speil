@@ -38,7 +38,7 @@ export const Varsler = () => {
     const constant = varsler.filter((it) => !it.ephemeral);
     const ephemeral = varsler.filter((it) => it.ephemeral);
     return (
-        <Container>
+        <Container className="varslerStateVaffels">
             {constant.map(({ key, type, message, technical }) => (
                 <TechnicalVarsel key={key} type={type} message={message} technical={technical} />
             ))}

@@ -7,8 +7,8 @@ import { EksternBehandlingstatistikk } from 'external-types';
 import { selector, useRecoilValueLoadable } from 'recoil';
 import { tilPeriodetype } from '../../../mapping/periodetype';
 import { Statistikkboks } from './Statistikkboks';
-import { Behandlingstypeetikett} from './Behandlingstypeetikett';
-import {Oppgaveetikett} from "../Oppgaveetikett";
+import { Behandlingstypeetikett } from './Behandlingstypeetikett';
+import { Oppgaveetikett } from '../Oppgaveetikett';
 
 const behandlingsstatistikkState = selector<Statistikk>({
     key: 'behandlingsstatistikkState',
@@ -27,7 +27,6 @@ export const Behandlingsstatistikk = () => {
         loadableStatistikk.state === 'hasValue' ? (loadableStatistikk.contents as Statistikk) : undefined;
 
     const Container = styled.div`
-        border-left: 1px solid var(--navds-color-border);
         padding: 1.5rem;
     `;
 
@@ -56,7 +55,13 @@ export const Behandlingsstatistikk = () => {
                         upperBound={statistikk.antallOppgaverTilGodkjenning.totalt}
                         elementer={statistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
                             ({ periodetype, antall }) => ({
-                                etikett: <Oppgaveetikett type={periodetype} størrelse={'s'} style={{marginRight: '1.25rem'}} />,
+                                etikett: (
+                                    <Oppgaveetikett
+                                        type={periodetype}
+                                        størrelse={'s'}
+                                        style={{ marginRight: '1.25rem' }}
+                                    />
+                                ),
                                 antall: antall,
                             })
                         )}
@@ -66,7 +71,9 @@ export const Behandlingsstatistikk = () => {
                         tittel={'TILDELTE SAKER'}
                         upperBound={statistikk.antallTildelteOppgaver.totalt}
                         elementer={statistikk.antallTildelteOppgaver.perPeriodetype.map(({ periodetype, antall }) => ({
-                            etikett: <Oppgaveetikett type={periodetype} størrelse={'s'} style={{marginRight: '1.25rem'}}/>,
+                            etikett: (
+                                <Oppgaveetikett type={periodetype} størrelse={'s'} style={{ marginRight: '1.25rem' }} />
+                            ),
                             antall: antall,
                         }))}
                     />

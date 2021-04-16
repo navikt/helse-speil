@@ -34,15 +34,16 @@ const Oversiktstabell = styled(Tabell)`
     thead tr th {
         border-color: var(--navds-color-border);
         padding: 0 1rem 1.5rem 1rem;
-        
-        &, button {
+
+        &,
+        button {
             font-size: 1rem;
             font-weight: normal;
         }
     }
     tbody tr {
         :nth-of-type(2n + 1) {
-            background-color: #F8F8F8;
+            background-color: #f8f8f8;
         }
         td {
             white-space: nowrap;
@@ -102,6 +103,10 @@ const useVisDefaultUfordelteOppgaverFiltering = (filtrering: UseTabellFiltrering
     }, []);
 };
 
+const Scrollable = styled(Container)`
+    overflow: auto hidden;
+`;
+
 export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     const aktivTab = useRecoilValue(tabState);
     const aktiveFiltere = useRecoilValue(filtreringState);
@@ -154,7 +159,9 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
 
     return (
         <Container>
-            <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
+            <Scrollable>
+                <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
+            </Scrollable>
             <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
         </Container>
     );

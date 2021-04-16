@@ -21,22 +21,25 @@ import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatis
 const Container = styled.div`
     height: 100%;
     position: relative;
-    overflow: hidden;
     flex: 1;
 `;
 
 const Content = styled(Panel)`
     margin: 1.5rem;
     padding: 0;
-    color: var(--navds-color-text-primary);
     overflow: auto;
-    height: inherit;
+    color: var(--navds-color-text-primary);
     box-sizing: border-box;
     width: 100%;
 `;
 
 const Spinner = styled(NavFrontendSpinner)`
     margin-left: 1rem;
+`;
+
+const VertikalStrek = styled.div`
+    width: 1px;
+    background: var(--navds-color-border);
 `;
 
 const useFiltrerteOppgaver = () => {
@@ -110,13 +113,14 @@ export const Oversikt = () => {
             {oppgaver.state === 'hasError' && (
                 <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
             )}
-            <Flex style={{height: 'inherit'}}>
+            <Flex style={{ overflow: 'hidden auto' }}>
                 <Content>
                     <Tabs />
                     <OppgaverTabell
                         oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
                     />
                 </Content>
+                <VertikalStrek></VertikalStrek>
                 <Behandlingsstatistikk />
             </Flex>
         </Container>

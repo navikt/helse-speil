@@ -7,7 +7,7 @@ const passeLenge = () => Math.random() * 500 + 200;
 export default {
     postTildeling: (tildeling: Tildeling): Promise<any> =>
         sleep(passeLenge()).then(() => {
-            return Math.random() < 1
+            return Math.random() < 0.1
                 ? request.post(`http://localhost:9001/api/tildeling/${tildeling.oppgavereferanse}`)
                 : Promise.reject({
                       feilkode: 409,
