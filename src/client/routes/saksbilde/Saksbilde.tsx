@@ -5,7 +5,7 @@ import { LoggProvider } from './logg/LoggProvider';
 import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
-import { UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { usePerson } from '../../state/person';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
@@ -15,10 +15,11 @@ import { usePollEtterOpptegnelser } from '../../io/polling';
 import '@navikt/helse-frontend-logg/lib/main.css';
 import { erTidslinjeperiode, Tidslinjeperiode } from '../../modell/UtbetalingshistorikkElement';
 import { SaksbildeUfullstendigVedtaksperiode } from './saksbilder/SaksbildeUfullstendigVedtaksperiode';
-import { LasterSaksbilde } from './saksbilder/SaksbildeLaster';
 import { SaksbildeVedtaksperiode } from './saksbilder/SaksbildeVedtaksperiode';
 import { SaksbildeRevurdering } from './saksbilder/SaksbildeRevurdering';
 import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
+import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
+import { LasterTidslinje, Tidslinje } from '../../components/tidslinje';
 
 export const getErrorMelding = (tilstand: Vedtaksperiodetilstand) => {
     const vedtaksperiodetilstandErrorMessage = getVedtaksperiodeTilstandError(tilstand);
@@ -67,7 +68,7 @@ export const getVedtaksperiodeTilstandError = (tilstand: Vedtaksperiodetilstand)
     }
 };
 
-export const SaksbildeContainer = styled.div`
+const SaksbildeContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -85,27 +86,19 @@ export const LoggHeader = styled(EksternLoggheader)`
     }
 `;
 
-const SaksbildeContent = () => {
+interface SaksbildeSwitchProps {
+    personTilBehandling: Person;
+}
+
+const SaksbildeSwitch = ({ personTilBehandling }: SaksbildeSwitchProps) => {
     const aktivPeriode: Vedtaksperiode | UfullstendigVedtaksperiode | Tidslinjeperiode | undefined = useAktivPeriode();
-    const personTilBehandling = usePerson();
 
     const { path } = useRouteMatch();
 
-    usePollEtterOpptegnelser();
-    useVarselFilter(Scopes.SAKSBILDE);
-    useRefreshPersonVedUrlEndring();
-    useRefreshPersonVedOpptegnelse();
-
-    if (!personTilBehandling) return <LasterSaksbilde />;
-    if (!aktivPeriode) return <TomtSaksbilde person={personTilBehandling} />;
+    if (!aktivPeriode) return <TomtSaksbilde />;
 
     if (erTidslinjeperiode(aktivPeriode)) {
-        return (
-            <SaksbildeRevurdering
-                personTilBehandling={personTilBehandling}
-                aktivPeriode={aktivPeriode as Tidslinjeperiode}
-            />
-        );
+        return <SaksbildeRevurdering aktivPeriode={aktivPeriode as Tidslinjeperiode} />;
     }
     return aktivPeriode.fullstendig ? (
         <SaksbildeVedtaksperiode
@@ -114,10 +107,7 @@ const SaksbildeContent = () => {
             path={path}
         />
     ) : (
-        <SaksbildeUfullstendigVedtaksperiode
-            personTilBehandling={personTilBehandling}
-            aktivVedtaksperiode={aktivPeriode as UfullstendigVedtaksperiode}
-        />
+        <SaksbildeUfullstendigVedtaksperiode aktivVedtaksperiode={aktivPeriode as UfullstendigVedtaksperiode} />
     );
 };
 
@@ -129,6 +119,30 @@ export const Saksbilde = () => (
             </LoggProvider>
         </React.Suspense>
     </ErrorBoundary>
+);
+
+const SaksbildeContent = () => {
+    const personTilBehandling = usePerson();
+    useRefreshPersonVedUrlEndring();
+    useRefreshPersonVedOpptegnelse();
+    usePollEtterOpptegnelser();
+    useVarselFilter(Scopes.SAKSBILDE);
+
+    if (!personTilBehandling) return <LasterSaksbilde />;
+    return (
+        <SaksbildeContainer className="saksbilde">
+            <Personlinje person={personTilBehandling} />
+            <Tidslinje person={personTilBehandling} />
+            <SaksbildeSwitch personTilBehandling={personTilBehandling} />
+        </SaksbildeContainer>
+    );
+};
+
+const LasterSaksbilde = () => (
+    <SaksbildeContainer className="saksbilde" data-testid="laster-saksbilde">
+        <LasterPersonlinje />
+        <LasterTidslinje />
+    </SaksbildeContainer>
 );
 
 export default Saksbilde;

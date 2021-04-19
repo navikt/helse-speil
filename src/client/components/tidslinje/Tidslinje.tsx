@@ -23,6 +23,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../Button';
+import { useEffect } from 'react';
+import { aktivPeriodeState } from '../../state/tidslinje';
 
 dayjs.locale('nb');
 
@@ -156,6 +158,12 @@ export const Tidslinje = ({ person }: Props) => {
     let alleRaderIndex = 0;
     let allePerioderIndex = 0;
     const nestePeriodeIndex = () => allePerioderIndex++;
+
+    const aktivPeriode = useRecoilValue(aktivPeriodeState);
+
+    useEffect(() => {
+        allePerioderIndex = 0;
+    }, [aktivPeriode]);
 
     const tidslinjeradOffset = 250;
 

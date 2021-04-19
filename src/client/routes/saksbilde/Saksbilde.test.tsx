@@ -82,11 +82,12 @@ describe('Saksbilde', () => {
         ]);
 
         render(<Saksbilde />, { wrapper: wrapper(personMedUfullstendigVedtaksperiode) });
-        userEvent.click(screen.getByTestId('tidslinjeperiode-0').getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.getByTestId('tidslinjeperiode-0')).toBeVisible();
-            expect(screen.getByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeVisible();
+            userEvent.click(screen.getByTestId('tidslinjeperiode-0').getElementsByTagName('button')[0]);
 
+            expect(screen.getByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeVisible();
+            expect(screen.getByTestId('tidslinjeperiode-0')).toBeVisible();
             expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('saksbilde-revurdering')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
@@ -112,13 +113,12 @@ describe('Saksbilde', () => {
         ]);
 
         render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
-
-        userEvent.click(screen.getByTestId(`tidslinjeperiode-0`).getElementsByTagName('button')[0]);
-
         await waitFor(() => {
+            expect(screen.getByTestId('tidslinjeperiode-0')).toBeVisible();
+            userEvent.click(screen.getByTestId(`tidslinjeperiode-0`).getElementsByTagName('button')[0]);
+
             expect(screen.getByTestId('saksbilde-revurdering')).toBeVisible();
             expect(screen.getByTestId('tidslinjeperiode-0')).toBeVisible();
-
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();

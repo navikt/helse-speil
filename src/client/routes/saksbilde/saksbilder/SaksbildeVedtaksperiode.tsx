@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { Tidslinje } from '../../../components/tidslinje';
-import { Personlinje } from '../../../components/Personlinje';
 import { Route, Switch } from 'react-router-dom';
 import { Vilkår } from '../vilkår/Vilkår';
 import { Utbetaling } from '../utbetaling/Utbetaling';
@@ -18,7 +16,8 @@ import { Faresignaler } from '../faresignaler/Faresignaler';
 import { Utbetalingshistorikk } from '../utbetalingshistorikk/Utbetalingshistorikk';
 
 import '@navikt/helse-frontend-logg/lib/main.css';
-import { getErrorMelding, LoggHeader, SaksbildeContainer } from '../Saksbilde';
+import { getErrorMelding, LoggHeader } from '../Saksbilde';
+import { useArbeidsgiverOrganisasjonsnummer } from '../../../modell/Arbeidsgiver';
 
 interface SaksbildeVedtaksperiodeProps {
     personTilBehandling: Person;
@@ -91,14 +90,12 @@ export const SaksbildeVedtaksperiode = ({
     const over67år = (aktivVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
-        <SaksbildeContainer className="saksbilde" data-testid="saksbilde-vedtaksperiode">
-            <Personlinje person={personTilBehandling} />
+        <div data-testid="saksbilde-vedtaksperiode">
             <Switch>
                 <Route path={`${path}/utbetalingshistorikk`}>
                     <Utbetalingshistorikk person={personTilBehandling} />
                 </Route>
                 <Route>
-                    <Tidslinje person={personTilBehandling} />
                     <Flex justifyContent="space-between" style={{ width: '100vw' }} flex={1}>
                         <AutoFlexContainer>
                             <Sakslinje
@@ -157,6 +154,6 @@ export const SaksbildeVedtaksperiode = ({
                     </Flex>
                 </Route>
             </Switch>
-        </SaksbildeContainer>
+        </div>
     );
 };
