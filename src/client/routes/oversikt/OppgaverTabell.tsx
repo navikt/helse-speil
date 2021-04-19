@@ -33,7 +33,7 @@ const Oversiktstabell = styled(Tabell)`
 
     thead tr th {
         border-color: var(--navds-color-border);
-        padding: 0 1rem 1.5rem 1rem;
+        padding: 1rem 1rem 1.5rem 1rem;
 
         &,
         button {
