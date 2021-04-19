@@ -85,8 +85,7 @@ export const SaksbildeVedtaksperiode = ({
     const fom = aktivVedtaksperiode.fom;
     const tom = aktivVedtaksperiode.tom;
     const arbeidsgivernavn = aktivVedtaksperiode.arbeidsgivernavn;
-    const organisasjonsnummer =
-        aktivVedtaksperiode.inntektsgrunnlag?.organisasjonsnummer ?? 'Ukjent organisasjonsnummer';
+    const organisasjonsnummer = useArbeidsgiverOrganisasjonsnummer(aktivVedtaksperiode.id);
     const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt;
     const maksdato = aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato;
     const over67år = (aktivVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
