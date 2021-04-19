@@ -96,7 +96,7 @@ export const SaksbildeVedtaksperiode = ({
                     <Utbetalingshistorikk person={personTilBehandling} />
                 </Route>
                 <Route>
-                    <Flex justifyContent="space-between" style={{ width: '100vw' }} flex={1}>
+                    <Flex justifyContent="space-between" flex={1}>
                         <AutoFlexContainer>
                             <Sakslinje
                                 aktivVedtaksperiode={true}

@@ -72,7 +72,7 @@ const SaksbildeContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    overflow: visible;
+    overflow: auto;
 `;
 
 export const LoggHeader = styled(EksternLoggheader)`
