@@ -34,15 +34,16 @@ const Oversiktstabell = styled(Tabell)`
     thead tr th {
         border-color: var(--navds-color-border);
         padding: 0 1rem 1.5rem 1rem;
-        
-        &, button {
+
+        &,
+        button {
             font-size: 1rem;
             font-weight: normal;
         }
     }
     tbody tr {
         :nth-of-type(2n + 1) {
-            background-color: #F8F8F8;
+            background-color: #f8f8f8;
         }
         td {
             white-space: nowrap;
@@ -152,9 +153,19 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
         tabell.paginering?.set((p) => ({ ...p, sidenummer: 1 }));
     }, [aktivTab, aktiveFiltere]);
 
+    const ScrollableX = styled.div`
+        overflow: auto hidden;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+    `;
+
     return (
         <Container>
-            <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
+            <ScrollableX>
+                <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
+            </ScrollableX>
             <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
         </Container>
     );

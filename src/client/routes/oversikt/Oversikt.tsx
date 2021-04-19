@@ -19,20 +19,18 @@ import { Flex } from '../../components/Flex';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 
 const Container = styled.div`
-    height: 100%;
     position: relative;
-    overflow: hidden;
     flex: 1;
+    overflow-x: hidden;
 `;
 
 const Content = styled(Panel)`
     margin: 1.5rem;
     padding: 0;
     color: var(--navds-color-text-primary);
-    overflow: auto;
-    height: inherit;
+    overflow: auto hidden;
     box-sizing: border-box;
-    width: 100%;
+    flex: 1;
 `;
 
 const Spinner = styled(NavFrontendSpinner)`
@@ -105,18 +103,25 @@ export const Oversikt = () => {
         }
     }, []);
 
+    const Strek = styled.div`
+        min-height: calc(100vh - 50px);
+        width: 1px;
+        background-color: var(--navds-color-border);
+    `;
+
     return (
         <Container>
             {oppgaver.state === 'hasError' && (
                 <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
             )}
-            <Flex style={{height: 'inherit'}}>
+            <Flex>
                 <Content>
                     <Tabs />
                     <OppgaverTabell
                         oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
                     />
                 </Content>
+                <Strek />
                 <Behandlingsstatistikk />
             </Flex>
         </Container>
