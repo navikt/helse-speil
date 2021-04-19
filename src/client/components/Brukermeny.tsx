@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import NavFrontendChevron, { NedChevron } from 'nav-frontend-chevron';
+import NavFrontendChevron from 'nav-frontend-chevron';
 import styled from '@emotion/styled';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import Lenke from 'nav-frontend-lenker';
-import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { Element, Undertekst } from 'nav-frontend-typografi';
+import { TekstMedEllipsis } from './TekstMedEllipsis';
 
 const BrukermenyContainer = styled.div`
     margin-left: 16px;
@@ -28,9 +29,9 @@ const Strek = styled.hr`
     background-color: var(--navds-color-gray-40);
 `;
 
-const MenyNavn = styled(Normaltekst)`
+const MenyNavn = styled(TekstMedEllipsis)`
     color: var(--navds-color-text-secondary);
-    min-width: 180px;
+    width: 190px;
 `;
 
 const BrukerLenke = styled(Lenke)`
@@ -65,7 +66,7 @@ const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
     return (
         <BrukermenyContainer>
             <MenyNavn>{navn}</MenyNavn>
-            <Neddropp onClick={(e) => anchor ? setAnchor(undefined) : setAnchor(e.currentTarget)}>
+            <Neddropp onClick={(e) => (anchor ? setAnchor(undefined) : setAnchor(e.currentTarget))}>
                 <NavFrontendChevron type={anchor ? 'opp' : 'ned'} />
             </Neddropp>
             <Popover
