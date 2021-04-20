@@ -9,7 +9,7 @@ const utvidetTilganger = [...faktiskSupportsaksbehandlere, 'O146470', 'T142719',
 
 export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
-export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
+export const erDev = () => location.hostname === 'speil.dev.intern.nav.no' || erPreprod();
 const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
@@ -33,7 +33,7 @@ const erJakob = () => extractIdent() === 'E156407';
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erPreprod();
 export const overstyrbareTabellerEnabled = true;
-export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erPreprod();
+export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erDev();
 export const annulleringerEnabled =
     erPreprod() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
