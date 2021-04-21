@@ -6,7 +6,7 @@ import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
 import dayjs from 'dayjs';
 import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorikk';
-import { useSykepengegrunnlag } from './person';
+const personActual = jest.requireActual('./person');
 
 const wrapper: React.FC = ({ children }) => <RecoilRoot>{children} </RecoilRoot>;
 const person = mappetPerson([
@@ -28,19 +28,16 @@ const person = mappetPerson([
     ),
 ]);
 
-jest.mock('./person', () => ({
-    usePerson: () => person,
-}));
-
 jest.mock('nanoid', () => ({
     nanoid: () => 'nanoid',
 }));
 
 describe('sykepengrunnlagHook', () => {
     it('henter sykepengegrunnlag', () => {
+        personActual.usePerson = jest.fn(() => person);
         const { result } = renderHook(
             () => {
-                return useSykepengegrunnlag('id1');
+                return personActual.useSykepengegrunnlag('id1');
             },
             { wrapper }
         );

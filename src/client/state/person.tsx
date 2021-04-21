@@ -103,11 +103,10 @@ export const useHentPerson = () => {
     };
 };
 
-export const useIsLoadingPerson = () => useRecoilValue(loadingPersonState);
-
 export const useSykepengegrunnlag = (beregningId: string) => {
-    const person = usePerson();
-    return (person?.arbeidsgivere
-        .flatMap((a) => a.vedtaksperioder)
+    return (usePerson()
+        ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
         .find((v) => v.beregningIder?.find((id) => id === beregningId)) as Vedtaksperiode)?.vilkår?.sykepengegrunnlag;
 };
+
+export const useIsLoadingPerson = () => useRecoilValue(loadingPersonState);
