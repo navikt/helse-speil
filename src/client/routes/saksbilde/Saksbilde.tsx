@@ -91,7 +91,7 @@ export const LoggHeader = styled(EksternLoggheader)`
 `;
 
 export const kopiertFødelsnummerToast = ({
-    message = 'Fødselsnummer kopiert',
+    message = 'Fødselsnummer er kopiert',
     timeToLiveMs = 3000,
 }: Partial<ToastObject>): ToastObject => ({
     key: 'kopierFødselsnummerToastKey',

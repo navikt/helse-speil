@@ -131,7 +131,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             <Element>{`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`}</Element>
             <Separator>/</Separator>
             {fnr ? (
-                <Clipboard preserveWhitespace={false} copyMessage="Personnummer er kopiert">
+                <Clipboard preserveWhitespace={false} copyMessage="Fødselsnummer er kopiert">
                     <Normaltekst>{formatFnr(fnr)}</Normaltekst>
                 </Clipboard>
             ) : (
