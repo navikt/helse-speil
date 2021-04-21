@@ -1,24 +1,24 @@
 import React from 'react';
-import {Element, Normaltekst} from 'nav-frontend-typografi';
-import {NORSK_DATOFORMAT} from '../../utils/date';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-import {Link} from 'react-router-dom';
-import {Oppgaveetikett} from './Oppgaveetikett';
-import {IkkeTildelt, Tildelt} from './tildeling';
-import {useRemoveAlleVarsler} from '../../state/varsler';
-import {somDato} from '../../mapping/vedtaksperiode';
-import {Tabellrad} from '@navikt/helse-frontend-tabell';
-import {TekstMedEllipsis} from '../../components/TekstMedEllipsis';
-import {useSkalAnonymiserePerson} from '../../state/person';
-import {anonymisertPersoninfo} from '../../agurkdata';
-import {Inntektskilde, Oppgave, Personinfo, TildeltOppgave} from 'internal-types';
-import {Tooltip} from '../../components/Tooltip';
-import {useInnloggetSaksbehandler} from '../../state/authentication';
-import {Meatball} from "@navikt/helse-frontend-meatball";
-import "@navikt/helse-frontend-meatball/lib/main.css"
-import {Dropdown} from "../../components/dropdown/Dropdown";
-import {Tildelingsknapp} from "../saksbilde/sakslinje/Tildelingsknapp";
-import {PåVentKnapp} from "../saksbilde/sakslinje/PåVentKnapp";
+import { Link } from 'react-router-dom';
+import { Oppgaveetikett } from './Oppgaveetikett';
+import { IkkeTildelt, Tildelt } from './tildeling';
+import { useRemoveAlleVarsler } from '../../state/varsler';
+import { somDato } from '../../mapping/vedtaksperiode';
+import { Tabellrad } from '@navikt/helse-frontend-tabell';
+import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
+import { useSkalAnonymiserePerson } from '../../state/person';
+import { anonymisertPersoninfo } from '../../agurkdata';
+import { Inntektskilde, Oppgave, Personinfo, TildeltOppgave } from 'internal-types';
+import { Tooltip } from '../../components/Tooltip';
+import { useInnloggetSaksbehandler } from '../../state/authentication';
+import { Meatball } from '@navikt/helse-frontend-meatball';
+import '@navikt/helse-frontend-meatball/lib/main.css';
+import { Dropdown } from '../../components/dropdown/Dropdown';
+import { Tildelingsknapp } from '../saksbilde/sakslinje/Tildelingsknapp';
+import { PåVentKnapp } from '../saksbilde/sakslinje/PåVentKnapp';
 
 const formatertNavn = (personinfo: Personinfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
@@ -57,6 +57,7 @@ const SkjultLenke = styled(Link)`
     width: 100%;
     height: 100%;
     margin-left: -1rem;
+    padding: 0 1.5rem 0 1rem;
     outline: none;
 `;
 
@@ -97,13 +98,17 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     return (
-        <CellContainer width={128} data-for={'tabell-søker-tooltip'} data-tip={formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}>
-            <TekstMedEllipsis >
+        <CellContainer
+            width={128}
+            data-for={'tabell-søker-tooltip'}
+            data-tip={formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
+        >
+            <TekstMedEllipsis>
                 <SkjultSakslenke oppgave={oppgave} />
-                    {formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
+                {formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
             </TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
-            <Tooltip id={'tabell-søker-tooltip'}/>
+            <Tooltip id={'tabell-søker-tooltip'} />
         </CellContainer>
     );
 };
@@ -126,10 +131,14 @@ const Bosted = ({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     return (
-        <CellContainer width={128} data-for={'tabell-bosted-tooltip'} data-tip={anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}>
+        <CellContainer
+            width={128}
+            data-for={'tabell-bosted-tooltip'}
+            data-tip={anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}
+        >
             <TekstMedEllipsis>{anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}</TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
-            <Tooltip id={'tabell-bosted-tooltip'}/>
+            <Tooltip id={'tabell-bosted-tooltip'} />
         </CellContainer>
     );
 };
@@ -142,12 +151,12 @@ const Status = ({ oppgave }: { oppgave: Oppgave }) => (
 );
 
 const TildeltMedSkjultSakslenke = ({ oppgave }: { oppgave: Oppgave }) => {
-    const tildeltTilNavn = (oppgave as TildeltOppgave).tildeling.saksbehandler.navn
+    const tildeltTilNavn = (oppgave as TildeltOppgave).tildeling.saksbehandler.navn;
     return (
         <CellContainer width={128} data-tip={tildeltTilNavn} data-for={'tabell-tildelt-til-tooltip'}>
-            <Tildelt tildeltBrukernavn={tildeltTilNavn}/>
-            <SkjultSakslenke oppgave={oppgave}/>
-            <Tooltip id={'tabell-tildelt-til-tooltip'}/>
+            <Tildelt tildeltBrukernavn={tildeltTilNavn} />
+            <SkjultSakslenke oppgave={oppgave} />
+            <Tooltip id={'tabell-tildelt-til-tooltip'} />
         </CellContainer>
     );
 };
@@ -156,12 +165,12 @@ interface KjøttbolleProps {
     oppgave: Oppgave;
 }
 
-const Kjøttbolle = ({oppgave}: KjøttbolleProps) => {
+const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
     const saksbehandler = useInnloggetSaksbehandler();
 
     const StyledMeatball = styled(Meatball)`
         margin: 0.5rem 0;
-    `
+    `;
 
     const erTildeltInnloggetBruker = oppgave.tildeling?.saksbehandler?.oid === saksbehandler.oid;
 
@@ -174,17 +183,18 @@ const Kjøttbolle = ({oppgave}: KjøttbolleProps) => {
     return (
         <CellContainer>
             <span data-tip="Mer" data-for={'kjottbolle'}>
-                <StyledDropdown labelRenderer={(_, onClick) => <StyledMeatball onClick={onClick}/>}>
+                <StyledDropdown labelRenderer={(_, onClick) => <StyledMeatball onClick={onClick} />}>
                     <Tildelingsknapp
                         oppgavereferanse={oppgave.oppgavereferanse}
                         tildeling={oppgave.tildeling}
                         erTildeltInnloggetBruker={erTildeltInnloggetBruker}
                     />
-                    {erTildeltInnloggetBruker &&
-                    <PåVentKnapp erPåVent={oppgave.tildeling?.påVent} oppgavereferanse={oppgave.oppgavereferanse}/>}
+                    {erTildeltInnloggetBruker && (
+                        <PåVentKnapp erPåVent={oppgave.tildeling?.påVent} oppgavereferanse={oppgave.oppgavereferanse} />
+                    )}
                 </StyledDropdown>
             </span>
-            <Tooltip id={'kjottbolle'} effect={'solid'} offset={{top: -10}}/>
+            <Tooltip id={'kjottbolle'} effect={'solid'} offset={{ top: -10 }} />
         </CellContainer>
     );
 };
@@ -225,7 +235,7 @@ export const renderer = (rad: Tabellrad): Tabellrad => {
             <Status oppgave={oppgave} />,
             <Søker oppgave={oppgave} />,
             <Opprettet oppgave={oppgave} />,
-            <Kjøttbolle oppgave={oppgave}/>
+            <Kjøttbolle oppgave={oppgave} />,
         ],
     };
 };
