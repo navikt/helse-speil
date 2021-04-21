@@ -5,7 +5,7 @@ import '@navikt/helse-frontend-logg/lib/main.css';
 import { Tidslinjeperiode, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
 import { useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { LoggHeader } from '../Saksbilde';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
@@ -13,6 +13,7 @@ import { TilRevurderingIkon } from '../../../components/ikoner/Tidslinjeperiodei
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Dayjs } from 'dayjs';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
+import { Clipboard } from '../../../components/clipboard';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -80,7 +81,7 @@ interface SaksbildeRevurderingProps {
 }
 
 export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps) => {
-    const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer);
+    const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent';
     const maksdato = useMaksdato(aktivPeriode.beregningId);
     return (
         <Flex justifyContent="space-between" data-testid="saksbilde-revurdering">
@@ -96,7 +97,12 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                     over67År={undefined}
                 />
                 <Flex style={{ height: '100%' }}>
-                    <VenstreMeny aktivPeriode={aktivPeriode} maksDato={maksdato} />
+                    <VenstreMeny
+                        aktivPeriode={aktivPeriode}
+                        maksDato={maksdato}
+                        arbeidsgivernavn={arbeidsgivernavn}
+                        organisasjonsnummer={aktivPeriode.organisasjonsnummer}
+                    />
                     <VertikalStrek />
                 </Flex>
             </AutoFlexContainer>
@@ -108,9 +114,11 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
 interface VenstreMenyProps {
     aktivPeriode: Tidslinjeperiode;
     maksDato?: Dayjs;
+    arbeidsgivernavn: string;
+    organisasjonsnummer: string;
 }
 
-const VenstreMeny = ({ aktivPeriode, maksDato }: VenstreMenyProps) => {
+const VenstreMeny = ({ aktivPeriode, maksDato, arbeidsgivernavn, organisasjonsnummer }: VenstreMenyProps) => {
     const periode = `${aktivPeriode.fom.format(NORSK_DATOFORMAT_KORT)} - ${aktivPeriode.tom.format(
         NORSK_DATOFORMAT_KORT
     )}`;
@@ -119,18 +127,49 @@ const VenstreMeny = ({ aktivPeriode, maksDato }: VenstreMenyProps) => {
 
     return (
         <Arbeidsflate>
-            <Kort>
-                <Korttittel>
-                    <FargetBoks>
-                        <TilRevurderingIkon />
-                    </FargetBoks>
-                    REVURDERING
-                </Korttittel>
-                <IkonOgTekst tekst={periode} Ikon={<Sykmeldingsperiodeikon />} />
-                <IkonOgTekst tekst={maksdato} Ikon={<Maksdatoikon />} />
-                <IkonOgTekst tekst={skjæringstidspunkt} Ikon={<Skjæringstidspunktikon />} />
-            </Kort>
+            <PeriodeKort periode={periode} maksdato={maksdato} skjæringstidspunkt={skjæringstidspunkt} />
+            <ArbeidsgiverKort arbeidsgivernavn={arbeidsgivernavn} organisasjonsnummer={organisasjonsnummer} />
         </Arbeidsflate>
+    );
+};
+
+interface PeriodeKortProps {
+    periode: string;
+    maksdato: string;
+    skjæringstidspunkt: string;
+}
+
+const PeriodeKort = ({ periode, maksdato, skjæringstidspunkt }: PeriodeKortProps) => {
+    return (
+        <Kort>
+            <Korttittel>
+                <FargetBoks>
+                    <TilRevurderingIkon />
+                </FargetBoks>
+                <UndertekstBold>REVURDERING</UndertekstBold>
+            </Korttittel>
+            <IkonOgTekst tekst={periode} Ikon={<Sykmeldingsperiodeikon />} />
+            <IkonOgTekst tekst={maksdato} Ikon={<Maksdatoikon />} />
+            <IkonOgTekst tekst={skjæringstidspunkt} Ikon={<Skjæringstidspunktikon />} />
+        </Kort>
+    );
+};
+
+interface ArbeidsgiverKortProps {
+    arbeidsgivernavn: string;
+    organisasjonsnummer: string;
+}
+
+const ArbeidsgiverKort = ({ arbeidsgivernavn, organisasjonsnummer }: ArbeidsgiverKortProps) => {
+    return (
+        <Kort>
+            <Korttittel>
+                <UndertekstBold>{arbeidsgivernavn}</UndertekstBold>
+            </Korttittel>
+            <Clipboard preserveWhitespace={false} copyMessage="Organisasjonsnummer er kopiert">
+                <Normaltekst>{organisasjonsnummer}</Normaltekst>
+            </Clipboard>
+        </Kort>
     );
 };
 
