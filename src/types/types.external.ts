@@ -195,8 +195,6 @@ export interface SpesialistOppgave {
     oppgavereferanse: string;
     opprettet: string;
     vedtaksperiodeId: string;
-    periodeFom: string;
-    periodeTom: string;
     personinfo: SpesialistPersoninfo;
     fødselsnummer: string;
     aktørId: string;

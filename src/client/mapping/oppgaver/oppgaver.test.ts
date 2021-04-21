@@ -40,8 +40,6 @@ describe('oppgavemapper', () => {
 
 const oppgaveUtenTildeling: SpesialistOppgave = {
     oppgavetype: Oppgavetype.Søknad,
-    periodeFom: '2018-02-27',
-    periodeTom: '2018-03-15',
     oppgavereferanse: '123',
     opprettet: '2018-02-27T08:38:00.728127',
     fødselsnummer: '21023701901',
@@ -66,8 +64,6 @@ const oppgaveUtenTildeling: SpesialistOppgave = {
 
 const oppgaveMedildeling: SpesialistOppgave = {
     oppgavetype: Oppgavetype.Søknad,
-    periodeFom: '2018-02-27',
-    periodeTom: '2018-03-15',
     oppgavereferanse: '123',
     opprettet: '2018-02-27T08:38:00.728127',
     fødselsnummer: '21023701901',
