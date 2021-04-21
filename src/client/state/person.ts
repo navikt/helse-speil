@@ -1,5 +1,5 @@
-import { Person, Saksbehandler, Tildeling } from 'internal-types';
-import { atom, DefaultValue, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { Person, Saksbehandler, Tildeling, Vedtaksperiode } from 'internal-types';
+import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
 import { aktivPeriodeState } from './tidslinje';
@@ -104,3 +104,10 @@ export const useHentPerson = () => {
 };
 
 export const useIsLoadingPerson = () => useRecoilValue(loadingPersonState);
+
+export const useSykepengegrunnlag = (beregningId: string) => {
+    const person = usePerson();
+    return (person?.arbeidsgivere
+        .flatMap((a) => a.vedtaksperioder)
+        .find((v) => v.beregningIder?.find((id) => id === beregningId)) as Vedtaksperiode)?.vilkår?.sykepengegrunnlag;
+};

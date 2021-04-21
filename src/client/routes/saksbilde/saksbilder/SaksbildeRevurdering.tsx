@@ -14,6 +14,8 @@ import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Dayjs } from 'dayjs';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Clipboard } from '../../../components/clipboard';
+import { useSykepengegrunnlag } from '../../../state/person';
+import { somPenger } from '../../../utils/locale';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -21,6 +23,7 @@ const Arbeidsflate = styled.section`
     box-sizing: border-box;
     width: 17.5rem;
     padding: 2rem;
+    padding-right: 0;
 `;
 
 const VertikalStrek = styled.div`
@@ -129,6 +132,7 @@ const VenstreMeny = ({ aktivPeriode, maksDato, arbeidsgivernavn, organisasjonsnu
         <Arbeidsflate>
             <PeriodeKort periode={periode} maksdato={maksdato} skjæringstidspunkt={skjæringstidspunkt} />
             <ArbeidsgiverKort arbeidsgivernavn={arbeidsgivernavn} organisasjonsnummer={organisasjonsnummer} />
+            <UtbetalingKort beregningId={aktivPeriode.beregningId} />
         </Arbeidsflate>
     );
 };
@@ -169,6 +173,25 @@ const ArbeidsgiverKort = ({ arbeidsgivernavn, organisasjonsnummer }: Arbeidsgive
             <Clipboard preserveWhitespace={false} copyMessage="Organisasjonsnummer er kopiert">
                 <Normaltekst>{organisasjonsnummer}</Normaltekst>
             </Clipboard>
+        </Kort>
+    );
+};
+
+interface UtbetalingKortProps {
+    beregningId: string;
+}
+
+const UtbetalingKort = ({ beregningId }: UtbetalingKortProps) => {
+    const sykepengegrunnlag = useSykepengegrunnlag(beregningId);
+    return (
+        <Kort>
+            <Korttittel>
+                <UndertekstBold>TIL UTBETALING</UndertekstBold>
+            </Korttittel>
+            <Flex justifyContent="space-between">
+                <Normaltekst>Sykepengegrunnlag:</Normaltekst>
+                <Normaltekst>{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Normaltekst>
+            </Flex>
         </Kort>
     );
 };
