@@ -16,6 +16,7 @@ import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringsti
 import { Clipboard } from '../../../components/clipboard';
 import { useSykepengegrunnlag } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
+import { Dagtype } from 'internal-types';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -127,12 +128,13 @@ const VenstreMeny = ({ aktivPeriode, maksDato, arbeidsgivernavn, organisasjonsnu
     )}`;
     const skjæringstidspunkt = 'Ukjent';
     const maksdato = maksDato ? maksDato.format(NORSK_DATOFORMAT_KORT) : 'Ukjent maksdato';
+    const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
 
     return (
         <Arbeidsflate>
             <PeriodeKort periode={periode} maksdato={maksdato} skjæringstidspunkt={skjæringstidspunkt} />
             <ArbeidsgiverKort arbeidsgivernavn={arbeidsgivernavn} organisasjonsnummer={organisasjonsnummer} />
-            <UtbetalingKort beregningId={aktivPeriode.beregningId} />
+            <UtbetalingKort beregningId={aktivPeriode.beregningId} utbetalingsdagerTotalt={utbetalingsdagerTotalt} />
         </Arbeidsflate>
     );
 };
@@ -179,9 +181,10 @@ const ArbeidsgiverKort = ({ arbeidsgivernavn, organisasjonsnummer }: Arbeidsgive
 
 interface UtbetalingKortProps {
     beregningId: string;
+    utbetalingsdagerTotalt: number;
 }
 
-const UtbetalingKort = ({ beregningId }: UtbetalingKortProps) => {
+const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt }: UtbetalingKortProps) => {
     const sykepengegrunnlag = useSykepengegrunnlag(beregningId);
     return (
         <Kort>
@@ -191,6 +194,10 @@ const UtbetalingKort = ({ beregningId }: UtbetalingKortProps) => {
             <Flex justifyContent="space-between">
                 <Normaltekst>Sykepengegrunnlag:</Normaltekst>
                 <Normaltekst>{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Normaltekst>
+            </Flex>
+            <Flex justifyContent="space-between">
+                <Normaltekst>Totalt antall utbetalingdager:</Normaltekst>
+                <Normaltekst>{utbetalingsdagerTotalt}</Normaltekst>
             </Flex>
         </Kort>
     );
