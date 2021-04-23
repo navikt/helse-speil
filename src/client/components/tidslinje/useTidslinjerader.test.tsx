@@ -102,6 +102,9 @@ describe('tilPeriodetype', () => {
                 type: Utbetalingstype.REVURDERING,
                 utbetalingstidslinje: [],
                 maksdato: dayjs('2018-08-08'),
+                gjenståendeDager: 0,
+                forbrukteDager: 0,
+                nettobeløp: 0,
             },
             Periodetype.REVURDERING
         );
@@ -129,6 +132,9 @@ const nyttElement = (
                 type: erRevurdering ? Utbetalingstype.REVURDERING : Utbetalingstype.UTBETALING,
                 utbetalingstidslinje: utbetalingstidslinje(fom, tom),
                 maksdato: maksdato,
+                gjenståendeDager: 0,
+                forbrukteDager: 0,
+                nettobeløp: 0,
             },
         ],
         vedtaksperioder,

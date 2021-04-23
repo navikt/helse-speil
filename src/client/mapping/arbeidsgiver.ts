@@ -89,6 +89,9 @@ export class ArbeidsgiverBuilder {
                                     type: utbetalingstidslinjedag(dag.type),
                                 })),
                                 maksdato: dayjs(utbetaling.maksdato),
+                                gjenståendeDager: utbetaling.gjenståendeSykedager,
+                                nettobeløp: utbetaling.arbeidsgiverNettoBeløp,
+                                forbrukteDager: utbetaling.forbrukteSykedager,
                             })),
                             this.arbeidsgiver.vedtaksperioder ?? [],
                             this.arbeidsgiver.organisasjonsnummer!

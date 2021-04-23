@@ -41,6 +41,9 @@ export const umappetUtbetalingshistorikk = (
             ],
             maksdato: dag.add(2, 'month').format('YYYY-MM-DD'),
             type: erRevurdering ? 'REVURDERING' : 'UTBETALING',
+            gjenståendeSykedager: 0,
+            forbrukteSykedager: 0,
+            arbeidsgiverNettoBeløp: 0,
         },
     ],
 });

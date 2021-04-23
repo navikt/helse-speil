@@ -421,6 +421,9 @@ export interface UtbetalingshistorikkUtbetaling2 {
     type: Utbetalingstype;
     utbetalingstidslinje: Utbetalingsdag[];
     maksdato: Dayjs;
+    gjenståendeDager: number;
+    forbrukteDager: number;
+    nettobeløp: number;
 }
 
 export enum Utbetalingstype {

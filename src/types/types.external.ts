@@ -281,6 +281,9 @@ export interface EksternUtbetaling {
     type: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
     maksdato: string;
+    gjenståendeSykedager: number;
+    arbeidsgiverNettoBeløp: number;
+    forbrukteSykedager: number;
 }
 
 export interface SpesialistArbeidsgiver {
