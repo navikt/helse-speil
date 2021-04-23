@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import {
     Faresignal,
     Periodetype,
+    Risikovurdering,
     Risikovurdering as RisikovurderingType,
     Vedtaksperiode,
     Vilkår,

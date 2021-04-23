@@ -3,11 +3,11 @@ import styled from '@emotion/styled';
 import Element from 'nav-frontend-typografi/lib/element';
 import classNames from 'classnames';
 import { Tabell } from '@navikt/helse-frontend-tabell';
-import { Dagtype, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
+import { Dagtype, Periode, Utbetalingsdag } from 'internal-types';
 import { dato, gradering, ikon, merknad, totalGradering, type, utbetaling } from '../../../components/tabell/rader';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { toKronerOgØre } from '../../../utils/locale';
-import { maksdatoForPeriode } from '../../../mapping/selectors';
+import { Dayjs } from 'dayjs';
 
 type Utbetalingsceller = [
     ReactNode,
@@ -82,16 +82,14 @@ const TotalUtbetalingsdager = styled(Element)`
     }
 `;
 
-export const totalUtbetaling = (aktivVedtaksperiode: Vedtaksperiode | undefined): number => {
-    return (
-        aktivVedtaksperiode?.utbetalingstidslinje
-            .filter((dag: Utbetalingsdag) => dag.utbetaling && dag.type !== Dagtype.Avvist && dag.utbetaling > 0)
-            .reduce((a, b) => a + b.utbetaling!!, 0) ?? 0
-    );
+export const totalUtbetaling = (utbetalingstidslinje: Utbetalingsdag[]): number => {
+    return utbetalingstidslinje
+        .filter((dag: Utbetalingsdag) => dag.utbetaling && dag.type !== Dagtype.Avvist && dag.utbetaling > 0)
+        .reduce((a, b) => a + b.utbetaling!!, 0);
 };
-export const totaltAntallUtbetalingsdager = (aktivVedtaksperiode: Vedtaksperiode | undefined): number => {
+export const totaltAntallUtbetalingsdager = (utbetalingstidslinje: Utbetalingsdag[]): number => {
     return (
-        aktivVedtaksperiode?.utbetalingstidslinje.filter(
+        utbetalingstidslinje.filter(
             (dag: Utbetalingsdag) => dag.utbetaling && dag.type !== Dagtype.Avvist && dag.utbetaling > 0
         ).length ?? 0
     );
@@ -102,10 +100,14 @@ const UtbetalingTotal = styled(Element)`
     text-align: right;
 `;
 
-const genererTotalRad = (aktivVedtaksperiode: Vedtaksperiode | undefined): Utbetalingstabellrad => {
-    const totalBeløp = totalUtbetaling(aktivVedtaksperiode);
-    const antallDager = totaltAntallUtbetalingsdager(aktivVedtaksperiode);
-    const dagerIgjen = totaltAntallDagerIgjen(aktivVedtaksperiode);
+const genererTotalRad = (
+    maksdato: Dayjs | undefined,
+    gjenståendeDager: number | undefined,
+    utbetalingstidslinje: Utbetalingsdag[]
+): Utbetalingstabellrad => {
+    const totalBeløp = totalUtbetaling(utbetalingstidslinje);
+    const antallDager = totaltAntallUtbetalingsdager(utbetalingstidslinje);
+    const dagerIgjen = totaltAntallDagerIgjen(maksdato, gjenståendeDager, utbetalingstidslinje);
 
     const rad: Utbetalingsceller = [
         undefined,
@@ -116,7 +118,7 @@ const genererTotalRad = (aktivVedtaksperiode: Vedtaksperiode | undefined): Utbet
         undefined,
         undefined,
         <UtbetalingTotal>{`${toKronerOgØre(totalBeløp)} kr`}</UtbetalingTotal>,
-        <Element>{aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager ? dagerIgjen : ''}</Element>,
+        <Element>{gjenståendeDager ? dagerIgjen : ''}</Element>,
         undefined,
     ];
 
@@ -126,11 +128,15 @@ const genererTotalRad = (aktivVedtaksperiode: Vedtaksperiode | undefined): Utbet
     };
 };
 
-export const vedtaksperiodeDagerIgjen = (aktivVedtaksperiode: Vedtaksperiode | undefined): number[] => {
-    let dagerIgjenPåDato = totaltAntallDagerIgjen(aktivVedtaksperiode);
+export const periodeDagerIgjen = (
+    maksdato: Dayjs | undefined,
+    gjenståendeDager: number | undefined,
+    utbetalingstidslinje: Utbetalingsdag[]
+): number[] => {
+    let dagerIgjenPåDato = totaltAntallDagerIgjen(maksdato, gjenståendeDager, utbetalingstidslinje);
 
     return (
-        aktivVedtaksperiode?.utbetalingstidslinje.map((dag) => {
+        utbetalingstidslinje.map((dag) => {
             if (dag.type === Dagtype.Syk) {
                 dagerIgjenPåDato = dagerIgjenPåDato > 0 ? dagerIgjenPåDato - 1 : dagerIgjenPåDato;
             }
@@ -139,43 +145,55 @@ export const vedtaksperiodeDagerIgjen = (aktivVedtaksperiode: Vedtaksperiode | u
     );
 };
 
-export const totaltAntallDagerIgjen = (aktivVedtaksperiode: Vedtaksperiode | undefined): number => {
-    const maksdato = aktivVedtaksperiode?.vilkår?.dagerIgjen?.maksdato;
+export const totaltAntallDagerIgjen = (
+    maksdato: Dayjs | undefined,
+    gjenståendeDager: number | undefined,
+    utbetalingstidslinje: Utbetalingsdag[]
+): number => {
     return (
-        (aktivVedtaksperiode?.vilkår?.dagerIgjen.gjenståendeDager ?? 0) +
-        (aktivVedtaksperiode?.utbetalingstidslinje.filter(
-            (dag) => dag.type === Dagtype.Syk && maksdato && dag.dato.isSameOrBefore(maksdato)
-        ).length ?? 0)
+        (gjenståendeDager ?? 0) +
+        (utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk && maksdato && dag.dato.isSameOrBefore(maksdato))
+            .length ?? 0)
     );
 };
 
 interface UtbetalingsoversiktProps {
-    vedtaksperiode: Vedtaksperiode;
+    maksdato?: Dayjs;
+    gjenståendeDager?: number;
+    utbetalingstidslinje: Utbetalingsdag[];
+    periode: Periode;
 }
 
-export const Utbetalingsoversikt = ({ vedtaksperiode }: UtbetalingsoversiktProps) => {
-    const maksdato = vedtaksperiode && maksdatoForPeriode(vedtaksperiode);
-    const fom = vedtaksperiode.fom.format(NORSK_DATOFORMAT);
-    const tom = vedtaksperiode.tom.format(NORSK_DATOFORMAT);
-    const gjenståendeDagerErSatt = vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager !== undefined;
-    const dagerIgjenIVedtaksperiode: number[] = vedtaksperiodeDagerIgjen(vedtaksperiode);
+export const Utbetalingsoversikt = ({
+    maksdato,
+    gjenståendeDager,
+    utbetalingstidslinje,
+    periode,
+}: UtbetalingsoversiktProps) => {
+    const fom = periode.fom.format(NORSK_DATOFORMAT);
+    const tom = periode.tom.format(NORSK_DATOFORMAT);
+    const gjenståendeDagerErSatt = gjenståendeDager !== undefined;
+    const dagerIgjenIVedtaksperiode: number[] = periodeDagerIgjen(maksdato, gjenståendeDager, utbetalingstidslinje);
 
     const erMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isSame(maksdato, 'day');
     const erAvvist = (dag: Utbetalingsdag) => dag.type === Dagtype.Avvist;
 
     const tilUtbetalingsrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string) =>
-        erMaksdato(dag) && dag.dato.isBefore(vedtaksperiode.tom)
+        erMaksdato(dag) && dag.dato.isBefore(periode.tom)
             ? maksdatorad(dag, dagerIgjenForDato)
             : erAvvist(dag)
             ? avvistRad(dag, dagerIgjenForDato)
             : utbetalingstabellrad(dag, dagerIgjenForDato);
 
     const rader =
-        vedtaksperiode.utbetalingstidslinje.map((dag, i) =>
+        utbetalingstidslinje.map((dag, i) =>
             tilUtbetalingsrad(dag, gjenståendeDagerErSatt ? dagerIgjenIVedtaksperiode[i] : '')
         ) ?? [];
 
-    const raderPlussTotalRad: Utbetalingstabellrad[] = [genererTotalRad(vedtaksperiode), ...rader];
+    const raderPlussTotalRad: Utbetalingstabellrad[] = [
+        genererTotalRad(maksdato, gjenståendeDager, utbetalingstidslinje),
+        ...rader,
+    ];
 
     const headere = [
         { render: '' },
@@ -187,11 +205,18 @@ export const Utbetalingsoversikt = ({ vedtaksperiode }: UtbetalingsoversiktProps
         { render: <Element>Dager igjen</Element>, kolonner: 2 },
     ];
 
+    const Container = styled.section`
+        flex: 1;
+        padding: 2rem 0;
+    `;
+
     return (
-        <Utbetalingstabell
-            beskrivelse={`Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`}
-            rader={raderPlussTotalRad}
-            headere={headere}
-        />
+        <Container>
+            <Utbetalingstabell
+                beskrivelse={`Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`}
+                rader={raderPlussTotalRad}
+                headere={headere}
+            />
+        </Container>
     );
 };

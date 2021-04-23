@@ -6,7 +6,7 @@ import {
     totaltAntallUtbetalingsdager,
     totalUtbetaling,
     Utbetalingsoversikt,
-    vedtaksperiodeDagerIgjen,
+    periodeDagerIgjen,
 } from './Utbetalingsoversikt';
 import {
     mappetVedtaksperiode,
@@ -29,88 +29,120 @@ const enIkkeUtbetaltVedtaksperiode = async () => {
 };
 
 describe('Utbetalingsoversikt', () => {
-    test('Totalutbetaling blir 0 uten vedtaksperiode', () => {
-        const vedtaksperiode = undefined;
-        const utbetaling = totalUtbetaling(vedtaksperiode);
+    test('Totalutbetaling blir 0 med tom utbetalingstidslinje', () => {
+        const utbetaling = totalUtbetaling([]);
         expect(utbetaling).toBe(0);
     });
 
     test('Totalutbetaling regner ut riktig beløp', async () => {
         const vedtaksperiode = await enIkkeUtbetaltVedtaksperiode();
-        const utbetaling = totalUtbetaling(vedtaksperiode);
+        const utbetaling = totalUtbetaling(vedtaksperiode.utbetalingstidslinje);
         expect(utbetaling).toBe(34500);
     });
 
     test('Totalutbetaling regner ut riktig beløp ved en avvist dagtype', async () => {
         const vedtaksperiode = await enIkkeUtbetaltVedtaksperiode();
         vedtaksperiode.utbetalingstidslinje[0].type = Dagtype.Avvist;
-        const utbetaling = totalUtbetaling(vedtaksperiode);
+        const utbetaling = totalUtbetaling(vedtaksperiode.utbetalingstidslinje);
         expect(utbetaling).toBe(33000);
     });
 
-    test('Totalutbetalingsdager blir 0 uten vedtaksperiode', () => {
-        const vedtaksperiode = undefined;
-        const utbetalingsdager = totaltAntallUtbetalingsdager(vedtaksperiode);
+    test('Totalutbetalingsdager blir 0 med tom utbetalingstidslinje', () => {
+        const utbetalingsdager = totaltAntallUtbetalingsdager([]);
         expect(utbetalingsdager).toBe(0);
     });
 
     test('Totalutbetalingsdager regner ut riktig antall dager', async () => {
         const vedtaksperiode = await enIkkeUtbetaltVedtaksperiode();
-        const utbetalingsdager = totaltAntallUtbetalingsdager(vedtaksperiode);
+        const utbetalingsdager = totaltAntallUtbetalingsdager(vedtaksperiode.utbetalingstidslinje);
         expect(utbetalingsdager).toBe(23);
     });
 
     test('Totalutbetalingsdager regner ut riktig antall dager ved en avvist dag', async () => {
         const vedtaksperiode = await enIkkeUtbetaltVedtaksperiode();
         vedtaksperiode.utbetalingstidslinje[0].type = Dagtype.Avvist;
-        const utbetalingsdager = totaltAntallUtbetalingsdager(vedtaksperiode);
+        const utbetalingsdager = totaltAntallUtbetalingsdager(vedtaksperiode.utbetalingstidslinje);
         expect(utbetalingsdager).toBe(22);
     });
 
-    test('Dager igjen per dato i en vedtaksperiode er en tom liste dersom vedtaksperiode ikke er satt', () => {
-        const vedtaksperiode = undefined;
-        const dagerIgjen = vedtaksperiodeDagerIgjen(vedtaksperiode);
+    test('Dager igjen per dato i en periode er en tom liste dersom vi mangler data', () => {
+        const dagerIgjen = periodeDagerIgjen(undefined, undefined, []);
         expect(dagerIgjen).toStrictEqual([]);
     });
 
-    test('Dager igjen per dato i en vedtaksperiode regnes riktig dersom maksdato har vært og gjenstående dager er 0', async () => {
+    test('Dager igjen per dato i en periode regnes riktig dersom maksdato har vært og gjenstående dager er 0', async () => {
         const vedtaksperiode = await enIkkeUtbetaltVedtaksperiode();
         vedtaksperiode.vilkår!!.dagerIgjen.gjenståendeDager = 0;
         vedtaksperiode.vilkår!!.dagerIgjen.maksdato = dayjs('2019-12-31');
-        const dagerIgjen = vedtaksperiodeDagerIgjen(vedtaksperiode);
+        const dagerIgjen = periodeDagerIgjen(
+            vedtaksperiode.vilkår?.dagerIgjen.maksdato,
+            vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager,
+            vedtaksperiode.utbetalingstidslinje
+        );
         expect(dagerIgjen[0]).toBe(0);
         expect(dagerIgjen[30]).toBe(0);
     });
 
-    test('Dager igjen per dato i en vedtaksperiode regnes ut riktig for en vedtaksperiode', async () => {
+    test('Dager igjen per dato i en periode regnes ut riktig', async () => {
         const vedtaksperiode = await enIkkeUtbetaltVedtaksperiode();
         vedtaksperiode.vilkår!!.dagerIgjen.gjenståendeDager = 50;
-        const dagerIgjen = vedtaksperiodeDagerIgjen(vedtaksperiode);
+        const dagerIgjen = periodeDagerIgjen(
+            vedtaksperiode.vilkår?.dagerIgjen.maksdato,
+            vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager,
+            vedtaksperiode.utbetalingstidslinje
+        );
         expect(dagerIgjen[0]).toBe(72);
         expect(dagerIgjen[1]).toBe(71);
         expect(dagerIgjen[30]).toBe(50);
         expect(dagerIgjen[30]).toBe(vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager);
     });
 
-    test('Dager igjen per dato i en vedtaksperiode regnes ut riktig for en vedtaksperiode med en avvist dag', async () => {
+    test('Dager igjen per dato i en periode regnes ut riktig for en periode med en avvist dag', async () => {
         const vedtaksperiode = await enIkkeUtbetaltVedtaksperiode();
         vedtaksperiode.vilkår!!.dagerIgjen.gjenståendeDager = 50;
         vedtaksperiode.utbetalingstidslinje[1].type = Dagtype.Avvist;
-        const dagerIgjen = vedtaksperiodeDagerIgjen(vedtaksperiode);
+        const dagerIgjen = periodeDagerIgjen(
+            vedtaksperiode.vilkår?.dagerIgjen.maksdato,
+            vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager,
+            vedtaksperiode.utbetalingstidslinje
+        );
         expect(dagerIgjen[0]).toBe(71);
         expect(dagerIgjen[1]).toBe(71);
         expect(dagerIgjen[30]).toBe(50);
     });
 
     it('Alle dager er godkjent', async () => {
-        render(<Utbetalingsoversikt vedtaksperiode={mappetVedtaksperiode()} />);
+        const vedtaksperiode = mappetVedtaksperiode();
+        const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
+        const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
+        const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
+        render(
+            <Utbetalingsoversikt
+                utbetalingstidslinje={utbetalingstidslinje}
+                maksdato={maksdato}
+                gjenståendeDager={gjenståendeDager}
+                periode={periode}
+            />
+        );
 
         expect(screen.queryAllByText('Ingen utbetaling')).toStrictEqual([]);
         expect(screen.queryAllByText('100 %').length).toBe(23);
     });
 
     it('Alle kolonnene i tabellen er til stede', async () => {
-        render(<Utbetalingsoversikt vedtaksperiode={mappetVedtaksperiode()} />);
+        const vedtaksperiode = mappetVedtaksperiode();
+        const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
+        const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
+        const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
+
+        render(
+            <Utbetalingsoversikt
+                utbetalingstidslinje={utbetalingstidslinje}
+                maksdato={maksdato}
+                gjenståendeDager={gjenståendeDager}
+                periode={periode}
+            />
+        );
         expect(screen.queryByText('Dato')).toBeVisible();
         expect(screen.queryByText('Utbet. dager')).toBeVisible();
         expect(screen.queryByText('Grad')).toBeVisible();
@@ -148,9 +180,20 @@ describe('Utbetalingsoversikt', () => {
                     },
                 ]),
             ]),
-        ]).arbeidsgivere[0].vedtaksperioder[0];
+        ]).arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
 
-        render(<Utbetalingsoversikt vedtaksperiode={vedtaksperiode as Vedtaksperiode} />);
+        const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
+        const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
+        const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
+
+        render(
+            <Utbetalingsoversikt
+                utbetalingstidslinje={utbetalingstidslinje}
+                maksdato={maksdato}
+                gjenståendeDager={gjenståendeDager}
+                periode={periode}
+            />
+        );
 
         expect(screen.queryAllByText('-').length).toStrictEqual(2);
         expect(screen.queryAllByText('Personen er død').length).toStrictEqual(1);

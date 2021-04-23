@@ -123,6 +123,8 @@ export const useMaksdato = (beregningId: string) => sisteUtbetaling(useHistorikk
 
 export const useNettobeløp = (beregningId: string) => sisteUtbetaling(useHistorikkelement(beregningId)).nettobeløp;
 
+export const useGjenståendeDager = (beregningId: string) => sisteUtbetaling(useHistorikkelement(beregningId)).gjenståendeDager;
+
 export interface Tidslinjeperiode {
     id: string;
     beregningId: string;

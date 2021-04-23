@@ -14,11 +14,8 @@ import { Arbeidsforhold } from '../Arbeidsforhold';
 import { usePerson, useSkalAnonymiserePerson } from '../../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
-
-const Container = styled.section`
-    flex: 1;
-    padding: 2rem 0;
-`;
+import { Dayjs } from 'dayjs';
+import { Arbeidsgiverinntekt, Periode, Utbetalingsdag } from 'internal-types';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -82,22 +79,33 @@ const Lenke = styled(Link)`
     }
 `;
 
-export const Utbetaling = () => {
+export interface UtbetalingProps {
+    skjæringstidspunkt?: Dayjs;
+    gjenståendeDager?: number;
+    maksdato?: Dayjs;
+    periode: Periode;
+    utbetalingstidslinje: Utbetalingsdag[];
+    arbeidsgiverinntekt?: Arbeidsgiverinntekt;
+}
+
+export const Utbetaling = ({
+    skjæringstidspunkt,
+    gjenståendeDager,
+    maksdato,
+    periode,
+    utbetalingstidslinje,
+    arbeidsgiverinntekt,
+}: UtbetalingProps) => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
     const anonymiseringEnabled = useSkalAnonymiserePerson();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 
-    const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen?.skjæringstidspunkt
-        ? aktivVedtaksperiode.vilkår.dagerIgjen.skjæringstidspunkt.format(NORSK_DATOFORMAT)
-        : 'Ukjent dato';
+    const skjæringstidspunktForVisning = skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato';
 
-    const periodeFom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
-    const periodeTom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent';
-    const arbeidsgiverinntekt = aktivVedtaksperiode.inntektsgrunnlag.inntekter.find(
-        (it) => it.organisasjonsnummer === aktivVedtaksperiode.inntektsgrunnlag.organisasjonsnummer
-    );
+    const periodeFom = periode.fom.format(NORSK_DATOFORMAT_KORT);
+    const periodeTom = periode.tom.format(NORSK_DATOFORMAT_KORT);
 
     const { arbeidsgivernavn, organisasjonsnummer, omregnetÅrsinntekt, arbeidsforhold } = arbeidsgiverinntekt!;
 
@@ -119,7 +127,7 @@ export const Utbetaling = () => {
                         </Flex>
                         <Flex justifyContent="space-between">
                             <Normaltekst>Skjæringstidspunkt</Normaltekst>
-                            <Normaltekst>{skjæringstidspunkt}</Normaltekst>
+                            <Normaltekst>{skjæringstidspunktForVisning}</Normaltekst>
                         </Flex>
                     </Kort>
                     <Kort>
@@ -157,9 +165,12 @@ export const Utbetaling = () => {
                     </Kort>
                 </Arbeidsflate>
                 <VertikalStrek />
-                <Container>
-                    <Utbetalingsoversikt vedtaksperiode={aktivVedtaksperiode} />
-                </Container>
+                <Utbetalingsoversikt
+                    maksdato={maksdato}
+                    gjenståendeDager={gjenståendeDager}
+                    periode={periode}
+                    utbetalingstidslinje={utbetalingstidslinje}
+                />
             </Flex>
         </AgurkErrorBoundary>
     );

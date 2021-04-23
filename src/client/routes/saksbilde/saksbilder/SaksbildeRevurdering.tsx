@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex } from '../../../components/Flex';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import '@navikt/helse-frontend-logg/lib/main.css';
-import { Tidslinjeperiode, useMaksdato, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode, useGjenståendeDager, useMaksdato, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
 import { useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { LoggHeader } from '../Saksbilde';
 import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
@@ -17,6 +17,7 @@ import { Clipboard } from '../../../components/clipboard';
 import { useSykepengegrunnlag } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
 import { Dagtype } from 'internal-types';
+import { Utbetalingsoversikt } from '../utbetaling/Utbetalingsoversikt';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -87,6 +88,9 @@ interface SaksbildeRevurderingProps {
 export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps) => {
     const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent';
     const maksdato = useMaksdato(aktivPeriode.beregningId);
+    const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
+    const periode = { fom: aktivPeriode.fom, tom: aktivPeriode.tom };
+    const utbetalingstidslinje = aktivPeriode.utbetalingstidslinje;
     return (
         <Flex justifyContent="space-between" data-testid="saksbilde-revurdering">
             <AutoFlexContainer>
@@ -108,6 +112,12 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                         organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                     />
                     <VertikalStrek />
+                    <Utbetalingsoversikt
+                        maksdato={maksdato}
+                        gjenståendeDager={gjenståendeDager}
+                        periode={periode}
+                        utbetalingstidslinje={utbetalingstidslinje}
+                    />
                 </Flex>
             </AutoFlexContainer>
             <LoggHeader />

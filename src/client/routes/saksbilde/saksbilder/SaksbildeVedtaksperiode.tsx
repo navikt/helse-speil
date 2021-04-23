@@ -87,6 +87,12 @@ export const SaksbildeVedtaksperiode = ({
     const organisasjonsnummer = useArbeidsgiverOrganisasjonsnummer(aktivVedtaksperiode.id);
     const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt;
     const maksdato = aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato;
+    const gjenståendeDager = aktivVedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
+    const utbetalingstidslinje = aktivVedtaksperiode.utbetalingstidslinje;
+    const periode = { fom: aktivVedtaksperiode.fom, tom: aktivVedtaksperiode.tom };
+    const arbeidsgiverinntekt = aktivVedtaksperiode.inntektsgrunnlag.inntekter.find(
+        (it) => it.organisasjonsnummer === aktivVedtaksperiode.inntektsgrunnlag.organisasjonsnummer
+    );
     const over67år = (aktivVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
@@ -116,7 +122,14 @@ export const SaksbildeVedtaksperiode = ({
                                             <Content>
                                                 <Switch>
                                                     <Route path={`${path}/utbetaling`}>
-                                                        <Utbetaling />
+                                                        <Utbetaling
+                                                            gjenståendeDager={gjenståendeDager}
+                                                            utbetalingstidslinje={utbetalingstidslinje}
+                                                            maksdato={maksdato}
+                                                            periode={periode}
+                                                            skjæringstidspunkt={skjæringstidspunkt}
+                                                            arbeidsgiverinntekt={arbeidsgiverinntekt}
+                                                        />
                                                     </Route>
                                                     <Route path={`${path}/sykmeldingsperiode`}>
                                                         <Sykmeldingsperiode />
