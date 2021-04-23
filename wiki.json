@@ -168,6 +168,12 @@
         "viktighet": "Lav"
     },
     {
+        "varsel": "Perioden er avslått på grunn av at inntekt er under krav til minste sykepengegrunnlag",
+        "betydning": "Alle dager er avvist på grunn av at sykepengegrunnlaget er under minstekrav",
+        "løsning": "Undersøk at sykepengegrunnlaget er korrekt. Hvis det er fastsatt korrekt kan saken godkjennes i speil, da må avslagsbrev sendes i infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
         "varsel": "Ingenting ble simulert",
         "betydning": "Når det er oppgitt ferieavvikling i hele søknadsperioden",
         "løsning": "Sjekk om ferieavvikling er oppgitt i søknaden",
@@ -243,6 +249,18 @@
         "varsel": "Søknaden inneholder en Papirsykmeldingsperiode",
         "betydning": "Sjekk om papirsykmeldingen er med i arbeidsgiverperioden hvis det er en førstegangssak. Sjekk om papirsykmeldingen medfører endring i grad hvis det er en forlengelse.",
         "løsning": "Utbetal kun hvis arbeidsgiverperioden er korrekt. Korriger eventuelt grad.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Perioden er avslått på grunn av manglende opptjening",
+        "betydning": "Alle dager er avvist på grunn av at personen ikke har jobbet mer enn fire uker før sykmeldingstidspunktet",
+        "løsning": "Undersøk at opptjeningen er vurdert riktig. Hvis opptjening ikke er oppfylt kan saken godkjennes i speil og det må sendes avslagsbrev i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
+        "varsel": "Perioden er avslått på grunn av at den sykmeldte ikke er medlem av Folketrygden",
+        "betydning": "Alle dager er avvist på grunn av at personen ikke er medlem av Folketrygden",
+        "løsning": "Undersøk om det er riktig at personen ikke er medlem av Folketrygden. Hvis personen ikke er medlem kan saken godkjennes i speil og det må sendes avslagsbrev i Infotrygd.",
         "viktighet": "Høy"
     }
 ]
