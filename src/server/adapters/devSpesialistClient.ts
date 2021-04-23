@@ -152,6 +152,9 @@ const filenameForPersonId = (id: string) => {
         case '2836012894592':
         case '19047622436':
             return 'astrid_maud_ingeborg_revurdering.json';
+        case '2259231338047':
+        case '09038400182':
+            return 'knerten_revurdering.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

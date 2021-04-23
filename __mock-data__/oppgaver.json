@@ -362,5 +362,26 @@
             "navn": "Nav Utland"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "2274",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "09038400182",
+        "aktørId": "2259231338047",
+        "personinfo": {
+            "fornavn": "Knerten",
+            "mellomnavn": "Sin",
+            "etternavn": "Revurdering",
+            "fødselsdato": "1932-02-12",
+            "kjønn": null
+        },
+        "vedtaksperiodeId": "855224d8-40ab-441d-a403-0a1899479bcb",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]
