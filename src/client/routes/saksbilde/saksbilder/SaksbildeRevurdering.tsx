@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex } from '../../../components/Flex';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import '@navikt/helse-frontend-logg/lib/main.css';
-import { Tidslinjeperiode, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode, useMaksdato, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
 import { useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { LoggHeader } from '../Saksbilde';
 import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
@@ -129,12 +129,17 @@ const VenstreMeny = ({ aktivPeriode, maksDato, arbeidsgivernavn, organisasjonsnu
     const skjæringstidspunkt = 'Ukjent';
     const maksdato = maksDato ? maksDato.format(NORSK_DATOFORMAT_KORT) : 'Ukjent maksdato';
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
+    const nettobeløp = useNettobeløp(aktivPeriode.beregningId);
 
     return (
         <Arbeidsflate>
             <PeriodeKort periode={periode} maksdato={maksdato} skjæringstidspunkt={skjæringstidspunkt} />
             <ArbeidsgiverKort arbeidsgivernavn={arbeidsgivernavn} organisasjonsnummer={organisasjonsnummer} />
-            <UtbetalingKort beregningId={aktivPeriode.beregningId} utbetalingsdagerTotalt={utbetalingsdagerTotalt} />
+            <UtbetalingKort
+                beregningId={aktivPeriode.beregningId}
+                utbetalingsdagerTotalt={utbetalingsdagerTotalt}
+                nettobeløp={nettobeløp}
+            />
         </Arbeidsflate>
     );
 };
@@ -182,9 +187,10 @@ const ArbeidsgiverKort = ({ arbeidsgivernavn, organisasjonsnummer }: Arbeidsgive
 interface UtbetalingKortProps {
     beregningId: string;
     utbetalingsdagerTotalt: number;
+    nettobeløp: number;
 }
 
-const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt }: UtbetalingKortProps) => {
+const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt, nettobeløp }: UtbetalingKortProps) => {
     const sykepengegrunnlag = useSykepengegrunnlag(beregningId);
     return (
         <Kort>
@@ -198,6 +204,10 @@ const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt }: UtbetalingKortP
             <Flex justifyContent="space-between">
                 <Normaltekst>Totalt antall utbetalingdager:</Normaltekst>
                 <Normaltekst>{utbetalingsdagerTotalt}</Normaltekst>
+            </Flex>
+            <Flex justifyContent="space-between">
+                <Normaltekst>Til utbetaling nå:</Normaltekst>
+                <Normaltekst>{nettobeløp}</Normaltekst>
             </Flex>
         </Kort>
     );

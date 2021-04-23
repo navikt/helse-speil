@@ -111,13 +111,17 @@ const isUfullstendig = (vedtaksperiode: Vedtaksperiode) => {
     );
 };
 
-export const useMaksdato = (beregningId: string) => {
-    const historikkElement = usePerson()
+const useHistorikkelement = (beregningId: string) => {
+    const element = usePerson()
         ?.arbeidsgivere.flatMap((arb: Arbeidsgiver) => arb.utbetalingshistorikk)
         .find((element: UtbetalingshistorikkElement) => element.id === beregningId);
-
-    return historikkElement ? sisteUtbetaling(historikkElement).maksdato : undefined;
+    if (!element) throw Error('Fant ikke element i utbetalingshistorikk');
+    return element;
 };
+
+export const useMaksdato = (beregningId: string) => sisteUtbetaling(useHistorikkelement(beregningId)).maksdato;
+
+export const useNettobeløp = (beregningId: string) => sisteUtbetaling(useHistorikkelement(beregningId)).nettobeløp;
 
 export interface Tidslinjeperiode {
     id: string;
