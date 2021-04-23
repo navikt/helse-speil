@@ -14,7 +14,6 @@ import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
-import { TilRevurderingIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Dayjs } from 'dayjs';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
@@ -23,6 +22,7 @@ import { useSykepengegrunnlag } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
 import { Dagtype } from 'internal-types';
 import { Utbetalingsoversikt } from '../utbetaling/Utbetalingsoversikt';
+import { RevurderingEtikett } from '../../oversikt/Oppgaveetikett';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -44,18 +44,6 @@ const Kort = styled.section`
     &:not(:last-of-type) {
         margin-bottom: 2rem;
     }
-`;
-
-const FargetBoks = styled.div`
-    border: 1px solid var(--navds-color-border);
-    border-radius: 2px;
-    background: #ecefcc;
-    width: 1.25rem;
-    height: 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 0.5rem;
 `;
 
 const Korttittel = styled(Undertittel)`
@@ -172,14 +160,16 @@ interface PeriodeKortProps {
     skjæringstidspunkt: string;
 }
 
+const StyledUndertekstBold = styled(UndertekstBold)`
+    letter-spacing: 0.4px;
+    color: #59514b;
+`;
+
 const PeriodeKort = ({ periode, maksdato, skjæringstidspunkt, gjenståendeDager }: PeriodeKortProps) => {
     return (
         <Kort>
             <Korttittel>
-                <FargetBoks>
-                    <TilRevurderingIkon />
-                </FargetBoks>
-                <UndertekstBold>REVURDERING</UndertekstBold>
+                <RevurderingEtikett medLabel label={<StyledUndertekstBold>REVURDERINGSPERIODE</StyledUndertekstBold>} />
             </Korttittel>
             <IkonOgTekst tekst={periode} Ikon={<Sykmeldingsperiodeikon />} />
             <IkonOgTekst tekst={`${maksdato} (${gjenståendeDager} dager igjen)`} Ikon={<Maksdatoikon />} />
@@ -197,7 +187,7 @@ const ArbeidsgiverKort = ({ arbeidsgivernavn, organisasjonsnummer }: Arbeidsgive
     return (
         <Kort>
             <Korttittel>
-                <UndertekstBold>{arbeidsgivernavn}</UndertekstBold>
+                <StyledUndertekstBold>{arbeidsgivernavn}</StyledUndertekstBold>
             </Korttittel>
             <Clipboard preserveWhitespace={false} copyMessage="Organisasjonsnummer er kopiert">
                 <Normaltekst>{organisasjonsnummer}</Normaltekst>
@@ -217,7 +207,7 @@ const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt, nettobeløp }: Ut
     return (
         <Kort>
             <Korttittel>
-                <UndertekstBold>TIL UTBETALING</UndertekstBold>
+                <StyledUndertekstBold>TIL UTBETALING</StyledUndertekstBold>
             </Korttittel>
             <Flex justifyContent="space-between">
                 <Normaltekst>Sykepengegrunnlag:</Normaltekst>
