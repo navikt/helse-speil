@@ -1,10 +1,10 @@
-import React, {HTMLAttributes, useRef, useState} from 'react';
+import React, { HTMLAttributes, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import {useInteractOutside} from '../../hooks/useInteractOutside';
-import {Button} from '../Button';
+import { useInteractOutside } from '../../hooks/useInteractOutside';
+import { Button } from '../Button';
 import NavFrontendChevron from 'nav-frontend-chevron';
-import classNames from "classnames";
-import {Knapp} from "nav-frontend-knapper";
+import classNames from 'classnames';
+import { Knapp } from 'nav-frontend-knapper';
 
 const Container = styled.span`
     position: relative;
@@ -40,13 +40,14 @@ export const DropdownMenyknapp = styled(Knapp)`
         color: var(--navds-primary-text);
         cursor: pointer;
     }
-    
+
     &:disabled {
-        &, &:hover {
+        &,
+        &:hover {
             background-color: transparent;
             color: var(--navds-color-text-disabled);
-        }  
-    } 
+        }
+    }
 `;
 
 export const Strek = styled.hr`
@@ -78,14 +79,13 @@ const Liste = styled.ul<ListeProps>`
         transform: translateX(-50%);
         content: '';
     }
-    
-    ${(props) => (
+
+    ${(props) =>
         props.orientering === 'venstre'
-        ? 'right: 0;'
-        : props.orientering === 'høyre'
-        ? 'left: 0;'
-        : 'left:50%; transform: translateX(-50%);'
-    )}
+            ? 'right: 0;'
+            : props.orientering === 'høyre'
+            ? 'left: 0;'
+            : 'left:50%; transform: translateX(-50%);'}
 `;
 
 interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
@@ -102,19 +102,18 @@ export const DropdownContext = React.createContext<DropdownContextValue>({
     lukk: () => {},
 });
 
-export const Dropdown: React.FC<DropdownProps> = (
-    {
-        className,
-        onClick,
-        children,
-        orientering = 'midtstilt',
-        labelRenderer = (ekspandert, onClickWrapper) =>
-            <EnkelKnapp onClick={onClickWrapper}>
-                {'Meny'}{<NavFrontendChevron type={ekspandert ? 'opp' : 'ned'}/>}
-            </EnkelKnapp>
-    }
-) => {
-
+export const Dropdown: React.FC<DropdownProps> = ({
+    className,
+    onClick,
+    children,
+    orientering = 'midtstilt',
+    labelRenderer = (ekspandert, onClickWrapper) => (
+        <EnkelKnapp onClick={onClickWrapper}>
+            {'Meny'}
+            {<NavFrontendChevron type={ekspandert ? 'opp' : 'ned'} />}
+        </EnkelKnapp>
+    ),
+}) => {
     const [ekspandert, setEkspandert] = useState(false);
     const containerRef = useRef<HTMLSpanElement>(null);
 
@@ -136,7 +135,7 @@ export const Dropdown: React.FC<DropdownProps> = (
     return (
         <Container ref={containerRef} className={classNames(className)}>
             {labelRenderer(ekspandert, onClickWrapper)}
-            <DropdownContext.Provider value={{lukk}}>
+            <DropdownContext.Provider value={{ lukk }}>
                 {ekspandert && <Liste orientering={orientering}>{children}</Liste>}
             </DropdownContext.Provider>
         </Container>

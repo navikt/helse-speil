@@ -1,9 +1,9 @@
-import React, {useContext, useState} from 'react';
-import {useInnloggetSaksbehandler} from '../../../state/authentication';
-import {useTildeling} from '../../../state/oppgaver';
-import {usePerson, useRefreshPerson, useTildelPerson} from '../../../state/person';
-import {DropdownContext, DropdownMenyknapp} from '../../../components/dropdown/Dropdown';
-import {Oppgave, Tildeling} from 'internal-types';
+import React, { useContext, useState } from 'react';
+import { useInnloggetSaksbehandler } from '../../../state/authentication';
+import { useTildeling } from '../../../state/oppgaver';
+import { usePerson, useRefreshPerson, useTildelPerson } from '../../../state/person';
+import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
+import { Oppgave, Tildeling } from 'internal-types';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;
@@ -31,12 +31,12 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
             spinner={isFetching}
             onClick={() => {
                 setIsFetching(true);
-                fjernTildeling({oppgavereferanse} as Oppgave).then(() => {
+                fjernTildeling({ oppgavereferanse } as Oppgave).then(() => {
                     lukk();
                     tildelPerson(undefined);
                     refreshPerson();
                     setIsFetching(false);
-                })
+                });
             }}
         >
             Meld av
@@ -46,12 +46,12 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
             disabled={tildeling !== undefined}
             spinner={isFetching}
             onClick={() => {
-                setIsFetching(true)
-                tildelOppgave({oppgavereferanse} as Oppgave, saksbehandler).then(() => {
+                setIsFetching(true);
+                tildelOppgave({ oppgavereferanse } as Oppgave, saksbehandler).then(() => {
                     lukk();
                     tildelPerson(saksbehandler);
                     setIsFetching(false);
-                })
+                });
             }}
         >
             Tildel meg

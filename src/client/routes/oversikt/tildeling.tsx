@@ -3,15 +3,12 @@ import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
 import { useTildeling } from '../../state/oppgaver';
 import { SkjultSakslenke } from './rader';
-import { Oppgave} from 'internal-types';
+import { Oppgave } from 'internal-types';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
-import {TekstMedEllipsis} from "../../components/TekstMedEllipsis";
+import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
 
 export const Tildelt = ({ tildeltBrukernavn }: { tildeltBrukernavn: string }) => {
-
-    return (
-        <TekstMedEllipsis>{tildeltBrukernavn}</TekstMedEllipsis>
-    );
+    return <TekstMedEllipsis>{tildeltBrukernavn}</TekstMedEllipsis>;
 };
 
 export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
@@ -32,7 +29,7 @@ export const IkkeTildelt = ({ oppgave }: { oppgave: Oppgave }) => {
         padding: 0 0.75rem;
         box-sizing: border-box;
         font-size: var(--navds-font-size-xs);
-    `
+    `;
 
     return (
         <StyledKnapp mini onClick={tildel} spinner={isFetching}>

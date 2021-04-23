@@ -9,7 +9,7 @@ import { usePerson } from '../../../state/person';
 import { PåVentKnapp } from './PåVentKnapp';
 import { AnonymiserData } from './AnonymiserData';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
-import {Dropdown, Strek} from "../../../components/dropdown/Dropdown";
+import { Dropdown, Strek } from '../../../components/dropdown/Dropdown';
 
 const Container = styled.div`
     display: flex;
@@ -23,7 +23,7 @@ export const Verktøylinje = () => {
     const tildeling = personTilBehandling?.tildeling;
     const tildeltTilMeg = useErTildeltInnloggetBruker();
     const erPåVent = usePerson()?.tildeling?.påVent;
-    const oppgavereferanse =  useAktivVedtaksperiode()?.oppgavereferanse
+    const oppgavereferanse = useAktivVedtaksperiode()?.oppgavereferanse;
     const utbetalinger: Utbetalinger | undefined = aktivVedtaksperiode?.utbetalinger;
     const vedtaksperiodeErAnnullert: boolean = aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;
 

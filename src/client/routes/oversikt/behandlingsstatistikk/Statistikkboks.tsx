@@ -16,14 +16,14 @@ export const Statistikkboks = ({ tittel, upperBound, elementer, visesByDefault =
     const StyledEkspanderbartPanel = styled(Ekspanderbartpanel)`
         margin-bottom: 1.75rem;
         box-shadow: none !important;
-        
+
         :hover > button:focus {
             box-shadow: 0 0 0 3px var(--navds-color-blue-80) !important;
         }
-        
+
         button {
             padding: 0.25rem;
-            
+
             :focus {
                 border-radius: 4px;
             }

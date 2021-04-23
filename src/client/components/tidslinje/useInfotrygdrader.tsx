@@ -1,4 +1,4 @@
-import {Infotrygdperiodetilstand, InfotrygdTypetekst, Infotrygdutbetaling, Person} from 'internal-types';
+import { Infotrygdperiodetilstand, InfotrygdTypetekst, Infotrygdutbetaling, Person } from 'internal-types';
 import React, { useMemo } from 'react';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';

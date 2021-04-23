@@ -1,7 +1,7 @@
-import React, {CSSProperties} from 'react';
+import React, { CSSProperties } from 'react';
 import styled from '@emotion/styled';
-import {Periodetype} from 'internal-types';
-import {Flex} from "../../components/Flex";
+import { Periodetype } from 'internal-types';
+import { Flex } from '../../components/Flex';
 
 export interface EtikettProps {
     style?: CSSProperties;
@@ -15,9 +15,9 @@ const Etikett = styled.div<EtikettProps>`
         `
         ${style};
     `}
-    
-    width: ${({størrelse}) => størrelse === 'l' ? '1.25rem' : '1rem'};
-    height: ${({størrelse}) => størrelse === 'l' ? '1.25rem' : '1rem'};
+
+    width: ${({ størrelse }) => (størrelse === 'l' ? '1.25rem' : '1rem')};
+    height: ${({ størrelse }) => (størrelse === 'l' ? '1.25rem' : '1rem')};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,36 +70,46 @@ export const Oppgaveetikett = ({ type, størrelse = 'l', medLabel = false, style
         case Periodetype.Infotrygdforlengelse:
             return (
                 <Flex alignItems={'center'}>
-                    <ForlengelseEtikett størrelse={størrelse} style={style}>FL</ForlengelseEtikett>
-                    {medLabel && "Forlengelse"}
+                    <ForlengelseEtikett størrelse={størrelse} style={style}>
+                        FL
+                    </ForlengelseEtikett>
+                    {medLabel && 'Forlengelse'}
                 </Flex>
             );
         case Periodetype.Førstegangsbehandling:
             return (
                 <Flex alignItems={'center'}>
-                    <FørstegangsbehandlingEtikett størrelse={størrelse} style={style}>F</FørstegangsbehandlingEtikett>
-                    {medLabel && "Førstegang."}
+                    <FørstegangsbehandlingEtikett størrelse={størrelse} style={style}>
+                        F
+                    </FørstegangsbehandlingEtikett>
+                    {medLabel && 'Førstegang.'}
                 </Flex>
             );
         case Periodetype.OvergangFraInfotrygd:
             return (
                 <Flex alignItems={'center'}>
-                    <InfotrygdforlengelseEtikett størrelse={størrelse} style={style}>FI</InfotrygdforlengelseEtikett>
-                    {medLabel && "Forlengelse IT"}
+                    <InfotrygdforlengelseEtikett størrelse={størrelse} style={style}>
+                        FI
+                    </InfotrygdforlengelseEtikett>
+                    {medLabel && 'Forlengelse IT'}
                 </Flex>
             );
         case Periodetype.Stikkprøve:
             return (
                 <Flex alignItems={'center'}>
-                    <StikkprøveEtikett størrelse={størrelse} style={style}>S</StikkprøveEtikett>
-                    {medLabel && "Stikkprøve"}
+                    <StikkprøveEtikett størrelse={størrelse} style={style}>
+                        S
+                    </StikkprøveEtikett>
+                    {medLabel && 'Stikkprøve'}
                 </Flex>
             );
         case Periodetype.RiskQa:
             return (
                 <Flex alignItems={'center'}>
-                    <RiskQaEtikett størrelse={størrelse} style={style}>QA</RiskQaEtikett>
-                    {medLabel && "Risk QA"}
+                    <RiskQaEtikett størrelse={størrelse} style={style}>
+                        QA
+                    </RiskQaEtikett>
+                    {medLabel && 'Risk QA'}
                 </Flex>
             );
         default:

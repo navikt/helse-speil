@@ -60,7 +60,7 @@ export const Paginering = ({
     sidenummer,
     førsteSynligeElement,
     sisteSynligeElement,
-    antallRaderPerSide
+    antallRaderPerSide,
 }: PagineringProps) => {
     const inkrementerSidenummer = () =>
         setPaginering((p) => ({
@@ -77,7 +77,9 @@ export const Paginering = ({
     return (
         <Container>
             <SideknappContainer>
-                <Sideknapp disabled={sidenummer === 1} onClick={dekrementerSidenummer}>Forrige</Sideknapp>
+                <Sideknapp disabled={sidenummer === 1} onClick={dekrementerSidenummer}>
+                    Forrige
+                </Sideknapp>
                 {genererSidetall(sidenummer, antallSider, 9).map((element) =>
                     isNaN(element) ? (
                         <Sideknapp key={element}>{element}</Sideknapp>
@@ -91,7 +93,12 @@ export const Paginering = ({
                         </Sideknapp>
                     )
                 )}
-                <Sideknapp disabled={antallOppgaver <= antallRaderPerSide || sidenummer === antallSider} onClick={inkrementerSidenummer}>Neste</Sideknapp>
+                <Sideknapp
+                    disabled={antallOppgaver <= antallRaderPerSide || sidenummer === antallSider}
+                    onClick={inkrementerSidenummer}
+                >
+                    Neste
+                </Sideknapp>
             </SideknappContainer>
             <p>
                 Viser {førsteSynligeElement} til {sisteSynligeElement} av {antallOppgaver} oppgaver
