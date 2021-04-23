@@ -2,7 +2,12 @@ import React from 'react';
 import { Flex } from '../../../components/Flex';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import '@navikt/helse-frontend-logg/lib/main.css';
-import { Tidslinjeperiode, useGjenståendeDager, useMaksdato, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
+import {
+    Tidslinjeperiode,
+    useGjenståendeDager,
+    useMaksdato,
+    useNettobeløp,
+} from '../../../modell/UtbetalingshistorikkElement';
 import { useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { LoggHeader } from '../Saksbilde';
 import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
@@ -138,12 +143,18 @@ const VenstreMeny = ({ aktivPeriode, maksDato, arbeidsgivernavn, organisasjonsnu
     )}`;
     const skjæringstidspunkt = 'Ukjent';
     const maksdato = maksDato ? maksDato.format(NORSK_DATOFORMAT_KORT) : 'Ukjent maksdato';
+    const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
     const nettobeløp = useNettobeløp(aktivPeriode.beregningId);
 
     return (
         <Arbeidsflate>
-            <PeriodeKort periode={periode} maksdato={maksdato} skjæringstidspunkt={skjæringstidspunkt} />
+            <PeriodeKort
+                periode={periode}
+                maksdato={maksdato}
+                skjæringstidspunkt={skjæringstidspunkt}
+                gjenståendeDager={gjenståendeDager}
+            />
             <ArbeidsgiverKort arbeidsgivernavn={arbeidsgivernavn} organisasjonsnummer={organisasjonsnummer} />
             <UtbetalingKort
                 beregningId={aktivPeriode.beregningId}
@@ -157,10 +168,11 @@ const VenstreMeny = ({ aktivPeriode, maksDato, arbeidsgivernavn, organisasjonsnu
 interface PeriodeKortProps {
     periode: string;
     maksdato: string;
+    gjenståendeDager: number;
     skjæringstidspunkt: string;
 }
 
-const PeriodeKort = ({ periode, maksdato, skjæringstidspunkt }: PeriodeKortProps) => {
+const PeriodeKort = ({ periode, maksdato, skjæringstidspunkt, gjenståendeDager }: PeriodeKortProps) => {
     return (
         <Kort>
             <Korttittel>
@@ -170,7 +182,7 @@ const PeriodeKort = ({ periode, maksdato, skjæringstidspunkt }: PeriodeKortProp
                 <UndertekstBold>REVURDERING</UndertekstBold>
             </Korttittel>
             <IkonOgTekst tekst={periode} Ikon={<Sykmeldingsperiodeikon />} />
-            <IkonOgTekst tekst={maksdato} Ikon={<Maksdatoikon />} />
+            <IkonOgTekst tekst={`${maksdato} (${gjenståendeDager} dager igjen)`} Ikon={<Maksdatoikon />} />
             <IkonOgTekst tekst={skjæringstidspunkt} Ikon={<Skjæringstidspunktikon />} />
         </Kort>
     );
