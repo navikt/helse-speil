@@ -188,7 +188,8 @@ export interface UfullstendigVedtaksperiode {
     tom: Dayjs;
     fullstendig: boolean;
     tilstand: Vedtaksperiodetilstand;
-    utbetalingstidslinje?: Utbetalingsdag[];
+    utbetalingstidslinje: Utbetalingsdag[];
+    sykdomstidslinje?: Sykdomsdag[];
     erNyeste?: boolean;
     beregningIder?: string[];
 }
@@ -316,7 +317,7 @@ export interface Overstyring {
 
 export interface OverstyrtDag {
     dato: Dayjs;
-    type: 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | Dagtype;
+    type: 'Sykedag' | 'Feriedag' | 'Permisjonsdag' | 'Egenmeldingsdag' | Dagtype;
     grad?: number;
 }
 

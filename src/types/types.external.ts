@@ -68,7 +68,6 @@ export enum SpleisUtbetalingsdagtype {
     UKJENTDAG = 'UkjentDag',
     AVVISTDAG = 'AvvistDag',
     FORELDETDAG = 'ForeldetDag',
-    PERMISJONSDAG = 'Permisjonsdag',
 }
 
 export interface SpleisUtbetalingsdag {
@@ -458,7 +457,7 @@ export interface UfullstendigSpesialistVedtaksperiode {
     gruppeId: string;
     tilstand: SpleisVedtaksperiodetilstand;
     fullstendig: boolean;
-    utbetalingstidslinje?: SpleisUtbetalingsdag[];
+    utbetalingstidslinje: SpleisUtbetalingsdag[];
 }
 
 export interface SpesialistInfotrygdutbetaling {

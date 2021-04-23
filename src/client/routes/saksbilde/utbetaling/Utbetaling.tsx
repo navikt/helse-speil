@@ -11,12 +11,11 @@ import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { Arbeidsforhold } from '../Arbeidsforhold';
-import { Arbeidsforhold as ArbeidsforholdListe } from 'internal-types';
+import { Arbeidsforhold as ArbeidsforholdListe, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import { usePerson, useSkalAnonymiserePerson } from '../../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 import { Dayjs } from 'dayjs';
-import { Periode, Utbetalingsdag } from 'internal-types';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -86,6 +85,7 @@ export interface UtbetalingProps {
     maksdato?: Dayjs;
     periode: Periode;
     utbetalingstidslinje: Utbetalingsdag[];
+    sykdomstidslinje: Sykdomsdag[];
     organisasjonsnummer: string;
     arbeidsgivernavn: string;
     arbeidsforhold: ArbeidsforholdListe[];
@@ -98,6 +98,7 @@ export const Utbetaling = ({
     maksdato,
     periode,
     utbetalingstidslinje,
+    sykdomstidslinje,
     arbeidsforhold,
     organisasjonsnummer,
     arbeidsgivernavn,
@@ -175,6 +176,7 @@ export const Utbetaling = ({
                     gjenståendeDager={gjenståendeDager}
                     periode={periode}
                     utbetalingstidslinje={utbetalingstidslinje}
+                    sykdomstidslinje={sykdomstidslinje}
                 />
             </Flex>
         </AgurkErrorBoundary>

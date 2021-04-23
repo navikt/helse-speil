@@ -3,10 +3,10 @@ import { mappetPerson } from 'test-data';
 import { Dagtype, Vedtaksperiode } from 'internal-types';
 import { render, screen } from '@testing-library/react';
 import {
+    periodeDagerIgjen,
     totaltAntallUtbetalingsdager,
     totalUtbetaling,
     Utbetalingsoversikt,
-    periodeDagerIgjen,
 } from './Utbetalingsoversikt';
 import {
     mappetVedtaksperiode,
@@ -115,10 +115,12 @@ describe('Utbetalingsoversikt', () => {
         const vedtaksperiode = mappetVedtaksperiode();
         const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
         const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
+        const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
         const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
         render(
             <Utbetalingsoversikt
                 utbetalingstidslinje={utbetalingstidslinje}
+                sykdomstidslinje={sykdomstidslinje}
                 maksdato={maksdato}
                 gjenståendeDager={gjenståendeDager}
                 periode={periode}
@@ -133,15 +135,11 @@ describe('Utbetalingsoversikt', () => {
         const vedtaksperiode = mappetVedtaksperiode();
         const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
         const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
+        const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
         const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
 
         render(
-            <Utbetalingsoversikt
-                utbetalingstidslinje={utbetalingstidslinje}
-                maksdato={maksdato}
-                gjenståendeDager={gjenståendeDager}
-                periode={periode}
-            />
+            <Utbetalingsoversikt {...{ utbetalingstidslinje, sykdomstidslinje, maksdato, gjenståendeDager, periode }} />
         );
         expect(screen.queryByText('Dato')).toBeVisible();
         expect(screen.queryByText('Utbet. dager')).toBeVisible();
@@ -184,14 +182,18 @@ describe('Utbetalingsoversikt', () => {
 
         const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
         const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
+        const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
         const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
 
         render(
             <Utbetalingsoversikt
-                utbetalingstidslinje={utbetalingstidslinje}
-                maksdato={maksdato}
-                gjenståendeDager={gjenståendeDager}
-                periode={periode}
+                {...{
+                    sykdomstidslinje,
+                    utbetalingstidslinje,
+                    maksdato,
+                    gjenståendeDager,
+                    periode,
+                }}
             />
         );
 

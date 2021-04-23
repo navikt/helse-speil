@@ -4,7 +4,7 @@ import { overstyrbareTabellerEnabled, overstyreUtbetaltPeriodeEnabled } from '..
 import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
 import styled from '@emotion/styled';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { dato, gradering, ikon, kilde, tomCelle, type } from '../../../components/tabell/rader';
+import { dato, gradering, ikonSyk, kilde, tomCelle, typeSyk } from '../../../components/tabell/rader';
 import { Dagtype, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import classNames from 'classnames';
@@ -69,8 +69,8 @@ export const Sykmeldingsperiodetabell = ({
                 celler: [
                     overstyring ? <OverstyrtInfoIkon width={20} height={20} /> : tomCelle(),
                     dato(dag),
-                    ikon(dag),
-                    type(dag),
+                    ikonSyk(dag),
+                    typeSyk(dag),
                     gradering(dag),
                     kilde(dag, overstyring),
                     tomCelle(),

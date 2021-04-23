@@ -19,6 +19,7 @@ import {
     Periodetype as UtbetalingshistorikkPeriodetype,
     Utbetalingstatus,
 } from '../../client/modell/UtbetalingshistorikkElement';
+
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],
     utbetalinger = umappetUtbetalinger(),
@@ -701,6 +702,12 @@ export const mappetPersonObject: Person = {
                             id: 'nanoid',
                             tilstand: Utbetalingstatus.IKKE_UTBETALT,
                             type: UtbetalingshistorikkPeriodetype.REVURDERING,
+                            sykdomstidslinje: [
+                                {
+                                    dato: dayjs('2018-01-01'),
+                                    type: Dagtype.Syk,
+                                },
+                            ],
                             utbetalingstidslinje: [
                                 {
                                     dato: dayjs('2018-01-01'),

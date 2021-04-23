@@ -21,7 +21,8 @@
                     "fom": "2017-01-01",
                     "tom": "2017-01-03",
                     "tilstand": "IngenUtbetaling",
-                    "fullstendig": false
+                    "fullstendig": false,
+                    "utbetalingstidslinje": []
                 },
                 {
                     "id": "57dba1fc-3078-42df-9654-abbb9a52d211",

@@ -19,6 +19,7 @@ const hentPerson = (id: string): Promise<PersonState> =>
                 case 401:
                     throw Error('Du må logge inn for å utføre søk');
                 default:
+                    console.error(error);
                     throw Error('Kunne ikke utføre søket. Prøv igjen senere');
             }
         });

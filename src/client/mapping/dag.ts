@@ -21,8 +21,6 @@ export const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype 
             return Dagtype.Helg;
         case SpleisUtbetalingsdagtype.FERIEDAG:
             return Dagtype.Ferie;
-        case SpleisUtbetalingsdagtype.PERMISJONSDAG:
-            return Dagtype.Permisjon;
         case SpleisUtbetalingsdagtype.UKJENTDAG:
             return Dagtype.Ubestemt;
         case SpleisUtbetalingsdagtype.ARBEIDSDAG:

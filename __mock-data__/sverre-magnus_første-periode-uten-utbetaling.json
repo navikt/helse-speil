@@ -22,7 +22,8 @@
                     "tom": "2020-04-10",
                     "tilstand": "KunPermisjon",
                     "fullstendig": false,
-                    "oppgavereferanse": null
+                    "oppgavereferanse": null,
+                    "utbetalingstidslinje": []
                 },
                 {
                     "id": "321a1a73-cccc-b96d-a033-ee74ba2a4c87",
@@ -31,7 +32,8 @@
                     "tom": "2020-05-24",
                     "tilstand": "IngenUtbetaling",
                     "fullstendig": false,
-                    "oppgavereferanse": null
+                    "oppgavereferanse": null,
+                    "utbetalingstidslinje": []
                 },
                 {
                     "id": "421a1a73-cccc-b96d-a033-ee74ba2a4c78",
@@ -40,7 +42,8 @@
                     "tom": "2020-06-10",
                     "tilstand": "KunFerie",
                     "fullstendig": false,
-                    "oppgavereferanse": null
+                    "oppgavereferanse": null,
+                    "utbetalingstidslinje": []
                 },
                 {
                     "id": "fbc34f96-ffff-47ee-4b04-0601378a91ff",
@@ -76,7 +79,7 @@
                             "grad": 100
                         },
                         {
-                            "type": "Permisjonsdag",
+                            "type": "Feriedag",
                             "inntekt": 0,
                             "dato": "2020-06-15",
                             "grad": 100
@@ -133,6 +136,22 @@
                         {
                             "dagen": "2020-06-14",
                             "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-06-15",
+                            "type": "PERMISJONSDAG",
+                            "kilde": {
+                                "type": "Søknad"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-06-16",
+                            "type": "FERIEDAG",
                             "kilde": {
                                 "type": "Søknad"
                             },

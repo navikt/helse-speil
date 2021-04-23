@@ -90,6 +90,7 @@ export const SaksbildeVedtaksperiode = ({
     const maksdato = aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato;
     const gjenståendeDager = aktivVedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
     const utbetalingstidslinje = aktivVedtaksperiode.utbetalingstidslinje;
+    const sykdomstidslinje = aktivVedtaksperiode.sykdomstidslinje;
     const periode = { fom: aktivVedtaksperiode.fom, tom: aktivVedtaksperiode.tom };
     const månedsbeløp = aktivVedtaksperiode.inntektsgrunnlag?.inntekter?.find(
         (it) => it.organisasjonsnummer === organisasjonsnummer
@@ -126,6 +127,7 @@ export const SaksbildeVedtaksperiode = ({
                                                         <Utbetaling
                                                             gjenståendeDager={gjenståendeDager}
                                                             utbetalingstidslinje={utbetalingstidslinje}
+                                                            sykdomstidslinje={sykdomstidslinje}
                                                             maksdato={maksdato}
                                                             periode={periode}
                                                             skjæringstidspunkt={skjæringstidspunkt}

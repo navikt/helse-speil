@@ -52,6 +52,9 @@ export const sisteUtbetaling = (element: UtbetalingshistorikkElement): Utbetalin
 export const erUtbetaling = (utbetaling: UtbetalingshistorikkUtbetaling2) =>
     utbetaling.type === Utbetalingstype.UTBETALING;
 
+const sykdomstidslinje = (sykdomstidslinje: Sykdomsdag[], fom: Dayjs, tom: Dayjs) =>
+    sykdomstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
+
 const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkUtbetaling2, fom: Dayjs, tom: Dayjs) =>
     utbetaling.utbetalingstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
 
@@ -60,7 +63,7 @@ const tidslinjevedtaksperioder = (
     vedtaksperioder: Vedtaksperiode[],
     organisasjonsnummer: string,
     utbetaling?: UtbetalingshistorikkUtbetaling2
-) => {
+): Tidslinjeperiode[] => {
     return vedtaksperioder
         .filter((it) => isUfullstendig(it) || beregningsId === it.beregningIder?.[0])
         .map((it) => {
@@ -72,6 +75,7 @@ const tidslinjevedtaksperioder = (
                 type: Periodetype.VEDTAKSPERIODE,
                 tilstand: utbetaling?.status ?? Utbetalingstatus.INGEN_UTBETALING,
                 utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
+                sykdomstidslinje: it.sykdomstidslinje ?? [],
                 organisasjonsnummer: organisasjonsnummer,
             };
         });
@@ -82,7 +86,7 @@ const revurderingsperioder = (
     beregnetTidslinje: Sykdomsdag[],
     organisasjonsnummer: string,
     utbetaling?: UtbetalingshistorikkUtbetaling2
-) => {
+): Tidslinjeperiode[] => {
     if (!utbetaling) return [];
     const perioder = new PeriodeBuilder().build(
         beregnetTidslinje.filter((it) => it.dato.isSameOrAfter(utbetaling?.utbetalingstidslinje[0].dato))
@@ -95,6 +99,7 @@ const revurderingsperioder = (
             tom: it.tom,
             tilstand: utbetaling.status ?? Utbetalingstatus.INGEN_UTBETALING,
             utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
+            sykdomstidslinje: sykdomstidslinje(beregnetTidslinje, it.fom, it.tom),
             type: Periodetype.REVURDERING,
             organisasjonsnummer: organisasjonsnummer,
         };
@@ -123,7 +128,8 @@ export const useMaksdato = (beregningId: string) => sisteUtbetaling(useHistorikk
 
 export const useNettobeløp = (beregningId: string) => sisteUtbetaling(useHistorikkelement(beregningId)).nettobeløp;
 
-export const useGjenståendeDager = (beregningId: string) => sisteUtbetaling(useHistorikkelement(beregningId)).gjenståendeDager;
+export const useGjenståendeDager = (beregningId: string) =>
+    sisteUtbetaling(useHistorikkelement(beregningId)).gjenståendeDager;
 
 export interface Tidslinjeperiode {
     id: string;
@@ -133,6 +139,7 @@ export interface Tidslinjeperiode {
     type: Periodetype;
     tilstand: Utbetalingstatus;
     utbetalingstidslinje: Utbetalingsdag[];
+    sykdomstidslinje: Sykdomsdag[];
     organisasjonsnummer: string;
 }
 

@@ -11,7 +11,7 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 import { OverstyrbarDagtype } from './OverstyrbarDagtype';
 import { OverstyrbarGradering } from './OverstyrbarGradering';
 import { Overstyringsindikator } from './Overstyringsindikator';
-import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag, AvvistBegrunnelse } from 'internal-types';
+import { AvvistBegrunnelse, Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import { Kilde } from '../Kilde';
 import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
@@ -48,39 +48,58 @@ const TypeContainer = styled.div`
     min-width: 8rem;
 `;
 
-export const ikon = (dag: Sykdomsdag) => {
-    const ikon = (() => {
-        switch (dag.type) {
-            case Dagtype.Syk:
-                return <IkonSyk />;
-            case Dagtype.Ferie:
-                return <IkonFerie />;
-            case Dagtype.Permisjon:
-                return <IkonPermisjon />;
-            case Dagtype.Arbeidsdag:
-                return <IkonArbeidsdag />;
-            case Dagtype.Egenmelding:
-                return <IkonEgenmelding />;
-            case Dagtype.Arbeidsgiverperiode:
-                return <IkonArbeidsgiverperiode />;
-            case Dagtype.Annullert:
-                return <IkonAnnullert />;
-            case Dagtype.Avvist:
-            case Dagtype.Foreldet:
-                return <IkonKryss />;
-            case Dagtype.Ubestemt:
-            case Dagtype.Helg:
-            default:
-                return null;
-        }
-    })();
-    return <IkonContainer>{ikon}</IkonContainer>;
+export const ikonUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
+    const ikonet = [Dagtype.Avvist, Dagtype.Foreldet].includes(utbetaling.type) ? <IkonKryss /> : ikon(syk);
+    return <IkonContainer>{ikonet}</IkonContainer>;
 };
 
-export const type = (dag: Sykdomsdag) => <TypeContainer>{dag.type}</TypeContainer>;
+export const ikonSyk = (syk: Sykdomsdag) => {
+    return <IkonContainer>{ikon(syk)}</IkonContainer>;
+};
 
-export const overstyrbarType = (dag: Sykdomsdag, onOverstyr: (dag: Sykdomsdag) => void) =>
-    dag.type !== Dagtype.Helg ? <OverstyrbarDagtype dag={dag} onOverstyr={onOverstyr} /> : type(dag);
+const ikon = (dag: Sykdomsdag) => {
+    switch (dag.type) {
+        case Dagtype.Syk:
+            return <IkonSyk />;
+        case Dagtype.Ferie:
+            return <IkonFerie />;
+        case Dagtype.Permisjon:
+            return <IkonPermisjon />;
+        case Dagtype.Arbeidsdag:
+            return <IkonArbeidsdag />;
+        case Dagtype.Egenmelding:
+            return <IkonEgenmelding />;
+        case Dagtype.Arbeidsgiverperiode:
+            return <IkonArbeidsgiverperiode />;
+        case Dagtype.Annullert:
+            return <IkonAnnullert />;
+        case Dagtype.Avvist:
+        case Dagtype.Foreldet:
+            return <IkonKryss />;
+        case Dagtype.Ubestemt:
+        case Dagtype.Helg:
+        default:
+            return null;
+    }
+};
+
+export const typeUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
+    const sykedagTekst = syk.type;
+    const dagTekst =
+        utbetaling.type == Dagtype.Avvist
+            ? `${sykedagTekst} (Avvist)`
+            : utbetaling.type == Dagtype.Foreldet
+            ? `${sykedagTekst} (Foreldet)`
+            : sykedagTekst;
+    return <TypeContainer>{dagTekst}</TypeContainer>;
+};
+
+export const typeSyk = (syk: Sykdomsdag) => {
+    return <TypeContainer>{syk.type}</TypeContainer>;
+};
+
+export const overstyrbarType = (dag: Sykdomsdag, onOverstyr: (_: Sykdomsdag) => void) =>
+    dag.type !== Dagtype.Helg ? <OverstyrbarDagtype dag={dag} onOverstyr={onOverstyr} /> : typeSyk(dag);
 
 const KildeContainer = styled.div`
     display: flex;

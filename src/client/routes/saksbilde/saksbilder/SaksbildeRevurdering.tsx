@@ -110,6 +110,7 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                         gjenståendeDager={gjenståendeDager}
                         periode={periode}
                         utbetalingstidslinje={utbetalingstidslinje}
+                        sykdomstidslinje={aktivPeriode.sykdomstidslinje}
                     />
                 </Flex>
             </AutoFlexContainer>

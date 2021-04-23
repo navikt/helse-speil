@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Overstyringsskjema } from '../../../components/tabell/Overstyringsskjema';
 import {
     dato,
-    ikon,
+    ikonSyk,
     overstyrbarGradering,
     overstyrbarKilde,
     overstyrbarType,
     tomCelle,
 } from '../../../components/tabell/rader';
-import { Dagtype, Sykdomsdag, Vedtaksperiode } from 'internal-types';
+import { Dagtype, Sykdomsdag } from 'internal-types';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import Element from 'nav-frontend-typografi/lib/element';
 import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
@@ -114,7 +114,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
             celler: [
                 tomCelle(),
                 dato(dagen),
-                ikon(dagen),
+                ikonSyk(dagen),
                 overstyrbarType(dagen, leggTilOverstyrtDag),
                 overstyrbarGradering(dagen, leggTilOverstyrtDag),
                 overstyrbarKilde(dagen, erOverstyrt),

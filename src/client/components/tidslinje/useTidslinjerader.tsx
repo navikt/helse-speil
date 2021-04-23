@@ -6,7 +6,6 @@ import {
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
     UtbetalingshistorikkUtbetaling2,
-    Utbetalingstype,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
@@ -25,6 +24,7 @@ import {
     UtbetalingshistorikkElement,
     Utbetalingstatus,
 } from '../../modell/UtbetalingshistorikkElement';
+import { PeriodObject } from '@navikt/helse-frontend-timeline/src/components/types';
 
 export type TidslinjeradObject = {
     id: string;
@@ -54,7 +54,7 @@ const tilstand = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): 
     }
 };
 
-export const toVedtaksperioder = (vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[]) => {
+export const toVedtaksperioder = (vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[]): PeriodObject[] => {
     return (
         vedtaksperioder.map((periode) => {
             return {
@@ -103,7 +103,7 @@ export const tilPeriodetilstand = (utbetaling: UtbetalingshistorikkUtbetaling2, 
 
 export const toTidslinjeperioder = (element: Historikkelement, fom: Dayjs, tom: Dayjs): TidslinjeperiodeObject[] => {
     const sisteUtbetaling = element.utbetalinger[element.utbetalinger.length - 1];
-    const perioder = element.perioder.map((it, i) => {
+    const perioder = element.perioder.map((it) => {
         return {
             id: it.id,
             start: it.fom.toDate(),

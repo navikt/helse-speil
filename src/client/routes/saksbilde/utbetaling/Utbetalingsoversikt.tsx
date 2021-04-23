@@ -3,8 +3,16 @@ import styled from '@emotion/styled';
 import Element from 'nav-frontend-typografi/lib/element';
 import classNames from 'classnames';
 import { Tabell } from '@navikt/helse-frontend-tabell';
-import { Dagtype, Periode, Utbetalingsdag } from 'internal-types';
-import { dato, gradering, ikon, merknad, totalGradering, type, utbetaling } from '../../../components/tabell/rader';
+import { Dagtype, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import {
+    dato,
+    gradering,
+    ikonUtbetaling,
+    merknad,
+    totalGradering,
+    typeUtbetaling,
+    utbetaling,
+} from '../../../components/tabell/rader';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { toKronerOgØre } from '../../../utils/locale';
 import { Dayjs } from 'dayjs';
@@ -46,13 +54,14 @@ const Utbetalingstabell = styled(Tabell)`
 
 const utbetalingsceller = (
     dag: Utbetalingsdag,
+    sykdag: Sykdomsdag,
     dagerIgjenForDato: number | string,
     merknadTekst?: string
 ): Utbetalingsceller => [
     undefined,
     dato(dag),
-    ikon(dag),
-    type(dag),
+    ikonUtbetaling(sykdag, dag),
+    typeUtbetaling(sykdag, dag),
     gradering(dag),
     totalGradering(dag),
     undefined,
@@ -61,18 +70,30 @@ const utbetalingsceller = (
     merknad(dag, merknadTekst),
 ];
 
-const maksdatorad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingstabellrad => ({
-    celler: utbetalingsceller(dag, dagerIgjenForDato, 'Siste utbetalingsdag for sykepenger'),
+const maksdatorad = (
+    dag: Utbetalingsdag,
+    sykdag: Sykdomsdag,
+    dagerIgjenForDato: number | string
+): Utbetalingstabellrad => ({
+    celler: utbetalingsceller(dag, sykdag, dagerIgjenForDato, 'Siste utbetalingsdag for sykepenger'),
     className: '',
 });
 
-const avvistRad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingstabellrad => ({
-    celler: utbetalingsceller(dag, dagerIgjenForDato),
+const avvistRad = (
+    dag: Utbetalingsdag,
+    sykdag: Sykdomsdag,
+    dagerIgjenForDato: number | string
+): Utbetalingstabellrad => ({
+    celler: utbetalingsceller(dag, sykdag, dagerIgjenForDato),
     className: classNames('error'),
 });
 
-const utbetalingstabellrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string): Utbetalingstabellrad => ({
-    celler: utbetalingsceller(dag, dagerIgjenForDato),
+const utbetalingstabellrad = (
+    dag: Utbetalingsdag,
+    sykdag: Sykdomsdag,
+    dagerIgjenForDato: number | string
+): Utbetalingstabellrad => ({
+    celler: utbetalingsceller(dag, sykdag, dagerIgjenForDato),
     className: classNames(dag.type === Dagtype.Helg && 'disabled'),
 });
 
@@ -161,12 +182,14 @@ interface UtbetalingsoversiktProps {
     maksdato?: Dayjs;
     gjenståendeDager?: number;
     utbetalingstidslinje: Utbetalingsdag[];
+    sykdomstidslinje: Sykdomsdag[];
     periode: Periode;
 }
 
 export const Utbetalingsoversikt = ({
     maksdato,
     gjenståendeDager,
+    sykdomstidslinje,
     utbetalingstidslinje,
     periode,
 }: UtbetalingsoversiktProps) => {
@@ -178,12 +201,19 @@ export const Utbetalingsoversikt = ({
     const erMaksdato = (dag: Utbetalingsdag) => maksdato && dag.dato.isSame(maksdato, 'day');
     const erAvvist = (dag: Utbetalingsdag) => dag.type === Dagtype.Avvist;
 
-    const tilUtbetalingsrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string) =>
-        erMaksdato(dag) && dag.dato.isBefore(periode.tom)
-            ? maksdatorad(dag, dagerIgjenForDato)
+    const hentSykdagForDato = (dato: Dayjs): Sykdomsdag => {
+        return sykdomstidslinje.find((it) => it.dato.isSame(dato))!;
+    };
+
+    const tilUtbetalingsrad = (dag: Utbetalingsdag, dagerIgjenForDato: number | string) => {
+        const sykdag = hentSykdagForDato(dag.dato);
+
+        return erMaksdato(dag) && dag.dato.isBefore(periode.tom)
+            ? maksdatorad(dag, sykdag, dagerIgjenForDato)
             : erAvvist(dag)
-            ? avvistRad(dag, dagerIgjenForDato)
-            : utbetalingstabellrad(dag, dagerIgjenForDato);
+            ? avvistRad(dag, sykdag, dagerIgjenForDato)
+            : utbetalingstabellrad(dag, sykdag, dagerIgjenForDato);
+    };
 
     const rader =
         utbetalingstidslinje.map((dag, i) =>

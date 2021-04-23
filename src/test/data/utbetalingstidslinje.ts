@@ -15,6 +15,8 @@ const utbetalingsdagtype = (sykdomsdagtype: SpleisSykdomsdagtype): SpleisUtbetal
         case SpleisSykdomsdagtype.FERIEDAG:
         case SpleisSykdomsdagtype.FERIEDAG_SØKNAD:
         case SpleisSykdomsdagtype.FERIEDAG_INNTEKTSMELDING:
+        case SpleisSykdomsdagtype.PERMISJONSDAG:
+        case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
             return SpleisUtbetalingsdagtype.FERIEDAG;
         case SpleisSykdomsdagtype.FORELDET_SYKEDAG:
             return SpleisUtbetalingsdagtype.AVVISTDAG;
@@ -29,9 +31,6 @@ const utbetalingsdagtype = (sykdomsdagtype: SpleisSykdomsdagtype): SpleisUtbetal
         case SpleisSykdomsdagtype.UBESTEMTDAG:
         case SpleisSykdomsdagtype.ANNULLERT_DAG:
             return SpleisUtbetalingsdagtype.UKJENTDAG;
-        case SpleisSykdomsdagtype.PERMISJONSDAG:
-        case SpleisSykdomsdagtype.PERMISJONSDAG_SØKNAD:
-            return SpleisUtbetalingsdagtype.PERMISJONSDAG;
         case SpleisSykdomsdagtype.SYKEDAG:
         case SpleisSykdomsdagtype.SYKEDAG_SØKNAD:
         case SpleisSykdomsdagtype.SYKEDAG_SYKMELDING:

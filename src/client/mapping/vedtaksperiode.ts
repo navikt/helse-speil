@@ -132,7 +132,7 @@ export class VedtaksperiodeBuilder {
                 tom: dayjs(ufullstendigPeriode.tom),
                 fullstendig: false,
                 tilstand: Vedtaksperiodetilstand[ufullstendigPeriode.tilstand] ?? Vedtaksperiodetilstand.Ukjent,
-                utbetalingstidslinje: ufullstendigPeriode.utbetalingstidslinje?.map(mapUtbetalingsdag()),
+                utbetalingstidslinje: ufullstendigPeriode.utbetalingstidslinje.map(mapUtbetalingsdag()),
             },
             problems: this.problems,
         };
