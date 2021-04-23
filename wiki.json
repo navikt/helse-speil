@@ -74,7 +74,7 @@
     {
         "varsel": "Arbeidsgiverperioden er ikke utbetalt grunnet sen varsling om fravær. Vurder § 8-22",
         "betydning": "Arbeidsgiverperioden er ikke utbetalt fordi bruker varslet for sent om fravær",
-        "løsning": "Hvis ikke 8-22 sak kan saken behandles i ny løsning",
+        "løsning": "Utbetal fra dag 17 dersom vilkårene for sykepenger er oppfylt",
         "viktighet": "Høy"
     },
     {
@@ -230,7 +230,7 @@
     {
         "varsel": "Utenlandsopphold oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingperioden",
         "betydning": "Det er oppgitt utenlandsopphold utenfor EØS i søknaden",
-        "løsning": "Undersøk om det er vedtak om beholde sykepenger under utenlandsopphold. Hvis det er søkt uten at det er behandlet - legg saken på vent til det foreligger vedtak i saken. Korriger dager dersom det er gitt avslag - og godkjenn saken i ny løsning. Hvis brukeren har fått brev fra NAV-kontoret, trenger du ikke å sende nytt vedtak.",
+        "løsning": "Undersøk om det er vedtak om beholde sykepenger under utenlandsopphold. Hvis det er søkt uten at det er behandlet - legg saken på vent til det foreligger vedtak i saken. Korriger dager dersom det er gitt avslag - og godkjenn saken i ny løsning. Hvis brukeren har fått vedtak fra NAV-kontoret, trenger du ikke å sende nytt vedtak.",
         "viktighet": "Høy"
     },
     {
@@ -242,7 +242,7 @@
     {
         "varsel": "Permisjon oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden",
         "betydning": "Det skal ikke utbetales sykepenger under permisjon.",
-        "løsning": "Vurder retten til sykepenger hvis perioden med sykmelding er lenger enn permisjonen. Vurder å sende brev til brukeren. Gjelder det mer enn 14 dager, skal det alltid sendes vedtak.",
+        "løsning": "Retten til sykepenger skal vurderes dersom permisjonen er lengre enn 14 dager. Vurder å sende vedtak fra Infotrygd.",
         "viktighet": "Høy"
     },
     {
@@ -260,7 +260,7 @@
     {
         "varsel": "Perioden er avslått på grunn av at den sykmeldte ikke er medlem av Folketrygden",
         "betydning": "Alle dager er avvist på grunn av at personen ikke er medlem av Folketrygden",
-        "løsning": "Undersøk om det er riktig at personen ikke er medlem av Folketrygden. Hvis personen ikke er medlem kan saken godkjennes i speil og det må sendes avslagsbrev i Infotrygd.",
+        "løsning": "Undersøk om det er riktig at personen ikke er medlem av Folketrygden. Hvis personen ikke er medlem kan saken godkjennes i speil og det må sendes vedtak i Infotrygd.",
         "viktighet": "Høy"
     }
 ]
