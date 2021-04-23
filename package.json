@@ -193,6 +193,10 @@
         "typescript": "^4.2.4",
         "whatwg-fetch": "^3.6.2"
     },
+    "engines": {
+        "node": ">=15.0.0",
+        "npm": ">=7.0.0"
+    },
     "snyk": true,
     "alias": {
         "test-data": "./src/test/data",
