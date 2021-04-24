@@ -258,6 +258,7 @@ export interface Arbeidsgiver {
     navn: string;
     utbetalingshistorikk: UtbetalingshistorikkElement[];
     vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
+    arbeidsforhold: Arbeidsforhold[];
 }
 
 export type Kjønn = 'mann' | 'kvinne' | 'ukjent';

@@ -11,11 +11,12 @@ import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { Arbeidsforhold } from '../Arbeidsforhold';
+import { Arbeidsforhold as ArbeidsforholdListe } from 'internal-types';
 import { usePerson, useSkalAnonymiserePerson } from '../../../state/person';
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 import { Dayjs } from 'dayjs';
-import { Arbeidsgiverinntekt, Periode, Utbetalingsdag } from 'internal-types';
+import { Periode, Utbetalingsdag } from 'internal-types';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -85,7 +86,10 @@ export interface UtbetalingProps {
     maksdato?: Dayjs;
     periode: Periode;
     utbetalingstidslinje: Utbetalingsdag[];
-    arbeidsgiverinntekt?: Arbeidsgiverinntekt;
+    organisasjonsnummer: string;
+    arbeidsgivernavn: string;
+    arbeidsforhold: ArbeidsforholdListe[];
+    månedsbeløp?: number;
 }
 
 export const Utbetaling = ({
@@ -94,7 +98,10 @@ export const Utbetaling = ({
     maksdato,
     periode,
     utbetalingstidslinje,
-    arbeidsgiverinntekt,
+    arbeidsforhold,
+    organisasjonsnummer,
+    arbeidsgivernavn,
+    månedsbeløp,
 }: UtbetalingProps) => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
@@ -106,8 +113,6 @@ export const Utbetaling = ({
 
     const periodeFom = periode.fom.format(NORSK_DATOFORMAT_KORT);
     const periodeTom = periode.tom.format(NORSK_DATOFORMAT_KORT);
-
-    const { arbeidsgivernavn, organisasjonsnummer, omregnetÅrsinntekt, arbeidsforhold } = arbeidsgiverinntekt!;
 
     return (
         <AgurkErrorBoundary sidenavn="Utbetaling">
@@ -145,12 +150,12 @@ export const Utbetaling = ({
                                     : organisasjonsnummer}
                             </Normaltekst>
                         </Clipboard>
-                        {arbeidsforhold?.[0] && (
-                            <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...arbeidsforhold[0]} />
-                        )}
+                        {arbeidsforhold.map((it) => (
+                            <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...it} />
+                        ))}
                         <Flex justifyContent="space-between">
                             <Normaltekst>Månedsbeløp</Normaltekst>
-                            <Normaltekst>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Normaltekst>
+                            <Normaltekst>{somPenger(månedsbeløp)}</Normaltekst>
                         </Flex>
                     </Kort>
                     <Kort>

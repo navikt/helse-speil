@@ -38,12 +38,28 @@ export class ArbeidsgiverBuilder {
             return { problems: this.problems };
         }
         this.mapArbeidsgiverinfo();
+        this.mapArbeidsforhold();
         this.mapVedtaksperioder();
         this.sortVedtaksperioder();
         this.markerNyestePeriode();
         this.mapUtbetalingshistorikk();
         return { arbeidsgiver: this.arbeidsgiver as Arbeidsgiver, problems: this.problems };
     }
+
+    private mapArbeidsforhold = () => {
+        this.arbeidsgiver = {
+            ...this.arbeidsgiver,
+            arbeidsforhold:
+                this.person?.arbeidsforhold
+                    ?.filter((it) => it.organisasjonsnummer === this.arbeidsgiver.organisasjonsnummer)
+                    .map((it) => ({
+                        stillingstittel: it.stillingstittel,
+                        stillingsprosent: it.stillingsprosent,
+                        startdato: dayjs(it.startdato),
+                        sluttdato: it.sluttdato ? dayjs(it.sluttdato) : undefined,
+                    })) ?? [],
+        };
+    };
 
     private markerNyestePeriode() {
         if (this.arbeidsgiver.vedtaksperioder?.length ?? -1 > 0) {

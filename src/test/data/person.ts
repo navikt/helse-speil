@@ -741,6 +741,13 @@ export const mappetPersonObject: Person = {
                     ],
                 },
             ],
+            arbeidsforhold: [
+                {
+                    stillingstittel: 'Potetplukker',
+                    stillingsprosent: 100,
+                    startdato: dayjs('2018-01-01'),
+                },
+            ],
         },
     ],
     infotrygdutbetalinger: [],

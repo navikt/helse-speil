@@ -49,6 +49,7 @@ const enArbeidsgiver = async () => ({
     vedtaksperioder: [await enSpeilVedtaksperiode()],
     utbetalingshistorikk: [],
     overstyringer: new Map<string, Overstyring>(),
+    arbeidsforhold: [],
 });
 
 const personTilBehandling = async () => ({

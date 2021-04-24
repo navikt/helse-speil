@@ -17,7 +17,7 @@ import { Utbetalingshistorikk } from '../utbetalingshistorikk/Utbetalingshistori
 
 import '@navikt/helse-frontend-logg/lib/main.css';
 import { getErrorMelding, LoggHeader } from '../Saksbilde';
-import { useArbeidsgiverOrganisasjonsnummer } from '../../../modell/Arbeidsgiver';
+import { useArbeidsforhold, useArbeidsgivernavn, useOrganisasjonsnummer } from '../../../modell/Arbeidsgiver';
 
 interface SaksbildeVedtaksperiodeProps {
     personTilBehandling: Person;
@@ -83,16 +83,17 @@ export const SaksbildeVedtaksperiode = ({
 
     const fom = aktivVedtaksperiode.fom;
     const tom = aktivVedtaksperiode.tom;
-    const arbeidsgivernavn = aktivVedtaksperiode.arbeidsgivernavn;
-    const organisasjonsnummer = useArbeidsgiverOrganisasjonsnummer(aktivVedtaksperiode.id);
+    const organisasjonsnummer = useOrganisasjonsnummer(aktivVedtaksperiode.id);
+    const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer) ?? 'Ukjent arbeidsgivernavn';
+    const arbeidsforhold = useArbeidsforhold(organisasjonsnummer) ?? [];
     const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt;
     const maksdato = aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato;
     const gjenståendeDager = aktivVedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
     const utbetalingstidslinje = aktivVedtaksperiode.utbetalingstidslinje;
     const periode = { fom: aktivVedtaksperiode.fom, tom: aktivVedtaksperiode.tom };
-    const arbeidsgiverinntekt = aktivVedtaksperiode.inntektsgrunnlag.inntekter.find(
-        (it) => it.organisasjonsnummer === aktivVedtaksperiode.inntektsgrunnlag.organisasjonsnummer
-    );
+    const månedsbeløp = aktivVedtaksperiode.inntektsgrunnlag?.inntekter?.find(
+        (it) => it.organisasjonsnummer === organisasjonsnummer
+    )?.omregnetÅrsinntekt?.månedsbeløp;
     const over67år = (aktivVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
@@ -128,7 +129,10 @@ export const SaksbildeVedtaksperiode = ({
                                                             maksdato={maksdato}
                                                             periode={periode}
                                                             skjæringstidspunkt={skjæringstidspunkt}
-                                                            arbeidsgiverinntekt={arbeidsgiverinntekt}
+                                                            organisasjonsnummer={organisasjonsnummer}
+                                                            arbeidsgivernavn={arbeidsgivernavn}
+                                                            arbeidsforhold={arbeidsforhold}
+                                                            månedsbeløp={månedsbeløp}
                                                         />
                                                     </Route>
                                                     <Route path={`${path}/sykmeldingsperiode`}>

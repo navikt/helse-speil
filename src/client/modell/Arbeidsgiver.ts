@@ -1,8 +1,12 @@
 import { usePerson } from '../state/person';
+import { Arbeidsforhold } from 'internal-types';
 
-export const useArbeidsgivernavn = (orgnr: string): string | undefined =>
-    usePerson()?.arbeidsgivere.find((a) => a.organisasjonsnummer === orgnr)?.navn;
+export const useArbeidsgivernavn = (organisasjonsnummer: string): string | undefined =>
+    usePerson()?.arbeidsgivere.find((a) => a.organisasjonsnummer === organisasjonsnummer)?.navn;
 
-export const useArbeidsgiverOrganisasjonsnummer = (vedtaksperiodeId: string): string =>
-    usePerson()!.arbeidsgivere.find((a) => a.vedtaksperioder.find((v) => v.id === vedtaksperiodeId))!
-        .organisasjonsnummer;
+export const useOrganisasjonsnummer = (vedtaksperiodeId: string): string =>
+    usePerson()!.arbeidsgivere.find((a) => a.vedtaksperioder.find((v) => v.id === vedtaksperiodeId))
+        ?.organisasjonsnummer!;
+
+export const useArbeidsforhold = (organisasjonsnummer: string): Arbeidsforhold[] | undefined =>
+    usePerson()?.arbeidsgivere.find((a) => a.organisasjonsnummer === organisasjonsnummer)?.arbeidsforhold;
