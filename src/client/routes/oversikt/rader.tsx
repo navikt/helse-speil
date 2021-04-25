@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
@@ -168,22 +168,12 @@ interface KjøttbolleProps {
 const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
     const saksbehandler = useInnloggetSaksbehandler();
 
-    const StyledMeatball = styled(Meatball)`
-        margin: 0.5rem 0;
-    `;
-
     const erTildeltInnloggetBruker = oppgave.tildeling?.saksbehandler?.oid === saksbehandler.oid;
-
-    const StyledDropdown = styled(Dropdown)`
-        & > ul {
-            white-space: normal;
-        }
-    `;
 
     return (
         <CellContainer>
             <span data-tip="Mer" data-for={'kjottbolle'}>
-                <StyledDropdown labelRenderer={(_, onClick) => <StyledMeatball onClick={onClick} />}>
+                <Dropdown labelRenderer={(_, onClick) => <Meatball onClick={onClick} />}>
                     <Tildelingsknapp
                         oppgavereferanse={oppgave.oppgavereferanse}
                         tildeling={oppgave.tildeling}
@@ -192,7 +182,7 @@ const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
                     {erTildeltInnloggetBruker && (
                         <PåVentKnapp erPåVent={oppgave.tildeling?.påVent} oppgavereferanse={oppgave.oppgavereferanse} />
                     )}
-                </StyledDropdown>
+                </Dropdown>
             </span>
             <Tooltip id={'kjottbolle'} effect={'solid'} offset={{ top: -10 }} />
         </CellContainer>

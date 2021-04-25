@@ -8,6 +8,7 @@ import { Oppgave } from 'internal-types';
 import { Dropdown } from '../../components/dropdown/Dropdown';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flex } from '../../components/Flex';
+import { PopoverOrientering } from 'nav-frontend-popover';
 
 const Container = styled.div`
     display: flex;
@@ -117,7 +118,7 @@ export const Tabs = () => {
                 <VentendeTab antall={mineOppgaver?.filter(({ tildeling }) => tildeling?.påVent)?.length ?? 0} />
             </div>
             <Container>
-                <Dropdown orientering={'venstre'}>
+                <Dropdown orientering={PopoverOrientering.UnderHoyre}>
                     <AnonymiserData />
                 </Dropdown>
             </Container>

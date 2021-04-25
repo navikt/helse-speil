@@ -49,7 +49,7 @@
         "@navikt/helse-frontend-accordion": "^2.0.2",
         "@navikt/helse-frontend-header": "^2.0.1",
         "@navikt/helse-frontend-logg": "^2.0.1",
-        "@navikt/helse-frontend-meatball": "^0.0.2",
+        "@navikt/helse-frontend-meatball": "^0.0.3",
         "@navikt/helse-frontend-progresjonsbar": "^1.0.4",
         "@navikt/helse-frontend-sakslinje": "^1.0.3",
         "@navikt/helse-frontend-tabell": "^2.0.2",

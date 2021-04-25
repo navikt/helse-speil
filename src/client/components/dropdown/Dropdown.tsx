@@ -1,14 +1,10 @@
-import React, { HTMLAttributes, useRef, useState } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import styled from '@emotion/styled';
-import { useInteractOutside } from '../../hooks/useInteractOutside';
 import { Button } from '../Button';
 import NavFrontendChevron from 'nav-frontend-chevron';
 import classNames from 'classnames';
 import { Knapp } from 'nav-frontend-knapper';
-
-const Container = styled.span`
-    position: relative;
-`;
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 const EnkelKnapp = styled(Button)`
     display: flex;
@@ -51,46 +47,22 @@ export const DropdownMenyknapp = styled(Knapp)`
 `;
 
 export const Strek = styled.hr`
+    width: 100%;
     border: none;
     border-top: 1px solid var(--navds-color-border);
 `;
 
-interface ListeProps {
-    orientering: 'høyre' | 'venstre' | 'midtstilt';
-}
-
-const Liste = styled.ul<ListeProps>`
-    position: absolute;
+const Liste = styled.ul`
+    display: flex;
+    flex-direction: column;
     list-style: none;
-    background: var(--navds-color-background);
-    border-radius: 0.25rem;
-    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.3);
-    min-width: 1rem;
-    min-height: 1rem;
-    z-index: 1000;
     padding: 0.5rem 0;
-
-    &:before {
-        position: absolute;
-        width: 24px;
-        height: 10px;
-        top: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        content: '';
-    }
-
-    ${(props) =>
-        props.orientering === 'venstre'
-            ? 'right: 0;'
-            : props.orientering === 'høyre'
-            ? 'left: 0;'
-            : 'left:50%; transform: translateX(-50%);'}
+    background: var(--navds-color-background);
 `;
 
 interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
     onClick?: (event: React.MouseEvent) => void;
-    orientering?: 'høyre' | 'venstre' | 'midtstilt';
+    orientering?: PopoverOrientering;
     labelRenderer?: (ekspandert: boolean, onClick: (event: React.MouseEvent) => void) => JSX.Element;
 }
 
@@ -106,7 +78,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
     className,
     onClick,
     children,
-    orientering = 'midtstilt',
+    orientering = PopoverOrientering.Under,
     labelRenderer = (ekspandert, onClickWrapper) => (
         <EnkelKnapp onClick={onClickWrapper}>
             {'Meny'}
@@ -114,30 +86,33 @@ export const Dropdown: React.FC<DropdownProps> = ({
         </EnkelKnapp>
     ),
 }) => {
-    const [ekspandert, setEkspandert] = useState(false);
-    const containerRef = useRef<HTMLSpanElement>(null);
+    const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
 
-    useInteractOutside({
-        ref: containerRef,
-        active: ekspandert,
-        onInteractOutside: () => setEkspandert(false),
-    });
-
-    const onClickWrapper = (event: React.MouseEvent) => {
+    const onClickWrapper = (event: React.MouseEvent<HTMLElement>) => {
         onClick?.(event);
-        setEkspandert(!ekspandert);
+        !anchor ? setAnchor(event.currentTarget) : setAnchor(undefined);
     };
 
     const lukk = () => {
-        setEkspandert(false);
+        setAnchor(undefined);
     };
 
     return (
-        <Container ref={containerRef} className={classNames(className)}>
-            {labelRenderer(ekspandert, onClickWrapper)}
+        <div className={classNames(className)}>
+            {labelRenderer(anchor !== undefined, onClickWrapper)}
             <DropdownContext.Provider value={{ lukk }}>
-                {ekspandert && <Liste orientering={orientering}>{children}</Liste>}
+                <Popover
+                    tabIndex={-1}
+                    orientering={orientering}
+                    utenPil
+                    ankerEl={anchor}
+                    autoFokus={false}
+                    onRequestClose={() => setAnchor(undefined)}
+                    avstandTilAnker={3}
+                >
+                    <Liste>{children}</Liste>
+                </Popover>
             </DropdownContext.Provider>
-        </Container>
+        </div>
     );
 };

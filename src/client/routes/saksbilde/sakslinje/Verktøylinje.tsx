@@ -10,6 +10,7 @@ import { PåVentKnapp } from './PåVentKnapp';
 import { AnonymiserData } from './AnonymiserData';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 import { Dropdown, Strek } from '../../../components/dropdown/Dropdown';
+import { PopoverOrientering } from 'nav-frontend-popover';
 
 const Container = styled.div`
     display: flex;
@@ -32,7 +33,7 @@ export const Verktøylinje = () => {
 
     return (
         <Container>
-            <Dropdown orientering={'venstre'}>
+            <Dropdown orientering={PopoverOrientering.UnderHoyre}>
                 {aktivVedtaksperiode && (
                     <>
                         {aktivVedtaksperiode.oppgavereferanse && (
