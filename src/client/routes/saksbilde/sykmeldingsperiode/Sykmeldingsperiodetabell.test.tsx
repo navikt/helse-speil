@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
-import { Arbeidsgiver, Person, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, Dagtype, Person, Vedtaksperiode } from 'internal-types';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { SpesialistArbeidsgiver, SpleisVedtaksperiodetilstand } from 'external-types';
 import '@testing-library/jest-dom/extend-expect';
@@ -26,6 +26,18 @@ const enUtbetaltVedtaksperiode = () => {
     return vedtaksperiode as Vedtaksperiode;
 };
 
+const enVedtaksperiodeMedArbeidsdagIForkant = (): Vedtaksperiode => {
+    const vedtaksperiode = enUtbetaltVedtaksperiode();
+    vedtaksperiode.sykdomstidslinje[0].type = Dagtype.Arbeidsdag;
+    return vedtaksperiode;
+};
+
+const enVedtaksperiodeMedArbeidsdag = (): Vedtaksperiode => {
+    const vedtaksperiode = enUtbetaltVedtaksperiode();
+    vedtaksperiode.sykdomstidslinje[1].type = Dagtype.Arbeidsdag;
+    return vedtaksperiode;
+};
+
 const renderSykmeldingsperiodetabell = (vedtaksperiode: Vedtaksperiode, person: Person = mappetPerson()) =>
     render(<Sykmeldingsperiodetabell person={person} vedtaksperiode={vedtaksperiode} toggleOverstyring={() => true} />);
 
@@ -47,5 +59,15 @@ describe('Sykmeldingsperiodetabell', () => {
         const person = { arbeidsgivere: [{} as Arbeidsgiver, {} as Arbeidsgiver] } as Person;
         renderSykmeldingsperiodetabell(enIkkeUtbetaltVedtaksperiode(), person);
         expect(screen.queryByText('Endre')).toBeNull();
+    });
+    test('rendrer ikke arbeidsdager i begynnelsen av perioden', async () => {
+        const person = { arbeidsgivere: [{} as Arbeidsgiver, {} as Arbeidsgiver] } as Person;
+        renderSykmeldingsperiodetabell(enVedtaksperiodeMedArbeidsdagIForkant(), person);
+        expect(screen.queryByText('Arbeidsdag')).toBeNull();
+    });
+    test('rendrer arbeidsdager i midten av perioden', async () => {
+        const person = { arbeidsgivere: [{} as Arbeidsgiver, {} as Arbeidsgiver] } as Person;
+        renderSykmeldingsperiodetabell(enVedtaksperiodeMedArbeidsdag(), person);
+        expect(screen.queryByText('Arbeidsdag')).toBeVisible();
     });
 });

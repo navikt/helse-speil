@@ -11,12 +11,22 @@ import { useAddToast, useRemoveToast } from '../../../state/toasts';
 import { nyesteOpptegnelseMedTypeOppgaveState } from '../../../state/opptegnelser';
 import { useRecoilValue } from 'recoil';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import { Dagtype, Sykdomsdag } from 'internal-types';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 2rem;
 `;
+
+export const trimLedendeArbeidsdager = (sykdomstidslinje: Sykdomsdag[]): Sykdomsdag[] => {
+    const førsteIkkearbeidsdag = sykdomstidslinje.findIndex((dag) => dag.type !== Dagtype.Arbeidsdag) ?? 0;
+    return sykdomstidslinje.slice(førsteIkkearbeidsdag);
+};
+
+const trimLedendeArbeidsdagerNullable = (sykdomstidslinje?: Sykdomsdag[]): Sykdomsdag[] | undefined => {
+    return sykdomstidslinje !== undefined ? trimLedendeArbeidsdager(sykdomstidslinje) : undefined;
+};
 
 export const Sykmeldingsperiode = () => {
     const person = usePerson();
@@ -55,7 +65,7 @@ export const Sykmeldingsperiode = () => {
                             setKalkulerer(true);
                         }}
                         onToggleOverstyring={() => setOverstyrer((o) => !o)}
-                        originaleDager={aktivVedtaksperiode?.sykdomstidslinje}
+                        originaleDager={trimLedendeArbeidsdagerNullable(aktivVedtaksperiode?.sykdomstidslinje)}
                     />
                 ) : (
                     person &&

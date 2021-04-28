@@ -151,8 +151,8 @@ export const Utbetaling = ({
                                     : organisasjonsnummer}
                             </Normaltekst>
                         </Clipboard>
-                        {arbeidsforhold.map((it) => (
-                            <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...it} />
+                        {arbeidsforhold.map((it, index) => (
+                            <Arbeidsforhold key={index} anonymiseringEnabled={anonymiseringEnabled} {...it} />
                         ))}
                         <Flex justifyContent="space-between">
                             <Normaltekst>Månedsbeløp</Normaltekst>

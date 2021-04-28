@@ -16,7 +16,6 @@ import {
     SpesialistVedtaksperiode,
     SpleisForlengelseFraInfotrygd,
     SpleisPeriodetype,
-    SpleisSykdomsdag,
     SpleisSykdomsdagtype,
     SpleisUtbetalinger,
     SpleisUtbetalingslinje,
@@ -142,7 +141,6 @@ export class VedtaksperiodeBuilder {
         vedtaksperiode: Vedtaksperiode;
         problems: Error[];
     } => {
-        this.trimLedendeArbeidsdager();
         this.mapEnkleProperties();
         this.mapVilkår();
         this.mapTilstand();
@@ -159,28 +157,9 @@ export class VedtaksperiodeBuilder {
         this.mapRisikovurdering();
         this.mapInntektsgrunnlag();
         this.setBehandlet(!!this.unmapped.godkjentAv || this.unmapped.automatiskBehandlet);
-        this.setAutomatiskBehandlet(this.unmapped.automatiskBehandlet === true);
+        this.setAutomatiskBehandlet(this.unmapped.automatiskBehandlet);
         this.setForlengelseFraInfotrygd(mapForlengelseFraInfotrygd(this.unmapped.forlengelseFraInfotrygd));
         return { vedtaksperiode: this.vedtaksperiode as Vedtaksperiode, problems: this.problems };
-    };
-
-    private trimLedendeArbeidsdager = () => {
-        const førsteArbeidsdag = this.unmapped.sykdomstidslinje.findIndex(
-            (dag: SpleisSykdomsdag) =>
-                dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING ||
-                dag.type === SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD ||
-                dag.type === SpleisSykdomsdagtype.IMPLISITT_DAG ||
-                dag.type === SpleisSykdomsdagtype.ARBEIDSDAG
-        );
-        if (førsteArbeidsdag !== 0) return;
-        const førsteIkkearbeidsdag = this.unmapped.sykdomstidslinje.findIndex(
-            (dag) =>
-                dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_INNTEKTSMELDING &&
-                dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG_SØKNAD &&
-                dag.type !== SpleisSykdomsdagtype.IMPLISITT_DAG &&
-                dag.type !== SpleisSykdomsdagtype.ARBEIDSDAG
-        );
-        this.unmapped.sykdomstidslinje = this.unmapped.sykdomstidslinje.slice(førsteIkkearbeidsdag);
     };
 
     private mapEnkleProperties = () => {

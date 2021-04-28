@@ -130,7 +130,7 @@ const somHeltall = (value?: number) => value && +value.toFixed(0);
 
 export const mapSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdomsdag[] =>
     sykdomstidslinje.map((dag) => ({
-        type: sykdomstidslinjedag(dag.type as SpleisSykdomsdagtype),
+        type: sykdomstidslinjedag(dag.type),
         dato: somDato(dag.dagen),
         gradering: somHeltall(dag.grad),
         kilde: dag.kilde ? hendelseType(dag.kilde) : hendelseTypeGammel(dag.type),

@@ -63,7 +63,7 @@
                     },
                     "utbetalingstidslinje": [
                         {
-                            "type": "ArbeidsgiverperiodeDag",
+                            "type": "Arbeidsdag",
                             "inntekt": 1430.77,
                             "dato": "2018-01-01"
                         },
@@ -253,7 +253,7 @@
                     "sykdomstidslinje": [
                         {
                             "dagen": "2018-01-01",
-                            "type": "SYKEDAG",
+                            "type": "ARBEIDSDAG",
                             "kilde": {
                                 "type": "Saksbehandler",
                                 "kildeId": "E6201F83-3104-4D85-840C-C7977B3E788D"

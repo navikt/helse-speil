@@ -96,36 +96,6 @@ describe('personmapper', () => {
         expect(andreVvedtaksperiode.oppsummering.antallUtbetalingsdager).toEqual(4);
     });
 
-    test('filtrerer vekk paddede arbeidsdager', async () => {
-        const ledendeArbeidsdager: SpleisSykdomsdag[] = [
-            {
-                dagen: '2019-12-30',
-                type: SpleisSykdomsdagtype.ARBEIDSDAG,
-                kilde: {
-                    kildeId: '0F89BC6F-EDB2-4ED4-B124-19F0DF59545C',
-                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
-                },
-                grad: 100.0,
-            },
-            {
-                dagen: '2019-12-31',
-                type: SpleisSykdomsdagtype.ARBEIDSDAG,
-                kilde: {
-                    kildeId: '62F0A473-82D1-4A38-9B8F-E220ACF598C9',
-                    type: SpleisSykdomsdagkildeType.INNTEKTSMELDING,
-                },
-                grad: 100.0,
-            },
-        ];
-
-        const førsteSykdomsdag = umappetVedtaksperiode().sykdomstidslinje[0];
-        const vedtaksperiode = medLedendeSykdomsdager(umappetVedtaksperiode(), ledendeArbeidsdager);
-        const { person } = await mapPerson(umappetPerson([umappetArbeidsgiver([vedtaksperiode])]));
-        const mappetVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
-
-        expect(mappetVedtaksperiode.sykdomstidslinje[0].dato.format('YYYY-MM-DD')).toEqual(førsteSykdomsdag.dagen);
-    });
-
     test('Vedtaksperioder sorteres på fom i synkende rekkefølge', async () => {
         const { person } = await mapPerson(
             umappetPerson([

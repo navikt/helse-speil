@@ -9,6 +9,7 @@ import { Dagtype, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'interna
 import { Tabell } from '@navikt/helse-frontend-tabell';
 import classNames from 'classnames';
 import { Infoikon } from '../../../components/ikoner/Infoikon';
+import { trimLedendeArbeidsdager } from './Sykmeldingsperiode';
 
 const Periodetabell = styled(Tabell)`
     thead tr th {
@@ -60,8 +61,9 @@ export const Sykmeldingsperiodetabell = ({
         ].includes(vedtaksperiode.tilstand) ||
             visOverstyringAvUtbetaltPeriode());
 
+    let sykdomstidslinje = trimLedendeArbeidsdager(vedtaksperiode.sykdomstidslinje);
     const rader =
-        vedtaksperiode.sykdomstidslinje.map((dag) => {
+        sykdomstidslinje.map((dag) => {
             const overstyring = vedtaksperiode.overstyringer.find(({ overstyrteDager }) =>
                 overstyrteDager.find(({ dato }) => dato.isSame(dag.dato))
             );

@@ -220,11 +220,11 @@ const avvistBegrunnelser = (avvistBegrunnelse: AvvistBegrunnelse, index: number)
     if (tekst === null) return null;
 
     return (
-        <>
+        <React.Fragment key={index}>
             {prefix && <>{prefix} </>}
             {paragraf && <span data-tip={tekst}>{paragraf} </span>}
             {!paragraf && <>{tekst}</>}
-        </>
+        </React.Fragment>
     );
 };
 

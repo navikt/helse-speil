@@ -27,6 +27,7 @@ import { usePerson } from '../../../state/person';
 import { opptegnelsePollingTimeState } from '../../../state/opptegnelser';
 import { useSetRecoilState } from 'recoil';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import { trimLedendeArbeidsdager } from './Sykmeldingsperiode';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead tr th {
@@ -126,7 +127,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         };
     };
 
-    const rader = aktivVedtaksperiode?.sykdomstidslinje.map(tilTabellrad) ?? [];
+    const rader = trimLedendeArbeidsdager(aktivVedtaksperiode?.sykdomstidslinje ?? []).map(tilTabellrad);
 
     const overstyring = () => ({
         aktørId: personTilBehandling!.aktørId,
