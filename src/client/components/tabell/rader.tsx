@@ -40,7 +40,7 @@ const HøyrejustertTekst = styled(Normaltekst)`
     white-space: nowrap;
 `;
 
-const Feilmelding = styled(Normaltekst)`
+const Merknad = styled(Normaltekst)`
     margin-left: 1rem;
 `;
 
@@ -49,13 +49,7 @@ const TypeContainer = styled.div`
 `;
 
 export const ikonUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
-    const ikonet = [Dagtype.Arbeidsgiverperiode].includes(utbetaling.type) ? (
-        <IkonArbeidsgiverperiode />
-    ) : [Dagtype.Avvist, Dagtype.Foreldet].includes(utbetaling.type) ? (
-        <IkonKryss />
-    ) : (
-        ikon(syk)
-    );
+    const ikonet = [Dagtype.Avvist, Dagtype.Foreldet].includes(utbetaling.type) ? <IkonKryss /> : ikon(syk);
     return <IkonContainer>{ikonet}</IkonContainer>;
 };
 
@@ -92,9 +86,7 @@ const ikon = (dag: Sykdomsdag) => {
 export const typeUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
     const sykedagTekst = syk.type;
     const dagTekst =
-        utbetaling.type == Dagtype.Arbeidsgiverperiode
-            ? utbetaling.type
-            : utbetaling.type == Dagtype.Avvist
+        utbetaling.type == Dagtype.Avvist
             ? `${sykedagTekst} (Avvist)`
             : utbetaling.type == Dagtype.Foreldet
             ? `${sykedagTekst} (Foreldet)`
@@ -174,7 +166,9 @@ export const utbetaling = (dag: Utbetalingsdag) => {
 
 export const merknad = (dag: Utbetalingsdag, merknadTekst?: string): ReactNode =>
     merknadTekst ? (
-        <Feilmelding>{merknadTekst}</Feilmelding>
+        <Merknad>{merknadTekst}</Merknad>
+    ) : dag.type === Dagtype.Arbeidsgiverperiode ? (
+        <Merknad>Arbeidsgiverperiode</Merknad>
     ) : dag.type === Dagtype.Avvist ? (
         <AvvistÅrsak dag={dag} />
     ) : undefined;
@@ -236,7 +230,5 @@ const avvistBegrunnelser = (avvistBegrunnelse: AvvistBegrunnelse, index: number)
 
 const AvvistÅrsak = ({ dag }: { dag: Utbetalingsdag }) => {
     const avvistÅrsaker = dag.avvistÅrsaker ?? [];
-    return (
-        <Feilmelding>{avvistÅrsaker.map((avvistÅrsak, index) => avvistBegrunnelser(avvistÅrsak, index))}</Feilmelding>
-    );
+    return <Merknad>{avvistÅrsaker.map((avvistÅrsak, index) => avvistBegrunnelser(avvistÅrsak, index))}</Merknad>;
 };
