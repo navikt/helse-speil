@@ -49,7 +49,6 @@ const TypeContainer = styled.div`
 `;
 
 export const ikonUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
-    console.log(utbetaling.type);
     const ikonet = [Dagtype.Arbeidsgiverperiode].includes(utbetaling.type) ? (
         <IkonArbeidsgiverperiode />
     ) : [Dagtype.Avvist, Dagtype.Foreldet].includes(utbetaling.type) ? (
