@@ -236,7 +236,7 @@
     {
         "varsel": "Utdanning oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden",
         "betydning": "Det er fylt ut utdanning i søknaden",
-        "løsning": "Undersøk om den sykmeldte nylig startet i utdanning og vurder vilkår.",
+        "løsning": "Undersøk om den sykmeldte nylig startet i utdanning og vurder vilkår. Dersom forrige utbetalte periode hadde varsel på utdanning trenger du ikke gjøre noen ny vurdering",
         "viktighet": "Høy"
     },
     {
