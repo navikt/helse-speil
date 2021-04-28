@@ -49,7 +49,14 @@ const TypeContainer = styled.div`
 `;
 
 export const ikonUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
-    const ikonet = [Dagtype.Avvist, Dagtype.Foreldet].includes(utbetaling.type) ? <IkonKryss /> : ikon(syk);
+    console.log(utbetaling.type);
+    const ikonet = [Dagtype.Arbeidsgiverperiode].includes(utbetaling.type) ? (
+        <IkonArbeidsgiverperiode />
+    ) : [Dagtype.Avvist, Dagtype.Foreldet].includes(utbetaling.type) ? (
+        <IkonKryss />
+    ) : (
+        ikon(syk)
+    );
     return <IkonContainer>{ikonet}</IkonContainer>;
 };
 
@@ -86,7 +93,9 @@ const ikon = (dag: Sykdomsdag) => {
 export const typeUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
     const sykedagTekst = syk.type;
     const dagTekst =
-        utbetaling.type == Dagtype.Avvist
+        utbetaling.type == Dagtype.Arbeidsgiverperiode
+            ? utbetaling.type
+            : utbetaling.type == Dagtype.Avvist
             ? `${sykedagTekst} (Avvist)`
             : utbetaling.type == Dagtype.Foreldet
             ? `${sykedagTekst} (Foreldet)`
