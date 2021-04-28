@@ -10,6 +10,7 @@ export enum CookieKey {
     Ident = 'NAVident',
     Email = 'email',
     Oid = 'oid',
+    Groups = 'groups',
 }
 
 if (process.env.NODE_ENV === 'development') {
@@ -19,6 +20,7 @@ if (process.env.NODE_ENV === 'development') {
             NAVident: 'dev-ident',
             email: 'dev@nav.no',
             oid: 'uuid',
+            groups: ['gruppe1', 'gruppe2'],
         })
     )}.ignored-part`;
 }
@@ -69,3 +71,5 @@ export const extractValues = (values: ArrayLike<any>) => {
 export const extractName = () => extractValues([CookieKey.Name]);
 
 export const extractIdent = (): string => extractValues([CookieKey.Ident]).pop();
+
+export const extractGroups = () => extractValues([CookieKey.Groups]).pop() ?? [];

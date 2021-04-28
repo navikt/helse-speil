@@ -1,5 +1,6 @@
-import { extractIdent } from './utils/cookie';
+import { extractIdent, extractGroups } from './utils/cookie';
 
+const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const eminem = 'G103083';
 const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102'];
 
@@ -10,6 +11,7 @@ const utvidetTilganger = [...faktiskSupportsaksbehandlere, 'O146470', 'T142719',
 export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no' || erPreprod();
+
 const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
@@ -17,13 +19,12 @@ const erAnnulleringsbois = () => erKnudix() || erKevin();
 const erSpiceGirls = () => erMarthe() || erMarte() || erKevin() || erAnders() || erHegeir();
 const erKnudix = () => extractIdent() === 'N143409';
 const erDigimort = () => extractIdent() === 'T127350';
-const erDavid = () => extractIdent() === 'S150563';
 const erKevin = () => extractIdent() === 'S151890';
 const erMarthe = () => extractIdent() === 'S151399';
 const erMarte = () => extractIdent() === 'T141884';
 const erAnders = () => extractIdent() === 'O142910';
 const erHegeir = () => extractIdent() === 'H161007';
-const erUtvikler = () => erKnudix() || erDavid() || erSpiceGirls();
+const erUtvikler = () => extractGroups().includes(groupIdForUtviklere);
 const erSolør = () => erJakob() || erJonas() || erSindre() || erErlend() || erPeter();
 const erJonas = () => extractIdent() === 'H159657';
 const erPeter = () => extractIdent() === 'S159940';
@@ -39,6 +40,7 @@ export const annulleringerEnabled =
 export const oppdaterPersondataEnabled =
     erPreprod() ||
     erLocal() ||
+    erUtvikler() ||
     erSupersaksbehandler() ||
     erAnnulleringsbois() ||
     erSpiceGirls() ||
