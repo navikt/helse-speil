@@ -457,7 +457,7 @@ export interface UfullstendigSpesialistVedtaksperiode {
     gruppeId: string;
     tilstand: SpleisVedtaksperiodetilstand;
     fullstendig: boolean;
-    utbetalingstidslinje: SpleisUtbetalingsdag[];
+    utbetalingstidslinje?: SpleisUtbetalingsdag[];
 }
 
 export interface SpesialistInfotrygdutbetaling {
