@@ -1,5 +1,5 @@
 import React, { PropsWithChildren, useEffect } from 'react';
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import amplitude from 'amplitude-js';
 import { amplitudeEnabled } from '../../featureToggles';
 import { useAktivVedtaksperiode } from '../../state/tidslinje';
@@ -21,14 +21,25 @@ export const AmplitudeContext = React.createContext<AmplitudeContextValue>({
     logOppgaveForkastet(): void {},
 });
 
+const åpneOppgave = (oppgaveId: string): Dayjs => {
+    const key = `oppgave.${oppgaveId}.åpnet`;
+    const åpnet = window.sessionStorage.getItem(key);
+    if (åpnet) {
+        return dayjs(åpnet);
+    }
+    const currentTime = dayjs();
+    window.sessionStorage.setItem(key, currentTime.toISOString());
+    return currentTime;
+};
+
 export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     if (!aktivVedtaksperiode) throw Error('Mangler aktiv vedtaksperiode');
 
-    const oppgaveÅpnet = dayjs();
+    const åpnet = åpneOppgave(aktivVedtaksperiode.oppgavereferanse!);
 
     const eventProperties = (begrunnelser: string[] | undefined = undefined) => ({
-        varighet: dayjs().diff(oppgaveÅpnet),
+        varighet: dayjs().diff(åpnet!),
         type: aktivVedtaksperiode.periodetype,
         inntektskilde: aktivVedtaksperiode.inntektskilde,
         warnings: aktivVedtaksperiode.aktivitetslog,
