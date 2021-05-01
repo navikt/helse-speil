@@ -38,6 +38,9 @@ const inntektskildeLabel = (inntektskilde: Inntektskilde) => {
     }
 };
 
+const tooltipId = (kolonne: string, oppgave: Oppgave): string =>
+    `tabellrad-${kolonne}-tooltip-${oppgave.oppgavereferanse}`;
+
 const CellContainer = styled.div<{ width?: number }>`
     position: relative;
     height: 2rem;
@@ -100,7 +103,7 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
     return (
         <CellContainer
             width={128}
-            data-for={'tabell-søker-tooltip'}
+            data-for={tooltipId('søker', oppgave)}
             data-tip={formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
         >
             <TekstMedEllipsis>
@@ -108,7 +111,7 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
                 {formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
             </TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
-            <Tooltip id={'tabell-søker-tooltip'} />
+            <Tooltip id={tooltipId('søker', oppgave)} />
         </CellContainer>
     );
 };
@@ -133,12 +136,12 @@ const Bosted = ({ oppgave }: { oppgave: Oppgave }) => {
     return (
         <CellContainer
             width={128}
-            data-for={'tabell-bosted-tooltip'}
+            data-for={tooltipId('bosted', oppgave)}
             data-tip={anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}
         >
             <TekstMedEllipsis>{anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}</TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
-            <Tooltip id={'tabell-bosted-tooltip'} />
+            <Tooltip id={tooltipId('bosted', oppgave)} />
         </CellContainer>
     );
 };
@@ -152,11 +155,12 @@ const Status = ({ oppgave }: { oppgave: Oppgave }) => (
 
 const TildeltMedSkjultSakslenke = ({ oppgave }: { oppgave: Oppgave }) => {
     const tildeltTilNavn = (oppgave as TildeltOppgave).tildeling.saksbehandler.navn;
+
     return (
-        <CellContainer width={128} data-tip={tildeltTilNavn} data-for={'tabell-tildelt-til-tooltip'}>
+        <CellContainer width={128} data-tip={tildeltTilNavn} data-for={tooltipId('tildelt-til', oppgave)}>
             <Tildelt tildeltBrukernavn={tildeltTilNavn} />
             <SkjultSakslenke oppgave={oppgave} />
-            <Tooltip id={'tabell-tildelt-til-tooltip'} />
+            <Tooltip id={tooltipId('tildelt-til', oppgave)} />
         </CellContainer>
     );
 };
@@ -172,7 +176,7 @@ const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
 
     return (
         <CellContainer>
-            <span data-tip="Mer" data-for={'kjottbolle'}>
+            <span data-tip="Mer" data-for={tooltipId('kjottbolle', oppgave)}>
                 <Dropdown labelRenderer={(_, onClick) => <Meatball onClick={onClick} />}>
                     <Tildelingsknapp
                         oppgavereferanse={oppgave.oppgavereferanse}
@@ -184,7 +188,7 @@ const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
                     )}
                 </Dropdown>
             </span>
-            <Tooltip id={'kjottbolle'} effect={'solid'} offset={{ top: -10 }} />
+            <Tooltip id={tooltipId('kjottbolle', oppgave)} effect={'solid'} offset={{ top: -10 }} />
         </CellContainer>
     );
 };
