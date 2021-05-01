@@ -64,7 +64,7 @@ const SkjultLenke = styled(Link)`
     outline: none;
 `;
 
-export const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgave }) => {
+const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgave }) => {
     const removeAlleVarsler = useRemoveAlleVarsler();
 
     const onNavigate = () => {
@@ -107,7 +107,6 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
             data-tip={formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
         >
             <TekstMedEllipsis>
-                <SkjultSakslenke oppgave={oppgave} />
                 {formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
             </TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
