@@ -19,6 +19,7 @@ export interface SpesialistUtbetaling {
     type: string;
     arbeidsgiverOppdrag: SpesialistArbeidsgiverOppdrag;
     annullertAvSaksbehandler?: SpesialistAnnulertAvSaksbehandler | null;
+    totalbeløp: number | null;
 }
 
 export interface SpesialistAnnulertAvSaksbehandler {

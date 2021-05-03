@@ -39,6 +39,7 @@ const enUtbetaling: UtbetalingshistorikkUtbetaling = {
             },
         ],
     },
+    totalbeløp: null,
 };
 
 const renderAnnulleringsmodal = async () =>

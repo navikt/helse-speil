@@ -15,6 +15,7 @@ export const umappetUtbetalinger = (): SpesialistUtbetaling[] => [
             ],
         },
         annullertAvSaksbehandler: null,
+        totalbeløp: null,
     },
     {
         status: 'SENDT',
@@ -29,5 +30,6 @@ export const umappetUtbetalinger = (): SpesialistUtbetaling[] => [
                 },
             ],
         },
+        totalbeløp: null,
     },
 ];

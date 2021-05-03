@@ -92,7 +92,7 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
         valgtUtbetaling &&
         setAnnulleringerInFlight(annulleringerInFlight.concat([valgtUtbetaling.arbeidsgiverOppdrag.fagsystemId]));
 
-    const headere = ['Fra', 'Til', 'Fagsystem-ID', 'Status', 'Type', 'Annuller'];
+    const headere = ['Fra', 'Til', 'Fagsystem-ID', 'Totalbeløp', 'Status', 'Type', 'Annuller'];
 
     const rader = person.utbetalinger.map((utbetaling) => {
         let utbetalingslinjer = utbetaling.arbeidsgiverOppdrag.utbetalingslinjer;
@@ -100,6 +100,7 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
             <Element>{utbetalingslinjer[0].fom.format(NORSK_DATOFORMAT_KORT)}</Element>,
             <Element>{utbetalingslinjer[utbetalingslinjer.length - 1].tom.format(NORSK_DATOFORMAT_KORT)}</Element>,
             <Element>{utbetaling.arbeidsgiverOppdrag.fagsystemId}</Element>,
+            <Element>{utbetaling.totalbeløp ? `${utbetaling.totalbeløp} kr` : '-'}</Element>,
             <Element>{utbetaling.status}</Element>,
             <Element>{utbetaling.type}</Element>,
             annulleringErForespurt(utbetaling) ? (

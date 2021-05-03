@@ -86,6 +86,7 @@ export const mappetPersonObject: Person = {
                     },
                 ],
             },
+            totalbeløp: null,
         },
         {
             status: 'SENDT',
@@ -100,6 +101,7 @@ export const mappetPersonObject: Person = {
                     },
                 ],
             },
+            totalbeløp: null,
         },
     ],
     arbeidsgivere: [

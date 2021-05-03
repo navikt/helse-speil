@@ -13,7 +13,8 @@
                     }
                 ]
             },
-            "annullertAvSaksbehandler": null
+            "annullertAvSaksbehandler": null,
+            "totalbeløp": 1337
         },
         {
             "type": "UTBETALING",
@@ -27,7 +28,8 @@
                         "tom": "2021-01-31"
                     }
                 ]
-            }
+            },
+            "totalbeløp": 1337
         }
     ],
     "aktørId": "2836012894592",

@@ -109,6 +109,7 @@ export class PersonBuilder {
                                 saksbehandlerNavn: utbetaling.annullertAvSaksbehandler.saksbehandlerNavn,
                             }
                           : undefined,
+                      totalbeløp: utbetaling.totalbeløp,
                   };
               })
             : [];

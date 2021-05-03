@@ -372,6 +372,7 @@ export interface UtbetalingshistorikkUtbetaling {
     type: string;
     arbeidsgiverOppdrag: UtbetalingshistorikkArbeidsgiverOppdrag;
     annullering?: AnnullertAvSaksbehandler;
+    totalbeløp: number | null;
 }
 
 export interface UtbetalingshistorikkArbeidsgiverOppdrag {
