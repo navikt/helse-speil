@@ -88,7 +88,8 @@ const useVedtakstoast = () => {
 };
 
 interface UtbetalingsdialogProps {
-    vedtaksperiode: Vedtaksperiode;
+    oppgavereferanse: string;
+    harBeløpTilUtbetaling: boolean;
 }
 
 const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
@@ -98,7 +99,7 @@ const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
         )
         .some((tilstand) => tilstand === Vedtaksperiodetilstand.VenterPåKiling);
 
-export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) => {
+export const Utbetalingsdialog = ({ oppgavereferanse, harBeløpTilUtbetaling }: UtbetalingsdialogProps) => {
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
     const { addUtbetalingstoast, addInfotrygdtoast } = useVedtakstoast();
@@ -118,11 +119,9 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
         lukkModal();
     };
 
-    const { oppsummering } = vedtaksperiode;
-
     const godkjennUtbetaling = () => {
         setIsSending(true);
-        postUtbetalingsgodkjenning(vedtaksperiode.oppgavereferanse!, personTilBehandling.aktørId)
+        postUtbetalingsgodkjenning(oppgavereferanse, personTilBehandling.aktørId)
             .then(() => {
                 logOppgaveGodkjent();
                 addUtbetalingstoast();
@@ -148,7 +147,7 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
         const skjemaKommentar: string[] = skjema.kommentar ? [skjema.kommentar] : [];
         const begrunnelser: string[] = [skjema.årsak.valueOf(), ...skjemaBegrunnelser, ...skjemaKommentar];
 
-        postSendTilInfotrygd(vedtaksperiode.oppgavereferanse!, personTilBehandling.aktørId, skjema)
+        postSendTilInfotrygd(oppgavereferanse, personTilBehandling.aktørId, skjema)
             .then(() => {
                 logOppgaveForkastet(begrunnelser);
                 addInfotrygdtoast();
@@ -164,7 +163,7 @@ export const Utbetalingsdialog = ({ vedtaksperiode }: UtbetalingsdialogProps) =>
         <>
             <Knapper>
                 <Hovedknapp mini onClick={åpneGodkjenningsmodal}>
-                    {oppsummering.totaltTilUtbetaling > 0 ? 'Utbetal' : 'Godkjenn'}
+                    {harBeløpTilUtbetaling ? 'Utbetal' : 'Godkjenn'}
                 </Hovedknapp>
                 <Knapp mini onClick={åpneAvvisningsmodal}>
                     Avvis
