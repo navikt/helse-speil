@@ -9,11 +9,12 @@ interface UtbetalingProps {
 export const Utbetaling = ({ vedtaksperiode }: UtbetalingProps) => {
     const harOppgave = vedtaksperiode.oppgavereferanse && vedtaksperiode.tilstand === Vedtaksperiodetilstand.Oppgaver;
     const harBeløpTilUtbetaling = vedtaksperiode.oppsummering.totaltTilUtbetaling > 0;
+    const utbetalingsknappTekst = harBeløpTilUtbetaling ? 'Utbetal' : 'Godkjenn';
 
     return harOppgave ? (
         <Utbetalingsdialog
             oppgavereferanse={vedtaksperiode.oppgavereferanse!}
-            harBeløpTilUtbetaling={harBeløpTilUtbetaling}
+            godkjenningsknappTekst={utbetalingsknappTekst}
         />
     ) : null;
 };

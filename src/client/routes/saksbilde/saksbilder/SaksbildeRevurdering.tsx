@@ -23,6 +23,7 @@ import { somPenger } from '../../../utils/locale';
 import { Dagtype } from 'internal-types';
 import { Utbetalingsoversikt } from '../utbetaling/Utbetalingsoversikt';
 import { RevurderingEtikett } from '../../oversikt/Oppgaveetikett';
+import { Utbetalingsdialog } from '../utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 
 const Arbeidsflate = styled.section`
     display: flex;
@@ -150,6 +151,7 @@ const VenstreMeny = ({ aktivPeriode, maksDato, arbeidsgivernavn, organisasjonsnu
                 utbetalingsdagerTotalt={utbetalingsdagerTotalt}
                 nettobeløp={nettobeløp}
             />
+            <Utbetalingsdialog oppgavereferanse={'oppgavereferanse'} godkjenningsknappTekst={'Revurder'} />
         </Arbeidsflate>
     );
 };

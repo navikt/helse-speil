@@ -89,7 +89,7 @@ const useVedtakstoast = () => {
 
 interface UtbetalingsdialogProps {
     oppgavereferanse: string;
-    harBeløpTilUtbetaling: boolean;
+    godkjenningsknappTekst: string;
 }
 
 const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
@@ -99,7 +99,7 @@ const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
         )
         .some((tilstand) => tilstand === Vedtaksperiodetilstand.VenterPåKiling);
 
-export const Utbetalingsdialog = ({ oppgavereferanse, harBeløpTilUtbetaling }: UtbetalingsdialogProps) => {
+export const Utbetalingsdialog = ({ oppgavereferanse, godkjenningsknappTekst }: UtbetalingsdialogProps) => {
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
     const { addUtbetalingstoast, addInfotrygdtoast } = useVedtakstoast();
@@ -163,7 +163,7 @@ export const Utbetalingsdialog = ({ oppgavereferanse, harBeløpTilUtbetaling }: 
         <>
             <Knapper>
                 <Hovedknapp mini onClick={åpneGodkjenningsmodal}>
-                    {harBeløpTilUtbetaling ? 'Utbetal' : 'Godkjenn'}
+                    {godkjenningsknappTekst}
                 </Hovedknapp>
                 <Knapp mini onClick={åpneAvvisningsmodal}>
                     Avvis
