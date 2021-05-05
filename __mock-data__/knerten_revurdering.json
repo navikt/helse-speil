@@ -292,12 +292,12 @@
                         },
                         {
                             "dagen": "2021-01-04",
-                            "type": "FERIEDAG",
+                            "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "25717024-eb72-450f-8e4d-85e494fc9834"
+                                "type": "Søknad",
+                                "kildeId": "9c072766-8e70-4994-b671-91adcffccb79"
                             },
-                            "grad": null
+                            "grad": 100
                         },
                         {
                             "dagen": "2021-01-05",
