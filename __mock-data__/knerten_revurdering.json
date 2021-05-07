@@ -652,7 +652,7 @@
                     "forlengelseFraInfotrygd": "NEI",
                     "periodetype": "FØRSTEGANGSBEHANDLING",
                     "beregningIder": ["f4b906bf-0df8-4756-a618-2c459aaaa01f", "6e37df26-31da-4e46-b7df-3f66b52ea56b"],
-                    "oppgavereferanse": null,
+                    "oppgavereferanse": "2274",
                     "risikovurdering": {
                         "funn": [],
                         "kontrollertOk": [],

@@ -18,6 +18,14 @@ const defaultPeriode = (person: Person): Vedtaksperiode | undefined => {
         velgbarePerioder?.[0]) as Vedtaksperiode;
 };
 
+export const useOppgavereferanse = (beregningId: string): string => {
+    const person = usePerson();
+    const vedtaksperiode = person?.arbeidsgivere
+        .flatMap((a) => a.vedtaksperioder)
+        .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode;
+    return vedtaksperiode.oppgavereferanse!;
+};
+
 export const useAktivPeriode = () => {
     const person = usePerson();
     const periodeId = useRecoilValue(aktivPeriodeState);
