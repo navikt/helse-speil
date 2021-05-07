@@ -83,15 +83,21 @@ const ikon = (dag: Sykdomsdag) => {
     }
 };
 
+const dagTekst = (syk: Sykdomsdag, utbetaling: Utbetalingsdag): string => {
+    switch (utbetaling.type) {
+        case Dagtype.Avvist:
+            return `${syk.type} (Avvist)`;
+        case Dagtype.Foreldet:
+            return `${syk.type} (Foreldet)`;
+        case Dagtype.Arbeidsgiverperiode:
+            return `${syk.type} (AGP)`;
+        default:
+            return syk.type;
+    }
+};
+
 export const typeUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
-    const sykedagTekst = syk.type;
-    const dagTekst =
-        utbetaling.type == Dagtype.Avvist
-            ? `${sykedagTekst} (Avvist)`
-            : utbetaling.type == Dagtype.Foreldet
-            ? `${sykedagTekst} (Foreldet)`
-            : sykedagTekst;
-    return <TypeContainer>{dagTekst}</TypeContainer>;
+    return <TypeContainer>{dagTekst(syk, utbetaling)}</TypeContainer>;
 };
 
 export const typeSyk = (syk: Sykdomsdag) => {
@@ -167,8 +173,6 @@ export const utbetaling = (dag: Utbetalingsdag) => {
 export const merknad = (dag: Utbetalingsdag, merknadTekst?: string): ReactNode =>
     merknadTekst ? (
         <Merknad>{merknadTekst}</Merknad>
-    ) : dag.type === Dagtype.Arbeidsgiverperiode ? (
-        <Merknad>Arbeidsgiverperiode</Merknad>
     ) : dag.type === Dagtype.Avvist ? (
         <AvvistÅrsak dag={dag} />
     ) : undefined;
