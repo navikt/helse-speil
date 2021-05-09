@@ -29,7 +29,6 @@ type UmappetVedtaksperiodeOptions = {
     aktivitetslogg?: SpleisAktivitet[];
     varsler?: string[];
     id?: string;
-    fullstendig?: boolean;
     beregningIder?: string[];
 };
 
@@ -39,7 +38,6 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
     const aktivitetsloggen = options?.aktivitetslogg ?? aktivitetslogg();
     const varslene = options?.varsler ?? [];
     const id = options?.id ?? 'fa02d7a5-daf2-488c-9798-2539edd7fe3f';
-    const fullstendig = options?.fullstendig ?? true;
     const beregningIder = options?.beregningIder ?? ['id1'];
 
     const sykdomsdager = sykdomstidslinje(fom, tom);
@@ -52,7 +50,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         gruppeId: 'en-gruppeId',
         tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
         oppgavereferanse: 'en-oppgavereferanse',
-        fullstendig: fullstendig,
+        fullstendig: true,
         utbetalingsreferanse: 'en-utbetalingsreferanse',
         utbetalingstidslinje: utbetalingsdager,
         sykdomstidslinje: sykdomsdager,

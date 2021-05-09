@@ -1,9 +1,15 @@
 import { umappetVedtaksperiode } from './vedtaksperiode';
-import { EksternUtbetalingshistorikkElement, SpesialistArbeidsgiver, SpesialistOverstyring } from 'external-types';
+import {
+    EksternUtbetalingshistorikkElement,
+    SpesialistArbeidsgiver,
+    SpesialistOverstyring,
+    SpesialistVedtaksperiode,
+    UfullstendigSpesialistVedtaksperiode,
+} from 'external-types';
 import { umappetUtbetalingshistorikk } from './utbetalingshistorikk';
 
 export const umappetArbeidsgiver = (
-    vedtaksperioder = [umappetVedtaksperiode()],
+    vedtaksperioder: (SpesialistVedtaksperiode | UfullstendigSpesialistVedtaksperiode)[] = [umappetVedtaksperiode()],
     overstyringer: SpesialistOverstyring[] = [],
     utbetalingshistorikk: EksternUtbetalingshistorikkElement[] = [umappetUtbetalingshistorikk()]
 ): SpesialistArbeidsgiver => ({

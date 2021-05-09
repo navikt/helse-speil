@@ -1,13 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
-import {
-    Inntektskildetype,
-    Periodetype,
-    UfullstendigVedtaksperiode,
-    Utbetaling,
-    Vedtaksperiode,
-    Vedtaksperiodetilstand,
-} from 'internal-types';
+import { Inntektskildetype, Periodetype, Utbetaling, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import {
     SpesialistArbeidsgiver,
     SpesialistInntektsgrunnlag,
@@ -20,10 +13,9 @@ import {
     SpleisUtbetalinger,
     SpleisUtbetalingslinje,
     SpleisVedtaksperiodetilstand,
-    UfullstendigSpesialistVedtaksperiode,
 } from 'external-types';
 import { mapForlengelseFraInfotrygd } from './infotrygd';
-import { mapSykdomstidslinje, mapUtbetalingsdag, mapUtbetalingstidslinje } from './dag';
+import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
 import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
 import { mapHendelse } from './hendelse';
@@ -111,30 +103,12 @@ export class VedtaksperiodeBuilder {
         this.vedtaksperiode.forlengelseFraInfotrygd = erForlengelse;
     };
 
-    build = (): { vedtaksperiode?: Vedtaksperiode | UfullstendigVedtaksperiode; problems: Error[] } => {
+    build = (): { vedtaksperiode?: Vedtaksperiode; problems: Error[] } => {
         if (!this.unmapped || !this.arbeidsgiver) {
             this.problems.push(Error('Kan ikke mappe vedtaksperiode, mangler data.'));
             return { problems: this.problems };
         }
-        return this.unmapped.fullstendig ? this.buildVedtaksperiode() : this.buildUfullstendigVedtaksperiode();
-    };
-
-    private buildUfullstendigVedtaksperiode = (): {
-        vedtaksperiode: UfullstendigVedtaksperiode;
-        problems: Error[];
-    } => {
-        const ufullstendigPeriode = this.unmapped as UfullstendigSpesialistVedtaksperiode;
-        return {
-            vedtaksperiode: {
-                id: ufullstendigPeriode.id,
-                fom: dayjs(ufullstendigPeriode.fom),
-                tom: dayjs(ufullstendigPeriode.tom),
-                fullstendig: false,
-                tilstand: Vedtaksperiodetilstand[ufullstendigPeriode.tilstand] ?? Vedtaksperiodetilstand.Ukjent,
-                utbetalingstidslinje: ufullstendigPeriode.utbetalingstidslinje?.map(mapUtbetalingsdag()) ?? [],
-            },
-            problems: this.problems,
-        };
+        return this.buildVedtaksperiode();
     };
 
     private buildVedtaksperiode = (): {

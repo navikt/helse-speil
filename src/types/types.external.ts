@@ -290,7 +290,7 @@ export interface SpesialistArbeidsgiver {
     bransjer?: string[];
     id: string;
     organisasjonsnummer: string;
-    vedtaksperioder: SpesialistVedtaksperiode[];
+    vedtaksperioder: (SpesialistVedtaksperiode | UfullstendigSpesialistVedtaksperiode)[];
     navn: string;
     overstyringer: SpesialistOverstyring[];
     utbetalingshistorikk?: EksternUtbetalingshistorikkElement[];

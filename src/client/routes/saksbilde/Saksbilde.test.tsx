@@ -12,6 +12,7 @@ import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
 import userEvent from '@testing-library/user-event';
 import { umappetUtbetalingshistorikk } from '../../../test/data/utbetalingshistorikk';
 import dayjs from 'dayjs';
+import { umappetUfullstendigVedtaksperiode } from '../../../test/data/ufullstendigVedtaksperiode';
 
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
@@ -78,7 +79,7 @@ describe('Saksbilde', () => {
     });
     test('rendrer saksbilde for ufullstendig vedtaksperiode', async () => {
         const personMedUfullstendigVedtaksperiode = mappetPerson([
-            umappetArbeidsgiver([umappetVedtaksperiode({ fullstendig: false })]),
+            umappetArbeidsgiver([umappetUfullstendigVedtaksperiode()]),
         ]);
 
         render(<Saksbilde />, { wrapper: wrapper(personMedUfullstendigVedtaksperiode) });

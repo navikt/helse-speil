@@ -3,12 +3,14 @@ import {
     SpesialistArbeidsgiver,
     SpesialistInntektsgrunnlag,
     SpesialistPerson,
+    SpesialistVedtaksperiode,
 } from 'external-types';
-import { Arbeidsgiver, Utbetalingstype, Vedtaksperiode } from 'internal-types';
+import { Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode } from 'internal-types';
 import dayjs from 'dayjs';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
 import { utbetalingshistorikkelement, Utbetalingstatus } from '../modell/UtbetalingshistorikkElement';
+import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -117,16 +119,26 @@ export class ArbeidsgiverBuilder {
     };
 
     private mapVedtaksperioder = () => {
-        this.arbeidsgiver.vedtaksperioder = this.unmapped.vedtaksperioder.map((unmappedVedtaksperiode, index) => {
-            const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
-                .setVedtaksperiode(unmappedVedtaksperiode)
-                .setPerson(this.person)
-                .setArbeidsgiver(this.unmapped)
-                .setOverstyringer(this.unmapped.overstyringer)
-                .setInntektsgrunnlag(this.inntektsgrunnlag)
-                .build();
-            this.problems.push(...problems);
-            return vedtaksperiode as Vedtaksperiode;
+        this.arbeidsgiver.vedtaksperioder = this.unmapped.vedtaksperioder.map((unmappedVedtaksperiode) => {
+            if (unmappedVedtaksperiode.fullstendig) {
+                const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
+                    .setVedtaksperiode(unmappedVedtaksperiode as SpesialistVedtaksperiode)
+                    .setPerson(this.person)
+                    .setArbeidsgiver(this.unmapped)
+                    .setOverstyringer(this.unmapped.overstyringer)
+                    .setInntektsgrunnlag(this.inntektsgrunnlag)
+                    .build();
+                this.problems.push(...problems);
+                return vedtaksperiode as Vedtaksperiode;
+            } else {
+                const { ufullstendigVedtaksperiode, problems } = new UfullstendigVedtaksperiodeBuilder(
+                    this.person,
+                    this.unmapped,
+                    unmappedVedtaksperiode
+                ).build();
+                this.problems.push(...problems);
+                return ufullstendigVedtaksperiode as UfullstendigVedtaksperiode;
+            }
         });
     };
 
