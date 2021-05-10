@@ -6,7 +6,17 @@ const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102']
 
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
 
-const utvidetTilganger = [...faktiskSupportsaksbehandlere, 'O146470', 'T142719', 'N116980', 'K105430', 'M106091'];
+const utvidetTilganger = [
+    ...faktiskSupportsaksbehandlere,
+    'O146470',
+    'T142719',
+    'N116980',
+    'K105430',
+    'M106091',
+    'A158665',
+    'P107343',
+    'V112769',
+];
 
 export const erLocal = () => location.hostname === 'localhost';
 export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
