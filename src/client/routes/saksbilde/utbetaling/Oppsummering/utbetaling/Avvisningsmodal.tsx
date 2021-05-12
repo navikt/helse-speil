@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import {Systemtittel} from 'nav-frontend-typografi';
-import {Knapp} from 'nav-frontend-knapper';
-import {Begrunnelsesskjema} from './Begrunnelsesskjema';
-import {FormProvider, useForm} from 'react-hook-form';
-import {Avvisningsskjema, Begrunnelse, Årsak} from './Utbetalingsdialog';
-import {Modal} from '../../../../../components/Modal';
+import { Systemtittel } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
+import { Begrunnelsesskjema } from './Begrunnelsesskjema';
+import { FormProvider, useForm } from 'react-hook-form';
+import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';
+import { Modal } from '../../../../../components/Modal';
 
 const OkKnapp = styled(Knapp)`
     margin-top: 2rem;
@@ -33,9 +33,7 @@ export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
     const kommentar = form.watch('kommentar');
     const annenBegrunnelse = form.watch(`begrunnelser.${Begrunnelse.Annet}`);
 
-    const måVelgeBegrunnelse = () => [Årsak.InfotrygdFeil, Årsak.Feil].includes(form.getValues().årsak);
-
-    const harMinstÉnBegrunnelse = () => Object.values(form.getValues().begrunnelser ?? {}).some((value) => value);
+    const harMinstÉnBegrunnelse = () => form.getValues()?.begrunnelser?.length > 0 ?? false;
 
     const submit = () => {
         if (annenBegrunnelse && !kommentar) {
@@ -43,7 +41,7 @@ export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
                 type: 'manual',
                 message: 'Skriv en kommentar hvis du velger begrunnelsen annet',
             });
-        } else if (måVelgeBegrunnelse() && !harMinstÉnBegrunnelse()) {
+        } else if (!harMinstÉnBegrunnelse()) {
             form.setError('begrunnelser', {
                 type: 'manual',
                 message: 'Velg minst én begrunnelse',

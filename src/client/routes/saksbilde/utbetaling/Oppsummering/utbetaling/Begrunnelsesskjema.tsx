@@ -1,10 +1,10 @@
-import React, {ChangeEvent, ReactNode} from 'react';
+import React, { ChangeEvent, ReactNode } from 'react';
 import styled from '@emotion/styled';
-import {Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea,} from 'nav-frontend-skjema';
-import {Controller, useFormContext} from 'react-hook-form';
-import {Begrunnelse} from './Utbetalingsdialog';
-import {useAktivVedtaksperiode} from '../../../../../state/tidslinje';
-import {har8_4Kategori} from '../../../vilkår/tilKategoriserteVilkår';
+import { Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
+import { Controller, useFormContext } from 'react-hook-form';
+import { Begrunnelse } from './Utbetalingsdialog';
+import { useAktivVedtaksperiode } from '../../../../../state/tidslinje';
+import { har8_4Kategori } from '../../../vilkår/tilKategoriserteVilkår';
 
 const Container = styled(SkjemaGruppe)`
     margin-top: 1.5rem;
@@ -60,12 +60,13 @@ export const Begrunnelsesskjema = () => {
                 legend={'Årsak til at saken ikke utbetales i speil'}
                 feil={errors.begrunnelser ? errors.begrunnelser.message : null}
             >
-                {warnings?.map((advarsel) => {
+                {warnings?.map((advarsel, index) => {
                     switch (advarsel) {
                         case 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.':
-                            return funnetRisikovurderinger?.filter(har8_4Kategori).map((arbeidsuførhet) => {
+                            return funnetRisikovurderinger?.filter(har8_4Kategori).map((arbeidsuførhet, index2) => {
                                 return (
                                     <BegrunnelseCheckbox
+                                        key={`${index}-${index2}-checkbox`}
                                         begrunnelse={`${advarsel} ${arbeidsuførhet.beskrivelse}`}
                                         label={
                                             <p>
@@ -80,11 +81,16 @@ export const Begrunnelsesskjema = () => {
                         case 'Faresignaler oppdaget. Kontroller om faresignalene påvirker retten til sykepenger.':
                             return funnetRisikovurderinger
                                 ?.filter((e) => !har8_4Kategori(e))
-                                .map((faresignaler) => {
-                                    return <BegrunnelseCheckbox begrunnelse={`\n${faresignaler.beskrivelse}`} />;
+                                .map((faresignaler, index2) => {
+                                    return (
+                                        <BegrunnelseCheckbox
+                                            key={`${index}-${index2}-checkbox`}
+                                            begrunnelse={`\n${faresignaler.beskrivelse}`}
+                                        />
+                                    );
                                 });
                         default:
-                            return <BegrunnelseCheckbox begrunnelse={advarsel} />;
+                            return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={advarsel} />;
                     }
                 })}
                 <BegrunnelseCheckbox begrunnelse={'Annet'} />
