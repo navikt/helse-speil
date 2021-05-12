@@ -81,15 +81,6 @@ const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgav
     );
 };
 
-const Sakslenke: React.FunctionComponent<{ oppgave: Oppgave; skjult?: boolean }> = ({ oppgave, children }) => {
-    const removeAlleVarsler = useRemoveAlleVarsler();
-    return (
-        <Link className="lenke" to={`/sykmeldingsperiode/${oppgave.aktørId}`} onClick={removeAlleVarsler}>
-            {children}
-        </Link>
-    );
-};
-
 const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => (
     <CellContainer width={128}>
         <Oppgaveetikett type={oppgave.periodetype} medLabel={true} />
