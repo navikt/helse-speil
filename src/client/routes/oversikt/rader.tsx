@@ -19,10 +19,11 @@ import '@navikt/helse-frontend-meatball/lib/main.css';
 import { Dropdown } from '../../components/dropdown/Dropdown';
 import { Tildelingsknapp } from '../saksbilde/sakslinje/Tildelingsknapp';
 import { PåVentKnapp } from '../saksbilde/sakslinje/PåVentKnapp';
+import { capitalizeName } from '../../utils/locale';
 
-const formatertNavn = (personinfo: Personinfo): string => {
+const formaterNavn = (personinfo: Personinfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
-    return `${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`;
+    return capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`);
 };
 
 const formatertVarsel = (antallVarsler?: number) =>
@@ -90,16 +91,10 @@ const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => (
 
 const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = useSkalAnonymiserePerson();
-
+    const formatertNavn = formaterNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo);
     return (
-        <CellContainer
-            width={128}
-            data-for={tooltipId('søker', oppgave)}
-            data-tip={formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
-        >
-            <TekstMedEllipsis>
-                {formatertNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo)}
-            </TekstMedEllipsis>
+        <CellContainer width={128} data-for={tooltipId('søker', oppgave)} data-tip={formatertNavn}>
+            <TekstMedEllipsis>{formatertNavn}</TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
             <Tooltip id={tooltipId('søker', oppgave)} />
         </CellContainer>

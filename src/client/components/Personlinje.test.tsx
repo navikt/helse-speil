@@ -12,9 +12,9 @@ describe('Personlinje', () => {
         const person = {
             aktørId: '123456789',
             personinfo: {
-                fornavn: 'A',
-                mellomnavn: 'B',
-                etternavn: 'C',
+                fornavn: 'MARIUS',
+                mellomnavn: 'BORG',
+                etternavn: 'HØIBY',
                 fnr: '12345678910',
                 kjønn: 'mann',
             },
@@ -30,7 +30,7 @@ describe('Personlinje', () => {
                 </RecoilRoot>
             </MemoryRouter>
         );
-        expect(screen.getByText('C, A B')).toBeVisible();
+        expect(screen.getByText('Høiby, Marius Borg')).toBeVisible();
         expect(screen.getByText('123456 78910')).toBeVisible();
         expect(screen.getByText('123456789')).toBeVisible();
         expect(screen.getByText('Boenhet: 123 (Huttiheiti)')).toBeVisible();

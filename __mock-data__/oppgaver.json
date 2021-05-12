@@ -5,9 +5,9 @@
         "fødselsnummer": "21023701901",
         "aktørId": "1000000009871",
         "personinfo": {
-            "fornavn": "Kong",
+            "fornavn": "KONG",
             "mellomnavn": null,
-            "etternavn": "Harald",
+            "etternavn": "HARALD",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -26,9 +26,9 @@
         "fødselsnummer": "04073732100",
         "aktørId": "87654321962123",
         "personinfo": {
-            "fornavn": "Dronning",
+            "fornavn": "DRONNING",
             "mellomnavn": null,
-            "etternavn": "Sonja",
+            "etternavn": "SONJA",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -46,9 +46,9 @@
         "fødselsnummer": "20077362124",
         "aktørId": "87654321962124",
         "personinfo": {
-            "fornavn": "Kronprins",
+            "fornavn": "KRONPRINS",
             "mellomnavn": null,
-            "etternavn": "Haakon",
+            "etternavn": "HAAKON",
             "fødselsdato": "1973-07-20",
             "kjønn": "Mann"
         },
@@ -66,9 +66,9 @@
         "fødselsnummer": "21010462423",
         "aktørId": "1672157246605",
         "personinfo": {
-            "fornavn": "Carl Gustaf",
-            "mellomnavn": "Folke Hubertus",
-            "etternavn": "Bernadotte",
+            "fornavn": "CARL GUSTAF",
+            "mellomnavn": "FOLKE HUBERTUS",
+            "etternavn": "BERNADOTTE",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -86,9 +86,9 @@
         "fødselsnummer": "21010462423",
         "aktørId": "87650000962123",
         "personinfo": {
-            "fornavn": "Ingrid",
+            "fornavn": "INGRID",
             "mellomnavn": null,
-            "etternavn": "Alexandra",
+            "etternavn": "ALEXANDRA",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -106,9 +106,9 @@
         "fødselsnummer": "22097112413",
         "aktørId": "57650000444423",
         "personinfo": {
-            "fornavn": "Märtha",
+            "fornavn": "MÄRTHA",
             "mellomnavn": null,
-            "etternavn": "Louise",
+            "etternavn": "LOUISE",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -126,9 +126,9 @@
         "fødselsnummer": "02070312413",
         "aktørId": "11650007744423",
         "personinfo": {
-            "fornavn": "Olav",
+            "fornavn": "OLAV",
             "mellomnavn": "V",
-            "etternavn": "Rex",
+            "etternavn": "REX",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -146,9 +146,9 @@
         "fødselsnummer": "03120520135",
         "aktørId": "1000000000009",
         "personinfo": {
-            "fornavn": "Sverre",
+            "fornavn": "SVERRE",
             "mellomnavn": null,
-            "etternavn": "Magnus",
+            "etternavn": "MAGNUS",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -166,9 +166,9 @@
         "fødselsnummer": "01010025678",
         "aktørId": "1234",
         "personinfo": {
-            "fornavn": "Leah",
+            "fornavn": "LEAH",
             "mellomnavn": null,
-            "etternavn": "Isadora",
+            "etternavn": "ISADORA",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -186,9 +186,9 @@
         "fødselsnummer": "01010025676",
         "aktørId": "12345",
         "personinfo": {
-            "fornavn": "Sjaman",
+            "fornavn": "SJAMAN",
             "mellomnavn": null,
-            "etternavn": "Durek",
+            "etternavn": "DUREK",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -206,9 +206,9 @@
         "fødselsnummer": "30090812345",
         "aktørId": "102030",
         "personinfo": {
-            "fornavn": "Emma",
+            "fornavn": "EMMA",
             "mellomnavn": null,
-            "etternavn": "Tallulah",
+            "etternavn": "TALLULAH",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -226,9 +226,9 @@
         "fødselsnummer": "27018221468",
         "aktørId": "1672157246605",
         "personinfo": {
-            "fornavn": "Carl Gustaf",
-            "mellomnavn": "Folke Hubertus",
-            "etternavn": "Bernadotte",
+            "fornavn": "CARL GUSTAF",
+            "mellomnavn": "FOLKE HUBERTUS",
+            "etternavn": "BERNADOTTE",
             "fødselsdato": "1946-04-30",
             "kjønn": "Knug"
         },
@@ -246,9 +246,9 @@
         "fødselsnummer": "29040374862",
         "aktørId": "4526426893428",
         "personinfo": {
-            "fornavn": "Maud Angelica",
+            "fornavn": "MAUD ANGELICA",
             "mellomnavn": "",
-            "etternavn": "Behn",
+            "etternavn": "BEHN",
             "fødselsdato": "2003-04-29",
             "kjønn": null
         },
@@ -266,9 +266,9 @@
         "fødselsnummer": "15061345612",
         "aktørId": "6549846514988",
         "personinfo": {
-            "fornavn": "Muffins",
+            "fornavn": "MUFFINS",
             "mellomnavn": "",
-            "etternavn": "Kråkebolle",
+            "etternavn": "KRÅKEBOLLE",
             "fødselsdato": "2013-06-15",
             "kjønn": null
         },
@@ -286,9 +286,9 @@
         "fødselsnummer": "13019769420",
         "aktørId": "1000000008971",
         "personinfo": {
-            "fornavn": "Marius",
-            "mellomnavn": "Borg",
-            "etternavn": "Høiby",
+            "fornavn": "MARIUS",
+            "mellomnavn": "BORG",
+            "etternavn": "HØIBY",
             "fødselsdato": "1997-01-13",
             "kjønn": null
         },
@@ -307,9 +307,9 @@
         "fødselsnummer": "01010025677",
         "aktørId": "1000000123432",
         "personinfo": {
-            "fornavn": "Ragnhild",
+            "fornavn": "RAGNHILD",
             "mellomnavn": "",
-            "etternavn": "Lorentzen",
+            "etternavn": "LORENTZEN",
             "fødselsdato": "1930-06-09",
             "kjønn": null
         },
@@ -327,9 +327,9 @@
         "fødselsnummer": "21042662423",
         "aktørId": "87850000962123",
         "personinfo": {
-            "fornavn": "Elizabeth",
-            "mellomnavn": "Alexandra Mary",
-            "etternavn": "Windsor",
+            "fornavn": "ELIZABETH",
+            "mellomnavn": "ALEXANDRA MARY",
+            "etternavn": "WINDSOR",
             "fødselsdato": "1926-04-21",
             "kjønn": null
         },
@@ -348,9 +348,9 @@
         "fødselsnummer": "19047622436",
         "aktørId": "2836012894592",
         "personinfo": {
-            "fornavn": "Astrid",
-            "mellomnavn": "Maud Ingeborg",
-            "etternavn": "Ferner",
+            "fornavn": "ASTRID",
+            "mellomnavn": "MAUD INGEBORG",
+            "etternavn": "FERNER",
             "fødselsdato": "1932-02-12",
             "kjønn": null
         },
@@ -369,9 +369,9 @@
         "fødselsnummer": "09038400182",
         "aktørId": "2259231338047",
         "personinfo": {
-            "fornavn": "Knerten",
-            "mellomnavn": "Sin",
-            "etternavn": "Revurdering",
+            "fornavn": "KNERTEN",
+            "mellomnavn": "SIN",
+            "etternavn": "REVURDERING",
             "fødselsdato": "1932-02-12",
             "kjønn": null
         },

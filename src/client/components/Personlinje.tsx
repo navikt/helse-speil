@@ -11,6 +11,7 @@ import { utbetalingsoversikt } from '../featureToggles';
 import { useSkalAnonymiserePerson } from '../state/person';
 import { anonymisertPersoninfo } from '../agurkdata';
 import { NORSK_DATOFORMAT } from '../utils/date';
+import { capitalizeName } from '../utils/locale';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 
@@ -128,7 +129,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
     return (
         <Container>
             <Kjønnsikon kjønn={kjønn} />
-            <Element>{`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`}</Element>
+            <Element>{capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}</Element>
             <Separator>/</Separator>
             {fnr ? (
                 <Clipboard preserveWhitespace={false} copyMessage="Fødselsnummer er kopiert">
