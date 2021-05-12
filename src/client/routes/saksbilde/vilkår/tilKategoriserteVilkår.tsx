@@ -1,14 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import {
-    Faresignal,
-    Periodetype,
-    Risikovurdering,
-    Risikovurdering as RisikovurderingType,
-    Vedtaksperiode,
-    Vilkår,
-} from 'internal-types';
-import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
+import {Faresignal, Periodetype, Risikovurdering as RisikovurderingType, Vedtaksperiode, Vilkår,} from 'internal-types';
+import {Vilkårdata, Vilkårstype} from '../../../mapping/vilkår';
 import {
     Alder,
     Arbeidsuførhet,
@@ -17,10 +10,10 @@ import {
     Sykepengegrunnlag,
     Søknadsfrist,
 } from './vilkårsgrupper/Vilkårsgrupper';
-import { Flex } from '../../../components/Flex';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import { LovdataLenke } from '../../../components/LovdataLenke';
+import {Flex} from '../../../components/Flex';
+import {Normaltekst} from 'nav-frontend-typografi';
+import {Advarselikon} from '../../../components/ikoner/Advarselikon';
+import {LovdataLenke} from '../../../components/LovdataLenke';
 
 const VilkårManglerData = () => <Normaltekst>Mangler data om vilkåret</Normaltekst>;
 
@@ -174,8 +167,7 @@ const institusjonsopphold = (oppfylt?: boolean) => ({
     komponent: null,
 });
 
-const er8_4 = (funn: string) => funn === '8-4';
-export const har8_4Kategori = (funn: Faresignal) => funn.kategori.find(er8_4);
+export const har8_4Kategori = (funn: Faresignal) => funn.kategori.includes('8-4');
 
 const arbeidsuførhet = (risikovurdering?: RisikovurderingType) => {
     try {

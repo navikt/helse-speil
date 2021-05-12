@@ -1,40 +1,43 @@
-import React, { ChangeEvent } from 'react';
+import React, {ChangeEvent, ReactNode} from 'react';
 import styled from '@emotion/styled';
-import {
-    Checkbox as NavCheckbox,
-    CheckboxGruppe,
-    Radio,
-    RadioGruppe,
-    SkjemaGruppe,
-    Textarea,
-} from 'nav-frontend-skjema';
-import { Controller, useFormContext } from 'react-hook-form';
-import { Begrunnelse, Årsak } from './Utbetalingsdialog';
+import {Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea,} from 'nav-frontend-skjema';
+import {Controller, useFormContext} from 'react-hook-form';
+import {Begrunnelse} from './Utbetalingsdialog';
+import {useAktivVedtaksperiode} from '../../../../../state/tidslinje';
+import {har8_4Kategori} from '../../../vilkår/tilKategoriserteVilkår';
 
 const Container = styled(SkjemaGruppe)`
     margin-top: 1.5rem;
-`;
 
-const RadioButton = styled(Radio)`
-    .skjemaelement__label::before {
-        width: 22px;
-        height: 22px;
+    .skjemagruppe .skjemagruppe__legend {
+        margin: 1.5rem 0 2rem;
+    }
+
+    .skjemaelement.textarea__container .skjemaelement__label {
+        font-weight: normal;
+    }
+
+    .skjemaelement__input.textarea--medMeta {
+        height: 120px !important;
     }
 `;
 
 const Checkbox = styled(NavCheckbox)`
+    .skjemaelement__label {
+        margin-bottom: 0.5rem;
+    }
     .skjemaelement__label::before {
         width: 22px;
         height: 22px;
     }
 `;
 
-const BegrunnelseCheckbox = ({ begrunnelse }: { begrunnelse: Begrunnelse }) => {
+const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: string; label?: ReactNode }) => {
     const { register, clearErrors } = useFormContext();
 
     return (
         <Checkbox
-            label={begrunnelse}
+            label={label ? label : begrunnelse}
             name={`begrunnelser.${begrunnelse}`}
             // @ts-ignore
             checkboxRef={register}
@@ -44,58 +47,48 @@ const BegrunnelseCheckbox = ({ begrunnelse }: { begrunnelse: Begrunnelse }) => {
 };
 
 export const Begrunnelsesskjema = () => {
-    const { register, errors, clearErrors, watch } = useFormContext();
-    const årsak = watch('årsak');
-    const annet = watch(`begrunnelser.${Begrunnelse.Annet}`);
+    const { errors, clearErrors, watch } = useFormContext();
+    const aktivVedtaksperiode = useAktivVedtaksperiode();
+    const warnings = aktivVedtaksperiode?.aktivitetslog;
+    const funnetRisikovurderinger = aktivVedtaksperiode?.risikovurdering?.funn;
 
-    const velgerBegrunnelser = (radioState: Årsak) => radioState === Årsak.Feil || radioState === Årsak.InfotrygdFeil;
+    const annet = watch(`begrunnelser.${Begrunnelse.Annet}`);
 
     return (
         <Container>
-            <RadioGruppe legend="Årsak" feil={errors.årsak ? 'Årsak må velges før saken kan avsluttes' : null}>
-                <RadioButton
-                    label={Årsak.Feil}
-                    name="årsak"
-                    value={Årsak.Feil}
-                    // @ts-ignore
-                    radioRef={register({ required: true })}
-                    onChange={() => clearErrors()}
-                />
-                <RadioButton
-                    label={Årsak.InfotrygdRiktig}
-                    name="årsak"
-                    value={Årsak.InfotrygdRiktig}
-                    // @ts-ignore
-                    radioRef={register({ required: true })}
-                    onChange={() => clearErrors()}
-                />
-                <RadioButton
-                    label={Årsak.InfotrygdFeil}
-                    name="årsak"
-                    value={Årsak.InfotrygdFeil}
-                    // @ts-ignore
-                    radioRef={register({ required: true })}
-                    onChange={() => clearErrors()}
-                />
-            </RadioGruppe>
-            {velgerBegrunnelser(årsak) && (
-                <CheckboxGruppe
-                    legend={'Ved feil, huk av for minst én begrunnelse'}
-                    feil={errors.begrunnelser ? errors.begrunnelser.message : null}
-                >
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Vilkår} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Arbeidsgiverperiode} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Egenmeldingsdager} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Maksdato} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Dagsats} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Sykepengegrunnlag} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Inntektskilder} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Medlemskap} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Faresignaler} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Arbeidsuførhet} />
-                    <BegrunnelseCheckbox begrunnelse={Begrunnelse.Annet} />
-                </CheckboxGruppe>
-            )}
+            <CheckboxGruppe
+                legend={'Årsak til at saken ikke utbetales i speil'}
+                feil={errors.begrunnelser ? errors.begrunnelser.message : null}
+            >
+                {warnings?.map((advarsel) => {
+                    switch (advarsel) {
+                        case 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.':
+                            return funnetRisikovurderinger?.filter(har8_4Kategori).map((arbeidsuførhet) => {
+                                return (
+                                    <BegrunnelseCheckbox
+                                        begrunnelse={`${advarsel} ${arbeidsuførhet.beskrivelse}`}
+                                        label={
+                                            <p>
+                                                {advarsel}
+                                                <br />
+                                                {arbeidsuførhet.beskrivelse}
+                                            </p>
+                                        }
+                                    />
+                                );
+                            });
+                        case 'Faresignaler oppdaget. Kontroller om faresignalene påvirker retten til sykepenger.':
+                            return funnetRisikovurderinger
+                                ?.filter((e) => !har8_4Kategori(e))
+                                .map((faresignaler) => {
+                                    return <BegrunnelseCheckbox begrunnelse={`\n${faresignaler.beskrivelse}`} />;
+                                });
+                        default:
+                            return <BegrunnelseCheckbox begrunnelse={advarsel} />;
+                    }
+                })}
+                <BegrunnelseCheckbox begrunnelse={'Annet'} />
+            </CheckboxGruppe>
             <Controller
                 name="kommentar"
                 defaultValue=""
@@ -104,7 +97,7 @@ export const Begrunnelsesskjema = () => {
                         name="kommentar"
                         value={value}
                         description="Må ikke inneholde personopplysninger"
-                        label={`Kommentar ${annet ? '' : '(valgfri)'}`}
+                        label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
                         feil={errors.kommentar ? errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
@@ -112,7 +105,7 @@ export const Begrunnelsesskjema = () => {
                         }}
                         aria-invalid={errors.kommentar?.message}
                         aria-errormessage={errors.kommentar?.message}
-                        placeholder="Begrunn kort hvorfor saken inneholder feil"
+                        placeholder="Gi en kort forklaring på hvorfor du avviste utbetalingen. Eksempel: Oppgave om oppfølging"
                         maxLength={0}
                     />
                 )}

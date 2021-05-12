@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Systemtittel } from 'nav-frontend-typografi';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { Begrunnelsesskjema } from './Begrunnelsesskjema';
-import { FormProvider, useForm } from 'react-hook-form';
-import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';
-import { Modal } from '../../../../../components/Modal';
+import {Systemtittel} from 'nav-frontend-typografi';
+import {Knapp} from 'nav-frontend-knapper';
+import {Begrunnelsesskjema} from './Begrunnelsesskjema';
+import {FormProvider, useForm} from 'react-hook-form';
+import {Avvisningsskjema, Begrunnelse, Årsak} from './Utbetalingsdialog';
+import {Modal} from '../../../../../components/Modal';
 
-const OkKnapp = styled(Hovedknapp)`
+const OkKnapp = styled(Knapp)`
     margin-top: 2rem;
     width: max-content;
     margin-right: 1rem;
@@ -16,6 +16,10 @@ const OkKnapp = styled(Hovedknapp)`
 const AvbrytKnapp = styled(Knapp)`
     margin-top: 2rem;
     width: max-content;
+`;
+
+const StyledModal = styled(Modal)`
+    padding: 2.25rem 4.25rem;
 `;
 
 interface Props {
@@ -45,9 +49,9 @@ export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
                 message: 'Velg minst én begrunnelse',
             });
         } else {
-            const { årsak, begrunnelser, kommentar } = form.getValues();
+            const { begrunnelser, kommentar } = form.getValues();
             onApprove({
-                årsak: årsak,
+                årsak: Årsak.Feil,
                 begrunnelser: Object.entries(begrunnelser ?? {})
                     .filter(([_, value]) => value)
                     .map(([key]) => key) as Begrunnelse[],
@@ -57,7 +61,7 @@ export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
     };
 
     return (
-        <Modal
+        <StyledModal
             isOpen
             title={<Systemtittel>Ikke utbetal</Systemtittel>}
             contentLabel="Avvis utbetaling"
@@ -67,13 +71,15 @@ export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
                 <form onSubmit={form.handleSubmit(submit)}>
                     <Begrunnelsesskjema />
                     <div>
-                        <OkKnapp spinner={isSending}>Avslutt saken</OkKnapp>
-                        <AvbrytKnapp htmlType="button" onClick={onClose}>
+                        <OkKnapp spinner={isSending} type="standard">
+                            Avslutt saken
+                        </OkKnapp>
+                        <AvbrytKnapp htmlType="button" onClick={onClose} type="flat">
                             Avbryt
                         </AvbrytKnapp>
                     </div>
                 </form>
             </FormProvider>
-        </Modal>
+        </StyledModal>
     );
 };

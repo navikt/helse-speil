@@ -49,7 +49,12 @@
                             },
                             {
                                 "kreverSupersaksbehandler": false,
-                                "beskrivelse": "Seilbåten er vekk",
+                                "beskrivelse": "Redningsvesten er vekk",
+                                "kategori": ["8-4"]
+                            },
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Båtmasten er vekk",
                                 "kategori": ["8-4"]
                             }
                         ],
