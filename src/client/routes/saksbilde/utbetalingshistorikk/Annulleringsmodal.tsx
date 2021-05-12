@@ -9,6 +9,7 @@ import { AnnulleringDTO } from '../../../io/types';
 import { postAnnullering } from '../../../io/http';
 import { Annulleringsvarsel } from '../sakslinje/annullering/Annulleringsvarsel';
 import { findEarliest, findLatest, NORSK_DATOFORMAT } from '../../../utils/date';
+import { AnnulleringÅrsak } from '../sakslinje/annullering/Annulleringsmodal';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -58,11 +59,17 @@ export const Annulleringsmodal = ({ person, utbetaling, onClose, onSuccess }: Pr
 
     const form = useForm({ mode: 'onBlur' });
 
-    const annullering = (): AnnulleringDTO => ({
+    const kommentar = form.watch('kommentar');
+    const annenÅrsak = form.watch(`årsak`) === AnnulleringÅrsak.Annet;
+    const harMinstÉnÅrsak = () => form.getValues()?.årsak ?? false;
+
+    const annullering = (årsak: AnnulleringÅrsak, kommentar: string): AnnulleringDTO => ({
         aktørId: person.aktørId,
         fødselsnummer: person.fødselsnummer,
         organisasjonsnummer: utbetaling.arbeidsgiverOppdrag.orgnummer,
         fagsystemId: utbetaling.arbeidsgiverOppdrag.fagsystemId,
+        årsak: årsak,
+        kommentar: kommentar,
     });
 
     const sendAnnullering = (annullering: AnnulleringDTO) => {
@@ -77,7 +84,23 @@ export const Annulleringsmodal = ({ person, utbetaling, onClose, onSuccess }: Pr
             .finally(() => setIsSending(false));
     };
 
-    const submit = () => sendAnnullering(annullering());
+    const submit = () => {
+        if (annenÅrsak && !kommentar) {
+            form.setError('kommentar', {
+                type: 'manual',
+                message: 'Skriv en kommentar hvis du velger årsaken annet',
+            });
+        } else if (!harMinstÉnÅrsak()) {
+            form.setError('årsak', {
+                type: 'manual',
+                message: 'Velg minst én årsak',
+            });
+        } else {
+            const { årsak, kommentar } = form.getValues();
+            sendAnnullering(annullering(årsak, kommentar));
+        }
+    };
+
     const tidligsteFom = findEarliest(utbetaling.arbeidsgiverOppdrag.utbetalingslinjer.map((l) => l.fom));
     const sisteTom = findLatest(utbetaling.arbeidsgiverOppdrag.utbetalingslinjer.map((l) => l.tom));
 

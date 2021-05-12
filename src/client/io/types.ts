@@ -1,4 +1,5 @@
 import { Dagtype } from 'internal-types';
+import { AnnulleringÅrsak } from '../routes/saksbilde/sakslinje/annullering/Annulleringsmodal';
 
 export interface Options {
     method?: string;
@@ -24,6 +25,8 @@ export interface AnnulleringDTO {
     fødselsnummer: string;
     organisasjonsnummer: string;
     fagsystemId: string;
+    årsak: AnnulleringÅrsak;
+    kommentar: string;
 }
 
 export interface PersonoppdateringDTO {
