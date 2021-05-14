@@ -1,19 +1,19 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import styled from '@emotion/styled';
-import { useHistory } from 'react-router';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Avvisningsmodal } from './Avvisningsmodal';
-import { Utbetalingsmodal } from './Utbetalingsmodal';
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
-import { AmplitudeContext } from '../../../AmplitudeContext';
-import { Arbeidsgiver, Error, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
-import { usePerson } from '../../../../../state/person';
-import { useSetRecoilState } from 'recoil';
-import { opptegnelsePollingTimeState } from '../../../../../state/opptegnelser';
-import { Scopes, useAddEphemeralVarsel } from '../../../../../state/varsler';
-import { nanoid } from 'nanoid';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
+import {useHistory} from 'react-router';
+import {Normaltekst} from 'nav-frontend-typografi';
+import {Avvisningsmodal} from './Avvisningsmodal';
+import {Utbetalingsmodal} from './Utbetalingsmodal';
+import {Hovedknapp, Knapp} from 'nav-frontend-knapper';
+import {postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning} from '../../../../../io/http';
+import {AmplitudeContext} from '../../../AmplitudeContext';
+import {Arbeidsgiver, Error, Person, Vedtaksperiode, Vedtaksperiodetilstand} from 'internal-types';
+import {usePerson} from '../../../../../state/person';
+import {useSetRecoilState} from 'recoil';
+import {opptegnelsePollingTimeState} from '../../../../../state/opptegnelser';
+import {Scopes, useAddEphemeralVarsel} from '../../../../../state/varsler';
+import {nanoid} from 'nanoid';
+import {Varseltype} from '@navikt/helse-frontend-varsel';
 
 enum Modalvisning {
     Godkjenning,
@@ -42,7 +42,7 @@ export enum Begrunnelse {
 
 export type Avvisningsskjema = {
     årsak: Årsak;
-    begrunnelser?: Begrunnelse[];
+    begrunnelser?: string[];
     kommentar?: string;
 };
 

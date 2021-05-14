@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Systemtittel } from 'nav-frontend-typografi';
-import { Knapp } from 'nav-frontend-knapper';
-import { Begrunnelsesskjema } from './Begrunnelsesskjema';
-import { FormProvider, useForm } from 'react-hook-form';
-import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';
-import { Modal } from '../../../../../components/Modal';
+import {Systemtittel} from 'nav-frontend-typografi';
+import {Knapp} from 'nav-frontend-knapper';
+import {Begrunnelsesskjema} from './Begrunnelsesskjema';
+import {FormProvider, useForm} from 'react-hook-form';
+import {Avvisningsskjema, Begrunnelse, Årsak} from './Utbetalingsdialog';
+import {Modal} from '../../../../../components/Modal';
 
 const OkKnapp = styled(Knapp)`
     margin-top: 2rem;
@@ -31,9 +31,10 @@ interface Props {
 export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
     const form = useForm();
     const kommentar = form.watch('kommentar');
-    const annenBegrunnelse = form.watch(`begrunnelser.${Begrunnelse.Annet}`);
+    const begrunnelser = form.watch(`begrunnelser`);
+    const annenBegrunnelse = begrunnelser?.includes(Begrunnelse.Annet) ?? false;
 
-    const harMinstÉnBegrunnelse = () => form.getValues()?.begrunnelser?.length > 0 ?? false;
+    const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0 ?? false;
 
     const submit = () => {
         if (annenBegrunnelse && !kommentar) {
@@ -50,9 +51,7 @@ export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
             const { begrunnelser, kommentar } = form.getValues();
             onApprove({
                 årsak: Årsak.Feil,
-                begrunnelser: Object.entries(begrunnelser ?? {})
-                    .filter(([_, value]) => value)
-                    .map(([key]) => key) as Begrunnelse[],
+                begrunnelser: begrunnelser,
                 kommentar: kommentar,
             });
         }

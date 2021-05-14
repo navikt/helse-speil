@@ -1,10 +1,10 @@
-import React, { ChangeEvent, ReactNode } from 'react';
+import React, {ChangeEvent, ReactNode} from 'react';
 import styled from '@emotion/styled';
-import { Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
-import { Controller, useFormContext } from 'react-hook-form';
-import { Begrunnelse } from './Utbetalingsdialog';
-import { useAktivVedtaksperiode } from '../../../../../state/tidslinje';
-import { har8_4Kategori } from '../../../vilkår/tilKategoriserteVilkår';
+import {Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea} from 'nav-frontend-skjema';
+import {Controller, useFormContext} from 'react-hook-form';
+import {Begrunnelse} from './Utbetalingsdialog';
+import {useAktivVedtaksperiode} from '../../../../../state/tidslinje';
+import {har8_4Kategori} from '../../../vilkår/tilKategoriserteVilkår';
 
 const Container = styled(SkjemaGruppe)`
     margin-top: 1.5rem;
@@ -38,7 +38,8 @@ const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: string; labe
     return (
         <Checkbox
             label={label ? label : begrunnelse}
-            name={`begrunnelser.${begrunnelse}`}
+            name={`begrunnelser`}
+            value={begrunnelse}
             // @ts-ignore
             checkboxRef={register}
             onChange={() => clearErrors('begrunnelser')}
@@ -52,7 +53,7 @@ export const Begrunnelsesskjema = () => {
     const warnings = aktivVedtaksperiode?.aktivitetslog;
     const funnetRisikovurderinger = aktivVedtaksperiode?.risikovurdering?.funn;
 
-    const annet = watch(`begrunnelser.${Begrunnelse.Annet}`);
+    const annet = watch(`begrunnelser`)?.includes(Begrunnelse.Annet);
 
     return (
         <Container>
