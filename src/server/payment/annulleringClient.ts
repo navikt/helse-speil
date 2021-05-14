@@ -1,11 +1,13 @@
 import request from 'request-promise-native';
-import { AppConfig, OnBehalfOf } from '../types';
+import {AppConfig, OnBehalfOf} from '../types';
 
 export interface PostAnnulleringOptions {
     aktørId: string;
     fødselsnummer: string;
     organisasjonsnummer: string;
     fagsystemId: string;
+    årsak: string[];
+    kommentar: string;
     saksbehandlerIdent: string;
     speilToken: string;
     vedtaksperiodeId: string;
@@ -21,6 +23,8 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
         fødselsnummer,
         organisasjonsnummer,
         fagsystemId,
+        årsak,
+        kommentar,
         saksbehandlerIdent,
         speilToken,
         vedtaksperiodeId,
@@ -29,7 +33,16 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/annullering`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
-            body: { aktørId, fødselsnummer, organisasjonsnummer, fagsystemId, saksbehandlerIdent, vedtaksperiodeId },
+            body: {
+                aktørId,
+                fødselsnummer,
+                organisasjonsnummer,
+                fagsystemId,
+                årsak,
+                kommentar,
+                saksbehandlerIdent,
+                vedtaksperiodeId,
+            },
             json: true,
         };
 

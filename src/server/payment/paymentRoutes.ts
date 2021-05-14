@@ -1,8 +1,8 @@
 import logger from '../logging';
-import { AnnulleringClient } from './annulleringClient';
-import { VedtakClient } from './vedtakClient';
-import { Response, Router } from 'express';
-import { SpeilRequest } from '../types';
+import {AnnulleringClient} from './annulleringClient';
+import {VedtakClient} from './vedtakClient';
+import {Response, Router} from 'express';
+import {SpeilRequest} from '../types';
 
 interface SetupOptions {
     vedtakClient: VedtakClient;
@@ -59,6 +59,8 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
                 fødselsnummer: req.body.fødselsnummer,
                 organisasjonsnummer: req.body.organisasjonsnummer,
                 fagsystemId: req.body.fagsystemId,
+                årsak: req.body.årsak,
+                kommentar: req.body.kommentar,
                 saksbehandlerIdent: req.session!.user,
                 speilToken: req.session!.speilToken,
                 vedtaksperiodeId: req.body.vedtaksperiodeId,

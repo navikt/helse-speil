@@ -1,20 +1,20 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import styled from '@emotion/styled';
-import { Checkbox, Input, Radio, RadioGruppe, Textarea } from 'nav-frontend-skjema';
-import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { AnnulleringDTO } from '../../../../io/types';
-import { Person, Vedtaksperiode } from 'internal-types';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { authState } from '../../../../state/authentication';
-import { postAbonnerPåAktør, postAnnullering } from '../../../../io/http';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { Annulleringsvarsel } from './Annulleringsvarsel';
-import { Modal } from '../../../../components/Modal';
-import { organisasjonsnummerForPeriode } from '../../../../mapping/selectors';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
-import { somPenger } from '../../../../utils/locale';
-import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
+import {Checkbox, Input, Radio, RadioGruppe, Textarea} from 'nav-frontend-skjema';
+import {Feilmelding as NavFeilmelding, Normaltekst} from 'nav-frontend-typografi';
+import {Flatknapp, Knapp} from 'nav-frontend-knapper';
+import {AnnulleringDTO} from '../../../../io/types';
+import {Person, Vedtaksperiode} from 'internal-types';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {authState} from '../../../../state/authentication';
+import {postAbonnerPåAktør, postAnnullering} from '../../../../io/http';
+import {Controller, FormProvider, useForm} from 'react-hook-form';
+import {Annulleringsvarsel} from './Annulleringsvarsel';
+import {Modal} from '../../../../components/Modal';
+import {organisasjonsnummerForPeriode} from '../../../../mapping/selectors';
+import {NORSK_DATOFORMAT} from '../../../../utils/date';
+import {somPenger} from '../../../../utils/locale';
+import {opptegnelsePollingTimeState} from '../../../../state/opptegnelser';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;
@@ -138,7 +138,7 @@ export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) =>
     const annenÅrsak = form.watch(`årsak`) === AnnulleringÅrsak.Annet;
     const harMinstÉnÅrsak = () => form.getValues()?.årsak ?? false;
 
-    const annullering = (årsak: AnnulleringÅrsak, kommentar: string): AnnulleringDTO => ({
+    const annullering = (årsak: AnnulleringÅrsak, kommentar: string = ''): AnnulleringDTO => ({
         aktørId: person.aktørId,
         fødselsnummer: person.fødselsnummer,
         organisasjonsnummer: organisasjonsnummer,
