@@ -27,16 +27,6 @@ export enum Årsak {
 }
 
 export enum Begrunnelse {
-    Vilkår = 'Vilkår ikke oppfylt',
-    Arbeidsgiverperiode = 'Arbeidsgiverperiode beregnet feil',
-    Egenmeldingsdager = 'Egenmeldingsdager beregnet feil',
-    Maksdato = 'Maksdato beregnet feil',
-    Dagsats = 'Dagsats beregnet feil',
-    Sykepengegrunnlag = 'Sykepengegrunnlag beregnet feil',
-    Inntektskilder = 'Inntektskilder og/eller ytelser tas ikke med i beregningen',
-    Medlemskap = 'Vilkår om Lovvalg og medlemskap er ikke oppfylt',
-    Faresignaler = 'Faresignaler påvirket utfallet av saken',
-    Arbeidsuførhet = 'Vilkår om Arbeidsuførhet, aktivitetsplikt og/eller medvirkning er ikke oppfylt',
     Annet = 'Annet',
 }
 
