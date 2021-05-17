@@ -1,4 +1,4 @@
-import { atom, selector, SetterOrUpdater, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { atom, selector, SetterOrUpdater, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 import { deletePåVent, deleteTildeling, fetchOppgaver, postLeggPåVent, postTildeling } from '../io/http';
 import { useAddVarsel, useRemoveVarsel, VarselObject } from './varsler';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
@@ -11,7 +11,7 @@ const oppgaverStateRefetchKey = atom<Date>({
     default: new Date(),
 });
 
-const remoteOppgaverState = selector<Oppgave[]>({
+export const remoteOppgaverState = selector<Oppgave[]>({
     key: 'remoteOppgaverState',
     get: async ({ get }) => {
         get(oppgaverStateRefetchKey);
@@ -34,37 +34,18 @@ const remoteOppgaverState = selector<Oppgave[]>({
 
 type TildelingStateType = { [oppgavereferanse: string]: Tildeling | undefined };
 
-export const tildelingerState = atom<TildelingStateType>({
+const tildelingerState = atom<TildelingStateType>({
     key: 'tildelingerState',
     default: {},
 });
 
 export const useOppgaverState = () => {
-    const oppgaver = useRecoilValueLoadable(oppgaverState);
-
-    const setTildelinger = useSetRecoilState(tildelingerState);
-    const tildelinger = useRecoilValue(tildelingerState);
-
-    oppgaver
-        .toPromise()
-        .then((oppgaver) => {
-            if (oppgaver?.length > 0 && Object.keys(tildelinger).length < 1) {
-                setTildelinger(
-                    oppgaver.reduce((map: Record<string, Tildeling | undefined>, oppgave) => {
-                        map[oppgave.oppgavereferanse] = oppgave.tildeling;
-                        return map;
-                    }, {})
-                );
-            }
-        })
-        .catch(() => {});
-
-    return oppgaver;
+    return useRecoilValueLoadable(oppgaverState);
 };
 
 const oppgaverState = selector<Oppgave[]>({
     key: 'oppgaverState',
-    get: async ({ get }) => {
+    get: ({ get }) => {
         const tildelinger = get(tildelingerState);
         const oppgaver = get(remoteOppgaverState);
         return oppgaver

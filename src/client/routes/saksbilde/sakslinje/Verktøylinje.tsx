@@ -4,13 +4,14 @@ import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
 import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
 import { Annullering } from './annullering/Annullering';
 import { OppdaterPersondata } from './OppdaterPersondata';
-import { Tildelingsknapp, useErTildeltInnloggetBruker } from './Tildelingsknapp';
+import { Tildelingsknapp } from './Tildelingsknapp';
 import { usePerson } from '../../../state/person';
 import { PåVentKnapp } from './PåVentKnapp';
 import { AnonymiserData } from './AnonymiserData';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 import { Dropdown, Strek } from '../../../components/dropdown/Dropdown';
 import { PopoverOrientering } from 'nav-frontend-popover';
+import { useInnloggetSaksbehandler } from '../../../state/authentication';
 
 const Container = styled.div`
     display: flex;
@@ -22,8 +23,8 @@ export const Verktøylinje = () => {
     const personTilBehandling = usePerson();
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const tildeling = personTilBehandling?.tildeling;
-    const tildeltTilMeg = useErTildeltInnloggetBruker();
-    const erPåVent = usePerson()?.tildeling?.påVent;
+    const { oid } = useInnloggetSaksbehandler();
+    const tildeltTilMeg = tildeling?.saksbehandler.oid === oid;
     const oppgavereferanse = useAktivVedtaksperiode()?.oppgavereferanse;
     const utbetalinger: Utbetalinger | undefined = aktivVedtaksperiode?.utbetalinger;
     const vedtaksperiodeErAnnullert: boolean = aktivVedtaksperiode?.tilstand === Vedtaksperiodetilstand.Annullert;
@@ -43,7 +44,9 @@ export const Verktøylinje = () => {
                                 erTildeltInnloggetBruker={tildeltTilMeg}
                             />
                         )}
-                        {tildeltTilMeg && <PåVentKnapp erPåVent={erPåVent} oppgavereferanse={oppgavereferanse} />}
+                        {tildeltTilMeg && (
+                            <PåVentKnapp erPåVent={tildeling?.påVent} oppgavereferanse={oppgavereferanse} />
+                        )}
                         <Strek />
                     </>
                 )}

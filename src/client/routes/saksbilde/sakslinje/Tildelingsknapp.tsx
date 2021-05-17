@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { useTildeling } from '../../../state/oppgaver';
-import { usePerson, useRefreshPerson, useTildelPerson } from '../../../state/person';
+import { useRefreshPerson, useTildelPerson } from '../../../state/person';
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
 import { Oppgave, Tildeling } from 'internal-types';
 
@@ -10,13 +10,6 @@ interface TildelingsknappProps {
     tildeling?: Tildeling;
     erTildeltInnloggetBruker: boolean;
 }
-
-export const useErTildeltInnloggetBruker = () => {
-    const personTilBehandling = usePerson();
-    const tildeling = personTilBehandling?.tildeling;
-    const { oid } = useInnloggetSaksbehandler();
-    return tildeling?.saksbehandler.oid === oid;
-};
 
 export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnloggetBruker }: TildelingsknappProps) => {
     const [isFetching, setIsFetching] = useState(false);

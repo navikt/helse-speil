@@ -34,7 +34,7 @@ const tildelingState = atom<Tildeling | undefined>({
     default: undefined,
 });
 
-export const saksbehandlerTildelingSelector = selector<Saksbehandler | undefined>({
+const saksbehandlerTildelingSelector = selector<Saksbehandler | undefined>({
     key: 'saksbehandlerTildeling',
     get: ({ get }) => get(tildelingState)?.saksbehandler,
     set: ({ set }, saksbehandler) =>
