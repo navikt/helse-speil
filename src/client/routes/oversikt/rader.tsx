@@ -96,7 +96,7 @@ const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
         <CellContainer width={128} data-for={tooltipId('søker', oppgave)} data-tip={formatertNavn}>
             <TekstMedEllipsis>{formatertNavn}</TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
-            <Tooltip id={tooltipId('søker', oppgave)} />
+            {formatertNavn.length > 19 && <Tooltip id={tooltipId('søker', oppgave)} />}
         </CellContainer>
     );
 };
@@ -117,16 +117,12 @@ const Opprettet = ({ oppgave }: { oppgave: Oppgave }) => (
 
 const Bosted = ({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = useSkalAnonymiserePerson();
-
+    const bosted = anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn;
     return (
-        <CellContainer
-            width={128}
-            data-for={tooltipId('bosted', oppgave)}
-            data-tip={anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}
-        >
-            <TekstMedEllipsis>{anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn}</TekstMedEllipsis>
+        <CellContainer width={128} data-for={tooltipId('bosted', oppgave)} data-tip={bosted}>
+            <TekstMedEllipsis>{bosted}</TekstMedEllipsis>
             <SkjultSakslenke oppgave={oppgave} />
-            <Tooltip id={tooltipId('bosted', oppgave)} />
+            {bosted.length > 18 && <Tooltip id={tooltipId('bosted', oppgave)} />}
         </CellContainer>
     );
 };
@@ -145,7 +141,7 @@ const TildeltMedSkjultSakslenke = ({ oppgave }: { oppgave: Oppgave }) => {
         <CellContainer width={128} data-tip={tildeltTilNavn} data-for={tooltipId('tildelt-til', oppgave)}>
             <Tildelt tildeltBrukernavn={tildeltTilNavn} />
             <SkjultSakslenke oppgave={oppgave} />
-            <Tooltip id={tooltipId('tildelt-til', oppgave)} />
+            {tildeltTilNavn.length > 15 && <Tooltip id={tooltipId('tildelt-til', oppgave)} />}
         </CellContainer>
     );
 };
