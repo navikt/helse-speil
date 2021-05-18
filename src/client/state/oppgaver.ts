@@ -11,7 +11,7 @@ const oppgaverStateRefetchKey = atom<Date>({
     default: new Date(),
 });
 
-export const remoteOppgaverState = selector<Oppgave[]>({
+const remoteOppgaverState = selector<Oppgave[]>({
     key: 'remoteOppgaverState',
     get: async ({ get }) => {
         get(oppgaverStateRefetchKey);
@@ -39,11 +39,7 @@ const tildelingerState = atom<TildelingStateType>({
     default: {},
 });
 
-export const useOppgaverState = () => {
-    return useRecoilValueLoadable(oppgaverState);
-};
-
-const oppgaverState = selector<Oppgave[]>({
+export const oppgaverState = selector<Oppgave[]>({
     key: 'oppgaverState',
     get: ({ get }) => {
         const tildelinger = get(tildelingerState);
