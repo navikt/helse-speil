@@ -66,6 +66,14 @@ const Oversiktstabell = styled(Tabell)`
     }
 `;
 
+const ScrollableX = styled.div`
+    overflow: auto hidden;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+`;
+
 const useOppdaterTildelingsfilterVedFanebytte = (filtrering: UseTabellFiltrering) => {
     const aktivTab = useRecoilValue(tabState);
     const [stashedFilter, setStashedFilter] = useState<Filtrering | undefined>();
@@ -152,14 +160,6 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     useEffect(() => {
         tabell.paginering?.set((p) => ({ ...p, sidenummer: 1 }));
     }, [aktivTab, aktiveFiltere]);
-
-    const ScrollableX = styled.div`
-        overflow: auto hidden;
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-    `;
 
     return (
         <Container>
