@@ -38,8 +38,12 @@ const utbetalingsvarsel = ({ tilstand, automatiskBehandlet }: Vedtaksperiode): V
         ? { grad: Varseltype.Info, melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : null;
 
-const vedtaksperiodeVenterVarsel = ({ tilstand, oppgavereferanse }: Vedtaksperiode): boolean =>
-    tilstand === Vedtaksperiodetilstand.Venter;
+const vedtaksperiodeVenterVarsel = ({ tilstand }: Vedtaksperiode): VarselObject | null =>
+    tilstand === Vedtaksperiodetilstand.Venter
+        ? { grad: Varseltype.Info, melding: 'Ikke klar til behandling - avventer system' }
+        : tilstand === Vedtaksperiodetilstand.VenterPåKiling
+        ? { grad: Varseltype.Info, melding: 'Ikke klar for utbetaling. Avventer behandling av tidligere periode.' }
+        : null;
 
 const manglendeOppgavereferansevarsel = ({ tilstand, oppgavereferanse }: Vedtaksperiode): VarselObject | null =>
     tilstand === Vedtaksperiodetilstand.Oppgaver && (!oppgavereferanse || oppgavereferanse.length === 0)
@@ -76,15 +80,11 @@ export const Toppvarsler = ({ vedtaksperiode }: ToppvarslerProps) => {
         automatiskBehandletvarsel(vedtaksperiode),
         manglendeOppgavereferansevarsel(vedtaksperiode),
         kandidatForAutomatiseringsvarsel(vedtaksperiode),
+        vedtaksperiodeVenterVarsel(vedtaksperiode),
     ].filter((it) => it) as VarselObject[];
 
     return (
         <>
-            {vedtaksperiodeVenterVarsel(vedtaksperiode) && (
-                <Varsel type={Varseltype.Info}>
-                    <Normaltekst>Ikke klar til behandling - avventer system</Normaltekst>
-                </Varsel>
-            )}
             <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
             {varsler.map(({ grad, melding }, index) => (
                 <Varsel type={grad} key={index}>
