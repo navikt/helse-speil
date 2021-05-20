@@ -75,6 +75,7 @@ export enum Periodetype {
     OvergangFraInfotrygd = 'overgangFraIt',
     Stikkprøve = 'stikkprøve',
     RiskQa = 'riskQa',
+    Revurdering = 'revurdering',
 }
 
 export interface Søknad {

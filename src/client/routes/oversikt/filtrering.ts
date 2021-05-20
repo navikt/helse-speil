@@ -15,16 +15,6 @@ export const overgangFraInfotrygdFilter = () => ({
     func: (type: Periodetype) => type === Periodetype.OvergangFraInfotrygd,
 });
 
-export const ufordelteOppgaverFilter = () => ({
-    label: 'Ufordelte saker',
-    func: (oppgave: Oppgave) => !oppgave?.tildeling,
-});
-
-export const tildelteOppgaverFilter = () => ({
-    label: 'Tildelte saker',
-    func: (oppgave: Oppgave) => oppgave?.tildeling,
-});
-
 export const stikkprøveFilter = () => ({
     label: 'Stikkprøver',
     func: (type: Periodetype) => type === Periodetype.Stikkprøve,
@@ -33,6 +23,21 @@ export const stikkprøveFilter = () => ({
 export const riskQaFilter = () => ({
     label: 'Risk QA',
     func: (type: Periodetype) => type === Periodetype.RiskQa,
+});
+
+export const revurderingFilter = () => ({
+    label: 'Revurdering',
+    func: (type: Periodetype) => type === Periodetype.Revurdering,
+});
+
+export const ufordelteOppgaverFilter = () => ({
+    label: 'Ufordelte saker',
+    func: (oppgave: Oppgave) => !oppgave?.tildeling,
+});
+
+export const tildelteOppgaverFilter = () => ({
+    label: 'Tildelte saker',
+    func: (oppgave: Oppgave) => oppgave?.tildeling,
 });
 
 export const enArbeidsgiverFilter = () => ({

@@ -1,6 +1,6 @@
 import { Inntektskilde, Kjønn, Oppgave, Periodetype } from 'internal-types';
 import dayjs from 'dayjs';
-import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave, SpesialistPeriodetype } from 'external-types';
+import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave } from 'external-types';
 import { tilPeriodetype } from '../periodetype';
 
 const kjønn = (kjønn: string | null): Kjønn => {
@@ -46,6 +46,8 @@ export const tilOppgave = (oppgave: SpesialistOppgave): Oppgave => ({
             ? Periodetype.Stikkprøve
             : oppgave.oppgavetype === Oppgavetype.RiskQa
             ? Periodetype.RiskQa
+            : oppgave.oppgavetype === Oppgavetype.Revurdering
+            ? Periodetype.Revurdering
             : tilPeriodetype(oppgave.type),
     boenhet: oppgave.boenhet,
     inntektskilde: inntektskilde(oppgave.inntektskilde),

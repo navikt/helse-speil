@@ -139,6 +139,8 @@ export const Oppgaveetikett = ({ type, størrelse = 'l', medLabel = false, style
             return <StikkprøveEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
         case Periodetype.RiskQa:
             return <RiskQaEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
+        case Periodetype.Revurdering:
+            return <RevurderingEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
         default:
             return null;
     }
