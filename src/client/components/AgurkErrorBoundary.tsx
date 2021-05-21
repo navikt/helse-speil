@@ -61,12 +61,12 @@ const ErrorInnhold: React.FC<ErrorInnholdProps> = ({ sidenavn, errormelding }) =
     );
 };
 
-export const AgurkErrorBoundary: React.FC<PropsWithChildren<any>> = ({ children }) => {
+export const AgurkErrorBoundary: React.FC<PropsWithChildren<any>> = ({ children, sidenavn }) => {
     const [errormelding, setErrormelding] = useState<string | undefined>();
     if (!children) return null;
     return (
         <ErrorBoundary
-            fallback={<ErrorInnhold errormelding={errormelding} />}
+            fallback={<ErrorInnhold errormelding={errormelding} sidenavn={sidenavn} />}
             onError={(error: Error) => setErrormelding(error.stack)}
         >
             {children}
