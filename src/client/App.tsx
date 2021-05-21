@@ -18,6 +18,8 @@ import './App.less';
 import { Toasts } from './components/Toasts';
 import { useAddToast, useRemoveToast } from './state/toasts';
 import { nanoid } from 'nanoid';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { GlobalFeilside } from './GlobalFeilside';
 
 const Opptegnelse = React.lazy(() => import('./routes/saksbilde/Opptegnelse'));
 const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
@@ -62,7 +64,7 @@ const App = () => {
     anonymiserPerson(agurkmodusAktiv);
 
     return (
-        <>
+        <ErrorBoundary fallback={GlobalFeilside}>
             <Header />
             <Varsler />
             <Switch>
@@ -82,7 +84,7 @@ const App = () => {
                 </React.Suspense>
             </Switch>
             <Toasts />
-        </>
+        </ErrorBoundary>
     );
 };
 
