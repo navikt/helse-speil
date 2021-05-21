@@ -1,4 +1,4 @@
-import { atom, selector, SetterOrUpdater, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { atom, selector, SetterOrUpdater, useSetRecoilState } from 'recoil';
 import { deletePåVent, deleteTildeling, fetchOppgaver, postLeggPåVent, postTildeling } from '../io/http';
 import { useAddVarsel, useRemoveVarsel, VarselObject } from './varsler';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
@@ -16,9 +16,7 @@ const remoteOppgaverState = selector<Oppgave[]>({
     get: async ({ get }) => {
         get(oppgaverStateRefetchKey);
         return await fetchOppgaver()
-            .then((spesialistOppgaver) => {
-                return spesialistOppgaver.map(tilOppgave);
-            })
+            .then((spesialistOppgaver) => spesialistOppgaver.map(tilOppgave))
             .catch((error) => {
                 switch (error.statusCode) {
                     case 404:
@@ -34,9 +32,23 @@ const remoteOppgaverState = selector<Oppgave[]>({
 
 type TildelingStateType = { [oppgavereferanse: string]: Tildeling | undefined };
 
-const tildelingerState = atom<TildelingStateType>({
-    key: 'tildelingerState',
+const _tildelingerState = atom<TildelingStateType>({
+    key: '_tildelingerState',
     default: {},
+});
+
+const tildelingerState = selector<TildelingStateType>({
+    key: 'tildelingerState',
+    get: ({ get }) =>
+        Object.keys(get(_tildelingerState)).length > 0
+            ? // hvis vi har satt tildelingerState tidligere så bruker vi den
+              get(_tildelingerState)
+            : // ellers bruker vi tildelingene fra oppgavene
+              get(remoteOppgaverState).reduce(
+                  (acc, oppgave) => ({ ...acc, [oppgave.oppgavereferanse]: oppgave.tildeling }),
+                  {}
+              ),
+    set: ({ set }, tildelinger) => set(_tildelingerState, tildelinger),
 });
 
 export const oppgaverState = selector<Oppgave[]>({
@@ -47,11 +59,7 @@ export const oppgaverState = selector<Oppgave[]>({
         return oppgaver
             .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
             .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != Inntektskilde.FlereArbeidsgivere)
-            .map((oppgave) => {
-                const harTildeling = Object.keys(tildelinger).includes(String(oppgave.oppgavereferanse));
-                const tildeling = tildelinger[oppgave.oppgavereferanse];
-                return { ...oppgave, tildeling: harTildeling ? tildeling : oppgave.tildeling };
-            });
+            .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
     },
 });
 
@@ -99,13 +107,11 @@ const tildelOppgave = (
                 if (error.statusCode === 409) {
                     const respons: TildelingError = (await JSON.parse(error.message)) as TildelingError;
                     const { oid, navn, epost, påVent } = respons.kontekst.tildeling;
-                    if (oid) {
-                        setTildelinger((it) => ({
-                            ...it,
-                            [oppgavereferanse]: { saksbehandler: { oid, navn, epost }, påVent: påVent },
-                        }));
-                        addVarsel(tildelingsvarsel(`${navn} har allerede tatt saken.`));
-                    }
+                    setTildelinger((it) => ({
+                        ...it,
+                        [oppgavereferanse]: { saksbehandler: { oid, navn, epost }, påVent: påVent },
+                    }));
+                    addVarsel(tildelingsvarsel(`${navn} har allerede tatt saken.`));
                     return Promise.reject(oid);
                 } else {
                     addVarsel(tildelingsvarsel('Kunne ikke tildele sak.'));

@@ -41,7 +41,7 @@ const saksbehandlerTildelingSelector = selector<Saksbehandler | undefined>({
         set(
             tildelingState,
             saksbehandler && {
-                saksbehandler: saksbehandler,
+                saksbehandler,
                 påVent: false,
             }
         ),
@@ -61,6 +61,7 @@ export const useAnonymiserPerson = () => useSetRecoilState(anonymiserPersonState
 export const useSkalAnonymiserePerson = () => useRecoilValue(anonymiserPersonState);
 
 export const useTildelPerson = () => useSetRecoilState(saksbehandlerTildelingSelector);
+export const usePersonPåVent = () => useSetRecoilState(tildelingState);
 
 export const usePerson = () => {
     const person = useRecoilValue(personState)?.person;
@@ -68,7 +69,7 @@ export const usePerson = () => {
     return (
         person && {
             ...person,
-            tildeling: person.tildeling ?? tildeling,
+            tildeling: tildeling ?? person.tildeling,
         }
     );
 };

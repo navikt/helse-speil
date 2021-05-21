@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useTildeling } from './oppgaver';
-import { RecoilRoot } from 'recoil';
-import { Inntektskilde, Oppgave, Periodetype } from 'internal-types';
+import { oppgaverState, useTildeling } from './oppgaver';
+import { RecoilRoot, useRecoilValueLoadable } from 'recoil';
+import { Inntektskilde, Oppgave, Periodetype, Saksbehandler } from 'internal-types';
 import dayjs from 'dayjs';
 
 declare global {
@@ -44,19 +44,21 @@ const enOppgave = (): Oppgave => ({
     tildeling: undefined,
 });
 
-const mockSuccessfulFetch = () =>
+const mockHentOppgaver = () =>
     (global.fetch = jest.fn().mockImplementation(() => {
         return Promise.resolve({
             status: 200,
-            json: () => ({ data: { oppgaver: [enOppgave()] } }),
+            json: () => ({ oppgaver: [enOppgave()] }),
         });
     }));
 
-const saksbehandler = {
+const saksbehandler: Saksbehandler = {
     oid: 'uuid',
     navn: 'enSaksbehandler',
     epost: 'saksbehandler@nav.no',
 };
+
+const mockTildelingOk = () => (global.fetch = jest.fn().mockImplementation(() => Promise.resolve({ status: 200 })));
 
 const mockTildelingsfeil = () =>
     (global.fetch = jest.fn().mockImplementation(() => {
@@ -76,10 +78,22 @@ const mockTildelingsfeil = () =>
 
 const wrapper = ({ children }: { children: ReactNode | ReactNode[] }) => <RecoilRoot>{children}</RecoilRoot>;
 
+async function settOppOppgaver() {
+    const { result } = renderHook(async () => useRecoilValueLoadable(oppgaverState), { wrapper });
+    await act(async () => {
+        // Vent til oppgavene er hentet. Skulle jo ønske recoil ordnet dette på egen hånd...
+        // eslint-disable-next-line no-empty
+        while ((await result.current).state !== 'hasValue') {}
+    });
+}
+
 describe('oppgavetildeling', () => {
     describe('useTildelOppgave', () => {
-        test('thrower ikke ved suksess', () => {
-            mockSuccessfulFetch();
+        test('thrower ikke ved suksess', async () => {
+            mockHentOppgaver();
+            await settOppOppgaver();
+
+            mockTildelingOk();
             const { result } = renderHook(() => useTildeling().tildelOppgave, { wrapper });
 
             act(async () => {
@@ -87,7 +101,9 @@ describe('oppgavetildeling', () => {
             });
         });
 
-        test('thrower og returnerer navnet på tildelt saksbehandler ved konflikt', () => {
+        test('thrower og returnerer navnet på tildelt saksbehandler ved konflikt', async () => {
+            mockHentOppgaver();
+            await settOppOppgaver();
             mockTildelingsfeil();
             const { result } = renderHook(() => useTildeling().tildelOppgave, { wrapper });
 
@@ -99,7 +115,7 @@ describe('oppgavetildeling', () => {
     });
     describe('useFjernTildeling', () => {
         test('thrower ikke ved suksess', () => {
-            mockSuccessfulFetch();
+            mockTildelingOk();
             const { result } = renderHook(() => useTildeling().fjernTildeling, { wrapper });
 
             act(async () => {

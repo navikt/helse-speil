@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
@@ -18,7 +18,7 @@ import { Meatball } from '@navikt/helse-frontend-meatball';
 import '@navikt/helse-frontend-meatball/lib/main.css';
 import { Dropdown } from '../../components/dropdown/Dropdown';
 import { Tildelingsknapp } from '../saksbilde/sakslinje/Tildelingsknapp';
-import { PåVentKnapp } from '../saksbilde/sakslinje/PåVentKnapp';
+import { OversiktPåVentKnapp } from './OversiktPåVentKnapp';
 import { capitalizeName } from '../../utils/locale';
 
 const formaterNavn = (personinfo: Personinfo): string => {
@@ -165,7 +165,10 @@ const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
                         erTildeltInnloggetBruker={erTildeltInnloggetBruker}
                     />
                     {erTildeltInnloggetBruker && (
-                        <PåVentKnapp erPåVent={oppgave.tildeling?.påVent} oppgavereferanse={oppgave.oppgavereferanse} />
+                        <OversiktPåVentKnapp
+                            erPåVent={oppgave.tildeling!.påVent}
+                            oppgavereferanse={oppgave.oppgavereferanse}
+                        />
                     )}
                 </Dropdown>
             </span>

@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { useRefreshPerson } from '../../../state/person';
 import { useOperasjonsvarsel } from '../../../state/varsler';
 import { useHistory } from 'react-router';
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { useTildeling } from '../../../state/oppgaver';
-import { Oppgave } from 'internal-types';
+import { deletePåVent, postLeggPåVent } from '../../../io/http';
+import { usePersonPåVent } from '../../../state/person';
+import { useInnloggetSaksbehandler } from '../../../state/authentication';
 
 const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {
     promise.catch(onError);
@@ -20,12 +20,14 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse }: PåVentKnappProps)
     const history = useHistory();
     const errorHandler = useOperasjonsvarsel('Legg på vent');
     const { lukk } = useContext(DropdownContext);
-    const refreshPerson = useRefreshPerson();
-    const { leggPåVent, fjernPåVent } = useTildeling();
+    const saksbehandler = useInnloggetSaksbehandler();
+    const personPåVent = usePersonPåVent();
 
     if (!oppgavereferanse) {
         return null;
     }
+
+    const påVent = (påVent: boolean) => personPåVent({ saksbehandler, påVent });
 
     return erPåVent ? (
         <DropdownMenyknapp
@@ -33,11 +35,14 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse }: PåVentKnappProps)
             onClick={() => {
                 setIsFetching(true);
                 ignorePromise(
-                    fjernPåVent({ oppgavereferanse } as Oppgave).then(() => {
-                        lukk();
-                        refreshPerson();
-                        setIsFetching(false);
-                    }),
+                    deletePåVent(oppgavereferanse)
+                        .then(() => {
+                            påVent(false);
+                        })
+                        .finally(() => {
+                            lukk();
+                            setIsFetching(false);
+                        }),
                     errorHandler
                 );
             }}
@@ -50,11 +55,15 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse }: PåVentKnappProps)
             onClick={() => {
                 setIsFetching(true);
                 ignorePromise(
-                    leggPåVent({ oppgavereferanse } as Oppgave).then(() => {
-                        lukk();
-                        history.push('/');
-                        setIsFetching(false);
-                    }),
+                    postLeggPåVent(oppgavereferanse)
+                        .then(() => {
+                            påVent(true); // Vi skal tilbake til oversikten, men for ordens skyld
+                            history.push('/');
+                        })
+                        .finally(() => {
+                            lukk();
+                            setIsFetching(false);
+                        }),
                     errorHandler
                 );
             }}
