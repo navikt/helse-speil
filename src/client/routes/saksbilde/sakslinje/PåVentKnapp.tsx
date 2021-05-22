@@ -4,7 +4,6 @@ import { useHistory } from 'react-router';
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
 import { deletePåVent, postLeggPåVent } from '../../../io/http';
 import { usePersonPåVent } from '../../../state/person';
-import { useInnloggetSaksbehandler } from '../../../state/authentication';
 
 const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {
     promise.catch(onError);
@@ -18,16 +17,13 @@ export interface PåVentKnappProps {
 export const PåVentKnapp = ({ erPåVent, oppgavereferanse }: PåVentKnappProps) => {
     const [isFetching, setIsFetching] = useState(false);
     const history = useHistory();
+    const personPåVent = usePersonPåVent();
     const errorHandler = useOperasjonsvarsel('Legg på vent');
     const { lukk } = useContext(DropdownContext);
-    const saksbehandler = useInnloggetSaksbehandler();
-    const personPåVent = usePersonPåVent();
 
     if (!oppgavereferanse) {
         return null;
     }
-
-    const påVent = (påVent: boolean) => personPåVent({ saksbehandler, påVent });
 
     return erPåVent ? (
         <DropdownMenyknapp
@@ -37,7 +33,7 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse }: PåVentKnappProps)
                 ignorePromise(
                     deletePåVent(oppgavereferanse)
                         .then(() => {
-                            påVent(false);
+                            personPåVent(false);
                         })
                         .finally(() => {
                             lukk();
@@ -57,7 +53,7 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse }: PåVentKnappProps)
                 ignorePromise(
                     postLeggPåVent(oppgavereferanse)
                         .then(() => {
-                            påVent(true); // Vi skal tilbake til oversikten, men for ordens skyld
+                            personPåVent(true); // Vi skal tilbake til oversikten, men for ordens skyld
                             history.push('/');
                         })
                         .finally(() => {

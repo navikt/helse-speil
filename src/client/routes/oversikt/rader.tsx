@@ -17,7 +17,7 @@ import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { Meatball } from '@navikt/helse-frontend-meatball';
 import '@navikt/helse-frontend-meatball/lib/main.css';
 import { Dropdown } from '../../components/dropdown/Dropdown';
-import { Tildelingsknapp } from '../saksbilde/sakslinje/Tildelingsknapp';
+import { OversiktTildelingsknapp } from './OversiktTildelingsknapp';
 import { OversiktPåVentKnapp } from './OversiktPåVentKnapp';
 import { capitalizeName } from '../../utils/locale';
 
@@ -159,7 +159,7 @@ const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
         <CellContainer>
             <span data-tip="Mer" data-for={tooltipId('kjottbolle', oppgave)}>
                 <Dropdown labelRenderer={(_, onClick) => <Meatball onClick={onClick} />}>
-                    <Tildelingsknapp
+                    <OversiktTildelingsknapp
                         oppgavereferanse={oppgave.oppgavereferanse}
                         tildeling={oppgave.tildeling}
                         erTildeltInnloggetBruker={erTildeltInnloggetBruker}

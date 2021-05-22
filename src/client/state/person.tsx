@@ -1,7 +1,8 @@
-import { Person, Saksbehandler, Tildeling, Vedtaksperiode } from 'internal-types';
-import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { Person, Tildeling, Vedtaksperiode } from 'internal-types';
+import { atom, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
+import { useInnloggetSaksbehandler } from './authentication';
 import { aktivPeriodeState } from './tidslinje';
 
 interface PersonState {
@@ -34,17 +35,10 @@ const tildelingState = atom<Tildeling | undefined>({
     default: undefined,
 });
 
-const saksbehandlerTildelingSelector = selector<Saksbehandler | undefined>({
-    key: 'saksbehandlerTildeling',
-    get: ({ get }) => get(tildelingState)?.saksbehandler,
-    set: ({ set }, saksbehandler) =>
-        set(
-            tildelingState,
-            saksbehandler && {
-                saksbehandler,
-                påVent: false,
-            }
-        ),
+// Avgjør om tilstand i frontend skal overstyre tilstand as of backend
+const frontendOverstyrerTildelingState = atom<boolean>({
+    key: 'frontendOverstyrerTildeling',
+    default: false,
 });
 
 const loadingPersonState = atom<boolean>({
@@ -60,16 +54,35 @@ export const anonymiserPersonState = atom<boolean>({
 export const useAnonymiserPerson = () => useSetRecoilState(anonymiserPersonState);
 export const useSkalAnonymiserePerson = () => useRecoilValue(anonymiserPersonState);
 
-export const useTildelPerson = () => useSetRecoilState(saksbehandlerTildelingSelector);
-export const usePersonPåVent = () => useSetRecoilState(tildelingState);
+export const useTildelPerson = () => {
+    const setTildeling = useSetRecoilState(tildelingState);
+    const setFrontendOverstyrerTildeling = useSetRecoilState(frontendOverstyrerTildelingState);
+    const saksbehandler = useInnloggetSaksbehandler();
+    return {
+        tildelPerson: (påVent?: boolean) => {
+            setFrontendOverstyrerTildeling(true);
+            setTildeling({ saksbehandler: { ...saksbehandler }, påVent: påVent ?? false });
+        },
+        fjernTildeling: () => {
+            setFrontendOverstyrerTildeling(true);
+            setTildeling(undefined);
+        },
+    };
+};
+
+export const usePersonPåVent = () => {
+    const { tildelPerson } = useTildelPerson();
+    return (påVent: boolean) => tildelPerson(påVent);
+};
 
 export const usePerson = () => {
     const person = useRecoilValue(personState)?.person;
     const tildeling = useRecoilValue(tildelingState);
+    const frontendOverstyrerTildeling = useRecoilValue(frontendOverstyrerTildelingState);
     return (
         person && {
             ...person,
-            tildeling: tildeling ?? person.tildeling,
+            tildeling: frontendOverstyrerTildeling ? tildeling : person.tildeling,
         }
     );
 };
@@ -90,9 +103,11 @@ export const useHentPerson = () => {
     const setLoadingPerson = useSetRecoilState(loadingPersonState);
     const resetAktivPeriode = useResetRecoilState(aktivPeriodeState);
     const resetTildeling = useResetRecoilState(tildelingState);
+    const resetFrontendOverstyrerTildeling = useResetRecoilState(frontendOverstyrerTildelingState);
 
     return (id: string) => {
         resetTildeling();
+        resetFrontendOverstyrerTildeling();
         resetAktivPeriode();
         setPerson(undefined);
         setLoadingPerson(true);
