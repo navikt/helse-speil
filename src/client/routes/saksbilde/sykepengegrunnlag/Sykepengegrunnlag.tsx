@@ -6,7 +6,7 @@ import { BehandletAvInfotrygdVarsel, BehandletVarsel } from '@navikt/helse-front
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { førsteVedtaksperiode, skjæringstidspunktForPeriode } from '../../../mapping/selectors';
-import { useSkalAnonymiserePerson } from '../../../state/person';
+import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import Inntektsgrunnlaginnhold from './Inntektsgrunnlaginnhold';
@@ -117,7 +117,7 @@ interface SykepengegrunnlagProps {
 
 export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagProps) => {
     const { periodetype, inntektsgrunnlag, behandlet } = vedtaksperiode;
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     const arbeidsgiverinntekt = inntektsgrunnlag.inntekter.find(
         (it) => it.organisasjonsnummer === inntektsgrunnlag.organisasjonsnummer

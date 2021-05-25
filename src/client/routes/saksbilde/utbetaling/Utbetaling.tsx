@@ -9,7 +9,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Flex } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
-import { usePerson, useSkalAnonymiserePerson } from '../../../state/person';
+import { usePerson, usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';
@@ -109,7 +109,7 @@ export const Utbetaling = ({
 }: UtbetalingProps) => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     if (!aktivVedtaksperiode || !personTilBehandling) return null;
 

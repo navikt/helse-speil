@@ -47,13 +47,28 @@ const loadingPersonState = atom<boolean>({
     default: false,
 });
 
-export const anonymiserPersonState = atom<boolean>({
-    key: 'anonymiserPersonState',
-    default: false,
+const anonymiserPersonStateToggle = atom<boolean>({
+    key: 'anonymiserPersonStateToggle',
+    default: localStorage.getItem('agurkmodus') === 'true',
 });
 
-export const useAnonymiserPerson = () => useSetRecoilState(anonymiserPersonState);
-export const useSkalAnonymiserePerson = () => useRecoilValue(anonymiserPersonState);
+export const persondataSkalAnonymiseres = selector<boolean>({
+    key: 'persondataSkalAnonymiseres',
+    get: ({ get }) => get(anonymiserPersonStateToggle),
+    set: ({ set }, newValue: boolean) => {
+        localStorage.setItem('agurkmodus', `${newValue}`);
+        set(anonymiserPersonStateToggle, newValue);
+    },
+});
+
+export const useToggleAnonymiserPersondata = () => {
+    const setAnonymiserPerson = useSetRecoilState(persondataSkalAnonymiseres);
+    return () => {
+        setAnonymiserPerson((erAnonymisert) => !erAnonymisert);
+    };
+};
+
+export const usePersondataSkalAnonymiseres = () => useRecoilValue(persondataSkalAnonymiseres);
 
 export const useTildelPerson = () => {
     const setTildeling = useSetRecoilState(tildelingState);

@@ -13,7 +13,7 @@ import { Varsler } from './components/Varsler';
 import { useLoadingToast } from './hooks/useLoadingToast';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
 import { useAuthentication } from './state/authentication';
-import { useAnonymiserPerson, useIsLoadingPerson } from './state/person';
+import { useIsLoadingPerson } from './state/person';
 
 import './App.less';
 import { GlobalFeilside } from './GlobalFeilside';
@@ -28,10 +28,6 @@ ReactModal.setAppElement('#root');
 const App = () => {
     useLoadingToast({ isLoading: useIsLoadingPerson(), message: 'Henter person' });
     useAuthentication();
-
-    const agurkmodusAktiv = localStorage.getItem('agurkmodus') === 'true';
-    const anonymiserPerson = useAnonymiserPerson();
-    anonymiserPerson(agurkmodusAktiv);
 
     return (
         <ErrorBoundary fallback={GlobalFeilside}>

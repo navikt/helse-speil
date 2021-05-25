@@ -6,7 +6,7 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson, mappetVedtaksperiode } from 'test-data';
 
-import { anonymiserPersonState } from '../../../state/person';
+import { persondataSkalAnonymiseres } from '../../../state/person';
 
 import { mappetInntektsgrunnlag, umappetInntektsgrunnlag } from '../../../../test/data/inntektsgrunnlag';
 import '../../../tekster';
@@ -33,7 +33,7 @@ const expectContainsStandardFieldsInfotrygd = () => {
 describe('Sykepengegrunnlag', () => {
     test('rendrer ubehandlet sykepengegrunnlag', () => {
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Sykepengegrunnlag vedtaksperiode={enVedtaksperiodeIM} person={enPerson} />
             </RecoilRoot>
         );
@@ -47,7 +47,7 @@ describe('Sykepengegrunnlag', () => {
             behandlet: true,
         };
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
             </RecoilRoot>
         );
@@ -62,7 +62,7 @@ describe('Sykepengegrunnlag', () => {
             behandlet: true,
         };
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
             </RecoilRoot>
         );
@@ -76,7 +76,7 @@ describe('Sykepengegrunnlag', () => {
             behandlet: true,
         };
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
             </RecoilRoot>
         );
@@ -89,7 +89,7 @@ describe('Sykepengegrunnlag', () => {
             behandlet: false,
         };
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Sykepengegrunnlag vedtaksperiode={behandletPeriode} person={enPerson} />
             </RecoilRoot>
         );

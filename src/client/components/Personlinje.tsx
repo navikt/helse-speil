@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 
-import { useSkalAnonymiserePerson } from '../state/person';
+import { usePersondataSkalAnonymiseres } from '../state/person';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { capitalizeName } from '../utils/locale';
 
@@ -121,7 +121,7 @@ export const LasterPersonlinje = () => (
 );
 
 export const Personlinje = ({ person }: PersonlinjeProps) => {
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     if (!person) return <Container />;
 
     const { aktørId, personinfo, enhet } = anonymiseringEnabled

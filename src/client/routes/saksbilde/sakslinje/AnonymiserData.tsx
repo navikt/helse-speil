@@ -1,22 +1,21 @@
 import React, { useContext } from 'react';
 
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { useAnonymiserPerson, useSkalAnonymiserePerson } from '../../../state/person';
+import { usePersondataSkalAnonymiseres, useToggleAnonymiserPersondata } from '../../../state/person';
 
 export const AnonymiserData = () => {
     const { lukk } = useContext(DropdownContext);
-    const anonymiserPersondata = useAnonymiserPerson();
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const persondataErAnonymisert = usePersondataSkalAnonymiseres();
+    const toggleAnonymiserPersondata = useToggleAnonymiserPersondata();
 
     const anonymiserData = () => {
         lukk();
-        anonymiserPersondata(!anonymiseringEnabled);
-        localStorage.setItem('agurkmodus', (!anonymiseringEnabled).toString());
+        toggleAnonymiserPersondata();
     };
 
     return (
         <DropdownMenyknapp onClick={anonymiserData}>
-            {anonymiseringEnabled ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
+            {persondataErAnonymisert ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
         </DropdownMenyknapp>
     );
 };

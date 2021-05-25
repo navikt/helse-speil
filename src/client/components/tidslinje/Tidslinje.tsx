@@ -12,7 +12,7 @@ import { AxisLabels, Pins } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
 
 import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
-import { useSkalAnonymiserePerson } from '../../state/person';
+import { usePersondataSkalAnonymiseres } from '../../state/person';
 import { aktivPeriodeState } from '../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 
@@ -151,7 +151,7 @@ interface Props {
 
 export const Tidslinje = ({ person }: Props) => {
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     const erAktiv = useRecoilValue(aktivChevronState);
 

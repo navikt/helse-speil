@@ -12,7 +12,7 @@ import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
-import { useSkalAnonymiserePerson } from '../../../state/person';
+import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
@@ -58,7 +58,7 @@ export const Infolinje = ({
     maksdato,
     over67År,
 }: InfolinjeProps) => {
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     const fomForVisning = fom?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent periodestart';
     const tomForVisning = tom?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent periodeslutt';

@@ -5,7 +5,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';
 
-import { anonymiserPersonState } from '../state/person';
+import { persondataSkalAnonymiseres } from '../state/person';
 
 import { Personlinje } from './Personlinje';
 
@@ -27,7 +27,7 @@ describe('Personlinje', () => {
         } as Person;
         render(
             <MemoryRouter>
-                <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+                <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                     <Personlinje person={person} />
                 </RecoilRoot>
             </MemoryRouter>

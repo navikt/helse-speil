@@ -5,7 +5,7 @@ import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 import { Kilde } from '../../../components/Kilde';
-import { useSkalAnonymiserePerson } from '../../../state/person';
+import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
@@ -44,7 +44,7 @@ export const Divider = styled.hr`
 `;
 
 const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: SykepengegrunnlagInfotrygdProps) => {
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     return (
         <div>
             <Sammenligning>

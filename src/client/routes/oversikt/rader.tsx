@@ -17,7 +17,7 @@ import { Tooltip } from '../../components/Tooltip';
 import { Dropdown } from '../../components/dropdown/Dropdown';
 import { somDato } from '../../mapping/vedtaksperiode';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
-import { useSkalAnonymiserePerson } from '../../state/person';
+import { usePersondataSkalAnonymiseres } from '../../state/person';
 import { useRemoveAlleVarsler } from '../../state/varsler';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import { capitalizeName } from '../../utils/locale';
@@ -103,7 +103,7 @@ const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => (
 );
 
 const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     const formatertNavn = formaterNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo);
     return (
         <CellContainer width={128} data-for={tooltipId('søker', oppgave)} data-tip={formatertNavn}>
@@ -129,7 +129,7 @@ const Opprettet = ({ oppgave }: { oppgave: Oppgave }) => (
 );
 
 const Bosted = ({ oppgave }: { oppgave: Oppgave }) => {
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     const bosted = anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn;
     return (
         <CellContainer width={128} data-for={tooltipId('bosted', oppgave)} data-tip={bosted}>

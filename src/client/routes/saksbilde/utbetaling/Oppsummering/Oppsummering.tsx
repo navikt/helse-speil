@@ -7,7 +7,7 @@ import Lenke from 'nav-frontend-lenker';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 
 import { Flex } from '../../../../components/Flex';
-import { usePerson, useSkalAnonymiserePerson } from '../../../../state/person';
+import { usePerson, usePersondataSkalAnonymiseres } from '../../../../state/person';
 import { useAktivVedtaksperiode } from '../../../../state/tidslinje';
 import { somPenger } from '../../../../utils/locale';
 
@@ -48,7 +48,7 @@ const Oppsummering = () => {
     const personTilBehandling = usePerson();
     const { t } = useTranslation();
     const [åpen, setÅpen] = useState(false);
-    const anonymiseringEnabled = useSkalAnonymiserePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     if (!aktivVedtaksperiode) return null;
 

@@ -6,7 +6,7 @@ import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetVedtaksperiode } from 'test-data';
 
-import { anonymiserPersonState } from '../../../state/person';
+import { persondataSkalAnonymiseres } from '../../../state/person';
 
 import { Infolinje } from './Infolinje';
 
@@ -15,7 +15,7 @@ const enVedtaksperiode = mappetVedtaksperiode(dayjs('2020-01-01'), dayjs('2020-0
 describe('Infolinje', () => {
     test('viser fom og tom', () => {
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Infolinje
                     arbeidsgivernavn={enVedtaksperiode.arbeidsgivernavn}
                     arbeidsgiverOrgnr={enVedtaksperiode.inntektsgrunnlag.organisasjonsnummer}
@@ -31,7 +31,7 @@ describe('Infolinje', () => {
     });
     test('viser skjæringstidspunkt', () => {
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Infolinje
                     arbeidsgivernavn={enVedtaksperiode.arbeidsgivernavn}
                     arbeidsgiverOrgnr={enVedtaksperiode.inntektsgrunnlag.organisasjonsnummer}
@@ -57,7 +57,7 @@ describe('Infolinje', () => {
         } as Vedtaksperiode;
 
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Infolinje
                     arbeidsgivernavn={over67.arbeidsgivernavn}
                     arbeidsgiverOrgnr={over67.inntektsgrunnlag.organisasjonsnummer}
@@ -82,7 +82,7 @@ describe('Infolinje', () => {
             },
         } as Vedtaksperiode;
         render(
-            <RecoilRoot initializeState={({ set }) => set(anonymiserPersonState, false)}>
+            <RecoilRoot initializeState={({ set }) => set(persondataSkalAnonymiseres, false)}>
                 <Infolinje
                     arbeidsgivernavn={under67.arbeidsgivernavn}
                     arbeidsgiverOrgnr={under67.inntektsgrunnlag.organisasjonsnummer}
