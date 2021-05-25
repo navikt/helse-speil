@@ -14,7 +14,11 @@ export default ({ tildelingClient }: SetupOptions) => {
             .postTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
             .then(() => res.sendStatus(200))
             .catch((err) => {
-                logger.error(`Feil under tildeling: ${err}`);
+                if (err.statusCode === 409) {
+                    logger.warning(`Oppgaven er allerede tildelt: ${err}`);
+                } else {
+                    logger.error(`Feil under tildeling: ${err}`);
+                }
                 if (err.feilkode) {
                     res.status(err.feilkode).send(err);
                 } else {
