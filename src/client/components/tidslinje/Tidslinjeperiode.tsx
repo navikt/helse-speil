@@ -1,10 +1,12 @@
-import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
+import classNames from 'classnames';
+import { Infotrygdperiodetilstand, Revurderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
+import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from 'react';
+
 import { Period } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
-import { Infotrygdperiodetilstand, Revurderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
+
 import { TidslinjeperiodeIkon } from '../ikoner/Tidslinjeperiodeikoner';
-import classNames from 'classnames';
 
 interface StyledPeriodProps {
     erAktiv?: boolean;

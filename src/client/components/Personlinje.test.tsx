@@ -1,11 +1,13 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { Personlinje } from './Personlinje';
+import { render, screen } from '@testing-library/react';
 import { Person } from 'internal-types';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
-import { anonymiserPersonState } from '../state/person';
 import { RecoilRoot } from 'recoil';
+
+import { anonymiserPersonState } from '../state/person';
+
+import { Personlinje } from './Personlinje';
 
 describe('Personlinje', () => {
     test('rendrer personinfo', () => {

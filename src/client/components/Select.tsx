@@ -1,5 +1,5 @@
-import React, { SelectHTMLAttributes } from 'react';
 import styled from '@emotion/styled';
+import React, { SelectHTMLAttributes } from 'react';
 
 const StyledSelect = styled.select`
     width: 100%;

@@ -1,9 +1,10 @@
-'use strict';
-
-import winston from 'winston';
 import fs from 'fs';
-import { SpeilRequest } from './types';
+import winston from 'winston';
+
 import authSupport from './auth/authSupport';
+import { SpeilRequest } from './types';
+
+('use strict');
 
 const sikkerLogPath = () => (fs.existsSync('/secure-logs/') ? '/secure-logs/secure.log' : './secure.log');
 

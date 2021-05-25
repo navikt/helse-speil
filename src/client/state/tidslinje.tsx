@@ -1,6 +1,7 @@
-import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
-import { usePerson } from './person';
 import { Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
+
+import { usePerson } from './person';
 
 export const aktivPeriodeState = atom<string | undefined>({
     key: 'aktivPeriodeState',

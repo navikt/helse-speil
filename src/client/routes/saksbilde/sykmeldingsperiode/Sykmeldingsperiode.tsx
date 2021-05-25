@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { Dagtype, Sykdomsdag } from 'internal-types';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+
 import '@navikt/helse-frontend-tabell/lib/main.css';
-import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
+
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import { nyesteOpptegnelseMedTypeOppgaveState } from '../../../state/opptegnelser';
+import { usePerson } from '../../../state/person';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import { useAddToast, useRemoveToast } from '../../../state/toasts';
+
 import { OverstyrbarSykmeldingsperiodetabell } from './OverstyrbarSykmeldingsperiodetabell';
 import { OverstyringTimeoutModal } from './OverstyringTimeoutModal';
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { usePerson } from '../../../state/person';
+import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 import { kalkulererToastKey, kalkuleringFerdigToast } from './kalkuleringstoasts';
-import { useAddToast, useRemoveToast } from '../../../state/toasts';
-import { nyesteOpptegnelseMedTypeOppgaveState } from '../../../state/opptegnelser';
-import { useRecoilValue } from 'recoil';
-import { useAktivVedtaksperiode } from '../../../state/tidslinje';
-import { Dagtype, Sykdomsdag } from 'internal-types';
 
 const Container = styled.div`
     display: flex;

@@ -1,7 +1,8 @@
-import React from 'react';
-import { screen } from '@testing-library/react';
-import { Vilkår } from './Vilkår';
 import '@testing-library/jest-dom/extend-expect';
+import { screen } from '@testing-library/react';
+import React from 'react';
+
+import { Vilkår } from './Vilkår';
 import {
     expectGroupsToNotExist,
     expectGroupToContainVisible,

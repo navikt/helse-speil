@@ -1,13 +1,16 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { IkonContainer, Paragraf, Tittel, Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
-import { Infoikon } from '../../../../components/ikoner/Infoikon';
+import React from 'react';
+
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
-import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
-import { Vilkårdata } from '../../../../mapping/vilkår';
+
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { LovdataLenke } from '../../../../components/LovdataLenke';
+import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
+import { Infoikon } from '../../../../components/ikoner/Infoikon';
+import { Vilkårdata } from '../../../../mapping/vilkår';
+
+import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import { IkonContainer, Paragraf, Tittel, Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
 
 const IkkeVurdertVilkårContainer = styled.div`
     margin-bottom: 2rem;

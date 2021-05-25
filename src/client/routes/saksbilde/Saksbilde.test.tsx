@@ -1,18 +1,20 @@
-import React, { ReactNode } from 'react';
-import Saksbilde from './Saksbilde';
-import { render, screen, waitFor } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
-import { MemoryRouter } from 'react-router';
 import '@testing-library/jest-dom/extend-expect';
-import { personState } from '../../state/person';
-import { mappetPerson } from 'test-data';
-import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
-import { Person } from 'internal-types';
-import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { umappetUtbetalingshistorikk } from '../../../test/data/utbetalingshistorikk';
 import dayjs from 'dayjs';
+import { Person } from 'internal-types';
+import React, { ReactNode } from 'react';
+import { MemoryRouter } from 'react-router';
+import { RecoilRoot } from 'recoil';
+import { mappetPerson } from 'test-data';
+
+import { personState } from '../../state/person';
+
+import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
 import { umappetUfullstendigVedtaksperiode } from '../../../test/data/ufullstendigVedtaksperiode';
+import { umappetUtbetalingshistorikk } from '../../../test/data/utbetalingshistorikk';
+import { umappetVedtaksperiode } from '../../../test/data/vedtaksperiode';
+import Saksbilde from './Saksbilde';
 
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},

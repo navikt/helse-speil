@@ -1,7 +1,8 @@
-import React, { ReactNode } from 'react';
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
-import { Accordion } from '@navikt/helse-frontend-accordion/lib';
 import styled from '@emotion/styled';
+import React, { ReactNode } from 'react';
+
+import { Accordion } from '@navikt/helse-frontend-accordion/lib';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Container = styled(Accordion)`
     > div:first-of-type {

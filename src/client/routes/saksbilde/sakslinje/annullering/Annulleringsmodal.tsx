@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { Person, Vedtaksperiode } from 'internal-types';
+import React, { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useHistory } from 'react-router';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+
+import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { AnnulleringDTO } from '../../../../io/types';
-import { Person, Vedtaksperiode } from 'internal-types';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { authState } from '../../../../state/authentication';
-import { postAbonnerPåAktør, postAnnullering } from '../../../../io/http';
-import { FormProvider, useForm } from 'react-hook-form';
-import { Annulleringsvarsel } from './Annulleringsvarsel';
+
 import { Modal } from '../../../../components/Modal';
+import { postAbonnerPåAktør, postAnnullering } from '../../../../io/http';
+import { AnnulleringDTO } from '../../../../io/types';
 import { organisasjonsnummerForPeriode } from '../../../../mapping/selectors';
+import { authState } from '../../../../state/authentication';
+import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { somPenger } from '../../../../utils/locale';
-import { useHistory } from 'react-router';
-import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
+
+import { Annulleringsvarsel } from './Annulleringsvarsel';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;

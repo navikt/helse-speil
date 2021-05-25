@@ -1,5 +1,5 @@
-import { SpleisHendelse, SpleisHendelsetype, SpleisSykdomsdag, SpleisSykdomsdagtype } from 'external-types';
 import dayjs from 'dayjs';
+import { SpleisHendelse, SpleisHendelsetype, SpleisSykdomsdag, SpleisSykdomsdagtype } from 'external-types';
 
 const sykmelding = (sykdomsdager: SpleisSykdomsdag[]) => {
     const fom = sykdomsdager[0];

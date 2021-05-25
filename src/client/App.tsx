@@ -1,25 +1,28 @@
-import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
+import { nanoid } from 'nanoid';
+import React, { useEffect } from 'react';
+import { hot } from 'react-hot-loader';
 import ReactModal from 'react-modal';
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Header } from './components/Header';
-import { Routes } from './routes';
-import { Varsler } from './components/Varsler';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import 'reset-css';
+
+import NavFrontendSpinner from 'nav-frontend-spinner';
+
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { Header } from './components/Header';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { Toasts } from './components/Toasts';
+import { Varsler } from './components/Varsler';
 import { useDebounce } from './hooks/useDebounce';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
-import { ProtectedRoute } from './components/ProtectedRoute';
 import { useAuthentication } from './state/authentication';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useAnonymiserPerson, useIsLoadingPerson } from './state/person';
-import { hot } from 'react-hot-loader';
-import 'reset-css';
-import './App.less';
-import { Toasts } from './components/Toasts';
 import { useAddToast, useRemoveToast } from './state/toasts';
-import { nanoid } from 'nanoid';
-import { ErrorBoundary } from './components/ErrorBoundary';
+
+import './App.less';
 import { GlobalFeilside } from './GlobalFeilside';
+import { Routes } from './routes';
 
 const Opptegnelse = React.lazy(() => import('./routes/saksbilde/Opptegnelse'));
 const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));

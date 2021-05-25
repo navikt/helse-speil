@@ -1,4 +1,10 @@
+import { Oppgave, Tildeling } from 'internal-types';
 import React, { useContext, useState } from 'react';
+
+import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
+import { useInnloggetSaksbehandler } from '../../../state/authentication';
+import { useTildeling } from '../../../state/oppgaver';
+import { useRefreshPerson, useTildelPerson } from '../../../state/person';
 import { deleteTildeling, postTildeling } from '../../../io/http';
 import { useTildelPerson } from '../../../state/person';
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';

@@ -1,8 +1,9 @@
-import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { renderHook } from '@testing-library/react-hooks';
-import { authState, useAuthentication } from './authentication';
+import React from 'react';
 import { RecoilRoot, useRecoilValue } from 'recoil';
+
+import { authState, useAuthentication } from './authentication';
 
 const loggedInAuthInfo = {
     name: 'Fornavn Etternavn',

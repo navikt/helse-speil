@@ -1,9 +1,10 @@
-import React from 'react';
-import { HookResult, renderHook } from '@testing-library/react-hooks';
-import { Vilkårstype } from '../../../mapping/vilkår';
-import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
-import { KategoriserteVilkår, tilKategoriserteVilkår } from './tilKategoriserteVilkår';
 import '@testing-library/jest-dom/extend-expect';
+import { HookResult, renderHook } from '@testing-library/react-hooks';
+import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
+import React from 'react';
+
+import { Vilkårstype } from '../../../mapping/vilkår';
+
 import {
     assertHarAutomatiskVurdertVilkår,
     assertHarIkkeOppfyltVilkår,
@@ -19,6 +20,7 @@ import {
     oppfyltSykepengegrunnlag,
     oppfyltSøknadsfrist,
 } from './testutils';
+import { KategoriserteVilkår, tilKategoriserteVilkår } from './tilKategoriserteVilkår';
 
 const defaultVilkår: Vilkår = {
     alder: oppfyltAlder(),

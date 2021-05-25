@@ -1,8 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { TabLink } from './TabLink';
 import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
+
+import { TabLink } from './TabLink';
 
 describe('TabLink', () => {
     test('rendrer aktiv lenke hvis "to" er satt', () => {

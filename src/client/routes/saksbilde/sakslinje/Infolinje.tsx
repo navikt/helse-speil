@@ -1,18 +1,21 @@
-import React from 'react';
 import styled from '@emotion/styled';
+import { Dayjs } from 'dayjs';
+import React from 'react';
+
+import { Undertekst } from 'nav-frontend-typografi';
+
 import { Flex } from '../../../components/Flex';
-import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
-import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
-import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
-import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
+import { LovdataLenke } from '../../../components/LovdataLenke';
 import { Tooltip } from '../../../components/Tooltip';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
-import { Undertekst } from 'nav-frontend-typografi';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
-import { LovdataLenke } from '../../../components/LovdataLenke';
+import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
+import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
+import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
 import { useSkalAnonymiserePerson } from '../../../state/person';
+import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
-import { Dayjs } from 'dayjs';
 
 const InfolinjeContainer = styled(Flex)`
     margin-left: auto;

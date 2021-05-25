@@ -1,7 +1,8 @@
-import { atom, useRecoilState, useSetRecoilState } from 'recoil';
-import { Sortering } from '@navikt/helse-frontend-tabell/lib/src/sortering';
-import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
 import { useEffect } from 'react';
+import { atom, useRecoilState, useSetRecoilState } from 'recoil';
+
+import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
+import { Sortering } from '@navikt/helse-frontend-tabell/lib/src/sortering';
 
 export const sorteringState = atom<Sortering | undefined>({
     key: 'oversiktstabellState',

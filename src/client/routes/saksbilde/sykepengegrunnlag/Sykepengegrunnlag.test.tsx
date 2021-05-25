@@ -1,14 +1,16 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { Sykepengegrunnlag } from './Sykepengegrunnlag';
-import { mappetPerson, mappetVedtaksperiode } from 'test-data';
-import '../../../tekster';
-import { Periodetype } from 'internal-types';
-import { mappetInntektsgrunnlag, umappetInntektsgrunnlag } from '../../../../test/data/inntektsgrunnlag';
+import { render, screen } from '@testing-library/react';
 import { SpesialistInntektkilde } from 'external-types';
+import { Periodetype } from 'internal-types';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
+import { mappetPerson, mappetVedtaksperiode } from 'test-data';
+
 import { anonymiserPersonState } from '../../../state/person';
+
+import { mappetInntektsgrunnlag, umappetInntektsgrunnlag } from '../../../../test/data/inntektsgrunnlag';
+import '../../../tekster';
+import { Sykepengegrunnlag } from './Sykepengegrunnlag';
 
 const enPerson = mappetPerson();
 const enVedtaksperiodeIM = mappetVedtaksperiode();

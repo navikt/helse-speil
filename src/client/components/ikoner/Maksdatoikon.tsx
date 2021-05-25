@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Ikon, IkonProps } from './Ikon';
 
 export const Maksdatoikon = ({ width = 14, height = 14, className }: IkonProps) => (

@@ -1,14 +1,16 @@
-import React from 'react';
-import dayjs, { Dayjs } from 'dayjs';
-import { Periodetype, Person, Vedtaksperiode, Vilkår as VilkårType } from 'internal-types';
-import { SpesialistArbeidsgiver, SpleisForlengelseFraInfotrygd, SpleisVedtaksperiodetilstand } from 'external-types';
-import { mappetPerson } from 'test-data';
-import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { render, screen, within } from '@testing-library/react';
-import { Vilkår } from './Vilkår';
+import { HookResult } from '@testing-library/react-hooks';
+import dayjs, { Dayjs } from 'dayjs';
+import { SpesialistArbeidsgiver, SpleisForlengelseFraInfotrygd, SpleisVedtaksperiodetilstand } from 'external-types';
+import { Periodetype, Person, Vedtaksperiode, Vilkår as VilkårType } from 'internal-types';
+import React from 'react';
+import { mappetPerson } from 'test-data';
+
 import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
-import { HookResult } from '@testing-library/react-hooks';
+
+import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
+import { Vilkår } from './Vilkår';
 import { KategoriserteVilkår } from './tilKategoriserteVilkår';
 
 export enum Group {

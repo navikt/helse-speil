@@ -1,5 +1,6 @@
-import { fetchPerson } from './http';
 import '@testing-library/jest-dom/extend-expect';
+
+import { fetchPerson } from './http';
 
 declare global {
     namespace NodeJS {

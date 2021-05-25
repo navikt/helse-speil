@@ -1,11 +1,13 @@
-import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { Vilkårstype } from '../../../mapping/vilkår';
-import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 import classNames from 'classnames';
-import { Utropstegnikon } from '../../../components/ikoner/Utropstegnikon';
+import React, { ReactNode } from 'react';
+
+import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
+
 import { Kryssikon } from '../../../components/ikoner/Kryssikon';
 import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
+import { Utropstegnikon } from '../../../components/ikoner/Utropstegnikon';
+import { Vilkårstype } from '../../../mapping/vilkår';
 
 const Header = styled.div<{ marginBottom: string }>`
     display: flex;

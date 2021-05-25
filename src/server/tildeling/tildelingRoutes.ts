@@ -1,7 +1,8 @@
 import { Response, Router } from 'express';
-import { TildelingClient } from './tildelingClient';
+
 import logger from '../logging';
 import { SpeilRequest } from '../types';
+import { TildelingClient } from './tildelingClient';
 
 interface SetupOptions {
     tildelingClient: TildelingClient;

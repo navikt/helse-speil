@@ -1,8 +1,9 @@
-import React, { CSSProperties, ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { Periodetype } from 'internal-types';
-import { Flex } from '../../components/Flex';
 import classNames from 'classnames';
+import { Periodetype } from 'internal-types';
+import React, { CSSProperties, ReactNode } from 'react';
+
+import { Flex } from '../../components/Flex';
 
 export interface EtikettProps {
     iconLabel?: string;

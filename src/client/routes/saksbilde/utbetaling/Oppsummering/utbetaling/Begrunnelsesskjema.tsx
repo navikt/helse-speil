@@ -1,10 +1,13 @@
-import React, {ChangeEvent, ReactNode} from 'react';
 import styled from '@emotion/styled';
-import {Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea} from 'nav-frontend-skjema';
-import {Controller, useFormContext} from 'react-hook-form';
-import {Begrunnelse} from './Utbetalingsdialog';
-import {useAktivVedtaksperiode} from '../../../../../state/tidslinje';
-import {har8_4Kategori} from '../../../vilkår/tilKategoriserteVilkår';
+import React, { ChangeEvent, ReactNode } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
+
+import { Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
+
+import { useAktivVedtaksperiode } from '../../../../../state/tidslinje';
+
+import { har8_4Kategori } from '../../../vilkår/tilKategoriserteVilkår';
+import { Begrunnelse } from './Utbetalingsdialog';
 
 const Container = styled(SkjemaGruppe)`
     margin-top: 1.5rem;

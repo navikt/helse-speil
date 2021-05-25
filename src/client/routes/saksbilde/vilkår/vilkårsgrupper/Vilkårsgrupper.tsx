@@ -1,15 +1,18 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { toKronerOgØre } from '../../../../utils/locale';
-import { Vilkårsgrupperad } from './Vilkårsgrupperad';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { Opptjening, Risikovurdering as RisikovurderingType, Vilkår } from 'internal-types';
+import React from 'react';
+
+import { Normaltekst } from 'nav-frontend-typografi';
+
 import { Flex } from '../../../../components/Flex';
-import { Paragraf } from '../vilkårstitler';
-import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 import { LovdataLenke } from '../../../../components/LovdataLenke';
+import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
+import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { toKronerOgØre } from '../../../../utils/locale';
+
 import { har8_4Kategori } from '../tilKategoriserteVilkår';
+import { Paragraf } from '../vilkårstitler';
+import { Vilkårsgrupperad } from './Vilkårsgrupperad';
 
 export const Alder = ({ alder }: Vilkår) => (
     <Vilkårsgrupperad label="Alder">{alder.alderSisteSykedag}</Vilkårsgrupperad>

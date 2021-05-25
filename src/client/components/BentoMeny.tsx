@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
+import React from 'react';
+import { useState } from 'react';
+
 import Lenke from 'nav-frontend-lenker';
 import Popover from 'nav-frontend-popover';
 import { PopoverOrientering } from 'nav-frontend-popover';
-import React from 'react';
-import { useState } from 'react';
-import { Button } from './Button';
+
 import { ExternalLink, SystemFilled } from '@navikt/ds-icons';
+
 import { usePerson } from '../state/person';
+
+import { Button } from './Button';
 
 const BentoMenyContainer = styled.div`
     display: flex;

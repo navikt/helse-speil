@@ -1,9 +1,10 @@
-import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { renderHook } from '@testing-library/react-hooks';
-import { useTimeout } from './useTimeout';
 import { waitFor } from '@testing-library/react';
+import { renderHook } from '@testing-library/react-hooks';
+import React from 'react';
+
 import { sleep } from '../../server/devHelpers';
+import { useTimeout } from './useTimeout';
 
 describe('useTimeout', () => {
     test('kaller callback etter timeout', async () => {

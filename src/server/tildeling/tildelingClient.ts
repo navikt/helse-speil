@@ -1,4 +1,5 @@
 import request from 'request-promise-native';
+
 import { OidcConfig, OnBehalfOf } from '../types';
 
 export interface TildelingClient {

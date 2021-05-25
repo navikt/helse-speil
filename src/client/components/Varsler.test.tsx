@@ -1,10 +1,13 @@
-import React from 'react';
-import { Varsler } from './Varsler';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
-import { varslerState } from '../state/varsler';
+
 import { Varseltype } from '@navikt/helse-frontend-varsel';
+
+import { varslerState } from '../state/varsler';
+
+import { Varsler } from './Varsler';
 
 describe('Varsler', () => {
     test('rendrer alle varslerState fra state', () => {

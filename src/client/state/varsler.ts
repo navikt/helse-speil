@@ -1,5 +1,6 @@
-import { atom, selector, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
+import { atom, selector, useResetRecoilState, useSetRecoilState } from 'recoil';
+
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 export const Scopes = {

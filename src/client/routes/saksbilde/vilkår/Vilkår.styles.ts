@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { FlexColumn } from '../../../components/Flex';
 
 export const BehandletVarselContent = styled.div`

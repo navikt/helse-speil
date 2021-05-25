@@ -1,8 +1,9 @@
-import React, { ChangeEvent, useState } from 'react';
 import styled from '@emotion/styled';
-import { Select } from '../Select';
 import { Dagtype, Sykdomsdag } from 'internal-types';
+import React, { ChangeEvent, useState } from 'react';
+
 import { overstyrPermisjonsdagerEnabled } from '../../featureToggles';
+import { Select } from '../Select';
 
 const OverstyrbarSelect = styled(Select)`
     font-size: 14px;

@@ -1,8 +1,9 @@
-import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { extractValues, Keys } from '../utils/cookie';
-import { useEffect } from 'react';
 import fetchIntercept from 'fetch-intercept';
 import { Saksbehandler } from 'internal-types';
+import { useEffect } from 'react';
+import { atom, useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+
+import { extractValues, Keys } from '../utils/cookie';
 
 interface AuthInfo {
     name: string;

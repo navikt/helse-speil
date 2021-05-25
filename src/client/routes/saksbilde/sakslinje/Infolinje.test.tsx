@@ -1,12 +1,14 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { Infolinje } from './Infolinje';
-import { mappetVedtaksperiode } from 'test-data';
-import { Vedtaksperiode } from 'internal-types';
+import { render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
-import { anonymiserPersonState } from '../../../state/person';
+import { Vedtaksperiode } from 'internal-types';
+import React from 'react';
 import { RecoilRoot } from 'recoil';
+import { mappetVedtaksperiode } from 'test-data';
+
+import { anonymiserPersonState } from '../../../state/person';
+
+import { Infolinje } from './Infolinje';
 
 const enVedtaksperiode = mappetVedtaksperiode(dayjs('2020-01-01'), dayjs('2020-01-31'));
 

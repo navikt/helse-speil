@@ -1,8 +1,11 @@
-import { UfullstendigVedtaksperiode } from 'internal-types';
-import { Flex } from '../../../components/Flex';
 import styled from '@emotion/styled';
+import { UfullstendigVedtaksperiode } from 'internal-types';
 import React from 'react';
+
 import '@navikt/helse-frontend-logg/lib/main.css';
+
+import { Flex } from '../../../components/Flex';
+
 import { getVedtaksperiodeTilstandError } from '../Saksbilde';
 
 interface SaksbildeUfullstendigVedtaksperiodeProps {

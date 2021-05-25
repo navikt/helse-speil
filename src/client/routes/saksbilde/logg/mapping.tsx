@@ -1,9 +1,10 @@
-import { AnnullertAvSaksbehandler, Hendelse, Kildetype, Overstyring, Vedtaksperiode } from 'internal-types';
-import { Hendelsetype } from '@navikt/helse-frontend-logg';
-import React from 'react';
 import styled from '@emotion/styled';
-import { HendelseMedId } from '@navikt/helse-frontend-logg/lib/src/types';
 import { Dayjs } from 'dayjs';
+import { AnnullertAvSaksbehandler, Hendelse, Kildetype, Overstyring, Vedtaksperiode } from 'internal-types';
+import React from 'react';
+
+import { Hendelsetype } from '@navikt/helse-frontend-logg';
+import { HendelseMedId } from '@navikt/helse-frontend-logg/lib/src/types';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.5rem;

@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
-import Element from 'nav-frontend-typografi/lib/element';
-import { useHistory } from 'react-router';
-import { Tabell } from '@navikt/helse-frontend-tabell';
 import { Person, UtbetalingshistorikkUtbetaling } from 'internal-types';
-import { Annulleringsmodal } from './Annulleringsmodal';
-import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+
+import Element from 'nav-frontend-typografi/lib/element';
+
+import { Tabell } from '@navikt/helse-frontend-tabell';
+
 import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
+import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+
+import { Annulleringsmodal } from './Annulleringsmodal';
 
 const Container = styled.div`
     display: flex;

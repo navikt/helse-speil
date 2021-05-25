@@ -1,11 +1,13 @@
 import { renderHook } from '@testing-library/react-hooks';
+import dayjs from 'dayjs';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson } from 'test-data';
+
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
-import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
-import dayjs from 'dayjs';
 import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorikk';
+import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
+
 const personActual = jest.requireActual('./person');
 
 const wrapper: React.FC = ({ children }) => <RecoilRoot>{children} </RecoilRoot>;

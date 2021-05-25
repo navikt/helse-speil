@@ -1,13 +1,16 @@
-import React from 'react';
-import dayjs from 'dayjs';
 import styled from '@emotion/styled';
-import { Simulering } from 'internal-types';
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import dayjs from 'dayjs';
 import { Utbetaling, Utbetalingsdetalj } from 'external-types';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { Simulering } from 'internal-types';
+import React from 'react';
+
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+
 import { Grid } from '../../../../components/Grid';
-import { somPenger } from '../../../../utils/locale';
 import { Modal } from '../../../../components/Modal';
+import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { somPenger } from '../../../../utils/locale';
+
 import { getAnonymArbeidsgiverForOrgnr } from '../../../../agurkdata';
 
 const Modalinnhold = styled.article`

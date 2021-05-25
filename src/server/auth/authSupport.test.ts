@@ -1,4 +1,5 @@
 import { cleanup } from '@testing-library/react';
+
 import auth from './authSupport';
 
 type Claim = { [key: string]: string | string[] };

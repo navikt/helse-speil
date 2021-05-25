@@ -1,9 +1,10 @@
-import { ResponseType } from 'openid-client';
-import { SpesialistClient } from './person/spesialistClient';
-import { OverstyringClient } from './overstyring/overstyringClient';
 import { Request } from 'express';
-import { PersonClient } from './person/personClient';
 import { Session } from 'express-session';
+import { ResponseType } from 'openid-client';
+
+import { OverstyringClient } from './overstyring/overstyringClient';
+import { PersonClient } from './person/personClient';
+import { SpesialistClient } from './person/spesialistClient';
 
 export interface Helsesjekk {
     redis: boolean;

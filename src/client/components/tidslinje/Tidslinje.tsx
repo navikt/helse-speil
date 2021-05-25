@@ -1,30 +1,33 @@
-import React, { CSSProperties, ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
-import { useInfotrygdrader } from './useInfotrygdrader';
-import { Flex, FlexColumn } from '../Flex';
+import dayjs from 'dayjs';
+import 'dayjs/locale/nb';
 import { Arbeidsgiver, Person } from 'internal-types';
+import React, { CSSProperties, ReactNode, useEffect } from 'react';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
+
+import NavFrontendChevron from 'nav-frontend-chevron';
+import { Undertekst } from 'nav-frontend-typografi';
+
 import { AxisLabels, Pins } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
+
+import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
+import { useSkalAnonymiserePerson } from '../../state/person';
+import { aktivPeriodeState } from '../../state/tidslinje';
+import { NORSK_DATOFORMAT } from '../../utils/date';
+
+import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
+import { Button } from '../Button';
+import { Flex, FlexColumn } from '../Flex';
 import { TekstMedEllipsis } from '../TekstMedEllipsis';
 import { Arbeidsgiverikon } from '../ikoner/Arbeidsgiverikon';
 import { Infotrygdikon } from '../ikoner/Infotrygdikon';
 import { PinsTooltip } from './TidslinjeTooltip';
-import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
-import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
-import { Undertekst } from 'nav-frontend-typografi';
-import { NORSK_DATOFORMAT } from '../../utils/date';
-import { useTidslinjerader } from './useTidslinjerader';
-import { useSkalAnonymiserePerson } from '../../state/person';
-import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
 import { Tidslinjerad } from './Tidslinjerad';
-import NavFrontendChevron from 'nav-frontend-chevron';
-import dayjs from 'dayjs';
-import 'dayjs/locale/nb';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import { Button } from '../Button';
-import { useEffect } from 'react';
-import { aktivPeriodeState } from '../../state/tidslinje';
+import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
+import { useInfotrygdrader } from './useInfotrygdrader';
+import { useTidslinjerader } from './useTidslinjerader';
+import { useTidslinjeutsnitt } from './useTidslinjeutsnitt';
 
 dayjs.locale('nb');
 
@@ -51,6 +54,7 @@ const ArbeidsgiverContainer = styled(Flex)`
     &:not(:last-of-type) {
         margin-bottom: 1.5rem;
     }
+
     align-items: start;
 `;
 
@@ -106,9 +110,11 @@ const Accordion = styled.div<AccordionProps>`
     background-color: #f8f8f8;
     padding: 0.25rem 0;
     display: none;
+
     & > div:not(:last-of-type) {
         margin-bottom: 0.5rem;
     }
+
     ${({ erSynlig }) => erSynlig && `display: initial;`}
 `;
 

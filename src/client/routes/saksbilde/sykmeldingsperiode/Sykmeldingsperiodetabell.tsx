@@ -1,14 +1,18 @@
-import React from 'react';
-import Element from 'nav-frontend-typografi/lib/element';
-import { overstyrbareTabellerEnabled, overstyreUtbetaltPeriodeEnabled } from '../../../featureToggles';
-import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
 import styled from '@emotion/styled';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { dato, gradering, ikonSyk, kilde, tomCelle, typeSyk } from '../../../components/tabell/rader';
-import { Dagtype, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
-import { Tabell } from '@navikt/helse-frontend-tabell';
 import classNames from 'classnames';
+import { Dagtype, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import React from 'react';
+
+import Element from 'nav-frontend-typografi/lib/element';
+
+import { Tabell } from '@navikt/helse-frontend-tabell';
+
 import { Infoikon } from '../../../components/ikoner/Infoikon';
+import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
+import { dato, gradering, ikonSyk, kilde, tomCelle, typeSyk } from '../../../components/tabell/rader';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
+
+import { overstyrbareTabellerEnabled, overstyreUtbetaltPeriodeEnabled } from '../../../featureToggles';
 import { trimLedendeArbeidsdager } from './Sykmeldingsperiode';
 
 const Periodetabell = styled(Tabell)`

@@ -1,6 +1,7 @@
-import { Periode, PeriodeBuilder, PerioderTilstand } from './periodeBuilder';
 import dayjs, { Dayjs } from 'dayjs';
 import { Dagtype, Sykdomsdag } from 'internal-types';
+
+import { Periode, PeriodeBuilder, PerioderTilstand } from './periodeBuilder';
 
 describe('useRevurderingsrader', () => {
     test('kan utvide periode', () => {

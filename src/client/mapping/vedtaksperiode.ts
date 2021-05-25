@@ -1,6 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
-import { Inntektskildetype, Periodetype, Utbetaling, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import {
     SpesialistArbeidsgiver,
     SpesialistInntektsgrunnlag,
@@ -14,13 +12,17 @@ import {
     SpleisUtbetalingslinje,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
-import { mapForlengelseFraInfotrygd } from './infotrygd';
+import { Inntektskildetype, Periodetype, Utbetaling, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+
+import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
+
 import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
+import { mapHendelse } from './hendelse';
+import { mapForlengelseFraInfotrygd } from './infotrygd';
+import { inntektskilde } from './oppgaver/oppgaver';
+import { tilOverstyrtDag } from './overstyring';
 import { mapSimuleringsdata } from './simulering';
 import { mapVilkår } from './vilkår';
-import { mapHendelse } from './hendelse';
-import { tilOverstyrtDag } from './overstyring';
-import { inntektskilde } from './oppgaver/oppgaver';
 
 export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORMAT);
 

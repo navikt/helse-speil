@@ -1,10 +1,12 @@
-import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { ProtectedRoute } from './ProtectedRoute';
-import { RecoilRoot } from 'recoil';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
+import { RecoilRoot } from 'recoil';
+
 import { authState } from '../state/authentication';
+
+import { ProtectedRoute } from './ProtectedRoute';
 
 describe('ProtectedRoute', () => {
     test('redirecter hvis bruker ikke er logget inn', () => {

@@ -1,7 +1,9 @@
-import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import { FlexColumn } from '../../../components/Flex';
+import React, { ReactNode } from 'react';
+
 import { Element, Normaltekst } from 'nav-frontend-typografi';
+
+import { FlexColumn } from '../../../components/Flex';
 
 const Container = styled(FlexColumn)`
     margin: 0.5rem 0;

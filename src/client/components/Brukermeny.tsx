@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
-import NavFrontendChevron from 'nav-frontend-chevron';
 import styled from '@emotion/styled';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+import React, { useState } from 'react';
+
+import NavFrontendChevron from 'nav-frontend-chevron';
 import Lenke from 'nav-frontend-lenker';
+import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 import { Element, Undertekst } from 'nav-frontend-typografi';
+
 import { TekstMedEllipsis } from './TekstMedEllipsis';
 
 const BrukermenyContainer = styled.div`

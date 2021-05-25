@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
-import { useTildeling } from '../../state/oppgaver';
 import { Oppgave } from 'internal-types';
-import { useInnloggetSaksbehandler } from '../../state/authentication';
+import React, { useState } from 'react';
+
+import { Knapp } from 'nav-frontend-knapper';
+
 import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
+import { useInnloggetSaksbehandler } from '../../state/authentication';
+import { useTildeling } from '../../state/oppgaver';
 
 export const Tildelt = ({ tildeltBrukernavn }: { tildeltBrukernavn: string }) => {
     return <TekstMedEllipsis>{tildeltBrukernavn}</TekstMedEllipsis>;

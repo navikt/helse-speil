@@ -1,17 +1,20 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { Utbetalinger, Vedtaksperiodetilstand } from 'internal-types';
-import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
-import { Annullering } from './annullering/Annullering';
-import { OppdaterPersondata } from './OppdaterPersondata';
-import { Tildelingsknapp } from './Tildelingsknapp';
-import { usePerson } from '../../../state/person';
-import { PåVentKnapp } from './PåVentKnapp';
-import { AnonymiserData } from './AnonymiserData';
-import { useAktivVedtaksperiode } from '../../../state/tidslinje';
-import { Dropdown, Strek } from '../../../components/dropdown/Dropdown';
+import React from 'react';
+
 import { PopoverOrientering } from 'nav-frontend-popover';
+
+import { Dropdown, Strek } from '../../../components/dropdown/Dropdown';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
+import { usePerson } from '../../../state/person';
+import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+
+import { annulleringerEnabled, oppdaterPersondataEnabled } from '../../../featureToggles';
+import { AnonymiserData } from './AnonymiserData';
+import { OppdaterPersondata } from './OppdaterPersondata';
+import { PåVentKnapp } from './PåVentKnapp';
+import { Tildelingsknapp } from './Tildelingsknapp';
+import { Annullering } from './annullering/Annullering';
 
 const Container = styled.div`
     display: flex;

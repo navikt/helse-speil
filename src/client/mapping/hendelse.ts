@@ -6,6 +6,7 @@ import {
     SpleisSøknad,
 } from 'external-types';
 import { Hendelse, Inntektsmelding, Kildetype, Sykmelding, Søknad } from 'internal-types';
+
 import { somDato, somKanskjeTidspunkt, somTidspunkt } from './vedtaksperiode';
 
 const mapInntektsmelding = (hendelse: SpleisHendelse): Inntektsmelding => ({

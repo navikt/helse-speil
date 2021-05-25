@@ -1,19 +1,22 @@
+import styled from '@emotion/styled';
+import { Arbeidsgiverinntekt, Inntektskildetype } from 'internal-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
-import { somPenger } from '../../../utils/locale';
-import { Arbeidsgiverinntekt, Inntektskildetype } from 'internal-types';
-import styled from '@emotion/styled';
-import { Grid } from '../../../components/Grid';
-import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
-import { Kilde } from '../../../components/Kilde';
+
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { Clipboard } from '../../../components/clipboard';
-import { Arbeidsforhold } from '../Arbeidsforhold';
+import { Grid } from '../../../components/Grid';
+import { Kilde } from '../../../components/Kilde';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
+import { Clipboard } from '../../../components/clipboard';
+import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 import { kilde } from '../../../utils/inntektskilde';
+import { somPenger } from '../../../utils/locale';
+
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import { Arbeidsforhold } from '../Arbeidsforhold';
 
 const Arbeidsgivertittel = styled.div`
     display: flex;

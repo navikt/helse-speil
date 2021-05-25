@@ -1,6 +1,7 @@
 import request from 'request-promise-native';
-import { OidcConfig, OnBehalfOf } from '../types';
+
 import { Instrumentation } from '../instrumentation';
+import { OidcConfig, OnBehalfOf } from '../types';
 
 export interface PersonoppdateringOptions {
     fødselsnummer: string;

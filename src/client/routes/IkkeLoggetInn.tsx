@@ -1,7 +1,8 @@
-import React from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import styled from '@emotion/styled';
+import React from 'react';
+
+import Lenke from 'nav-frontend-lenker';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 const Container = styled.div`
     display: flex;

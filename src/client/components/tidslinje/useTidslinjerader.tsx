@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs';
 import {
     Dagtype,
     Person,
@@ -9,13 +10,12 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
-import React, { useMemo } from 'react';
-import { TidslinjeperiodeObject } from './Tidslinje.types';
-import { arbeidsgiverNavn } from './Tidslinje';
-import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
-import { Dayjs } from 'dayjs';
 import { nanoid } from 'nanoid';
-import { HoverInfo } from './HoverInfo';
+import React, { useMemo } from 'react';
+
+import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
+import { PeriodObject } from '@navikt/helse-frontend-timeline/src/components/types';
+
 import {
     erUtbetaling,
     Periodetype,
@@ -24,7 +24,10 @@ import {
     UtbetalingshistorikkElement,
     Utbetalingstatus,
 } from '../../modell/UtbetalingshistorikkElement';
-import { PeriodObject } from '@navikt/helse-frontend-timeline/src/components/types';
+
+import { HoverInfo } from './HoverInfo';
+import { arbeidsgiverNavn } from './Tidslinje';
+import { TidslinjeperiodeObject } from './Tidslinje.types';
 
 export type TidslinjeradObject = {
     id: string;

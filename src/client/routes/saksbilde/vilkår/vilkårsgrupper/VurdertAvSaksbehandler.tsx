@@ -1,10 +1,13 @@
-import React from 'react';
-import { Vilkårsgruppetittel } from '../vilkårstitler';
-import { Vilkårdata } from '../../../../mapping/vilkår';
 import { Dayjs } from 'dayjs';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
-import { BehandletVarselContent, Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import React from 'react';
+
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
+
+import { Vilkårdata } from '../../../../mapping/vilkår';
+import { NORSK_DATOFORMAT } from '../../../../utils/date';
+
+import { BehandletVarselContent, Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface VurdertAvSaksbehandlerProps {
     vilkår: Vilkårdata[];

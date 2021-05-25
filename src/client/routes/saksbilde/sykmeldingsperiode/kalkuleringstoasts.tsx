@@ -1,7 +1,9 @@
-import React from 'react';
-import { ToastObject } from '../../../state/toasts';
 import styled from '@emotion/styled';
+import React from 'react';
+
 import NavFrontendSpinner from 'nav-frontend-spinner';
+
+import { ToastObject } from '../../../state/toasts';
 
 export const kalkulererToastKey = 'kalkulererToast';
 

@@ -1,6 +1,8 @@
-import React from 'react';
-import { UseTabellPaginering } from '@navikt/helse-frontend-tabell';
 import styled from '@emotion/styled';
+import React from 'react';
+
+import { UseTabellPaginering } from '@navikt/helse-frontend-tabell';
+
 import { genererSidetall } from './sidetall';
 
 const Container = styled.div`

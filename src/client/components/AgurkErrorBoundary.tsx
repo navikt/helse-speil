@@ -1,8 +1,10 @@
-import React, { PropsWithChildren, useRef, useState } from 'react';
 import styled from '@emotion/styled';
+import React, { PropsWithChildren, useRef, useState } from 'react';
+
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Clipboard } from './clipboard';
+
 import { ErrorBoundary } from './ErrorBoundary';
+import { Clipboard } from './clipboard';
 
 const Container = styled.div`
     margin: 2rem;

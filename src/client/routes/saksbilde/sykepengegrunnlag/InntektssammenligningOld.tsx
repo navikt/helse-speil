@@ -1,8 +1,10 @@
-import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
-import React from 'react';
-import { somPenger } from '../../../utils/locale';
 import styled from '@emotion/styled';
+import React from 'react';
+
+import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
+
 import { Kilde } from '../../../components/Kilde';
+import { somPenger } from '../../../utils/locale';
 
 interface Props {
     inntektskilde: string;

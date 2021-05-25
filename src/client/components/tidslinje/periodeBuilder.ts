@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import { Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 
 dayjs.extend(isSameOrAfter);
 

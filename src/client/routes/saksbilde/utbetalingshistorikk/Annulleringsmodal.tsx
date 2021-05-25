@@ -1,14 +1,17 @@
 import styled from '@emotion/styled';
-import { Modal } from '../../../components/Modal';
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Person, UtbetalingshistorikkUtbetaling } from 'internal-types';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { AnnulleringDTO } from '../../../io/types';
+
+import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
+
+import { Modal } from '../../../components/Modal';
 import { postAnnullering } from '../../../io/http';
-import { Annulleringsvarsel } from '../sakslinje/annullering/Annulleringsvarsel';
+import { AnnulleringDTO } from '../../../io/types';
 import { findEarliest, findLatest, NORSK_DATOFORMAT } from '../../../utils/date';
+
+import { Annulleringsvarsel } from '../sakslinje/annullering/Annulleringsvarsel';
 
 const ModalContainer = styled(Modal)`
     max-width: 48rem;

@@ -1,11 +1,13 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { Verktøylinje } from './Verktøylinje';
-import { TabLink } from '../TabLink';
-import { Location, useNavigation } from '../../../hooks/useNavigation';
-import { Infolinje } from './Infolinje';
-import { HjemIkon } from './icons/HjemIkon';
 import { Dayjs } from 'dayjs';
+import React from 'react';
+
+import { Location, useNavigation } from '../../../hooks/useNavigation';
+
+import { TabLink } from '../TabLink';
+import { Infolinje } from './Infolinje';
+import { Verktøylinje } from './Verktøylinje';
+import { HjemIkon } from './icons/HjemIkon';
 
 const Container = styled.div`
     height: 74px;

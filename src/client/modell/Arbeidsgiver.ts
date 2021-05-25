@@ -1,5 +1,6 @@
-import { usePerson } from '../state/person';
 import { Arbeidsforhold } from 'internal-types';
+
+import { usePerson } from '../state/person';
 
 export const useArbeidsgivernavn = (organisasjonsnummer: string): string | undefined =>
     usePerson()?.arbeidsgivere.find((a) => a.organisasjonsnummer === organisasjonsnummer)?.navn;

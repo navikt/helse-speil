@@ -1,7 +1,8 @@
-'use strict';
+import env from 'dotenv';
 
 import { OidcConfig, ServerConfig } from './types';
-import env from 'dotenv';
+
+('use strict');
 
 env.config();
 

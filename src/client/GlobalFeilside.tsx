@@ -1,6 +1,7 @@
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
 import React from 'react';
+
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Feiltekst = styled.div`
     padding-top: 2rem;

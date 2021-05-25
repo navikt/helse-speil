@@ -1,24 +1,27 @@
-import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import { AvvistBegrunnelse, Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import React, { ReactNode } from 'react';
+
 import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
-import { IkonSyk } from './ikoner/IkonSyk';
-import { IkonFerie } from './ikoner/IkonFerie';
-import { toKronerOgØre } from '../../utils/locale';
-import { IkonOverstyrt } from './ikoner/IkonOverstyrt';
-import { IkonEgenmelding } from './ikoner/IkonEgenmelding';
-import { IkonArbeidsgiverperiode } from './ikoner/IkonArbeidsgiverperiode';
+
 import { NORSK_DATOFORMAT } from '../../utils/date';
+import { toKronerOgØre } from '../../utils/locale';
+
+import { Kilde } from '../Kilde';
+import { LovdataLenke } from '../LovdataLenke';
 import { OverstyrbarDagtype } from './OverstyrbarDagtype';
 import { OverstyrbarGradering } from './OverstyrbarGradering';
 import { Overstyringsindikator } from './Overstyringsindikator';
-import { AvvistBegrunnelse, Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
-import { Kilde } from '../Kilde';
-import './rader.less';
 import { IkonAnnullert } from './ikoner/IkonAnnullert';
-import { IkonKryss } from './ikoner/IkonKryss';
 import { IkonArbeidsdag } from './ikoner/IkonArbeidsdag';
+import { IkonArbeidsgiverperiode } from './ikoner/IkonArbeidsgiverperiode';
+import { IkonEgenmelding } from './ikoner/IkonEgenmelding';
+import { IkonFerie } from './ikoner/IkonFerie';
+import { IkonKryss } from './ikoner/IkonKryss';
+import { IkonOverstyrt } from './ikoner/IkonOverstyrt';
 import { IkonPermisjon } from './ikoner/IkonPermisjon';
-import { LovdataLenke } from '../LovdataLenke';
+import { IkonSyk } from './ikoner/IkonSyk';
+import './rader.less';
 
 export const tomCelle = () => undefined;
 

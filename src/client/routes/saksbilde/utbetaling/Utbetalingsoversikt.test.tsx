@@ -1,23 +1,25 @@
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+import dayjs from 'dayjs';
+import { SpesialistArbeidsgiver, SpleisUtbetalingsdagtype } from 'external-types';
+import { Dagtype, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { mappetPerson } from 'test-data';
-import { Dagtype, Vedtaksperiode } from 'internal-types';
-import { render, screen } from '@testing-library/react';
+
+import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
+
+import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
+import {
+    mappetVedtaksperiode,
+    medUtbetalingstidslinje,
+    umappetVedtaksperiode,
+} from '../../../../test/data/vedtaksperiode';
 import {
     periodeDagerIgjen,
     totaltAntallUtbetalingsdager,
     totalUtbetaling,
     Utbetalingsoversikt,
 } from './Utbetalingsoversikt';
-import {
-    mappetVedtaksperiode,
-    medUtbetalingstidslinje,
-    umappetVedtaksperiode,
-} from '../../../../test/data/vedtaksperiode';
-import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
-import { SpesialistArbeidsgiver, SpleisUtbetalingsdagtype } from 'external-types';
-import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
-import '@testing-library/jest-dom/extend-expect';
-import dayjs from 'dayjs';
 
 const enIkkeUtbetaltVedtaksperiode = async () => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()

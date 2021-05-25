@@ -1,7 +1,7 @@
-import React, { ChangeEvent } from 'react';
-import { Sykdomsdag } from 'internal-types';
-import { useFormContext } from 'react-hook-form';
 import styled from '@emotion/styled';
+import { Sykdomsdag } from 'internal-types';
+import React, { ChangeEvent } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 const Container = styled.span`
     display: flex;

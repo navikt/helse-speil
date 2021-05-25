@@ -1,7 +1,20 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import {Faresignal, Periodetype, Risikovurdering as RisikovurderingType, Vedtaksperiode, Vilkår,} from 'internal-types';
-import {Vilkårdata, Vilkårstype} from '../../../mapping/vilkår';
+import {
+    Faresignal,
+    Periodetype,
+    Risikovurdering as RisikovurderingType,
+    Vedtaksperiode,
+    Vilkår,
+} from 'internal-types';
+import React from 'react';
+
+import { Normaltekst } from 'nav-frontend-typografi';
+
+import { Flex } from '../../../components/Flex';
+import { LovdataLenke } from '../../../components/LovdataLenke';
+import { Advarselikon } from '../../../components/ikoner/Advarselikon';
+import { Vilkårdata, Vilkårstype } from '../../../mapping/vilkår';
+
 import {
     Alder,
     Arbeidsuførhet,
@@ -10,10 +23,6 @@ import {
     Sykepengegrunnlag,
     Søknadsfrist,
 } from './vilkårsgrupper/Vilkårsgrupper';
-import {Flex} from '../../../components/Flex';
-import {Normaltekst} from 'nav-frontend-typografi';
-import {Advarselikon} from '../../../components/ikoner/Advarselikon';
-import {LovdataLenke} from '../../../components/LovdataLenke';
 
 const VilkårManglerData = () => <Normaltekst>Mangler data om vilkåret</Normaltekst>;
 

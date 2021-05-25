@@ -1,7 +1,8 @@
-import React from 'react';
-import { IkonÅpenLås } from './ikoner/IkonÅpenLås';
-import { IkonLukketLås } from './ikoner/IkonLukketLås';
 import styled from '@emotion/styled';
+import React from 'react';
+
+import { IkonLukketLås } from './ikoner/IkonLukketLås';
+import { IkonÅpenLås } from './ikoner/IkonÅpenLås';
 
 const RedigerKnapp = styled.button`
     border: none;

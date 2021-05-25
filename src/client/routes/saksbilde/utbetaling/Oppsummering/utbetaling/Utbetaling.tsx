@@ -1,6 +1,7 @@
-import React from 'react';
-import { Utbetalingsdialog } from './Utbetalingsdialog';
 import { Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import React from 'react';
+
+import { Utbetalingsdialog } from './Utbetalingsdialog';
 
 interface UtbetalingProps {
     vedtaksperiode: Vedtaksperiode;

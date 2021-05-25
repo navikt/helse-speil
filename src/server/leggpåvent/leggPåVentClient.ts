@@ -1,5 +1,6 @@
-import { OidcConfig, OnBehalfOf } from '../types';
 import request from 'request-promise-native';
+
+import { OidcConfig, OnBehalfOf } from '../types';
 
 export interface LeggPåVentClient {
     leggPåVent: (speilToken: string, oppgaveReferanse: string) => Promise<Response>;

@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router';
+
 import { usePerson } from '../state/person';
 
 export interface Navigation {

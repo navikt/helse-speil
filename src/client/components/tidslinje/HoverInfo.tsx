@@ -1,8 +1,5 @@
-import React, { CSSProperties } from 'react';
-import { FlexColumn } from '../Flex';
-import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-import { Undertekst } from 'nav-frontend-typografi';
+import { Dayjs } from 'dayjs';
 import {
     Dagtype,
     UfullstendigVedtaksperiode,
@@ -10,8 +7,14 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
+import React, { CSSProperties } from 'react';
+
+import { Undertekst } from 'nav-frontend-typografi';
+
+import { NORSK_DATOFORMAT } from '../../utils/date';
 import { somPenger } from '../../utils/locale';
-import { Dayjs } from 'dayjs';
+
+import { FlexColumn } from '../Flex';
 
 const Container = styled(FlexColumn)`
     align-items: flex-start;

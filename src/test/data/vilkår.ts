@@ -1,6 +1,7 @@
-import { somDato } from '../../client/mapping/vedtaksperiode';
-import { SpleisMedlemskapstatus, SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisVilkår } from 'external-types';
 import dayjs from 'dayjs';
+import { SpleisMedlemskapstatus, SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisVilkår } from 'external-types';
+
+import { somDato } from '../../client/mapping/vedtaksperiode';
 
 export const umappedeVilkår = (tidslinje: SpleisSykdomsdag[]): SpleisVilkår => {
     const førsteDag = tidslinje[0];

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import {
     EksternUtbetalingshistorikkElement,
     SpesialistArbeidsgiver,
@@ -6,11 +7,12 @@ import {
     SpesialistVedtaksperiode,
 } from 'external-types';
 import { Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode } from 'internal-types';
-import dayjs from 'dayjs';
-import { VedtaksperiodeBuilder } from './vedtaksperiode';
-import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
+
 import { utbetalingshistorikkelement, Utbetalingstatus } from '../modell/UtbetalingshistorikkElement';
+
+import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
 import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
+import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;

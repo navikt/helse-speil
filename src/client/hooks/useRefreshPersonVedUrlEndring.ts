@@ -1,8 +1,10 @@
-import { useParams } from 'react-router';
-import { Scopes, useAddVarsel, useRemoveVarsel } from '../state/varsler';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
 import { useEffect } from 'react';
+import { useParams } from 'react-router';
+
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+
 import { useHentPerson, usePerson } from '../state/person';
+import { Scopes, useAddVarsel, useRemoveVarsel } from '../state/varsler';
 
 const feilvarselKey = 'hent-person-error';
 

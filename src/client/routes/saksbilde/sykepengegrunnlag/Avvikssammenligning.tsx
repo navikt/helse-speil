@@ -1,7 +1,9 @@
-import React from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { somPenger } from '../../../utils/locale';
 import styled from '@emotion/styled';
+import React from 'react';
+
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+
+import { somPenger } from '../../../utils/locale';
 
 interface Props {
     avvik?: number;

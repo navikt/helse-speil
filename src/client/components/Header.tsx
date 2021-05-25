@@ -1,20 +1,23 @@
-import React from 'react';
 import styled from '@emotion/styled';
+import { Person } from 'internal-types';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { authState } from '../state/authentication';
+
+import '@navikt/ds-css';
+import { InternalHeader, InternalHeaderTitle } from '@navikt/ds-react';
 import { Søk } from '@navikt/helse-frontend-header';
 import '@navikt/helse-frontend-header/lib/main.css';
-import { Link, useHistory } from 'react-router-dom';
-import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
-import { useAddVarsel, useRemoveVarsel } from '../state/varsler';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { InternalHeader, InternalHeaderTitle } from '@navikt/ds-react';
+
+import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
+import { authState } from '../state/authentication';
 import { useHentPerson } from '../state/person';
-import { Person } from 'internal-types';
+import { useAddVarsel, useRemoveVarsel } from '../state/varsler';
+
 import EasterEgg from '../EasterEgg';
 import { BentoMeny } from './BentoMeny';
 import Brukermeny from './Brukermeny';
-import '@navikt/ds-css';
 
 const Container = styled.div`
     flex-shrink: 0;

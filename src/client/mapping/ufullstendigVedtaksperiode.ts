@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import { UfullstendigVedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { SpesialistArbeidsgiver, SpesialistPerson, UfullstendigSpesialistVedtaksperiode } from 'external-types';
+import { UfullstendigVedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+
 import { mapUtbetalingsdag } from './dag';
 
 export class UfullstendigVedtaksperiodeBuilder {

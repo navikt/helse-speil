@@ -1,7 +1,8 @@
-import logger from '../logging';
-import { ipAddressFromRequest } from '../requestData';
 import { Request } from 'express';
 import { Client, TokenSet } from 'openid-client';
+
+import logger from '../logging';
+import { ipAddressFromRequest } from '../requestData';
 import { AuthError, OidcConfig, SpeilRequest, SpeilSession } from '../types';
 
 interface IsValidInProps {

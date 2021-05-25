@@ -1,8 +1,11 @@
 import React from 'react';
-import { Vilkårdata } from '../../../../mapping/vilkår';
-import { Vilkårsgruppetittel } from '../vilkårstitler';
-import { BehandletVarselContent, Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+
 import { BehandletVarsel } from '@navikt/helse-frontend-varsel';
+
+import { Vilkårdata } from '../../../../mapping/vilkår';
+
+import { BehandletVarselContent, Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface VurdertAutomatiskProps {
     vilkår: Vilkårdata[];

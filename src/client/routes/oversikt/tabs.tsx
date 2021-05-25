@@ -1,14 +1,17 @@
-import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import { Oppgave } from 'internal-types';
+import React, { ReactNode } from 'react';
 import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
+
+import { PopoverOrientering } from 'nav-frontend-popover';
+import { Normaltekst } from 'nav-frontend-typografi';
+
+import { Flex } from '../../components/Flex';
+import { Dropdown } from '../../components/dropdown/Dropdown';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { oppgaverState } from '../../state/oppgaver';
+
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
-import { Oppgave } from 'internal-types';
-import { Dropdown } from '../../components/dropdown/Dropdown';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { Flex } from '../../components/Flex';
-import { PopoverOrientering } from 'nav-frontend-popover';
 
 const Container = styled.div`
     display: flex;

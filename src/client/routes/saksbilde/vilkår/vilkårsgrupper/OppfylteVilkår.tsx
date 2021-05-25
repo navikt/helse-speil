@@ -1,8 +1,10 @@
 import React from 'react';
-import { Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
-import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
-import { Vilkårdata } from '../../../../mapping/vilkår';
+
 import { GrøntSjekkikon } from '../../../../components/ikoner/GrøntSjekkikon';
+import { Vilkårdata } from '../../../../mapping/vilkår';
+
+import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
 
 interface OppfylteVilkårProps {
     vilkår: Vilkårdata[];

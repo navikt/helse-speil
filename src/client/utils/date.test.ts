@@ -1,6 +1,8 @@
 import '@testing-library/jest-dom/extend-expect';
-import { findEarliest, findLatest } from './date';
+
 import { somDato } from '../mapping/vedtaksperiode';
+
+import { findEarliest, findLatest } from './date';
 
 test('findLatest', () => {
     const dates = [somDato('2018-01-31'), somDato('2018-02-26'), somDato('2018-02-27'), somDato('2017-01-31')];

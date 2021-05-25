@@ -1,11 +1,13 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { sykdomstidslinje } from './sykdomstidslinje';
-import { utbetalingstidslinje } from './utbetalingstidslinje';
 import { SpleisVedtaksperiodetilstand, UfullstendigSpesialistVedtaksperiode } from 'external-types';
 import { UfullstendigVedtaksperiode } from 'internal-types';
-import { umappetArbeidsgiver } from './arbeidsgiver';
+
 import { UfullstendigVedtaksperiodeBuilder } from '../../client/mapping/ufullstendigVedtaksperiode';
+
+import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetPerson } from './person';
+import { sykdomstidslinje } from './sykdomstidslinje';
+import { utbetalingstidslinje } from './utbetalingstidslinje';
 
 type UmappetVedtaksperiodeOptions = {
     fom?: Dayjs;

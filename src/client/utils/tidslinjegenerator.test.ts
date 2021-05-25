@@ -1,5 +1,6 @@
-import { tidslinjegenerator } from './tidslinjegenerator';
 import dayjs from 'dayjs';
+
+import { tidslinjegenerator } from './tidslinjegenerator';
 
 //Denne kan brukes til å generere utbetalingstidslinjer til bruk i testdata som brukes lokalt i speil
 test('generer tidslinje', () => {

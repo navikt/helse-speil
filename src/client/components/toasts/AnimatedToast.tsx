@@ -1,6 +1,6 @@
-import React, { CSSProperties } from 'react';
 import styled from '@emotion/styled';
 import { motion, Spring } from 'framer-motion';
+import React, { CSSProperties } from 'react';
 
 const ToastView = styled.div`
     position: relative;

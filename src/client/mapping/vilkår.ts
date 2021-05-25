@@ -1,4 +1,11 @@
 import {
+    SpesialistInntektsgrunnlag,
+    SpesialistVedtaksperiode,
+    SpleisForlengelseFraInfotrygd,
+    SpleisMedlemskapstatus,
+    SpleisVilkår,
+} from 'external-types';
+import {
     Alder,
     Basisvilkår,
     DagerIgjen,
@@ -7,15 +14,9 @@ import {
     Søknadsfrist,
     Vilkår,
 } from 'internal-types';
-import {
-    SpesialistInntektsgrunnlag,
-    SpesialistVedtaksperiode,
-    SpleisForlengelseFraInfotrygd,
-    SpleisMedlemskapstatus,
-    SpleisVilkår,
-} from 'external-types';
-import { somDato, somKanskjeDato } from './vedtaksperiode';
 import { ReactNode } from 'react';
+
+import { somDato, somKanskjeDato } from './vedtaksperiode';
 
 // noinspection JSUnusedGlobalSymbols
 export enum Vilkårstype {

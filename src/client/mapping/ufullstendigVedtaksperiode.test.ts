@@ -1,15 +1,17 @@
-import { NORSK_DATOFORMAT } from '../utils/date';
-import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
-import { UfullstendigVedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
+import { UfullstendigVedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+
+import { NORSK_DATOFORMAT } from '../utils/date';
+
+import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
+import { umappetPerson } from '../../test/data/person';
 import {
     mappetUfullstendigVedtaksperiode,
     umappetUfullstendigVedtaksperiode,
 } from '../../test/data/ufullstendigVedtaksperiode';
-import { umappetPerson } from '../../test/data/person';
+import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);

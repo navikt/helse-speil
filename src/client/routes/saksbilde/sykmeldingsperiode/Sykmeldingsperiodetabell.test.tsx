@@ -1,12 +1,14 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
-import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
-import { Arbeidsgiver, Dagtype, Person, Vedtaksperiode } from 'internal-types';
-import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
-import { SpesialistArbeidsgiver, SpleisVedtaksperiodetilstand } from 'external-types';
 import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+import { SpesialistArbeidsgiver, SpleisVedtaksperiodetilstand } from 'external-types';
+import { Arbeidsgiver, Dagtype, Person, Vedtaksperiode } from 'internal-types';
+import React from 'react';
 import { mappetPerson } from 'test-data';
+
+import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
+
+import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
+import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 
 const enIkkeUtbetaltVedtaksperiode = () => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()

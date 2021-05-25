@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Lenke from 'nav-frontend-lenker';
 
 interface LovdataLenkeProps {

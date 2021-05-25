@@ -1,9 +1,10 @@
+import { Response } from 'express';
+
+import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
 import authSupport from '../auth/authSupport';
 import logger from '../logging';
-import { erGyldigFødselsnummer } from '../aktørid/fødselsnummerValidation';
-import { SpesialistClient } from './spesialistClient';
 import { AppConfig, OnBehalfOf, SpeilRequest } from '../types';
-import { Response } from 'express';
+import { SpesialistClient } from './spesialistClient';
 
 export interface SetupParameters {
     spesialistClient: SpesialistClient;

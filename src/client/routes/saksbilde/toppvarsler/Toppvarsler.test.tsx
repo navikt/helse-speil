@@ -1,9 +1,10 @@
-import React from 'react';
-import { Toppvarsler } from './Toppvarsler';
-import { render, screen } from '@testing-library/react';
-import { mappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
-import { Periodetype, Vedtaksperiodetilstand } from 'internal-types';
 import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+import { Periodetype, Vedtaksperiodetilstand } from 'internal-types';
+import React from 'react';
+
+import { mappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
+import { Toppvarsler } from './Toppvarsler';
 
 const vedtaksperiodeMedTilstand = (tilstand: Vedtaksperiodetilstand) => ({
     ...mappetVedtaksperiode(),

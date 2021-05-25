@@ -1,9 +1,13 @@
-import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import Element from 'nav-frontend-typografi/lib/element';
 import classNames from 'classnames';
-import { Tabell } from '@navikt/helse-frontend-tabell';
+import { Dayjs } from 'dayjs';
 import { Dagtype, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import React, { ReactNode } from 'react';
+
+import Element from 'nav-frontend-typografi/lib/element';
+
+import { Tabell } from '@navikt/helse-frontend-tabell';
+
 import {
     dato,
     gradering,
@@ -15,7 +19,6 @@ import {
 } from '../../../components/tabell/rader';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { toKronerOgØre } from '../../../utils/locale';
-import { Dayjs } from 'dayjs';
 
 type Utbetalingsceller = [
     ReactNode,

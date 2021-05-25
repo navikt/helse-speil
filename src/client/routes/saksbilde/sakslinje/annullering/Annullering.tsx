@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
-import { Annulleringsmodal } from './Annulleringsmodal';
+
 import { DropdownContext, DropdownMenyknapp } from '../../../../components/dropdown/Dropdown';
 import { usePerson } from '../../../../state/person';
 import { useAktivVedtaksperiode } from '../../../../state/tidslinje';
+
+import { Annulleringsmodal } from './Annulleringsmodal';
 
 export const Annullering = () => {
     const personTilBehandling = usePerson();

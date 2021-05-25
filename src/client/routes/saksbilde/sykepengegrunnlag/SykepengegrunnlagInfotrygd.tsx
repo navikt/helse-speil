@@ -1,13 +1,16 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { somPenger } from '../../../utils/locale';
 import { Inntektsgrunnlag } from 'internal-types';
+import React from 'react';
+
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+
 import { Kilde } from '../../../components/Kilde';
-import { kilde } from '../../../utils/inntektskilde';
-import { ArbeidsgiverRad, InntektMedKilde, Kategoritittel, Kolonnetittel, Total } from './InntekttabellKomponenter';
 import { useSkalAnonymiserePerson } from '../../../state/person';
+import { kilde } from '../../../utils/inntektskilde';
+import { somPenger } from '../../../utils/locale';
+
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import { ArbeidsgiverRad, InntektMedKilde, Kategoritittel, Kolonnetittel, Total } from './InntekttabellKomponenter';
 
 interface SykepengegrunnlagInfotrygdProps {
     inntektsgrunnlag: Inntektsgrunnlag;

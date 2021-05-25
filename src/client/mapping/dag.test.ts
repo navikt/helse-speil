@@ -1,13 +1,14 @@
+import dayjs from 'dayjs';
 import {
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
     SpleisVilkår,
 } from 'external-types';
-import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
 import { Dagtype, Kildetype } from 'internal-types';
+
+import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
 import { somDato } from './vedtaksperiode';
-import dayjs from 'dayjs';
 
 const enUmappetSykdomstidlinje = [
     {

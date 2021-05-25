@@ -1,4 +1,3 @@
-import { umappetVedtaksperiode } from './vedtaksperiode';
 import {
     EksternUtbetalingshistorikkElement,
     SpesialistArbeidsgiver,
@@ -6,7 +5,9 @@ import {
     SpesialistVedtaksperiode,
     UfullstendigSpesialistVedtaksperiode,
 } from 'external-types';
+
 import { umappetUtbetalingshistorikk } from './utbetalingshistorikk';
+import { umappetVedtaksperiode } from './vedtaksperiode';
 
 export const umappetArbeidsgiver = (
     vedtaksperioder: (SpesialistVedtaksperiode | UfullstendigSpesialistVedtaksperiode)[] = [umappetVedtaksperiode()],

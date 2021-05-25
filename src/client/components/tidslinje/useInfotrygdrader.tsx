@@ -1,14 +1,17 @@
-import { Infotrygdperiodetilstand, InfotrygdTypetekst, Infotrygdutbetaling, Person } from 'internal-types';
-import React, { useMemo } from 'react';
-import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-import { nanoid } from 'nanoid';
-import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
-import { TidslinjeperiodeObject } from './Tidslinje.types';
-import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 import { Dayjs } from 'dayjs';
-import { arbeidsgiverNavn } from './Tidslinje';
+import { Infotrygdperiodetilstand, InfotrygdTypetekst, Infotrygdutbetaling, Person } from 'internal-types';
+import { nanoid } from 'nanoid';
+import React, { useMemo } from 'react';
+
+import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
+import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
+
+import { NORSK_DATOFORMAT } from '../../utils/date';
+
 import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
+import { arbeidsgiverNavn } from './Tidslinje';
+import { TidslinjeperiodeObject } from './Tidslinje.types';
 
 const Label = styled.div`
     display: flex;

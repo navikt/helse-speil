@@ -1,6 +1,6 @@
-'use strict';
-
 import { Express } from 'express';
+
+('use strict');
 
 const styleSource = 'https://fonts.googleapis.com';
 const fontSource = 'https://fonts.gstatic.com';

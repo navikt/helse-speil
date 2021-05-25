@@ -1,4 +1,15 @@
+import styled from '@emotion/styled';
+import classNames from 'classnames';
+import { Dagtype, Sykdomsdag } from 'internal-types';
 import React, { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useSetRecoilState } from 'recoil';
+
+import Element from 'nav-frontend-typografi/lib/element';
+
+import { Tabell } from '@navikt/helse-frontend-tabell';
+
+import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
 import { Overstyringsskjema } from '../../../components/tabell/Overstyringsskjema';
 import {
     dato,
@@ -8,26 +19,19 @@ import {
     overstyrbarType,
     tomCelle,
 } from '../../../components/tabell/rader';
-import { Dagtype, Sykdomsdag } from 'internal-types';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
-import Element from 'nav-frontend-typografi/lib/element';
-import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
-import styled from '@emotion/styled';
-import { Tabell } from '@navikt/helse-frontend-tabell';
-import { overstyrbareTabellerEnabled } from '../../../featureToggles';
-import { FormProvider, useForm } from 'react-hook-form';
 import { postAbonnerPåAktør, postOverstyring } from '../../../io/http';
-import { useAddToast } from '../../../state/toasts';
-import { kalkulererToast } from './kalkuleringstoasts';
 import { OverstyrtDagDTO } from '../../../io/types';
-import { useOverstyrteDager } from './useOverstyrteDager';
 import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
-import classNames from 'classnames';
-import { usePerson } from '../../../state/person';
 import { opptegnelsePollingTimeState } from '../../../state/opptegnelser';
-import { useSetRecoilState } from 'recoil';
+import { usePerson } from '../../../state/person';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import { useAddToast } from '../../../state/toasts';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
+
+import { overstyrbareTabellerEnabled } from '../../../featureToggles';
 import { trimLedendeArbeidsdager } from './Sykmeldingsperiode';
+import { kalkulererToast } from './kalkuleringstoasts';
+import { useOverstyrteDager } from './useOverstyrteDager';
 
 const OverstyrbarTabell = styled(Tabell)`
     thead tr th {

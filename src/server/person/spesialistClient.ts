@@ -1,4 +1,5 @@
 import request from 'request-promise-native';
+
 import { Instrumentation } from '../instrumentation';
 import { OidcConfig, OnBehalfOf } from '../types';
 

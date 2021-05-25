@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router';
 import { useRecoilValue } from 'recoil';
+
 import { authState } from '../state/authentication';
 
 export const ProtectedRoute = ({ children, ...rest }: RouteProps) => {

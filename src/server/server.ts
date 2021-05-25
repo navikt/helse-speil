@@ -1,27 +1,25 @@
-import express, { Response } from 'express';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import express, { Response } from 'express';
 import { Client, generators } from 'openid-client';
 
-import config from './config';
-import wiring from './wiring';
-import logger from './logging';
-import headers from './headers';
-import { sessionStore } from './sessionStore';
-import { ipAddressFromRequest } from './requestData';
-
-import azure from './auth/azure';
 import auth from './auth/authSupport';
-
-import person from './person/personRoutes';
-import paymentRoutes from './payment/paymentRoutes';
+import azure from './auth/azure';
+import behandlingsstatistikkRoutes from './behandlingsstatistikk/behandlingsstatistikkRoutes';
+import config from './config';
+import headers from './headers';
+import oppgaveRoutes from './leggpåvent/leggPåVentRoutes';
+import logger from './logging';
+import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
+import paymentRoutes from './payment/paymentRoutes';
+import person from './person/personRoutes';
+import { ipAddressFromRequest } from './requestData';
+import { sessionStore } from './sessionStore';
 import tildelingRoutes from './tildeling/tildelingRoutes';
 import { AuthError, SpeilRequest } from './types';
-import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
-import oppgaveRoutes from './leggpåvent/leggPåVentRoutes';
-import behandlingsstatistikkRoutes from './behandlingsstatistikk/behandlingsstatistikkRoutes';
+import wiring from './wiring';
 
 const app = express();
 const port = config.server.port;

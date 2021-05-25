@@ -1,7 +1,9 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
+import React from 'react';
+
 import { Normaltekst } from 'nav-frontend-typografi';
+
+import { Advarselikon } from '../../../../components/ikoner/Advarselikon';
 
 const Advarsel = styled.div`
     display: flex;

@@ -1,9 +1,12 @@
-import React, { ReactNode } from 'react';
-import { Flex } from '../../../components/Flex';
-import { Element, Undertekst } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
-import { Statistikklinje } from './Statistikklinje';
+import React, { ReactNode } from 'react';
+
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import { Element, Undertekst } from 'nav-frontend-typografi';
+
+import { Flex } from '../../../components/Flex';
+
+import { Statistikklinje } from './Statistikklinje';
 
 interface StatistikkboksProps {
     tittel: string;

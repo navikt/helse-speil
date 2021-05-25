@@ -1,5 +1,5 @@
-import prometheus from 'prom-client';
 import { Express } from 'express';
+import prometheus from 'prom-client';
 
 const setup = (app: Express): Instrumentation => {
     prometheus.collectDefaultMetrics({ eventLoopMonitoringPrecision: 5000 });

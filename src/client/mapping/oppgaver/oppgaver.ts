@@ -1,6 +1,7 @@
-import { Inntektskilde, Kjønn, Oppgave, Periodetype } from 'internal-types';
 import dayjs from 'dayjs';
 import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave } from 'external-types';
+import { Inntektskilde, Kjønn, Oppgave, Periodetype } from 'internal-types';
+
 import { tilPeriodetype } from '../periodetype';
 
 const kjønn = (kjønn: string | null): Kjønn => {

@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs';
 import {
     Arbeidsgiver,
     Dagtype,
@@ -7,11 +8,12 @@ import {
     Vedtaksperiodetilstand,
 } from 'internal-types';
 import React, { useMemo } from 'react';
-import { HoverInfo } from './HoverInfo';
+
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/components/calc';
-import { TidslinjeperiodeObject } from './Tidslinje.types';
-import { Dayjs } from 'dayjs';
+
+import { HoverInfo } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
+import { TidslinjeperiodeObject } from './Tidslinje.types';
 
 const harDagtyper = (dagtyper: Dagtype[], periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean =>
     !!periode.utbetalingstidslinje?.find((it) => dagtyper.includes(it.type));

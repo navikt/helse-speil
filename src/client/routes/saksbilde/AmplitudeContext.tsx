@@ -1,8 +1,10 @@
-import React, { PropsWithChildren, useEffect } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
 import amplitude from 'amplitude-js';
-import { amplitudeEnabled } from '../../featureToggles';
+import dayjs, { Dayjs } from 'dayjs';
+import React, { PropsWithChildren, useEffect } from 'react';
+
 import { useAktivVedtaksperiode } from '../../state/tidslinje';
+
+import { amplitudeEnabled } from '../../featureToggles';
 
 amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {

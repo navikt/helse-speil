@@ -1,8 +1,9 @@
-import request from 'request-promise-native';
-import * as fs from 'fs';
-import { SpesialistClient } from '../person/spesialistClient';
-import { Instrumentation } from '../instrumentation';
 import { SpesialistOppgave } from 'external-types';
+import * as fs from 'fs';
+import request from 'request-promise-native';
+
+import { Instrumentation } from '../instrumentation';
+import { SpesialistClient } from '../person/spesialistClient';
 
 const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient => ({
     behandlingerForPeriode: async (_accessToken: string): Promise<Response> => {

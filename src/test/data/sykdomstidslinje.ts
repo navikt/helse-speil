@@ -1,10 +1,10 @@
+import { Dayjs } from 'dayjs';
 import {
     SpleisSykdomsdag,
     SpleisSykdomsdagkilde,
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
 } from 'external-types';
-import { Dayjs } from 'dayjs';
 
 // const inntektsmeldingId = '512781D2-690E-4B4B-8A00-84A5FCC41AEE';
 

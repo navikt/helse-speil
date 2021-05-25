@@ -1,11 +1,13 @@
-import { getOpptegnelser } from './http';
+import { useEffect } from 'react';
 import { useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+
 import {
     nyesteOpptegnelserState,
     opptegnelsePollingTimeState,
     sisteSekvensIdOpptegnelseState,
 } from '../state/opptegnelser';
-import { useEffect } from 'react';
+
+import { getOpptegnelser } from './http';
 
 export const usePollEtterOpptegnelser = () => {
     const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserState);

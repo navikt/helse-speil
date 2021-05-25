@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Ikon, IkonProps } from './Ikon';
 
 export const Infoikon = ({ width = 24, height = 24, className }: IkonProps) => (

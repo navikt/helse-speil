@@ -1,8 +1,10 @@
-import React from 'react';
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 import styled from '@emotion/styled';
-import { Modal } from '../../../components/Modal';
+import React from 'react';
 import { useHistory } from 'react-router';
+
+import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+
+import { Modal } from '../../../components/Modal';
 
 const Knappegruppe = styled.span`
     display: flex;

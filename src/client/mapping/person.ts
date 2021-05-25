@@ -1,10 +1,11 @@
-import { somDato } from './vedtaksperiode';
-import { Arbeidsgiver, Kjønn, Person } from 'internal-types';
-import { SpesialistInfotrygdtypetekst, SpesialistPerson } from 'external-types';
-import { mapInfotrygdutbetaling } from './infotrygd';
-import { ArbeidsgiverBuilder } from './arbeidsgiver';
 import dayjs from 'dayjs';
+import { SpesialistInfotrygdtypetekst, SpesialistPerson } from 'external-types';
+import { Arbeidsgiver, Kjønn, Person } from 'internal-types';
+
 import { utbetalingsoversikt } from '../featureToggles';
+import { ArbeidsgiverBuilder } from './arbeidsgiver';
+import { mapInfotrygdutbetaling } from './infotrygd';
+import { somDato } from './vedtaksperiode';
 
 export const mapPerson = (personFraSpesialist: SpesialistPerson): { person: Person; problems: Error[] } => {
     const { person, problems } = new PersonBuilder().addPerson(personFraSpesialist).build();

@@ -1,8 +1,11 @@
 import React from 'react';
-import { Vilkårsgruppetittel } from '../vilkårstitler';
-import { Vilkårdata } from '../../../../mapping/vilkår';
-import { Vilkårkolonne, Vilkårgrid, BehandletVarselContent } from '../Vilkår.styles';
+
 import { BehandletAvInfotrygdVarsel } from '@navikt/helse-frontend-varsel';
+
+import { Vilkårdata } from '../../../../mapping/vilkår';
+
+import { Vilkårkolonne, Vilkårgrid, BehandletVarselContent } from '../Vilkår.styles';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface VurdertIInfotrygdProps {
     vilkår: Vilkårdata[];

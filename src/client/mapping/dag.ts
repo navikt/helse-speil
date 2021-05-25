@@ -8,6 +8,7 @@ import {
     SpleisVilkår,
 } from 'external-types';
 import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+
 import { somDato } from './vedtaksperiode';
 
 export const utbetalingstidslinjedag = (dag: SpleisUtbetalingsdagtype): Dagtype => {

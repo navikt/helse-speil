@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs';
 import {
     Arbeidsgiver,
     Sykdomsdag,
@@ -7,9 +8,9 @@ import {
     Utbetalingstype,
     Vedtaksperiode as FullstendigVedtaksperiode,
 } from 'internal-types';
-import { Dayjs } from 'dayjs';
-import { PeriodeBuilder } from '../components/tidslinje/periodeBuilder';
 import { nanoid } from 'nanoid';
+
+import { PeriodeBuilder } from '../components/tidslinje/periodeBuilder';
 import { usePerson } from '../state/person';
 
 type Vedtaksperiode = FullstendigVedtaksperiode | UfullstendigVedtaksperiode;

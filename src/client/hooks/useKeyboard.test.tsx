@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { Key, useKeyboard } from './useKeyboard';
 import '@testing-library/jest-dom/extend-expect';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React, { useState } from 'react';
+
+import { Key, useKeyboard } from './useKeyboard';
 
 afterEach(cleanup);
 

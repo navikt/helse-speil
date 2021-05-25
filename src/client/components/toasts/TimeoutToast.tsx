@@ -1,8 +1,10 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import React, { CSSProperties, useEffect, useState } from 'react';
+
+import { useRemoveToast } from '../../state/toasts';
+
 import { AnimatedToast } from './AnimatedToast';
 import { ToastProps } from './Toast';
-import { useRemoveToast } from '../../state/toasts';
 
 interface TimeoutToastProps extends ToastProps {
     toastKey: string;

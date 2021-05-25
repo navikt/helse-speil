@@ -1,17 +1,20 @@
+import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import React, { ReactNode } from 'react';
-import { IkonDialog } from './icons/IkonDialog';
-import { IkonHistorikk } from './icons/IkonHistorikk';
-import { IkonDokumenter } from './icons/IkonDokumenter';
-import { HendelseMedTidspunkt, mapAnnullering, mapDokumenter, mapGodkjenninger, mapOverstyringer } from './mapping';
+
 import {
     Hendelse as LoggHendelse,
     Hendelsetype,
     LoggProvider as EksternLoggProvider,
 } from '@navikt/helse-frontend-logg';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
+
 import { usePerson } from '../../../state/person';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
+
+import { IkonDialog } from './icons/IkonDialog';
+import { IkonDokumenter } from './icons/IkonDokumenter';
+import { IkonHistorikk } from './icons/IkonHistorikk';
+import { HendelseMedTidspunkt, mapAnnullering, mapDokumenter, mapGodkjenninger, mapOverstyringer } from './mapping';
 
 interface LoggProviderProps {
     children: ReactNode | ReactNode[];

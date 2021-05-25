@@ -1,23 +1,25 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { Flex, FlexColumn } from '../../../components/Flex';
+import { Person, Vedtaksperiode } from 'internal-types';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Vilkår } from '../vilkår/Vilkår';
-import { Utbetaling } from '../utbetaling/Utbetaling';
+
+import { LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
+import '@navikt/helse-frontend-logg/lib/main.css';
+
+import { ErrorBoundary } from '../../../components/ErrorBoundary';
+import { Flex, FlexColumn } from '../../../components/Flex';
+import { useArbeidsforhold, useArbeidsgivernavn, useOrganisasjonsnummer } from '../../../modell/Arbeidsgiver';
+
+import { AmplitudeProvider } from '../AmplitudeContext';
+import { getErrorMelding, LoggHeader } from '../Saksbilde';
+import { Faresignaler } from '../faresignaler/Faresignaler';
+import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Sykmeldingsperiode } from '../sykmeldingsperiode/Sykmeldingsperiode';
 import { Toppvarsler } from '../toppvarsler/Toppvarsler';
-import { LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
-import { Sakslinje } from '../sakslinje/Sakslinje';
-import { AmplitudeProvider } from '../AmplitudeContext';
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
-import { Person, Vedtaksperiode } from 'internal-types';
-import { Faresignaler } from '../faresignaler/Faresignaler';
+import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Utbetalingshistorikk } from '../utbetalingshistorikk/Utbetalingshistorikk';
-
-import '@navikt/helse-frontend-logg/lib/main.css';
-import { getErrorMelding, LoggHeader } from '../Saksbilde';
-import { useArbeidsforhold, useArbeidsgivernavn, useOrganisasjonsnummer } from '../../../modell/Arbeidsgiver';
+import { Vilkår } from '../vilkår/Vilkår';
 
 interface SaksbildeVedtaksperiodeProps {
     personTilBehandling: Person;

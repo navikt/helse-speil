@@ -1,30 +1,34 @@
+import styled from '@emotion/styled';
+import { Dayjs } from 'dayjs';
+import { Dagtype } from 'internal-types';
 import React from 'react';
-import { Flex } from '../../../components/Flex';
-import { Sakslinje } from '../sakslinje/Sakslinje';
+
+import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
+
 import '@navikt/helse-frontend-logg/lib/main.css';
+
+import { Flex } from '../../../components/Flex';
+import { Clipboard } from '../../../components/clipboard';
+import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
+import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
+import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
+import { useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import {
     Tidslinjeperiode,
     useGjenståendeDager,
     useMaksdato,
     useNettobeløp,
 } from '../../../modell/UtbetalingshistorikkElement';
-import { useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
-import { LoggHeader } from '../Saksbilde';
-import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
-import styled from '@emotion/styled';
-import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
-import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
-import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
-import { Dayjs } from 'dayjs';
-import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
-import { Clipboard } from '../../../components/clipboard';
 import { useSykepengegrunnlag } from '../../../state/person';
-import { somPenger } from '../../../utils/locale';
-import { Dagtype } from 'internal-types';
-import { Utbetalingsoversikt } from '../utbetaling/Utbetalingsoversikt';
-import { RevurderingEtikett } from '../../oversikt/Oppgaveetikett';
-import { Utbetalingsdialog } from '../utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 import { useOppgavereferanse } from '../../../state/tidslinje';
+import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { somPenger } from '../../../utils/locale';
+
+import { RevurderingEtikett } from '../../oversikt/Oppgaveetikett';
+import { LoggHeader } from '../Saksbilde';
+import { Sakslinje } from '../sakslinje/Sakslinje';
+import { Utbetalingsdialog } from '../utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
+import { Utbetalingsoversikt } from '../utbetaling/Utbetalingsoversikt';
 
 const Arbeidsflate = styled.section`
     display: flex;

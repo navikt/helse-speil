@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
-import { somPenger } from '../../../../utils/locale';
-import Lenke from 'nav-frontend-lenker';
-import { SimuleringsinfoModal } from './SimuleringsinfoModal';
 import { Link } from 'react-router-dom';
-import { Utbetaling } from './utbetaling/Utbetaling';
+
+import Lenke from 'nav-frontend-lenker';
+import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
+
 import { Flex } from '../../../../components/Flex';
 import { usePerson, useSkalAnonymiserePerson } from '../../../../state/person';
 import { useAktivVedtaksperiode } from '../../../../state/tidslinje';
+import { somPenger } from '../../../../utils/locale';
+
+import { SimuleringsinfoModal } from './SimuleringsinfoModal';
+import { Utbetaling } from './utbetaling/Utbetaling';
 
 const Infogruppe = styled.section`
     line-height: 22px;

@@ -1,12 +1,15 @@
-import { Inntektsgrunnlag } from 'internal-types';
-import Inntektssammenligning from './Inntektssammenligning';
-import { Element } from 'nav-frontend-typografi';
-import { somPenger } from '../../../utils/locale';
-import React from 'react';
 import styled from '@emotion/styled';
-import Avvikssammenligning from './Avvikssammenligning';
-import { Divider, Kategoritittel, Kolonnetittel, Total } from './InntekttabellKomponenter';
+import { Inntektsgrunnlag } from 'internal-types';
+import React from 'react';
+
+import { Element } from 'nav-frontend-typografi';
+
+import { somPenger } from '../../../utils/locale';
+
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import Avvikssammenligning from './Avvikssammenligning';
+import Inntektssammenligning from './Inntektssammenligning';
+import { Divider, Kategoritittel, Kolonnetittel, Total } from './InntekttabellKomponenter';
 
 interface InntektsgrunnlaginnholdProps {
     inntektsgrunnlag: Inntektsgrunnlag;

@@ -1,5 +1,5 @@
-import { atom, selector } from 'recoil';
 import { Opptegnelse, OpptegnelseType } from 'external-types';
+import { atom, selector } from 'recoil';
 
 export const opptegnelsePollingState = atom<boolean>({
     key: 'opptegnelsePollingState',

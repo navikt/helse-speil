@@ -1,3 +1,4 @@
+import { renderHook } from '@testing-library/react-hooks';
 import dayjs, { Dayjs } from 'dayjs';
 import {
     Dagtype,
@@ -8,15 +9,16 @@ import {
     Utbetalingstype,
     Vedtaksperiode,
 } from 'internal-types';
-import { tilPeriodetilstand, useTidslinjerader } from './useTidslinjerader';
-import { mappetPersonObject } from '../../../test/data/person';
-import { renderHook } from '@testing-library/react-hooks';
+
 import {
     Periodetype,
     utbetalingshistorikkelement,
     UtbetalingshistorikkElement,
     Utbetalingstatus,
 } from '../../modell/UtbetalingshistorikkElement';
+
+import { mappetPersonObject } from '../../../test/data/person';
+import { tilPeriodetilstand, useTidslinjerader } from './useTidslinjerader';
 
 type Vedtaksperioder = (Vedtaksperiode | UfullstendigVedtaksperiode)[];
 

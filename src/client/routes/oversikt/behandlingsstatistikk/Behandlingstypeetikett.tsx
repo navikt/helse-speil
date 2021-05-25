@@ -1,4 +1,5 @@
 import React, { CSSProperties } from 'react';
+
 import { AnnullertIkon, UtbetaltAutomatiskIkon, UtbetaltIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
 
 interface BehandlingstypeetikettProps {

@@ -1,5 +1,6 @@
-import { Person, Vedtaksperiode } from 'internal-types';
 import dayjs, { Dayjs } from 'dayjs';
+import { Person, Vedtaksperiode } from 'internal-types';
+
 import { trimLedendeArbeidsdager } from '../routes/saksbilde/sykmeldingsperiode/Sykmeldingsperiode';
 
 const tidligsteVedtaksperiode = (a: Vedtaksperiode, b: Vedtaksperiode) => {

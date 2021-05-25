@@ -1,10 +1,12 @@
+import styled from '@emotion/styled';
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactChild, useEffect, useRef, useState } from 'react';
+
+import { Normaltekst } from 'nav-frontend-typografi';
+
+import { Flex } from '../Flex';
 import { ClipboardIcon } from './icons/ClipboardIcon';
 import { copyContentsToClipboard } from './util';
-import { Flex } from '../Flex';
-import styled from '@emotion/styled';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { AnimatePresence, motion } from 'framer-motion';
 
 const Button = styled.button`
     position: relative;

@@ -1,18 +1,20 @@
+import styled from '@emotion/styled';
+import { Person, Vedtaksperiode } from 'internal-types';
 import React from 'react';
+
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import { Flex } from '../../../components/Flex';
+import { førsteVedtaksperiode } from '../../../mapping/selectors';
+import { Vilkårdata } from '../../../mapping/vilkår';
+
+import { Strek } from './Vilkår.styles';
 import { tilKategoriserteVilkår } from './tilKategoriserteVilkår';
+import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
-import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
+import { VurdertAutomatisk } from './vilkårsgrupper/VurdertAutomatisk';
 import { VurdertAvSaksbehandler } from './vilkårsgrupper/VurdertAvSaksbehandler';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
-import { VurdertAutomatisk } from './vilkårsgrupper/VurdertAutomatisk';
-import styled from '@emotion/styled';
-import { førsteVedtaksperiode } from '../../../mapping/selectors';
-import { Flex } from '../../../components/Flex';
-import { Vilkårdata } from '../../../mapping/vilkår';
-import { Strek } from './Vilkår.styles';
-import { Person, Vedtaksperiode } from 'internal-types';
 
 const Container = styled.div`
     margin-top: 2rem;

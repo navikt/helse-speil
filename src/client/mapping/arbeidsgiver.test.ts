@@ -1,10 +1,12 @@
-import { umappetPerson } from '../../test/data/person';
-import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
-import { ArbeidsgiverBuilder } from './arbeidsgiver';
-import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
 import dayjs from 'dayjs';
-import { umappetInntektsgrunnlag } from '../../test/data/inntektsgrunnlag';
+
 import { NORSK_DATOFORMAT } from '../utils/date';
+
+import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
+import { umappetInntektsgrunnlag } from '../../test/data/inntektsgrunnlag';
+import { umappetPerson } from '../../test/data/person';
+import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
+import { ArbeidsgiverBuilder } from './arbeidsgiver';
 
 describe('ArbeidsgiverBuilder', () => {
     test('markerer siste vedtaksperiode som nyeste', () => {

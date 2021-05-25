@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isoWeek from 'dayjs/plugin/isoWeek';
 
 dayjs.extend(isoWeek);
 dayjs.extend(isSameOrBefore);

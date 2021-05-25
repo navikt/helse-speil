@@ -1,21 +1,24 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import Oppsummering from './Oppsummering/Oppsummering';
+import { Dayjs } from 'dayjs';
+import { Arbeidsforhold as ArbeidsforholdListe, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import React from 'react';
 import { Link } from 'react-router-dom';
+
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Flex } from '../../../components/Flex';
 import { Clipboard } from '../../../components/clipboard';
-import { somPenger } from '../../../utils/locale';
-import { Vilkårsliste } from './Vilkårsoversikt';
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { Utbetalingsoversikt } from './Utbetalingsoversikt';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
-import { Arbeidsforhold } from '../Arbeidsforhold';
-import { Arbeidsforhold as ArbeidsforholdListe, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import { usePerson, useSkalAnonymiserePerson } from '../../../state/person';
-import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { useAktivVedtaksperiode } from '../../../state/tidslinje';
-import { Dayjs } from 'dayjs';
+import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { somPenger } from '../../../utils/locale';
+
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import { Arbeidsforhold } from '../Arbeidsforhold';
+import Oppsummering from './Oppsummering/Oppsummering';
+import { Utbetalingsoversikt } from './Utbetalingsoversikt';
+import { Vilkårsliste } from './Vilkårsoversikt';
 
 const Arbeidsflate = styled.section`
     display: flex;

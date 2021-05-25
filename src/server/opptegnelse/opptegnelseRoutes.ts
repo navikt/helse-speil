@@ -1,7 +1,8 @@
 import { Response, Router } from 'express';
-import { OpptegnelseClient } from './opptegnelseClient';
+
 import logger from '../logging';
 import { SpeilRequest } from '../types';
+import { OpptegnelseClient } from './opptegnelseClient';
 
 interface SetupOptions {
     opptegnelseClient: OpptegnelseClient;

@@ -1,10 +1,14 @@
-import React, { ReactNode } from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { oppgaverState, useTildeling } from './oppgaver';
 import { RecoilRoot, useRecoilValueLoadable } from 'recoil';
 import { Inntektskilde, Oppgave, Periodetype, Saksbehandler } from 'internal-types';
 import dayjs from 'dayjs';
+import { Inntektskilde, Oppgave, Periodetype } from 'internal-types';
+import React, { ReactNode } from 'react';
+import { RecoilRoot } from 'recoil';
+
+import { useTildeling } from './oppgaver';
 
 declare global {
     namespace NodeJS {

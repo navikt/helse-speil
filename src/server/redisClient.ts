@@ -1,6 +1,7 @@
 import redis from 'redis';
-import { Helsesjekk, RedisConfig } from './types';
+
 import logger from './logging';
+import { Helsesjekk, RedisConfig } from './types';
 
 const init = (config: RedisConfig, helsesjekk: Helsesjekk) => {
     const redisClient = redis.createClient({

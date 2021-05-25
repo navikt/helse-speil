@@ -1,8 +1,9 @@
+import { Response, Router } from 'express';
+
 import logger from '../logging';
+import { SpeilRequest } from '../types';
 import { AnnulleringClient } from './annulleringClient';
 import { VedtakClient } from './vedtakClient';
-import { Response, Router } from 'express';
-import { SpeilRequest } from '../types';
 
 interface SetupOptions {
     vedtakClient: VedtakClient;

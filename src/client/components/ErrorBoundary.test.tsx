@@ -1,7 +1,8 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { ErrorBoundary } from './ErrorBoundary';
 import '@testing-library/jest-dom/extend-expect';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+
+import { ErrorBoundary } from './ErrorBoundary';
 
 const swallowErrorsInJsDom = () => {
     window.addEventListener('error', (event: Event) => event.preventDefault());

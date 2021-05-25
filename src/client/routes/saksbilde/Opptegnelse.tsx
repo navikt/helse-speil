@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Sidetittel } from 'nav-frontend-typografi';
+
 import { Flatknapp } from 'nav-frontend-knapper';
+import { Sidetittel } from 'nav-frontend-typografi';
+
 import { getAlleOpptegnelser, getOpptegnelser, postAbonnerPåAktør } from '../../io/http';
 
 const abonnerPåAktør = (aktørId: string) => {

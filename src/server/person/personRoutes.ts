@@ -1,8 +1,9 @@
 import { Response, Router } from 'express';
-import personLookup from './personLookup';
+
+import logger from '../logging';
 import { PersonDependencies, SpeilRequest } from '../types';
 import { PersonClient, PersonoppdateringOptions } from './personClient';
-import logger from '../logging';
+import personLookup from './personLookup';
 
 const router = Router();
 

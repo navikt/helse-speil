@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import minMax from 'dayjs/plugin/minMax';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import minMax from 'dayjs/plugin/minMax';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);

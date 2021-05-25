@@ -1,8 +1,10 @@
+import styled from '@emotion/styled';
 import React from 'react';
-import { Tidslinjeutsnitt } from './Tidslinje.types';
+
 import { Togglegruppe } from '@navikt/helse-frontend-toggle';
 import '@navikt/helse-frontend-toggle/lib/main.css';
-import styled from '@emotion/styled';
+
+import { Tidslinjeutsnitt } from './Tidslinje.types';
 
 const Container = styled.div`
     bottom: 0;

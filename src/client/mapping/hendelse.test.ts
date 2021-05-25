@@ -1,6 +1,7 @@
 import { SpleisHendelsetype, SpleisInntektsmelding, SpleisSykmelding, SpleisSøknad } from 'external-types';
-import { mapHendelse } from './hendelse';
 import { Inntektsmelding, Kildetype, Sykmelding, Søknad } from 'internal-types';
+
+import { mapHendelse } from './hendelse';
 import { somDato, somTidspunkt } from './vedtaksperiode';
 
 describe('mapHendelse', () => {

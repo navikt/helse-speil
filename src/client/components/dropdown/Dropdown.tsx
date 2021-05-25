@@ -1,10 +1,12 @@
-import React, { HTMLAttributes, useState } from 'react';
 import styled from '@emotion/styled';
-import { Button } from '../Button';
-import NavFrontendChevron from 'nav-frontend-chevron';
 import classNames from 'classnames';
+import React, { HTMLAttributes, useState } from 'react';
+
+import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'nav-frontend-knapper';
 import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+
+import { Button } from '../Button';
 
 const EnkelKnapp = styled(Button)`
     display: flex;

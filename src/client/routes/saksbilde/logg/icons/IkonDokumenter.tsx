@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Ikon, IkonProps } from './Ikon';
 
 export const IkonDokumenter = ({ width = 24, height = 20 }: IkonProps) => (

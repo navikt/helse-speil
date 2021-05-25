@@ -1,9 +1,11 @@
-import React from 'react';
-import { Varsel } from '@navikt/helse-frontend-varsel';
-import { useRecoilValue } from 'recoil';
-import { VarselObject, varslerForScope } from '../state/varsler';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
+import React from 'react';
+import { useRecoilValue } from 'recoil';
+
+import { Varsel } from '@navikt/helse-frontend-varsel';
+
+import { VarselObject, varslerForScope } from '../state/varsler';
 
 const Separator = styled.span`
     margin-left: 1rem;

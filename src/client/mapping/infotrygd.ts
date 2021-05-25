@@ -5,6 +5,7 @@ import {
     SpleisForlengelseFraInfotrygd,
 } from 'external-types';
 import { InfotrygdTypetekst, Infotrygdutbetaling, Periodetype, Vedtaksperiode } from 'internal-types';
+
 import { somDato } from './vedtaksperiode';
 
 export const erInfotrygdforlengelse = (vedtaksperiode: Vedtaksperiode) =>

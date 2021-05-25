@@ -1,6 +1,4 @@
-import { mapPerson } from '../../client/mapping/person';
-import { umappetArbeidsgiver } from './arbeidsgiver';
-import { umappetUtbetalinger } from './SpesialistUtbetaling';
+import dayjs from 'dayjs';
 import {
     Dagtype,
     Inntektskilde,
@@ -12,13 +10,17 @@ import {
     Utbetalingstype,
     Vedtaksperiodetilstand,
 } from 'internal-types';
-import dayjs from 'dayjs';
-import { umappetSimuleringsdata } from './simulering';
-import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
+
+import { mapPerson } from '../../client/mapping/person';
 import {
     Periodetype as UtbetalingshistorikkPeriodetype,
     Utbetalingstatus,
 } from '../../client/modell/UtbetalingshistorikkElement';
+
+import { umappetUtbetalinger } from './SpesialistUtbetaling';
+import { umappetArbeidsgiver } from './arbeidsgiver';
+import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
+import { umappetSimuleringsdata } from './simulering';
 
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],

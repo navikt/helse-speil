@@ -1,7 +1,8 @@
 import { Response, Router } from 'express';
-import { OverstyringClient } from './overstyringClient';
+
 import logger from '../logging';
 import { SpeilRequest } from '../types';
+import { OverstyringClient } from './overstyringClient';
 
 interface SetupOptions {
     overstyringClient: OverstyringClient;

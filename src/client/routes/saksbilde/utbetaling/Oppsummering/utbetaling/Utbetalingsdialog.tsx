@@ -1,19 +1,23 @@
-import React, {useContext, useState} from 'react';
 import styled from '@emotion/styled';
-import {useHistory} from 'react-router';
-import {Normaltekst} from 'nav-frontend-typografi';
-import {Avvisningsmodal} from './Avvisningsmodal';
-import {Utbetalingsmodal} from './Utbetalingsmodal';
-import {Hovedknapp, Knapp} from 'nav-frontend-knapper';
-import {postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning} from '../../../../../io/http';
-import {AmplitudeContext} from '../../../AmplitudeContext';
-import {Arbeidsgiver, Error, Person, Vedtaksperiode, Vedtaksperiodetilstand} from 'internal-types';
-import {usePerson} from '../../../../../state/person';
-import {useSetRecoilState} from 'recoil';
-import {opptegnelsePollingTimeState} from '../../../../../state/opptegnelser';
-import {Scopes, useAddEphemeralVarsel} from '../../../../../state/varsler';
-import {nanoid} from 'nanoid';
-import {Varseltype} from '@navikt/helse-frontend-varsel';
+import { Arbeidsgiver, Error, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { nanoid } from 'nanoid';
+import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router';
+import { useSetRecoilState } from 'recoil';
+
+import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
+import { Normaltekst } from 'nav-frontend-typografi';
+
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+
+import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
+import { opptegnelsePollingTimeState } from '../../../../../state/opptegnelser';
+import { usePerson } from '../../../../../state/person';
+import { Scopes, useAddEphemeralVarsel } from '../../../../../state/varsler';
+
+import { AmplitudeContext } from '../../../AmplitudeContext';
+import { Avvisningsmodal } from './Avvisningsmodal';
+import { Utbetalingsmodal } from './Utbetalingsmodal';
 
 enum Modalvisning {
     Godkjenning,

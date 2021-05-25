@@ -1,7 +1,9 @@
-import { Flex } from '../../../components/Flex';
-import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import React, { ReactNode } from 'react';
+
 import { Progresjonsbar } from '@navikt/helse-frontend-progresjonsbar';
+
+import { Flex } from '../../../components/Flex';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 
 interface StatistikklinjeProps {

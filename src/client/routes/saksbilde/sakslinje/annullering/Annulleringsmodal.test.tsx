@@ -1,17 +1,19 @@
-import React from 'react';
+import '@testing-library/jest-dom/extend-expect';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import dayjs, { Dayjs } from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import userEvent from '@testing-library/user-event';
-import { authState } from '../../../../state/authentication';
-import { RecoilRoot } from 'recoil';
-import { VedtaksperiodeBuilder } from '../../../../mapping/vedtaksperiode';
-import { Annulleringsmodal } from './Annulleringsmodal';
-import { Kjønn, Overstyring, Vedtaksperiode } from 'internal-types';
-import { umappetVedtaksperiode } from '../../../../../test/data/vedtaksperiode';
-import { render, screen, waitFor } from '@testing-library/react';
-import { AnnulleringDTO } from '../../../../io/types';
-import '@testing-library/jest-dom/extend-expect';
 import { SpesialistArbeidsgiver } from 'external-types';
+import { Kjønn, Overstyring, Vedtaksperiode } from 'internal-types';
+import React from 'react';
+import { RecoilRoot } from 'recoil';
+
+import { AnnulleringDTO } from '../../../../io/types';
+import { VedtaksperiodeBuilder } from '../../../../mapping/vedtaksperiode';
+import { authState } from '../../../../state/authentication';
+
+import { umappetVedtaksperiode } from '../../../../../test/data/vedtaksperiode';
+import { Annulleringsmodal } from './Annulleringsmodal';
 
 dayjs.extend(isSameOrAfter);
 

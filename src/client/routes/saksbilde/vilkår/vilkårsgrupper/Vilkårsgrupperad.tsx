@@ -1,6 +1,7 @@
-import React, { ReactNode } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
+import React, { ReactNode } from 'react';
+
+import { Normaltekst } from 'nav-frontend-typografi';
 
 interface Props {
     label: string;

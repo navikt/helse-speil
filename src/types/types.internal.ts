@@ -1,5 +1,6 @@
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
+
 import { UtbetalingshistorikkElement, Utbetalingstatus } from '../client/modell/UtbetalingshistorikkElement';
 
 export interface Periode {

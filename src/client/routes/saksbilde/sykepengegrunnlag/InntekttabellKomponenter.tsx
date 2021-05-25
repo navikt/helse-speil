@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+
 import { Undertekst } from 'nav-frontend-typografi';
 import { Element } from 'nav-frontend-typografi';
 

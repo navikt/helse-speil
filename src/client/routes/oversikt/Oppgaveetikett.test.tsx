@@ -1,8 +1,9 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { Oppgaveetikett } from './Oppgaveetikett';
+import { render, screen } from '@testing-library/react';
 import { Periodetype } from 'internal-types';
+import React from 'react';
+
+import { Oppgaveetikett } from './Oppgaveetikett';
 
 describe('Oppgaveetikett', () => {
     test('viser riktig etikett for forlengelser med label', () => {

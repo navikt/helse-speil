@@ -1,10 +1,12 @@
-import React, { useContext } from 'react';
-import { postForespørPersonoppdatering } from '../../../io/http';
-import { Scopes, useAddVarsel, useRemoveVarsel } from '../../../state/varsler';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
-import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { usePerson } from '../../../state/person';
 import { Person } from 'internal-types';
+import React, { useContext } from 'react';
+
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+
+import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
+import { postForespørPersonoppdatering } from '../../../io/http';
+import { usePerson } from '../../../state/person';
+import { Scopes, useAddVarsel, useRemoveVarsel } from '../../../state/varsler';
 
 const personoppdateringvarselKey = 'personoppdatering';
 

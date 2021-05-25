@@ -1,16 +1,7 @@
-import {
-    somDato,
-    somInntekt,
-    somKanskjeDato,
-    somKanskjeTidspunkt,
-    somNorskDato,
-    somProsent,
-    somTidspunkt,
-    VedtaksperiodeBuilder,
-} from './vedtaksperiode';
-import { ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
-import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
-import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
+import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import { SpesialistInntektkilde, SpesialistPerson, SpleisVedtaksperiodetilstand } from 'external-types';
 import {
     Dagtype,
     Inntektsgrunnlag,
@@ -21,13 +12,24 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
-import { mappetSimuleringsdata } from '../../test/data/simulering';
-import { umappetOverstyring } from '../../test/data/overstyring';
-import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import { SpesialistInntektkilde, SpesialistPerson, SpleisVedtaksperiodetilstand } from 'external-types';
+
+import { ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
+
+import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetInntektsgrunnlag } from '../../test/data/inntektsgrunnlag';
+import { umappetOverstyring } from '../../test/data/overstyring';
+import { mappetSimuleringsdata } from '../../test/data/simulering';
+import { mappetVedtaksperiode, umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
+import {
+    somDato,
+    somInntekt,
+    somKanskjeDato,
+    somKanskjeTidspunkt,
+    somNorskDato,
+    somProsent,
+    somTidspunkt,
+    VedtaksperiodeBuilder,
+} from './vedtaksperiode';
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);

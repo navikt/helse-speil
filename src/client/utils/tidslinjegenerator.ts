@@ -1,5 +1,5 @@
-import { SpleisUtbetalingsdag, SpleisUtbetalingsdagtype } from 'external-types';
 import { Dayjs } from 'dayjs';
+import { SpleisUtbetalingsdag, SpleisUtbetalingsdagtype } from 'external-types';
 
 const finnDagType = (dato: Dayjs, i: number): SpleisUtbetalingsdagtype => {
     if (i < 16) return SpleisUtbetalingsdagtype.ARBEIDSGIVERPERIODE;

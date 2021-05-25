@@ -1,14 +1,17 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { Arbeidsgiverinntekt, Inntektsgrunnlag, Periodetype, Person, Vedtaksperiode } from 'internal-types';
-import { førsteVedtaksperiode, skjæringstidspunktForPeriode } from '../../../mapping/selectors';
+import React from 'react';
+
 import { BehandletAvInfotrygdVarsel, BehandletVarsel } from '@navikt/helse-frontend-varsel';
+
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import Inntektskilderinnhold from './Inntektskilderinnhold';
-import Inntektsgrunnlaginnhold from './Inntektsgrunnlaginnhold';
-import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
+import { førsteVedtaksperiode, skjæringstidspunktForPeriode } from '../../../mapping/selectors';
 import { useSkalAnonymiserePerson } from '../../../state/person';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
+
+import Inntektsgrunnlaginnhold from './Inntektsgrunnlaginnhold';
+import Inntektskilderinnhold from './Inntektskilderinnhold';
+import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
 
 const StyledBehandletInnhold = styled(BehandletVarsel)`
     margin: 2rem 2rem;

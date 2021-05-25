@@ -1,5 +1,6 @@
-import { OidcConfig, OnBehalfOf } from '../types';
 import request from 'request-promise-native';
+
+import { OidcConfig, OnBehalfOf } from '../types';
 
 export interface OpptegnelseClient {
     abonnerPåAktør: (speilToken: string, aktorId: string) => Promise<Response>;

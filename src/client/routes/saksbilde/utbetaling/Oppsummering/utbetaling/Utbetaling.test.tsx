@@ -1,14 +1,16 @@
-import React from 'react';
-import { Utbetaling } from './Utbetaling';
-import { MemoryRouter } from 'react-router';
-import { render, screen } from '@testing-library/react';
-import { Avvisningsskjema } from './Utbetalingsdialog';
-import { Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import '@testing-library/jest-dom/extend-expect';
-import '../../../../../tekster';
-import { VedtaksperiodeBuilder } from '../../../../../mapping/vedtaksperiode';
-import { umappetVedtaksperiode } from '../../../../../../test/data/vedtaksperiode';
+import { render, screen } from '@testing-library/react';
 import { SpesialistArbeidsgiver } from 'external-types';
+import { Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import React from 'react';
+import { MemoryRouter } from 'react-router';
+
+import { VedtaksperiodeBuilder } from '../../../../../mapping/vedtaksperiode';
+
+import { umappetVedtaksperiode } from '../../../../../../test/data/vedtaksperiode';
+import '../../../../../tekster';
+import { Utbetaling } from './Utbetaling';
+import { Avvisningsskjema } from './Utbetalingsdialog';
 
 const UtbetalingView = ({ vedtaksperiode }: { vedtaksperiode: Vedtaksperiode }) => (
     <MemoryRouter>

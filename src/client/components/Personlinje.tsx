@@ -1,17 +1,20 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { Kjønn, Person } from 'internal-types';
-import { Clipboard } from './clipboard';
-import { Manneikon } from './ikoner/Manneikon';
-import { Kvinneikon } from './ikoner/Kvinneikon';
-import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { utbetalingsoversikt } from '../featureToggles';
+
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+
 import { useSkalAnonymiserePerson } from '../state/person';
-import { anonymisertPersoninfo } from '../agurkdata';
 import { NORSK_DATOFORMAT } from '../utils/date';
 import { capitalizeName } from '../utils/locale';
+
+import { anonymisertPersoninfo } from '../agurkdata';
+import { utbetalingsoversikt } from '../featureToggles';
+import { Clipboard } from './clipboard';
+import { KjønnsnøytraltIkon } from './ikoner/KjønnsnøytraltIkon';
+import { Kvinneikon } from './ikoner/Kvinneikon';
+import { Manneikon } from './ikoner/Manneikon';
 
 const formatFnr = (fnr: string) => fnr.slice(0, 6) + ' ' + fnr.slice(6);
 

@@ -1,7 +1,8 @@
 import { Dayjs } from 'dayjs';
-import { PositionedPeriod } from '@navikt/helse-frontend-timeline/lib';
 import { Revurderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
 import { ReactNode } from 'react';
+
+import { PositionedPeriod } from '@navikt/helse-frontend-timeline/lib';
 
 export interface Tidslinjeutsnitt {
     fom: Dayjs;

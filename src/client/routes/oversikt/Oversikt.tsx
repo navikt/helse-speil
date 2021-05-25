@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import styled from '@emotion/styled';
+import { Oppgave } from 'internal-types';
+import { nanoid } from 'nanoid';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
+
 import Panel from 'nav-frontend-paneler';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import { Scopes, useVarselFilter } from '../../state/varsler';
-import { OppgaverTabell } from './OppgaverTabell';
-import { Tabs, tabState } from './tabs';
+
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+
+import { Flex } from '../../components/Flex';
 import { useDebounce } from '../../hooks/useDebounce';
-import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
-import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
+import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { personState } from '../../state/person';
 import { useAddToast, useRemoveToast } from '../../state/toasts';
-import { nanoid } from 'nanoid';
+import { Scopes, useVarselFilter } from '../../state/varsler';
+
 import { nullstillAgurkData } from '../../agurkdata';
-import { Oppgave } from 'internal-types';
-import { Flex } from '../../components/Flex';
+import { OppgaverTabell } from './OppgaverTabell';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
+import { Tabs, tabState } from './tabs';
 
 const Container = styled.div`
     position: relative;

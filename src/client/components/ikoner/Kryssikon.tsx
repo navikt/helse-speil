@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Ikon, IkonProps } from './Ikon';
 
 export const Kryssikon = ({ viewBox = '0 0 16 16' }: IkonProps) => (

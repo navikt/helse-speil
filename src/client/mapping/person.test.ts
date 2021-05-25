@@ -1,5 +1,4 @@
-import { mapPerson } from './person';
-import { Vedtaksperiode } from 'internal-types';
+import dayjs from 'dayjs';
 import {
     SpleisAktivitet,
     SpleisAlvorlighetsgrad,
@@ -8,16 +7,19 @@ import {
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
 } from 'external-types';
-import dayjs from 'dayjs';
+import { Vedtaksperiode } from 'internal-types';
+
 import { ISO_TIDSPUNKTFORMAT } from '../utils/date';
+
+import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
+import { mappetPersonObject, umappetPerson } from '../../test/data/person';
 import {
     medEkstraSykdomsdager,
     medLedendeSykdomsdager,
     medUtbetalingstidslinje,
     umappetVedtaksperiode,
 } from '../../test/data/vedtaksperiode';
-import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
-import { mappetPersonObject, umappetPerson } from '../../test/data/person';
+import { mapPerson } from './person';
 
 jest.mock('nanoid', () => ({
     nanoid: () => 'nanoid',

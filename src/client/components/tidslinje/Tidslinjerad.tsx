@@ -1,11 +1,14 @@
-import { TidslinjeradObject } from './useTidslinjerader';
-import { InfotrygdradObject } from './useInfotrygdrader';
 import styled from '@emotion/styled';
-import { Row } from '@navikt/helse-frontend-timeline/lib';
-import { Tidslinjeperiode } from './Tidslinjeperiode';
-import { TidslinjeTooltip } from './TidslinjeTooltip';
 import React from 'react';
+
+import { Row } from '@navikt/helse-frontend-timeline/lib';
+
 import { useAktivPeriode, useSetAktivPeriode } from '../../state/tidslinje';
+
+import { TidslinjeTooltip } from './TidslinjeTooltip';
+import { Tidslinjeperiode } from './Tidslinjeperiode';
+import { InfotrygdradObject } from './useInfotrygdrader';
+import { TidslinjeradObject } from './useTidslinjerader';
 
 interface TidslinjeradProps {
     rad: TidslinjeradObject | InfotrygdradObject;

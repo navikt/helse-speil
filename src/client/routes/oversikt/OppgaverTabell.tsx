@@ -1,9 +1,14 @@
+import styled from '@emotion/styled';
+import { Oppgave } from 'internal-types';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
-import { renderer, tilOversiktsrad } from './rader';
+
 import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
-import styled from '@emotion/styled';
+import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
+import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
+
+import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
+import { Paginering } from './Paginering';
 import {
     enArbeidsgiverFilter,
     flereArbeidsgivereFilter,
@@ -16,13 +21,10 @@ import {
     tildelteOppgaverFilter,
     ufordelteOppgaverFilter,
 } from './filtrering';
+import { renderer, tilOversiktsrad } from './rader';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
-import { Paginering } from './Paginering';
+import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
 import { tabState } from './tabs';
-import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
-import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
-import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
-import { Oppgave } from 'internal-types';
 
 const Container = styled.div`
     min-height: 300px;

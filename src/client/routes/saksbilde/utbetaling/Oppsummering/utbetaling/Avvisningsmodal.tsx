@@ -1,11 +1,14 @@
-import React from 'react';
 import styled from '@emotion/styled';
-import {Systemtittel} from 'nav-frontend-typografi';
-import {Knapp} from 'nav-frontend-knapper';
-import {Begrunnelsesskjema} from './Begrunnelsesskjema';
-import {FormProvider, useForm} from 'react-hook-form';
-import {Avvisningsskjema, Begrunnelse, Årsak} from './Utbetalingsdialog';
-import {Modal} from '../../../../../components/Modal';
+import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+
+import { Knapp } from 'nav-frontend-knapper';
+import { Systemtittel } from 'nav-frontend-typografi';
+
+import { Modal } from '../../../../../components/Modal';
+
+import { Begrunnelsesskjema } from './Begrunnelsesskjema';
+import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';
 
 const OkKnapp = styled(Knapp)`
     margin-top: 2rem;

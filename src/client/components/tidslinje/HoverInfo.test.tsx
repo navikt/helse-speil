@@ -1,10 +1,11 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { HoverInfo, tilPeriode } from './HoverInfo';
-import { mappetVedtaksperiode } from 'test-data';
 import '@testing-library/jest-dom/extend-expect';
-import { Dagtype, Utbetalingsdag } from 'internal-types';
+import { render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
+import { Dagtype, Utbetalingsdag } from 'internal-types';
+import React from 'react';
+import { mappetVedtaksperiode } from 'test-data';
+
+import { HoverInfo, tilPeriode } from './HoverInfo';
 import { utbetalingstidslinje } from './useTidslinjerader.test';
 
 const enPeriode = mappetVedtaksperiode();

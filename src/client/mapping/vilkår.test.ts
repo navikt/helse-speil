@@ -1,8 +1,10 @@
-import { mapVilkår } from './vilkår';
-import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
-import { Opptjening, Vilkår } from 'internal-types';
-import { NORSK_DATOFORMAT } from '../utils/date';
 import { SpleisVilkår } from 'external-types';
+import { Opptjening, Vilkår } from 'internal-types';
+
+import { NORSK_DATOFORMAT } from '../utils/date';
+
+import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
+import { mapVilkår } from './vilkår';
 
 const { vilkår } = mapVilkår(umappetVedtaksperiode()) as { vilkår: Vilkår };
 

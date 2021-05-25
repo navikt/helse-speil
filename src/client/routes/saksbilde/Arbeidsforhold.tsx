@@ -1,7 +1,9 @@
-import React from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { NORSK_DATOFORMAT } from '../../utils/date';
 import { Dayjs } from 'dayjs';
+import React from 'react';
+
+import { Normaltekst } from 'nav-frontend-typografi';
+
+import { NORSK_DATOFORMAT } from '../../utils/date';
 
 interface ArbeidsforholdProps {
     stillingsprosent: number;

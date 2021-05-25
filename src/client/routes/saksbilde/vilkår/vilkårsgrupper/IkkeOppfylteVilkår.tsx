@@ -1,8 +1,10 @@
 import React from 'react';
-import { Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
-import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
-import { Vilkårdata } from '../../../../mapping/vilkår';
+
 import { Feilikon } from '../../../../components/ikoner/Feilikon';
+import { Vilkårdata } from '../../../../mapping/vilkår';
+
+import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
 
 interface IkkeOppfylteVilkårProps {
     vilkår: Vilkårdata[];

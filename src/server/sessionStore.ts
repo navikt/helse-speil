@@ -1,9 +1,9 @@
-import { AppConfig } from './types';
-
-import expressSession from 'express-session';
 import connectRedis from 'connect-redis';
-import logger from './logging';
+import expressSession from 'express-session';
 import { RedisClient } from 'redis';
+
+import logger from './logging';
+import { AppConfig } from './types';
 
 const redisStore = connectRedis(expressSession);
 

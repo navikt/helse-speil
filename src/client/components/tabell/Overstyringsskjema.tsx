@@ -1,12 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
-import Knapp from 'nav-frontend-knapper/lib/knapp';
-import Flatknapp from 'nav-frontend-knapper/lib/flatknapp';
 import styled from '@emotion/styled';
-import SkjemaGruppe from 'nav-frontend-skjema/lib/skjema-gruppe';
-import { useFormContext } from 'react-hook-form';
-import { Feiloppsummering, TextareaControlled } from 'nav-frontend-skjema';
 import { Sykdomsdag } from 'internal-types';
+import React, { useEffect, useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
+
+import Flatknapp from 'nav-frontend-knapper/lib/flatknapp';
+import Knapp from 'nav-frontend-knapper/lib/knapp';
+import { Feiloppsummering, TextareaControlled } from 'nav-frontend-skjema';
+import SkjemaGruppe from 'nav-frontend-skjema/lib/skjema-gruppe';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 const Overstyringsskjemagruppe = styled(SkjemaGruppe)`
     color: var(--navds-color-text-primary);

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
 import { useAnonymiserPerson, useSkalAnonymiserePerson } from '../../../state/person';
 

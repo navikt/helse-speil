@@ -1,6 +1,6 @@
+import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 import ReactModal from 'react-modal';
-import styled from '@emotion/styled';
 
 if (ReactModal.defaultStyles.overlay) {
     ReactModal.defaultStyles.overlay.backgroundColor = 'rgba(61, 56, 49, 0.7)';

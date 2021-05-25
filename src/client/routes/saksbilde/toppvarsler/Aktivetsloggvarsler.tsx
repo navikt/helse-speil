@@ -1,9 +1,13 @@
 import React from 'react';
-import { EkspanderbartVarsel } from '../../../components/EkspanderbartVarsel';
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+
 import { Normaltekst } from 'nav-frontend-typografi';
-import { Varselseksjon } from './Varselseksjon';
+
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+
+import { EkspanderbartVarsel } from '../../../components/EkspanderbartVarsel';
+
 import wiki from '../../../../../wiki.json';
+import { Varselseksjon } from './Varselseksjon';
 
 type WikiEntry = {
     varsel: string;

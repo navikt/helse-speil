@@ -1,7 +1,8 @@
-import React from 'react';
-import { useDebounce } from './useDebounce';
-import { renderHook, act } from '@testing-library/react-hooks';
 import { waitFor } from '@testing-library/react';
+import { renderHook, act } from '@testing-library/react-hooks';
+import React from 'react';
+
+import { useDebounce } from './useDebounce';
 
 describe('useDebounce', () => {
     test('returnerer false før timeout, true etter timeout', () => {

@@ -1,4 +1,5 @@
 import request from 'request-promise-native';
+
 import { AppConfig, OnBehalfOf } from '../types';
 
 export interface PostAnnulleringOptions {

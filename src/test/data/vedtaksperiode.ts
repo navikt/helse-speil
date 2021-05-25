@@ -1,9 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { sykdomstidslinje } from './sykdomstidslinje';
-import { utbetalingstidslinje } from './utbetalingstidslinje';
-import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
-import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
-import { hendelser } from './hendelser';
 import {
     SpesialistInntektsgrunnlag,
     SpesialistInntektskilde,
@@ -16,12 +11,19 @@ import {
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
-import { VedtaksperiodeBuilder } from '../../client/mapping/vedtaksperiode';
 import { Vedtaksperiode } from 'internal-types';
+
+import { VedtaksperiodeBuilder } from '../../client/mapping/vedtaksperiode';
+
 import { aktivitetslogg } from './aktivitetslogg';
 import { umappetArbeidsgiver } from './arbeidsgiver';
-import { umappetSimuleringsdata } from './simulering';
+import { hendelser } from './hendelser';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
+import { umappetSimuleringsdata } from './simulering';
+import { sykdomstidslinje } from './sykdomstidslinje';
+import { totalbeløpArbeidstaker, utbetalinger } from './utbetalinger';
+import { utbetalingstidslinje } from './utbetalingstidslinje';
+import { dataForVilkårsvurdering, umappedeVilkår } from './vilkår';
 
 type UmappetVedtaksperiodeOptions = {
     fom?: Dayjs;

@@ -1,9 +1,10 @@
-'use strict';
-
 import { Client, custom, Issuer } from 'openid-client';
-import { OidcConfig } from '../types';
+
 import logger from '../logging';
+import { OidcConfig } from '../types';
 import { setup as proxy } from './proxy';
+
+('use strict');
 
 let azureClient;
 const proxyAgent = proxy(Issuer, custom);

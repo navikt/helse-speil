@@ -1,14 +1,17 @@
-import React from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
 import styled from '@emotion/styled';
-import { getBehandlingsstatistikk } from '../../../io/http';
-import { Behandlingsstatistikk as Statistikk } from 'internal-types';
 import { EksternBehandlingstatistikk } from 'external-types';
+import { Behandlingsstatistikk as Statistikk } from 'internal-types';
+import React from 'react';
 import { selector, useRecoilValueLoadable } from 'recoil';
+
+import { Normaltekst } from 'nav-frontend-typografi';
+
+import { getBehandlingsstatistikk } from '../../../io/http';
 import { tilPeriodetype } from '../../../mapping/periodetype';
-import { Statistikkboks } from './Statistikkboks';
-import { Behandlingstypeetikett } from './Behandlingstypeetikett';
+
 import { Oppgaveetikett } from '../Oppgaveetikett';
+import { Behandlingstypeetikett } from './Behandlingstypeetikett';
+import { Statistikkboks } from './Statistikkboks';
 
 const behandlingsstatistikkState = selector<Statistikk>({
     key: 'behandlingsstatistikkState',

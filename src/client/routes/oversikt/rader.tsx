@@ -2,18 +2,31 @@ import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
+import { Inntektskilde, Oppgave, Personinfo, TildeltOppgave } from 'internal-types';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+
+import { Meatball } from '@navikt/helse-frontend-meatball';
+import '@navikt/helse-frontend-meatball/lib/main.css';
+import { Tabellrad } from '@navikt/helse-frontend-tabell';
+
+import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
+import { Tooltip } from '../../components/Tooltip';
+import { Dropdown } from '../../components/dropdown/Dropdown';
+import { somDato } from '../../mapping/vedtaksperiode';
+import { useInnloggetSaksbehandler } from '../../state/authentication';
+import { useSkalAnonymiserePerson } from '../../state/person';
+import { useRemoveAlleVarsler } from '../../state/varsler';
+import { NORSK_DATOFORMAT } from '../../utils/date';
+import { capitalizeName } from '../../utils/locale';
+
+import { anonymisertPersoninfo } from '../../agurkdata';
+import { PåVentKnapp } from '../saksbilde/sakslinje/PåVentKnapp';
+import { Tildelingsknapp } from '../saksbilde/sakslinje/Tildelingsknapp';
 import { Oppgaveetikett } from './Oppgaveetikett';
 import { IkkeTildelt, Tildelt } from './tildeling';
-import { useRemoveAlleVarsler } from '../../state/varsler';
-import { somDato } from '../../mapping/vedtaksperiode';
-import { Tabellrad } from '@navikt/helse-frontend-tabell';
-import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
-import { useSkalAnonymiserePerson } from '../../state/person';
-import { anonymisertPersoninfo } from '../../agurkdata';
-import { Inntektskilde, Oppgave, Personinfo, TildeltOppgave } from 'internal-types';
-import { Tooltip } from '../../components/Tooltip';
-import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { Meatball } from '@navikt/helse-frontend-meatball';
 import '@navikt/helse-frontend-meatball/lib/main.css';
 import { Dropdown } from '../../components/dropdown/Dropdown';
