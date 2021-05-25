@@ -1,5 +1,4 @@
-import { AnimatePresence } from 'framer-motion';
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect } from 'react';
 
 import { useRemoveToast } from '../../state/toasts';
 

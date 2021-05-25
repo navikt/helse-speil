@@ -48,10 +48,11 @@ const Oppsummering = () => {
     const personTilBehandling = usePerson();
     const { t } = useTranslation();
     const [åpen, setÅpen] = useState(false);
+    const anonymiseringEnabled = useSkalAnonymiserePerson();
+
     if (!aktivVedtaksperiode) return null;
 
     const { oppsummering, inntektsgrunnlag, simuleringsdata } = aktivVedtaksperiode;
-    const anonymiseringEnabled = useSkalAnonymiserePerson;
 
     return (
         <>
@@ -89,7 +90,7 @@ const Oppsummering = () => {
                     simulering={simuleringsdata}
                     åpenModal={åpen}
                     lukkModal={() => setÅpen(false)}
-                    anonymiseringEnabled={anonymiseringEnabled()}
+                    anonymiseringEnabled={anonymiseringEnabled}
                 />
             )}
         </>

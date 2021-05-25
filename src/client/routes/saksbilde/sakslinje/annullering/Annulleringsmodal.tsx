@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { Person, Vedtaksperiode } from 'internal-types';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useHistory } from 'react-router';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';

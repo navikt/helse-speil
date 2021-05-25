@@ -3,7 +3,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Inntektskilde, Oppgave, Personinfo, TildeltOppgave } from 'internal-types';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { Element, Normaltekst } from 'nav-frontend-typografi';

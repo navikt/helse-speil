@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Kjønn, Person } from 'internal-types';
+import { Person } from 'internal-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 

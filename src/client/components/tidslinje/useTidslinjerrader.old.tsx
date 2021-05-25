@@ -1,12 +1,5 @@
 import { Dayjs } from 'dayjs';
-import {
-    Arbeidsgiver,
-    Dagtype,
-    Person,
-    UfullstendigVedtaksperiode,
-    Vedtaksperiode,
-    Vedtaksperiodetilstand,
-} from 'internal-types';
+import { Dagtype, Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import React, { useMemo } from 'react';
 
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/src/components/calc';
