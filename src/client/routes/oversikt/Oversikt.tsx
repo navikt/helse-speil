@@ -1,20 +1,17 @@
 import styled from '@emotion/styled';
 import { Oppgave } from 'internal-types';
-import { nanoid } from 'nanoid';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 
 import Panel from 'nav-frontend-paneler';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { Flex } from '../../components/Flex';
-import { useDebounce } from '../../hooks/useDebounce';
+import { useLoadingToast } from '../../hooks/useLoadingToast';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
 import { personState } from '../../state/person';
-import { useAddToast, useRemoveToast } from '../../state/toasts';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 
 import { nullstillAgurkData } from '../../agurkdata';
@@ -37,14 +34,10 @@ const Content = styled(Panel)`
     flex: 1;
 `;
 
-const Spinner = styled(NavFrontendSpinner)`
-    margin-left: 1rem;
-`;
-
 const useFiltrerteOppgaver = () => {
     const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useRecoilValue(tabState);
-    const oppgaver = useRecoilValueLoadable(oppgaverState);
+    const oppgaver = useRecoilValueLoadable<Oppgave[]>(oppgaverState);
     const [cache, setCache] = useState<Oppgave[]>([]);
     nullstillAgurkData();
 
@@ -68,29 +61,6 @@ const useFiltrerteOppgaver = () => {
     };
 };
 
-const useHenterOppgaverToast = (isLoading: boolean) => {
-    const showToast = useDebounce(isLoading);
-    const addToast = useAddToast();
-    const removeToast = useRemoveToast();
-
-    useEffect(() => {
-        const key = nanoid();
-        if (showToast) {
-            addToast({
-                key: key,
-                message: (
-                    <>
-                        Henter oppgaver <Spinner type="XS" />
-                    </>
-                ),
-            });
-        } else {
-            removeToast(key);
-        }
-        return () => removeToast(key);
-    }, [showToast]);
-};
-
 const Strek = styled.div`
     min-height: calc(100vh - 50px);
     width: 1px;
@@ -102,7 +72,7 @@ export const Oversikt = () => {
     const oppgaver = useFiltrerteOppgaver();
     const resetPerson = useResetRecoilState(personState);
 
-    useHenterOppgaverToast(oppgaver.state === 'loading');
+    useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
 
     useVarselFilter(Scopes.OVERSIKT);
 
@@ -121,9 +91,7 @@ export const Oversikt = () => {
             <Flex>
                 <Content>
                     <Tabs />
-                    <OppgaverTabell
-                        oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
-                    />
+                    <OppgaverTabell oppgaver={oppgaver.state === 'hasValue' ? oppgaver.contents : oppgaver.cache} />
                 </Content>
                 <Strek />
                 <Behandlingsstatistikk />
