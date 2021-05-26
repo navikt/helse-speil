@@ -21,7 +21,7 @@ import {
     tildelteOppgaverFilter,
     ufordelteOppgaverFilter,
 } from './filtrering';
-import { renderer, tilOversiktsrad } from './rader';
+import { renderer, tilOversiktsrad } from './rader/rader';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
 import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
 import { tabState } from './tabs';
@@ -44,21 +44,25 @@ const Oversiktstabell = styled(Tabell)`
             font-weight: normal;
         }
     }
+
     tbody tr {
         :nth-of-type(2n + 1) {
             background-color: #f8f8f8;
         }
+
         td {
             white-space: nowrap;
             padding: 0 1.5rem 0 1rem;
         }
     }
+
     tbody tr:last-of-type td {
         border-bottom: 1px solid #c6c2bf;
     }
 
     tbody tr:hover td {
         background: var(--speil-light-hover-tabell);
+
         &:not(:last-of-type) {
             cursor: pointer;
         }

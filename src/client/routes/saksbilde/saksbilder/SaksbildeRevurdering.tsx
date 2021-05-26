@@ -8,6 +8,7 @@ import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { Flex } from '../../../components/Flex';
+import { Oppgaveetikett } from '../../../components/Oppgaveetikett';
 import { Clipboard } from '../../../components/clipboard';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
@@ -24,7 +25,6 @@ import { useOppgavereferanse } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';
 
-import { Oppgaveetikett } from '../../oversikt/Oppgaveetikett';
 import { LoggHeader } from '../Saksbilde';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Utbetalingsdialog } from '../utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';

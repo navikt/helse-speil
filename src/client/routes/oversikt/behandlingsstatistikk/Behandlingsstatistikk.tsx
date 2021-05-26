@@ -6,11 +6,11 @@ import { selector, useRecoilValueLoadable } from 'recoil';
 
 import { Normaltekst } from 'nav-frontend-typografi';
 
+import { Oppgaveetikett } from '../../../components/Oppgaveetikett';
 import { AnnullertIkon, UtbetaltAutomatiskIkon, UtbetaltIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
 import { getBehandlingsstatistikk } from '../../../io/http';
 import { tilPeriodetype } from '../../../mapping/periodetype';
 
-import { Oppgaveetikett } from '../Oppgaveetikett';
 import { Statistikkboks } from './Statistikkboks';
 
 const behandlingsstatistikkState = selector<Statistikk>({
