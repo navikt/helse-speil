@@ -1,147 +1,110 @@
 import styled from '@emotion/styled';
-import classNames from 'classnames';
 import { Periodetype } from 'internal-types';
-import React, { CSSProperties, ReactNode } from 'react';
+import React from 'react';
 
-import { Flex } from '../../components/Flex';
-
-export interface EtikettProps {
-    iconLabel?: string;
-    medLabel?: boolean;
-    label?: ReactNode;
-    størrelse?: 's' | 'l' | number;
-    style?: CSSProperties;
-    className?: string;
+interface EtikettProps {
+    størrelse?: 's' | 'l';
 }
 
-const Etikett = ({ iconLabel, label, størrelse, style, className }: EtikettProps) => {
-    const Etikett = styled.div<{ størrelse?: 's' | 'l' | number; className?: string }>`
-        border-radius: 0.25rem;
-        width: ${({ størrelse = 'l' }) =>
-            størrelse === 'l' ? '1.25rem' : størrelse === 's' ? '1rem' : `${størrelse}rem`};
-        height: ${({ størrelse = 'l' }) =>
-            størrelse === 'l' ? '1.25rem' : størrelse === 's' ? '1rem' : `${størrelse}rem`};
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-sizing: border-box;
-        padding: 0.5rem;
-        font-size: 12px;
-        font-weight: 600;
-        text-align: center;
-        margin-right: 0.5rem;
-    `;
+const Etikett = styled.div<EtikettProps>`
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 0.5rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
 
-    return (
-        <Flex alignItems={'center'}>
-            <Etikett størrelse={størrelse} style={style} className={classNames(className)}>
-                {iconLabel}
-            </Etikett>
-            {label}
-        </Flex>
-    );
-};
+    width: ${(props) => (props.størrelse === 'l' ? '20px' : '16px')};
+    height: ${(props) => (props.størrelse === 'l' ? '20px' : '16px')};
+    font-size: ${(props) => (props.størrelse === 'l' ? '14px' : '12px')};
 
-const StyledRevurderingEtikett = styled(Etikett)`
+    :before {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+`;
+
+const RevurderingEtikett = styled(Etikett)`
     background: var(--nav-lime-gronn-lighten-80);
     border: 1px solid var(--nav-lime-gronn-darken-40);
+
+    :before {
+        content: 'R';
+    }
 `;
 
-const StyledForlengelseEtikett = styled(Etikett)`
+const ForlengelseEtikett = styled(Etikett)`
     background: var(--speil-etikett-forlengelse-background);
     border: 1px solid var(--speil-etikett-forlengelse-border);
+
+    :before {
+        content: 'FL';
+    }
 `;
 
-const StyledFørstegangsbehandlingEtikett = styled(Etikett)`
+const FørstegangsbehandlingEtikett = styled(Etikett)`
     background: var(--speil-etikett-forstegangs-background);
     border: 1px solid var(--speil-etikett-forstegangs-border);
+
+    :before {
+        content: 'F';
+    }
 `;
 
-const StyledInfotrygdforlengelseEtikett = styled(Etikett)`
+const InfotrygdforlengelseEtikett = styled(Etikett)`
     background: var(--speil-etikett-forlengelse-it-background);
     border: 1px solid var(--speil-etikett-forlengelse-it-border);
     color: var(--navds-color-text-inverse);
+
+    :before {
+        content: 'FI';
+    }
 `;
 
-const StyledStikkprøveEtikett = styled(Etikett)`
+const StikkprøveEtikett = styled(Etikett)`
     background: var(--speil-etikett-stikkprove-background);
     border: 1px solid var(--speil-etikett-stikkprove-border);
     color: var(--navds-color-text-inverse);
+
+    :before {
+        content: 'S';
+    }
 `;
 
-const StyledRiskQaEtikett = styled(Etikett)`
+const RiskQaEtikett = styled(Etikett)`
     background: var(--speil-etikett-risk-background);
     border: 1px solid var(--speil-etikett-risk-border);
     color: var(--navds-color-text-primary);
+
+    :before {
+        content: 'QA';
+    }
 `;
-
-export const RevurderingEtikett = ({ medLabel, label = <>Revurdering</>, størrelse = 'l', style }: EtikettProps) => {
-    return <StyledRevurderingEtikett iconLabel={'R'} label={medLabel && label} størrelse={størrelse} style={style} />;
-};
-
-export const ForlengelseEtikett = ({ medLabel, label = <>Forlengelse</>, størrelse = 'l', style }: EtikettProps) => {
-    return <StyledForlengelseEtikett iconLabel={'FL'} label={medLabel && label} størrelse={størrelse} style={style} />;
-};
-
-export const FørstegangsbehandlingEtikett = ({
-    medLabel,
-    label = <>Førstegang.</>,
-    størrelse = 'l',
-    style,
-}: EtikettProps) => {
-    return (
-        <StyledFørstegangsbehandlingEtikett
-            iconLabel={'F'}
-            label={medLabel && label}
-            størrelse={størrelse}
-            style={style}
-        />
-    );
-};
-
-export const InfotrygdforlengelseEtikett = ({
-    medLabel,
-    label = <>Forlengelse IT</>,
-    størrelse = 'l',
-    style,
-}: EtikettProps) => {
-    return (
-        <StyledInfotrygdforlengelseEtikett
-            iconLabel={'FI'}
-            label={medLabel && label}
-            størrelse={størrelse}
-            style={style}
-        />
-    );
-};
-
-export const StikkprøveEtikett = ({ medLabel, label = <>Stikkprøve</>, størrelse = 'l', style }: EtikettProps) => {
-    return <StyledStikkprøveEtikett iconLabel={'S'} label={medLabel && label} størrelse={størrelse} style={style} />;
-};
-
-export const RiskQaEtikett = ({ medLabel, label = <>Risk QA</>, størrelse = 'l', style }: EtikettProps) => {
-    return <StyledRiskQaEtikett iconLabel={'QA'} label={medLabel && label} størrelse={størrelse} style={style} />;
-};
 
 interface OppgaveetikettProps extends EtikettProps {
     type: Periodetype;
 }
 
-export const Oppgaveetikett = ({ type, størrelse = 'l', medLabel = false, style }: OppgaveetikettProps) => {
+export const Oppgaveetikett = ({ type, størrelse = 'l' }: OppgaveetikettProps) => {
     switch (type) {
         case Periodetype.Forlengelse:
         case Periodetype.Infotrygdforlengelse:
-            return <ForlengelseEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
+            return <ForlengelseEtikett størrelse={størrelse} />;
         case Periodetype.Førstegangsbehandling:
-            return <FørstegangsbehandlingEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
+            return <FørstegangsbehandlingEtikett størrelse={størrelse} />;
         case Periodetype.OvergangFraInfotrygd:
-            return <InfotrygdforlengelseEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
+            return <InfotrygdforlengelseEtikett størrelse={størrelse} />;
         case Periodetype.Stikkprøve:
-            return <StikkprøveEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
+            return <StikkprøveEtikett størrelse={størrelse} />;
         case Periodetype.RiskQa:
-            return <RiskQaEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
+            return <RiskQaEtikett størrelse={størrelse} />;
         case Periodetype.Revurdering:
-            return <RevurderingEtikett størrelse={størrelse} medLabel={medLabel} style={style} />;
+            return <RevurderingEtikett størrelse={størrelse} />;
         default:
             return null;
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
-import { Inntektskilde, Oppgave, Personinfo, TildeltOppgave } from 'internal-types';
+import { Inntektskilde, Oppgave, Periodetype, Personinfo, TildeltOppgave } from 'internal-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import { Meatball } from '@navikt/helse-frontend-meatball';
 import '@navikt/helse-frontend-meatball/lib/main.css';
 import { Tabellrad } from '@navikt/helse-frontend-tabell';
 
+import { Flex } from '../../components/Flex';
 import { TekstMedEllipsis } from '../../components/TekstMedEllipsis';
 import { Tooltip } from '../../components/Tooltip';
 import { Dropdown } from '../../components/dropdown/Dropdown';
@@ -95,12 +96,35 @@ const SkjultSakslenke: React.FunctionComponent<{ oppgave: Oppgave }> = ({ oppgav
     );
 };
 
-const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => (
-    <CellContainer width={128}>
-        <Oppgaveetikett type={oppgave.periodetype} medLabel={true} />
-        <SkjultSakslenke oppgave={oppgave} />
-    </CellContainer>
-);
+const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => {
+    const label = () => {
+        switch (oppgave.periodetype) {
+            case Periodetype.Forlengelse:
+            case Periodetype.Infotrygdforlengelse:
+                return 'Forlengelse';
+            case Periodetype.Førstegangsbehandling:
+                return 'Førstegang.';
+            case Periodetype.OvergangFraInfotrygd:
+                return 'Forlengelse IT';
+            case Periodetype.Stikkprøve:
+                return 'Stikkprøve';
+            case Periodetype.RiskQa:
+                return 'Risk QA';
+            case Periodetype.Revurdering:
+                return 'Revurdering';
+        }
+    };
+
+    return (
+        <CellContainer width={128}>
+            <Flex alignItems="center">
+                <Oppgaveetikett type={oppgave.periodetype} />
+                <Normaltekst style={{ marginLeft: '12px' }}>{label()}</Normaltekst>
+            </Flex>
+            <SkjultSakslenke oppgave={oppgave} />
+        </CellContainer>
+    );
+};
 
 const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();

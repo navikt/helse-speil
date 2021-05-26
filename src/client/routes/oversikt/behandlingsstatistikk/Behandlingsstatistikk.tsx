@@ -6,11 +6,11 @@ import { selector, useRecoilValueLoadable } from 'recoil';
 
 import { Normaltekst } from 'nav-frontend-typografi';
 
+import { AnnullertIkon, UtbetaltAutomatiskIkon, UtbetaltIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
 import { getBehandlingsstatistikk } from '../../../io/http';
 import { tilPeriodetype } from '../../../mapping/periodetype';
 
 import { Oppgaveetikett } from '../Oppgaveetikett';
-import { Behandlingstypeetikett } from './Behandlingstypeetikett';
 import { Statistikkboks } from './Statistikkboks';
 
 const behandlingsstatistikkState = selector<Statistikk>({
@@ -18,34 +18,34 @@ const behandlingsstatistikkState = selector<Statistikk>({
     get: async () => {
         return await getBehandlingsstatistikk()
             .then((res) => toStatistikk(res))
-            .catch((error) => {
+            .catch(() => {
                 throw Error('Kunne ikke hente behandlingsstatistikk');
             });
     },
 });
 
+const Container = styled.div`
+    padding: 1.5rem;
+`;
+
+const Header = styled(Normaltekst)`
+    width: 100%;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+`;
+
+const Separator = styled.div`
+    width: 285px;
+    height: 1px;
+    margin: 1rem 0 2rem 0;
+    background-color: var(--navds-color-border);
+`;
+
 export const Behandlingsstatistikk = () => {
     const loadableStatistikk = useRecoilValueLoadable(behandlingsstatistikkState);
     const statistikk =
         loadableStatistikk.state === 'hasValue' ? (loadableStatistikk.contents as Statistikk) : undefined;
-
-    const Container = styled.div`
-        padding: 1.5rem;
-    `;
-
-    const Header = styled(Normaltekst)`
-        width: 100%;
-        font-family: inherit;
-        font-weight: 600;
-        font-size: 1rem;
-    `;
-
-    const Separator = styled.div`
-        width: 285px;
-        height: 1px;
-        margin: 1rem 0 2rem 0;
-        background-color: var(--navds-color-border);
-    `;
 
     return (
         <Container>
@@ -58,13 +58,7 @@ export const Behandlingsstatistikk = () => {
                         upperBound={statistikk.antallOppgaverTilGodkjenning.totalt}
                         elementer={statistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
                             ({ periodetype, antall }) => ({
-                                etikett: (
-                                    <Oppgaveetikett
-                                        type={periodetype}
-                                        størrelse={'s'}
-                                        style={{ marginRight: '1.25rem' }}
-                                    />
-                                ),
+                                etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
                                 antall: antall,
                             })
                         )}
@@ -74,9 +68,7 @@ export const Behandlingsstatistikk = () => {
                         tittel={'TILDELTE SAKER'}
                         upperBound={statistikk.antallTildelteOppgaver.totalt}
                         elementer={statistikk.antallTildelteOppgaver.perPeriodetype.map(({ periodetype, antall }) => ({
-                            etikett: (
-                                <Oppgaveetikett type={periodetype} størrelse={'s'} style={{ marginRight: '1.25rem' }} />
-                            ),
+                            etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
                             antall: antall,
                         }))}
                     />
@@ -85,15 +77,15 @@ export const Behandlingsstatistikk = () => {
                         upperBound={statistikk.fullførteBehandlinger.totalt}
                         elementer={[
                             {
-                                etikett: <Behandlingstypeetikett type={'AUTOMATISK'} />,
+                                etikett: <UtbetaltAutomatiskIkon />,
                                 antall: statistikk.fullførteBehandlinger.automatisk,
                             },
                             {
-                                etikett: <Behandlingstypeetikett type={'MANUELT'} />,
+                                etikett: <UtbetaltIkon />,
                                 antall: statistikk.fullførteBehandlinger.manuelt,
                             },
                             {
-                                etikett: <Behandlingstypeetikett type={'ANNULLERING'} />,
+                                etikett: <AnnullertIkon />,
                                 antall: statistikk.fullførteBehandlinger.annulleringer,
                             },
                         ]}

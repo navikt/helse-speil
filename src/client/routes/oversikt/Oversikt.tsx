@@ -91,6 +91,12 @@ const useHenterOppgaverToast = (isLoading: boolean) => {
     }, [showToast]);
 };
 
+const Strek = styled.div`
+    min-height: calc(100vh - 50px);
+    width: 1px;
+    background-color: var(--navds-color-border);
+`;
+
 export const Oversikt = () => {
     const hentOppgaver = useRefetchOppgaver();
     const oppgaver = useFiltrerteOppgaver();
@@ -106,12 +112,6 @@ export const Oversikt = () => {
             hentOppgaver();
         }
     }, []);
-
-    const Strek = styled.div`
-        min-height: calc(100vh - 50px);
-        width: 1px;
-        background-color: var(--navds-color-border);
-    `;
 
     return (
         <Container>

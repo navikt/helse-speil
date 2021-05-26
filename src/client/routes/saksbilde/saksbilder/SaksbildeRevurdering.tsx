@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Dagtype } from 'internal-types';
+import { Dagtype, Periodetype } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 import '@navikt/helse-frontend-logg/lib/main.css';
 
@@ -24,7 +24,7 @@ import { useOppgavereferanse } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';
 
-import { RevurderingEtikett } from '../../oversikt/Oppgaveetikett';
+import { Oppgaveetikett } from '../../oversikt/Oppgaveetikett';
 import { LoggHeader } from '../Saksbilde';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Utbetalingsdialog } from '../utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
@@ -35,8 +35,7 @@ const Arbeidsflate = styled.section`
     flex-direction: column;
     box-sizing: border-box;
     width: 17.5rem;
-    padding: 2rem;
-    padding-right: 0;
+    padding: 2rem 0 2rem 2rem;
 `;
 
 const VertikalStrek = styled.div`
@@ -47,6 +46,7 @@ const VertikalStrek = styled.div`
 
 const Kort = styled.section`
     padding-bottom: 0;
+
     &:not(:last-of-type) {
         margin-bottom: 2rem;
     }
@@ -55,24 +55,12 @@ const Kort = styled.section`
 const Korttittel = styled(Undertittel)`
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 0.25rem;
+    color: #59514b;
 
-    a {
-        color: inherit;
-
-        &:hover {
-            text-decoration: none;
-        }
-
-        &:active,
-        &:focus {
-            outline: none;
-            color: var(--navds-color-text-inverse);
-            text-decoration: none;
-            background-color: var(--navds-text-focus);
-            box-shadow: 0 0 0 2px var(--navds-text-focus);
-        }
+    > * {
+        margin-right: 12px;
     }
 `;
 
@@ -169,16 +157,12 @@ interface PeriodeKortProps {
     skjæringstidspunkt: string;
 }
 
-const StyledUndertekstBold = styled(UndertekstBold)`
-    letter-spacing: 0.4px;
-    color: #59514b;
-`;
-
 const PeriodeKort = ({ periode, maksdato, skjæringstidspunkt, gjenståendeDager }: PeriodeKortProps) => {
     return (
         <Kort>
             <Korttittel>
-                <RevurderingEtikett medLabel label={<StyledUndertekstBold>REVURDERINGSPERIODE</StyledUndertekstBold>} />
+                <Oppgaveetikett type={Periodetype.Revurdering} />
+                REVURDERINGSPERIODE
             </Korttittel>
             <IkonOgTekst tekst={periode} Ikon={<Sykmeldingsperiodeikon />} />
             <IkonOgTekst tekst={`${maksdato} (${gjenståendeDager} dager igjen)`} Ikon={<Maksdatoikon />} />
@@ -195,9 +179,7 @@ interface ArbeidsgiverKortProps {
 const ArbeidsgiverKort = ({ arbeidsgivernavn, organisasjonsnummer }: ArbeidsgiverKortProps) => {
     return (
         <Kort>
-            <Korttittel>
-                <StyledUndertekstBold>{arbeidsgivernavn}</StyledUndertekstBold>
-            </Korttittel>
+            <Korttittel>{arbeidsgivernavn}</Korttittel>
             <Clipboard preserveWhitespace={false} copyMessage="Organisasjonsnummer er kopiert">
                 <Normaltekst>{organisasjonsnummer}</Normaltekst>
             </Clipboard>
@@ -215,9 +197,7 @@ const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt, nettobeløp }: Ut
     const sykepengegrunnlag = useSykepengegrunnlag(beregningId);
     return (
         <Kort>
-            <Korttittel>
-                <StyledUndertekstBold>TIL UTBETALING</StyledUndertekstBold>
-            </Korttittel>
+            <Korttittel>TIL UTBETALING</Korttittel>
             <Flex justifyContent="space-between">
                 <Normaltekst>Sykepengegrunnlag:</Normaltekst>
                 <Normaltekst>{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Normaltekst>

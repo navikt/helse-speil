@@ -12,21 +12,25 @@ interface StatistikklinjeProps {
     currentValue: number;
 }
 
+const StyledProgresjonsbar = styled(Progresjonsbar)`
+    height: 0.5rem;
+    flex: 1;
+`;
+
+const Antall = styled(TekstMedEllipsis)`
+    width: 35px;
+    margin-right: 20px;
+`;
+
+const EtikettContainer = styled.span`
+    margin-right: 20px;
+`;
+
 export const Statistikklinje = ({ etikett, upperBound, currentValue }: StatistikklinjeProps) => {
-    const StyledProgresjonsbar = styled(Progresjonsbar)`
-        height: 0.5rem;
-        flex: 1;
-    `;
-
-    const StyledElement = styled(TekstMedEllipsis)`
-        width: 35px;
-        margin-right: 20px;
-    `;
-
     return (
         <Flex alignItems={'center'} style={{ marginBottom: '.5rem' }}>
-            <StyledElement>{currentValue}</StyledElement>
-            {etikett}
+            <Antall>{currentValue}</Antall>
+            <EtikettContainer>{etikett}</EtikettContainer>
             <StyledProgresjonsbar upperBound={upperBound} currentValue={currentValue} />
         </Flex>
     );
