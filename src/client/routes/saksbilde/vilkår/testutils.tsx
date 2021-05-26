@@ -1,5 +1,5 @@
 import { render, screen, within } from '@testing-library/react';
-import { HookResult } from '@testing-library/react-hooks';
+import { RenderResult } from '@testing-library/react-hooks';
 import dayjs, { Dayjs } from 'dayjs';
 import { SpesialistArbeidsgiver, SpleisForlengelseFraInfotrygd, SpleisVedtaksperiodetilstand } from 'external-types';
 import { Periodetype, Person, Vedtaksperiode, Vilkår as VilkårType } from 'internal-types';
@@ -191,23 +191,26 @@ export const enSpeilVedtaksperiode = async ({
 
 const harVilkårstype = (vilkårstype: Vilkårstype) => (vilkårdata: Vilkårdata) => vilkårdata.type === vilkårstype;
 
-const assertHarVilkår = (key: keyof KategoriserteVilkår, type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
-    expect(result.current[key]?.filter(harVilkårstype(type))).toHaveLength(1);
+const assertHarVilkår = (
+    key: keyof KategoriserteVilkår,
+    type: Vilkårstype,
+    result: RenderResult<KategoriserteVilkår>
+) => expect(result.current[key]?.filter(harVilkårstype(type))).toHaveLength(1);
 
-export const assertHarOppfyltVilkår = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
+export const assertHarOppfyltVilkår = (type: Vilkårstype, result: RenderResult<KategoriserteVilkår>) =>
     assertHarVilkår('oppfylteVilkår', type, result);
 
-export const assertHarIkkeOppfyltVilkår = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
+export const assertHarIkkeOppfyltVilkår = (type: Vilkårstype, result: RenderResult<KategoriserteVilkår>) =>
     assertHarVilkår('ikkeOppfylteVilkår', type, result);
 
-export const assertHarAutomatiskVurdertVilkår = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
+export const assertHarAutomatiskVurdertVilkår = (type: Vilkårstype, result: RenderResult<KategoriserteVilkår>) =>
     assertHarVilkår('vilkårVurdertAutomatisk', type, result);
 
-export const assertHarVilkårVurdertAvSaksbehandler = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
+export const assertHarVilkårVurdertAvSaksbehandler = (type: Vilkårstype, result: RenderResult<KategoriserteVilkår>) =>
     assertHarVilkår('vilkårVurdertAvSaksbehandler', type, result);
 
-export const assertHarVilkårVurdertIInfotrygd = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
+export const assertHarVilkårVurdertIInfotrygd = (type: Vilkårstype, result: RenderResult<KategoriserteVilkår>) =>
     assertHarVilkår('vilkårVurdertIInfotrygd', type, result);
 
-export const assertHarVilkårVurdertFørstePeriode = (type: Vilkårstype, result: HookResult<KategoriserteVilkår>) =>
+export const assertHarVilkårVurdertFørstePeriode = (type: Vilkårstype, result: RenderResult<KategoriserteVilkår>) =>
     assertHarVilkår('vilkårVurdertFørstePeriode', type, result);

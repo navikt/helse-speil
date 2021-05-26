@@ -2,8 +2,8 @@ import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 import dayjs from 'dayjs';
 import { Inntektskilde, Oppgave, Periodetype, Saksbehandler } from 'internal-types';
-import React, { ReactNode } from 'react';
-import { RecoilRoot, useRecoilValueLoadable } from 'recoil';
+import React from 'react';
+import { Loadable, RecoilRoot, useRecoilValueLoadable } from 'recoil';
 
 import { oppgaverState, useTildeling } from './oppgaver';
 
@@ -77,39 +77,37 @@ const mockTildelingsfeil = () =>
         });
     }));
 
-const wrapper = ({ children }: { children: ReactNode | ReactNode[] }) => <RecoilRoot>{children}</RecoilRoot>;
+const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 
 async function settOppOppgaver() {
-    const { result } = renderHook(async () => useRecoilValueLoadable(oppgaverState), { wrapper });
-    await act(async () => {
-        // Vent til oppgavene er hentet. Skulle jo ønske recoil ordnet dette på egen hånd...
-        // eslint-disable-next-line no-empty
-        while ((await result.current).state !== 'hasValue') {}
+    mockHentOppgaver();
+    const { result, waitFor } = renderHook<React.FC, Loadable<Oppgave[]>>(() => useRecoilValueLoadable(oppgaverState), {
+        wrapper,
     });
+    await waitFor(() => result.current.state === 'hasValue');
 }
 
 describe('oppgavetildeling', () => {
     describe('useTildelOppgave', () => {
         test('thrower ikke ved suksess', async () => {
-            mockHentOppgaver();
             await settOppOppgaver();
 
             mockTildelingOk();
-            const { result } = renderHook(() => useTildeling().tildelOppgave, { wrapper });
+            const { result } = renderHook(() => useTildeling(), { wrapper });
 
-            act(async () => {
-                expect(await result.current(enOppgave(), saksbehandler)).toHaveProperty('status', 200);
+            await act(async () => {
+                expect(await result.current.tildelOppgave(enOppgave(), saksbehandler)).toHaveProperty('status', 200);
             });
         });
 
         test('thrower og returnerer navnet på tildelt saksbehandler ved konflikt', async () => {
-            mockHentOppgaver();
             await settOppOppgaver();
-            mockTildelingsfeil();
-            const { result } = renderHook(() => useTildeling().tildelOppgave, { wrapper });
 
-            act(async () => {
-                const errorMessage = await result.current(enOppgave(), saksbehandler).catch((err) => err);
+            mockTildelingsfeil();
+            const { result } = renderHook(() => useTildeling(), { wrapper });
+
+            await act(async () => {
+                const errorMessage = await result.current.tildelOppgave(enOppgave(), saksbehandler).catch((err) => err);
                 expect(errorMessage).toEqual('uuid');
             });
         });
@@ -117,19 +115,19 @@ describe('oppgavetildeling', () => {
     describe('useFjernTildeling', () => {
         test('thrower ikke ved suksess', () => {
             mockTildelingOk();
-            const { result } = renderHook(() => useTildeling().fjernTildeling, { wrapper });
+            const { result } = renderHook(() => useTildeling(), { wrapper });
 
             act(async () => {
-                expect(await result.current(enOppgave())).toHaveProperty('status', 200);
+                expect(await result.current.fjernTildeling(enOppgave())).toHaveProperty('status', 200);
             });
         });
 
         test('thrower ved feil', () => {
             mockTildelingsfeil();
-            const { result } = renderHook(() => useTildeling().fjernTildeling, { wrapper });
+            const { result } = renderHook(() => useTildeling(), { wrapper });
 
             act(() => {
-                expect(async () => await result.current(enOppgave())).rejects.toBeUndefined();
+                expect(async () => await result.current.fjernTildeling(enOppgave())).rejects.toBeUndefined();
             });
         });
     });

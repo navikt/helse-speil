@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/extend-expect';
-import { HookResult, renderHook } from '@testing-library/react-hooks';
+import { renderHook, RenderResult } from '@testing-library/react-hooks';
 import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
 import React from 'react';
 
@@ -31,7 +31,7 @@ const defaultVilkår: Vilkår = {
     medlemskap: oppfyltMedlemskap(),
 };
 
-const expectVilkårToBeEmpty = (result: HookResult<KategoriserteVilkår>, ...vilkår: (keyof KategoriserteVilkår)[]) =>
+const expectVilkårToBeEmpty = (result: RenderResult<KategoriserteVilkår>, ...vilkår: (keyof KategoriserteVilkår)[]) =>
     vilkår.forEach((it) => expect(result.current[it]).toHaveLength(0));
 
 describe('useKategoriserteVilkår', () => {

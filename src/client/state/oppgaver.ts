@@ -1,5 +1,5 @@
 import { Inntektskilde, Oppgave, Periodetype, Saksbehandler, Tildeling } from 'internal-types';
-import { atom, selector, SetterOrUpdater, useSetRecoilState } from 'recoil';
+import { atom, selector, SetterOrUpdater, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
@@ -7,6 +7,7 @@ import { deletePåVent, deleteTildeling, fetchOppgaver, postLeggPåVent, postTil
 import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
 import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
+import { useInnloggetSaksbehandler } from './authentication';
 import { useAddVarsel, useRemoveVarsel, VarselObject } from './varsler';
 
 const oppgaverStateRefetchKey = atom<Date>({
@@ -65,6 +66,16 @@ export const oppgaverState = selector<Oppgave[]>({
             .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
     },
 });
+
+export const useOppgaver = (): Oppgave[] => {
+    const oppgaver = useRecoilValueLoadable<Oppgave[]>(oppgaverState);
+    return oppgaver.state === 'hasValue' ? oppgaver.contents : [];
+};
+
+export const useMineOppgaver = (): Oppgave[] => {
+    const { oid } = useInnloggetSaksbehandler();
+    return useOppgaver().filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid);
+};
 
 export const useRefetchOppgaver = () => {
     const setKey = useSetRecoilState(oppgaverStateRefetchKey);
