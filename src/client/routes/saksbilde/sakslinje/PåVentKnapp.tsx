@@ -1,14 +1,10 @@
-import { Oppgave } from 'internal-types';
 import React, { useContext, useState } from 'react';
-import { useOperasjonsvarsel } from '../../../state/varsler';
 import { useHistory } from 'react-router';
 
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { useTildeling } from '../../../state/oppgaver';
-import { useRefreshPerson } from '../../../state/person';
-import { useOperasjonsvarsel } from '../../../state/varsler';
 import { deletePåVent, postLeggPåVent } from '../../../io/http';
 import { usePersonPåVent } from '../../../state/person';
+import { useOperasjonsvarsel } from '../../../state/varsler';
 
 const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {
     promise.catch(onError);

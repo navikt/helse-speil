@@ -1,5 +1,6 @@
 import { Person, Tildeling, Vedtaksperiode } from 'internal-types';
-import { atom, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+
 import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
 

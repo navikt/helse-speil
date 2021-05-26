@@ -1,8 +1,9 @@
+import { Oppgave } from 'internal-types';
 import React, { useContext, useState } from 'react';
-import { useOperasjonsvarsel } from '../../state/varsler';
+
 import { DropdownContext, DropdownMenyknapp } from '../../components/dropdown/Dropdown';
 import { useTildeling } from '../../state/oppgaver';
-import { Oppgave } from 'internal-types';
+import { useOperasjonsvarsel } from '../../state/varsler';
 import { SpeilResponse } from 'src/client/io/http';
 
 const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {

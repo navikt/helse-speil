@@ -1,6 +1,3 @@
-import React from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { NORSK_DATOFORMAT } from '../../utils/date';
 import styled from '@emotion/styled';
 import { Inntektskilde, Oppgave, Periodetype, Personinfo, TildeltOppgave } from 'internal-types';
 import React from 'react';
@@ -24,16 +21,10 @@ import { NORSK_DATOFORMAT } from '../../utils/date';
 import { capitalizeName } from '../../utils/locale';
 
 import { anonymisertPersoninfo } from '../../agurkdata';
-import { PåVentKnapp } from '../saksbilde/sakslinje/PåVentKnapp';
-import { Tildelingsknapp } from '../saksbilde/sakslinje/Tildelingsknapp';
 import { Oppgaveetikett } from './Oppgaveetikett';
-import { IkkeTildelt, Tildelt } from './tildeling';
-import { Meatball } from '@navikt/helse-frontend-meatball';
-import '@navikt/helse-frontend-meatball/lib/main.css';
-import { Dropdown } from '../../components/dropdown/Dropdown';
-import { OversiktTildelingsknapp } from './OversiktTildelingsknapp';
 import { OversiktPåVentKnapp } from './OversiktPåVentKnapp';
-import { capitalizeName } from '../../utils/locale';
+import { OversiktTildelingsknapp } from './OversiktTildelingsknapp';
+import { IkkeTildelt, Tildelt } from './tildeling';
 
 const formaterNavn = (personinfo: Personinfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;

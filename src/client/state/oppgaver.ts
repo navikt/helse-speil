@@ -1,5 +1,6 @@
 import { Inntektskilde, Oppgave, Periodetype, Saksbehandler, Tildeling } from 'internal-types';
 import { atom, selector, SetterOrUpdater, useSetRecoilState } from 'recoil';
+
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { deletePåVent, deleteTildeling, fetchOppgaver, postLeggPåVent, postTildeling } from '../io/http';

@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { useInnloggetSaksbehandler } from '../../state/authentication';
-import { DropdownContext, DropdownMenyknapp } from '../../components/dropdown/Dropdown';
 import { Oppgave, Tildeling } from 'internal-types';
-import { useTildeling } from '../../state/oppgaver';
+import React, { useContext, useState } from 'react';
+
+import { DropdownContext, DropdownMenyknapp } from '../../components/dropdown/Dropdown';
 import { SpeilResponse } from '../../io/http';
+import { useInnloggetSaksbehandler } from '../../state/authentication';
+import { useTildeling } from '../../state/oppgaver';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;

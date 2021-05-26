@@ -1,16 +1,12 @@
-import { Oppgave, Tildeling } from 'internal-types';
+import { Tildeling } from 'internal-types';
 import React, { useContext, useState } from 'react';
 
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { useInnloggetSaksbehandler } from '../../../state/authentication';
-import { useTildeling } from '../../../state/oppgaver';
-import { useRefreshPerson, useTildelPerson } from '../../../state/person';
 import { deleteTildeling, postTildeling } from '../../../io/http';
 import { useTildelPerson } from '../../../state/person';
-import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { Tildeling } from 'internal-types';
 import { useAddVarsel, useRemoveVarsel } from '../../../state/varsler';
-import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;
