@@ -25,11 +25,16 @@ export const authState = atom<AuthInfo>({
 });
 
 export const useInnloggetSaksbehandler = (): Saksbehandler => {
-    const authInfo = useRecoilValue(authState);
+    const authInfo = useRecoilValue(authState) as Required<AuthInfo>;
+
+    if (!authInfo.oid || !authInfo.name || !authInfo.email) {
+        throw Error('Bruker er ikke logget inn');
+    }
+
     return {
-        oid: authInfo.oid!,
-        navn: authInfo.name!,
-        epost: authInfo.email!,
+        oid: authInfo.oid,
+        navn: authInfo.name,
+        epost: authInfo.email,
     };
 };
 
