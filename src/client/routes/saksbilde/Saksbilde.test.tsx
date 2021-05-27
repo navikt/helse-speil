@@ -8,6 +8,7 @@ import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson } from 'test-data';
 
+import { authState } from '../../state/authentication';
 import { personState } from '../../state/person';
 
 import { umappetArbeidsgiver } from '../../../test/data/arbeidsgiver';
@@ -36,6 +37,13 @@ const wrapper = (personTilBehandling?: Person): React.FC => ({ children }) => (
         <RecoilRoot
             initializeState={({ set }) => {
                 personTilBehandling && set(personState, { person: personTilBehandling });
+                set(authState, {
+                    email: 'nav.navesen@nav.no',
+                    name: 'Nav Navesen',
+                    oid: 'oid',
+                    ident: 'NN12345',
+                    isLoggedIn: true,
+                });
             }}
         >
             {children}
