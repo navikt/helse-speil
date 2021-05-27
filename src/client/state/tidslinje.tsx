@@ -1,7 +1,8 @@
-import { Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { usePerson } from './person';
+import { Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { Tidslinjeperiode, Utbetalingstatus } from '../modell/UtbetalingshistorikkElement';
 
 export const aktivPeriodeState = atom<string | undefined>({
     key: 'aktivPeriodeState',
@@ -19,6 +20,18 @@ const defaultPeriode = (person: Person): Vedtaksperiode | undefined => {
         velgbarePerioder?.[0]) as Vedtaksperiode;
 };
 
+const defaultTidslinjeperiode = (person: Person): Tidslinjeperiode | undefined => {
+    const velgbarePerioder = person.arbeidsgivere
+        .flatMap((a) => a.utbetalingshistorikk)
+        .flatMap((a) => a.perioder)
+        .filter((periode) => periode.fullstendig)
+        .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
+    return (
+        velgbarePerioder?.find((periode) => periode.tilstand === Utbetalingstatus.IKKE_UTBETALT) ??
+        velgbarePerioder?.[0]
+    );
+};
+
 export const useOppgavereferanse = (beregningId: string): string => {
     const person = usePerson();
     const vedtaksperiode = person?.arbeidsgivere
@@ -32,18 +45,25 @@ export const useAktivPeriode = () => {
     const periodeId = useRecoilValue(aktivPeriodeState);
 
     if (person && periodeId) {
-        const utbetalingshistorikk = person.arbeidsgivere
+        return person.arbeidsgivere
             .flatMap((a) => a.utbetalingshistorikk)
             .flatMap((a) => a.perioder)
-            .find((p) => p.id === periodeId);
-        const vedtaksperiode = person.arbeidsgivere.flatMap((a) => a.vedtaksperioder).find((p) => p.id === periodeId);
-
-        return vedtaksperiode ?? utbetalingshistorikk;
+            .find((p) => p.id === periodeId && p.beregningId);
     }
     if (person) {
-        return defaultPeriode(person);
+        return defaultTidslinjeperiode(person);
     } else return undefined;
 };
+
+export const useVedtaksperiode = (vedtaksperiodeId: string) =>
+    usePerson()
+        ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
+        .find((p) => p.id === vedtaksperiodeId) as Vedtaksperiode;
+
+export const useUfullstendigVedtaksperiode = (vedtaksperiodeId: string) =>
+    usePerson()
+        ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
+        .find((p) => p.id === vedtaksperiodeId) as UfullstendigVedtaksperiode;
 
 export const useAktivVedtaksperiode = () => {
     const person = usePerson();

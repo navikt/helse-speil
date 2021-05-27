@@ -63,10 +63,6 @@ const ArbeidsforholdTabell = styled(Tabell)`
     margin-bottom: 2rem;
 `;
 
-const Innhold = styled(Grid)`
-    grid-column-gap: 6rem;
-`;
-
 const Kolonnetittel = styled(Undertekst)`
     color: var(--navds-color-text-primary);
 `;
@@ -89,7 +85,7 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
     } = inntektskilde;
 
     return (
-        <Innhold kolonner={2}>
+        <Grid kolonner={2}>
             <FlexColumn>
                 <Arbeidsgivertittel>
                     <Arbeidsgiverikon />
@@ -126,12 +122,12 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
                 </HeaderContainer>
                 <Tabell>
                     <Kolonnetittel>{t('inntektskilder.månedsinntekt')}</Kolonnetittel>
+                    <Element>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Element>
                     <Kolonnetittel>
                         {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
                             ? t('inntektskilder.sykepengegrunnlag')
                             : t('inntektskilder.årsinntekt')}
                     </Kolonnetittel>
-                    <Element>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Element>
                     <Element>{somPenger(omregnetÅrsinntekt?.beløp)}</Element>
                 </Tabell>
                 {omregnetÅrsinntekt?.kilde === Inntektskildetype.Inntektsmelding && (
@@ -151,7 +147,7 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
                 )}
             </FlexColumn>
             <Tooltip effect="solid" />
-        </Innhold>
+        </Grid>
     );
 };
 

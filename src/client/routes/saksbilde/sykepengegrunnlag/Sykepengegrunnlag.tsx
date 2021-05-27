@@ -14,7 +14,7 @@ import Inntektskilderinnhold from './Inntektskilderinnhold';
 import SykepengegrunnlagInfotrygd from './SykepengegrunnlagInfotrygd';
 
 const StyledBehandletInnhold = styled(BehandletVarsel)`
-    margin: 2rem 2rem;
+    margin: 2rem 0 2rem 2rem;
     width: max-content;
 
     > p:nth-of-type(2) {
@@ -42,8 +42,7 @@ const Strek = styled.span`
     border-right: 1px solid var(--navds-color-border);
     height: inherit;
     display: inline-block;
-    margin-left: 5rem;
-    margin-right: 2rem;
+    margin: 0 2.5rem;
 `;
 
 interface SykepengegrunnlagFraInfogtrygdProps {

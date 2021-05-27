@@ -719,6 +719,7 @@ export const mappetPersonObject: Person = {
                                 },
                             ],
                             organisasjonsnummer: '987654321',
+                            fullstendig: true,
                         },
                     ],
                     kilde: Utbetalingstype.REVURDERING,

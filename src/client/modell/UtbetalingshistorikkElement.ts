@@ -58,17 +58,17 @@ const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkUtbetaling2, fom: 
     utbetaling.utbetalingstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
 
 const tidslinjevedtaksperioder = (
-    beregningsId: string,
+    beregningId: string,
     vedtaksperioder: Vedtaksperiode[],
     organisasjonsnummer: string,
     utbetaling?: UtbetalingshistorikkUtbetaling2
 ): Tidslinjeperiode[] => {
     return vedtaksperioder
-        .filter((it) => isUfullstendig(it) || beregningsId === it.beregningIder?.[0])
+        .filter((it) => isUfullstendig(it) || beregningId === it.beregningIder?.[0])
         .map((it) => {
             return {
                 id: it.id,
-                beregningId: beregningsId,
+                beregningId: beregningId,
                 fom: it.fom,
                 tom: it.tom,
                 type: Periodetype.VEDTAKSPERIODE,
@@ -76,6 +76,7 @@ const tidslinjevedtaksperioder = (
                 utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
                 sykdomstidslinje: it.sykdomstidslinje ?? [],
                 organisasjonsnummer: organisasjonsnummer,
+                fullstendig: !isUfullstendig(it),
             };
         });
 };
@@ -101,9 +102,12 @@ const revurderingsperioder = (
             sykdomstidslinje: sykdomstidslinje(beregnetTidslinje, it.fom, it.tom),
             type: Periodetype.REVURDERING,
             organisasjonsnummer: organisasjonsnummer,
+            fullstendig: true,
         };
     });
 };
+
+export const erRevurderingsperiode = (periode: Tidslinjeperiode) => periode.type === Periodetype.REVURDERING;
 
 export const erTidslinjeperiode = (obj: any): obj is Tidslinjeperiode =>
     (obj as Tidslinjeperiode).beregningId !== undefined;
@@ -140,6 +144,7 @@ export interface Tidslinjeperiode {
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
     organisasjonsnummer: string;
+    fullstendig: boolean;
 }
 
 export enum Utbetalingstatus {

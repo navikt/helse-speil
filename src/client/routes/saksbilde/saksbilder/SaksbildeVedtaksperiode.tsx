@@ -1,29 +1,33 @@
 import styled from '@emotion/styled';
-import { Person, Vedtaksperiode } from 'internal-types';
+import {Person} from 'internal-types';
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 
-import { LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
+import {LoggListe as EksternLoggliste} from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
 
-import { ErrorBoundary } from '../../../components/ErrorBoundary';
-import { Flex, FlexColumn } from '../../../components/Flex';
-import { useArbeidsforhold, useArbeidsgivernavn, useOrganisasjonsnummer } from '../../../modell/Arbeidsgiver';
+import {ErrorBoundary} from '../../../components/ErrorBoundary';
+import {Flex, FlexColumn} from '../../../components/Flex';
+import {useArbeidsforhold, useArbeidsgivernavn, useOrganisasjonsnummer} from '../../../modell/Arbeidsgiver';
 
-import { AmplitudeProvider } from '../AmplitudeContext';
-import { getErrorMelding, LoggHeader } from '../Saksbilde';
-import { Faresignaler } from '../faresignaler/Faresignaler';
-import { Sakslinje } from '../sakslinje/Sakslinje';
-import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
-import { Sykmeldingsperiode } from '../sykmeldingsperiode/Sykmeldingsperiode';
-import { Toppvarsler } from '../toppvarsler/Toppvarsler';
-import { Utbetaling } from '../utbetaling/Utbetaling';
-import { Utbetalingshistorikk } from '../utbetalingshistorikk/Utbetalingshistorikk';
-import { Vilkår } from '../vilkår/Vilkår';
+import {AmplitudeProvider} from '../AmplitudeContext';
+import {getErrorMelding, LoggHeader} from '../Saksbilde';
+import {Faresignaler} from '../faresignaler/Faresignaler';
+import {Sakslinje} from '../sakslinje/Sakslinje';
+import {Sykepengegrunnlag} from '../sykepengegrunnlag/Sykepengegrunnlag';
+import {Sykmeldingsperiode} from '../sykmeldingsperiode/Sykmeldingsperiode';
+import {Toppvarsler} from '../toppvarsler/Toppvarsler';
+import {Utbetaling} from '../utbetaling/Utbetaling';
+import {Utbetalingshistorikk} from '../utbetalingshistorikk/Utbetalingshistorikk';
+import {Vilkår} from '../vilkår/Vilkår';
+import {Tidslinjeperiode} from '../../../modell/UtbetalingshistorikkElement';
+import {useVedtaksperiode} from '../../../state/tidslinje';
+import {VenstreMeny, VertikalStrek} from './Felles';
+import {usePersondataSkalAnonymiseres} from "../../../state/person";
 
 interface SaksbildeVedtaksperiodeProps {
     personTilBehandling: Person;
-    aktivVedtaksperiode: Vedtaksperiode;
+    aktivPeriode: Tidslinjeperiode;
     path: String;
 }
 
@@ -72,32 +76,30 @@ const LoggContainer = styled.div`
 `;
 
 const Content = styled.div`
-    margin: 0 2rem;
+    margin: 0 2.5rem;
     height: 100%;
 `;
 
-export const SaksbildeVedtaksperiode = ({
-    personTilBehandling,
-    aktivVedtaksperiode,
-    path,
-}: SaksbildeVedtaksperiodeProps) => {
-    const errorMelding = getErrorMelding(aktivVedtaksperiode.tilstand);
+export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, path }: SaksbildeVedtaksperiodeProps) => {
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
+    const errorMelding = getErrorMelding(vedtaksperiode.tilstand);
 
-    const fom = aktivVedtaksperiode.fom;
-    const tom = aktivVedtaksperiode.tom;
-    const organisasjonsnummer = useOrganisasjonsnummer(aktivVedtaksperiode.id);
+    const fom = vedtaksperiode.fom;
+    const tom = vedtaksperiode.tom;
+    const organisasjonsnummer = useOrganisasjonsnummer(vedtaksperiode.id);
     const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer) ?? 'Ukjent arbeidsgivernavn';
     const arbeidsforhold = useArbeidsforhold(organisasjonsnummer) ?? [];
-    const skjæringstidspunkt = aktivVedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt;
-    const maksdato = aktivVedtaksperiode.vilkår?.dagerIgjen.maksdato;
-    const gjenståendeDager = aktivVedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
-    const utbetalingstidslinje = aktivVedtaksperiode.utbetalingstidslinje;
-    const sykdomstidslinje = aktivVedtaksperiode.sykdomstidslinje;
-    const periode = { fom: aktivVedtaksperiode.fom, tom: aktivVedtaksperiode.tom };
-    const månedsbeløp = aktivVedtaksperiode.inntektsgrunnlag?.inntekter?.find(
+    const skjæringstidspunkt = vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt;
+    const maksdato = vedtaksperiode.vilkår?.dagerIgjen.maksdato;
+    const gjenståendeDager = vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
+    const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
+    const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
+    const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
+    const månedsbeløp = vedtaksperiode.inntektsgrunnlag?.inntekter?.find(
         (it) => it.organisasjonsnummer === organisasjonsnummer
     )?.omregnetÅrsinntekt?.månedsbeløp;
-    const over67år = (aktivVedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+    const over67år = (vedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     return (
         <div data-testid="saksbilde-vedtaksperiode">
@@ -118,11 +120,21 @@ export const SaksbildeVedtaksperiode = ({
                                 maksdato={maksdato}
                                 over67År={over67år}
                             />
-                            <ErrorBoundary key={aktivVedtaksperiode.id} fallback={errorMelding}>
+                            <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
                                 <AmplitudeProvider>
                                     <Flex style={{ flex: 1, height: 'calc(100% - 75px)' }}>
+                                        <VenstreMeny
+                                            aktivPeriode={aktivPeriode}
+                                            arbeidsgivernavn={arbeidsgivernavn}
+                                            organisasjonsnummer={organisasjonsnummer}
+                                            arbeidsforhold={arbeidsforhold}
+                                            anonymiseringEnabled={anonymiseringEnabled}
+                                            skjæringstidspunkt={skjæringstidspunkt}
+                                            maksdato={maksdato}
+                                        />
+                                        <VertikalStrek />
                                         <FlexColumn style={{ flex: 1, height: '100%' }}>
-                                            <Toppvarsler vedtaksperiode={aktivVedtaksperiode} />
+                                            <Toppvarsler vedtaksperiode={vedtaksperiode} />
                                             <Content>
                                                 <Switch>
                                                     <Route path={`${path}/utbetaling`}>
@@ -144,20 +156,20 @@ export const SaksbildeVedtaksperiode = ({
                                                     </Route>
                                                     <Route path={`${path}/vilkår`}>
                                                         <Vilkår
-                                                            vedtaksperiode={aktivVedtaksperiode}
+                                                            vedtaksperiode={vedtaksperiode}
                                                             person={personTilBehandling}
                                                         />
                                                     </Route>
                                                     <Route path={`${path}/sykepengegrunnlag`}>
                                                         <Sykepengegrunnlag
-                                                            vedtaksperiode={aktivVedtaksperiode}
+                                                            vedtaksperiode={vedtaksperiode}
                                                             person={personTilBehandling}
                                                         />
                                                     </Route>
-                                                    {aktivVedtaksperiode.risikovurdering && (
+                                                    {vedtaksperiode.risikovurdering && (
                                                         <Route path={`${path}/faresignaler`}>
                                                             <Faresignaler
-                                                                risikovurdering={aktivVedtaksperiode.risikovurdering}
+                                                                risikovurdering={vedtaksperiode.risikovurdering}
                                                             />
                                                         </Route>
                                                     )}

@@ -1,16 +1,14 @@
 import styled from '@emotion/styled';
-import { Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
-
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
-
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Feilikon } from '../../../components/ikoner/Feilikon';
 import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
 
 import { tilKategoriserteVilkår } from '../vilkår/tilKategoriserteVilkår';
+import { Vedtaksperiode } from 'internal-types';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 const Vilkåroversikt = styled.li`
     display: flex;
