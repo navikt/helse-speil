@@ -21,6 +21,11 @@ const Tablist = styled.div`
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
+    flex-wrap: nowrap;
+`;
+
+const NoWrap = styled.span`
+    white-space: nowrap;
 `;
 
 const Tab = styled.button<{ active: boolean }>`
@@ -93,11 +98,11 @@ const VentendeSakerTab = () => {
 
 export const Tabs = () => (
     <Tablist>
-        <span>
+        <NoWrap>
             <AlleSakerTab />
             <MineSakerTab />
             <VentendeSakerTab />
-        </span>
+        </NoWrap>
         <Meny orientering={PopoverOrientering.UnderHoyre}>
             <AnonymiserData />
         </Meny>
