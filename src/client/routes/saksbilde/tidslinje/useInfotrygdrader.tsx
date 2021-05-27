@@ -7,9 +7,9 @@ import React, { useMemo } from 'react';
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodObject } from '@navikt/helse-frontend-timeline/lib';
 
-import { NORSK_DATOFORMAT } from '../../utils/date';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
 
-import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 

@@ -10,7 +10,6 @@ import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
 import { copyString } from '../../components/clipboard/util';
-import { LasterTidslinje, Tidslinje } from '../../components/tidslinje';
 import { Key, useKeyboard } from '../../hooks/useKeyboard';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
@@ -27,6 +26,7 @@ import { SaksbildeRevurdering } from './saksbilder/SaksbildeRevurdering';
 import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
 import { SaksbildeUfullstendigVedtaksperiode } from './saksbilder/SaksbildeUfullstendigVedtaksperiode';
 import { SaksbildeVedtaksperiode } from './saksbilder/SaksbildeVedtaksperiode';
+import { LasterTidslinje, Tidslinje } from './tidslinje';
 
 export const getErrorMelding = (tilstand: Vedtaksperiodetilstand) => {
     const vedtaksperiodetilstandErrorMessage = getVedtaksperiodeTilstandError(tilstand);

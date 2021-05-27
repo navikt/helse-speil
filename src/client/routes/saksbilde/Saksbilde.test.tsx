@@ -94,11 +94,12 @@ describe('Saksbilde', () => {
 
         render(<Saksbilde />, { wrapper: wrapper(personMedUfullstendigVedtaksperiode) });
         await waitFor(() => {
-            expect(screen.getByTestId('tidslinjeperiode-0')).toBeVisible();
-            userEvent.click(screen.getByTestId('tidslinjeperiode-0').getElementsByTagName('button')[0]);
+            const perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
+            expect(perioder).toHaveLength(1);
+            expect(perioder[0]).toBeVisible();
+            userEvent.click(perioder[0].getElementsByTagName('button')[0]);
 
             expect(screen.getByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeVisible();
-            expect(screen.getByTestId('tidslinjeperiode-0')).toBeVisible();
             expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('saksbilde-revurdering')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
@@ -125,11 +126,12 @@ describe('Saksbilde', () => {
 
         render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
         await waitFor(() => {
-            expect(screen.getByTestId('tidslinjeperiode-0')).toBeVisible();
-            userEvent.click(screen.getByTestId(`tidslinjeperiode-0`).getElementsByTagName('button')[0]);
+            let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
+            expect(perioder).toHaveLength(2);
+            expect(perioder[0]).toBeVisible();
+            userEvent.click(perioder[0].getElementsByTagName('button')[0]);
 
             expect(screen.getByTestId('saksbilde-revurdering')).toBeVisible();
-            expect(screen.getByTestId('tidslinjeperiode-0')).toBeVisible();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();

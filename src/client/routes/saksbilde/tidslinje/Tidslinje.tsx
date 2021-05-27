@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
 import { Arbeidsgiver, Person } from 'internal-types';
-import React, { CSSProperties, ReactNode, useEffect } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -11,17 +11,16 @@ import { Undertekst } from 'nav-frontend-typografi';
 import { AxisLabels, Pins } from '@navikt/helse-frontend-timeline/lib';
 import '@navikt/helse-frontend-timeline/lib/main.css';
 
-import { maksdatoForPeriode, sisteValgbarePeriode } from '../../mapping/selectors';
-import { usePersondataSkalAnonymiseres } from '../../state/person';
-import { aktivPeriodeState } from '../../state/tidslinje';
-import { NORSK_DATOFORMAT } from '../../utils/date';
+import { Button } from '../../../components/Button';
+import { Flex, FlexColumn } from '../../../components/Flex';
+import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
+import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
+import { Infotrygdikon } from '../../../components/ikoner/Infotrygdikon';
+import { maksdatoForPeriode, sisteValgbarePeriode } from '../../../mapping/selectors';
+import { usePersondataSkalAnonymiseres } from '../../../state/person';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
 
-import { getAnonymArbeidsgiverForOrgnr } from '../../agurkdata';
-import { Button } from '../Button';
-import { Flex, FlexColumn } from '../Flex';
-import { TekstMedEllipsis } from '../TekstMedEllipsis';
-import { Arbeidsgiverikon } from '../ikoner/Arbeidsgiverikon';
-import { Infotrygdikon } from '../ikoner/Infotrygdikon';
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { PinsTooltip } from './TidslinjeTooltip';
 import { Tidslinjerad } from './Tidslinjerad';
 import { LasterUtsnittsvelger, Utsnittsvelger } from './Utsnittsvelger';
@@ -161,16 +160,6 @@ export const Tidslinje = ({ person }: Props) => {
     const tidslinjerader = useTidslinjerader(person, fom, tom, anonymiseringEnabled);
     const infotrygdrader = useInfotrygdrader(person, fom, tom, anonymiseringEnabled);
 
-    let alleRaderIndex = 0;
-    let allePerioderIndex = 0;
-    const nestePeriodeIndex = () => allePerioderIndex++;
-
-    const aktivPeriode = useRecoilValue(aktivPeriodeState);
-
-    useEffect(() => {
-        allePerioderIndex = 0;
-    }, [aktivPeriode]);
-
     const tidslinjeradOffset = 250;
 
     const maksdato = () => {
@@ -212,27 +201,16 @@ export const Tidslinje = ({ person }: Props) => {
                             {rader.length > 1 && <Chevron organisasjonsnummer={id} />}
                         </Arbeidsgivernavn>
                         <RaderContainer>
-                            <Tidslinjerad
-                                key={alleRaderIndex++}
-                                rad={rader[0]}
-                                index={nestePeriodeIndex}
-                                erKlikkbar={true}
-                            />
+                            <Tidslinjerad key="tidslinjerad-0" rad={rader[0]} erKlikkbar={true} />
                             <Accordion erSynlig={erAktiv[id]}>
-                                {rader.slice(1).map((it) => (
-                                    <Tidslinjerad
-                                        key={alleRaderIndex++}
-                                        rad={it}
-                                        index={nestePeriodeIndex}
-                                        erKlikkbar={true}
-                                        erForeldet
-                                    />
+                                {rader.slice(1).map((it, i) => (
+                                    <Tidslinjerad key={`tidslinjerad-${i + 1}`} rad={it} erKlikkbar={true} erForeldet />
                                 ))}
                             </Accordion>
                         </RaderContainer>
                     </ArbeidsgiverContainer>
                 ))}
-                {infotrygdrader.map((it) => (
+                {infotrygdrader.map((it, i) => (
                     <ArbeidsgiverContainer key={it.arbeidsgivernavn}>
                         <Arbeidsgivernavn width={tidslinjeradOffset}>
                             <Infotrygdikon />
@@ -241,12 +219,7 @@ export const Tidslinje = ({ person }: Props) => {
                             </TekstMedEllipsis>
                         </Arbeidsgivernavn>
                         <RaderContainer>
-                            <Tidslinjerad
-                                key={alleRaderIndex++}
-                                rad={it}
-                                index={nestePeriodeIndex}
-                                erKlikkbar={false}
-                            />
+                            <Tidslinjerad key={i} rad={it} erKlikkbar={false} />
                         </RaderContainer>
                     </ArbeidsgiverContainer>
                 ))}

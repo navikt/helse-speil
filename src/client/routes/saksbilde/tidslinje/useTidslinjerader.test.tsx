@@ -15,9 +15,9 @@ import {
     utbetalingshistorikkelement,
     UtbetalingshistorikkElement,
     Utbetalingstatus,
-} from '../../modell/UtbetalingshistorikkElement';
+} from '../../../modell/UtbetalingshistorikkElement';
 
-import { mappetPersonObject } from '../../../test/data/person';
+import { mappetPersonObject } from '../../../../test/data/person';
 import { tilPeriodetilstand, useTidslinjerader } from './useTidslinjerader';
 
 type Vedtaksperioder = (Vedtaksperiode | UfullstendigVedtaksperiode)[];

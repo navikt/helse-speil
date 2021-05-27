@@ -11,10 +11,9 @@ import React, { CSSProperties } from 'react';
 
 import { Undertekst } from 'nav-frontend-typografi';
 
-import { NORSK_DATOFORMAT } from '../../utils/date';
-import { somPenger } from '../../utils/locale';
-
-import { FlexColumn } from '../Flex';
+import { FlexColumn } from '../../../components/Flex';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
+import { somPenger } from '../../../utils/locale';
 
 const Container = styled(FlexColumn)`
     align-items: flex-start;

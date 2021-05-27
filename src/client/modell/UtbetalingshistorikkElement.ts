@@ -10,7 +10,7 @@ import {
 } from 'internal-types';
 import { nanoid } from 'nanoid';
 
-import { PeriodeBuilder } from '../components/tidslinje/periodeBuilder';
+import { PeriodeBuilder } from '../routes/saksbilde/tidslinje/periodeBuilder';
 import { usePerson } from '../state/person';
 
 type Vedtaksperiode = FullstendigVedtaksperiode | UfullstendigVedtaksperiode;

@@ -23,8 +23,9 @@ import {
     Tidslinjeperiode,
     UtbetalingshistorikkElement,
     Utbetalingstatus,
-} from '../../modell/UtbetalingshistorikkElement';
+} from '../../../modell/UtbetalingshistorikkElement';
 
+import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { HoverInfo } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';

@@ -6,7 +6,7 @@ import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from '
 import { Period } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
 
-import { TidslinjeperiodeIkon } from '../ikoner/Tidslinjeperiodeikoner';
+import { TidslinjeperiodeIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
 
 interface StyledPeriodProps {
     erAktiv?: boolean;
@@ -77,7 +77,6 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
 
 interface TidslinjeperiodeProps extends PeriodProps {
     id: string;
-    index: number;
     style: React.CSSProperties;
     tilstand: Vedtaksperiodetilstand | Revurderingtilstand | Infotrygdperiodetilstand;
     erAktiv?: boolean;
@@ -110,7 +109,6 @@ const PeriodePin = styled.div`
 export const Tidslinjeperiode = ({
     hoverLabel,
     erAktiv,
-    index,
     tilstand,
     erForeldet,
     skalVisePin,
@@ -137,7 +135,7 @@ export const Tidslinjeperiode = ({
     };
 
     return (
-        <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel} data-testid={`tidslinjeperiode-${index}`}>
+        <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel} data-testid={`tidslinjeperiode-${props.id}`}>
             <StyledPeriod
                 erAktiv={erAktiv}
                 ref={ref}
