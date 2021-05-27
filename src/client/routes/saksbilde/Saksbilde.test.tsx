@@ -127,7 +127,7 @@ describe('Saksbilde', () => {
         render(<Saksbilde />, { wrapper: wrapper(personMedUtbetalingshistorikk) });
         await waitFor(() => {
             let perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
-            expect(perioder).toHaveLength(2);
+            expect(perioder).toHaveLength(1);
             expect(perioder[0]).toBeVisible();
             userEvent.click(perioder[0].getElementsByTagName('button')[0]);
 

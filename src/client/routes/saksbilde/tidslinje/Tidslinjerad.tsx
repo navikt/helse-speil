@@ -26,7 +26,7 @@ const Container = styled(Row)<{ erAktiv: boolean }>`
 
 interface TidslinjeradProps {
     rad: TidslinjeradObject | InfotrygdradObject;
-    erKlikkbar: boolean;
+    erKlikkbar?: boolean;
     erForeldet?: boolean;
 }
 
@@ -36,19 +36,25 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
 
     const erAktiv = erKlikkbar && !!rad.perioder.find((it) => it.id === aktivPeriode?.id);
 
+    const onClick = (id: string) => {
+        if (erKlikkbar) {
+            setAktivPeriode(id);
+        }
+    };
+
     return (
         <Container erAktiv={erAktiv}>
-            {rad.perioder.reverse().map((it, i) => (
+            {rad.perioder.reverse().map((it) => (
                 <Tidslinjeperiode
-                    key={`tidslinjeperiode-${i}`}
+                    key={`${it.id}`}
                     id={it.id}
                     style={it.style}
                     tilstand={it.tilstand}
                     erForeldet={erForeldet}
                     hoverLabel={it.hoverLabel ? <TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip> : undefined}
                     skalVisePin={it.skalVisePin}
-                    onClick={erKlikkbar ? setAktivPeriode : undefined}
-                    erAktiv={erKlikkbar ? it.id === aktivPeriode?.id : false}
+                    onClick={onClick}
+                    erAktiv={erKlikkbar && it.id === aktivPeriode?.id}
                 />
             ))}
         </Container>

@@ -16,6 +16,7 @@ interface StyledPeriodProps {
 export const StyledPeriod = styled(Period)<StyledPeriodProps>`
     display: flex;
     align-items: center;
+
     ${({ erAktiv }) =>
         erAktiv &&
         `
@@ -75,16 +76,6 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
     }
 `;
 
-interface TidslinjeperiodeProps extends PeriodProps {
-    id: string;
-    style: React.CSSProperties;
-    tilstand: Vedtaksperiodetilstand | Revurderingtilstand | Infotrygdperiodetilstand;
-    erAktiv?: boolean;
-    erForeldet?: boolean;
-    hoverLabel?: ReactNode;
-    skalVisePin: boolean;
-}
-
 const PeriodePin = styled.div`
     position: absolute;
     background: #0067c5;
@@ -105,6 +96,16 @@ const PeriodePin = styled.div`
         border-radius: 50%;
     }
 `;
+
+interface TidslinjeperiodeProps extends PeriodProps {
+    id: string;
+    style: React.CSSProperties;
+    tilstand: Vedtaksperiodetilstand | Revurderingtilstand | Infotrygdperiodetilstand;
+    erAktiv?: boolean;
+    erForeldet?: boolean;
+    hoverLabel?: ReactNode;
+    skalVisePin: boolean;
+}
 
 export const Tidslinjeperiode = ({
     hoverLabel,
