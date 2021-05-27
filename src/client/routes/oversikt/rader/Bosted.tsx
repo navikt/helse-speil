@@ -7,7 +7,7 @@ import { usePersondataSkalAnonymiseres } from '../../../state/person';
 
 import { CellContainer, SkjultSakslenke, tooltipId } from './rader';
 
-export const Bosted = ({ oppgave }: { oppgave: Oppgave }) => {
+export const Bosted = React.memo(({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     const bosted = anonymiseringEnabled ? 'Agurkheim' : oppgave.boenhet.navn;
     return (
@@ -17,4 +17,4 @@ export const Bosted = ({ oppgave }: { oppgave: Oppgave }) => {
             {bosted.length > 18 && <Tooltip id={tooltipId('bosted', oppgave)} />}
         </CellContainer>
     );
-};
+});

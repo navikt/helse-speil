@@ -14,7 +14,7 @@ const formaterNavn = (personinfo: Personinfo): string => {
     return capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`);
 };
 
-export const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
+export const Søker = React.memo(({ oppgave }: { oppgave: Oppgave }) => {
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     const formatertNavn = formaterNavn(anonymiseringEnabled ? anonymisertPersoninfo : oppgave.personinfo);
     return (
@@ -24,4 +24,4 @@ export const Søker = ({ oppgave }: { oppgave: Oppgave }) => {
             {formatertNavn.length > 19 && <Tooltip id={tooltipId('søker', oppgave)} />}
         </CellContainer>
     );
-};
+});

@@ -40,7 +40,7 @@ interface KjøttbolleProps {
     oppgave: Oppgave;
 }
 
-export const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
+export const Kjøttbolle = React.memo(({ oppgave }: KjøttbolleProps) => {
     const saksbehandler = useInnloggetSaksbehandler();
     const erTildeltInnloggetBruker = oppgave.tildeling?.saksbehandler?.oid === saksbehandler.oid;
 
@@ -64,4 +64,4 @@ export const Kjøttbolle = ({ oppgave }: KjøttbolleProps) => {
             <Tooltip id={tooltipId('kjottbolle', oppgave)} effect={'solid'} offset={{ top: -10 }} />
         </CellContainer>
     );
-};
+});

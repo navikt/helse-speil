@@ -8,7 +8,7 @@ import { Oppgaveetikett } from '../../../components/Oppgaveetikett';
 
 import { CellContainer, SkjultSakslenke } from './rader';
 
-export const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => {
+export const Sakstype = React.memo(({ oppgave }: { oppgave: Oppgave }) => {
     const label = () => {
         switch (oppgave.periodetype) {
             case Periodetype.Forlengelse:
@@ -36,4 +36,4 @@ export const Sakstype = ({ oppgave }: { oppgave: Oppgave }) => {
             <SkjultSakslenke oppgave={oppgave} />
         </CellContainer>
     );
-};
+});

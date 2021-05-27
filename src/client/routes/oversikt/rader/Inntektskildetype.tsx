@@ -15,9 +15,9 @@ const inntektskildeLabel = (inntektskilde: Inntektskilde) => {
     }
 };
 
-export const Inntektskildetype = ({ oppgave }: { oppgave: Oppgave }) => (
+export const Inntektskildetype = React.memo(({ oppgave }: { oppgave: Oppgave }) => (
     <CellContainer width={128}>
         <TekstMedEllipsis>{inntektskildeLabel(oppgave.inntektskilde)}</TekstMedEllipsis>
         <SkjultSakslenke oppgave={oppgave} />
     </CellContainer>
-);
+));

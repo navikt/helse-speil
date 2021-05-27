@@ -55,5 +55,6 @@ const IkkeTildelt = ({ oppgave }: TildelingProps) => {
     );
 };
 
-export const Tildeling = ({ oppgave }: TildelingProps) =>
-    oppgave.tildeling ? <Tildelt oppgave={oppgave} /> : <IkkeTildelt oppgave={oppgave} />;
+export const Tildeling = React.memo(({ oppgave }: TildelingProps) =>
+    oppgave.tildeling ? <Tildelt oppgave={oppgave} /> : <IkkeTildelt oppgave={oppgave} />
+);
