@@ -23,7 +23,7 @@ const personTilBehandling = async () => ({
     fødselsnummer: '12345678901',
     utbetalinger: [],
     arbeidsgivere: [],
-    personinfo: mappetPersonObject.personinfo,
+    personinfo: mappetPersonObject().personinfo,
     infotrygdutbetalinger: [],
     enhet: { id: '', navn: '' },
 });

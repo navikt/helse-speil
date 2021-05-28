@@ -46,7 +46,7 @@ export const umappetPerson = (
             organisasjonsnummer: '987654321',
             stillingstittel: 'Potetplukker',
             stillingsprosent: 100,
-            startdato: '2018-01-01',
+            startdato: '2020-01-01',
         },
     ],
     simuleringsdata: umappetSimuleringsdata,
@@ -59,7 +59,7 @@ export const mappetPerson = (
     inntektsgrunnlag = [umappetInntektsgrunnlag()]
 ) => mapPerson(umappetPerson(arbeidsgivere, utbetalinger, inntektsgrunnlag)).person;
 
-export const mappetPersonObject: Person = {
+export const mappetPersonObject = (): Person => ({
     enhet: {
         id: '',
         navn: '',
@@ -647,7 +647,7 @@ export const mappetPersonObject: Person = {
                                     {
                                         stillingstittel: 'Potetplukker',
                                         stillingsprosent: 100,
-                                        startdato: dayjs('2018-01-01T00:00:00.000Z'),
+                                        startdato: dayjs('2020-01-01T00:00:00.000Z'),
                                     },
                                 ],
                             },
@@ -698,29 +698,29 @@ export const mappetPersonObject: Person = {
             utbetalingshistorikk: [
                 {
                     id: 'id1',
-                    kilde: Utbetalingstype.REVURDERING,
+                    kilde: Utbetalingstype.UTBETALING,
                     beregnettidslinje: [
                         {
-                            dato: dayjs('2018-01-01'),
+                            dato: dayjs('2020-01-01'),
                             type: Dagtype.Syk,
                         },
                     ],
                     hendelsetidslinje: [
                         {
-                            dato: dayjs('2018-01-01'),
+                            dato: dayjs('2020-01-01'),
                             type: Dagtype.Syk,
                         },
                     ],
                     utbetaling: {
                         status: Utbetalingstatus.IKKE_UTBETALT,
-                        type: Utbetalingstype.REVURDERING,
+                        type: Utbetalingstype.UTBETALING,
                         utbetalingstidslinje: [
                             {
-                                dato: dayjs('2018-01-01'),
+                                dato: dayjs('2020-01-01'),
                                 type: Dagtype.Syk,
                             },
                         ],
-                        maksdato: dayjs('2018-03-01'),
+                        maksdato: dayjs('2020-03-01'),
                         nettobeløp: 0,
                         forbrukteDager: 0,
                         gjenståendeDager: 0,
@@ -734,16 +734,42 @@ export const mappetPersonObject: Person = {
                     },
                 },
             ],
-            tidslinjeperioder: [],
+            tidslinjeperioder: [
+                [
+                    {
+                        id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
+                        beregningId: 'id1',
+                        unique: 'nanoid',
+                        fom: dayjs('2020-01-01T00:00:00.000Z'),
+                        tom: dayjs('2020-01-31T00:00:00.000Z'),
+                        type: UtbetalingshistorikkPeriodetype.VEDTAKSPERIODE,
+                        tilstand: Utbetalingstatus.IKKE_UTBETALT,
+                        utbetalingstidslinje: [
+                            {
+                                dato: dayjs('2020-01-01'),
+                                type: Dagtype.Syk,
+                            },
+                        ],
+                        sykdomstidslinje: [
+                            {
+                                dato: dayjs('2020-01-01'),
+                                type: Dagtype.Syk,
+                            },
+                        ],
+                        organisasjonsnummer: '987654321',
+                        fullstendig: true,
+                    },
+                ],
+            ],
             arbeidsforhold: [
                 {
                     stillingstittel: 'Potetplukker',
                     stillingsprosent: 100,
-                    startdato: dayjs('2018-01-01'),
+                    startdato: dayjs('2020-01-01'),
                 },
             ],
         },
     ],
     infotrygdutbetalinger: [],
     tildeling: undefined,
-};
+});

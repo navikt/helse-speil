@@ -8,7 +8,7 @@ import {
 } from '@navikt/helse-frontend-logg';
 
 import { usePerson } from '../../../state/person';
-import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import { useAktivPeriode, useAktivVedtaksperiode, useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { IkonDialog } from './icons/IkonDialog';
@@ -21,25 +21,23 @@ interface LoggProviderProps {
 }
 
 export const LoggProvider = ({ children }: LoggProviderProps) => {
-    const aktivVedtaksperiode = useAktivVedtaksperiode() as Vedtaksperiode | UfullstendigVedtaksperiode;
+    const aktivPeriode = useAktivPeriode();
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id!);
+
     const person = usePerson();
     const annullertAvSaksbehandler = person?.utbetalinger?.find(
         (utb) =>
             utb.arbeidsgiverOppdrag.fagsystemId ===
-            (aktivVedtaksperiode as Vedtaksperiode)?.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId
+            (vedtaksperiode as Vedtaksperiode)?.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId
     )?.annullering;
 
     const erFullstendig = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean => !!periode?.fullstendig;
 
-    const dokumenter =
-        (erFullstendig(aktivVedtaksperiode) && mapDokumenter(aktivVedtaksperiode as Vedtaksperiode)) || [];
-    const overstyringer =
-        (erFullstendig(aktivVedtaksperiode) && mapOverstyringer(aktivVedtaksperiode as Vedtaksperiode)) || [];
-    const godkjenninger =
-        (erFullstendig(aktivVedtaksperiode) && mapGodkjenninger(aktivVedtaksperiode as Vedtaksperiode)) || [];
+    const dokumenter = (erFullstendig(vedtaksperiode) && mapDokumenter(vedtaksperiode as Vedtaksperiode)) || [];
+    const overstyringer = (erFullstendig(vedtaksperiode) && mapOverstyringer(vedtaksperiode as Vedtaksperiode)) || [];
+    const godkjenninger = (erFullstendig(vedtaksperiode) && mapGodkjenninger(vedtaksperiode as Vedtaksperiode)) || [];
     const annullering =
-        (erFullstendig(aktivVedtaksperiode) && annullertAvSaksbehandler && mapAnnullering(annullertAvSaksbehandler)) ||
-        [];
+        (erFullstendig(vedtaksperiode) && annullertAvSaksbehandler && mapAnnullering(annullertAvSaksbehandler)) || [];
 
     const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger, ...annullering]
         .sort(hendelsesorterer)

@@ -3,11 +3,11 @@ import React from 'react';
 
 import { Row } from '@navikt/helse-frontend-timeline/lib';
 
-import { TidslinjeTooltip } from './TidslinjeTooltip';
+import { decomposedId, useAktivPeriode, useSetAktivPeriode } from '../../../state/tidslinje';
+
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { InfotrygdradObject } from './useInfotrygdrader';
 import { TidslinjeradObject } from './useTidslinjerader';
-import { decomposedId, useAktivPeriode, useSetAktivPeriode } from '../../../state/tidslinje';
 
 const Container = styled(Row)<{ erAktiv: boolean }>`
     ${({ erAktiv }) =>
@@ -53,7 +53,7 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
                         tilstand={it.tilstand}
                         erForeldet={erForeldet}
                         hoverLabel={it.hoverLabel ? it.hoverLabel : undefined}
-                        skalVisePin={!erForeldet ?? it.skalVisePin}
+                        skalVisePin={!erForeldet ? it.skalVisePin : false}
                         onClick={onClick}
                         erAktiv={
                             erKlikkbar

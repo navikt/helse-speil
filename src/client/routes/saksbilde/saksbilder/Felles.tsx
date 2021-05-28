@@ -1,34 +1,30 @@
-import {
-    ForlengelseEtikett,
-    FørstegangsbehandlingEtikett,
-    InfotrygdforlengelseEtikett,
-    RevurderingEtikett,
-    RiskQaEtikett,
-    StikkprøveEtikett,
-} from '../../oversikt/Oppgaveetikett';
-import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
+import styled from '@emotion/styled';
+import { Dayjs } from 'dayjs';
+import { Arbeidsforhold, Dagtype, Periodetype } from 'internal-types';
+import React from 'react';
+
+import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
+
+import { Flex } from '../../../components/Flex';
+import { Clipboard } from '../../../components/clipboard';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
-import React from 'react';
-import styled from '@emotion/styled';
-import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
-import { Clipboard } from '../../../components/clipboard';
-import { useSykepengegrunnlag } from '../../../state/person';
-import { Flex } from '../../../components/Flex';
-import { somPenger } from '../../../utils/locale';
-import { Arbeidsforhold, Dagtype, Periodetype } from 'internal-types';
-import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
 import {
     Periodetype as Historikkperiodetype,
     Tidslinjeperiode,
     useGjenståendeDager,
     useNettobeløp,
 } from '../../../modell/UtbetalingshistorikkElement';
-import { Dayjs } from 'dayjs';
+import { useSykepengegrunnlag } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
-import { Utbetalingsdialog } from '../utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
+import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { somPenger } from '../../../utils/locale';
+
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import { Utbetalingsdialog } from '../utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
 import { Vilkårsliste } from '../utbetaling/Vilkårsoversikt';
+import { Oppgavetype } from './Oppgavetype';
 
 const Kort = styled.section`
     padding-bottom: 0;
@@ -61,46 +57,21 @@ const Korttittel = styled(Undertittel)`
     }
 `;
 
-const StyledUndertekstBold = styled(UndertekstBold)`
+export const StyledUndertekstBold = styled(UndertekstBold)`
     letter-spacing: 0.4px;
     color: #59514b;
 `;
 
 const PeriodetypeEtikett = (periode: Tidslinjeperiode) => {
     const vedtaksperiode = useVedtaksperiode(periode.id);
-    if (periode.type === Historikkperiodetype.REVURDERING)
-        return <RevurderingEtikett medLabel label={<StyledUndertekstBold>REVURDERINGSPERIODE</StyledUndertekstBold>} />;
-    switch (vedtaksperiode?.periodetype) {
-        case Periodetype.Infotrygdforlengelse:
-        case Periodetype.Forlengelse:
-            return <ForlengelseEtikett medLabel label={<StyledUndertekstBold>FORLENGELSE</StyledUndertekstBold>} />;
-        case Periodetype.Førstegangsbehandling:
-            return (
-                <FørstegangsbehandlingEtikett
-                    medLabel
-                    label={<StyledUndertekstBold>FØRSTEGANGSBEHANDLING</StyledUndertekstBold>}
-                />
-            );
-        case Periodetype.OvergangFraInfotrygd:
-            return (
-                <InfotrygdforlengelseEtikett
-                    medLabel
-                    label={<StyledUndertekstBold>INFOTRYGDFORLENGELSE</StyledUndertekstBold>}
-                />
-            );
-        case Periodetype.Stikkprøve:
-            return <StikkprøveEtikett medLabel label={<StyledUndertekstBold>STIKKPRØVE</StyledUndertekstBold>} />;
-        case Periodetype.RiskQa:
-            return <RiskQaEtikett medLabel label={<StyledUndertekstBold>RISK QA</StyledUndertekstBold>} />;
-        default:
-            return null;
-    }
+    if (periode.type === Historikkperiodetype.REVURDERING) return <Oppgavetype periodetype={Periodetype.Revurdering} />;
+    return <Oppgavetype periodetype={vedtaksperiode?.periodetype} />;
 };
 
 interface PeriodeKortProps {
     aktivPeriode: Tidslinjeperiode;
     maksdato: string;
-    gjenståendeDager: number;
+    gjenståendeDager?: number;
     skjæringstidspunkt: string;
 }
 
@@ -114,7 +85,10 @@ export const PeriodeKort = ({ aktivPeriode, maksdato, skjæringstidspunkt, gjens
             <Korttittel>{PeriodetypeEtikett(aktivPeriode)}</Korttittel>
             <IkonOgTekst tekst={periode} Ikon={<Sykmeldingsperiodeikon />} />
             <IkonOgTekst tekst={skjæringstidspunkt} Ikon={<Skjæringstidspunktikon />} />
-            <IkonOgTekst tekst={`${maksdato} (${gjenståendeDager} dager igjen)`} Ikon={<Maksdatoikon />} />
+            <IkonOgTekst
+                tekst={`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}
+                Ikon={<Maksdatoikon />}
+            />
         </Kort>
     );
 };
@@ -170,7 +144,7 @@ interface VilkårKortProps {
 const VilkårKort = ({ aktivPeriode }: VilkårKortProps) => {
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
 
-    if (!vedtaksperiode) return null;
+    if (!vedtaksperiode || !vedtaksperiode.fullstendig) return null;
 
     return (
         <Kort>
@@ -185,7 +159,7 @@ const VilkårKort = ({ aktivPeriode }: VilkårKortProps) => {
 interface UtbetalingKortProps {
     beregningId: string;
     utbetalingsdagerTotalt: number;
-    nettobeløp: number;
+    nettobeløp?: number;
 }
 
 export const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt, nettobeløp }: UtbetalingKortProps) => {
@@ -205,7 +179,7 @@ export const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt, nettobelø
             </Flex>
             <Flex justifyContent="space-between">
                 <Normaltekst>Til utbetaling nå:</Normaltekst>
-                <Normaltekst>{nettobeløp}</Normaltekst>
+                <Normaltekst>{nettobeløp ?? 'Ukjent beløp'}</Normaltekst>
             </Flex>
         </Kort>
     );

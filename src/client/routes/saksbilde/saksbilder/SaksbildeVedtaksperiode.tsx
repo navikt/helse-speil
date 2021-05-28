@@ -1,29 +1,29 @@
 import styled from '@emotion/styled';
-import {Person} from 'internal-types';
+import { Person } from 'internal-types';
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
-import {LoggListe as EksternLoggliste} from '@navikt/helse-frontend-logg';
+import { LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
 
-import {ErrorBoundary} from '../../../components/ErrorBoundary';
-import {Flex, FlexColumn} from '../../../components/Flex';
-import {useArbeidsforhold, useArbeidsgivernavn, useOrganisasjonsnummer} from '../../../modell/Arbeidsgiver';
+import { ErrorBoundary } from '../../../components/ErrorBoundary';
+import { Flex, FlexColumn } from '../../../components/Flex';
+import { useArbeidsforhold, useArbeidsgivernavn, useOrganisasjonsnummer } from '../../../modell/Arbeidsgiver';
+import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { usePersondataSkalAnonymiseres } from '../../../state/person';
+import { useVedtaksperiode } from '../../../state/tidslinje';
 
-import {AmplitudeProvider} from '../AmplitudeContext';
-import {getErrorMelding, LoggHeader} from '../Saksbilde';
-import {Faresignaler} from '../faresignaler/Faresignaler';
-import {Sakslinje} from '../sakslinje/Sakslinje';
-import {Sykepengegrunnlag} from '../sykepengegrunnlag/Sykepengegrunnlag';
-import {Sykmeldingsperiode} from '../sykmeldingsperiode/Sykmeldingsperiode';
-import {Toppvarsler} from '../toppvarsler/Toppvarsler';
-import {Utbetaling} from '../utbetaling/Utbetaling';
-import {Utbetalingshistorikk} from '../utbetalingshistorikk/Utbetalingshistorikk';
-import {Vilkår} from '../vilkår/Vilkår';
-import {Tidslinjeperiode} from '../../../modell/UtbetalingshistorikkElement';
-import {useVedtaksperiode} from '../../../state/tidslinje';
-import {VenstreMeny, VertikalStrek} from './Felles';
-import {usePersondataSkalAnonymiseres} from "../../../state/person";
+import { AmplitudeProvider } from '../AmplitudeContext';
+import { getErrorMelding, LoggHeader } from '../Saksbilde';
+import { Faresignaler } from '../faresignaler/Faresignaler';
+import { Sakslinje } from '../sakslinje/Sakslinje';
+import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
+import { Sykmeldingsperiode } from '../sykmeldingsperiode/Sykmeldingsperiode';
+import { Toppvarsler } from '../toppvarsler/Toppvarsler';
+import { Utbetaling } from '../utbetaling/Utbetaling';
+import { Utbetalingshistorikk } from '../utbetalingshistorikk/Utbetalingshistorikk';
+import { Vilkår } from '../vilkår/Vilkår';
+import { VenstreMeny, VertikalStrek } from './Felles';
 
 interface SaksbildeVedtaksperiodeProps {
     personTilBehandling: Person;
@@ -152,7 +152,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                                         />
                                                     </Route>
                                                     <Route path={`${path}/sykmeldingsperiode`}>
-                                                        <Sykmeldingsperiode />
+                                                        <Sykmeldingsperiode aktivPeriode={aktivPeriode} />
                                                     </Route>
                                                     <Route path={`${path}/vilkår`}>
                                                         <Vilkår

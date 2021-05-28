@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import {Dayjs} from 'dayjs';
+import { Dayjs } from 'dayjs';
 import {
     Dagtype,
     UfullstendigVedtaksperiode,
@@ -7,19 +7,19 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
-import React, {CSSProperties} from 'react';
+import React, { CSSProperties } from 'react';
 
-import {Undertekst} from 'nav-frontend-typografi';
+import { Undertekst } from 'nav-frontend-typografi';
 
-import {FlexColumn} from '../../../components/Flex';
-import {NORSK_DATOFORMAT} from '../../../utils/date';
-import {somPenger} from '../../../utils/locale';
+import { FlexColumn } from '../../../components/Flex';
 import {
     Tidslinjeperiode,
     useGjenståendeDager,
     useNettobeløp,
-    Utbetalingstatus
-} from "../../../modell/UtbetalingshistorikkElement";
+    Utbetalingstatus,
+} from '../../../modell/UtbetalingshistorikkElement';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
+import { somPenger } from '../../../utils/locale';
 
 const Container = styled(FlexColumn)`
     align-items: flex-start;
@@ -242,10 +242,12 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
                     {fom} - {tom}
                 </LinjeVerdi>
             </Linje>
-            <Linje>
-                <LinjeFelt>Utbetalt: </LinjeFelt>
-                <LinjeVerdi>{somPenger(nettobeløp)} </LinjeVerdi>
-            </Linje>
+            {nettobeløp != undefined && (
+                <Linje>
+                    <LinjeFelt>Utbetalt: </LinjeFelt>
+                    <LinjeVerdi>{somPenger(nettobeløp)} </LinjeVerdi>
+                </Linje>
+            )}
             {arbeidsgiverperiode && (
                 <Linje>
                     <LinjeFelt>Arbeidsgiverperiode: </LinjeFelt>

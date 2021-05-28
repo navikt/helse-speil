@@ -21,7 +21,7 @@ import {
     Utbetalingstatus,
 } from '../../../modell/UtbetalingshistorikkElement';
 
-import {HoverInfo, TidslinjeperiodeHoverInfo} from './HoverInfo';
+import { HoverInfo, TidslinjeperiodeHoverInfo } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 
@@ -134,10 +134,10 @@ export const useTidslinjerader = (
                     navn: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
                     rader: harUtbetalingshistorikk(arbeidsgiver.utbetalingshistorikk)
                         ? arbeidsgiver.tidslinjeperioder.map(
-                              (element) =>
+                              (rad) =>
                                   ({
                                       id: nanoid(),
-                                      perioder: toTidslinjeperioder(element, fom, tom),
+                                      perioder: toTidslinjeperioder(rad, fom, tom),
                                       arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
                                       erAktiv: false,
                                   } as TidslinjeradObject)

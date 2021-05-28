@@ -6,19 +6,21 @@ import {
     SpesialistPerson,
     SpesialistVedtaksperiode,
 } from 'external-types';
-import {Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode} from 'internal-types';
+import { Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode } from 'internal-types';
+import { nanoid } from 'nanoid';
 
 import {
     Periodetype,
+    sykdomstidslinje,
     Tidslinjeperiode,
     utbetalingshistorikkelement,
     Utbetalingstatus,
+    utbetalingstidslinje,
 } from '../modell/UtbetalingshistorikkElement';
 
-import {sykdomstidslinjedag, utbetalingstidslinjedag} from './dag';
-import {UfullstendigVedtaksperiodeBuilder} from './ufullstendigVedtaksperiode';
-import {VedtaksperiodeBuilder} from './vedtaksperiode';
-import {nanoid} from 'nanoid';
+import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
+import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
+import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -77,12 +79,26 @@ export class ArbeidsgiverBuilder {
                                         ? Periodetype.VEDTAKSPERIODE
                                         : Periodetype.REVURDERING,
                                 tilstand: sisteUtbetaling.status,
-                                utbetalingstidslinje: sisteUtbetaling.utbetalingstidslinje,
-                                sykdomstidslinje: element.beregnettidslinje,
+                                utbetalingstidslinje: utbetalingstidslinje(sisteUtbetaling, periode.fom, periode.tom),
+                                sykdomstidslinje: sykdomstidslinje(element.beregnettidslinje, periode.fom, periode.tom),
                                 fullstendig: periode.fullstendig,
                                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
                             };
-                        }) ?? []
+                        }) ?? [
+                            {
+                                id: periode.id,
+                                beregningId: nanoid(),
+                                unique: nanoid(),
+                                fom: periode.fom,
+                                tom: periode.tom,
+                                type: Periodetype.VEDTAKSPERIODE,
+                                tilstand: Utbetalingstatus.UKJENT,
+                                utbetalingstidslinje: [],
+                                sykdomstidslinje: [],
+                                fullstendig: periode.fullstendig,
+                                organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
+                            },
+                        ]
                     );
                 }) ?? []
             ),

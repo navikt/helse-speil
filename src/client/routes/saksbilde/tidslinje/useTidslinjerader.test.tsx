@@ -9,6 +9,7 @@ import {
     Utbetalingstype,
     Vedtaksperiode,
 } from 'internal-types';
+import { mappetPerson } from 'test-data';
 
 import {
     Periodetype,
@@ -17,82 +18,85 @@ import {
     Utbetalingstatus,
 } from '../../../modell/UtbetalingshistorikkElement';
 
-import { mappetPersonObject } from '../../../../test/data/person';
+import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
+import { umappetUtbetalingshistorikk } from '../../../../test/data/utbetalingshistorikk';
+import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { tilPeriodetilstand, useTidslinjerader } from './useTidslinjerader';
 
 type Vedtaksperioder = (Vedtaksperiode | UfullstendigVedtaksperiode)[];
 
-let person = mappetPersonObject;
+let person = mappetPerson();
 
 describe('useTidslinjerader', () => {
-    const førsteVedtaksperiode = person.arbeidsgivere[0].vedtaksperioder[0];
-    const vedtaksperiodene = person.arbeidsgivere[0].vedtaksperioder;
     beforeEach(() => {
-        person = mappetPersonObject;
-        førsteVedtaksperiode.fom = dayjs('2018-01-01');
-        førsteVedtaksperiode.tom = dayjs('2018-01-02');
-        førsteVedtaksperiode.beregningIder = ['1234'];
+        person = mappetPerson();
     });
 
     test('ett utbetalingshistorikkelement medfører én tidslinjerad', () => {
-        person.arbeidsgivere[0].utbetalingshistorikk = [
-            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene),
-        ];
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-31'), false));
+        person = mappetPerson([
+            umappetArbeidsgiver(
+                [umappetVedtaksperiode({ beregningIder: ['1234'] })],
+                [],
+                [umappetUtbetalingshistorikk('1234')]
+            ),
+        ]);
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2020-01-01'), dayjs('2020-01-31'), false));
         expect(result.current[0].rader.length).toEqual(1);
         expect(result.current[0].rader[0].perioder.length).toEqual(1);
-        expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
-        expect(result.current[0].rader[0].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2020-01-01'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].end.isSame(dayjs('2020-01-31'), 'day')).toBe(true);
     });
 
     test('to utbetalingshistorikkelementer med én revurdering medfører to tidslinjerader', () => {
-        person.arbeidsgivere[0].utbetalingshistorikk = [
-            nyttElement('1235', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene, true),
-            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene),
-        ];
+        person = mappetPerson([
+            umappetArbeidsgiver(
+                [umappetVedtaksperiode({ beregningIder: ['1234', '1235'] })],
+                [],
+                [umappetUtbetalingshistorikk('1234'), umappetUtbetalingshistorikk('1235', true)]
+            ),
+        ]);
 
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-02'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2020-01-01'), dayjs('2020-01-31'), false));
         expect(result.current[0].rader.length).toEqual(2);
         expect(result.current[0].rader[0].perioder.length).toEqual(1);
         expect(result.current[0].rader[1].perioder.length).toEqual(1);
-        expect(result.current[0].rader[1].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
-        expect(result.current[0].rader[1].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
-        expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
-        expect(result.current[0].rader[0].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
+        expect(result.current[0].rader[1].perioder[0].start.isSame(dayjs('2020-01-01'), 'day')).toBe(true);
+        expect(result.current[0].rader[1].perioder[0].end.isSame(dayjs('2020-01-31'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2020-01-01'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder[0].end.isSame(dayjs('2020-01-31'), 'day')).toBe(true);
     });
 
     test('tre utbetalingshistorikkelementer med utb. - rev. - utb. medfører to tidslinjerader', () => {
-        førsteVedtaksperiode.beregningIder = ['1234', '1236'];
-        person.arbeidsgivere[0].vedtaksperioder.push({
-            ...førsteVedtaksperiode,
-            fom: dayjs('2018-01-03'),
-            tom: dayjs('2018-01-04'),
-            beregningIder: ['1236'],
-        });
-        person.arbeidsgivere[0].utbetalingshistorikk = [
-            nyttElement(
-                '1236',
-                dayjs('2018-01-01'),
-                dayjs('2018-01-04'),
-                dayjs('2018-08-08'),
-                vedtaksperiodene,
-                false,
-                false
+        person = mappetPerson([
+            umappetArbeidsgiver(
+                [
+                    umappetVedtaksperiode({ beregningIder: ['1234', '1235'] }),
+                    umappetVedtaksperiode({
+                        id: 'id2',
+                        beregningIder: ['1236'],
+                        fom: dayjs('2020-01-03'),
+                        tom: dayjs('2020-01-04'),
+                    }),
+                ],
+                [],
+                [
+                    umappetUtbetalingshistorikk('1234'),
+                    umappetUtbetalingshistorikk('1235', true),
+                    umappetUtbetalingshistorikk('1236'),
+                ]
             ),
-            nyttElement('1235', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene, true),
-            nyttElement('1234', dayjs('2018-01-01'), dayjs('2018-01-02'), dayjs('2018-08-08'), vedtaksperiodene),
-        ];
+        ]);
 
-        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2018-01-01'), dayjs('2018-01-04'), false));
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2020-01-01'), dayjs('2020-01-31'), false));
         expect(result.current[0].rader.length).toEqual(2);
-        expect(result.current[0].rader[0].perioder.length).toEqual(2);
-        expect(result.current[0].rader[1].perioder.length).toEqual(1);
-        expect(result.current[0].rader[1].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
-        expect(result.current[0].rader[1].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
-        expect(result.current[0].rader[0].perioder[0].start.isSame(dayjs('2018-01-01'), 'day')).toBe(true);
-        expect(result.current[0].rader[0].perioder[0].end.isSame(dayjs('2018-01-02'), 'day')).toBe(true);
-        expect(result.current[0].rader[0].perioder[1].start.isSame(dayjs('2018-01-03'), 'day')).toBe(true);
-        expect(result.current[0].rader[0].perioder[1].end.isSame(dayjs('2018-01-04'), 'day')).toBe(true);
+        expect(result.current[0].rader[0].perioder.length).toEqual(1);
+        expect(result.current[0].rader[1].perioder.length).toEqual(2);
+        expect(result.current[0].rader[0].perioder[0].start.endOf('day')).toEqual(dayjs('2020-01-01').endOf('day'));
+        expect(result.current[0].rader[0].perioder[0].end.endOf('day')).toEqual(dayjs('2020-01-31').endOf('day'));
+        expect(result.current[0].rader[1].perioder[0].start.endOf('day')).toEqual(dayjs('2020-01-03').endOf('day'));
+        expect(result.current[0].rader[1].perioder[0].end.endOf('day')).toEqual(dayjs('2020-01-04').endOf('day'));
+        expect(result.current[0].rader[1].perioder[1].start.endOf('day')).toEqual(dayjs('2020-01-01').endOf('day'));
+        expect(result.current[0].rader[1].perioder[1].end.endOf('day')).toEqual(dayjs('2020-01-31').endOf('day'));
     });
 });
 

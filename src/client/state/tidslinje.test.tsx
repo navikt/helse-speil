@@ -4,10 +4,12 @@ import React from 'react';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 import { mappetPerson } from 'test-data';
 
+import { Tidslinjeperiode } from '../modell/UtbetalingshistorikkElement';
+
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
-import { aktivPeriodeState, useAktivPeriode, useAktivVedtaksperiode } from './tidslinje';
+import { aktivPeriodeState, decomposedId, useAktivPeriode, useAktivVedtaksperiode } from './tidslinje';
 
 const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 const person = mappetPerson([
@@ -20,12 +22,13 @@ const person = mappetPerson([
             }),
             umappetVedtaksperiode({
                 id: 'uuid-2',
+                beregningIder: ['id2'],
                 fom: dayjs('2020-02-01'),
                 tom: dayjs('2020-02-14'),
             }),
         ],
         [],
-        [umappetUtbetalingshistorikk('id1', true)]
+        [umappetUtbetalingshistorikk('id1', false), umappetUtbetalingshistorikk('id2', false)]
     ),
 ]);
 
@@ -38,7 +41,7 @@ jest.mock('nanoid', () => ({
 }));
 
 describe('tidslinjehook', () => {
-    it('defaulter til siste vedtaksperiode om ikke en er aktiv', () => {
+    it('defaulter til siste periode om ikke en er aktiv', () => {
         const { result } = renderHook(
             () => {
                 return useAktivVedtaksperiode();
@@ -48,36 +51,17 @@ describe('tidslinjehook', () => {
         expect(result.current?.id).toEqual('uuid-2');
     });
 
-    it('defaulter til siste vedtaksperiode om ikke en er aktiv', () => {
+    it('finner periode', () => {
         const { result } = renderHook(
             () => {
-                useSetRecoilState(aktivPeriodeState)('uuid-1');
-                return useAktivVedtaksperiode();
-            },
-            { wrapper }
-        );
-        expect(result.current?.id).toEqual('uuid-1');
-    });
-
-    it('finner revurdert periode', () => {
-        const { result } = renderHook(
-            () => {
-                useSetRecoilState(aktivPeriodeState)('nanoid');
+                useSetRecoilState(aktivPeriodeState)('uuid-1+id1+nanoid');
                 return useAktivPeriode();
             },
             { wrapper }
         );
-        expect(result.current?.id).toEqual('nanoid');
-    });
-
-    it('finner vedtaksperiode via aktivPeriode', () => {
-        const { result } = renderHook(
-            () => {
-                useSetRecoilState(aktivPeriodeState)('uuid-2');
-                return useAktivPeriode();
-            },
-            { wrapper }
-        );
-        expect(result.current?.id).toEqual('uuid-2');
+        const { id, beregningId, unique } = result.current as Tidslinjeperiode;
+        expect(id).toEqual('uuid-1');
+        expect(beregningId).toEqual('id1');
+        expect(unique).toEqual('nanoid');
     });
 });

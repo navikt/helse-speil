@@ -20,7 +20,7 @@ export const umappetUfullstendigVedtaksperiode = (
 ): UfullstendigSpesialistVedtaksperiode => {
     const fom = options?.fom ?? dayjs('2020-01-01');
     const tom = options?.tom ?? dayjs('2020-01-31');
-    const id = options?.id ?? 'fa02d7a5-daf2-488c-9798-2539edd7fe3f';
+    const id = options?.id ?? 'fa02d7a5-daf2-488c-9798-2539edd7fe3g';
     const sykdomsdager = sykdomstidslinje(fom, tom);
     const utbetalingsdager = utbetalingstidslinje(sykdomsdager, 1500);
     return {

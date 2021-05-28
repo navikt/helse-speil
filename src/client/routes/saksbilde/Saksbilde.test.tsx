@@ -89,15 +89,23 @@ describe('Saksbilde', () => {
     });
     test('rendrer saksbilde for ufullstendig vedtaksperiode', async () => {
         const personMedUfullstendigVedtaksperiode = mappetPerson([
-            umappetArbeidsgiver([umappetUfullstendigVedtaksperiode()]),
+            umappetArbeidsgiver(
+                [
+                    umappetUfullstendigVedtaksperiode({ fom: dayjs('2020-02-01'), tom: dayjs('2020-02-28') }),
+                    umappetVedtaksperiode(),
+                ],
+                [],
+                [umappetUtbetalingshistorikk()]
+            ),
         ]);
 
         render(<Saksbilde />, { wrapper: wrapper(personMedUfullstendigVedtaksperiode) });
         await waitFor(() => {
             const perioder = screen.getAllByTestId('tidslinjeperiode', { exact: false });
-            expect(perioder).toHaveLength(1);
+            expect(perioder).toHaveLength(2);
             expect(perioder[0]).toBeVisible();
-            userEvent.click(perioder[0].getElementsByTagName('button')[0]);
+            expect(perioder[1]).toBeVisible();
+            userEvent.click(perioder[1].getElementsByTagName('button')[0]);
 
             expect(screen.getByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeVisible();
             expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();

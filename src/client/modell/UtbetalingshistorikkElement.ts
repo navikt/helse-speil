@@ -2,32 +2,17 @@ import { Dayjs } from 'dayjs';
 import {
     Arbeidsgiver,
     Sykdomsdag,
-    UfullstendigVedtaksperiode,
     Utbetalingsdag,
     UtbetalingshistorikkUtbetaling2,
     Utbetalingstype,
-    Vedtaksperiode as FullstendigVedtaksperiode,
 } from 'internal-types';
-import { nanoid } from 'nanoid';
 
-import { PeriodeBuilder } from '../routes/saksbilde/tidslinje/periodeBuilder';
 import { usePerson } from '../state/person';
 
-type Vedtaksperiode = FullstendigVedtaksperiode | UfullstendigVedtaksperiode;
-
-const isUfullstendig = (vedtaksperiode: Vedtaksperiode) => {
-    return (
-        (vedtaksperiode as UfullstendigVedtaksperiode) !== undefined &&
-        (vedtaksperiode as FullstendigVedtaksperiode) === undefined
-    );
-};
-
-const useHistorikkelement = (beregningId: string) => {
-    const element = usePerson()
+const useHistorikkelement = (beregningId?: string) => {
+    return usePerson()
         ?.arbeidsgivere.flatMap((arb: Arbeidsgiver) => arb.utbetalingshistorikk)
         .find((element: UtbetalingshistorikkElement) => element.id === beregningId);
-    if (!element) throw Error('Fant ikke element i utbetalingshistorikk');
-    return element;
 };
 
 export interface UtbetalingshistorikkElement {
@@ -55,7 +40,11 @@ export const utbetalingshistorikkelement = (
     };
 };
 
-export const utbetaling = (element: UtbetalingshistorikkElement): UtbetalingshistorikkUtbetaling2 => element.utbetaling;
+export const useSisteUtbetaling = (beregningId?: string): UtbetalingshistorikkUtbetaling2 | undefined => {
+    const element = useHistorikkelement(beregningId);
+    if (!element) return undefined;
+    return element.utbetaling;
+};
 
 export const erUtbetaling = (utbetaling: UtbetalingshistorikkUtbetaling2) =>
     utbetaling.type === Utbetalingstype.UTBETALING;
@@ -66,17 +55,19 @@ export const sykdomstidslinje = (sykdomstidslinje: Sykdomsdag[], fom: Dayjs, tom
 export const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkUtbetaling2, fom: Dayjs, tom: Dayjs) =>
     utbetaling.utbetalingstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
 
-export const erTidslinjeperiode = (obj: any): obj is Tidslinjeperiode =>
-    (obj as Tidslinjeperiode).beregningId !== undefined;
-
 export const erRevurderingsperiode = (periode: Tidslinjeperiode) => periode.type === Periodetype.REVURDERING;
 
-export const useMaksdato = (beregningId: string) => utbetaling(useHistorikkelement(beregningId)).maksdato;
+export const useMaksdato = (beregningId: string) => {
+    return useSisteUtbetaling(beregningId)?.maksdato;
+};
 
-export const useNettobeløp = (beregningId: string) => utbetaling(useHistorikkelement(beregningId)).nettobeløp;
+export const useNettobeløp = (beregningId: string) => {
+    return useSisteUtbetaling(beregningId)?.nettobeløp;
+};
 
-export const useGjenståendeDager = (beregningId: string) =>
-    utbetaling(useHistorikkelement(beregningId)).gjenståendeDager;
+export const useGjenståendeDager = (beregningId: string) => {
+    return useSisteUtbetaling(beregningId)?.gjenståendeDager;
+};
 
 export interface Tidslinjeperiode {
     id: string;

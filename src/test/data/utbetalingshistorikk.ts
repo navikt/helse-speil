@@ -1,10 +1,10 @@
-import dayjs, { Dayjs } from 'dayjs';
-import { SpleisSykdomsdagkildeType, SpleisSykdomsdagtype, SpleisUtbetalingsdagtype } from 'external-types';
+import dayjs, {Dayjs} from 'dayjs';
+import {SpleisSykdomsdagkildeType, SpleisSykdomsdagtype, SpleisUtbetalingsdagtype} from 'external-types';
 
 export const umappetUtbetalingshistorikk = (
     beregningId: string = 'id1',
-    erRevurdering: Boolean = true,
-    dag: Dayjs = dayjs('2018-01-01')
+    erRevurdering: Boolean = false,
+    dag: Dayjs = dayjs('2020-01-01')
 ) => ({
     beregningId: beregningId,
     hendelsetidslinje: [

@@ -6,9 +6,10 @@ import { useRecoilValue } from 'recoil';
 import '@navikt/helse-frontend-tabell/lib/main.css';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { nyesteOpptegnelseMedTypeOppgaveState } from '../../../state/opptegnelser';
 import { usePerson } from '../../../state/person';
-import { useAktivVedtaksperiode } from '../../../state/tidslinje';
+import { useAktivVedtaksperiode, useVedtaksperiode } from '../../../state/tidslinje';
 import { useAddToast, useRemoveToast } from '../../../state/toasts';
 
 import { OverstyrbarSykmeldingsperiodetabell } from './OverstyrbarSykmeldingsperiodetabell';
@@ -31,9 +32,13 @@ const trimLedendeArbeidsdagerNullable = (sykdomstidslinje?: Sykdomsdag[]): Sykdo
     return sykdomstidslinje !== undefined ? trimLedendeArbeidsdager(sykdomstidslinje) : undefined;
 };
 
-export const Sykmeldingsperiode = () => {
+export interface SykmeldingsperiodeProps {
+    aktivPeriode: Tidslinjeperiode;
+}
+
+export const Sykmeldingsperiode = ({ aktivPeriode }: SykmeldingsperiodeProps) => {
     const person = usePerson();
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const [overstyrer, setOverstyrer] = useState(false);
     const [kalkulerer, setKalkulerer] = useState(false);
     const [overstyringTimedOut, setOverstyringTimedOut] = useState(false);
@@ -68,14 +73,14 @@ export const Sykmeldingsperiode = () => {
                             setKalkulerer(true);
                         }}
                         onToggleOverstyring={() => setOverstyrer((o) => !o)}
-                        originaleDager={trimLedendeArbeidsdagerNullable(aktivVedtaksperiode?.sykdomstidslinje)}
+                        originaleDager={trimLedendeArbeidsdagerNullable(vedtaksperiode?.sykdomstidslinje)}
                     />
                 ) : (
                     person &&
-                    aktivVedtaksperiode && (
+                    vedtaksperiode && (
                         <Sykmeldingsperiodetabell
                             person={person}
-                            vedtaksperiode={aktivVedtaksperiode}
+                            vedtaksperiode={vedtaksperiode}
                             toggleOverstyring={() => setOverstyrer((o) => !o)}
                         />
                     )

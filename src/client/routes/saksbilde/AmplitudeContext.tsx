@@ -1,10 +1,10 @@
 import amplitude from 'amplitude-js';
-import dayjs, { Dayjs } from 'dayjs';
-import React, { PropsWithChildren, useEffect } from 'react';
+import dayjs, {Dayjs} from 'dayjs';
+import React, {PropsWithChildren, useEffect} from 'react';
 
-import { useAktivVedtaksperiode } from '../../state/tidslinje';
+import {useAktivPeriode, useVedtaksperiode} from '../../state/tidslinje';
 
-import { amplitudeEnabled } from '../../featureToggles';
+import {amplitudeEnabled} from '../../featureToggles';
 
 amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {
@@ -53,23 +53,24 @@ const useStoreÅpnetTidspunkt = (oppgavereferanse?: string) => {
 };
 
 export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
-    if (aktivVedtaksperiode === undefined) throw Error('Mangler aktiv vedtaksperiode');
+    const aktivPeriode = useAktivPeriode();
+    if (aktivPeriode === undefined) throw Error('Mangler aktiv vedtaksperiode');
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id);
 
-    useStoreÅpnetTidspunkt(aktivVedtaksperiode.oppgavereferanse);
+    useStoreÅpnetTidspunkt(vedtaksperiode.oppgavereferanse);
 
     const eventProperties = (åpnetTidspunkt: Dayjs, begrunnelser: string[] | undefined = undefined) => ({
         varighet: dayjs().diff(åpnetTidspunkt),
-        type: aktivVedtaksperiode.periodetype,
-        inntektskilde: aktivVedtaksperiode.inntektskilde,
-        warnings: aktivVedtaksperiode.aktivitetslog,
-        antallWarnings: aktivVedtaksperiode.aktivitetslog.length,
+        type: vedtaksperiode.periodetype,
+        inntektskilde: vedtaksperiode.inntektskilde,
+        warnings: vedtaksperiode.aktivitetslog,
+        antallWarnings: vedtaksperiode.aktivitetslog.length,
         begrunnelser: begrunnelser,
     });
 
     const logEvent = (event: 'oppgave godkjent' | 'oppgave forkastet', begrunnelser?: string[]) => {
-        if (amplitudeEnabled && aktivVedtaksperiode.oppgavereferanse) {
-            const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(aktivVedtaksperiode.oppgavereferanse);
+        if (amplitudeEnabled && vedtaksperiode.oppgavereferanse) {
+            const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(vedtaksperiode.oppgavereferanse);
 
             åpnetTidspunkt &&
                 amplitude
@@ -77,7 +78,7 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
                     .logEvent(
                         event,
                         eventProperties(åpnetTidspunkt, begrunnelser),
-                        logEventCallback(aktivVedtaksperiode.oppgavereferanse!)
+                        logEventCallback(vedtaksperiode.oppgavereferanse!)
                     );
         }
     };
