@@ -1,7 +1,11 @@
 import { Dayjs } from 'dayjs';
 import { Utbetalingsperiode } from 'external-types';
 
-import { UtbetalingshistorikkElement, Utbetalingstatus } from '../client/modell/UtbetalingshistorikkElement';
+import {
+    Tidslinjeperiode,
+    UtbetalingshistorikkElement,
+    Utbetalingstatus,
+} from '../client/modell/UtbetalingshistorikkElement';
 
 export interface Periode {
     fom: Dayjs;
@@ -260,6 +264,7 @@ export interface Arbeidsgiver {
     id: string;
     navn: string;
     utbetalingshistorikk: UtbetalingshistorikkElement[];
+    tidslinjeperioder: Tidslinjeperiode[][];
     vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
     arbeidsforhold: Arbeidsforhold[];
 }

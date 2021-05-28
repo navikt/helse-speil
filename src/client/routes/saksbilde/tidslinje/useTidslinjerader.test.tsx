@@ -98,19 +98,7 @@ describe('useTidslinjerader', () => {
 
 describe('tilPeriodetype', () => {
     test('mapper periode til revurdering', () => {
-        const tilstand = tilPeriodetilstand(
-            {
-                status: Utbetalingstatus.IKKE_UTBETALT,
-                type: Utbetalingstype.REVURDERING,
-                utbetalingstidslinje: [],
-                maksdato: dayjs('2018-08-08'),
-                gjenståendeDager: 0,
-                forbrukteDager: 0,
-                nettobeløp: 0,
-                arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
-            },
-            Periodetype.REVURDERING
-        );
+        const tilstand = tilPeriodetilstand(Utbetalingstatus.IKKE_UTBETALT, Periodetype.REVURDERING);
         expect(tilstand).toEqual(Revurderingtilstand.Revurderes);
     });
 });
@@ -122,8 +110,7 @@ const nyttElement = (
     maksdato: Dayjs,
     vedtaksperioder: Vedtaksperioder,
     erRevurdering: boolean = false,
-    erUtbetalt = true,
-    organisasjonsnummer = '123'
+    erUtbetalt = true
 ): UtbetalingshistorikkElement => {
     return utbetalingshistorikkelement(
         id,
@@ -138,9 +125,7 @@ const nyttElement = (
             forbrukteDager: 0,
             nettobeløp: 0,
             arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
-        },
-        vedtaksperioder,
-        organisasjonsnummer
+        }
     );
 };
 

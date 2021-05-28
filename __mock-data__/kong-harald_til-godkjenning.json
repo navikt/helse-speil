@@ -1,598 +1,597 @@
 {
-    "aktørId": "1000000009871",
-    "fødselsnummer": "12020069420",
     "utbetalinger": [],
+    "aktørId": "1000000009871",
+    "fødselsnummer": "21023701901",
+    "dødsdato": null,
     "personinfo": {
-        "fornavn": "KONG HARALD",
+        "fornavn": "KONG",
         "mellomnavn": null,
-        "etternavn": "REX",
-        "fødselsdato": null,
-        "kjønn": "mann"
+        "etternavn": "HARALD",
+        "fødselsdato": "1937-02-21",
+        "kjønn": "Mann"
     },
     "arbeidsgivere": [
         {
-            "organisasjonsnummer": "987654321",
-            "id": "300061b8-77ec-43f5-be5f-c788eb067a9a",
-            "navn": "KONGERIKET NORGE",
-            "bransjer": ["MONARKI"],
-            "overstyringer": [
-                {
-                    "hendelseId": "E6201F83-3104-4D85-840C-C7977B3E788D",
-                    "begrunnelse": "en begrunnelse",
-                    "timestamp": "2018-01-01T12:00:00",
-                    "saksbehandlerNavn": "Sara Saksbehandler",
-                    "overstyrteDager": [
-                        {
-                            "dato": "2018-01-01",
-                            "dagtype": "Sykedag",
-                            "grad": 60
-                        }
-                    ]
-                }
-            ],
+            "organisasjonsnummer": "971524545",
+            "navn": "KONGEHUSET NORGE",
+            "id": "ee597352-98df-43ef-8021-213042291b99",
             "vedtaksperioder": [
                 {
-                    "id": "956189c8-a904-40e7-b1e1-eab46e997ddb",
-                    "gruppeId": "956189c8-a904-40e7-b1e1-eab46e997ddb",
-                    "fom": "2018-01-01",
-                    "tom": "2018-01-31",
+                    "id": "766d47b6-dfac-4469-849d-8ba379025fd1",
+                    "gruppeId": "fbc75597-b716-4708-ae6c-07c305d40ede",
+                    "fom": "2020-01-01",
+                    "tom": "2020-01-31",
                     "tilstand": "Oppgaver",
-                    "oppgavereferanse": "123",
                     "fullstendig": true,
-                    "utbetalingsreferanse": "SVQYTSFJARAOPMPB5K2G5GL53M",
-                    "risikovurdering": {
-                        "funn": [
-                            {
-                                "kreverSupersaksbehandler": false,
-                                "beskrivelse": "Seilbåten er vekk",
-                                "kategori": []
-                            },
-                            {
-                                "kreverSupersaksbehandler": false,
-                                "beskrivelse": "Redningsvesten er vekk",
-                                "kategori": ["8-4"]
-                            },
-                            {
-                                "kreverSupersaksbehandler": false,
-                                "beskrivelse": "Båtmasten er vekk",
-                                "kategori": ["8-4"]
-                            }
-                        ],
-                        "kontrollertOk": [
-                            {
-                                "kreverSupersaksbehandler": false,
-                                "beskrivelse": "Er konge",
-                                "kategori": []
-                            }
-                        ]
-                    },
                     "utbetalingstidslinje": [
                         {
-                            "type": "Arbeidsdag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-01"
+                            "type": "ArbeidsgiverperiodeDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-01"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-02"
+                            "inntekt": 1212,
+                            "dato": "2020-01-02"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-03"
+                            "inntekt": 1212,
+                            "dato": "2020-01-03"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-04"
+                            "inntekt": 1212,
+                            "dato": "2020-01-04"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-05"
+                            "inntekt": 1212,
+                            "dato": "2020-01-05"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-06"
+                            "inntekt": 1212,
+                            "dato": "2020-01-06"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-07"
+                            "inntekt": 1212,
+                            "dato": "2020-01-07"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-08"
+                            "inntekt": 1212,
+                            "dato": "2020-01-08"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-09"
+                            "inntekt": 1212,
+                            "dato": "2020-01-09"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-10"
+                            "inntekt": 1212,
+                            "dato": "2020-01-10"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-11"
+                            "inntekt": 1212,
+                            "dato": "2020-01-11"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-12"
+                            "inntekt": 1212,
+                            "dato": "2020-01-12"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-13"
+                            "inntekt": 1212,
+                            "dato": "2020-01-13"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-14"
+                            "inntekt": 1212,
+                            "dato": "2020-01-14"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-15"
+                            "inntekt": 1212,
+                            "dato": "2020-01-15"
                         },
                         {
                             "type": "ArbeidsgiverperiodeDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-16"
+                            "inntekt": 1212,
+                            "dato": "2020-01-16"
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-17",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-18",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-19",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "inntekt": 1212,
+                            "dato": "2020-01-17",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
                         },
                         {
                             "type": "NavHelgDag",
-                            "inntekt": 0.0,
-                            "dato": "2018-01-20",
-                            "grad": 100.0
+                            "inntekt": 0,
+                            "dato": "2020-01-18",
+                            "grad": 100
                         },
                         {
                             "type": "NavHelgDag",
-                            "inntekt": 0.0,
-                            "dato": "2018-01-21",
-                            "grad": 100.0
+                            "inntekt": 0,
+                            "dato": "2020-01-19",
+                            "grad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-22",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "inntekt": 1212,
+                            "dato": "2020-01-20",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
                         },
                         {
                             "type": "NavDag",
-                            "inntekt": 1430.77,
-                            "dato": "2018-01-23",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "inntekt": 1212,
+                            "dato": "2020-01-21",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
                         },
                         {
-                            "type": "AvvistDag",
-                            "begrunnelser": ["SykepengedagerOppbrukt", "EgenmeldingUtenforArbeidsgiverperiode"],
-                            "inntekt": 0,
-                            "dato": "2018-01-24",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "type": "NavDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-22",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
                         },
                         {
-                            "type": "AvvistDag",
-                            "begrunnelser": ["SykepengedagerOppbrukt", "ManglerMedlemskap"],
-                            "inntekt": 0,
-                            "dato": "2018-01-25",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "type": "NavDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-23",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
                         },
                         {
-                            "type": "AvvistDag",
-                            "begrunnelser": ["SykepengedagerOppbrukt", "MinimumInntekt"],
-                            "inntekt": 0,
-                            "dato": "2018-01-26",
-                            "utbetaling": 1431,
-                            "grad": 100.0
-                        },
-                        {
-                            "type": "NavHelgDag",
-                            "inntekt": 0.0,
-                            "dato": "2018-01-27",
-                            "grad": 100.0
+                            "type": "NavDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-24",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
                         },
                         {
                             "type": "NavHelgDag",
-                            "inntekt": 0.0,
-                            "dato": "2018-01-28",
-                            "grad": 100.0
+                            "inntekt": 0,
+                            "dato": "2020-01-25",
+                            "grad": 100
                         },
                         {
-                            "type": "AvvistDag",
-                            "begrunnelse": "SykepengedagerOppbrukt",
+                            "type": "NavHelgDag",
                             "inntekt": 0,
-                            "dato": "2018-01-29",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "dato": "2020-01-26",
+                            "grad": 100
                         },
                         {
-                            "type": "AvvistDag",
-                            "begrunnelse": "SykepengedagerOppbrukt",
-                            "inntekt": 0,
-                            "dato": "2018-01-30",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "type": "NavDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-27",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
                         },
                         {
-                            "type": "AvvistDag",
-                            "begrunnelse": "SykepengedagerOppbrukt",
-                            "inntekt": 0,
-                            "dato": "2018-01-31",
-                            "utbetaling": 1431,
-                            "grad": 100.0
+                            "type": "NavDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-28",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-29",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-30",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
+                        },
+                        {
+                            "type": "NavDag",
+                            "inntekt": 1212,
+                            "dato": "2020-01-31",
+                            "utbetaling": 1212,
+                            "grad": 100,
+                            "totalGrad": 100
                         }
                     ],
+                    "inntektskilde": "EN_ARBEIDSGIVER",
+                    "utbetalingsreferanse": null,
+                    "utbetalinger": {
+                        "arbeidsgiverUtbetaling": null,
+                        "personUtbetaling": null
+                    },
+                    "utbetalteUtbetalinger": {
+                        "arbeidsgiverUtbetaling": null,
+                        "personUtbetaling": null
+                    },
                     "sykdomstidslinje": [
                         {
-                            "dagen": "2018-01-01",
-                            "type": "ARBEIDSDAG",
-                            "kilde": {
-                                "type": "Saksbehandler",
-                                "kildeId": "E6201F83-3104-4D85-840C-C7977B3E788D"
-                            },
-                            "grad": 60
-                        },
-                        {
-                            "dagen": "2018-01-02",
+                            "dagen": "2020-01-01",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Inntektsmelding"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-03",
+                            "dagen": "2020-01-02",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Sykmelding"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-04",
+                            "dagen": "2020-01-03",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-05",
-                            "type": "SYKEDAG",
-                            "kilde": {
-                                "type": "Søknad"
-                            },
-                            "grad": 100.0
-                        },
-                        {
-                            "dagen": "2018-01-06",
+                            "dagen": "2020-01-04",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-07",
+                            "dagen": "2020-01-05",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-08",
+                            "dagen": "2020-01-06",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-09",
+                            "dagen": "2020-01-07",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-10",
+                            "dagen": "2020-01-08",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-11",
+                            "dagen": "2020-01-09",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-12",
+                            "dagen": "2020-01-10",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-13",
+                            "dagen": "2020-01-11",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-14",
+                            "dagen": "2020-01-12",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-15",
+                            "dagen": "2020-01-13",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-16",
+                            "dagen": "2020-01-14",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-17",
+                            "dagen": "2020-01-15",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-18",
+                            "dagen": "2020-01-16",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-19",
+                            "dagen": "2020-01-17",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-20",
+                            "dagen": "2020-01-18",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-21",
+                            "dagen": "2020-01-19",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-22",
+                            "dagen": "2020-01-20",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-23",
+                            "dagen": "2020-01-21",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-24",
+                            "dagen": "2020-01-22",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-25",
+                            "dagen": "2020-01-23",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-26",
+                            "dagen": "2020-01-24",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-27",
+                            "dagen": "2020-01-25",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-28",
+                            "dagen": "2020-01-26",
                             "type": "SYK_HELGEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-29",
+                            "dagen": "2020-01-27",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-30",
+                            "dagen": "2020-01-28",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
                         },
                         {
-                            "dagen": "2018-01-31",
+                            "dagen": "2020-01-29",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad"
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
                             },
-                            "grad": 100.0
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-30",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-31",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
                         }
                     ],
                     "godkjentAv": null,
                     "godkjenttidspunkt": null,
+                    "automatiskBehandlet": false,
                     "vilkår": {
                         "sykepengedager": {
                             "forbrukteSykedager": 11,
-                            "skjæringstidspunkt": "2018-01-01",
-                            "førsteSykepengedag": "2018-01-17",
-                            "maksdato": "2018-01-23",
+                            "skjæringstidspunkt": "2020-01-01",
+                            "beregningsdato": "2020-01-01",
+                            "førsteFraværsdag": "2020-01-01",
+                            "førsteSykepengedag": "2020-01-17",
+                            "maksdato": "2020-12-29",
                             "gjenståendeDager": 237,
                             "oppfylt": true
                         },
                         "alder": {
-                            "alderSisteSykedag": 68,
+                            "alderSisteSykedag": 43,
                             "oppfylt": true
                         },
                         "opptjening": {
-                            "antallKjenteOpptjeningsdager": 2924,
-                            "fom": "2017-01-01",
+                            "antallKjenteOpptjeningsdager": 6928,
+                            "fom": "2001-01-12",
                             "oppfylt": true
                         },
                         "søknadsfrist": {
-                            "sendtNav": "2018-02-01T00:00:00",
-                            "søknadFom": "2018-01-01",
-                            "søknadTom": "2018-01-31",
+                            "sendtNav": "2020-02-01T00:00:00",
+                            "søknadFom": "2020-01-01",
+                            "søknadTom": "2020-01-31",
                             "oppfylt": true
                         },
-                        "medlemskapstatus": "JA"
+                        "medlemskapstatus": "VET_IKKE"
                     },
-                    "inntektFraInntektsmelding": 31000.0,
-                    "totalbeløpArbeidstaker": 15741,
+                    "inntektsmeldingId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480",
+                    "inntektFraInntektsmelding": 26250,
+                    "totalbeløpArbeidstaker": 13332,
                     "hendelser": [
                         {
-                            "id": "7a95b66e-03e6-4ad7-9838-146ded996ec3",
-                            "type": "INNTEKTSMELDING",
-                            "mottattDato": "2018-01-01T00:00:00",
-                            "beregnetInntekt": 25000.0
+                            "id": "a0989c2d-a40e-4ca4-946d-d18295ab65ed",
+                            "fom": "2020-01-01",
+                            "tom": "2020-01-31",
+                            "rapportertdato": "2021-05-27T16:50:48.298480093",
+                            "sendtNav": "2020-02-01T00:00:00",
+                            "type": "SENDT_SØKNAD_NAV"
                         },
                         {
-                            "id": "452f26d3-b89f-440e-b94f-2f9b5c8ead5c",
-                            "type": "SENDT_SØKNAD_NAV",
-                            "fom": "2018-01-01",
-                            "tom": "2018-01-31",
-                            "rapportertdato": "2018-02-01T00:00:00",
-                            "sendtNav": "2018-02-01T00:00:00"
-                        },
-                        {
-                            "id": "e8f50a69-d959-4a1d-9fc2-0ef2fab583b7",
-                            "type": "NY_SØKNAD",
-                            "fom": "2018-01-01",
-                            "tom": "2018-01-31",
-                            "rapportertdato": "2018-02-01T00:00:00"
+                            "id": "f1b3f60a-dd4e-4059-a045-d15e02bdd480",
+                            "mottattDato": "2021-05-27T16:50:48.317931259",
+                            "beregnetInntekt": 26250,
+                            "type": "INNTEKTSMELDING"
                         }
                     ],
                     "dataForVilkårsvurdering": {
-                        "erEgenAnsatt": false,
-                        "beregnetÅrsinntektFraInntektskomponenten": 372000.0,
-                        "avviksprosent": 0.0,
-                        "antallOpptjeningsdagerErMinst": 2924,
-                        "harOpptjening": true
+                        "beregnetÅrsinntektFraInntektskomponenten": 385000,
+                        "avviksprosent": 0.18181818181818182,
+                        "antallOpptjeningsdagerErMinst": 6928,
+                        "harOpptjening": true,
+                        "medlemskapstatus": "VET_IKKE"
                     },
                     "simuleringsdata": {
-                        "totalbeløp": 9999,
+                        "totalbeløp": 13332,
                         "perioder": [
                             {
-                                "fom": "2020-01-01",
-                                "tom": "2020-01-02",
+                                "fom": "2020-01-17",
+                                "tom": "2020-01-31",
                                 "utbetalinger": [
                                     {
-                                        "utbetalesTilId": "987654321",
-                                        "utbetalesTilNavn": "Koronavirus",
-                                        "forfall": "2020-01-03",
-                                        "feilkonto": true,
+                                        "utbetalesTilId": "928497704",
+                                        "utbetalesTilNavn": "BESK KAFFE",
+                                        "forfall": "2021-05-27",
+                                        "feilkonto": false,
                                         "detaljer": [
                                             {
-                                                "faktiskFom": "2020-01-01",
-                                                "faktiskTom": "2020-01-02",
-                                                "konto": "12345678910og1112",
-                                                "beløp": 9999,
+                                                "faktiskFom": "2020-01-17",
+                                                "faktiskTom": "2020-01-31",
+                                                "konto": "2338020",
+                                                "beløp": 13332,
                                                 "tilbakeføring": false,
-                                                "sats": 1111,
-                                                "typeSats": "DAGLIG",
-                                                "antallSats": 9,
+                                                "sats": 1212,
+                                                "typeSats": "DAG",
+                                                "antallSats": 11,
                                                 "uføregrad": 100,
                                                 "klassekode": "SPREFAG-IOP",
                                                 "klassekodeBeskrivelse": "Sykepenger, Refusjon arbeidsgiver",
-                                                "utbetalingstype": "YTELSE",
-                                                "refunderesOrgNr": "987654321"
+                                                "utbetalingstype": "YTEL",
+                                                "refunderesOrgNr": "805824352"
                                             }
                                         ]
                                     }
@@ -600,138 +599,712 @@
                             }
                         ]
                     },
-                    "utbetalinger": {
-                        "arbeidsgiverUtbetaling": {
-                            "linjer": [
-                                {
-                                    "fom": "2018-01-17",
-                                    "tom": "2018-01-31",
-                                    "dagsats": 1431,
-                                    "grad": 100
-                                }
-                            ],
-                            "fagsystemId": "BBBBBTIV36PHRJFSYPUAXMHPEU"
-                        },
-                        "personUtbetaling": {
-                            "linjer": [],
-                            "fagsystemId": "BBBBBBBBB5K7ASX56RU5AKXGZO"
-                        }
-                    },
-                    "utbetalingslinjer": [
-                        {
-                            "fom": "2018-01-17",
-                            "tom": "2018-01-31",
-                            "dagsats": 1431,
-                            "grad": 100.0
-                        }
-                    ],
                     "aktivitetslogg": [
                         {
+                            "vedtaksperiodeId": "766d47b6-dfac-4469-849d-8ba379025fd1",
                             "alvorlighetsgrad": "W",
-                            "melding": "Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.",
-                            "tidsstempel": "2020-04-03 09:00:59.434"
-                        },
-                        {
-                            "alvorlighetsgrad": "W",
-                            "melding": "Faresignaler oppdaget. Kontroller om faresignalene påvirker retten til sykepenger.",
-                            "tidsstempel": "2020-04-03 09:00:59.436"
-                        },
-                        {
-                            "vedtaksperiodeId": "956189c8-a904-40e7-b1e1-eab46e997ddb",
-                            "alvorlighetsgrad": "W",
-                            "melding": "Maks antall sykepengedager er nådd i perioden",
-                            "tidsstempel": "2020-04-15 10:25:46.225"
-                        },
-                        {
-                            "alvorlighetsgrad": "W",
-                            "melding": "Utenlandsopphold oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingperioden"
-                        },
-                        {
-                            "melding": "Utdanning oppgitt i perioden i søknaden. Vurder rett til sykepenger og korriger sykmeldingsperioden"
+                            "melding": "Vurder lovvalg og medlemskap",
+                            "tidsstempel": "2021-05-27 16:50:51.961"
                         }
                     ],
-                    "beregningId": "1234"
-                },
-                {
-                    "id": "956189c8-a904-40e7-b1e1-eab46e997ddc",
-                    "gruppeId": "956189c8-a904-40e7-b1e1-eab46e997ddb",
-                    "fom": "2018-02-01",
-                    "tom": "2018-02-20",
-                    "tilstand": "Venter",
-                    "fullstendig": false,
-                    "utbetalingstidslinje": []
+                    "forlengelseFraInfotrygd": "NEI",
+                    "periodetype": "FØRSTEGANGSBEHANDLING",
+                    "beregningIder": ["90f7e2f5-1688-409d-b253-3163baf8a1b4"],
+                    "oppgavereferanse": "1",
+                    "risikovurdering": {
+                        "funn": [],
+                        "kontrollertOk": [],
+                        "arbeidsuførhetvurdering": [],
+                        "ufullstendig": false
+                    },
+                    "varsler": [
+                        "Vurder lovvalg og medlemskap",
+                        "Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform",
+                        "Kunne ikke sjekke åpne oppgaver på sykepenger i Gosys"
+                    ]
                 }
             ],
-            "utbetalingshistorikk": []
+            "overstyringer": [],
+            "bransjer": [],
+            "utbetalingshistorikk": [
+                {
+                    "beregningId": "90f7e2f5-1688-409d-b253-3163baf8a1b4",
+                    "beregnettidslinje": [
+                        {
+                            "dagen": "2020-01-01",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-02",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-03",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-04",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-05",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-06",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-07",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-08",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-09",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-10",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-11",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-12",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-13",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-14",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-15",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-16",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-17",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-18",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-19",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-20",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-21",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-22",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-23",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-24",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-25",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-26",
+                            "type": "SYK_HELGEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-27",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-28",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-29",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-30",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-31",
+                            "type": "SYKEDAG",
+                            "kilde": {
+                                "type": "Søknad",
+                                "kildeId": "a0989c2d-a40e-4ca4-946d-d18295ab65ed"
+                            },
+                            "grad": 100
+                        }
+                    ],
+                    "hendelsetidslinje": [
+                        {
+                            "dagen": "2020-01-01",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-02",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-03",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-04",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-05",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-06",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-07",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-08",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-09",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-10",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-11",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-12",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-13",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-14",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-15",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        },
+                        {
+                            "dagen": "2020-01-16",
+                            "type": "ARBEIDSGIVERDAG",
+                            "kilde": {
+                                "type": "Inntektsmelding",
+                                "kildeId": "f1b3f60a-dd4e-4059-a045-d15e02bdd480"
+                            },
+                            "grad": 100
+                        }
+                    ],
+                    "utbetalinger": [
+                        {
+                            "type": "UTBETALING",
+                            "status": "IKKE_UTBETALT",
+                            "gjenståendeSykedager": 237,
+                            "forbrukteSykedager": 11,
+                            "arbeidsgiverNettoBeløp": 13332,
+                            "maksdato": "2020-12-29",
+                            "beregningId": "90f7e2f5-1688-409d-b253-3163baf8a1b4",
+                            "utbetalingstidslinje": [
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-01"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-02"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-03"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-04"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-05"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-06"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-07"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-08"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-09"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-10"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-11"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-12"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-13"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-14"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-15"
+                                },
+                                {
+                                    "type": "ArbeidsgiverperiodeDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-16"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-17"
+                                },
+                                {
+                                    "type": "NavHelgDag",
+                                    "inntekt": 0,
+                                    "dato": "2020-01-18"
+                                },
+                                {
+                                    "type": "NavHelgDag",
+                                    "inntekt": 0,
+                                    "dato": "2020-01-19"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-20"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-21"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-22"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-23"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-24"
+                                },
+                                {
+                                    "type": "NavHelgDag",
+                                    "inntekt": 0,
+                                    "dato": "2020-01-25"
+                                },
+                                {
+                                    "type": "NavHelgDag",
+                                    "inntekt": 0,
+                                    "dato": "2020-01-26"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-27"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-28"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-29"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-30"
+                                },
+                                {
+                                    "type": "NavDag",
+                                    "inntekt": 1212,
+                                    "dato": "2020-01-31"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "infotrygdutbetalinger": [],
+    "enhet": {
+        "id": "1924",
+        "navn": "Målselv"
+    },
+    "arbeidsforhold": [
+        {
+            "organisasjonsnummer": "805824352",
+            "stillingstittel": "1. MASKINIST",
+            "stillingsprosent": 100,
+            "startdato": "2021-01-21",
+            "sluttdato": null
         }
     ],
     "inntektsgrunnlag": [
         {
-            "skjæringstidspunkt": "2018-01-01",
-            "sykepengegrunnlag": 581298.0,
-            "omregnetÅrsinntekt": 744000.0,
-            "sammenligningsgrunnlag": 744000.0,
-            "avviksprosent": 0.0,
-            "maksUtbetalingPerDag": 2235.761538461538462,
+            "skjæringstidspunkt": "2020-01-01",
+            "sykepengegrunnlag": 315000,
+            "omregnetÅrsinntekt": 315000,
+            "sammenligningsgrunnlag": 385000,
+            "avviksprosent": 18.181818181818183,
+            "maksUtbetalingPerDag": 1211.5384615384614,
             "inntekter": [
                 {
-                    "arbeidsgiver": "987654321",
+                    "arbeidsgiver": "805824352",
                     "omregnetÅrsinntekt": {
                         "kilde": "Inntektsmelding",
-                        "beløp": 372000.0,
-                        "månedsbeløp": 31000.0,
+                        "beløp": 315000,
+                        "månedsbeløp": 26250,
                         "inntekterFraAOrdningen": null
                     },
                     "sammenligningsgrunnlag": {
-                        "beløp": 372000.0,
+                        "beløp": 385000,
                         "inntekterFraAOrdningen": [
                             {
-                                "måned": "2017-01",
-                                "sum": 31000.0
+                                "måned": "2019-07",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-02",
-                                "sum": 31000.0
+                                "måned": "2019-09",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-03",
-                                "sum": 31000.0
+                                "måned": "2019-04",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-04",
-                                "sum": 31000.0
+                                "måned": "2019-02",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-05",
-                                "sum": 31000.0
+                                "måned": "2019-11",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-06",
-                                "sum": 31000.0
+                                "måned": "2019-08",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-07",
-                                "sum": 31000.0
+                                "måned": "2019-06",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-08",
-                                "sum": 31000.0
+                                "måned": "2019-12",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-09",
-                                "sum": 31000.0
+                                "måned": "2019-05",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-10",
-                                "sum": 31000.0
+                                "måned": "2019-10",
+                                "sum": 35000
                             },
                             {
-                                "måned": "2017-11",
-                                "sum": 31000.0
-                            },
-                            {
-                                "måned": "2017-12",
-                                "sum": 31000.0
+                                "måned": "2019-03",
+                                "sum": 35000
                             }
                         ]
                     }
@@ -741,43 +1314,6 @@
             "grunnbeløp": 99858
         }
     ],
-    "arbeidsforhold": [
-        {
-            "organisasjonsnummer": "987654321",
-            "stillingstittel": "HANS MAJESTET KONGEN",
-            "stillingsprosent": 100,
-            "startdato": "1991-01-17",
-            "sluttdato": null
-        }
-    ],
-    "infotrygdutbetalinger": [
-        {
-            "fom": "2018-01-01",
-            "tom": "2018-01-29",
-            "dagsats": 1154,
-            "grad": "100",
-            "typetekst": "ArbRef",
-            "organisasjonsnummer": "987654321"
-        },
-        {
-            "fom": "2017-12-01",
-            "tom": "2017-12-29",
-            "dagsats": 1154,
-            "grad": "100",
-            "typetekst": "ArbRef",
-            "organisasjonsnummer": "987654322"
-        },
-        {
-            "fom": "2016-12-01",
-            "tom": "2016-12-29",
-            "dagsats": 1154,
-            "grad": "100",
-            "typetekst": "ArbRef",
-            "organisasjonsnummer": "987654322"
-        }
-    ],
-    "enhet": {
-        "id": "301",
-        "navn": "Oslo"
-    }
+    "erPåVent": false,
+    "tildeling": null
 }

@@ -15,103 +15,6 @@ import { usePerson } from '../state/person';
 
 type Vedtaksperiode = FullstendigVedtaksperiode | UfullstendigVedtaksperiode;
 
-export interface UtbetalingshistorikkElement {
-    id: string;
-    perioder: Tidslinjeperiode[];
-    beregnettidslinje: Sykdomsdag[];
-    hendelsetidslinje: Sykdomsdag[];
-    utbetaling: UtbetalingshistorikkUtbetaling2;
-    kilde: string;
-}
-
-export const utbetalingshistorikkelement = (
-    id: string,
-    beregnettidslinje: Sykdomsdag[],
-    hendelsetidslinje: Sykdomsdag[],
-    utbetaling: UtbetalingshistorikkUtbetaling2,
-    vedtaksperioder: Vedtaksperiode[],
-    organisasjonsnummer: string
-): UtbetalingshistorikkElement => {
-    const erUtbetaling = utbetaling.type === Utbetalingstype.UTBETALING;
-
-    return {
-        id: id,
-        perioder: erUtbetaling
-            ? tidslinjevedtaksperioder(id, vedtaksperioder, organisasjonsnummer, utbetaling)
-            : revurderingsperioder(id, beregnettidslinje, organisasjonsnummer, utbetaling),
-        beregnettidslinje: beregnettidslinje,
-        hendelsetidslinje: hendelsetidslinje,
-        utbetaling: utbetaling,
-        kilde: utbetaling.type,
-    };
-};
-
-export const utbetaling = (element: UtbetalingshistorikkElement): UtbetalingshistorikkUtbetaling2 => element.utbetaling;
-
-export const erUtbetaling = (utbetaling: UtbetalingshistorikkUtbetaling2) =>
-    utbetaling.type === Utbetalingstype.UTBETALING;
-
-const sykdomstidslinje = (sykdomstidslinje: Sykdomsdag[], fom: Dayjs, tom: Dayjs) =>
-    sykdomstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
-
-const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkUtbetaling2, fom: Dayjs, tom: Dayjs) =>
-    utbetaling.utbetalingstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
-
-const tidslinjevedtaksperioder = (
-    beregningId: string,
-    vedtaksperioder: Vedtaksperiode[],
-    organisasjonsnummer: string,
-    utbetaling?: UtbetalingshistorikkUtbetaling2
-): Tidslinjeperiode[] => {
-    return vedtaksperioder
-        .filter((it) => isUfullstendig(it) || beregningId === it.beregningIder?.[0])
-        .map((it) => {
-            return {
-                id: it.id,
-                beregningId: beregningId,
-                fom: it.fom,
-                tom: it.tom,
-                type: Periodetype.VEDTAKSPERIODE,
-                tilstand: utbetaling?.status ?? Utbetalingstatus.INGEN_UTBETALING,
-                utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
-                sykdomstidslinje: it.sykdomstidslinje ?? [],
-                organisasjonsnummer: organisasjonsnummer,
-                fullstendig: !isUfullstendig(it),
-            };
-        });
-};
-
-const revurderingsperioder = (
-    beregningsId: string,
-    beregnetTidslinje: Sykdomsdag[],
-    organisasjonsnummer: string,
-    utbetaling?: UtbetalingshistorikkUtbetaling2
-): Tidslinjeperiode[] => {
-    if (!utbetaling) return [];
-    const perioder = new PeriodeBuilder().build(
-        beregnetTidslinje.filter((it) => it.dato.isSameOrAfter(utbetaling?.utbetalingstidslinje[0].dato))
-    );
-    return perioder.map((it) => {
-        return {
-            id: nanoid(),
-            beregningId: beregningsId,
-            fom: it.fom,
-            tom: it.tom,
-            tilstand: utbetaling.status ?? Utbetalingstatus.INGEN_UTBETALING,
-            utbetalingstidslinje: utbetaling ? utbetalingstidslinje(utbetaling, it.fom, it.tom) : [],
-            sykdomstidslinje: sykdomstidslinje(beregnetTidslinje, it.fom, it.tom),
-            type: Periodetype.REVURDERING,
-            organisasjonsnummer: organisasjonsnummer,
-            fullstendig: true,
-        };
-    });
-};
-
-export const erRevurderingsperiode = (periode: Tidslinjeperiode) => periode.type === Periodetype.REVURDERING;
-
-export const erTidslinjeperiode = (obj: any): obj is Tidslinjeperiode =>
-    (obj as Tidslinjeperiode).beregningId !== undefined;
-
 const isUfullstendig = (vedtaksperiode: Vedtaksperiode) => {
     return (
         (vedtaksperiode as UfullstendigVedtaksperiode) !== undefined &&
@@ -127,6 +30,47 @@ const useHistorikkelement = (beregningId: string) => {
     return element;
 };
 
+export interface UtbetalingshistorikkElement {
+    id: string;
+    beregnettidslinje: Sykdomsdag[];
+    hendelsetidslinje: Sykdomsdag[];
+    utbetaling: UtbetalingshistorikkUtbetaling2;
+    kilde: string;
+}
+
+export const utbetalingshistorikkelement = (
+    id: string,
+    beregnettidslinje: Sykdomsdag[],
+    hendelsetidslinje: Sykdomsdag[],
+    utbetaling: UtbetalingshistorikkUtbetaling2
+): UtbetalingshistorikkElement => {
+    const erUtbetaling = utbetaling.type === Utbetalingstype.UTBETALING;
+
+    return {
+        id: id,
+        beregnettidslinje: beregnettidslinje,
+        hendelsetidslinje: hendelsetidslinje,
+        utbetaling: utbetaling,
+        kilde: utbetaling.type,
+    };
+};
+
+export const utbetaling = (element: UtbetalingshistorikkElement): UtbetalingshistorikkUtbetaling2 => element.utbetaling;
+
+export const erUtbetaling = (utbetaling: UtbetalingshistorikkUtbetaling2) =>
+    utbetaling.type === Utbetalingstype.UTBETALING;
+
+export const sykdomstidslinje = (sykdomstidslinje: Sykdomsdag[], fom: Dayjs, tom: Dayjs) =>
+    sykdomstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
+
+export const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkUtbetaling2, fom: Dayjs, tom: Dayjs) =>
+    utbetaling.utbetalingstidslinje.filter(({ dato }) => fom.isSameOrBefore(dato) && tom.isSameOrAfter(dato));
+
+export const erTidslinjeperiode = (obj: any): obj is Tidslinjeperiode =>
+    (obj as Tidslinjeperiode).beregningId !== undefined;
+
+export const erRevurderingsperiode = (periode: Tidslinjeperiode) => periode.type === Periodetype.REVURDERING;
+
 export const useMaksdato = (beregningId: string) => utbetaling(useHistorikkelement(beregningId)).maksdato;
 
 export const useNettobeløp = (beregningId: string) => utbetaling(useHistorikkelement(beregningId)).nettobeløp;
@@ -136,6 +80,7 @@ export const useGjenståendeDager = (beregningId: string) =>
 
 export interface Tidslinjeperiode {
     id: string;
+    unique: string;
     beregningId: string;
     fom: Dayjs;
     tom: Dayjs;

@@ -3,12 +3,11 @@ import React from 'react';
 
 import { Row } from '@navikt/helse-frontend-timeline/lib';
 
-import { useAktivPeriode, useSetAktivPeriode } from '../../../state/tidslinje';
-
 import { TidslinjeTooltip } from './TidslinjeTooltip';
 import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { InfotrygdradObject } from './useInfotrygdrader';
 import { TidslinjeradObject } from './useTidslinjerader';
+import { decomposedId, useAktivPeriode, useSetAktivPeriode } from '../../../state/tidslinje';
 
 const Container = styled(Row)<{ erAktiv: boolean }>`
     ${({ erAktiv }) =>
@@ -44,19 +43,28 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
 
     return (
         <Container erAktiv={erAktiv}>
-            {rad.perioder.reverse().map((it) => (
-                <Tidslinjeperiode
-                    key={`${it.id}`}
-                    id={it.id}
-                    style={it.style}
-                    tilstand={it.tilstand}
-                    erForeldet={erForeldet}
-                    hoverLabel={it.hoverLabel ? <TidslinjeTooltip>{it.hoverLabel}</TidslinjeTooltip> : undefined}
-                    skalVisePin={it.skalVisePin}
-                    onClick={onClick}
-                    erAktiv={erKlikkbar && it.id === aktivPeriode?.id}
-                />
-            ))}
+            {rad.perioder.map((it, i) => {
+                const { id, beregningId, unique } = decomposedId(it.id);
+                return (
+                    <Tidslinjeperiode
+                        key={`tidslinjeperiode-${i}`}
+                        id={it.id}
+                        style={it.style}
+                        tilstand={it.tilstand}
+                        erForeldet={erForeldet}
+                        hoverLabel={it.hoverLabel ? it.hoverLabel : undefined}
+                        skalVisePin={!erForeldet ?? it.skalVisePin}
+                        onClick={onClick}
+                        erAktiv={
+                            erKlikkbar
+                                ? id === aktivPeriode?.id &&
+                                  beregningId === aktivPeriode?.beregningId &&
+                                  aktivPeriode?.unique === unique
+                                : false
+                        }
+                    />
+                );
+            })}
         </Container>
     );
 };

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
+import {Dayjs} from 'dayjs';
 import {
     Dagtype,
     UfullstendigVedtaksperiode,
@@ -7,13 +7,19 @@ import {
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
-import React, { CSSProperties } from 'react';
+import React, {CSSProperties} from 'react';
 
-import { Undertekst } from 'nav-frontend-typografi';
+import {Undertekst} from 'nav-frontend-typografi';
 
-import { FlexColumn } from '../../../components/Flex';
-import { NORSK_DATOFORMAT } from '../../../utils/date';
-import { somPenger } from '../../../utils/locale';
+import {FlexColumn} from '../../../components/Flex';
+import {NORSK_DATOFORMAT} from '../../../utils/date';
+import {somPenger} from '../../../utils/locale';
+import {
+    Tidslinjeperiode,
+    useGjenståendeDager,
+    useNettobeløp,
+    Utbetalingstatus
+} from "../../../modell/UtbetalingshistorikkElement";
 
 const Container = styled(FlexColumn)`
     align-items: flex-start;
@@ -77,6 +83,19 @@ const periodetekst = (antallDager: number, perioder: Periode[]): string | undefi
         return `${perioder[0].fom.format(NORSK_DATOFORMAT)} - ${perioder[0].tom.format(NORSK_DATOFORMAT)}`;
     }
     return `${antallDager} dager`;
+};
+
+const utbetalingstatus = (status: Utbetalingstatus) => {
+    switch (status) {
+        case Utbetalingstatus.IKKE_UTBETALT:
+            return 'Til behandling';
+        case Utbetalingstatus.UTBETALT:
+            return 'Sendt til utbetaling';
+        case Utbetalingstatus.INGEN_UTBETALING:
+            return 'Ingen utbetaling';
+        case Utbetalingstatus.UKJENT:
+            return 'Ukjent';
+    }
 };
 
 const statusType = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): string => {
@@ -189,6 +208,74 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
                     }
                 >
                     <LinjeFelt>Dager igjen: </LinjeFelt> <LinjeVerdi>{dagerIgjen}</LinjeVerdi>
+                </Linje>
+            )}
+        </Container>
+    );
+};
+
+interface TidslinjeperiodeHoverInfoProps {
+    tidslinjeperiode: Tidslinjeperiode;
+}
+
+export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: TidslinjeperiodeHoverInfoProps) => {
+    const status = utbetalingstatus(tidslinjeperiode.tilstand);
+    const gjenståendeDager = useGjenståendeDager(tidslinjeperiode.beregningId);
+    const nettobeløp = useNettobeløp(tidslinjeperiode.beregningId);
+    const fom = tidslinjeperiode.fom.format(NORSK_DATOFORMAT);
+    const tom = tidslinjeperiode.tom.format(NORSK_DATOFORMAT);
+
+    const utbetalingstidslinje = tidslinjeperiode.utbetalingstidslinje ?? [];
+    const arbeidsgiverperiode = tilPeriode(utbetalingstidslinje, Dagtype.Arbeidsgiverperiode);
+    const ferieperiode = tilPeriode(utbetalingstidslinje, Dagtype.Ferie);
+    const permisjonsperiode = tilPeriode(utbetalingstidslinje, Dagtype.Permisjon);
+
+    return (
+        <Container>
+            <Linje>
+                <LinjeFelt>Status: </LinjeFelt>
+                <LinjeVerdi> {status} </LinjeVerdi>
+            </Linje>
+            <Linje>
+                <LinjeFelt>Periode: </LinjeFelt>
+                <LinjeVerdi>
+                    {fom} - {tom}
+                </LinjeVerdi>
+            </Linje>
+            <Linje>
+                <LinjeFelt>Utbetalt: </LinjeFelt>
+                <LinjeVerdi>{somPenger(nettobeløp)} </LinjeVerdi>
+            </Linje>
+            {arbeidsgiverperiode && (
+                <Linje>
+                    <LinjeFelt>Arbeidsgiverperiode: </LinjeFelt>
+                    <LinjeVerdi>{arbeidsgiverperiode} </LinjeVerdi>
+                </Linje>
+            )}
+            {ferieperiode && (
+                <Linje>
+                    <LinjeFelt>Ferie: </LinjeFelt>
+                    <LinjeVerdi>{ferieperiode} </LinjeVerdi>
+                </Linje>
+            )}
+            {permisjonsperiode && (
+                <Linje>
+                    <LinjeFelt>Permisjon: </LinjeFelt>
+                    <LinjeVerdi>{permisjonsperiode} </LinjeVerdi>
+                </Linje>
+            )}
+            {gjenståendeDager !== undefined && (
+                <Linje
+                    style={
+                        {
+                            '--text-color':
+                                gjenståendeDager <= 0
+                                    ? 'var(--navds-color-text-error)'
+                                    : 'var(--navds-color-text-primary)',
+                        } as CSSProperties
+                    }
+                >
+                    <LinjeFelt>Dager igjen: </LinjeFelt> <LinjeVerdi>{gjenståendeDager}</LinjeVerdi>
                 </Linje>
             )}
         </Container>

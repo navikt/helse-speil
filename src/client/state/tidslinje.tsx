@@ -1,8 +1,8 @@
+import { Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { usePerson } from './person';
-import { Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
-import { Tidslinjeperiode, Utbetalingstatus } from '../modell/UtbetalingshistorikkElement';
+import { Utbetalingstatus } from '../modell/UtbetalingshistorikkElement';
 
 export const aktivPeriodeState = atom<string | undefined>({
     key: 'aktivPeriodeState',
@@ -20,10 +20,10 @@ const defaultPeriode = (person: Person): Vedtaksperiode | undefined => {
         velgbarePerioder?.[0]) as Vedtaksperiode;
 };
 
-const defaultTidslinjeperiode = (person: Person): Tidslinjeperiode | undefined => {
+const defaultTidslinjeperiode = (person: Person) => {
     const velgbarePerioder = person.arbeidsgivere
-        .flatMap((a) => a.utbetalingshistorikk)
-        .flatMap((a) => a.perioder)
+        .flatMap((arb) => arb.tidslinjeperioder)
+        .flatMap((perioder) => perioder)
         .filter((periode) => periode.fullstendig)
         .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
     return (
@@ -40,15 +40,26 @@ export const useOppgavereferanse = (beregningId: string): string => {
     return vedtaksperiode.oppgavereferanse!;
 };
 
+export const decomposedId = (periodeId: String) => {
+    const res = periodeId.split('+');
+    return {
+        id: res[0],
+        beregningId: res[1],
+        unique: res[2],
+    };
+};
+
 export const useAktivPeriode = () => {
     const person = usePerson();
     const periodeId = useRecoilValue(aktivPeriodeState);
 
     if (person && periodeId) {
+        const { id, beregningId, unique } = decomposedId(periodeId);
+
         return person.arbeidsgivere
-            .flatMap((a) => a.utbetalingshistorikk)
-            .flatMap((a) => a.perioder)
-            .find((p) => p.id === periodeId && p.beregningId);
+            .flatMap((a) => a.tidslinjeperioder)
+            .flatMap((perioder) => perioder)
+            .find((periode) => periode.id === id && periode.beregningId === beregningId && periode.unique === unique);
     }
     if (person) {
         return defaultTidslinjeperiode(person);

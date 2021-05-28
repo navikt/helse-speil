@@ -698,30 +698,6 @@ export const mappetPersonObject: Person = {
             utbetalingshistorikk: [
                 {
                     id: 'id1',
-                    perioder: [
-                        {
-                            beregningId: 'id1',
-                            fom: dayjs('2018-01-01'),
-                            tom: dayjs('2018-01-01'),
-                            id: 'nanoid',
-                            tilstand: Utbetalingstatus.IKKE_UTBETALT,
-                            type: UtbetalingshistorikkPeriodetype.REVURDERING,
-                            sykdomstidslinje: [
-                                {
-                                    dato: dayjs('2018-01-01'),
-                                    type: Dagtype.Syk,
-                                },
-                            ],
-                            utbetalingstidslinje: [
-                                {
-                                    dato: dayjs('2018-01-01'),
-                                    type: Dagtype.Syk,
-                                },
-                            ],
-                            organisasjonsnummer: '987654321',
-                            fullstendig: true,
-                        },
-                    ],
                     kilde: Utbetalingstype.REVURDERING,
                     beregnettidslinje: [
                         {
@@ -758,6 +734,7 @@ export const mappetPersonObject: Person = {
                     },
                 },
             ],
+            tidslinjeperioder: [],
             arbeidsforhold: [
                 {
                     stillingstittel: 'Potetplukker',

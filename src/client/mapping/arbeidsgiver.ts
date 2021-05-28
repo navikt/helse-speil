@@ -6,13 +6,19 @@ import {
     SpesialistPerson,
     SpesialistVedtaksperiode,
 } from 'external-types';
-import { Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode } from 'internal-types';
+import {Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode} from 'internal-types';
 
-import { utbetalingshistorikkelement, Utbetalingstatus } from '../modell/UtbetalingshistorikkElement';
+import {
+    Periodetype,
+    Tidslinjeperiode,
+    utbetalingshistorikkelement,
+    Utbetalingstatus,
+} from '../modell/UtbetalingshistorikkElement';
 
-import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
-import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
-import { VedtaksperiodeBuilder } from './vedtaksperiode';
+import {sykdomstidslinjedag, utbetalingstidslinjedag} from './dag';
+import {UfullstendigVedtaksperiodeBuilder} from './ufullstendigVedtaksperiode';
+import {VedtaksperiodeBuilder} from './vedtaksperiode';
+import {nanoid} from 'nanoid';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -47,8 +53,41 @@ export class ArbeidsgiverBuilder {
         this.sortVedtaksperioder();
         this.markerNyestePeriode();
         this.mapUtbetalingshistorikk();
+        this.mapTidslinjeperioder();
         return { arbeidsgiver: this.arbeidsgiver as Arbeidsgiver, problems: this.problems };
     }
+
+    private mapTidslinjeperioder = () => {
+        this.arbeidsgiver = {
+            ...this.arbeidsgiver,
+            tidslinjeperioder: this.flatten(
+                this.arbeidsgiver.vedtaksperioder?.flatMap((periode) => {
+                    return (
+                        periode.beregningIder?.map((beregningId) => {
+                            const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
+                            const sisteUtbetaling = element.utbetalinger[element.utbetalinger.length - 1];
+                            return {
+                                id: periode.id,
+                                beregningId: beregningId,
+                                unique: nanoid(),
+                                fom: periode.fom,
+                                tom: periode.tom,
+                                type:
+                                    sisteUtbetaling.type === Utbetalingstype.UTBETALING
+                                        ? Periodetype.VEDTAKSPERIODE
+                                        : Periodetype.REVURDERING,
+                                tilstand: sisteUtbetaling.status,
+                                utbetalingstidslinje: sisteUtbetaling.utbetalingstidslinje,
+                                sykdomstidslinje: element.beregnettidslinje,
+                                fullstendig: periode.fullstendig,
+                                organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
+                            };
+                        }) ?? []
+                    );
+                }) ?? []
+            ),
+        };
+    };
 
     private mapArbeidsforhold = () => {
         this.arbeidsgiver = {
@@ -121,10 +160,7 @@ export class ArbeidsgiverBuilder {
                                           ident: element.utbetaling.vurdering.ident,
                                       }
                                     : undefined,
-                            },
-                            this.arbeidsgiver.vedtaksperioder ?? [],
-                            this.arbeidsgiver.organisasjonsnummer!
-                        );
+                            });
                     }) ?? [],
         };
     };
@@ -187,4 +223,20 @@ export class ArbeidsgiverBuilder {
                 return Utbetalingstatus.UKJENT;
         }
     };
+
+    private flatten = (perioder: Tidslinjeperiode[]) =>
+        perioder
+            .map((periode) => [periode])
+            .reverse()
+            .filter((generasjon, index, alle) => {
+                if (index === alle.length - 1) return true;
+                const perioderSomSkalKopieres = generasjon
+                    .filter((periode) => !alle[index + 1].flatMap((periode) => periode.id).includes(periode.id))
+                    .map((periode) => ({
+                        ...periode,
+                        unique: nanoid(),
+                    }));
+                alle[index + 1] = [...alle[index + 1], ...perioderSomSkalKopieres];
+                return perioderSomSkalKopieres.length !== generasjon.length;
+            });
 }

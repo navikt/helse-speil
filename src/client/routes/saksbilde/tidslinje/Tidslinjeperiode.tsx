@@ -6,6 +6,7 @@ import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from '
 import { Period } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
 
+import Popover from 'nav-frontend-popover';
 import { TidslinjeperiodeIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
 
 interface StyledPeriodProps {
@@ -107,6 +108,14 @@ interface TidslinjeperiodeProps extends PeriodProps {
     skalVisePin: boolean;
 }
 
+const Tooltip = styled(Popover)`
+    background-color: #ffffff;
+    border: 1px solid var(--navds-color-gray-20);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    padding: 0.5rem 1rem;
+`;
+
 export const Tidslinjeperiode = ({
     hoverLabel,
     erAktiv,
@@ -118,11 +127,7 @@ export const Tidslinjeperiode = ({
     const ref = useRef<HTMLButtonElement>(null);
     const [erMini, setErMini] = useState(false);
 
-    const [showHoverLabel, setShowHoverLabel] = useState(false);
-
-    const enableHoverLabel = () => hoverLabel && setShowHoverLabel(true);
-
-    const disableHoverLabel = () => hoverLabel && setShowHoverLabel(false);
+    const [anchor, setAnchor] = useState<HTMLButtonElement | undefined>(undefined);
 
     useLayoutEffect(() => {
         if (ref.current && ref.current.offsetWidth <= 30.0) {
@@ -130,32 +135,31 @@ export const Tidslinjeperiode = ({
         }
     }, [ref.current]);
 
-    const preventHoverRender = (e: React.MouseEvent) => {
-        setShowHoverLabel(false);
-        e.stopPropagation();
-    };
-
     return (
-        <div onMouseOver={enableHoverLabel} onMouseOut={disableHoverLabel} data-testid={`tidslinjeperiode-${props.id}`}>
-            <StyledPeriod
-                erAktiv={erAktiv}
-                ref={ref}
-                className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende')}
-                {...props}
+        <>
+            <div
+                onMouseOver={(_) => setAnchor(ref.current!)}
+                onMouseOut={() => setAnchor(undefined)}
+                data-testid={`tidslinjeperiode-${props.id}`}
             >
-                {!erMini && (
-                    <TidslinjeperiodeIkon
-                        tilstand={tilstand}
-                        styles={{ marginLeft: '0.5rem', pointerEvents: 'none' }}
-                    />
-                )}
-                {skalVisePin && (
-                    <div onMouseOver={preventHoverRender}>
-                        <PeriodePin />
-                    </div>
-                )}
-                {showHoverLabel && <div onMouseOver={preventHoverRender}>{hoverLabel}</div>}
-            </StyledPeriod>
-        </div>
+                <StyledPeriod
+                    erAktiv={erAktiv}
+                    ref={ref}
+                    className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende')}
+                    {...props}
+                >
+                    {!erMini && (
+                        <TidslinjeperiodeIkon
+                            tilstand={tilstand}
+                            styles={{ marginLeft: '0.5rem', pointerEvents: 'none' }}
+                        />
+                    )}
+                    {skalVisePin && <PeriodePin />}
+                </StyledPeriod>
+            </div>
+            <Tooltip autoFokus={false} ankerEl={anchor}>
+                {hoverLabel}
+            </Tooltip>
+        </>
     );
 };

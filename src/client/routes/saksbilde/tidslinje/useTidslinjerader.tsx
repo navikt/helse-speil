@@ -3,10 +3,8 @@ import {
     Dagtype,
     Person,
     Revurderingtilstand,
-    Sykdomsdag,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
-    UtbetalingshistorikkUtbetaling2,
     Vedtaksperiode,
     Vedtaksperiodetilstand,
 } from 'internal-types';
@@ -17,16 +15,13 @@ import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodObject } from '@navikt/helse-frontend-timeline/src/components/types';
 
 import {
-    erUtbetaling,
     Periodetype,
-    utbetaling,
     Tidslinjeperiode,
     UtbetalingshistorikkElement,
     Utbetalingstatus,
 } from '../../../modell/UtbetalingshistorikkElement';
 
-import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
-import { HoverInfo } from './HoverInfo';
+import {HoverInfo, TidslinjeperiodeHoverInfo} from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';
 import { TidslinjeperiodeObject } from './Tidslinje.types';
 
@@ -35,7 +30,6 @@ export type TidslinjeradObject = {
     perioder: TidslinjeperiodeObject[];
     arbeidsgiver: string;
     erAktiv: boolean;
-    radtype?: string;
 };
 
 const harDagtyper = (dagtyper: Dagtype[], tidslinje: Utbetalingsdag[]): boolean =>
@@ -43,8 +37,6 @@ const harDagtyper = (dagtyper: Dagtype[], tidslinje: Utbetalingsdag[]): boolean 
 
 const skalViseInfoPin = (tidslinje: Utbetalingsdag[]): boolean =>
     harDagtyper([Dagtype.Ferie, Dagtype.Arbeidsgiverperiode, Dagtype.Permisjon], tidslinje);
-
-const inngårINyereHistorikk = (neste?: Historikkelement) => neste && neste.erUtbetaling;
 
 const tilstand = (vedtaksperiode: Vedtaksperiode | UfullstendigVedtaksperiode): Vedtaksperiodetilstand | string => {
     if ((vedtaksperiode as Vedtaksperiode).automatiskBehandlet) {
@@ -87,10 +79,10 @@ const toVedtaksperiodetilstand = (utbetalingstatus: Utbetalingstatus) => {
     }
 };
 
-export const tilPeriodetilstand = (utbetaling: UtbetalingshistorikkUtbetaling2, type: Periodetype) => {
+export const tilPeriodetilstand = (status: Utbetalingstatus, type: Periodetype) => {
     switch (type) {
         case Periodetype.REVURDERING:
-            switch (utbetaling.status) {
+            switch (status) {
                 case Utbetalingstatus.IKKE_UTBETALT:
                     return Revurderingtilstand.Revurderes;
                 case Utbetalingstatus.UTBETALT:
@@ -101,20 +93,24 @@ export const tilPeriodetilstand = (utbetaling: UtbetalingshistorikkUtbetaling2, 
             }
             break;
         default:
-            return toVedtaksperiodetilstand(utbetaling.status);
+            return toVedtaksperiodetilstand(status);
     }
 };
 
-export const toTidslinjeperioder = (element: Historikkelement, fom: Dayjs, tom: Dayjs): TidslinjeperiodeObject[] => {
-    const sisteUtbetaling = element.utbetalinger[element.utbetalinger.length - 1];
-    const perioder = element.perioder.map((it) => {
+export const toTidslinjeperioder = (
+    tidslinjeperioder: Tidslinjeperiode[],
+    fom: Dayjs,
+    tom: Dayjs
+): TidslinjeperiodeObject[] => {
+    const perioder = tidslinjeperioder.map((it) => {
         return {
-            id: it.id,
+            id: `${it.id}+${it.beregningId}+${it.unique}`,
             start: it.fom.toDate(),
             end: it.tom.toDate(),
-            tilstand: tilPeriodetilstand(sisteUtbetaling, it.type),
+            tilstand: tilPeriodetilstand(it.tilstand, it.type),
             utbetalingstype: it.type.toString().toLowerCase(),
-            skalVisePin: false,
+            skalVisePin: it.utbetalingstidslinje && skalViseInfoPin(it.utbetalingstidslinje),
+            hoverLabel: <TidslinjeperiodeHoverInfo tidslinjeperiode={it} />,
         };
     });
 
@@ -124,63 +120,26 @@ export const toTidslinjeperioder = (element: Historikkelement, fom: Dayjs, tom: 
 const harUtbetalingshistorikk = (utbetalingshistorikk: UtbetalingshistorikkElement[]) =>
     utbetalingshistorikk.length > 0;
 
-interface Historikkelement {
-    id: string;
-    perioder: Tidslinjeperiode[];
-    beregnettidslinje: Sykdomsdag[];
-    hendelsetidslinje: Sykdomsdag[];
-    utbetalinger: UtbetalingshistorikkUtbetaling2[];
-    erUtbetaling: boolean;
-}
-
-const tilHistorikkelement = (element: UtbetalingshistorikkElement): Historikkelement => {
-    return {
-        id: element.id,
-        perioder: element.perioder,
-        beregnettidslinje: element.beregnettidslinje,
-        hendelsetidslinje: element.hendelsetidslinje,
-        utbetalinger: [element.utbetaling],
-        erUtbetaling: erUtbetaling(utbetaling(element)),
-    };
-};
-
-const fjernOverlappende = (utbetalingshistorikk: UtbetalingshistorikkElement[]): Historikkelement[] => {
-    return utbetalingshistorikk
-        .map(tilHistorikkelement)
-        .reverse()
-        .filter((it, index, alle) => {
-            const nesteRad = alle[index + 1];
-            if (inngårINyereHistorikk(nesteRad)) {
-                nesteRad.perioder = [...nesteRad.perioder, ...it.perioder];
-                nesteRad.utbetalinger = [...nesteRad.utbetalinger, ...it.utbetalinger];
-                return false;
-            }
-            return true;
-        })
-        .reverse();
-};
-
 export const useTidslinjerader = (
     person: Person,
     fom: Dayjs,
     tom: Dayjs,
     skalAnonymisereData: boolean
-): { id: string; navn: string; rader: TidslinjeradObject[] }[] =>
-    useMemo(
+): { id: string; navn: string; rader: TidslinjeradObject[] }[] => {
+    return useMemo(
         () =>
             person.arbeidsgivere.map((arbeidsgiver) => {
                 return {
                     id: arbeidsgiver.organisasjonsnummer,
                     navn: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
                     rader: harUtbetalingshistorikk(arbeidsgiver.utbetalingshistorikk)
-                        ? fjernOverlappende(arbeidsgiver.utbetalingshistorikk).map(
+                        ? arbeidsgiver.tidslinjeperioder.map(
                               (element) =>
                                   ({
                                       id: nanoid(),
                                       perioder: toTidslinjeperioder(element, fom, tom),
                                       arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
                                       erAktiv: false,
-                                      radtype: element.utbetalinger[0].type,
                                   } as TidslinjeradObject)
                           )
                         : [
@@ -194,10 +153,10 @@ export const useTidslinjerader = (
                                   ) as TidslinjeperiodeObject[],
                                   arbeidsgiver: arbeidsgiverNavn(arbeidsgiver, skalAnonymisereData),
                                   erAktiv: false,
-                                  radtype: 'UTBETALING',
                               },
                           ],
                 };
             }),
         [person, fom, tom]
     );
+};
