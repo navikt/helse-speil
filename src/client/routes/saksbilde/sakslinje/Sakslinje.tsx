@@ -22,76 +22,34 @@ const TabList = styled.span`
 `;
 
 interface SakslinjeProps {
-    aktivVedtaksperiode: Boolean;
-    arbeidsgivernavn?: string;
-    arbeidsgiverOrgnr?: string;
-    fom?: Dayjs;
-    tom?: Dayjs;
-    skjæringstidspunkt?: Dayjs;
-    maksdato?: Dayjs;
-    over67År?: boolean;
+    erNormalVedtaksperiode: Boolean;
 }
 
-export const Sakslinje = ({
-    aktivVedtaksperiode,
-    arbeidsgivernavn,
-    arbeidsgiverOrgnr,
-    fom,
-    tom,
-    skjæringstidspunkt,
-    maksdato,
-    over67År,
-}: SakslinjeProps) => {
+export const Sakslinje = ({ erNormalVedtaksperiode }: SakslinjeProps) => {
     const { pathForLocation } = useNavigation();
 
     return (
         <Container>
-            <TabList role="tablist">
-                <TabLink
-                    disabled={!aktivVedtaksperiode}
-                    to={pathForLocation(Location.Utbetaling)}
-                    title="Utbetaling"
-                    icon={<HjemIkon />}
-                >
-                    Utbetaling
-                </TabLink>
-                <TabLink
-                    disabled={!aktivVedtaksperiode}
-                    to={pathForLocation(Location.Sykmeldingsperiode)}
-                    title="Smperiode"
-                >
-                    Smperiode
-                </TabLink>
-                <TabLink disabled={!aktivVedtaksperiode} to={pathForLocation(Location.Vilkår)} title="Vilkår">
-                    Vilkår
-                </TabLink>
-                <TabLink
-                    disabled={!aktivVedtaksperiode}
-                    to={pathForLocation(Location.Sykepengegrunnlag)}
-                    title="Spgrunnlag"
-                >
-                    Spgrunnlag
-                </TabLink>
-                <TabLink
-                    disabled={!aktivVedtaksperiode}
-                    to={pathForLocation(Location.Faresignaler)}
-                    title="Faresignaler"
-                >
-                    Faresignaler
-                </TabLink>
-            </TabList>
+            {erNormalVedtaksperiode && (
+                <TabList role="tablist">
+                    <TabLink to={pathForLocation(Location.Utbetaling)} title="Utbetaling" icon={<HjemIkon />}>
+                        Utbetaling
+                    </TabLink>
+                    <TabLink to={pathForLocation(Location.Sykmeldingsperiode)} title="Smperiode">
+                        Smperiode
+                    </TabLink>
+                    <TabLink to={pathForLocation(Location.Vilkår)} title="Vilkår">
+                        Vilkår
+                    </TabLink>
+                    <TabLink to={pathForLocation(Location.Sykepengegrunnlag)} title="Spgrunnlag">
+                        Spgrunnlag
+                    </TabLink>
+                    <TabLink to={pathForLocation(Location.Faresignaler)} title="Faresignaler">
+                        Faresignaler
+                    </TabLink>
+                </TabList>
+            )}
             <Verktøylinje />
-            {
-                <Infolinje
-                    arbeidsgivernavn={arbeidsgivernavn}
-                    arbeidsgiverOrgnr={arbeidsgiverOrgnr}
-                    fom={fom}
-                    tom={tom}
-                    skjæringstidspunkt={skjæringstidspunkt}
-                    maksdato={maksdato}
-                    over67År={over67År}
-                />
-            }
         </Container>
     );
 };

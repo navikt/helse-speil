@@ -2,14 +2,16 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import '@navikt/helse-frontend-logg/lib/main.css';
-import {Tidslinjeperiode, useGjenståendeDager, useMaksdato} from '../../../modell/UtbetalingshistorikkElement';
-import {useArbeidsforhold, useArbeidsgivernavn} from '../../../modell/Arbeidsgiver';
-import {LoggHeader} from '../Saksbilde';
-import {Utbetalingsoversikt} from '../utbetaling/Utbetalingsoversikt';
-import {VenstreMeny, VertikalStrek} from './Felles';
-import {usePersondataSkalAnonymiseres} from "../../../state/person";
-import {Flex} from "../../../components/Flex";
-import {Sakslinje} from "../sakslinje/Sakslinje";
+
+import { Flex } from '../../../components/Flex';
+import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
+import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
+import { usePersondataSkalAnonymiseres } from '../../../state/person';
+
+import { LoggHeader } from '../Saksbilde';
+import { Sakslinje } from '../sakslinje/Sakslinje';
+import { Utbetalingsoversikt } from '../utbetaling/Utbetalingsoversikt';
+import { VenstreMeny, VertikalStrek } from './Felles';
 
 const AutoFlexContainer = styled.div`
     flex: auto;
@@ -36,16 +38,7 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
     return (
         <Flex justifyContent="space-between" data-testid="saksbilde-revurdering">
             <AutoFlexContainer>
-                <Sakslinje
-                    aktivVedtaksperiode={false}
-                    arbeidsgivernavn={arbeidsgivernavn}
-                    arbeidsgiverOrgnr={aktivPeriode.organisasjonsnummer}
-                    fom={aktivPeriode.fom}
-                    tom={aktivPeriode.tom}
-                    skjæringstidspunkt={undefined}
-                    maksdato={maksdato}
-                    over67År={undefined}
-                />
+                <Sakslinje erNormalVedtaksperiode={false} />
                 <Flex style={{ height: '100%' }}>
                     <VenstreMeny
                         aktivPeriode={aktivPeriode}

@@ -3,10 +3,12 @@ import { Dayjs } from 'dayjs';
 import { Arbeidsforhold, Dagtype, Periodetype } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
 
 import { Flex } from '../../../components/Flex';
+import { LovdataLenke } from '../../../components/LovdataLenke';
 import { Clipboard } from '../../../components/clipboard';
+import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
@@ -71,11 +73,18 @@ const PeriodetypeEtikett = (periode: Tidslinjeperiode) => {
 interface PeriodeKortProps {
     aktivPeriode: Tidslinjeperiode;
     maksdato: string;
+    over67år: boolean;
     gjenståendeDager?: number;
     skjæringstidspunkt: string;
 }
 
-export const PeriodeKort = ({ aktivPeriode, maksdato, skjæringstidspunkt, gjenståendeDager }: PeriodeKortProps) => {
+export const PeriodeKort = ({
+    aktivPeriode,
+    maksdato,
+    over67år,
+    skjæringstidspunkt,
+    gjenståendeDager,
+}: PeriodeKortProps) => {
     const periode = `${aktivPeriode.fom.format(NORSK_DATOFORMAT_KORT)} - ${aktivPeriode.tom.format(
         NORSK_DATOFORMAT_KORT
     )}`;
@@ -85,10 +94,21 @@ export const PeriodeKort = ({ aktivPeriode, maksdato, skjæringstidspunkt, gjens
             <Korttittel>{PeriodetypeEtikett(aktivPeriode)}</Korttittel>
             <IkonOgTekst tekst={periode} Ikon={<Sykmeldingsperiodeikon />} />
             <IkonOgTekst tekst={skjæringstidspunkt} Ikon={<Skjæringstidspunktikon />} />
-            <IkonOgTekst
-                tekst={`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}
-                Ikon={<Maksdatoikon />}
-            />
+
+            <Flex style={{ justifyContent: 'space-between' }}>
+                <IkonOgTekst
+                    tekst={`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}
+                    Ikon={<Maksdatoikon />}
+                />
+                {over67år && (
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Advarselikon height={16} width={16} />
+                        <Undertekst style={{ marginLeft: '2px' }}>
+                            <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                        </Undertekst>
+                    </div>
+                )}
+            </Flex>
         </Kort>
     );
 };
@@ -237,6 +257,7 @@ export const VenstreMeny = ({
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
     const nettobeløp = useNettobeløp(aktivPeriode.beregningId);
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
+    const over67år = (useVedtaksperiode(aktivPeriode.id)?.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
         <Arbeidsflate>
@@ -245,6 +266,7 @@ export const VenstreMeny = ({
                 maksdato={maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato'}
                 skjæringstidspunkt={skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ukjent skjæringstidspunkt'}
                 gjenståendeDager={gjenståendeDager}
+                over67år={over67år}
             />
             <ArbeidsgiverKort
                 arbeidsgivernavn={arbeidsgivernavn}

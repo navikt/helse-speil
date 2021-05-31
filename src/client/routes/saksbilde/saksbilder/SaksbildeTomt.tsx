@@ -9,7 +9,7 @@ import { Sakslinje } from '../sakslinje/Sakslinje';
 
 export const TomtSaksbilde = () => (
     <Flex justifyContent="space-between" data-testid="tomt-saksbilde">
-        <Sakslinje aktivVedtaksperiode={false} />
+        <Sakslinje erNormalVedtaksperiode={false} />
         <LoggHeader />
     </Flex>
 );

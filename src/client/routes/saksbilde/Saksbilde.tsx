@@ -1,32 +1,32 @@
 import styled from '@emotion/styled';
-import {Person, Vedtaksperiodetilstand} from 'internal-types';
+import { Person, Vedtaksperiodetilstand } from 'internal-types';
 import React from 'react';
-import {useRouteMatch} from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 
-import {LoggHeader as EksternLoggheader} from '@navikt/helse-frontend-logg';
+import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
-import {erRevurderingsperiode, Tidslinjeperiode} from '../../modell/UtbetalingshistorikkElement';
-import {SaksbildeUfullstendigVedtaksperiode} from './saksbilder/SaksbildeUfullstendigVedtaksperiode';
-import {SaksbildeVedtaksperiode} from './saksbilder/SaksbildeVedtaksperiode';
-import {SaksbildeRevurdering} from './saksbilder/SaksbildeRevurdering';
-import {TomtSaksbilde} from './saksbilder/SaksbildeTomt';
-import {Varsel, Varseltype} from '@navikt/helse-frontend-varsel';
+import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
-import {ErrorBoundary} from '../../components/ErrorBoundary';
-import {LasterPersonlinje, Personlinje} from '../../components/Personlinje';
-import {copyString} from '../../components/clipboard/util';
-import {Key, useKeyboard} from '../../hooks/useKeyboard';
-import {useNavigation} from '../../hooks/useNavigation';
-import {useRefreshPersonVedOpptegnelse} from '../../hooks/useRefreshPersonVedOpptegnelse';
-import {useRefreshPersonVedUrlEndring} from '../../hooks/useRefreshPersonVedUrlEndring';
-import {usePollEtterOpptegnelser} from '../../io/polling';
-import {usePerson} from '../../state/person';
-import {useAktivPeriode} from '../../state/tidslinje';
-import {ToastObject, useAddToast} from '../../state/toasts';
-import {Scopes, useVarselFilter} from '../../state/varsler';
+import { ErrorBoundary } from '../../components/ErrorBoundary';
+import { LasterPersonlinje, Personlinje } from '../../components/Personlinje';
+import { copyString } from '../../components/clipboard/util';
+import { Key, useKeyboard } from '../../hooks/useKeyboard';
+import { useNavigation } from '../../hooks/useNavigation';
+import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
+import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
+import { usePollEtterOpptegnelser } from '../../io/polling';
+import { erRevurderingsperiode, Tidslinjeperiode } from '../../modell/UtbetalingshistorikkElement';
+import { usePerson } from '../../state/person';
+import { useAktivPeriode } from '../../state/tidslinje';
+import { ToastObject, useAddToast } from '../../state/toasts';
+import { Scopes, useVarselFilter } from '../../state/varsler';
 
-import {LoggProvider} from './logg/LoggProvider';
-import {LasterTidslinje, Tidslinje} from './tidslinje';
+import { LoggProvider } from './logg/LoggProvider';
+import { SaksbildeRevurdering } from './saksbilder/SaksbildeRevurdering';
+import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
+import { SaksbildeUfullstendigVedtaksperiode } from './saksbilder/SaksbildeUfullstendigVedtaksperiode';
+import { SaksbildeVedtaksperiode } from './saksbilder/SaksbildeVedtaksperiode';
+import { LasterTidslinje, Tidslinje } from './tidslinje';
 
 export const getErrorMelding = (tilstand: Vedtaksperiodetilstand) => {
     const vedtaksperiodetilstandErrorMessage = getVedtaksperiodeTilstandError(tilstand);
@@ -83,7 +83,7 @@ const SaksbildeContainer = styled.div`
 `;
 
 export const LoggHeader = styled(EksternLoggheader)`
-    width: 336px;
+    width: 312px;
     box-sizing: border-box;
     box-shadow: inset 0 -1px 0 0 var(--navds-color-border);
     height: 75px;

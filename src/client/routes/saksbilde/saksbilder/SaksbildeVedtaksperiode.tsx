@@ -32,7 +32,7 @@ interface SaksbildeVedtaksperiodeProps {
 }
 
 const LoggListe = styled(EksternLoggliste)`
-    width: 336px;
+    width: 312px;
     box-sizing: border-box;
     border-top: none;
 
@@ -110,16 +110,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                 <Route>
                     <Flex justifyContent="space-between" flex={1}>
                         <AutoFlexContainer>
-                            <Sakslinje
-                                aktivVedtaksperiode={true}
-                                arbeidsgivernavn={arbeidsgivernavn}
-                                arbeidsgiverOrgnr={organisasjonsnummer}
-                                fom={fom}
-                                tom={tom}
-                                skjæringstidspunkt={skjæringstidspunkt}
-                                maksdato={maksdato}
-                                over67År={over67år}
-                            />
+                            <Sakslinje erNormalVedtaksperiode={true} />
                             <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
                                 <AmplitudeProvider>
                                     <Flex style={{ flex: 1, height: 'calc(100% - 75px)' }}>
