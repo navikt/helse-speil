@@ -51,7 +51,7 @@ const Oversiktstabell = styled(Tabell)`
 
     tbody tr {
         :nth-of-type(2n + 1) {
-            background-color: #f8f8f8;
+            background-color: var(--speil-background-secondary);
         }
 
         td {

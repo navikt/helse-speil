@@ -33,7 +33,14 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
     const setAktivPeriode = useSetAktivPeriode();
     const aktivPeriode = useAktivPeriode();
 
-    const erAktiv = erKlikkbar && !!rad.perioder.find((it) => it.id === aktivPeriode?.id);
+    const erAktiv =
+        erKlikkbar &&
+        !!rad.perioder.find((it) => {
+            const { id, beregningId, unique } = decomposedId(it.id);
+            return (
+                id === aktivPeriode?.id && beregningId === aktivPeriode?.beregningId && unique === aktivPeriode?.unique
+            );
+        });
 
     const onClick = (id: string) => {
         if (erKlikkbar) {

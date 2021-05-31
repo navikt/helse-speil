@@ -27,13 +27,10 @@ const Arbeidsgivernavn = styled(Flex)`
 `;
 
 const Rader = styled(FlexColumn)`
+    background-color: var(--speil-background-secondary);
     width: 100%;
     height: 100%;
     flex: 1;
-
-    > *:not(:last-of-type) {
-        margin-bottom: 1rem;
-    }
 `;
 
 interface ArbeidsgiverradProps {
@@ -43,6 +40,14 @@ interface ArbeidsgiverradProps {
     erEkspandert: boolean;
     toggleEkspanderbarRad: (id: string) => void;
 }
+
+const ForeldedeRaderContainer = styled.div`
+    margin-top: 0.375rem;
+
+    & > .row {
+        margin-bottom: 0.25rem;
+    }
+`;
 
 const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: ArbeidsgiverradProps) => (
     <Flex alignItems="start">
@@ -57,12 +62,13 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
         </Arbeidsgivernavn>
         <Rader>
             <Tidslinjerad key="tidslinjerad-0" rad={rader[0]} erKlikkbar={true} />
-            {erEkspandert &&
-                rader
-                    .slice(1)
-                    .map((it, i) => (
+            {erEkspandert && (
+                <ForeldedeRaderContainer>
+                    {rader.slice(1).map((it, i) => (
                         <Tidslinjerad key={`tidslinjerad-${i + 1}`} rad={it} erKlikkbar={true} erForeldet />
                     ))}
+                </ForeldedeRaderContainer>
+            )}
         </Rader>
     </Flex>
 );
