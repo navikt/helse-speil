@@ -8,6 +8,7 @@ import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 
 import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
+import { IngenOppgaver } from './IngenOppgaver';
 import { Paginering } from './Paginering';
 import {
     enArbeidsgiverFilter,
@@ -171,10 +172,16 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
 
     return (
         <Container>
-            <ScrollableX>
-                <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
-            </ScrollableX>
-            <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
+            {tabell.rader.length > 0 ? (
+                <>
+                    <ScrollableX>
+                        <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
+                    </ScrollableX>
+                    <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
+                </>
+            ) : (
+                <IngenOppgaver />
+            )}
         </Container>
     );
 };

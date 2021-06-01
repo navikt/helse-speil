@@ -5,7 +5,7 @@
     "importOrder": [
         "^nav-frontend-(.*)$",
         "^@navikt/(.*)$",
-        "/(components|hooks|io|mapping|modell|routes|state|utils)/",
+        "/(components|hooks|io|mapping|modell|routes|state|utils|assets)/",
         "^[./]"
     ],
     "importOrderSeparation": true

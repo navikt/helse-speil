@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import { PopoverOrientering } from 'nav-frontend-popover';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -15,6 +15,8 @@ export const tabState = atom<'alle' | 'mine' | 'ventende'>({
     key: 'tabState',
     default: 'alle',
 });
+
+export const useAktivTab = () => useRecoilValue(tabState);
 
 const Tablist = styled.div`
     border-bottom: 1px solid var(--navds-color-border);
