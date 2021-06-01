@@ -91,7 +91,9 @@ export const Oversikt = () => {
             <Flex>
                 <Content>
                     <Tabs />
-                    <OppgaverTabell oppgaver={oppgaver.state === 'hasValue' ? oppgaver.contents : oppgaver.cache} />
+                    <OppgaverTabell
+                        oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
+                    />
                 </Content>
                 <Strek />
                 <Behandlingsstatistikk />
