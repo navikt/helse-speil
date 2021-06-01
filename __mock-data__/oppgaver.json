@@ -408,5 +408,27 @@
             "navn": "Nav Utland"
         },
         "inntektskilde": "FLERE_ARBEIDSGIVERE"
+    },
+    {
+        "oppgavereferanse": "3",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "05068821403",
+        "aktørId": "2446602102797",
+        "personinfo": {
+            "fornavn": "HUFSA",
+            "mellomnavn": null,
+            "etternavn": "SKUMLE",
+            "fødselsdato": "1932-02-12",
+            "kjønn": "Kvinne"
+        },
+        "vedtaksperiodeId": "1e58f870-5d30-43de-a64a-3368f0f83fb5",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]

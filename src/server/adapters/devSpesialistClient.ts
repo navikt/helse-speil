@@ -160,6 +160,9 @@ const filenameForPersonId = (id: string) => {
         case '1000000009872':
         case '21023701902':
             return 'snorkfrøken_flere_arbeidsgivere.json';
+        case '05068821403':
+        case '2446602102797':
+            return 'hufsa_annullert.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }
