@@ -92,6 +92,8 @@ export const tilPeriodetilstand = (status: Utbetalingstatus, type: Periodetype) 
                     return Revurderingtilstand.Ukjent;
             }
             break;
+        case Periodetype.UFULLSTENDIG:
+            return Vedtaksperiodetilstand.Venter;
         default:
             return toVedtaksperiodetilstand(status);
     }

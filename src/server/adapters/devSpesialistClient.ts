@@ -127,8 +127,6 @@ const filenameForPersonId = (id: string) => {
         case '12345':
         case '01010025676':
             return 'durek_med-overstyringer.json';
-        case '1000000123432':
-            return 'ragnhild_lorentzen_med_revurdering.json';
         case '102030':
             return 'emma-tallulah_til-utbetaling-automatisk-behandlet.json';
         case '1672157246605':
@@ -156,6 +154,9 @@ const filenameForPersonId = (id: string) => {
         case '2259231338047':
         case '09038400182':
             return 'knerten_revurdering.json';
+        case '2287435975709':
+        case '11117615091':
+            return 'mummitrollet_revurdering_tre_perioder.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

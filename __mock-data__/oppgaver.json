@@ -302,26 +302,6 @@
         }
     },
     {
-        "oppgavereferanse": "333",
-        "opprettet": "2020-07-15T23:04:09.454",
-        "fødselsnummer": "01010025677",
-        "aktørId": "1000000123432",
-        "personinfo": {
-            "fornavn": "RAGNHILD",
-            "mellomnavn": "",
-            "etternavn": "LORENTZEN",
-            "fødselsdato": "1930-06-09",
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "956189c8-a904-40e7-b1e1-eab46e997dkt",
-        "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Nav Utland"
-        }
-    },
-    {
         "oppgavereferanse": "258",
         "opprettet": "2021-02-01T23:04:09.454",
         "fødselsnummer": "21042662423",
@@ -374,6 +354,28 @@
             "etternavn": "REVURDERING",
             "fødselsdato": "1932-02-12",
             "kjønn": null
+        },
+        "vedtaksperiodeId": "1e58f870-5d30-43de-a64a-3368f0f83fb5",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "REVURDERING",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "2327",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "11117615091",
+        "aktørId": "2287435975709",
+        "personinfo": {
+            "fornavn": "MUMMI",
+            "mellomnavn": null,
+            "etternavn": "TROLLET",
+            "fødselsdato": "1932-02-12",
+            "kjønn": "Mann"
         },
         "vedtaksperiodeId": "1e58f870-5d30-43de-a64a-3368f0f83fb5",
         "type": "FØRSTEGANGSBEHANDLING",

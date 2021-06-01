@@ -93,4 +93,5 @@ export enum Utbetalingstatus {
 export enum Periodetype {
     VEDTAKSPERIODE,
     REVURDERING,
+    UFULLSTENDIG,
 }

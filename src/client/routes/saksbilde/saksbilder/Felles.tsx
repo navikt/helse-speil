@@ -103,7 +103,7 @@ export const PeriodeKort = ({
                 {over67år && (
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <Advarselikon height={16} width={16} />
-                        <Undertekst style={{ marginLeft: '2px' }}>
+                        <Undertekst style={{ marginLeft: '4px' }}>
                             <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
                         </Undertekst>
                     </div>

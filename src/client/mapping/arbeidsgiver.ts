@@ -6,8 +6,8 @@ import {
     SpesialistPerson,
     SpesialistVedtaksperiode,
 } from 'external-types';
-import { Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode } from 'internal-types';
-import { nanoid } from 'nanoid';
+import {Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode} from 'internal-types';
+import {nanoid} from 'nanoid';
 
 import {
     Periodetype,
@@ -18,9 +18,9 @@ import {
     utbetalingstidslinje,
 } from '../modell/UtbetalingshistorikkElement';
 
-import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
-import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
-import { VedtaksperiodeBuilder } from './vedtaksperiode';
+import {sykdomstidslinjedag, utbetalingstidslinjedag} from './dag';
+import {UfullstendigVedtaksperiodeBuilder} from './ufullstendigVedtaksperiode';
+import {VedtaksperiodeBuilder} from './vedtaksperiode';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -63,11 +63,10 @@ export class ArbeidsgiverBuilder {
         this.arbeidsgiver = {
             ...this.arbeidsgiver,
             tidslinjeperioder: this.flatten(
-                this.arbeidsgiver.vedtaksperioder?.flatMap((periode) => {
+                this.arbeidsgiver.vedtaksperioder?.flatMap((periode): Tidslinjeperiode[] => {
                     return (
                         periode.beregningIder?.map((beregningId) => {
                             const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
-                            const sisteUtbetaling = element.utbetalinger[element.utbetalinger.length - 1];
                             return {
                                 id: periode.id,
                                 beregningId: beregningId,
@@ -75,11 +74,11 @@ export class ArbeidsgiverBuilder {
                                 fom: periode.fom,
                                 tom: periode.tom,
                                 type:
-                                    sisteUtbetaling.type === Utbetalingstype.UTBETALING
+                                    element.utbetaling.type === Utbetalingstype.UTBETALING
                                         ? Periodetype.VEDTAKSPERIODE
                                         : Periodetype.REVURDERING,
-                                tilstand: sisteUtbetaling.status,
-                                utbetalingstidslinje: utbetalingstidslinje(sisteUtbetaling, periode.fom, periode.tom),
+                                tilstand: element.utbetaling.status,
+                                utbetalingstidslinje: utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
                                 sykdomstidslinje: sykdomstidslinje(element.beregnettidslinje, periode.fom, periode.tom),
                                 fullstendig: periode.fullstendig,
                                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
@@ -91,7 +90,7 @@ export class ArbeidsgiverBuilder {
                                 unique: nanoid(),
                                 fom: periode.fom,
                                 tom: periode.tom,
-                                type: Periodetype.VEDTAKSPERIODE,
+                                type: Periodetype.UFULLSTENDIG,
                                 tilstand: Utbetalingstatus.UKJENT,
                                 utbetalingstidslinje: [],
                                 sykdomstidslinje: [],
@@ -241,18 +240,59 @@ export class ArbeidsgiverBuilder {
     };
 
     private flatten = (perioder: Tidslinjeperiode[]) =>
-        perioder
+        [...perioder]
             .map((periode) => [periode])
             .reverse()
+            .filter((generasjon) => this.ufullstendigePerioder(generasjon).length === 0)
             .filter((generasjon, index, alle) => {
                 if (index === alle.length - 1) return true;
-                const perioderSomSkalKopieres = generasjon
-                    .filter((periode) => !alle[index + 1].flatMap((periode) => periode.id).includes(periode.id))
-                    .map((periode) => ({
-                        ...periode,
-                        unique: nanoid(),
-                    }));
-                alle[index + 1] = [...alle[index + 1], ...perioderSomSkalKopieres];
-                return perioderSomSkalKopieres.length !== generasjon.length;
-            });
+                const perioderSomSkalKopieresTilNesteGenerasjon = this.perioderSomIkkeHarEndringINesteGenerasjon(
+                    generasjon,
+                    index,
+                    alle
+                );
+                alle[index + 1] = this.kopierTilNesteGenerasjon(
+                    alle[index + 1],
+                    perioderSomSkalKopieresTilNesteGenerasjon
+                );
+                return perioderSomSkalKopieresTilNesteGenerasjon.length !== generasjon.length;
+            })
+            .map((generasjon, index) => this.leggUfullstendigePerioderPåSisteGenerasjon(generasjon, index, perioder));
+
+    private perioderSomIkkeHarEndringINesteGenerasjon = (
+        generasjon: Tidslinjeperiode[],
+        index: number,
+        alle: Tidslinjeperiode[][]
+    ) =>
+        generasjon
+            .filter((periode) => this.perioderSomIkkeHarId(periode.id, alle[index + 1]))
+            .map((periode) => ({
+                ...periode,
+                unique: nanoid(),
+            }));
+
+    private leggUfullstendigePerioderPåSisteGenerasjon = (
+        generasjon: Tidslinjeperiode[],
+        index: number,
+        allePerioder: Tidslinjeperiode[]
+    ) => {
+        if (index === 0) {
+            return [...generasjon, ...this.alleUfullstendigePerioder(allePerioder)];
+        }
+        return generasjon;
+    };
+
+    private alleUfullstendigePerioder = (alleGenerasjoner: Tidslinjeperiode[]) =>
+        alleGenerasjoner.filter((periode) => !periode.fullstendig);
+
+    private perioderSomIkkeHarId = (id: string, nesteGenerasjon: Tidslinjeperiode[]) =>
+        !nesteGenerasjon.flatMap((periode) => periode.id).includes(id);
+
+    private ufullstendigePerioder = (generasjon: Tidslinjeperiode[]) =>
+        generasjon.filter((periode) => !periode.fullstendig);
+
+    private kopierTilNesteGenerasjon = (
+        nesteGenerasjon: Tidslinjeperiode[],
+        perioderSomSkalKopieres: Tidslinjeperiode[]
+    ) => [...nesteGenerasjon, ...perioderSomSkalKopieres];
 }
