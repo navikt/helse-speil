@@ -24,6 +24,12 @@
         "viktighet": "Høy"
     },
     {
+        "varsel": "Brukeren har flere inntekter de siste tre måneder enn det som er brukt i sykepengegrunnlaget. Kontroller om brukeren har andre arbeidsforhold eller ytelser på sykmeldingstidspunktet som påvirker utbetalingen.",
+        "betydning": "A-ordningen har flere inntekter de siste tre måneder enn det som er brukt i sykepengegrunnlaget",
+        "løsning": "Sjekk om den sykmeldte har flere aktive inntektskilder på sykmeldingstidspunktet enn arbeidsgivere vi har sykmelding for. Speil håndterer ikke kombinasjonen arbeidstaker og frilanser. I slike tilfeller må saken behandles i Infotrygd.",
+        "viktighet": "Høy"
+    },
+    {
         "varsel": "Søknaden inneholder permittering. Vurder om permittering har konsekvens for rett til sykepenger",
         "betydning": "Bruker har oppgitt permittering på søknad om sykepenger",
         "løsning": "Kontrollér at permitteringen ikke påvirker sykepengerettighetene",
