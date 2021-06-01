@@ -81,6 +81,7 @@ export interface Tidslinjeperiode {
     sykdomstidslinje: Sykdomsdag[];
     organisasjonsnummer: string;
     fullstendig: boolean;
+    oppgavereferanse?: string;
 }
 
 export enum Utbetalingstatus {

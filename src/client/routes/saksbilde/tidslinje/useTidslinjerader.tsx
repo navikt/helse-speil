@@ -66,12 +66,12 @@ export const toVedtaksperioder = (vedtaksperioder: (Vedtaksperiode | Ufullstendi
     );
 };
 
-const toVedtaksperiodetilstand = (utbetalingstatus: Utbetalingstatus) => {
+const toVedtaksperiodetilstand = (utbetalingstatus: Utbetalingstatus, harAktivOppgave: boolean) => {
     switch (utbetalingstatus) {
         case Utbetalingstatus.UTBETALT:
             return Vedtaksperiodetilstand.Utbetalt;
         case Utbetalingstatus.IKKE_UTBETALT:
-            return Vedtaksperiodetilstand.Oppgaver;
+            return harAktivOppgave ? Vedtaksperiodetilstand.Oppgaver : Vedtaksperiodetilstand.Venter;
         case Utbetalingstatus.INGEN_UTBETALING:
             return Vedtaksperiodetilstand.IngenUtbetaling;
         case Utbetalingstatus.UKJENT:
@@ -79,7 +79,7 @@ const toVedtaksperiodetilstand = (utbetalingstatus: Utbetalingstatus) => {
     }
 };
 
-export const tilPeriodetilstand = (status: Utbetalingstatus, type: Periodetype) => {
+export const tilPeriodetilstand = (status: Utbetalingstatus, type: Periodetype, harAktivOppgave: boolean) => {
     switch (type) {
         case Periodetype.REVURDERING:
             switch (status) {
@@ -95,7 +95,7 @@ export const tilPeriodetilstand = (status: Utbetalingstatus, type: Periodetype) 
         case Periodetype.UFULLSTENDIG:
             return Vedtaksperiodetilstand.Venter;
         default:
-            return toVedtaksperiodetilstand(status);
+            return toVedtaksperiodetilstand(status, harAktivOppgave);
     }
 };
 
@@ -109,7 +109,7 @@ export const toTidslinjeperioder = (
             id: `${it.id}+${it.beregningId}+${it.unique}`,
             start: it.fom.toDate(),
             end: it.tom.toDate(),
-            tilstand: tilPeriodetilstand(it.tilstand, it.type),
+            tilstand: tilPeriodetilstand(it.tilstand, it.type, !!it.oppgavereferanse),
             utbetalingstype: it.type.toString().toLowerCase(),
             skalVisePin: it.utbetalingstidslinje && skalViseInfoPin(it.utbetalingstidslinje),
             hoverLabel: <TidslinjeperiodeHoverInfo tidslinjeperiode={it} />,

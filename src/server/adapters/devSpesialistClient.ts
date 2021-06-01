@@ -157,6 +157,9 @@ const filenameForPersonId = (id: string) => {
         case '2287435975709':
         case '11117615091':
             return 'mummitrollet_revurdering_tre_perioder.json';
+        case '1000000009872':
+        case '21023701902':
+            return 'snorkfrøken_flere_arbeidsgivere.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

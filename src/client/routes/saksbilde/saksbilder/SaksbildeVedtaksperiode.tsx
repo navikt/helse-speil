@@ -8,7 +8,7 @@ import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { useArbeidsforhold, useArbeidsgivernavn, useOrganisasjonsnummer } from '../../../modell/Arbeidsgiver';
+import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useVedtaksperiode } from '../../../state/tidslinje';
@@ -84,11 +84,8 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const errorMelding = getErrorMelding(vedtaksperiode.tilstand);
 
-    const fom = vedtaksperiode.fom;
-    const tom = vedtaksperiode.tom;
-    const organisasjonsnummer = useOrganisasjonsnummer(vedtaksperiode.id);
-    const arbeidsgivernavn = useArbeidsgivernavn(organisasjonsnummer) ?? 'Ukjent arbeidsgivernavn';
-    const arbeidsforhold = useArbeidsforhold(organisasjonsnummer) ?? [];
+    const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent arbeidsgivernavn';
+    const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
     const skjæringstidspunkt = vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt;
     const maksdato = vedtaksperiode.vilkår?.dagerIgjen.maksdato;
     const gjenståendeDager = vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
@@ -96,9 +93,8 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
     const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
     const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
     const månedsbeløp = vedtaksperiode.inntektsgrunnlag?.inntekter?.find(
-        (it) => it.organisasjonsnummer === organisasjonsnummer
+        (it) => it.organisasjonsnummer === aktivPeriode.organisasjonsnummer
     )?.omregnetÅrsinntekt?.månedsbeløp;
-    const over67år = (vedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     return (
@@ -117,7 +113,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                         <VenstreMeny
                                             aktivPeriode={aktivPeriode}
                                             arbeidsgivernavn={arbeidsgivernavn}
-                                            organisasjonsnummer={organisasjonsnummer}
+                                            organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                                             arbeidsforhold={arbeidsforhold}
                                             anonymiseringEnabled={anonymiseringEnabled}
                                             skjæringstidspunkt={skjæringstidspunkt}
@@ -136,7 +132,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                                             maksdato={maksdato}
                                                             periode={periode}
                                                             skjæringstidspunkt={skjæringstidspunkt}
-                                                            organisasjonsnummer={organisasjonsnummer}
+                                                            organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                                                             arbeidsgivernavn={arbeidsgivernavn}
                                                             arbeidsforhold={arbeidsforhold}
                                                             månedsbeløp={månedsbeløp}

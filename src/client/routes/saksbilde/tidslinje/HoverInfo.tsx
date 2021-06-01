@@ -85,10 +85,10 @@ const periodetekst = (antallDager: number, perioder: Periode[]): string | undefi
     return `${antallDager} dager`;
 };
 
-const utbetalingstatus = (status: Utbetalingstatus) => {
+const utbetalingstatus = (status: Utbetalingstatus, harAktivOppgave: boolean) => {
     switch (status) {
         case Utbetalingstatus.IKKE_UTBETALT:
-            return 'Til behandling';
+            return harAktivOppgave ? 'Til behandling' : 'Venter';
         case Utbetalingstatus.UTBETALT:
             return 'Sendt til utbetaling';
         case Utbetalingstatus.INGEN_UTBETALING:
@@ -219,7 +219,7 @@ interface TidslinjeperiodeHoverInfoProps {
 }
 
 export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: TidslinjeperiodeHoverInfoProps) => {
-    const status = utbetalingstatus(tidslinjeperiode.tilstand);
+    const status = utbetalingstatus(tidslinjeperiode.tilstand, !!tidslinjeperiode?.oppgavereferanse);
     const gjenståendeDager = useGjenståendeDager(tidslinjeperiode.beregningId);
     const nettobeløp = useNettobeløp(tidslinjeperiode.beregningId);
     const fom = tidslinjeperiode.fom.format(NORSK_DATOFORMAT);

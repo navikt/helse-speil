@@ -744,6 +744,7 @@ export const mappetPersonObject = (): Person => ({
                         tom: dayjs('2020-01-31T00:00:00.000Z'),
                         type: UtbetalingshistorikkPeriodetype.VEDTAKSPERIODE,
                         tilstand: Utbetalingstatus.IKKE_UTBETALT,
+                        oppgavereferanse: 'en-oppgavereferanse',
                         utbetalingstidslinje: [
                             {
                                 dato: dayjs('2020-01-01'),

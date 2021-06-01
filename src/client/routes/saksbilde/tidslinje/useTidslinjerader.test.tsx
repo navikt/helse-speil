@@ -102,7 +102,7 @@ describe('useTidslinjerader', () => {
 
 describe('tilPeriodetype', () => {
     test('mapper periode til revurdering', () => {
-        const tilstand = tilPeriodetilstand(Utbetalingstatus.IKKE_UTBETALT, Periodetype.REVURDERING);
+        const tilstand = tilPeriodetilstand(Utbetalingstatus.IKKE_UTBETALT, Periodetype.REVURDERING, true);
         expect(tilstand).toEqual(Revurderingtilstand.Revurderes);
     });
 });

@@ -82,6 +82,7 @@ export class ArbeidsgiverBuilder {
                                 sykdomstidslinje: sykdomstidslinje(element.beregnettidslinje, periode.fom, periode.tom),
                                 fullstendig: periode.fullstendig,
                                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
+                                oppgavereferanse: (periode as Vedtaksperiode)?.oppgavereferanse ?? undefined,
                             };
                         }) ?? [
                             {
