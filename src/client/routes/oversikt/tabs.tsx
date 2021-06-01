@@ -84,7 +84,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: TabProps) => {
 };
 
 const AlleSakerTab = () => {
-    const antallOppgaver = useOppgaver().length;
+    const antallOppgaver = useOppgaver().filter((it) => !it.tildeling?.påVent && !it.tildeling?.saksbehandler).length;
     return <OppgaveTab tag="alle" label="Til godkjenning" numberOfTasks={antallOppgaver} />;
 };
 
