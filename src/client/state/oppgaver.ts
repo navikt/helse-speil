@@ -52,7 +52,6 @@ const tildelingerState = selector<TildelingStateType>({
                   (acc, oppgave) => ({ ...acc, [oppgave.oppgavereferanse]: oppgave.tildeling }),
                   {}
               ),
-    set: ({ set }, tildelinger) => set(_tildelingerState, tildelinger),
 });
 
 export const oppgaverState = selector<Oppgave[]>({
@@ -79,7 +78,7 @@ export const useMineOppgaver = (): Oppgave[] => {
 
 export const useRefetchOppgaver = () => {
     const setKey = useSetRecoilState(oppgaverStateRefetchKey);
-    const setTildelinger = useSetRecoilState(tildelingerState);
+    const setTildelinger = useSetRecoilState(_tildelingerState);
     return () => {
         setTildelinger({});
         setKey(new Date());
@@ -201,7 +200,7 @@ const fjernPåVent = (
 export const useTildeling = () => {
     const addVarsel = useAddVarsel();
     const removeVarsel = useRemoveVarsel();
-    const setTildelinger = useSetRecoilState(tildelingerState);
+    const setTildelinger = useSetRecoilState(_tildelingerState);
     return {
         tildelOppgave: tildelOppgave(setTildelinger, addVarsel, removeVarsel),
         fjernTildeling: fjernTildeling(setTildelinger, addVarsel, removeVarsel),

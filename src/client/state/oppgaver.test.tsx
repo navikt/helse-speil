@@ -84,7 +84,9 @@ async function settOppOppgaver() {
     const { result, waitFor } = renderHook<React.FC, Loadable<Oppgave[]>>(() => useRecoilValueLoadable(oppgaverState), {
         wrapper,
     });
-    await waitFor(() => result.current.state === 'hasValue');
+    await waitFor(() => {
+        return result.current.state !== 'loading';
+    });
 }
 
 describe('oppgavetildeling', () => {
@@ -95,9 +97,9 @@ describe('oppgavetildeling', () => {
             mockTildelingOk();
             const { result } = renderHook(() => useTildeling(), { wrapper });
 
-            await act(async () => {
-                expect(await result.current.tildelOppgave(enOppgave(), saksbehandler)).toHaveProperty('status', 200);
-            });
+            const response = await result.current.tildelOppgave(enOppgave(), saksbehandler);
+
+            expect(response).toHaveProperty('status', 200);
         });
 
         test('thrower og returnerer navnet på tildelt saksbehandler ved konflikt', async () => {
