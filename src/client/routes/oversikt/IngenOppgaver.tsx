@@ -2,11 +2,12 @@ import styled from '@emotion/styled';
 import dayjs from 'dayjs';
 import React from 'react';
 
+import { Sidetittel } from 'nav-frontend-typografi';
+
 import agurk from '../../assets/ingen-oppgaver-agurk.png';
 import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '../../assets/ingen-oppgaver.png';
 
-import { Tittel } from '../saksbilde/vilkår/vilkårstitler';
 import { useAktivTab } from './tabs';
 
 const Container = styled.div`
@@ -19,7 +20,7 @@ const Container = styled.div`
     padding: 4rem;
 `;
 
-const Tekst = styled(Tittel)`
+const Tekst = styled(Sidetittel)`
     margin: 2rem 0 0;
     font-size: 1.25rem;
     flex: 1;
