@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 import React from 'react';
 
 import agurk from '../../assets/ingen-oppgaver-agurk.png';
+import fredagstaco from '../../assets/ingen-oppgaver-fredagstaco.png';
 import brevkasse from '../../assets/ingen-oppgaver.png';
 
 import { Tittel } from '../saksbilde/vilkår/vilkårstitler';
@@ -23,6 +25,8 @@ const Tekst = styled(Tittel)`
     flex: 1;
 `;
 
+const erFredag = () => dayjs().isoWeekday() === 5;
+
 export const IngenOppgaver = () => {
     const aktivTab = useAktivTab();
 
@@ -30,7 +34,11 @@ export const IngenOppgaver = () => {
         case 'alle':
             return (
                 <Container>
-                    <img alt="Agurk med armer og bein som holder kaffekopp" src={agurk} />
+                    {erFredag() ? (
+                        <img alt="Agurk med armer og bein ikledd sombrero som holder en taco" src={fredagstaco} />
+                    ) : (
+                        <img alt="Agurk med armer og bein som holder kaffekopp" src={agurk} />
+                    )}
                     <Tekst>Ooops! Ingen saker å plukke...</Tekst>
                 </Container>
             );
