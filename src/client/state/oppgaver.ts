@@ -43,15 +43,18 @@ const _tildelingerState = atom<TildelingStateType>({
 
 const tildelingerState = selector<TildelingStateType>({
     key: 'tildelingerState',
-    get: ({ get }) =>
-        Object.keys(get(_tildelingerState)).length > 0
-            ? // hvis vi har satt tildelingerState tidligere så bruker vi den
-              get(_tildelingerState)
-            : // ellers bruker vi tildelingene fra oppgavene
-              get(remoteOppgaverState).reduce(
-                  (acc, oppgave) => ({ ...acc, [oppgave.oppgavereferanse]: oppgave.tildeling }),
-                  {}
-              ),
+    get: async ({ get }) => {
+        const local = get(_tildelingerState);
+        const remote = get(remoteOppgaverState).reduce(
+            (tildelinger, { oppgavereferanse, tildeling }) => ({
+                ...tildelinger,
+                [oppgavereferanse]: tildeling,
+            }),
+            {}
+        );
+
+        return { ...remote, ...local };
+    },
 });
 
 export const oppgaverState = selector<Oppgave[]>({
@@ -138,19 +141,17 @@ const fjernTildeling = (
     setTildelinger: SetterOrUpdater<TildelingStateType>,
     addVarsel: (msg: VarselObject) => void,
     removeVarsel: (key: String) => void
-) => {
-    return ({ oppgavereferanse }: Oppgave) => {
-        removeVarsel(tildelingskey);
-        return deleteTildeling(oppgavereferanse)
-            .then((response) => {
-                setTildelinger((it) => ({ ...it, [oppgavereferanse]: undefined }));
-                return Promise.resolve(response);
-            })
-            .catch(() => {
-                addVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
-                return Promise.reject();
-            });
-    };
+) => ({ oppgavereferanse }: Oppgave) => {
+    removeVarsel(tildelingskey);
+    return deleteTildeling(oppgavereferanse)
+        .then((response) => {
+            setTildelinger((it) => ({ ...it, [oppgavereferanse]: undefined }));
+            return Promise.resolve(response);
+        })
+        .catch(() => {
+            addVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
+            return Promise.reject();
+        });
 };
 
 const leggPåVent = (
