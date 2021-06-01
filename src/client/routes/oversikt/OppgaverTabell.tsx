@@ -124,7 +124,9 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
     const aktiveFiltere = useRecoilValue(filtreringState);
 
     const headere = [
-        { render: 'Tildelt', filtere: [ufordelteOppgaverFilter(), tildelteOppgaverFilter()] },
+        aktivTab === 'alle'
+            ? { render: 'Tildelt', filtere: [ufordelteOppgaverFilter(), tildelteOppgaverFilter()] }
+            : 'Tildelt',
         {
             render: 'Sakstype',
             filtere: [
