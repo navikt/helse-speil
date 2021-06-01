@@ -23,7 +23,7 @@ export const AmplitudeContext = React.createContext<AmplitudeContextValue>({
     logOppgaveForkastet(): void {},
 });
 
-const åpneOppgave = (oppgaveId: string): Dayjs => {
+const getÅpnetOppgaveTidspunkt = (oppgaveId: string): Dayjs => {
     const key = `oppgave.${oppgaveId}.åpnet`;
     const åpnet = window.sessionStorage.getItem(key);
     if (åpnet) {
@@ -34,11 +34,18 @@ const åpneOppgave = (oppgaveId: string): Dayjs => {
     return currentTime;
 };
 
+const removeÅpnetOppgaveTidspunkt = (oppgaveId: string): void => {
+    const key = `oppgave.${oppgaveId}.åpnet`;
+    window.sessionStorage.removeItem(key);
+};
+
+const logEventCallback = (oppgaveId: string) => () => removeÅpnetOppgaveTidspunkt(oppgaveId);
+
 export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
-    if (!aktivVedtaksperiode) throw Error('Mangler aktiv vedtaksperiode');
+    if (aktivVedtaksperiode === undefined) throw Error('Mangler aktiv vedtaksperiode');
 
-    const åpnet = åpneOppgave(aktivVedtaksperiode.oppgavereferanse!);
+    const åpnet = getÅpnetOppgaveTidspunkt(aktivVedtaksperiode.oppgavereferanse!);
 
     const eventProperties = (begrunnelser: string[] | undefined = undefined) => ({
         varighet: dayjs().diff(åpnet!),
@@ -50,11 +57,27 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
     });
 
     const logOppgaveGodkjent = () => {
-        amplitudeEnabled && amplitude?.getInstance().logEvent('oppgave godkjent', eventProperties());
+        amplitudeEnabled &&
+            åpnet &&
+            amplitude
+                ?.getInstance()
+                .logEvent(
+                    'oppgave godkjent',
+                    eventProperties(),
+                    logEventCallback(aktivVedtaksperiode.oppgavereferanse!)
+                );
     };
 
     const logOppgaveForkastet = (begrunnelser: string[]) => {
-        amplitudeEnabled && amplitude?.getInstance().logEvent('oppgave forkastet', eventProperties(begrunnelser));
+        amplitudeEnabled &&
+            åpnet &&
+            amplitude
+                ?.getInstance()
+                .logEvent(
+                    'oppgave forkastet',
+                    eventProperties(begrunnelser),
+                    logEventCallback(aktivVedtaksperiode.oppgavereferanse!)
+                );
     };
 
     useEffect(() => {
