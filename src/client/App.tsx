@@ -12,6 +12,7 @@ import { Toasts } from './components/Toasts';
 import { Varsler } from './components/Varsler';
 import { useLoadingToast } from './hooks/useLoadingToast';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
+import { PageNotFound } from './routes/PageNotFound';
 import { useAuthentication } from './state/authentication';
 import { useIsLoadingPerson } from './state/person';
 
@@ -33,8 +34,8 @@ const App = () => {
         <ErrorBoundary fallback={GlobalFeilside}>
             <Header />
             <Varsler />
-            <Switch>
-                <React.Suspense fallback={<div />}>
+            <React.Suspense fallback={<div />}>
+                <Switch>
                     <Route path={Routes.Uautorisert}>
                         <IkkeLoggetInn />
                     </Route>
@@ -47,8 +48,11 @@ const App = () => {
                     <ProtectedRoute path={Routes.OpptegnelseTest}>
                         <Opptegnelse />
                     </ProtectedRoute>
-                </React.Suspense>
-            </Switch>
+                    <Route path="*">
+                        <PageNotFound />
+                    </Route>
+                </Switch>
+            </React.Suspense>
             <Toasts />
         </ErrorBoundary>
     );
