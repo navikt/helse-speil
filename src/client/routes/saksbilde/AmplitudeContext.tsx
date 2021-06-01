@@ -23,15 +23,15 @@ export const AmplitudeContext = React.createContext<AmplitudeContextValue>({
     logOppgaveForkastet(): void {},
 });
 
-const getÅpnetOppgaveTidspunkt = (oppgaveId: string): Dayjs => {
-    const key = `oppgave.${oppgaveId}.åpnet`;
-    const åpnet = window.sessionStorage.getItem(key);
-    if (åpnet) {
-        return dayjs(åpnet);
-    }
-    const currentTime = dayjs();
-    window.sessionStorage.setItem(key, currentTime.toISOString());
-    return currentTime;
+const getKey = (oppgaveId: string): string => `oppgave.${oppgaveId}.åpnet`;
+
+const setÅpnetOppgavetidspunkt = (oppgaveId: string): void => {
+    window.sessionStorage.setItem(getKey(oppgaveId), dayjs().toISOString());
+};
+
+const getÅpnetOppgaveTidspunkt = (oppgaveId: string): Dayjs | undefined => {
+    const åpnet = window.sessionStorage.getItem(getKey(oppgaveId));
+    return åpnet ? dayjs(åpnet) : undefined;
 };
 
 const removeÅpnetOppgaveTidspunkt = (oppgaveId: string): void => {
@@ -41,14 +41,25 @@ const removeÅpnetOppgaveTidspunkt = (oppgaveId: string): void => {
 
 const logEventCallback = (oppgaveId: string) => () => removeÅpnetOppgaveTidspunkt(oppgaveId);
 
+const useStoreÅpnetTidspunkt = (oppgavereferanse?: string) => {
+    useEffect(() => {
+        if (oppgavereferanse) {
+            const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(oppgavereferanse);
+            if (!åpnetTidspunkt) {
+                setÅpnetOppgavetidspunkt(oppgavereferanse);
+            }
+        }
+    }, [oppgavereferanse]);
+};
+
 export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     if (aktivVedtaksperiode === undefined) throw Error('Mangler aktiv vedtaksperiode');
 
-    const åpnet = getÅpnetOppgaveTidspunkt(aktivVedtaksperiode.oppgavereferanse!);
+    useStoreÅpnetTidspunkt(aktivVedtaksperiode.oppgavereferanse);
 
-    const eventProperties = (begrunnelser: string[] | undefined = undefined) => ({
-        varighet: dayjs().diff(åpnet!),
+    const eventProperties = (åpnetTidspunkt: Dayjs, begrunnelser: string[] | undefined = undefined) => ({
+        varighet: dayjs().diff(åpnetTidspunkt),
         type: aktivVedtaksperiode.periodetype,
         inntektskilde: aktivVedtaksperiode.inntektskilde,
         warnings: aktivVedtaksperiode.aktivitetslog,
@@ -56,29 +67,24 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
         begrunnelser: begrunnelser,
     });
 
-    const logOppgaveGodkjent = () => {
-        amplitudeEnabled &&
-            åpnet &&
-            amplitude
-                ?.getInstance()
-                .logEvent(
-                    'oppgave godkjent',
-                    eventProperties(),
-                    logEventCallback(aktivVedtaksperiode.oppgavereferanse!)
-                );
+    const logEvent = (event: 'oppgave godkjent' | 'oppgave forkastet', begrunnelser?: string[]) => {
+        if (amplitudeEnabled && aktivVedtaksperiode.oppgavereferanse) {
+            const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(aktivVedtaksperiode.oppgavereferanse);
+
+            åpnetTidspunkt &&
+                amplitude
+                    ?.getInstance()
+                    .logEvent(
+                        event,
+                        eventProperties(åpnetTidspunkt, begrunnelser),
+                        logEventCallback(aktivVedtaksperiode.oppgavereferanse!)
+                    );
+        }
     };
 
-    const logOppgaveForkastet = (begrunnelser: string[]) => {
-        amplitudeEnabled &&
-            åpnet &&
-            amplitude
-                ?.getInstance()
-                .logEvent(
-                    'oppgave forkastet',
-                    eventProperties(begrunnelser),
-                    logEventCallback(aktivVedtaksperiode.oppgavereferanse!)
-                );
-    };
+    const logOppgaveGodkjent = () => logEvent('oppgave godkjent');
+
+    const logOppgaveForkastet = (begrunnelser: string[]) => logEvent('oppgave forkastet', begrunnelser);
 
     useEffect(() => {
         amplitudeEnabled &&
