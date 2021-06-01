@@ -43,6 +43,11 @@ const Sykepengegrunnlagslenke = styled(Link)`
     }
 `;
 
+const Beløp = styled(Normaltekst)<{ beløp: number }>`
+    color: ${({ beløp }) => (beløp >= 0 ? `var(--navds-color-text-primary)` : `var(--navds-color-text-error)`)};
+    font-style: ${({ beløp }) => (beløp >= 0 ? `normal` : `italic`)};
+`;
+
 const Oppsummering = () => {
     const aktivVedtaksperiode = useAktivVedtaksperiode();
     const personTilBehandling = usePerson();
@@ -69,11 +74,11 @@ const Oppsummering = () => {
                 </Flex>
                 <Flex justifyContent="space-between">
                     <Normaltekst>{t('oppsummering.beløp')}</Normaltekst>
-                    <Normaltekst>
-                        {oppsummering.totaltTilUtbetaling > 0
+                    <Beløp beløp={oppsummering.totaltTilUtbetaling}>
+                        {oppsummering.totaltTilUtbetaling !== 0
                             ? somPenger(oppsummering.totaltTilUtbetaling)
                             : 'Ingen utbetaling'}
-                    </Normaltekst>
+                    </Beløp>
                 </Flex>
 
                 {simuleringsdata ? (
