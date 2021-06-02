@@ -1,11 +1,9 @@
 import styled from '@emotion/styled';
 import { Oppgave } from 'internal-types';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { Tabell, useTabell, UseTabellPaginering } from '@navikt/helse-frontend-tabell';
-import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
-import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 
 import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
 import { Paginering } from './Paginering';
@@ -23,7 +21,13 @@ import {
 } from './filtrering';
 import { renderer, tilOversiktsrad } from './rader/rader';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
-import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
+import {
+    filtreringState,
+    sorteringState,
+    useOppdaterDefaultFiltrering,
+    useOppdaterDefaultSortering,
+    useOppdatertFiltreringVedFanebytte,
+} from './state';
 import { tabState, useAktivTab } from './tabs';
 
 const Container = styled.div`
@@ -81,43 +85,6 @@ const ScrollableX = styled.div`
     width: 100%;
 `;
 
-const useOppdaterTildelingsfilterVedFanebytte = (filtrering: UseTabellFiltrering) => {
-    const aktivTab = useRecoilValue(tabState);
-    const [stashedFilter, setStashedFilter] = useState<Filtrering | undefined>();
-
-    const deaktiverFiltere = () =>
-        filtrering?.set((f) => ({
-            ...f,
-            filtere: f.filtere.map((filter) => ({ ...filter, active: false })),
-        }));
-
-    const gjennopprettStashedFilter = () => {
-        if (!stashedFilter) return;
-        filtrering?.set((f) => ({ ...f, filtere: stashedFilter.filtere }));
-    };
-
-    useLayoutEffect(() => {
-        if (aktivTab !== 'alle' && !stashedFilter) {
-            setStashedFilter(filtrering);
-            deaktiverFiltere();
-        } else if (aktivTab === 'alle' && stashedFilter) {
-            gjennopprettStashedFilter();
-            setStashedFilter(undefined);
-        }
-    }, [aktivTab, stashedFilter]);
-};
-
-const useVisDefaultUfordelteOppgaverFiltering = (filtrering: UseTabellFiltrering) => {
-    useLayoutEffect(() => {
-        filtrering?.set((f) => ({
-            ...f,
-            filtere: f.filtere.map((filter) =>
-                filter.filter.label === 'Ufordelte saker' ? { ...filter, active: true } : { ...filter, active: false }
-            ),
-        }));
-    }, []);
-};
-
 const useHeadere = () => {
     const aktivTab = useAktivTab();
 
@@ -169,8 +136,7 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
 
     useOppdaterDefaultFiltrering(tabell.filtrering);
     useOppdaterDefaultSortering(tabell.sortering);
-    useVisDefaultUfordelteOppgaverFiltering(tabell.filtrering);
-    useOppdaterTildelingsfilterVedFanebytte(tabell.filtrering);
+    useOppdatertFiltreringVedFanebytte(tabell.filtrering);
 
     useEffect(() => {
         tabell.paginering?.set((p) => ({ ...p, sidenummer: 1 }));

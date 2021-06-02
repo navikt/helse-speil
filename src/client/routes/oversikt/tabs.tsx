@@ -12,7 +12,9 @@ import { useMineOppgaver, useOppgaver } from '../../state/oppgaver';
 
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
 
-export const tabState = atom<'alle' | 'mine' | 'ventende'>({
+export type TabType = 'alle' | 'mine' | 'ventende';
+
+export const tabState = atom<TabType>({
     key: 'tabState',
     default: 'alle',
 });
