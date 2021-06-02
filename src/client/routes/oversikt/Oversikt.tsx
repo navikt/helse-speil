@@ -15,6 +15,7 @@ import { personState } from '../../state/person';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 
 import { nullstillAgurkData } from '../../agurkdata';
+import { IngenOppgaver } from './IngenOppgaver';
 import { OppgaverTabell } from './OppgaverTabell';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
 import { Tabs, tabState } from './tabs';
@@ -43,7 +44,7 @@ const useFiltrerteOppgaver = () => {
 
     const filtrer = (oppgaver: Oppgave[]): Oppgave[] =>
         aktivTab === 'alle'
-            ? oppgaver
+            ? oppgaver.filter((it) => it.tildeling?.saksbehandler.oid !== oid)
             : aktivTab === 'ventende'
             ? oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid && tildeling?.påVent)
             : oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid && !tildeling?.påVent);
@@ -57,7 +58,7 @@ const useFiltrerteOppgaver = () => {
     return {
         state: oppgaver.state,
         contents: oppgaver.state === 'hasValue' ? filtrer(oppgaver.contents) : oppgaver.contents,
-        cache: cache,
+        cache: filtrer(cache),
     };
 };
 
@@ -83,6 +84,9 @@ export const Oversikt = () => {
         }
     }, []);
 
+    const hasData =
+        (oppgaver.state === 'hasValue' && (oppgaver.contents as Oppgave[]).length > 0) || oppgaver.cache.length > 0;
+
     return (
         <Container>
             {oppgaver.state === 'hasError' && (
@@ -91,9 +95,13 @@ export const Oversikt = () => {
             <Flex>
                 <Content>
                     <Tabs />
-                    <OppgaverTabell
-                        oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
-                    />
+                    {hasData ? (
+                        <OppgaverTabell
+                            oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
+                        />
+                    ) : (
+                        <IngenOppgaver />
+                    )}
                 </Content>
                 <Strek />
                 <Behandlingsstatistikk />

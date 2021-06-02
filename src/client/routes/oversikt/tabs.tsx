@@ -7,6 +7,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 import { Flex } from '../../components/Flex';
 import { Dropdown } from '../../components/dropdown/Dropdown';
+import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { useMineOppgaver, useOppgaver } from '../../state/oppgaver';
 
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
@@ -84,7 +85,8 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: TabProps) => {
 };
 
 const AlleSakerTab = () => {
-    const antallOppgaver = useOppgaver().length;
+    const { oid } = useInnloggetSaksbehandler();
+    const antallOppgaver = useOppgaver().filter((it) => it.tildeling?.saksbehandler.oid !== oid).length;
     return <OppgaveTab tag="alle" label="Til godkjenning" numberOfTasks={antallOppgaver} />;
 };
 

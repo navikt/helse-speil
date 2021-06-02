@@ -8,7 +8,6 @@ import { Filtrering } from '@navikt/helse-frontend-tabell/lib/src/filtrering';
 import { UseTabellFiltrering } from '@navikt/helse-frontend-tabell/lib/src/useTabell';
 
 import { flereArbeidsgivere, stikkprøve } from '../../featureToggles';
-import { IngenOppgaver } from './IngenOppgaver';
 import { Paginering } from './Paginering';
 import {
     enArbeidsgiverFilter,
@@ -25,7 +24,7 @@ import {
 import { renderer, tilOversiktsrad } from './rader/rader';
 import { sorterDateString, sorterTall, sorterTekstAlfabetisk } from './sortering';
 import { filtreringState, sorteringState, useOppdaterDefaultFiltrering, useOppdaterDefaultSortering } from './state';
-import { tabState } from './tabs';
+import { tabState, useAktivTab } from './tabs';
 
 const Container = styled.div`
     min-height: 300px;
@@ -119,11 +118,10 @@ const useVisDefaultUfordelteOppgaverFiltering = (filtrering: UseTabellFiltrering
     }, []);
 };
 
-export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
-    const aktivTab = useRecoilValue(tabState);
-    const aktiveFiltere = useRecoilValue(filtreringState);
+const useHeadere = () => {
+    const aktivTab = useAktivTab();
 
-    const headere = [
+    return [
         aktivTab === 'alle'
             ? { render: 'Tildelt', filtere: [ufordelteOppgaverFilter(), tildelteOppgaverFilter()] }
             : 'Tildelt',
@@ -148,7 +146,13 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
         { render: 'Opprettet', sortFunction: sorterDateString },
         { render: '' },
     ];
+};
 
+export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
+    const aktivTab = useRecoilValue(tabState);
+    const aktiveFiltere = useRecoilValue(filtreringState);
+
+    const headere = useHeadere();
     const rader = oppgaver.map(tilOversiktsrad);
 
     const tabell = useTabell({
@@ -174,16 +178,10 @@ export const OppgaverTabell = ({ oppgaver }: { oppgaver: Oppgave[] }) => {
 
     return (
         <Container>
-            {tabell.rader.length > 0 ? (
-                <>
-                    <ScrollableX>
-                        <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
-                    </ScrollableX>
-                    <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
-                </>
-            ) : (
-                <IngenOppgaver />
-            )}
+            <ScrollableX>
+                <Oversiktstabell beskrivelse="Saker som er klare for behandling" {...tabell} />
+            </ScrollableX>
+            <Paginering antallOppgaver={tabell.rader.length} {...(tabell.paginering as UseTabellPaginering)} />
         </Container>
     );
 };
