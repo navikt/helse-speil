@@ -268,5 +268,11 @@
         "betydning": "Alle dager er avvist på grunn av at personen ikke er medlem av Folketrygden",
         "løsning": "Undersøk om det er riktig at personen ikke er medlem av Folketrygden. Hvis personen ikke er medlem kan saken godkjennes i speil og det må sendes vedtak i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Denne personen har en utbetaling for samme periode for en annen arbeidsgiver. Kontroller at beregningene for begge arbeidsgiverne er korrekte.",
+        "betydning": "Da vi beregnet den forrige utbetalingen visste vi ikke at personen var syk for denne arbeidsgiveren.",
+        "løsning": "Det kan hende at begge beregningene er riktig, men dette må kontrolleres. Hvis det er feil må perioder som er ferdig behandlet annulleres og alt må behandles i Infotrygd.",
+        "viktighet": "Høy"
     }
 ]
