@@ -109,7 +109,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
                     utenPil
                     ankerEl={anchor}
                     autoFokus={false}
-                    onRequestClose={() => setAnchor(undefined)}
+                    onRequestClose={lukk}
                     avstandTilAnker={3}
                 >
                     <Liste>{children}</Liste>

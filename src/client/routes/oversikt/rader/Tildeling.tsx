@@ -41,11 +41,11 @@ const IkkeTildelt = ({ oppgave }: TildelingProps) => {
     const { tildelOppgave } = useTildeling();
 
     const tildel = () => {
-        if (!saksbehandler) return;
-        if (isFetching) return;
+        if (!saksbehandler || isFetching) return;
         setIsFetching(true);
         tildelOppgave(oppgave, saksbehandler).catch(() => setIsFetching(false));
     };
+
     return (
         <CellContainer width={128}>
             <Tildelingsknapp mini onClick={tildel} spinner={isFetching}>
