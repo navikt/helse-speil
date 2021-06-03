@@ -3,11 +3,13 @@ import classNames from 'classnames';
 import { Infotrygdperiodetilstand, Revurderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
 import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from 'react';
 
+import Popover from 'nav-frontend-popover';
+
 import { Period } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
 
-import Popover from 'nav-frontend-popover';
 import { TidslinjeperiodeIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
+import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 
 interface StyledPeriodProps {
     erAktiv?: boolean;
@@ -101,7 +103,7 @@ const PeriodePin = styled.div`
 interface TidslinjeperiodeProps extends PeriodProps {
     id: string;
     style: React.CSSProperties;
-    tilstand: Vedtaksperiodetilstand | Revurderingtilstand | Infotrygdperiodetilstand;
+    tilstand: Tidslinjetilstand | Infotrygdperiodetilstand;
     erAktiv?: boolean;
     erForeldet?: boolean;
     hoverLabel?: ReactNode;

@@ -1056,174 +1056,173 @@
                             "grad": 100
                         }
                     ],
-                    "utbetalinger": [
-                        {
-                            "type": "UTBETALING",
-                            "status": "IKKE_UTBETALT",
-                            "gjenståendeSykedager": 237,
-                            "forbrukteSykedager": 11,
-                            "arbeidsgiverNettoBeløp": 13332,
-                            "maksdato": "2020-12-29",
-                            "beregningId": "90f7e2f5-1688-409d-b253-3163baf8a1b4",
-                            "utbetalingstidslinje": [
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-01"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-02"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-03"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-04"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-05"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-06"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-07"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-08"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-09"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-10"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-11"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-12"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-13"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-14"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-15"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-16"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-17"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2020-01-18"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2020-01-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-22"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-23"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-24"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2020-01-25"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2020-01-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-29"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-30"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-31"
-                                }
-                            ]
-                        }
-                    ]
+                    "utbetaling": {
+                        "type": "UTBETALING",
+                        "status": "IKKE_UTBETALT",
+                        "gjenståendeSykedager": 237,
+                        "forbrukteSykedager": 11,
+                        "arbeidsgiverNettoBeløp": 13332,
+                        "arbeidsgiverFagsystemId": "1",
+                        "maksdato": "2020-12-29",
+                        "beregningId": "90f7e2f5-1688-409d-b253-3163baf8a1b4",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-17"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2020-01-18"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2020-01-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-22"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-23"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-24"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2020-01-25"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2020-01-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-29"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-30"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-31"
+                            }
+                        ]
+                    }
                 }
             ]
         },
@@ -2272,174 +2271,173 @@
                             "grad": 100
                         }
                     ],
-                    "utbetalinger": [
-                        {
-                            "type": "UTBETALING",
-                            "status": "IKKE_UTBETALT",
-                            "gjenståendeSykedager": 237,
-                            "forbrukteSykedager": 11,
-                            "arbeidsgiverNettoBeløp": 13332,
-                            "maksdato": "2020-12-29",
-                            "beregningId": "90f7e2f5-1688-409d-b253-3163baf8a1b4",
-                            "utbetalingstidslinje": [
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-01"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-02"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-03"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-04"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-05"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-06"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-07"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-08"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-09"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-10"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-11"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-12"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-13"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-14"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-15"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-16"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-17"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2020-01-18"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2020-01-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-22"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-23"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-24"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2020-01-25"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2020-01-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-29"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-30"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 1212,
-                                    "dato": "2020-01-31"
-                                }
-                            ]
-                        }
-                    ]
+                    "utbetaling": {
+                        "type": "UTBETALING",
+                        "status": "IKKE_UTBETALT",
+                        "gjenståendeSykedager": 237,
+                        "forbrukteSykedager": 11,
+                        "arbeidsgiverNettoBeløp": 13332,
+                        "arbeidsgiverFagsystemId": "2",
+                        "maksdato": "2020-12-29",
+                        "beregningId": "90f7e2f5-1688-409d-b253-3163baf8a1b4",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-17"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2020-01-18"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2020-01-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-22"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-23"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-24"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2020-01-25"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2020-01-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-29"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-30"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 1212,
+                                "dato": "2020-01-31"
+                            }
+                        ]
+                    }
                 }
             ]
         }

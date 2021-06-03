@@ -1,6 +1,8 @@
 import { Infotrygdperiodetilstand, Revurderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
 import React, { CSSProperties, HTMLAttributes } from 'react';
 
+import { Tidslinjetilstand } from '../../mapping/arbeidsgiver';
+
 const ukjent =
     "data:image/svg+xml,%3Csvg width='16px' height='15px' viewBox='0 0 16 15' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3C!-- Generator: Sketch 63.1 (92452) - https://sketch.com --%3E%3Ctitle%3Evarsel%3C/title%3E%3Cdesc%3ECreated with Sketch.%3C/desc%3E%3Cg id='varsel' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Group-25' transform='translate(1.000000, 0.500000)'%3E%3Cg id='Group-11'%3E%3Cpath d='M7.11929186,7.99360578e-15 L6.99450637,0.00121741942 C5.11968047,0.0340877437 3.35503102,0.791931331 2.02621773,2.13535366 C0.687665079,3.48851534 -0.0312210874,5.25986059 0.0010405272,7.12372972 C0.0679985952,10.9811231 3.0902423,14.0027581 6.88128637,14.0027581 L7.00485444,14.0015407 C10.9285972,13.9339739 14.0664958,10.738248 13.998929,6.87963713 C13.9319709,3.0222437 10.9097272,7.99360578e-15 7.11929186,7.99360578e-15 Z' id='Shape' fill='%233E3832' fill-rule='nonzero'%3E%3C/path%3E%3Cg id='Group' transform='translate(6.000000, 2.500000)' fill='%23FFFFFF'%3E%3Cpath d='M1.06053179,8.63877304 C1.05428214,8.63877304 1.04803248,8.63877304 1.04178283,8.63877304 C0.474106066,8.63877304 0.00954856614,8.18463163 0.000174087446,7.61591326 C-0.010242,7.04094523 0.448065847,6.56597164 1.02303387,6.55659716 C1.02928353,6.55659716 1.03553318,6.55555556 1.04178283,6.55555556 C1.6094596,6.55555556 2.07297549,7.01073858 2.08339157,7.57945695 C2.09380766,8.15442498 1.63445821,8.62835695 1.06053179,8.63877304 Z' id='Path'%3E%3C/path%3E%3Cpath d='M1.04166667,0.166666667 C1.42519774,0.166666667 1.73611111,0.415397361 1.73611111,0.722222222 L1.73611111,4.61111111 C1.73611111,4.91793597 1.42519774,5.16666667 1.04166667,5.16666667 C0.65813559,5.16666667 0.347222222,4.91793597 0.347222222,4.61111111 L0.347222222,0.722222222 C0.347222222,0.415397361 0.65813559,0.166666667 1.04166667,0.166666667 Z' id='Rectangle' fill-rule='nonzero'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E";
 const kunPermisjon =
@@ -133,7 +135,7 @@ export const AnnullertIkon = ({ styles }: Props) => {
 };
 
 interface TidslinjeperiodeIkonProps extends HTMLAttributes<HTMLImageElement> {
-    tilstand: Vedtaksperiodetilstand | Revurderingtilstand | Infotrygdperiodetilstand;
+    tilstand: Tidslinjetilstand | Infotrygdperiodetilstand;
     styles?: CSSProperties;
 }
 
@@ -143,44 +145,43 @@ export const TidslinjeperiodeIkon = ({ tilstand, styles, ...props }: Tidslinjepe
             return <InfotrygdferieIkon styles={styles} {...props} />;
         case Infotrygdperiodetilstand.Infotrygdukjent:
             return <InfotrygdukjentIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.UtbetaltAutomatisk:
+        case Tidslinjetilstand.UtbetaltAutomatisk:
             return <UtbetaltAutomatiskIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.TilUtbetalingAutomatisk:
+        case Tidslinjetilstand.TilUtbetalingAutomatisk:
             return <TilUtbetalingAutomatiskIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.TilUtbetaling:
+        case Tidslinjetilstand.TilUtbetaling:
             return <TilUtbetalingIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.Utbetalt:
+        case Tidslinjetilstand.Utbetalt:
             return <UtbetaltIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.Oppgaver:
+        case Tidslinjetilstand.Oppgaver:
             return <TilGodkjenningIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.Venter:
+        case Tidslinjetilstand.Venter:
             return <VenterIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.VenterPåKiling:
+        case Tidslinjetilstand.VenterPåKiling:
             return <VenterPåKilingIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.Avslag:
+        case Tidslinjetilstand.Avslag:
             return <AvslagIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.IngenUtbetaling:
+        case Tidslinjetilstand.IngenUtbetaling:
             return <IngenUtbetalingIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.KunFerie:
+        case Tidslinjetilstand.KunFerie:
             return <KunFerieIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.KunPermisjon:
+        case Tidslinjetilstand.KunPermisjon:
             return <KunPermisjonIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.Annullert:
+        case Tidslinjetilstand.Annullert:
             return <AnnullertIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.TilAnnullering:
+        case Tidslinjetilstand.TilAnnullering:
             return <TilAnnulleringIkon styles={styles} {...props} />;
-        case Revurderingtilstand.Revurderes:
-        case Revurderingtilstand.Revurdert:
+        case Tidslinjetilstand.Revurderes:
+        case Tidslinjetilstand.Revurdert:
             return (
                 <TilRevurderingIkon styles={{ ...styles, height: '0.75rem', width: '0.75rem', marginBottom: '2px' }} />
             );
         case Infotrygdperiodetilstand.UtbetaltIInfotrygd:
             return <UtbetaltIInfotrygdIkon styles={styles} {...props} />;
-        case Vedtaksperiodetilstand.AnnulleringFeilet:
-        case Vedtaksperiodetilstand.TilInfotrygd:
-        case Vedtaksperiodetilstand.Feilet:
-        case Vedtaksperiodetilstand.Ukjent:
-        case Revurderingtilstand.Ukjent:
+        case Tidslinjetilstand.AnnulleringFeilet:
+        case Tidslinjetilstand.TilInfotrygd:
+        case Tidslinjetilstand.Feilet:
+        case Tidslinjetilstand.Ukjent:
             return <UkjentIkon styles={styles} {...props} />;
         default:
             return <UkjentIkon styles={styles} {...props} />;

@@ -11,6 +11,7 @@ import {
     Vedtaksperiodetilstand,
 } from 'internal-types';
 
+import { Tidslinjetilstand } from '../../client/mapping/arbeidsgiver';
 import { mapPerson } from '../../client/mapping/person';
 import {
     Periodetype as UtbetalingshistorikkPeriodetype,
@@ -712,7 +713,7 @@ export const mappetPersonObject = (): Person => ({
                         },
                     ],
                     utbetaling: {
-                        status: Utbetalingstatus.IKKE_UTBETALT,
+                        status: Utbetalingstatus.UTBETALT,
                         type: Utbetalingstype.UTBETALING,
                         utbetalingstidslinje: [
                             {
@@ -743,8 +744,7 @@ export const mappetPersonObject = (): Person => ({
                         fom: dayjs('2020-01-01T00:00:00.000Z'),
                         tom: dayjs('2020-01-31T00:00:00.000Z'),
                         type: UtbetalingshistorikkPeriodetype.VEDTAKSPERIODE,
-                        tilstand: Utbetalingstatus.IKKE_UTBETALT,
-                        oppgavereferanse: 'en-oppgavereferanse',
+                        tilstand: Tidslinjetilstand.UtbetaltAutomatisk,
                         utbetalingstidslinje: [
                             {
                                 dato: dayjs('2020-01-01'),

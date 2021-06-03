@@ -2987,469 +2987,467 @@
                             "grad": null
                         }
                     ],
-                    "utbetalinger": [
-                        {
-                            "type": "REVURDERING",
-                            "status": "IKKE_UTBETALT",
-                            "gjenståendeSykedager": 197,
-                            "forbrukteSykedager": 51,
-                            "arbeidsgiverNettoBeløp": -1506,
-                            "maksdato": "2022-04-01",
-                            "beregningId": "6dd8e9e4-49e8-43f2-b57f-8bd406c3ce2a",
-                            "utbetalingstidslinje": [
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-02"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-03"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-04"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-05"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-06"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-07"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-08"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-09"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-10"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-11"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-12"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-13"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-14"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-15"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-16"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-17"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-22"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-23"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-24"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-29"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-30"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-01"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-02"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-03"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-04"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-05"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-06"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-07"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-08"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-09"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-10"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-11"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-12"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-13"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-14"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-15"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-16"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-17"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-21"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-22"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-23"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-24"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-28"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-29"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-30"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-31"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-01"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-02"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-03"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-04"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-05"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-06"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-07"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-08"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-09"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-10"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-11"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-12"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-13"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-14"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-15"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-16"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-17"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-18"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-19"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-21"
-                                },
-                                {
-                                    "type": "Feriedag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-22"
-                                },
-                                {
-                                    "type": "Feriedag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-23"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-24"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-25"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-26"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-29"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-30"
-                                }
-                            ]
-                        }
-                    ]
+                    "utbetaling": {
+                        "type": "REVURDERING",
+                        "status": "IKKE_UTBETALT",
+                        "gjenståendeSykedager": 197,
+                        "forbrukteSykedager": 51,
+                        "arbeidsgiverNettoBeløp": -1506,
+                        "maksdato": "2022-04-01",
+                        "beregningId": "6dd8e9e4-49e8-43f2-b57f-8bd406c3ce2a",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-16"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-17"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-22"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-23"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-24"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-29"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-30"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-01"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-02"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-03"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-04"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-05"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-06"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-07"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-08"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-09"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-10"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-11"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-12"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-13"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-14"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-15"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-17"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-21"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-22"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-23"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-24"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-28"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-29"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-30"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-31"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-01"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-02"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-03"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-04"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-05"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-06"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-07"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-08"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-09"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-10"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-11"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-12"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-13"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-14"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-15"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-17"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-18"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-19"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-21"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-22"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-06-23"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-24"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-25"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-26"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-29"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-30"
+                            }
+                        ]
+                    }
                 },
                 {
                     "beregningId": "6c162476-37c9-41ec-b682-ce88ad5750ac",
@@ -4537,469 +4535,467 @@
                             "grad": 100
                         }
                     ],
-                    "utbetalinger": [
-                        {
-                            "type": "UTBETALING",
-                            "status": "UTBETALT",
-                            "gjenståendeSykedager": 195,
-                            "forbrukteSykedager": 53,
-                            "arbeidsgiverNettoBeløp": 16566,
-                            "maksdato": "2022-03-30",
-                            "beregningId": "6c162476-37c9-41ec-b682-ce88ad5750ac",
-                            "utbetalingstidslinje": [
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-02"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-03"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-04"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-05"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-06"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-07"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-08"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-09"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-10"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-11"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-12"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-13"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-14"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-15"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-16"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-17"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-22"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-23"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-24"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-29"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-30"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-01"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-02"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-03"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-04"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-05"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-06"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-07"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-08"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-09"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-10"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-11"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-12"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-13"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-14"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-15"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-16"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-17"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-21"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-22"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-23"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-24"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-28"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-29"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-30"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-31"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-01"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-02"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-03"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-04"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-05"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-06"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-07"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-08"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-09"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-10"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-11"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-12"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-13"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-14"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-15"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-16"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-17"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-18"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-19"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-22"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-23"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-24"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-25"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-26"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-06-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-29"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-06-30"
-                                }
-                            ]
-                        }
-                    ]
+                    "utbetaling": {
+                        "type": "UTBETALING",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 195,
+                        "forbrukteSykedager": 53,
+                        "arbeidsgiverNettoBeløp": 16566,
+                        "maksdato": "2022-03-30",
+                        "beregningId": "6c162476-37c9-41ec-b682-ce88ad5750ac",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-16"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-17"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-22"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-23"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-24"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-29"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-30"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-01"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-02"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-03"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-04"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-05"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-06"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-07"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-08"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-09"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-10"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-11"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-12"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-13"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-14"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-15"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-17"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-21"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-22"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-23"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-24"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-28"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-29"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-30"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-31"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-01"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-02"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-03"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-04"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-05"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-06"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-07"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-08"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-09"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-10"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-11"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-12"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-13"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-14"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-15"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-17"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-18"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-19"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-22"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-23"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-24"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-25"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-26"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-06-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-29"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-06-30"
+                            }
+                        ]
+                    }
                 },
                 {
                     "beregningId": "f8c66b1f-2044-4cd6-b4fd-5101ad1624f6",
@@ -5826,319 +5822,317 @@
                             "grad": 100
                         }
                     ],
-                    "utbetalinger": [
-                        {
-                            "type": "UTBETALING",
-                            "status": "UTBETALT",
-                            "gjenståendeSykedager": 217,
-                            "forbrukteSykedager": 31,
-                            "arbeidsgiverNettoBeløp": 15813,
-                            "maksdato": "2022-03-30",
-                            "beregningId": "f8c66b1f-2044-4cd6-b4fd-5101ad1624f6",
-                            "utbetalingstidslinje": [
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-02"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-03"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-04"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-05"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-06"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-07"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-08"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-09"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-10"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-11"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-12"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-13"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-14"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-15"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-16"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-17"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-22"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-23"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-24"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-29"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-30"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-01"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-02"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-03"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-04"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-05"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-06"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-07"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-08"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-09"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-10"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-11"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-12"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-13"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-14"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-15"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-16"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-17"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-21"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-22"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-23"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-24"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-28"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-29"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-05-30"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-05-31"
-                                }
-                            ]
-                        }
-                    ]
+                    "utbetaling": {
+                        "type": "UTBETALING",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 217,
+                        "forbrukteSykedager": 31,
+                        "arbeidsgiverNettoBeløp": 15813,
+                        "maksdato": "2022-03-30",
+                        "beregningId": "f8c66b1f-2044-4cd6-b4fd-5101ad1624f6",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-16"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-17"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-22"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-23"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-24"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-29"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-30"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-01"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-02"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-03"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-04"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-05"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-06"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-07"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-08"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-09"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-10"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-11"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-12"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-13"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-14"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-15"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-16"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-17"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-21"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-22"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-23"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-24"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-28"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-29"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-05-30"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-05-31"
+                            }
+                        ]
+                    }
                 },
                 {
                     "beregningId": "f443cad1-7557-4f3e-a8b8-85de37049bcc",
@@ -6551,164 +6545,162 @@
                             "grad": 100
                         }
                     ],
-                    "utbetalinger": [
-                        {
-                            "type": "UTBETALING",
-                            "status": "UTBETALT",
-                            "gjenståendeSykedager": 238,
-                            "forbrukteSykedager": 10,
-                            "arbeidsgiverNettoBeløp": 7530,
-                            "maksdato": "2022-03-30",
-                            "beregningId": "f443cad1-7557-4f3e-a8b8-85de37049bcc",
-                            "utbetalingstidslinje": [
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-02"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-03"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-04"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-05"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-06"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-07"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-08"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-09"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-10"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-11"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-12"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-13"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-14"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-15"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-16"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-17"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-22"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-23"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-24"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-04-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-29"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 753,
-                                    "dato": "2021-04-30"
-                                }
-                            ]
-                        }
-                    ]
+                    "utbetaling": {
+                        "type": "UTBETALING",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 238,
+                        "forbrukteSykedager": 10,
+                        "arbeidsgiverNettoBeløp": 7530,
+                        "maksdato": "2022-03-30",
+                        "beregningId": "f443cad1-7557-4f3e-a8b8-85de37049bcc",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-16"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-17"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-22"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-23"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-24"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-04-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-29"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 753,
+                                "dato": "2021-04-30"
+                            }
+                        ]
+                    }
                 }
             ]
         }

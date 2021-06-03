@@ -1,11 +1,13 @@
-import React from 'react';
-import { Flex } from '../../../components/Flex';
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { Utbetalingsoversikt } from './Utbetalingsoversikt';
-import { Arbeidsforhold as ArbeidsforholdListe, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
-import {usePerson, usePersondataSkalAnonymiseres} from '../../../state/person';
-import { useAktivPeriode } from '../../../state/tidslinje';
 import { Dayjs } from 'dayjs';
+import { Arbeidsforhold as ArbeidsforholdListe, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import React from 'react';
+
+import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
+import { Flex } from '../../../components/Flex';
+import { usePerson } from '../../../state/person';
+import { useAktivPeriode } from '../../../state/tidslinje';
+
+import { Utbetalingsoversikt } from './Utbetalingsoversikt';
 
 export interface UtbetalingProps {
     skjæringstidspunkt?: Dayjs;
@@ -29,8 +31,6 @@ export const Utbetaling = ({
 }: UtbetalingProps) => {
     const aktivPeriode = useAktivPeriode();
     const personTilBehandling = usePerson();
-    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
-
     if (!aktivPeriode || !personTilBehandling) return null;
 
     return (

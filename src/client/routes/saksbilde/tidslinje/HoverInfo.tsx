@@ -12,12 +12,8 @@ import React, { CSSProperties } from 'react';
 import { Undertekst } from 'nav-frontend-typografi';
 
 import { FlexColumn } from '../../../components/Flex';
-import {
-    Tidslinjeperiode,
-    useGjenståendeDager,
-    useNettobeløp,
-    Utbetalingstatus,
-} from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
+import { Tidslinjeperiode, useGjenståendeDager, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';
 
@@ -85,15 +81,43 @@ const periodetekst = (antallDager: number, perioder: Periode[]): string | undefi
     return `${antallDager} dager`;
 };
 
-const utbetalingstatus = (status: Utbetalingstatus, harAktivOppgave: boolean) => {
+const utbetalingstatus = (status: Tidslinjetilstand) => {
     switch (status) {
-        case Utbetalingstatus.IKKE_UTBETALT:
-            return harAktivOppgave ? 'Til behandling' : 'Venter';
-        case Utbetalingstatus.UTBETALT:
+        case Tidslinjetilstand.UtbetaltAutomatisk:
+            return 'Automatisk utbetalt';
+        case Tidslinjetilstand.TilUtbetalingAutomatisk:
+            return 'Sendt til automatisk utbetaling';
+        case Tidslinjetilstand.Revurderes:
+            return 'Til revurdering';
+        case Tidslinjetilstand.Oppgaver:
+            return 'Til behandling';
+        case Tidslinjetilstand.TilUtbetaling:
             return 'Sendt til utbetaling';
-        case Utbetalingstatus.INGEN_UTBETALING:
+        case Tidslinjetilstand.Revurdert:
+        case Tidslinjetilstand.Utbetalt:
+            return 'Utbetalt';
+        case Tidslinjetilstand.IngenUtbetaling:
             return 'Ingen utbetaling';
-        case Utbetalingstatus.UKJENT:
+        case Tidslinjetilstand.KunFerie:
+            return 'Ferie';
+        case Tidslinjetilstand.KunPermisjon:
+            return 'Permisjon';
+        case Tidslinjetilstand.Venter:
+        case Tidslinjetilstand.VenterPåKiling:
+            return 'Venter';
+        case Tidslinjetilstand.Annullert:
+            return 'Annullert';
+        case Tidslinjetilstand.AnnulleringFeilet:
+            return 'Annullering feilet';
+        case Tidslinjetilstand.TilAnnullering:
+            return 'Sendt til annullering';
+        case Tidslinjetilstand.Avslag:
+            return 'Avslag';
+        case Tidslinjetilstand.Feilet:
+            return 'Feilet';
+        case Tidslinjetilstand.TilInfotrygd:
+            return 'Sendt til infotrygd';
+        default:
             return 'Ukjent';
     }
 };
@@ -219,7 +243,7 @@ interface TidslinjeperiodeHoverInfoProps {
 }
 
 export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: TidslinjeperiodeHoverInfoProps) => {
-    const status = utbetalingstatus(tidslinjeperiode.tilstand, !!tidslinjeperiode?.oppgavereferanse);
+    const status = utbetalingstatus(tidslinjeperiode.tilstand);
     const gjenståendeDager = useGjenståendeDager(tidslinjeperiode.beregningId);
     const nettobeløp = useNettobeløp(tidslinjeperiode.beregningId);
     const fom = tidslinjeperiode.fom.format(NORSK_DATOFORMAT);

@@ -4,6 +4,8 @@ import { ReactNode } from 'react';
 
 import { PositionedPeriod } from '@navikt/helse-frontend-timeline/lib';
 
+import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
+
 export interface Tidslinjeutsnitt {
     fom: Dayjs;
     tom: Dayjs;
@@ -11,7 +13,7 @@ export interface Tidslinjeutsnitt {
 }
 
 export type TidslinjeperiodeObject = PositionedPeriod & {
-    tilstand: Vedtaksperiodetilstand | Revurderingtilstand;
+    tilstand: Tidslinjetilstand;
     hoverLabel?: ReactNode;
     skalVisePin: boolean;
 };

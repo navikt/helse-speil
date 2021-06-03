@@ -1,8 +1,9 @@
 import { Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { Tidslinjetilstand } from '../mapping/arbeidsgiver';
+
 import { usePerson } from './person';
-import { Utbetalingstatus } from '../modell/UtbetalingshistorikkElement';
 
 export const aktivPeriodeState = atom<string | undefined>({
     key: 'aktivPeriodeState',
@@ -27,8 +28,9 @@ const defaultTidslinjeperiode = (person: Person) => {
         .filter((periode) => periode.fullstendig)
         .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
     return (
-        velgbarePerioder?.find((periode) => periode.tilstand === Utbetalingstatus.IKKE_UTBETALT) ??
-        velgbarePerioder?.[0]
+        velgbarePerioder?.find((periode) =>
+            [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(periode.tilstand)
+        ) ?? velgbarePerioder?.[0]
     );
 };
 

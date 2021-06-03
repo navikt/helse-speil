@@ -6,8 +6,16 @@ import {
     SpesialistPerson,
     SpesialistVedtaksperiode,
 } from 'external-types';
-import {Arbeidsgiver, UfullstendigVedtaksperiode, Utbetalingstype, Vedtaksperiode} from 'internal-types';
-import {nanoid} from 'nanoid';
+import {
+    Arbeidsgiver,
+    Dagtype,
+    UfullstendigVedtaksperiode,
+    Utbetalingsdag,
+    Utbetalingstype,
+    Vedtaksperiode,
+    Vurdering,
+} from 'internal-types';
+import { nanoid } from 'nanoid';
 
 import {
     Periodetype,
@@ -18,9 +26,9 @@ import {
     utbetalingstidslinje,
 } from '../modell/UtbetalingshistorikkElement';
 
-import {sykdomstidslinjedag, utbetalingstidslinjedag} from './dag';
-import {UfullstendigVedtaksperiodeBuilder} from './ufullstendigVedtaksperiode';
-import {VedtaksperiodeBuilder} from './vedtaksperiode';
+import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
+import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
+import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -67,22 +75,30 @@ export class ArbeidsgiverBuilder {
                     return (
                         periode.beregningIder?.map((beregningId) => {
                             const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
+                            const tidslinje = utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom);
+                            const periodetype =
+                                element.utbetaling.type === Utbetalingstype.REVURDERING
+                                    ? Periodetype.REVURDERING
+                                    : Periodetype.VEDTAKSPERIODE;
+                            const harOppgave = !!(periode as Vedtaksperiode)?.oppgavereferanse;
                             return {
                                 id: periode.id,
                                 beregningId: beregningId,
                                 unique: nanoid(),
                                 fom: periode.fom,
                                 tom: periode.tom,
-                                type:
-                                    element.utbetaling.type === Utbetalingstype.UTBETALING
-                                        ? Periodetype.VEDTAKSPERIODE
-                                        : Periodetype.REVURDERING,
-                                tilstand: element.utbetaling.status,
-                                utbetalingstidslinje: utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
+                                type: periodetype,
+                                tilstand: this.tilstand(
+                                    element.utbetaling.status,
+                                    periodetype,
+                                    tidslinje,
+                                    harOppgave,
+                                    element.utbetaling.vurdering
+                                ),
+                                utbetalingstidslinje: tidslinje,
                                 sykdomstidslinje: sykdomstidslinje(element.beregnettidslinje, periode.fom, periode.tom),
                                 fullstendig: periode.fullstendig,
                                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
-                                oppgavereferanse: (periode as Vedtaksperiode)?.oppgavereferanse ?? undefined,
                             };
                         }) ?? [
                             {
@@ -92,7 +108,7 @@ export class ArbeidsgiverBuilder {
                                 fom: periode.fom,
                                 tom: periode.tom,
                                 type: Periodetype.UFULLSTENDIG,
-                                tilstand: Utbetalingstatus.UKJENT,
+                                tilstand: this.tilstand(Utbetalingstatus.UKJENT, Periodetype.UFULLSTENDIG, [], false),
                                 utbetalingstidslinje: [],
                                 sykdomstidslinje: [],
                                 fullstendig: periode.fullstendig,
@@ -176,7 +192,8 @@ export class ArbeidsgiverBuilder {
                                           ident: element.utbetaling.vurdering.ident,
                                       }
                                     : undefined,
-                            });
+                            }
+                        );
                     }) ?? [],
         };
     };
@@ -229,12 +246,22 @@ export class ArbeidsgiverBuilder {
         switch (type.toUpperCase()) {
             case 'IKKE_UTBETALT':
                 return Utbetalingstatus.IKKE_UTBETALT;
+            case 'IKKE_GODKJENT':
+                return Utbetalingstatus.IKKE_GODKJENT;
+            case 'GODKJENT':
+                return Utbetalingstatus.GODKJENT;
+            case 'SENDT':
+                return Utbetalingstatus.SENDT;
+            case 'OVERFØRT':
+                return Utbetalingstatus.OVERFØRT;
             case 'UTBETALT':
                 return Utbetalingstatus.UTBETALT;
-            case 'INGEN_UTBETALING':
-                return Utbetalingstatus.INGEN_UTBETALING;
-            case 'UKJENT':
-                return Utbetalingstatus.UKJENT;
+            case 'GODKJENT_UTEN_UTBETALING':
+                return Utbetalingstatus.GODKJENT_UTEN_UTBETALING;
+            case 'UTBETALING_FEILET':
+                return Utbetalingstatus.UTBETALING_FEILET;
+            case 'ANNULLERT':
+                return Utbetalingstatus.ANNULLERT;
             default:
                 return Utbetalingstatus.UKJENT;
         }
@@ -296,4 +323,106 @@ export class ArbeidsgiverBuilder {
         nesteGenerasjon: Tidslinjeperiode[],
         perioderSomSkalKopieres: Tidslinjeperiode[]
     ) => [...nesteGenerasjon, ...perioderSomSkalKopieres];
+
+    private tilstand = (
+        utbetalingstatus: Utbetalingstatus,
+        periodetype: Periodetype,
+        utbetalingstidslinje: Utbetalingsdag[],
+        harOppgave: boolean,
+        vurdering?: Vurdering
+    ): Tidslinjetilstand => {
+        switch (periodetype) {
+            case Periodetype.VEDTAKSPERIODE:
+                switch (utbetalingstatus) {
+                    case Utbetalingstatus.IKKE_UTBETALT:
+                        return harOppgave ? Tidslinjetilstand.Oppgaver : Tidslinjetilstand.Venter;
+                    case Utbetalingstatus.IKKE_GODKJENT:
+                        return Tidslinjetilstand.Avslag;
+                    case Utbetalingstatus.GODKJENT:
+                    case Utbetalingstatus.SENDT:
+                    case Utbetalingstatus.OVERFØRT:
+                        return vurdering?.automatisk
+                            ? Tidslinjetilstand.TilUtbetalingAutomatisk
+                            : Tidslinjetilstand.TilUtbetaling;
+                    case Utbetalingstatus.UTBETALT:
+                        return vurdering?.automatisk
+                            ? Tidslinjetilstand.UtbetaltAutomatisk
+                            : Tidslinjetilstand.Utbetalt;
+                    default:
+                        return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
+                }
+            case Periodetype.REVURDERING:
+                switch (utbetalingstatus) {
+                    case Utbetalingstatus.IKKE_UTBETALT:
+                        return harOppgave ? Tidslinjetilstand.Revurderes : Tidslinjetilstand.Venter;
+                    case Utbetalingstatus.IKKE_GODKJENT:
+                        return Tidslinjetilstand.Avslag;
+                    case Utbetalingstatus.GODKJENT:
+                    case Utbetalingstatus.SENDT:
+                    case Utbetalingstatus.OVERFØRT:
+                    case Utbetalingstatus.UTBETALT:
+                        return Tidslinjetilstand.Revurdert;
+                    default:
+                        return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
+                }
+            case Periodetype.ANNULLERT_PERIODE:
+                switch (utbetalingstatus) {
+                    case Utbetalingstatus.GODKJENT:
+                    case Utbetalingstatus.SENDT:
+                    case Utbetalingstatus.OVERFØRT:
+                        return Tidslinjetilstand.TilAnnullering;
+                    case Utbetalingstatus.UTBETALT:
+                        return Tidslinjetilstand.Annullert;
+                    case Utbetalingstatus.UTBETALING_FEILET:
+                        return Tidslinjetilstand.AnnulleringFeilet;
+                    default:
+                        return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
+                }
+            case Periodetype.UFULLSTENDIG:
+                return Tidslinjetilstand.Venter;
+        }
+    };
+
+    private defaultTidslinjeTilstander = (
+        utbetalingstatus: Utbetalingstatus,
+        utbetalingstidslinje: Utbetalingsdag[]
+    ): Tidslinjetilstand => {
+        switch (utbetalingstatus) {
+            case Utbetalingstatus.GODKJENT_UTEN_UTBETALING:
+                return this.harUtelukkende(Dagtype.Ferie, utbetalingstidslinje)
+                    ? Tidslinjetilstand.KunFerie
+                    : this.harUtelukkende(Dagtype.Permisjon, utbetalingstidslinje)
+                    ? Tidslinjetilstand.KunPermisjon
+                    : Tidslinjetilstand.IngenUtbetaling;
+            case Utbetalingstatus.UTBETALING_FEILET:
+                return Tidslinjetilstand.Feilet;
+            default:
+                return Tidslinjetilstand.Ukjent;
+        }
+    };
+
+    private harUtelukkende = (dagtype: Dagtype, utbetalingstidslinje: Utbetalingsdag[]) =>
+        utbetalingstidslinje.filter((dag) => dag.type.includes(dagtype)).length === utbetalingstidslinje.length;
+}
+
+export const enum Tidslinjetilstand {
+    TilUtbetaling = 'tilUtbetaling',
+    Utbetalt = 'utbetalt',
+    Oppgaver = 'oppgaver',
+    Venter = 'venter',
+    VenterPåKiling = 'venterPåKiling',
+    Avslag = 'avslag',
+    IngenUtbetaling = 'ingenUtbetaling',
+    KunFerie = 'kunFerie',
+    KunPermisjon = 'kunPermisjon',
+    Feilet = 'feilet',
+    TilInfotrygd = 'tilInfotrygd',
+    Annullert = 'annullert',
+    TilAnnullering = 'tilAnnullering',
+    AnnulleringFeilet = 'annulleringFeilet',
+    UtbetaltAutomatisk = 'utbetaltAutomatisk',
+    TilUtbetalingAutomatisk = 'tilUtbetalingAutomatisk',
+    Revurderes = 'revurderes',
+    Revurdert = 'revurdert',
+    Ukjent = 'ukjent',
 }

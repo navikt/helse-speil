@@ -7,6 +7,7 @@ import {
     Utbetalingstype,
 } from 'internal-types';
 
+import { Tidslinjetilstand } from '../mapping/arbeidsgiver';
 import { usePerson } from '../state/person';
 
 const useHistorikkelement = (beregningId?: string) => {
@@ -76,23 +77,29 @@ export interface Tidslinjeperiode {
     fom: Dayjs;
     tom: Dayjs;
     type: Periodetype;
-    tilstand: Utbetalingstatus;
+    tilstand: Tidslinjetilstand;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
     organisasjonsnummer: string;
     fullstendig: boolean;
-    oppgavereferanse?: string;
 }
 
 export enum Utbetalingstatus {
     IKKE_UTBETALT,
+    IKKE_GODKJENT,
+    GODKJENT,
+    SENDT,
+    OVERFØRT,
     UTBETALT,
-    INGEN_UTBETALING,
+    GODKJENT_UTEN_UTBETALING,
+    UTBETALING_FEILET,
+    ANNULLERT,
     UKJENT,
 }
 
 export enum Periodetype {
     VEDTAKSPERIODE,
     REVURDERING,
+    ANNULLERT_PERIODE,
     UFULLSTENDIG,
 }

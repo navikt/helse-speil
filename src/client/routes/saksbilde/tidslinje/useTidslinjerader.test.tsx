@@ -1,29 +1,12 @@
 import { renderHook } from '@testing-library/react-hooks';
 import dayjs, { Dayjs } from 'dayjs';
-import {
-    Dagtype,
-    Revurderingtilstand,
-    Sykdomsdag,
-    UfullstendigVedtaksperiode,
-    Utbetalingsdag,
-    Utbetalingstype,
-    Vedtaksperiode,
-} from 'internal-types';
+import { Dagtype, Utbetalingsdag } from 'internal-types';
 import { mappetPerson } from 'test-data';
-
-import {
-    Periodetype,
-    utbetalingshistorikkelement,
-    UtbetalingshistorikkElement,
-    Utbetalingstatus,
-} from '../../../modell/UtbetalingshistorikkElement';
 
 import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
 import { umappetUtbetalingshistorikk } from '../../../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
-import { tilPeriodetilstand, useTidslinjerader } from './useTidslinjerader';
-
-type Vedtaksperioder = (Vedtaksperiode | UfullstendigVedtaksperiode)[];
+import { useTidslinjerader } from './useTidslinjerader';
 
 let person = mappetPerson();
 
@@ -99,40 +82,6 @@ describe('useTidslinjerader', () => {
         expect(result.current[0].rader[1].perioder[1].end.endOf('day')).toEqual(dayjs('2020-01-31').endOf('day'));
     });
 });
-
-describe('tilPeriodetype', () => {
-    test('mapper periode til revurdering', () => {
-        const tilstand = tilPeriodetilstand(Utbetalingstatus.IKKE_UTBETALT, Periodetype.REVURDERING, true);
-        expect(tilstand).toEqual(Revurderingtilstand.Revurderes);
-    });
-});
-
-const nyttElement = (
-    id: string,
-    fom: Dayjs,
-    tom: Dayjs,
-    maksdato: Dayjs,
-    vedtaksperioder: Vedtaksperioder,
-    erRevurdering: boolean = false,
-    erUtbetalt = true
-): UtbetalingshistorikkElement => {
-    return utbetalingshistorikkelement(
-        id,
-        sykdomstidslinje(fom, tom),
-        sykdomstidslinje(fom, tom),
-        {
-            status: erUtbetalt ? Utbetalingstatus.UTBETALT : Utbetalingstatus.IKKE_UTBETALT,
-            type: erRevurdering ? Utbetalingstype.REVURDERING : Utbetalingstype.UTBETALING,
-            utbetalingstidslinje: utbetalingstidslinje(fom, tom),
-            maksdato: maksdato,
-            gjenståendeDager: 0,
-            forbrukteDager: 0,
-            nettobeløp: 0,
-            arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
-        }
-    );
-};
-
 export const utbetalingstidslinje = (fom: Dayjs, tom: Dayjs, dagtype: Dagtype = Dagtype.Syk) => {
     const antallDager = Math.abs(tom.diff(fom, 'day')) + 1;
     const utbetalingsdager: Utbetalingsdag[] = [];
@@ -143,16 +92,4 @@ export const utbetalingstidslinje = (fom: Dayjs, tom: Dayjs, dagtype: Dagtype = 
         });
     }
     return utbetalingsdager;
-};
-
-const sykdomstidslinje = (fom: Dayjs, tom: Dayjs) => {
-    const antallDager = Math.abs(tom.diff(fom, 'day')) + 1;
-    const sykdomsdager: Sykdomsdag[] = [];
-    for (let step = 0; step < antallDager; step++) {
-        sykdomsdager.push({
-            dato: fom.add(step, 'day'),
-            type: Dagtype.Syk,
-        });
-    }
-    return sykdomsdager;
 };

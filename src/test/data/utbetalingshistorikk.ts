@@ -1,5 +1,5 @@
-import dayjs, {Dayjs} from 'dayjs';
-import {SpleisSykdomsdagkildeType, SpleisSykdomsdagtype, SpleisUtbetalingsdagtype} from 'external-types';
+import dayjs, { Dayjs } from 'dayjs';
+import { SpleisSykdomsdagkildeType, SpleisSykdomsdagtype, SpleisUtbetalingsdagtype } from 'external-types';
 
 export const umappetUtbetalingshistorikk = (
     beregningId: string = 'id1',
@@ -30,7 +30,7 @@ export const umappetUtbetalingshistorikk = (
         },
     ],
     utbetaling: {
-        status: 'IKKE_UTBETALT',
+        status: 'UTBETALT',
         utbetalingstidslinje: [
             {
                 type: SpleisUtbetalingsdagtype.NAVDAG,

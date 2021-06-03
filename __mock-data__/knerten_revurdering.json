@@ -977,174 +977,173 @@
                             "grad": null
                         }
                     ],
-                    "utbetalinger": [
-                        {
-                            "type": "REVURDERING",
-                            "status": "IKKE_UTBETALT",
-                            "gjenståendeSykedager": 238,
-                            "forbrukteSykedager": 10,
-                            "arbeidsgiverNettoBeløp": 0,
-                            "maksdato": "2021-12-29",
-                            "beregningId": "6e37df26-31da-4e46-b7df-3f66b52ea56b",
-                            "utbetalingstidslinje": [
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-01"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-02"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-03"
-                                },
-                                {
-                                    "type": "Feriedag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-04"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-05"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-06"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-07"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-08"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-09"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-10"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-11"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-12"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-13"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-14"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-15"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-16"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-17"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-22"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-23"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-24"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-29"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-30"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-31"
-                                }
-                            ]
-                        }
-                    ]
+                    "utbetaling": {
+                        "type": "REVURDERING",
+                        "status": "IKKE_UTBETALT",
+                        "gjenståendeSykedager": 238,
+                        "forbrukteSykedager": 10,
+                        "arbeidsgiverNettoBeløp": 0,
+                        "arbeidsgiverFagsystemId": "1",
+                        "maksdato": "2021-12-29",
+                        "beregningId": "6e37df26-31da-4e46-b7df-3f66b52ea56b",
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-03"
+                            },
+                            {
+                                "type": "Feriedag",
+                                "inntekt": 0,
+                                "dato": "2021-01-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-16"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-17"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-22"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-23"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-24"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-29"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-30"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-31"
+                            }
+                        ]
+                    }
                 },
                 {
                     "beregningId": "f4b906bf-0df8-4756-a618-2c459aaaa01f",
@@ -1575,174 +1574,179 @@
                             "grad": 100
                         }
                     ],
-                    "utbetalinger": [
-                        {
-                            "type": "UTBETALING",
-                            "status": "UTBETALT",
-                            "gjenståendeSykedager": 238,
-                            "forbrukteSykedager": 10,
-                            "arbeidsgiverNettoBeløp": 8370,
-                            "maksdato": "2021-12-29",
-                            "beregningId": "f4b906bf-0df8-4756-a618-2c459aaaa01f",
-                            "utbetalingstidslinje": [
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-01"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-02"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-03"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-04"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-05"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-06"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-07"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-08"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-09"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-10"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-11"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-12"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-13"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-14"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-15"
-                                },
-                                {
-                                    "type": "ArbeidsgiverperiodeDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-16"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-17"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-18"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-19"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-20"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-21"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-22"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-23"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-24"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-25"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-26"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-27"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-28"
-                                },
-                                {
-                                    "type": "NavDag",
-                                    "inntekt": 837,
-                                    "dato": "2021-01-29"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-30"
-                                },
-                                {
-                                    "type": "NavHelgDag",
-                                    "inntekt": 0,
-                                    "dato": "2021-01-31"
-                                }
-                            ]
-                        }
-                    ]
+                    "utbetaling": {
+                        "type": "UTBETALING",
+                        "status": "UTBETALT",
+                        "gjenståendeSykedager": 238,
+                        "forbrukteSykedager": 10,
+                        "arbeidsgiverNettoBeløp": 8370,
+                        "arbeidsgiverFagsystemId": "1",
+                        "maksdato": "2021-12-29",
+                        "beregningId": "f4b906bf-0df8-4756-a618-2c459aaaa01f",
+                        "vurdering": {
+                            "automatisk": true,
+                            "ident": "SPLEIS",
+                            "godkjent": true,
+                            "tidsstempel": "2021-01-01"
+                        },
+                        "utbetalingstidslinje": [
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-01"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-02"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-03"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-04"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-05"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-06"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-07"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-08"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-09"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-10"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-11"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-12"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-13"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-14"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-15"
+                            },
+                            {
+                                "type": "ArbeidsgiverperiodeDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-16"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-17"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-18"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-19"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-20"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-21"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-22"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-23"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-24"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-25"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-26"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-27"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-28"
+                            },
+                            {
+                                "type": "NavDag",
+                                "inntekt": 837,
+                                "dato": "2021-01-29"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-30"
+                            },
+                            {
+                                "type": "NavHelgDag",
+                                "inntekt": 0,
+                                "dato": "2021-01-31"
+                            }
+                        ]
+                    }
                 }
             ]
         }
