@@ -9,7 +9,7 @@ import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { nyesteOpptegnelseMedTypeOppgaveState } from '../../../state/opptegnelser';
 import { usePerson } from '../../../state/person';
-import { useAktivVedtaksperiode, useVedtaksperiode } from '../../../state/tidslinje';
+import { useVedtaksperiode } from '../../../state/tidslinje';
 import { useAddToast, useRemoveToast } from '../../../state/toasts';
 
 import { OverstyrbarSykmeldingsperiodetabell } from './OverstyrbarSykmeldingsperiodetabell';
@@ -68,6 +68,7 @@ export const Sykmeldingsperiode = ({ aktivPeriode }: SykmeldingsperiodeProps) =>
             <AgurkErrorBoundary>
                 {overstyrer ? (
                     <OverstyrbarSykmeldingsperiodetabell
+                        aktivPeriode={aktivPeriode}
                         onOverstyr={() => {
                             setOverstyrer(false);
                             setKalkulerer(true);

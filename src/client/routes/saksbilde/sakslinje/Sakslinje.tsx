@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
 import React from 'react';
 
 import { Location, useNavigation } from '../../../hooks/useNavigation';
+import { Periodetype, Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 
 import { TabLink } from '../TabLink';
-import { Infolinje } from './Infolinje';
-import { Verktøylinje } from './Verktøylinje';
+import { Verktøylinje, VerktøylinjeForTomtSaksbilde } from './Verktøylinje';
 import { HjemIkon } from './icons/HjemIkon';
 
 const Container = styled.div`
@@ -22,15 +21,15 @@ const TabList = styled.span`
 `;
 
 interface SakslinjeProps {
-    erNormalVedtaksperiode: Boolean;
+    aktivPeriode: Tidslinjeperiode;
 }
 
-export const Sakslinje = ({ erNormalVedtaksperiode }: SakslinjeProps) => {
+export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
     const { pathForLocation } = useNavigation();
 
     return (
         <Container>
-            {erNormalVedtaksperiode && (
+            {aktivPeriode?.type === Periodetype.VEDTAKSPERIODE && (
                 <TabList role="tablist">
                     <TabLink to={pathForLocation(Location.Utbetaling)} title="Utbetaling" icon={<HjemIkon />}>
                         Utbetaling
@@ -49,7 +48,15 @@ export const Sakslinje = ({ erNormalVedtaksperiode }: SakslinjeProps) => {
                     </TabLink>
                 </TabList>
             )}
-            <Verktøylinje />
+            <Verktøylinje aktivPeriode={aktivPeriode} />
+        </Container>
+    );
+};
+
+export const SakslinjeForTomtSaksbilde = () => {
+    return (
+        <Container>
+            <VerktøylinjeForTomtSaksbilde />
         </Container>
     );
 };

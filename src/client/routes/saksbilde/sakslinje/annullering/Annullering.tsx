@@ -1,14 +1,17 @@
 import React, { useContext, useState } from 'react';
 
 import { DropdownContext, DropdownMenyknapp } from '../../../../components/dropdown/Dropdown';
+import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../../state/person';
-import { useAktivVedtaksperiode } from '../../../../state/tidslinje';
 
 import { Annulleringsmodal } from './Annulleringsmodal';
 
-export const Annullering = () => {
+export interface AnnulleringProps {
+    aktivPeriode: Tidslinjeperiode;
+}
+
+export const Annullering = ({ aktivPeriode }: AnnulleringProps) => {
     const personTilBehandling = usePerson();
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
     const { lukk } = useContext(DropdownContext);
     const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -18,7 +21,7 @@ export const Annullering = () => {
             {showModal && (
                 <Annulleringsmodal
                     person={personTilBehandling!}
-                    vedtaksperiode={aktivVedtaksperiode!}
+                    aktivPeriode={aktivPeriode!}
                     onClose={() => {
                         setShowModal(false);
                         lukk();

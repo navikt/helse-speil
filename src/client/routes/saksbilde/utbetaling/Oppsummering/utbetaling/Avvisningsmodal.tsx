@@ -6,6 +6,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Systemtittel } from 'nav-frontend-typografi';
 
 import { Modal } from '../../../../../components/Modal';
+import { Tidslinjeperiode } from '../../../../../modell/UtbetalingshistorikkElement';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';
@@ -26,12 +27,13 @@ const StyledModal = styled(Modal)`
 `;
 
 interface Props {
+    aktivPeriode: Tidslinjeperiode;
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;
 }
 
-export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
+export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }: Props) => {
     const form = useForm();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
@@ -69,7 +71,7 @@ export const Avvisningsmodal = ({ isSending, onApprove, onClose }: Props) => {
         >
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(submit)}>
-                    <Begrunnelsesskjema />
+                    <Begrunnelsesskjema aktivPeriode={aktivPeriode} />
                     <div>
                         <OkKnapp spinner={isSending} type="standard">
                             Avslutt saken

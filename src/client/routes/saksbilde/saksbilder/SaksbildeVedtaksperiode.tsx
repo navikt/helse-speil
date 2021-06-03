@@ -106,7 +106,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                 <Route>
                     <Flex justifyContent="space-between" flex={1}>
                         <AutoFlexContainer>
-                            <Sakslinje erNormalVedtaksperiode={true} />
+                            <Sakslinje aktivPeriode={aktivPeriode} />
                             <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
                                 <AmplitudeProvider>
                                     <Flex style={{ flex: 1, height: 'calc(100% - 75px)' }}>

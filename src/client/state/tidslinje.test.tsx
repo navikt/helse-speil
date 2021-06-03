@@ -9,7 +9,7 @@ import { Tidslinjeperiode } from '../modell/UtbetalingshistorikkElement';
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../test/data/vedtaksperiode';
-import { aktivPeriodeState, decomposedId, useAktivPeriode, useAktivVedtaksperiode } from './tidslinje';
+import { aktivPeriodeState, useAktivPeriode } from './tidslinje';
 
 const wrapper: React.FC = ({ children }) => <RecoilRoot>{children}</RecoilRoot>;
 const person = mappetPerson([
@@ -44,7 +44,7 @@ describe('tidslinjehook', () => {
     it('defaulter til siste periode om ikke en er aktiv', () => {
         const { result } = renderHook(
             () => {
-                return useAktivVedtaksperiode();
+                return useAktivPeriode();
             },
             { wrapper }
         );

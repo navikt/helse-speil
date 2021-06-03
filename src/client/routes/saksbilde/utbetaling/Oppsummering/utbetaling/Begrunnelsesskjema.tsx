@@ -4,7 +4,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
 
-import { useAktivVedtaksperiode } from '../../../../../state/tidslinje';
+import { Tidslinjeperiode } from '../../../../../modell/UtbetalingshistorikkElement';
+import { useVedtaksperiode } from '../../../../../state/tidslinje';
 
 import { har8_4Kategori } from '../../../vilkår/tilKategoriserteVilkår';
 import { Begrunnelse } from './Utbetalingsdialog';
@@ -50,11 +51,15 @@ const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: string; labe
     );
 };
 
-export const Begrunnelsesskjema = () => {
+export interface BegrunnelsesskjemaProps {
+    aktivPeriode: Tidslinjeperiode;
+}
+
+export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) => {
     const { errors, clearErrors, watch } = useFormContext();
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
-    const warnings = aktivVedtaksperiode?.aktivitetslog;
-    const funnetRisikovurderinger = aktivVedtaksperiode?.risikovurdering?.funn;
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.beregningId);
+    const warnings = vedtaksperiode?.aktivitetslog;
+    const funnetRisikovurderinger = vedtaksperiode?.risikovurdering?.funn;
 
     const annet = watch(`begrunnelser`)?.includes(Begrunnelse.Annet);
 

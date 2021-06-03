@@ -21,10 +21,9 @@ import {
 } from '../../../components/tabell/rader';
 import { postAbonnerPåAktør, postOverstyring } from '../../../io/http';
 import { OverstyrtDagDTO } from '../../../io/types';
-import { organisasjonsnummerForPeriode } from '../../../mapping/selectors';
+import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { opptegnelsePollingTimeState } from '../../../state/opptegnelser';
 import { usePerson } from '../../../state/person';
-import { useAktivVedtaksperiode } from '../../../state/tidslinje';
 import { useAddToast } from '../../../state/toasts';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
@@ -79,28 +78,29 @@ const tilOverstyrteDager = (dager: Sykdomsdag[]): OverstyrtDagDTO[] =>
     }));
 
 interface OverstyrbarSykmeldingsperiodetabellProps {
+    aktivPeriode: Tidslinjeperiode;
     onOverstyr: () => void;
     onToggleOverstyring: () => void;
     originaleDager?: Sykdomsdag[];
 }
 
 export const OverstyrbarSykmeldingsperiodetabell = ({
+    aktivPeriode,
     onOverstyr,
     onToggleOverstyring,
     originaleDager,
 }: OverstyrbarSykmeldingsperiodetabellProps) => {
     const { overstyrteDager, leggTilOverstyrtDag } = useOverstyrteDager(originaleDager);
     const personTilBehandling = usePerson();
-    const aktivVedtaksperiode = useAktivVedtaksperiode();
     const [overstyringserror, setOverstyringserror] = useState<string>();
     const leggtilEnToast = useAddToast();
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
 
-    const fom = aktivVedtaksperiode?.fom.format(NORSK_DATOFORMAT);
-    const tom = aktivVedtaksperiode?.tom.format(NORSK_DATOFORMAT);
+    const fom = aktivPeriode?.fom.format(NORSK_DATOFORMAT);
+    const tom = aktivPeriode?.tom.format(NORSK_DATOFORMAT);
     const tabellbeskrivelse = `Overstyrer sykmeldingsperiode fra ${fom} til ${tom}`;
-    const organisasjonsnummer = organisasjonsnummerForPeriode(aktivVedtaksperiode!, personTilBehandling!);
+    const organisasjonsnummer = aktivPeriode.organisasjonsnummer;
 
     const headere = [
         '',
@@ -131,7 +131,7 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
         };
     };
 
-    const rader = trimLedendeArbeidsdager(aktivVedtaksperiode?.sykdomstidslinje ?? []).map(tilTabellrad);
+    const rader = trimLedendeArbeidsdager(aktivPeriode?.sykdomstidslinje ?? []).map(tilTabellrad);
 
     const overstyring = () => ({
         aktørId: personTilBehandling!.aktørId,

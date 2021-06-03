@@ -8,7 +8,7 @@ import {
 } from '@navikt/helse-frontend-logg';
 
 import { usePerson } from '../../../state/person';
-import { useAktivPeriode, useAktivVedtaksperiode, useVedtaksperiode } from '../../../state/tidslinje';
+import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { IkonDialog } from './icons/IkonDialog';

@@ -1,7 +1,8 @@
-import { Person, UfullstendigVedtaksperiode, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { Person, UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Tidslinjetilstand } from '../mapping/arbeidsgiver';
+import { Tidslinjeperiode } from '../modell/UtbetalingshistorikkElement';
 
 import { usePerson } from './person';
 
@@ -11,45 +12,6 @@ export const aktivPeriodeState = atom<string | undefined>({
 });
 
 export const useSetAktivPeriode = () => useSetRecoilState(aktivPeriodeState);
-
-const defaultPeriode = (person: Person): Vedtaksperiode | undefined => {
-    const velgbarePerioder = person.arbeidsgivere
-        .flatMap((arb) => arb.vedtaksperioder)
-        .filter((periode) => periode.fullstendig)
-        .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
-    return (velgbarePerioder?.find((periode) => periode.tilstand === Vedtaksperiodetilstand.Oppgaver) ??
-        velgbarePerioder?.[0]) as Vedtaksperiode;
-};
-
-const defaultTidslinjeperiode = (person: Person) => {
-    const velgbarePerioder = person.arbeidsgivere
-        .flatMap((arb) => arb.tidslinjeperioder)
-        .flatMap((perioder) => perioder)
-        .filter((periode) => periode.fullstendig)
-        .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
-    return (
-        velgbarePerioder?.find((periode) =>
-            [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(periode.tilstand)
-        ) ?? velgbarePerioder?.[0]
-    );
-};
-
-export const useOppgavereferanse = (beregningId: string): string => {
-    const person = usePerson();
-    const vedtaksperiode = person?.arbeidsgivere
-        .flatMap((a) => a.vedtaksperioder)
-        .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode;
-    return vedtaksperiode.oppgavereferanse!;
-};
-
-export const decomposedId = (periodeId: String) => {
-    const res = periodeId.split('+');
-    return {
-        id: res[0],
-        beregningId: res[1],
-        unique: res[2],
-    };
-};
 
 export const useAktivPeriode = () => {
     const person = usePerson();
@@ -78,14 +40,35 @@ export const useUfullstendigVedtaksperiode = (vedtaksperiodeId: string) =>
         ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
         .find((p) => p.id === vedtaksperiodeId) as UfullstendigVedtaksperiode;
 
-export const useAktivVedtaksperiode = () => {
+export const useOppgavereferanse = (beregningId: string): string | undefined => {
     const person = usePerson();
-    const periodeId = useRecoilValue(aktivPeriodeState);
+    const vedtaksperiode = person?.arbeidsgivere
+        .flatMap((a) => a.vedtaksperioder)
+        .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode;
+    return vedtaksperiode.oppgavereferanse;
+};
 
-    if (person && periodeId) {
-        return person.arbeidsgivere.flatMap((a) => a.vedtaksperioder).find((p) => p.id === periodeId) as Vedtaksperiode;
-    }
-    if (person) {
-        return defaultPeriode(person);
-    } else return undefined;
+export const harOppgave = (tidslinjeperiode: Tidslinjeperiode) =>
+    [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(tidslinjeperiode.tilstand);
+
+const defaultTidslinjeperiode = (person: Person) => {
+    const velgbarePerioder = person.arbeidsgivere
+        .flatMap((arb) => arb.tidslinjeperioder)
+        .flatMap((perioder) => perioder)
+        .filter((periode) => periode.fullstendig)
+        .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
+    return (
+        velgbarePerioder?.find((periode) =>
+            [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(periode.tilstand)
+        ) ?? velgbarePerioder?.[0]
+    );
+};
+
+export const decomposedId = (periodeId: String) => {
+    const res = periodeId.split('+');
+    return {
+        id: res[0],
+        beregningId: res[1],
+        unique: res[2],
+    };
 };

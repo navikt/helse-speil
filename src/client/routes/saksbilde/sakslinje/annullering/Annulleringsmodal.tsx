@@ -11,9 +11,11 @@ import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typogra
 import { Modal } from '../../../../components/Modal';
 import { postAbonnerPåAktør, postAnnullering } from '../../../../io/http';
 import { AnnulleringDTO } from '../../../../io/types';
-import { organisasjonsnummerForPeriode } from '../../../../mapping/selectors';
+import { Tidslinjeperiode, useUtbetaling } from '../../../../modell/UtbetalingshistorikkElement';
 import { authState } from '../../../../state/authentication';
 import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
+import { usePerson } from '../../../../state/person';
+import { useVedtaksperiode } from '../../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { somPenger } from '../../../../utils/locale';
 
@@ -79,24 +81,24 @@ const CheckboxFeilmelding = styled(NavFeilmelding)`
 
 interface Props {
     person: Person;
-    vedtaksperiode: Vedtaksperiode;
+    aktivPeriode: Tidslinjeperiode;
     onClose: () => void;
 }
 
-export const Annulleringsmodal = ({ person, vedtaksperiode, onClose }: Props) => {
+export const Annulleringsmodal = ({ person, aktivPeriode, onClose }: Props) => {
     const { ident } = useRecoilValue(authState);
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
+    const utbetaling = useUtbetaling(aktivPeriode.beregningId);
 
     const form = useForm({ mode: 'onBlur' });
-    const organisasjonsnummer = organisasjonsnummerForPeriode(vedtaksperiode, person);
-
     const annullering = (): AnnulleringDTO => ({
         aktørId: person.aktørId,
         fødselsnummer: person.fødselsnummer,
-        organisasjonsnummer: organisasjonsnummer,
-        fagsystemId: vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId!,
+        organisasjonsnummer: aktivPeriode.organisasjonsnummer,
+        fagsystemId: utbetaling?.arbeidsgiverFagsystemId!,
     });
 
     const sendAnnullering = (annullering: AnnulleringDTO) => {

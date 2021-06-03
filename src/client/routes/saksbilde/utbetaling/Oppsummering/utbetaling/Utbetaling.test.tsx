@@ -1,35 +1,52 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { SpesialistArbeidsgiver } from 'external-types';
-import { Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import dayjs, { Dayjs } from 'dayjs';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
+import { RecoilRoot } from 'recoil';
+import { mappetPerson } from 'test-data';
 
-import { VedtaksperiodeBuilder } from '../../../../../mapping/vedtaksperiode';
+import { Tidslinjetilstand } from '../../../../../mapping/arbeidsgiver';
+import { Periodetype, Tidslinjeperiode } from '../../../../../modell/UtbetalingshistorikkElement';
+import { personState } from '../../../../../state/person';
 
-import { umappetVedtaksperiode } from '../../../../../../test/data/vedtaksperiode';
 import '../../../../../tekster';
 import { Utbetaling } from './Utbetaling';
 import { Avvisningsskjema } from './Utbetalingsdialog';
 
-const UtbetalingView = ({ vedtaksperiode }: { vedtaksperiode: Vedtaksperiode }) => (
-    <MemoryRouter>
-        <Utbetaling vedtaksperiode={vedtaksperiode} />
-    </MemoryRouter>
-);
+const UtbetalingView = ({ aktivPeriode }: { aktivPeriode: Tidslinjeperiode }) => {
+    return (
+        <RecoilRoot
+            initializeState={({ set }) => {
+                set(personState, { person: mappetPerson() });
+            }}
+        >
+            <MemoryRouter>
+                <Utbetaling aktivPeriode={aktivPeriode} />
+            </MemoryRouter>
+        </RecoilRoot>
+    );
+};
 
-const vedtaksperiodeMedTilstand = (tilstand: Vedtaksperiodetilstand) => ({
-    ...enSpeilVedtaksperiode(),
-    tilstand: tilstand,
-});
-
-const enSpeilVedtaksperiode = (): Vedtaksperiode => {
-    const { vedtaksperiode } = new VedtaksperiodeBuilder()
-        .setVedtaksperiode(umappetVedtaksperiode())
-        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
-        .setOverstyringer([])
-        .build();
-    return vedtaksperiode as Vedtaksperiode;
+const enTidslinjeperiode = (
+    tilstand: Tidslinjetilstand = Tidslinjetilstand.Oppgaver,
+    fom: Dayjs = dayjs('2021-01-01'),
+    tom: Dayjs = dayjs('2021-01-31'),
+    periodetype: Periodetype = Periodetype.VEDTAKSPERIODE
+): Tidslinjeperiode => {
+    return {
+        id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
+        beregningId: 'id1',
+        unique: 'unique_id',
+        fom: fom,
+        tom: tom,
+        type: periodetype,
+        tilstand: tilstand,
+        utbetalingstidslinje: [],
+        sykdomstidslinje: [],
+        organisasjonsnummer: '987654321',
+        fullstendig: true,
+    };
 };
 
 jest.mock('../../../../../io/http', () => ({
@@ -38,12 +55,12 @@ jest.mock('../../../../../io/http', () => ({
 
 describe('Utbetalingsknapp vises ikke ved tilstand:', () => {
     test('Utbetalt', async () => {
-        render(<UtbetalingView vedtaksperiode={vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Utbetalt)} />);
+        render(<UtbetalingView aktivPeriode={enTidslinjeperiode(Tidslinjetilstand.Utbetalt)} />);
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 
     test('Avslag', async () => {
-        render(<UtbetalingView vedtaksperiode={vedtaksperiodeMedTilstand(Vedtaksperiodetilstand.Avslag)} />);
+        render(<UtbetalingView aktivPeriode={enTidslinjeperiode(Tidslinjetilstand.Avslag)} />);
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 });

@@ -1,20 +1,24 @@
-import { Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
 import React from 'react';
+
+import { Tidslinjeperiode, useUtbetaling } from '../../../../../modell/UtbetalingshistorikkElement';
+import { harOppgave, useOppgavereferanse } from '../../../../../state/tidslinje';
 
 import { Utbetalingsdialog } from './Utbetalingsdialog';
 
 interface UtbetalingProps {
-    vedtaksperiode: Vedtaksperiode;
+    aktivPeriode: Tidslinjeperiode;
 }
 
-export const Utbetaling = ({ vedtaksperiode }: UtbetalingProps) => {
-    const harOppgave = vedtaksperiode.oppgavereferanse && vedtaksperiode.tilstand === Vedtaksperiodetilstand.Oppgaver;
-    const harBeløpTilUtbetaling = vedtaksperiode.oppsummering.totaltTilUtbetaling > 0;
+export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
+    const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
+    const utbetaling = useUtbetaling(aktivPeriode.beregningId);
+    const harBeløpTilUtbetaling = utbetaling?.nettobeløp ? utbetaling.nettobeløp !== 0 : false;
     const utbetalingsknappTekst = harBeløpTilUtbetaling ? 'Utbetal' : 'Godkjenn';
 
-    return harOppgave ? (
+    return harOppgave(aktivPeriode) && oppgavereferanse ? (
         <Utbetalingsdialog
-            oppgavereferanse={vedtaksperiode.oppgavereferanse!}
+            aktivPeriode={aktivPeriode}
+            oppgavereferanse={oppgavereferanse}
             godkjenningsknappTekst={utbetalingsknappTekst}
         />
     ) : null;

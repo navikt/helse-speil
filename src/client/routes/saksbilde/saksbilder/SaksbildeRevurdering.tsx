@@ -38,7 +38,7 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
     return (
         <Flex justifyContent="space-between" data-testid="saksbilde-revurdering">
             <AutoFlexContainer>
-                <Sakslinje erNormalVedtaksperiode={false} />
+                <Sakslinje aktivPeriode={aktivPeriode} />
                 <Flex style={{ height: '100%' }}>
                     <VenstreMeny
                         aktivPeriode={aktivPeriode}

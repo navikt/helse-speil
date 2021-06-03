@@ -1,18 +1,16 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import { SpesialistArbeidsgiver } from 'external-types';
-import { Kjønn, Overstyring, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
 import { AnnulleringDTO } from '../../../../io/types';
-import { VedtaksperiodeBuilder } from '../../../../mapping/vedtaksperiode';
 import { authState } from '../../../../state/authentication';
+import { personState } from '../../../../state/person';
 
-import { umappetVedtaksperiode } from '../../../../../test/data/vedtaksperiode';
+import { mappetPerson } from '../../../../../test/data/person';
 import { Annulleringsmodal } from './Annulleringsmodal';
 
 dayjs.extend(isSameOrAfter);
@@ -26,45 +24,6 @@ jest.mock('../../../../io/http', () => ({
     },
 }));
 
-const enSpeilVedtaksperiode = async (fom: Dayjs = dayjs('2020-01-01'), tom: Dayjs = dayjs('2020-01-31')) => {
-    const { vedtaksperiode } = new VedtaksperiodeBuilder()
-        .setVedtaksperiode(umappetVedtaksperiode({ fom, tom }))
-        .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
-        .setOverstyringer([])
-        .build();
-    return vedtaksperiode as Vedtaksperiode;
-};
-
-const enPersoninfo = () => ({
-    fornavn: 'Kari',
-    mellomnavn: null,
-    etternavn: 'Normann',
-    kjønn: 'Mann' as Kjønn,
-    fødselsdato: dayjs(),
-    overstyringer: new Map<string, Overstyring>(),
-});
-
-const enArbeidsgiver = async () => ({
-    id: '123',
-    navn: 'En bedrift',
-    organisasjonsnummer: '123456789',
-    vedtaksperioder: [await enSpeilVedtaksperiode()],
-    tidslinjeperioder: [],
-    utbetalingshistorikk: [],
-    overstyringer: new Map<string, Overstyring>(),
-    arbeidsforhold: [],
-});
-
-const personTilBehandling = async () => ({
-    aktørId: '12345',
-    fødselsnummer: '12345678901',
-    utbetalinger: [],
-    arbeidsgivere: [await enArbeidsgiver()],
-    personinfo: enPersoninfo(),
-    infotrygdutbetalinger: [],
-    enhet: { id: '', navn: '' },
-});
-
 const authInfo = {
     name: 'Sara Saksbehandler',
     ident: 'S123456',
@@ -72,16 +31,23 @@ const authInfo = {
     isLoggedIn: true,
 };
 
-const renderAnnulleringsmodal = async () =>
-    render(
-        <RecoilRoot initializeState={({ set }) => set(authState, authInfo)}>
+const renderAnnulleringsmodal = async () => {
+    const person = mappetPerson();
+    return render(
+        <RecoilRoot
+            initializeState={({ set }) => {
+                set(personState, { person: person });
+                set(authState, authInfo);
+            }}
+        >
             <Annulleringsmodal
-                person={await personTilBehandling()}
-                vedtaksperiode={await enSpeilVedtaksperiode()}
+                person={person}
+                aktivPeriode={person.arbeidsgivere[0].tidslinjeperioder[0][0]}
                 onClose={() => null}
             />
         </RecoilRoot>
     );
+};
 
 const annullér = () => Promise.resolve(userEvent.click(screen.getByText('Annullér')));
 
@@ -133,9 +99,9 @@ describe('Annulleringsmodal', () => {
     test('bygger AnnulleringDTO ved post av annullering', async () => {
         await renderAnnulleringsmodal();
         const annullering = await fyllUtIdent().then(velgUtbetaling).then(annullér).then(captureAnnullering);
-        expect(annullering.aktørId).toEqual('12345');
-        expect(annullering.fødselsnummer).toEqual('12345678901');
-        expect(annullering.organisasjonsnummer).toEqual('123456789');
-        expect(annullering.fagsystemId).toEqual('en-fagsystem-id');
+        expect(annullering.aktørId).toEqual('1211109876233');
+        expect(annullering.fødselsnummer).toEqual('01019000123');
+        expect(annullering.organisasjonsnummer).toEqual('987654321');
+        expect(annullering.fagsystemId).toEqual('EN_FAGSYSTEMID');
     });
 });

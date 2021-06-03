@@ -11,6 +11,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
+import { Tidslinjeperiode } from '../../../../../modell/UtbetalingshistorikkElement';
 import { opptegnelsePollingTimeState } from '../../../../../state/opptegnelser';
 import { usePerson } from '../../../../../state/person';
 import { Scopes, useAddEphemeralVarsel } from '../../../../../state/varsler';
@@ -82,6 +83,7 @@ const useVedtakstoast = () => {
 };
 
 interface UtbetalingsdialogProps {
+    aktivPeriode: Tidslinjeperiode;
     oppgavereferanse: string;
     godkjenningsknappTekst: string;
 }
@@ -93,7 +95,11 @@ const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
         )
         .some((tilstand) => tilstand === Vedtaksperiodetilstand.VenterPåKiling);
 
-export const Utbetalingsdialog = ({ oppgavereferanse, godkjenningsknappTekst }: UtbetalingsdialogProps) => {
+export const Utbetalingsdialog = ({
+    aktivPeriode,
+    oppgavereferanse,
+    godkjenningsknappTekst,
+}: UtbetalingsdialogProps) => {
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
     const { addUtbetalingstoast, addInfotrygdtoast } = useVedtakstoast();
@@ -173,7 +179,12 @@ export const Utbetalingsdialog = ({ oppgavereferanse, godkjenningsknappTekst }: 
                 <Utbetalingsmodal onClose={lukkModal} onApprove={godkjennUtbetaling} isSending={isSending} />
             )}
             {modalvisning === Modalvisning.Avvisning && (
-                <Avvisningsmodal onClose={lukkModal} onApprove={avvisUtbetaling} isSending={isSending} />
+                <Avvisningsmodal
+                    onClose={lukkModal}
+                    onApprove={avvisUtbetaling}
+                    isSending={isSending}
+                    aktivPeriode={aktivPeriode}
+                />
             )}
         </>
     );

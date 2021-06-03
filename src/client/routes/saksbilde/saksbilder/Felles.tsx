@@ -12,6 +12,7 @@ import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
+import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import {
     Periodetype as Historikkperiodetype,
     Tidslinjeperiode,
@@ -19,12 +20,12 @@ import {
     useNettobeløp,
 } from '../../../modell/UtbetalingshistorikkElement';
 import { useSykepengegrunnlag } from '../../../state/person';
-import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
+import { harOppgave, useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
-import { Utbetalingsdialog } from '../utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
+import { Utbetaling } from '../utbetaling/Oppsummering/utbetaling/Utbetaling';
 import { Vilkårsliste } from '../utbetaling/Vilkårsoversikt';
 import { Oppgavetype } from './Oppgavetype';
 
@@ -180,9 +181,15 @@ interface UtbetalingKortProps {
     beregningId: string;
     utbetalingsdagerTotalt: number;
     nettobeløp?: number;
+    ikkeUtbetaltEnda: boolean;
 }
 
-export const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt, nettobeløp }: UtbetalingKortProps) => {
+export const UtbetalingKort = ({
+    beregningId,
+    utbetalingsdagerTotalt,
+    nettobeløp,
+    ikkeUtbetaltEnda,
+}: UtbetalingKortProps) => {
     const sykepengegrunnlag = useSykepengegrunnlag(beregningId);
     return (
         <Kort>
@@ -198,7 +205,7 @@ export const UtbetalingKort = ({ beregningId, utbetalingsdagerTotalt, nettobelø
                 <Normaltekst>{utbetalingsdagerTotalt}</Normaltekst>
             </Flex>
             <Flex justifyContent="space-between">
-                <Normaltekst>Til utbetaling nå:</Normaltekst>
+                <Normaltekst>{ikkeUtbetaltEnda ? 'Til utbetaling nå:' : 'Utbetalt:'}</Normaltekst>
                 <Normaltekst>{nettobeløp ?? 'Ukjent beløp'}</Normaltekst>
             </Flex>
         </Kort>
@@ -256,7 +263,7 @@ export const VenstreMeny = ({
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
     const nettobeløp = useNettobeløp(aktivPeriode.beregningId);
-    const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
+    const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === Tidslinjetilstand.Venter;
     const over67år = (useVedtaksperiode(aktivPeriode.id)?.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
@@ -277,13 +284,11 @@ export const VenstreMeny = ({
             <VilkårKort aktivPeriode={aktivPeriode} />
             <UtbetalingKort
                 beregningId={aktivPeriode.beregningId}
+                ikkeUtbetaltEnda={ikkeUtbetaltEnda}
                 utbetalingsdagerTotalt={utbetalingsdagerTotalt}
                 nettobeløp={nettobeløp}
             />
-            <Utbetalingsdialog
-                oppgavereferanse={oppgavereferanse}
-                godkjenningsknappTekst={aktivPeriode.type === Historikkperiodetype.REVURDERING ? 'Revurder' : 'Utbetal'}
-            />
+            <Utbetaling aktivPeriode={aktivPeriode} />
         </Arbeidsflate>
     );
 };
