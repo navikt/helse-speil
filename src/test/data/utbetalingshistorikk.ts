@@ -29,21 +29,26 @@ export const umappetUtbetalingshistorikk = (
             grad: 100.0,
         },
     ],
-    utbetalinger: [
-        {
-            status: 'IKKE_UTBETALT',
-            utbetalingstidslinje: [
-                {
-                    type: SpleisUtbetalingsdagtype.NAVDAG,
-                    inntekt: 1431,
-                    dato: dag.format('YYYY-MM-DD'),
-                },
-            ],
-            maksdato: dag.add(2, 'month').format('YYYY-MM-DD'),
-            type: erRevurdering ? 'REVURDERING' : 'UTBETALING',
-            gjenståendeSykedager: 0,
-            forbrukteSykedager: 0,
-            arbeidsgiverNettoBeløp: 0,
+    utbetaling: {
+        status: 'IKKE_UTBETALT',
+        utbetalingstidslinje: [
+            {
+                type: SpleisUtbetalingsdagtype.NAVDAG,
+                inntekt: 1431,
+                dato: dag.format('YYYY-MM-DD'),
+            },
+        ],
+        maksdato: dag.add(2, 'month').format('YYYY-MM-DD'),
+        type: erRevurdering ? 'REVURDERING' : 'UTBETALING',
+        gjenståendeSykedager: 0,
+        forbrukteSykedager: 0,
+        arbeidsgiverNettoBeløp: 0,
+        arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
+        vurdering: {
+            godkjent: true,
+            ident: 'EN_IDENT',
+            tidsstempel: '2018-01-01',
+            automatisk: true,
         },
-    ],
+    },
 });

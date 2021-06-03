@@ -734,22 +734,27 @@ export const mappetPersonObject: Person = {
                             type: Dagtype.Syk,
                         },
                     ],
-                    utbetalinger: [
-                        {
-                            status: Utbetalingstatus.IKKE_UTBETALT,
-                            type: Utbetalingstype.REVURDERING,
-                            utbetalingstidslinje: [
-                                {
-                                    dato: dayjs('2018-01-01'),
-                                    type: Dagtype.Syk,
-                                },
-                            ],
-                            maksdato: dayjs('2018-03-01'),
-                            nettobeløp: 0,
-                            forbrukteDager: 0,
-                            gjenståendeDager: 0,
+                    utbetaling: {
+                        status: Utbetalingstatus.IKKE_UTBETALT,
+                        type: Utbetalingstype.REVURDERING,
+                        utbetalingstidslinje: [
+                            {
+                                dato: dayjs('2018-01-01'),
+                                type: Dagtype.Syk,
+                            },
+                        ],
+                        maksdato: dayjs('2018-03-01'),
+                        nettobeløp: 0,
+                        forbrukteDager: 0,
+                        gjenståendeDager: 0,
+                        arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
+                        vurdering: {
+                            godkjent: true,
+                            ident: 'EN_IDENT',
+                            tidsstempel: dayjs('2018-01-01'),
+                            automatisk: true,
                         },
-                    ],
+                    },
                 },
             ],
             arbeidsforhold: [

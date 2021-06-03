@@ -107,6 +107,7 @@ describe('tilPeriodetype', () => {
                 gjenståendeDager: 0,
                 forbrukteDager: 0,
                 nettobeløp: 0,
+                arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
             },
             Periodetype.REVURDERING
         );
@@ -128,17 +129,16 @@ const nyttElement = (
         id,
         sykdomstidslinje(fom, tom),
         sykdomstidslinje(fom, tom),
-        [
-            {
-                status: erUtbetalt ? Utbetalingstatus.UTBETALT : Utbetalingstatus.IKKE_UTBETALT,
-                type: erRevurdering ? Utbetalingstype.REVURDERING : Utbetalingstype.UTBETALING,
-                utbetalingstidslinje: utbetalingstidslinje(fom, tom),
-                maksdato: maksdato,
-                gjenståendeDager: 0,
-                forbrukteDager: 0,
-                nettobeløp: 0,
-            },
-        ],
+        {
+            status: erUtbetalt ? Utbetalingstatus.UTBETALT : Utbetalingstatus.IKKE_UTBETALT,
+            type: erRevurdering ? Utbetalingstype.REVURDERING : Utbetalingstype.UTBETALING,
+            utbetalingstidslinje: utbetalingstidslinje(fom, tom),
+            maksdato: maksdato,
+            gjenståendeDager: 0,
+            forbrukteDager: 0,
+            nettobeløp: 0,
+            arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
+        },
         vedtaksperioder,
         organisasjonsnummer
     );

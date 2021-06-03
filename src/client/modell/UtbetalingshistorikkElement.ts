@@ -20,7 +20,7 @@ export interface UtbetalingshistorikkElement {
     perioder: Tidslinjeperiode[];
     beregnettidslinje: Sykdomsdag[];
     hendelsetidslinje: Sykdomsdag[];
-    utbetalinger: UtbetalingshistorikkUtbetaling2[];
+    utbetaling: UtbetalingshistorikkUtbetaling2;
     kilde: string;
 }
 
@@ -28,27 +28,25 @@ export const utbetalingshistorikkelement = (
     id: string,
     beregnettidslinje: Sykdomsdag[],
     hendelsetidslinje: Sykdomsdag[],
-    utbetalinger: UtbetalingshistorikkUtbetaling2[],
+    utbetaling: UtbetalingshistorikkUtbetaling2,
     vedtaksperioder: Vedtaksperiode[],
     organisasjonsnummer: string
 ): UtbetalingshistorikkElement => {
-    const sisteUtbetaling = utbetalinger[utbetalinger.length - 1];
-    const erUtbetaling = sisteUtbetaling.type === Utbetalingstype.UTBETALING;
+    const erUtbetaling = utbetaling.type === Utbetalingstype.UTBETALING;
 
     return {
         id: id,
         perioder: erUtbetaling
-            ? tidslinjevedtaksperioder(id, vedtaksperioder, organisasjonsnummer, sisteUtbetaling)
-            : revurderingsperioder(id, beregnettidslinje, organisasjonsnummer, sisteUtbetaling),
+            ? tidslinjevedtaksperioder(id, vedtaksperioder, organisasjonsnummer, utbetaling)
+            : revurderingsperioder(id, beregnettidslinje, organisasjonsnummer, utbetaling),
         beregnettidslinje: beregnettidslinje,
         hendelsetidslinje: hendelsetidslinje,
-        utbetalinger: utbetalinger,
-        kilde: sisteUtbetaling.type,
+        utbetaling: utbetaling,
+        kilde: utbetaling.type,
     };
 };
 
-export const sisteUtbetaling = (element: UtbetalingshistorikkElement): UtbetalingshistorikkUtbetaling2 =>
-    element.utbetalinger[element.utbetalinger.length - 1];
+export const utbetaling = (element: UtbetalingshistorikkElement): UtbetalingshistorikkUtbetaling2 => element.utbetaling;
 
 export const erUtbetaling = (utbetaling: UtbetalingshistorikkUtbetaling2) =>
     utbetaling.type === Utbetalingstype.UTBETALING;
@@ -125,12 +123,12 @@ const useHistorikkelement = (beregningId: string) => {
     return element;
 };
 
-export const useMaksdato = (beregningId: string) => sisteUtbetaling(useHistorikkelement(beregningId)).maksdato;
+export const useMaksdato = (beregningId: string) => utbetaling(useHistorikkelement(beregningId)).maksdato;
 
-export const useNettobeløp = (beregningId: string) => sisteUtbetaling(useHistorikkelement(beregningId)).nettobeløp;
+export const useNettobeløp = (beregningId: string) => utbetaling(useHistorikkelement(beregningId)).nettobeløp;
 
 export const useGjenståendeDager = (beregningId: string) =>
-    sisteUtbetaling(useHistorikkelement(beregningId)).gjenståendeDager;
+    utbetaling(useHistorikkelement(beregningId)).gjenståendeDager;
 
 export interface Tidslinjeperiode {
     id: string;

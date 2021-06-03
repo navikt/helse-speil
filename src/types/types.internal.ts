@@ -429,6 +429,15 @@ export interface UtbetalingshistorikkUtbetaling2 {
     gjenståendeDager: number;
     forbrukteDager: number;
     nettobeløp: number;
+    arbeidsgiverFagsystemId: string;
+    vurdering?: Vurdering;
+}
+
+export interface Vurdering {
+    godkjent: boolean;
+    tidsstempel: Dayjs;
+    automatisk: boolean;
+    ident: string;
 }
 
 export enum Utbetalingstype {

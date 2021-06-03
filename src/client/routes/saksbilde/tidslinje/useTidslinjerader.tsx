@@ -19,7 +19,7 @@ import { PeriodObject } from '@navikt/helse-frontend-timeline/src/components/typ
 import {
     erUtbetaling,
     Periodetype,
-    sisteUtbetaling,
+    utbetaling,
     Tidslinjeperiode,
     UtbetalingshistorikkElement,
     Utbetalingstatus,
@@ -139,8 +139,8 @@ const tilHistorikkelement = (element: UtbetalingshistorikkElement): Historikkele
         perioder: element.perioder,
         beregnettidslinje: element.beregnettidslinje,
         hendelsetidslinje: element.hendelsetidslinje,
-        utbetalinger: element.utbetalinger,
-        erUtbetaling: erUtbetaling(sisteUtbetaling(element)),
+        utbetalinger: [element.utbetaling],
+        erUtbetaling: erUtbetaling(utbetaling(element)),
     };
 };
 

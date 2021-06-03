@@ -101,18 +101,27 @@ export class ArbeidsgiverBuilder {
                                 dato: dayjs(dag.dagen),
                                 type: sykdomstidslinjedag(dag.type),
                             })),
-                            element.utbetalinger.map((utbetaling) => ({
-                                status: this.utbetalingsstatus(utbetaling.status),
-                                type: this.utbetalingstype(utbetaling.type),
-                                utbetalingstidslinje: utbetaling.utbetalingstidslinje.map((dag) => ({
+                            {
+                                status: this.utbetalingsstatus(element.utbetaling.status),
+                                type: this.utbetalingstype(element.utbetaling.type),
+                                utbetalingstidslinje: element.utbetaling.utbetalingstidslinje.map((dag) => ({
                                     dato: dayjs(dag.dato),
                                     type: utbetalingstidslinjedag(dag.type),
                                 })),
-                                maksdato: dayjs(utbetaling.maksdato),
-                                gjenståendeDager: utbetaling.gjenståendeSykedager,
-                                nettobeløp: utbetaling.arbeidsgiverNettoBeløp,
-                                forbrukteDager: utbetaling.forbrukteSykedager,
-                            })),
+                                maksdato: dayjs(element.utbetaling.maksdato),
+                                gjenståendeDager: element.utbetaling.gjenståendeSykedager,
+                                nettobeløp: element.utbetaling.arbeidsgiverNettoBeløp,
+                                forbrukteDager: element.utbetaling.forbrukteSykedager,
+                                arbeidsgiverFagsystemId: element.utbetaling.arbeidsgiverFagsystemId,
+                                vurdering: element.utbetaling.vurdering
+                                    ? {
+                                          godkjent: element.utbetaling.vurdering.godkjent,
+                                          tidsstempel: dayjs(element.utbetaling.vurdering.tidsstempel),
+                                          automatisk: element.utbetaling.vurdering.automatisk,
+                                          ident: element.utbetaling.vurdering.ident,
+                                      }
+                                    : undefined,
+                            },
                             this.arbeidsgiver.vedtaksperioder ?? [],
                             this.arbeidsgiver.organisasjonsnummer!
                         );

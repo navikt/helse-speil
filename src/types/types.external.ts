@@ -267,7 +267,7 @@ export interface EksternUtbetalingshistorikkElement {
     beregningId: string;
     beregnettidslinje: EksternSykdomsdag[];
     hendelsetidslinje: EksternSykdomsdag[];
-    utbetalinger: EksternUtbetaling[];
+    utbetaling: EksternUtbetaling;
 }
 
 export interface EksternSykdomsdag {
@@ -284,7 +284,16 @@ export interface EksternUtbetaling {
     maksdato: string;
     gjenståendeSykedager: number;
     arbeidsgiverNettoBeløp: number;
+    arbeidsgiverFagsystemId: string;
     forbrukteSykedager: number;
+    vurdering?: EksternVurdering;
+}
+
+export interface EksternVurdering {
+    godkjent: boolean;
+    tidsstempel: string;
+    automatisk: boolean;
+    ident: string;
 }
 
 export interface SpesialistArbeidsgiver {
