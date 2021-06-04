@@ -266,12 +266,18 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
                     {fom} - {tom}
                 </LinjeVerdi>
             </Linje>
-            {nettobeløp != undefined && (
-                <Linje>
-                    <LinjeFelt>Utbetalt: </LinjeFelt>
-                    <LinjeVerdi>{somPenger(nettobeløp)} </LinjeVerdi>
-                </Linje>
-            )}
+            {[
+                Tidslinjetilstand.UtbetaltAutomatisk,
+                Tidslinjetilstand.Utbetalt,
+                Tidslinjetilstand.Revurdert,
+                Tidslinjetilstand.Annullert,
+            ].includes(tidslinjeperiode.tilstand) &&
+                nettobeløp != undefined && (
+                    <Linje>
+                        <LinjeFelt>Utbetalt: </LinjeFelt>
+                        <LinjeVerdi>{somPenger(nettobeløp)} </LinjeVerdi>
+                    </Linje>
+                )}
             {arbeidsgiverperiode && (
                 <Linje>
                     <LinjeFelt>Arbeidsgiverperiode: </LinjeFelt>

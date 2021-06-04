@@ -1,4 +1,4 @@
-import { Periodetype, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { Periodetype, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -6,10 +6,15 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 import '@navikt/helse-frontend-varsel/lib/main.css';
 
+import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
+import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 
 interface ToppvarslerProps {
+    aktivPeriode: Tidslinjeperiode;
     vedtaksperiode: Vedtaksperiode;
+    oppgavereferanse?: string;
 }
 
 type VarselObject = {
@@ -17,39 +22,41 @@ type VarselObject = {
     melding: string;
 };
 
-const tilstandsvarsel = ({ tilstand }: Vedtaksperiode): VarselObject | null => {
+const tilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null => {
     switch (tilstand) {
-        case Vedtaksperiodetilstand.KunFerie:
-        case Vedtaksperiodetilstand.KunPermisjon:
-        case Vedtaksperiodetilstand.IngenUtbetaling:
+        case Tidslinjetilstand.KunFerie:
+        case Tidslinjetilstand.KunPermisjon:
+        case Tidslinjetilstand.IngenUtbetaling:
             return { grad: Varseltype.Info, melding: 'Perioden er godkjent, ingen utbetaling.' };
-        case Vedtaksperiodetilstand.Feilet:
+        case Tidslinjetilstand.Feilet:
             return { grad: Varseltype.Feil, melding: 'Utbetalingen feilet.' };
-        case Vedtaksperiodetilstand.Annullert:
+        case Tidslinjetilstand.Annullert:
             return { grad: Varseltype.Info, melding: 'Utbetalingen er annullert.' };
-        case Vedtaksperiodetilstand.TilAnnullering:
+        case Tidslinjetilstand.TilAnnullering:
             return { grad: Varseltype.Info, melding: 'Annullering venter.' };
-        case Vedtaksperiodetilstand.AnnulleringFeilet:
+        case Tidslinjetilstand.AnnulleringFeilet:
             return { grad: Varseltype.Feil, melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
         default:
             return null;
     }
 };
 
-const utbetalingsvarsel = ({ tilstand, automatiskBehandlet }: Vedtaksperiode): VarselObject | null =>
-    [Vedtaksperiodetilstand.TilUtbetaling, Vedtaksperiodetilstand.Utbetalt].includes(tilstand) && !automatiskBehandlet
+const utbetalingsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
+    [Tidslinjetilstand.TilUtbetaling, Tidslinjetilstand.Utbetalt].includes(tilstand)
         ? { grad: Varseltype.Info, melding: 'Utbetalingen er sendt til oppdragsystemet.' }
+        : [Tidslinjetilstand.TilUtbetalingAutomatisk, Tidslinjetilstand.UtbetaltAutomatisk].includes(tilstand)
+        ? { grad: Varseltype.Info, melding: 'Perioden er automatisk godkjent' }
         : null;
 
-const vedtaksperiodeVenterVarsel = ({ tilstand }: Vedtaksperiode): VarselObject | null =>
-    tilstand === Vedtaksperiodetilstand.Venter
+const vedtaksperiodeVenterVarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
+    tilstand === Tidslinjetilstand.Venter
         ? { grad: Varseltype.Info, melding: 'Ikke klar til behandling - avventer system' }
-        : tilstand === Vedtaksperiodetilstand.VenterPåKiling
+        : tilstand === Tidslinjetilstand.VenterPåKiling
         ? { grad: Varseltype.Info, melding: 'Ikke klar for utbetaling. Avventer behandling av tidligere periode.' }
         : null;
 
-const manglendeOppgavereferansevarsel = ({ tilstand, oppgavereferanse }: Vedtaksperiode): VarselObject | null =>
-    tilstand === Vedtaksperiodetilstand.Oppgaver && (!oppgavereferanse || oppgavereferanse.length === 0)
+const manglendeOppgavereferansevarsel = (tilstand: Tidslinjetilstand, oppgavereferanse?: string): VarselObject | null =>
+    tilstand === Tidslinjetilstand.Oppgaver && (!oppgavereferanse || oppgavereferanse.length === 0)
         ? {
               grad: Varseltype.Feil,
               melding: `Denne perioden kan ikke utbetales. Det kan skyldes at den allerede er 
@@ -57,8 +64,8 @@ const manglendeOppgavereferansevarsel = ({ tilstand, oppgavereferanse }: Vedtaks
           }
         : null;
 
-const ukjentTilstandsvarsel = ({ tilstand }: Vedtaksperiode): VarselObject | null =>
-    !Object.values(Vedtaksperiodetilstand).includes(tilstand)
+const ukjentTilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
+    tilstand === Tidslinjetilstand.Ukjent
         ? { grad: Varseltype.Feil, melding: 'Kunne ikke lese informasjon om sakens tilstand.' }
         : null;
 
@@ -72,18 +79,14 @@ const kandidatForAutomatiseringsvarsel = ({
         ? { grad: Varseltype.Info, melding: 'Kandidat for automatisering' }
         : null;
 
-const automatiskBehandletvarsel = ({ automatiskBehandlet }: Vedtaksperiode): VarselObject | null =>
-    automatiskBehandlet ? { grad: Varseltype.Info, melding: 'Perioden er automatisk godkjent' } : null;
-
-export const Toppvarsler = ({ vedtaksperiode }: ToppvarslerProps) => {
+export const Toppvarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferanse }: ToppvarslerProps) => {
     const varsler: VarselObject[] = [
-        tilstandsvarsel(vedtaksperiode),
-        utbetalingsvarsel(vedtaksperiode),
-        ukjentTilstandsvarsel(vedtaksperiode),
-        automatiskBehandletvarsel(vedtaksperiode),
-        manglendeOppgavereferansevarsel(vedtaksperiode),
+        tilstandsvarsel(aktivPeriode.tilstand),
+        utbetalingsvarsel(aktivPeriode.tilstand),
+        ukjentTilstandsvarsel(aktivPeriode.tilstand),
+        manglendeOppgavereferansevarsel(aktivPeriode.tilstand, oppgavereferanse),
         kandidatForAutomatiseringsvarsel(vedtaksperiode),
-        vedtaksperiodeVenterVarsel(vedtaksperiode),
+        vedtaksperiodeVenterVarsel(aktivPeriode.tilstand),
     ].filter((it) => it) as VarselObject[];
 
     return (

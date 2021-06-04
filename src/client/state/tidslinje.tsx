@@ -56,6 +56,7 @@ const defaultTidslinjeperiode = (person: Person) => {
         .flatMap((arb) => arb.tidslinjeperioder)
         .flatMap((perioder) => perioder)
         .filter((periode) => periode.fullstendig)
+        .sort((a, b) => (a.opprettet.isAfter(b.opprettet) ? 1 : -1))
         .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
     return (
         velgbarePerioder?.find((periode) =>

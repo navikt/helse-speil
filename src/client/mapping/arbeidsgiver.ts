@@ -417,7 +417,7 @@ export class ArbeidsgiverBuilder {
         utbetalingstidslinje.filter((dag) => dag.type.includes(dagtype)).length === utbetalingstidslinje.length;
 }
 
-export const enum Tidslinjetilstand {
+export enum Tidslinjetilstand {
     TilUtbetaling = 'tilUtbetaling',
     Utbetalt = 'utbetalt',
     Oppgaver = 'oppgaver',

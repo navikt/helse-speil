@@ -129,8 +129,8 @@ describe('Saksbilde', () => {
                 ],
                 [],
                 [
-                    umappetUtbetalingshistorikk('id2', 'REVURDERING', 'UTBETALT', dato),
-                    umappetUtbetalingshistorikk('id1', 'UTBETALING', 'UTBETALT', dato),
+                    umappetUtbetalingshistorikk('id1', 'UTBETALING', 'UTBETALT', dayjs('2020-01-01T00:00:00'), dato),
+                    umappetUtbetalingshistorikk('id2', 'REVURDERING', 'UTBETALT', dayjs('2020-01-02T00:00:00'), dato),
                 ]
             ),
         ]);

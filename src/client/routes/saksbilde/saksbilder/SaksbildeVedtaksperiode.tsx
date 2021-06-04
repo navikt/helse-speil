@@ -11,7 +11,7 @@ import { Flex, FlexColumn } from '../../../components/Flex';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
-import { useVedtaksperiode } from '../../../state/tidslinje';
+import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { AmplitudeProvider } from '../AmplitudeContext';
 import { getErrorMelding, LoggHeader } from '../Saksbilde';
@@ -83,6 +83,7 @@ const Content = styled.div`
 export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, path }: SaksbildeVedtaksperiodeProps) => {
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const errorMelding = getErrorMelding(vedtaksperiode.tilstand);
+    const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
 
     const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent arbeidsgivernavn';
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
@@ -121,7 +122,11 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                         />
                                         <VertikalStrek />
                                         <FlexColumn style={{ flex: 1, height: '100%' }}>
-                                            <Toppvarsler vedtaksperiode={vedtaksperiode} />
+                                            <Toppvarsler
+                                                aktivPeriode={aktivPeriode}
+                                                vedtaksperiode={vedtaksperiode}
+                                                oppgavereferanse={oppgavereferanse}
+                                            />
                                             <Content>
                                                 <Switch>
                                                     <Route path={`${path}/utbetaling`}>
