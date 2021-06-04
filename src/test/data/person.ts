@@ -712,6 +712,7 @@ export const mappetPersonObject = (): Person => ({
                             type: Dagtype.Syk,
                         },
                     ],
+                    tidsstempel: dayjs('2020-01-01T:00:00:00'),
                     utbetaling: {
                         status: Utbetalingstatus.UTBETALT,
                         type: Utbetalingstype.UTBETALING,
@@ -745,6 +746,8 @@ export const mappetPersonObject = (): Person => ({
                         tom: dayjs('2020-01-31T00:00:00.000Z'),
                         type: UtbetalingshistorikkPeriodetype.VEDTAKSPERIODE,
                         tilstand: Tidslinjetilstand.UtbetaltAutomatisk,
+                        fagsystemId: 'EN_FAGSYSTEMID',
+                        opprettet: dayjs('2020-01-01T:00:00:00'),
                         utbetalingstidslinje: [
                             {
                                 dato: dayjs('2020-01-01'),

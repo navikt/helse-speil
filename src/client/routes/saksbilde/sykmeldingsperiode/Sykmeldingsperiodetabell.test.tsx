@@ -7,6 +7,7 @@ import { mappetPerson } from 'test-data';
 
 import { VedtaksperiodeBuilder } from '../../../mapping/vedtaksperiode';
 
+import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
 import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
 import { Sykmeldingsperiodetabell } from './Sykmeldingsperiodetabell';
 
@@ -14,6 +15,7 @@ const enIkkeUtbetaltVedtaksperiode = () => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode(umappetVedtaksperiode())
         .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setAnnullertUtbetalingshistorikk([])
         .setOverstyringer([])
         .build();
     return vedtaksperiode as Vedtaksperiode;
@@ -23,6 +25,7 @@ const enUtbetaltVedtaksperiode = () => {
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode({ ...umappetVedtaksperiode(), tilstand: SpleisVedtaksperiodetilstand.Utbetalt })
         .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setAnnullertUtbetalingshistorikk([])
         .setOverstyringer([])
         .build();
     return vedtaksperiode as Vedtaksperiode;

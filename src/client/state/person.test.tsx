@@ -26,7 +26,7 @@ const person = mappetPerson([
             }),
         ],
         [],
-        [umappetUtbetalingshistorikk('id1', true)]
+        [umappetUtbetalingshistorikk('id1', 'REVURDERING')]
     ),
 ]);
 

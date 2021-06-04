@@ -32,6 +32,7 @@ type UmappetVedtaksperiodeOptions = {
     varsler?: string[];
     id?: string;
     beregningIder?: string[];
+    fagsystemId?: string;
 };
 
 export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): SpesialistVedtaksperiode => {
@@ -44,7 +45,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
 
     const sykdomsdager = sykdomstidslinje(fom, tom);
     const utbetalingsdager = utbetalingstidslinje(sykdomsdager, 1500);
-    const utbetalingene = utbetalinger(utbetalingsdager, true);
+    const utbetalingene = utbetalinger(utbetalingsdager, true, false, options?.fagsystemId);
     return {
         id: id,
         fom: fom.format('YYYY-MM-DD'),
@@ -105,6 +106,7 @@ export const mappetVedtaksperiode = (
         .setVedtaksperiode(umappetVedtaksperiode({ fom, tom }))
         .setArbeidsgiver(umappetArbeidsgiver())
         .setOverstyringer(overstyringer)
+        .setAnnullertUtbetalingshistorikk([])
         .setInntektsgrunnlag(inntektsgrunnlag)
         .build();
 

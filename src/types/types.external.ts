@@ -268,6 +268,7 @@ export interface EksternUtbetalingshistorikkElement {
     beregnettidslinje: EksternSykdomsdag[];
     hendelsetidslinje: EksternSykdomsdag[];
     utbetaling: EksternUtbetaling;
+    tidsstempel: string;
 }
 
 export interface EksternSykdomsdag {

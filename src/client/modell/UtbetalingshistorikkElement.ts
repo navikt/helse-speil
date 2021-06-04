@@ -22,13 +22,15 @@ export interface UtbetalingshistorikkElement {
     hendelsetidslinje: Sykdomsdag[];
     utbetaling: UtbetalingshistorikkUtbetaling2;
     kilde: string;
+    tidsstempel: Dayjs;
 }
 
 export const utbetalingshistorikkelement = (
     id: string,
     beregnettidslinje: Sykdomsdag[],
     hendelsetidslinje: Sykdomsdag[],
-    utbetaling: UtbetalingshistorikkUtbetaling2
+    utbetaling: UtbetalingshistorikkUtbetaling2,
+    tidsstempel: Dayjs
 ): UtbetalingshistorikkElement => {
     return {
         id: id,
@@ -36,6 +38,7 @@ export const utbetalingshistorikkelement = (
         hendelsetidslinje: hendelsetidslinje,
         utbetaling: utbetaling,
         kilde: utbetaling.type,
+        tidsstempel: tidsstempel,
     };
 };
 
@@ -47,11 +50,16 @@ export const useUtbetaling = (beregningId: string): UtbetalingshistorikkUtbetali
 
 export const useErAnnullert = (beregningId: string): boolean => {
     const fagsystemId = useUtbetaling(beregningId)?.arbeidsgiverFagsystemId!;
-    const annulleringer = usePerson()
-        ?.utbetalinger.filter((utb) => utb.annullering)
-        ?.flatMap((utb) => utb.arbeidsgiverOppdrag.fagsystemId);
-    return annulleringer?.includes(fagsystemId) ?? false;
+    const annullerteFagsystemider = useAnnulleringer()?.flatMap(
+        (element) => element.utbetaling.arbeidsgiverFagsystemId
+    );
+    return annullerteFagsystemider?.includes(fagsystemId) ?? false;
 };
+
+export const useAnnulleringer = () =>
+    usePerson()
+        ?.arbeidsgivere.flatMap((arb) => arb.utbetalingshistorikk)
+        .filter((element) => element.utbetaling.type === Utbetalingstype.ANNULLERING);
 
 export const erUtbetaling = (utbetaling: UtbetalingshistorikkUtbetaling2) =>
     utbetaling.type === Utbetalingstype.UTBETALING;
@@ -80,6 +88,7 @@ export interface Tidslinjeperiode {
     id: string;
     unique: string;
     beregningId: string;
+    fagsystemId?: string;
     fom: Dayjs;
     tom: Dayjs;
     type: Periodetype;
@@ -88,6 +97,7 @@ export interface Tidslinjeperiode {
     sykdomstidslinje: Sykdomsdag[];
     organisasjonsnummer: string;
     fullstendig: boolean;
+    opprettet: Dayjs;
 }
 
 export enum Utbetalingstatus {

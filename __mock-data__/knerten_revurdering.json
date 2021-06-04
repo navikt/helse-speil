@@ -977,6 +977,7 @@
                             "grad": null
                         }
                     ],
+                    "tidsstempel": "2021-04-02T00:00:00",
                     "utbetaling": {
                         "type": "REVURDERING",
                         "status": "IKKE_UTBETALT",
@@ -1574,6 +1575,7 @@
                             "grad": 100
                         }
                     ],
+                    "tidsstempel": "2021-04-01T00:00:00",
                     "utbetaling": {
                         "type": "UTBETALING",
                         "status": "UTBETALT",

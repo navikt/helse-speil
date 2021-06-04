@@ -3,7 +3,9 @@ import { SpleisSykdomsdagkildeType, SpleisSykdomsdagtype, SpleisUtbetalingsdagty
 
 export const umappetUtbetalingshistorikk = (
     beregningId: string = 'id1',
-    erRevurdering: Boolean = false,
+    utbetalingtype: string = 'UTBETALING',
+    utbetalingstatus: string = 'UTBETALT',
+    opprettet: Dayjs = dayjs('2020-01-01T00:00:00'),
     dag: Dayjs = dayjs('2020-01-01')
 ) => ({
     beregningId: beregningId,
@@ -29,8 +31,9 @@ export const umappetUtbetalingshistorikk = (
             grad: 100.0,
         },
     ],
+    tidsstempel: opprettet.toISOString(),
     utbetaling: {
-        status: 'UTBETALT',
+        status: utbetalingstatus,
         utbetalingstidslinje: [
             {
                 type: SpleisUtbetalingsdagtype.NAVDAG,
@@ -39,7 +42,7 @@ export const umappetUtbetalingshistorikk = (
             },
         ],
         maksdato: dag.add(2, 'month').format('YYYY-MM-DD'),
-        type: erRevurdering ? 'REVURDERING' : 'UTBETALING',
+        type: utbetalingtype,
         gjenståendeSykedager: 0,
         forbrukteSykedager: 0,
         arbeidsgiverNettoBeløp: 0,

@@ -64,7 +64,7 @@ describe('Saksbilde', () => {
         });
     });
     test('rendrer tomt saksbilde for personer uten vedtaksperioder', async () => {
-        const personUtenVedtaksperioder = mappetPerson([umappetArbeidsgiver([])]);
+        const personUtenVedtaksperioder = mappetPerson([umappetArbeidsgiver([], [], [])]);
         render(<Saksbilde />, { wrapper: wrapper(personUtenVedtaksperioder) });
         await waitFor(() => {
             expect(screen.queryByTestId('tomt-saksbilde')).toBeVisible();
@@ -128,7 +128,10 @@ describe('Saksbilde', () => {
                     }),
                 ],
                 [],
-                [umappetUtbetalingshistorikk('id2', true, dato), umappetUtbetalingshistorikk('id1', false, dato)]
+                [
+                    umappetUtbetalingshistorikk('id2', 'REVURDERING', 'UTBETALT', dato),
+                    umappetUtbetalingshistorikk('id1', 'UTBETALING', 'UTBETALT', dato),
+                ]
             ),
         ]);
 

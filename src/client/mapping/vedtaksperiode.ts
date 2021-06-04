@@ -12,8 +12,16 @@ import {
     SpleisUtbetalingslinje,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
-import { Inntektskildetype, Periodetype, Utbetaling, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import {
+    Inntektskildetype,
+    Periodetype,
+    Utbetaling,
+    Utbetalingstype,
+    Vedtaksperiode,
+    Vedtaksperiodetilstand,
+} from 'internal-types';
 
+import { UtbetalingshistorikkElement } from '../modell/UtbetalingshistorikkElement';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 
 import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
@@ -54,6 +62,7 @@ const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbeta
 
 export class VedtaksperiodeBuilder {
     private unmapped: SpesialistVedtaksperiode;
+    private annullerteHistorikkelementer: UtbetalingshistorikkElement[];
     private person: SpesialistPerson;
     private arbeidsgiver: SpesialistArbeidsgiver;
     private overstyringer: SpesialistOverstyring[] = [];
@@ -74,6 +83,13 @@ export class VedtaksperiodeBuilder {
     setArbeidsgiver = (arbeidsgiver: SpesialistArbeidsgiver) => {
         this.arbeidsgiver = arbeidsgiver;
         this.vedtaksperiode.arbeidsgivernavn = arbeidsgiver.navn;
+        return this;
+    };
+
+    setAnnullertUtbetalingshistorikk = (utbetalingshistorikk: UtbetalingshistorikkElement[]) => {
+        this.annullerteHistorikkelementer = utbetalingshistorikk.filter(
+            (element) => element.utbetaling.type === Utbetalingstype.ANNULLERING
+        );
         return this;
     };
 
@@ -132,6 +148,7 @@ export class VedtaksperiodeBuilder {
         this.mapAktivitetslogg();
         this.mapRisikovurdering();
         this.mapInntektsgrunnlag();
+        this.leggtilAnnullerteBeregninger();
         this.setBehandlet(!!this.unmapped.godkjentAv || this.unmapped.automatiskBehandlet);
         this.setAutomatiskBehandlet(this.unmapped.automatiskBehandlet);
         this.setForlengelseFraInfotrygd(mapForlengelseFraInfotrygd(this.unmapped.forlengelseFraInfotrygd));
@@ -149,6 +166,15 @@ export class VedtaksperiodeBuilder {
         this.vedtaksperiode.oppgavereferanse = this.unmapped.oppgavereferanse || undefined;
         this.vedtaksperiode.utbetalingsreferanse = this.unmapped.utbetalingsreferanse;
         this.vedtaksperiode.fullstendig = true;
+    };
+
+    private leggtilAnnullerteBeregninger = () => {
+        const annullering = this.annullerteHistorikkelementer.find(
+            (fagsystemId) =>
+                fagsystemId.utbetaling.arbeidsgiverFagsystemId ===
+                this.vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId
+        );
+        if (annullering) this.vedtaksperiode.beregningIder?.push(annullering.id);
     };
 
     private mapVilkår = () => {

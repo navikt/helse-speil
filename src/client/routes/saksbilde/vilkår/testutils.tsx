@@ -177,6 +177,7 @@ export const enSpeilVedtaksperiode = async ({
     const { vedtaksperiode } = new VedtaksperiodeBuilder()
         .setVedtaksperiode(umappetVedtaksperiode())
         .setArbeidsgiver({ organisasjonsnummer: '123456789' } as SpesialistArbeidsgiver)
+        .setAnnullertUtbetalingshistorikk([])
         .setOverstyringer([])
         .build();
     return {

@@ -59,10 +59,10 @@ export class ArbeidsgiverBuilder {
         }
         this.mapArbeidsgiverinfo();
         this.mapArbeidsforhold();
+        this.mapUtbetalingshistorikk();
         this.mapVedtaksperioder();
         this.sortVedtaksperioder();
         this.markerNyestePeriode();
-        this.mapUtbetalingshistorikk();
         this.mapTidslinjeperioder();
         return { arbeidsgiver: this.arbeidsgiver as Arbeidsgiver, problems: this.problems };
     }
@@ -76,21 +76,30 @@ export class ArbeidsgiverBuilder {
                         periode.beregningIder?.map((beregningId) => {
                             const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
                             const tidslinje = utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom);
-                            const periodetype =
-                                element.utbetaling.type === Utbetalingstype.REVURDERING
-                                    ? Periodetype.REVURDERING
-                                    : Periodetype.VEDTAKSPERIODE;
+                            const periodetype = () => {
+                                switch (element.utbetaling.type) {
+                                    case Utbetalingstype.UTBETALING:
+                                        return Periodetype.VEDTAKSPERIODE;
+                                    case Utbetalingstype.REVURDERING:
+                                        return Periodetype.REVURDERING;
+                                    case Utbetalingstype.ANNULLERING:
+                                        return Periodetype.ANNULLERT_PERIODE;
+                                    default:
+                                        return Periodetype.UFULLSTENDIG;
+                                }
+                            };
                             const harOppgave = !!(periode as Vedtaksperiode)?.oppgavereferanse;
                             return {
                                 id: periode.id,
                                 beregningId: beregningId,
                                 unique: nanoid(),
+                                fagsystemId: element.utbetaling.arbeidsgiverFagsystemId,
                                 fom: periode.fom,
                                 tom: periode.tom,
-                                type: periodetype,
+                                type: periodetype(),
                                 tilstand: this.tilstand(
                                     element.utbetaling.status,
-                                    periodetype,
+                                    periodetype(),
                                     tidslinje,
                                     harOppgave,
                                     element.utbetaling.vurdering
@@ -99,6 +108,7 @@ export class ArbeidsgiverBuilder {
                                 sykdomstidslinje: sykdomstidslinje(element.beregnettidslinje, periode.fom, periode.tom),
                                 fullstendig: periode.fullstendig,
                                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
+                                opprettet: element.tidsstempel,
                             };
                         }) ?? [
                             {
@@ -113,6 +123,7 @@ export class ArbeidsgiverBuilder {
                                 sykdomstidslinje: [],
                                 fullstendig: periode.fullstendig,
                                 organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
+                                opprettet: dayjs(),
                             },
                         ]
                     );
@@ -155,46 +166,41 @@ export class ArbeidsgiverBuilder {
         this.arbeidsgiver = {
             ...this.arbeidsgiver,
             utbetalingshistorikk:
-                this.unmapped.utbetalingshistorikk
-                    ?.filter((it) => {
-                        return this.arbeidsgiver.vedtaksperioder?.some((periode) =>
-                            periode.beregningIder?.includes(it.beregningId)
-                        );
-                    })
-                    .map((element: EksternUtbetalingshistorikkElement) => {
-                        return utbetalingshistorikkelement(
-                            element.beregningId,
-                            element.beregnettidslinje.map((dag) => ({
-                                dato: dayjs(dag.dagen),
-                                type: sykdomstidslinjedag(dag.type),
+                this.unmapped.utbetalingshistorikk?.map((element: EksternUtbetalingshistorikkElement) => {
+                    return utbetalingshistorikkelement(
+                        element.beregningId,
+                        element.beregnettidslinje.map((dag) => ({
+                            dato: dayjs(dag.dagen),
+                            type: sykdomstidslinjedag(dag.type),
+                        })),
+                        element.hendelsetidslinje.map((dag) => ({
+                            dato: dayjs(dag.dagen),
+                            type: sykdomstidslinjedag(dag.type),
+                        })),
+                        {
+                            status: this.utbetalingsstatus(element.utbetaling.status),
+                            type: this.utbetalingstype(element.utbetaling.type),
+                            utbetalingstidslinje: element.utbetaling.utbetalingstidslinje.map((dag) => ({
+                                dato: dayjs(dag.dato),
+                                type: utbetalingstidslinjedag(dag.type),
                             })),
-                            element.hendelsetidslinje.map((dag) => ({
-                                dato: dayjs(dag.dagen),
-                                type: sykdomstidslinjedag(dag.type),
-                            })),
-                            {
-                                status: this.utbetalingsstatus(element.utbetaling.status),
-                                type: this.utbetalingstype(element.utbetaling.type),
-                                utbetalingstidslinje: element.utbetaling.utbetalingstidslinje.map((dag) => ({
-                                    dato: dayjs(dag.dato),
-                                    type: utbetalingstidslinjedag(dag.type),
-                                })),
-                                maksdato: dayjs(element.utbetaling.maksdato),
-                                gjenståendeDager: element.utbetaling.gjenståendeSykedager,
-                                nettobeløp: element.utbetaling.arbeidsgiverNettoBeløp,
-                                forbrukteDager: element.utbetaling.forbrukteSykedager,
-                                arbeidsgiverFagsystemId: element.utbetaling.arbeidsgiverFagsystemId,
-                                vurdering: element.utbetaling.vurdering
-                                    ? {
-                                          godkjent: element.utbetaling.vurdering.godkjent,
-                                          tidsstempel: dayjs(element.utbetaling.vurdering.tidsstempel),
-                                          automatisk: element.utbetaling.vurdering.automatisk,
-                                          ident: element.utbetaling.vurdering.ident,
-                                      }
-                                    : undefined,
-                            }
-                        );
-                    }) ?? [],
+                            maksdato: dayjs(element.utbetaling.maksdato),
+                            gjenståendeDager: element.utbetaling.gjenståendeSykedager,
+                            nettobeløp: element.utbetaling.arbeidsgiverNettoBeløp,
+                            forbrukteDager: element.utbetaling.forbrukteSykedager,
+                            arbeidsgiverFagsystemId: element.utbetaling.arbeidsgiverFagsystemId,
+                            vurdering: element.utbetaling.vurdering
+                                ? {
+                                      godkjent: element.utbetaling.vurdering.godkjent,
+                                      tidsstempel: dayjs(element.utbetaling.vurdering.tidsstempel),
+                                      automatisk: element.utbetaling.vurdering.automatisk,
+                                      ident: element.utbetaling.vurdering.ident,
+                                  }
+                                : undefined,
+                        },
+                        dayjs(element.tidsstempel)
+                    );
+                }) ?? [],
         };
     };
 
@@ -205,6 +211,7 @@ export class ArbeidsgiverBuilder {
                     .setVedtaksperiode(unmappedVedtaksperiode as SpesialistVedtaksperiode)
                     .setPerson(this.person)
                     .setArbeidsgiver(this.unmapped)
+                    .setAnnullertUtbetalingshistorikk(this.arbeidsgiver.utbetalingshistorikk!)
                     .setOverstyringer(this.unmapped.overstyringer)
                     .setInntektsgrunnlag(this.inntektsgrunnlag)
                     .build();
@@ -226,6 +233,27 @@ export class ArbeidsgiverBuilder {
         const reversert = (a: Vedtaksperiode, b: Vedtaksperiode) => dayjs(b.fom).valueOf() - dayjs(a.fom).valueOf();
         this.arbeidsgiver.vedtaksperioder?.sort(reversert);
     };
+
+    private flatten = (perioder: Tidslinjeperiode[]) =>
+        [...perioder]
+            .sort((a, b) => (b.opprettet.isBefore(a.opprettet) ? 1 : -1))
+            .map((periode) => [periode])
+            .filter((generasjon) => this.ufullstendigePerioder(generasjon).length === 0)
+            .filter((generasjon, index, alle) => {
+                if (index === alle.length - 1) return true;
+                const perioderSomSkalKopieresTilNesteGenerasjon = this.perioderSomIkkeHarEndringINesteGenerasjon(
+                    generasjon,
+                    index,
+                    alle[index + 1]
+                );
+                alle[index + 1] = this.kopierTilNesteGenerasjon(
+                    alle[index + 1],
+                    perioderSomSkalKopieresTilNesteGenerasjon
+                );
+                return perioderSomSkalKopieresTilNesteGenerasjon.length !== generasjon.length;
+            })
+            .reverse()
+            .map((generasjon, index) => this.leggUfullstendigePerioderPåSisteGenerasjon(generasjon, index, perioder));
 
     private utbetalingstype = (type: string): Utbetalingstype => {
         switch (type.toUpperCase()) {
@@ -267,33 +295,17 @@ export class ArbeidsgiverBuilder {
         }
     };
 
-    private flatten = (perioder: Tidslinjeperiode[]) =>
-        [...perioder]
-            .map((periode) => [periode])
-            .reverse()
-            .filter((generasjon) => this.ufullstendigePerioder(generasjon).length === 0)
-            .filter((generasjon, index, alle) => {
-                if (index === alle.length - 1) return true;
-                const perioderSomSkalKopieresTilNesteGenerasjon = this.perioderSomIkkeHarEndringINesteGenerasjon(
-                    generasjon,
-                    index,
-                    alle
-                );
-                alle[index + 1] = this.kopierTilNesteGenerasjon(
-                    alle[index + 1],
-                    perioderSomSkalKopieresTilNesteGenerasjon
-                );
-                return perioderSomSkalKopieresTilNesteGenerasjon.length !== generasjon.length;
-            })
-            .map((generasjon, index) => this.leggUfullstendigePerioderPåSisteGenerasjon(generasjon, index, perioder));
-
     private perioderSomIkkeHarEndringINesteGenerasjon = (
         generasjon: Tidslinjeperiode[],
         index: number,
-        alle: Tidslinjeperiode[][]
-    ) =>
+        nesteGenerasjon: Tidslinjeperiode[]
+    ): Tidslinjeperiode[] =>
         generasjon
-            .filter((periode) => this.perioderSomIkkeHarId(periode.id, alle[index + 1]))
+            .filter((periode) => {
+                if (!erAnnullering(periode) && nesteGenerasjonHarAnnullering(nesteGenerasjon, periode.fagsystemId))
+                    return false;
+                return !this.perioderSomHarId(periode.id, nesteGenerasjon);
+            })
             .map((periode) => ({
                 ...periode,
                 unique: nanoid(),
@@ -313,8 +325,8 @@ export class ArbeidsgiverBuilder {
     private alleUfullstendigePerioder = (alleGenerasjoner: Tidslinjeperiode[]) =>
         alleGenerasjoner.filter((periode) => !periode.fullstendig);
 
-    private perioderSomIkkeHarId = (id: string, nesteGenerasjon: Tidslinjeperiode[]) =>
-        !nesteGenerasjon.flatMap((periode) => periode.id).includes(id);
+    private perioderSomHarId = (id: string, nesteGenerasjon: Tidslinjeperiode[]) =>
+        nesteGenerasjon.flatMap((periode) => periode.id).includes(id);
 
     private ufullstendigePerioder = (generasjon: Tidslinjeperiode[]) =>
         generasjon.filter((periode) => !periode.fullstendig);
@@ -371,7 +383,7 @@ export class ArbeidsgiverBuilder {
                     case Utbetalingstatus.SENDT:
                     case Utbetalingstatus.OVERFØRT:
                         return Tidslinjetilstand.TilAnnullering;
-                    case Utbetalingstatus.UTBETALT:
+                    case Utbetalingstatus.ANNULLERT:
                         return Tidslinjetilstand.Annullert;
                     case Utbetalingstatus.UTBETALING_FEILET:
                         return Tidslinjetilstand.AnnulleringFeilet;
@@ -426,3 +438,8 @@ export const enum Tidslinjetilstand {
     Revurdert = 'revurdert',
     Ukjent = 'ukjent',
 }
+
+const erAnnullering = (periode: Tidslinjeperiode) => periode.type === Periodetype.ANNULLERT_PERIODE;
+
+const nesteGenerasjonHarAnnullering = (nesteGenerasjon: Tidslinjeperiode[], fagsystemId?: string) =>
+    nesteGenerasjon.find((periode) => erAnnullering(periode) && periode.fagsystemId === fagsystemId);

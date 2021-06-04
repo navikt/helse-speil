@@ -75,11 +75,21 @@ describe('VedtaksperiodeBuilder', () => {
             problems: [Error('Kan ikke mappe vedtaksperiode, mangler data.')],
             person: undefined,
         });
-        expect(new VedtaksperiodeBuilder().setArbeidsgiver(umappetArbeidsgiver()).build()).toEqual({
+        expect(
+            new VedtaksperiodeBuilder()
+                .setArbeidsgiver(umappetArbeidsgiver())
+                .setAnnullertUtbetalingshistorikk([])
+                .build()
+        ).toEqual({
             problems: [Error('Kan ikke mappe vedtaksperiode, mangler data.')],
             person: undefined,
         });
-        expect(new VedtaksperiodeBuilder().setVedtaksperiode(umappetVedtaksperiode()).build()).toEqual({
+        expect(
+            new VedtaksperiodeBuilder()
+                .setVedtaksperiode(umappetVedtaksperiode())
+                .setAnnullertUtbetalingshistorikk([])
+                .build()
+        ).toEqual({
             problems: [Error('Kan ikke mappe vedtaksperiode, mangler data.')],
             person: undefined,
         });
@@ -89,6 +99,7 @@ describe('VedtaksperiodeBuilder', () => {
             .setArbeidsgiver(umappetArbeidsgiver())
             .setVedtaksperiode(umappetVedtaksperiode())
             .setInntektsgrunnlag([umappetInntektsgrunnlag(SpesialistInntektkilde.Inntektsmelding)])
+            .setAnnullertUtbetalingshistorikk([])
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
         expect(vedtaksperiode).toEqual(mappetVedtaksperiode());
@@ -112,6 +123,7 @@ describe('VedtaksperiodeBuilder', () => {
         const { vedtaksperiode } = new VedtaksperiodeBuilder()
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
+            .setAnnullertUtbetalingshistorikk([])
             .build() as { vedtaksperiode: Vedtaksperiode };
 
         expect(vedtaksperiode.oppsummering).toEqual({
@@ -123,6 +135,7 @@ describe('VedtaksperiodeBuilder', () => {
         const { vedtaksperiode } = new VedtaksperiodeBuilder()
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
+            .setAnnullertUtbetalingshistorikk([])
             .build() as { vedtaksperiode: Vedtaksperiode };
 
         expect(vedtaksperiode.utbetalinger?.personUtbetaling).toBeUndefined();
@@ -142,6 +155,7 @@ describe('VedtaksperiodeBuilder', () => {
         const { vedtaksperiode } = new VedtaksperiodeBuilder()
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
+            .setAnnullertUtbetalingshistorikk([])
             .build() as { vedtaksperiode: Vedtaksperiode };
 
         expect(vedtaksperiode.simuleringsdata).toEqual(mappetSimuleringsdata);
@@ -150,6 +164,7 @@ describe('VedtaksperiodeBuilder', () => {
         const { vedtaksperiode, problems } = new VedtaksperiodeBuilder()
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
+            .setAnnullertUtbetalingshistorikk([])
             .setOverstyringer([umappetOverstyring])
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
@@ -167,6 +182,7 @@ describe('VedtaksperiodeBuilder', () => {
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
             .setInntektsgrunnlag([umappetInntektsgrunnlag(SpesialistInntektkilde.Infotrygd)])
+            .setAnnullertUtbetalingshistorikk([])
             .setPerson({ arbeidsgivere: [umappetArbeidsgiver()] } as SpesialistPerson)
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
@@ -204,6 +220,7 @@ describe('VedtaksperiodeBuilder', () => {
             .setVedtaksperiode(umappetVedtaksperiode())
             .setArbeidsgiver(umappetArbeidsgiver())
             .setInntektsgrunnlag([umappetInntektsgrunnlag()])
+            .setAnnullertUtbetalingshistorikk([])
             .setPerson({ arbeidsgivere: [umappetArbeidsgiver()] } as SpesialistPerson)
             .build() as { vedtaksperiode: Vedtaksperiode; problems: Error[] };
 
@@ -247,6 +264,7 @@ describe('VedtaksperiodeBuilder', () => {
                 oppgavereferanse: null,
             })
             .setArbeidsgiver(umappetArbeidsgiver())
+            .setAnnullertUtbetalingshistorikk([])
             .build() as { vedtaksperiode: Vedtaksperiode };
 
         expect(vedtaksperiode.tilstand).toEqual(Vedtaksperiodetilstand.Venter);

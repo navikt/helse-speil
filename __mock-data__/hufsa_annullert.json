@@ -70,7 +70,7 @@
             "vedtaksperioder": [
                 {
                     "id": "2f6c21b6-8b13-4910-aed0-68d7e1c6aef0",
-                    "gruppeId": "3e96b664-a401-4b0a-ba39-2f5b809f5102",
+                    "gruppeId": "7c0f6372-c7b1-4075-9156-50270833ea4d",
                     "fom": "2021-04-05",
                     "tom": "2021-04-30",
                     "tilstand": "Annullert",
@@ -615,7 +615,7 @@
                 },
                 {
                     "id": "3bdfa377-1c36-4971-8b01-d3a7d04e828f",
-                    "gruppeId": "6754f481-6cd8-4158-9101-fdf86c0062bf",
+                    "gruppeId": "77befc26-5056-4a18-95e7-995a5465079d",
                     "fom": "2021-05-01",
                     "tom": "2021-05-31",
                     "tilstand": "Annullert",
@@ -1309,7 +1309,7 @@
             "bransjer": [],
             "utbetalingshistorikk": [
                 {
-                    "beregningId": "e0d31e19-04c5-4bda-b795-f8c00b6b41cd",
+                    "beregningId": "914f3be8-1030-4d76-bbcf-7670e5e3e69e",
                     "beregnettidslinje": [],
                     "hendelsetidslinje": [],
                     "utbetaling": {
@@ -1320,7 +1320,7 @@
                         "arbeidsgiverNettoBeløp": 0,
                         "arbeidsgiverFagsystemId": "A72MCXLBJBFLPBEANUYYOI6FAU",
                         "maksdato": "+999999999-12-31",
-                        "beregningId": "e0d31e19-04c5-4bda-b795-f8c00b6b41cd",
+                        "beregningId": "914f3be8-1030-4d76-bbcf-7670e5e3e69e",
                         "utbetalingstidslinje": [
                             {
                                 "type": "ArbeidsgiverperiodeDag",
@@ -1614,7 +1614,8 @@
                             "automatisk": false,
                             "ident": "S157803"
                         }
-                    }
+                    },
+                    "tidsstempel": "2021-06-04T00:55:15.119628998"
                 },
                 {
                     "beregningId": "b39cccc2-f70c-458e-94b3-7664366ed619",
@@ -2716,7 +2717,8 @@
                             "automatisk": false,
                             "ident": "S157803"
                         }
-                    }
+                    },
+                    "tidsstempel": "2021-06-01T21:45:57.788323424"
                 },
                 {
                     "beregningId": "88240416-680f-4870-94ef-a1ba972b0560",
@@ -3249,7 +3251,8 @@
                             "automatisk": false,
                             "ident": "S157803"
                         }
-                    }
+                    },
+                    "tidsstempel": "2021-06-01T21:45:39.926276"
                 }
             ]
         }
