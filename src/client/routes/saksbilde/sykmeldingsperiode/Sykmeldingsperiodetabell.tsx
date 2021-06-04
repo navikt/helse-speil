@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
-import { Dagtype, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import { Dagtype, Person, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import Element from 'nav-frontend-typografi/lib/element';
@@ -10,6 +10,8 @@ import { Tabell } from '@navikt/helse-frontend-tabell';
 import { Infoikon } from '../../../components/ikoner/Infoikon';
 import { Overstyringsknapp } from '../../../components/tabell/Overstyringsknapp';
 import { dato, gradering, ikonSyk, kilde, tomCelle, typeSyk } from '../../../components/tabell/rader';
+import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
+import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { overstyrbareTabellerEnabled, overstyreUtbetaltPeriodeEnabled } from '../../../featureToggles';
@@ -37,32 +39,34 @@ interface SykmeldingsperiodetabellProps {
     toggleOverstyring: () => void;
     person: Person;
     vedtaksperiode: Vedtaksperiode;
+    aktivPeriode: Tidslinjeperiode;
 }
 
 export const Sykmeldingsperiodetabell = ({
     toggleOverstyring,
     person,
     vedtaksperiode,
+    aktivPeriode,
 }: SykmeldingsperiodetabellProps) => {
-    const fom = vedtaksperiode?.fom.format(NORSK_DATOFORMAT);
-    const tom = vedtaksperiode?.tom.format(NORSK_DATOFORMAT);
+    const fom = aktivPeriode?.fom.format(NORSK_DATOFORMAT);
+    const tom = aktivPeriode?.tom.format(NORSK_DATOFORMAT);
     const tabellbeskrivelse = `Sykmeldingsperiode fra ${fom} til ${tom}`;
 
     const visOverstyringAvUtbetaltPeriode = (): boolean =>
         person.arbeidsgivere &&
         overstyreUtbetaltPeriodeEnabled &&
-        vedtaksperiode === person.arbeidsgivere[0].vedtaksperioder[0] &&
-        vedtaksperiode.tilstand === Vedtaksperiodetilstand.Utbetalt;
+        aktivPeriode === person.arbeidsgivere[0].tidslinjeperioder[0][0] &&
+        [Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk].includes(aktivPeriode.tilstand);
 
     const visOverstyring =
         overstyrbareTabellerEnabled &&
         person.arbeidsgivere.length === 1 &&
         ([
-            Vedtaksperiodetilstand.Oppgaver,
-            Vedtaksperiodetilstand.Avslag,
-            Vedtaksperiodetilstand.IngenUtbetaling,
-            Vedtaksperiodetilstand.Feilet,
-        ].includes(vedtaksperiode.tilstand) ||
+            Tidslinjetilstand.Oppgaver,
+            Tidslinjetilstand.Avslag,
+            Tidslinjetilstand.IngenUtbetaling,
+            Tidslinjetilstand.Feilet,
+        ].includes(aktivPeriode.tilstand) ||
             visOverstyringAvUtbetaltPeriode());
 
     let sykdomstidslinje = trimLedendeArbeidsdager(vedtaksperiode.sykdomstidslinje);
@@ -99,7 +103,11 @@ export const Sykmeldingsperiodetabell = ({
         { render: '' },
         {
             render: visOverstyring ? (
-                <Overstyringsknapp overstyrer={false} toggleOverstyring={toggleOverstyring} />
+                <Overstyringsknapp
+                    overstyrer={false}
+                    toggleOverstyring={toggleOverstyring}
+                    overstyringsknappTekst={visOverstyringAvUtbetaltPeriode() ? 'Revurder' : 'Endre'}
+                />
             ) : (
                 ''
             ),

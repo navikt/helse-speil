@@ -81,6 +81,7 @@ export const Sykmeldingsperiode = ({ aktivPeriode }: SykmeldingsperiodeProps) =>
                     vedtaksperiode && (
                         <Sykmeldingsperiodetabell
                             person={person}
+                            aktivPeriode={aktivPeriode}
                             vedtaksperiode={vedtaksperiode}
                             toggleOverstyring={() => setOverstyrer((o) => !o)}
                         />

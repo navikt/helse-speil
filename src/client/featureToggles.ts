@@ -44,7 +44,7 @@ const erJakob = () => extractIdent() === 'E156407';
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erPreprod();
 export const overstyrbareTabellerEnabled = true;
-export const overstyreUtbetaltPeriodeEnabled = erSupersaksbehandler() || erLocal() || erDev();
+export const overstyreUtbetaltPeriodeEnabled = erUtvikler() || erSupersaksbehandler() || erLocal() || erDev();
 export const annulleringerEnabled =
     erPreprod() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
