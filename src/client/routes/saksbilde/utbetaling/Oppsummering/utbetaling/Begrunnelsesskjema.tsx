@@ -57,7 +57,7 @@ export interface BegrunnelsesskjemaProps {
 
 export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) => {
     const { errors, clearErrors, watch } = useFormContext();
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.beregningId);
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const warnings = vedtaksperiode?.aktivitetslog;
     const funnetRisikovurderinger = vedtaksperiode?.risikovurdering?.funn;
 
