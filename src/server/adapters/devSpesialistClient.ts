@@ -145,9 +145,6 @@ const filenameForPersonId = (id: string) => {
         case '1000000008971':
         case '13019769420':
             return 'marius-borg-høiby_stikkprøve.json';
-        case '87850000962123':
-        case '21042662423':
-            return 'elizabeth-alexandra-mary-windsor.json';
         case '2836012894592':
         case '19047622436':
             return 'astrid_maud_ingeborg_revurdering.json';

@@ -34,13 +34,17 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
     const aktivPeriode = useAktivPeriode();
 
     const erAktiv =
-        erKlikkbar &&
-        !!rad.perioder.find((it) => {
-            const { id, beregningId, unique } = decomposedId(it.id);
-            return (
-                id === aktivPeriode?.id && beregningId === aktivPeriode?.beregningId && unique === aktivPeriode?.unique
-            );
-        });
+        (erKlikkbar &&
+            aktivPeriode &&
+            rad.perioder.find((it) => {
+                const { id, beregningId, unique } = decomposedId(it.id);
+                return (
+                    id === aktivPeriode?.id &&
+                    beregningId === aktivPeriode?.beregningId &&
+                    unique === aktivPeriode?.unique
+                );
+            }) !== undefined) ??
+        false;
 
     const onClick = (id: string) => {
         if (erKlikkbar) {
@@ -50,28 +54,29 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
 
     return (
         <Container erAktiv={erAktiv}>
-            {rad.perioder.map((it, i) => {
-                const { id, beregningId, unique } = decomposedId(it.id);
-                return (
-                    <Tidslinjeperiode
-                        key={`tidslinjeperiode-${i}`}
-                        id={it.id}
-                        style={it.style}
-                        tilstand={it.tilstand}
-                        erForeldet={erForeldet}
-                        hoverLabel={it.hoverLabel ? it.hoverLabel : undefined}
-                        skalVisePin={!erForeldet ? it.skalVisePin : false}
-                        onClick={onClick}
-                        erAktiv={
-                            erKlikkbar
-                                ? id === aktivPeriode?.id &&
-                                  beregningId === aktivPeriode?.beregningId &&
-                                  aktivPeriode?.unique === unique
-                                : false
-                        }
-                    />
-                );
-            })}
+            {aktivPeriode &&
+                rad.perioder.map((it, i) => {
+                    const { id, beregningId, unique } = decomposedId(it.id);
+                    return (
+                        <Tidslinjeperiode
+                            key={`tidslinjeperiode-${i}`}
+                            id={it.id}
+                            style={it.style}
+                            tilstand={it.tilstand}
+                            erForeldet={erForeldet}
+                            hoverLabel={it.hoverLabel ? it.hoverLabel : undefined}
+                            skalVisePin={!erForeldet ? it.skalVisePin : false}
+                            onClick={onClick}
+                            erAktiv={
+                                erKlikkbar
+                                    ? id === aktivPeriode?.id &&
+                                      beregningId === aktivPeriode?.beregningId &&
+                                      aktivPeriode?.unique === unique
+                                    : false
+                            }
+                        />
+                    );
+                })}
         </Container>
     );
 };

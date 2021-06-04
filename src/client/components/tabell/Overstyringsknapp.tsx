@@ -27,14 +27,14 @@ const RedigerKnapp = styled.button`
 
 interface OverstyringsknappProps {
     overstyrer: boolean;
-    overstyringsknappTekst: string;
+    overstyringsknappTekst?: string;
     toggleOverstyring: () => void;
 }
 
 export const Overstyringsknapp = ({
     overstyrer,
     toggleOverstyring,
-    overstyringsknappTekst,
+    overstyringsknappTekst = 'Endre',
 }: OverstyringsknappProps) => (
     <RedigerKnapp type="button" onClick={toggleOverstyring}>
         {overstyrer ? (
