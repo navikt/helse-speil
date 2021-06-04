@@ -118,7 +118,12 @@ export class ArbeidsgiverBuilder {
                                 fom: periode.fom,
                                 tom: periode.tom,
                                 type: Periodetype.UFULLSTENDIG,
-                                tilstand: this.tilstand(Utbetalingstatus.UKJENT, Periodetype.UFULLSTENDIG, [], false),
+                                tilstand: this.tilstand(
+                                    Utbetalingstatus.UKJENT,
+                                    Periodetype.UFULLSTENDIG,
+                                    periode.utbetalingstidslinje,
+                                    false
+                                ),
                                 utbetalingstidslinje: [],
                                 sykdomstidslinje: [],
                                 fullstendig: periode.fullstendig,
@@ -391,7 +396,9 @@ export class ArbeidsgiverBuilder {
                         return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
                 }
             case Periodetype.UFULLSTENDIG:
-                return Tidslinjetilstand.Venter;
+                return utbetalingstidslinje.length > 0
+                    ? this.defaultTidslinjeTilstander(Utbetalingstatus.GODKJENT_UTEN_UTBETALING, utbetalingstidslinje)
+                    : Tidslinjetilstand.Venter;
         }
     };
 
