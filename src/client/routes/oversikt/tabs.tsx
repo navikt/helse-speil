@@ -12,11 +12,15 @@ import { useMineOppgaver, useOppgaver } from '../../state/oppgaver';
 
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
 
-export type TabType = 'alle' | 'mine' | 'ventende';
+export enum TabType {
+    TilGodkjenning = 'alle',
+    Mine = 'mine',
+    Ventende = 'ventende',
+}
 
 export const tabState = atom<TabType>({
     key: 'tabState',
-    default: 'alle',
+    default: TabType.TilGodkjenning,
 });
 
 export const useAktivTab = () => useRecoilValue(tabState);
@@ -69,7 +73,7 @@ const Meny = styled(Dropdown)`
 `;
 
 interface TabProps {
-    tag: 'alle' | 'mine' | 'ventende';
+    tag: TabType;
     label: string;
     numberOfTasks: number;
 }
@@ -88,18 +92,18 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: TabProps) => {
 
 const AlleSakerTab = () => {
     const { oid } = useInnloggetSaksbehandler();
-    const antallOppgaver = useOppgaver().filter((it) => it.tildeling?.saksbehandler.oid !== oid).length;
-    return <OppgaveTab tag="alle" label="Til godkjenning" numberOfTasks={antallOppgaver} />;
+    const antallOppgaver = useOppgaver().filter((it) => it.tildeling?.saksbehandler?.oid !== oid).length;
+    return <OppgaveTab tag={TabType.TilGodkjenning} label="Til godkjenning" numberOfTasks={antallOppgaver} />;
 };
 
 const MineSakerTab = () => {
     const antallEgneOppgaver = useMineOppgaver().filter((it) => !it.tildeling?.påVent).length;
-    return <OppgaveTab tag="mine" label="Mine saker" numberOfTasks={antallEgneOppgaver} />;
+    return <OppgaveTab tag={TabType.Mine} label="Mine saker" numberOfTasks={antallEgneOppgaver} />;
 };
 
 const VentendeSakerTab = () => {
     const antallEgneVentendeSaker = useMineOppgaver().filter((it) => it.tildeling?.påVent).length;
-    return <OppgaveTab tag="ventende" label="På vent" numberOfTasks={antallEgneVentendeSaker} />;
+    return <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antallEgneVentendeSaker} />;
 };
 
 export const Tabs = () => (

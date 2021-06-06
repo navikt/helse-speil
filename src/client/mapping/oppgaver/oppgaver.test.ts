@@ -1,5 +1,5 @@
 import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave, SpesialistPeriodetype } from 'external-types';
-import { Periodetype, Inntektskilde } from 'internal-types';
+import { Periodetype, InntektskildeType } from 'internal-types';
 
 import { tilOppgave } from './oppgaver';
 
@@ -25,7 +25,7 @@ describe('oppgavemapper', () => {
         expect(oppgave.boenhet.id).toEqual(oppgaveUtenTildeling.boenhet.id);
         expect(oppgave.boenhet.navn).toEqual(oppgaveUtenTildeling.boenhet.navn);
 
-        expect(oppgave.inntektskilde).toEqual(Inntektskilde.EnArbeidsgiver);
+        expect(oppgave.inntektskilde).toEqual(InntektskildeType.EnArbeidsgiver);
         expect(oppgave.tildeling).toEqual(undefined);
     });
 

@@ -1,5 +1,5 @@
-import { Inntektskilde, Oppgave, Periodetype, Saksbehandler, Tildeling } from 'internal-types';
-import { atom, selector, SetterOrUpdater, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { InntektskildeType, Oppgave, Periodetype, Saksbehandler, TildelingType } from 'internal-types';
+import { atom, selector, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
@@ -8,7 +8,7 @@ import { tilOppgave } from '../mapping/oppgaver/oppgaver';
 
 import { flereArbeidsgivere, stikkprøve } from '../featureToggles';
 import { useInnloggetSaksbehandler } from './authentication';
-import { useAddVarsel, useRemoveVarsel, VarselObject } from './varsler';
+import { useAddVarsel, useRemoveVarsel } from './varsler';
 
 const oppgaverStateRefetchKey = atom<Date>({
     key: 'oppgaverStateRefetchKey',
@@ -34,7 +34,7 @@ const remoteOppgaverState = selector<Oppgave[]>({
     },
 });
 
-type TildelingStateType = { [oppgavereferanse: string]: Tildeling | undefined };
+type TildelingStateType = { [oppgavereferanse: string]: TildelingType | undefined };
 
 const _tildelingerState = atom<TildelingStateType>({
     key: '_tildelingerState',
@@ -52,7 +52,6 @@ const tildelingerState = selector<TildelingStateType>({
             }),
             {}
         );
-
         return { ...remote, ...local };
     },
 });
@@ -64,7 +63,7 @@ export const oppgaverState = selector<Oppgave[]>({
         const oppgaver = get(remoteOppgaverState);
         return oppgaver
             .filter((oppgave) => stikkprøve || oppgave.periodetype != Periodetype.Stikkprøve)
-            .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != Inntektskilde.FlereArbeidsgivere)
+            .filter((oppgave) => flereArbeidsgivere || oppgave.inntektskilde != InntektskildeType.FlereArbeidsgivere)
             .map((oppgave) => ({ ...oppgave, tildeling: tildelinger[oppgave.oppgavereferanse] }));
     },
 });
@@ -76,7 +75,7 @@ export const useOppgaver = (): Oppgave[] => {
 
 export const useMineOppgaver = (): Oppgave[] => {
     const { oid } = useInnloggetSaksbehandler();
-    return useOppgaver().filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid);
+    return useOppgaver().filter(({ tildeling }) => tildeling?.saksbehandler?.oid === oid);
 };
 
 export const useRefetchOppgaver = () => {
@@ -101,22 +100,26 @@ type TildelingError = {
     };
 };
 
-const tildelingskey = 'tildeling';
+const useRemoveTildelingsvarsel = () => {
+    const removeVarsel = useRemoveVarsel();
+    return () => removeVarsel('tildeling');
+};
 
-const tildelingsvarsel = (message: string) => ({ key: tildelingskey, message: message, type: Varseltype.Info });
+const useAddTildelingsvarsel = () => {
+    const addVarsel = useAddVarsel();
+    return (message: string) => addVarsel({ key: 'tildeling', message: message, type: Varseltype.Info });
+};
 
-const tildelOppgave = (
-    setTildelinger: SetterOrUpdater<TildelingStateType>,
-    addVarsel: (msg: VarselObject) => void,
-    removeVarsel: (key: String) => void
-) => {
-    return ({ oppgavereferanse }: Oppgave, saksbehandler: Saksbehandler) => {
-        removeVarsel(tildelingskey);
+export const useTildelOppgave = () => {
+    const setTildelinger = useSetRecoilState(_tildelingerState);
+    const addTildelingsvarsel = useAddTildelingsvarsel();
+    const removeTildelingsvarsel = useRemoveTildelingsvarsel();
+
+    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>, saksbehandler: Saksbehandler) => {
+        removeTildelingsvarsel();
         return postTildeling(oppgavereferanse)
             .then((response) => {
-                setTildelinger((it) => {
-                    return { ...it, [oppgavereferanse]: { saksbehandler, påVent: false } };
-                });
+                setTildelinger((it) => ({ ...it, [oppgavereferanse]: { saksbehandler, påVent: false } }));
                 return Promise.resolve(response);
             })
             .catch(async (error) => {
@@ -127,85 +130,84 @@ const tildelOppgave = (
                         ...it,
                         [oppgavereferanse]: { saksbehandler: { oid, navn, epost }, påVent: påVent },
                     }));
-                    addVarsel(tildelingsvarsel(`${navn} har allerede tatt saken.`));
+                    addTildelingsvarsel(`${navn} har allerede tatt saken.`);
                     return Promise.reject(oid);
                 } else {
-                    addVarsel(tildelingsvarsel('Kunne ikke tildele sak.'));
+                    addTildelingsvarsel('Kunne ikke tildele sak.');
                     return Promise.reject();
                 }
             });
     };
 };
 
-const fjernTildeling = (
-    setTildelinger: SetterOrUpdater<TildelingStateType>,
-    addVarsel: (msg: VarselObject) => void,
-    removeVarsel: (key: String) => void
-) => ({ oppgavereferanse }: Oppgave) => {
-    removeVarsel(tildelingskey);
-    return deleteTildeling(oppgavereferanse)
-        .then((response) => {
-            setTildelinger((it) => ({ ...it, [oppgavereferanse]: undefined }));
-            return Promise.resolve(response);
-        })
-        .catch(() => {
-            addVarsel(tildelingsvarsel('Kunne ikke fjerne tildeling av sak.'));
-            return Promise.reject();
-        });
-};
+export const useFjernTildeling = () => {
+    const setTildelinger = useSetRecoilState(_tildelingerState);
+    const addTildelingsvarsel = useAddTildelingsvarsel();
+    const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
-const leggPåVent = (
-    setTildelinger: SetterOrUpdater<TildelingStateType>,
-    addVarsel: (msg: VarselObject) => void,
-    removeVarsel: (key: String) => void
-) => {
-    return ({ oppgavereferanse }: Oppgave) => {
-        removeVarsel(tildelingskey);
-        return postLeggPåVent(oppgavereferanse)
+    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>) => {
+        removeTildelingsvarsel();
+        return deleteTildeling(oppgavereferanse)
             .then((response) => {
-                setTildelinger((it) => ({
-                    ...it,
-                    [oppgavereferanse]: { ...it[oppgavereferanse]!!, påVent: true },
-                }));
+                setTildelinger((it) => ({ ...it, [oppgavereferanse]: undefined }));
                 return Promise.resolve(response);
             })
             .catch(() => {
-                addVarsel(tildelingsvarsel('Kunne ikke legge sak på vent.'));
+                addTildelingsvarsel('Kunne ikke fjerne tildeling av sak.');
                 return Promise.reject();
             });
     };
 };
 
-const fjernPåVent = (
-    setTildelinger: SetterOrUpdater<TildelingStateType>,
-    addVarsel: (msg: VarselObject) => void,
-    removeVarsel: (key: String) => void
-) => {
-    return ({ oppgavereferanse }: Oppgave) => {
-        removeVarsel(tildelingskey);
+export const useLeggPåVent = () => {
+    const setTildelinger = useSetRecoilState(_tildelingerState);
+    const addTildelingsvarsel = useAddTildelingsvarsel();
+    const removeTildelingsvarsel = useRemoveTildelingsvarsel();
+
+    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>) => {
+        removeTildelingsvarsel();
+        return postLeggPåVent(oppgavereferanse)
+            .then((response) => {
+                setTildelinger((tildelinger) => ({
+                    ...tildelinger,
+                    [oppgavereferanse]: tildelinger[oppgavereferanse]
+                        ? { ...tildelinger[oppgavereferanse]!, påVent: true }
+                        : undefined,
+                }));
+                return Promise.resolve(response);
+            })
+            .catch(() => {
+                addTildelingsvarsel('Kunne ikke legge sak på vent.');
+                return Promise.reject();
+            });
+    };
+};
+
+export const useFjernPåVent = () => {
+    const setTildelinger = useSetRecoilState(_tildelingerState);
+    const addTildelingsvarsel = useAddTildelingsvarsel();
+    const removeTildelingsvarsel = useRemoveTildelingsvarsel();
+
+    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>) => {
+        removeTildelingsvarsel();
         return deletePåVent(oppgavereferanse)
             .then((response) => {
                 setTildelinger((it) => ({
                     ...it,
-                    [oppgavereferanse]: { ...it[oppgavereferanse]!!, påVent: false },
+                    [oppgavereferanse]: it[oppgavereferanse] ? { ...it[oppgavereferanse]!, påVent: false } : undefined,
                 }));
                 return Promise.resolve(response);
             })
             .catch(() => {
-                addVarsel(tildelingsvarsel('Kunne ikke fjerne sak fra på vent.'));
+                addTildelingsvarsel('Kunne ikke fjerne sak fra på vent.');
                 return Promise.reject();
             });
     };
 };
 
-export const useTildeling = () => {
-    const addVarsel = useAddVarsel();
-    const removeVarsel = useRemoveVarsel();
-    const setTildelinger = useSetRecoilState(_tildelingerState);
-    return {
-        tildelOppgave: tildelOppgave(setTildelinger, addVarsel, removeVarsel),
-        fjernTildeling: fjernTildeling(setTildelinger, addVarsel, removeVarsel),
-        leggPåVent: leggPåVent(setTildelinger, addVarsel, removeVarsel),
-        fjernPåVent: fjernPåVent(setTildelinger, addVarsel, removeVarsel),
-    };
-};
+export const useTildeling = () => ({
+    tildelOppgave: useTildelOppgave(),
+    fjernTildeling: useFjernTildeling(),
+    leggPåVent: useLeggPåVent(),
+    fjernPåVent: useFjernPåVent(),
+});

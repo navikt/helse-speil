@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
 import { act, renderHook } from '@testing-library/react-hooks';
 import dayjs from 'dayjs';
-import { Inntektskilde, Oppgave, Periodetype, Saksbehandler } from 'internal-types';
+import { InntektskildeType, Oppgave, Periodetype, Saksbehandler } from 'internal-types';
 import React from 'react';
 import { Loadable, RecoilRoot, useRecoilValueLoadable } from 'recoil';
 
@@ -41,7 +41,7 @@ const enOppgave = (): Oppgave => ({
         id: '1234',
         navn: 'Boenhet',
     },
-    inntektskilde: Inntektskilde.EnArbeidsgiver,
+    inntektskilde: InntektskildeType.EnArbeidsgiver,
     tildeling: undefined,
 });
 

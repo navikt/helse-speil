@@ -1,4 +1,4 @@
-import { Person, Tildeling, Vedtaksperiode } from 'internal-types';
+import { Person, TildelingType, Vedtaksperiode } from 'internal-types';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { fetchPerson } from '../io/http';
@@ -32,7 +32,7 @@ export const personState = atom<PersonState | undefined>({
     default: undefined,
 });
 
-const tildelingState = atom<Tildeling | undefined>({
+const tildelingState = atom<TildelingType | undefined>({
     key: 'tildelingState',
     default: undefined,
 });

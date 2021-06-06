@@ -229,7 +229,7 @@ export interface Vedtaksperiode {
     overstyringer: Overstyring[];
     erNyeste: boolean;
     beregningIder: string[];
-    inntektskilde: Inntektskilde;
+    inntektskilde: InntektskildeType;
 }
 
 export interface Utbetalinger {
@@ -289,7 +289,7 @@ export interface Person {
     infotrygdutbetalinger: Infotrygdutbetaling[];
     enhet: Enhetsinfo;
     dødsdato?: Dayjs;
-    tildeling?: Tildeling;
+    tildeling?: TildelingType;
 }
 
 export interface Enhetsinfo {
@@ -402,12 +402,12 @@ export interface Oppgave {
     aktørId: string;
     antallVarsler: number;
     periodetype: Periodetype;
-    inntektskilde: Inntektskilde;
+    inntektskilde: InntektskildeType;
     boenhet: Boenhet;
-    tildeling?: Tildeling;
+    tildeling?: TildelingType;
 }
 
-export interface Tildeling {
+export interface TildelingType {
     saksbehandler: Saksbehandler;
     påVent: boolean;
 }
@@ -417,11 +417,7 @@ interface Boenhet {
     navn: string;
 }
 
-export interface TildeltOppgave extends Oppgave {
-    tildeling: Tildeling;
-}
-
-export enum Inntektskilde {
+export enum InntektskildeType {
     EnArbeidsgiver = 'EN_ARBEIDSGIVER',
     FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
 }

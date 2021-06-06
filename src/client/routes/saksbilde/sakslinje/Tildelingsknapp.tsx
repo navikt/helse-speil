@@ -1,4 +1,4 @@
-import { Tildeling } from 'internal-types';
+import { TildelingType } from 'internal-types';
 import React, { useContext, useState } from 'react';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
@@ -10,7 +10,7 @@ import { useAddVarsel, useRemoveVarsel } from '../../../state/varsler';
 
 interface TildelingsknappProps {
     oppgavereferanse: string;
-    tildeling?: Tildeling;
+    tildeling?: TildelingType;
     erTildeltInnloggetBruker: boolean;
 }
 

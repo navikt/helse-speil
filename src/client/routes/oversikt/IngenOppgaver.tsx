@@ -57,5 +57,7 @@ export const IngenOppgaver = () => {
                     <Tekst>Du har ingen saker på vent</Tekst>
                 </Container>
             );
+        default:
+            return null;
     }
 };

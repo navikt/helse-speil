@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { Oppgavetype, SpesialistInntektskilde, SpesialistOppgave } from 'external-types';
-import { Inntektskilde, Kjønn, Oppgave, Periodetype } from 'internal-types';
+import { InntektskildeType, Kjønn, Oppgave, Periodetype } from 'internal-types';
 
 import { tilPeriodetype } from '../periodetype';
 
@@ -16,14 +16,14 @@ const kjønn = (kjønn: string | null): Kjønn => {
     }
 };
 
-export const inntektskilde = (inntektskilde?: SpesialistInntektskilde): Inntektskilde => {
+export const inntektskilde = (inntektskilde?: SpesialistInntektskilde): InntektskildeType => {
     switch (inntektskilde) {
         case SpesialistInntektskilde.EnArbeidsgiver:
-            return Inntektskilde.EnArbeidsgiver;
+            return InntektskildeType.EnArbeidsgiver;
         case SpesialistInntektskilde.FlereArbeidsgivere:
-            return Inntektskilde.FlereArbeidsgivere;
+            return InntektskildeType.FlereArbeidsgivere;
         default:
-            return Inntektskilde.EnArbeidsgiver;
+            return InntektskildeType.EnArbeidsgiver;
     }
 };
 

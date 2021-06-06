@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import {
     Dagtype,
-    Inntektskilde,
+    InntektskildeType,
     Inntektskildetype,
     Kildetype,
     Kjønn,
@@ -693,7 +693,7 @@ export const mappetPersonObject = (): Person => ({
                     },
                     automatiskBehandlet: false,
                     beregningIder: ['id1'],
-                    inntektskilde: Inntektskilde.EnArbeidsgiver,
+                    inntektskilde: InntektskildeType.EnArbeidsgiver,
                 },
             ],
             utbetalingshistorikk: [

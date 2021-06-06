@@ -54,13 +54,14 @@ export const useAddVarsel = () => {
     };
 };
 
-export const useOperasjonsvarsel = (operasjon: string) => {
+export const useOperationErrorHandler = (operasjon: string) => {
     const varsel: VarselObject = {
         key: operasjon,
         type: Varseltype.Feil,
         message: `Det oppstod en feil. Handlingen som ikke ble utført: ${operasjon}`,
         scope: Scopes.GLOBAL,
     };
+
     const setVarsler = useSetRecoilState(varslerState);
 
     return (ex: Error) => {

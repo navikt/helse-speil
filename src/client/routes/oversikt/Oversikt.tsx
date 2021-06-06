@@ -16,9 +16,9 @@ import { Scopes, useVarselFilter } from '../../state/varsler';
 
 import { nullstillAgurkData } from '../../agurkdata';
 import { IngenOppgaver } from './IngenOppgaver';
-import { OppgaverTabell } from './OppgaverTabell';
 import { Behandlingsstatistikk } from './behandlingsstatistikk/Behandlingsstatistikk';
-import { Tabs, tabState } from './tabs';
+import { OppgaverTable } from './table/OppgaverTable';
+import { Tabs, tabState, TabType } from './tabs';
 
 const Container = styled.div`
     position: relative;
@@ -35,7 +35,13 @@ const Content = styled(Panel)`
     flex: 1;
 `;
 
-const useFiltrerteOppgaver = () => {
+const Strek = styled.div`
+    min-height: calc(100vh - 50px);
+    width: 1px;
+    background-color: var(--navds-color-border);
+`;
+
+const useOppgaverFilteredByTab = () => {
     const { oid } = useInnloggetSaksbehandler();
     const aktivTab = useRecoilValue(tabState);
     const oppgaver = useRecoilValueLoadable<Oppgave[]>(oppgaverState);
@@ -43,11 +49,11 @@ const useFiltrerteOppgaver = () => {
     nullstillAgurkData();
 
     const filtrer = (oppgaver: Oppgave[]): Oppgave[] =>
-        aktivTab === 'alle'
-            ? oppgaver.filter((it) => it.tildeling?.saksbehandler.oid !== oid)
-            : aktivTab === 'ventende'
-            ? oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid && tildeling?.påVent)
-            : oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler.oid === oid && !tildeling?.påVent);
+        aktivTab === TabType.TilGodkjenning
+            ? oppgaver.filter((it) => it.tildeling?.saksbehandler?.oid !== oid)
+            : aktivTab === TabType.Ventende
+            ? oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler?.oid === oid && tildeling?.påVent)
+            : oppgaver.filter(({ tildeling }) => tildeling?.saksbehandler?.oid === oid && !tildeling?.påVent);
 
     useEffect(() => {
         if (oppgaver.state === 'hasValue') {
@@ -61,16 +67,9 @@ const useFiltrerteOppgaver = () => {
         cache: filtrer(cache),
     };
 };
-
-const Strek = styled.div`
-    min-height: calc(100vh - 50px);
-    width: 1px;
-    background-color: var(--navds-color-border);
-`;
-
 export const Oversikt = () => {
     const hentOppgaver = useRefetchOppgaver();
-    const oppgaver = useFiltrerteOppgaver();
+    const oppgaver = useOppgaverFilteredByTab();
     const resetPerson = useResetRecoilState(personState);
 
     useLoadingToast({ isLoading: oppgaver.state === 'loading', message: 'Henter oppgaver' });
@@ -96,7 +95,7 @@ export const Oversikt = () => {
                 <Content>
                     <Tabs />
                     {hasData ? (
-                        <OppgaverTabell
+                        <OppgaverTable
                             oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
                         />
                     ) : (

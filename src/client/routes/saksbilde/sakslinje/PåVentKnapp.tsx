@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
 import { deletePåVent, postLeggPåVent } from '../../../io/http';
 import { usePersonPåVent } from '../../../state/person';
-import { useOperasjonsvarsel } from '../../../state/varsler';
+import { useOperationErrorHandler } from '../../../state/varsler';
 
 const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {
     promise.catch(onError);
@@ -19,7 +19,7 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse }: PåVentKnappProps)
     const [isFetching, setIsFetching] = useState(false);
     const history = useHistory();
     const personPåVent = usePersonPåVent();
-    const errorHandler = useOperasjonsvarsel('Legg på vent');
+    const errorHandler = useOperationErrorHandler('Legg på vent');
     const { lukk } = useContext(DropdownContext);
 
     if (!oppgavereferanse) {
