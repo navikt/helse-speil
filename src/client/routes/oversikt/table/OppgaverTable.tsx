@@ -84,7 +84,13 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                     <thead>
                         <tr>
                             <Header scope="col" colSpan={1}>
-                                <FilterButton filters={filters.filter((it) => it.column === 0)}>Tildelt</FilterButton>
+                                {tab === TabType.TilGodkjenning ? (
+                                    <FilterButton filters={filters.filter((it) => it.column === 0)}>
+                                        Tildelt
+                                    </FilterButton>
+                                ) : (
+                                    'Tildelt'
+                                )}
                             </Header>
                             <Header scope="col" colSpan={1}>
                                 <FilterButton filters={filters.filter((it) => it.column === 1)}>Sakstype</FilterButton>
