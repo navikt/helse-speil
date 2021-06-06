@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
+import { Normaltekst } from 'nav-frontend-typografi';
+
 import { Accordion } from '@navikt/helse-frontend-accordion/lib';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
@@ -59,9 +61,22 @@ const Container = styled(Accordion)`
     }
 `;
 
+const Label = styled(Normaltekst)`
+    margin-right: 8rem;
+    text-align: left;
+    padding: 0.5rem 0;
+`;
+
 const Content = styled.div`
     background: var(--navds-color-warning-background);
     padding: 0.5rem 3.5rem;
+`;
+
+const StyledVarsel = styled(Varsel)`
+    height: unset;
+    > svg:first-of-type {
+        flex-shrink: 0;
+    }
 `;
 
 interface EkspanderbartVarselProps {
@@ -76,7 +91,9 @@ export const EkspanderbartVarsel: React.FC<EkspanderbartVarselProps> = ({
     type = Varseltype.Advarsel,
 }) => (
     <Container>
-        <Varsel type={type}>{label}</Varsel>
+        <StyledVarsel type={type}>
+            <Label>{label}</Label>
+        </StyledVarsel>
         <Content>{children}</Content>
     </Container>
 );

@@ -11,12 +11,6 @@ import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 
-interface ToppvarslerProps {
-    aktivPeriode: Tidslinjeperiode;
-    vedtaksperiode: Vedtaksperiode;
-    oppgavereferanse?: string;
-}
-
 type VarselObject = {
     grad: Varseltype;
     melding: string;
@@ -79,7 +73,13 @@ const kandidatForAutomatiseringsvarsel = ({
         ? { grad: Varseltype.Info, melding: 'Kandidat for automatisering' }
         : null;
 
-export const Toppvarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferanse }: ToppvarslerProps) => {
+interface SaksbildevarslerProps {
+    aktivPeriode: Tidslinjeperiode;
+    vedtaksperiode: Vedtaksperiode;
+    oppgavereferanse?: string;
+}
+
+export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferanse }: SaksbildevarslerProps) => {
     const varsler: VarselObject[] = [
         tilstandsvarsel(aktivPeriode.tilstand),
         utbetalingsvarsel(aktivPeriode.tilstand),

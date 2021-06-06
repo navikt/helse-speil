@@ -19,9 +19,9 @@ import { Faresignaler } from '../faresignaler/Faresignaler';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Sykmeldingsperiode } from '../sykmeldingsperiode/Sykmeldingsperiode';
-import { Toppvarsler } from '../toppvarsler/Toppvarsler';
 import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Utbetalingshistorikk } from '../utbetalingshistorikk/Utbetalingshistorikk';
+import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Vilkår } from '../vilkår/Vilkår';
 import { VenstreMeny, VertikalStrek } from './Felles';
 
@@ -122,7 +122,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                         />
                                         <VertikalStrek />
                                         <FlexColumn style={{ flex: 1, height: '100%' }}>
-                                            <Toppvarsler
+                                            <Saksbildevarsler
                                                 aktivPeriode={aktivPeriode}
                                                 vedtaksperiode={vedtaksperiode}
                                                 oppgavereferanse={oppgavereferanse}

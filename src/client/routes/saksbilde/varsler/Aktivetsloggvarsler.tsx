@@ -23,11 +23,7 @@ export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[
                 const wikiAktivitet: WikiEntry | undefined = wiki.find((it) => it.varsel === aktivitet);
                 if (wikiAktivitet && (wikiAktivitet.betydning.length > 0 || wikiAktivitet.løsning.length > 0)) {
                     return (
-                        <EkspanderbartVarsel
-                            key={index}
-                            type={Varseltype.Advarsel}
-                            label={<Normaltekst>{aktivitet}</Normaltekst>}
-                        >
+                        <EkspanderbartVarsel key={index} type={Varseltype.Advarsel} label={aktivitet}>
                             <Varselseksjon tittel="Hva betyr det?">{wikiAktivitet.betydning}</Varselseksjon>
                             <Varselseksjon tittel="Hva gjør du?">{wikiAktivitet.løsning}</Varselseksjon>
                         </EkspanderbartVarsel>
