@@ -171,7 +171,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 <Cell>
                                     <Opprettet date={it.opprettet} />
                                 </Cell>
-                                <Cell>
+                                <Cell style={{ width: '100%' }}>
                                     <OptionsButton oppgave={it} />
                                 </Cell>
                             </LinkRow>
