@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 import {
-    SpleisSykdomsdag,
+    EksternSykdomsdag,
     SpleisSykdomsdagkilde,
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
@@ -22,14 +22,14 @@ const kilde = (dato: Dayjs): SpleisSykdomsdagkilde =>
         ? { type: SpleisSykdomsdagkildeType.SØKNAD, kildeId: søknadId }
         : { type: SpleisSykdomsdagkildeType.SYKMELDING, kildeId: sykmeldingId };
 
-const tilSykdomsdag = (dato: Dayjs, grad: number = 100): SpleisSykdomsdag => ({
+const tilSykdomsdag = (dato: Dayjs, grad: number = 100): EksternSykdomsdag => ({
     dagen: dato.format('YYYY-MM-DD'),
     type: sykdomsdagtype(dato),
     kilde: kilde(dato),
     grad: grad,
 });
 
-export const sykdomstidslinje = (fom: Dayjs, tom: Dayjs): SpleisSykdomsdag[] =>
+export const sykdomstidslinje = (fom: Dayjs, tom: Dayjs): EksternSykdomsdag[] =>
     new Array(tom.diff(fom, 'day') + 1)
         .fill({})
         .map((_, i) => fom.add(i, 'day'))

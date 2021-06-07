@@ -7,7 +7,7 @@ import {
     SpleisAktivitet,
     SpleisForlengelseFraInfotrygd,
     SpleisPeriodetype,
-    SpleisSykdomsdag,
+    EksternSykdomsdag,
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
@@ -85,13 +85,16 @@ export const medUtbetalingstidslinje = (
     totalbeløpArbeidstaker: totalbeløpArbeidstaker(tidslinje),
 });
 
-export const medLedendeSykdomsdager = (vedtaksperiode: SpesialistVedtaksperiode, sykdomsdager: SpleisSykdomsdag[]) => ({
+export const medLedendeSykdomsdager = (
+    vedtaksperiode: SpesialistVedtaksperiode,
+    sykdomsdager: EksternSykdomsdag[]
+) => ({
     ...vedtaksperiode,
     fom: sykdomsdager[0].dagen,
     sykdomstidslinje: [...sykdomsdager, ...vedtaksperiode.sykdomstidslinje],
 });
 
-export const medEkstraSykdomsdager = (vedtaksperiode: SpesialistVedtaksperiode, sykdomsdager: SpleisSykdomsdag[]) => ({
+export const medEkstraSykdomsdager = (vedtaksperiode: SpesialistVedtaksperiode, sykdomsdager: EksternSykdomsdag[]) => ({
     ...vedtaksperiode,
     sykdomstidslinje: [...vedtaksperiode.sykdomstidslinje, ...sykdomsdager],
 });

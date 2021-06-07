@@ -26,7 +26,7 @@ import {
     utbetalingstidslinje,
 } from '../modell/UtbetalingshistorikkElement';
 
-import { sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
+import { mapSykdomstidslinje, sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
 import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
@@ -174,14 +174,8 @@ export class ArbeidsgiverBuilder {
                 this.unmapped.utbetalingshistorikk?.map((element: EksternUtbetalingshistorikkElement) => {
                     return utbetalingshistorikkelement(
                         element.beregningId,
-                        element.beregnettidslinje.map((dag) => ({
-                            dato: dayjs(dag.dagen),
-                            type: sykdomstidslinjedag(dag.type),
-                        })),
-                        element.hendelsetidslinje.map((dag) => ({
-                            dato: dayjs(dag.dagen),
-                            type: sykdomstidslinjedag(dag.type),
-                        })),
+                        mapSykdomstidslinje(element.beregnettidslinje),
+                        mapSykdomstidslinje(element.hendelsetidslinje),
                         {
                             status: this.utbetalingsstatus(element.utbetaling.status),
                             type: this.utbetalingstype(element.utbetaling.type),

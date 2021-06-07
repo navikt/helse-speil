@@ -1,4 +1,9 @@
-import { SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisUtbetalingsdag, SpleisUtbetalingsdagtype } from 'external-types';
+import {
+    EksternSykdomsdag,
+    SpleisSykdomsdagtype,
+    SpleisUtbetalingsdag,
+    SpleisUtbetalingsdagtype,
+} from 'external-types';
 
 const utbetalingsdagtype = (sykdomsdagtype: SpleisSykdomsdagtype): SpleisUtbetalingsdagtype => {
     switch (sykdomsdagtype) {
@@ -42,7 +47,7 @@ const utbetaling = (sykdomsdagtype: SpleisSykdomsdagtype, dagsats: number): numb
     utbetalingsdagtype(sykdomsdagtype) === SpleisUtbetalingsdagtype.NAVDAG ? dagsats : undefined;
 
 const tilUtbetalingsdag = (
-    sykdomsdag: SpleisSykdomsdag,
+    sykdomsdag: EksternSykdomsdag,
     dagsats: number,
     grad: number = 100
 ): SpleisUtbetalingsdag => ({
@@ -53,5 +58,5 @@ const tilUtbetalingsdag = (
     grad: grad,
 });
 
-export const utbetalingstidslinje = (sykdomstidslinje: SpleisSykdomsdag[], dagsats: number): SpleisUtbetalingsdag[] =>
+export const utbetalingstidslinje = (sykdomstidslinje: EksternSykdomsdag[], dagsats: number): SpleisUtbetalingsdag[] =>
     sykdomstidslinje.map((sykdomsdag) => tilUtbetalingsdag(sykdomsdag, dagsats));

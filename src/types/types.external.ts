@@ -111,7 +111,7 @@ export enum SpleisSykdomsdagtype {
     ANNULLERT_DAG = 'ANNULLERT_DAG',
 }
 
-export interface SpleisSykdomsdag {
+export interface EksternSykdomsdag {
     dagen: string;
     type: SpleisSykdomsdagtype;
     kilde?: SpleisSykdomsdagkilde;
@@ -269,13 +269,6 @@ export interface EksternUtbetalingshistorikkElement {
     hendelsetidslinje: EksternSykdomsdag[];
     utbetaling: EksternUtbetaling;
     tidsstempel: string;
-}
-
-export interface EksternSykdomsdag {
-    dagen: string;
-    type: SpleisSykdomsdagtype;
-    kilde?: SpleisSykdomsdagkilde;
-    grad?: number;
 }
 
 export interface EksternUtbetaling {
@@ -442,7 +435,7 @@ export interface SpesialistVedtaksperiode {
     utbetalingsreferanse?: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
     utbetalinger: SpleisUtbetalinger;
-    sykdomstidslinje: SpleisSykdomsdag[];
+    sykdomstidslinje: EksternSykdomsdag[];
     automatiskBehandlet: boolean;
     godkjentAv?: string;
     godkjenttidspunkt?: string;

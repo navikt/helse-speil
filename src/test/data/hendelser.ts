@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { SpleisHendelse, SpleisHendelsetype, SpleisSykdomsdag, SpleisSykdomsdagtype } from 'external-types';
+import { SpleisHendelse, SpleisHendelsetype, EksternSykdomsdag, SpleisSykdomsdagtype } from 'external-types';
 
-const sykmelding = (sykdomsdager: SpleisSykdomsdag[]) => {
+const sykmelding = (sykdomsdager: EksternSykdomsdag[]) => {
     const fom = sykdomsdager[0];
     const tom = sykdomsdager.slice(-1).pop()!;
     const rapportertDato = dayjs(tom.dagen).add(15, 'day').format('YYYY-MM-DD');
@@ -14,7 +14,7 @@ const sykmelding = (sykdomsdager: SpleisSykdomsdag[]) => {
     };
 };
 
-const søknad = (sykdomsdager: SpleisSykdomsdag[]) => {
+const søknad = (sykdomsdager: EksternSykdomsdag[]) => {
     const fom = sykdomsdager[0];
     const tom = sykdomsdager.slice(-1).pop()!;
     const rapportertDato = dayjs(tom.dagen).add(15, 'day').format('YYYY-MM-DD');
@@ -28,7 +28,7 @@ const søknad = (sykdomsdager: SpleisSykdomsdag[]) => {
     };
 };
 
-const inntektsmelding = (sykdomsdager: SpleisSykdomsdag[]) => {
+const inntektsmelding = (sykdomsdager: EksternSykdomsdag[]) => {
     const førsteFraværsdag = sykdomsdager.find(({ type }) => type === SpleisSykdomsdagtype.SYKEDAG)!;
     const mottattDato = dayjs(førsteFraværsdag.dagen).add(15, 'day').format('YYYY-MM-DD');
     return {
@@ -40,7 +40,7 @@ const inntektsmelding = (sykdomsdager: SpleisSykdomsdag[]) => {
     };
 };
 
-export const hendelser = (sykdomsdager: SpleisSykdomsdag[]): SpleisHendelse[] => [
+export const hendelser = (sykdomsdager: EksternSykdomsdag[]): SpleisHendelse[] => [
     sykmelding(sykdomsdager),
     søknad(sykdomsdager),
     inntektsmelding(sykdomsdager),

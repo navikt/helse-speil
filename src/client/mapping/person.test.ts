@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import {
     SpleisAktivitet,
     SpleisAlvorlighetsgrad,
-    SpleisSykdomsdag,
+    EksternSykdomsdag,
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
     SpleisUtbetalingsdagtype,
@@ -125,7 +125,7 @@ describe('personmapper', () => {
     test('mapper overstyring av tidslinje', async () => {
         const saksbehandlerKildeId = '5B807A30-E197-474F-9AFB-D136649A02DB';
         const overstyrtDato = '2019-10-07';
-        const ekstraDager: SpleisSykdomsdag[] = [
+        const ekstraDager: EksternSykdomsdag[] = [
             {
                 dagen: '2019-10-06',
                 type: SpleisSykdomsdagtype.SYK_HELGEDAG,

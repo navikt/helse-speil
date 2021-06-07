@@ -704,12 +704,18 @@ export const mappetPersonObject = (): Person => ({
                         {
                             dato: dayjs('2020-01-01'),
                             type: Dagtype.Syk,
+                            kildeId: 'eed4d4f5-b629-4986-82db-391336f861e9',
+                            kilde: Kildetype.Saksbehandler,
+                            gradering: 100,
                         },
                     ],
                     hendelsetidslinje: [
                         {
                             dato: dayjs('2020-01-01'),
                             type: Dagtype.Syk,
+                            kildeId: 'eed4d4f5-b629-4986-82db-391336f861e9',
+                            kilde: Kildetype.Saksbehandler,
+                            gradering: 100,
                         },
                     ],
                     tidsstempel: dayjs('2020-01-01T:00:00:00'),
@@ -758,6 +764,9 @@ export const mappetPersonObject = (): Person => ({
                             {
                                 dato: dayjs('2020-01-01'),
                                 type: Dagtype.Syk,
+                                kildeId: 'eed4d4f5-b629-4986-82db-391336f861e9',
+                                kilde: Kildetype.Saksbehandler,
+                                gradering: 100,
                             },
                         ],
                         organisasjonsnummer: '987654321',

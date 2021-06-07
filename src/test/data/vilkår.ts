@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
-import { SpleisMedlemskapstatus, SpleisSykdomsdag, SpleisSykdomsdagtype, SpleisVilkår } from 'external-types';
+import { SpleisMedlemskapstatus, EksternSykdomsdag, SpleisSykdomsdagtype, SpleisVilkår } from 'external-types';
 
 import { somDato } from '../../client/mapping/vedtaksperiode';
 
-export const umappedeVilkår = (tidslinje: SpleisSykdomsdag[]): SpleisVilkår => {
+export const umappedeVilkår = (tidslinje: EksternSykdomsdag[]): SpleisVilkår => {
     const førsteDag = tidslinje[0];
     const sisteDag = tidslinje.slice(-1).pop()!;
     const førsteSykedag = tidslinje.find(({ type }) => type === SpleisSykdomsdagtype.SYKEDAG)!;

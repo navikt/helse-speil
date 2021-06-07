@@ -1,5 +1,5 @@
 import {
-    SpleisSykdomsdag,
+    EksternSykdomsdag,
     SpleisSykdomsdagkilde,
     SpleisSykdomsdagkildeType,
     SpleisSykdomsdagtype,
@@ -129,7 +129,7 @@ const hendelseType = (kilde: SpleisSykdomsdagkilde | undefined): Kildetype | und
 
 const somHeltall = (value?: number) => value && +value.toFixed(0);
 
-export const mapSykdomstidslinje = (sykdomstidslinje: SpleisSykdomsdag[]): Sykdomsdag[] =>
+export const mapSykdomstidslinje = (sykdomstidslinje: EksternSykdomsdag[]): Sykdomsdag[] =>
     sykdomstidslinje.map((dag) => ({
         type: sykdomstidslinjedag(dag.type),
         dato: somDato(dag.dagen),
