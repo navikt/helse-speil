@@ -89,9 +89,9 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
     const skjæringstidspunkt = vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt;
     const maksdato = vedtaksperiode.vilkår?.dagerIgjen.maksdato;
     const gjenståendeDager = vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
-    const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
+    const utbetalingstidslinje = aktivPeriode.utbetalingstidslinje;
     const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
-    const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
+    const periode = { fom: aktivPeriode.fom, tom: aktivPeriode.tom };
     const månedsbeløp = vedtaksperiode.inntektsgrunnlag?.inntekter?.find(
         (it) => it.organisasjonsnummer === aktivPeriode.organisasjonsnummer
     )?.omregnetÅrsinntekt?.månedsbeløp;

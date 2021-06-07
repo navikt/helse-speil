@@ -26,7 +26,7 @@ import {
     utbetalingstidslinje,
 } from '../modell/UtbetalingshistorikkElement';
 
-import { mapTidslinjeMedAldersvilkår, mapSykdomstidslinje, sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
+import { mapTidslinjeMedAldersvilkår, mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
 import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
@@ -182,10 +182,7 @@ export class ArbeidsgiverBuilder {
                         {
                             status: this.utbetalingsstatus(element.utbetaling.status),
                             type: this.utbetalingstype(element.utbetaling.type),
-                            utbetalingstidslinje: element.utbetaling.utbetalingstidslinje.map((dag) => ({
-                                dato: dayjs(dag.dato),
-                                type: utbetalingstidslinjedag(dag.type),
-                            })),
+                            utbetalingstidslinje: mapUtbetalingstidslinje(element.utbetaling.utbetalingstidslinje),
                             maksdato: dayjs(element.utbetaling.maksdato),
                             gjenståendeDager: element.utbetaling.gjenståendeSykedager,
                             nettobeløp: element.utbetaling.arbeidsgiverNettoBeløp,
