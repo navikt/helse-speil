@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Arbeidsforhold, Dagtype, Periodetype } from 'internal-types';
-import React from 'react';
+import { Arbeidsforhold, Dagtype, Periodetype, Simulering } from 'internal-types';
+import React, { useState } from 'react';
 
-import { Normaltekst, Undertekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
+import Lenke from 'nav-frontend-lenker';
+import { Feilmelding, Normaltekst, Undertekst, UndertekstBold, Undertittel } from 'nav-frontend-typografi';
 
 import { Flex } from '../../../components/Flex';
 import { LovdataLenke } from '../../../components/LovdataLenke';
@@ -25,6 +26,7 @@ import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
+import { SimuleringsinfoModal } from '../utbetaling/Oppsummering/SimuleringsinfoModal';
 import { Utbetaling } from '../utbetaling/Oppsummering/utbetaling/Utbetaling';
 import { Vilkårsliste } from '../utbetaling/Vilkårsoversikt';
 import { Oppgavetype } from './Oppgavetype';
@@ -182,6 +184,8 @@ interface UtbetalingKortProps {
     utbetalingsdagerTotalt: number;
     nettobeløp?: number;
     ikkeUtbetaltEnda: boolean;
+    simulering?: Simulering;
+    anonymiseringEnabled: boolean;
 }
 
 export const UtbetalingKort = ({
@@ -189,8 +193,11 @@ export const UtbetalingKort = ({
     utbetalingsdagerTotalt,
     nettobeløp,
     ikkeUtbetaltEnda,
+    simulering,
+    anonymiseringEnabled,
 }: UtbetalingKortProps) => {
     const sykepengegrunnlag = useSykepengegrunnlag(beregningId);
+    const [simuleringÅpen, setSimuleringÅpen] = useState(false);
     return (
         <Kort>
             <Korttittel>
@@ -208,6 +215,21 @@ export const UtbetalingKort = ({
                 <Normaltekst>{ikkeUtbetaltEnda ? 'Til utbetaling nå:' : 'Utbetalt:'}</Normaltekst>
                 <Normaltekst>{nettobeløp ?? 'Ukjent beløp'}</Normaltekst>
             </Flex>
+            {simulering ? (
+                <Lenke href="#" onClick={() => setSimuleringÅpen(true)}>
+                    Simulering
+                </Lenke>
+            ) : (
+                <Feilmelding>Mangler simulering</Feilmelding>
+            )}
+            {simulering && (
+                <SimuleringsinfoModal
+                    simulering={simulering}
+                    åpenModal={simuleringÅpen}
+                    lukkModal={() => setSimuleringÅpen(false)}
+                    anonymiseringEnabled={anonymiseringEnabled}
+                />
+            )}
         </Kort>
     );
 };
@@ -264,7 +286,9 @@ export const VenstreMeny = ({
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
     const nettobeløp = useNettobeløp(aktivPeriode.beregningId);
     const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === Tidslinjetilstand.Venter;
-    const over67år = (useVedtaksperiode(aktivPeriode.id)?.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
+    const simulering = vedtaksperiode?.simuleringsdata;
+    const over67år = (vedtaksperiode?.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
 
     return (
         <Arbeidsflate>
@@ -287,6 +311,8 @@ export const VenstreMeny = ({
                 ikkeUtbetaltEnda={ikkeUtbetaltEnda}
                 utbetalingsdagerTotalt={utbetalingsdagerTotalt}
                 nettobeløp={nettobeløp}
+                simulering={simulering}
+                anonymiseringEnabled={anonymiseringEnabled}
             />
             <Utbetaling aktivPeriode={aktivPeriode} />
         </Arbeidsflate>
