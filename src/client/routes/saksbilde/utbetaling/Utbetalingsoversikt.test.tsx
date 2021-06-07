@@ -168,7 +168,7 @@ describe('Utbetalingsoversikt', () => {
                         inntekt: 999.5,
                         dato: '2020-01-02',
                         utbetaling: 0.0,
-                        begrunnelse: 'MinimumSykdomsgrad',
+                        begrunnelser: ['MinimumSykdomsgrad'],
                         grad: 0,
                     },
                     {
@@ -176,7 +176,7 @@ describe('Utbetalingsoversikt', () => {
                         inntekt: 999.5,
                         dato: '2020-01-03',
                         utbetaling: 0.0,
-                        begrunnelse: 'EtterDødsdato',
+                        begrunnelser: ['EtterDødsdato'],
                         grad: 0,
                     },
                 ]),

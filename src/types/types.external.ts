@@ -78,7 +78,6 @@ export interface SpleisUtbetalingsdag {
     utbetaling?: number;
     grad?: number;
     totalGrad?: number;
-    begrunnelse?: string;
     begrunnelser?: string[];
 }
 

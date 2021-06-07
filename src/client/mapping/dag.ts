@@ -7,7 +7,7 @@ import {
     SpleisUtbetalingsdagtype,
     SpleisVilkår,
 } from 'external-types';
-import { Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Alder, Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 
 import { somDato } from './vedtaksperiode';
 
@@ -146,20 +146,27 @@ const getAvvistÅrsak = (begrunnelse: string, vilkår?: SpleisVilkår) =>
           }
         : { tekst: begrunnelse };
 
-export const mapUtbetalingsdag = (vilkår?: SpleisVilkår) => (dag: SpleisUtbetalingsdag) => {
-    const avvistÅrsak = dag.begrunnelse && getAvvistÅrsak(dag.begrunnelse, vilkår);
-    const avvistÅrsaker =
-        dag.begrunnelser?.map((begrunnelse) => getAvvistÅrsak(begrunnelse, vilkår)) ??
-        (avvistÅrsak ? [avvistÅrsak!!] : undefined);
-    return {
-        type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
-        dato: somDato(dag.dato),
-        gradering: somHeltall(dag.grad),
-        totalGradering: somHeltall(dag.totalGrad),
-        utbetaling: dag.utbetaling,
-        avvistÅrsaker,
-    };
+const getAvvistÅrsaker = (begrunnelse: string, erOver67SisteSykedag: boolean) => ({
+    tekst: begrunnelse,
+    paragraf: erOver67SisteSykedag ? '8-51' : undefined,
+});
+
+export const mapTidslinjeMedAldersvilkår = (utbetalingstidslinje: Utbetalingsdag[], vilkår?: Alder) => {
+    const erOver67SisteSykedag = (vilkår?.alderSisteSykedag ?? 0) >= 67;
+    return utbetalingstidslinje.map((dag) => ({
+        ...dag,
+        avvistÅrsaker: dag.avvistÅrsaker?.map(({ tekst }) => getAvvistÅrsaker(tekst, erOver67SisteSykedag)),
+    }));
 };
+
+export const mapUtbetalingsdag = (vilkår?: SpleisVilkår) => (dag: SpleisUtbetalingsdag): Utbetalingsdag => ({
+    type: utbetalingstidslinjedag(dag.type as SpleisUtbetalingsdagtype),
+    dato: somDato(dag.dato),
+    gradering: somHeltall(dag.grad),
+    totalGradering: somHeltall(dag.totalGrad),
+    utbetaling: dag.utbetaling,
+    avvistÅrsaker: dag.begrunnelser?.map((begrunnelse) => getAvvistÅrsak(begrunnelse, vilkår)),
+});
 
 export const mapUtbetalingstidslinje = (
     utbetalingstidslinje: SpleisUtbetalingsdag[],

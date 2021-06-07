@@ -26,7 +26,7 @@ import {
     utbetalingstidslinje,
 } from '../modell/UtbetalingshistorikkElement';
 
-import { mapSykdomstidslinje, sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
+import { mapTidslinjeMedAldersvilkår, mapSykdomstidslinje, sykdomstidslinjedag, utbetalingstidslinjedag } from './dag';
 import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
@@ -75,7 +75,10 @@ export class ArbeidsgiverBuilder {
                     return (
                         periode.beregningIder?.map((beregningId) => {
                             const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
-                            const tidslinje = utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom);
+                            const tidslinje = mapTidslinjeMedAldersvilkår(
+                                utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
+                                (periode as Vedtaksperiode)?.vilkår?.alder
+                            );
                             const periodetype = () => {
                                 switch (element.utbetaling.type) {
                                     case Utbetalingstype.UTBETALING:

@@ -146,7 +146,7 @@ describe('mapUtbetalingstidslinje', () => {
             dato: '2020-01-01',
             utbetaling: 1234,
             grad: 100,
-            begrunnelse: undefined,
+            begrunnelser: undefined,
         };
         const mappet = {
             type: Dagtype.Syk,
@@ -164,7 +164,7 @@ describe('mapUtbetalingstidslinje', () => {
             dato: '2020-01-01',
             utbetaling: 0,
             grad: 100,
-            begrunnelse: 'Fordi',
+            begrunnelser: ['Fordi'],
         };
         const mappet = {
             type: Dagtype.Avvist,
@@ -188,7 +188,7 @@ describe('mapUtbetalingstidslinje', () => {
             dato: '2020-01-01',
             utbetaling: 0,
             grad: 100,
-            begrunnelse: 'Fordi',
+            begrunnelser: ['Fordi'],
         };
         const mappet = {
             type: Dagtype.Avvist,
