@@ -60,16 +60,18 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
                 <EkspanderRaderKnapp onClick={() => toggleEkspanderbarRad(id)} erAktiv={erEkspandert} />
             )}
         </Arbeidsgivernavn>
-        <Rader>
-            <Tidslinjerad key="tidslinjerad-0" rad={rader[0]} erKlikkbar={true} />
-            {erEkspandert && (
-                <ForeldedeRaderContainer>
-                    {rader.slice(1).map((it, i) => (
-                        <Tidslinjerad key={`tidslinjerad-${i + 1}`} rad={it} erKlikkbar={true} erForeldet />
-                    ))}
-                </ForeldedeRaderContainer>
-            )}
-        </Rader>
+        {rader.length > 0 && (
+            <Rader>
+                <Tidslinjerad key="tidslinjerad-0" rad={rader[0]} erKlikkbar={true} />
+                {erEkspandert && (
+                    <ForeldedeRaderContainer>
+                        {rader.slice(1).map((it, i) => (
+                            <Tidslinjerad key={`tidslinjerad-${i + 1}`} rad={it} erKlikkbar={true} erForeldet />
+                        ))}
+                    </ForeldedeRaderContainer>
+                )}
+            </Rader>
+        )}
     </Flex>
 );
 
