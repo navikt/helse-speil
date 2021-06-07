@@ -20,7 +20,6 @@ import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Sykmeldingsperiode } from '../sykmeldingsperiode/Sykmeldingsperiode';
 import { Utbetaling } from '../utbetaling/Utbetaling';
-import { Utbetalingshistorikk } from '../utbetalingshistorikk/Utbetalingshistorikk';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Vilkår } from '../vilkår/Vilkår';
 import { VenstreMeny, VertikalStrek } from './Felles';
@@ -100,85 +99,73 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
 
     return (
         <div data-testid="saksbilde-vedtaksperiode">
-            <Switch>
-                <Route path={`${path}/utbetalingshistorikk`}>
-                    <Utbetalingshistorikk person={personTilBehandling} />
-                </Route>
-                <Route>
-                    <Flex justifyContent="space-between" flex={1}>
-                        <AutoFlexContainer>
-                            <Sakslinje aktivPeriode={aktivPeriode} />
-                            <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
-                                <AmplitudeProvider>
-                                    <Flex style={{ flex: 1, height: 'calc(100% - 75px)' }}>
-                                        <VenstreMeny
-                                            aktivPeriode={aktivPeriode}
-                                            arbeidsgivernavn={arbeidsgivernavn}
-                                            organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                                            arbeidsforhold={arbeidsforhold}
-                                            anonymiseringEnabled={anonymiseringEnabled}
-                                            skjæringstidspunkt={skjæringstidspunkt}
-                                            maksdato={maksdato}
-                                        />
-                                        <VertikalStrek />
-                                        <FlexColumn style={{ flex: 1, height: '100%' }}>
-                                            <Saksbildevarsler
-                                                aktivPeriode={aktivPeriode}
-                                                vedtaksperiode={vedtaksperiode}
-                                                oppgavereferanse={oppgavereferanse}
-                                            />
-                                            <Content>
-                                                <Switch>
-                                                    <Route path={`${path}/utbetaling`}>
-                                                        <Utbetaling
-                                                            gjenståendeDager={gjenståendeDager}
-                                                            utbetalingstidslinje={utbetalingstidslinje}
-                                                            sykdomstidslinje={sykdomstidslinje}
-                                                            maksdato={maksdato}
-                                                            periode={periode}
-                                                            skjæringstidspunkt={skjæringstidspunkt}
-                                                            organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                                                            arbeidsgivernavn={arbeidsgivernavn}
-                                                            arbeidsforhold={arbeidsforhold}
-                                                            månedsbeløp={månedsbeløp}
-                                                        />
-                                                    </Route>
-                                                    <Route path={`${path}/sykmeldingsperiode`}>
-                                                        <Sykmeldingsperiode aktivPeriode={aktivPeriode} />
-                                                    </Route>
-                                                    <Route path={`${path}/vilkår`}>
-                                                        <Vilkår
-                                                            vedtaksperiode={vedtaksperiode}
-                                                            person={personTilBehandling}
-                                                        />
-                                                    </Route>
-                                                    <Route path={`${path}/sykepengegrunnlag`}>
-                                                        <Sykepengegrunnlag
-                                                            vedtaksperiode={vedtaksperiode}
-                                                            person={personTilBehandling}
-                                                        />
-                                                    </Route>
-                                                    {vedtaksperiode.risikovurdering && (
-                                                        <Route path={`${path}/faresignaler`}>
-                                                            <Faresignaler
-                                                                risikovurdering={vedtaksperiode.risikovurdering}
-                                                            />
-                                                        </Route>
-                                                    )}
-                                                </Switch>
-                                            </Content>
-                                        </FlexColumn>
-                                    </Flex>
-                                </AmplitudeProvider>
-                            </ErrorBoundary>
-                        </AutoFlexContainer>
-                        <LoggContainer>
-                            <LoggHeader />
-                            <LoggListe />
-                        </LoggContainer>
-                    </Flex>
-                </Route>
-            </Switch>
+            <Flex justifyContent="space-between" flex={1}>
+                <AutoFlexContainer>
+                    <Sakslinje aktivPeriode={aktivPeriode} />
+                    <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
+                        <AmplitudeProvider>
+                            <Flex style={{ flex: 1, height: 'calc(100% - 75px)' }}>
+                                <VenstreMeny
+                                    aktivPeriode={aktivPeriode}
+                                    arbeidsgivernavn={arbeidsgivernavn}
+                                    organisasjonsnummer={aktivPeriode.organisasjonsnummer}
+                                    arbeidsforhold={arbeidsforhold}
+                                    anonymiseringEnabled={anonymiseringEnabled}
+                                    skjæringstidspunkt={skjæringstidspunkt}
+                                    maksdato={maksdato}
+                                />
+                                <VertikalStrek />
+                                <FlexColumn style={{ flex: 1, height: '100%' }}>
+                                    <Saksbildevarsler
+                                        aktivPeriode={aktivPeriode}
+                                        vedtaksperiode={vedtaksperiode}
+                                        oppgavereferanse={oppgavereferanse}
+                                    />
+                                    <Content>
+                                        <Switch>
+                                            <Route path={`${path}/utbetaling`}>
+                                                <Utbetaling
+                                                    gjenståendeDager={gjenståendeDager}
+                                                    utbetalingstidslinje={utbetalingstidslinje}
+                                                    sykdomstidslinje={sykdomstidslinje}
+                                                    maksdato={maksdato}
+                                                    periode={periode}
+                                                    skjæringstidspunkt={skjæringstidspunkt}
+                                                    organisasjonsnummer={aktivPeriode.organisasjonsnummer}
+                                                    arbeidsgivernavn={arbeidsgivernavn}
+                                                    arbeidsforhold={arbeidsforhold}
+                                                    månedsbeløp={månedsbeløp}
+                                                />
+                                            </Route>
+                                            <Route path={`${path}/sykmeldingsperiode`}>
+                                                <Sykmeldingsperiode aktivPeriode={aktivPeriode} />
+                                            </Route>
+                                            <Route path={`${path}/vilkår`}>
+                                                <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
+                                            </Route>
+                                            <Route path={`${path}/sykepengegrunnlag`}>
+                                                <Sykepengegrunnlag
+                                                    vedtaksperiode={vedtaksperiode}
+                                                    person={personTilBehandling}
+                                                />
+                                            </Route>
+                                            {vedtaksperiode.risikovurdering && (
+                                                <Route path={`${path}/faresignaler`}>
+                                                    <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
+                                                </Route>
+                                            )}
+                                        </Switch>
+                                    </Content>
+                                </FlexColumn>
+                            </Flex>
+                        </AmplitudeProvider>
+                    </ErrorBoundary>
+                </AutoFlexContainer>
+                <LoggContainer>
+                    <LoggHeader />
+                    <LoggListe />
+                </LoggContainer>
+            </Flex>
         </div>
     );
 };

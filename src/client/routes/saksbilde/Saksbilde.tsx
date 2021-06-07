@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Person, Vedtaksperiodetilstand } from 'internal-types';
 import React from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
@@ -27,6 +27,7 @@ import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
 import { SaksbildeUfullstendigVedtaksperiode } from './saksbilder/SaksbildeUfullstendigVedtaksperiode';
 import { SaksbildeVedtaksperiode } from './saksbilder/SaksbildeVedtaksperiode';
 import { LasterTidslinje, Tidslinje } from './tidslinje';
+import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 
 export const getErrorMelding = (tilstand: Vedtaksperiodetilstand) => {
     const vedtaksperiodetilstandErrorMessage = getVedtaksperiodeTilstandError(tilstand);
@@ -153,12 +154,21 @@ const SaksbildeContent = () => {
     usePollEtterOpptegnelser();
     useVarselFilter(Scopes.SAKSBILDE);
 
+    const { path } = useRouteMatch();
+
     if (!personTilBehandling) return <LasterSaksbilde />;
     return (
         <SaksbildeContainer className="saksbilde">
             <Personlinje person={personTilBehandling} />
             <Tidslinje person={personTilBehandling} />
-            <SaksbildeSwitch personTilBehandling={personTilBehandling} />
+            <Switch>
+                <Route path={`${path}/utbetalingshistorikk`}>
+                    <Utbetalingshistorikk person={personTilBehandling} />
+                </Route>
+                <Route>
+                    <SaksbildeSwitch personTilBehandling={personTilBehandling} />
+                </Route>
+            </Switch>
         </SaksbildeContainer>
     );
 };
