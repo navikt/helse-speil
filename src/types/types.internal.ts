@@ -151,8 +151,17 @@ export interface Utbetalingsdag {
     avvistÅrsaker?: AvvistBegrunnelse[];
 }
 
+export type AvvistBegrunnelseTekst =
+    | 'EtterDødsdato'
+    | 'EgenmeldingUtenforArbeidsgiverperiode'
+    | 'MinimumSykdomsgrad'
+    | 'MinimumInntekt'
+    | 'ManglerOpptjening'
+    | 'ManglerMedlemskap'
+    | 'SykepengedagerOppbrukt';
+
 export interface AvvistBegrunnelse {
-    tekst: string;
+    tekst: AvvistBegrunnelseTekst;
     paragraf?: string;
 }
 

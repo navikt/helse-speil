@@ -1,14 +1,12 @@
 import styled from '@emotion/styled';
-import { AvvistBegrunnelse, Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
-import React, { ReactNode } from 'react';
+import { Dagtype, Kildetype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import React from 'react';
 
 import Normaltekst from 'nav-frontend-typografi/lib/normaltekst';
 
 import { NORSK_DATOFORMAT } from '../../utils/date';
-import { toKronerOgØre } from '../../utils/locale';
 
 import { Kilde } from '../Kilde';
-import { LovdataLenke } from '../LovdataLenke';
 import { OverstyrbarDagtype } from './OverstyrbarDagtype';
 import { OverstyrbarGradering } from './OverstyrbarGradering';
 import { Overstyringsindikator } from './Overstyringsindikator';
@@ -43,18 +41,9 @@ const HøyrejustertTekst = styled(Normaltekst)`
     white-space: nowrap;
 `;
 
-const Merknad = styled(Normaltekst)`
-    margin-left: 1rem;
-`;
-
 const TypeContainer = styled.div`
     min-width: 8rem;
 `;
-
-export const ikonUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
-    const ikonet = [Dagtype.Avvist, Dagtype.Foreldet].includes(utbetaling.type) ? <IkonKryss /> : ikon(syk);
-    return <IkonContainer>{ikonet}</IkonContainer>;
-};
 
 export const ikonSyk = (syk: Sykdomsdag) => {
     return <IkonContainer>{ikon(syk)}</IkonContainer>;
@@ -84,23 +73,6 @@ const ikon = (dag: Sykdomsdag) => {
         default:
             return null;
     }
-};
-
-const dagTekst = (syk: Sykdomsdag, utbetaling: Utbetalingsdag): string => {
-    switch (utbetaling.type) {
-        case Dagtype.Avvist:
-            return `${syk.type} (Avvist)`;
-        case Dagtype.Foreldet:
-            return `${syk.type} (Foreldet)`;
-        case Dagtype.Arbeidsgiverperiode:
-            return `${syk.type} (AGP)`;
-        default:
-            return syk.type;
-    }
-};
-
-export const typeUtbetaling = (syk: Sykdomsdag, utbetaling: Utbetalingsdag) => {
-    return <TypeContainer>{dagTekst(syk, utbetaling)}</TypeContainer>;
 };
 
 export const typeSyk = (syk: Sykdomsdag) => {
@@ -169,75 +141,3 @@ export const totalGradering = (dag: Utbetalingsdag) =>
 
 export const overstyrbarGradering = (dag: Sykdomsdag, erAGPDag: boolean, onOverstyr: (dag: Sykdomsdag) => void) =>
     skalViseGradering(dag) && !erAGPDag ? <OverstyrbarGradering dag={dag} onOverstyr={onOverstyr} /> : undefined;
-
-export const utbetaling = (dag: Utbetalingsdag) => {
-    if (dag.type === Dagtype.Avvist) return <HøyrejustertTekst>-</HøyrejustertTekst>;
-    return dag.utbetaling && <HøyrejustertTekst>{toKronerOgØre(dag.utbetaling)} kr</HøyrejustertTekst>;
-};
-
-export const merknad = (dag: Utbetalingsdag, merknadTekst?: string): ReactNode =>
-    merknadTekst ? (
-        <Merknad>{merknadTekst}</Merknad>
-    ) : dag.type === Dagtype.Avvist ? (
-        <AvvistÅrsak dag={dag} />
-    ) : undefined;
-
-const avvistBegrunnelser = (avvistBegrunnelse: AvvistBegrunnelse, index: number) => {
-    let paragraf = null;
-    let tekst = null;
-    const prefix = index > 0 ? ', ' : '';
-
-    switch (avvistBegrunnelse.tekst) {
-        case 'EtterDødsdato':
-            tekst = 'Personen er død';
-            break;
-        case 'EgenmeldingUtenforArbeidsgiverperiode':
-            tekst = 'Egenmelding er utenfor arbeidsgiverperiode';
-            break;
-        case 'MinimumSykdomsgrad':
-            tekst = 'Krav til nedsatt arbeidsevne er ikke oppfylt';
-            paragraf = <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>;
-            break;
-        case 'MinimumInntekt':
-            tekst = 'Krav til minste sykepengegrunnlag er ikke oppfylt';
-            paragraf = <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>;
-            break;
-        case 'ManglerOpptjening':
-            tekst = 'Krav til 4 ukers opptjening er ikke oppfylt';
-            paragraf = <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>;
-            break;
-        case 'ManglerMedlemskap':
-            tekst = 'Krav til medlemskap er ikke oppfylt';
-            paragraf = (
-                <>
-                    <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke> og{' '}
-                    <LovdataLenke paragraf="2-" harParagraf={false}>
-                        kap. 2
-                    </LovdataLenke>
-                </>
-            );
-            break;
-        case 'SykepengedagerOppbrukt':
-            tekst = 'Sykepengedager er oppbrukt';
-            paragraf = (
-                <LovdataLenke paragraf={avvistBegrunnelse.paragraf ?? '8-12'}>
-                    § {avvistBegrunnelse.paragraf ?? '8-12'}
-                </LovdataLenke>
-            );
-    }
-
-    if (tekst === null) return null;
-
-    return (
-        <React.Fragment key={index}>
-            {prefix && <>{prefix} </>}
-            {paragraf && <span data-tip={tekst}>{paragraf} </span>}
-            {!paragraf && <>{tekst}</>}
-        </React.Fragment>
-    );
-};
-
-const AvvistÅrsak = ({ dag }: { dag: Utbetalingsdag }) => {
-    const avvistÅrsaker = dag.avvistÅrsaker ?? [];
-    return <Merknad>{avvistÅrsaker.map((avvistÅrsak, index) => avvistBegrunnelser(avvistÅrsak, index))}</Merknad>;
-};

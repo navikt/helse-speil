@@ -3,7 +3,6 @@ import { Person, Vedtaksperiodetilstand } from 'internal-types';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
-import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
@@ -15,7 +14,7 @@ import { useNavigation } from '../../hooks/useNavigation';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
 import { usePollEtterOpptegnelser } from '../../io/polling';
-import { erRevurderingsperiode, Tidslinjeperiode } from '../../modell/UtbetalingshistorikkElement';
+import { erRevurderingsperiode } from '../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../state/person';
 import { useAktivPeriode } from '../../state/tidslinje';
 import { ToastObject, useAddToast } from '../../state/toasts';
@@ -97,7 +96,7 @@ interface SaksbildeSwitchProps {
 }
 
 const SaksbildeSwitch = ({ personTilBehandling }: SaksbildeSwitchProps) => {
-    const aktivPeriode: Tidslinjeperiode | undefined = useAktivPeriode();
+    const aktivPeriode = useAktivPeriode();
     const { navigateToNext, navigateToPrevious } = useNavigation();
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
@@ -146,6 +145,7 @@ const SaksbildeContent = () => {
     const { path } = useRouteMatch();
 
     if (!personTilBehandling) return <LasterSaksbilde />;
+
     return (
         <SaksbildeContainer className="saksbilde">
             <Personlinje person={personTilBehandling} />

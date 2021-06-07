@@ -10,7 +10,7 @@ import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Sakslinje } from '../sakslinje/Sakslinje';
-import { Utbetalingsoversikt } from '../utbetaling/Utbetalingsoversikt';
+import { Utbetalingstabell } from '../utbetaling/Utbetalingstabell';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny, VertikalStrek } from './Felles';
 import { LoggContainer, LoggHeader, LoggListe } from './Logg';
@@ -59,7 +59,7 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                             oppgavereferanse={oppgavereferanse}
                         />
                         <Content>
-                            <Utbetalingsoversikt
+                            <Utbetalingstabell
                                 maksdato={maksdato}
                                 gjenståendeDager={gjenståendeDager}
                                 periode={periode}

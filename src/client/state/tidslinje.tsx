@@ -34,7 +34,7 @@ export const useAktivPeriode = (): Tidslinjeperiode | undefined => {
     } else return undefined;
 };
 
-export const useVedtaksperiode = (vedtaksperiodeId: string) =>
+export const useVedtaksperiode = (vedtaksperiodeId: string): Vedtaksperiode =>
     usePerson()
         ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
         .find((p) => p.id === vedtaksperiodeId) as Vedtaksperiode;

@@ -7,7 +7,15 @@ import {
     SpleisUtbetalingsdagtype,
     SpleisVilkår,
 } from 'external-types';
-import { Alder, Dagtype, Kildetype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import {
+    Alder,
+    AvvistBegrunnelse,
+    AvvistBegrunnelseTekst,
+    Dagtype,
+    Kildetype,
+    Sykdomsdag,
+    Utbetalingsdag,
+} from 'internal-types';
 
 import { somDato } from './vedtaksperiode';
 
@@ -146,7 +154,7 @@ const getAvvistÅrsak = (begrunnelse: string, vilkår?: SpleisVilkår) =>
           }
         : { tekst: begrunnelse };
 
-const getAvvistÅrsaker = (begrunnelse: string, erOver67SisteSykedag: boolean) => ({
+const getAvvistÅrsaker = (begrunnelse: AvvistBegrunnelseTekst, erOver67SisteSykedag: boolean) => ({
     tekst: begrunnelse,
     paragraf: erOver67SisteSykedag ? '8-51' : undefined,
 });
@@ -165,7 +173,7 @@ export const mapUtbetalingsdag = (vilkår?: SpleisVilkår) => (dag: SpleisUtbeta
     gradering: somHeltall(dag.grad),
     totalGradering: somHeltall(dag.totalGrad),
     utbetaling: dag.utbetaling,
-    avvistÅrsaker: dag.begrunnelser?.map((begrunnelse) => getAvvistÅrsak(begrunnelse, vilkår)),
+    avvistÅrsaker: dag.begrunnelser?.map((begrunnelse) => getAvvistÅrsak(begrunnelse, vilkår)) as AvvistBegrunnelse[],
 });
 
 export const mapUtbetalingstidslinje = (
