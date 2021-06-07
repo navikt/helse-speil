@@ -13,12 +13,20 @@ type Pagination = {
 
 type PaginationPerTab = { [key in TabType]: Pagination | null };
 
+const defaultPagination: Pagination = {
+    currentPage: 1,
+    entriesPerPage: 20,
+    firstVisibleEntry: 0,
+    lastVisibleEntry: 19,
+    numberOfPages: 1,
+};
+
 const paginationPerTab = atom<PaginationPerTab>({
     key: 'paginationPerTab',
     default: {
-        [TabType.TilGodkjenning]: null,
-        [TabType.Mine]: null,
-        [TabType.Ventende]: null,
+        [TabType.TilGodkjenning]: defaultPagination,
+        [TabType.Mine]: defaultPagination,
+        [TabType.Ventende]: defaultPagination,
     },
 });
 

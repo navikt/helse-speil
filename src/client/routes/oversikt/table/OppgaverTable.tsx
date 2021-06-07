@@ -61,11 +61,11 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
             ? oppgaver.filter((oppgave) => groupedFilters.every((it) => it.some((it) => it.function(oppgave))))
             : oppgaver;
 
-    const paginatedRows = pagination
-        ? visibleRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
-        : visibleRows;
+    const sortedRows = sortation ? [...visibleRows].sort(sortation.function) : visibleRows;
 
-    const sortedRows = sortation ? [...paginatedRows].sort(sortation.function) : paginatedRows;
+    const paginatedRows = pagination
+        ? sortedRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
+        : sortedRows;
 
     const onNavigate = () => removeVarsler();
 
@@ -148,8 +148,8 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                         </tr>
                     </thead>
                     <Body>
-                        {sortedRows.map((it) => (
-                            <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={it.oppgavereferanse}>
+                        {paginatedRows.map((it, i) => (
+                            <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={i}>
                                 <Cell>
                                     <Tildeling oppgave={it} />
                                 </Cell>
