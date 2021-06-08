@@ -19,8 +19,7 @@ const utvidetTilganger = [
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
-export const erPreprod = () => location.hostname === 'speil.nais.preprod.local';
-export const erDev = () => location.hostname === 'speil.dev.intern.nav.no' || erPreprod();
+export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
 const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
@@ -42,13 +41,13 @@ const erSindre = () => extractIdent() === 'B159939';
 const erErlend = () => extractIdent() === 'v159649';
 const erJakob = () => extractIdent() === 'E156407';
 
-export const overstyrPermisjonsdagerEnabled = erLocal() || erPreprod();
+export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled = erUtvikler() || erSupersaksbehandler() || erLocal() || erDev();
 export const annulleringerEnabled =
-    erPreprod() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
+    erDev() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
-    erPreprod() ||
+    erDev() ||
     erLocal() ||
     erUtvikler() ||
     erSupersaksbehandler() ||
@@ -58,11 +57,6 @@ export const oppdaterPersondataEnabled =
     erSolør();
 export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
-export const stikkprøve = erSupersaksbehandler() || erLocal() || erPreprod();
+export const stikkprøve = erSupersaksbehandler() || erLocal() || erDev();
 export const flereArbeidsgivere =
-    erSpiceGirls() ||
-    erLocal() ||
-    erPreprod() ||
-    erDigimort() ||
-    erSupersaksbehandler() ||
-    erFaktiskSupportsaksbehandler();
+    erSpiceGirls() || erLocal() || erDev() || erDigimort() || erSupersaksbehandler() || erFaktiskSupportsaksbehandler();
