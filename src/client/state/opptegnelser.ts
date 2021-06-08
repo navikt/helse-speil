@@ -1,11 +1,6 @@
 import { Opptegnelse, OpptegnelseType } from 'external-types';
 import { atom, selector } from 'recoil';
 
-export const opptegnelsePollingState = atom<boolean>({
-    key: 'opptegnelsePollingState',
-    default: true,
-});
-
 export const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
     default: 10_000,

@@ -54,29 +54,28 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
 
     return (
         <Container erAktiv={erAktiv}>
-            {aktivPeriode &&
-                rad.perioder.map((it, i) => {
-                    const { id, beregningId, unique } = decomposedId(it.id);
-                    return (
-                        <Tidslinjeperiode
-                            key={`tidslinjeperiode-${i}`}
-                            id={it.id}
-                            style={it.style}
-                            tilstand={it.tilstand}
-                            erForeldet={erForeldet}
-                            hoverLabel={it.hoverLabel ? it.hoverLabel : undefined}
-                            skalVisePin={!erForeldet ? it.skalVisePin : false}
-                            onClick={onClick}
-                            erAktiv={
-                                erKlikkbar
-                                    ? id === aktivPeriode?.id &&
-                                      beregningId === aktivPeriode?.beregningId &&
-                                      aktivPeriode?.unique === unique
-                                    : false
-                            }
-                        />
-                    );
-                })}
+            {rad.perioder.map((it, i) => {
+                const { id, beregningId, unique } = decomposedId(it.id);
+                return (
+                    <Tidslinjeperiode
+                        key={`tidslinjeperiode-${i}`}
+                        id={it.id}
+                        style={it.style}
+                        tilstand={it.tilstand}
+                        erForeldet={erForeldet}
+                        hoverLabel={it.hoverLabel ? it.hoverLabel : undefined}
+                        skalVisePin={!erForeldet ? it.skalVisePin : false}
+                        onClick={onClick}
+                        erAktiv={
+                            erKlikkbar
+                                ? id === aktivPeriode?.id &&
+                                  beregningId === aktivPeriode?.beregningId &&
+                                  aktivPeriode?.unique === unique
+                                : false
+                        }
+                    />
+                );
+            })}
         </Container>
     );
 };

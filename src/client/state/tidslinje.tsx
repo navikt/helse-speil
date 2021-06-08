@@ -13,17 +13,21 @@ export const aktivPeriodeState = atom<string | undefined>({
 
 export const useSetAktivPeriode = () => useSetRecoilState(aktivPeriodeState);
 
-export const useAktivPeriode = () => {
+export const useAktivPeriode = (): Tidslinjeperiode | undefined => {
     const person = usePerson();
     const periodeId = useRecoilValue(aktivPeriodeState);
 
     if (person && periodeId) {
         const { id, beregningId, unique } = decomposedId(periodeId);
 
-        return person.arbeidsgivere
-            .flatMap((a) => a.tidslinjeperioder)
-            .flatMap((perioder) => perioder)
-            .find((periode) => periode.id === id && periode.beregningId === beregningId && periode.unique === unique);
+        return (
+            person.arbeidsgivere
+                .flatMap((a) => a.tidslinjeperioder)
+                .flatMap((perioder) => perioder)
+                .find(
+                    (periode) => periode.id === id && periode.beregningId === beregningId && periode.unique === unique
+                ) ?? defaultTidslinjeperiode(person)
+        );
     }
     if (person) {
         return defaultTidslinjeperiode(person);
@@ -51,17 +55,17 @@ export const useOppgavereferanse = (beregningId: string): string | undefined => 
 export const harOppgave = (tidslinjeperiode: Tidslinjeperiode) =>
     [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(tidslinjeperiode.tilstand);
 
-const defaultTidslinjeperiode = (person: Person) => {
-    const velgbarePerioder = person.arbeidsgivere
+const defaultTidslinjeperiode = (person: Person): Tidslinjeperiode | undefined => {
+    const valgbarePerioder: Tidslinjeperiode[] = person.arbeidsgivere
         .flatMap((arb) => arb.tidslinjeperioder)
         .flatMap((perioder) => perioder)
         .filter((periode) => periode.fullstendig)
         .sort((a, b) => (a.opprettet.isAfter(b.opprettet) ? 1 : -1))
         .sort((a, b) => (a.fom.isBefore(b.fom) ? 1 : -1));
     return (
-        velgbarePerioder?.find((periode) =>
+        valgbarePerioder.find((periode) =>
             [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(periode.tilstand)
-        ) ?? velgbarePerioder?.[0]
+        ) ?? valgbarePerioder[0]
     );
 };
 
