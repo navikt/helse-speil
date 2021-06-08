@@ -153,6 +153,7 @@ export const overstyrbarKilde = (dag: Sykdomsdag, erOverstyrt: boolean) =>
 
 const skalViseGradering = (dag: Sykdomsdag) =>
     dag.gradering !== undefined &&
+    dag.gradering !== null &&
     ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon].includes(dag.type);
 
 export const gradering = (dag: Sykdomsdag) =>
@@ -160,6 +161,7 @@ export const gradering = (dag: Sykdomsdag) =>
 
 const skalViseTotalGradering = (dag: Utbetalingsdag) =>
     dag.totalGradering !== undefined &&
+    dag.totalGradering !== null &&
     ![Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon].includes(dag.type);
 
 export const totalGradering = (dag: Utbetalingsdag) =>
