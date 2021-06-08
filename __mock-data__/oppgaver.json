@@ -307,13 +307,13 @@
         "fødselsnummer": "19047622436",
         "aktørId": "2836012894592",
         "personinfo": {
-            "fornavn": "ASTRID",
-            "mellomnavn": "MAUD INGEBORG",
-            "etternavn": "FERNER",
+            "fornavn": "SNIFF",
+            "mellomnavn": null,
+            "etternavn": "SNILLE",
             "fødselsdato": "1932-02-12",
             "kjønn": null
         },
-        "vedtaksperiodeId": "e81d7188-02f7-4bb7-b474-f1094dabecc8",
+        "vedtaksperiodeId": "fde0f314-a2d0-486b-9419-f508ab26c7bc",
         "type": "FØRSTEGANGSBEHANDLING",
         "antallVarsler": 0,
         "boenhet": {
@@ -401,6 +401,28 @@
             "kjønn": "Kvinne"
         },
         "vedtaksperiodeId": "1e58f870-5d30-43de-a64a-3368f0f83fb5",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "0228",
+            "navn": "Nav Utland"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "3",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "19026500128",
+        "aktørId": "2750243667998",
+        "personinfo": {
+            "fornavn": "STINKY",
+            "mellomnavn": null,
+            "etternavn": "STANK",
+            "fødselsdato": "1932-02-12",
+            "kjønn": "Mann"
+        },
+        "vedtaksperiodeId": "fde0f314-a2d0-486b-9419-f508ab26c7bc",
         "type": "FØRSTEGANGSBEHANDLING",
         "oppgavetype": "SØKNAD",
         "antallVarsler": 0,

@@ -97,7 +97,7 @@ const utbetalingstabellrad = (
     dagerIgjenForDato: number | string
 ): Utbetalingstabellrad => ({
     celler: utbetalingsceller(dag, sykdag, dagerIgjenForDato),
-    className: classNames(dag.type === Dagtype.Helg && 'disabled'),
+    className: classNames({ disabled: sykdag.type === Dagtype.Helg }),
 });
 
 const TotalUtbetalingsdager = styled(Element)`

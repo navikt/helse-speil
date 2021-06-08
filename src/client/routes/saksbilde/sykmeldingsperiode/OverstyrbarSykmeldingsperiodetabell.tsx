@@ -113,6 +113,9 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
 
     const tilTabellrad = (dag: Sykdomsdag) => {
         const overstyrtDag = overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(dag.dato));
+        const erAGPDag =
+            aktivPeriode.utbetalingstidslinje.find((utbetalingsdag) => utbetalingsdag.dato.isSame(dag.dato))?.type ===
+                Dagtype.Arbeidsgiverperiode ?? false;
         const erOverstyrt = overstyrtDag !== undefined && JSON.stringify(overstyrtDag) !== JSON.stringify(dag);
         const dagen = overstyrtDag ?? dag;
         return {
@@ -120,9 +123,9 @@ export const OverstyrbarSykmeldingsperiodetabell = ({
                 tomCelle(),
                 dato(dagen),
                 ikonSyk(dagen),
-                overstyrbarType(dagen, leggTilOverstyrtDag),
-                overstyrbarGradering(dagen, leggTilOverstyrtDag),
-                overstyrbarKilde(dagen, erOverstyrt),
+                overstyrbarType(dagen, erAGPDag, leggTilOverstyrtDag),
+                overstyrbarGradering(dagen, erAGPDag, leggTilOverstyrtDag),
+                overstyrbarKilde(dagen, erAGPDag, erOverstyrt),
                 tomCelle(),
             ],
             className: classNames({

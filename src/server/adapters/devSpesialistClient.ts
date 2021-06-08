@@ -147,7 +147,7 @@ const filenameForPersonId = (id: string) => {
             return 'marius-borg-høiby_stikkprøve.json';
         case '2836012894592':
         case '19047622436':
-            return 'astrid_maud_ingeborg_revurdering.json';
+            return 'sniff_førstegangsbehandling_revurdering.json';
         case '2259231338047':
         case '09038400182':
             return 'knerten_revurdering.json';
@@ -160,6 +160,9 @@ const filenameForPersonId = (id: string) => {
         case '05068821403':
         case '2446602102797':
             return 'hufsa_annullert.json';
+        case '19026500128':
+        case '2750243667998':
+            return 'stinky_stank_førstegangsbehandling.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }
