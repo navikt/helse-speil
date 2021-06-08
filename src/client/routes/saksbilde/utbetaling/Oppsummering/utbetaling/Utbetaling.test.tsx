@@ -65,3 +65,20 @@ describe('Utbetalingsknapp vises ikke ved tilstand:', () => {
         expect(screen.queryAllByRole('button')).toHaveLength(0);
     });
 });
+
+describe('Utbetalingsknapp ved revurdering:', () => {
+    test('Utbetalt', async () => {
+        render(
+            <UtbetalingView
+                aktivPeriode={enTidslinjeperiode(
+                    Tidslinjetilstand.Revurderes,
+                    dayjs('2021-01-01'),
+                    dayjs('2021-01-31'),
+                    Periodetype.REVURDERING
+                )}
+            />
+        );
+        expect(screen.queryAllByRole('button')).toHaveLength(1);
+        expect(screen.getByText('Revurder')).toHaveTextContent('Revurder');
+    });
+});

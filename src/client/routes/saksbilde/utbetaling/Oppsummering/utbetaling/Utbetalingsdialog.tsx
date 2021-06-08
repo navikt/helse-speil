@@ -86,6 +86,7 @@ interface UtbetalingsdialogProps {
     aktivPeriode: Tidslinjeperiode;
     oppgavereferanse: string;
     godkjenningsknappTekst: string;
+    kanAvvises: boolean;
 }
 
 const skalPolleEtterNestePeriode = (personTilBehandling: Person) =>
@@ -99,6 +100,7 @@ export const Utbetalingsdialog = ({
     aktivPeriode,
     oppgavereferanse,
     godkjenningsknappTekst,
+    kanAvvises,
 }: UtbetalingsdialogProps) => {
     const history = useHistory();
     const personTilBehandling = usePerson() as Person;
@@ -165,9 +167,11 @@ export const Utbetalingsdialog = ({
                 <Hovedknapp mini onClick={åpneGodkjenningsmodal}>
                     {godkjenningsknappTekst}
                 </Hovedknapp>
-                <Knapp mini onClick={åpneAvvisningsmodal}>
-                    Avvis
-                </Knapp>
+                {kanAvvises && (
+                    <Knapp mini onClick={åpneAvvisningsmodal}>
+                        Avvis
+                    </Knapp>
+                )}
             </Knapper>
             {error && (
                 <Normaltekst className="skjemaelement__feilmelding">
