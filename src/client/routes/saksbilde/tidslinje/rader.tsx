@@ -18,6 +18,7 @@ const Arbeidsgivernavn = styled(Flex)`
     line-height: 1rem;
     padding-right: 1rem;
     box-sizing: border-box;
+    height: 24px;
 
     > svg:first-of-type {
         margin-right: 1rem;
@@ -52,13 +53,13 @@ const ForeldedeRaderContainer = styled.div`
 const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: ArbeidsgiverradProps) => (
     <Flex alignItems="start">
         <Arbeidsgivernavn>
+            {rader.length > 1 && (
+                <EkspanderRaderKnapp onClick={() => toggleEkspanderbarRad(id)} erAktiv={erEkspandert} />
+            )}
             <Arbeidsgiverikon />
             <TekstMedEllipsis style={{ flex: 1 }} data-tip="Arbeidsgiver">
                 {navn}
             </TekstMedEllipsis>
-            {rader.length > 1 && (
-                <EkspanderRaderKnapp onClick={() => toggleEkspanderbarRad(id)} erAktiv={erEkspandert} />
-            )}
         </Arbeidsgivernavn>
         {rader.length > 0 && (
             <Rader>
