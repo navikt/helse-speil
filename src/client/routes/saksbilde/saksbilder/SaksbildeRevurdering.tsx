@@ -3,15 +3,17 @@ import React from 'react';
 
 import '@navikt/helse-frontend-logg/lib/main.css';
 
-import { Flex } from '../../../components/Flex';
+import { Flex, FlexColumn } from '../../../components/Flex';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
+import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
-import { LoggHeader } from '../Saksbilde';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Utbetalingsoversikt } from '../utbetaling/Utbetalingsoversikt';
+import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny, VertikalStrek } from './Felles';
+import { LoggContainer, LoggHeader, LoggListe } from './Logg';
 
 const AutoFlexContainer = styled.div`
     flex: auto;
@@ -24,7 +26,6 @@ interface SaksbildeRevurderingProps {
 const Content = styled.div`
     margin: 0 2.5rem;
     height: 100%;
-    width: 100%;
 `;
 
 export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps) => {
@@ -35,6 +36,8 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
     const periode = { fom: aktivPeriode.fom, tom: aktivPeriode.tom };
     const utbetalingstidslinje = aktivPeriode.utbetalingstidslinje;
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
+    const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
     return (
         <Flex justifyContent="space-between" data-testid="saksbilde-revurdering">
             <AutoFlexContainer>
@@ -49,18 +52,28 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                         anonymiseringEnabled={anonymiseringEnabled}
                     />
                     <VertikalStrek />
-                    <Content>
-                        <Utbetalingsoversikt
-                            maksdato={maksdato}
-                            gjenståendeDager={gjenståendeDager}
-                            periode={periode}
-                            utbetalingstidslinje={utbetalingstidslinje}
-                            sykdomstidslinje={aktivPeriode.sykdomstidslinje}
+                    <FlexColumn style={{ flex: 1, height: '100%' }}>
+                        <Saksbildevarsler
+                            aktivPeriode={aktivPeriode}
+                            vedtaksperiode={vedtaksperiode}
+                            oppgavereferanse={oppgavereferanse}
                         />
-                    </Content>
+                        <Content>
+                            <Utbetalingsoversikt
+                                maksdato={maksdato}
+                                gjenståendeDager={gjenståendeDager}
+                                periode={periode}
+                                utbetalingstidslinje={utbetalingstidslinje}
+                                sykdomstidslinje={aktivPeriode.sykdomstidslinje}
+                            />
+                        </Content>
+                    </FlexColumn>
                 </Flex>
             </AutoFlexContainer>
-            <LoggHeader />
+            <LoggContainer>
+                <LoggHeader />
+                <LoggListe />
+            </LoggContainer>
         </Flex>
     );
 };

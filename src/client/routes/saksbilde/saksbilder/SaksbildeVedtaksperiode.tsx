@@ -3,7 +3,6 @@ import { Person } from 'internal-types';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import { LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
@@ -14,7 +13,7 @@ import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { AmplitudeProvider } from '../AmplitudeContext';
-import { getErrorMelding, LoggHeader } from '../Saksbilde';
+import { getErrorMelding } from '../Saksbilde';
 import { Faresignaler } from '../faresignaler/Faresignaler';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
@@ -23,6 +22,7 @@ import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Vilkår } from '../vilkår/Vilkår';
 import { VenstreMeny, VertikalStrek } from './Felles';
+import { LoggContainer, LoggHeader, LoggListe } from './Logg';
 
 interface SaksbildeVedtaksperiodeProps {
     personTilBehandling: Person;
@@ -30,48 +30,8 @@ interface SaksbildeVedtaksperiodeProps {
     path: String;
 }
 
-const LoggListe = styled(EksternLoggliste)`
-    width: 312px;
-    box-sizing: border-box;
-    border-top: none;
-
-    .Sykmelding:before,
-    .Søknad:before,
-    .Inntektsmelding:before {
-        position: absolute;
-        font-size: 14px;
-        border: 1px solid var(--navds-color-text-primary);
-        color: var(--navds-color-text-primary);
-        border-radius: 4px;
-        width: 28px;
-        height: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 4px;
-        box-sizing: border-box;
-        left: 0;
-    }
-
-    .Sykmelding:before {
-        content: 'SM';
-    }
-
-    .Søknad:before {
-        content: 'SØ';
-    }
-
-    .Inntektsmelding:before {
-        content: 'IM';
-    }
-`;
-
 const AutoFlexContainer = styled.div`
     flex: auto;
-`;
-
-const LoggContainer = styled.div`
-    border-left: 1px solid var(--navds-color-border);
 `;
 
 const Content = styled.div`

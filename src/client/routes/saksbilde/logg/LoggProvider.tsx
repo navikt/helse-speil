@@ -7,6 +7,7 @@ import {
     LoggProvider as EksternLoggProvider,
 } from '@navikt/helse-frontend-logg';
 
+import { Periodetype } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
 import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
@@ -34,14 +35,21 @@ export const LoggProvider = ({ children }: LoggProviderProps) => {
     const erFullstendig = (periode: Vedtaksperiode | UfullstendigVedtaksperiode): boolean => !!periode?.fullstendig;
 
     const dokumenter = (erFullstendig(vedtaksperiode) && mapDokumenter(vedtaksperiode as Vedtaksperiode)) || [];
-    const overstyringer = (erFullstendig(vedtaksperiode) && mapOverstyringer(vedtaksperiode as Vedtaksperiode)) || [];
+    const overstyringer =
+        (erFullstendig(vedtaksperiode) &&
+            mapOverstyringer(aktivPeriode?.type === Periodetype.REVURDERING, vedtaksperiode as Vedtaksperiode)) ||
+        [];
     const godkjenninger = (erFullstendig(vedtaksperiode) && mapGodkjenninger(vedtaksperiode as Vedtaksperiode)) || [];
     const annullering =
         (erFullstendig(vedtaksperiode) && annullertAvSaksbehandler && mapAnnullering(annullertAvSaksbehandler)) || [];
 
-    const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger, ...annullering]
+    let hendelser = [...dokumenter, ...overstyringer, ...godkjenninger, ...annullering]
         .sort(hendelsesorterer)
         .map(tilEksternType);
+
+    if (aktivPeriode) {
+        hendelser = hendelser.filter((it) => it.tidspunkt?.isSameOrBefore(aktivPeriode.opprettet));
+    }
 
     return (
         <EksternLoggProvider

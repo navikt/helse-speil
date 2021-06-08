@@ -45,11 +45,11 @@ export const mapDokumenter = (vedtaksperiode?: Vedtaksperiode): HendelseMedTidsp
               }))
         : [];
 
-export const mapOverstyringer = (vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] =>
+export const mapOverstyringer = (erRevurdering?: boolean, vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] =>
     vedtaksperiode?.overstyringer.map((overstyring: Overstyring) => ({
         id: overstyring.hendelseId,
         tidspunkt: overstyring.timestamp,
-        navn: 'Overstyrt: Sykmeldingsperiode',
+        navn: `${erRevurdering ? 'Revurdert' : 'Overstyrt'}: Sykmeldingsperiode`,
         type: Hendelsetype.Historikk,
         beskrivelse: (
             <BegrunnelseTekst>
