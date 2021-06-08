@@ -92,9 +92,6 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
     const utbetalingstidslinje = aktivPeriode.utbetalingstidslinje;
     const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
     const periode = { fom: aktivPeriode.fom, tom: aktivPeriode.tom };
-    const månedsbeløp = vedtaksperiode.inntektsgrunnlag?.inntekter?.find(
-        (it) => it.organisasjonsnummer === aktivPeriode.organisasjonsnummer
-    )?.omregnetÅrsinntekt?.månedsbeløp;
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     return (
@@ -130,11 +127,6 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                                     sykdomstidslinje={sykdomstidslinje}
                                                     maksdato={maksdato}
                                                     periode={periode}
-                                                    skjæringstidspunkt={skjæringstidspunkt}
-                                                    organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                                                    arbeidsgivernavn={arbeidsgivernavn}
-                                                    arbeidsforhold={arbeidsforhold}
-                                                    månedsbeløp={månedsbeløp}
                                                 />
                                             </Route>
                                             <Route path={`${path}/sykmeldingsperiode`}>

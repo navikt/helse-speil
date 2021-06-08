@@ -121,12 +121,14 @@ interface ArbeidsgiverKortProps {
     organisasjonsnummer: string;
     arbeidsforhold: Arbeidsforhold[];
     anonymiseringEnabled?: boolean;
+    månedsbeløp?: number;
 }
 
 export const ArbeidsgiverKort = ({
     arbeidsgivernavn,
     organisasjonsnummer,
     arbeidsforhold,
+    månedsbeløp,
     anonymiseringEnabled = false,
 }: ArbeidsgiverKortProps) => {
     return (
@@ -156,6 +158,10 @@ export const ArbeidsgiverKort = ({
                     </Normaltekst>
                 </React.Fragment>
             ))}
+            <Flex flexDirection={'row'} justifyContent={'space-between'}>
+                <Normaltekst>Månedsbeløp:</Normaltekst>
+                {somPenger(månedsbeløp)}
+            </Flex>
         </Kort>
     );
 };
@@ -289,6 +295,9 @@ export const VenstreMeny = ({
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const simulering = vedtaksperiode?.simuleringsdata;
     const over67år = (vedtaksperiode?.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+    const månedsbeløp = vedtaksperiode.inntektsgrunnlag?.inntekter?.find(
+        (it) => it.organisasjonsnummer === aktivPeriode.organisasjonsnummer
+    )?.omregnetÅrsinntekt?.månedsbeløp;
 
     return (
         <Arbeidsflate>
@@ -304,6 +313,7 @@ export const VenstreMeny = ({
                 organisasjonsnummer={organisasjonsnummer}
                 arbeidsforhold={arbeidsforhold}
                 anonymiseringEnabled={anonymiseringEnabled}
+                månedsbeløp={månedsbeløp}
             />
             <VilkårKort aktivPeriode={aktivPeriode} />
             <UtbetalingKort
