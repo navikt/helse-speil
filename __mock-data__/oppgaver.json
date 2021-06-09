@@ -5,9 +5,9 @@
         "fødselsnummer": "21023701901",
         "aktørId": "1000000009871",
         "personinfo": {
-            "fornavn": "KONG",
+            "fornavn": "Kong",
             "mellomnavn": null,
-            "etternavn": "HARALD",
+            "etternavn": "Harald",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -16,7 +16,7 @@
         "antallVarsler": 2,
         "boenhet": {
             "id": "0212",
-            "navn": "Alta"
+            "navn": "Skaugum"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
     },
@@ -26,9 +26,9 @@
         "fødselsnummer": "04073732100",
         "aktørId": "87654321962123",
         "personinfo": {
-            "fornavn": "DRONNING",
+            "fornavn": "Dronning",
             "mellomnavn": null,
-            "etternavn": "SONJA",
+            "etternavn": "Sonja",
             "fødselsdato": null,
             "kjønn": null
         },
@@ -37,268 +37,7 @@
         "antallVarsler": 0,
         "boenhet": {
             "id": "1504",
-            "navn": "Ålesund"
-        }
-    },
-    {
-        "oppgavereferanse": "345",
-        "opprettet": "2018-02-10T09:38:00.728127",
-        "fødselsnummer": "20077362124",
-        "aktørId": "87654321962124",
-        "personinfo": {
-            "fornavn": "KRONPRINS",
-            "mellomnavn": null,
-            "etternavn": "HAAKON",
-            "fødselsdato": "1973-07-20",
-            "kjønn": "Mann"
-        },
-        "vedtaksperiodeId": "876f8c45-e9d1-4fd0-9c8c-9ee10f66b172",
-        "type": "FORLENGELSE",
-        "antallVarsler": 1,
-        "boenhet": {
-            "id": "0315",
-            "navn": "Grünerløkka-Sofienberg"
-        }
-    },
-    {
-        "oppgavereferanse": "456",
-        "opprettet": "2018-02-10T09:38:00.728127",
-        "fødselsnummer": "21010462423",
-        "aktørId": "1672157246605",
-        "personinfo": {
-            "fornavn": "CARL GUSTAF",
-            "mellomnavn": "FOLKE HUBERTUS",
-            "etternavn": "BERNADOTTE",
-            "fødselsdato": null,
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
-        "type": "OVERGANG_FRA_IT",
-        "antallVarsler": 2,
-        "boenhet": {
-            "id": "0211",
-            "navn": "Vestby"
-        }
-    },
-    {
-        "oppgavereferanse": "567",
-        "opprettet": "2018-02-10T09:38:00.728127",
-        "fødselsnummer": "21010462423",
-        "aktørId": "87650000962123",
-        "personinfo": {
-            "fornavn": "INGRID",
-            "mellomnavn": null,
-            "etternavn": "ALEXANDRA",
-            "fødselsdato": null,
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "63b9b345-afc1-4532-a5c6-43827f70b871",
-        "type": "OVERGANG_FRA_IT",
-        "antallVarsler": 2,
-        "boenhet": {
-            "id": "0211",
-            "navn": "Vestby"
-        }
-    },
-    {
-        "oppgavereferanse": "678",
-        "opprettet": "2018-03-11T19:38:00.728127",
-        "fødselsnummer": "22097112413",
-        "aktørId": "57650000444423",
-        "personinfo": {
-            "fornavn": "MÄRTHA",
-            "mellomnavn": null,
-            "etternavn": "LOUISE",
-            "fødselsdato": null,
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "63b9b345-cccc-4532-bbbb-43827f70b871",
-        "type": "INFOTRYGDFORLENGELSE",
-        "antallVarsler": 1,
-        "boenhet": {
-            "id": "0235",
-            "navn": "Storfjord – Omasvuotna – Omasvuono"
-        }
-    },
-    {
-        "oppgavereferanse": "789",
-        "opprettet": "2018-03-11T19:38:00.728127",
-        "fødselsnummer": "02070312413",
-        "aktørId": "11650007744423",
-        "personinfo": {
-            "fornavn": "OLAV",
-            "mellomnavn": "V",
-            "etternavn": "REX",
-            "fødselsdato": null,
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "63b9b345-cccc-4532-bbbb-43827f70b871",
-        "type": "INFOTRYGDFORLENGELSE",
-        "antallVarsler": 1,
-        "boenhet": {
-            "id": "0235",
-            "navn": "Storfjord – Omasvuotna – Omasvuono"
-        }
-    },
-    {
-        "oppgavereferanse": "891",
-        "opprettet": "2020-06-15T23:04:09.454",
-        "fødselsnummer": "03120520135",
-        "aktørId": "1000000000009",
-        "personinfo": {
-            "fornavn": "SVERRE",
-            "mellomnavn": null,
-            "etternavn": "MAGNUS",
-            "fødselsdato": null,
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "fbc34f96-ffff-47ee-4b04-0601378a91ff",
-        "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Rælingen"
-        }
-    },
-    {
-        "oppgavereferanse": "911",
-        "opprettet": "2020-06-15T23:04:09.454",
-        "fødselsnummer": "01010025678",
-        "aktørId": "1234",
-        "personinfo": {
-            "fornavn": "LEAH",
-            "mellomnavn": null,
-            "etternavn": "ISADORA",
-            "fødselsdato": null,
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "fbc34f96-ffff-47ee-4b04-060137ba91ff",
-        "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Svalbard"
-        }
-    },
-    {
-        "oppgavereferanse": "700",
-        "opprettet": "2020-06-15T23:04:09.454",
-        "fødselsnummer": "01010025676",
-        "aktørId": "12345",
-        "personinfo": {
-            "fornavn": "SJAMAN",
-            "mellomnavn": null,
-            "etternavn": "DUREK",
-            "fødselsdato": null,
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "fbc34f96-ffff-47ee-4b04-060137ba91ff",
-        "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Nav Utland"
-        }
-    },
-    {
-        "oppgavereferanse": "113",
-        "opprettet": "2020-07-15T23:04:09.454",
-        "fødselsnummer": "30090812345",
-        "aktørId": "102030",
-        "personinfo": {
-            "fornavn": "EMMA",
-            "mellomnavn": null,
-            "etternavn": "TALLULAH",
-            "fødselsdato": null,
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "956189c8-a904-40e7-b1e1-eab46e997ddb",
-        "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Nav Utland"
-        }
-    },
-    {
-        "oppgavereferanse": "420",
-        "opprettet": "2020-07-15T23:04:09.454",
-        "fødselsnummer": "27018221468",
-        "aktørId": "1672157246605",
-        "personinfo": {
-            "fornavn": "CARL GUSTAF",
-            "mellomnavn": "FOLKE HUBERTUS",
-            "etternavn": "BERNADOTTE",
-            "fødselsdato": "1946-04-30",
-            "kjønn": "Knug"
-        },
-        "vedtaksperiodeId": "c7935fa2-ec56-42b6-9168-a901099fecf3",
-        "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Nav Utland"
-        }
-    },
-    {
-        "oppgavereferanse": "314",
-        "opprettet": "2020-07-15T23:04:09.454",
-        "fødselsnummer": "29040374862",
-        "aktørId": "4526426893428",
-        "personinfo": {
-            "fornavn": "MAUD ANGELICA",
-            "mellomnavn": "",
-            "etternavn": "BEHN",
-            "fødselsdato": "2003-04-29",
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "57dba1fc-3078-42df-9654-abbb9a52d211",
-        "type": "FØRSTEGANGSBEHANDLING",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Nav Utland"
-        }
-    },
-    {
-        "oppgavereferanse": "489",
-        "opprettet": "2020-07-15T23:04:09.454",
-        "fødselsnummer": "15061345612",
-        "aktørId": "6549846514988",
-        "personinfo": {
-            "fornavn": "MUFFINS",
-            "mellomnavn": "",
-            "etternavn": "KRÅKEBOLLE",
-            "fødselsdato": "2013-06-15",
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "115f2217-a2aa-4356-90c8-062d3d0276dd",
-        "type": "INFOTRYGDFORLENGELSE",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Nav Utland"
-        }
-    },
-    {
-        "oppgavereferanse": "666",
-        "opprettet": "2020-07-15T23:04:09.454",
-        "fødselsnummer": "13019769420",
-        "aktørId": "1000000008971",
-        "personinfo": {
-            "fornavn": "MARIUS",
-            "mellomnavn": "BORG",
-            "etternavn": "HØIBY",
-            "fødselsdato": "1997-01-13",
-            "kjønn": null
-        },
-        "vedtaksperiodeId": "115f2217-a2aa-4356-90c8-062d3d0276ff",
-        "type": "INFOTRYGDFORLENGELSE",
-        "oppgavetype": "STIKKPRØVE",
-        "antallVarsler": 0,
-        "boenhet": {
-            "id": "0228",
-            "navn": "Nav Utland"
+            "navn": "Skaugum"
         }
     },
     {
@@ -362,7 +101,7 @@
         "antallVarsler": 0,
         "boenhet": {
             "id": "0228",
-            "navn": "Nav Utland"
+            "navn": "Mummidalen"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
     },
@@ -384,7 +123,7 @@
         "antallVarsler": 0,
         "boenhet": {
             "id": "0228",
-            "navn": "Nav Utland"
+            "navn": "Mummidalen"
         },
         "inntektskilde": "FLERE_ARBEIDSGIVERE"
     },
@@ -428,7 +167,7 @@
         "antallVarsler": 0,
         "boenhet": {
             "id": "0228",
-            "navn": "Nav Utland"
+            "navn": "Mummidalen"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
     }
