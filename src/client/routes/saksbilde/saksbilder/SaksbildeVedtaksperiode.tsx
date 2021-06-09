@@ -55,69 +55,67 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     return (
-        <div data-testid="saksbilde-vedtaksperiode">
-            <Flex justifyContent="space-between" flex={1}>
-                <AutoFlexContainer>
-                    <Sakslinje aktivPeriode={aktivPeriode} />
-                    <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
-                        <AmplitudeProvider>
-                            <Flex style={{ flex: 1, height: 'calc(100% - 75px)' }}>
-                                <VenstreMeny
+        <Flex flex={1} data-testid="saksbilde-vedtaksperiode" style={{ minWidth: 'var(--speil-total-min-width)' }}>
+            <AutoFlexContainer>
+                <Sakslinje aktivPeriode={aktivPeriode} />
+                <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
+                    <AmplitudeProvider>
+                        <Flex flex={1}>
+                            <VenstreMeny
+                                aktivPeriode={aktivPeriode}
+                                arbeidsgivernavn={arbeidsgivernavn}
+                                organisasjonsnummer={aktivPeriode.organisasjonsnummer}
+                                arbeidsforhold={arbeidsforhold}
+                                anonymiseringEnabled={anonymiseringEnabled}
+                                skjæringstidspunkt={skjæringstidspunkt}
+                                maksdato={maksdato}
+                            />
+                            <VertikalStrek />
+                            <FlexColumn style={{ flex: 1, height: '100%' }}>
+                                <Saksbildevarsler
                                     aktivPeriode={aktivPeriode}
-                                    arbeidsgivernavn={arbeidsgivernavn}
-                                    organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                                    arbeidsforhold={arbeidsforhold}
-                                    anonymiseringEnabled={anonymiseringEnabled}
-                                    skjæringstidspunkt={skjæringstidspunkt}
-                                    maksdato={maksdato}
+                                    vedtaksperiode={vedtaksperiode}
+                                    oppgavereferanse={oppgavereferanse}
                                 />
-                                <VertikalStrek />
-                                <FlexColumn style={{ flex: 1, height: '100%' }}>
-                                    <Saksbildevarsler
-                                        aktivPeriode={aktivPeriode}
-                                        vedtaksperiode={vedtaksperiode}
-                                        oppgavereferanse={oppgavereferanse}
-                                    />
-                                    <Content>
-                                        <Switch>
-                                            <Route path={`${path}/utbetaling`}>
-                                                <Utbetaling
-                                                    gjenståendeDager={gjenståendeDager}
-                                                    utbetalingstidslinje={utbetalingstidslinje}
-                                                    sykdomstidslinje={sykdomstidslinje}
-                                                    maksdato={maksdato}
-                                                    periode={periode}
-                                                />
+                                <Content>
+                                    <Switch>
+                                        <Route path={`${path}/utbetaling`}>
+                                            <Utbetaling
+                                                gjenståendeDager={gjenståendeDager}
+                                                utbetalingstidslinje={utbetalingstidslinje}
+                                                sykdomstidslinje={sykdomstidslinje}
+                                                maksdato={maksdato}
+                                                periode={periode}
+                                            />
+                                        </Route>
+                                        <Route path={`${path}/sykmeldingsperiode`}>
+                                            <Sykmeldingsperiode aktivPeriode={aktivPeriode} />
+                                        </Route>
+                                        <Route path={`${path}/vilkår`}>
+                                            <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
+                                        </Route>
+                                        <Route path={`${path}/sykepengegrunnlag`}>
+                                            <Sykepengegrunnlag
+                                                vedtaksperiode={vedtaksperiode}
+                                                person={personTilBehandling}
+                                            />
+                                        </Route>
+                                        {vedtaksperiode.risikovurdering && (
+                                            <Route path={`${path}/faresignaler`}>
+                                                <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
                                             </Route>
-                                            <Route path={`${path}/sykmeldingsperiode`}>
-                                                <Sykmeldingsperiode aktivPeriode={aktivPeriode} />
-                                            </Route>
-                                            <Route path={`${path}/vilkår`}>
-                                                <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
-                                            </Route>
-                                            <Route path={`${path}/sykepengegrunnlag`}>
-                                                <Sykepengegrunnlag
-                                                    vedtaksperiode={vedtaksperiode}
-                                                    person={personTilBehandling}
-                                                />
-                                            </Route>
-                                            {vedtaksperiode.risikovurdering && (
-                                                <Route path={`${path}/faresignaler`}>
-                                                    <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
-                                                </Route>
-                                            )}
-                                        </Switch>
-                                    </Content>
-                                </FlexColumn>
-                            </Flex>
-                        </AmplitudeProvider>
-                    </ErrorBoundary>
-                </AutoFlexContainer>
-                <LoggContainer>
-                    <LoggHeader />
-                    <LoggListe />
-                </LoggContainer>
-            </Flex>
-        </div>
+                                        )}
+                                    </Switch>
+                                </Content>
+                            </FlexColumn>
+                        </Flex>
+                    </AmplitudeProvider>
+                </ErrorBoundary>
+            </AutoFlexContainer>
+            <LoggContainer>
+                <LoggHeader />
+                <LoggListe />
+            </LoggContainer>
+        </Flex>
     );
 };

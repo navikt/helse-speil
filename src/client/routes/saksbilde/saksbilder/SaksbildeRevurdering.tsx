@@ -39,10 +39,14 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
     return (
-        <Flex justifyContent="space-between" data-testid="saksbilde-revurdering">
+        <Flex
+            justifyContent="space-between"
+            data-testid="saksbilde-revurdering"
+            style={{ minWidth: 'var(--speil-total-min-width)' }}
+        >
             <AutoFlexContainer>
                 <Sakslinje aktivPeriode={aktivPeriode} />
-                <Flex style={{ height: '100%' }}>
+                <Flex flex={1}>
                     <VenstreMeny
                         aktivPeriode={aktivPeriode}
                         maksdato={maksdato}
@@ -59,13 +63,15 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                             oppgavereferanse={oppgavereferanse}
                         />
                         <Content>
-                            <Utbetalingstabell
-                                maksdato={maksdato}
-                                gjenståendeDager={gjenståendeDager}
-                                periode={periode}
-                                utbetalingstidslinje={utbetalingstidslinje}
-                                sykdomstidslinje={aktivPeriode.sykdomstidslinje}
-                            />
+                            <Flex style={{ height: '100%' }}>
+                                <Utbetalingstabell
+                                    maksdato={maksdato}
+                                    gjenståendeDager={gjenståendeDager}
+                                    periode={periode}
+                                    utbetalingstidslinje={utbetalingstidslinje}
+                                    sykdomstidslinje={aktivPeriode.sykdomstidslinje}
+                                />
+                            </Flex>
                         </Content>
                     </FlexColumn>
                 </Flex>

@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { CellContainer } from './CellContainer';
+import { CellContent } from './CellContent';
 import { UtbetalingsdagIcon } from './UtbetalingsdagIcon';
 
 const Cell = styled.td``;
@@ -14,6 +14,7 @@ const IconContainer = styled.div`
     margin-right: 1rem;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 `;
 
 const Text = styled(Normaltekst)`
@@ -41,7 +42,7 @@ export const UtbetalingsdagCell = ({ typeUtbetalingsdag, typeSykdomsdag, ...rest
 
     return (
         <Cell {...rest}>
-            <CellContainer>
+            <CellContent>
                 <IconContainer>
                     <UtbetalingsdagIcon
                         type={
@@ -52,7 +53,7 @@ export const UtbetalingsdagCell = ({ typeUtbetalingsdag, typeSykdomsdag, ...rest
                     />
                 </IconContainer>
                 <Text>{text}</Text>
-            </CellContainer>
+            </CellContent>
         </Cell>
     );
 };

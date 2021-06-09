@@ -599,7 +599,7 @@
             "overstyringer": [
                 {
                     "hendelseId": "f0a6fea4-59f4-499b-aca5-338473ff2721",
-                    "begrunnelse": "Ferie",
+                    "begrunnelse": "Litt ferie",
                     "timestamp": "2021-06-07T11:28:56.17948",
                     "overstyrteDager": [
                         {
@@ -618,11 +618,11 @@
                             "grad": 0
                         }
                     ],
-                    "saksbehandlerNavn": "Jørgensen, Truls"
+                    "saksbehandlerNavn": "En saksbehandler"
                 },
                 {
                     "hendelseId": "2f7ee150-ac40-480a-a9c4-666fdec83b1a",
-                    "begrunnelse": "litt til",
+                    "begrunnelse": "Enda litt mer ferie",
                     "timestamp": "2021-06-07T11:30:27.987434",
                     "overstyrteDager": [
                         {
@@ -636,11 +636,11 @@
                             "grad": 0
                         }
                     ],
-                    "saksbehandlerNavn": "Jørgensen, Truls"
+                    "saksbehandlerNavn": "En saksbehandler"
                 },
                 {
                     "hendelseId": "6e4ff4bc-f645-48fd-8faf-24f731844536",
-                    "begrunnelse": "jh",
+                    "begrunnelse": "Også en egenmelding a gitt",
                     "timestamp": "2021-06-07T11:33:24.543534",
                     "overstyrteDager": [
                         {
@@ -649,7 +649,7 @@
                             "grad": 0
                         }
                     ],
-                    "saksbehandlerNavn": "Jørgensen, Truls"
+                    "saksbehandlerNavn": "En saksbehandler"
                 }
             ],
             "bransjer": [],

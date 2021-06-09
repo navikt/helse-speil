@@ -23,6 +23,7 @@ const Container = styled.div`
     align-items: center;
     flex-shrink: 0;
     height: 48px;
+    min-width: var(--speil-total-min-width);
     padding: 0 2rem;
     background: var(--speil-background-secondary);
     border-bottom: 1px solid var(--navds-color-border);

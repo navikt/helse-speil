@@ -3,9 +3,9 @@ import React from 'react';
 
 import { somPenger } from '../../../../utils/locale';
 
-import { CellContainer } from './CellContainer';
+import { CellContent } from './CellContent';
 
-const ValueContainer = styled(CellContainer)`
+const ValueContainer = styled(CellContent)`
     justify-content: flex-end;
 `;
 

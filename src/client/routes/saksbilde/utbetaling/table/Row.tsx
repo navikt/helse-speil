@@ -53,12 +53,13 @@ export const Row = styled.tr<RowProps>`
     position: relative;
 
     > td {
+        position: relative;
         height: 2rem;
         border-bottom: 1px solid #c6c2bf;
         padding: 0 1rem;
         vertical-align: middle;
 
-        &:not(:nth-of-type(1)) {
+        &:not(:first-of-type):not(:last-of-type) {
             padding-right: 3rem;
         }
     }

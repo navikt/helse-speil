@@ -15,6 +15,10 @@ import { UtbetalingsoversiktRow } from './table/UtbetalingsoversiktRow';
 const Container = styled.section`
     flex: 1;
     padding: 2rem 0;
+    overflow-x: scroll;
+    margin: 0;
+    height: 100%;
+    width: 400px;
 `;
 
 interface UtbetalingstabellProps {
@@ -49,14 +53,28 @@ export const Utbetalingstabell = ({
             <Table aria-label={`Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`}>
                 <thead>
                     <tr>
-                        <Header />
-                        <Header>Dato</Header>
-                        <Header>Utbet. dager</Header>
-                        <Header>Grad</Header>
-                        <Header>Total grad</Header>
-                        <Header>Utbetaling</Header>
-                        <Header>Dager igjen</Header>
-                        <Header>Merknader</Header>
+                        <Header scope="col" colSpan={1} />
+                        <Header scope="col" colSpan={1}>
+                            Dato
+                        </Header>
+                        <Header scope="col" colSpan={1}>
+                            Utbet. dager
+                        </Header>
+                        <Header scope="col" colSpan={1}>
+                            Grad
+                        </Header>
+                        <Header scope="col" colSpan={1}>
+                            Total grad
+                        </Header>
+                        <Header scope="col" colSpan={1}>
+                            Utbetaling
+                        </Header>
+                        <Header scope="col" colSpan={1}>
+                            Dager igjen
+                        </Header>
+                        <Header scope="col" colSpan={1}>
+                            Merknader
+                        </Header>
                     </tr>
                 </thead>
                 <tbody>

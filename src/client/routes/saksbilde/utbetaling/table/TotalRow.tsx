@@ -3,10 +3,10 @@ import { Dayjs } from 'dayjs';
 import { Dagtype, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 
-import { somPenger } from '../../../../utils/locale';
-
 import { Row } from './Row';
+import { StatusCell } from './StatusCell';
 import { TotalText } from './TotalText';
+import { UtbetalingCell } from './UtbetalingCell';
 
 const Container = styled(Row)`
     background-color: var(--navds-layout-background-gray);
@@ -38,16 +38,14 @@ export const TotalRow = ({ utbetalingstidslinje, maksdato, gjenståendeDager = 0
 
     return (
         <Container>
-            <td />
+            <StatusCell />
             <td>TOTAL</td>
             <td>
                 <TotalText>{utbetalingsdager.length} dager</TotalText>
             </td>
             <td />
             <td />
-            <td>
-                <TotalText>{somPenger(totalUtbetaling)}</TotalText>
-            </td>
+            <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={totalUtbetaling} />
             <td>
                 <TotalText>{numberOfDaysLeft}</TotalText>
             </td>

@@ -6,7 +6,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { LovdataLenke } from '../../../../components/LovdataLenke';
 import { Tooltip } from '../../../../components/Tooltip';
 
-import { CellContainer } from './CellContainer';
+import { CellContent } from './CellContent';
 
 interface MerknadProps {
     begrunnelse: AvvistBegrunnelse;
@@ -66,7 +66,7 @@ interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableDataCellEleme
 
 export const MerknaderCell = ({ dag, isMaksdato, ...rest }: MerknaderCellProps) => (
     <td {...rest}>
-        <CellContainer>
+        <CellContent>
             {isMaksdato
                 ? 'Siste utbetalingsdag for sykepenger'
                 : dag.avvistÅrsaker?.map((it, i) => (
@@ -76,6 +76,6 @@ export const MerknaderCell = ({ dag, isMaksdato, ...rest }: MerknaderCellProps) 
                       </React.Fragment>
                   ))}
             <Tooltip effect="solid" />
-        </CellContainer>
+        </CellContent>
     </td>
 );

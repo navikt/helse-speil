@@ -25,6 +25,8 @@ const Container = styled(FlexColumn)`
     padding: 14px 32px 16px 32px;
     border-bottom: 1px solid var(--navds-color-border);
     margin-top: 1rem;
+    min-width: var(--speil-total-min-width);
+    box-sizing: border-box;
     --tidslinje-rad-offset: 250px;
 `;
 

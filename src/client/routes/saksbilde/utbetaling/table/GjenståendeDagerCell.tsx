@@ -4,6 +4,6 @@ interface GjenståendeDagerCellProps extends React.HTMLAttributes<HTMLTableDataC
     gjenståendeDager?: number;
 }
 
-export const GjenståendeDagerCell = ({ gjenståendeDager, ...rest }: GjenståendeDagerCellProps) => {
-    return <td {...rest}>{gjenståendeDager}</td>;
-};
+export const GjenståendeDagerCell = ({ gjenståendeDager, ...rest }: GjenståendeDagerCellProps) => (
+    <td {...rest}>{gjenståendeDager}</td>
+);
