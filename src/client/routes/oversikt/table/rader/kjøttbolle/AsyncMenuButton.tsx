@@ -47,7 +47,8 @@ export const AsyncMenuButton = ({
 }: AsyncMenuButtonProps) => {
     const [isPerformingAsyncOperation, setIsPerformingAsyncOperation] = useState(false);
 
-    const onClick = () => {
+    const onClick = (event: React.MouseEvent) => {
+        event.stopPropagation();
         setIsPerformingAsyncOperation(true);
         asyncOperation()
             .then((result) => {

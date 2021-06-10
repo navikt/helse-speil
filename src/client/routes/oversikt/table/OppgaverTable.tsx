@@ -148,8 +148,8 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                         </tr>
                     </thead>
                     <Body>
-                        {paginatedRows.map((it, i) => (
-                            <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={i}>
+                        {paginatedRows.map((it) => (
+                            <LinkRow onNavigate={onNavigate} aktørId={it.aktørId} key={it.oppgavereferanse}>
                                 <Cell>
                                     <Tildeling oppgave={it} />
                                 </Cell>
