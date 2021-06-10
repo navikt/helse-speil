@@ -4,13 +4,16 @@ import React, { ReactNode } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import { Accordion } from '@navikt/helse-frontend-accordion/lib';
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+
+import { Saksbildevarsel } from '../routes/saksbilde/varsler/Saksbildevarsel';
 
 const Container = styled(Accordion)`
     > div:first-of-type {
         display: flex;
         flex-direction: column;
     }
+
     > div:first-of-type > button:first-of-type {
         user-select: text;
         cursor: pointer;
@@ -51,11 +54,13 @@ const Container = styled(Accordion)`
             &:before {
                 content: 'Les mindre';
             }
+
             &:after {
                 transform: translateY(-50%);
             }
         }
     }
+
     > div:first-of-type > div:first-of-type {
         overflow: hidden;
     }
@@ -70,10 +75,12 @@ const Label = styled(Normaltekst)`
 const Content = styled.div`
     background: var(--navds-color-warning-background);
     padding: 0.5rem 3.5rem;
+    border-bottom: 1px solid var(--navds-color-warning-border);
 `;
 
-const StyledVarsel = styled(Varsel)`
+const StyledVarsel = styled(Saksbildevarsel)`
     height: unset;
+
     > svg:first-of-type {
         flex-shrink: 0;
     }

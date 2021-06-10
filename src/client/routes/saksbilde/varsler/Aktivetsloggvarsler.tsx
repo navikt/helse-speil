@@ -2,11 +2,12 @@ import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { EkspanderbartVarsel } from '../../../components/EkspanderbartVarsel';
 
 import wiki from '../../../../../wiki.json';
+import { Saksbildevarsel } from './Saksbildevarsel';
 import { Varselseksjon } from './Varselseksjon';
 
 type WikiEntry = {
@@ -30,9 +31,9 @@ export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[
                     );
                 } else {
                     return (
-                        <Varsel key={index} type={Varseltype.Advarsel}>
+                        <Saksbildevarsel key={index} type={Varseltype.Advarsel}>
                             <Normaltekst>{aktivitet}</Normaltekst>
-                        </Varsel>
+                        </Saksbildevarsel>
                     );
                 }
             })}

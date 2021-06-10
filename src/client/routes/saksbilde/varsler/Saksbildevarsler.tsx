@@ -3,13 +3,14 @@ import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
+import { Varseltype } from '@navikt/helse-frontend-varsel';
 import '@navikt/helse-frontend-varsel/lib/main.css';
 
 import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
+import { Saksbildevarsel } from './Saksbildevarsel';
 
 type VarselObject = {
     grad: Varseltype;
@@ -90,13 +91,13 @@ export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferans
     ].filter((it) => it) as VarselObject[];
 
     return (
-        <>
+        <div className="Saksbildevarsler">
             <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
             {varsler.map(({ grad, melding }, index) => (
-                <Varsel type={grad} key={index}>
+                <Saksbildevarsel type={grad} key={index}>
                     <Normaltekst>{melding}</Normaltekst>
-                </Varsel>
+                </Saksbildevarsel>
             ))}
-        </>
+        </div>
     );
 };
