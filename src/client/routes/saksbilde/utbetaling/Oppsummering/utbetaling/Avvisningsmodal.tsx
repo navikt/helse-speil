@@ -37,7 +37,7 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
     const form = useForm();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
-    const annenBegrunnelse = begrunnelser?.includes(Begrunnelse.Annet) ?? false;
+    const annenBegrunnelse = begrunnelser ? begrunnelser.includes(Begrunnelse.Annet) : false;
 
     const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0 ?? false;
 
@@ -56,7 +56,7 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
             const { begrunnelser, kommentar } = form.getValues();
             onApprove({
                 årsak: Årsak.Feil,
-                begrunnelser: begrunnelser,
+                begrunnelser: Array.isArray(begrunnelser) ? begrunnelser : [begrunnelser],
                 kommentar: kommentar,
             });
         }

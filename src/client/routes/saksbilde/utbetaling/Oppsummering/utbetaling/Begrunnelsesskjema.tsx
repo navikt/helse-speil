@@ -61,7 +61,8 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
     const warnings = vedtaksperiode?.aktivitetslog;
     const funnetRisikovurderinger = vedtaksperiode?.risikovurdering?.funn;
 
-    const annet = watch(`begrunnelser`)?.includes(Begrunnelse.Annet);
+    const begrunnelser = watch(`begrunnelser`);
+    const annet = begrunnelser ? begrunnelser.includes(Begrunnelse.Annet) : false;
 
     return (
         <Container>
