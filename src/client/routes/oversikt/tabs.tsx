@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
@@ -11,6 +12,7 @@ import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { useMineOppgaver, useOppgaver } from '../../state/oppgaver';
 
 import { AnonymiserData } from '../saksbilde/sakslinje/AnonymiserData';
+import { StatistikkButton } from './behandlingsstatistikk/StatistikkButton';
 
 export enum TabType {
     TilGodkjenning = 'alle',
@@ -27,37 +29,57 @@ export const useAktivTab = () => useRecoilValue(tabState);
 
 const Tablist = styled.div`
     border-bottom: 1px solid var(--navds-color-border);
-    margin-bottom: 1rem;
+    margin: 1rem 1.5rem 0;
     display: flex;
-    justify-content: space-between;
     flex-wrap: nowrap;
+    justify-content: space-between;
 `;
 
 const NoWrap = styled.span`
     white-space: nowrap;
+    display: flex;
+    flex-wrap: nowrap;
 `;
 
 const Tab = styled.button<{ active: boolean }>`
+    position: relative;
     background: none;
     border: none;
-    padding: 0 0 16px 0;
-    margin: 0 16px;
+    padding: 0 1rem 1rem;
+    margin: 0;
     height: max-content;
     font-family: inherit;
     font-size: 1rem;
     font-weight: 600;
     color: var(--navds-color-text-primary);
     cursor: pointer;
-    transition: box-shadow 0.1s ease;
-    box-shadow: inset 0 0 0 0 var(--navds-color-action-default);
     outline: none;
+
+    &:before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 0;
+        left: 0;
+        bottom: 0;
+        background-color: var(--navds-color-action-default);
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        transition: height 0.1s ease;
+    }
 
     &:hover,
     &:focus {
         color: var(--navds-color-action-default);
     }
 
-    ${({ active }) => active && `box-shadow: inset 0 -5px 0 0 var(--navds-color-action-default);`}
+    ${({ active }) =>
+        active &&
+        css`
+            &:before {
+                height: 4px;
+            }
+        `}
 `;
 
 const Antall = styled(Normaltekst)`
@@ -112,9 +134,10 @@ export const Tabs = () => (
             <AlleSakerTab />
             <MineSakerTab />
             <VentendeSakerTab />
+            <Meny orientering={PopoverOrientering.UnderHoyre}>
+                <AnonymiserData />
+            </Meny>
         </NoWrap>
-        <Meny orientering={PopoverOrientering.UnderHoyre}>
-            <AnonymiserData />
-        </Meny>
+        <StatistikkButton />
     </Tablist>
 );

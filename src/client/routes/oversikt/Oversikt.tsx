@@ -7,7 +7,7 @@ import Panel from 'nav-frontend-paneler';
 
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
-import { Flex } from '../../components/Flex';
+import { Flex, FlexColumn } from '../../components/Flex';
 import { useLoadingToast } from '../../hooks/useLoadingToast';
 import { useInnloggetSaksbehandler } from '../../state/authentication';
 import { oppgaverState, useRefetchOppgaver } from '../../state/oppgaver';
@@ -33,12 +33,6 @@ const Content = styled(Panel)`
     overflow: auto hidden;
     box-sizing: border-box;
     flex: 1;
-`;
-
-const Strek = styled.div`
-    min-height: calc(100vh - 50px);
-    width: 1px;
-    background-color: var(--navds-color-border);
 `;
 
 const useOppgaverFilteredByTab = () => {
@@ -67,6 +61,7 @@ const useOppgaverFilteredByTab = () => {
         cache: filtrer(cache),
     };
 };
+
 export const Oversikt = () => {
     const hentOppgaver = useRefetchOppgaver();
     const oppgaver = useOppgaverFilteredByTab();
@@ -91,20 +86,23 @@ export const Oversikt = () => {
             {oppgaver.state === 'hasError' && (
                 <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
             )}
-            <Flex>
-                <Content>
-                    <Tabs />
-                    {hasData ? (
-                        <OppgaverTable
-                            oppgaver={oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache}
-                        />
-                    ) : (
-                        <IngenOppgaver />
-                    )}
-                </Content>
-                <Strek />
-                <Behandlingsstatistikk />
-            </Flex>
+            <FlexColumn style={{ height: '100%' }}>
+                <Tabs />
+                <Flex style={{ height: '100%' }}>
+                    <Content>
+                        {hasData ? (
+                            <OppgaverTable
+                                oppgaver={
+                                    oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache
+                                }
+                            />
+                        ) : (
+                            <IngenOppgaver />
+                        )}
+                    </Content>
+                    <Behandlingsstatistikk />
+                </Flex>
+            </FlexColumn>
         </Container>
     );
 };

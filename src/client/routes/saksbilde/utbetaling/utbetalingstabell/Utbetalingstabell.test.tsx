@@ -53,6 +53,7 @@ describe('Utbetalingsoversikt', () => {
                 maksdato={maksdato}
                 gjenståendeDager={gjenståendeDager}
                 periode={periode}
+                overstyringer={vedtaksperiode.overstyringer}
             />
         );
 
@@ -66,9 +67,12 @@ describe('Utbetalingsoversikt', () => {
         const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
         const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
         const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
+        const overstyringer = vedtaksperiode.overstyringer;
 
         render(
-            <Utbetalingstabell {...{ utbetalingstidslinje, sykdomstidslinje, maksdato, gjenståendeDager, periode }} />
+            <Utbetalingstabell
+                {...{ utbetalingstidslinje, sykdomstidslinje, maksdato, gjenståendeDager, periode, overstyringer }}
+            />
         );
         expect(screen.queryByText('Dato')).toBeVisible();
         expect(screen.queryByText('Utbet. dager')).toBeVisible();
@@ -113,6 +117,7 @@ describe('Utbetalingsoversikt', () => {
         const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
         const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
         const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
+        const overstyringer = vedtaksperiode.overstyringer;
 
         render(
             <Utbetalingstabell
@@ -122,6 +127,7 @@ describe('Utbetalingsoversikt', () => {
                     maksdato,
                     gjenståendeDager,
                     periode,
+                    overstyringer,
                 }}
             />
         );

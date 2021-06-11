@@ -33,7 +33,7 @@ const ScrollableX = styled.div`
     overflow: auto hidden;
     margin: 0;
     padding: 0;
-    height: 100%;
+    height: calc(100% - 50px);
     width: 100%;
 `;
 

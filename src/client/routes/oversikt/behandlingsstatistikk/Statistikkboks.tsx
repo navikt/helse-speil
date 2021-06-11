@@ -11,6 +11,7 @@ import { Statistikklinje } from './Statistikklinje';
 const StyledEkspanderbartPanel = styled(Ekspanderbartpanel)`
     margin-bottom: 1.75rem;
     box-shadow: none !important;
+    min-width: max-content;
 
     :hover > button:focus {
         box-shadow: 0 0 0 3px var(--navds-color-blue-80) !important;
@@ -41,7 +42,7 @@ interface HeadingProps {
 }
 
 const Heading = ({ tittel, upperBound }: HeadingProps) => (
-    <Flex alignItems={'center'}>
+    <Flex alignItems={'center'} style={{ marginRight: '1rem' }}>
         <Tittel>{tittel}</Tittel>
         <StyledElement>{upperBound}</StyledElement>
     </Flex>
