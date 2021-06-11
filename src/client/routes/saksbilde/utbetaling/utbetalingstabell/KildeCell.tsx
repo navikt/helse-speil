@@ -1,8 +1,10 @@
 import styled from '@emotion/styled';
 import { Dagtype, Kildetype, Overstyring } from 'internal-types';
-import React, { ReactNode } from 'react';
+import { nanoid } from 'nanoid';
+import React, { ReactNode, useRef } from 'react';
 
 import { Kilde } from '../../../../components/Kilde';
+import { Tooltip } from '../../../../components/Tooltip';
 
 import { CellContent } from '../../table/CellContent';
 import { IconOverstyrt } from '../../table/icons/IconOverstyrt';
@@ -42,6 +44,20 @@ interface KildeCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> 
     overstyring?: Overstyring;
 }
 
-export const KildeCell = ({ type, kilde, overstyring, ...rest }: KildeCellProps) => (
-    <td {...rest}>{type !== Dagtype.Helg && <Container>{getKildeTypeIcon(kilde, overstyring)}</Container>}</td>
-);
+export const KildeCell = ({ type, kilde, overstyring, ...rest }: KildeCellProps) => {
+    const tooltipId = useRef(nanoid()).current;
+    return (
+        <td {...rest}>
+            <Container>
+                {type !== Dagtype.Helg && (
+                    <>
+                        <span data-tip={kilde} data-for={tooltipId}>
+                            {getKildeTypeIcon(kilde, overstyring)}
+                        </span>
+                        <Tooltip id={tooltipId} effect="solid" />
+                    </>
+                )}
+            </Container>
+        </td>
+    );
+};
