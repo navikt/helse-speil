@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React, { SelectHTMLAttributes } from 'react';
+import React from 'react';
 
 const StyledSelect = styled.select`
     width: 100%;
@@ -36,15 +36,17 @@ const chevron = (angle: number, right: number) => `
 
 const SelectWrapper = styled.div`
     position: relative;
+
     &:after {
         ${chevron(45, 20)}
     }
+
     &:before {
         ${chevron(-45, 14)}
     }
 `;
 
-export const Select = (props: SelectHTMLAttributes<any>) => (
+export const Select = (props: React.HTMLAttributes<HTMLSelectElement>) => (
     <SelectWrapper>
         <StyledSelect {...props} />
     </SelectWrapper>

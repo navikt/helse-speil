@@ -5,7 +5,7 @@ import React from 'react';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Flex } from '../../../components/Flex';
 
-import { Utbetalingstabell } from './Utbetalingstabell';
+import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 
 export interface UtbetalingProps {
     gjenståendeDager?: number;

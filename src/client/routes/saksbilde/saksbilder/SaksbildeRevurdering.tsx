@@ -10,7 +10,7 @@ import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Sakslinje } from '../sakslinje/Sakslinje';
-import { Utbetalingstabell } from '../utbetaling/Utbetalingstabell';
+import { Utbetalingstabell } from '../utbetaling/utbetalingstabell/Utbetalingstabell';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny, VertikalStrek } from './Felles';
 import { LoggContainer, LoggHeader, LoggListe } from './Logg';
