@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import { Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Periode, Sykdomsdag, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
@@ -13,6 +13,7 @@ export interface UtbetalingProps {
     periode: Periode;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
+    vedtaksperiode: Vedtaksperiode;
 }
 
 export const Utbetaling = ({
@@ -21,6 +22,7 @@ export const Utbetaling = ({
     periode,
     utbetalingstidslinje,
     sykdomstidslinje,
+    vedtaksperiode,
 }: UtbetalingProps) => (
     <AgurkErrorBoundary sidenavn="Utbetaling">
         <Flex style={{ height: '100%' }}>
@@ -30,6 +32,7 @@ export const Utbetaling = ({
                 periode={periode}
                 utbetalingstidslinje={utbetalingstidslinje}
                 sykdomstidslinje={sykdomstidslinje}
+                overstyringer={vedtaksperiode.overstyringer}
             />
         </Flex>
     </AgurkErrorBoundary>

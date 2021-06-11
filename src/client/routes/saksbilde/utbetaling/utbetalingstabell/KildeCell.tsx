@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Kildetype, Overstyring } from 'internal-types';
+import { Dagtype, Kildetype, Overstyring } from 'internal-types';
 import React, { ReactNode } from 'react';
 
 import { Kilde } from '../../../../components/Kilde';
@@ -13,7 +13,7 @@ const getKildeTypeIcon = (type?: Kildetype, overstyring?: Overstyring): ReactNod
         case Kildetype.Sykmelding:
             return <Kilde type={Kildetype.Sykmelding}>SM</Kilde>;
         case Kildetype.Søknad:
-            return <Kilde type={Kildetype.Sykmelding}>SØ</Kilde>;
+            return <Kilde type={Kildetype.Søknad}>SØ</Kilde>;
         case Kildetype.Inntektsmelding:
             return <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>;
         case Kildetype.Saksbehandler:
@@ -37,12 +37,11 @@ const Container = styled(CellContent)`
 `;
 
 interface KildeCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
+    type: Dagtype;
     kilde?: Kildetype;
     overstyring?: Overstyring;
 }
 
-export const KildeCell = ({ kilde, overstyring, ...rest }: KildeCellProps) => (
-    <td {...rest}>
-        <Container>{getKildeTypeIcon(kilde, overstyring)}</Container>
-    </td>
+export const KildeCell = ({ type, kilde, overstyring, ...rest }: KildeCellProps) => (
+    <td {...rest}>{type !== Dagtype.Helg && <Container>{getKildeTypeIcon(kilde, overstyring)}</Container>}</td>
 );

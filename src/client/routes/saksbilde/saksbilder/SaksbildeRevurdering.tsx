@@ -33,11 +33,10 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
     const maksdato = useMaksdato(aktivPeriode.beregningId);
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
-    const periode = { fom: aktivPeriode.fom, tom: aktivPeriode.tom };
-    const utbetalingstidslinje = aktivPeriode.utbetalingstidslinje;
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
+
     return (
         <Flex
             justifyContent="space-between"
@@ -67,9 +66,10 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                                 <Utbetalingstabell
                                     maksdato={maksdato}
                                     gjenståendeDager={gjenståendeDager}
-                                    periode={periode}
-                                    utbetalingstidslinje={utbetalingstidslinje}
+                                    periode={{ fom: aktivPeriode.fom, tom: aktivPeriode.tom }}
+                                    utbetalingstidslinje={aktivPeriode.utbetalingstidslinje}
                                     sykdomstidslinje={aktivPeriode.sykdomstidslinje}
+                                    overstyringer={vedtaksperiode.overstyringer}
                                 />
                             </Flex>
                         </Content>

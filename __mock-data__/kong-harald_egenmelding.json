@@ -382,7 +382,7 @@
                             "dagen": "2021-04-22",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad",
+                                "type": "Inntektsmelding",
                                 "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
                             },
                             "grad": 100
@@ -391,7 +391,7 @@
                             "dagen": "2021-04-23",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad",
+                                "type": "Inntektsmelding",
                                 "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
                             },
                             "grad": 100
@@ -418,7 +418,7 @@
                             "dagen": "2021-04-26",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad",
+                                "type": "Sykmelding",
                                 "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
                             },
                             "grad": 100
@@ -427,7 +427,7 @@
                             "dagen": "2021-04-27",
                             "type": "SYKEDAG",
                             "kilde": {
-                                "type": "Søknad",
+                                "type": "Sykmelding",
                                 "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
                             },
                             "grad": 100

@@ -1,4 +1,5 @@
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dayjs } from 'dayjs';
+import { Dagtype, Overstyring, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
@@ -23,3 +24,6 @@ export const getMatchingSykdomsdag = (utbetalingsdag: Utbetalingsdag, sykdomstid
         const dato = utbetalingsdag.dato.format(NORSK_DATOFORMAT);
         throw Error(`Utbetalingsdag ${dato} har ikke tilsvarende sykdomsdag i sykdomstidslinjen.`);
     })();
+
+export const getOverstyringMatchingDate = (date: Dayjs, overstyringer: Overstyring[]): Overstyring | undefined =>
+    overstyringer.find(({ overstyrteDager }) => overstyrteDager.find((it) => it.dato.isSame(date)));

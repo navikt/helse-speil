@@ -43,6 +43,7 @@ export const TotalRow = ({ utbetalingstidslinje, maksdato, gjenståendeDager = 0
             </td>
             <td />
             <td />
+            <td />
             <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={totalUtbetaling} />
             <td>
                 <TotalText>{numberOfDaysLeft}</TotalText>

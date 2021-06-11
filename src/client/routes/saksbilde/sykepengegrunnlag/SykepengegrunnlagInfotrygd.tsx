@@ -6,7 +6,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 import { Kilde } from '../../../components/Kilde';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
-import { kilde } from '../../../utils/inntektskilde';
+import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
@@ -70,7 +70,11 @@ const SykepengegrunnlagInfotrygd = ({ inntektsgrunnlag, className }: Sykepengegr
                             <Normaltekst>
                                 {inntekt.omregnetÅrsinntekt ? somPenger(inntekt.omregnetÅrsinntekt.beløp) : 'Ukjent'}
                             </Normaltekst>
-                            {inntekt.omregnetÅrsinntekt && <Kilde>{kilde(inntekt.omregnetÅrsinntekt.kilde)}</Kilde>}
+                            {inntekt.omregnetÅrsinntekt && (
+                                <Kilde type={getKildeType(inntekt.omregnetÅrsinntekt.kilde)}>
+                                    {kilde(inntekt.omregnetÅrsinntekt.kilde)}
+                                </Kilde>
+                            )}
                         </InntektMedKilde>
                     </ArbeidsgiverRad>
                 ))}

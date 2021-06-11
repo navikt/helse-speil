@@ -86,6 +86,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                                 sykdomstidslinje={sykdomstidslinje}
                                                 maksdato={maksdato}
                                                 periode={periode}
+                                                vedtaksperiode={vedtaksperiode}
                                             />
                                         </Route>
                                         <Route path={`${path}/sykmeldingsperiode`}>

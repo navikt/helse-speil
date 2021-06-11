@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Dagtype, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dagtype, Overstyring, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
@@ -10,7 +10,7 @@ import { Table } from '../../table/Table';
 import { TotalRow } from './TotalRow';
 import { UtbetalingsoversiktRow } from './UtbetalingsoversiktRow';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
-import { getMatchingSykdomsdag, withDagerIgjen } from './Utbetalingstabell.utils';
+import { getMatchingSykdomsdag, getOverstyringMatchingDate, withDagerIgjen } from './Utbetalingstabell.utils';
 
 const Container = styled.section`
     flex: 1;
@@ -25,6 +25,7 @@ interface UtbetalingstabellProps {
     periode: Periode;
     sykdomstidslinje: Sykdomsdag[];
     utbetalingstidslinje: Utbetalingsdag[];
+    overstyringer: Overstyring[];
     gjenståendeDager?: number;
     maksdato?: Dayjs;
 }
@@ -35,6 +36,7 @@ export const Utbetalingstabell = ({
     utbetalingstidslinje,
     gjenståendeDager,
     maksdato,
+    overstyringer,
 }: UtbetalingstabellProps) => {
     const fom = periode.fom.format(NORSK_DATOFORMAT);
     const tom = periode.tom.format(NORSK_DATOFORMAT);
@@ -47,6 +49,12 @@ export const Utbetalingstabell = ({
     const utbetalingsdager = gjenståendeDager
         ? withDagerIgjen(utbetalingstidslinje, antallDagerIgjen)
         : utbetalingstidslinje;
+
+    const rader: [UtbetalingstabellDag, Sykdomsdag, Overstyring | undefined][] = utbetalingsdager.map((it) => [
+        it,
+        getMatchingSykdomsdag(it, sykdomstidslinje),
+        getOverstyringMatchingDate(it.dato, overstyringer),
+    ]);
 
     return (
         <Container>
@@ -66,6 +74,9 @@ export const Utbetalingstabell = ({
                             Total grad
                         </Header>
                         <Header scope="col" colSpan={1}>
+                            Kilde
+                        </Header>
+                        <Header scope="col" colSpan={1}>
                             Utbetaling
                         </Header>
                         <Header scope="col" colSpan={1}>
@@ -82,17 +93,16 @@ export const Utbetalingstabell = ({
                         maksdato={maksdato}
                         gjenståendeDager={gjenståendeDager}
                     />
-                    {utbetalingsdager
-                        .map((it) => [it, getMatchingSykdomsdag(it, sykdomstidslinje)])
-                        .map(([utbetalingsdag, sykdomsdag]: [UtbetalingstabellDag, Sykdomsdag], i) => (
-                            <UtbetalingsoversiktRow
-                                key={i}
-                                utbetalingsdag={utbetalingsdag}
-                                sykdomsdag={sykdomsdag}
-                                isMaksdato={maksdato !== undefined && utbetalingsdag.dato.isSame(maksdato, 'day')}
-                                gjenståendeDager={utbetalingsdag.dagerIgjen}
-                            />
-                        ))}
+                    {rader.map(([utbetalingsdag, sykdomsdag, maybeOverstyring], i) => (
+                        <UtbetalingsoversiktRow
+                            key={i}
+                            utbetalingsdag={utbetalingsdag}
+                            sykdomsdag={sykdomsdag}
+                            isMaksdato={maksdato !== undefined && utbetalingsdag.dato.isSame(maksdato, 'day')}
+                            gjenståendeDager={utbetalingsdag.dagerIgjen}
+                            overstyring={maybeOverstyring}
+                        />
+                    ))}
                 </tbody>
             </Table>
         </Container>

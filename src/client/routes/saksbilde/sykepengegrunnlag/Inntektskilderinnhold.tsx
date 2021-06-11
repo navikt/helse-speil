@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Arbeidsgiverinntekt, Inntektskildetype } from 'internal-types';
+import { Arbeidsgiverinntekt, Inntektskildetype, Kildetype } from 'internal-types';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +12,7 @@ import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
 import { Clipboard } from '../../../components/clipboard';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
-import { kilde } from '../../../utils/inntektskilde';
+import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
@@ -22,7 +22,8 @@ const Arbeidsgivertittel = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-    o > *:not(:last-child) {
+
+    > *:not(:last-child) {
         margin-right: 1rem;
     }
 `;
@@ -105,7 +106,7 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
                             )
                         </Flex>
                     </Tittel>
-                    <Kilde>Aa</Kilde>
+                    <Kilde type={Kildetype.Ainntekt}>AA</Kilde>
                 </Arbeidsgivertittel>
                 <Bransjer>
                     {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
@@ -118,7 +119,7 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
                 </ArbeidsforholdTabell>
                 <HeaderContainer>
                     <Tittel tag="h3">{t('inntektskilder.inntekt')}</Tittel>
-                    <Kilde>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
+                    <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                 </HeaderContainer>
                 <Tabell>
                     <Kolonnetittel>{t('inntektskilder.månedsinntekt')}</Kolonnetittel>

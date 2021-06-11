@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Kildetype } from 'internal-types';
 import React from 'react';
 
 import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
@@ -58,11 +59,11 @@ export const InntektssammenligningOld = ({ inntektskilde, årsinntektAordning, �
         <Normaltekst>{inntektskilde}</Normaltekst>
         <InntektMedKilde>
             <Normaltekst>{somPenger(årsinntektInntektsmelding)}</Normaltekst>
-            <Kilde>IM</Kilde>
+            <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>
         </InntektMedKilde>
         <InntektMedKilde>
             <Normaltekst>{somPenger(årsinntektAordning)}</Normaltekst>
-            <Kilde>Ao</Kilde>
+            <Kilde type={Kildetype.Aordningen}>AO</Kilde>
         </InntektMedKilde>
         <Divider />
         <Element>Total</Element>

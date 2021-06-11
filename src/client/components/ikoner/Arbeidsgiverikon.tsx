@@ -8,7 +8,7 @@ interface ArbeidsgiverikonProps {
     height?: number;
 }
 export const Arbeidsgiverikon = ({ className, width, height }: ArbeidsgiverikonProps) => (
-    <Ikon className={className} width={width} height={height} viewBox="0 0 16 20">
+    <Ikon className={className} width={width} height={height} viewBox="0 1 16 20">
         <path
             fillRule="evenodd"
             clipRule="evenodd"
