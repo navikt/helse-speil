@@ -1,5 +1,5 @@
 import { Opptegnelse, OpptegnelseType } from 'external-types';
-import { atom, selector } from 'recoil';
+import { atom, selector, useRecoilValue, useSetRecoilState } from 'recoil';
 
 export const opptegnelsePollingTimeState = atom<number>({
     key: 'opptegnelsePollingTimeState',
@@ -13,11 +13,10 @@ export const nyesteOpptegnelserState = atom<Opptegnelse[]>({
 
 export const nyesteOpptegnelseMedTypeOppgaveState = selector<Opptegnelse | undefined>({
     key: 'nyesteOpptegnelseMedTypeOppgaveState',
-    get: ({ get }) => {
-        return get(nyesteOpptegnelserState).find(
+    get: ({ get }) =>
+        get(nyesteOpptegnelserState).find(
             (opptegnelse) => opptegnelse.type === OpptegnelseType.NY_SAKSBEHANDLEROPPGAVE
-        );
-    },
+        ),
 });
 
 export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
@@ -25,11 +24,20 @@ export const sisteSekvensIdOpptegnelseState = selector<number | undefined>({
     get: ({ get }) => {
         const nyesteOpptegnelser = get(nyesteOpptegnelserState);
 
-        if (nyesteOpptegnelser.length > 0) {
-            return nyesteOpptegnelser.reduce((acc, curr) => (curr.sekvensnummer > acc.sekvensnummer ? curr : acc))
-                .sekvensnummer;
-        }
-
-        return undefined;
+        return nyesteOpptegnelser.length > 0
+            ? nyesteOpptegnelser.reduce((acc, curr) => (curr.sekvensnummer > acc.sekvensnummer ? curr : acc))
+                  .sekvensnummer
+            : undefined;
     },
 });
+
+export const useOpptegnelser = () => useRecoilValue(nyesteOpptegnelseMedTypeOppgaveState);
+
+export const useSetOpptegnelserPollingRate = () => {
+    const setOpptegnelsePollingRate = useSetRecoilState(opptegnelsePollingTimeState);
+    return (rate: number) => {
+        setOpptegnelsePollingRate(rate);
+    };
+};
+
+export const useOpptegnelserPollingRate = () => useRecoilValue(opptegnelsePollingTimeState);

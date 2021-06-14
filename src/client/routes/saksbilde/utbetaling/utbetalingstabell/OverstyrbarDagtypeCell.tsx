@@ -11,7 +11,8 @@ import { CellContent } from '../../table/CellContent';
 import { DagtypeIcon } from './DagtypeIcon';
 
 const OverstyrbarSelect = styled(Select)`
-    padding: 3px 2.5rem 3px 8px;
+    padding: 3px 2.625rem 3px 8px;
+    min-width: max-content;
 `;
 
 const IconContainer = styled.div`
@@ -22,14 +23,26 @@ const IconContainer = styled.div`
     flex-shrink: 0;
 `;
 
-const sykdomsdagKanOverstyres = (type: Dagtype): boolean =>
-    (type !== Dagtype.Helg && [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding].includes(type)) ||
-    (overstyrPermisjonsdagerEnabled && type === Dagtype.Permisjon);
+interface DagtypeLabelProps {
+    sykdomsdag: Sykdomsdag;
+    utbetalingsdag: Utbetalingsdag;
+}
 
-const utbetalingsdagKanOverstyres = (type: Dagtype): boolean => type !== Dagtype.Arbeidsgiverperiode;
-
-const kanOverstyres = (sykdomsdagtype: Dagtype, utbetalingsdagtype: Dagtype): boolean =>
-    sykdomsdagKanOverstyres(sykdomsdagtype) && utbetalingsdagKanOverstyres(utbetalingsdagtype);
+const DagtypeLabel = ({ sykdomsdag, utbetalingsdag }: DagtypeLabelProps) => {
+    const text = (() => {
+        switch (utbetalingsdag.type) {
+            case Dagtype.Avvist:
+                return `${sykdomsdag.type} (Avvist)`;
+            case Dagtype.Foreldet:
+                return `${sykdomsdag.type} (Foreldet)`;
+            case Dagtype.Arbeidsgiverperiode:
+                return `${sykdomsdag.type} (AGP)`;
+            default:
+                return sykdomsdag.type;
+        }
+    })();
+    return <Normaltekst>{text}</Normaltekst>;
+};
 
 interface OverstyrbarDagtypeProps {
     sykdomsdag: Sykdomsdag;
@@ -45,13 +58,20 @@ export const OverstyrbarDagtypeCell = ({ sykdomsdag, utbetalingsdag, onOverstyr 
         onOverstyr({ ...sykdomsdag, type: nyDagtype });
     };
 
+    const sykdomsdagKanOverstyres = (type: Dagtype): boolean =>
+        (type !== Dagtype.Helg && [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding].includes(type)) ||
+        (overstyrPermisjonsdagerEnabled && type === Dagtype.Permisjon);
+
+    const kanOverstyres =
+        sykdomsdagKanOverstyres(sykdomsdag.type) && utbetalingsdag.type !== Dagtype.Arbeidsgiverperiode;
+
     return (
         <td>
             <CellContent>
                 <IconContainer>
                     <DagtypeIcon type={sykdomsdag.type} />
                 </IconContainer>
-                {kanOverstyres(sykdomsdag.type, utbetalingsdag.type) ? (
+                {kanOverstyres ? (
                     <OverstyrbarSelect defaultValue={sykdomsdag.type} onChange={onSelectDagtype}>
                         {Object.values(Dagtype)
                             .filter(
@@ -62,7 +82,7 @@ export const OverstyrbarDagtypeCell = ({ sykdomsdag, utbetalingsdag, onOverstyr 
                             ))}
                     </OverstyrbarSelect>
                 ) : (
-                    <Normaltekst>{sykdomsdag.type}</Normaltekst>
+                    <DagtypeLabel sykdomsdag={sykdomsdag} utbetalingsdag={utbetalingsdag} />
                 )}
             </CellContent>
         </td>

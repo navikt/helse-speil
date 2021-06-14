@@ -1,9 +1,12 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { Person, Vedtaksperiode } from 'internal-types';
+import { Dag, Dagtype, Person, Vedtaksperiode } from 'internal-types';
 
-import { trimLedendeArbeidsdager } from '../routes/saksbilde/sykmeldingsperiode/Sykmeldingsperiode';
+const trimLedendeArbeidsdager = (sykdomstidslinje: Dag[]): Dag[] => {
+    const førsteIkkearbeidsdag = sykdomstidslinje.findIndex((dag) => dag.type !== Dagtype.Arbeidsdag) ?? 0;
+    return sykdomstidslinje.slice(førsteIkkearbeidsdag);
+};
 
-const tidligsteVedtaksperiode = (a: Vedtaksperiode, b: Vedtaksperiode) => {
+const byTidligsteVedtaksperiode = (a: Vedtaksperiode, b: Vedtaksperiode): number => {
     const aSykdomsdager = trimLedendeArbeidsdager(a.sykdomstidslinje);
     const bSykdomsdager = trimLedendeArbeidsdager(b.sykdomstidslinje);
     return aSykdomsdager[0].dato.isAfter(bSykdomsdager[0].dato) ? 1 : -1;
@@ -15,7 +18,7 @@ export const førsteVedtaksperiode = (nåværendePeriode: Vedtaksperiode, person
         .filter((periode) => periode.fullstendig)
         .map((periode) => periode as Vedtaksperiode)
         .filter((periode) => periode.gruppeId === nåværendePeriode.gruppeId)
-        .sort(tidligsteVedtaksperiode)[0];
+        .sort(byTidligsteVedtaksperiode)[0];
 
 export const organisasjonsnummerForPeriode = (nåværendePeriode: Vedtaksperiode, person: Person): string =>
     person.arbeidsgivere.find(({ vedtaksperioder }) => vedtaksperioder.find(({ id }) => id === nåværendePeriode.id))!

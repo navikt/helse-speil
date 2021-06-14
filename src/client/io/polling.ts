@@ -5,6 +5,7 @@ import {
     nyesteOpptegnelserState,
     opptegnelsePollingTimeState,
     sisteSekvensIdOpptegnelseState,
+    useOpptegnelserPollingRate,
 } from '../state/opptegnelser';
 
 import { getOpptegnelser } from './http';
@@ -12,7 +13,7 @@ import { getOpptegnelser } from './http';
 export const usePollEtterOpptegnelser = () => {
     const setOpptegnelser = useSetRecoilState(nyesteOpptegnelserState);
     const sisteSekvensId = useRecoilValue(sisteSekvensIdOpptegnelseState);
-    const opptegnelsePollingTime = useRecoilValue(opptegnelsePollingTimeState);
+    const opptegnelsePollingTime = useOpptegnelserPollingRate();
     const resetPollefrekvens = useResetRecoilState(opptegnelsePollingTimeState);
 
     useEffect(() => {

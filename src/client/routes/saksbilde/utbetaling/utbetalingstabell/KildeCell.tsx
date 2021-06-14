@@ -3,6 +3,7 @@ import { Dagtype, Kildetype, Overstyring } from 'internal-types';
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useRef } from 'react';
 
+import { Flex } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { Tooltip } from '../../../../components/Tooltip';
 
@@ -26,7 +27,9 @@ const getKildeTypeIcon = (type?: Kildetype, overstyring?: Overstyring): ReactNod
                     dato={overstyring.timestamp}
                 />
             ) : (
-                <IconOverstyrt />
+                <Flex>
+                    <IconOverstyrt />
+                </Flex>
             );
         default:
             return null;

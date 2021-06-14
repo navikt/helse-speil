@@ -57,6 +57,9 @@ const sykdomsdagKanOverstyres = (dag: Sykdomsdag) =>
 
 const utbetalingsdagKanOverstyres = (dag: Utbetalingsdag): boolean => dag.type !== Dagtype.Arbeidsgiverperiode;
 
+const showGrad = (dag: Utbetalingsdag): boolean =>
+    dag.type !== Dagtype.Arbeidsgiverperiode && dag.type !== Dagtype.Helg && !!dag.gradering;
+
 const kanOverstyres = (sykdomsdag: Sykdomsdag, utbetalingsdag: Utbetalingsdag): boolean =>
     sykdomsdagKanOverstyres(sykdomsdag) && utbetalingsdagKanOverstyres(utbetalingsdag);
 
@@ -101,7 +104,7 @@ export const OverstyrbarGradCell = ({ sykdomsdag, utbetalingsdag, onOverstyr, ..
                         {errors[name] && <Error htmlFor={name}>{errors[name].message}</Error>}
                     </>
                 ) : (
-                    sykdomsdag.gradering && <Normaltekst>{`${sykdomsdag.gradering} %`}</Normaltekst>
+                    showGrad(utbetalingsdag) && <Normaltekst>{`${utbetalingsdag.gradering} %`}</Normaltekst>
                 )}
             </CellContent>
         </td>

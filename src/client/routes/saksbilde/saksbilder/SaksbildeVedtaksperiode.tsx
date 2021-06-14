@@ -17,7 +17,6 @@ import { getErrorMelding } from '../Saksbilde';
 import { Faresignaler } from '../faresignaler/Faresignaler';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
-import { Sykmeldingsperiode } from '../sykmeldingsperiode/Sykmeldingsperiode';
 import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { Vilkår } from '../vilkår/Vilkår';
@@ -41,17 +40,13 @@ const Content = styled.div`
 
 export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, path }: SaksbildeVedtaksperiodeProps) => {
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
-    const errorMelding = getErrorMelding(vedtaksperiode.tilstand);
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
-
     const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent arbeidsgivernavn';
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
-    const skjæringstidspunkt = vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt;
+    const errorMelding = getErrorMelding(vedtaksperiode.tilstand);
+
     const maksdato = vedtaksperiode.vilkår?.dagerIgjen.maksdato;
-    const gjenståendeDager = vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager;
-    const utbetalingstidslinje = aktivPeriode.utbetalingstidslinje;
-    const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
-    const periode = { fom: aktivPeriode.fom, tom: aktivPeriode.tom };
+
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     return (
@@ -67,7 +62,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                 organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                                 arbeidsforhold={arbeidsforhold}
                                 anonymiseringEnabled={anonymiseringEnabled}
-                                skjæringstidspunkt={skjæringstidspunkt}
+                                skjæringstidspunkt={vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
                                 maksdato={maksdato}
                             />
                             <VertikalStrek />
@@ -81,16 +76,11 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                     <Switch>
                                         <Route path={`${path}/utbetaling`}>
                                             <Utbetaling
-                                                gjenståendeDager={gjenståendeDager}
-                                                utbetalingstidslinje={utbetalingstidslinje}
-                                                sykdomstidslinje={sykdomstidslinje}
+                                                periode={aktivPeriode}
                                                 maksdato={maksdato}
-                                                periode={periode}
                                                 vedtaksperiode={vedtaksperiode}
+                                                gjenståendeDager={vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager}
                                             />
-                                        </Route>
-                                        <Route path={`${path}/sykmeldingsperiode`}>
-                                            <Sykmeldingsperiode aktivPeriode={aktivPeriode} />
                                         </Route>
                                         <Route path={`${path}/vilkår`}>
                                             <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />

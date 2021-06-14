@@ -11,7 +11,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 const Overstyringsskjemagruppe = styled(SkjemaGruppe)`
     color: var(--navds-color-text-primary);
-    margin: 2.5rem 0 0 3px;
+    margin: 2.5rem 3px 3px 3px;
 `;
 
 const FeiloppsummeringContainer = styled.div`

@@ -60,7 +60,7 @@ export const Overstyringsindikator = ({ begrunnelse, saksbehandler, dato }: Over
     });
 
     return (
-        <Overstyringknapp ref={buttonRef} onClick={() => setVisTooltip(true)}>
+        <Overstyringknapp type="button" ref={buttonRef} onClick={() => setVisTooltip((value) => !value)}>
             <IconOverstyrt />
             {visTooltip && (
                 <StyledTooltip>

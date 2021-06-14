@@ -10,16 +10,18 @@ import { Table } from '../../table/Table';
 import { TotalRow } from './TotalRow';
 import { UtbetalingsoversiktRow } from './UtbetalingsoversiktRow';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
-import { getMatchingSykdomsdag, getOverstyringMatchingDate, withDagerIgjen } from './Utbetalingstabell.utils';
+import { getMatchingSykdomsdag, withDagerIgjen } from './Utbetalingstabell.utils';
 
 const Container = styled.section`
     flex: 1;
-    padding: 2rem 0;
     overflow-x: scroll;
     margin: 0;
     height: 100%;
     width: 400px;
 `;
+
+const getOverstyringMatchingDate = (date: Dayjs, overstyringer: Overstyring[]): Overstyring | undefined =>
+    overstyringer.find(({ overstyrteDager }) => overstyrteDager.find((it) => it.dato.isSame(date)));
 
 interface UtbetalingstabellProps {
     periode: Periode;

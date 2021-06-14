@@ -3,9 +3,15 @@ import React from 'react';
 
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import { ToastObject } from '../../../state/toasts';
+import { ToastObject } from '../../../../state/toasts';
 
 export const kalkulererToastKey = 'kalkulererToast';
+
+export const kalkulererFerdigToastKey = 'kalkulererFerdigToast';
+
+const Spinner = styled(NavFrontendSpinner)`
+    margin-left: 1rem;
+`;
 
 export const kalkulererToast = ({
     message = (
@@ -22,16 +28,12 @@ export const kalkulererToast = ({
     timeToLiveMs,
 });
 
-const Spinner = styled(NavFrontendSpinner)`
-    margin-left: 1rem;
-`;
-
 export const kalkuleringFerdigToast = ({
     message = 'Oppgaven er ferdig kalkulert',
     timeToLiveMs = 5000,
     callback,
 }: Partial<ToastObject>): ToastObject => ({
-    key: kalkulererToastKey,
+    key: kalkulererFerdigToastKey,
     message,
     callback,
     timeToLiveMs,

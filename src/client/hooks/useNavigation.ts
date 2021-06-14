@@ -12,13 +12,12 @@ export interface Navigation {
 
 export enum Location {
     Utbetaling,
-    Sykmeldingsperiode,
     Vilkår,
     Sykepengegrunnlag,
     Faresignaler,
 }
 
-const locations = ['/utbetaling', '/sykmeldingsperiode', '/vilkår', '/sykepengegrunnlag', '/faresignaler'];
+const locations = ['/utbetaling', '/vilkår', '/sykepengegrunnlag', '/faresignaler'];
 
 const locationFromCurrentPath = (path: string, locations: string[]) => {
     const currentPathName = path.split('/')[3];

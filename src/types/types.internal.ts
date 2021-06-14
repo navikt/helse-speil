@@ -136,18 +136,18 @@ export enum Dagtype {
     Permisjon = 'Permisjon',
 }
 
-export interface Sykdomsdag {
+export interface Dag {
     dato: Dayjs;
     type: Dagtype;
-    kildeId?: string;
-    kilde?: Kildetype;
     gradering?: number;
 }
 
-export interface Utbetalingsdag {
-    dato: Dayjs;
-    type: Dagtype;
-    gradering?: number;
+export interface Sykdomsdag extends Dag {
+    kildeId?: string;
+    kilde?: Kildetype;
+}
+
+export interface Utbetalingsdag extends Dag {
     totalGradering?: number;
     utbetaling?: number;
     avvistÅrsaker?: AvvistBegrunnelse[];

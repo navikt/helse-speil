@@ -25,18 +25,13 @@ const RedigerKnapp = styled.button`
     }
 `;
 
-interface OverstyringsknappProps {
+interface OverstyringsknappProps extends React.HTMLAttributes<HTMLButtonElement> {
     overstyrer: boolean;
-    overstyringsknappTekst?: string;
     toggleOverstyring: () => void;
 }
 
-export const Overstyringsknapp = ({
-    overstyrer,
-    toggleOverstyring,
-    overstyringsknappTekst = 'Endre',
-}: OverstyringsknappProps) => (
-    <RedigerKnapp type="button" onClick={toggleOverstyring}>
+export const Overstyringsknapp = ({ overstyrer, toggleOverstyring, children, ...rest }: OverstyringsknappProps) => (
+    <RedigerKnapp type="button" onClick={toggleOverstyring} {...rest}>
         {overstyrer ? (
             <>
                 <IconOpen />
@@ -45,7 +40,7 @@ export const Overstyringsknapp = ({
         ) : (
             <>
                 <IconLocked />
-                {overstyringsknappTekst}
+                {children}
             </>
         )}
     </RedigerKnapp>
