@@ -45,7 +45,7 @@ interface Periode {
     tom: Dayjs;
 }
 
-export const tilPeriode = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dagtype): String | undefined => {
+export const tilPeriodeTekst = (utbetalingstidslinje: Utbetalingsdag[], dagtype: Dagtype): string | undefined => {
     const split = splitPerioderPåDagtype(utbetalingstidslinje, dagtype);
     const antallDager = utbetalingstidslinje.filter(({ type }) => type === dagtype).length;
     return periodetekst(antallDager, split);
@@ -58,7 +58,7 @@ const splitPerioderPåDagtype = (utbetalingstidslinje: Utbetalingsdag[], dagtype
         if (dag.type === dagtype && !påbegyntPeriode) {
             påbegyntPeriode = dag.dato;
         }
-        if (påbegyntPeriode && dag.type !== dagtype && dag.type !== Dagtype.Helg) {
+        if (påbegyntPeriode && dag.type !== dagtype) {
             resultat = [...resultat, { fom: påbegyntPeriode, tom: dag.dato.subtract(1, 'day') }];
             påbegyntPeriode = undefined;
         }
@@ -182,9 +182,9 @@ export const HoverInfo = ({ vedtaksperiode }: HoverInfoProps) => {
 
     const utbetalt = utbetaltForPeriode(vedtaksperiode);
     const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje ?? [];
-    const arbeidsgiverperiode = tilPeriode(utbetalingstidslinje, Dagtype.Arbeidsgiverperiode);
-    const ferieperiode = tilPeriode(utbetalingstidslinje, Dagtype.Ferie);
-    const permisjonsperiode = tilPeriode(utbetalingstidslinje, Dagtype.Permisjon);
+    const arbeidsgiverperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Arbeidsgiverperiode);
+    const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Ferie);
+    const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Permisjon);
 
     return (
         <Container>
@@ -250,9 +250,9 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
     const tom = tidslinjeperiode.tom.format(NORSK_DATOFORMAT);
 
     const utbetalingstidslinje = tidslinjeperiode.utbetalingstidslinje ?? [];
-    const arbeidsgiverperiode = tilPeriode(utbetalingstidslinje, Dagtype.Arbeidsgiverperiode);
-    const ferieperiode = tilPeriode(utbetalingstidslinje, Dagtype.Ferie);
-    const permisjonsperiode = tilPeriode(utbetalingstidslinje, Dagtype.Permisjon);
+    const arbeidsgiverperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Arbeidsgiverperiode);
+    const ferieperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Ferie);
+    const permisjonsperiode = tilPeriodeTekst(utbetalingstidslinje, Dagtype.Permisjon);
 
     return (
         <Container>

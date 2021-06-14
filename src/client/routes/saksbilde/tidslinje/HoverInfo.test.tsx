@@ -5,7 +5,7 @@ import { Dagtype, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 import { mappetVedtaksperiode } from 'test-data';
 
-import { HoverInfo, tilPeriode } from './HoverInfo';
+import { HoverInfo, tilPeriodeTekst } from './HoverInfo';
 import { utbetalingstidslinje } from './useTidslinjerader.test';
 
 const enPeriode = mappetVedtaksperiode();
@@ -27,6 +27,32 @@ describe('HoverInfo', () => {
         render(<HoverInfo vedtaksperiode={periodeMedArbeidsgiverperiodedager} />);
         expect(screen.getByText('Arbeidsgiverperiode:')).toBeVisible();
         expect(screen.getByText('01.01.2020 - 16.01.2020')).toBeVisible();
+    });
+    test('teller ikke med trailing helg etter arbeidsgiverperiode', () => {
+        const periodeMedArbeidsgiverperiodedager = {
+            ...enPeriode,
+            utbetalingstidslinje: [
+                ...new Array(17).fill(enArbeidsgiverperiodedag),
+                ...enPeriode.utbetalingstidslinje.slice(17),
+            ],
+        };
+        render(<HoverInfo vedtaksperiode={periodeMedArbeidsgiverperiodedager} />);
+        expect(screen.getByText('Arbeidsgiverperiode:')).toBeVisible();
+        expect(screen.getByText('01.01.2020 - 17.01.2020')).toBeVisible();
+    });
+    test('teller ikke med trailing helg etter oppdelt arbeidsgiverperiode', () => {
+        const periodeMedArbeidsgiverperiodedager = {
+            ...enPeriode,
+            utbetalingstidslinje: [
+                ...new Array(8).fill(enArbeidsgiverperiodedag),
+                { type: Dagtype.Ferie, dato: dayjs('2020-01-01') },
+                ...new Array(7).fill(enArbeidsgiverperiodedag),
+                ...enPeriode.utbetalingstidslinje.slice(16),
+            ],
+        };
+        render(<HoverInfo vedtaksperiode={periodeMedArbeidsgiverperiodedager} />);
+        expect(screen.getByText('Arbeidsgiverperiode:')).toBeVisible();
+        expect(screen.getByText('15 dager')).toBeVisible();
     });
     test('viser antall feriedager', () => {
         const periodeMedFerie = {
@@ -70,26 +96,26 @@ describe('HoverInfo', () => {
 describe('Periode til visning', () => {
     test('Utbetalingstidslinje uten dagtype', () => {
         const tidslinje = utbetalingstidslinje(dayjs('2020-01-01'), dayjs('2020-01-31'), Dagtype.Ferie);
-        expect(tilPeriode(tidslinje, Dagtype.Syk)).toBeUndefined();
+        expect(tilPeriodeTekst(tidslinje, Dagtype.Syk)).toBeUndefined();
     });
 
     test('Utbetalingstidslinje med ferie', () => {
         const tidslinje = utbetalingstidslinje(dayjs('2020-01-01'), dayjs('2020-01-31'), Dagtype.Ferie);
-        expect(tilPeriode(tidslinje, Dagtype.Ferie)).toEqual('01.01.2020 - 31.01.2020');
+        expect(tilPeriodeTekst(tidslinje, Dagtype.Ferie)).toEqual('01.01.2020 - 31.01.2020');
     });
 
     test('Utbetalingstidslinje med 1 dag sykdom', () => {
         const tidslinje = utbetalingstidslinje(dayjs('2020-01-01'), dayjs('2020-01-30'), Dagtype.Ferie);
         const tidslinje2 = utbetalingstidslinje(dayjs('2020-01-31'), dayjs('2020-01-31'), Dagtype.Syk);
         const totalLinje = [...tidslinje, ...tidslinje2];
-        expect(tilPeriode(totalLinje, Dagtype.Syk)).toEqual('31.01.2020');
+        expect(tilPeriodeTekst(totalLinje, Dagtype.Syk)).toEqual('31.01.2020');
     });
 
     test('Utbetalingstidslinje med ferie og sykdom', () => {
         const tidslinje = utbetalingstidslinje(dayjs('2020-01-01'), dayjs('2020-01-15'), Dagtype.Ferie);
         const tidslinje2 = utbetalingstidslinje(dayjs('2020-01-16'), dayjs('2020-01-31'), Dagtype.Syk);
         const totalLinje = [...tidslinje, ...tidslinje2];
-        expect(tilPeriode(totalLinje, Dagtype.Ferie)).toEqual('01.01.2020 - 15.01.2020');
+        expect(tilPeriodeTekst(totalLinje, Dagtype.Ferie)).toEqual('01.01.2020 - 15.01.2020');
     });
 
     test('Utbetalingstidslinje med flere ferie-perioder', () => {
@@ -97,6 +123,6 @@ describe('Periode til visning', () => {
         const tidslinje2 = utbetalingstidslinje(dayjs('2020-01-16'), dayjs('2020-01-28'), Dagtype.Syk);
         const tidslinje3 = utbetalingstidslinje(dayjs('2020-01-29'), dayjs('2020-01-31'), Dagtype.Ferie);
         const totalLinje = [...tidslinje, ...tidslinje2, ...tidslinje3];
-        expect(tilPeriode(totalLinje, Dagtype.Ferie)).toEqual('18 dager');
+        expect(tilPeriodeTekst(totalLinje, Dagtype.Ferie)).toEqual('18 dager');
     });
 });
