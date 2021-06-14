@@ -24,7 +24,7 @@ interface SaksbildeRevurderingProps {
 }
 
 const Content = styled.div`
-    margin: 0 2.5rem;
+    margin: 1rem 2.5rem 4rem;
     height: 100%;
 `;
 
