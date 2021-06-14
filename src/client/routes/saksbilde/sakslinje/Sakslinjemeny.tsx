@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
-import { Utbetalinger } from 'internal-types';
 import React from 'react';
 
 import { PopoverOrientering } from 'nav-frontend-popover';
 
 import { Dropdown, Strek } from '../../../components/dropdown/Dropdown';
-import { useErAnnullert, Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode, useErAnnullert } from '../../../modell/UtbetalingshistorikkElement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePerson } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
@@ -27,18 +26,17 @@ export interface VerktøylinjeProps {
     aktivPeriode: Tidslinjeperiode;
 }
 
-export const Verktøylinje = ({ aktivPeriode }: VerktøylinjeProps) => {
-    const personTilBehandling = usePerson();
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
-    const tildeling = personTilBehandling?.tildeling;
+export const Sakslinjemeny = ({ aktivPeriode }: VerktøylinjeProps) => {
     const { oid } = useInnloggetSaksbehandler();
-    const tildeltTilMeg = tildeling?.saksbehandler.oid === oid;
+    const person = usePerson();
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
-    const utbetalinger: Utbetalinger | undefined = vedtaksperiode?.utbetalinger;
     const vedtaksperiodeErAnnullert: boolean = useErAnnullert(aktivPeriode.beregningId);
 
-    const visAnnulleringsmuligheter =
-        !vedtaksperiodeErAnnullert && annulleringerEnabled && utbetalinger?.arbeidsgiverUtbetaling;
+    const showAnnullering =
+        !vedtaksperiodeErAnnullert && annulleringerEnabled && vedtaksperiode?.utbetalinger?.arbeidsgiverUtbetaling;
+
+    const tildeltInnloggetBruker = person?.tildeling?.saksbehandler.oid === oid;
 
     return (
         <Container>
@@ -48,24 +46,24 @@ export const Verktøylinje = ({ aktivPeriode }: VerktøylinjeProps) => {
                         {oppgavereferanse && (
                             <Tildelingsknapp
                                 oppgavereferanse={oppgavereferanse}
-                                tildeling={tildeling}
-                                erTildeltInnloggetBruker={tildeltTilMeg}
+                                tildeling={person?.tildeling}
+                                erTildeltInnloggetBruker={tildeltInnloggetBruker}
                             />
                         )}
-                        {tildeltTilMeg && (
-                            <PåVentKnapp erPåVent={tildeling?.påVent} oppgavereferanse={oppgavereferanse} />
+                        {tildeltInnloggetBruker && (
+                            <PåVentKnapp erPåVent={person?.tildeling?.påVent} oppgavereferanse={oppgavereferanse} />
                         )}
                         <Strek />
                     </>
                 )}
                 {oppdaterPersondataEnabled && <OppdaterPersondata />}
                 <AnonymiserData />
-                {visAnnulleringsmuligheter && <Annullering aktivPeriode={aktivPeriode} />}
+                {showAnnullering && <Annullering aktivPeriode={aktivPeriode} />}
             </Dropdown>
         </Container>
     );
 };
 
-export const VerktøylinjeForTomtSaksbilde = () => {
-    return <Container>{oppdaterPersondataEnabled && <OppdaterPersondata />}</Container>;
-};
+export const VerktøylinjeForTomtSaksbilde = () => (
+    <Container>{oppdaterPersondataEnabled && <OppdaterPersondata />}</Container>
+);

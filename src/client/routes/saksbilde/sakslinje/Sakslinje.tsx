@@ -5,7 +5,7 @@ import { Location, useNavigation } from '../../../hooks/useNavigation';
 import { Periodetype, Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 
 import { TabLink } from '../TabLink';
-import { Verktøylinje, VerktøylinjeForTomtSaksbilde } from './Verktøylinje';
+import { Sakslinjemeny, VerktøylinjeForTomtSaksbilde } from './Sakslinjemeny';
 import { HjemIkon } from './icons/HjemIkon';
 
 const Container = styled.div`
@@ -14,6 +14,10 @@ const Container = styled.div`
     display: flex;
     flex: 1;
     padding: 0 2.5rem 0 2rem;
+
+    > div:last-of-type {
+        margin-left: 1rem;
+    }
 `;
 
 const TabList = styled.span`
@@ -45,15 +49,13 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
                     </TabLink>
                 </TabList>
             )}
-            <Verktøylinje aktivPeriode={aktivPeriode} />
+            <Sakslinjemeny aktivPeriode={aktivPeriode} />
         </Container>
     );
 };
 
-export const SakslinjeForTomtSaksbilde = () => {
-    return (
-        <Container>
-            <VerktøylinjeForTomtSaksbilde />
-        </Container>
-    );
-};
+export const SakslinjeForTomtSaksbilde = () => (
+    <Container>
+        <VerktøylinjeForTomtSaksbilde />
+    </Container>
+);
