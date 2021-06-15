@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 
 import { Flex, FlexColumn } from '../../../components/Flex';
@@ -64,13 +65,27 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
         {rader.length > 0 && (
             <Rader>
                 <Tidslinjerad key="tidslinjerad-0" rad={rader[0]} erKlikkbar={true} />
-                {erEkspandert && (
-                    <ForeldedeRaderContainer>
-                        {rader.slice(1).map((it, i) => (
-                            <Tidslinjerad key={`tidslinjerad-${i + 1}`} rad={it} erKlikkbar={true} erForeldet />
-                        ))}
-                    </ForeldedeRaderContainer>
-                )}
+                <AnimatePresence>
+                    {erEkspandert && (
+                        <ForeldedeRaderContainer style={{ overflow: 'hidden', padding: '6px 3px', margin: -3 }}>
+                            {rader.slice(1).map((it, i) => (
+                                <motion.div
+                                    key={`tidslinjerad-${i + 1}`}
+                                    initial={{ height: 0 }}
+                                    animate={{ height: 'max-content' }}
+                                    exit={{ height: 0 }}
+                                    transition={{
+                                        type: 'tween',
+                                        ease: 'easeInOut',
+                                        duration: 0.1,
+                                    }}
+                                >
+                                    <Tidslinjerad rad={it} erKlikkbar={true} erForeldet />
+                                </motion.div>
+                            ))}
+                        </ForeldedeRaderContainer>
+                    )}
+                </AnimatePresence>
             </Rader>
         )}
     </Flex>
