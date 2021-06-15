@@ -93,10 +93,10 @@ export const OverstyrbarUtbetalingstabell = ({
                                     Grad
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    Total grad
+                                    Kilde
                                 </Header>
                                 <Header scope="col" colSpan={1}>
-                                    Kilde
+                                    Total grad
                                 </Header>
                                 <Header scope="col" colSpan={1}>
                                     Utbetaling
@@ -128,13 +128,13 @@ export const OverstyrbarUtbetalingstabell = ({
                                         utbetalingsdag={utbetalingsdag}
                                         onOverstyr={addDag}
                                     />
-                                    <TotalGradCell
-                                        type={utbetalingsdag.type}
-                                        totalGradering={utbetalingsdag.totalGradering}
-                                    />
                                     <KildeCell
                                         type={sykdomsdag.type}
                                         kilde={maybeOverstyrtDag ? Kildetype.Saksbehandler : sykdomsdag.kilde}
+                                    />
+                                    <TotalGradCell
+                                        type={utbetalingsdag.type}
+                                        totalGradering={utbetalingsdag.totalGradering}
                                     />
                                     <UtbetalingCell utbetaling={utbetalingsdag.utbetaling} />
                                     <GjenståendeDagerCell gjenståendeDager={utbetalingsdag.dagerIgjen} />

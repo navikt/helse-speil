@@ -73,10 +73,10 @@ export const Utbetalingstabell = ({
                             Grad
                         </Header>
                         <Header scope="col" colSpan={1}>
-                            Total grad
+                            Kilde
                         </Header>
                         <Header scope="col" colSpan={1}>
-                            Kilde
+                            Total grad
                         </Header>
                         <Header scope="col" colSpan={1}>
                             Utbetaling

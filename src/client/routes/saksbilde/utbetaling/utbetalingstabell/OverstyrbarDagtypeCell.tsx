@@ -58,12 +58,11 @@ export const OverstyrbarDagtypeCell = ({ sykdomsdag, utbetalingsdag, onOverstyr 
         onOverstyr({ ...sykdomsdag, type: nyDagtype });
     };
 
-    const sykdomsdagKanOverstyres = (type: Dagtype): boolean =>
+    const dagKanOverstyres = (type: Dagtype): boolean =>
         (type !== Dagtype.Helg && [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding].includes(type)) ||
         (overstyrPermisjonsdagerEnabled && type === Dagtype.Permisjon);
 
-    const kanOverstyres =
-        sykdomsdagKanOverstyres(sykdomsdag.type) && utbetalingsdag.type !== Dagtype.Arbeidsgiverperiode;
+    const kanOverstyres = dagKanOverstyres(sykdomsdag.type) && utbetalingsdag.type !== Dagtype.Arbeidsgiverperiode;
 
     return (
         <td>
@@ -74,9 +73,7 @@ export const OverstyrbarDagtypeCell = ({ sykdomsdag, utbetalingsdag, onOverstyr 
                 {kanOverstyres ? (
                     <OverstyrbarSelect defaultValue={sykdomsdag.type} onChange={onSelectDagtype}>
                         {Object.values(Dagtype)
-                            .filter(
-                                (dagtype: Dagtype) => sykdomsdagKanOverstyres(dagtype) || dagtype === opprinneligDagtype
-                            )
+                            .filter((dagtype: Dagtype) => dagKanOverstyres(dagtype) || dagtype === opprinneligDagtype)
                             .map((dagtype: Dagtype) => (
                                 <option key={dagtype}>{dagtype}</option>
                             ))}
