@@ -67,7 +67,7 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
     return (
         <Container>
             <CheckboxGruppe
-                legend={'Årsak til at saken ikke utbetales i speil'}
+                legend={'Årsak til at saken ikke kan behandles'}
                 feil={errors.begrunnelser ? errors.begrunnelser.message : null}
             >
                 {warnings?.map((advarsel, index) => {
@@ -121,7 +121,7 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                         }}
                         aria-invalid={errors.kommentar?.message}
                         aria-errormessage={errors.kommentar?.message}
-                        placeholder="Gi en kort forklaring på hvorfor du avviste utbetalingen. Eksempel: Oppgave om oppfølging"
+                        placeholder="Gi en kort forklaring på hvorfor du ikke kan behandle saken. Eksempel: Oppgave om oppfølging"
                         maxLength={0}
                     />
                 )}

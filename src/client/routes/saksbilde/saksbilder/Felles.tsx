@@ -258,7 +258,7 @@ const Arbeidsflate = styled.section`
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    width: 19.5rem;
+    width: 340px;
     min-width: 19.5rem;
     padding: 2rem 1.5rem;
 `;

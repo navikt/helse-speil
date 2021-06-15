@@ -49,6 +49,11 @@ const Knapper = styled.div`
     > *:not(:last-child) {
         margin-right: 1rem;
     }
+
+    > button {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+    }
 `;
 
 const useVedtakstoast = () => {
@@ -169,7 +174,7 @@ export const Utbetalingsdialog = ({
                 </Hovedknapp>
                 {kanAvvises && (
                     <Knapp mini onClick={åpneAvvisningsmodal}>
-                        Avvis
+                        Kan ikke behandles her
                     </Knapp>
                 )}
             </Knapper>

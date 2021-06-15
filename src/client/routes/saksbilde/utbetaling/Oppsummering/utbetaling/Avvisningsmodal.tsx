@@ -65,8 +65,8 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
     return (
         <StyledModal
             isOpen
-            title={<Systemtittel>Ikke utbetal</Systemtittel>}
-            contentLabel="Avvis utbetaling"
+            title={<Systemtittel>Kan ikke behandles her</Systemtittel>}
+            contentLabel="Kan ikke behandles her"
             onRequestClose={onClose}
         >
             <FormProvider {...form}>

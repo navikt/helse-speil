@@ -65,7 +65,7 @@ export const Row = styled.tr<RowProps>`
         }
 
         &:not(:first-of-type):not(:last-of-type) {
-            padding-right: 3rem;
+            padding-right: 1rem;
         }
     }
 
