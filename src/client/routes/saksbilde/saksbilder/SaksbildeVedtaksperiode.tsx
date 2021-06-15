@@ -15,13 +15,15 @@ import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje
 import { AmplitudeProvider } from '../AmplitudeContext';
 import { getErrorMelding } from '../Saksbilde';
 import { Faresignaler } from '../faresignaler/Faresignaler';
+import { LoggContainer } from '../logg/LoggContainer';
+import { LoggHeader } from '../logg/LoggHeader';
+import { LoggListe } from '../logg/LoggListe';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny } from '../venstremeny/Venstremeny';
 import { Vilkår } from '../vilkår/Vilkår';
-import { LoggContainer, LoggHeader, LoggListe } from './Logg';
 
 interface SaksbildeVedtaksperiodeProps {
     personTilBehandling: Person;

@@ -9,11 +9,13 @@ import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../mo
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
+import { LoggContainer } from '../logg/LoggContainer';
+import { LoggHeader } from '../logg/LoggHeader';
+import { LoggListe } from '../logg/LoggListe';
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Utbetalingstabell } from '../utbetaling/utbetalingstabell/Utbetalingstabell';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny } from '../venstremeny/Venstremeny';
-import { LoggContainer, LoggHeader, LoggListe } from './Logg';
 
 const AutoFlexContainer = styled.div`
     flex: auto;
