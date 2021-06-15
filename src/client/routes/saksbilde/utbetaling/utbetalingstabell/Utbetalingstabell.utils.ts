@@ -1,6 +1,4 @@
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
-
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
+import { Dag, Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
@@ -17,9 +15,5 @@ export const withDagerIgjen = (dager: Utbetalingsdag[], totaltAntallDagerIgjen: 
               )
         : [];
 
-export const getMatchingSykdomsdag = (utbetalingsdag: Utbetalingsdag, sykdomstidslinje: Sykdomsdag[]): Sykdomsdag =>
-    sykdomstidslinje.find(({ dato }) => dato.isSame(utbetalingsdag.dato)) ??
-    (() => {
-        const dato = utbetalingsdag.dato.format(NORSK_DATOFORMAT);
-        throw Error(`Utbetalingsdag ${dato} har ikke tilsvarende sykdomsdag i sykdomstidslinjen.`);
-    })();
+export const getMatchingSykdomsdag = (utbetalingsdag: Utbetalingsdag, sykdomstidslinje: Sykdomsdag[]): Dag =>
+    sykdomstidslinje.find(({ dato }) => dato.isSame(utbetalingsdag.dato)) ?? utbetalingsdag;

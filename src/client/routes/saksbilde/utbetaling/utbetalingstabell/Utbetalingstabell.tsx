@@ -1,14 +1,23 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Dagtype, Overstyring, Periode, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dagtype, Overstyring, Sykdomsdag } from 'internal-types';
 import React from 'react';
 
+import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
 import { Header } from '../../table/Header';
+import { Row } from '../../table/Row';
 import { Table } from '../../table/Table';
+import { DateCell } from './DateCell';
+import { GjenståendeDagerCell } from './GjenståendeDagerCell';
+import { GradCell } from './GradCell';
+import { KildeCell } from './KildeCell';
+import { MerknaderCell } from './MerknaderCell';
+import { TotalGradCell } from './TotalGradCell';
 import { TotalRow } from './TotalRow';
-import { UtbetalingsoversiktRow } from './UtbetalingsoversiktRow';
+import { UtbetalingCell } from './UtbetalingCell';
+import { UtbetalingsdagCell } from './UtbetalingsdagCell';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 import { getMatchingSykdomsdag, withDagerIgjen } from './Utbetalingstabell.utils';
 
@@ -24,37 +33,28 @@ const getOverstyringMatchingDate = (date: Dayjs, overstyringer: Overstyring[]): 
     overstyringer.find(({ overstyrteDager }) => overstyrteDager.find((it) => it.dato.isSame(date)));
 
 interface UtbetalingstabellProps {
-    periode: Periode;
-    sykdomstidslinje: Sykdomsdag[];
-    utbetalingstidslinje: Utbetalingsdag[];
+    periode: Tidslinjeperiode;
     overstyringer: Overstyring[];
     gjenståendeDager?: number;
     maksdato?: Dayjs;
 }
 
-export const Utbetalingstabell = ({
-    periode,
-    sykdomstidslinje,
-    utbetalingstidslinje,
-    gjenståendeDager,
-    maksdato,
-    overstyringer,
-}: UtbetalingstabellProps) => {
+export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overstyringer }: UtbetalingstabellProps) => {
     const fom = periode.fom.format(NORSK_DATOFORMAT);
     const tom = periode.tom.format(NORSK_DATOFORMAT);
 
     const antallDagerIgjen = maksdato
-        ? utbetalingstidslinje.filter((it) => it.type === Dagtype.Syk && it.dato.isSameOrBefore(maksdato)).length +
-          (gjenståendeDager ?? 0)
+        ? periode.utbetalingstidslinje.filter((it) => it.type === Dagtype.Syk && it.dato.isSameOrBefore(maksdato))
+              .length + (gjenståendeDager ?? 0)
         : gjenståendeDager ?? 0;
 
     const utbetalingsdager = gjenståendeDager
-        ? withDagerIgjen(utbetalingstidslinje, antallDagerIgjen)
-        : utbetalingstidslinje;
+        ? withDagerIgjen(periode.utbetalingstidslinje, antallDagerIgjen)
+        : periode.utbetalingstidslinje;
 
     const rader: [UtbetalingstabellDag, Sykdomsdag, Overstyring | undefined][] = utbetalingsdager.map((it) => [
         it,
-        getMatchingSykdomsdag(it, sykdomstidslinje),
+        getMatchingSykdomsdag(it, periode.sykdomstidslinje),
         getOverstyringMatchingDate(it.dato, overstyringer),
     ]);
 
@@ -91,19 +91,28 @@ export const Utbetalingstabell = ({
                 </thead>
                 <tbody>
                     <TotalRow
-                        utbetalingstidslinje={utbetalingstidslinje}
+                        utbetalingstidslinje={periode.utbetalingstidslinje}
                         maksdato={maksdato}
                         gjenståendeDager={gjenståendeDager}
                     />
                     {rader.map(([utbetalingsdag, sykdomsdag, maybeOverstyring], i) => (
-                        <UtbetalingsoversiktRow
-                            key={i}
-                            utbetalingsdag={utbetalingsdag}
-                            sykdomsdag={sykdomsdag}
-                            isMaksdato={maksdato !== undefined && utbetalingsdag.dato.isSame(maksdato, 'day')}
-                            gjenståendeDager={utbetalingsdag.dagerIgjen}
-                            overstyring={maybeOverstyring}
-                        />
+                        <Row type={utbetalingsdag.type} key={i}>
+                            <DateCell date={utbetalingsdag.dato} />
+                            <UtbetalingsdagCell
+                                typeUtbetalingsdag={utbetalingsdag.type}
+                                typeSykdomsdag={sykdomsdag.type}
+                            />
+                            <GradCell type={utbetalingsdag.type} grad={utbetalingsdag.gradering} />
+                            <KildeCell type={sykdomsdag.type} kilde={sykdomsdag.kilde} overstyring={maybeOverstyring} />
+                            <TotalGradCell type={utbetalingsdag.type} totalGradering={utbetalingsdag.totalGradering} />
+                            <UtbetalingCell utbetaling={utbetalingsdag.utbetaling} />
+                            <GjenståendeDagerCell gjenståendeDager={utbetalingsdag.dagerIgjen} />
+                            <MerknaderCell
+                                style={{ width: '100%' }}
+                                dag={utbetalingsdag}
+                                isMaksdato={maksdato !== undefined && utbetalingsdag.dato.isSame(maksdato, 'day')}
+                            />
+                        </Row>
                     ))}
                 </tbody>
             </Table>

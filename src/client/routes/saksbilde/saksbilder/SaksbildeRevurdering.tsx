@@ -65,10 +65,8 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                             <Flex style={{ height: '100%' }}>
                                 <Utbetalingstabell
                                     maksdato={maksdato}
+                                    periode={aktivPeriode}
                                     gjenståendeDager={gjenståendeDager}
-                                    periode={{ fom: aktivPeriode.fom, tom: aktivPeriode.tom }}
-                                    utbetalingstidslinje={aktivPeriode.utbetalingstidslinje}
-                                    sykdomstidslinje={aktivPeriode.sykdomstidslinje}
                                     overstyringer={vedtaksperiode.overstyringer}
                                 />
                             </Flex>

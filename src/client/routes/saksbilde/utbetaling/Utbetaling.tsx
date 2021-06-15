@@ -82,9 +82,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
                         <Utbetalingstabell
                             maksdato={maksdato}
                             gjenståendeDager={gjenståendeDager}
-                            periode={{ fom: periode.fom, tom: periode.tom }}
-                            utbetalingstidslinje={periode.utbetalingstidslinje}
-                            sykdomstidslinje={periode.sykdomstidslinje}
+                            periode={periode}
                             overstyringer={vedtaksperiode.overstyringer}
                         />
                     )}

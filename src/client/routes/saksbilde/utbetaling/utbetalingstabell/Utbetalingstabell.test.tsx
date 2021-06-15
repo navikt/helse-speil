@@ -5,6 +5,8 @@ import { Dagtype, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { mappetPerson } from 'test-data';
 
+import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+
 import { umappetArbeidsgiver } from '../../../../../test/data/arbeidsgiver';
 import {
     mappetVedtaksperiode,
@@ -42,17 +44,18 @@ describe('Utbetalingsoversikt', () => {
 
     it('Alle dager er godkjent', async () => {
         const vedtaksperiode = mappetVedtaksperiode();
-        const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
-        const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
-        const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
+        const periode = {
+            fom: vedtaksperiode.fom,
+            tom: vedtaksperiode.tom,
+            utbetalingstidslinje: vedtaksperiode.utbetalingstidslinje,
+            sykdomstidslinje: vedtaksperiode.sykdomstidslinje,
+        };
         const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
         render(
             <Utbetalingstabell
-                utbetalingstidslinje={utbetalingstidslinje}
-                sykdomstidslinje={sykdomstidslinje}
                 maksdato={maksdato}
                 gjenståendeDager={gjenståendeDager}
-                periode={periode}
+                periode={periode as Tidslinjeperiode}
                 overstyringer={vedtaksperiode.overstyringer}
             />
         );
@@ -63,15 +66,20 @@ describe('Utbetalingsoversikt', () => {
 
     it('Alle kolonnene i tabellen er til stede', async () => {
         const vedtaksperiode = mappetVedtaksperiode();
-        const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
-        const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
-        const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
+        const periode = {
+            fom: vedtaksperiode.fom,
+            tom: vedtaksperiode.tom,
+            utbetalingstidslinje: vedtaksperiode.utbetalingstidslinje,
+            sykdomstidslinje: vedtaksperiode.sykdomstidslinje,
+        };
         const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
-        const overstyringer = vedtaksperiode.overstyringer;
 
         render(
             <Utbetalingstabell
-                {...{ utbetalingstidslinje, sykdomstidslinje, maksdato, gjenståendeDager, periode, overstyringer }}
+                maksdato={maksdato}
+                gjenståendeDager={gjenståendeDager}
+                periode={periode as Tidslinjeperiode}
+                overstyringer={vedtaksperiode.overstyringer}
             />
         );
         expect(screen.queryByText('Dato')).toBeVisible();
@@ -112,23 +120,20 @@ describe('Utbetalingsoversikt', () => {
                 ]),
             ]),
         ]).arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
-
-        const periode = { fom: vedtaksperiode.fom, tom: vedtaksperiode.tom };
-        const utbetalingstidslinje = vedtaksperiode.utbetalingstidslinje;
-        const sykdomstidslinje = vedtaksperiode.sykdomstidslinje;
+        const periode = {
+            fom: vedtaksperiode.fom,
+            tom: vedtaksperiode.tom,
+            utbetalingstidslinje: vedtaksperiode.utbetalingstidslinje,
+            sykdomstidslinje: vedtaksperiode.sykdomstidslinje,
+        };
         const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
-        const overstyringer = vedtaksperiode.overstyringer;
 
         render(
             <Utbetalingstabell
-                {...{
-                    sykdomstidslinje,
-                    utbetalingstidslinje,
-                    maksdato,
-                    gjenståendeDager,
-                    periode,
-                    overstyringer,
-                }}
+                periode={periode as Tidslinjeperiode}
+                maksdato={maksdato}
+                gjenståendeDager={gjenståendeDager}
+                overstyringer={vedtaksperiode.overstyringer}
             />
         );
 
