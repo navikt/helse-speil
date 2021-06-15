@@ -16,7 +16,7 @@ import {
     kalkuleringFerdigToast,
 } from './kalkuleringstoasts';
 
-type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | Dagtype;
+type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist' | Dagtype;
 
 const tilOverstyrtDagtype = (type: Dagtype): OverstyrtDagtype => {
     switch (type) {
@@ -28,6 +28,8 @@ const tilOverstyrtDagtype = (type: Dagtype): OverstyrtDagtype => {
             return 'Permisjonsdag';
         case Dagtype.Egenmelding:
             return 'Egenmeldingsdag';
+        case Dagtype.Avvist:
+            return 'Avvist';
         default:
             return type;
     }
