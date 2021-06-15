@@ -19,8 +19,8 @@ import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Sykepengegrunnlag } from '../sykepengegrunnlag/Sykepengegrunnlag';
 import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
+import { VenstreMeny } from '../venstremeny/Venstremeny';
 import { Vilkår } from '../vilkår/Vilkår';
-import { VenstreMeny, VertikalStrek } from './Felles';
 import { LoggContainer, LoggHeader, LoggListe } from './Logg';
 
 interface SaksbildeVedtaksperiodeProps {
@@ -65,7 +65,6 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                 skjæringstidspunkt={vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
                                 maksdato={maksdato}
                             />
-                            <VertikalStrek />
                             <FlexColumn style={{ flex: 1, height: '100%' }}>
                                 <Saksbildevarsler
                                     aktivPeriode={aktivPeriode}

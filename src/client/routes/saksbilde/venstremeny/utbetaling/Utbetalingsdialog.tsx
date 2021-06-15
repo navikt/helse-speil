@@ -10,13 +10,13 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
-import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../../io/http';
-import { Tidslinjeperiode } from '../../../../../modell/UtbetalingshistorikkElement';
-import { opptegnelsePollingTimeState } from '../../../../../state/opptegnelser';
-import { usePerson } from '../../../../../state/person';
-import { Scopes, useAddEphemeralVarsel } from '../../../../../state/varsler';
+import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../io/http';
+import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
+import { usePerson } from '../../../../state/person';
+import { Scopes, useAddEphemeralVarsel } from '../../../../state/varsler';
 
-import { AmplitudeContext } from '../../../AmplitudeContext';
+import { AmplitudeContext } from '../../AmplitudeContext';
 import { Avvisningsmodal } from './Avvisningsmodal';
 import { Utbetalingsmodal } from './Utbetalingsmodal';
 

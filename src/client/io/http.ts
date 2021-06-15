@@ -1,6 +1,6 @@
 import { EksternBehandlingstatistikk, SpesialistOppgave } from 'external-types';
 
-import { Avvisningsskjema } from '../routes/saksbilde/utbetaling/Oppsummering/utbetaling/Utbetalingsdialog';
+import { Avvisningsskjema } from '../routes/saksbilde/venstremeny/utbetaling/Utbetalingsdialog';
 
 import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
 

@@ -4,7 +4,7 @@ import React from 'react';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
-import { Modal } from '../../../../../components/Modal';
+import { Modal } from '../../../../components/Modal';
 
 const Knapper = styled.div`
     margin-top: 2rem;

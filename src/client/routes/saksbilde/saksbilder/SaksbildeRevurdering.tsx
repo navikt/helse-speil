@@ -12,7 +12,7 @@ import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje
 import { Sakslinje } from '../sakslinje/Sakslinje';
 import { Utbetalingstabell } from '../utbetaling/utbetalingstabell/Utbetalingstabell';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
-import { VenstreMeny, VertikalStrek } from './Felles';
+import { VenstreMeny } from '../venstremeny/Venstremeny';
 import { LoggContainer, LoggHeader, LoggListe } from './Logg';
 
 const AutoFlexContainer = styled.div`
@@ -54,7 +54,6 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                         arbeidsforhold={arbeidsforhold}
                         anonymiseringEnabled={anonymiseringEnabled}
                     />
-                    <VertikalStrek />
                     <FlexColumn style={{ flex: 1, height: '100%' }}>
                         <Saksbildevarsler
                             aktivPeriode={aktivPeriode}

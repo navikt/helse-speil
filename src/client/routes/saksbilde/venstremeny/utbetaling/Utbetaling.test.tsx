@@ -6,11 +6,11 @@ import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson } from 'test-data';
 
-import { Tidslinjetilstand } from '../../../../../mapping/arbeidsgiver';
-import { Periodetype, Tidslinjeperiode } from '../../../../../modell/UtbetalingshistorikkElement';
-import { personState } from '../../../../../state/person';
+import { Tidslinjetilstand } from '../../../../mapping/arbeidsgiver';
+import { Periodetype, Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { personState } from '../../../../state/person';
 
-import '../../../../../tekster';
+import '../../../../tekster';
 import { Utbetaling } from './Utbetaling';
 import { Avvisningsskjema } from './Utbetalingsdialog';
 

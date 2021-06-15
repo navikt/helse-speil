@@ -12,3 +12,6 @@ export const capitalizeName = (value: string) =>
         .split(' ')
         .map((value) => value.substring(0, 1).toUpperCase() + value.substring(1))
         .join(' ');
+
+export const capitalize = (value: string): string =>
+    value.replace(/\w\S*/g, (t) => t.charAt(0).toUpperCase() + t.substr(1).toLowerCase());

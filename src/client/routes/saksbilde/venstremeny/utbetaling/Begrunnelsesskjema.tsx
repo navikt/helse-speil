@@ -4,10 +4,10 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
 
-import { Tidslinjeperiode } from '../../../../../modell/UtbetalingshistorikkElement';
-import { useVedtaksperiode } from '../../../../../state/tidslinje';
+import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { useVedtaksperiode } from '../../../../state/tidslinje';
 
-import { har8_4Kategori } from '../../../vilkår/tilKategoriserteVilkår';
+import { har8_4Kategori } from '../../vilkår/tilKategoriserteVilkår';
 import { Begrunnelse } from './Utbetalingsdialog';
 
 const Container = styled(SkjemaGruppe)`
