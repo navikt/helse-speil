@@ -32,7 +32,7 @@ const DagtypeLabel = ({ sykdomsdag, utbetalingsdag }: DagtypeLabelProps) => {
     const text = (() => {
         switch (utbetalingsdag.type) {
             case Dagtype.Avvist:
-                return `${sykdomsdag.type} (Avvist)`;
+                return `${sykdomsdag.type} (Avslått)`;
             case Dagtype.Foreldet:
                 return `${sykdomsdag.type} (Foreldet)`;
             case Dagtype.Arbeidsgiverperiode:

@@ -30,7 +30,7 @@ export const UtbetalingsdagCell = ({ typeUtbetalingsdag, typeSykdomsdag, ...rest
     const text = (() => {
         switch (typeUtbetalingsdag) {
             case Dagtype.Avvist:
-                return `${typeSykdomsdag} (Avvist)`;
+                return `${typeSykdomsdag} (Avslått)`;
             case Dagtype.Foreldet:
                 return `${typeSykdomsdag} (Foreldet)`;
             case Dagtype.Arbeidsgiverperiode:

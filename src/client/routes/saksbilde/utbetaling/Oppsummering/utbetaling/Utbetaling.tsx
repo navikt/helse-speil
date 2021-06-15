@@ -14,7 +14,7 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
     const utbetaling = useUtbetaling(aktivPeriode.beregningId);
     const harBeløpTilUtbetaling = utbetaling?.nettobeløp ? utbetaling.nettobeløp !== 0 : false;
-    const utbetalingsknappTekst = erRevurdering ? 'Revurdér' : harBeløpTilUtbetaling ? 'Utbetal' : 'Godkjenn';
+    const utbetalingsknappTekst = erRevurdering ? 'Revurder' : harBeløpTilUtbetaling ? 'Utbetal' : 'Godkjenn';
 
     return harOppgave(aktivPeriode) && oppgavereferanse ? (
         <Utbetalingsdialog

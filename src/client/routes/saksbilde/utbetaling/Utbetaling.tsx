@@ -65,7 +65,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
                 {overstyringIsEnabled && (
                     <Flex justifyContent="flex-end" style={{ paddingTop: '1rem' }}>
                         <Overstyringsknapp overstyrer={overstyrer} toggleOverstyring={toggleOverstyring}>
-                            {revurderingIsEnabled ? 'Revurdér' : 'Endre'}
+                            {revurderingIsEnabled ? 'Revurder' : 'Endre'}
                         </Overstyringsknapp>
                     </Flex>
                 )}

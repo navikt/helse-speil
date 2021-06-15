@@ -194,7 +194,7 @@ interface UtbetalingKortProps {
     anonymiseringEnabled: boolean;
 }
 
-export const UtbetalingKort = ({
+const UtbetalingKort = ({
     beregningId,
     utbetalingsdagerTotalt,
     nettobeløp,
