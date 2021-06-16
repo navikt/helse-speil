@@ -3,12 +3,30 @@ import styled from '@emotion/styled';
 import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
 
 export const LoggHeader = styled(EksternLoggheader)`
-    width: 312px;
-    box-sizing: border-box;
+    width: 258px;
     box-shadow: inset 0 -1px 0 0 var(--navds-color-border);
-    height: 75px;
+    height: 48px;
+    box-sizing: border-box;
 
     & > button {
-        min-height: 75px;
+        height: 48px;
+        min-height: 48px;
+        box-sizing: border-box;
+        width: 3rem;
+
+        > svg {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+        }
+
+        &:hover:before {
+            height: 32px;
+            width: 32px;
+        }
+
+        &:disabled > svg > path {
+            fill: var(--navds-color-disabled);
+        }
     }
 `;

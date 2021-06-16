@@ -1,16 +1,7 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
-
-const DisabledTabLink = styled.a`
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    margin: 0 4px;
-    color: var(--navds-color-text-disabled);
-    outline: none;
-`;
 
 const Content = styled.span`
     color: transparent;
@@ -22,18 +13,26 @@ const Content = styled.span`
         left: 50%;
         transform: translateX(-50%);
         color: var(--navds-color-text-primary);
-        line-height: 22px;
     }
 `;
 
-const StyledTabLink = styled(NavLink)`
-    position: relative;
+const commonTabLinkStyle = css`
+    font-size: 14px;
     display: flex;
+    position: relative;
     align-items: center;
     padding: 0 10px;
     margin: 0 4px;
     outline: none;
-    line-height: 22px;
+`;
+
+const DisabledTabLink = styled.a`
+    ${commonTabLinkStyle};
+    color: var(--navds-color-text-disabled);
+`;
+
+const StyledTabLink = styled(NavLink)`
+    ${commonTabLinkStyle};
     text-decoration: none;
 
     &.active,

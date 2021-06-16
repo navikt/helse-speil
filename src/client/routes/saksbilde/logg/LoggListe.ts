@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
 
 export const LoggListe = styled(EksternLoggliste)`
-    width: 312px;
+    width: 258px;
     box-sizing: border-box;
     border-top: none;
 

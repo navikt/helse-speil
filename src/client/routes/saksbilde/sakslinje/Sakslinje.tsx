@@ -9,7 +9,8 @@ import { Sakslinjemeny, VerktøylinjeForTomtSaksbilde } from './Sakslinjemeny';
 import { HjemIkon } from './icons/HjemIkon';
 
 const Container = styled.div`
-    height: 74px;
+    height: 48px;
+    box-sizing: border-box;
     border-bottom: 1px solid var(--navds-color-border);
     display: flex;
     flex: 1;
