@@ -22,22 +22,27 @@ const FeilmeldingContainer = styled.div`
     margin-top: 1rem;
 `;
 
+const førsteArbeidsgiversSistePeriode = (person: Person) => person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0];
+
+const kunEnArbeidsgiver = (person: Person) => person.arbeidsgivere.length === 1;
+
 const revurderingEnabled = (person: Person, periode: Tidslinjeperiode): boolean =>
     overstyreUtbetaltPeriodeEnabled &&
-    person.arbeidsgivere.length > 0 &&
-    periode === person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0] &&
-    [Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk].includes(periode.tilstand);
+    kunEnArbeidsgiver(person) &&
+    periode === førsteArbeidsgiversSistePeriode(person) &&
+    [Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk, Tidslinjetilstand.Revurdert].includes(
+        periode.tilstand
+    );
 
 const overstyringEnabled = (person: Person, periode: Tidslinjeperiode): boolean =>
     overstyrbareTabellerEnabled &&
-    person.arbeidsgivere.length === 1 &&
-    ([
+    kunEnArbeidsgiver(person) &&
+    [
         Tidslinjetilstand.Oppgaver,
         Tidslinjetilstand.Avslag,
         Tidslinjetilstand.IngenUtbetaling,
         Tidslinjetilstand.Feilet,
-    ].includes(periode.tilstand) ||
-        revurderingEnabled(person, periode));
+    ].includes(periode.tilstand);
 
 export interface UtbetalingProps {
     periode: Tidslinjeperiode;
@@ -62,7 +67,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
     return (
         <AgurkErrorBoundary sidenavn="Utbetaling">
             <FlexColumn style={{ paddingBottom: '4rem' }}>
-                {overstyringIsEnabled && (
+                {(overstyringIsEnabled || revurderingIsEnabled) && (
                     <Flex justifyContent="flex-end" style={{ paddingTop: '1rem' }}>
                         <Overstyringsknapp overstyrer={overstyrer} toggleOverstyring={toggleOverstyring}>
                             {revurderingIsEnabled ? 'Revurder' : 'Endre'}
