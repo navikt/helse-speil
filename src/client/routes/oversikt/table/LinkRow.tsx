@@ -21,14 +21,22 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 export const LinkRow = ({ aktørId, onNavigate, children, ...rest }: LinkRowProps) => {
     const history = useHistory();
 
-    const navigate = () => {
+    const navigate = (event: React.KeyboardEvent | React.MouseEvent) => {
         onNavigate?.();
-        history.push(`/person/${aktørId}/utbetaling`);
+        const destinationUrl = `/person/${aktørId}/utbetaling`;
+        const pressedModifierKey = event.ctrlKey || event.metaKey;
+        const clickedMiddleMouseButton = (event as React.MouseEvent).button === 1;
+
+        if (pressedModifierKey || clickedMiddleMouseButton) {
+            window.open(destinationUrl, '_blank');
+        } else {
+            history.push(destinationUrl);
+        }
     };
 
     const onKeyPress = (event: React.KeyboardEvent) => {
         if (event.code === 'Space' || event.code === 'Enter') {
-            navigate();
+            navigate(event);
         }
     };
 
