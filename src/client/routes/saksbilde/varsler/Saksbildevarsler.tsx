@@ -92,6 +92,11 @@ export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferans
 
     return (
         <div className="Saksbildevarsler">
+            {aktivPeriode.tilstand === Tidslinjetilstand.Revurderes && (
+                <Saksbildevarsel type={Varseltype.Info}>
+                    <Normaltekst>Revurdering er igangsatt og må fullføres.</Normaltekst>
+                </Saksbildevarsel>
+            )}
             <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
             {varsler.map(({ grad, melding }, index) => (
                 <Saksbildevarsel type={grad} key={index}>

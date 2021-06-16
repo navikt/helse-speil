@@ -43,6 +43,11 @@ describe('Saksbildevarsler', () => {
         render(<Saksbildevarsler vedtaksperiode={mappetVedtaksperiode()} aktivPeriode={utbetaltPeriode} />);
         expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeVisible();
     });
+    test('viser infovarsel når saken er til revurdering', () => {
+        const periodeTilRevurdering = enTidslinjeperiode(Tidslinjetilstand.Revurderes);
+        render(<Saksbildevarsler vedtaksperiode={mappetVedtaksperiode()} aktivPeriode={periodeTilRevurdering} />);
+        expect(screen.getByText('Revurdering er igangsatt og må fullføres.')).toBeVisible();
+    });
     test('viser infovarsel når saken er godkjent uten utbetaling', () => {
         const periodeUtenUtbetaling = enTidslinjeperiode(Tidslinjetilstand.IngenUtbetaling);
         render(<Saksbildevarsler vedtaksperiode={mappetVedtaksperiode()} aktivPeriode={periodeUtenUtbetaling} />);
