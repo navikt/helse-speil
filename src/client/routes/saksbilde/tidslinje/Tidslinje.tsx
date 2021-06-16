@@ -22,9 +22,8 @@ dayjs.locale('nb');
 
 const Container = styled(FlexColumn)`
     position: relative;
-    padding: 14px 32px 16px 32px;
+    padding: 24px 32px 16px 32px;
     border-bottom: 1px solid var(--navds-color-border);
-    margin-top: 1rem;
     min-width: var(--speil-total-min-width);
     box-sizing: border-box;
     --tidslinje-rad-offset: 250px;
@@ -33,8 +32,7 @@ const Container = styled(FlexColumn)`
 const TidslinjeContainer = styled.div`
     position: relative;
     height: 100%;
-    padding-bottom: calc(1rem - 2px);
-    margin-bottom: 2px;
+    margin-bottom: 1rem;
 `;
 
 const AxisLabelsContainer = styled.div`
@@ -50,7 +48,7 @@ const MarkeringerContainer = styled.div`
 `;
 
 const RaderContainer = styled.div`
-    > *:not(last-of-type) {
+    > *:not(:last-of-type) {
         margin-bottom: 1.5rem;
     }
 `;

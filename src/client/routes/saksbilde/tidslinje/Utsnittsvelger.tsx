@@ -12,7 +12,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    margin: 2px 0;
 `;
 
 interface UtsnittsvelgerProps {
