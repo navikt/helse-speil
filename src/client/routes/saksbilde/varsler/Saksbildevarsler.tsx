@@ -37,7 +37,7 @@ const tilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null => {
 };
 
 const utbetalingsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
-    [Tidslinjetilstand.TilUtbetaling, Tidslinjetilstand.Utbetalt].includes(tilstand)
+    [Tidslinjetilstand.TilUtbetaling, Tidslinjetilstand.Utbetalt, Tidslinjetilstand.Revurdert].includes(tilstand)
         ? { grad: Varseltype.Info, melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : [Tidslinjetilstand.TilUtbetalingAutomatisk, Tidslinjetilstand.UtbetaltAutomatisk].includes(tilstand)
         ? { grad: Varseltype.Info, melding: 'Perioden er automatisk godkjent' }
