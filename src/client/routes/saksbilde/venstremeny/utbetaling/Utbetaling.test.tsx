@@ -50,7 +50,7 @@ const enTidslinjeperiode = (
     };
 };
 
-jest.mock('../../../../../io/http', () => ({
+jest.mock('../../../../io/http', () => ({
     postVedtak: async (_godkjent: boolean, _skjema?: Avvisningsskjema) => Promise.resolve(),
 }));
 
