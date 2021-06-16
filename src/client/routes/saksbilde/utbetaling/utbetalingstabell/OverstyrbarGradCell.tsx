@@ -67,9 +67,16 @@ interface OverstyrbarGradCellProps extends React.HTMLAttributes<HTMLTableDataCel
     sykdomsdag: Sykdomsdag;
     utbetalingsdag: Utbetalingsdag;
     onOverstyr: (dag: Sykdomsdag, properties: Omit<Partial<Dag>, 'dato'>) => void;
+    erRevurdering: boolean;
 }
 
-export const OverstyrbarGradCell = ({ sykdomsdag, utbetalingsdag, onOverstyr, ...rest }: OverstyrbarGradCellProps) => {
+export const OverstyrbarGradCell = ({
+    sykdomsdag,
+    utbetalingsdag,
+    onOverstyr,
+    erRevurdering,
+    ...rest
+}: OverstyrbarGradCellProps) => {
     const { register, errors, trigger } = useFormContext();
 
     const name = sykdomsdag.dato.format('YYYY-MM-DD');
@@ -83,7 +90,7 @@ export const OverstyrbarGradCell = ({ sykdomsdag, utbetalingsdag, onOverstyr, ..
     return (
         <td {...rest}>
             <CellContent>
-                {kanOverstyres(sykdomsdag, utbetalingsdag) ? (
+                {!erRevurdering && kanOverstyres(sykdomsdag, utbetalingsdag) ? (
                     <>
                         <GraderingInput
                             name={name}
@@ -100,6 +107,7 @@ export const OverstyrbarGradCell = ({ sykdomsdag, utbetalingsdag, onOverstyr, ..
                             aria-invalid={hasError}
                             onBlur={() => trigger(name)}
                             aria-label={`Gradering for ${name}`}
+                            data-testid="overstyrbar-grad"
                         />
                         {errors[name] && <Error htmlFor={name}>{errors[name].message}</Error>}
                     </>

@@ -77,6 +77,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
                             onCloseOverstyring={() => setOverstyrer(false)}
                             gjenståendeDager={gjenståendeDager}
                             maksdato={maksdato}
+                            erRevurdering={revurderingIsEnabled}
                         />
                     ) : (
                         <Utbetalingstabell

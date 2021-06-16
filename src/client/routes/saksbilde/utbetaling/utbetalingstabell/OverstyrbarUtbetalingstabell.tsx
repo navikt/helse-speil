@@ -39,6 +39,7 @@ interface OverstyrbarUtbetalingstabellProps {
     periode: Tidslinjeperiode;
     onPostOverstyring: (dager: Dag[], begrunnelse: string, callback: () => void) => void;
     onCloseOverstyring: () => void;
+    erRevurdering: boolean;
     gjenståendeDager?: number;
     maksdato?: Dayjs;
 }
@@ -47,6 +48,7 @@ export const OverstyrbarUtbetalingstabell = ({
     periode,
     onPostOverstyring,
     onCloseOverstyring,
+    erRevurdering,
     gjenståendeDager,
     maksdato,
 }: OverstyrbarUtbetalingstabellProps) => {
@@ -122,11 +124,13 @@ export const OverstyrbarUtbetalingstabell = ({
                                         sykdomsdag={sykdomsdag}
                                         utbetalingsdag={utbetalingsdag}
                                         onOverstyr={addDag}
+                                        erRevurdering={erRevurdering}
                                     />
                                     <OverstyrbarGradCell
                                         sykdomsdag={sykdomsdag}
                                         utbetalingsdag={utbetalingsdag}
                                         onOverstyr={addDag}
+                                        erRevurdering={erRevurdering}
                                     />
                                     <KildeCell
                                         type={sykdomsdag.type}
