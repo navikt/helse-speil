@@ -66,11 +66,11 @@ export const Header = () => {
                 .then(
                     (res: { person?: Person }) => res.person && history.push(`/person/${res.person.aktørId}/utbetaling`)
                 )
-                .catch((err) =>
+                .catch((error) =>
                     addVarsel({
                         key: key,
-                        message: err.message,
-                        type: Varseltype.Feil,
+                        message: error.message,
+                        type: error.type,
                     })
                 );
         }

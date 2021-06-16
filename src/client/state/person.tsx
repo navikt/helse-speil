@@ -1,6 +1,8 @@
 import { Person, TildelingType, Vedtaksperiode } from 'internal-types';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
+import { Varseltype } from '@navikt/helse-frontend-varsel';
+
 import { fetchPerson } from '../io/http';
 import { mapPerson } from '../mapping/person';
 
@@ -18,12 +20,18 @@ const hentPerson = (id: string): Promise<PersonState> =>
         .catch((error) => {
             switch (error.statusCode) {
                 case 404:
-                    throw Error('Personen har ingen utbetalinger i NAV Sykepenger');
+                    return Promise.reject({
+                        message: 'Personen har ingen perioder til godkjenning eller tidligere utbetalinger i Speil',
+                        type: Varseltype.Info,
+                    });
                 case 401:
-                    throw Error('Du må logge inn for å utføre søk');
+                    return Promise.reject({ message: 'Du må logge inn for å utføre søk', type: Varseltype.Feil });
                 default:
                     console.error(error);
-                    throw Error('Kunne ikke utføre søket. Prøv igjen senere');
+                    return Promise.reject({
+                        message: 'Kunne ikke utføre søket. Prøv igjen senere',
+                        type: Varseltype.Feil,
+                    });
             }
         });
 

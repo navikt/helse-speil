@@ -26,7 +26,7 @@ export const useRefreshPersonVedUrlEndring = () => {
                         key: feilvarselKey,
                         message: error.message,
                         scope: Scopes.SAKSBILDE,
-                        type: Varseltype.Feil,
+                        type: error.type,
                     });
                 });
             }
