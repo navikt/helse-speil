@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dag, Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import React, { ChangeEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -66,7 +66,7 @@ const kanOverstyres = (sykdomsdag: Sykdomsdag, utbetalingsdag: Utbetalingsdag): 
 interface OverstyrbarGradCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     sykdomsdag: Sykdomsdag;
     utbetalingsdag: Utbetalingsdag;
-    onOverstyr: (dag: Sykdomsdag) => void;
+    onOverstyr: (dag: Sykdomsdag, properties: Omit<Partial<Dag>, 'dato'>) => void;
 }
 
 export const OverstyrbarGradCell = ({ sykdomsdag, utbetalingsdag, onOverstyr, ...rest }: OverstyrbarGradCellProps) => {
@@ -77,7 +77,7 @@ export const OverstyrbarGradCell = ({ sykdomsdag, utbetalingsdag, onOverstyr, ..
 
     const onChangeGradering = ({ target }: ChangeEvent<HTMLInputElement>) => {
         const nyGradering = +target.value;
-        onOverstyr({ ...sykdomsdag, gradering: nyGradering });
+        onOverstyr(sykdomsdag, { gradering: nyGradering });
     };
 
     return (

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dag, Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import React, { ChangeEvent, useState } from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -47,7 +47,7 @@ const DagtypeLabel = ({ sykdomsdag, utbetalingsdag }: DagtypeLabelProps) => {
 interface OverstyrbarDagtypeProps {
     sykdomsdag: Sykdomsdag;
     utbetalingsdag: Utbetalingsdag;
-    onOverstyr: (dag: Sykdomsdag) => void;
+    onOverstyr: (dag: Sykdomsdag, properties: Omit<Partial<Dag>, 'dato'>) => void;
 }
 
 export const OverstyrbarDagtypeCell = ({ sykdomsdag, utbetalingsdag, onOverstyr }: OverstyrbarDagtypeProps) => {
@@ -55,7 +55,7 @@ export const OverstyrbarDagtypeCell = ({ sykdomsdag, utbetalingsdag, onOverstyr 
 
     const onSelectDagtype = ({ target }: ChangeEvent<HTMLSelectElement>) => {
         const nyDagtype = target.value as Dagtype;
-        onOverstyr({ ...sykdomsdag, type: nyDagtype });
+        onOverstyr(sykdomsdag, { type: nyDagtype });
     };
 
     const dagKanOverstyres = (type: Dagtype): boolean =>

@@ -1,9 +1,9 @@
-import { Dag, OverstyrtDag } from 'internal-types';
+import { Dag } from 'internal-types';
 import { useState } from 'react';
 
 type UseOverstyrteDagerResult = {
     dager: Dag[];
-    addDag: (dag: OverstyrtDag) => void;
+    addDag: (dag: Dag, delAvDag: Omit<Partial<Dag>, 'dato'>) => void;
 };
 
 export const useOverstyrteDager = (originaleDager?: Dag[]): UseOverstyrteDagerResult => {
@@ -14,10 +14,12 @@ export const useOverstyrteDager = (originaleDager?: Dag[]): UseOverstyrteDagerRe
         return originalDag && originalDag.type == other.type && originalDag.gradering == other.gradering;
     };
 
-    const addDag = (nyDag: Dag) => {
+    const addDag = (dag: Dag, delAvDag: Omit<Partial<Dag>, 'dato'>) => {
         setDager((dager) => {
-            const andreDager = [...dager].filter((dag) => !dag.dato.isSame(nyDag.dato));
-            return [...andreDager, nyDag].filter((dag) => !equalsOriginal(dag));
+            const andreDager = dager.filter((it) => !it.dato.isSame(dag.dato));
+            const gammelDag = dager.find((it) => it.dato.isSame(dag.dato));
+            if (gammelDag) return [...andreDager, { ...gammelDag, ...delAvDag }].filter((dag) => !equalsOriginal(dag));
+            else return [...andreDager, { ...dag, ...delAvDag }].filter((dag) => !equalsOriginal(dag));
         });
     };
 
