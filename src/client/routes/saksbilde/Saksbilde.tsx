@@ -20,7 +20,7 @@ import { useAktivPeriode } from '../../state/tidslinje';
 import { ToastObject, useAddToast } from '../../state/toasts';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 
-import { LoggProvider } from './logg/LoggProvider';
+import { HistorikkProvider } from './logg/HistorikkProvider';
 import { SaksbildeRevurdering } from './saksbilder/SaksbildeRevurdering';
 import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
 import { SaksbildeUfullstendigVedtaksperiode } from './saksbilder/SaksbildeUfullstendigVedtaksperiode';
@@ -128,9 +128,9 @@ const SaksbildeSwitch = ({ personTilBehandling }: SaksbildeSwitchProps) => {
 export const Saksbilde = () => (
     <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Advarsel}>{error.message}</Varsel>}>
         <React.Suspense fallback={<LasterSaksbilde />}>
-            <LoggProvider>
+            <HistorikkProvider>
                 <SaksbildeContent />
-            </LoggProvider>
+            </HistorikkProvider>
         </React.Suspense>
     </ErrorBoundary>
 );

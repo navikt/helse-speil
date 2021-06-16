@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
-import { AnnullertAvSaksbehandler, Hendelse, Kildetype, Overstyring, Vedtaksperiode } from 'internal-types';
+import dayjs from 'dayjs';
+import { AnnullertAvSaksbehandler, Dokument, Kildetype, Overstyring, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
-import { Hendelsetype } from '@navikt/helse-frontend-logg';
-import { HendelseMedId } from '@navikt/helse-frontend-logg/lib/src/types';
+import { Periodetype, Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { usePerson } from '../../../state/person';
+
+import { Hendelse, Hendelsetype } from './HistorikkContext';
 
 const BegrunnelseTekst = styled.div`
     margin-top: 0.5rem;
@@ -16,83 +18,94 @@ const BegrunnelseTekst = styled.div`
     }
 `;
 
-const navnForHendelse = (hendelse: Hendelse) => {
-    switch (hendelse.type) {
-        case Kildetype.Inntektsmelding:
-            return 'Inntektsmelding mottatt';
-        case Kildetype.Søknad:
-            return 'Søknad mottatt';
-        case Kildetype.Sykmelding:
-            return 'Sykmelding mottatt';
-        default:
-            return 'Hendelse';
-    }
-};
+const mapDokumenter = (vedtaksperiode: Vedtaksperiode): Hendelse[] =>
+    vedtaksperiode.hendelser
+        ?.filter((hendelse) => hendelse?.id)
+        .map((hendelse: Dokument) => ({
+            id: hendelse.id,
+            timestamp:
+                hendelse.type === Kildetype.Inntektsmelding
+                    ? dayjs(hendelse.mottattTidspunkt)
+                    : hendelse.rapportertDato && dayjs(hendelse.rapportertDato),
+            title: (() => {
+                switch (hendelse.type) {
+                    case Kildetype.Inntektsmelding:
+                        return 'Inntektsmelding mottatt';
+                    case Kildetype.Søknad:
+                        return 'Søknad mottatt';
+                    case Kildetype.Sykmelding:
+                        return 'Sykmelding mottatt';
+                    default:
+                        return 'Hendelse';
+                }
+            })(),
+            type: Hendelsetype.Dokument,
+        }));
 
-const hendelseFørsteDato = (hendelse: Hendelse) =>
-    hendelse.type === Kildetype.Inntektsmelding ? hendelse.mottattTidspunkt : hendelse.rapportertDato;
-
-export const mapDokumenter = (vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] =>
-    vedtaksperiode
-        ? vedtaksperiode.hendelser
-              ?.filter((hendelse) => hendelse?.id)
-              .map((hendelse: Hendelse) => ({
-                  id: hendelse.id,
-                  tidspunkt: hendelseFørsteDato(hendelse),
-                  navn: navnForHendelse(hendelse),
-                  type: Hendelsetype.Dokumenter,
-                  className: hendelse.type,
-              }))
-        : [];
-
-export const mapOverstyringer = (erRevurdering?: boolean, vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] =>
-    vedtaksperiode?.overstyringer.map((overstyring: Overstyring) => ({
+const mapRevurderingerOgOverstyringer = (vedtaksperiode: Vedtaksperiode, title: string): Hendelse[] =>
+    vedtaksperiode.overstyringer.map((overstyring: Overstyring) => ({
         id: overstyring.hendelseId,
-        tidspunkt: overstyring.timestamp,
-        navn: `${erRevurdering ? 'Revurdert' : 'Overstyrt'}: Sykmeldingsperiode`,
+        timestamp: dayjs(overstyring.timestamp),
+        title: title,
         type: Hendelsetype.Historikk,
-        beskrivelse: (
+        body: (
             <BegrunnelseTekst>
                 <p>{overstyring.begrunnelse}</p>
                 <p>{overstyring.saksbehandlerNavn}</p>
             </BegrunnelseTekst>
         ),
-    })) ?? [];
+    }));
 
-export const mapGodkjenninger = (vedtaksperiode?: Vedtaksperiode): HendelseMedTidspunkt[] => {
-    const godkjenninger: HendelseMedTidspunkt[] = [];
-    if (vedtaksperiode?.automatiskBehandlet) {
-        godkjenninger.push({
+export const mapRevurderinger = (vedtaksperiode: Vedtaksperiode): Hendelse[] =>
+    mapRevurderingerOgOverstyringer(vedtaksperiode, 'Revurdert: Sykmeldingsperiode');
+
+const mapOverstyringer = (vedtaksperiode: Vedtaksperiode): Hendelse[] =>
+    mapRevurderingerOgOverstyringer(vedtaksperiode, 'Overstyrt: Sykmeldingsperiode');
+
+const mapGodkjenninger = (vedtaksperiode: Vedtaksperiode): Hendelse[] =>
+    [
+        vedtaksperiode.automatiskBehandlet && {
             id: 'automatisk',
-            tidspunkt: vedtaksperiode.godkjenttidspunkt,
-            navn: 'Automatisk godkjent',
+            timestamp: dayjs(vedtaksperiode.godkjenttidspunkt),
+            title: 'Automatisk godkjent',
             type: Hendelsetype.Historikk,
-        });
-    }
-    if (vedtaksperiode?.godkjentAv) {
-        godkjenninger.push({
-            id: 'sendt-til-utbetaling',
-            tidspunkt: vedtaksperiode.godkjenttidspunkt,
-            navn: 'Sendt til utbetaling',
-            type: Hendelsetype.Historikk,
-            beskrivelse: <BegrunnelseTekst>{vedtaksperiode.godkjentAv}</BegrunnelseTekst>,
-        });
-    }
-    return godkjenninger;
-};
-
-export const mapAnnullering = (annullertAvSaksbehandler: AnnullertAvSaksbehandler): HendelseMedTidspunkt[] => {
-    return [
-        {
-            id: 'annullering',
-            tidspunkt: annullertAvSaksbehandler.annullertTidspunkt,
-            navn: 'Annullert',
-            type: Hendelsetype.Historikk,
-            beskrivelse: <BegrunnelseTekst>{annullertAvSaksbehandler.saksbehandlerNavn}</BegrunnelseTekst>,
         },
-    ];
-};
+        vedtaksperiode.godkjentAv && {
+            id: 'sendt-til-utbetaling',
+            timestamp: dayjs(vedtaksperiode.godkjenttidspunkt),
+            title: 'Sendt til utbetaling',
+            type: Hendelsetype.Historikk,
+            body: <BegrunnelseTekst>{vedtaksperiode.godkjentAv}</BegrunnelseTekst>,
+        },
+    ].filter((it) => !!it) as Hendelse[];
 
-export declare type HendelseMedTidspunkt = HendelseMedId & {
-    tidspunkt?: Dayjs;
+const mapAnnullering = (annullertAvSaksbehandler: AnnullertAvSaksbehandler): Hendelse[] => [
+    {
+        id: 'annullering',
+        timestamp: annullertAvSaksbehandler.annullertTidspunkt,
+        title: 'Annullert',
+        type: Hendelsetype.Historikk,
+        body: <BegrunnelseTekst>{annullertAvSaksbehandler.saksbehandlerNavn}</BegrunnelseTekst>,
+    },
+];
+
+export const useDokumenter = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
+    (vedtaksperiode?.fullstendig && mapDokumenter(vedtaksperiode as Vedtaksperiode)) || [];
+
+export const useGodkjenning = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
+    (vedtaksperiode?.fullstendig && mapGodkjenninger(vedtaksperiode as Vedtaksperiode)) || [];
+
+export const useOverstyring = (vedtaksperiode?: Vedtaksperiode, aktivPeriode?: Tidslinjeperiode): Hendelse[] =>
+    (vedtaksperiode?.fullstendig && aktivPeriode?.type === Periodetype.REVURDERING
+        ? mapRevurderinger(vedtaksperiode)
+        : vedtaksperiode && mapOverstyringer(vedtaksperiode)) || [];
+
+export const useAnnullering = (vedtaksperiode?: Vedtaksperiode): Hendelse[] => {
+    const person = usePerson();
+
+    const annullertAvSaksbehandler = person?.utbetalinger?.find(
+        (it) => it.arbeidsgiverOppdrag.fagsystemId === vedtaksperiode?.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId
+    )?.annullering;
+
+    return (vedtaksperiode?.fullstendig && annullertAvSaksbehandler && mapAnnullering(annullertAvSaksbehandler)) || [];
 };

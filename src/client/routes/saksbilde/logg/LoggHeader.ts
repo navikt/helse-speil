@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 
-import { LoggHeader as EksternLoggheader } from '@navikt/helse-frontend-logg';
-
-export const LoggHeader = styled(EksternLoggheader)`
+export const LoggHeader = styled.div`
     width: 258px;
     box-shadow: inset 0 -1px 0 0 var(--navds-color-border);
     height: 48px;

@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 
-import { LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
-
-export const LoggListe = styled(EksternLoggliste)`
+export const LoggListe = styled.ul`
     width: 258px;
     box-sizing: border-box;
     border-top: none;

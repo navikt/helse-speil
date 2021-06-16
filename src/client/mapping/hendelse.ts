@@ -5,7 +5,7 @@ import {
     SpleisSykmelding,
     SpleisSøknad,
 } from 'external-types';
-import { Hendelse, Inntektsmelding, Kildetype, Sykmelding, Søknad } from 'internal-types';
+import { Dokument, Inntektsmelding, Kildetype, Sykmelding, Søknad } from 'internal-types';
 
 import { somDato, somKanskjeTidspunkt, somTidspunkt } from './vedtaksperiode';
 
@@ -33,7 +33,7 @@ const mapSykmelding = (hendelse: SpleisHendelse): Sykmelding => ({
     rapportertDato: somKanskjeTidspunkt((hendelse as SpleisSykmelding).rapportertdato),
 });
 
-export const mapHendelse = (hendelse: SpleisHendelse): Hendelse => {
+export const mapHendelse = (hendelse: SpleisHendelse): Dokument => {
     switch (hendelse.type) {
         case SpleisHendelsetype.INNTEKTSMELDING:
             return mapInntektsmelding(hendelse);
