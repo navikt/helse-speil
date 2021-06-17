@@ -48,8 +48,8 @@ export const useOppgavereferanse = (beregningId: string): string | undefined => 
     const person = usePerson();
     const vedtaksperiode = person?.arbeidsgivere
         .flatMap((a) => a.vedtaksperioder)
-        .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode;
-    return vedtaksperiode.oppgavereferanse;
+        .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode | undefined;
+    return vedtaksperiode?.oppgavereferanse;
 };
 
 export const harOppgave = (tidslinjeperiode: Tidslinjeperiode) =>

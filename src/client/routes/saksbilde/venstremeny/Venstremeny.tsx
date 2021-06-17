@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Arbeidsforhold, Dagtype } from 'internal-types';
+import { Arbeidsforhold, Dagtype, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
@@ -47,7 +47,7 @@ export const VenstreMeny = ({
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
     const nettobeløp = useNettobeløp(aktivPeriode.beregningId);
     const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === Tidslinjetilstand.Venter;
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const over67år = (vedtaksperiode?.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
     const månedsbeløp = vedtaksperiode.inntektsgrunnlag?.inntekter?.find(
         (it) => it.organisasjonsnummer === aktivPeriode.organisasjonsnummer

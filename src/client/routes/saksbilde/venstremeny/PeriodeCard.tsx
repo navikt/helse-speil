@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Periodetype } from 'internal-types';
+import { Periodetype, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
@@ -61,7 +61,7 @@ export const PeriodeCard = ({
     skjæringstidspunkt,
     gjenståendeDager,
 }: PeriodeCardProps) => {
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const periodeText = `${aktivPeriode.fom.format(NORSK_DATOFORMAT_KORT)} - ${aktivPeriode.tom.format(
         NORSK_DATOFORMAT_KORT
     )}`;
