@@ -36,7 +36,7 @@ const Checkbox = styled(NavCheckbox)`
     }
 `;
 
-const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: string; label?: ReactNode }) => {
+export const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: string; label?: ReactNode }) => {
     const { register, clearErrors } = useFormContext();
 
     return (

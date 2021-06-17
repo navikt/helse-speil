@@ -10,6 +10,8 @@ export interface PostAnnulleringOptions {
     saksbehandlerIdent: string;
     speilToken: string;
     vedtaksperiodeId: string;
+    begrunnelser: string[];
+    kommentar: string;
 }
 
 export interface AnnulleringClient {
@@ -25,12 +27,23 @@ export default (config: AppConfig, onBehalfOf: OnBehalfOf) => ({
         saksbehandlerIdent,
         speilToken,
         vedtaksperiodeId,
+        begrunnelser,
+        kommentar,
     }: PostAnnulleringOptions) => {
         const onBehalfOfToken = await onBehalfOf.hentFor(config.oidc.clientIDSpesialist, speilToken);
         const options = {
             uri: `http://spesialist.tbd.svc.nais.local/api/annullering`,
             headers: { Authorization: `Bearer ${onBehalfOfToken}` },
-            body: { aktørId, fødselsnummer, organisasjonsnummer, fagsystemId, saksbehandlerIdent, vedtaksperiodeId },
+            body: {
+                aktørId,
+                fødselsnummer,
+                organisasjonsnummer,
+                fagsystemId,
+                saksbehandlerIdent,
+                vedtaksperiodeId,
+                begrunnelser,
+                kommentar,
+            },
             json: true,
         };
 

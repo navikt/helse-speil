@@ -8,9 +8,9 @@ import Element from 'nav-frontend-typografi/lib/element';
 import { Tabell } from '@navikt/helse-frontend-tabell';
 
 import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
-import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { findEarliest, findLatest, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 
-import { Annulleringsmodal } from './Annulleringsmodal';
+import { Annulleringslinje, Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 
 const Container = styled.div`
     display: flex;
@@ -79,7 +79,7 @@ interface UtbetalingshistorikkProps {
 
 export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
     let history = useHistory();
-    const [valgtUtbetaling, setValgtUtbetaling] = useState<UtbetalingshistorikkUtbetaling | undefined>();
+    const [tilAnnullering, setTilAnnullering] = useState<UtbetalingshistorikkUtbetaling | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<string[]>([]);
 
     useRefreshPersonVedUrlEndring();
@@ -92,9 +92,9 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
     const visAnnulleringsknapp = ({ status, type }: UtbetalingshistorikkUtbetaling) =>
         status === 'UTBETALT' && type === 'UTBETALING';
 
-    const settValgtUtbetalingSomInFlight = () =>
-        valgtUtbetaling &&
-        setAnnulleringerInFlight(annulleringerInFlight.concat([valgtUtbetaling.arbeidsgiverOppdrag.fagsystemId]));
+    const settValgtUtbetalingSomInFlight = (utbetaling: UtbetalingshistorikkUtbetaling) => () => {
+        setAnnulleringerInFlight(annulleringerInFlight.concat([utbetaling.arbeidsgiverOppdrag.fagsystemId]));
+    };
 
     const headere = ['Fra', 'Til', 'Fagsystem-ID', 'Totalbeløp', 'Status', 'Type', 'Annuller'];
 
@@ -110,10 +110,17 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
             annulleringErForespurt(utbetaling) ? (
                 'Utbetalingen er forespurt annullert'
             ) : visAnnulleringsknapp(utbetaling) ? (
-                <button onClick={() => setValgtUtbetaling(utbetaling)}>Annuller</button>
+                <button onClick={() => setTilAnnullering(utbetaling)}>Annuller</button>
             ) : null,
         ];
     });
+
+    const linjer = (utbetaling: UtbetalingshistorikkUtbetaling): Annulleringslinje[] => [
+        {
+            fom: utbetaling && findEarliest(utbetaling.arbeidsgiverOppdrag.utbetalingslinjer.map((l) => l.fom)),
+            tom: utbetaling && findLatest(utbetaling.arbeidsgiverOppdrag.utbetalingslinjer.map((l) => l.tom)),
+        },
+    ];
 
     return (
         <Container className="utbetalingshistorikk">
@@ -123,12 +130,14 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
                 headere={headere}
                 rader={rader}
             />
-            {valgtUtbetaling && (
+            {tilAnnullering && (
                 <Annulleringsmodal
                     person={person}
-                    utbetaling={valgtUtbetaling}
-                    onClose={() => setValgtUtbetaling(undefined)}
-                    onSuccess={settValgtUtbetalingSomInFlight}
+                    organisasjonsnummer={tilAnnullering.arbeidsgiverOppdrag.orgnummer}
+                    fagsystemId={tilAnnullering.arbeidsgiverOppdrag.fagsystemId}
+                    linjer={linjer(tilAnnullering)}
+                    onClose={() => setTilAnnullering(undefined)}
+                    onSuccess={settValgtUtbetalingSomInFlight(tilAnnullering)}
                 />
             )}
         </Container>
