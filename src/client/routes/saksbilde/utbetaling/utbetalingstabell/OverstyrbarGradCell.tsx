@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Dag, Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dag, Dagtype, OverstyrtDag, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import React, { ChangeEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -60,14 +60,17 @@ const utbetalingsdagKanOverstyres = (dag: Utbetalingsdag): boolean => dag.type !
 const showGrad = (dag: Utbetalingsdag): boolean =>
     dag.type !== Dagtype.Arbeidsgiverperiode && dag.type !== Dagtype.Helg && !!dag.gradering;
 
-const kanOverstyres = (sykdomsdag: Sykdomsdag, utbetalingsdag: Utbetalingsdag): boolean =>
-    sykdomsdagKanOverstyres(sykdomsdag) && utbetalingsdagKanOverstyres(utbetalingsdag);
+const kanOverstyres = (sykdomsdag: Sykdomsdag, utbetalingsdag: Utbetalingsdag, overstyrtDag?: OverstyrtDag): boolean =>
+    overstyrtDag
+        ? overstyrtDag.type === Dagtype.Syk
+        : sykdomsdagKanOverstyres(sykdomsdag) && utbetalingsdagKanOverstyres(utbetalingsdag);
 
 interface OverstyrbarGradCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     sykdomsdag: Sykdomsdag;
     utbetalingsdag: Utbetalingsdag;
     onOverstyr: (dag: Sykdomsdag, properties: Omit<Partial<Dag>, 'dato'>) => void;
     erRevurdering: boolean;
+    overstyrtDag?: OverstyrtDag;
 }
 
 export const OverstyrbarGradCell = ({
@@ -75,6 +78,7 @@ export const OverstyrbarGradCell = ({
     utbetalingsdag,
     onOverstyr,
     erRevurdering,
+    overstyrtDag,
     ...rest
 }: OverstyrbarGradCellProps) => {
     const { register, errors, trigger } = useFormContext();
@@ -83,23 +87,31 @@ export const OverstyrbarGradCell = ({
     const hasError = errors[name] !== undefined;
 
     const onChangeGradering = ({ target }: ChangeEvent<HTMLInputElement>) => {
-        const nyGradering = +target.value;
+        const nyGradering = Number.parseInt(target.value);
         onOverstyr(sykdomsdag, { gradering: nyGradering });
     };
+
+    if (overstyrtDag && overstyrtDag.type !== Dagtype.Syk) {
+        return (
+            <td {...rest}>
+                <CellContent />
+            </td>
+        );
+    }
 
     return (
         <td {...rest}>
             <CellContent>
-                {!erRevurdering && kanOverstyres(sykdomsdag, utbetalingsdag) ? (
+                {!erRevurdering && kanOverstyres(sykdomsdag, utbetalingsdag, overstyrtDag) ? (
                     <>
                         <GraderingInput
                             name={name}
                             id={name}
                             type="number"
                             ref={register({
-                                min: { value: 0, message: 'Gradering må være 0 eller større' },
-                                max: { value: 100, message: 'Gradering må være 100 eller mindre' },
-                                required: 'Gradering mangler',
+                                min: { value: 0, message: 'Grad må være 0 eller større' },
+                                max: { value: 100, message: 'Grad må være 100 eller mindre' },
+                                required: 'Grad mangler',
                             })}
                             defaultValue={sykdomsdag.gradering}
                             onChange={onChangeGradering}

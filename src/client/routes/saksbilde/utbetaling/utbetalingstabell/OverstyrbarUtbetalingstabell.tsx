@@ -131,6 +131,7 @@ export const OverstyrbarUtbetalingstabell = ({
                                         utbetalingsdag={utbetalingsdag}
                                         onOverstyr={addDag}
                                         erRevurdering={erRevurdering}
+                                        overstyrtDag={maybeOverstyrtDag}
                                     />
                                     <KildeCell
                                         type={sykdomsdag.type}
