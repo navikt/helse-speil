@@ -1,18 +1,17 @@
 import styled from '@emotion/styled';
+import { Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { Flex, FlexColumn } from '../../../components/Flex';
+import { NoScrollX } from '../../../components/NoScrollX';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
-import { LoggContainer } from '../logg/LoggContainer';
-import { LoggHeader } from '../logg/LoggHeader';
-import { LoggListe } from '../logg/LoggListe';
-import { Sakslinje } from '../sakslinje/Sakslinje';
+import { Historikk } from '../historikk/Historikk';
 import { Utbetalingstabell } from '../utbetaling/utbetalingstabell/Utbetalingstabell';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny } from '../venstremeny/Venstremeny';
@@ -36,7 +35,7 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
 
     return (
@@ -45,40 +44,38 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
             data-testid="saksbilde-revurdering"
             style={{ minWidth: 'var(--speil-total-min-width)' }}
         >
-            <AutoFlexContainer>
-                <Sakslinje aktivPeriode={aktivPeriode} />
-                <Flex flex={1}>
-                    <VenstreMeny
-                        aktivPeriode={aktivPeriode}
-                        maksdato={maksdato}
-                        arbeidsgivernavn={arbeidsgivernavn}
-                        organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                        arbeidsforhold={arbeidsforhold}
-                        anonymiseringEnabled={anonymiseringEnabled}
-                    />
-                    <FlexColumn style={{ flex: 1, height: '100%' }}>
-                        <Saksbildevarsler
+            <NoScrollX>
+                <AutoFlexContainer>
+                    <Flex flex={1}>
+                        <VenstreMeny
                             aktivPeriode={aktivPeriode}
-                            vedtaksperiode={vedtaksperiode}
-                            oppgavereferanse={oppgavereferanse}
+                            maksdato={maksdato}
+                            arbeidsgivernavn={arbeidsgivernavn}
+                            organisasjonsnummer={aktivPeriode.organisasjonsnummer}
+                            arbeidsforhold={arbeidsforhold}
+                            anonymiseringEnabled={anonymiseringEnabled}
                         />
-                        <Content>
-                            <Flex style={{ height: '100%' }}>
-                                <Utbetalingstabell
-                                    maksdato={maksdato}
-                                    periode={aktivPeriode}
-                                    gjenståendeDager={gjenståendeDager}
-                                    overstyringer={vedtaksperiode.overstyringer}
-                                />
-                            </Flex>
-                        </Content>
-                    </FlexColumn>
-                </Flex>
-            </AutoFlexContainer>
-            <LoggContainer>
-                <LoggHeader />
-                <LoggListe />
-            </LoggContainer>
+                        <FlexColumn style={{ flex: 1, height: '100%' }}>
+                            <Saksbildevarsler
+                                aktivPeriode={aktivPeriode}
+                                vedtaksperiode={vedtaksperiode}
+                                oppgavereferanse={oppgavereferanse}
+                            />
+                            <Content>
+                                <Flex style={{ height: '100%' }}>
+                                    <Utbetalingstabell
+                                        maksdato={maksdato}
+                                        periode={aktivPeriode}
+                                        gjenståendeDager={gjenståendeDager}
+                                        overstyringer={vedtaksperiode.overstyringer}
+                                    />
+                                </Flex>
+                            </Content>
+                        </FlexColumn>
+                    </Flex>
+                </AutoFlexContainer>
+                <Historikk />
+            </NoScrollX>
         </Flex>
     );
 };

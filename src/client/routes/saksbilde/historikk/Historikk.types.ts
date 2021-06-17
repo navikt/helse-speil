@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export enum Hendelsetype {
     Dokument,
@@ -12,16 +12,7 @@ export type Hendelse = {
     type: Hendelsetype;
     timestamp?: Dayjs;
     body?: ReactNode;
+    icon?: ReactNode;
 };
 
 export type Filter = (hendelse: Hendelse) => boolean;
-
-type HistorikkContextType = {
-    hendelser: Hendelse[];
-    setFilter: (filter: Filter) => void;
-};
-
-export const HistorikkContext = React.createContext<HistorikkContextType>({
-    hendelser: [],
-    setFilter: () => null,
-});

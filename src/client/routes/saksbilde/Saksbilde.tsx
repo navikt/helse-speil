@@ -20,11 +20,11 @@ import { useAktivPeriode } from '../../state/tidslinje';
 import { ToastObject, useAddToast } from '../../state/toasts';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 
-import { HistorikkProvider } from './logg/HistorikkProvider';
 import { SaksbildeRevurdering } from './saksbilder/SaksbildeRevurdering';
 import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
 import { SaksbildeUfullstendigVedtaksperiode } from './saksbilder/SaksbildeUfullstendigVedtaksperiode';
 import { SaksbildeVedtaksperiode } from './saksbilder/SaksbildeVedtaksperiode';
+import { Sakslinje } from './sakslinje/Sakslinje';
 import { LasterTidslinje, Tidslinje } from './tidslinje';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 
@@ -128,15 +128,14 @@ const SaksbildeSwitch = ({ personTilBehandling }: SaksbildeSwitchProps) => {
 export const Saksbilde = () => (
     <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Advarsel}>{error.message}</Varsel>}>
         <React.Suspense fallback={<LasterSaksbilde />}>
-            <HistorikkProvider>
-                <SaksbildeContent />
-            </HistorikkProvider>
+            <SaksbildeContent />
         </React.Suspense>
     </ErrorBoundary>
 );
 
-const SaksbildeContent = () => {
+const SaksbildeContent = React.memo(() => {
     const personTilBehandling = usePerson();
+    const aktivPeriode = useAktivPeriode();
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
@@ -150,6 +149,7 @@ const SaksbildeContent = () => {
         <SaksbildeContainer className="saksbilde">
             <Personlinje person={personTilBehandling} />
             <Tidslinje person={personTilBehandling} />
+            {aktivPeriode && <Sakslinje aktivPeriode={aktivPeriode} />}
             <Switch>
                 <Route path={`${path}/utbetalingshistorikk`}>
                     <Utbetalingshistorikk person={personTilBehandling} />
@@ -160,7 +160,7 @@ const SaksbildeContent = () => {
             </Switch>
         </SaksbildeContainer>
     );
-};
+});
 
 const LasterSaksbilde = () => (
     <SaksbildeContainer className="saksbilde" data-testid="laster-saksbilde">
