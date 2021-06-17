@@ -14,7 +14,7 @@ import { usePerson } from '../../../state/person';
 import {
     overstyrbareTabellerEnabled,
     overstyreUtbetaltPeriodeEnabled,
-    recursiveRevurderingEnabled,
+    rekursiveRevurderingEnabled,
 } from '../../../featureToggles';
 import { OverstyrbarUtbetalingstabell } from './utbetalingstabell/OverstyrbarUtbetalingstabell';
 import { OverstyringTimeoutModal } from './utbetalingstabell/OverstyringTimeoutModal';
@@ -34,12 +34,6 @@ export const revurderingEnabled = (
     periode: Tidslinjeperiode,
     kanRevurderingRevurderes: boolean
 ): boolean => {
-    console.log('overstyreUtbetaltPeriodeEnabled: ' + overstyreUtbetaltPeriodeEnabled);
-    console.log('kunEnArbeidsgiver: ' + kunEnArbeidsgiver(person));
-    console.log(
-        'periode === førsteArbeidsgiversSistePeriode(person): ' + (periode === førsteArbeidsgiversSistePeriode(person))
-    );
-    console.log('periode.tilstand: ' + periode.tilstand);
     return (
         overstyreUtbetaltPeriodeEnabled &&
         kunEnArbeidsgiver(person) &&
@@ -67,13 +61,7 @@ export interface UtbetalingProps {
     recursiveRevurdering: boolean;
 }
 
-export const Utbetaling = ({
-    gjenståendeDager,
-    maksdato,
-    periode,
-    vedtaksperiode,
-    recursiveRevurdering = false,
-}: UtbetalingProps) => {
+export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiode }: UtbetalingProps) => {
     const person = usePerson() as Person;
 
     const [overstyrer, setOverstyrer] = useState(false);
@@ -83,7 +71,7 @@ export const Utbetaling = ({
         setOverstyrer((value) => !value);
     };
 
-    const revurderingIsEnabled = revurderingEnabled(person, periode, recursiveRevurderingEnabled);
+    const revurderingIsEnabled = revurderingEnabled(person, periode, rekursiveRevurderingEnabled);
     const overstyringIsEnabled = overstyringEnabled(person, periode);
 
     return (
