@@ -2,7 +2,7 @@ import { extractIdent, extractGroups } from './utils/cookie';
 
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const eminem = 'G103083';
-const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102'];
+const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454'];
 
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
 
@@ -14,6 +14,7 @@ const utvidetTilganger = [
     'K105430',
     'M106091',
     'A158665',
+    'M139452',
     'P107343',
     'S160466',
     'V112769',
@@ -44,7 +45,8 @@ const erJakob = () => extractIdent() === 'E156407';
 
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
 export const overstyrbareTabellerEnabled = true;
-export const overstyreUtbetaltPeriodeEnabled = erUtvikler() || erSupersaksbehandler() || erLocal() || erDev();
+export const overstyreUtbetaltPeriodeEnabled =
+    erUtvikler() || erSupersaksbehandler() || erFaktiskSupportsaksbehandler() || erLocal() || erDev();
 export const annulleringerEnabled =
     erDev() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
