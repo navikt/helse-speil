@@ -15,15 +15,17 @@ describe('TabLink', () => {
             </MemoryRouter>
         );
         expect(screen.queryByText('Test')).toBeVisible();
-        expect(screen.getByRole('tab')).toBeVisible();
+        expect(screen.getByRole('link')).toBeVisible();
     });
     test('rendrer disabled', () => {
         render(
-            <TabLink title="Test" disabled>
-                Test
-            </TabLink>
+            <MemoryRouter>
+                <TabLink title="Test" disabled>
+                    Test
+                </TabLink>
+            </MemoryRouter>
         );
         expect(screen.queryByText('Test')).toBeVisible();
-        expect(screen.queryByRole('tab')).toBeNull();
+        expect(screen.queryByRole('link')).toBeNull();
     });
 });
