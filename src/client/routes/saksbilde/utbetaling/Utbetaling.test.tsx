@@ -22,13 +22,13 @@ const person = mappetPerson([
     ),
 ]);
 
-describe('med toggle på', () => {
+describe('rekursive revurderinger', () => {
     const tidslinjeperiode = person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0];
-    test('skal vi kunne revurdere en revurdert tidslinje', () => {
+    test('skal kunne revurdere revurdert periode med toggle på', () => {
         expect(revurderingEnabled(person, tidslinjeperiode, true)).toBe(true);
     });
 
-    test('skal vi ikke kunne revurdere en revurdert tidslinje', () => {
+    test('skal ikke kunne revurdere revurdert periode med toggle på', () => {
         expect(revurderingEnabled(person, tidslinjeperiode, false)).toBe(false);
     });
 });
