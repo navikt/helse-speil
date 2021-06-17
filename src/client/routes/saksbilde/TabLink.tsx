@@ -1,7 +1,8 @@
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+
+import { TabButton } from '../../components/TabButton';
 
 const Content = styled.span`
     color: transparent;
@@ -16,47 +17,15 @@ const Content = styled.span`
     }
 `;
 
-const commonTabLinkStyle = css`
+const DisabledTabLink = styled(TabButton)`
     font-size: 14px;
-    display: flex;
-    position: relative;
-    align-items: center;
-    padding: 0 10px;
-    margin: 0 4px;
-    outline: none;
-`;
-
-const DisabledTabLink = styled.a`
-    ${commonTabLinkStyle};
+    height: 48px;
     color: var(--navds-color-text-disabled);
 `;
 
-const StyledTabLink = styled(NavLink)`
-    ${commonTabLinkStyle};
-    text-decoration: none;
-
-    &.active,
-    &:hover {
-        > .content:after {
-            font-weight: 600;
-        }
-
-        &:before {
-            position: absolute;
-            content: '';
-            height: 4px;
-            width: 100%;
-            background: var(--navds-color-action-default);
-            bottom: 0;
-            left: 0;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
-        }
-    }
-
-    &:focus-visible {
-        box-shadow: inset 0 0 0 3px var(--navds-text-focus);
-    }
+const TabLinkButton = styled(TabButton)`
+    font-size: 14px;
+    height: 48px;
 `;
 
 const IconContainer = styled.span`
@@ -71,17 +40,21 @@ interface TabLinkProps {
     icon?: ReactNode;
 }
 
-export const TabLink = ({ children, to, disabled, title, icon }: TabLinkProps) =>
-    disabled || !to ? (
-        <DisabledTabLink>
+export const TabLink = ({ children, to, disabled, title, icon }: TabLinkProps) => {
+    const location = useLocation();
+    const history = useHistory();
+
+    return disabled || !to ? (
+        <DisabledTabLink disabled>
             {icon && <IconContainer>{icon}</IconContainer>}
-            <Content>{children}</Content>
+            <Content title={title}>{children}</Content>
         </DisabledTabLink>
     ) : (
-        <StyledTabLink role="tab" to={to}>
+        <TabLinkButton role="link" data-href={to} onClick={() => history.push(to)} active={location.pathname === to}>
             {icon && <IconContainer>{icon}</IconContainer>}
             <Content className="content" title={title}>
                 {children}
             </Content>
-        </StyledTabLink>
+        </TabLinkButton>
     );
+};
