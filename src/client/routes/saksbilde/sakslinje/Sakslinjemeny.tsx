@@ -33,10 +33,8 @@ export const Sakslinjemeny = ({ aktivPeriode }: VerktøylinjeProps) => {
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
     const vedtaksperiodeErAnnullert: boolean = useErAnnullert(aktivPeriode.beregningId);
-
-    const showAnnullering =
-        !vedtaksperiodeErAnnullert && annulleringerEnabled && vedtaksperiode?.utbetalinger?.arbeidsgiverUtbetaling;
-
+    const arbeidsgiverUtbetaling = vedtaksperiode?.utbetalinger?.arbeidsgiverUtbetaling;
+    const showAnnullering = !vedtaksperiodeErAnnullert && annulleringerEnabled;
     const tildeltInnloggetBruker = person?.tildeling?.saksbehandler.oid === oid;
 
     return (
@@ -59,7 +57,9 @@ export const Sakslinjemeny = ({ aktivPeriode }: VerktøylinjeProps) => {
                 )}
                 {oppdaterPersondataEnabled && <OppdaterPersondata />}
                 <AnonymiserData />
-                {showAnnullering && <Annullering aktivPeriode={aktivPeriode} />}
+                {arbeidsgiverUtbetaling && showAnnullering && (
+                    <Annullering utbetaling={arbeidsgiverUtbetaling} aktivPeriode={aktivPeriode} />
+                )}
             </Dropdown>
         </Container>
     );

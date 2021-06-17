@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import { Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
 
@@ -33,6 +34,13 @@ const authInfo = {
 
 const renderAnnulleringsmodal = async () => {
     const person = mappetPerson();
+    const arbeidsgiver = person.arbeidsgivere[0];
+    const aktivPeriode = arbeidsgiver.tidslinjeperioder[0][0];
+    const vedtaksperiode = arbeidsgiver.vedtaksperioder.find(
+        (vedtaksperiode) => vedtaksperiode.id === aktivPeriode.id
+    ) as Vedtaksperiode;
+    const arbeidsgiverUtbetaling = vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling;
+
     return render(
         <RecoilRoot
             initializeState={({ set }) => {
@@ -40,65 +48,46 @@ const renderAnnulleringsmodal = async () => {
                 set(authState, authInfo);
             }}
         >
-            <Annulleringsmodal
-                person={person}
-                aktivPeriode={person.arbeidsgivere[0].tidslinjeperioder[0][0]}
-                onClose={() => null}
-            />
+            {arbeidsgiverUtbetaling && (
+                <Annulleringsmodal
+                    person={person}
+                    organisasjonsnummer={aktivPeriode.organisasjonsnummer}
+                    fagsystemId={aktivPeriode.fagsystemId!}
+                    linjer={arbeidsgiverUtbetaling?.linjer}
+                    onClose={() => null}
+                />
+            )}
         </RecoilRoot>
     );
 };
 
 const annullér = () => Promise.resolve(userEvent.click(screen.getByText('Annullér')));
 
-const fyllUtIdent = () => Promise.resolve(userEvent.type(screen.getByPlaceholderText('NAV brukerident'), 'S123456'));
+const velgFørsteBegrunnelse = () =>
+    Promise.resolve(userEvent.click(screen.getByText('Feil ble gjort i opprinnelig automatisk vedtak')));
 
-const fyllUtFeilIdent = () => userEvent.type(screen.getByPlaceholderText('NAV brukerident'), 'S133769');
-
-const velgUtbetaling = () => userEvent.click(screen.getByText('Annullér utbetaling til arbeidsgiver'));
-
-const assertManglerMatchendeIdent = () =>
-    waitFor(() => expect(screen.queryByText('Fyll inn din NAV brukerident')).toBeVisible());
-
-const assertManglerAvhuking = () =>
-    waitFor(() => expect(screen.queryByText('Du må velge minst én utbetaling som skal annulleres')).toBeVisible());
-
-const assertHarMatchendeIdent = () =>
-    waitFor(() => expect(screen.queryByText('Fyll inn din NAV brukerident')).toBeNull());
-
-const assertHarAvhuking = () =>
-    waitFor(() => expect(screen.queryByText('Du må velge minst én utbetaling som skal annulleres')).toBeNull());
+const velgBegrunnelseAnnet = () => Promise.resolve(userEvent.click(screen.getByText('Annet')));
 
 const captureAnnullering = () => cachedAnnullering;
 
+const assertFeilmeldingBegrunnelse = () =>
+    waitFor(() => expect(screen.queryByText('Velg minst én begrunnelse')).not.toBeNull());
+
+const assertFeilmeldingKommentar = () =>
+    waitFor(() => expect(screen.queryByText('Skriv en kommentar hvis du velger begrunnelsen annet')).not.toBeNull());
+
 describe('Annulleringsmodal', () => {
-    test('viser feilmelding om ident ikke fylles ut', async () => {
+    test('viser feilmelding ved manglende begrunnelse', async () => {
         await renderAnnulleringsmodal();
-        await annullér().then(assertManglerMatchendeIdent);
+        await annullér().then(assertFeilmeldingBegrunnelse);
     });
-    test('viser feilmelding om ident fylles ut feil', async () => {
+    test('viser feilmelding ved manglende kommentar', async () => {
         await renderAnnulleringsmodal();
-        await annullér().then(fyllUtFeilIdent).then(assertManglerMatchendeIdent);
-    });
-    test('viser ikke feilmelding om matchende ident fylles ut', async () => {
-        await renderAnnulleringsmodal();
-        await annullér()
-            .then(assertManglerMatchendeIdent)
-            .then(fyllUtIdent)
-            .then(annullér)
-            .then(assertHarMatchendeIdent);
-    });
-    test('viser feilmelding om ingen utbetalinger er valgt for annullering', async () => {
-        await renderAnnulleringsmodal();
-        await annullér().then(assertManglerAvhuking);
-    });
-    test('viser ikke feilmelding om en utbetaling er valgt for annullering', async () => {
-        await renderAnnulleringsmodal();
-        await annullér().then(assertManglerAvhuking).then(velgUtbetaling).then(annullér).then(assertHarAvhuking);
+        await velgBegrunnelseAnnet().then(annullér).then(assertFeilmeldingKommentar);
     });
     test('bygger AnnulleringDTO ved post av annullering', async () => {
         await renderAnnulleringsmodal();
-        const annullering = await fyllUtIdent().then(velgUtbetaling).then(annullér).then(captureAnnullering);
+        const annullering = await velgFørsteBegrunnelse().then(annullér).then(captureAnnullering);
         expect(annullering.aktørId).toEqual('1211109876233');
         expect(annullering.fødselsnummer).toEqual('01019000123');
         expect(annullering.organisasjonsnummer).toEqual('987654321');

@@ -1,23 +1,21 @@
 import styled from '@emotion/styled';
-import { Person, Vedtaksperiode } from 'internal-types';
+import { Dayjs } from 'dayjs';
+import { Person } from 'internal-types';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
 
 import { Modal } from '../../../../components/Modal';
 import { postAbonnerPåAktør, postAnnullering } from '../../../../io/http';
 import { AnnulleringDTO } from '../../../../io/types';
-import { Tidslinjeperiode, useUtbetaling } from '../../../../modell/UtbetalingshistorikkElement';
-import { authState } from '../../../../state/authentication';
 import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
-import { useVedtaksperiode } from '../../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { somPenger } from '../../../../utils/locale';
 
+import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
 import { Annulleringsvarsel } from './Annulleringsvarsel';
 
 const ModalContainer = styled(Modal)`
@@ -39,20 +37,6 @@ const Tittel = styled.h1`
     margin-bottom: 1.5rem;
 `;
 
-const IdentInput = styled(Input)`
-    margin-top: 1.3125rem;
-    margin-bottom: 1.5rem;
-
-    label {
-        display: none;
-    }
-
-    input {
-        font-size: 1rem;
-        color: var(--navds-color-text-primary);
-    }
-`;
-
 const AnnullerKnapp = styled(Knapp)`
     margin-right: 1rem;
 `;
@@ -69,49 +53,73 @@ const Utbetalingsgruppe = styled.div`
     margin-bottom: 2rem;
 `;
 
-const CheckboxTekst = styled.p`
-    font-weight: bold;
-    color: var(--navds-color-text-primary);
-`;
-
-const CheckboxFeilmelding = styled(NavFeilmelding)`
-    margin-top: 0.5rem;
-`;
-
-interface Props {
-    person: Person;
-    aktivPeriode: Tidslinjeperiode;
-    onClose: () => void;
+export interface Annulleringslinje {
+    fom: Dayjs;
+    tom: Dayjs;
+    dagsats?: number;
 }
 
-export const Annulleringsmodal = ({ person, aktivPeriode, onClose }: Props) => {
-    const { ident } = useRecoilValue(authState);
+interface AnnulleringsmodalProps {
+    person: Person;
+    organisasjonsnummer: string;
+    fagsystemId: string;
+    linjer: Annulleringslinje[];
+    onClose: () => void;
+    onSuccess?: () => void;
+}
+
+export const Annulleringsmodal = ({
+    person,
+    organisasjonsnummer,
+    fagsystemId,
+    linjer,
+    onClose,
+    onSuccess,
+}: AnnulleringsmodalProps) => {
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
-    const utbetaling = useUtbetaling(aktivPeriode.beregningId);
 
     const form = useForm({ mode: 'onBlur' });
+    const kommentar = form.watch('kommentar');
+    const begrunnelser = form.watch(`begrunnelser`);
+    const annenBegrunnelse = begrunnelser ? begrunnelser.includes('annet') : false;
+    const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0 ?? true;
+
     const annullering = (): AnnulleringDTO => ({
         aktørId: person.aktørId,
         fødselsnummer: person.fødselsnummer,
-        organisasjonsnummer: aktivPeriode.organisasjonsnummer,
-        fagsystemId: utbetaling?.arbeidsgiverFagsystemId!,
+        organisasjonsnummer: organisasjonsnummer,
+        fagsystemId: fagsystemId,
+        begrunnelser: begrunnelser,
+        kommentar: kommentar ? (kommentar.trim() === '' ? undefined : kommentar.trim()) : undefined,
     });
 
     const sendAnnullering = (annullering: AnnulleringDTO) => {
-        setIsSending(true);
-        setPostAnnulleringFeil(undefined);
-        postAnnullering(annullering)
-            .then(() => {
-                postAbonnerPåAktør(annullering.aktørId).then(() => {
-                    setOpptegnelsePollingTime(1000);
-                });
-                onClose();
-            })
-            .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
-            .finally(() => setIsSending(false));
+        if (annenBegrunnelse && !kommentar) {
+            form.setError('kommentar', {
+                type: 'manual',
+                message: 'Skriv en kommentar hvis du velger begrunnelsen annet',
+            });
+        } else if (!harMinstÉnBegrunnelse()) {
+            form.setError('begrunnelser', {
+                type: 'manual',
+                message: 'Velg minst én begrunnelse',
+            });
+        } else {
+            setIsSending(true);
+            setPostAnnulleringFeil(undefined);
+            postAnnullering(annullering)
+                .then(() => {
+                    postAbonnerPåAktør(annullering.aktørId).then(() => {
+                        setOpptegnelsePollingTime(1000);
+                    });
+                    onSuccess && onSuccess();
+                    onClose();
+                })
+                .catch(() => setPostAnnulleringFeil('Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.'))
+                .finally(() => setIsSending(false));
+        }
     };
 
     const submit = () => sendAnnullering(annullering());
@@ -128,41 +136,21 @@ export const Annulleringsmodal = ({ person, aktivPeriode, onClose }: Props) => {
                     <Annulleringsvarsel />
                     <Tittel>Annullering</Tittel>
 
-                    <Checkbox
-                        name="arbeidsgiverCheckbox"
-                        label={<CheckboxTekst>Annullér utbetaling til arbeidsgiver</CheckboxTekst>}
-                        checkboxRef={form.register({ required: true })}
-                    />
                     <Utbetalingsgruppe>
                         <TilAnnullering>
                             <Normaltekst>Følgende utbetalinger annulleres:</Normaltekst>
                             <ul>
-                                {vedtaksperiode.utbetalinger?.arbeidsgiverUtbetaling?.linjer.map((linje, index) => (
+                                {linjer.map((linje, index) => (
                                     <li key={index}>
-                                        {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)} -{' '}
-                                        {somPenger(linje.dagsats)}
+                                        {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)}
+                                        {linje.dagsats && ' - ' + somPenger(linje.dagsats)}
                                     </li>
                                 ))}
                             </ul>
                         </TilAnnullering>
-                        {form.errors?.arbeidsgiverCheckbox && (
-                            <CheckboxFeilmelding>
-                                Du må velge minst én utbetaling som skal annulleres
-                            </CheckboxFeilmelding>
-                        )}
                     </Utbetalingsgruppe>
 
-                    <Normaltekst>
-                        For å gjennomføre annulleringen må du skrive inn din NAV brukerident i feltet under.
-                    </Normaltekst>
-                    <IdentInput
-                        name="identinput"
-                        label={'NAV brukerident'}
-                        aria-label={'NAV brukerident'}
-                        placeholder={'NAV brukerident'}
-                        inputRef={form.register({ required: true, validate: (value: string) => value === ident })}
-                        feil={form.errors?.identinput && 'Fyll inn din NAV brukerident'}
-                    />
+                    <Annulleringsbegrunnelse />
                     <AnnullerKnapp spinner={isSending} autoDisableVedSpinner>
                         Annullér
                     </AnnullerKnapp>

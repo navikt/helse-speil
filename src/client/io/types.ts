@@ -33,6 +33,8 @@ export interface AnnulleringDTO {
     fødselsnummer: string;
     organisasjonsnummer: string;
     fagsystemId: string;
+    begrunnelser?: string[];
+    kommentar?: string;
 }
 
 export interface PersonoppdateringDTO {

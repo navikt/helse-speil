@@ -63,6 +63,8 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
                 saksbehandlerIdent: req.session!.user,
                 speilToken: req.session!.speilToken,
                 vedtaksperiodeId: req.body.vedtaksperiodeId,
+                begrunnelser: req.body.begrunnelser,
+                kommentar: req.body.kommentar,
             })
             .then(() => {
                 res.sendStatus(204);
