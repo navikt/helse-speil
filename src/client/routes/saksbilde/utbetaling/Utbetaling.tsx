@@ -11,7 +11,11 @@ import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
 
-import { overstyrbareTabellerEnabled, overstyreUtbetaltPeriodeEnabled } from '../../../featureToggles';
+import {
+    overstyrbareTabellerEnabled,
+    overstyreUtbetaltPeriodeEnabled,
+    recursiveRevurderingEnabled,
+} from '../../../featureToggles';
 import { OverstyrbarUtbetalingstabell } from './utbetalingstabell/OverstyrbarUtbetalingstabell';
 import { OverstyringTimeoutModal } from './utbetalingstabell/OverstyringTimeoutModal';
 import { Overstyringsknapp } from './utbetalingstabell/Overstyringsknapp';
@@ -25,14 +29,25 @@ const FeilmeldingContainer = styled.div`
 const førsteArbeidsgiversSistePeriode = (person: Person) => person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0];
 
 const kunEnArbeidsgiver = (person: Person) => person.arbeidsgivere.length === 1;
-
-const revurderingEnabled = (person: Person, periode: Tidslinjeperiode): boolean =>
-    overstyreUtbetaltPeriodeEnabled &&
-    kunEnArbeidsgiver(person) &&
-    periode === førsteArbeidsgiversSistePeriode(person) &&
-    [Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk, Tidslinjetilstand.Revurdert].includes(
-        periode.tilstand
+export const revurderingEnabled = (
+    person: Person,
+    periode: Tidslinjeperiode,
+    kanRevurderingRevurderes: boolean
+): boolean => {
+    console.log('overstyreUtbetaltPeriodeEnabled: ' + overstyreUtbetaltPeriodeEnabled);
+    console.log('kunEnArbeidsgiver: ' + kunEnArbeidsgiver(person));
+    console.log(
+        'periode === førsteArbeidsgiversSistePeriode(person): ' + (periode === førsteArbeidsgiversSistePeriode(person))
     );
+    console.log('periode.tilstand: ' + periode.tilstand);
+    return (
+        overstyreUtbetaltPeriodeEnabled &&
+        kunEnArbeidsgiver(person) &&
+        periode === førsteArbeidsgiversSistePeriode(person) &&
+        ([Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk].includes(periode.tilstand) ||
+            (periode.tilstand === Tidslinjetilstand.Revurdert && kanRevurderingRevurderes))
+    );
+};
 
 const overstyringEnabled = (person: Person, periode: Tidslinjeperiode): boolean =>
     overstyrbareTabellerEnabled &&
@@ -49,9 +64,16 @@ export interface UtbetalingProps {
     vedtaksperiode: Vedtaksperiode;
     maksdato?: Dayjs;
     gjenståendeDager?: number;
+    recursiveRevurdering: boolean;
 }
 
-export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiode }: UtbetalingProps) => {
+export const Utbetaling = ({
+    gjenståendeDager,
+    maksdato,
+    periode,
+    vedtaksperiode,
+    recursiveRevurdering = false,
+}: UtbetalingProps) => {
     const person = usePerson() as Person;
 
     const [overstyrer, setOverstyrer] = useState(false);
@@ -61,7 +83,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
         setOverstyrer((value) => !value);
     };
 
-    const revurderingIsEnabled = revurderingEnabled(person, periode);
+    const revurderingIsEnabled = revurderingEnabled(person, periode, recursiveRevurderingEnabled);
     const overstyringIsEnabled = overstyringEnabled(person, periode);
 
     return (

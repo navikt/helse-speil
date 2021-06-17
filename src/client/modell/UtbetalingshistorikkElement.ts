@@ -111,6 +111,7 @@ export enum Utbetalingstatus {
     UTBETALING_FEILET,
     ANNULLERT,
     UKJENT,
+    REVURDERT,
 }
 
 export enum Periodetype {

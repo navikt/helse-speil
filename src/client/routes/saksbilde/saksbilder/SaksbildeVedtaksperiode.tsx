@@ -76,10 +76,11 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                         <Switch>
                                             <Route path={`${path}/utbetaling`}>
                                                 <Utbetaling
-                                                    periode={aktivPeriode}
-                                                    maksdato={maksdato}
-                                                    vedtaksperiode={vedtaksperiode}
-                                                    gjenståendeDager={gjenståendeDager}
+                                                    recursiveRevurdering={false}
+                                                periode={aktivPeriode}
+                                                maksdato={maksdato}
+                                                vedtaksperiode={vedtaksperiode}
+                                                gjenståendeDager={gjenståendeDager}
                                                 />
                                             </Route>
                                             <Route path={`${path}/vilkår`}>

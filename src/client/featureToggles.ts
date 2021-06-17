@@ -63,3 +63,4 @@ export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehan
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erSpiceGirls() || erLocal() || erDev() || erDigimort() || erSupersaksbehandler() || erFaktiskSupportsaksbehandler();
+export const recursiveRevurderingEnabled = erLocal() || erDev();

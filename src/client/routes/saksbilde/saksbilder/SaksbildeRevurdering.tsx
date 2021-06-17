@@ -12,7 +12,7 @@ import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Historikk } from '../historikk/Historikk';
-import { Utbetalingstabell } from '../utbetaling/utbetalingstabell/Utbetalingstabell';
+import { Utbetaling } from '../utbetaling/Utbetaling';
 import { Saksbildevarsler } from '../varsler/Saksbildevarsler';
 import { VenstreMeny } from '../venstremeny/Venstremeny';
 
@@ -62,14 +62,13 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                                 oppgavereferanse={oppgavereferanse}
                             />
                             <Content>
-                                <Flex style={{ height: '100%' }}>
-                                    <Utbetalingstabell
-                                        maksdato={maksdato}
-                                        periode={aktivPeriode}
-                                        gjenståendeDager={gjenståendeDager}
-                                        overstyringer={vedtaksperiode.overstyringer}
-                                    />
-                                </Flex>
+                                <Utbetaling
+                                recursiveRevurdering={true}
+                                    periode={aktivPeriode}
+                                maksdato={maksdato}
+                                vedtaksperiode={vedtaksperiode}
+                                gjenståendeDager={vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager}
+                            />
                             </Content>
                         </FlexColumn>
                     </Flex>
