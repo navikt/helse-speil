@@ -63,8 +63,7 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                             />
                             <Content>
                                 <Utbetaling
-                                recursiveRevurdering={true}
-                                    periode={aktivPeriode}
+                                periode={aktivPeriode}
                                 maksdato={maksdato}
                                 vedtaksperiode={vedtaksperiode}
                                 gjenståendeDager={vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager}

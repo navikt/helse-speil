@@ -54,29 +54,28 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
         <Flex flex={1} data-testid="saksbilde-vedtaksperiode" style={{ minWidth: 'var(--speil-total-min-width)' }}>
             <NoScrollX>
                 <AutoFlexContainer>
-                    <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
-                        <AmplitudeProvider>
-                            <Flex flex={1}>
-                                <VenstreMeny
+                <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
+                    <AmplitudeProvider>
+                        <Flex flex={1}>
+                            <VenstreMeny
+                                aktivPeriode={aktivPeriode}
+                                arbeidsgivernavn={arbeidsgivernavn}
+                                organisasjonsnummer={aktivPeriode.organisasjonsnummer}
+                                arbeidsforhold={arbeidsforhold}
+                                anonymiseringEnabled={anonymiseringEnabled}
+                                skjæringstidspunkt={vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
+                                maksdato={maksdato}
+                            />
+                            <FlexColumn style={{ flex: 1, height: '100%' }}>
+                                <Saksbildevarsler
                                     aktivPeriode={aktivPeriode}
-                                    arbeidsgivernavn={arbeidsgivernavn}
-                                    organisasjonsnummer={aktivPeriode.organisasjonsnummer}
-                                    arbeidsforhold={arbeidsforhold}
-                                    anonymiseringEnabled={anonymiseringEnabled}
-                                    skjæringstidspunkt={vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
-                                    maksdato={maksdato}
+                                    vedtaksperiode={vedtaksperiode}
+                                    oppgavereferanse={oppgavereferanse}
                                 />
-                                <FlexColumn style={{ flex: 1, height: '100%' }}>
-                                    <Saksbildevarsler
-                                        aktivPeriode={aktivPeriode}
-                                        vedtaksperiode={vedtaksperiode}
-                                        oppgavereferanse={oppgavereferanse}
-                                    />
-                                    <Content>
-                                        <Switch>
-                                            <Route path={`${path}/utbetaling`}>
-                                                <Utbetaling
-                                                    recursiveRevurdering={false}
+                                <Content>
+                                    <Switch>
+                                        <Route path={`${path}/utbetaling`}>
+                                            <Utbetaling
                                                 periode={aktivPeriode}
                                                 maksdato={maksdato}
                                                 vedtaksperiode={vedtaksperiode}

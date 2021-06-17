@@ -58,7 +58,6 @@ export interface UtbetalingProps {
     vedtaksperiode: Vedtaksperiode;
     maksdato?: Dayjs;
     gjenståendeDager?: number;
-    recursiveRevurdering: boolean;
 }
 
 export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiode }: UtbetalingProps) => {
