@@ -9,7 +9,7 @@ import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
 import { NoScrollX } from '../../../components/NoScrollX';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
-import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
@@ -45,7 +45,8 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
     const errorMelding = getErrorMelding(vedtaksperiode.tilstand);
 
-    const maksdato = vedtaksperiode.vilkår?.dagerIgjen.maksdato;
+    const maksdato = useMaksdato(aktivPeriode.beregningId);
+    const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
 
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
@@ -78,9 +79,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                                     periode={aktivPeriode}
                                                     maksdato={maksdato}
                                                     vedtaksperiode={vedtaksperiode}
-                                                    gjenståendeDager={
-                                                        vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager
-                                                    }
+                                                    gjenståendeDager={gjenståendeDager}
                                                 />
                                             </Route>
                                             <Route path={`${path}/vilkår`}>
