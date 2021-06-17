@@ -289,8 +289,6 @@ export class ArbeidsgiverBuilder {
                 return Utbetalingstatus.UTBETALING_FEILET;
             case 'ANNULLERT':
                 return Utbetalingstatus.ANNULLERT;
-            case 'REVURDERT':
-                return Utbetalingstatus.REVURDERT;
             default:
                 return Utbetalingstatus.UKJENT;
         }
