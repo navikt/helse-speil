@@ -17,6 +17,7 @@ const Container = styled.div`
     box-sizing: border-box;
     border-bottom: 1px solid var(--navds-color-border);
     padding: 0 2rem 0 2rem;
+    min-width: var(--speil-total-min-width);
 
     > div:last-of-type {
         margin-left: 1rem;

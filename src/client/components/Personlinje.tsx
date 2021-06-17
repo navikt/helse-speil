@@ -24,6 +24,7 @@ const Container = styled.div`
     flex-shrink: 0;
     height: 48px;
     min-width: var(--speil-total-min-width);
+    box-sizing: border-box;
     padding: 0 2rem;
     background: var(--speil-background-secondary);
     border-bottom: 1px solid var(--navds-color-border);
