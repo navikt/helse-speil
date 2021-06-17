@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -18,14 +19,20 @@ const Content = styled.span`
 `;
 
 const DisabledTabLink = styled(TabButton)`
-    font-size: 14px;
     height: 48px;
     color: var(--navds-color-text-disabled);
 `;
 
 const TabLinkButton = styled(TabButton)`
-    font-size: 14px;
     height: 48px;
+
+    ${(props) =>
+        props.active &&
+        css`
+            > span:after {
+                font-weight: 600;
+            }
+        `}
 `;
 
 const IconContainer = styled.span`

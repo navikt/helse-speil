@@ -23,12 +23,6 @@ const Container = styled.div`
     padding: 0 13px;
 `;
 
-const MenuButton = styled(Dropdown)`
-    > button:first-of-type {
-        font-size: 14px;
-    }
-`;
-
 export interface VerktøylinjeProps {
     aktivPeriode: Tidslinjeperiode;
 }
@@ -47,7 +41,7 @@ export const Sakslinjemeny = ({ aktivPeriode }: VerktøylinjeProps) => {
 
     return (
         <Container>
-            <MenuButton orientering={PopoverOrientering.UnderHoyre}>
+            <Dropdown orientering={PopoverOrientering.UnderHoyre}>
                 {aktivPeriode && (
                     <>
                         {oppgavereferanse && (
@@ -66,7 +60,7 @@ export const Sakslinjemeny = ({ aktivPeriode }: VerktøylinjeProps) => {
                 {oppdaterPersondataEnabled && <OppdaterPersondata />}
                 <AnonymiserData />
                 {showAnnullering && <Annullering aktivPeriode={aktivPeriode} />}
-            </MenuButton>
+            </Dropdown>
         </Container>
     );
 };
