@@ -4,6 +4,7 @@ import { mappetPerson } from 'test-data';
 import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
 import { umappetUtbetalingshistorikk } from '../../../../test/data/utbetalingshistorikk';
 import { umappetVedtaksperiode } from '../../../../test/data/vedtaksperiode';
+import { UtbetalingToggles } from '../../../featureToggles';
 import { revurderingEnabled } from './Utbetaling';
 
 const person = mappetPerson([
@@ -25,10 +26,21 @@ const person = mappetPerson([
 describe('rekursive revurderinger', () => {
     const tidslinjeperiode = person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0];
     test('skal kunne revurdere revurdert periode med toggle på', () => {
-        expect(revurderingEnabled(person, tidslinjeperiode, true)).toBe(true);
+        expect(revurderingEnabled(person, tidslinjeperiode, skruPåRekursivRevurdering)).toBe(true);
     });
 
-    test('skal ikke kunne revurdere revurdert periode med toggle på', () => {
-        expect(revurderingEnabled(person, tidslinjeperiode, false)).toBe(false);
+    test('skal ikke kunne revurdere revurdert periode med toggle av', () => {
+        expect(revurderingEnabled(person, tidslinjeperiode, skruAvRekursivRevurdering)).toBe(false);
     });
 });
+
+const skruPåRekursivRevurdering: UtbetalingToggles = {
+    rekursivRevurderingEnabled: true,
+    overstyreUtbetaltPeriodeEnabled: true,
+    overstyrbareTabellerEnabled: true,
+};
+const skruAvRekursivRevurdering: UtbetalingToggles = {
+    rekursivRevurderingEnabled: false,
+    overstyreUtbetaltPeriodeEnabled: true,
+    overstyrbareTabellerEnabled: true,
+};

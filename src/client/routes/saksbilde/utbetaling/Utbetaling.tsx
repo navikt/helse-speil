@@ -11,11 +11,7 @@ import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
 
-import {
-    overstyrbareTabellerEnabled,
-    overstyreUtbetaltPeriodeEnabled,
-    rekursiveRevurderingEnabled,
-} from '../../../featureToggles';
+import { UtbetalingToggles, defaultUtbetalingToggles } from '../../../featureToggles';
 import { OverstyrbarUtbetalingstabell } from './utbetalingstabell/OverstyrbarUtbetalingstabell';
 import { OverstyringTimeoutModal } from './utbetalingstabell/OverstyringTimeoutModal';
 import { Overstyringsknapp } from './utbetalingstabell/Overstyringsknapp';
@@ -29,22 +25,18 @@ const FeilmeldingContainer = styled.div`
 const førsteArbeidsgiversSistePeriode = (person: Person) => person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0];
 
 const kunEnArbeidsgiver = (person: Person) => person.arbeidsgivere.length === 1;
-export const revurderingEnabled = (
-    person: Person,
-    periode: Tidslinjeperiode,
-    kanRevurderingRevurderes: boolean
-): boolean => {
+export const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
-        overstyreUtbetaltPeriodeEnabled &&
+        toggles.overstyreUtbetaltPeriodeEnabled &&
         kunEnArbeidsgiver(person) &&
         periode === førsteArbeidsgiversSistePeriode(person) &&
         ([Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk].includes(periode.tilstand) ||
-            (periode.tilstand === Tidslinjetilstand.Revurdert && kanRevurderingRevurderes))
+            (periode.tilstand === Tidslinjetilstand.Revurdert && toggles.rekursivRevurderingEnabled))
     );
 };
 
-const overstyringEnabled = (person: Person, periode: Tidslinjeperiode): boolean =>
-    overstyrbareTabellerEnabled &&
+const overstyringEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
+    toggles.overstyrbareTabellerEnabled &&
     kunEnArbeidsgiver(person) &&
     [
         Tidslinjetilstand.Oppgaver,
@@ -70,8 +62,8 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
         setOverstyrer((value) => !value);
     };
 
-    const revurderingIsEnabled = revurderingEnabled(person, periode, rekursiveRevurderingEnabled);
-    const overstyringIsEnabled = overstyringEnabled(person, periode);
+    const revurderingIsEnabled = revurderingEnabled(person, periode, defaultUtbetalingToggles);
+    const overstyringIsEnabled = overstyringEnabled(person, periode, defaultUtbetalingToggles);
 
     return (
         <AgurkErrorBoundary sidenavn="Utbetaling">
