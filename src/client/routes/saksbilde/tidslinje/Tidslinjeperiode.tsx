@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
-import { Infotrygdperiodetilstand, Revurderingtilstand, Vedtaksperiodetilstand } from 'internal-types';
+import { Infotrygdperiodetilstand } from 'internal-types';
 import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import Popover from 'nav-frontend-popover';
 
@@ -9,6 +10,7 @@ import { Period } from '@navikt/helse-frontend-timeline/lib';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
 
 import { TidslinjeperiodeIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
+import { prideifisertState } from '../../../components/ikoner/VimpelMedPalmeIkon';
 import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 
 interface StyledPeriodProps {
@@ -62,9 +64,17 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
         &.utbetalt,
         &.revurdert,
         &.utbetaltAutomatisk {
-            --period-background-color: var(--navds-color-green-10);
-            --period-hover-color: var(--navds-color-tag-success-background);
-            --period-border-color: var(--navds-color-tag-success-border);
+            &.pride {
+                --period-background-color: var(--nav-regnbue-bakgrunn-skew);
+                --period-hover-color: var(--nav-regnbue-bakgrunn-skew);
+                --period-border-color: var(--navds-color-tag-success-border);
+            }
+
+            &:not(.pride) {
+                --period-background-color: var(--navds-color-green-10);
+                --period-hover-color: var(--navds-color-tag-success-background);
+                --period-border-color: var(--navds-color-tag-success-border);
+            }
         }
 
         &.avslag,
@@ -137,6 +147,8 @@ export const Tidslinjeperiode = ({
         }
     }, [ref.current]);
 
+    const erPrideifisert = useRecoilValue(prideifisertState);
+
     return (
         <>
             <div
@@ -147,7 +159,11 @@ export const Tidslinjeperiode = ({
                 <StyledPeriod
                     erAktiv={erAktiv}
                     ref={ref}
-                    className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende')}
+                    className={classNames(
+                        tilstand,
+                        erForeldet ? 'foreldet' : 'gjeldende',
+                        erPrideifisert ? 'pride' : ''
+                    )}
                     {...props}
                 >
                     {!erMini && (
