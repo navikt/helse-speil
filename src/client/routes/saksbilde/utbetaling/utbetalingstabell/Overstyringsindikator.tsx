@@ -31,8 +31,6 @@ const Overstyringknapp = styled.button`
 `;
 
 const StyledTooltip = styled(Tooltip)`
-    width: 12rem;
-
     > p {
         text-align: left;
     }
