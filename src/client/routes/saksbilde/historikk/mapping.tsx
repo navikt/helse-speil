@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import { Dokument, Kildetype, Overstyring, Vedtaksperiode } from 'internal-types';
+import { Dokument, Kildetype, Overstyring, Utbetalingstype, Vedtaksperiode, Vurdering } from 'internal-types';
 import React from 'react';
 
 import { Kilde } from '../../../components/Kilde';
-import { Periodetype, Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
@@ -18,26 +18,6 @@ const BegrunnelseTekst = styled.div`
         margin-bottom: 0.25rem;
     }
 `;
-
-const mapRevurderingerOgOverstyringer = (vedtaksperiode: Vedtaksperiode, title: string): Hendelse[] =>
-    vedtaksperiode.overstyringer.map((overstyring: Overstyring) => ({
-        id: overstyring.hendelseId,
-        timestamp: dayjs(overstyring.timestamp),
-        title: title,
-        type: Hendelsetype.Historikk,
-        body: (
-            <BegrunnelseTekst>
-                <p>{overstyring.begrunnelse}</p>
-                <p>{overstyring.saksbehandlerNavn}</p>
-            </BegrunnelseTekst>
-        ),
-    }));
-
-const mapRevurderinger = (vedtaksperiode: Vedtaksperiode): Hendelse[] =>
-    mapRevurderingerOgOverstyringer(vedtaksperiode, 'Revurdert: Sykmeldingsperiode');
-
-const mapOverstyringer = (vedtaksperiode: Vedtaksperiode): Hendelse[] =>
-    mapRevurderingerOgOverstyringer(vedtaksperiode, 'Overstyrt: Sykmeldingsperiode');
 
 export const useDokumenter = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
     (vedtaksperiode?.fullstendig &&
@@ -79,48 +59,44 @@ export const useDokumenter = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
             }))) ||
     [];
 
-export const useGodkjenning = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
-    (vedtaksperiode?.fullstendig &&
-        ([
-            vedtaksperiode.automatiskBehandlet && {
-                id: 'automatisk',
-                timestamp: dayjs(vedtaksperiode.godkjenttidspunkt),
-                title: 'Automatisk godkjent',
+export const useUtbetalinger = (periode?: Tidslinjeperiode): Hendelse[] => {
+    const utbetalingshistorikk =
+        usePerson()?.arbeidsgivere.find((it) => it.organisasjonsnummer === periode?.organisasjonsnummer)
+            ?.utbetalingshistorikk ?? [];
+
+    return utbetalingshistorikk
+        .filter((it) => it.id === periode?.beregningId)
+        .filter((it) => it.utbetaling.vurdering)
+        .map(({ utbetaling }, i) => {
+            const { tidsstempel, automatisk, godkjent, ident } = utbetaling.vurdering as Vurdering;
+            return {
+                id: `utbetaling-${periode?.beregningId}-${i}`,
+                timestamp: tidsstempel,
+                title: automatisk
+                    ? 'Automatisk godkjent'
+                    : utbetaling.type === Utbetalingstype.ANNULLERING
+                    ? 'Annullert'
+                    : utbetaling.type === Utbetalingstype.REVURDERING
+                    ? 'Revurdert'
+                    : 'Sendt til utbetaling',
                 type: Hendelsetype.Historikk,
-            },
-            vedtaksperiode.godkjentAv && {
-                id: 'sendt-til-utbetaling',
-                timestamp: dayjs(vedtaksperiode.godkjenttidspunkt),
-                title: 'Sendt til utbetaling',
-                type: Hendelsetype.Historikk,
-                body: <BegrunnelseTekst>{vedtaksperiode.godkjentAv}</BegrunnelseTekst>,
-            },
-        ].filter((it) => !!it) as Hendelse[])) ||
-    [];
-
-export const useOverstyring = (vedtaksperiode?: Vedtaksperiode, aktivPeriode?: Tidslinjeperiode): Hendelse[] =>
-    (vedtaksperiode?.fullstendig && aktivPeriode?.type === Periodetype.REVURDERING
-        ? mapRevurderinger(vedtaksperiode)
-        : vedtaksperiode && mapOverstyringer(vedtaksperiode)) || [];
-
-export const useAnnullering = (vedtaksperiode?: Vedtaksperiode): Hendelse[] => {
-    const person = usePerson();
-
-    const annullertAvSaksbehandler = person?.utbetalinger?.find(
-        (it) => it.arbeidsgiverOppdrag.fagsystemId === vedtaksperiode?.utbetalinger?.arbeidsgiverUtbetaling?.fagsystemId
-    )?.annullering;
-
-    return (
-        (vedtaksperiode?.fullstendig &&
-            annullertAvSaksbehandler && [
-                {
-                    id: 'annullering',
-                    timestamp: annullertAvSaksbehandler.annullertTidspunkt,
-                    title: 'Annullert',
-                    type: Hendelsetype.Historikk,
-                    body: <BegrunnelseTekst>{annullertAvSaksbehandler.saksbehandlerNavn}</BegrunnelseTekst>,
-                },
-            ]) ||
-        []
-    );
+                body: godkjent && !automatisk && <BegrunnelseTekst>{ident}</BegrunnelseTekst>,
+            };
+        });
 };
+
+export const useUtbetalingsendringer = (vedtaksperiode?: Vedtaksperiode): Hendelse[] =>
+    (vedtaksperiode?.fullstendig &&
+        vedtaksperiode.overstyringer.map((overstyring: Overstyring) => ({
+            id: overstyring.hendelseId,
+            timestamp: dayjs(overstyring.timestamp),
+            title: 'Endret utbetalingsdager',
+            type: Hendelsetype.Historikk,
+            body: (
+                <BegrunnelseTekst>
+                    <p>{overstyring.begrunnelse}</p>
+                    <p>{overstyring.saksbehandlerNavn}</p>
+                </BegrunnelseTekst>
+            ),
+        }))) ||
+    [];

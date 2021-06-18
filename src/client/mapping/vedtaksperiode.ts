@@ -47,8 +47,6 @@ export const somProsent = (avviksprosent: number): number => avviksprosent * 100
 export const somInntekt = (inntekt?: number, måneder: number = 1): number | undefined =>
     inntekt ? +(inntekt * måneder).toFixed(2) : undefined;
 
-export const somÅrsinntekt = (inntekt?: number): number | undefined => somInntekt(inntekt, 12);
-
 const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbetalinger): Utbetaling | undefined =>
     utbetalinger[key] && {
         fagsystemId: utbetalinger[key]!.fagsystemId,
@@ -161,7 +159,7 @@ export class VedtaksperiodeBuilder {
         this.vedtaksperiode.gruppeId = this.unmapped.gruppeId;
         this.vedtaksperiode.godkjentAv = this.unmapped.godkjentAv;
         this.vedtaksperiode.godkjenttidspunkt = this.unmapped.godkjenttidspunkt
-            ? somKanskjeDato(this.unmapped.godkjenttidspunkt)
+            ? somKanskjeTidspunkt(this.unmapped.godkjenttidspunkt)
             : undefined;
         this.vedtaksperiode.oppgavereferanse = this.unmapped.oppgavereferanse || undefined;
         this.vedtaksperiode.utbetalingsreferanse = this.unmapped.utbetalingsreferanse;

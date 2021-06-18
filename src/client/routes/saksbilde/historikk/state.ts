@@ -4,7 +4,7 @@ import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } fro
 import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
-import { useAnnullering, useDokumenter, useGodkjenning, useOverstyring } from './mapping';
+import { useDokumenter, useUtbetalinger, useUtbetalingsendringer } from './mapping';
 
 const historikkState = atom<Hendelse[]>({
     key: 'historikkState',
@@ -40,18 +40,20 @@ export const useOppdaterHistorikk = () => {
     const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id!);
 
     const dokumenter = useDokumenter(vedtaksperiode);
-    const annullering = useAnnullering(vedtaksperiode);
-    const godkjenninger = useGodkjenning(vedtaksperiode);
-    const overstyringer = useOverstyring(vedtaksperiode, aktivPeriode);
+    const utbetalinger = useUtbetalinger(aktivPeriode);
+    const utbetalingsendringer = useUtbetalingsendringer(vedtaksperiode);
 
     const setHistorikk = useSetRecoilState(historikkState);
 
     const byTimestamp = (a: Hendelse, b: Hendelse): number =>
         a.timestamp === undefined ? -1 : b.timestamp === undefined ? 1 : b.timestamp.diff(a.timestamp);
 
-    const hendelser = [...dokumenter, ...overstyringer, ...godkjenninger, ...annullering]
-        .sort(byTimestamp)
-        .filter((it) => !aktivPeriode || it.timestamp?.isSameOrBefore(aktivPeriode.opprettet));
+    const hendelser = [...dokumenter, ...utbetalingsendringer].filter(
+        (it) => !aktivPeriode || it.timestamp?.isSameOrBefore(aktivPeriode.opprettet)
+    );
+
+    hendelser.push(...utbetalinger);
+    hendelser.sort(byTimestamp);
 
     useEffect(() => {
         setHistorikk(hendelser);
