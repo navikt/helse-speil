@@ -25,6 +25,7 @@ const FeilmeldingContainer = styled.div`
 const førsteArbeidsgiversSistePeriode = (person: Person) => person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0];
 
 const kunEnArbeidsgiver = (person: Person) => person.arbeidsgivere.length === 1;
+
 export const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&

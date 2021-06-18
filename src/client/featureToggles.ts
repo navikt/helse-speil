@@ -70,6 +70,7 @@ export interface UtbetalingToggles {
     rekursivRevurderingEnabled: boolean;
     overstyrbareTabellerEnabled: boolean;
 }
+
 export const defaultUtbetalingToggles: UtbetalingToggles = {
     rekursivRevurderingEnabled: rekursivRevurderingEnabled,
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
