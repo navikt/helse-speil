@@ -4,6 +4,7 @@ import React from 'react';
 
 import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
+import { Flex } from '../../../components/Flex';
 import { LovdataLenke } from '../../../components/LovdataLenke';
 import { Oppgaveetikett } from '../../../components/Oppgaveetikett';
 import { Advarselikon } from '../../../components/ikoner/Advarselikon';
@@ -87,18 +88,17 @@ export const PeriodeCard = ({
                 <IconContainer>
                     <Maksdatoikon />
                 </IconContainer>
-                <Normaltekst>{`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}</Normaltekst>
-                {over67år && (
-                    <>
-                        <IconContainer>
-                            @
+                <Flex justifyContent={'space-between'}>
+                    <Normaltekst>{`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}</Normaltekst>
+                    {over67år && (
+                        <Flex alignItems={'center'}>
                             <Advarselikon height={16} width={16} />
-                        </IconContainer>
-                        <Undertekst>
-                            <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                        </Undertekst>
-                    </>
-                )}
+                            <Undertekst style={{ marginLeft: '.5rem' }}>
+                                <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                            </Undertekst>
+                        </Flex>
+                    )}
+                </Flex>
             </Grid>
         </Card>
     );
