@@ -8,8 +8,8 @@ import { Kilde } from '../../../../components/Kilde';
 import { Tooltip } from '../../../../components/Tooltip';
 
 import { CellContent } from '../../table/CellContent';
-import { IconOverstyrt } from '../../table/icons/IconOverstyrt';
-import { Overstyringsindikator } from './Overstyringsindikator';
+import IconOverstyrt from '../../table/icons/iconOverstyrt.svg';
+import { OverstyringsindikatorSaksbehandler } from './OverstyringsindikatorSaksbehandler';
 
 const getKildeTypeIcon = (type?: Kildetype, overstyring?: Overstyring): ReactNode => {
     switch (type) {
@@ -21,7 +21,7 @@ const getKildeTypeIcon = (type?: Kildetype, overstyring?: Overstyring): ReactNod
             return <Kilde type={Kildetype.Inntektsmelding}>IM</Kilde>;
         case Kildetype.Saksbehandler:
             return overstyring ? (
-                <Overstyringsindikator
+                <OverstyringsindikatorSaksbehandler
                     begrunnelse={overstyring.begrunnelse}
                     saksbehandler={overstyring.saksbehandlerNavn}
                     dato={overstyring.timestamp}

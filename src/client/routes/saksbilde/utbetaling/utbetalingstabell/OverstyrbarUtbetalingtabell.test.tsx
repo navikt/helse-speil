@@ -10,6 +10,8 @@ import { OverstyrbarUtbetalingstabell } from './OverstyrbarUtbetalingstabell';
 
 const periode = enTidslinjeperiode();
 
+jest.mock('../../table/icons/iconOverstyrt.svg', () => 'null');
+
 describe('OverstyrbarUtbetalingtabell', () => {
     test('ikke vis grad når man overstyrer til ferie, egenmelding eller permisjon', () => {
         const sykdomstidslinje: Dag[] = [{ dato: dayjs(), type: Dagtype.Syk, gradering: 100 }];

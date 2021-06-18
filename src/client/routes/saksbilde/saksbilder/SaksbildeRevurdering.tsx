@@ -20,14 +20,14 @@ const AutoFlexContainer = styled.div`
     flex: auto;
 `;
 
+const Content = styled.div`
+    margin: 0 2.5rem 4rem;
+    height: 100%;
+`;
+
 interface SaksbildeRevurderingProps {
     aktivPeriode: Tidslinjeperiode;
 }
-
-const Content = styled.div`
-    margin: 1rem 2.5rem 4rem;
-    height: 100%;
-`;
 
 export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps) => {
     const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent';
@@ -63,11 +63,11 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                             />
                             <Content>
                                 <Utbetaling
-                                periode={aktivPeriode}
-                                maksdato={maksdato}
-                                vedtaksperiode={vedtaksperiode}
-                                gjenståendeDager={vedtaksperiode.vilkår?.dagerIgjen.gjenståendeDager}
-                            />
+                                    periode={aktivPeriode}
+                                    maksdato={maksdato}
+                                    vedtaksperiode={vedtaksperiode}
+                                    gjenståendeDager={gjenståendeDager}
+                                />
                             </Content>
                         </FlexColumn>
                     </Flex>
