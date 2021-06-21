@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
@@ -14,34 +15,46 @@ import { Tidslinjerad } from './Tidslinjerad';
 import { InfotrygdradObject } from './useInfotrygdrader';
 import { TidslinjeradObject } from './useTidslinjerader';
 
-const Arbeidsgivernavn = styled(Flex)`
+const arbeidsgivernavnStyle = css`
+    display: flex;
     align-items: center;
-    font-weight: 400;
-    font-size: 14px;
     color: var(--navds-color-text-primary);
     line-height: 1rem;
     padding-right: 1rem;
     box-sizing: border-box;
     height: 24px;
-
-    > svg:first-of-type {
-        margin-right: 1rem;
-    }
     width: var(--tidslinje-rad-offset);
+    max-width: var(--tidslinje-rad-offset);
+
+    > * {
+        margin-right: 0.5rem;
+    }
 `;
 
-const KlikkbarArbeidsgivernavn = styled(Arbeidsgivernavn)`
-    color: var(--navds-color-action-default);
-    font-weight: 600;
-    font-size: 16px;
+const Arbeidsgivernavn = styled.div`
+    ${arbeidsgivernavnStyle};
+`;
+
+const EkspanderbartArbeidsgivernavn = styled(Button)<{ erEkspandert: boolean }>`
+    padding: 0;
+    ${arbeidsgivernavnStyle};
+
     cursor: pointer;
-    > button,
-    svg {
+    font-weight: 600;
+    color: var(--navds-color-action-default);
+
+    > svg {
+        color: var(--navds-color-action-default);
+
         > path {
             fill: var(--navds-color-action-default);
         }
-        color: var(--navds-color-action-default);
     }
+`;
+
+const LeftContainer = styled.div`
+    width: 1.5rem;
+    max-width: 1.5rem;
 `;
 
 const Rader = styled(FlexColumn)`
@@ -51,7 +64,17 @@ const Rader = styled(FlexColumn)`
     flex: 1;
 `;
 
-interface ArbeidsgiverradProps {
+const ForeldedeRaderContainer = styled.div`
+    overflow: hidden;
+    padding: 6px 3px;
+    margin: -3px;
+
+    & > .row {
+        margin-bottom: 0.25rem;
+    }
+`;
+
+interface ArbeidsgiverProps {
     rader: TidslinjeradObject[];
     id: string;
     navn: string;
@@ -59,47 +82,25 @@ interface ArbeidsgiverradProps {
     toggleEkspanderbarRad: (id: string) => void;
 }
 
-interface ArbeidsgiverInfoProps {
-    navn: string;
-}
-
-const ForeldedeRaderContainer = styled.div`
-    margin-top: 0.375rem;
-
-    & > .row {
-        margin-bottom: 0.25rem;
-    }
-`;
-
-const FlexSpan = styled.span`
-    display: flex;
-`;
-
-const StyledChevron = styled(NavFrontendChevron)`
-    margin-right: 0.5rem;
-`;
-
-const ArbeidsgiverInfo = ({ navn }: ArbeidsgiverInfoProps) => (
-    <>
-        <Arbeidsgiverikon />
-        <FlexSpan>
-            <TekstMedEllipsis data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
-        </FlexSpan>
-    </>
-);
-
-const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: ArbeidsgiverradProps) => (
+const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: ArbeidsgiverProps) => (
     <Flex alignItems="start">
         {rader.length > 1 ? (
-            <Button onClick={() => toggleEkspanderbarRad(id)}>
-                <KlikkbarArbeidsgivernavn>
-                    <StyledChevron type={erEkspandert ? 'ned' : 'høyre'} />
-                    <ArbeidsgiverInfo navn={navn} />
-                </KlikkbarArbeidsgivernavn>
-            </Button>
+            <EkspanderbartArbeidsgivernavn erEkspandert={erEkspandert} onClick={() => toggleEkspanderbarRad(id)}>
+                <LeftContainer>
+                    <NavFrontendChevron type={erEkspandert ? 'ned' : 'høyre'} />
+                </LeftContainer>
+                <Arbeidsgiverikon />
+                <Flex style={{ overflow: 'hidden' }}>
+                    <TekstMedEllipsis data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
+                </Flex>
+            </EkspanderbartArbeidsgivernavn>
         ) : (
             <Arbeidsgivernavn>
-                <ArbeidsgiverInfo navn={navn} />
+                <LeftContainer />
+                <Arbeidsgiverikon />
+                <Flex style={{ overflow: 'hidden' }}>
+                    <TekstMedEllipsis data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
+                </Flex>
             </Arbeidsgivernavn>
         )}
         {rader.length > 0 && (
@@ -107,7 +108,7 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
                 <Tidslinjerad key="tidslinjerad-0" rad={rader[0]} erKlikkbar={true} />
                 <AnimatePresence>
                     {erEkspandert && (
-                        <ForeldedeRaderContainer style={{ overflow: 'hidden', padding: '6px 3px', margin: -3 }}>
+                        <ForeldedeRaderContainer>
                             {rader.slice(1).map((it, i) => (
                                 <motion.div
                                     key={`tidslinjerad-${i + 1}`}
@@ -131,12 +132,12 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
     </Flex>
 );
 
-interface InfotrygdradProps {
+interface InfotrygdProps {
     rad: InfotrygdradObject;
     navn: string;
 }
 
-const Infotrygd = ({ rad, navn }: InfotrygdradProps) => (
+const Infotrygd = ({ rad, navn }: InfotrygdProps) => (
     <Flex alignItems="start">
         <Arbeidsgivernavn>
             <Infotrygdikon />
