@@ -1,10 +1,10 @@
 import amplitude from 'amplitude-js';
-import dayjs, {Dayjs} from 'dayjs';
-import React, {PropsWithChildren, useEffect} from 'react';
+import dayjs, { Dayjs } from 'dayjs';
+import React, { PropsWithChildren, useEffect } from 'react';
 
-import {useAktivPeriode, useVedtaksperiode} from '../../state/tidslinje';
+import { useAktivPeriode, useVedtaksperiode } from '../../state/tidslinje';
 
-import {amplitudeEnabled} from '../../featureToggles';
+import { amplitudeEnabled } from '../../featureToggles';
 
 amplitudeEnabled &&
     amplitude?.getInstance().init('default', '', {
@@ -57,19 +57,19 @@ export const AmplitudeProvider: React.FC<PropsWithChildren<{}>> = ({ children })
     if (aktivPeriode === undefined) throw Error('Mangler aktiv vedtaksperiode');
     const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id);
 
-    useStoreÅpnetTidspunkt(vedtaksperiode.oppgavereferanse);
+    useStoreÅpnetTidspunkt(vedtaksperiode?.oppgavereferanse);
 
     const eventProperties = (åpnetTidspunkt: Dayjs, begrunnelser: string[] | undefined = undefined) => ({
         varighet: dayjs().diff(åpnetTidspunkt),
-        type: vedtaksperiode.periodetype,
-        inntektskilde: vedtaksperiode.inntektskilde,
-        warnings: vedtaksperiode.aktivitetslog,
-        antallWarnings: vedtaksperiode.aktivitetslog.length,
+        type: vedtaksperiode?.periodetype,
+        inntektskilde: vedtaksperiode?.inntektskilde,
+        warnings: vedtaksperiode?.aktivitetslog,
+        antallWarnings: vedtaksperiode?.aktivitetslog.length,
         begrunnelser: begrunnelser,
     });
 
     const logEvent = (event: 'oppgave godkjent' | 'oppgave forkastet', begrunnelser?: string[]) => {
-        if (amplitudeEnabled && vedtaksperiode.oppgavereferanse) {
+        if (amplitudeEnabled && vedtaksperiode?.oppgavereferanse) {
             const åpnetTidspunkt = getÅpnetOppgaveTidspunkt(vedtaksperiode.oppgavereferanse);
 
             åpnetTidspunkt &&

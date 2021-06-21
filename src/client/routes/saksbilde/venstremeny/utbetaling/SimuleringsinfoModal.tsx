@@ -36,52 +36,12 @@ const Luft = styled.div`
 
 const formaterDato = (forfall: string) => dayjs(forfall).format(NORSK_DATOFORMAT);
 
-type SimuleringsmodalProps = {
-    simulering: Simulering;
-    åpenModal: boolean;
-    lukkModal: () => void;
+interface UtbetalingsvisningProps {
+    utbetaling: Utbetaling;
+    index: number;
     anonymiseringEnabled: boolean;
-};
+}
 
-export const SimuleringsinfoModal = ({
-    simulering,
-    åpenModal,
-    lukkModal,
-    anonymiseringEnabled,
-}: SimuleringsmodalProps) => (
-    <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
-        <Modalinnhold>
-            <Grid gridTemplateColumns="1fr 1fr">
-                <Undertittel>Simulering</Undertittel>
-            </Grid>
-            {simulering.perioder.map((periode, index) => (
-                <Underliste gridTemplateColumns="1fr 1fr" key={`periode-${index}`}>
-                    <Luft />
-                    <Element>Periode</Element>
-                    <Element>{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</Element>
-                    <Luft />
-                    <Normaltekst>Totalbeløp simulering</Normaltekst>
-                    {simulering.totalbeløp < 0 ? (
-                        <NegativtBeløp>{somPenger(simulering.totalbeløp)}</NegativtBeløp>
-                    ) : (
-                        <Normaltekst>{somPenger(simulering.totalbeløp)}</Normaltekst>
-                    )}
-                    <Luft />
-                    {periode.utbetalinger.map((utbetaling, index) => (
-                        <Utbetalingsvisning
-                            utbetaling={utbetaling}
-                            index={index}
-                            key={`utbetaling-${index}`}
-                            anonymiseringEnabled={anonymiseringEnabled}
-                        />
-                    ))}
-                </Underliste>
-            ))}
-        </Modalinnhold>
-    </Modal>
-);
-
-type UtbetalingsvisningProps = { utbetaling: Utbetaling; index: number; anonymiseringEnabled: boolean };
 const Utbetalingsvisning = ({ utbetaling, index, anonymiseringEnabled }: UtbetalingsvisningProps) => (
     <React.Fragment>
         {index > 0 && <Luft />}
@@ -112,7 +72,12 @@ const Utbetalingsvisning = ({ utbetaling, index, anonymiseringEnabled }: Utbetal
     </React.Fragment>
 );
 
-type UtbetalingsdetaljvisningProps = { detalj: Utbetalingsdetalj; index: number; anonymiseringEnabled: boolean };
+interface UtbetalingsdetaljvisningProps {
+    detalj: Utbetalingsdetalj;
+    index: number;
+    anonymiseringEnabled: boolean;
+}
+
 const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: UtbetalingsdetaljvisningProps) => (
     <React.Fragment>
         {index > 0 && <Luft />}
@@ -155,4 +120,49 @@ const Utbetalingsdetaljvisning = ({ detalj, index, anonymiseringEnabled }: Utbet
         <Normaltekst>Tilbakeføring</Normaltekst>
         <Normaltekst>{detalj.tilbakeforing ? 'Ja' : 'Nei'}</Normaltekst>
     </React.Fragment>
+);
+
+interface SimuleringsmodalProps {
+    simulering: Simulering;
+    åpenModal: boolean;
+    lukkModal: () => void;
+    anonymiseringEnabled: boolean;
+}
+
+export const SimuleringsinfoModal = ({
+    simulering,
+    åpenModal,
+    lukkModal,
+    anonymiseringEnabled,
+}: SimuleringsmodalProps) => (
+    <Modal isOpen={åpenModal} contentLabel="Simuleringsinfo" onRequestClose={lukkModal}>
+        <Modalinnhold>
+            <Grid gridTemplateColumns="1fr 1fr">
+                <Undertittel>Simulering</Undertittel>
+            </Grid>
+            {simulering.perioder.map((periode, index) => (
+                <Underliste gridTemplateColumns="1fr 1fr" key={`periode-${index}`}>
+                    <Luft />
+                    <Element>Periode</Element>
+                    <Element>{`${formaterDato(periode.fom)} - ${formaterDato(periode.tom)}`}</Element>
+                    <Luft />
+                    <Normaltekst>Totalbeløp simulering</Normaltekst>
+                    {simulering.totalbeløp < 0 ? (
+                        <NegativtBeløp>{somPenger(simulering.totalbeløp)}</NegativtBeløp>
+                    ) : (
+                        <Normaltekst>{somPenger(simulering.totalbeløp)}</Normaltekst>
+                    )}
+                    <Luft />
+                    {periode.utbetalinger.map((utbetaling, index) => (
+                        <Utbetalingsvisning
+                            utbetaling={utbetaling}
+                            index={index}
+                            key={`utbetaling-${index}`}
+                            anonymiseringEnabled={anonymiseringEnabled}
+                        />
+                    ))}
+                </Underliste>
+            ))}
+        </Modalinnhold>
+    </Modal>
 );

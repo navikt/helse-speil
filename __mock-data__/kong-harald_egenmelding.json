@@ -821,12 +821,11 @@
                         },
                         {
                             "dagen": "2021-04-21",
-                            "type": "SYKEDAG",
+                            "type": "FERIEDAG",
                             "kilde": {
                                 "type": "Søknad",
                                 "kildeId": "553de369-0f4e-4558-a453-c73006d3404d"
-                            },
-                            "grad": 100
+                            }
                         },
                         {
                             "dagen": "2021-04-22",
@@ -1094,12 +1093,12 @@
                                 "begrunnelser": null
                             },
                             {
-                                "type": "NavDag",
+                                "type": "Feriedag",
                                 "inntekt": 669,
                                 "dato": "2021-04-21",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
+                                "utbetaling": null,
+                                "grad": null,
+                                "totalGrad": null,
                                 "begrunnelser": null
                             },
                             {

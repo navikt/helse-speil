@@ -37,7 +37,7 @@ const tilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null => {
 };
 
 const utbetalingsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null =>
-    [Tidslinjetilstand.TilUtbetaling, Tidslinjetilstand.Utbetalt].includes(tilstand)
+    [Tidslinjetilstand.TilUtbetaling, Tidslinjetilstand.Utbetalt, Tidslinjetilstand.Revurdert].includes(tilstand)
         ? { grad: Varseltype.Info, melding: 'Utbetalingen er sendt til oppdragsystemet.' }
         : [Tidslinjetilstand.TilUtbetalingAutomatisk, Tidslinjetilstand.UtbetaltAutomatisk].includes(tilstand)
         ? { grad: Varseltype.Info, melding: 'Perioden er automatisk godkjent' }
@@ -92,6 +92,11 @@ export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferans
 
     return (
         <div className="Saksbildevarsler">
+            {aktivPeriode.tilstand === Tidslinjetilstand.Revurderes && (
+                <Saksbildevarsel type={Varseltype.Info}>
+                    <Normaltekst>Revurdering er igangsatt og må fullføres.</Normaltekst>
+                </Saksbildevarsel>
+            )}
             <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
             {varsler.map(({ grad, melding }, index) => (
                 <Saksbildevarsel type={grad} key={index}>

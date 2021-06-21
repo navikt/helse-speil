@@ -14,7 +14,6 @@ import { AnnulleringDTO } from '../../../../io/types';
 import { Tidslinjeperiode, useUtbetaling } from '../../../../modell/UtbetalingshistorikkElement';
 import { authState } from '../../../../state/authentication';
 import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
-import { usePerson } from '../../../../state/person';
 import { useVedtaksperiode } from '../../../../state/tidslinje';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { somPenger } from '../../../../utils/locale';
@@ -90,7 +89,7 @@ export const Annulleringsmodal = ({ person, aktivPeriode, onClose }: Props) => {
     const [isSending, setIsSending] = useState<boolean>(false);
     const [postAnnulleringFeil, setPostAnnulleringFeil] = useState<string>();
     const setOpptegnelsePollingTime = useSetRecoilState(opptegnelsePollingTimeState);
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
+    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const utbetaling = useUtbetaling(aktivPeriode.beregningId);
 
     const form = useForm({ mode: 'onBlur' });

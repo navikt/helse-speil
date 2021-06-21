@@ -127,6 +127,12 @@ const filenameForPersonId = (id: string) => {
         case '19026500128':
         case '2750243667998':
             return 'stinky_stank_førstegangsbehandling.json';
+        case '2750243667999':
+        case '19026500129':
+            return 'teknobasse_revurderer_revurderinger.json';
+        case '05068821404':
+        case '2446602102798':
+            return 'vakker_ert_avventer_simulering_revurdering.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

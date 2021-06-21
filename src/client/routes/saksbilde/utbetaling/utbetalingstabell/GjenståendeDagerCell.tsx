@@ -1,9 +1,15 @@
 import React from 'react';
 
-interface GjenståendeDagerCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
+import { Overstyringsindikator } from './Overstyringsindikator';
+
+interface GjenståendeDagerCellProps {
     gjenståendeDager?: number;
+    erOverstyrt?: boolean;
 }
 
-export const GjenståendeDagerCell = ({ gjenståendeDager, ...rest }: GjenståendeDagerCellProps) => (
-    <td {...rest}>{gjenståendeDager}</td>
+export const GjenståendeDagerCell = ({ gjenståendeDager, erOverstyrt }: GjenståendeDagerCellProps) => (
+    <td>
+        {erOverstyrt && <Overstyringsindikator />}
+        {gjenståendeDager}
+    </td>
 );

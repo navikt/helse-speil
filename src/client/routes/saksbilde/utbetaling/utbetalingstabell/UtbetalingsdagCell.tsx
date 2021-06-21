@@ -17,10 +17,6 @@ const IconContainer = styled.div`
     flex-shrink: 0;
 `;
 
-const Text = styled(Normaltekst)`
-    min-width: 8rem;
-`;
-
 interface UtbetalingsdagCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     typeUtbetalingsdag: Dagtype;
     typeSykdomsdag: Dagtype;
@@ -52,7 +48,7 @@ export const UtbetalingsdagCell = ({ typeUtbetalingsdag, typeSykdomsdag, ...rest
                         }
                     />
                 </IconContainer>
-                <Text>{text}</Text>
+                <Normaltekst>{text}</Normaltekst>
             </CellContent>
         </Cell>
     );

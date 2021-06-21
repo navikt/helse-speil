@@ -18,10 +18,10 @@ import {
     Utbetalingstatus,
 } from '../../client/modell/UtbetalingshistorikkElement';
 
-import { umappetUtbetalinger } from './SpesialistUtbetaling';
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
 import { umappetSimuleringsdata } from './simulering';
+import { umappetUtbetalinger } from './spesialistUtbetaling';
 
 export const umappetPerson = (
     arbeidsgivere = [umappetArbeidsgiver()],

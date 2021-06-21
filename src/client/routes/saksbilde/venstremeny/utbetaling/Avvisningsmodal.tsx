@@ -5,8 +5,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Knapp } from 'nav-frontend-knapper';
 import { Systemtittel } from 'nav-frontend-typografi';
 
-import { Modal } from '../../../../../components/Modal';
-import { Tidslinjeperiode } from '../../../../../modell/UtbetalingshistorikkElement';
+import { Modal } from '../../../../components/Modal';
+import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';
@@ -26,14 +26,14 @@ const StyledModal = styled(Modal)`
     padding: 2.25rem 4.25rem;
 `;
 
-interface Props {
+interface AvvisningsModalProps {
     aktivPeriode: Tidslinjeperiode;
     isSending: boolean;
     onApprove: (skjema: Avvisningsskjema) => void;
     onClose: () => void;
 }
 
-export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }: Props) => {
+export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }: AvvisningsModalProps) => {
     const form = useForm();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);

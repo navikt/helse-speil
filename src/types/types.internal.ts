@@ -120,7 +120,7 @@ export interface Faresignal {
     kategori: string[];
 }
 
-export type Hendelse = Søknad | Sykmelding | Inntektsmelding;
+export type Dokument = Søknad | Sykmelding | Inntektsmelding;
 
 export enum Dagtype {
     Syk = 'Syk',
@@ -234,7 +234,7 @@ export interface Vedtaksperiode {
     utbetalinger?: Utbetalinger;
     oppsummering: Oppsummering;
     simuleringsdata?: Simulering;
-    hendelser: Hendelse[];
+    hendelser: Dokument[];
     aktivitetslog: string[];
     risikovurdering?: Risikovurdering;
     overstyringer: Overstyring[];

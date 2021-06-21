@@ -862,12 +862,11 @@
                         },
                         {
                             "dagen": "2021-05-21",
-                            "type": "SYKEDAG",
+                            "type": "FERIEDAG",
                             "kilde": {
                                 "type": "Søknad",
                                 "kildeId": "b69d2b0a-f012-4e90-a0ba-79e8999b2e59"
-                            },
-                            "grad": 100
+                            }
                         },
                         {
                             "dagen": "2021-05-22",

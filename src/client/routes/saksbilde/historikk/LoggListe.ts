@@ -1,24 +1,7 @@
 import styled from '@emotion/styled';
 
-import { LoggHeader as EksternLoggheader, LoggListe as EksternLoggliste } from '@navikt/helse-frontend-logg';
-
-export const LoggContainer = styled.div`
-    border-left: 1px solid var(--navds-color-border);
-`;
-
-export const LoggHeader = styled(EksternLoggheader)`
-    width: 312px;
-    box-sizing: border-box;
-    box-shadow: inset 0 -1px 0 0 var(--navds-color-border);
-    height: 75px;
-
-    & > button {
-        min-height: 75px;
-    }
-`;
-
-export const LoggListe = styled(EksternLoggliste)`
-    width: 312px;
+export const LoggListe = styled.ul`
+    width: 258px;
     box-sizing: border-box;
     border-top: none;
 

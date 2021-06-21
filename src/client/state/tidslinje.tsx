@@ -34,10 +34,10 @@ export const useAktivPeriode = (): Tidslinjeperiode | undefined => {
     } else return undefined;
 };
 
-export const useVedtaksperiode = (vedtaksperiodeId: string): Vedtaksperiode =>
+export const useVedtaksperiode = (vedtaksperiodeId: string): Vedtaksperiode | undefined =>
     usePerson()
         ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
-        .find((p) => p.id === vedtaksperiodeId) as Vedtaksperiode;
+        .find((p) => p.id === vedtaksperiodeId) as Vedtaksperiode | undefined;
 
 export const useUfullstendigVedtaksperiode = (vedtaksperiodeId: string) =>
     usePerson()
@@ -48,8 +48,8 @@ export const useOppgavereferanse = (beregningId: string): string | undefined => 
     const person = usePerson();
     const vedtaksperiode = person?.arbeidsgivere
         .flatMap((a) => a.vedtaksperioder)
-        .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode;
-    return vedtaksperiode.oppgavereferanse;
+        .find((p) => p.beregningIder?.includes(beregningId)) as Vedtaksperiode | undefined;
+    return vedtaksperiode?.oppgavereferanse;
 };
 
 export const harOppgave = (tidslinjeperiode: Tidslinjeperiode) =>

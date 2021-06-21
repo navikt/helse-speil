@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import dayjs from 'dayjs';
 import { Person } from 'internal-types';
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';
 import { mappetPerson } from 'test-data';
@@ -21,16 +21,8 @@ jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
 }));
 
-jest.mock('@navikt/helse-frontend-logg', () => ({
-    LoggHeader: () => null,
-    LoggListe: () => null,
-    LoggProvider: ({ children }: { children: ReactNode }) => <>{children}</>,
-    Hendelsetype: {
-        Historikk: 0,
-        Meldinger: 1,
-        Dokumenter: 2,
-    },
-}));
+jest.mock('../saksbilde/historikk/icons/IconDokumenter.svg', () => 'null');
+jest.mock('../saksbilde/historikk/icons/IconHistorikk.svg', () => 'null');
 
 const wrapper = (personTilBehandling?: Person): React.FC => ({ children }) => (
     <MemoryRouter>

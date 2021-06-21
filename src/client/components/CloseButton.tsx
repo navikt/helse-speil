@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { RoundedButton } from '../../../components/RoundedButton';
-import { Kryssikon } from '../../../components/ikoner/Kryssikon';
+import { RoundedButton } from './RoundedButton';
+import { Kryssikon } from './ikoner/Kryssikon';
 
 interface CloseButtonProps extends React.HTMLAttributes<HTMLButtonElement> {}
 

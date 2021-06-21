@@ -1,36 +1,12 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import dayjs, { Dayjs } from 'dayjs';
 import { Periodetype as Vedtaksperiodetype } from 'internal-types';
 import React from 'react';
-import { mappetVedtaksperiode } from 'test-data';
+import { enTidslinjeperiode, mappetVedtaksperiode } from 'test-data';
 
 import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
-import { Periodetype, Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
-
-const enTidslinjeperiode = (
-    tilstand: Tidslinjetilstand = Tidslinjetilstand.Oppgaver,
-    fom: Dayjs = dayjs('2021-01-01'),
-    tom: Dayjs = dayjs('2021-01-31'),
-    periodetype: Periodetype = Periodetype.VEDTAKSPERIODE
-): Tidslinjeperiode => {
-    return {
-        id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
-        beregningId: 'id1',
-        unique: 'unique_id',
-        fom: fom,
-        tom: tom,
-        type: periodetype,
-        tilstand: tilstand,
-        utbetalingstidslinje: [],
-        sykdomstidslinje: [],
-        organisasjonsnummer: '987654321',
-        fullstendig: true,
-        opprettet: dayjs('2020-01-01T:00:00:00'),
-    };
-};
 
 describe('Saksbildevarsler', () => {
     test('viser infovarsel når saken har gått til utbetaling', () => {
@@ -42,6 +18,16 @@ describe('Saksbildevarsler', () => {
         const utbetaltPeriode = enTidslinjeperiode(Tidslinjetilstand.Utbetalt);
         render(<Saksbildevarsler vedtaksperiode={mappetVedtaksperiode()} aktivPeriode={utbetaltPeriode} />);
         expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeVisible();
+    });
+    test('viser infovarsel når revurdert periode har gått til utbetaling', () => {
+        const revurdertPeriode = enTidslinjeperiode(Tidslinjetilstand.Revurdert);
+        render(<Saksbildevarsler vedtaksperiode={mappetVedtaksperiode()} aktivPeriode={revurdertPeriode} />);
+        expect(screen.getByText('Utbetalingen er sendt til oppdragsystemet.')).toBeVisible();
+    });
+    test('viser infovarsel når saken er til revurdering', () => {
+        const periodeTilRevurdering = enTidslinjeperiode(Tidslinjetilstand.Revurderes);
+        render(<Saksbildevarsler vedtaksperiode={mappetVedtaksperiode()} aktivPeriode={periodeTilRevurdering} />);
+        expect(screen.getByText('Revurdering er igangsatt og må fullføres.')).toBeVisible();
     });
     test('viser infovarsel når saken er godkjent uten utbetaling', () => {
         const periodeUtenUtbetaling = enTidslinjeperiode(Tidslinjetilstand.IngenUtbetaling);

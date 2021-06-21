@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import { Dag, Dagtype, Kildetype, OverstyrtDag, Sykdomsdag } from 'internal-types';
@@ -32,6 +33,16 @@ const Container = styled.section`
     width: 400px;
 `;
 
+const OverstyrbarRow = styled(Row)<{ overstyrt: boolean }>`
+    ${(props) =>
+        props.overstyrt &&
+        css`
+            > td {
+                font-style: italic;
+            }
+        `}
+`;
+
 const getMatchingOverstyrtDag = (sykdomsdag: Sykdomsdag, overstyrteDager: OverstyrtDag[]): OverstyrtDag | undefined =>
     overstyrteDager.find((overstyrtDag) => overstyrtDag.dato.isSame(sykdomsdag.dato));
 
@@ -39,6 +50,7 @@ interface OverstyrbarUtbetalingstabellProps {
     periode: Tidslinjeperiode;
     onPostOverstyring: (dager: Dag[], begrunnelse: string, callback: () => void) => void;
     onCloseOverstyring: () => void;
+    erRevurdering: boolean;
     gjenståendeDager?: number;
     maksdato?: Dayjs;
 }
@@ -47,6 +59,7 @@ export const OverstyrbarUtbetalingstabell = ({
     periode,
     onPostOverstyring,
     onCloseOverstyring,
+    erRevurdering,
     gjenståendeDager,
     maksdato,
 }: OverstyrbarUtbetalingstabellProps) => {
@@ -116,17 +129,20 @@ export const OverstyrbarUtbetalingstabell = ({
                                 gjenståendeDager={gjenståendeDager}
                             />
                             {rader.map(([utbetalingsdag, sykdomsdag, maybeOverstyrtDag], i) => (
-                                <Row type={utbetalingsdag.type} key={i}>
-                                    <DateCell date={utbetalingsdag.dato} />
+                                <OverstyrbarRow type={utbetalingsdag.type} key={i} overstyrt={!!maybeOverstyrtDag}>
+                                    <DateCell date={utbetalingsdag.dato} erOverstyrt={!!maybeOverstyrtDag} />
                                     <OverstyrbarDagtypeCell
                                         sykdomsdag={sykdomsdag}
                                         utbetalingsdag={utbetalingsdag}
                                         onOverstyr={addDag}
+                                        erRevurdering={erRevurdering}
                                     />
                                     <OverstyrbarGradCell
                                         sykdomsdag={sykdomsdag}
                                         utbetalingsdag={utbetalingsdag}
                                         onOverstyr={addDag}
+                                        erRevurdering={erRevurdering}
+                                        overstyrtDag={maybeOverstyrtDag}
                                     />
                                     <KildeCell
                                         type={sykdomsdag.type}
@@ -135,15 +151,22 @@ export const OverstyrbarUtbetalingstabell = ({
                                     <TotalGradCell
                                         type={utbetalingsdag.type}
                                         totalGradering={utbetalingsdag.totalGradering}
+                                        erOverstyrt={!!maybeOverstyrtDag}
                                     />
-                                    <UtbetalingCell utbetaling={utbetalingsdag.utbetaling} />
-                                    <GjenståendeDagerCell gjenståendeDager={utbetalingsdag.dagerIgjen} />
+                                    <UtbetalingCell
+                                        utbetaling={utbetalingsdag.utbetaling}
+                                        erOverstyrt={!!maybeOverstyrtDag}
+                                    />
+                                    <GjenståendeDagerCell
+                                        gjenståendeDager={utbetalingsdag.dagerIgjen}
+                                        erOverstyrt={!!maybeOverstyrtDag}
+                                    />
                                     <MerknaderCell
                                         style={{ width: '100%' }}
                                         dag={utbetalingsdag}
                                         isMaksdato={!!maksdato && maksdato?.isSame(utbetalingsdag.dato)}
                                     />
-                                </Row>
+                                </OverstyrbarRow>
                             ))}
                         </tbody>
                     </Table>

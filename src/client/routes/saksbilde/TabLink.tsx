@@ -1,16 +1,9 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
-const DisabledTabLink = styled.a`
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    margin: 0 4px;
-    color: var(--navds-color-text-disabled);
-    outline: none;
-`;
+import { TabButton } from '../../components/TabButton';
 
 const Content = styled.span`
     color: transparent;
@@ -22,42 +15,24 @@ const Content = styled.span`
         left: 50%;
         transform: translateX(-50%);
         color: var(--navds-color-text-primary);
-        line-height: 22px;
     }
 `;
 
-const StyledTabLink = styled(NavLink)`
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    margin: 0 4px;
-    outline: none;
-    line-height: 22px;
-    text-decoration: none;
+const DisabledTabLink = styled(TabButton)`
+    height: 48px;
+    color: var(--navds-color-text-disabled);
+`;
 
-    &.active,
-    &:hover {
-        > .content:after {
-            font-weight: 600;
-        }
+const TabLinkButton = styled(TabButton)`
+    height: 48px;
 
-        &:before {
-            position: absolute;
-            content: '';
-            height: 4px;
-            width: 100%;
-            background: var(--navds-color-action-default);
-            bottom: 0;
-            left: 0;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
-        }
-    }
-
-    &:focus-visible {
-        box-shadow: inset 0 0 0 3px var(--navds-text-focus);
-    }
+    ${(props) =>
+        props.active &&
+        css`
+            > span:after {
+                font-weight: 600;
+            }
+        `}
 `;
 
 const IconContainer = styled.span`
@@ -72,17 +47,21 @@ interface TabLinkProps {
     icon?: ReactNode;
 }
 
-export const TabLink = ({ children, to, disabled, title, icon }: TabLinkProps) =>
-    disabled || !to ? (
-        <DisabledTabLink>
+export const TabLink = ({ children, to, disabled, title, icon }: TabLinkProps) => {
+    const location = useLocation();
+    const history = useHistory();
+
+    return disabled || !to ? (
+        <DisabledTabLink disabled>
             {icon && <IconContainer>{icon}</IconContainer>}
-            <Content>{children}</Content>
+            <Content title={title}>{children}</Content>
         </DisabledTabLink>
     ) : (
-        <StyledTabLink role="tab" to={to}>
+        <TabLinkButton role="link" data-href={to} onClick={() => history.push(to)} active={location.pathname === to}>
             {icon && <IconContainer>{icon}</IconContainer>}
             <Content className="content" title={title}>
                 {children}
             </Content>
-        </StyledTabLink>
+        </TabLinkButton>
     );
+};

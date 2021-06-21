@@ -1,76 +1,45 @@
 import styled from '@emotion/styled';
-import { Dayjs } from 'dayjs';
 import React, { useRef, useState } from 'react';
 
-import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
 
-import { Tooltip } from '@navikt/helse-frontend-tooltip';
-import '@navikt/helse-frontend-tooltip/lib/main.css';
+import { Popover } from '@navikt/ds-react';
 
-import { useInteractOutside } from '../../../../hooks/useInteractOutside';
-import { NORSK_DATOFORMAT } from '../../../../utils/date';
-
-import { IconOverstyrt } from '../../table/icons/IconOverstyrt';
-
-interface OverstyringsindikatorProps {
-    begrunnelse: string;
-    saksbehandler: string;
-    dato: Dayjs;
-}
-
-const Overstyringknapp = styled.button`
-    position: relative;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0;
-    width: 28px;
-    display: flex;
-    justify-content: center;
-    outline: none;
+const Container = styled.span`
+    position: absolute;
+    top: 0;
+    left: 0;
 `;
 
-const StyledTooltip = styled(Tooltip)`
-    width: 12rem;
-
-    > p {
-        text-align: left;
-    }
+const Text = styled(Normaltekst)`
+    padding: 0.5rem 1rem;
+    font-style: normal;
 `;
 
-const Begrunnelsetekst = styled(Normaltekst)`
-    color: var(--navds-color-text-inverse);
-`;
+export const Overstyringsindikator = () => {
+    const [showPopover, setShowPopover] = useState(false);
+    const containerRef = useRef<HTMLSpanElement>(null);
 
-const StyledUndertekst = styled(Undertekst)`
-    font-style: italic;
-`;
-
-export const Overstyringsindikator = ({ begrunnelse, saksbehandler, dato }: OverstyringsindikatorProps) => {
-    const [visTooltip, setVisTooltip] = useState(false);
-
-    const buttonRef = useRef<HTMLButtonElement>(null);
-
-    const toggleVisTooltip = () => setVisTooltip((prevState) => !prevState);
-
-    useInteractOutside({
-        ref: buttonRef,
-        active: visTooltip,
-        onInteractOutside: toggleVisTooltip,
-    });
+    const text = 'Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig';
 
     return (
-        <Overstyringknapp type="button" ref={buttonRef} onClick={() => setVisTooltip((value) => !value)}>
-            <IconOverstyrt />
-            {visTooltip && (
-                <StyledTooltip>
-                    <Element>Begrunnelse</Element>
-                    <Begrunnelsetekst>{begrunnelse}</Begrunnelsetekst>
-                    <StyledUndertekst>
-                        {saksbehandler}, {dato.format(NORSK_DATOFORMAT)}
-                    </StyledUndertekst>
-                </StyledTooltip>
-            )}
-        </Overstyringknapp>
+        <Container
+            ref={containerRef}
+            onMouseOver={() => setShowPopover(true)}
+            onMouseLeave={() => setShowPopover(false)}
+            aria-label={text}
+        >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 16V0H16L0 16Z" fill="#FF9100" />
+            </svg>
+            <Popover
+                anchorEl={containerRef.current}
+                open={showPopover}
+                onClose={() => setShowPopover(false)}
+                placement="top"
+            >
+                <Text>{text}</Text>
+            </Popover>
+        </Container>
     );
 };

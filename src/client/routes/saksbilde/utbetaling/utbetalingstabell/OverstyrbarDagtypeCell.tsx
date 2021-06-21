@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dag, Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import React, { ChangeEvent, useState } from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -47,22 +47,37 @@ const DagtypeLabel = ({ sykdomsdag, utbetalingsdag }: DagtypeLabelProps) => {
 interface OverstyrbarDagtypeProps {
     sykdomsdag: Sykdomsdag;
     utbetalingsdag: Utbetalingsdag;
-    onOverstyr: (dag: Sykdomsdag) => void;
+    onOverstyr: (dag: Sykdomsdag, properties: Omit<Partial<Dag>, 'dato'>) => void;
+    erRevurdering: boolean;
 }
 
-export const OverstyrbarDagtypeCell = ({ sykdomsdag, utbetalingsdag, onOverstyr }: OverstyrbarDagtypeProps) => {
+export const OverstyrbarDagtypeCell = ({
+    sykdomsdag,
+    utbetalingsdag,
+    onOverstyr,
+    erRevurdering,
+}: OverstyrbarDagtypeProps) => {
     const [opprinneligDagtype] = useState(sykdomsdag.type);
 
     const onSelectDagtype = ({ target }: ChangeEvent<HTMLSelectElement>) => {
         const nyDagtype = target.value as Dagtype;
-        onOverstyr({ ...sykdomsdag, type: nyDagtype });
+        onOverstyr(sykdomsdag, { type: nyDagtype });
     };
+
+    const dagKanRevurderes = (type: Dagtype): boolean => type === Dagtype.Syk;
 
     const dagKanOverstyres = (type: Dagtype): boolean =>
         (type !== Dagtype.Helg && [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding].includes(type)) ||
         (overstyrPermisjonsdagerEnabled && type === Dagtype.Permisjon);
 
-    const kanOverstyres = dagKanOverstyres(sykdomsdag.type) && utbetalingsdag.type !== Dagtype.Arbeidsgiverperiode;
+    const kanOverstyres =
+        (erRevurdering ? dagKanRevurderes(sykdomsdag.type) : dagKanOverstyres(sykdomsdag.type)) &&
+        utbetalingsdag.type !== Dagtype.Arbeidsgiverperiode;
+
+    const dagtyperManKanEndreTil = (type: Dagtype) =>
+        erRevurdering
+            ? type === Dagtype.Ferie || type === opprinneligDagtype
+            : dagKanOverstyres(type) || type === opprinneligDagtype;
 
     return (
         <td>
@@ -71,11 +86,17 @@ export const OverstyrbarDagtypeCell = ({ sykdomsdag, utbetalingsdag, onOverstyr 
                     <DagtypeIcon type={sykdomsdag.type} />
                 </IconContainer>
                 {kanOverstyres ? (
-                    <OverstyrbarSelect defaultValue={sykdomsdag.type} onChange={onSelectDagtype}>
+                    <OverstyrbarSelect
+                        defaultValue={sykdomsdag.type}
+                        onChange={onSelectDagtype}
+                        data-testid="overstyrbar-dagtype"
+                    >
                         {Object.values(Dagtype)
-                            .filter((dagtype: Dagtype) => dagKanOverstyres(dagtype) || dagtype === opprinneligDagtype)
+                            .filter(dagtyperManKanEndreTil)
                             .map((dagtype: Dagtype) => (
-                                <option key={dagtype}>{dagtype}</option>
+                                <option key={dagtype} data-testid="overstyrbar-dagtype-option">
+                                    {dagtype}
+                                </option>
                             ))}
                     </OverstyrbarSelect>
                 ) : (
