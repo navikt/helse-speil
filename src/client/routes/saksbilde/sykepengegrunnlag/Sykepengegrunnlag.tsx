@@ -31,6 +31,7 @@ const Sykepengegrunnlagpanel = styled.div`
     max-width: 1265px;
     width: max-content;
     margin-top: 2rem;
+    overflow-x: scroll;
 `;
 
 const OversiktContainer = styled.div`
@@ -123,7 +124,7 @@ export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagP
     );
 
     return (
-        <Sykepengegrunnlagpanel>
+        <Sykepengegrunnlagpanel className="Sykepengegrunnlag">
             <AgurkErrorBoundary>
                 {periodetype === Periodetype.Førstegangsbehandling && !behandlet ? (
                     <UbehandletSykepengegrunnlag

@@ -84,7 +84,7 @@ export const Overstyringsskjema = ({ avbrytOverstyring, overstyrteDager }: Overs
                             skjemaelementId: id,
                             feilmelding: error.message,
                         }))}
-                    ></Feiloppsummering>
+                    />
                 </FeiloppsummeringContainer>
             )}
             <Knappegruppe>

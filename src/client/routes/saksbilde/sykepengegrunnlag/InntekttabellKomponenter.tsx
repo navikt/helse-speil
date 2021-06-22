@@ -24,7 +24,7 @@ export const ArbeidsgiverRad = styled.div<ArbeidsgiverRadProps>`
         ${(props) => (props.erGjeldende ? 'background-color: var(--speil-light-hover)' : '')};
     }
 
-    > *:not(:first-child) {
+    > *:not(:first-of-type) {
         margin: 0 0 0 -2rem;
         padding-left: 1rem;
     }

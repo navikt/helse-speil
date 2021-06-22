@@ -3,20 +3,18 @@ import { Arbeidsgiverinntekt, Inntektskildetype, Kildetype } from 'internal-type
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Element, Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst, Undertittel } from 'nav-frontend-typografi';
 
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { Grid } from '../../../components/Grid';
 import { Kilde } from '../../../components/Kilde';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
 import { Clipboard } from '../../../components/clipboard';
 import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
-import { getKildeType, kilde } from '../../../utils/inntektskilde';
-import { somPenger } from '../../../utils/locale';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { Arbeidsforhold } from '../Arbeidsforhold';
+import { Inntekt } from './inntekt/Inntekt';
 
 const Arbeidsgivertittel = styled.div`
     display: flex;
@@ -64,10 +62,6 @@ const ArbeidsforholdTabell = styled(Tabell)`
     margin-bottom: 2rem;
 `;
 
-const Kolonnetittel = styled(Undertekst)`
-    color: var(--navds-color-text-primary);
-`;
-
 interface InntektskilderinnholdProps {
     inntektskilde: Arbeidsgiverinntekt;
     anonymiseringEnabled: boolean;
@@ -86,69 +80,54 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
     } = inntektskilde;
 
     return (
-        <Grid kolonner={2}>
-            <FlexColumn>
-                <Arbeidsgivertittel>
-                    <Arbeidsgiverikon />
-                    <Tittel maxwidth="500px">
-                        <TekstMedEllipsis data-tip="Arbeidsgivernavn">
+        <FlexColumn>
+            <Arbeidsgivertittel>
+                <Arbeidsgiverikon />
+                <Tittel maxwidth="500px">
+                    <TekstMedEllipsis data-tip="Arbeidsgivernavn">
+                        {anonymiseringEnabled
+                            ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
+                            : arbeidsgivernavn}
+                    </TekstMedEllipsis>
+                    <Flex style={{ margin: '0 4px' }}>
+                        (
+                        <Clipboard copyMessage="Organisasjonsnummer er kopiert">
                             {anonymiseringEnabled
-                                ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
-                                : arbeidsgivernavn}
-                        </TekstMedEllipsis>
-                        <Flex style={{ margin: '0 4px' }}>
-                            (
-                            <Clipboard copyMessage="Organisasjonsnummer er kopiert">
-                                {anonymiseringEnabled
-                                    ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr
-                                    : organisasjonsnummer}
-                            </Clipboard>
-                            )
-                        </Flex>
-                    </Tittel>
-                    <Kilde type={Kildetype.Ainntekt}>AA</Kilde>
-                </Arbeidsgivertittel>
-                <Bransjer>
-                    {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
-                    {anonymiseringEnabled ? 'Agurkifisert bransje' : bransjer.join(', ')}
-                </Bransjer>
-                <ArbeidsforholdTabell>
-                    {arbeidsforhold?.[0] && (
-                        <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...arbeidsforhold[0]} />
-                    )}
-                </ArbeidsforholdTabell>
-                <HeaderContainer>
-                    <Tittel tag="h3">{t('inntektskilder.inntekt')}</Tittel>
-                    <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
-                </HeaderContainer>
-                <Tabell>
-                    <Kolonnetittel>{t('inntektskilder.månedsinntekt')}</Kolonnetittel>
-                    <Element>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Element>
-                    <Kolonnetittel>
-                        {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
-                            ? t('inntektskilder.sykepengegrunnlag')
-                            : t('inntektskilder.årsinntekt')}
-                    </Kolonnetittel>
-                    <Element>{somPenger(omregnetÅrsinntekt?.beløp)}</Element>
-                </Tabell>
-                {omregnetÅrsinntekt?.kilde === Inntektskildetype.Inntektsmelding && (
-                    <>
-                        <HeaderContainer>
-                            <Tittel>{t('inntektskilder.inntektsmeldinger')}</Tittel>
-                        </HeaderContainer>
-                        <Tabell>
-                            <Normaltekst>{t('inntektskilder.refusjon')}</Normaltekst>
-                            <Normaltekst>{refusjon ? 'Ja' : 'Nei'}</Normaltekst>
-                            <Normaltekst>{t('inntektskilder.arbeidsgiverperiode')}</Normaltekst>
-                            <Normaltekst>{forskuttering ? 'Ja' : 'Nei'}</Normaltekst>
-                            <Normaltekst>{t('inntektskilder.relasjon')}</Normaltekst>
-                            <Normaltekst>Ikke sjekket</Normaltekst>
-                        </Tabell>
-                    </>
+                                ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr
+                                : organisasjonsnummer}
+                        </Clipboard>
+                        )
+                    </Flex>
+                </Tittel>
+                <Kilde type={Kildetype.Ainntekt}>AA</Kilde>
+            </Arbeidsgivertittel>
+            <Bransjer>
+                {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
+                {anonymiseringEnabled ? 'Agurkifisert bransje' : bransjer.join(', ')}
+            </Bransjer>
+            <ArbeidsforholdTabell>
+                {arbeidsforhold?.[0] && (
+                    <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...arbeidsforhold[0]} />
                 )}
-            </FlexColumn>
+            </ArbeidsforholdTabell>
+            <Inntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
+            {omregnetÅrsinntekt?.kilde === Inntektskildetype.Inntektsmelding && (
+                <>
+                    <HeaderContainer>
+                        <Tittel>{t('inntektskilder.inntektsmeldinger')}</Tittel>
+                    </HeaderContainer>
+                    <Tabell>
+                        <Normaltekst>{t('inntektskilder.refusjon')}</Normaltekst>
+                        <Normaltekst>{refusjon ? 'Ja' : 'Nei'}</Normaltekst>
+                        <Normaltekst>{t('inntektskilder.arbeidsgiverperiode')}</Normaltekst>
+                        <Normaltekst>{forskuttering ? 'Ja' : 'Nei'}</Normaltekst>
+                        <Normaltekst>{t('inntektskilder.relasjon')}</Normaltekst>
+                        <Normaltekst>Ikke sjekket</Normaltekst>
+                    </Tabell>
+                </>
+            )}
             <Tooltip effect="solid" />
-        </Grid>
+        </FlexColumn>
     );
 };
 
