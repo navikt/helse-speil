@@ -12,6 +12,7 @@ import { useUtbetaling, Utbetalingstatus } from '../../../../modell/Utbetalingsh
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 
+import { overstyrInntektEnabled } from '../../../../featureToggles';
 import { EditableInntekt } from './EditableInntekt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 
@@ -67,13 +68,15 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
             <Header>
                 <Tittel tag="h3">Inntekt</Tittel>
                 <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
-                <EditButton
-                    isOpen={editing}
-                    openText="Lukk"
-                    closedText={status === Utbetalingstatus.UTBETALT ? 'Revurder' : 'Overstyr'}
-                    onOpen={() => setEditing(true)}
-                    onClose={() => setEditing(false)}
-                />
+                {overstyrInntektEnabled && (
+                    <EditButton
+                        isOpen={editing}
+                        openText="Lukk"
+                        closedText={status === Utbetalingstatus.UTBETALT ? 'Revurder' : 'Overstyr'}
+                        onOpen={() => setEditing(true)}
+                        onClose={() => setEditing(false)}
+                    />
+                )}
             </Header>
             {editing ? (
                 <EditableInntekt omregnetÅrsinntekt={omregnetÅrsinntekt} close={() => setEditing(false)} />

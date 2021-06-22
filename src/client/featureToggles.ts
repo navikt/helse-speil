@@ -76,3 +76,5 @@ export const defaultUtbetalingToggles: UtbetalingToggles = {
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
     overstyrbareTabellerEnabled: overstyrbareTabellerEnabled,
 };
+
+export const overstyrInntektEnabled = false;

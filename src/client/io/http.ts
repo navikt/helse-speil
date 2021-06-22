@@ -2,7 +2,7 @@ import { EksternBehandlingstatistikk, SpesialistOppgave } from 'external-types';
 
 import { Avvisningsskjema } from '../routes/saksbilde/venstremeny/utbetaling/Utbetalingsdialog';
 
-import { AnnulleringDTO, Options, OverstyringDTO, PersonoppdateringDTO } from './types';
+import { AnnulleringDTO, Options, OverstyrteDagerDTO, OverstyrtInntektDTO, PersonoppdateringDTO } from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -114,8 +114,11 @@ export const postSendTilInfotrygd = async (oppgavereferanse: string, aktørId: s
 export const postAnnullering = async (annullering: AnnulleringDTO) =>
     post(`${baseUrl}/payments/annullering`, annullering);
 
-export const postOverstyring = async (overstyring: OverstyringDTO) =>
+export const postOverstyrteDager = async (overstyring: OverstyrteDagerDTO) =>
     post(`${baseUrl}/overstyring/overstyr/dager`, overstyring);
+
+export const postOverstyrtInntekt = async (overstyring: OverstyrtInntektDTO) =>
+    post(`${baseUrl}/overstyring/overstyr/inntekt`, overstyring);
 
 export const postForespørPersonoppdatering = async (oppdatering: PersonoppdateringDTO) =>
     post(`${baseUrl}/person/oppdater`, oppdatering);

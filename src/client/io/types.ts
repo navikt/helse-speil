@@ -11,12 +11,21 @@ export interface OverstyrtDagDTO {
     grad?: number;
 }
 
-export interface OverstyringDTO {
+interface Overstyring {
     aktørId: string;
     fødselsnummer: string;
     organisasjonsnummer: string;
     begrunnelse: string;
+}
+
+export interface OverstyrteDagerDTO extends Overstyring {
     dager: OverstyrtDagDTO[];
+}
+
+export interface OverstyrtInntektDTO extends Overstyring {
+    månedsbeløp: number;
+    skjæringstidspunkt: string;
+    forklaring: string;
 }
 
 export interface AnnulleringDTO {

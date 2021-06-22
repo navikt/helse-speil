@@ -1,20 +1,19 @@
 import { Dag, Dagtype, Person } from 'internal-types';
 import { useEffect, useState } from 'react';
 
-import { postAbonnerPåAktør, postOverstyring } from '../../../../io/http';
+import { postAbonnerPåAktør, postOverstyrteDager } from '../../../../io/http';
 import { OverstyrtDagDTO } from '../../../../io/types';
 import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
-import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../../state/opptegnelser';
-import { usePerson } from '../../../../state/person';
-import { useAktivPeriode } from '../../../../state/tidslinje';
-import { useAddToast, useRemoveToast } from '../../../../state/toasts';
-
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,
     kalkulererToastKey,
     kalkuleringFerdigToast,
-} from './kalkuleringstoasts';
+} from '../../../../state/kalkuleringstoasts';
+import { useOpptegnelser, useSetOpptegnelserPollingRate } from '../../../../state/opptegnelser';
+import { usePerson } from '../../../../state/person';
+import { useAktivPeriode } from '../../../../state/tidslinje';
+import { useAddToast, useRemoveToast } from '../../../../state/toasts';
 
 type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist' | Dagtype;
 
@@ -95,7 +94,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
             begrunnelse: begrunnelse,
         };
 
-        postOverstyring(overstyring)
+        postOverstyrteDager(overstyring)
             .then(() => {
                 setState('hasValue');
                 addToast(kalkulererToast({}));

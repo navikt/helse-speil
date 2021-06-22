@@ -3,7 +3,7 @@ import React from 'react';
 
 import NavFrontendSpinner from 'nav-frontend-spinner';
 
-import { ToastObject } from '../../../../state/toasts';
+import { ToastObject } from './toasts';
 
 export const kalkulererToastKey = 'kalkulererToast';
 

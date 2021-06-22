@@ -7,7 +7,6 @@ import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
-import { NoScrollX } from '../../../components/NoScrollX';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
@@ -28,6 +27,11 @@ interface SaksbildeVedtaksperiodeProps {
     aktivPeriode: Tidslinjeperiode;
     path: String;
 }
+
+const Container = styled(Flex)`
+    flex: 1;
+    min-width: var(--speil-total-min-width);
+`;
 
 const AutoFlexContainer = styled.div`
     flex: auto;
@@ -51,12 +55,11 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     return (
-        <Flex flex={1} data-testid="saksbilde-vedtaksperiode" style={{ minWidth: 'var(--speil-total-min-width)' }}>
-            <NoScrollX>
-                <AutoFlexContainer>
+        <Container data-testid="saksbilde-vedtaksperiode">
+            <AutoFlexContainer>
                 <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
                     <AmplitudeProvider>
-                        <Flex flex={1}>
+                        <Flex flex={1} style={{ height: '100%', overflow: 'hidden' }}>
                             <VenstreMeny
                                 aktivPeriode={aktivPeriode}
                                 arbeidsgivernavn={arbeidsgivernavn}
@@ -80,31 +83,30 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                                 maksdato={maksdato}
                                                 vedtaksperiode={vedtaksperiode}
                                                 gjenståendeDager={gjenståendeDager}
-                                                />
+                                            />
+                                        </Route>
+                                        <Route path={`${path}/vilkår`}>
+                                            <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
+                                        </Route>
+                                        <Route path={`${path}/sykepengegrunnlag`}>
+                                            <Sykepengegrunnlag
+                                                vedtaksperiode={vedtaksperiode}
+                                                person={personTilBehandling}
+                                            />
+                                        </Route>
+                                        {vedtaksperiode.risikovurdering && (
+                                            <Route path={`${path}/faresignaler`}>
+                                                <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
                                             </Route>
-                                            <Route path={`${path}/vilkår`}>
-                                                <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
-                                            </Route>
-                                            <Route path={`${path}/sykepengegrunnlag`}>
-                                                <Sykepengegrunnlag
-                                                    vedtaksperiode={vedtaksperiode}
-                                                    person={personTilBehandling}
-                                                />
-                                            </Route>
-                                            {vedtaksperiode.risikovurdering && (
-                                                <Route path={`${path}/faresignaler`}>
-                                                    <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
-                                                </Route>
-                                            )}
-                                        </Switch>
-                                    </Content>
-                                </FlexColumn>
-                            </Flex>
-                        </AmplitudeProvider>
-                    </ErrorBoundary>
-                </AutoFlexContainer>
-                <Historikk />
-            </NoScrollX>
-        </Flex>
+                                        )}
+                                    </Switch>
+                                </Content>
+                            </FlexColumn>
+                        </Flex>
+                    </AmplitudeProvider>
+                </ErrorBoundary>
+            </AutoFlexContainer>
+            <Historikk />
+        </Container>
     );
 };

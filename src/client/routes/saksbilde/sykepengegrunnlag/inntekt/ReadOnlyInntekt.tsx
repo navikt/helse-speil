@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Inntektskildetype, OmregnetÅrsinntekt } from 'internal-types';
 import React from 'react';
 
-import { Element, Undertekst } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 import { somPenger } from '../../../../utils/locale';
 
@@ -19,13 +19,13 @@ interface ReadOnlyInntektProps {
 
 export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) => (
     <Tabell>
-        <Undertekst>Månedsbeløp</Undertekst>
+        <Normaltekst>Månedsbeløp</Normaltekst>
         <Element>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Element>
-        <Undertekst>
+        <Normaltekst>
             {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
                 ? 'Sykepengegrunnlag før 6G'
                 : 'Omregnet årsinntekt som legges til grunn'}
-        </Undertekst>
+        </Normaltekst>
         <Element>{somPenger(omregnetÅrsinntekt?.beløp)}</Element>
     </Tabell>
 );
