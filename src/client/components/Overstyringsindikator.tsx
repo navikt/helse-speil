@@ -12,6 +12,7 @@ const Container = styled.span`
 `;
 
 const Text = styled(Normaltekst)`
+    white-space: nowrap;
     padding: 0.5rem 1rem;
     font-style: normal;
 `;

@@ -12,7 +12,7 @@ const Label = styled.label`
 
     > .skjemaelement,
     textarea {
-        min-height: 80px;
+        min-height: 120px;
     }
 `;
 
@@ -35,7 +35,7 @@ export const ForklaringTextarea = () => {
                 value={forklaring}
                 textareaRef={form.register({ required: 'Forklaring må fylles ut', minLength: 1 })}
                 onChange={(event) => setForklaring(event.target.value)}
-                placeholder="Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn."
+                placeholder="Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn. Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
                 maxLength={500}
                 aria-labelledby="forklaring-label forklaring-feil"
             />

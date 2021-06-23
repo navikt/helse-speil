@@ -7,10 +7,9 @@ import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
 import { Tooltip } from '@navikt/helse-frontend-tooltip';
 import '@navikt/helse-frontend-tooltip/lib/main.css';
 
+import IconOverstyrt from '../../../../components/ikoner/iconOverstyrt.svg';
 import { useInteractOutside } from '../../../../hooks/useInteractOutside';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
-
-import IconOverstyrt from '../../table/icons/iconOverstyrt.svg';
 
 interface OverstyringsindikatorProps {
     begrunnelse: string;

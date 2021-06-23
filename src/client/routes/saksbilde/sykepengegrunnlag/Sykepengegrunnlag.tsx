@@ -30,7 +30,8 @@ const StyledBehandletAvInfotrygd = styled(BehandletAvInfotrygdVarsel)`
 const Sykepengegrunnlagpanel = styled.section`
     width: 100%;
     height: 100%;
-    margin-top: 2rem;
+    padding-top: 2rem;
+    box-sizing: border-box;
     overflow-x: scroll;
 `;
 

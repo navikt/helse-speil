@@ -39,7 +39,7 @@ const BlueButton = styled(Button)`
     }
 `;
 
-interface EditButtonProps {
+interface EditButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
     isOpen: boolean;
     openText: ReactNode;
     closedText: ReactNode;
@@ -47,8 +47,8 @@ interface EditButtonProps {
     onClose: () => void;
 }
 
-export const EditButton = ({ isOpen, openText, closedText, onOpen, onClose }: EditButtonProps) => (
-    <BlueButton onClick={isOpen ? onClose : onOpen}>
+export const EditButton = ({ isOpen, openText, closedText, onOpen, onClose, ...rest }: EditButtonProps) => (
+    <BlueButton onClick={isOpen ? onClose : onOpen} {...rest}>
         {isOpen ? (
             <>
                 {open}

@@ -6,9 +6,9 @@ import React, { ReactNode, useRef } from 'react';
 import { Flex } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { Tooltip } from '../../../../components/Tooltip';
+import IconOverstyrt from '../../../../components/ikoner/iconOverstyrt.svg';
 
 import { CellContent } from '../../table/CellContent';
-import IconOverstyrt from '../../table/icons/iconOverstyrt.svg';
 import { OverstyringsindikatorSaksbehandler } from './OverstyringsindikatorSaksbehandler';
 
 const getKildeTypeIcon = (type?: Kildetype, overstyring?: Overstyring): ReactNode => {

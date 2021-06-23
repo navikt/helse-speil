@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Overstyringsindikator } from './Overstyringsindikator';
+import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 
 interface GjenståendeDagerCellProps {
     gjenståendeDager?: number;

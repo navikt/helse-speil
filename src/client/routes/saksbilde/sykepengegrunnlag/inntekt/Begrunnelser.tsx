@@ -8,7 +8,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 const Fieldset = styled.fieldset<{ error?: boolean }>`
     padding: 0;
-    margin: 0 0 4rem;
+    margin: 0 0 2rem;
 
     > legend {
         margin-bottom: 1rem;

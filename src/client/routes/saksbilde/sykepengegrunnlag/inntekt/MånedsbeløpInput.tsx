@@ -39,11 +39,11 @@ export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputP
             <Input
                 name={name}
                 id={name}
-                type="number"
                 ref={form.register({
                     required: 'Månedsbeløp mangler',
                     min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
                     validate: {
+                        måVæreNumerisk: (value) => !isNaN(Number.parseInt(value)) || 'Månedsbeløp må være et beløp',
                         måVæreEnEndring: (value) =>
                             Number.parseInt(value) !== initialMånedsbeløp || 'Kan ikke være likt gammelt beløp',
                     },

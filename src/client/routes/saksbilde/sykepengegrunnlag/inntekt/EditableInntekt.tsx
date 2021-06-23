@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Inntektskildetype, OmregnetÅrsinntekt, Person, Vedtaksperiode } from 'internal-types';
 import React, { useEffect, useRef, useState } from 'react';
@@ -9,7 +10,8 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 import { Button as NavButton } from '@navikt/ds-react';
 
-import { FlexColumn } from '../../../../components/Flex';
+import { Flex, FlexColumn } from '../../../../components/Flex';
+import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 import { postOverstyrtInntekt } from '../../../../io/http';
 import { OverstyrtInntektDTO } from '../../../../io/types';
 import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
@@ -24,7 +26,7 @@ import { usePerson } from '../../../../state/person';
 import { useAktivPeriode, useVedtaksperiode } from '../../../../state/tidslinje';
 import { useAddToast, useRemoveToast } from '../../../../state/toasts';
 import { ISO_DATOFORMAT } from '../../../../utils/date';
-import { somPenger } from '../../../../utils/locale';
+import { somPenger, toKronerOgØre } from '../../../../utils/locale';
 
 import { Begrunnelser } from './Begrunnelser';
 import { ForklaringTextarea } from './ForklaringTextarea';
@@ -48,7 +50,39 @@ const Tabell = styled.div`
     grid-template-columns: 200px auto;
     grid-column-gap: 1rem;
     grid-row-gap: 0.25rem;
+
+    p {
+        line-height: 36px;
+        vertical-align: center;
+    }
+`;
+
+const OpprinneligMånedsbeløp = styled(Normaltekst)`
+    text-decoration: line-through;
+    margin-left: 1rem;
+`;
+
+const OmregnetTilÅrsinntekt = styled(Normaltekst)<{ harEndringer: boolean }>`
+    ${(props) =>
+        props.harEndringer &&
+        css`
+            font-style: italic;
+        `}
+`;
+
+const OmregnetTilÅrsinntektContainer = styled.div<{ harEndringer: boolean }>`
+    position: relative;
+    display: flex;
     align-items: center;
+
+    ${(props) =>
+        props.harEndringer &&
+        css`
+            > p {
+                padding-left: 1rem;
+                font-style: italic;
+            }
+        `}
 `;
 
 const Warning = styled(Normaltekst)`
@@ -88,7 +122,7 @@ const Button = styled(NavButton)`
 `;
 
 const FeiloppsummeringContainer = styled.div`
-    margin: 2rem 0;
+    margin: 1.5rem 0 0.5rem;
 `;
 
 const useGetOverstyrtInntekt = () => {
@@ -165,17 +199,26 @@ const usePostOverstyrtInntekt = () => {
 };
 
 interface EditableInntektProps {
-    omregnetÅrsinntekt?: OmregnetÅrsinntekt;
+    omregnetÅrsinntekt: OmregnetÅrsinntekt;
     close: () => void;
+    onEndre: (erEndret: boolean) => void;
 }
 
-export const EditableInntekt = ({ omregnetÅrsinntekt, close }: EditableInntektProps) => {
-    const form = useForm({ shouldFocusError: false });
+export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: EditableInntektProps) => {
+    const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const getOverstyrtInntekt = useGetOverstyrtInntekt();
     const { isLoading, error, postOverstyring } = usePostOverstyrtInntekt();
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
+    const values = form.getValues();
+    const harEndringer = Number.parseInt(values.månedsbeløp) !== omregnetÅrsinntekt.månedsbeløp;
+
+    useEffect(() => {
+        if (!isNaN(values.månedsbeløp)) {
+            onEndre(Number.parseInt(values.månedsbeløp) !== omregnetÅrsinntekt.månedsbeløp);
+        }
+    }, [values, omregnetÅrsinntekt]);
 
     useEffect(() => {
         harFeil && feiloppsummeringRef.current?.focus();
@@ -197,18 +240,26 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close }: EditableInntektP
                 <Container>
                     <Tabell>
                         <Normaltekst>Månedsbeløp</Normaltekst>
-                        <FlexColumn>
-                            <MånedsbeløpInput initialMånedsbeløp={omregnetÅrsinntekt?.månedsbeløp} />
-                        </FlexColumn>
+                        <Flex>
+                            <FlexColumn>
+                                <MånedsbeløpInput initialMånedsbeløp={omregnetÅrsinntekt.månedsbeløp} />
+                            </FlexColumn>
+                            <OpprinneligMånedsbeløp>
+                                {toKronerOgØre(omregnetÅrsinntekt.månedsbeløp)}
+                            </OpprinneligMånedsbeløp>
+                        </Flex>
                     </Tabell>
                     <Warning>Endringen vil gjelde fra skjæringstidspunktet</Warning>
                     <Tabell>
-                        <Normaltekst>
+                        <OmregnetTilÅrsinntekt harEndringer={harEndringer}>
                             {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
                                 ? 'Sykepengegrunnlag før 6G'
                                 : 'Omregnet til årsinntekt'}
-                        </Normaltekst>
-                        <Element>{somPenger(omregnetÅrsinntekt?.beløp)}</Element>
+                        </OmregnetTilÅrsinntekt>
+                        <OmregnetTilÅrsinntektContainer harEndringer={harEndringer}>
+                            {harEndringer && <Overstyringsindikator />}
+                            <Element>{somPenger(omregnetÅrsinntekt.beløp)}</Element>
+                        </OmregnetTilÅrsinntektContainer>
                     </Tabell>
                     <Begrunnelser />
                     <ForklaringTextarea />

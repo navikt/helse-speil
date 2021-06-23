@@ -1,7 +1,7 @@
 import { Dagtype } from 'internal-types';
 import React from 'react';
 
-import { Overstyringsindikator } from './Overstyringsindikator';
+import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 
 const dagtypeIsValid = (type: Dagtype): boolean =>
     [Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon].every((it) => it !== type);

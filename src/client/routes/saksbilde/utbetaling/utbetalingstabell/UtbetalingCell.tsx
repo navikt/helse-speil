@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
+import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 import { somPenger } from '../../../../utils/locale';
 
 import { CellContent } from '../../table/CellContent';
-import { Overstyringsindikator } from './Overstyringsindikator';
 
 const ValueContainer = styled(CellContent)`
     justify-content: flex-end;
