@@ -1,9 +1,14 @@
+import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import { NORSK_DATOFORMAT } from '../../utils/date';
+
+const Høyrestilt = styled(Normaltekst)`
+    text-align: right;
+`;
 
 interface ArbeidsforholdProps {
     stillingsprosent: number;
@@ -19,15 +24,16 @@ export const Arbeidsforhold = ({
     startdato,
     sluttdato,
     anonymiseringEnabled,
-}: ArbeidsforholdProps) => (
-    <>
-        <Normaltekst>{`${
-            anonymiseringEnabled ? 'Agurkifisert stillingstittel' : stillingstittel
-        }, ${stillingsprosent} %`}</Normaltekst>
-        <Normaltekst>
-            {startdato.format(NORSK_DATOFORMAT)}
-            {' - '}
-            {sluttdato && sluttdato.format(NORSK_DATOFORMAT)}
-        </Normaltekst>
-    </>
-);
+}: ArbeidsforholdProps) => {
+    const stilling = anonymiseringEnabled ? 'Agurkifisert stillingstittel' : stillingstittel;
+    return (
+        <>
+            <Normaltekst>{`${stilling}, ${stillingsprosent} %`}</Normaltekst>
+            <Høyrestilt>
+                {startdato.format(NORSK_DATOFORMAT)}
+                {' - '}
+                {sluttdato && sluttdato.format(NORSK_DATOFORMAT)}
+            </Høyrestilt>
+        </>
+    );
+};

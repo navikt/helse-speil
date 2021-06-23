@@ -11,6 +11,7 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Button as NavButton } from '@navikt/ds-react';
 
 import { Flex, FlexColumn } from '../../../../components/Flex';
+import { OverstyringTimeoutModal } from '../../../../components/OverstyringTimeoutModal';
 import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 import { postOverstyrtInntekt } from '../../../../io/http';
 import { OverstyrtInntektDTO } from '../../../../io/types';
@@ -62,11 +63,13 @@ const OpprinneligMånedsbeløp = styled(Normaltekst)`
     margin-left: 1rem;
 `;
 
-const OmregnetTilÅrsinntekt = styled(Normaltekst)<{ harEndringer: boolean }>`
+const OmregnetTilÅrsinntekt = styled.div<{ harEndringer: boolean }>`
     ${(props) =>
         props.harEndringer &&
         css`
-            font-style: italic;
+            > p {
+                font-style: italic;
+            }
         `}
 `;
 
@@ -141,7 +144,7 @@ const useGetOverstyrtInntekt = () => {
     });
 };
 
-const usePostOverstyrtInntekt = () => {
+const usePostOverstyrtInntekt = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const opptegnelser = useOpptegnelser();
@@ -154,7 +157,9 @@ const usePostOverstyrtInntekt = () => {
     useEffect(() => {
         if (opptegnelser && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            setIsLoading(false);
             setCalculating(false);
+            onFerdigKalkulert();
         }
     }, [opptegnelser]);
 
@@ -178,6 +183,8 @@ const usePostOverstyrtInntekt = () => {
     return {
         isLoading,
         error,
+        timedOut,
+        setTimedOut,
         postOverstyring: (overstyrtInntekt: OverstyrtInntektDTO) => {
             setIsLoading(true);
             postOverstyrtInntekt(overstyrtInntekt)
@@ -185,15 +192,14 @@ const usePostOverstyrtInntekt = () => {
                     setCalculating(true);
                     setPollingRate(1000);
                     addToast(kalkulererToast({}));
-                    close();
                 })
                 .catch((error) => {
                     switch (error.statusCode) {
                         default:
                             setError('Kunne ikke overstyre inntekt. Prøv igjen senere.');
                     }
-                })
-                .finally(() => setIsLoading(false));
+                    setIsLoading(false);
+                });
         },
     };
 };
@@ -208,7 +214,13 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
     const form = useForm({ shouldFocusError: false, mode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const getOverstyrtInntekt = useGetOverstyrtInntekt();
-    const { isLoading, error, postOverstyring } = usePostOverstyrtInntekt();
+
+    const cancelEditing = () => {
+        onEndre(false);
+        close();
+    };
+
+    const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntekt(cancelEditing);
 
     const harFeil = !form.formState.isValid && form.formState.isSubmitted;
     const values = form.getValues();
@@ -230,10 +242,6 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
         postOverstyring(overstyrtInntekt);
     };
 
-    const cancelEditing = () => {
-        close();
-    };
-
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(confirmChanges)}>
@@ -252,9 +260,11 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                     <Warning>Endringen vil gjelde fra skjæringstidspunktet</Warning>
                     <Tabell>
                         <OmregnetTilÅrsinntekt harEndringer={harEndringer}>
-                            {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
-                                ? 'Sykepengegrunnlag før 6G'
-                                : 'Omregnet til årsinntekt'}
+                            <Normaltekst>
+                                {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
+                                    ? 'Sykepengegrunnlag før 6G'
+                                    : 'Omregnet til årsinntekt'}
+                            </Normaltekst>
                         </OmregnetTilÅrsinntekt>
                         <OmregnetTilÅrsinntektContainer harEndringer={harEndringer}>
                             {harEndringer && <Overstyringsindikator />}
@@ -285,6 +295,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                         </Button>
                     </Buttons>
                     {error && <Error>{error}</Error>}
+                    {timedOut && <OverstyringTimeoutModal onRequestClose={() => setTimedOut(false)} />}
                 </Container>
             </form>
         </FormProvider>

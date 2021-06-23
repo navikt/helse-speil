@@ -7,13 +7,13 @@ import { Feilmelding } from 'nav-frontend-typografi';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
+import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
 import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
 
 import { UtbetalingToggles, defaultUtbetalingToggles } from '../../../featureToggles';
 import { OverstyrbarUtbetalingstabell } from './utbetalingstabell/OverstyrbarUtbetalingstabell';
-import { OverstyringTimeoutModal } from './utbetalingstabell/OverstyringTimeoutModal';
 import { Overstyringsknapp } from './utbetalingstabell/Overstyringsknapp';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';

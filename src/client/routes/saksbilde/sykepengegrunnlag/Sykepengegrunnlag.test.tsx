@@ -20,7 +20,6 @@ const enVedtaksperiodeIT = mappetVedtaksperiode(undefined, undefined, undefined,
 
 const expectContainsStandardFields = () => {
     expect(screen.queryByText('Inntekt')).toBeVisible();
-    expect(screen.queryByText('Fra Inntektsmelding')).toBeVisible();
 };
 
 const expectContainsStandardFieldsInfotrygd = () => {

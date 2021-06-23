@@ -13,6 +13,10 @@ const Tabell = styled.div`
     grid-row-gap: 0.25rem;
 `;
 
+const Verdi = styled(Element)`
+    text-align: right;
+`;
+
 interface ReadOnlyInntektProps {
     omregnetÅrsinntekt?: OmregnetÅrsinntekt;
 }
@@ -20,12 +24,12 @@ interface ReadOnlyInntektProps {
 export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) => (
     <Tabell>
         <Normaltekst>Månedsbeløp</Normaltekst>
-        <Element>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Element>
+        <Verdi>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Verdi>
         <Normaltekst>
             {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
                 ? 'Sykepengegrunnlag før 6G'
-                : 'Omregnet årsinntekt som legges til grunn'}
+                : 'Omregnet til årsinntekt'}
         </Normaltekst>
-        <Element>{somPenger(omregnetÅrsinntekt?.beløp)}</Element>
+        <Verdi>{somPenger(omregnetÅrsinntekt?.beløp)}</Verdi>
     </Tabell>
 );

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 
 import { Flatknapp, Knapp } from 'nav-frontend-knapper';
 
-import { Modal } from '../../../../components/Modal';
+import { Modal } from './Modal';
 
 const Knappegruppe = styled.span`
     display: flex;
