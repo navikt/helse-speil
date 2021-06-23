@@ -31,6 +31,8 @@ interface SaksbildeVedtaksperiodeProps {
 const Container = styled(Flex)`
     flex: 1;
     min-width: var(--speil-total-min-width);
+    overflow: auto;
+    overflow-x: hidden;
 `;
 
 const AutoFlexContainer = styled.div`
@@ -38,8 +40,10 @@ const AutoFlexContainer = styled.div`
 `;
 
 const Content = styled.div`
-    margin: 0 2.5rem;
+    padding: 0 2.5rem;
     height: 100%;
+    box-sizing: border-box;
+    max-width: calc(100vw - var(--speil-venstremeny-width) - var(--speil-historikk-width));
 `;
 
 export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, path }: SaksbildeVedtaksperiodeProps) => {
@@ -59,7 +63,7 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
             <AutoFlexContainer>
                 <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
                     <AmplitudeProvider>
-                        <Flex flex={1} style={{ height: '100%', overflow: 'hidden' }}>
+                        <Flex flex={1} style={{ height: '100%' }}>
                             <VenstreMeny
                                 aktivPeriode={aktivPeriode}
                                 arbeidsgivernavn={arbeidsgivernavn}

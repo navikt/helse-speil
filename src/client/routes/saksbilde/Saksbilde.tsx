@@ -79,7 +79,7 @@ const SaksbildeContainer = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    height: 100%;
+    height: max-content;
 `;
 
 export const kopiertFødelsnummerToast = ({

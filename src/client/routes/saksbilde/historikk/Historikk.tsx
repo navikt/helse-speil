@@ -16,9 +16,11 @@ const HistorikkTitle = styled.li`
 `;
 
 const Hendelser = styled.ul`
-    width: var(--historikk-width);
-    min-width: var(--historikk-width);
+    width: var(--speil-historikk-width);
+    min-width: var(--speil-historikk-width);
+    max-width: var(--speil-historikk-width);
     flex: 1;
+    flex-shrink: 0;
     padding: 0 24px;
     box-sizing: border-box;
 `;
@@ -43,6 +45,7 @@ export const Historikk = () => {
                 overflow: 'visible',
                 borderLeft: '1px solid var(--navds-color-border)',
                 boxSizing: 'border-box',
+                maxWidth: 'var(--speil-historikk-width)',
             }}
         >
             <Hendelser>
