@@ -274,5 +274,11 @@
         "betydning": "Da vi beregnet den forrige utbetalingen visste vi ikke at personen var syk for denne arbeidsgiveren.",
         "løsning": "Det kan hende at begge beregningene er riktig, men dette må kontrolleres. Hvis det er feil må perioder som er ferdig behandlet annulleres og alt må behandles i Infotrygd.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Søknaden inneholder Feriedager utenfor perioden søknaden gjelder for",
+        "betydning": "I søknadsdialogen så blir den sykmeldte spurt om det er ferie i mellomliggende periode. Dette for å finne ut om to perioder hører sammen og om man trenger inntektsmelding.",
+        "løsning": "Undersøk om perioden blir riktig beregnet.",
+        "viktighet": "Høy"
     }
 ]
