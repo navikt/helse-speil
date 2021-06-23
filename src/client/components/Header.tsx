@@ -12,6 +12,7 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
 import { authState } from '../state/authentication';
+import { useToggleEasterEgg } from '../state/easterEgg';
 import { useHentPerson } from '../state/person';
 import { useAddVarsel, useRemoveVarsel } from '../state/varsler';
 
@@ -48,11 +49,17 @@ export const Header = () => {
     const removeVarsel = useRemoveVarsel();
     const addVarsel = useAddVarsel();
 
+    const toggleEasterEgg = useToggleEasterEgg();
+
     const { name, ident, isLoggedIn } = useRecoilValue(authState);
 
     const brukerinfo = isLoggedIn ? { navn: name, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
 
     const onSøk = (personId: string) => {
+        if (personId.toLowerCase() === 'agurk') {
+            toggleEasterEgg('Agurk');
+            return Promise.resolve();
+        }
         const key = 'ugyldig-søk';
         removeVarsel(key);
         if (!erGyldigPersonId(personId)) {

@@ -14,6 +14,7 @@ import { useLoadingToast } from './hooks/useLoadingToast';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
 import { PageNotFound } from './routes/PageNotFound';
 import { useAuthentication } from './state/authentication';
+import { useEasterEggIsActive } from './state/easterEgg';
 import { useIsLoadingPerson } from './state/person';
 
 import './App.less';
@@ -23,12 +24,15 @@ import { Routes } from './routes';
 const Opptegnelse = React.lazy(() => import('./routes/saksbilde/Opptegnelse'));
 const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
 const Oversikt = React.lazy(() => import('./routes/oversikt'));
+const Agurk = React.lazy(() => import('./Agurk'));
 
 ReactModal.setAppElement('#root');
 
 const App = () => {
     useLoadingToast({ isLoading: useIsLoadingPerson(), message: 'Henter person' });
     useAuthentication();
+
+    const easterEggIsActive = useEasterEggIsActive();
 
     return (
         <ErrorBoundary fallback={GlobalFeilside}>
@@ -54,6 +58,11 @@ const App = () => {
                 </Switch>
             </React.Suspense>
             <Toasts />
+            {easterEggIsActive('Agurk') && (
+                <React.Suspense fallback={null}>
+                    <Agurk />
+                </React.Suspense>
+            )}
         </ErrorBoundary>
     );
 };
