@@ -15,7 +15,7 @@ import { usePerson } from '../../../../state/person';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { useAddToast, useRemoveToast } from '../../../../state/toasts';
 
-type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist' | Dagtype;
+type OverstyrtDagtype = 'Sykedag' | 'Feriedag' | 'Egenmeldingsdag' | 'Permisjonsdag' | 'Avvist';
 
 const tilOverstyrtDagtype = (type: Dagtype): OverstyrtDagtype => {
     switch (type) {
@@ -30,7 +30,7 @@ const tilOverstyrtDagtype = (type: Dagtype): OverstyrtDagtype => {
         case Dagtype.Avvist:
             return 'Avvist';
         default:
-            return type;
+            throw Error(`Dag med type ${type} kan ikke overstyres.`);
     }
 };
 

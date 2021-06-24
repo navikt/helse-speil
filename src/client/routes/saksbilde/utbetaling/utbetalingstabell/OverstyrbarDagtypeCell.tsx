@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Dag, Dagtype, Sykdomsdag, Utbetalingsdag } from 'internal-types';
+import { Dag, Dagtype, OverstyrtDag, Sykdomsdag, Utbetalingsdag } from 'internal-types';
 import React, { ChangeEvent, useState } from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -44,23 +44,24 @@ const DagtypeLabel = ({ sykdomsdag, utbetalingsdag }: DagtypeLabelProps) => {
     return <Normaltekst>{text}</Normaltekst>;
 };
 
-interface OverstyrbarDagtypeProps {
-    sykdomsdag: Sykdomsdag;
-    utbetalingsdag: Utbetalingsdag;
-    onOverstyr: (dag: Sykdomsdag, properties: Omit<Partial<Dag>, 'dato'>) => void;
-    erRevurdering: boolean;
-}
-
 const lovligeRevurderinger: ReadonlyMap<Dagtype, Array<Dagtype>> = new Map([
     [Dagtype.Syk, [Dagtype.Syk, Dagtype.Ferie]],
     [Dagtype.Ferie, [Dagtype.Syk, Dagtype.Ferie]],
 ]);
 
+interface OverstyrbarDagtypeProps {
+    sykdomsdag: Sykdomsdag;
+    utbetalingsdag: Utbetalingsdag;
+    onOverstyr: (dag: Sykdomsdag, properties: Omit<Partial<Dag>, 'dato'>) => void;
+    erRevurdering: boolean;
+    overstyrtDag?: OverstyrtDag;
+}
 export const OverstyrbarDagtypeCell = ({
     sykdomsdag,
     utbetalingsdag,
     onOverstyr,
     erRevurdering,
+    overstyrtDag,
 }: OverstyrbarDagtypeProps) => {
     const [opprinneligDagtype] = useState(sykdomsdag.type);
 
@@ -86,7 +87,7 @@ export const OverstyrbarDagtypeCell = ({
         <td>
             <CellContent>
                 <IconContainer>
-                    <DagtypeIcon type={sykdomsdag.type} />
+                    <DagtypeIcon type={overstyrtDag?.type ?? sykdomsdag.type} />
                 </IconContainer>
                 {kanOverstyres ? (
                     <OverstyrbarSelect

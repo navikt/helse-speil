@@ -336,7 +336,7 @@ export interface Overstyring {
 
 export interface OverstyrtDag {
     dato: Dayjs;
-    type: 'Sykedag' | 'Feriedag' | 'Permisjonsdag' | 'Egenmeldingsdag' | Dagtype;
+    type: Dagtype;
     grad?: number;
 }
 
