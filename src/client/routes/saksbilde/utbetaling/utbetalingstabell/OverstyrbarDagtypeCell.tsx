@@ -51,6 +51,11 @@ interface OverstyrbarDagtypeProps {
     erRevurdering: boolean;
 }
 
+const lovligeRevurderinger: ReadonlyMap<Dagtype, Array<Dagtype>> = new Map([
+    [Dagtype.Syk, [Dagtype.Syk, Dagtype.Ferie]],
+    [Dagtype.Ferie, [Dagtype.Syk, Dagtype.Ferie]],
+]);
+
 export const OverstyrbarDagtypeCell = ({
     sykdomsdag,
     utbetalingsdag,
@@ -64,7 +69,7 @@ export const OverstyrbarDagtypeCell = ({
         onOverstyr(sykdomsdag, { type: nyDagtype });
     };
 
-    const dagKanRevurderes = (type: Dagtype): boolean => type === Dagtype.Syk;
+    const dagKanRevurderes = (type: Dagtype): boolean => lovligeRevurderinger.has(type);
 
     const dagKanOverstyres = (type: Dagtype): boolean =>
         (type !== Dagtype.Helg && [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding].includes(type)) ||
@@ -75,9 +80,7 @@ export const OverstyrbarDagtypeCell = ({
         utbetalingsdag.type !== Dagtype.Arbeidsgiverperiode;
 
     const dagtyperManKanEndreTil = (type: Dagtype) =>
-        erRevurdering
-            ? type === Dagtype.Ferie || type === opprinneligDagtype
-            : dagKanOverstyres(type) || type === opprinneligDagtype;
+        erRevurdering ? lovligeRevurderinger.get(type) : dagKanOverstyres(type) || type === opprinneligDagtype;
 
     return (
         <td>

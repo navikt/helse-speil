@@ -13,7 +13,7 @@ const Wrapper: React.FC = ({ children }) => {
 };
 
 describe('OverstyrbarGradCelle', () => {
-    test('Kan ikke revurdere grad', () => {
+    test('Kan revurdere grad', () => {
         const dag = {
             type: Dagtype.Syk,
             dato: dayjs(),
@@ -23,7 +23,7 @@ describe('OverstyrbarGradCelle', () => {
             <OverstyrbarGradCell erRevurdering={true} onOverstyr={() => null} sykdomsdag={dag} utbetalingsdag={dag} />,
             { wrapper: Wrapper }
         );
-        expect(screen.queryByTestId('overstyrbar-grad')).toBeNull();
+        expect(screen.getByTestId('overstyrbar-grad')).toBeVisible();
     });
 
     test('Kan overstyre grad', () => {

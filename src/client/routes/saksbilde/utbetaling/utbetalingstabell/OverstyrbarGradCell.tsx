@@ -102,7 +102,7 @@ export const OverstyrbarGradCell = ({
     return (
         <td {...rest}>
             <CellContent>
-                {!erRevurdering && kanOverstyres(sykdomsdag, utbetalingsdag, overstyrtDag) ? (
+                {kanOverstyres(sykdomsdag, utbetalingsdag, overstyrtDag) ? (
                     <>
                         <GraderingInput
                             name={name}

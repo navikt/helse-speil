@@ -48,8 +48,12 @@ describe('OverstyrbarDagtypeCell', () => {
         expect(options[1]).toHaveTextContent('Ferie');
     });
 
-    test('Kan ikke revurdere ferie', () => {
-        kanIkkeRevurdere(Dagtype.Ferie);
+    test('Kan revurdere ferie', () => {
+        kanRevurdere(Dagtype.Ferie);
+        const options = screen.queryAllByTestId('overstyrbar-dagtype-option');
+        expect(options).toHaveLength(2);
+        expect(options[0]).toHaveTextContent('Syk');
+        expect(options[1]).toHaveTextContent('Ferie');
     });
 
     test('Kan ikke revurdere egenmelding', () => {

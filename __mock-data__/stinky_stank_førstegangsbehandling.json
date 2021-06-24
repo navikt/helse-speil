@@ -1296,13 +1296,9 @@
                                 "begrunnelser": null
                             },
                             {
-                                "type": "NavDag",
+                                "type": "Feriedag",
                                 "inntekt": 669,
-                                "dato": "2021-05-21",
-                                "utbetaling": 669,
-                                "grad": 100,
-                                "totalGrad": 100,
-                                "begrunnelser": null
+                                "dato": "2021-05-21"
                             },
                             {
                                 "type": "NavHelgDag",

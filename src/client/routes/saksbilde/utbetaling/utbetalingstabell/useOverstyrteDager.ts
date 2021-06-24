@@ -1,4 +1,4 @@
-import { Dag } from 'internal-types';
+import { Dag, Dagtype } from 'internal-types';
 import { useState } from 'react';
 
 type UseOverstyrteDagerResult = {
@@ -11,7 +11,11 @@ export const useOverstyrteDager = (originaleDager?: Dag[]): UseOverstyrteDagerRe
 
     const equalsOriginal = (other: Dag) => {
         const originalDag = originaleDager?.find((dag) => dag.dato.isSame(other.dato));
-        return originalDag && originalDag.type == other.type && originalDag.gradering == other.gradering;
+        return (
+            originalDag &&
+            originalDag.type === other.type &&
+            (originalDag.type !== Dagtype.Syk || originalDag.gradering === other.gradering)
+        );
     };
 
     const addDag = (dag: Dag, delAvDag: Omit<Partial<Dag>, 'dato'>) => {
