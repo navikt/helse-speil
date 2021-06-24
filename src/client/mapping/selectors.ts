@@ -32,7 +32,7 @@ export const maksdatoForPerson = (person: Person): Dayjs | undefined => {
     return sistePeriode && maksdatoForPeriode(sistePeriode);
 };
 
-export const skjæringstidspunktForPeriode = ({ vilkår }: Vedtaksperiode): Dayjs | undefined =>
+export const getSkjæringstidspunkt = ({ vilkår }: Vedtaksperiode): Dayjs | undefined =>
     vilkår?.dagerIgjen?.skjæringstidspunkt;
 
 export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined =>
@@ -45,3 +45,10 @@ export const sisteValgbarePeriode = (person: Person): Vedtaksperiode | undefined
                 it.tom.isAfter(sistePeriode?.tom ?? dayjs(0)) ? it : sistePeriode,
             undefined
         );
+
+export const erOver67År = (vedtaksperiode: Vedtaksperiode): boolean =>
+    (vedtaksperiode.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
+
+export const getMånedsbeløp = (vedtaksperiode: Vedtaksperiode, organisasjonsnummer: string): number | undefined =>
+    vedtaksperiode.inntektsgrunnlag?.inntekter?.find((it) => it.organisasjonsnummer === organisasjonsnummer)
+        ?.omregnetÅrsinntekt?.månedsbeløp;

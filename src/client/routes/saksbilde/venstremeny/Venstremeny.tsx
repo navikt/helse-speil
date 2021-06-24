@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Arbeidsforhold, Dagtype, Vedtaksperiode } from 'internal-types';
+import { Arbeidsforhold, Dagtype, Simulering } from 'internal-types';
 import React from 'react';
 
 import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
-import { harOppgave, useVedtaksperiode } from '../../../state/tidslinje';
+import { harOppgave } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 
 import { ArbeidsgiverCard } from './ArbeidsgiverCard';
@@ -29,29 +29,30 @@ interface VenstreMenyProps {
     arbeidsgivernavn: string;
     organisasjonsnummer: string;
     arbeidsforhold: Arbeidsforhold[];
+    anonymiseringEnabled: boolean;
+    over67År: boolean;
+    simulering?: Simulering;
+    månedsbeløp?: number;
     maksdato?: Dayjs;
     skjæringstidspunkt?: Dayjs;
-    anonymiseringEnabled: boolean;
 }
 
 export const VenstreMeny = ({
     aktivPeriode,
-    maksdato,
     arbeidsgivernavn,
     organisasjonsnummer,
     arbeidsforhold,
     anonymiseringEnabled,
+    over67År,
+    simulering,
+    månedsbeløp,
+    maksdato,
     skjæringstidspunkt,
 }: VenstreMenyProps) => {
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
     const nettobeløp = useNettobeløp(aktivPeriode.beregningId);
     const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === Tidslinjetilstand.Venter;
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
-    const over67år = (vedtaksperiode?.vilkår?.alder.alderSisteSykedag ?? 0) >= 67;
-    const månedsbeløp = vedtaksperiode.inntektsgrunnlag?.inntekter?.find(
-        (it) => it.organisasjonsnummer === aktivPeriode.organisasjonsnummer
-    )?.omregnetÅrsinntekt?.månedsbeløp;
 
     return (
         <Container>
@@ -60,7 +61,7 @@ export const VenstreMeny = ({
                 maksdato={maksdato?.format(NORSK_DATOFORMAT_KORT) ?? 'Ukjent maksdato'}
                 skjæringstidspunkt={skjæringstidspunkt?.format(NORSK_DATOFORMAT) ?? 'Ukjent skjæringstidspunkt'}
                 gjenståendeDager={gjenståendeDager}
-                over67år={over67år}
+                over67år={over67År}
             />
             <ArbeidsgiverCard
                 arbeidsgivernavn={arbeidsgivernavn}
@@ -75,7 +76,7 @@ export const VenstreMeny = ({
                 ikkeUtbetaltEnda={ikkeUtbetaltEnda}
                 utbetalingsdagerTotalt={utbetalingsdagerTotalt}
                 nettobeløp={nettobeløp}
-                simulering={vedtaksperiode.simuleringsdata}
+                simulering={simulering}
                 anonymiseringEnabled={anonymiseringEnabled}
             />
             <Utbetaling aktivPeriode={aktivPeriode} />

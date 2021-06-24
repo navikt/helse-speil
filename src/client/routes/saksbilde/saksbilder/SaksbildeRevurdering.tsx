@@ -6,6 +6,7 @@ import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { Flex, FlexColumn } from '../../../components/Flex';
 import { NoScrollX } from '../../../components/NoScrollX';
+import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
@@ -38,6 +39,10 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
 
+    const over67år = erOver67År(vedtaksperiode);
+    const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
+    const skjæringstidspunkt = getSkjæringstidspunkt(vedtaksperiode);
+
     return (
         <Flex
             justifyContent="space-between"
@@ -54,6 +59,10 @@ export const SaksbildeRevurdering = ({ aktivPeriode }: SaksbildeRevurderingProps
                             organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                             arbeidsforhold={arbeidsforhold}
                             anonymiseringEnabled={anonymiseringEnabled}
+                            over67År={over67år}
+                            simulering={vedtaksperiode.simuleringsdata}
+                            månedsbeløp={månedsbeløp}
+                            skjæringstidspunkt={skjæringstidspunkt}
                         />
                         <FlexColumn style={{ flex: 1, height: '100%' }}>
                             <Saksbildevarsler

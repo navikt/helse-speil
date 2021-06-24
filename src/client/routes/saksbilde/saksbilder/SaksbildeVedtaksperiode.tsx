@@ -7,6 +7,7 @@ import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
+import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
@@ -58,6 +59,10 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
 
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
+    const over67år = erOver67År(vedtaksperiode);
+    const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
+    const skjæringstidspunkt = getSkjæringstidspunkt(vedtaksperiode);
+
     return (
         <Container data-testid="saksbilde-vedtaksperiode">
             <AutoFlexContainer>
@@ -70,8 +75,11 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
                                 organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                                 arbeidsforhold={arbeidsforhold}
                                 anonymiseringEnabled={anonymiseringEnabled}
-                                skjæringstidspunkt={vedtaksperiode.vilkår?.dagerIgjen.skjæringstidspunkt}
+                                skjæringstidspunkt={skjæringstidspunkt}
                                 maksdato={maksdato}
+                                over67År={over67år}
+                                månedsbeløp={månedsbeløp}
+                                simulering={vedtaksperiode.simuleringsdata}
                             />
                             <FlexColumn style={{ flex: 1, height: '100%' }}>
                                 <Saksbildevarsler

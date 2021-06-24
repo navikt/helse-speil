@@ -5,7 +5,7 @@ import React from 'react';
 import { BehandletAvInfotrygdVarsel, BehandletVarsel } from '@navikt/helse-frontend-varsel';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { førsteVedtaksperiode, skjæringstidspunktForPeriode } from '../../../mapping/selectors';
+import { førsteVedtaksperiode, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
@@ -143,7 +143,7 @@ export const Sykepengegrunnlag = ({ vedtaksperiode, person }: SykepengegrunnlagP
                     <BehandletSykepengegrunnlag
                         førstePeriode={førsteVedtaksperiode(vedtaksperiode, person)}
                         skjæringstidspunkt={
-                            skjæringstidspunktForPeriode(vedtaksperiode)?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'
+                            getSkjæringstidspunkt(vedtaksperiode)?.format(NORSK_DATOFORMAT) ?? 'Ukjent dato'
                         }
                         inntektsgrunnlag={inntektsgrunnlag}
                         inntektskilde={arbeidsgiverinntekt}
