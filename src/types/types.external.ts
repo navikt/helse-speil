@@ -431,6 +431,7 @@ export interface SpesialistVedtaksperiode {
     tilstand: SpleisVedtaksperiodetilstand;
     oppgavereferanse: string | null;
     fullstendig: boolean;
+    erForkastet: boolean;
     utbetalingsreferanse?: string;
     utbetalingstidslinje: SpleisUtbetalingsdag[];
     utbetalinger: SpleisUtbetalinger;

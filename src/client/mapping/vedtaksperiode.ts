@@ -164,6 +164,7 @@ export class VedtaksperiodeBuilder {
         this.vedtaksperiode.oppgavereferanse = this.unmapped.oppgavereferanse || undefined;
         this.vedtaksperiode.utbetalingsreferanse = this.unmapped.utbetalingsreferanse;
         this.vedtaksperiode.fullstendig = true;
+        this.vedtaksperiode.erForkastet = this.unmapped.erForkastet ?? false;
     };
 
     private leggtilAnnullerteBeregninger = () => {

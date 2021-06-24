@@ -8,11 +8,13 @@ import { Feilmelding } from 'nav-frontend-typografi';
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
+import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
+import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
 import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
 
-import { UtbetalingToggles, defaultUtbetalingToggles } from '../../../featureToggles';
+import { defaultUtbetalingToggles, UtbetalingToggles } from '../../../featureToggles';
 import { OverstyrbarUtbetalingstabell } from './utbetalingstabell/OverstyrbarUtbetalingstabell';
 import { Overstyringsknapp } from './utbetalingstabell/Overstyringsknapp';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
@@ -71,9 +73,15 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
             <FlexColumn style={{ paddingBottom: '4rem' }}>
                 {(overstyringIsEnabled || revurderingIsEnabled) && (
                     <Flex justifyContent="flex-end" style={{ paddingTop: '1rem' }}>
-                        <Overstyringsknapp overstyrer={overstyrer} toggleOverstyring={toggleOverstyring}>
-                            {revurderingIsEnabled ? 'Revurder' : 'Endre'}
-                        </Overstyringsknapp>
+                        {vedtaksperiode.erForkastet ? (
+                            <PopoverHjelpetekst ikon={<SortInfoikon />} avstandTilAnker={24}>
+                                <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
+                            </PopoverHjelpetekst>
+                        ) : (
+                            <Overstyringsknapp overstyrer={overstyrer} toggleOverstyring={toggleOverstyring}>
+                                {revurderingIsEnabled ? 'Revurder' : 'Endre'}
+                            </Overstyringsknapp>
+                        )}
                     </Flex>
                 )}
                 <Flex style={{ height: '100%', paddingTop: '1rem' }}>

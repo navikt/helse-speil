@@ -54,6 +54,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         tilstand: SpleisVedtaksperiodetilstand.Oppgaver,
         oppgavereferanse: 'en-oppgavereferanse',
         fullstendig: true,
+        erForkastet: false,
         utbetalingsreferanse: 'en-utbetalingsreferanse',
         utbetalingstidslinje: utbetalingsdager,
         sykdomstidslinje: sykdomsdager,

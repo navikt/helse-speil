@@ -223,6 +223,7 @@ export interface Vedtaksperiode {
     tilstand: Vedtaksperiodetilstand;
     oppgavereferanse?: string;
     fullstendig: boolean;
+    erForkastet: boolean;
     utbetalingsreferanse?: string;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];

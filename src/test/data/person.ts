@@ -120,6 +120,7 @@ export const mappetPersonObject = (): Person => ({
                     oppgavereferanse: 'en-oppgavereferanse',
                     utbetalingsreferanse: 'en-utbetalingsreferanse',
                     fullstendig: true,
+                    erForkastet: false,
                     erNyeste: true,
                     vilkår: {
                         alder: {
