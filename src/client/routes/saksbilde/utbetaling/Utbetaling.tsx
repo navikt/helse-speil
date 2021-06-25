@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Person, Vedtaksperiode } from 'internal-types';
+import { Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
 import React, { useState } from 'react';
 
 import { Feilmelding } from 'nav-frontend-typografi';
@@ -10,7 +10,6 @@ import { Flex, FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
 import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
-import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
 

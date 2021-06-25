@@ -1,4 +1,4 @@
-import { Periodetype, Vedtaksperiode } from 'internal-types';
+import { Periodetype, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -6,7 +6,6 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 import '@navikt/helse-frontend-varsel/lib/main.css';
 
-import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';

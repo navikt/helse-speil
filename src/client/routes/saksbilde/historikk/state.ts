@@ -24,9 +24,21 @@ const historikk = selector<Hendelse[]>({
     },
 });
 
-const showHistorikkState = atom<boolean>({
-    key: 'showHistorikkState',
+const _showHistorikkState = atom<boolean>({
+    key: '_showHistorikkState',
     default: true,
+});
+
+const showHistorikkState = selector<boolean>({
+    key: 'showHistorikkState',
+    get: ({ get }) => {
+        return get(_showHistorikkState);
+    },
+    set: ({ set }, newValue) => {
+        const width = newValue ? '272px' : '0px';
+        document.getElementById('root')!.style.cssText = `--speil-historikk-width: ${width}`;
+        set(_showHistorikkState, newValue);
+    },
 });
 
 export const useShowHistorikkState = () => useRecoilState(showHistorikkState);

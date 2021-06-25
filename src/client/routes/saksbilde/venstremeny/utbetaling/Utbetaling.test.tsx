@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
+import { Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';
 import { enTidslinjeperiode, mappetPerson } from 'test-data';
 
-import { Tidslinjetilstand } from '../../../../mapping/arbeidsgiver';
 import { Periodetype, Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
 import { personState } from '../../../../state/person';
 

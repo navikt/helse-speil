@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
+import { Tidslinjetilstand } from 'internal-types';
 
-import { Tidslinjetilstand } from '../../client/mapping/arbeidsgiver';
 import { Periodetype, Tidslinjeperiode } from '../../client/modell/UtbetalingshistorikkElement';
 
 export const enTidslinjeperiode = (

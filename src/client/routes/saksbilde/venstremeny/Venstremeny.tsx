@@ -1,9 +1,8 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Arbeidsforhold, Dagtype, Simulering } from 'internal-types';
+import { Arbeidsforhold, Dagtype, Simulering, Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 
-import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
 import { harOppgave } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';

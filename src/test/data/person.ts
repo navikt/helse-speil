@@ -7,11 +7,11 @@ import {
     Kjønn,
     Periodetype,
     Person,
+    Tidslinjetilstand,
     Utbetalingstype,
     Vedtaksperiodetilstand,
 } from 'internal-types';
 
-import { Tidslinjetilstand } from '../../client/mapping/arbeidsgiver';
 import { mapPerson } from '../../client/mapping/person';
 import {
     Periodetype as UtbetalingshistorikkPeriodetype,

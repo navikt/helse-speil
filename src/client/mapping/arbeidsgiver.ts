@@ -9,6 +9,7 @@ import {
 import {
     Arbeidsgiver,
     Dagtype,
+    Tidslinjetilstand,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
     Utbetalingstype,
@@ -26,9 +27,14 @@ import {
     utbetalingstidslinje,
 } from '../modell/UtbetalingshistorikkElement';
 
-import { mapTidslinjeMedAldersvilkår, mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
+import { mapSykdomstidslinje, mapTidslinjeMedAldersvilkår, mapUtbetalingstidslinje } from './dag';
 import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
+
+const erAnnullering = (periode: Tidslinjeperiode) => periode.type === Periodetype.ANNULLERT_PERIODE;
+
+const nesteGenerasjonHarAnnullering = (nesteGenerasjon: Tidslinjeperiode[], fagsystemId?: string) =>
+    nesteGenerasjon.find((periode) => erAnnullering(periode) && periode.fagsystemId === fagsystemId);
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -417,30 +423,3 @@ export class ArbeidsgiverBuilder {
     private harUtelukkende = (dagtype: Dagtype, utbetalingstidslinje: Utbetalingsdag[]) =>
         utbetalingstidslinje.filter((dag) => dag.type.includes(dagtype)).length === utbetalingstidslinje.length;
 }
-
-export enum Tidslinjetilstand {
-    TilUtbetaling = 'tilUtbetaling',
-    Utbetalt = 'utbetalt',
-    Oppgaver = 'oppgaver',
-    Venter = 'venter',
-    VenterPåKiling = 'venterPåKiling',
-    Avslag = 'avslag',
-    IngenUtbetaling = 'ingenUtbetaling',
-    KunFerie = 'kunFerie',
-    KunPermisjon = 'kunPermisjon',
-    Feilet = 'feilet',
-    TilInfotrygd = 'tilInfotrygd',
-    Annullert = 'annullert',
-    TilAnnullering = 'tilAnnullering',
-    AnnulleringFeilet = 'annulleringFeilet',
-    UtbetaltAutomatisk = 'utbetaltAutomatisk',
-    TilUtbetalingAutomatisk = 'tilUtbetalingAutomatisk',
-    Revurderes = 'revurderes',
-    Revurdert = 'revurdert',
-    Ukjent = 'ukjent',
-}
-
-const erAnnullering = (periode: Tidslinjeperiode) => periode.type === Periodetype.ANNULLERT_PERIODE;
-
-const nesteGenerasjonHarAnnullering = (nesteGenerasjon: Tidslinjeperiode[], fagsystemId?: string) =>
-    nesteGenerasjon.find((periode) => erAnnullering(periode) && periode.fagsystemId === fagsystemId);

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import {
     Dagtype,
+    Tidslinjetilstand,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
     Vedtaksperiode,
@@ -12,7 +13,6 @@ import React, { CSSProperties } from 'react';
 import { Undertekst } from 'nav-frontend-typografi';
 
 import { FlexColumn } from '../../../components/Flex';
-import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';

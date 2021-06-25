@@ -1,9 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import dayjs, { Dayjs } from 'dayjs';
-import { Dagtype, Utbetalingsdag } from 'internal-types';
+import { Dagtype, Tidslinjetilstand, Utbetalingsdag } from 'internal-types';
 import { mappetPerson } from 'test-data';
-
-import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 
 import { umappetArbeidsgiver } from '../../../../test/data/arbeidsgiver';
 import { umappetUtbetalingshistorikk } from '../../../../test/data/utbetalingshistorikk';

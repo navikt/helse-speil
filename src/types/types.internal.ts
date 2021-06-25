@@ -495,3 +495,25 @@ export interface Behandlingsstatistikk {
         annulleringer: number;
     };
 }
+
+export enum Tidslinjetilstand {
+    TilUtbetaling = 'tilUtbetaling',
+    Utbetalt = 'utbetalt',
+    Oppgaver = 'oppgaver',
+    Venter = 'venter',
+    VenterPåKiling = 'venterPåKiling',
+    Avslag = 'avslag',
+    IngenUtbetaling = 'ingenUtbetaling',
+    KunFerie = 'kunFerie',
+    KunPermisjon = 'kunPermisjon',
+    Feilet = 'feilet',
+    TilInfotrygd = 'tilInfotrygd',
+    Annullert = 'annullert',
+    TilAnnullering = 'tilAnnullering',
+    AnnulleringFeilet = 'annulleringFeilet',
+    UtbetaltAutomatisk = 'utbetaltAutomatisk',
+    TilUtbetalingAutomatisk = 'tilUtbetalingAutomatisk',
+    Revurderes = 'revurderes',
+    Revurdert = 'revurdert',
+    Ukjent = 'ukjent',
+}

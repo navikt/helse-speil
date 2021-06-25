@@ -2,12 +2,12 @@ import { Dayjs } from 'dayjs';
 import {
     Arbeidsgiver,
     Sykdomsdag,
+    Tidslinjetilstand,
     Utbetalingsdag,
     UtbetalingshistorikkUtbetaling2,
     Utbetalingstype,
 } from 'internal-types';
 
-import { Tidslinjetilstand } from '../mapping/arbeidsgiver';
 import { usePerson } from '../state/person';
 
 const useHistorikkelement = (beregningId: string) => {

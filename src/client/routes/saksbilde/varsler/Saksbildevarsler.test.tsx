@@ -1,10 +1,8 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { Periodetype as Vedtaksperiodetype } from 'internal-types';
+import { Periodetype as Vedtaksperiodetype, Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 import { enTidslinjeperiode, mappetVedtaksperiode } from 'test-data';
-
-import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
 

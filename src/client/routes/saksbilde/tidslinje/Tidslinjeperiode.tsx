@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import classNames from 'classnames';
-import { Infotrygdperiodetilstand } from 'internal-types';
+import { Infotrygdperiodetilstand, Tidslinjetilstand } from 'internal-types';
 import React, { ReactNode, RefObject, useLayoutEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
@@ -11,7 +11,6 @@ import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Peri
 
 import { TidslinjeperiodeIkon } from '../../../components/ikoner/Tidslinjeperiodeikoner';
 import { prideifisertState } from '../../../components/ikoner/VimpelMedPalmeIkon';
-import { Tidslinjetilstand } from '../../../mapping/arbeidsgiver';
 
 interface StyledPeriodProps {
     erAktiv?: boolean;

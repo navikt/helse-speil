@@ -1,7 +1,6 @@
-import { Person, UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
+import { Person, Tidslinjetilstand, UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Tidslinjetilstand } from '../mapping/arbeidsgiver';
 import { Tidslinjeperiode } from '../modell/UtbetalingshistorikkElement';
 
 import { usePerson } from './person';
