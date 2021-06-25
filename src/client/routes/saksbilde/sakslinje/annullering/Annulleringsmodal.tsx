@@ -152,7 +152,7 @@ export const Annulleringsmodal = ({
 
                     <Annulleringsbegrunnelse />
                     <AnnullerKnapp spinner={isSending} autoDisableVedSpinner>
-                        Annullér
+                        Annuller
                     </AnnullerKnapp>
                     <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
                     {postAnnulleringFeil && <Feilmelding>{postAnnulleringFeil}</Feilmelding>}

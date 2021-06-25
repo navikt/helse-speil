@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
+import AlertStripe from 'nav-frontend-alertstriper';
 import { CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
 
 import { BegrunnelseCheckbox } from '../../venstremeny/utbetaling/Begrunnelsesskjema';
@@ -22,6 +23,11 @@ const Container = styled(SkjemaGruppe)`
     }
 `;
 
+const StiliLegende = styled.div`
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+`;
+
 export const Annulleringsbegrunnelse = () => {
     const { errors, clearErrors, watch } = useFormContext();
     const begrunnelserWatch = watch(`begrunnelser`);
@@ -36,10 +42,13 @@ export const Annulleringsbegrunnelse = () => {
 
     return (
         <Container>
-            <CheckboxGruppe
-                legend={'Årsak til annullering'}
-                feil={errors.begrunnelser ? errors.begrunnelser.message : null}
-            >
+            <CheckboxGruppe feil={errors.begrunnelser ? errors.begrunnelser.message : null}>
+                <StiliLegende>Årsak til annullering</StiliLegende>
+                <AlertStripe type="info" form="inline">
+                    Årsakene og begrunnelsen du fyller ut her, finner du ikke igjen i saksbehandlingssystemet etterpå.
+                    Informasjonen som legges inn skal brukes til å forbedre tjenesten.
+                </AlertStripe>
+                <br />
                 {Object.entries(begrunnelser).map(([key, value], index) => {
                     return <BegrunnelseCheckbox key={index} begrunnelse={key} label={<p>{value}</p>} />;
                 })}

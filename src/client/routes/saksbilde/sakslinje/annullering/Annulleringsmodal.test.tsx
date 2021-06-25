@@ -61,7 +61,7 @@ const renderAnnulleringsmodal = async () => {
     );
 };
 
-const annullér = () => Promise.resolve(userEvent.click(screen.getByText('Annullér')));
+const annuller = () => Promise.resolve(userEvent.click(screen.getByText('Annuller')));
 
 const velgFørsteBegrunnelse = () =>
     Promise.resolve(userEvent.click(screen.getByText('Feil ble gjort i opprinnelig automatisk vedtak')));
@@ -79,15 +79,15 @@ const assertFeilmeldingKommentar = () =>
 describe('Annulleringsmodal', () => {
     test('viser feilmelding ved manglende begrunnelse', async () => {
         await renderAnnulleringsmodal();
-        await annullér().then(assertFeilmeldingBegrunnelse);
+        await annuller().then(assertFeilmeldingBegrunnelse);
     });
     test('viser feilmelding ved manglende kommentar', async () => {
         await renderAnnulleringsmodal();
-        await velgBegrunnelseAnnet().then(annullér).then(assertFeilmeldingKommentar);
+        await velgBegrunnelseAnnet().then(annuller).then(assertFeilmeldingKommentar);
     });
     test('bygger AnnulleringDTO ved post av annullering', async () => {
         await renderAnnulleringsmodal();
-        const annullering = await velgFørsteBegrunnelse().then(annullér).then(captureAnnullering);
+        const annullering = await velgFørsteBegrunnelse().then(annuller).then(captureAnnullering);
         expect(annullering.aktørId).toEqual('1211109876233');
         expect(annullering.fødselsnummer).toEqual('01019000123');
         expect(annullering.organisasjonsnummer).toEqual('987654321');
