@@ -41,22 +41,21 @@ const Content = styled.div`
     max-width: calc(100vw - var(--speil-venstremeny-width) - var(--speil-historikk-width));
 `;
 
-interface SaksbildeVedtaksperiodeProps {
+interface SaksbildeRevurderingProps {
     personTilBehandling: Person;
     aktivPeriode: Tidslinjeperiode;
     path: String;
 }
 
-export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, path }: SaksbildeVedtaksperiodeProps) => {
+export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode, path }: SaksbildeRevurderingProps) => {
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
     const oppgavereferanse = useOppgavereferanse(aktivPeriode.beregningId);
-    const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent arbeidsgivernavn';
+    const arbeidsgivernavn = useArbeidsgivernavn(aktivPeriode.organisasjonsnummer) ?? 'Ukjent';
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
     const errorMelding = getErrorMelding(aktivPeriode.tilstand);
 
-    const maksdato = useMaksdato(aktivPeriode.beregningId);
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
-
+    const maksdato = useMaksdato(aktivPeriode.beregningId);
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
     const over67år = erOver67År(vedtaksperiode);
@@ -64,22 +63,22 @@ export const SaksbildeVedtaksperiode = ({ personTilBehandling, aktivPeriode, pat
     const skjæringstidspunkt = getSkjæringstidspunkt(vedtaksperiode);
 
     return (
-        <Container data-testid="saksbilde-vedtaksperiode">
+        <Container data-testid="saksbilde-fullstendig">
             <AutoFlexContainer>
                 <ErrorBoundary key={vedtaksperiode.id} fallback={errorMelding}>
                     <AmplitudeProvider>
                         <Flex flex={1} style={{ height: '100%' }}>
                             <VenstreMeny
                                 aktivPeriode={aktivPeriode}
+                                maksdato={maksdato}
                                 arbeidsgivernavn={arbeidsgivernavn}
                                 organisasjonsnummer={aktivPeriode.organisasjonsnummer}
                                 arbeidsforhold={arbeidsforhold}
                                 anonymiseringEnabled={anonymiseringEnabled}
-                                skjæringstidspunkt={skjæringstidspunkt}
-                                maksdato={maksdato}
                                 over67År={over67år}
-                                månedsbeløp={månedsbeløp}
                                 simulering={vedtaksperiode.simuleringsdata}
+                                månedsbeløp={månedsbeløp}
+                                skjæringstidspunkt={skjæringstidspunkt}
                             />
                             <FlexColumn style={{ flex: 1, height: '100%' }}>
                                 <Saksbildevarsler

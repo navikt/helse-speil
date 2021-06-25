@@ -50,8 +50,7 @@ describe('Saksbilde', () => {
             expect(screen.queryByTestId('laster-saksbilde')).toBeVisible();
 
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-revurdering')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-fullstendig')).toBeNull();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
         });
     });
@@ -62,21 +61,8 @@ describe('Saksbilde', () => {
             expect(screen.queryByTestId('tomt-saksbilde')).toBeVisible();
 
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-revurdering')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-fullstendig')).toBeNull();
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
-        });
-    });
-    test('rendrer saksbilde for vedtaksperiode med innhold dersom både person og vedtaksperioder finnes', async () => {
-        const person = mappetPerson();
-        render(<Saksbilde />, { wrapper: wrapper(person) });
-        await waitFor(() => {
-            expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeVisible();
-
-            expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-revurdering')).toBeNull();
-            expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
-            expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
         });
     });
     test('rendrer saksbilde for ufullstendig vedtaksperiode', async () => {
@@ -100,8 +86,19 @@ describe('Saksbilde', () => {
             userEvent.click(perioder[1].getElementsByTagName('button')[0]);
 
             expect(screen.getByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeVisible();
-            expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-revurdering')).toBeNull();
+            expect(screen.queryByTestId('saksbilde-fullstendig')).toBeNull();
+            expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
+            expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
+        });
+    });
+
+    test('rendrer saksbilde med innhold dersom både person og vedtaksperioder finnes', async () => {
+        const person = mappetPerson();
+        render(<Saksbilde />, { wrapper: wrapper(person) });
+        await waitFor(() => {
+            expect(screen.queryByTestId('saksbilde-fullstendig')).toBeVisible();
+
+            expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
         });
@@ -134,9 +131,9 @@ describe('Saksbilde', () => {
             expect(perioder[0]).toBeVisible();
             userEvent.click(perioder[0].getElementsByTagName('button')[0]);
 
-            expect(screen.getByTestId('saksbilde-revurdering')).toBeVisible();
+            expect(screen.getByTestId('saksbilde-fullstendig')).toBeVisible();
+
             expect(screen.queryByTestId('saksbilde-ufullstendig-vedtaksperiode')).toBeNull();
-            expect(screen.queryByTestId('saksbilde-vedtaksperiode')).toBeNull();
             expect(screen.queryByTestId('laster-saksbilde')).toBeNull();
             expect(screen.queryByTestId('tomt-saksbilde')).toBeNull();
         });

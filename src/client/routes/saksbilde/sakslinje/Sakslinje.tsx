@@ -38,7 +38,8 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
     return (
         <Container>
             <Flex>
-                {aktivPeriode?.type === Periodetype.VEDTAKSPERIODE && (
+                {(aktivPeriode?.type === Periodetype.VEDTAKSPERIODE ||
+                    aktivPeriode?.type === Periodetype.REVURDERING) && (
                     <TabList role="tablist">
                         <TabLink to={pathForLocation(Location.Utbetaling)} title="Utbetaling" icon={<HjemIkon />}>
                             Utbetaling

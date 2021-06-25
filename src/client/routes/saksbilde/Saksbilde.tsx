@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Person, Vedtaksperiodetilstand } from 'internal-types';
+import { Person, Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
@@ -14,21 +14,19 @@ import { useNavigation } from '../../hooks/useNavigation';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
 import { usePollEtterOpptegnelser } from '../../io/polling';
-import { erRevurderingsperiode } from '../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../state/person';
 import { useAktivPeriode } from '../../state/tidslinje';
 import { ToastObject, useAddToast } from '../../state/toasts';
 import { Scopes, useVarselFilter } from '../../state/varsler';
 
-import { SaksbildeRevurdering } from './saksbilder/SaksbildeRevurdering';
+import { SaksbildeFullstendigPeriode } from './saksbilder/SaksbildeFullstendigPeriode';
 import { TomtSaksbilde } from './saksbilder/SaksbildeTomt';
-import { SaksbildeUfullstendigVedtaksperiode } from './saksbilder/SaksbildeUfullstendigVedtaksperiode';
-import { SaksbildeVedtaksperiode } from './saksbilder/SaksbildeVedtaksperiode';
+import { SaksbildeUfullstendigPeriode } from './saksbilder/SaksbildeUfullstendigPeriode';
 import { Sakslinje } from './sakslinje/Sakslinje';
 import { LasterTidslinje, Tidslinje } from './tidslinje';
 import { Utbetalingshistorikk } from './utbetalingshistorikk/Utbetalingshistorikk';
 
-export const getErrorMelding = (tilstand: Vedtaksperiodetilstand) => {
+export const getErrorMelding = (tilstand: Tidslinjetilstand) => {
     const vedtaksperiodetilstandErrorMessage = getVedtaksperiodeTilstandError(tilstand);
     return (error: Error) => {
         return vedtaksperiodetilstandErrorMessage ? (
@@ -39,36 +37,36 @@ export const getErrorMelding = (tilstand: Vedtaksperiodetilstand) => {
     };
 };
 
-export const getVedtaksperiodeTilstandError = (tilstand: Vedtaksperiodetilstand) => {
+export const getVedtaksperiodeTilstandError = (tilstand: Tidslinjetilstand) => {
     switch (tilstand) {
-        case Vedtaksperiodetilstand.Venter:
+        case Tidslinjetilstand.Venter:
             return (
                 <Varsel type={Varseltype.Info}>
                     Kunne ikke vise informasjon om vedtaksperioden. Dette skyldes at perioden ikke er klar til
                     behandling.
                 </Varsel>
             );
-        case Vedtaksperiodetilstand.KunFerie:
+        case Tidslinjetilstand.KunFerie:
             return (
                 <Varsel type={Varseltype.Info}>
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun ferie.
                 </Varsel>
             );
-        case Vedtaksperiodetilstand.KunPermisjon:
+        case Tidslinjetilstand.KunPermisjon:
             return (
                 <Varsel type={Varseltype.Info}>
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden inneholder kun permisjon.
                 </Varsel>
             );
-        case Vedtaksperiodetilstand.IngenUtbetaling:
+        case Tidslinjetilstand.IngenUtbetaling:
             return (
                 <Varsel type={Varseltype.Info}>
                     Kunne ikke vise informasjon om vedtaksperioden. Perioden har ingen utbetaling.
                 </Varsel>
             );
-        case Vedtaksperiodetilstand.VenterPåKiling:
+        case Tidslinjetilstand.VenterPåKiling:
             return <Varsel type={Varseltype.Info}>Ikke klar til behandling - avventer system.</Varsel>;
-        case Vedtaksperiodetilstand.Ukjent:
+        case Tidslinjetilstand.Ukjent:
             return <Varsel type={Varseltype.Feil}>Kunne ikke lese informasjon om sakens tilstand.</Varsel>;
         default:
             return undefined;
@@ -82,7 +80,7 @@ const SaksbildeContainer = styled.div`
     height: max-content;
 `;
 
-export const kopiertFødelsnummerToast = ({
+const kopiertFødelsnummerToast = ({
     message = 'Fødselsnummer er kopiert',
     timeToLiveMs = 3000,
 }: Partial<ToastObject>): ToastObject => ({
@@ -115,23 +113,16 @@ const SaksbildeSwitch = ({ personTilBehandling }: SaksbildeSwitchProps) => {
 
     if (!aktivPeriode) return <TomtSaksbilde />;
 
-    if (erRevurderingsperiode(aktivPeriode)) {
-        return <SaksbildeRevurdering aktivPeriode={aktivPeriode} />;
-    }
     return aktivPeriode.fullstendig ? (
-        <SaksbildeVedtaksperiode personTilBehandling={personTilBehandling} aktivPeriode={aktivPeriode} path={path} />
+        <SaksbildeFullstendigPeriode
+            personTilBehandling={personTilBehandling}
+            aktivPeriode={aktivPeriode}
+            path={path}
+        />
     ) : (
-        <SaksbildeUfullstendigVedtaksperiode aktivPeriode={aktivPeriode} />
+        <SaksbildeUfullstendigPeriode aktivPeriode={aktivPeriode} />
     );
 };
-
-export const Saksbilde = () => (
-    <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Advarsel}>{error.message}</Varsel>}>
-        <React.Suspense fallback={<LasterSaksbilde />}>
-            <SaksbildeContent />
-        </React.Suspense>
-    </ErrorBoundary>
-);
 
 const SaksbildeContent = React.memo(() => {
     const personTilBehandling = usePerson();
@@ -167,6 +158,14 @@ const LasterSaksbilde = () => (
         <LasterPersonlinje />
         <LasterTidslinje />
     </SaksbildeContainer>
+);
+
+export const Saksbilde = () => (
+    <ErrorBoundary fallback={(error: Error) => <Varsel type={Varseltype.Advarsel}>{error.message}</Varsel>}>
+        <React.Suspense fallback={<LasterSaksbilde />}>
+            <SaksbildeContent />
+        </React.Suspense>
+    </ErrorBoundary>
 );
 
 export default Saksbilde;
