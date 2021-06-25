@@ -18,6 +18,7 @@ const utvidetTilganger = [
     'P107343',
     'S160466',
     'V112769',
+    'F131883',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
