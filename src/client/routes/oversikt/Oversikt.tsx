@@ -86,7 +86,7 @@ export const Oversikt = () => {
             {oppgaver.state === 'hasError' && (
                 <Varsel type={Varseltype.Advarsel}>{(oppgaver.contents as Error).message}</Varsel>
             )}
-            <FlexColumn style={{ height: '100%' }}>
+            <FlexColumn>
                 <Tabs />
                 <Flex style={{ height: '100%' }}>
                     <Content>
