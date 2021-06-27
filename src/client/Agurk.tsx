@@ -1,10 +1,14 @@
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import React, { useEffect, useRef, useState } from 'react';
-import { AnimationClip, AnimationMixer, FrontSide, Mesh } from 'three';
+import { AnimationAction, AnimationClip, AnimationMixer, FrontSide, LoopOnce, Mesh } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 // @ts-ignore
 import agurk from './assets/agurk.gltf';
+
+type Animation = 'idle' | 'walk' | 'step' | 'point' | 'turn_head';
+
+type Movement = 'forward' | 'backward' | 'left' | 'right' | 'point';
 
 const keys = {
     KeyW: 'forward',
@@ -15,6 +19,7 @@ const keys = {
     ArrowLeft: 'left',
     KeyD: 'right',
     ArrowRight: 'right',
+    KeyP: 'point',
 };
 
 const usePlayerControls = () => {
@@ -23,12 +28,19 @@ const usePlayerControls = () => {
         backward: false,
         left: false,
         right: false,
+        point: false,
     });
     useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) =>
-            setMovement((m) => ({ ...m, [keys[e.code as keyof typeof keys]]: true }));
-        const handleKeyUp = (e: KeyboardEvent) =>
-            setMovement((m) => ({ ...m, [keys[e.code as keyof typeof keys]]: false }));
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (Object.keys(keys).some((it) => it === e.code)) {
+                setMovement((m) => ({ ...m, [keys[e.code as keyof typeof keys]]: true }));
+            }
+        };
+        const handleKeyUp = (e: KeyboardEvent) => {
+            if (Object.keys(keys).some((it) => it === e.code)) {
+                setMovement((m) => ({ ...m, [keys[e.code as keyof typeof keys]]: false }));
+            }
+        };
         document.addEventListener('keydown', handleKeyDown);
         document.addEventListener('keyup', handleKeyUp);
         return () => {
@@ -45,14 +57,32 @@ const Player = () => {
     const playerRef = useRef<Mesh>();
     const movement = usePlayerControls();
 
-    const getAnimation = (key: 'walk' | 'idle'): AnimationClip =>
-        animations.find((it: AnimationClip) => it.name === key) as AnimationClip;
+    const getAnimation = (key: Animation): AnimationClip =>
+        animations.slice(1).find((it: AnimationClip) => it.name === key) as AnimationClip;
+
+    const playAnimation = (key: Animation): AnimationAction => mixer.current!.clipAction(getAnimation(key)).play();
+
+    const stopAnimation = (key: Animation): AnimationAction => mixer.current!.clipAction(getAnimation(key)).stop();
+
+    const playAnimationOnce = (key: Animation): AnimationAction => {
+        const action = mixer.current!.clipAction(getAnimation(key));
+        action.clampWhenFinished = true;
+        action.setLoop(LoopOnce, 1);
+        return action.play();
+    };
+
+    const onlyActiveMovement = (key: Movement): boolean => {
+        const entries = Object.entries(movement);
+        return (
+            !!entries.find(([moveKey, moveValue]) => moveKey === key && moveValue) &&
+            entries.filter(([moveKey]) => moveKey !== key).every(([_, value]) => !value)
+        );
+    };
 
     useEffect(() => {
         if (animations.length) {
             mixer.current = new AnimationMixer(scene);
-            mixer.current!.timeScale = 1.8;
-            mixer.current!.clipAction(getAnimation('idle'))?.play();
+            mixer.current!.timeScale = 1;
         }
     }, [animations]);
 
@@ -60,18 +90,44 @@ const Player = () => {
         mixer.current?.update(delta);
         if (movement.forward) {
             playerRef.current?.translateZ(delta);
-            mixer.current?.clipAction(getAnimation('walk'))?.play();
+            playAnimation('walk');
+            stopAnimation('step');
         } else if (movement.backward) {
             playerRef.current?.translateZ(-delta);
-            mixer.current?.clipAction(getAnimation('walk'))?.play();
+            playAnimation('walk');
+            stopAnimation('step');
         } else {
-            mixer.current?.clipAction(getAnimation('walk'))?.stop();
+            stopAnimation('walk');
         }
 
         if (movement.left) {
             playerRef.current!.rotateY(delta * 2);
+            if (!movement.forward && !movement.backward) {
+                playAnimation('step');
+            }
         } else if (movement.right) {
             playerRef.current!.rotateY(-delta * 2);
+            if (!movement.forward && !movement.backward) {
+                playAnimation('step');
+            }
+        } else {
+            stopAnimation('step');
+        }
+
+        if (Object.values(movement).every((it) => !it)) {
+            playAnimation('idle');
+            playAnimation('turn_head');
+        } else {
+            stopAnimation('idle');
+            stopAnimation('turn_head');
+        }
+
+        if (onlyActiveMovement('point')) {
+            stopAnimation('idle');
+            stopAnimation('turn_head');
+            playAnimationOnce('point');
+        } else {
+            stopAnimation('point');
         }
     });
 
