@@ -280,5 +280,11 @@
         "betydning": "I søknadsdialogen så blir den sykmeldte spurt om det er ferie i mellomliggende periode. Dette for å finne ut om to perioder hører sammen og om man trenger inntektsmelding.",
         "løsning": "Undersøk om perioden blir riktig beregnet.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Endrer tidligere oppdrag. Kontroller simuleringen.",
+        "betydning": "Det er opphørt en tidligere linje i Oppdrag. Dette skjer dersom en FOM-dato på en linje endrer seg.",
+        "løsning": "Undersøk om perioden blir riktig simulert, og ta en sjekk på oppdraget i ettertid",
+        "viktighet": "Høy"
     }
 ]
