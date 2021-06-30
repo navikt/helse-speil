@@ -332,6 +332,7 @@ export interface Overstyring {
     timestamp: Dayjs;
     overstyrteDager: OverstyrtDag[];
     saksbehandlerNavn: string;
+    saksbehandlerIdent?: string;
 }
 
 export interface OverstyrtDag {

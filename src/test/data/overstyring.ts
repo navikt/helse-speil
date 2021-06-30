@@ -5,6 +5,7 @@ export const umappetOverstyring = {
     begrunnelse: 'en begrunnelse',
     timestamp: '2020-01-01T12:00:00',
     saksbehandlerNavn: 'Sara Saksbehandler',
+    saksbehandlerIdent: 'S123456',
     overstyrteDager: [
         {
             dato: '2020-01-01',

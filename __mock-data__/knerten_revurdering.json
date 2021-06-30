@@ -678,7 +678,8 @@
                             "grad": 100
                         }
                     ],
-                    "saksbehandlerNavn": "Brum, Ole"
+                    "saksbehandlerNavn": "Brum, Ole",
+                    "saksbehandlerIdent": "O123456"
                 }
             ],
             "bransjer": [],

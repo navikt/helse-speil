@@ -618,7 +618,8 @@
                             "grad": 0
                         }
                     ],
-                    "saksbehandlerNavn": "En saksbehandler"
+                    "saksbehandlerNavn": "En saksbehandler",
+                    "saksbehandlerIdent": "S123456"
                 },
                 {
                     "hendelseId": "2f7ee150-ac40-480a-a9c4-666fdec83b1a",
@@ -636,7 +637,8 @@
                             "grad": 0
                         }
                     ],
-                    "saksbehandlerNavn": "En saksbehandler"
+                    "saksbehandlerNavn": "En saksbehandler",
+                    "saksbehandlerIdent": "S123456"
                 },
                 {
                     "hendelseId": "6e4ff4bc-f645-48fd-8faf-24f731844536",
@@ -649,7 +651,8 @@
                             "grad": 0
                         }
                     ],
-                    "saksbehandlerNavn": "En saksbehandler"
+                    "saksbehandlerNavn": "En saksbehandler",
+                    "saksbehandlerIdent": "S123456"
                 }
             ],
             "bransjer": [],

@@ -236,7 +236,8 @@
                             "grad": 100
                         }
                     ],
-                    "saksbehandlerNavn": "Jørgensen, Truls"
+                    "saksbehandlerNavn": "Jørgensen, Truls",
+                    "saksbehandlerIdent": "J123456"
                 },
                 {
                     "hendelseId": "b8dd9641-12af-4f97-a9dc-1d169120f3ab",
@@ -254,7 +255,8 @@
                             "grad": 100
                         }
                     ],
-                    "saksbehandlerNavn": "Jørgensen, Truls"
+                    "saksbehandlerNavn": "Jørgensen, Truls",
+                    "saksbehandlerIdent": "J123456"
                 },
                 {
                     "hendelseId": "19fcd596-de01-4530-bac0-8c9888a19496",
@@ -287,7 +289,8 @@
                             "grad": 100
                         }
                     ],
-                    "saksbehandlerNavn": "Jørgensen, Truls"
+                    "saksbehandlerNavn": "Jørgensen, Truls",
+                    "saksbehandlerIdent": "J123456"
                 }
             ],
             "bransjer": [],

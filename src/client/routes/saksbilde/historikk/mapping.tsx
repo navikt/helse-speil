@@ -95,7 +95,7 @@ export const useUtbetalingsendringer = (vedtaksperiode?: Vedtaksperiode): Hendel
             body: (
                 <BegrunnelseTekst>
                     <p>{overstyring.begrunnelse}</p>
-                    <p>{overstyring.saksbehandlerNavn}</p>
+                    <p>{overstyring.saksbehandlerIdent ?? overstyring.saksbehandlerNavn}</p>
                 </BegrunnelseTekst>
             ),
         }))) ||
