@@ -12594,7 +12594,17 @@
             ]
         }
     ],
-    "infotrygdutbetalinger": [],
+    "infotrygdutbetalinger": [
+        {
+            "arbeidsKategoriKode": "01",
+            "dagsats": 123,
+            "fom": "2021-04-18",
+            "tom": "2021-04-30",
+            "grad": "100",
+            "organisasjonsnummer": "123456789",
+            "typetekst": "ArbRef"
+        }
+    ],
     "enhet": {
         "id": "1149",
         "navn": "Karmøy"

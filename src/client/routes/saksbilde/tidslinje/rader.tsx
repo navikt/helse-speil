@@ -35,6 +35,11 @@ const Arbeidsgivernavn = styled.div`
     ${arbeidsgivernavnStyle};
 `;
 
+const ArbeidsgivernavnInfotrygd = styled.div`
+    ${arbeidsgivernavnStyle};
+    padding-left: 32px;
+`;
+
 const EkspanderbartArbeidsgivernavn = styled(Button)<{ erEkspandert: boolean }>`
     padding: 0;
     ${arbeidsgivernavnStyle};
@@ -139,10 +144,10 @@ interface InfotrygdProps {
 
 const Infotrygd = ({ rad, navn }: InfotrygdProps) => (
     <Flex alignItems="start">
-        <Arbeidsgivernavn>
+        <ArbeidsgivernavnInfotrygd>
             <Infotrygdikon />
             <TekstMedEllipsis data-tip="Arbeidsgiver (Infotrygd)">{navn}</TekstMedEllipsis>
-        </Arbeidsgivernavn>
+        </ArbeidsgivernavnInfotrygd>
         <Rader>
             <Tidslinjerad rad={rad} erKlikkbar={false} />
         </Rader>
