@@ -85,6 +85,13 @@ export const StyledPeriod = styled(Period)<StyledPeriodProps>`
             --period-hover-color: var(--navds-color-tag-error-background);
             --period-border-color: var(--navds-color-tag-error-border);
         }
+
+        &.utbetaltIInfotrygd,
+        &.infotrygdferie,
+        &.infotrygdukjent {
+            --period-background-color: var(--nav-infotrygd-bakgrunn-stiplet);
+            --period-hover-color: var(--nav-infotrygd-bakgrunn-stiplet);
+        }
     }
 `;
 
