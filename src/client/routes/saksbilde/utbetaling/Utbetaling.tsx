@@ -12,7 +12,6 @@ import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
-import { useVedtaksperiode } from '../../../state/tidslinje';
 
 import { defaultUtbetalingToggles, erDev, erLocal, UtbetalingToggles } from '../../../featureToggles';
 import { OverstyrbarUtbetalingstabell } from './utbetalingstabell/OverstyrbarUtbetalingstabell';
@@ -30,6 +29,15 @@ const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden
     person: Person,
     periode: Tidslinjeperiode
 ) => {
+    const alleTidslinjeperioder = person.arbeidsgivere.flatMap((it) => it.tidslinjeperioder);
+    const alleTidslinjeperioderISisteGenerasjon = alleTidslinjeperioder[0].flatMap((it) => it);
+
+    const periodeFinnesISisteGenerasjon = alleTidslinjeperioderISisteGenerasjon.find(
+        (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
+    );
+
+    if (!periodeFinnesISisteGenerasjon) return false;
+
     const vedtaksperiode = person.arbeidsgivere
         .flatMap((it) => it.vedtaksperioder)
         .filter((it) => it.fullstendig)
