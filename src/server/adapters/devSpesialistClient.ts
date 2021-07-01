@@ -136,6 +136,9 @@ const filenameForPersonId = (id: string) => {
         case '09038418927':
         case '2259231372981':
             return 'vakker_ert_en_utbetalt_periode.json';
+        case '30086320343':
+        case '2315736979797':
+            return 'flere_ag_fra_dev.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }
