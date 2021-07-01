@@ -25,10 +25,6 @@ const arbeidsgivernavnStyle = css`
     height: 24px;
     width: var(--tidslinje-rad-offset);
     max-width: var(--tidslinje-rad-offset);
-
-    > * {
-        margin-right: 0.5rem;
-    }
 `;
 
 const Arbeidsgivernavn = styled.div`
@@ -37,7 +33,7 @@ const Arbeidsgivernavn = styled.div`
 
 const ArbeidsgivernavnInfotrygd = styled.div`
     ${arbeidsgivernavnStyle};
-    padding-left: 32px;
+    padding-left: 20px;
 `;
 
 const EkspanderbartArbeidsgivernavn = styled(Button)<{ erEkspandert: boolean }>`
@@ -58,8 +54,8 @@ const EkspanderbartArbeidsgivernavn = styled(Button)<{ erEkspandert: boolean }>`
 `;
 
 const LeftContainer = styled.div`
-    width: 1.5rem;
-    max-width: 1.5rem;
+    width: 20px;
+    max-width: 20px;
 `;
 
 const Rader = styled(FlexColumn)`
