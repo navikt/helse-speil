@@ -12,8 +12,9 @@ import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
 import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { usePerson } from '../../../state/person';
+import { useVedtaksperiode } from '../../../state/tidslinje';
 
-import { defaultUtbetalingToggles, UtbetalingToggles } from '../../../featureToggles';
+import { defaultUtbetalingToggles, erDev, erLocal, UtbetalingToggles } from '../../../featureToggles';
 import { OverstyrbarUtbetalingstabell } from './utbetalingstabell/OverstyrbarUtbetalingstabell';
 import { Overstyringsknapp } from './utbetalingstabell/Overstyringsknapp';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
@@ -25,13 +26,41 @@ const FeilmeldingContainer = styled.div`
 
 const førsteArbeidsgiversSistePeriode = (person: Person) => person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0];
 
+const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden = (
+    person: Person,
+    periode: Tidslinjeperiode
+) => {
+    const vedtaksperiode = person.arbeidsgivere
+        .flatMap((it) => it.vedtaksperioder)
+        .filter((it) => it.fullstendig)
+        .map((it) => it as Vedtaksperiode)
+        .find((it) => it.id === periode.id);
+
+    const arbeidsgiver = person.arbeidsgivere.find((arb) => arb.organisasjonsnummer === periode.organisasjonsnummer);
+    const periodensSkjæringstidspunkt = vedtaksperiode?.vilkår?.dagerIgjen.skjæringstidspunkt;
+    const arbeidsgiversSisteTidslinjeperiode = arbeidsgiver?.tidslinjeperioder[0].filter((it) => it.fullstendig)[0];
+
+    const sisteVedtaksperiodeForArbeidsgiver = person.arbeidsgivere
+        .flatMap((it) => it.vedtaksperioder)
+        .filter((it) => it.fullstendig)
+        .map((it) => it as Vedtaksperiode)
+        .find((it) => it.id === arbeidsgiversSisteTidslinjeperiode?.id);
+
+    const arbeidsgiversSisteSkjæringstidspunkt =
+        sisteVedtaksperiodeForArbeidsgiver?.vilkår?.dagerIgjen.skjæringstidspunkt;
+    if (!periodensSkjæringstidspunkt) return false;
+    return arbeidsgiversSisteSkjæringstidspunkt?.isSame(periodensSkjæringstidspunkt, 'day') ?? false;
+};
+
 const kunEnArbeidsgiver = (person: Person) => person.arbeidsgivere.length === 1;
 
 export const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        kunEnArbeidsgiver(person) &&
-        periode === førsteArbeidsgiversSistePeriode(person) &&
+        (erDev() || erLocal() || kunEnArbeidsgiver(person)) &&
+        (periode === førsteArbeidsgiversSistePeriode(person) ||
+            ((erDev() || erLocal()) &&
+                arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode))) &&
         ([Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk].includes(periode.tilstand) ||
             (periode.tilstand === Tidslinjetilstand.Revurdert && toggles.rekursivRevurderingEnabled))
     );
