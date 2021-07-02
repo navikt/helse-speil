@@ -113,6 +113,38 @@ describe('useTidslinjerader', () => {
         expect(result.current[0].rader[0].perioder[0].tilstand).toEqual(Tidslinjetilstand.Annullert);
         expect(result.current[0].rader[0].perioder[1].tilstand).toEqual(Tidslinjetilstand.Annullert);
     });
+
+    test('to vedtaksperioder der første blir revurdert medfører to tidslinjerader med to perioder på hver', () => {
+        person = mappetPerson([
+            umappetArbeidsgiver(
+                [
+                    umappetVedtaksperiode({ beregningIder: ['1234', '1236'], fagsystemId: 'EN_FAGSYSTEMID' }),
+                    umappetVedtaksperiode({
+                        id: 'id2',
+                        beregningIder: ['1235', '1236'],
+                        fom: dayjs('2020-01-03'),
+                        tom: dayjs('2020-01-04'),
+                        fagsystemId: 'EN_FAGSYSTEMID',
+                    }),
+                ],
+                [],
+                [
+                    umappetUtbetalingshistorikk('1234'),
+                    umappetUtbetalingshistorikk('1235', 'UTBETALING', 'UTBETALT', dayjs('2020-01-02T00:00:00')),
+                    umappetUtbetalingshistorikk('1236', 'REVURDERING', 'UTBETALT', dayjs('2020-01-03T00:00:00')),
+                ]
+            ),
+        ]);
+
+        const { result } = renderHook(() => useTidslinjerader(person, dayjs('2020-01-01'), dayjs('2020-01-31'), false));
+        expect(result.current[0].rader.length).toEqual(2);
+        expect(result.current[0].rader[0].perioder.length).toEqual(2);
+        expect(result.current[0].rader[1].perioder.length).toEqual(2);
+        expect(result.current[0].rader[1].perioder[0].tilstand).toEqual(Tidslinjetilstand.UtbetaltAutomatisk);
+        expect(result.current[0].rader[1].perioder[1].tilstand).toEqual(Tidslinjetilstand.UtbetaltAutomatisk);
+        expect(result.current[0].rader[0].perioder[0].tilstand).toEqual(Tidslinjetilstand.Revurdert);
+        expect(result.current[0].rader[0].perioder[1].tilstand).toEqual(Tidslinjetilstand.Revurdert);
+    });
 });
 
 export const utbetalingstidslinje = (fom: Dayjs, tom: Dayjs, dagtype: Dagtype = Dagtype.Syk) => {

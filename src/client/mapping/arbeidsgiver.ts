@@ -31,10 +31,21 @@ import { mapSykdomstidslinje, mapTidslinjeMedAldersvilkår, mapUtbetalingstidsli
 import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
 import { VedtaksperiodeBuilder } from './vedtaksperiode';
 
+const SKAL_IKKE_KOPIERES = false;
+
 const erAnnullering = (periode: Tidslinjeperiode) => periode.type === Periodetype.ANNULLERT_PERIODE;
+const erRevurdering = (periode: Tidslinjeperiode) => periode.type === Periodetype.REVURDERING;
+
+const periodeHarNyereGenerasjon = (id: string, nesteGenerasjon: Tidslinjeperiode[]) =>
+    nesteGenerasjon.flatMap((periode) => periode.id).includes(id);
 
 const nesteGenerasjonHarAnnullering = (nesteGenerasjon: Tidslinjeperiode[], fagsystemId?: string) =>
     nesteGenerasjon.find((periode) => erAnnullering(periode) && periode.fagsystemId === fagsystemId);
+
+const tidligerePeriodeINesteGenerasjonErRevurdering = (
+    nesteGenerasjon: Tidslinjeperiode[],
+    gjeldende: Tidslinjeperiode
+) => nesteGenerasjon.find((periode) => erRevurdering(periode) && periode.fom.isBefore(gjeldende.fom)) !== undefined;
 
 export class ArbeidsgiverBuilder {
     private unmapped: SpesialistArbeidsgiver;
@@ -246,16 +257,13 @@ export class ArbeidsgiverBuilder {
             .filter((generasjon) => this.ufullstendigePerioder(generasjon).length === 0)
             .filter((generasjon, index, alle) => {
                 if (index === alle.length - 1) return true;
-                const perioderSomSkalKopieresTilNesteGenerasjon = this.perioderSomIkkeHarEndringINesteGenerasjon(
+                const perioderSomSkalKopieres = this.perioderSomIkkeHarNyereGenerasjon(
                     generasjon,
                     index,
                     alle[index + 1]
                 );
-                alle[index + 1] = this.kopierTilNesteGenerasjon(
-                    alle[index + 1],
-                    perioderSomSkalKopieresTilNesteGenerasjon
-                );
-                return perioderSomSkalKopieresTilNesteGenerasjon.length !== generasjon.length;
+                alle[index + 1] = this.kopierTilNesteGenerasjon(alle[index + 1], perioderSomSkalKopieres);
+                return perioderSomSkalKopieres.length !== generasjon.length;
             })
             .reverse()
             .map((generasjon, index) => this.leggUfullstendigePerioderPåSisteGenerasjon(generasjon, index, perioder));
@@ -300,7 +308,7 @@ export class ArbeidsgiverBuilder {
         }
     };
 
-    private perioderSomIkkeHarEndringINesteGenerasjon = (
+    private perioderSomIkkeHarNyereGenerasjon = (
         generasjon: Tidslinjeperiode[],
         index: number,
         nesteGenerasjon: Tidslinjeperiode[]
@@ -308,8 +316,9 @@ export class ArbeidsgiverBuilder {
         generasjon
             .filter((periode) => {
                 if (!erAnnullering(periode) && nesteGenerasjonHarAnnullering(nesteGenerasjon, periode.fagsystemId))
-                    return false;
-                return !this.perioderSomHarId(periode.id, nesteGenerasjon);
+                    return SKAL_IKKE_KOPIERES;
+                if (tidligerePeriodeINesteGenerasjonErRevurdering(nesteGenerasjon, periode)) return SKAL_IKKE_KOPIERES;
+                return !periodeHarNyereGenerasjon(periode.id, nesteGenerasjon);
             })
             .map((periode) => ({
                 ...periode,
@@ -329,9 +338,6 @@ export class ArbeidsgiverBuilder {
 
     private alleUfullstendigePerioder = (alleGenerasjoner: Tidslinjeperiode[]) =>
         alleGenerasjoner.filter((periode) => !periode.fullstendig);
-
-    private perioderSomHarId = (id: string, nesteGenerasjon: Tidslinjeperiode[]) =>
-        nesteGenerasjon.flatMap((periode) => periode.id).includes(id);
 
     private ufullstendigePerioder = (generasjon: Tidslinjeperiode[]) =>
         generasjon.filter((periode) => !periode.fullstendig);

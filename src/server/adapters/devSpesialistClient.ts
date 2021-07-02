@@ -138,7 +138,10 @@ const filenameForPersonId = (id: string) => {
             return 'vakker_ert_en_utbetalt_periode.json';
         case '30086320343':
         case '2315736979797':
-            return 'flere_ag_fra_dev.json';
+            return 'sjokkerende_elektriker_flere_ag_utbetalt.json';
+        case '30086320344':
+        case '2315736979798':
+            return 'sjokkerende_elektriker_flere_ag_utbetalt_revurdering.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }
