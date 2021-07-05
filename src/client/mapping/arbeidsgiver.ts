@@ -414,9 +414,9 @@ export class ArbeidsgiverBuilder {
     ): Tidslinjetilstand => {
         switch (utbetalingstatus) {
             case Utbetalingstatus.GODKJENT_UTEN_UTBETALING:
-                return this.harUtelukkende(Dagtype.Ferie, utbetalingstidslinje)
+                return this.harUtelukkende([Dagtype.Ferie, Dagtype.Helg], utbetalingstidslinje)
                     ? Tidslinjetilstand.KunFerie
-                    : this.harUtelukkende(Dagtype.Permisjon, utbetalingstidslinje)
+                    : this.harUtelukkende([Dagtype.Permisjon, Dagtype.Helg], utbetalingstidslinje)
                     ? Tidslinjetilstand.KunPermisjon
                     : Tidslinjetilstand.IngenUtbetaling;
             case Utbetalingstatus.UTBETALING_FEILET:
@@ -426,6 +426,6 @@ export class ArbeidsgiverBuilder {
         }
     };
 
-    private harUtelukkende = (dagtype: Dagtype, utbetalingstidslinje: Utbetalingsdag[]) =>
-        utbetalingstidslinje.filter((dag) => dag.type.includes(dagtype)).length === utbetalingstidslinje.length;
+    private harUtelukkende = (dagtyper: Dagtype[], utbetalingstidslinje: Utbetalingsdag[]) =>
+        utbetalingstidslinje.filter((dag) => dagtyper.includes(dag.type)).length === utbetalingstidslinje.length;
 }
