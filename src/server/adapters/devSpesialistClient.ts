@@ -138,10 +138,16 @@ const filenameForPersonId = (id: string) => {
             return 'vakker_ert_en_utbetalt_periode.json';
         case '30086320343':
         case '2315736979797':
-            return 'sjokkerende_elektriker_flere_ag_utbetalt.json';
+            return 'lur_muldvarp_flere_ag_utbetalt.json';
         case '30086320344':
         case '2315736979798':
-            return 'sjokkerende_elektriker_flere_ag_utbetalt_revurdering.json';
+            return 'lur_muldvarp_flere_ag_utbetalt_revurdering.json';
+        case '30086320345':
+        case '2315736979799':
+            return 'lur_muldvarp_flere_ag_utbetalt_revurdering_ingen_endring.json';
+        case '17086922452':
+        case '2510206713982':
+            return 'bråkete_konsoll_utbetalt_revurdering_kun_ferie.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

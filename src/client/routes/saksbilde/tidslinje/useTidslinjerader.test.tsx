@@ -1,5 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import dayjs, { Dayjs } from 'dayjs';
+import { SpleisUtbetalingsdagtype } from 'external-types';
 import { Dagtype, Tidslinjetilstand, Utbetalingsdag } from 'internal-types';
 import { mappetPerson } from 'test-data';
 
@@ -131,7 +132,34 @@ describe('useTidslinjerader', () => {
                 [
                     umappetUtbetalingshistorikk('1234'),
                     umappetUtbetalingshistorikk('1235', 'UTBETALING', 'UTBETALT', dayjs('2020-01-02T00:00:00')),
-                    umappetUtbetalingshistorikk('1236', 'REVURDERING', 'UTBETALT', dayjs('2020-01-03T00:00:00')),
+                    {
+                        ...umappetUtbetalingshistorikk('1236', 'REVURDERING', 'UTBETALT', dayjs('2020-01-03T00:00:00')),
+                        utbetaling: {
+                            ...umappetUtbetalingshistorikk(
+                                '1236',
+                                'REVURDERING',
+                                'UTBETALT',
+                                dayjs('2020-01-03T00:00:00')
+                            ).utbetaling,
+                            utbetalingstidslinje: [
+                                {
+                                    type: SpleisUtbetalingsdagtype.NAVDAG,
+                                    inntekt: 1431,
+                                    dato: '2020-01-01',
+                                },
+                                {
+                                    type: SpleisUtbetalingsdagtype.NAVDAG,
+                                    inntekt: 1431,
+                                    dato: '2020-01-02',
+                                },
+                                {
+                                    type: SpleisUtbetalingsdagtype.NAVDAG,
+                                    inntekt: 1431,
+                                    dato: '2020-01-03',
+                                },
+                            ],
+                        },
+                    },
                 ]
             ),
         ]);

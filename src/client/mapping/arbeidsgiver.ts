@@ -384,7 +384,10 @@ export class ArbeidsgiverBuilder {
                     case Utbetalingstatus.SENDT:
                     case Utbetalingstatus.OVERFØRT:
                     case Utbetalingstatus.UTBETALT:
-                        return Tidslinjetilstand.Revurdert;
+                    case Utbetalingstatus.GODKJENT_UTEN_UTBETALING:
+                        return this.harDagtype(Dagtype.Syk, utbetalingstidslinje)
+                            ? Tidslinjetilstand.Revurdert
+                            : Tidslinjetilstand.RevurdertIngenUtbetaling;
                     default:
                         return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
                 }
@@ -428,4 +431,7 @@ export class ArbeidsgiverBuilder {
 
     private harUtelukkende = (dagtyper: Dagtype[], utbetalingstidslinje: Utbetalingsdag[]) =>
         utbetalingstidslinje.filter((dag) => dagtyper.includes(dag.type)).length === utbetalingstidslinje.length;
+
+    private harDagtype = (dagtype: Dagtype, utbetalingstidslinje: Utbetalingsdag[]) =>
+        utbetalingstidslinje.filter((dag) => dag.type.includes(dagtype)).length > 0;
 }

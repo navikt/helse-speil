@@ -517,4 +517,5 @@ export enum Tidslinjetilstand {
     Revurderes = 'revurderes',
     Revurdert = 'revurdert',
     Ukjent = 'ukjent',
+    RevurdertIngenUtbetaling = 'revurdertIngenUtbetaling',
 }

@@ -167,6 +167,7 @@ export const TidslinjeperiodeIkon = ({ tilstand, styles, ...props }: Tidslinjepe
             return <AnnullertIkon styles={styles} {...props} />;
         case Tidslinjetilstand.TilAnnullering:
             return <TilAnnulleringIkon styles={styles} {...props} />;
+        case Tidslinjetilstand.RevurdertIngenUtbetaling:
         case Tidslinjetilstand.Revurderes:
         case Tidslinjetilstand.Revurdert:
             return (

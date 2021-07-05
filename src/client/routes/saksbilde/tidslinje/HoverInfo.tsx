@@ -96,6 +96,7 @@ const utbetalingstatus = (status: Tidslinjetilstand) => {
         case Tidslinjetilstand.Revurdert:
         case Tidslinjetilstand.Utbetalt:
             return 'Utbetalt';
+        case Tidslinjetilstand.RevurdertIngenUtbetaling:
         case Tidslinjetilstand.IngenUtbetaling:
             return 'Ingen utbetaling';
         case Tidslinjetilstand.KunFerie:
@@ -269,6 +270,7 @@ export const TidslinjeperiodeHoverInfo = ({ tidslinjeperiode }: Tidslinjeperiode
             {[
                 Tidslinjetilstand.UtbetaltAutomatisk,
                 Tidslinjetilstand.Utbetalt,
+                Tidslinjetilstand.RevurdertIngenUtbetaling,
                 Tidslinjetilstand.Revurdert,
                 Tidslinjetilstand.Annullert,
             ].includes(tidslinjeperiode.tilstand) &&

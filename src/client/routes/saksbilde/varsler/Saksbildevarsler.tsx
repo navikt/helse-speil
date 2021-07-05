@@ -20,6 +20,7 @@ const tilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null => {
     switch (tilstand) {
         case Tidslinjetilstand.KunFerie:
         case Tidslinjetilstand.KunPermisjon:
+        case Tidslinjetilstand.RevurdertIngenUtbetaling:
         case Tidslinjetilstand.IngenUtbetaling:
             return { grad: Varseltype.Info, melding: 'Perioden er godkjent, ingen utbetaling.' };
         case Tidslinjetilstand.Feilet:

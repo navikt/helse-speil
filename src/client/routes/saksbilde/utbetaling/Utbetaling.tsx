@@ -70,7 +70,8 @@ export const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, to
             ((erDev() || erLocal()) &&
                 arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode))) &&
         ([Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk].includes(periode.tilstand) ||
-            (periode.tilstand === Tidslinjetilstand.Revurdert && toggles.rekursivRevurderingEnabled))
+            ([Tidslinjetilstand.Revurdert, Tidslinjetilstand.RevurdertIngenUtbetaling].includes(periode.tilstand) &&
+                toggles.rekursivRevurderingEnabled))
     );
 };
 
