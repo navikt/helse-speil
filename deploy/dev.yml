@@ -61,4 +61,4 @@ spec:
     - name: CLIENT_ID_SPESIALIST
       value: api://dev-fss.tbd.spesialist/.default
     - name: LOGOUT_URL
-      value: https://speil.nais.preprod.local
+      value: https://speil.dev.intern.nav.no
