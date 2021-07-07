@@ -45,7 +45,7 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
         if (annenBegrunnelse && !kommentar) {
             form.setError('kommentar', {
                 type: 'manual',
-                message: 'Skriv en kommentar hvis du velger begrunnelsen annet',
+                message: 'Skriv en kommentar hvis du velger begrunnelsen "annet"',
             });
         } else if (!harMinstÉnBegrunnelse()) {
             form.setError('begrunnelser', {

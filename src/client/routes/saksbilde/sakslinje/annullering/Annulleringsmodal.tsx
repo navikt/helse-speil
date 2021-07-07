@@ -45,10 +45,6 @@ const Feilmelding = styled(NavFeilmelding)`
     margin-top: 0.625rem;
 `;
 
-const TilAnnullering = styled.div`
-    margin: 1.5rem 0 0 2rem;
-`;
-
 const Utbetalingsgruppe = styled.div`
     margin-bottom: 2rem;
 `;
@@ -99,7 +95,7 @@ export const Annulleringsmodal = ({
         if (annenBegrunnelse && !kommentar) {
             form.setError('kommentar', {
                 type: 'manual',
-                message: 'Skriv en kommentar hvis du velger begrunnelsen annet',
+                message: 'Skriv en kommentar hvis du velger begrunnelsen "annet"',
             });
         } else if (!harMinstÉnBegrunnelse()) {
             form.setError('begrunnelser', {
@@ -137,17 +133,15 @@ export const Annulleringsmodal = ({
                     <Tittel>Annullering</Tittel>
 
                     <Utbetalingsgruppe>
-                        <TilAnnullering>
-                            <Normaltekst>Følgende utbetalinger annulleres:</Normaltekst>
-                            <ul>
-                                {linjer.map((linje, index) => (
-                                    <li key={index}>
-                                        {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)}
-                                        {linje.dagsats && ' - ' + somPenger(linje.dagsats)}
-                                    </li>
-                                ))}
-                            </ul>
-                        </TilAnnullering>
+                        <Normaltekst>Følgende utbetalinger annulleres:</Normaltekst>
+                        <ul>
+                            {linjer.map((linje, index) => (
+                                <li key={index}>
+                                    {linje.fom.format(NORSK_DATOFORMAT)} - {linje.tom.format(NORSK_DATOFORMAT)}
+                                    {linje.dagsats && ' - ' + somPenger(linje.dagsats)}
+                                </li>
+                            ))}
+                        </ul>
                     </Utbetalingsgruppe>
 
                     <Annulleringsbegrunnelse />

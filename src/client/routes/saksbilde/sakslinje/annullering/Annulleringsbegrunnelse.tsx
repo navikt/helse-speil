@@ -32,10 +32,16 @@ export const Annulleringsbegrunnelse = () => {
     const { errors, clearErrors, watch } = useFormContext();
     const begrunnelserWatch = watch(`begrunnelser`);
     const begrunnelser = {
-        feil_ble_gjort_i_opprinnelig_automatisk_vedtak: 'Feil ble gjort i opprinnelig automatisk vedtak',
-        feil_ble_gjort_i_pprinnelig_manuelt_vedtak: 'Feil ble gjort i opprinnelig manuelt vedtak',
-        feil_ble_gjort_i_opprinnelig_vedtak_i_infotrygd: 'Feil ble gjort i opprinnelig vedtak i Infotrygd',
-        mottatt_ny_informasjon_etter_behandling: 'Mottatt ny informasjon etter behandling',
+        ferie: 'Ferie',
+        utenlandsopphold: 'Utenlandsopphold',
+        ny_sykmeldingsgrad: 'Ny sykmeldingsgrad',
+        feil_skjæringstidspunkt: 'Feil skjæringstidspunkt',
+        feil_i_sykepengegrunnlag: 'Feil i sykepengegrunnlag',
+        feil_i_inntekt_fra_inntektsmelding: 'Feil i inntekt fra inntektsmelding',
+        feil_i_refusjon: 'Feil i refusjon',
+        endringen_er_i_en_tidligere_periode: 'Endringen er i en tidligere periode',
+        kunne_ikke_revurderes_pga_feil_datagrunnlag:
+            'Perioden kunne ikke revurderes fordi det var feil i datagrunnlaget',
         annet: 'Annet',
     };
     const annet = begrunnelserWatch ? begrunnelserWatch.includes('annet') : false;
@@ -45,8 +51,9 @@ export const Annulleringsbegrunnelse = () => {
             <CheckboxGruppe feil={errors.begrunnelser ? errors.begrunnelser.message : null}>
                 <StiliLegende>Årsak til annullering</StiliLegende>
                 <AlertStripe type="info" form="inline">
-                    Årsakene og begrunnelsen du fyller ut her, finner du ikke igjen i saksbehandlingssystemet etterpå.
-                    Informasjonen som legges inn skal brukes til å forbedre tjenesten.
+                    Årsakene og begrunnelsen som fylles inn skal brukes til å forbedre løsningen.
+                    <br />
+                    Du vil ikke finne igjen informasjonen i saksbehandlingssystemet etterpå.
                 </AlertStripe>
                 <br />
                 {Object.entries(begrunnelser).map(([key, value], index) => {

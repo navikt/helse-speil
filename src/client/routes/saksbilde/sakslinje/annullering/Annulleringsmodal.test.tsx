@@ -63,8 +63,7 @@ const renderAnnulleringsmodal = async () => {
 
 const annuller = () => Promise.resolve(userEvent.click(screen.getByText('Annuller')));
 
-const velgFørsteBegrunnelse = () =>
-    Promise.resolve(userEvent.click(screen.getByText('Feil ble gjort i opprinnelig automatisk vedtak')));
+const velgFørsteBegrunnelse = () => Promise.resolve(userEvent.click(screen.getByText('Ferie')));
 
 const velgBegrunnelseAnnet = () => Promise.resolve(userEvent.click(screen.getByText('Annet')));
 
@@ -74,7 +73,7 @@ const assertFeilmeldingBegrunnelse = () =>
     waitFor(() => expect(screen.queryByText('Velg minst én begrunnelse')).not.toBeNull());
 
 const assertFeilmeldingKommentar = () =>
-    waitFor(() => expect(screen.queryByText('Skriv en kommentar hvis du velger begrunnelsen annet')).not.toBeNull());
+    waitFor(() => expect(screen.queryByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).not.toBeNull());
 
 describe('Annulleringsmodal', () => {
     test('viser feilmelding ved manglende begrunnelse', async () => {
