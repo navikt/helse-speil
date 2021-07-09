@@ -21,6 +21,20 @@ const utvidetTilganger = [
     'F131883',
 ];
 
+const kanRevurdere = [
+    'F111930',
+    'S160466',
+    'O146470',
+    'N116980',
+    'M106091',
+    'A158665',
+    'P107343',
+    'M139452',
+    'K105430',
+    'F131883',
+    'V112769',
+];
+
 export const erLocal = () => location.hostname === 'localhost';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
@@ -47,7 +61,12 @@ const erJakob = () => extractIdent() === 'E156407';
 export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled =
-    erUtvikler() || erSupersaksbehandler() || erFaktiskSupportsaksbehandler() || erLocal() || erDev();
+    erUtvikler() ||
+    erSupersaksbehandler() ||
+    erFaktiskSupportsaksbehandler() ||
+    kanRevurdere.includes(extractIdent()) ||
+    erLocal() ||
+    erDev();
 export const annulleringerEnabled =
     erDev() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
