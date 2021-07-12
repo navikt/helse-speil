@@ -33,7 +33,11 @@ export const ArbeidsgiverCard = ({
                 ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn.toUpperCase()
                 : arbeidsgivernavn.toUpperCase()}
         </CardTitle>
-        <Clipboard preserveWhitespace={false} copyMessage="Organisasjonsnummer er kopiert">
+        <Clipboard
+            preserveWhitespace={false}
+            copyMessage="Organisasjonsnummer er kopiert"
+            title="Kopier organisasjonsnummer"
+        >
             <Normaltekst>
                 {anonymiseringEnabled ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr : organisasjonsnummer}
             </Normaltekst>

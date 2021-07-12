@@ -137,7 +137,11 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             <Element>{capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`)}</Element>
             <Separator>/</Separator>
             {fnr ? (
-                <Clipboard preserveWhitespace={false} copyMessage="Fødselsnummer er kopiert">
+                <Clipboard
+                    preserveWhitespace={false}
+                    copyMessage="Fødselsnummer er kopiert"
+                    title="Kopier fødselsnummer"
+                >
                     <Normaltekst>{formatFnr(fnr)}</Normaltekst>
                 </Clipboard>
             ) : (
@@ -145,7 +149,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             )}
             <Separator>/</Separator>
             <Normaltekst>Aktør-ID:&nbsp;</Normaltekst>
-            <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert">
+            <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert" title="Kopier aktør-ID">
                 <Normaltekst>{aktørId}</Normaltekst>
             </Clipboard>
             <Separator>/</Separator>

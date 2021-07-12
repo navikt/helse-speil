@@ -22,9 +22,8 @@ const Button = styled.button`
     }
 
     &:focus,
-    &:active,
-    &:hover {
-        outline: none;
+    &:active {
+        outline: solid var(--navds-color-blue-80);
     }
 `;
 
@@ -60,9 +59,10 @@ interface Props {
     copySource?: React.RefObject<HTMLElement>;
     preserveWhitespace?: boolean;
     copyMessage?: string;
+    title?: string;
 }
 
-export const Clipboard = ({ children, copySource, preserveWhitespace = true, copyMessage }: Props) => {
+export const Clipboard = ({ children, copySource, preserveWhitespace = true, copyMessage, title }: Props) => {
     const [didCopy, setDidCopy] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +89,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
     return (
         <Container as="span" alignItems="center">
             <div ref={contentRef}>{children}</div>
-            <Button onClick={copy}>
+            <Button onClick={copy} title={title}>
                 <ClipboardIcon />
                 <AnimatePresence>
                     {didCopy && (

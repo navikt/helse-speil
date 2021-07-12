@@ -14,6 +14,7 @@ import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingspe
 import { Periodetype as Historikkperiodetype, Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
 import { useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
+import { capitalize } from '../../../utils/locale';
 
 import { Card } from './Card';
 import { CardTitle } from './CardTitle';
@@ -63,29 +64,29 @@ export const PeriodeCard = ({
     gjenståendeDager,
 }: PeriodeCardProps) => {
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
-    const periodeText = `${aktivPeriode.fom.format(NORSK_DATOFORMAT_KORT)} - ${aktivPeriode.tom.format(
+    const sykmeldingsperiode = `${aktivPeriode.fom.format(NORSK_DATOFORMAT_KORT)} - ${aktivPeriode.tom.format(
         NORSK_DATOFORMAT_KORT
     )}`;
-
     const periodetype =
         aktivPeriode.type === Historikkperiodetype.REVURDERING ? Periodetype.Revurdering : vedtaksperiode.periodetype;
+    const periodetypeLabel = getTextForPeriodetype(periodetype);
 
     return (
         <Card>
             <Grid>
-                <IconContainer>
+                <IconContainer title={capitalize(periodetypeLabel)}>
                     <Oppgaveetikett type={periodetype} />
                 </IconContainer>
-                <CardTitle>{getTextForPeriodetype(periodetype)}</CardTitle>
-                <IconContainer>
+                <CardTitle>{periodetypeLabel}</CardTitle>
+                <IconContainer title="Sykmeldingsperiode">
                     <Sykmeldingsperiodeikon />
                 </IconContainer>
-                <Normaltekst>{periodeText}</Normaltekst>
-                <IconContainer>
+                <Normaltekst>{sykmeldingsperiode}</Normaltekst>
+                <IconContainer title="Skjæringstidspunkt">
                     <Skjæringstidspunktikon />
                 </IconContainer>
                 <Normaltekst>{skjæringstidspunkt}</Normaltekst>
-                <IconContainer>
+                <IconContainer title="Maksdato">
                     <Maksdatoikon />
                 </IconContainer>
                 <Flex justifyContent={'space-between'}>

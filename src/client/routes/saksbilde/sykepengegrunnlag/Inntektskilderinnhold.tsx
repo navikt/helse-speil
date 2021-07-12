@@ -72,7 +72,7 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
                     </TekstMedEllipsis>
                     <Flex style={{ margin: '0 4px' }}>
                         (
-                        <Clipboard copyMessage="Organisasjonsnummer er kopiert">
+                        <Clipboard copyMessage="Organisasjonsnummer er kopiert" title="Kopier organisasjonsnummer">
                             {anonymiseringEnabled
                                 ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr
                                 : organisasjonsnummer}
