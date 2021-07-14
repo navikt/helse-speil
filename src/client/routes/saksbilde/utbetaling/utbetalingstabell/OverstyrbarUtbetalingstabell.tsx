@@ -5,9 +5,12 @@ import { Dag, Dagtype, Kildetype, OverstyrtDag, Sykdomsdag } from 'internal-type
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { EditFilled } from '@navikt/ds-icons';
+
 import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
+import { CellContent } from '../../table/CellContent';
 import { Header } from '../../table/Header';
 import { Row } from '../../table/Row';
 import { Table } from '../../table/Table';
@@ -31,6 +34,11 @@ const Container = styled.section`
     margin: 0;
     height: 100%;
     width: 400px;
+`;
+
+const EditFilledContainer = styled(CellContent)`
+    width: 2rem;
+    justify-content: center;
 `;
 
 const OverstyrbarRow = styled(Row)<{ overstyrt: boolean }>`
@@ -145,10 +153,15 @@ export const OverstyrbarUtbetalingstabell = ({
                                         erRevurdering={erRevurdering}
                                         overstyrtDag={maybeOverstyrtDag}
                                     />
-                                    <KildeCell
-                                        type={sykdomsdag.type}
-                                        kilde={maybeOverstyrtDag ? Kildetype.Saksbehandler : sykdomsdag.kilde}
-                                    />
+                                    {maybeOverstyrtDag ? (
+                                        <td>
+                                            <EditFilledContainer>
+                                                <EditFilled />
+                                            </EditFilledContainer>
+                                        </td>
+                                    ) : (
+                                        <KildeCell type={sykdomsdag.type} kilde={sykdomsdag.kilde} />
+                                    )}
                                     <TotalGradCell
                                         type={utbetalingsdag.type}
                                         totalGradering={utbetalingsdag.totalGradering}
