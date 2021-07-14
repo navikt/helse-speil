@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+
 import oppgaveFil from '../__mock-data__/oppgaver.json';
 
 const app = express();
@@ -16,12 +17,12 @@ app.use((req, res, next) => {
 });
 
 const tildelinger: { [oppgavereferanse: string]: string } = {
-    '123': 'uuid',
-    '345': 'uuid',
+    '2327': 'uuid',
+    '2274': 'uuid',
 };
 
 const venter: { [oppgavereferanse: string]: boolean } = {
-    '345': true,
+    '2274': true,
 };
 
 const personer: { [aktørId: string]: string } = oppgaveFil
