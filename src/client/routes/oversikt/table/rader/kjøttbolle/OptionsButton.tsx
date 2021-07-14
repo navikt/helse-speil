@@ -9,6 +9,7 @@ import '@navikt/helse-frontend-meatball/lib/main.css';
 import { Tooltip } from '../../../../../components/Tooltip';
 import { useInnloggetSaksbehandler } from '../../../../../state/authentication';
 
+import { kanFrigiAndresOppgaver } from '../../../../../featureToggles';
 import { CellContent } from '../CellContent';
 import { FjernFraPåVentMenuButton } from './FjernFraPåVentMenuButton';
 import { LeggPåVentMenuButton } from './LeggPåVentMenuButton';
@@ -83,15 +84,18 @@ export const OptionsButton = React.memo(({ oppgave }: OptionsButtonProps) => {
                             tildeling={oppgave.tildeling}
                         />
                     )}
-                    {erTildeltInnloggetBruker && oppgave.tildeling && (
+                    {erTildeltInnloggetBruker && (
                         <>
                             <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                            {oppgave.tildeling.påVent ? (
+                            {oppgave.tildeling!.påVent ? (
                                 <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
                             ) : (
                                 <LeggPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
                             )}
                         </>
+                    )}
+                    {oppgave.tildeling && kanFrigiAndresOppgaver && (
+                        <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
                     )}
                 </Popover>
             </Container>

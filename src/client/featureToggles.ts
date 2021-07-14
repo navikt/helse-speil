@@ -84,6 +84,7 @@ export const stikkprøve = erSupersaksbehandler() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erSpiceGirls() || erLocal() || erDev() || erDigimort() || erSupersaksbehandler() || erFaktiskSupportsaksbehandler();
 export const rekursivRevurderingEnabled = overstyreUtbetaltPeriodeEnabled;
+export const kanFrigiAndresOppgaver = erSupersaksbehandler() || erLocal() || erDev();
 
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
