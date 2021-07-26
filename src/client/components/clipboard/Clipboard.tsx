@@ -59,10 +59,10 @@ interface Props {
     copySource?: React.RefObject<HTMLElement>;
     preserveWhitespace?: boolean;
     copyMessage?: string;
-    title?: string;
+    dataTip?: string;
 }
 
-export const Clipboard = ({ children, copySource, preserveWhitespace = true, copyMessage, title }: Props) => {
+export const Clipboard = ({ children, copySource, preserveWhitespace = true, copyMessage, dataTip }: Props) => {
     const [didCopy, setDidCopy] = useState(false);
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +89,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
     return (
         <Container as="span" alignItems="center">
             <div ref={contentRef}>{children}</div>
-            <Button onClick={copy} title={title}>
+            <Button onClick={copy} data-tip={dataTip}>
                 <ClipboardIcon />
                 <AnimatePresence>
                     {didCopy && (

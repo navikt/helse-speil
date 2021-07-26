@@ -36,7 +36,7 @@ export const ArbeidsgiverCard = ({
         <Clipboard
             preserveWhitespace={false}
             copyMessage="Organisasjonsnummer er kopiert"
-            title="Kopier organisasjonsnummer"
+            dataTip="Kopier organisasjonsnummer"
         >
             <Normaltekst>
                 {anonymiseringEnabled ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr : organisasjonsnummer}

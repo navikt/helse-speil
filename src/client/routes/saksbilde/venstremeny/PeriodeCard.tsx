@@ -74,19 +74,19 @@ export const PeriodeCard = ({
     return (
         <Card>
             <Grid>
-                <IconContainer title={capitalize(periodetypeLabel)}>
+                <IconContainer data-tip={capitalize(periodetypeLabel)}>
                     <Oppgaveetikett type={periodetype} />
                 </IconContainer>
                 <CardTitle>{periodetypeLabel}</CardTitle>
-                <IconContainer title="Sykmeldingsperiode">
+                <IconContainer data-tip="Sykmeldingsperiode">
                     <Sykmeldingsperiodeikon />
                 </IconContainer>
                 <Normaltekst>{sykmeldingsperiode}</Normaltekst>
-                <IconContainer title="Skjæringstidspunkt">
+                <IconContainer data-tip="Skjæringstidspunkt">
                     <Skjæringstidspunktikon />
                 </IconContainer>
                 <Normaltekst>{skjæringstidspunkt}</Normaltekst>
-                <IconContainer title="Maksdato">
+                <IconContainer data-tip="Maksdato">
                     <Maksdatoikon />
                 </IconContainer>
                 <Flex justifyContent={'space-between'}>

@@ -140,7 +140,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
                 <Clipboard
                     preserveWhitespace={false}
                     copyMessage="Fødselsnummer er kopiert"
-                    title="Kopier fødselsnummer"
+                    dataTip="Kopier fødselsnummer"
                 >
                     <Normaltekst>{formatFnr(fnr)}</Normaltekst>
                 </Clipboard>
@@ -149,7 +149,7 @@ export const Personlinje = ({ person }: PersonlinjeProps) => {
             )}
             <Separator>/</Separator>
             <Normaltekst>Aktør-ID:&nbsp;</Normaltekst>
-            <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert" title="Kopier aktør-ID">
+            <Clipboard preserveWhitespace={false} copyMessage="Aktør-ID er kopiert" dataTip="Kopier aktør-ID">
                 <Normaltekst>{aktørId}</Normaltekst>
             </Clipboard>
             <Separator>/</Separator>
