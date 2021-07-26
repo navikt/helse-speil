@@ -298,5 +298,11 @@
         "betydning": "Bruker har tidligere fått utbetalt sykepenger til maksdato. Det er nå mer enn 26 uker siden siste utbetaling av sykepenger(§ 8-12).",
         "løsning": "Saken må behandles som en førstegangssak og alle vilkårene for å få sykepenger må vurderes.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Arbeidsgiver er ikke registrert i Aa-registeret.",
+        "betydning": "Arbeidsgiver på sykmelding eller inntektsmelding er ikke registrert i Aa-registeret.",
+        "løsning": "Sjekk at bruker er ansatt hos arbeidsgiveren.",
+        "viktighet": "Høy"
     }
 ]
