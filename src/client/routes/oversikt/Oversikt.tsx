@@ -96,9 +96,9 @@ export const Oversikt = () => {
                                     oppgaver.state === 'hasValue' ? (oppgaver.contents as Oppgave[]) : oppgaver.cache
                                 }
                             />
-                        ) : (
+                        ) : oppgaver.state !== 'loading' ? (
                             <IngenOppgaver />
-                        )}
+                        ) : null}
                     </Content>
                     <Behandlingsstatistikk />
                 </Flex>
