@@ -53,12 +53,12 @@ export const OverstyringTimeoutModal = ({ onRequestClose }: Props) => {
                 <Tekst>Kalkuleringen ser ut til å ta noe tid.</Tekst>
                 <Tekst>Oppgaven vil dukke opp i oversikten når den er klar.</Tekst>
                 <Knappegruppe>
-                    <Knapp mini onClick={redirectTilOversikten}>
+                    <Flatknapp mini onClick={redirectTilOversikten}>
                         Tilbake til oversikten
-                    </Knapp>
-                    <Flatknapp mini onClick={closeModal}>
-                        Avbryt
                     </Flatknapp>
+                    <Knapp mini onClick={closeModal}>
+                        Det er greit
+                    </Knapp>
                 </Knappegruppe>
             </Content>
         </Modal>
