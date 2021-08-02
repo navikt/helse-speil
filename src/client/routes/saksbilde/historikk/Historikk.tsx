@@ -16,6 +16,7 @@ const HistorikkTitle = styled.li`
 `;
 
 const Hendelser = styled.ul`
+    --speil-historikk-width: 272px;
     width: var(--speil-historikk-width);
     min-width: var(--speil-historikk-width);
     max-width: var(--speil-historikk-width);
@@ -34,8 +35,8 @@ export const Historikk = () => {
 
     return (
         <motion.div
-            initial={{ width: show ? 'var(--historikk-width)' : 0 }}
-            animate={{ width: show ? 'var(--historikk-width)' : 0 }}
+            initial={false}
+            animate={{ width: show ? 'var(--speil-historikk-width)' : 0 }}
             transition={{
                 type: 'tween',
                 duration: 0.2,

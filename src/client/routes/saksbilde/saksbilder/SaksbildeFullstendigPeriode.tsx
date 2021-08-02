@@ -38,7 +38,7 @@ const Content = styled.div`
     padding: 0 2.5rem;
     height: 100%;
     box-sizing: border-box;
-    max-width: calc(100vw - var(--speil-venstremeny-width) - var(--speil-historikk-width));
+    flex: 1;
 `;
 
 interface SaksbildeRevurderingProps {
