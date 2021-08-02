@@ -27,6 +27,7 @@ const Container = styled.div`
     > header {
         max-width: unset;
         box-sizing: border-box;
+        min-width: var(--speil-total-min-width);
     }
 
     input {
