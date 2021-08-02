@@ -49,6 +49,8 @@ export const OptionsButton = React.memo(({ oppgave }: OptionsButtonProps) => {
 
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const erTildeltInnloggetBruker = oppgave.tildeling?.saksbehandler?.oid === innloggetSaksbehandler.oid;
+    const skalViseAvmeldingsknapp = erTildeltInnloggetBruker || (oppgave.tildeling && kanFrigiAndresOppgaver);
+
     const id = `options-${oppgave.oppgavereferanse}`;
 
     const togglePopover = (event: React.MouseEvent) => {
@@ -84,19 +86,12 @@ export const OptionsButton = React.memo(({ oppgave }: OptionsButtonProps) => {
                             tildeling={oppgave.tildeling}
                         />
                     )}
-                    {erTildeltInnloggetBruker && (
-                        <>
-                            <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                            {oppgave.tildeling!.påVent ? (
-                                <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                            ) : (
-                                <LeggPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                            )}
-                        </>
+                    {erTildeltInnloggetBruker && oppgave.tildeling!.påVent ? (
+                        <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
+                    ) : (
+                        <LeggPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
                     )}
-                    {oppgave.tildeling && kanFrigiAndresOppgaver && (
-                        <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                    )}
+                    {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />}
                 </Popover>
             </Container>
             <Tooltip id={id} effect="solid" offset={{ top: -10 }} />
