@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { PopoverOrientering } from 'nav-frontend-popover';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import { Flex } from '../../components/Flex';
@@ -87,11 +86,9 @@ const Antall = styled(Normaltekst)`
 `;
 
 const Meny = styled(Dropdown)`
-    > button {
-        height: max-content;
-        padding: 2px;
-        margin: 0 14px 14px;
-    }
+    height: max-content;
+    padding: 4px 8px;
+    margin: 0 6px 10px;
 `;
 
 interface TabProps {
@@ -134,7 +131,7 @@ export const Tabs = () => (
             <AlleSakerTab />
             <MineSakerTab />
             <VentendeSakerTab />
-            <Meny orientering={PopoverOrientering.UnderHoyre}>
+            <Meny>
                 <AnonymiserData />
             </Meny>
         </NoWrap>

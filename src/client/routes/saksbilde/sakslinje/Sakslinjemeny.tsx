@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import { PopoverOrientering } from 'nav-frontend-popover';
-
-import { Dropdown, Strek } from '../../../components/dropdown/Dropdown';
+import { Dropdown } from '../../../components/dropdown/Dropdown';
 import { Tidslinjeperiode, useErAnnullert } from '../../../modell/UtbetalingshistorikkElement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePerson } from '../../../state/person';
@@ -16,18 +14,23 @@ import { PåVentKnapp } from './PåVentKnapp';
 import { Tildelingsknapp } from './Tildelingsknapp';
 import { Annullering } from './annullering/Annullering';
 
-const Container = styled.div`
+const Strek = styled.hr`
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--navds-color-border);
+`;
+
+const Container = styled(Dropdown)`
     display: flex;
     align-items: center;
     height: 100%;
-    padding: 0 13px;
 `;
 
-export interface VerktøylinjeProps {
+export interface SakslinjemenyProps {
     aktivPeriode: Tidslinjeperiode;
 }
 
-export const Sakslinjemeny = ({ aktivPeriode }: VerktøylinjeProps) => {
+export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
     const { oid } = useInnloggetSaksbehandler();
     const person = usePerson();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
@@ -39,28 +42,26 @@ export const Sakslinjemeny = ({ aktivPeriode }: VerktøylinjeProps) => {
 
     return (
         <Container>
-            <Dropdown orientering={PopoverOrientering.UnderHoyre}>
-                {aktivPeriode && (
-                    <>
-                        {oppgavereferanse && (
-                            <Tildelingsknapp
-                                oppgavereferanse={oppgavereferanse}
-                                tildeling={person?.tildeling}
-                                erTildeltInnloggetBruker={tildeltInnloggetBruker}
-                            />
-                        )}
-                        {tildeltInnloggetBruker && (
-                            <PåVentKnapp erPåVent={person?.tildeling?.påVent} oppgavereferanse={oppgavereferanse} />
-                        )}
-                        <Strek />
-                    </>
-                )}
-                {oppdaterPersondataEnabled && <OppdaterPersondata />}
-                <AnonymiserData />
-                {arbeidsgiverUtbetaling && showAnnullering && (
-                    <Annullering utbetaling={arbeidsgiverUtbetaling} aktivPeriode={aktivPeriode} />
-                )}
-            </Dropdown>
+            {aktivPeriode && (
+                <>
+                    {oppgavereferanse && (
+                        <Tildelingsknapp
+                            oppgavereferanse={oppgavereferanse}
+                            tildeling={person?.tildeling}
+                            erTildeltInnloggetBruker={tildeltInnloggetBruker}
+                        />
+                    )}
+                    {tildeltInnloggetBruker && (
+                        <PåVentKnapp erPåVent={person?.tildeling?.påVent} oppgavereferanse={oppgavereferanse} />
+                    )}
+                    <Strek />
+                </>
+            )}
+            {oppdaterPersondataEnabled && <OppdaterPersondata />}
+            <AnonymiserData />
+            {arbeidsgiverUtbetaling && showAnnullering && (
+                <Annullering utbetaling={arbeidsgiverUtbetaling} aktivPeriode={aktivPeriode} />
+            )}
         </Container>
     );
 };

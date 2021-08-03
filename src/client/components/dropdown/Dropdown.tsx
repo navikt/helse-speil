@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import classNames from 'classnames';
 import React, { HTMLAttributes, useState } from 'react';
 
 import NavFrontendChevron from 'nav-frontend-chevron';
@@ -8,16 +7,20 @@ import Popover, { PopoverOrientering } from 'nav-frontend-popover';
 
 import { Button } from '../Button';
 
-const EnkelKnapp = styled(Button)`
+const ToggleMenuButton = styled(Button)`
     display: flex;
     align-items: center;
     color: var(--navds-color-action-default);
     font-size: 1rem;
     font-weight: 600;
-    padding: 0.5rem 0;
+    padding: 8px 12px;
 
     span {
         margin-left: 0.5rem;
+    }
+
+    &:focus-visible {
+        box-shadow: inset var(--navds-shadow-focus);
     }
 `;
 
@@ -48,12 +51,6 @@ export const DropdownMenyknapp = styled(Knapp)`
     }
 `;
 
-export const Strek = styled.hr`
-    width: 100%;
-    border: none;
-    border-top: 1px solid var(--navds-color-border);
-`;
-
 const Liste = styled.ul`
     display: flex;
     flex-direction: column;
@@ -61,12 +58,6 @@ const Liste = styled.ul`
     padding: 0.5rem 0;
     background: var(--navds-color-background);
 `;
-
-interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
-    onClick?: (event: React.MouseEvent) => void;
-    orientering?: PopoverOrientering;
-    labelRenderer?: (ekspandert: boolean, onClick: (event: React.MouseEvent) => void) => JSX.Element;
-}
 
 interface DropdownContextValue {
     lukk: () => void;
@@ -76,23 +67,22 @@ export const DropdownContext = React.createContext<DropdownContextValue>({
     lukk: () => {},
 });
 
+interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
+    onClick?: (event: React.MouseEvent) => void;
+    orientering?: PopoverOrientering;
+}
+
 export const Dropdown: React.FC<DropdownProps> = ({
     className,
     onClick,
     children,
-    orientering = PopoverOrientering.Under,
-    labelRenderer = (ekspandert, onClickWrapper) => (
-        <EnkelKnapp onClick={onClickWrapper}>
-            {'Meny'}
-            {<NavFrontendChevron type={ekspandert ? 'opp' : 'ned'} />}
-        </EnkelKnapp>
-    ),
+    orientering = PopoverOrientering.UnderHoyre,
 }) => {
     const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
 
     const onClickWrapper = (event: React.MouseEvent<HTMLElement>) => {
         onClick?.(event);
-        !anchor ? setAnchor(event.currentTarget) : setAnchor(undefined);
+        setAnchor((anchor) => (anchor ? undefined : event.currentTarget));
     };
 
     const lukk = () => {
@@ -100,21 +90,22 @@ export const Dropdown: React.FC<DropdownProps> = ({
     };
 
     return (
-        <div className={classNames(className)}>
-            {labelRenderer(anchor !== undefined, onClickWrapper)}
-            <DropdownContext.Provider value={{ lukk }}>
-                <Popover
-                    tabIndex={-1}
-                    orientering={orientering}
-                    utenPil
-                    ankerEl={anchor}
-                    autoFokus={false}
-                    onRequestClose={lukk}
-                    avstandTilAnker={3}
-                >
-                    <Liste>{children}</Liste>
-                </Popover>
-            </DropdownContext.Provider>
-        </div>
+        <>
+            <ToggleMenuButton onClick={onClickWrapper} className={className}>
+                Meny
+                <NavFrontendChevron type={anchor !== undefined ? 'opp' : 'ned'} />
+            </ToggleMenuButton>
+            <Popover
+                tabIndex={-1}
+                orientering={orientering}
+                utenPil
+                ankerEl={anchor}
+                autoFokus={false}
+                onRequestClose={lukk}
+                avstandTilAnker={3}
+            >
+                <Liste>{children}</Liste>
+            </Popover>
+        </>
     );
 };
