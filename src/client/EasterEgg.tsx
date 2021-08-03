@@ -8,10 +8,8 @@ const Container = styled.div`
     flex-grow: 1;
 `;
 
-const EasterEgg = () => (
+export const EasterEgg = () => (
     <Container>
         <VimpelMedPalme />
     </Container>
 );
-
-export default EasterEgg;

@@ -5,8 +5,7 @@ import { Infotrygdperiodetilstand, Tidslinjetilstand } from 'internal-types';
 import React, { ReactNode, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import Popover from 'nav-frontend-popover';
-
+import { Popover } from '@navikt/ds-react';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
 
 import { prideifisertState } from '../../../components/ikoner/VimpelMedPalmeIkon';
@@ -97,12 +96,12 @@ export const Tidslinjeperiode = ({
     onClick,
     ...props
 }: TidslinjeperiodeProps) => {
-    const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
+    const [anchor, setAnchor] = useState<HTMLElement | null>(null);
     const erPrideifisert = useRecoilValue(prideifisertState);
 
     const onClickWrapper = (event: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(event);
-        setAnchor((anchor) => (anchor ? undefined : event.currentTarget));
+        setAnchor((anchor) => (anchor ? null : event.currentTarget));
     };
 
     const assignAnchor = (event: React.MouseEvent<HTMLElement>) => {
@@ -110,7 +109,7 @@ export const Tidslinjeperiode = ({
     };
 
     const removeAnchor = () => {
-        setAnchor(undefined);
+        setAnchor(null);
     };
 
     return (
@@ -126,7 +125,7 @@ export const Tidslinjeperiode = ({
             >
                 {skalVisePin && <PeriodePin />}
             </Periodeknapp>
-            <Tooltip autoFokus={false} ankerEl={anchor}>
+            <Tooltip anchorEl={anchor} open={anchor !== null} onClose={removeAnchor}>
                 {hoverLabel}
             </Tooltip>
         </div>

@@ -1,34 +1,53 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
-import NavFrontendChevron from 'nav-frontend-chevron';
-import Lenke from 'nav-frontend-lenker';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
-import { Element, Undertekst } from 'nav-frontend-typografi';
+import { Normaltekst } from 'nav-frontend-typografi';
+
+import { Collapse, Expand } from '@navikt/ds-icons';
+import { Popover } from '@navikt/ds-react';
 
 import { TekstMedEllipsis } from './TekstMedEllipsis';
+import { DropdownMenyknapp } from './dropdown/Dropdown';
 
-const BrukermenyContainer = styled.div`
+const Container = styled.div`
     margin-left: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
     align-self: stretch;
+
+    .navds-popover {
+        padding: 16px 0;
+        border-radius: 4px;
+
+        &:focus,
+        &:focus-visible {
+            box-shadow: 0 0.05rem 0.25rem 0.125rem rgb(0 0 0 / 8%);
+            border-color: var(--navds-text-focus);
+        }
+    }
 `;
 
-const Neddropp = styled.div`
-    height: 48px;
-    width: 48px;
-    margin-right: 16px;
-    margin-left: 16px;
+const DropdownButton = styled.button`
+    height: 50px;
+    width: 50px;
+    margin: 0 16px;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-`;
-const Strek = styled.hr`
+    background: none;
     border: none;
-    height: 1px;
-    background-color: var(--navds-color-gray-40);
+    outline: none;
+    cursor: pointer;
+
+    > svg > path {
+        fill: #fff;
+    }
+
+    &:focus-visible {
+        box-shadow: inset var(--navds-shadow-focus-on-dark);
+    }
 `;
 
 const MenyNavn = styled(TekstMedEllipsis)`
@@ -36,26 +55,27 @@ const MenyNavn = styled(TekstMedEllipsis)`
     width: 190px;
 `;
 
-const BrukerLenke = styled(Lenke)`
+const MenyTekst = styled(Normaltekst)`
+    padding: 4px 16px;
+`;
+
+const MenyLenke = styled(DropdownMenyknapp)`
+    display: flex;
+    align-items: center;
+    color: var(--navds-color-text-link);
     text-decoration: none;
-    &:hover {
-        text-decoration: underline;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+        color: var(--navds-color-text-primary);
     }
-`;
+`.withComponent('a');
 
-const BrukerNavn = styled(Element)`
-    color: var(--navds-color-text-primary);
-`;
-
-const Underelement = styled(Undertekst)`
-    color: var(--navds-color-text-primary);
-    margin-bottom: 8px;
-    margin-top: 0;
-`;
-
-const PopoverElementContainer = styled.div`
-    width: 180px;
-    margin: 16px 8px;
+const Strek = styled.hr`
+    border: none;
+    height: 1px;
+    background-color: var(--navds-color-gray-40);
 `;
 
 interface BrukermenyProps {
@@ -63,31 +83,31 @@ interface BrukermenyProps {
     navn: string;
 }
 
-const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
-    const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
+export const Brukermeny: React.FC<BrukermenyProps> = ({ navn, ident }) => {
+    const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+
+    const toggleAnchor = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        anchor ? setAnchor(null) : setAnchor(event.currentTarget);
+    };
+
     return (
-        <BrukermenyContainer>
+        <Container>
             <MenyNavn>{navn}</MenyNavn>
-            <Neddropp onClick={(e) => (anchor ? setAnchor(undefined) : setAnchor(e.currentTarget))}>
-                <NavFrontendChevron type={anchor ? 'opp' : 'ned'} />
-            </Neddropp>
+            <DropdownButton onClick={toggleAnchor}>{anchor ? <Collapse /> : <Expand />}</DropdownButton>
             <Popover
-                ankerEl={anchor}
-                onRequestClose={() => setAnchor(undefined)}
-                orientering={PopoverOrientering.UnderHoyre}
-                tabIndex={-1}
+                open={anchor !== null}
+                anchorEl={anchor}
+                onClose={() => setAnchor(null)}
+                placement="bottom-end"
+                arrow={false}
+                offset={-8}
             >
-                <PopoverElementContainer>
-                    <BrukerNavn>{navn}</BrukerNavn>
-                    <Underelement>{ident}</Underelement>
-                </PopoverElementContainer>
+                <MenyTekst>{navn}</MenyTekst>
+                <MenyTekst>{ident}</MenyTekst>
                 <Strek />
-                <PopoverElementContainer>
-                    <BrukerLenke href={'/logout'}>Logg ut</BrukerLenke>
-                </PopoverElementContainer>
+                <MenyLenke href="/logout">Logg ut</MenyLenke>
             </Popover>
-        </BrukermenyContainer>
+        </Container>
     );
 };
-
-export default Brukermeny;

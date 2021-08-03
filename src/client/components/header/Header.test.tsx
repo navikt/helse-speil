@@ -5,13 +5,13 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import { VarselObject } from '../state/varsler';
+import { VarselObject } from '../../state/varsler';
 
 import { Header } from './Header';
 
 let cachedVarsel: VarselObject | null = null;
 
-jest.mock('../state/varsler', () => ({
+jest.mock('../../state/varsler', () => ({
     __esModule: true,
     Scopes: { GLOBAL: '/' },
     useAddVarsel: () => (varsel: VarselObject) => {

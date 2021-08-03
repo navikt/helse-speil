@@ -1,12 +1,7 @@
 import styled from '@emotion/styled';
 import React, { ReactNode, useRef, useState } from 'react';
 
-import Popover, { PopoverProps } from 'nav-frontend-popover';
-
-interface PopoverHjelpetekstProps extends Omit<PopoverProps, 'onRequestClose'> {
-    children: ReactNode;
-    ikon: ReactNode;
-}
+import { Popover, PopoverProps } from '@navikt/ds-react';
 
 const StyledPopover = styled(Popover)`
     padding: 1rem 0.5rem;
@@ -21,16 +16,22 @@ const StyledPopover = styled(Popover)`
     }
 `;
 
-export const PopoverHjelpetekst = ({ children, ikon, ...rest }: PopoverHjelpetekstProps) => {
+interface PopoverHjelpetekstProps extends Pick<PopoverProps, 'offset'> {
+    ikon: ReactNode;
+}
+
+export const PopoverHjelpetekst: React.FC<PopoverHjelpetekstProps> = ({ children, ikon, ...rest }) => {
     const ref = useRef<HTMLButtonElement>(null);
-    const [anchor, setAnchor] = useState<HTMLButtonElement | undefined>(undefined);
+    const [anchor, setAnchor] = useState<HTMLButtonElement | null>(null);
+
+    const close = () => setAnchor(null);
 
     return (
         <div>
-            <span ref={ref} onMouseOver={(_) => setAnchor(ref.current!)} onMouseOut={() => setAnchor(undefined)}>
+            <span ref={ref} onMouseOver={(_) => setAnchor(ref.current!)} onMouseOut={close}>
                 {ikon}
             </span>
-            <StyledPopover autoFokus={false} ankerEl={anchor} {...rest}>
+            <StyledPopover open={anchor !== null} anchorEl={anchor} {...rest} onClose={close}>
                 {children}
             </StyledPopover>
         </div>

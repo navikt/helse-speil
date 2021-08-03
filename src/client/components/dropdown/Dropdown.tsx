@@ -3,9 +3,23 @@ import React, { HTMLAttributes, useState } from 'react';
 
 import NavFrontendChevron from 'nav-frontend-chevron';
 import { Knapp } from 'nav-frontend-knapper';
-import Popover, { PopoverOrientering } from 'nav-frontend-popover';
+
+import { Popover } from '@navikt/ds-react';
 
 import { Button } from '../Button';
+
+const Container = styled.div`
+    > .navds-popover {
+        padding: 16px 0;
+        border-radius: 4px;
+
+        &:focus,
+        &:focus-visible {
+            box-shadow: 0 0.05rem 0.25rem 0.125rem rgb(0 0 0 / 8%);
+            border-color: var(--navds-text-focus);
+        }
+    }
+`;
 
 const ToggleMenuButton = styled(Button)`
     display: flex;
@@ -26,20 +40,25 @@ const ToggleMenuButton = styled(Button)`
 
 export const DropdownMenyknapp = styled(Knapp)`
     all: unset;
-    height: 30px;
+    height: 32px;
     min-width: 180px;
     font-size: 1rem;
     white-space: nowrap;
     text-align: left;
-    padding: 0.25rem 1rem;
+    padding: 0 16px;
     width: 100%;
     box-sizing: border-box;
 
     &:hover,
     &:focus {
-        background: var(--speil-light-hover);
+        background: var(--navds-color-blue-10);
         color: var(--navds-primary-text);
         cursor: pointer;
+    }
+
+    &:focus-visible,
+    &:focus {
+        box-shadow: inset 0 0 0 2px var(--navds-text-focus);
     }
 
     &:disabled {
@@ -55,7 +74,7 @@ const Liste = styled.ul`
     display: flex;
     flex-direction: column;
     list-style: none;
-    padding: 0.5rem 0;
+    padding: 0;
     background: var(--navds-color-background);
 `;
 
@@ -69,43 +88,39 @@ export const DropdownContext = React.createContext<DropdownContextValue>({
 
 interface DropdownProps extends HTMLAttributes<HTMLButtonElement> {
     onClick?: (event: React.MouseEvent) => void;
-    orientering?: PopoverOrientering;
+    orientering?: 'bottom-start';
 }
 
-export const Dropdown: React.FC<DropdownProps> = ({
-    className,
-    onClick,
-    children,
-    orientering = PopoverOrientering.UnderHoyre,
-}) => {
-    const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
+export const Dropdown: React.FC<DropdownProps> = ({ className, onClick, children, orientering = 'bottom-start' }) => {
+    const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
     const onClickWrapper = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
         onClick?.(event);
-        setAnchor((anchor) => (anchor ? undefined : event.currentTarget));
+        anchor ? setAnchor(null) : setAnchor(event.currentTarget);
     };
 
     const lukk = () => {
-        setAnchor(undefined);
+        setAnchor(null);
     };
 
     return (
-        <>
+        <Container>
             <ToggleMenuButton onClick={onClickWrapper} className={className}>
                 Meny
-                <NavFrontendChevron type={anchor !== undefined ? 'opp' : 'ned'} />
+                <NavFrontendChevron type={anchor !== null ? 'opp' : 'ned'} />
             </ToggleMenuButton>
             <Popover
+                open={anchor !== null}
                 tabIndex={-1}
-                orientering={orientering}
-                utenPil
-                ankerEl={anchor}
-                autoFokus={false}
-                onRequestClose={lukk}
-                avstandTilAnker={3}
+                placement={orientering}
+                arrow={false}
+                anchorEl={anchor}
+                onClose={lukk}
+                offset={0}
             >
                 <Liste>{children}</Liste>
             </Popover>
-        </>
+        </Container>
     );
 };

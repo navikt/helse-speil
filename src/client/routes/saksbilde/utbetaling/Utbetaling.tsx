@@ -111,7 +111,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
                 {(overstyringIsEnabled || revurderingIsEnabled) && (
                     <Flex justifyContent="flex-end" style={{ paddingTop: '1rem' }}>
                         {vedtaksperiode.erForkastet ? (
-                            <PopoverHjelpetekst ikon={<SortInfoikon />} avstandTilAnker={24}>
+                            <PopoverHjelpetekst ikon={<SortInfoikon />} offset={24}>
                                 <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
                             </PopoverHjelpetekst>
                         ) : (

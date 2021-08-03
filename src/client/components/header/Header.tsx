@@ -4,21 +4,19 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
-import '@navikt/ds-css';
 import { InternalHeader, InternalHeaderTitle } from '@navikt/ds-react';
-import { Søk } from '@navikt/helse-frontend-header';
-import '@navikt/helse-frontend-header/lib/main.css';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
-import { erGyldigPersonId } from '../hooks/useRefreshPersonVedUrlEndring';
-import { authState } from '../state/authentication';
-import { useToggleEasterEgg } from '../state/easterEgg';
-import { useHentPerson } from '../state/person';
-import { useAddVarsel, useRemoveVarsel } from '../state/varsler';
+import { erGyldigPersonId } from '../../hooks/useRefreshPersonVedUrlEndring';
+import { authState } from '../../state/authentication';
+import { useToggleEasterEgg } from '../../state/easterEgg';
+import { useHentPerson } from '../../state/person';
+import { useAddVarsel, useRemoveVarsel } from '../../state/varsler';
 
-import EasterEgg from '../EasterEgg';
-import { BentoMeny } from './BentoMeny';
-import Brukermeny from './Brukermeny';
+import { EasterEgg } from '../../EasterEgg';
+import { BentoMeny } from '../BentoMeny';
+import { Brukermeny } from '../Brukermeny';
+import { SearchBar } from './SearchBar';
 
 const Container = styled.div`
     flex-shrink: 0;
@@ -28,6 +26,7 @@ const Container = styled.div`
         max-width: unset;
         box-sizing: border-box;
         min-width: var(--speil-total-min-width);
+        max-height: 50px;
     }
 
     input {
@@ -91,7 +90,7 @@ export const Header = () => {
                 <InternalHeaderTitle>
                     <Link to="/">NAV Sykepenger</Link>
                 </InternalHeaderTitle>
-                <Søk onSøk={onSøk} />
+                <SearchBar onSearch={onSøk} />
                 <EasterEgg />
                 <BentoMeny />
                 <Brukermeny navn={brukerinfo.navn} ident={brukerinfo.ident} />

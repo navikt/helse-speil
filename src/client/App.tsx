@@ -6,10 +6,10 @@ import { RecoilRoot } from 'recoil';
 import 'reset-css';
 
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { Header } from './components/Header';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Toasts } from './components/Toasts';
 import { Varsler } from './components/Varsler';
+import { Header } from './components/header/Header';
 import { useLoadingToast } from './hooks/useLoadingToast';
 import { IkkeLoggetInn } from './routes/IkkeLoggetInn';
 import { PageNotFound } from './routes/PageNotFound';
