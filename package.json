@@ -52,7 +52,7 @@
         "@navikt/helse-frontend-progresjonsbar": "^1.0.4",
         "@navikt/helse-frontend-sakslinje": "^1.0.3",
         "@navikt/helse-frontend-tabell": "^3.0.0",
-        "@navikt/helse-frontend-timeline": "^0.1.20",
+        "@navikt/helse-frontend-timeline": "^0.2.0",
         "@navikt/helse-frontend-toggle": "^2.0.2",
         "@navikt/helse-frontend-tooltip": "^2.0.1",
         "@navikt/helse-frontend-varsel": "^3.0.1",

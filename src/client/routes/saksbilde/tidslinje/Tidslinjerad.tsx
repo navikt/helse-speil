@@ -65,7 +65,7 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
                         erForeldet={erForeldet}
                         hoverLabel={it.hoverLabel ? it.hoverLabel : undefined}
                         skalVisePin={!erForeldet ? it.skalVisePin : false}
-                        onClick={onClick}
+                        onClick={() => onClick(it.id)}
                         erAktiv={
                             erKlikkbar &&
                             id === aktivPeriode?.id &&

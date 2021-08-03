@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Infotrygdperiodetilstand, Tidslinjetilstand } from 'internal-types';
-import React from 'react';
 
 import { Period } from '@navikt/helse-frontend-timeline/lib';
 
@@ -169,16 +168,12 @@ const background = css`
     }
 `;
 
-interface PeriodeknappProps extends React.RefAttributes<HTMLButtonElement> {
-    erAktiv?: boolean;
-}
-
-export const Periodeknapp = styled(Period)<PeriodeknappProps>`
+export const Periodeknapp = styled(Period, { shouldForwardProp: (prop) => prop !== 'active' })<{ active?: boolean }>`
     display: flex;
     align-items: center;
 
-    ${({ erAktiv }) =>
-        erAktiv &&
+    ${({ active }) =>
+        active &&
         css`
             box-shadow: 0 0 0 2px var(--navds-text-focus);
             border-color: var(--navds-text-focus);

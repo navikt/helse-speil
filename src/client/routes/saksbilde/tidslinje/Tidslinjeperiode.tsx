@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import { Infotrygdperiodetilstand, Tidslinjetilstand } from 'internal-types';
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import Popover from 'nav-frontend-popover';
@@ -94,21 +94,32 @@ export const Tidslinjeperiode = ({
     tilstand,
     erForeldet,
     skalVisePin,
+    onClick,
     ...props
 }: TidslinjeperiodeProps) => {
-    const ref = useRef<HTMLButtonElement>(null);
-    const [anchor, setAnchor] = useState<HTMLButtonElement | undefined>(undefined);
+    const [anchor, setAnchor] = useState<HTMLElement | undefined>(undefined);
     const erPrideifisert = useRecoilValue(prideifisertState);
 
+    const onClickWrapper = (event: React.MouseEvent<HTMLButtonElement>) => {
+        onClick?.(event);
+        setAnchor((anchor) => (anchor ? undefined : event.currentTarget));
+    };
+
+    const assignAnchor = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchor(event.currentTarget);
+    };
+
+    const removeAnchor = () => {
+        setAnchor(undefined);
+    };
+
     return (
-        <div
-            onMouseOver={(_) => setAnchor(ref.current!)}
-            onMouseOut={() => setAnchor(undefined)}
-            data-testid={`tidslinjeperiode-${props.id}`}
-        >
+        <div data-testid={`tidslinjeperiode-${props.id}`}>
             <Periodeknapp
-                erAktiv={erAktiv}
-                ref={ref}
+                onMouseOver={assignAnchor}
+                onMouseOut={removeAnchor}
+                onClick={onClickWrapper}
+                active={erAktiv}
                 className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende', erPrideifisert ? 'pride' : '')}
                 aria-label={ariaLabel(tilstand, start, end)}
                 {...props}
