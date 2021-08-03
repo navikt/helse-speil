@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
@@ -9,18 +10,18 @@ import { Tidslinjeperiode } from './Tidslinjeperiode';
 import { InfotrygdradObject } from './useInfotrygdrader';
 import { TidslinjeradObject } from './useTidslinjerader';
 
-const Container = styled(Row)<{ erAktiv: boolean }>`
+const Container = styled(Row)<{ erAktiv?: boolean }>`
+    box-sizing: border-box;
     ${({ erAktiv }) =>
         erAktiv
-            ? `
-    background-color: #E5F3FF;
-    `
-            : `
-    button:hover {
-        z-index: 20;
-    }
-    `}
-    box-sizing: border-box;
+            ? css`
+                  background-color: #e5f3ff;
+              `
+            : css`
+                  button:hover {
+                      z-index: 20;
+                  }
+              `}
 `;
 
 interface TidslinjeradProps {
@@ -34,17 +35,14 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
     const aktivPeriode = useAktivPeriode();
 
     const erAktiv =
-        (erKlikkbar &&
-            aktivPeriode &&
-            rad.perioder.find((it) => {
-                const { id, beregningId, unique } = decomposedId(it.id);
-                return (
-                    id === aktivPeriode?.id &&
-                    beregningId === aktivPeriode?.beregningId &&
-                    unique === aktivPeriode?.unique
-                );
-            }) !== undefined) ??
-        false;
+        erKlikkbar &&
+        aktivPeriode &&
+        rad.perioder.find((it) => {
+            const { id, beregningId, unique } = decomposedId(it.id);
+            return (
+                id === aktivPeriode?.id && beregningId === aktivPeriode?.beregningId && unique === aktivPeriode?.unique
+            );
+        }) !== undefined;
 
     const onClick = (id: string) => {
         if (erKlikkbar) {
@@ -60,6 +58,8 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
                     <Tidslinjeperiode
                         key={`tidslinjeperiode-${i}`}
                         id={it.id}
+                        start={it.start}
+                        end={it.end}
                         style={it.style}
                         tilstand={it.tilstand}
                         erForeldet={erForeldet}
@@ -67,11 +67,10 @@ export const Tidslinjerad = ({ rad, erKlikkbar = true, erForeldet = false }: Tid
                         skalVisePin={!erForeldet ? it.skalVisePin : false}
                         onClick={onClick}
                         erAktiv={
-                            erKlikkbar
-                                ? id === aktivPeriode?.id &&
-                                  beregningId === aktivPeriode?.beregningId &&
-                                  aktivPeriode?.unique === unique
-                                : false
+                            erKlikkbar &&
+                            id === aktivPeriode?.id &&
+                            beregningId === aktivPeriode?.beregningId &&
+                            aktivPeriode?.unique === unique
                         }
                     />
                 );
