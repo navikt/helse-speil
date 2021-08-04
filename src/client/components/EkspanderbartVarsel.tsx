@@ -23,8 +23,8 @@ const Container = styled(Accordion)`
         border: 0;
         outline: none;
 
-        &:focus-visible {
-            box-shadow: 0 0 0 3px var(--navds-text-focus);
+        &:focus-visible > div {
+            box-shadow: inset var(--navds-shadow-focus);
         }
 
         &:before {
