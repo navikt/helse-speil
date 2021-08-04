@@ -218,6 +218,36 @@ export interface KategoriserteVilkår {
     vilkårVurdertFørstePeriode?: Vilkårdata[];
 }
 
+export const kategoriserteInngangsvilkår = ({
+    vilkår,
+    behandlet,
+    periodetype,
+    automatiskBehandlet,
+    forlengelseFraInfotrygd,
+}: Vedtaksperiode): KategoriserteVilkår => {
+    if (!vilkår) {
+        throw Error('Mangler vilkår');
+    }
+
+    const vurdertIInfotrygd = forlengelseFraInfotrygd || periodetype === Periodetype.Infotrygdforlengelse;
+    const vurdertAutomatisk = !vurdertIInfotrygd && behandlet && automatiskBehandlet;
+    const vurdertFørstePeriode = !vurdertIInfotrygd && !behandlet && periodetype === Periodetype.Forlengelse;
+    const vurdertAvSaksbehandler = !vurdertIInfotrygd && behandlet && !automatiskBehandlet;
+    const ikkeVurdert = !vurdertIInfotrygd && !vurdertAutomatisk && !vurdertFørstePeriode && !vurdertAvSaksbehandler;
+
+    const inngangsvilkår = [opptjeningstid(vilkår), sykepengegrunnlag(vilkår), medlemskap(vilkår)];
+
+    return {
+        oppfylteVilkår: ikkeVurdert ? inngangsvilkår.filter((it) => it.oppfylt) : [],
+        ikkeOppfylteVilkår: ikkeVurdert ? inngangsvilkår.filter((it) => it.oppfylt === false) : [],
+        ikkeVurderteVilkår: ikkeVurdert ? inngangsvilkår.filter((it) => it.oppfylt === undefined) : [],
+        vilkårVurdertAvSaksbehandler: vurdertAvSaksbehandler ? inngangsvilkår : [],
+        vilkårVurdertAutomatisk: vurdertAutomatisk ? inngangsvilkår : [],
+        vilkårVurdertIInfotrygd: vurdertIInfotrygd ? inngangsvilkår : [],
+        vilkårVurdertFørstePeriode: vurdertFørstePeriode ? inngangsvilkår : [],
+    };
+};
+
 export const tilKategoriserteVilkår = ({
     vilkår,
     risikovurdering,

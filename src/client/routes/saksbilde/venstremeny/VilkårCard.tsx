@@ -18,7 +18,7 @@ export const VilkårCard = ({ aktivPeriode }: VilkårCardProps) => {
 
     return (
         <Card>
-            <CardTitle>VILKÅR</CardTitle>
+            <CardTitle>INNGANGSVILKÅR</CardTitle>
             <Vilkårsoversikt vedtaksperiode={vedtaksperiode} />
         </Card>
     );

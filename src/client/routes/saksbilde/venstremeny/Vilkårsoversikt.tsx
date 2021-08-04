@@ -10,7 +10,7 @@ import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Feilikon } from '../../../components/ikoner/Feilikon';
 import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
 
-import { tilKategoriserteVilkår } from '../vilkår/tilKategoriserteVilkår';
+import { kategoriserteInngangsvilkår } from '../vilkår/tilKategoriserteVilkår';
 
 const Vilkåroversikt = styled.li`
     display: flex;
@@ -51,7 +51,7 @@ interface VilkårslisteProps {
 }
 
 export const Vilkårsoversikt = ({ vedtaksperiode }: VilkårslisteProps) => {
-    const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = tilKategoriserteVilkår(vedtaksperiode);
+    const { ikkeVurderteVilkår, ikkeOppfylteVilkår, ...oppfylteVilkår } = kategoriserteInngangsvilkår(vedtaksperiode);
 
     if (!ikkeVurderteVilkår && !ikkeOppfylteVilkår && !oppfylteVilkår) {
         return <Varsel type={Varseltype.Feil}>Vilkår mangler</Varsel>;
