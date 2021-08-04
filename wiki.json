@@ -304,5 +304,11 @@
         "betydning": "Arbeidsgiver på sykmelding eller inntektsmelding er ikke registrert i Aa-registeret.",
         "løsning": "Sjekk at bruker er ansatt hos arbeidsgiveren.",
         "viktighet": "Høy"
+    },
+    {
+        "varsel": "Den sykmeldte har skiftet arbeidsgiver, og det er beregnet at den nye arbeidsgiveren mottar refusjon lik forrige. Kontroller at dagsatsen blir riktig.",
+        "betydning": "Den sykmeldte har skiftet arbeidsgiver i løpet av sykefraværet.",
+        "løsning": "Sjekk at riktig dagsats er lagt til grunn.",
+        "viktighet": "Høy"
     }
 ]
