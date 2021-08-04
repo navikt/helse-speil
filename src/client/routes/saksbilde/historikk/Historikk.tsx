@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 
 import { CloseButton } from '../../../components/CloseButton';
@@ -34,30 +34,36 @@ export const Historikk = () => {
     useOppdaterHistorikk();
 
     return (
-        <motion.div
-            initial={false}
-            animate={{ width: show ? 'var(--speil-historikk-width)' : 0 }}
-            transition={{
-                type: 'tween',
-                duration: 0.2,
-                ease: 'easeInOut',
-            }}
-            style={{
-                overflow: 'visible',
-                borderLeft: '1px solid var(--navds-color-border)',
-                boxSizing: 'border-box',
-                maxWidth: 'var(--speil-historikk-width)',
-            }}
-        >
-            <Hendelser>
-                <HistorikkTitle>
-                    HISTORIKK
-                    <CloseButton onClick={() => setShow(false)} />
-                </HistorikkTitle>
-                {historikk.map((it) => (
-                    <HistorikkHendelse key={it.id} {...it} />
-                ))}
-            </Hendelser>
-        </motion.div>
+        <AnimatePresence initial={false}>
+            {show && (
+                <motion.div
+                    key="historikk"
+                    initial={{ width: 0 }}
+                    animate={{ width: 'var(--speil-historikk-width)' }}
+                    exit={{ width: 0 }}
+                    transition={{
+                        type: 'tween',
+                        duration: 0.2,
+                        ease: 'easeInOut',
+                    }}
+                    style={{
+                        overflow: 'visible',
+                        borderLeft: '1px solid var(--navds-color-border)',
+                        boxSizing: 'border-box',
+                        maxWidth: 'var(--speil-historikk-width)',
+                    }}
+                >
+                    <Hendelser>
+                        <HistorikkTitle>
+                            HISTORIKK
+                            <CloseButton onClick={() => setShow(false)} />
+                        </HistorikkTitle>
+                        {historikk.map((it) => (
+                            <HistorikkHendelse key={it.id} {...it} />
+                        ))}
+                    </Hendelser>
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 };
