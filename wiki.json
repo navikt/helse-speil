@@ -288,7 +288,7 @@
         "viktighet": "Høy"
     },
     {
-        "varsel": "Flere arbeidsgivere og ulikt starttidspunkt for sykefraværet",
+        "varsel": "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
         "betydning": "Det tidligste sykefraværet bestemmer skjæringstidspunktet. Dette gjelder: Inntekt på inntektsmeldingen som kommer fra arbeidsgivere med senere starttidspunkt kan gjelde feil periode og/eller inntekten som er foreslått for minst et av arbeidsforholdene er innhentet fra a-ordningen og er gjennomsnittet av rapportert inntekt de tre siste månedene før tidspunktet for arbeidsuførhet (§8-28 3. ledd bokstav a).",
         "løsning": "Du må fastsette et sykepengegrunnlag basert på inntekt fra alle arbeidsforholdene. Hvis det er kommet inntektsmelding fra arbeidsgiver med senere starttidspunkt, må det sjekkes om inntekten for dette arbeidsforholdet er riktig beregnet (§8-28). Hvis det ikke er kommet inntektsmelding fra denne arbeidsgiveren, må den foreslåtte inntekten vurderes. Du må vurdere om den innhentede inntekten er riktig. Sjekk om det er et nytt arbeidsforhold eller varig lønnsendring i beregningsperioden. Sjekk om det variasjoner i inntekten som kan bety at det er lovlig fravær uten lønn i beregningsperioden. Vurderes etter §8-28.",
         "viktighet": "Høy"
