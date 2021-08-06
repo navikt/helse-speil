@@ -170,5 +170,27 @@
             "navn": "Mummidalen"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "klmsdflkm",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "11117615092",
+        "aktørId": "2287435975702",
+        "personinfo": {
+            "fornavn": "STOR",
+            "mellomnavn": null,
+            "etternavn": "BOLLE",
+            "fødselsdato": "1976-11-11",
+            "kjønn": "Kvinne"
+        },
+        "vedtaksperiodeId": "fde0f314-a2d0-486b-9419-f508ab26c7bc",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1938",
+            "navn": "Lyngen"
+        },
+        "inntektskilde": "EN_ARBEIDSGIVER"
     }
 ]

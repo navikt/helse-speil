@@ -148,6 +148,9 @@ const filenameForPersonId = (id: string) => {
         case '17086922452':
         case '2510206713982':
             return 'bråkete_konsoll_utbetalt_revurdering_kun_ferie.json';
+        case '2287435975702':
+        case '11117615092':
+            return 'feilende_opptjeningsvilkår.json';
         default:
             throw new Error('Mangler oppsett i devSpesialistClient.ts');
     }

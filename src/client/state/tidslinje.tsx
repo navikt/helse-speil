@@ -1,4 +1,4 @@
-import { Person, Tidslinjetilstand, UfullstendigVedtaksperiode, Vedtaksperiode } from 'internal-types';
+import { Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import { Tidslinjeperiode } from '../modell/UtbetalingshistorikkElement';
@@ -37,11 +37,6 @@ export const useVedtaksperiode = (vedtaksperiodeId?: string): Vedtaksperiode | u
     usePerson()
         ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
         .find((p) => p.id === vedtaksperiodeId) as Vedtaksperiode | undefined;
-
-export const useUfullstendigVedtaksperiode = (vedtaksperiodeId: string) =>
-    usePerson()
-        ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
-        .find((p) => p.id === vedtaksperiodeId) as UfullstendigVedtaksperiode;
 
 export const useOppgavereferanse = (beregningId: string): string | undefined => {
     const person = usePerson();

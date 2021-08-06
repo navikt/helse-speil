@@ -7,7 +7,6 @@ import { Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea } from 
 import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
 import { useVedtaksperiode } from '../../../../state/tidslinje';
 
-import { har8_4Kategori } from '../../vilkår/tilKategoriserteVilkår';
 import { Begrunnelse } from './Utbetalingsdialog';
 
 const Container = styled(SkjemaGruppe)`
@@ -30,6 +29,7 @@ const Checkbox = styled(NavCheckbox)`
     .skjemaelement__label {
         margin-bottom: 0.5rem;
     }
+
     .skjemaelement__label::before {
         width: 22px;
         height: 22px;
@@ -73,24 +73,26 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                 {warnings?.map((advarsel, index) => {
                     switch (advarsel) {
                         case 'Arbeidsuførhet, aktivitetsplikt og/eller medvirkning må vurderes. Se forklaring på vilkårs-siden.':
-                            return funnetRisikovurderinger?.filter(har8_4Kategori).map((arbeidsuførhet, index2) => {
-                                return (
-                                    <BegrunnelseCheckbox
-                                        key={`${index}-${index2}-checkbox`}
-                                        begrunnelse={`${advarsel} ${arbeidsuførhet.beskrivelse}`}
-                                        label={
-                                            <p>
-                                                {advarsel}
-                                                <br />
-                                                {arbeidsuførhet.beskrivelse}
-                                            </p>
-                                        }
-                                    />
-                                );
-                            });
+                            return funnetRisikovurderinger
+                                ?.filter((it) => it.kategori.includes('8-4'))
+                                .map((arbeidsuførhet, index2) => {
+                                    return (
+                                        <BegrunnelseCheckbox
+                                            key={`${index}-${index2}-checkbox`}
+                                            begrunnelse={`${advarsel} ${arbeidsuførhet.beskrivelse}`}
+                                            label={
+                                                <p>
+                                                    {advarsel}
+                                                    <br />
+                                                    {arbeidsuførhet.beskrivelse}
+                                                </p>
+                                            }
+                                        />
+                                    );
+                                });
                         case 'Faresignaler oppdaget. Kontroller om faresignalene påvirker retten til sykepenger.':
                             return funnetRisikovurderinger
-                                ?.filter((e) => !har8_4Kategori(e))
+                                ?.filter((it) => !it.kategori.includes('8-4'))
                                 .map((faresignaler, index2) => {
                                     return (
                                         <BegrunnelseCheckbox

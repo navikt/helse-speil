@@ -1,5 +1,5 @@
-import puppeteer, { Page } from 'puppeteer';
 import { sleep } from 'deasync';
+import puppeteer, { Page } from 'puppeteer';
 
 const clickPeriodButton = async (page: Page, index: number) =>
     page
@@ -24,7 +24,7 @@ const takeScreenshot = async (page: Page, index: number, screenshotName: string 
 (async () => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto('http://localhost:1234/person/1672157246605/vilkår');
+    await page.goto('http://localhost:1234/person/1672157246605/inngangsvilkår');
     await sleep(200);
 
     await takeScreenshot(page, 0, 'infotrygdforlengelse-behandlet');
@@ -33,7 +33,7 @@ const takeScreenshot = async (page: Page, index: number, screenshotName: string 
     await takeScreenshot(page, 3, 'forlengelse-behandlet');
     await takeScreenshot(page, 4, 'førstegangssak-behandlet');
 
-    await page.goto('http://localhost:1234/person/87654321962124/vilkår');
+    await page.goto('http://localhost:1234/person/87654321962124/inngangsvilkår');
     await sleep(200);
     await takeScreenshot(page, 0, 'forlengelse-ubehandlet');
 

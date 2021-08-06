@@ -10,7 +10,7 @@ import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Feilikon } from '../../../components/ikoner/Feilikon';
 import { Sjekkikon } from '../../../components/ikoner/Sjekkikon';
 
-import { kategoriserteInngangsvilkår } from '../vilkår/tilKategoriserteVilkår';
+import { kategoriserteInngangsvilkår } from '../vilkår/kategoriserteInngangsvilkår';
 
 const Vilkåroversikt = styled.li`
     display: flex;

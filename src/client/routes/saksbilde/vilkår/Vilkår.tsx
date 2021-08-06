@@ -8,7 +8,7 @@ import { førsteVedtaksperiode } from '../../../mapping/selectors';
 import { Vilkårdata } from '../../../mapping/vilkår';
 
 import { Strek } from './Vilkår.styles';
-import { tilKategoriserteVilkår } from './tilKategoriserteVilkår';
+import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
@@ -42,7 +42,7 @@ export const Vilkår = ({ vedtaksperiode, person }: VilkårProps) => {
         vilkårVurdertAutomatisk,
         vilkårVurdertIInfotrygd,
         vilkårVurdertFørstePeriode,
-    } = tilKategoriserteVilkår(vedtaksperiode);
+    } = kategoriserteInngangsvilkår(vedtaksperiode);
 
     const førstePeriode = førsteVedtaksperiode(vedtaksperiode, person!);
 

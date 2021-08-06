@@ -44,8 +44,8 @@ export const Sakslinje = ({ aktivPeriode }: SakslinjeProps) => {
                         <TabLink to={pathForLocation(Location.Utbetaling)} title="Utbetaling" icon={<HjemIkon />}>
                             Utbetaling
                         </TabLink>
-                        <TabLink to={pathForLocation(Location.Vilkår)} title="Vilkår">
-                            Vilkår
+                        <TabLink to={pathForLocation(Location.Inngangsvilkår)} title="Inngangsvilkår">
+                            Inngangsvilkår
                         </TabLink>
                         <TabLink to={pathForLocation(Location.Sykepengegrunnlag)} title="Sykepengegrunnlag">
                             Sykepengegrunnlag

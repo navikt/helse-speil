@@ -96,7 +96,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
                                                 gjenståendeDager={gjenståendeDager}
                                             />
                                         </Route>
-                                        <Route path={`${path}/vilkår`}>
+                                        <Route path={`${path}/inngangsvilkår`}>
                                             <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
                                         </Route>
                                         <Route path={`${path}/sykepengegrunnlag`}>

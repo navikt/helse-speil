@@ -1,4 +1,4 @@
-import { AvvistBegrunnelse, Utbetalingsdag } from 'internal-types';
+import { AvvistBegrunnelse, Dagtype, Utbetalingsdag } from 'internal-types';
 import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -17,16 +17,20 @@ const Merknad = ({ begrunnelse }: MerknadProps) => {
         case 'EtterDødsdato':
             return <Normaltekst>Personen er død</Normaltekst>;
         case 'EgenmeldingUtenforArbeidsgiverperiode':
-            return <Normaltekst>Egenmelding er utenfor arbeidsgiverperiode</Normaltekst>;
+            return (
+                <span data-tip="Egenmelding utenfor arbeidsgiverperioden">
+                    <LovdataLenke paragraf="8-23">§ 8-23</LovdataLenke>
+                </span>
+            );
         case 'MinimumSykdomsgrad':
             return (
-                <span data-tip="Krav til nedsatt arbeidsevne er ikke oppfylt">
+                <span data-tip="Sykdomsgrad under 20%">
                     <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>
                 </span>
             );
         case 'MinimumInntekt':
             return (
-                <span data-tip="Krav til minste sykepengegrunnlag er ikke oppfylt">
+                <span data-tip="Over 70 år">
                     <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
                 </span>
             );
@@ -48,7 +52,7 @@ const Merknad = ({ begrunnelse }: MerknadProps) => {
             );
         case 'SykepengedagerOppbrukt':
             return (
-                <span data-tip="Sykepengedager er oppbrukt">
+                <span data-tip="Maks antall sykepengedager er nådd">
                     <LovdataLenke paragraf={begrunnelse.paragraf ?? '8-12'}>
                         § {begrunnelse.paragraf ?? '8-12'}
                     </LovdataLenke>
@@ -59,6 +63,24 @@ const Merknad = ({ begrunnelse }: MerknadProps) => {
     }
 };
 
+const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): React.ReactNode | undefined =>
+    isMaksdato ? 'Siste utbetalingsdag for sykepenger' : undefined;
+
+const foreldetDagMerknad = (isForeldet: boolean): React.ReactNode | undefined =>
+    isForeldet ? (
+        <span data-tip="Foreldet">
+            <LovdataLenke paragraf="22-13">§ 22-13</LovdataLenke>
+        </span>
+    ) : undefined;
+
+const avvisningsårsakerMerknad = (avvisningsårsaker?: AvvistBegrunnelse[]) =>
+    avvisningsårsaker?.map((it, i) => (
+        <React.Fragment key={i}>
+            {i !== 0 && <Normaltekst>,&nbsp;</Normaltekst>}
+            <Merknad begrunnelse={it} />
+        </React.Fragment>
+    ));
+
 interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     dag: Utbetalingsdag;
     isMaksdato: boolean;
@@ -67,14 +89,9 @@ interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableDataCellEleme
 export const MerknaderCell = ({ dag, isMaksdato, ...rest }: MerknaderCellProps) => (
     <td {...rest}>
         <CellContent>
-            {isMaksdato
-                ? 'Siste utbetalingsdag for sykepenger'
-                : dag.avvistÅrsaker?.map((it, i) => (
-                      <React.Fragment key={i}>
-                          {i !== 0 && <Normaltekst>,&nbsp;</Normaltekst>}
-                          <Merknad begrunnelse={it} />
-                      </React.Fragment>
-                  ))}
+            {sisteUtbetalingsdagMerknad(isMaksdato) ??
+                foreldetDagMerknad(dag.type === Dagtype.Foreldet) ??
+                avvisningsårsakerMerknad(dag.avvistÅrsaker)}
             <Tooltip effect="solid" />
         </CellContent>
     </td>

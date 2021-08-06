@@ -7,8 +7,6 @@ export const BehandletVarselContent = styled.div`
 `;
 
 export const Vilkårkolonne = styled(FlexColumn)`
-    max-width: 480px;
-    min-width: 480px;
     &:not(:last-of-type) {
         margin-right: 1rem;
     }
@@ -17,7 +15,7 @@ export const Vilkårkolonne = styled(FlexColumn)`
 export const Vilkårgrid = styled.span`
     grid-area: body;
     display: grid;
-    grid-template-columns: 2fr auto;
+    grid-template-columns: auto auto;
     grid-gap: 0.25rem;
     margin: 0 0 2rem 2.5rem;
 `;
