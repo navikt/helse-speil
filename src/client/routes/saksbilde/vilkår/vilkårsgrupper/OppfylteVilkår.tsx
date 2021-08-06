@@ -3,23 +3,26 @@ import React from 'react';
 import { GrøntSjekkikon } from '../../../../components/ikoner/GrøntSjekkikon';
 import { Vilkårdata } from '../../../../mapping/vilkår';
 
-import { Vilkårgrid, Vilkårkolonne } from '../Vilkår.styles';
-import { Vilkårsgruppetittel, Vilkårskategori } from '../vilkårstitler';
+import { Vilkårgrid, Vilkårgruppe, Vilkårkolonne } from '../Vilkår.styles';
+import { Vilkårskategori } from '../Vilkårskategori';
+import { Vilkårsgruppetittel } from '../vilkårstitler';
 
 interface OppfylteVilkårProps {
     vilkår: Vilkårdata[];
 }
 
 export const OppfylteVilkår = ({ vilkår }: OppfylteVilkårProps) => (
-    <Vilkårkolonne data-testid="oppfylte-vilkår">
-        <Vilkårskategori ikon={<GrøntSjekkikon />}>Oppfylte vilkår</Vilkårskategori>
+    <Vilkårkolonne data-testid="oppfylte-vilkår" aria-labelledby="oppfylte-vilkår">
+        <Vilkårskategori id="oppfylte-vilkår" ikon={<GrøntSjekkikon />}>
+            Oppfylte vilkår
+        </Vilkårskategori>
         {vilkår.map(({ tittel, paragraf, komponent, type }, i) => (
-            <React.Fragment key={i}>
+            <Vilkårgruppe key={i}>
                 <Vilkårsgruppetittel type={type} oppfylt={true} paragraf={paragraf}>
                     {tittel}
                 </Vilkårsgruppetittel>
                 <Vilkårgrid>{komponent}</Vilkårgrid>
-            </React.Fragment>
+            </Vilkårgruppe>
         ))}
     </Vilkårkolonne>
 );

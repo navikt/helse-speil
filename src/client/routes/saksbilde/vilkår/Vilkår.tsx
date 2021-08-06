@@ -3,11 +3,10 @@ import { Person, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { Flex } from '../../../components/Flex';
+import { Flex, FlexColumn } from '../../../components/Flex';
 import { førsteVedtaksperiode } from '../../../mapping/selectors';
 import { Vilkårdata } from '../../../mapping/vilkår';
 
-import { Strek } from './Vilkår.styles';
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
@@ -15,13 +14,35 @@ import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { VurdertAutomatisk } from './vilkårsgrupper/VurdertAutomatisk';
 import { VurdertAvSaksbehandler } from './vilkårsgrupper/VurdertAvSaksbehandler';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
+import { Yrkeskadeinfo } from './vilkårsgrupper/Yrkesskadeinfo';
 
 const Container = styled.div`
     margin-top: 2rem;
+
+    > div:first-of-type > *:not(:last-of-type) {
+        margin-right: 1rem;
+    }
 `;
 
-const Separator = styled(Strek)`
-    margin: 2rem 0;
+const VurderteVilkårContainer = styled(FlexColumn)`
+    width: max-content;
+`;
+
+const YrkesskadeinfoContainer = styled.div`
+    position: relative;
+    margin-left: 2rem;
+    margin-top: 1.5rem;
+    padding-top: 2.5rem;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 10px;
+        width: calc(100% - 10px);
+        height: 1px;
+        background: var(--navds-color-gray-20);
+    }
 `;
 
 const harVilkår = (vilkår?: Vilkårdata[]) => vilkår && vilkår.length > 0;
@@ -65,9 +86,8 @@ export const Vilkår = ({ vedtaksperiode, person }: VilkårProps) => {
                         {harVilkår(oppfylteVilkår) && <OppfylteVilkår vilkår={oppfylteVilkår!} />}
                     </Flex>
                 )}
-                {harBehandledeVilkår && harAlleredeVurderteVilkår && <Separator />}
                 {harAlleredeVurderteVilkår && (
-                    <Flex>
+                    <VurderteVilkårContainer>
                         {vilkårVurdertAutomatisk && vilkårVurdertAutomatisk.length > 0 && (
                             <VurdertAutomatisk
                                 vilkår={vilkårVurdertAutomatisk}
@@ -90,7 +110,10 @@ export const Vilkår = ({ vedtaksperiode, person }: VilkårProps) => {
                         {vilkårVurdertIInfotrygd && vilkårVurdertIInfotrygd.length > 0 && (
                             <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />
                         )}
-                    </Flex>
+                        <YrkesskadeinfoContainer>
+                            <Yrkeskadeinfo />
+                        </YrkesskadeinfoContainer>
+                    </VurderteVilkårContainer>
                 )}
             </Container>
         </AgurkErrorBoundary>
