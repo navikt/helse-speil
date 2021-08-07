@@ -4,7 +4,7 @@ import React from 'react';
 import { RecoilRoot, useSetRecoilState } from 'recoil';
 import { mappetPerson } from 'test-data';
 
-import { Tidslinjeperiode } from '../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
 
 import { umappetArbeidsgiver } from '../../test/data/arbeidsgiver';
 import { umappetUtbetalingshistorikk } from '../../test/data/utbetalingshistorikk';

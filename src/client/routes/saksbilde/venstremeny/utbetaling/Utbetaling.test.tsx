@@ -7,7 +7,7 @@ import { MemoryRouter } from 'react-router';
 import { RecoilRoot } from 'recoil';
 import { enTidslinjeperiode, mappetPerson } from 'test-data';
 
-import { Periodetype, Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { Periodetype, Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { personState } from '../../../../state/person';
 
 import '../../../../tekster';

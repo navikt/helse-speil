@@ -3,7 +3,7 @@ import { Dayjs } from 'dayjs';
 import { Dagtype, Overstyring, Sykdomsdag } from 'internal-types';
 import React from 'react';
 
-import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
 import { Header } from '../../table/Header';

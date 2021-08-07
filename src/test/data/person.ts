@@ -16,7 +16,7 @@ import { mapPerson } from '../../client/mapping/person';
 import {
     Periodetype as UtbetalingshistorikkPeriodetype,
     Utbetalingstatus,
-} from '../../client/modell/UtbetalingshistorikkElement';
+} from '../../client/modell/utbetalingshistorikkelement';
 
 import { umappetArbeidsgiver } from './arbeidsgiver';
 import { umappetInntektsgrunnlag } from './inntektsgrunnlag';
@@ -730,10 +730,12 @@ export const mappetPersonObject = (): Person => ({
                             },
                         ],
                         maksdato: dayjs('2020-03-01'),
-                        nettobeløp: 0,
+                        arbeidsgiverNettobeløp: 0,
+                        personNettobeløp: 0,
                         forbrukteDager: 0,
                         gjenståendeDager: 0,
                         arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
+                        personFagsystemId: 'EN_FAGSYSTEMID',
                         vurdering: {
                             godkjent: true,
                             ident: 'EN_IDENT',

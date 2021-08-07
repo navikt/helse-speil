@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 
 import { getPositionedPeriods } from '@navikt/helse-frontend-timeline/lib';
 
-import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 
 import { TidslinjeperiodeHoverInfo } from './HoverInfo';
 import { arbeidsgiverNavn } from './Tidslinje';

@@ -11,7 +11,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../io/http';
-import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
 import { usePerson } from '../../../../state/person';
 import { Scopes, useAddEphemeralVarsel } from '../../../../state/varsler';

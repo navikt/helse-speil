@@ -3,7 +3,7 @@ import { Dayjs } from 'dayjs';
 import { Arbeidsforhold, Dagtype, Simulering, Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 
-import { Tidslinjeperiode, useGjenståendeDager, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode, useGjenståendeDager } from '../../../modell/utbetalingshistorikkelement';
 import { harOppgave } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 
@@ -50,7 +50,6 @@ export const VenstreMeny = ({
 }: VenstreMenyProps) => {
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const utbetalingsdagerTotalt = aktivPeriode.utbetalingstidslinje.filter((dag) => dag.type === Dagtype.Syk).length;
-    const nettobeløp = useNettobeløp(aktivPeriode.beregningId);
     const ikkeUtbetaltEnda = harOppgave(aktivPeriode) || aktivPeriode.tilstand === Tidslinjetilstand.Venter;
 
     return (
@@ -74,7 +73,6 @@ export const VenstreMeny = ({
                 beregningId={aktivPeriode.beregningId}
                 ikkeUtbetaltEnda={ikkeUtbetaltEnda}
                 utbetalingsdagerTotalt={utbetalingsdagerTotalt}
-                nettobeløp={nettobeløp}
                 simulering={simulering}
                 anonymiseringEnabled={anonymiseringEnabled}
             />

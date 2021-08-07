@@ -11,7 +11,7 @@ import { Advarselikon } from '../../../components/ikoner/Advarselikon';
 import { Maksdatoikon } from '../../../components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '../../../components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '../../../components/ikoner/Sykmeldingsperiodeikon';
-import { Periodetype as Historikkperiodetype, Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { Periodetype as Historikkperiodetype, Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 import { useVedtaksperiode } from '../../../state/tidslinje';
 import { NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 import { capitalize } from '../../../utils/locale';

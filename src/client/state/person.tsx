@@ -112,6 +112,11 @@ export const usePerson = () => {
     );
 };
 
+export const usePersonnavn = (): string => {
+    const { fornavn, mellomnavn, etternavn } = usePerson()?.personinfo ?? {};
+    return [fornavn, mellomnavn, etternavn].filter(Boolean).join(' ');
+};
+
 export const useRefreshPerson = () => {
     const setPerson = useSetRecoilState(personState);
     const person = useRecoilValue(personState)?.person;

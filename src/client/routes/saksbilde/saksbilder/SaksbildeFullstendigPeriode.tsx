@@ -8,8 +8,8 @@ import '@navikt/helse-frontend-logg/lib/main.css';
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
 import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
-import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/Arbeidsgiver';
-import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/UtbetalingshistorikkElement';
+import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/arbeidsgiver';
+import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 

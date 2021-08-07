@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import { Dropdown } from '../../../components/dropdown/Dropdown';
-import { Tidslinjeperiode, useErAnnullert } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode, useErAnnullert } from '../../../modell/utbetalingshistorikkelement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePerson } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { postAbonnerPåAktør, postOverstyrteDager } from '../../../../io/http';
 import { OverstyrtDagDTO } from '../../../../io/types';
-import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,

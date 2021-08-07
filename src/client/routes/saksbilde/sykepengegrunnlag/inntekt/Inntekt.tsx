@@ -9,7 +9,7 @@ import { EditButton } from '../../../../components/EditButton';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import IconOverstyrt from '../../../../components/ikoner/iconOverstyrt.svg';
-import { useUtbetaling, Utbetalingstatus } from '../../../../modell/UtbetalingshistorikkElement';
+import { useUtbetaling, Utbetalingstatus } from '../../../../modell/utbetalingshistorikkelement';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
 

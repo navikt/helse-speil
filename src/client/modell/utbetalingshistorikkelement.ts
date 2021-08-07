@@ -10,13 +10,12 @@ import {
 
 import { usePerson } from '../state/person';
 
-const useHistorikkelement = (beregningId: string) => {
-    return usePerson()
+const useHistorikkelement = (beregningId: string): Utbetalingshistorikkelement | undefined =>
+    usePerson()
         ?.arbeidsgivere.flatMap((arb: Arbeidsgiver) => arb.utbetalingshistorikk)
-        .find((element: UtbetalingshistorikkElement) => element.id === beregningId);
-};
+        .find((element: Utbetalingshistorikkelement) => element.id === beregningId);
 
-export interface UtbetalingshistorikkElement {
+export interface Utbetalingshistorikkelement {
     id: string;
     beregnettidslinje: Sykdomsdag[];
     hendelsetidslinje: Sykdomsdag[];
@@ -31,16 +30,14 @@ export const utbetalingshistorikkelement = (
     hendelsetidslinje: Sykdomsdag[],
     utbetaling: UtbetalingshistorikkUtbetaling2,
     tidsstempel: Dayjs
-): UtbetalingshistorikkElement => {
-    return {
-        id: id,
-        beregnettidslinje: beregnettidslinje,
-        hendelsetidslinje: hendelsetidslinje,
-        utbetaling: utbetaling,
-        kilde: utbetaling.type,
-        tidsstempel: tidsstempel,
-    };
-};
+): Utbetalingshistorikkelement => ({
+    id: id,
+    beregnettidslinje: beregnettidslinje,
+    hendelsetidslinje: hendelsetidslinje,
+    utbetaling: utbetaling,
+    kilde: utbetaling.type,
+    tidsstempel: tidsstempel,
+});
 
 export const useUtbetaling = (beregningId: string): UtbetalingshistorikkUtbetaling2 | undefined => {
     const element = useHistorikkelement(beregningId);
@@ -72,17 +69,11 @@ export const utbetalingstidslinje = (utbetaling: UtbetalingshistorikkUtbetaling2
 
 export const erRevurderingsperiode = (periode: Tidslinjeperiode) => periode.type === Periodetype.REVURDERING;
 
-export const useMaksdato = (beregningId: string) => {
-    return useUtbetaling(beregningId)?.maksdato;
-};
+export const useMaksdato = (beregningId: string) => useUtbetaling(beregningId)?.maksdato;
 
-export const useNettobeløp = (beregningId: string) => {
-    return useUtbetaling(beregningId)?.nettobeløp;
-};
+export const useNettobeløp = (beregningId: string) => useUtbetaling(beregningId)?.arbeidsgiverNettobeløp;
 
-export const useGjenståendeDager = (beregningId: string) => {
-    return useUtbetaling(beregningId)?.gjenståendeDager;
-};
+export const useGjenståendeDager = (beregningId: string) => useUtbetaling(beregningId)?.gjenståendeDager;
 
 export interface Tidslinjeperiode {
     id: string;

@@ -1,7 +1,7 @@
 import { Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
 import { atom, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Tidslinjeperiode } from '../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
 
 import { usePerson } from './person';
 

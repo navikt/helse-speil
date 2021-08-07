@@ -3,9 +3,9 @@ import { Utbetalingsperiode } from 'external-types';
 
 import {
     Tidslinjeperiode,
-    UtbetalingshistorikkElement,
+    Utbetalingshistorikkelement,
     Utbetalingstatus,
-} from '../client/modell/UtbetalingshistorikkElement';
+} from '../client/modell/utbetalingshistorikkelement';
 
 export interface Periode {
     fom: Dayjs;
@@ -275,7 +275,7 @@ export interface Arbeidsgiver {
     organisasjonsnummer: string;
     id: string;
     navn: string;
-    utbetalingshistorikk: UtbetalingshistorikkElement[];
+    utbetalingshistorikk: Utbetalingshistorikkelement[];
     tidslinjeperioder: Tidslinjeperiode[][];
     vedtaksperioder: (Vedtaksperiode | UfullstendigVedtaksperiode)[];
     arbeidsforhold: Arbeidsforhold[];
@@ -442,8 +442,10 @@ export interface UtbetalingshistorikkUtbetaling2 {
     maksdato: Dayjs;
     gjenståendeDager: number;
     forbrukteDager: number;
-    nettobeløp: number;
+    arbeidsgiverNettobeløp: number;
     arbeidsgiverFagsystemId: string;
+    personNettobeløp: number;
+    personFagsystemId: string;
     vurdering?: Vurdering;
 }
 

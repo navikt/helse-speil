@@ -13,7 +13,7 @@ import React, { CSSProperties } from 'react';
 import { Undertekst } from 'nav-frontend-typografi';
 
 import { FlexColumn } from '../../../components/Flex';
-import { Tidslinjeperiode, useGjenståendeDager, useNettobeløp } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode, useGjenståendeDager, useNettobeløp } from '../../../modell/utbetalingshistorikkelement';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 import { somPenger } from '../../../utils/locale';
 

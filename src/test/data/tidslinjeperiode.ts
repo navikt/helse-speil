@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { Tidslinjetilstand } from 'internal-types';
 
-import { Periodetype, Tidslinjeperiode } from '../../client/modell/UtbetalingshistorikkElement';
+import { Periodetype, Tidslinjeperiode } from '../../client/modell/utbetalingshistorikkelement';
 
 export const enTidslinjeperiode = (
     tilstand: Tidslinjetilstand = Tidslinjetilstand.Oppgaver,

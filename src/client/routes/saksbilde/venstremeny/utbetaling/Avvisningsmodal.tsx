@@ -6,7 +6,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { Systemtittel } from 'nav-frontend-typografi';
 
 import { Modal } from '../../../../components/Modal';
-import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
 import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';

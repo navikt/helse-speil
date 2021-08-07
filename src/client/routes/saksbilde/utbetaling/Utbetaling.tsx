@@ -10,7 +10,7 @@ import { Flex, FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
 import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
-import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 import { usePerson } from '../../../state/person';
 
 import { defaultUtbetalingToggles, erDev, erLocal, UtbetalingToggles } from '../../../featureToggles';

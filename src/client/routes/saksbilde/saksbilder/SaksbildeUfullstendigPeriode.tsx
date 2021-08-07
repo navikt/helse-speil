@@ -4,7 +4,7 @@ import React from 'react';
 import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { Flex } from '../../../components/Flex';
-import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 
 import { getVedtaksperiodeTilstandError } from '../Saksbilde';
 

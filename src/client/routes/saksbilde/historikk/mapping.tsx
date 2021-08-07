@@ -4,7 +4,7 @@ import { Dokument, Kildetype, Overstyring, Utbetalingstype, Vedtaksperiode, Vurd
 import React from 'react';
 
 import { Kilde } from '../../../components/Kilde';
-import { Tidslinjeperiode } from '../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 import { usePerson } from '../../../state/person';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';

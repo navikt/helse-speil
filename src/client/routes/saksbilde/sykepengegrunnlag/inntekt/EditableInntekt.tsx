@@ -15,7 +15,7 @@ import { OverstyringTimeoutModal } from '../../../../components/OverstyringTimeo
 import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 import { postOverstyrtInntekt } from '../../../../io/http';
 import { OverstyrtInntektDTO } from '../../../../io/types';
-import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import {
     kalkulererFerdigToastKey,
     kalkulererToast,

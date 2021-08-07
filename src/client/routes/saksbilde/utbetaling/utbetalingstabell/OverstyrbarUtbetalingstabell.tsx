@@ -5,7 +5,7 @@ import { Dag, Dagtype, Kildetype, OverstyrtDag, Sykdomsdag } from 'internal-type
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
 import { Header } from '../../table/Header';

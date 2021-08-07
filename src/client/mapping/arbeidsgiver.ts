@@ -25,7 +25,7 @@ import {
     utbetalingshistorikkelement,
     Utbetalingstatus,
     utbetalingstidslinje,
-} from '../modell/UtbetalingshistorikkElement';
+} from '../modell/utbetalingshistorikkelement';
 
 import { mapSykdomstidslinje, mapTidslinjeMedAldersvilkår, mapUtbetalingstidslinje } from './dag';
 import { UfullstendigVedtaksperiodeBuilder } from './ufullstendigVedtaksperiode';
@@ -202,9 +202,11 @@ export class ArbeidsgiverBuilder {
                             utbetalingstidslinje: mapUtbetalingstidslinje(element.utbetaling.utbetalingstidslinje),
                             maksdato: dayjs(element.utbetaling.maksdato),
                             gjenståendeDager: element.utbetaling.gjenståendeSykedager,
-                            nettobeløp: element.utbetaling.arbeidsgiverNettoBeløp,
-                            forbrukteDager: element.utbetaling.forbrukteSykedager,
+                            arbeidsgiverNettobeløp: element.utbetaling.arbeidsgiverNettoBeløp,
+                            personNettobeløp: element.utbetaling.personNettoBeløp,
                             arbeidsgiverFagsystemId: element.utbetaling.arbeidsgiverFagsystemId,
+                            personFagsystemId: element.utbetaling.personFagsystemId,
+                            forbrukteDager: element.utbetaling.forbrukteSykedager,
                             vurdering: element.utbetaling.vurdering
                                 ? {
                                       godkjent: element.utbetaling.vurdering.godkjent,

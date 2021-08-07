@@ -278,7 +278,9 @@ export interface EksternUtbetaling {
     maksdato: string;
     gjenståendeSykedager: number;
     arbeidsgiverNettoBeløp: number;
+    personNettoBeløp: number;
     arbeidsgiverFagsystemId: string;
+    personFagsystemId: string;
     forbrukteSykedager: number;
     vurdering?: EksternVurdering;
 }

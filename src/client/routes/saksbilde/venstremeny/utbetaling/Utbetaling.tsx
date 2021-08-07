@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Periodetype, Tidslinjeperiode, useUtbetaling } from '../../../../modell/UtbetalingshistorikkElement';
+import { Periodetype, Tidslinjeperiode, useUtbetaling } from '../../../../modell/utbetalingshistorikkelement';
 import { harOppgave, useOppgavereferanse } from '../../../../state/tidslinje';
 
 import { Utbetalingsdialog } from './Utbetalingsdialog';
@@ -16,7 +16,7 @@ export const Utbetaling = ({ aktivPeriode }: UtbetalingProps) => {
 
     if (!(harOppgave(aktivPeriode) && oppgavereferanse)) return null;
 
-    const harBeløpTilUtbetaling = utbetaling?.nettobeløp ? utbetaling.nettobeløp !== 0 : false;
+    const harBeløpTilUtbetaling = utbetaling?.arbeidsgiverNettobeløp ? utbetaling.arbeidsgiverNettobeløp !== 0 : false;
     const utbetalingsknappTekst = erRevurdering ? 'Revurder' : harBeløpTilUtbetaling ? 'Utbetal' : 'Godkjenn';
 
     return (

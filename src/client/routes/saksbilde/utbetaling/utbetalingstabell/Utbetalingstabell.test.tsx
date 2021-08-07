@@ -5,7 +5,7 @@ import { Dagtype, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { mappetPerson } from 'test-data';
 
-import { Tidslinjeperiode } from '../../../../modell/UtbetalingshistorikkElement';
+import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 
 import { umappetArbeidsgiver } from '../../../../../test/data/arbeidsgiver';
 import {

@@ -1,5 +1,10 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { SpleisSykdomsdagkildeType, SpleisSykdomsdagtype, SpleisUtbetalingsdagtype } from 'external-types';
+import {
+    EksternUtbetalingshistorikkElement,
+    SpleisSykdomsdagkildeType,
+    SpleisSykdomsdagtype,
+    SpleisUtbetalingsdagtype,
+} from 'external-types';
 
 export const umappetUtbetalingshistorikk = (
     beregningId: string = 'id1',
@@ -7,7 +12,7 @@ export const umappetUtbetalingshistorikk = (
     utbetalingstatus: string = 'UTBETALT',
     opprettet: Dayjs = dayjs('2020-01-01T00:00:00'),
     dag: Dayjs = dayjs('2020-01-01')
-) => ({
+): EksternUtbetalingshistorikkElement => ({
     beregningId: beregningId,
     hendelsetidslinje: [
         {
@@ -46,7 +51,9 @@ export const umappetUtbetalingshistorikk = (
         gjenståendeSykedager: 0,
         forbrukteSykedager: 0,
         arbeidsgiverNettoBeløp: 0,
+        personNettoBeløp: 0,
         arbeidsgiverFagsystemId: 'EN_FAGSYSTEMID',
+        personFagsystemId: 'EN_FAGSYSTEMID',
         vurdering: {
             godkjent: true,
             ident: 'EN_IDENT',

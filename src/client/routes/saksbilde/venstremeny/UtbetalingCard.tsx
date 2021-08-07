@@ -5,11 +5,14 @@ import React, { useState } from 'react';
 import Lenke from 'nav-frontend-lenker';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 
-import { useSykepengegrunnlag } from '../../../state/person';
+import { useArbeidsgiver } from '../../../modell/arbeidsgiver';
+import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
+import { usePersonnavn, useSykepengegrunnlag } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
 
 import { Card } from './Card';
 import { CardTitle } from './CardTitle';
+import { Utbetalingssum } from './Utbetalingssum';
 import { SimuleringsinfoModal } from './utbetaling/SimuleringsinfoModal';
 
 const Grid = styled.div`
@@ -27,7 +30,6 @@ const Value = styled(Normaltekst)`
 interface UtbetalingCardProps {
     beregningId: string;
     utbetalingsdagerTotalt: number;
-    nettobeløp?: number;
     ikkeUtbetaltEnda: boolean;
     simulering?: Simulering;
     anonymiseringEnabled: boolean;
@@ -36,13 +38,22 @@ interface UtbetalingCardProps {
 export const UtbetalingCard = ({
     beregningId,
     utbetalingsdagerTotalt,
-    nettobeløp,
     ikkeUtbetaltEnda,
     simulering,
     anonymiseringEnabled,
 }: UtbetalingCardProps) => {
     const sykepengegrunnlag = useSykepengegrunnlag(beregningId);
     const [simuleringÅpen, setSimuleringÅpen] = useState(false);
+
+    const { arbeidsgiverNettobeløp, personNettobeløp } = useUtbetaling(beregningId) ?? {
+        arbeidsgiverNettobeløp: 0,
+        personNettobeløp: 0,
+    };
+
+    const personnavn = usePersonnavn();
+    const arbeidsgiver = useArbeidsgiver();
+    const arbeidsgivernavn = arbeidsgiver?.navn ?? arbeidsgiver?.organisasjonsnummer;
+
     return (
         <Card>
             <CardTitle>TIL UTBETALING</CardTitle>
@@ -51,9 +62,14 @@ export const UtbetalingCard = ({
                 <Value>{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Value>
                 <Normaltekst>Utbetalingdager</Normaltekst>
                 <Value>{utbetalingsdagerTotalt}</Value>
-                <Normaltekst>{ikkeUtbetaltEnda ? 'Beløp til utbetaling' : 'Utbetalt'}</Normaltekst>
-                <Value>{nettobeløp ?? 'Ukjent beløp'}</Value>
             </Grid>
+            <Utbetalingssum
+                erUtbetalt={!ikkeUtbetaltEnda}
+                personNettobeløp={personNettobeløp ?? 0}
+                arbeidsgiverNettobeløp={arbeidsgiverNettobeløp ?? 0}
+                arbeidsgivernavn={arbeidsgivernavn ?? 'Arbeidsgiver'}
+                personnavn={personnavn}
+            />
             {simulering ? (
                 <>
                     <Lenke href="#" onClick={() => setSimuleringÅpen(true)}>

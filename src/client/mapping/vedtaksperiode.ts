@@ -21,7 +21,7 @@ import {
     Vedtaksperiodetilstand,
 } from 'internal-types';
 
-import { UtbetalingshistorikkElement } from '../modell/UtbetalingshistorikkElement';
+import { Utbetalingshistorikkelement } from '../modell/utbetalingshistorikkelement';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT, NORSK_DATOFORMAT } from '../utils/date';
 
 import { mapSykdomstidslinje, mapUtbetalingstidslinje } from './dag';
@@ -60,7 +60,7 @@ const mapUtbetaling = (utbetalinger: SpleisUtbetalinger, key: keyof SpleisUtbeta
 
 export class VedtaksperiodeBuilder {
     private unmapped: SpesialistVedtaksperiode;
-    private annullerteHistorikkelementer: UtbetalingshistorikkElement[];
+    private annullerteHistorikkelementer: Utbetalingshistorikkelement[];
     private person: SpesialistPerson;
     private arbeidsgiver: SpesialistArbeidsgiver;
     private overstyringer: SpesialistOverstyring[] = [];
@@ -84,7 +84,7 @@ export class VedtaksperiodeBuilder {
         return this;
     };
 
-    setAnnullertUtbetalingshistorikk = (utbetalingshistorikk: UtbetalingshistorikkElement[]) => {
+    setAnnullertUtbetalingshistorikk = (utbetalingshistorikk: Utbetalingshistorikkelement[]) => {
         this.annullerteHistorikkelementer = utbetalingshistorikk.filter(
             (element) => element.utbetaling.type === Utbetalingstype.ANNULLERING
         );
