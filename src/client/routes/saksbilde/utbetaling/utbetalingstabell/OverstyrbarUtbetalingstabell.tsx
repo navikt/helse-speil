@@ -145,10 +145,7 @@ export const OverstyrbarUtbetalingstabell = ({
                                         erRevurdering={erRevurdering}
                                         overstyrtDag={maybeOverstyrtDag}
                                     />
-                                    <KildeCell
-                                        type={sykdomsdag.type}
-                                        kilde={maybeOverstyrtDag ? Kildetype.Saksbehandler : sykdomsdag.kilde}
-                                    />
+                                    <KildeCell type={sykdomsdag.type} kilde={sykdomsdag.kilde} />
                                     <TotalGradCell
                                         type={utbetalingsdag.type}
                                         totalGradering={utbetalingsdag.totalGradering}
