@@ -47,6 +47,7 @@ const erAnnulleringsbois = () => erKnudix() || erKevin();
 const erSpiceGirls = () => erMarthe() || erMarte() || erKevin() || erAnders() || erHegeir();
 const erKnudix = () => extractIdent() === 'N143409';
 const erDigimort = () => extractIdent() === 'T127350';
+const erVegard = () => extractIdent() === 'S144991';
 const erKevin = () => extractIdent() === 'S151890';
 const erMarthe = () => extractIdent() === 'S151399';
 const erMarte = () => extractIdent() === 'T141884';
@@ -84,7 +85,13 @@ export const amplitudeEnabled = true;
 export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
 export const stikkprøve = erSupersaksbehandler() || erLocal() || erDev();
 export const flereArbeidsgivere =
-    erSpiceGirls() || erLocal() || erDev() || erDigimort() || erSupersaksbehandler() || erFaktiskSupportsaksbehandler();
+    erSpiceGirls() ||
+    erLocal() ||
+    erDev() ||
+    erDigimort() ||
+    erVegard() ||
+    erSupersaksbehandler() ||
+    erFaktiskSupportsaksbehandler();
 export const rekursivRevurderingEnabled = overstyreUtbetaltPeriodeEnabled;
 export const kanFrigiAndresOppgaver = erSupersaksbehandler() || erLocal() || erDev();
 
