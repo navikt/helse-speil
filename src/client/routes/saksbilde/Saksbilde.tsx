@@ -14,7 +14,7 @@ import { useNavigation } from '../../hooks/useNavigation';
 import { useRefreshPersonVedOpptegnelse } from '../../hooks/useRefreshPersonVedOpptegnelse';
 import { useRefreshPersonVedUrlEndring } from '../../hooks/useRefreshPersonVedUrlEndring';
 import { usePollEtterOpptegnelser } from '../../io/polling';
-import { usePerson } from '../../state/person';
+import { usePerson, usePersondataSkalAnonymiseres } from '../../state/person';
 import { useAktivPeriode } from '../../state/tidslinje';
 import { ToastObject, useAddToast } from '../../state/toasts';
 import { Scopes, useVarselFilter } from '../../state/varsler';
@@ -126,6 +126,7 @@ const SaksbildeSwitch = ({ personTilBehandling }: SaksbildeSwitchProps) => {
 
 const SaksbildeContent = React.memo(() => {
     const personTilBehandling = usePerson();
+    const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     const aktivPeriode = useAktivPeriode();
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
@@ -143,7 +144,7 @@ const SaksbildeContent = React.memo(() => {
             {aktivPeriode && <Sakslinje aktivPeriode={aktivPeriode} />}
             <Switch>
                 <Route path={`${path}/utbetalingshistorikk`}>
-                    <Utbetalingshistorikk person={personTilBehandling} />
+                    <Utbetalingshistorikk person={personTilBehandling} anonymiseringEnabled={anonymiseringEnabled} />
                 </Route>
                 <Route>
                     <SaksbildeSwitch personTilBehandling={personTilBehandling} />

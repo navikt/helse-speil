@@ -10,6 +10,7 @@ import { Tabell } from '@navikt/helse-frontend-tabell';
 import { useRefreshPersonVedUrlEndring } from '../../../hooks/useRefreshPersonVedUrlEndring';
 import { findEarliest, findLatest, NORSK_DATOFORMAT_KORT } from '../../../utils/date';
 
+import { anonymisertPersoninfo } from '../../../agurkdata';
 import { Annulleringslinje, Annulleringsmodal } from '../sakslinje/annullering/Annulleringsmodal';
 
 const Container = styled.div`
@@ -75,9 +76,10 @@ const Lukknapp = styled.button`
 
 interface UtbetalingshistorikkProps {
     person: Person;
+    anonymiseringEnabled: boolean;
 }
 
-export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
+export const Utbetalingshistorikk = ({ person, anonymiseringEnabled }: UtbetalingshistorikkProps) => {
     let history = useHistory();
     const [tilAnnullering, setTilAnnullering] = useState<UtbetalingshistorikkUtbetaling | undefined>();
     const [annulleringerInFlight, setAnnulleringerInFlight] = useState<string[]>([]);
@@ -122,11 +124,13 @@ export const Utbetalingshistorikk = ({ person }: UtbetalingshistorikkProps) => {
         },
     ];
 
+    const fødselsnummer = anonymiseringEnabled ? anonymisertPersoninfo.fnr : person.fødselsnummer;
+
     return (
         <Container className="utbetalingshistorikk">
             <Lukknapp onClick={lukkUtbetalingshistorikk}>Lukk utbetalingshistorikk</Lukknapp>
             <Tabell
-                beskrivelse={`Utbetalingshistorikk for person med fødselsnummer ${person.fødselsnummer}`}
+                beskrivelse={`Utbetalingshistorikk for person med fødselsnummer ${fødselsnummer}`}
                 headere={headere}
                 rader={rader}
             />

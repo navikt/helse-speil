@@ -10,6 +10,7 @@ import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
 import { usePersonnavn, useSykepengegrunnlag } from '../../../state/person';
 import { somPenger } from '../../../utils/locale';
 
+import { anonymisertPersoninfo, getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { Card } from './Card';
 import { CardTitle } from './CardTitle';
 import { Utbetalingssum } from './Utbetalingssum';
@@ -50,9 +51,16 @@ export const UtbetalingCard = ({
         personNettobeløp: 0,
     };
 
-    const personnavn = usePersonnavn();
+    const fornavnMellomnavnEtternavn = usePersonnavn();
+    const personnavn = anonymiseringEnabled
+        ? `${anonymisertPersoninfo.fornavn} ${anonymisertPersoninfo.etternavn}`
+        : fornavnMellomnavnEtternavn;
+
     const arbeidsgiver = useArbeidsgiver();
-    const arbeidsgivernavn = arbeidsgiver?.navn ?? arbeidsgiver?.organisasjonsnummer;
+    const arbeidsgivernavn =
+        anonymiseringEnabled && arbeidsgiver
+            ? getAnonymArbeidsgiverForOrgnr(arbeidsgiver.organisasjonsnummer).navn
+            : arbeidsgiver?.navn ?? arbeidsgiver?.organisasjonsnummer;
 
     return (
         <Card>
