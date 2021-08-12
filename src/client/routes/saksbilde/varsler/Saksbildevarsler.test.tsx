@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { Periodetype as Vedtaksperiodetype, Tidslinjetilstand } from 'internal-types';
+import { Tidslinjetilstand } from 'internal-types';
 import React from 'react';
 import { enTidslinjeperiode, mappetVedtaksperiode } from 'test-data';
 
@@ -75,19 +75,6 @@ describe('Saksbildevarsler', () => {
         const periode = enTidslinjeperiode(Tidslinjetilstand.Ukjent);
         render(<Saksbildevarsler vedtaksperiode={mappetVedtaksperiode()} aktivPeriode={periode} />);
         expect(screen.getByText('Kunne ikke lese informasjon om sakens tilstand.')).toBeVisible();
-    });
-    test('viser infovarsel om vedtaksperioden er kandidat for automatisering', () => {
-        const periode = {
-            ...mappetVedtaksperiode(),
-            periodetype: Vedtaksperiodetype.Forlengelse,
-            aktivitetslog: [],
-            behandlet: false,
-            automatiskBehandlet: false,
-        };
-        render(
-            <Saksbildevarsler vedtaksperiode={periode} aktivPeriode={enTidslinjeperiode(Tidslinjetilstand.Oppgaver)} />
-        );
-        expect(screen.getByText('Kandidat for automatisering')).toBeVisible();
     });
     test('viser infovarsel om vedtaksperioden er automatisk behandlet', () => {
         render(

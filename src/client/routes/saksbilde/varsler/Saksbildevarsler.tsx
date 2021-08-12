@@ -1,4 +1,4 @@
-import { Periodetype, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
+import { Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -64,16 +64,6 @@ const ukjentTilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null
         ? { grad: Varseltype.Feil, melding: 'Kunne ikke lese informasjon om sakens tilstand.' }
         : null;
 
-const kandidatForAutomatiseringsvarsel = ({
-    periodetype,
-    aktivitetslog,
-    automatiskBehandlet,
-    behandlet,
-}: Vedtaksperiode): VarselObject | null =>
-    periodetype === Periodetype.Forlengelse && aktivitetslog.length === 0 && !automatiskBehandlet && !behandlet
-        ? { grad: Varseltype.Info, melding: 'Kandidat for automatisering' }
-        : null;
-
 interface SaksbildevarslerProps {
     aktivPeriode: Tidslinjeperiode;
     vedtaksperiode: Vedtaksperiode;
@@ -86,7 +76,6 @@ export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferans
         utbetalingsvarsel(aktivPeriode.tilstand),
         ukjentTilstandsvarsel(aktivPeriode.tilstand),
         manglendeOppgavereferansevarsel(aktivPeriode.tilstand, oppgavereferanse),
-        kandidatForAutomatiseringsvarsel(vedtaksperiode),
         vedtaksperiodeVenterVarsel(aktivPeriode.tilstand),
     ].filter((it) => it) as VarselObject[];
 
