@@ -35,6 +35,11 @@ const SpicyMeatball = styled(Meatball)`
 `;
 
 const Container = styled.span`
+    > .navds-popover {
+        padding: 16px 0;
+        border-radius: 4px;
+    }
+
     display: flex;
     align-items: center;
 `;
