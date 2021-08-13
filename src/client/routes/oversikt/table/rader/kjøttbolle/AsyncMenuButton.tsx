@@ -16,7 +16,7 @@ const Button = styled(Knapp)`
 
     &:hover,
     &:focus {
-        background: var(--speil-light-hover);
+        background: var(--navds-color-blue-10);
         color: var(--navds-primary-text);
         cursor: pointer;
     }
