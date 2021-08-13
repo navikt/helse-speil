@@ -54,7 +54,7 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
                     {tildeltInnloggetBruker && (
                         <PåVentKnapp erPåVent={person?.tildeling?.påVent} oppgavereferanse={oppgavereferanse} />
                     )}
-                    <Strek />
+                    {oppgavereferanse && <Strek />}
                 </>
             )}
             {oppdaterPersondataEnabled && <OppdaterPersondata />}
