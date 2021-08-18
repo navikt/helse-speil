@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Arbeidsgiverinntekt, Inntektsgrunnlag, Periodetype, Person, Vedtaksperiode } from 'internal-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BehandletAvInfotrygdVarsel, BehandletVarsel } from '@navikt/helse-frontend-varsel';
 
@@ -77,13 +77,21 @@ const UbehandletSykepengegrunnlag = ({
     inntektsgrunnlag,
     inntektskilde,
     anonymiseringEnabled,
-}: UbehandletSykepengegrunnlagProps) => (
-    <OversiktContainer>
-        <Inntektskilderinnhold inntektskilde={inntektskilde!} anonymiseringEnabled={anonymiseringEnabled} />
-        <Strek />
-        <Inntektsgrunnlaginnhold inntektsgrunnlag={inntektsgrunnlag} anonymiseringEnabled={anonymiseringEnabled} />
-    </OversiktContainer>
-);
+}: UbehandletSykepengegrunnlagProps) => {
+    const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntektskilde!);
+    return (
+        <OversiktContainer>
+            <Inntektskilderinnhold inntektskilde={aktivInntektskilde} anonymiseringEnabled={anonymiseringEnabled} />
+            <Strek />
+            <Inntektsgrunnlaginnhold
+                inntektsgrunnlag={inntektsgrunnlag}
+                anonymiseringEnabled={anonymiseringEnabled}
+                aktivInntektskilde={aktivInntektskilde}
+                setAktivInntektskilde={setAktivInntektskilde}
+            />
+        </OversiktContainer>
+    );
+};
 
 interface BehandletSykepengegrunnlagProps extends UbehandletSykepengegrunnlagProps {
     førstePeriode: Vedtaksperiode;

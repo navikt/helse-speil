@@ -192,5 +192,27 @@
             "navn": "Lyngen"
         },
         "inntektskilde": "EN_ARBEIDSGIVER"
+    },
+    {
+        "oppgavereferanse": "klmsdflkm2",
+        "opprettet": "2021-02-01T23:04:09.454",
+        "fødselsnummer": "12020052345",
+        "aktørId": "42",
+        "personinfo": {
+            "fornavn": "Abel",
+            "mellomnavn": null,
+            "etternavn": "Tesfaye",
+            "fødselsdato": "1990-02-16",
+            "kjønn": "Mann"
+        },
+        "vedtaksperiodeId": "87c0469c-16a5-4986-b756-7e4a7cdfcd71",
+        "type": "FØRSTEGANGSBEHANDLING",
+        "oppgavetype": "SØKNAD",
+        "antallVarsler": 0,
+        "boenhet": {
+            "id": "1938",
+            "navn": "Vesten"
+        },
+        "inntektskilde": "FLERE_ARBEIDSGIVERE"
     }
 ]

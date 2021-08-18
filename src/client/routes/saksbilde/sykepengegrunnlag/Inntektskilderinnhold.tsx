@@ -35,8 +35,7 @@ const Tittel = styled(Undertittel)`
     align-items: center;
     font-size: 18px;
     color: var(--navds-color-text-primary);
-
-    ${({ maxwidth }: { maxwidth?: string }) => maxwidth && `max-width: ${maxwidth};`}
+    width: 420px;
 `;
 
 const Tabell = styled.div`
@@ -64,7 +63,7 @@ const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: Inntekts
         <FlexColumn>
             <Arbeidsgivertittel>
                 <Arbeidsgiverikon />
-                <Tittel maxwidth="500px">
+                <Tittel>
                     <TekstMedEllipsis data-tip="Arbeidsgivernavn">
                         {anonymiseringEnabled
                             ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn

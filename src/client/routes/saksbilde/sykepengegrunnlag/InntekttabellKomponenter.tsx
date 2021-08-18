@@ -17,11 +17,19 @@ type ArbeidsgiverRadProps = {
     erGjeldende: boolean;
 };
 
-export const ArbeidsgiverRad = styled.div<ArbeidsgiverRadProps>`
+export const ArbeidsgiverRad = styled.button<ArbeidsgiverRadProps>`
     display: contents;
 
     > * {
         ${(props) => (props.erGjeldende ? 'background-color: var(--speil-light-hover)' : '')};
+    }
+
+    &:hover > * {
+        ${(props) =>
+            props.erGjeldende
+                ? 'background-color: var(--speil-light-hover)'
+                : 'background-color: var(--navds-color-gray-10)'};
+        cursor: pointer;
     }
 
     > *:not(:first-of-type) {

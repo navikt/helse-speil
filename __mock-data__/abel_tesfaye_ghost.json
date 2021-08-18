@@ -1349,7 +1349,7 @@
                         {
                             "vedtaksperiodeId": "87c0469c-16a5-4986-b756-7e4a7cdfcd71",
                             "alvorlighetsgrad": "W",
-                            "melding": "Flere arbeidsgivere og ulikt starttidspunkt for sykefraværet",
+                            "melding": "Flere arbeidsgivere, ulikt starttidspunkt for sykefraværet eller ikke fravær fra alle arbeidsforhold",
                             "tidsstempel": "2021-07-30 14:29:39.430"
                         }
                     ],
@@ -2708,7 +2708,8 @@
                     },
                     "beregningId": "cb6a6dab-65e5-4471-86e3-4ac2bcc59c3f"
                 }
-            ]
+            ],
+            "overstyringer": []
         }
     ],
     "infotrygdutbetalinger": [],

@@ -14,10 +14,17 @@ interface Props {
     omregnetÅrsinntekt?: OmregnetÅrsinntekt;
     sammenligningsgrunnlag?: Sammenligningsgrunnlag;
     erGjeldende: boolean;
+    onSetAktivInntektskilde: () => void;
 }
 
-const Inntektssammenligning = ({ arbeidsgiver, omregnetÅrsinntekt, sammenligningsgrunnlag, erGjeldende }: Props) => (
-    <ArbeidsgiverRad erGjeldende={erGjeldende}>
+const Inntektssammenligning = ({
+    arbeidsgiver,
+    omregnetÅrsinntekt,
+    sammenligningsgrunnlag,
+    erGjeldende,
+    onSetAktivInntektskilde,
+}: Props) => (
+    <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
         <div>
             <Normaltekst style={{ marginLeft: '0.25rem' }}>{arbeidsgiver}</Normaltekst>
         </div>

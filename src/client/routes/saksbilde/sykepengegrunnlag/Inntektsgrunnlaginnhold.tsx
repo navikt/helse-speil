@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Inntektsgrunnlag } from 'internal-types';
+import { Arbeidsgiverinntekt, Inntektsgrunnlag } from 'internal-types';
 import React from 'react';
 
 import { Element } from 'nav-frontend-typografi';
@@ -14,6 +14,8 @@ import { Divider, Kategoritittel, Kolonnetittel, Total } from './InntekttabellKo
 interface InntektsgrunnlaginnholdProps {
     inntektsgrunnlag: Inntektsgrunnlag;
     anonymiseringEnabled: boolean;
+    aktivInntektskilde: Arbeidsgiverinntekt;
+    setAktivInntektskilde: (inntektskilde: Arbeidsgiverinntekt) => void;
 }
 
 const Oppsummering = styled.div`
@@ -34,7 +36,12 @@ const Sammenligning = styled.div`
     margin-bottom: 4.5rem;
 `;
 
-const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag, anonymiseringEnabled }: InntektsgrunnlaginnholdProps) => {
+const Inntektsgrunnlaginnhold = ({
+    inntektsgrunnlag,
+    anonymiseringEnabled,
+    aktivInntektskilde,
+    setAktivInntektskilde,
+}: InntektsgrunnlaginnholdProps) => {
     return (
         <div>
             <Sammenligning>
@@ -46,6 +53,7 @@ const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag, anonymiseringEnabled }: Inn
                 <Kolonnetittel>Rapportert årsinntekt</Kolonnetittel>
                 {inntektsgrunnlag.inntekter.map((inntekt, index) => (
                     <Inntektssammenligning
+                        onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
                         key={inntekt.organisasjonsnummer + index}
                         arbeidsgiver={
                             anonymiseringEnabled
@@ -56,7 +64,7 @@ const Inntektsgrunnlaginnhold = ({ inntektsgrunnlag, anonymiseringEnabled }: Inn
                         }
                         omregnetÅrsinntekt={inntekt.omregnetÅrsinntekt}
                         sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
-                        erGjeldende={inntektsgrunnlag.organisasjonsnummer === inntekt.organisasjonsnummer}
+                        erGjeldende={aktivInntektskilde.organisasjonsnummer === inntekt.organisasjonsnummer}
                     />
                 ))}
                 <Divider />
