@@ -45,11 +45,11 @@ const tildelingerState = selector<TildelingStateType>({
     key: 'tildelingerState',
     get: async ({ get }) => {
         const local = get(_tildelingerState);
-        const remote = get(remoteOppgaverState).reduce(
-            (tildelinger, { oppgavereferanse, tildeling }) => ({
-                ...tildelinger,
-                [oppgavereferanse]: tildeling,
-            }),
+        const remote = get(remoteOppgaverState).reduce<TildelingStateType>(
+            (tildelinger, { oppgavereferanse, tildeling }) => {
+                tildelinger[oppgavereferanse] = tildeling;
+                return tildelinger;
+            },
             {}
         );
         return { ...remote, ...local };
