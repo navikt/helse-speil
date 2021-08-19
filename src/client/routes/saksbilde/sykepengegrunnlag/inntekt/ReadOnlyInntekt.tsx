@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Inntektskildetype, Kildetype, OmregnetÅrsinntekt } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 import { InformationFilled } from '@navikt/ds-icons';
 
@@ -11,12 +11,16 @@ import { somPenger } from '../../../../utils/locale';
 
 const Tabell = styled.div`
     display: grid;
-    grid-template-columns: 200px auto;
+    grid-template-columns: 220px auto;
     grid-column-gap: 1rem;
     grid-row-gap: 0.25rem;
 `;
 
 const Verdi = styled(Normaltekst)`
+    text-align: right;
+`;
+
+const FetVerdi = styled(Element)`
     text-align: right;
 `;
 
@@ -28,6 +32,14 @@ const Tittel = styled(Undertittel)`
     margin-bottom: 19px;
 
     ${({ maxwidth }: { maxwidth?: string }) => maxwidth && `max-width: ${maxwidth};`}
+`;
+
+const Divider = styled.hr`
+    border: none;
+    border-bottom: 1px solid #b7b1a9;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    margin: 38px 0 42px 0;
 `;
 
 const InformationIcon = styled(InformationFilled)`
@@ -76,6 +88,13 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Om
                     );
                 })}
             </Tabell>
+            <Divider />
+            <Tabell>
+                <Normaltekst>Gj.snittlig månedsinntekt</Normaltekst>
+                <Verdi>{somPenger(omregnetÅrsinntekt.månedsbeløp)}</Verdi>
+                <Element>Omregnet rapportert årsinntekt</Element>
+                <FetVerdi>{somPenger(omregnetÅrsinntekt.beløp)}</FetVerdi>
+            </Tabell>
         </>
     );
 };
@@ -88,12 +107,12 @@ export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) =
             <Tabell>
                 <Normaltekst>Månedsbeløp</Normaltekst>
                 <Verdi>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Verdi>
-                <Normaltekst>
+                <Element>
                     {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
                         ? 'Sykepengegrunnlag før 6G'
                         : 'Omregnet til årsinntekt'}
-                </Normaltekst>
-                <Verdi>{somPenger(omregnetÅrsinntekt?.beløp)}</Verdi>
+                </Element>
+                <FetVerdi>{somPenger(omregnetÅrsinntekt?.beløp)}</FetVerdi>
             </Tabell>
         )}
     </>
