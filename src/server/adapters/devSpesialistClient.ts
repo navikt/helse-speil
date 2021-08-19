@@ -5,17 +5,15 @@ import request from 'request-promise-native';
 import { Instrumentation } from '../instrumentation';
 import { SpesialistClient } from '../person/spesialistClient';
 
-const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient => ({
+const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
     behandlingerForPeriode: async (_accessToken: string): Promise<Response> => {
         const fromFile = fs.readFileSync('__mock-data__/oppgaver.json', 'utf-8');
-        const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/oppgaver');
         const oppgaver = await Promise.all(
             JSON.parse(fromFile).map(async (oppgave: SpesialistOppgave) => {
                 const tildeling = await hentPersonStatus(oppgave.aktørId);
                 return { ...oppgave, tildeling };
             })
         );
-        tidtakning();
         return Promise.resolve(({
             status: 200,
             body: oppgaver,
@@ -24,26 +22,24 @@ const devSpesialistClient = (instrumentation: Instrumentation): SpesialistClient
 
     hentPersonByAktørId: async (aktørId: string): Promise<Response> => {
         const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
-        const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/person/aktørId');
         const person = JSON.parse(fromFile);
-        tidtakning();
         const tildeling = await hentPersonStatus(person.aktørId);
         return Promise.resolve({
             status: 200,
             body: { ...person, tildeling },
         } as Response);
     },
+
     hentPersonByFødselsnummer: async (aktørId: string): Promise<Response> => {
-        const tidtakning = instrumentation.requestHistogram.startTidtakning('/api/person/fnr');
         const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
         const person = JSON.parse(fromFile);
-        tidtakning();
         const tildeling = await hentPersonStatus(person.aktørId);
         return Promise.resolve({
             status: 200,
             body: { ...person, tildeling },
         } as Response);
     },
+
     hentBehandlingsstatistikk: async (): Promise<Response> => {
         return Promise.resolve(({
             status: 200,
