@@ -20,25 +20,9 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
         } as unknown) as Response);
     },
 
-    hentPersonByAktørId: async (aktørId: string): Promise<Response> => {
-        const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
-        const person = JSON.parse(fromFile);
-        const tildeling = await hentPersonStatus(person.aktørId);
-        return Promise.resolve({
-            status: 200,
-            body: { ...person, tildeling },
-        } as Response);
-    },
+    hentPersonByAktørId: lesPerson,
 
-    hentPersonByFødselsnummer: async (aktørId: string): Promise<Response> => {
-        const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
-        const person = JSON.parse(fromFile);
-        const tildeling = await hentPersonStatus(person.aktørId);
-        return Promise.resolve({
-            status: 200,
-            body: { ...person, tildeling },
-        } as Response);
-    },
+    hentPersonByFødselsnummer: lesPerson,
 
     hentBehandlingsstatistikk: async (): Promise<Response> => {
         return Promise.resolve(({
@@ -73,6 +57,16 @@ const devSpesialistClient = (_: Instrumentation): SpesialistClient => ({
     },
 });
 
+const lesPerson = async (aktørId: string): Promise<Response> => {
+    const fromFile = fs.readFileSync(`__mock-data__/${filenameForPersonId(aktørId)}`, 'utf-8');
+    const person = JSON.parse(fromFile);
+    const tildeling = await hentPersonStatus(person.aktørId);
+    return Promise.resolve({
+        status: 200,
+        body: { ...person, tildeling },
+    } as Response);
+};
+
 const hentPersonStatus = async (aktørId: string): Promise<any> => {
     const options = {
         uri: `http://localhost:9001/api/mock/personstatus/${aktørId}`,
@@ -84,17 +78,6 @@ const hentPersonStatus = async (aktørId: string): Promise<any> => {
     } catch (ignore) {
         return undefined;
     }
-};
-
-export const tildel = (oppgavereferanse: string) => {
-    const options = {
-        uri: `http://localhost:9001/api/tildeling/${oppgavereferanse}`,
-        resolveWithFullResponse: true,
-    };
-    return request
-        .post(options)
-        .then((res) => res.body)
-        .catch(() => {});
 };
 
 const filenameForPersonId = (id: string) => {
