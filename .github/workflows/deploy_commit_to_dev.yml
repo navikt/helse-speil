@@ -79,5 +79,5 @@ jobs:
           ref: ${{ needs.set_version.outputs.tag }}
       - name: output debug info
         run: |
-          echo "should have deployed ${{ env.IMAGE }}:${{ env.ref }}"
+          echo "should have deployed ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}"
 
