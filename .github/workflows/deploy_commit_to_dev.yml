@@ -32,8 +32,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "14"
-      - uses: actions/checkout@v1
-        name: Checkout code
       - name: Cache node deps
         id: cache-node
         uses: actions/cache@v1
