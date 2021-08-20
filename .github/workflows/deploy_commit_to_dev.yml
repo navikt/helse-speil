@@ -1,0 +1,89 @@
+name: deploy specific commit to dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      commitHash:
+        description: 'SHA of the commit to deploy'
+        required: true
+
+env:
+  APP: speil
+  TEAM: tbd
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/speil
+
+jobs:
+  set_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: create docker tag
+        run: echo "TAG=$(echo ${{ github.event.inputs.commitHash }} | cut -c1-7)" >> $GITHUB_ENV
+    outputs:
+      tag: ${{ env.TAG }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: set_version
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          ref: ${{ needs.set_version.outputs.tag }}
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14"
+      - uses: actions/checkout@v1
+        name: Checkout code
+      - name: Cache node deps
+        id: cache-node
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+      - name: set timezone
+        run: export TZ=utc
+      - name: install deps
+        run: npm install
+      - name: validate ts
+        run: npm run validate-ts
+      - name: build client
+        run: npm run build
+      - name: build server
+        run: npm run build-server
+      - name: run e2e-test
+        run: npm run e2e-test
+      - name: Archive Cypress artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: videos
+          path: e2e-tests/cypress/videos
+      - name: build docker image
+        run: |
+          npm prune --production
+          docker build . --pull -t ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
+      - name: Login to GitHub Pkg Registry
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: push docker image
+        run: |
+          docker push ${{ env.IMAGE }}:${{ needs.set_version.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deployDev:
+    name: Deploy to dev
+    needs: [set_version, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          ref: ${{ needs.set_version.outputs.tag }}
+      - uses: nais/deploy/actions/deploy@v1
+      - name: output debug info
+        run: |
+          echo "should have deployed ${{ env.IMAGE }}:${{ env.ref }}"
+
