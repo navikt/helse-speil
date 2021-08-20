@@ -3,7 +3,7 @@ import { extractIdent, extractGroups } from './utils/cookie';
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const eminem = 'G103083';
 const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454'];
-
+const fagkoordinatorer = ['J150708', 'S108267', 'S109074'];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
 
 const utvidetTilganger = [
@@ -40,7 +40,7 @@ const kanRevurdere = [
 export const erLocal = () => location.hostname === 'localhost';
 export const erDev = () => location.hostname === 'speil.dev.intern.nav.no';
 
-const erSupersaksbehandler = () => supersaksbehandlere.includes(extractIdent());
+const harTilgangTilAlt = () => [...supersaksbehandlere, ...fagkoordinatorer].includes(extractIdent());
 const erFaktiskSupportsaksbehandler = () => faktiskSupportsaksbehandlere.includes(extractIdent()); // ref @support på Slack
 const harUtvidetTilgang = () => utvidetTilganger.includes(extractIdent());
 const erAnnulleringsbois = () => erKnudix() || erKevin();
@@ -65,35 +65,35 @@ export const overstyrPermisjonsdagerEnabled = erLocal() || erDev();
 export const overstyrbareTabellerEnabled = true;
 export const overstyreUtbetaltPeriodeEnabled =
     erUtvikler() ||
-    erSupersaksbehandler() ||
+    harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler() ||
     kanRevurdere.includes(extractIdent()) ||
     erLocal() ||
     erDev();
 export const annulleringerEnabled =
-    erDev() || erLocal() || harUtvidetTilgang() || erSupersaksbehandler() || erAnnulleringsbois();
+    erDev() || erLocal() || harUtvidetTilgang() || harTilgangTilAlt() || erAnnulleringsbois();
 export const oppdaterPersondataEnabled =
     erDev() ||
     erLocal() ||
     erUtvikler() ||
-    erSupersaksbehandler() ||
+    harTilgangTilAlt() ||
     erAnnulleringsbois() ||
     erSpiceGirls() ||
     harUtvidetTilgang() ||
     erSolør();
 export const amplitudeEnabled = true;
-export const utbetalingsoversikt = erUtvikler() || erLocal() || erSupersaksbehandler() || erDigimort();
-export const stikkprøve = erSupersaksbehandler() || erLocal() || erDev();
+export const utbetalingsoversikt = erUtvikler() || erLocal() || harTilgangTilAlt() || erDigimort();
+export const stikkprøve = harTilgangTilAlt() || erLocal() || erDev();
 export const flereArbeidsgivere =
     erSpiceGirls() ||
     erLocal() ||
     erDev() ||
     erDigimort() ||
     erVegard() ||
-    erSupersaksbehandler() ||
+    harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler();
 export const rekursivRevurderingEnabled = overstyreUtbetaltPeriodeEnabled;
-export const kanFrigiAndresOppgaver = erSupersaksbehandler() || erLocal() || erDev();
+export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
