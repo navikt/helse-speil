@@ -1,9 +1,13 @@
 import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Personinfo, TildelingType } from 'internal-types';
 import React from 'react';
+import { useState } from 'react';
 
 import { CloseButton } from '../../../components/CloseButton';
 
+import { NotatListeModal } from '../../oversikt/table/rader/notat/NotatListeModal';
+import { NyttNotatModal } from '../../oversikt/table/rader/notat/NyttNotatModal';
 import { HistorikkHendelse } from './HistorikkHendelse';
 import { useHistorikk, useOppdaterHistorikk, useShowHistorikkState } from './state';
 
@@ -26,16 +30,23 @@ const Hendelser = styled.ul`
     box-sizing: border-box;
 `;
 
-export const Historikk = () => {
+interface HistorikkProps {
+    vedtaksperiodeId: string;
+    personinfo: Personinfo;
+    tildeling?: TildelingType;
+}
+
+export const Historikk = ({ vedtaksperiodeId, tildeling, personinfo }: HistorikkProps) => {
     const historikk = useHistorikk();
+    const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
+    const [showNotatListeModal, setShowNotatListeModal] = useState(false);
+    const [showNyttNotatModal, setShowNyttNotatModal] = useState(false);
 
-    const [show, setShow] = useShowHistorikkState();
-
-    useOppdaterHistorikk();
+    useOppdaterHistorikk(() => setShowNotatListeModal(true));
 
     return (
         <AnimatePresence initial={false}>
-            {show && (
+            {showHistorikk && (
                 <motion.div
                     key="historikk"
                     initial={{ width: 0 }}
@@ -56,8 +67,27 @@ export const Historikk = () => {
                     <Hendelser>
                         <HistorikkTitle>
                             HISTORIKK
-                            <CloseButton onClick={() => setShow(false)} />
+                            <CloseButton onClick={() => setShowHistorikk(false)} />
                         </HistorikkTitle>
+                        {showNotatListeModal && (
+                            <NotatListeModal
+                                vedtaksperiodeId={vedtaksperiodeId}
+                                lukk={() => setShowNotatListeModal(false)}
+                                åpneNyttNotatModal={() => setShowNyttNotatModal(true)}
+                                tildeling={tildeling}
+                            />
+                        )}
+                        {showNyttNotatModal && (
+                            <NyttNotatModal
+                                lukkModal={() => setShowNyttNotatModal(false)}
+                                personinfo={personinfo}
+                                vedtaksperiodeId={vedtaksperiodeId}
+                                navigerTilbake={() => {
+                                    setShowNotatListeModal(true);
+                                    setShowNyttNotatModal(false);
+                                }}
+                            />
+                        )}
                         {historikk.map((it) => (
                             <HistorikkHendelse key={it.id} {...it} />
                         ))}

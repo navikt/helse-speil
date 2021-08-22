@@ -436,6 +436,15 @@ export enum InntektskildeType {
     Ukjent = 'UKJENT',
 }
 
+export interface Notat {
+    id: string;
+    tekst: string;
+    saksbehandler: Saksbehandler;
+    opprettet: Dayjs;
+    vedtaksperiodeId: string;
+    feilregistrert: boolean;
+}
+
 export interface UtbetalingshistorikkUtbetaling2 {
     status: Utbetalingstatus;
     type: Utbetalingstype;

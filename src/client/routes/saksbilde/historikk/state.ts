@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
+import { useNotaterForVedtaksperiode } from '../../../state/notater';
 import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
 
 import { Hendelse, Hendelsetype } from './Historikk.types';
-import { useDokumenter, useUtbetalinger, useUtbetalingsendringer } from './mapping';
+import { useDokumenter, useNotater, useUtbetalinger, useUtbetalingsendringer } from './mapping';
 
 const historikkState = atom<Hendelse[]>({
     key: 'historikkState',
@@ -35,13 +36,16 @@ export const useHistorikk = () => useRecoilValue(historikk);
 
 export const useFilterState = () => useRecoilState(filterState);
 
-export const useOppdaterHistorikk = () => {
+export const useOppdaterHistorikk = (onNotatLenkeClick: () => void) => {
     const aktivPeriode = useAktivPeriode();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode?.id!);
 
     const dokumenter = useDokumenter(vedtaksperiode);
     const utbetalinger = useUtbetalinger(aktivPeriode);
     const utbetalingsendringer = useUtbetalingsendringer(vedtaksperiode);
+
+    const notaterForVedtaksperiode = useNotaterForVedtaksperiode(vedtaksperiode?.id!);
+    const notater = useNotater(notaterForVedtaksperiode, onNotatLenkeClick);
 
     const setHistorikk = useSetRecoilState(historikkState);
 
@@ -53,9 +57,10 @@ export const useOppdaterHistorikk = () => {
     );
 
     hendelser.push(...utbetalinger);
+    hendelser.push(...notater);
     hendelser.sort(byTimestamp);
 
     useEffect(() => {
         setHistorikk(hendelser);
-    }, [aktivPeriode]);
+    }, [aktivPeriode, notater]);
 };

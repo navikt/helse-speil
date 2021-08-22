@@ -1,8 +1,15 @@
-import { EksternBehandlingstatistikk, SpesialistOppgave } from 'external-types';
+import { EksternBehandlingstatistikk, SpesialistNotat, SpesialistOppgave } from 'external-types';
 
 import { Avvisningsskjema } from '../routes/saksbilde/venstremeny/utbetaling/Utbetalingsdialog';
 
-import { AnnulleringDTO, Options, OverstyrteDagerDTO, OverstyrtInntektDTO, PersonoppdateringDTO } from './types';
+import {
+    AnnulleringDTO,
+    NotatDTO,
+    Options,
+    OverstyrteDagerDTO,
+    OverstyrtInntektDTO,
+    PersonoppdateringDTO,
+} from './types';
 
 export const ResponseError = (statusCode: number, message?: string) => ({
     statusCode,
@@ -102,6 +109,29 @@ export const post = async (url: string, data: any, headere?: Headers): Promise<S
     };
 };
 
+export const put = async (url: string, data: any, headere?: Headers): Promise<SpeilResponse> => {
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            ...headere,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
+    if (response.status !== 200 && response.status !== 204) {
+        const message = await getErrorMessage(response);
+        console.log(response.status, message);
+
+        throw ResponseError(response.status, message);
+    }
+
+    return {
+        status: response.status,
+        data: await getData(response),
+    };
+};
+
 const postVedtak = async (oppgavereferanse: string, aktørId: string, godkjent: boolean, skjema?: Avvisningsskjema) =>
     post(`${baseUrl}/payments/vedtak`, { oppgavereferanse, aktørId, godkjent, skjema });
 
@@ -152,4 +182,20 @@ export const getBehandlingsstatistikk = async () => {
     return get(`${baseUrl}/behandlingsstatistikk`).then(
         (response) => response.data.behandlingsstatistikk as EksternBehandlingstatistikk
     );
+};
+
+export const getNotater = async (vedtaksperiodeIder: string[]) => {
+    return get(`${baseUrl}/notater?vedtaksperiodeId=${vedtaksperiodeIder.join('&vedtaksperiodeId=')}`).then(
+        (response) => {
+            return response.data as { vedtaksperiodeId: SpesialistNotat[] };
+        }
+    );
+};
+
+export const postNotat = async (oppgavereferanse: string, notat: NotatDTO) => {
+    return post(`${baseUrl}/notater/${oppgavereferanse}`, notat);
+};
+
+export const putFeilregistrertNotat = async (vedtaksperiodeId: string, notatId: string) => {
+    return put(`${baseUrl}/notater/${vedtaksperiodeId}/feilregistrer/${notatId}`, {});
 };

@@ -17,7 +17,7 @@
             "id": "f9eb993e-07cd-4eef-925c-356528a73b21",
             "vedtaksperioder": [
                 {
-                    "id": "f5598ad8-2535-4ade-bf63-bf1b0395fe25",
+                    "id": "aaaaaaaa-6541-4dcf-aa53-8b466fc4ac87",
                     "gruppeId": "aae3bd15-5600-42bb-9d4a-2377f6d92e32",
                     "fom": "2021-04-03",
                     "tom": "2021-04-30",
@@ -575,7 +575,7 @@
                     "forlengelseFraInfotrygd": "NEI",
                     "periodetype": "FØRSTEGANGSBEHANDLING",
                     "beregningIder": ["ff581b18-612e-4b93-bb12-6bdb3f18c5a3"],
-                    "oppgavereferanse": "2344",
+                    "oppgavereferanse": "1",
                     "risikovurdering": {
                         "funn": [],
                         "kontrollertOk": [],

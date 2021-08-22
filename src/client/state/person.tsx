@@ -1,9 +1,9 @@
-import { Person, TildelingType, Vedtaksperiode } from 'internal-types';
+import { Oppgave, Person, TildelingType, Vedtaksperiode } from 'internal-types';
 import { atom, selector, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
-import { fetchPerson } from '../io/http';
+import { deletePåVent, fetchPerson, postLeggPåVent } from '../io/http';
 import { mapPerson } from '../mapping/person';
 
 import { useInnloggetSaksbehandler } from './authentication';
@@ -154,6 +154,36 @@ export const useSykepengegrunnlag = (beregningId: string) => {
     return (usePerson()
         ?.arbeidsgivere.flatMap((a) => a.vedtaksperioder)
         .find((v) => v.beregningIder?.find((id) => id === beregningId)) as Vedtaksperiode)?.vilkår?.sykepengegrunnlag;
+};
+
+export const useLeggPåVent = () => {
+    const settLokalPåVentState = usePersonPåVent();
+
+    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>) => {
+        return postLeggPåVent(oppgavereferanse)
+            .then((response) => {
+                settLokalPåVentState(true);
+                return Promise.resolve(response);
+            })
+            .catch(() => {
+                return Promise.reject();
+            });
+    };
+};
+
+export const useFjernPåVent = () => {
+    const settLokalPåVentState = usePersonPåVent();
+
+    return ({ oppgavereferanse }: Pick<Oppgave, 'oppgavereferanse'>) => {
+        return deletePåVent(oppgavereferanse)
+            .then((response) => {
+                settLokalPåVentState(false);
+                return Promise.resolve(response);
+            })
+            .catch(() => {
+                return Promise.reject();
+            });
+    };
 };
 
 export const useIsLoadingPerson = () => useRecoilValue(loadingPersonState);

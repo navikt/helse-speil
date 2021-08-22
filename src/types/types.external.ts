@@ -211,6 +211,18 @@ interface SpesialistBoenhet {
     navn: string;
 }
 
+export interface SpesialistNotat {
+    id: string;
+    tekst: string;
+    opprettet: string;
+    saksbehandlerOid: string;
+    saksbehandlerNavn: string;
+    saksbehandlerEpost: string;
+    vedtaksperiodeId: string;
+    feilregistrert: boolean;
+    saksbehandlerIdent?: string;
+}
+
 export interface SpesialistPerson {
     aktørId: string;
     fødselsnummer: string;

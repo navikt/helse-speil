@@ -7,6 +7,7 @@ import '@navikt/helse-frontend-logg/lib/main.css';
 
 import { ErrorBoundary } from '../../../components/ErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
+import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
@@ -58,6 +59,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
     const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const maksdato = useMaksdato(aktivPeriode.beregningId);
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
+    useSetVedtaksperiodeReferanserForNotater(vedtaksperiode.id ? [vedtaksperiode.id] : []);
 
     const over67år = erOver67År(vedtaksperiode);
     const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
@@ -121,7 +123,11 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
                     </AmplitudeProvider>
                 </ErrorBoundary>
             </AutoFlexContainer>
-            <Historikk />
+            <Historikk
+                vedtaksperiodeId={vedtaksperiode.id}
+                tildeling={personTilBehandling.tildeling}
+                personinfo={personTilBehandling.personinfo}
+            />
         </Container>
     );
 };

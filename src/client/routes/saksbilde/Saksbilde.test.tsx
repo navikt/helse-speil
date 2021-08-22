@@ -20,6 +20,9 @@ import Saksbilde from './Saksbilde';
 jest.mock('../../hooks/useRefreshPersonVedUrlEndring', () => ({
     useRefreshPersonVedUrlEndring: () => {},
 }));
+jest.mock('../../hooks/useSetVedtaksperiodeReferanserForNotater', () => ({
+    useSetVedtaksperiodeReferanserForNotater: () => {},
+}));
 
 jest.mock('../saksbilde/historikk/icons/IconDokumenter.svg', () => 'null');
 jest.mock('../saksbilde/historikk/icons/IconHistorikk.svg', () => 'null');
@@ -66,6 +69,7 @@ describe('Saksbilde', () => {
         });
     });
     test('rendrer saksbilde for ufullstendig vedtaksperiode', async () => {
+        //
         const personMedUfullstendigVedtaksperiode = mappetPerson([
             umappetArbeidsgiver(
                 [
@@ -93,6 +97,7 @@ describe('Saksbilde', () => {
     });
 
     test('rendrer saksbilde med innhold dersom både person og vedtaksperioder finnes', async () => {
+        //
         const person = mappetPerson();
         render(<Saksbilde />, { wrapper: wrapper(person) });
         await waitFor(() => {
@@ -105,6 +110,7 @@ describe('Saksbilde', () => {
     });
 
     test('rendrer saksbilde for revurdering', async () => {
+        //
         const dato = dayjs('2020-01-01');
         const personMedUtbetalingshistorikk = mappetPerson([
             umappetArbeidsgiver(

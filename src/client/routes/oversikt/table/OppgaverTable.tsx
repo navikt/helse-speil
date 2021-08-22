@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Oppgave } from 'internal-types';
 import React from 'react';
 
+import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { useRemoveAlleVarsler } from '../../../state/varsler';
 import { Filter, useFilters } from './state/filter';
 import { usePagination } from './state/pagination';
@@ -24,13 +25,13 @@ import { Status } from './rader/Status';
 import { Søker } from './rader/Søker';
 import { Tildeling } from './rader/Tildeling';
 import { OptionsButton } from './rader/kjøttbolle/OptionsButton';
+import { NotatKnapp } from './rader/notat/NotatKnapp';
 
 const Container = styled.div`
     min-height: 300px;
 `;
 
 const ScrollableX = styled.div`
-    overflow: auto hidden;
     margin: 0;
     padding: 0;
     height: calc(100% - 50px);
@@ -66,6 +67,8 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
     const paginatedRows = pagination
         ? sortedRows.slice(pagination.firstVisibleEntry, pagination.lastVisibleEntry + 1)
         : sortedRows;
+
+    useSetVedtaksperiodeReferanserForNotater(paginatedRows.map((t) => t.vedtaksperiodeId));
 
     const onNavigate = () => removeVarsler();
 
@@ -145,6 +148,7 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 </SortButton>
                             </Header>
                             <Header scope="col" colSpan={1} />
+                            <Header scope="col" colSpan={1} />
                         </tr>
                     </thead>
                     <Body>
@@ -171,8 +175,11 @@ export const OppgaverTable = React.memo(({ oppgaver }: { oppgaver: Oppgave[] }) 
                                 <Cell>
                                     <Opprettet date={it.opprettet} />
                                 </Cell>
+                                <Cell>
+                                    <OptionsButton oppgave={it} personinfo={it.personinfo} />
+                                </Cell>
                                 <Cell style={{ width: '100%' }}>
-                                    <OptionsButton oppgave={it} />
+                                    <NotatKnapp tildeling={it.tildeling} vedtaksperiodeId={it.vedtaksperiodeId} personinfo={it.personinfo} />
                                 </Cell>
                             </LinkRow>
                         ))}

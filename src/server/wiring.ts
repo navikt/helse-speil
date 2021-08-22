@@ -10,6 +10,8 @@ import devRedisClient from './devRedisClient';
 import instrumentationModule, { Instrumentation } from './instrumentation';
 import devLeggPåVentClient from './leggpåvent/devLeggPåVentClient';
 import leggPåVentClient from './leggpåvent/leggPåVentClient';
+import devNotatClient from './notat/devNotatClient';
+import notatClient from './notat/notatClient';
 import devOpptegnelseClient from './opptegnelse/devOpptegnelseClient';
 import opptegnelseClient from './opptegnelse/opptegnelseClient';
 import devOverstyringClient from './overstyring/devOverstyringClient';
@@ -46,6 +48,7 @@ const getDevDependencies = (app: Express) => {
         tildeling: { tildelingClient: _tildelingClient },
         opptegnelse: { opptegnelseClient: devOpptegnelseClient },
         leggPåVent: { leggPåVentClient: devLeggPåVentClient },
+        notat: { notatClient: devNotatClient },
         instrumentation,
     };
 };
@@ -62,6 +65,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
     const _personClient = personClient(instrumentation, config.oidc, _onBehalfOf);
     const _opptegnelseClient = opptegnelseClient(config.oidc, _onBehalfOf);
     const _leggPåVentClient = leggPåVentClient(config.oidc, _onBehalfOf);
+    const _notatClient = notatClient(config.oidc, _onBehalfOf);
 
     return {
         person: {
@@ -76,6 +80,7 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         tildeling: { tildelingClient: _tildelingClient },
         opptegnelse: { opptegnelseClient: _opptegnelseClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
+        notat: { notatClient: _notatClient },
         instrumentation,
     };
 };

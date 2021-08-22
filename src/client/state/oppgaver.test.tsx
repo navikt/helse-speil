@@ -5,7 +5,7 @@ import { InntektskildeType, Oppgave, Periodetype, Saksbehandler } from 'internal
 import React from 'react';
 import { Loadable, RecoilRoot, useRecoilValueLoadable } from 'recoil';
 
-import { oppgaverState, useTildeling } from './oppgaver';
+import { oppgaverState, useFjernTildeling, useTildelOppgave } from './oppgaver';
 
 declare global {
     namespace NodeJS {
@@ -95,9 +95,9 @@ describe('oppgavetildeling', () => {
             await settOppOppgaver();
 
             mockTildelingOk();
-            const { result } = renderHook(() => useTildeling(), { wrapper });
+            const { result } = renderHook(() => useTildelOppgave(), { wrapper });
 
-            const response = await result.current.tildelOppgave(enOppgave(), saksbehandler);
+            const response = await result.current(enOppgave(), saksbehandler);
 
             expect(response).toHaveProperty('status', 200);
         });
@@ -106,10 +106,10 @@ describe('oppgavetildeling', () => {
             await settOppOppgaver();
 
             mockTildelingsfeil();
-            const { result } = renderHook(() => useTildeling(), { wrapper });
+            const { result } = renderHook(() => useTildelOppgave(), { wrapper });
 
             await act(async () => {
-                const errorMessage = await result.current.tildelOppgave(enOppgave(), saksbehandler).catch((err) => err);
+                const errorMessage = await result.current(enOppgave(), saksbehandler).catch((err) => err);
                 expect(errorMessage).toEqual('uuid');
             });
         });
@@ -117,19 +117,19 @@ describe('oppgavetildeling', () => {
     describe('useFjernTildeling', () => {
         test('thrower ikke ved suksess', () => {
             mockTildelingOk();
-            const { result } = renderHook(() => useTildeling(), { wrapper });
+            const { result } = renderHook(() => useFjernTildeling(), { wrapper });
 
             act(async () => {
-                expect(await result.current.fjernTildeling(enOppgave())).toHaveProperty('status', 200);
+                expect(await result.current(enOppgave())).toHaveProperty('status', 200);
             });
         });
 
         test('thrower ved feil', () => {
             mockTildelingsfeil();
-            const { result } = renderHook(() => useTildeling(), { wrapper });
+            const { result } = renderHook(() => useFjernTildeling(), { wrapper });
 
             act(() => {
-                expect(async () => await result.current.fjernTildeling(enOppgave())).rejects.toBeUndefined();
+                expect(async () => await result.current(enOppgave())).rejects.toBeUndefined();
             });
         });
     });
