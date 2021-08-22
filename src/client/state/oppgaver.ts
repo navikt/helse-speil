@@ -1,5 +1,5 @@
 import { InntektskildeType, Oppgave, Periodetype, Saksbehandler, TildelingType } from 'internal-types';
-import { atom, selector, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
+import { atom, selector, useRecoilValue, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
 
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
@@ -160,7 +160,8 @@ export const useFjernTildeling = () => {
 };
 
 export const useLeggPåVent = () => {
-    const setTildelinger = useSetRecoilState(_tildelingerState);
+    const tildelinger = useRecoilValue(tildelingerState);
+    const setLokaleTildelinger = useSetRecoilState(_tildelingerState);
     const addTildelingsvarsel = useAddTildelingsvarsel();
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
@@ -168,12 +169,12 @@ export const useLeggPåVent = () => {
         removeTildelingsvarsel();
         return postLeggPåVent(oppgavereferanse)
             .then((response) => {
-                setTildelinger((tildelinger) => ({
+                setLokaleTildelinger({
                     ...tildelinger,
                     [oppgavereferanse]: tildelinger[oppgavereferanse]
                         ? { ...tildelinger[oppgavereferanse]!, påVent: true }
                         : undefined,
-                }));
+                });
                 return Promise.resolve(response);
             })
             .catch(() => {
@@ -184,7 +185,8 @@ export const useLeggPåVent = () => {
 };
 
 export const useFjernPåVent = () => {
-    const setTildelinger = useSetRecoilState(_tildelingerState);
+    const tildelinger = useRecoilValue(tildelingerState);
+    const setLokaleTildelinger = useSetRecoilState(_tildelingerState);
     const addTildelingsvarsel = useAddTildelingsvarsel();
     const removeTildelingsvarsel = useRemoveTildelingsvarsel();
 
@@ -192,10 +194,12 @@ export const useFjernPåVent = () => {
         removeTildelingsvarsel();
         return deletePåVent(oppgavereferanse)
             .then((response) => {
-                setTildelinger((it) => ({
-                    ...it,
-                    [oppgavereferanse]: it[oppgavereferanse] ? { ...it[oppgavereferanse]!, påVent: false } : undefined,
-                }));
+                setLokaleTildelinger({
+                    ...tildelinger,
+                    [oppgavereferanse]: tildelinger[oppgavereferanse]
+                        ? { ...tildelinger[oppgavereferanse]!, påVent: false }
+                        : undefined,
+                });
                 return Promise.resolve(response);
             })
             .catch(() => {
@@ -204,10 +208,3 @@ export const useFjernPåVent = () => {
             });
     };
 };
-
-export const useTildeling = () => ({
-    tildelOppgave: useTildelOppgave(),
-    fjernTildeling: useFjernTildeling(),
-    leggPåVent: useLeggPåVent(),
-    fjernPåVent: useFjernPåVent(),
-});

@@ -54,7 +54,7 @@
             "id": "307e28f7-288c-4b7a-acfb-9ece23de970c",
             "vedtaksperioder": [
                 {
-                    "id": "fde0f314-a2d0-486b-9419-f508ab26c7bc",
+                    "id": "fde0f314-a2d0-486b-9419-f508ab26c7bd",
                     "gruppeId": "1f81e845-7577-46a9-98b2-43675a334c04",
                     "fom": "2021-05-01",
                     "tom": "2021-05-31",
@@ -709,7 +709,7 @@
                     },
                     "aktivitetslogg": [
                         {
-                            "vedtaksperiodeId": "fde0f314-a2d0-486b-9419-f508ab26c7bc",
+                            "vedtaksperiodeId": "fde0f314-a2d0-486b-9419-f508ab26c7bd",
                             "alvorlighetsgrad": "W",
                             "melding": "Vurder lovvalg og medlemskap",
                             "tidsstempel": "2021-06-08 16:47:27.426"

@@ -1,71 +1,83 @@
+import styled from '@emotion/styled';
+import { Personinfo } from 'internal-types';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
+import { useSetRecoilState } from 'recoil';
 
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
-import { deletePåVent, postLeggPåVent } from '../../../io/http';
-import { usePersonPåVent } from '../../../state/person';
+import { useFjernPåVent, useLeggPåVent } from '../../../state/person';
 import { useOperationErrorHandler } from '../../../state/varsler';
+import { ignorePromise } from '../../../utils/promise';
 
-const ignorePromise = (promise: Promise<any>, onError: (err: Error) => void) => {
-    promise.catch(onError);
-};
+import { NyttNotatModal } from '../../oversikt/table/rader/notat/NyttNotatModal';
+import { tabState, TabType } from '../../oversikt/tabs';
 
 export interface PåVentKnappProps {
     erPåVent?: boolean;
     oppgavereferanse?: string;
+    vedtaksperiodeId: string;
+    personinfo: Personinfo;
 }
 
-export const PåVentKnapp = ({ erPåVent, oppgavereferanse }: PåVentKnappProps) => {
+const Container = styled.span`
+    display: flex;
+    align-items: center;
+`;
+
+export const PåVentKnapp = ({ erPåVent, oppgavereferanse, vedtaksperiodeId, personinfo }: PåVentKnappProps) => {
+    const setAktivTab = useSetRecoilState(tabState);
     const [isFetching, setIsFetching] = useState(false);
     const history = useHistory();
-    const personPåVent = usePersonPåVent();
     const errorHandler = useOperationErrorHandler('Legg på vent');
     const { lukk } = useContext(DropdownContext);
+
+    const leggPåVent = useLeggPåVent();
+    const fjernPåVent = useFjernPåVent();
+
+    const [visModal, setVisModal] = useState(false);
 
     if (!oppgavereferanse) {
         return null;
     }
+    const settPåVent = () => {
+        setIsFetching(true);
+        ignorePromise(
+            leggPåVent({ oppgavereferanse }).then(() => {
+                setAktivTab(TabType.Ventende);
+                history.push('/');
+            }),
+            errorHandler
+        );
+    };
 
-    return erPåVent ? (
-        <DropdownMenyknapp
-            spinner={isFetching}
-            onClick={() => {
-                setIsFetching(true);
-                ignorePromise(
-                    deletePåVent(oppgavereferanse)
-                        .then(() => {
-                            personPåVent(false);
-                        })
-                        .finally(() => {
-                            lukk();
-                            setIsFetching(false);
-                        }),
-                    errorHandler
-                );
-            }}
-        >
-            Fjern fra på vent
-        </DropdownMenyknapp>
-    ) : (
-        <DropdownMenyknapp
-            spinner={isFetching}
-            onClick={() => {
-                setIsFetching(true);
-                ignorePromise(
-                    postLeggPåVent(oppgavereferanse)
-                        .then(() => {
-                            personPåVent(true); // Vi skal tilbake til oversikten, men for ordens skyld
-                            history.push('/');
-                        })
-                        .finally(() => {
-                            lukk();
-                            setIsFetching(false);
-                        }),
-                    errorHandler
-                );
-            }}
-        >
-            Legg på vent
-        </DropdownMenyknapp>
+    const fjernFraPåVent = () => {
+        setIsFetching(true);
+        ignorePromise(
+            fjernPåVent({ oppgavereferanse }).finally(() => {
+                lukk();
+                setIsFetching(false);
+            }),
+            errorHandler
+        );
+    };
+
+    return (
+        <Container>
+            {erPåVent ? (
+                <DropdownMenyknapp spinner={isFetching} onClick={fjernFraPåVent}>
+                    Fjern fra på vent
+                </DropdownMenyknapp>
+            ) : (
+                <DropdownMenyknapp onClick={() => setVisModal(true)}>Legg på vent</DropdownMenyknapp>
+            )}
+            {visModal && (
+                <NyttNotatModal
+                    lukkModal={() => setVisModal(false)}
+                    personinfo={personinfo}
+                    vedtaksperiodeId={vedtaksperiodeId}
+                    leggSakPåVent={settPåVent}
+                />
+            )}
+        </Container>
     );
 };

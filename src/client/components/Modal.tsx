@@ -94,9 +94,10 @@ const Topprad = styled.div`
 interface ModalProps {
     isOpen: boolean;
     contentLabel: string;
-    onRequestClose: () => void;
+    onRequestClose: (event: React.MouseEvent | React.KeyboardEvent) => void;
     title?: ReactNode;
     className?: string;
+    shouldReturnFocusAfterClose?: boolean;
 }
 
 export const Modal: React.FunctionComponent<ModalProps> = ({
@@ -106,18 +107,22 @@ export const Modal: React.FunctionComponent<ModalProps> = ({
     title,
     children,
     className,
+    shouldReturnFocusAfterClose,
 }) => (
-    <SpeilModal
-        id="modal"
-        className={className}
-        isOpen={isOpen}
-        contentLabel={contentLabel}
-        onRequestClose={onRequestClose}
-    >
-        <Topprad>
-            <Lukknapp onClick={onRequestClose} />
-            {title}
-        </Topprad>
-        {children}
-    </SpeilModal>
+    <span onClick={(event) => event.stopPropagation()}>
+        <SpeilModal
+            id="modal"
+            className={className}
+            isOpen={isOpen}
+            contentLabel={contentLabel}
+            onRequestClose={onRequestClose}
+            shouldReturnFocusAfterClose={shouldReturnFocusAfterClose}
+        >
+            <Topprad>
+                <Lukknapp onClick={onRequestClose} />
+                {title}
+            </Topprad>
+            {children}
+        </SpeilModal>
+    </span>
 );

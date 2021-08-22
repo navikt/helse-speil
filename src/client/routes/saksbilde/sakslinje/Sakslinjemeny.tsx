@@ -51,8 +51,13 @@ export const Sakslinjemeny = ({ aktivPeriode }: SakslinjemenyProps) => {
                             erTildeltInnloggetBruker={tildeltInnloggetBruker}
                         />
                     )}
-                    {tildeltInnloggetBruker && (
-                        <PåVentKnapp erPåVent={person?.tildeling?.påVent} oppgavereferanse={oppgavereferanse} />
+                    {person && tildeltInnloggetBruker && (
+                        <PåVentKnapp
+                            erPåVent={person?.tildeling?.påVent}
+                            oppgavereferanse={oppgavereferanse}
+                            vedtaksperiodeId={aktivPeriode.id}
+                            personinfo={person.personinfo}
+                        />
                     )}
                     {oppgavereferanse && <Strek />}
                 </>

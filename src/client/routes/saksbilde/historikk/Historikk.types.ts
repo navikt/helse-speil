@@ -8,7 +8,7 @@ export enum Hendelsetype {
 
 export type Hendelse = {
     id: string;
-    title: string;
+    title: ReactNode;
     type: Hendelsetype;
     timestamp?: Dayjs;
     body?: ReactNode;

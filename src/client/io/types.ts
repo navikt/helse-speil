@@ -1,5 +1,3 @@
-import { Dagtype } from 'internal-types';
-
 export interface Options {
     method?: string;
     headers?: { [key: string]: any };
@@ -39,4 +37,8 @@ export interface AnnulleringDTO {
 
 export interface PersonoppdateringDTO {
     fødselsnummer: string;
+}
+
+export interface NotatDTO {
+    tekst: string;
 }

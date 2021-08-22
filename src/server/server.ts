@@ -11,6 +11,7 @@ import config from './config';
 import headers from './headers';
 import oppgaveRoutes from './leggpåvent/leggPåVentRoutes';
 import logger from './logging';
+import notatRoutes from './notat/notatRoutes';
 import opptegnelseRoutes from './opptegnelse/opptegnelseRoutes';
 import overstyringRoutes from './overstyring/overstyringRoutes';
 import paymentRoutes from './payment/paymentRoutes';
@@ -150,6 +151,7 @@ app.use('/api/tildeling', tildelingRoutes(dependencies.tildeling));
 app.use('/api/opptegnelse', opptegnelseRoutes(dependencies.opptegnelse));
 app.use('/api/leggpaavent', oppgaveRoutes(dependencies.leggPåVent));
 app.use('/api/behandlingsstatistikk', behandlingsstatistikkRoutes(dependencies.person.spesialistClient));
+app.use('/api/notater', notatRoutes(dependencies.notat));
 
 app.get('/*', (req, res, next) => {
     if (!req.accepts('html') && /\/api/.test(req.url)) {

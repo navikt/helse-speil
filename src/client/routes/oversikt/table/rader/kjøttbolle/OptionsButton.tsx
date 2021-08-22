@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Oppgave } from 'internal-types';
+import { Oppgave, Personinfo } from 'internal-types';
 import React, { useRef, useState } from 'react';
 
 import { Popover } from '@navikt/ds-react';
@@ -46,9 +46,10 @@ const Container = styled.span`
 
 interface OptionsButtonProps {
     oppgave: Oppgave;
+    personinfo: Personinfo;
 }
 
-export const OptionsButton = React.memo(({ oppgave }: OptionsButtonProps) => {
+export const OptionsButton = React.memo(({ oppgave, personinfo }: OptionsButtonProps) => {
     const [popoverIsActive, setPopoverIsActive] = useState(false);
     const meatballRef = useRef<HTMLButtonElement>(null);
 
@@ -91,11 +92,16 @@ export const OptionsButton = React.memo(({ oppgave }: OptionsButtonProps) => {
                             tildeling={oppgave.tildeling}
                         />
                     )}
-                    {erTildeltInnloggetBruker && oppgave.tildeling!.påVent ? (
+                    {erTildeltInnloggetBruker &&
+                        (oppgave.tildeling!.påVent ? (
                         <FjernFraPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
                     ) : (
-                        <LeggPåVentMenuButton oppgavereferanse={oppgave.oppgavereferanse} />
-                    )}
+                        <LeggPåVentMenuButton
+                            oppgavereferanse={oppgave.oppgavereferanse}
+                            vedtaksperiodeId={oppgave.vedtaksperiodeId}
+                            personinfo={personinfo}
+                        />
+                    ))}
                     {skalViseAvmeldingsknapp && <MeldAvMenuButton oppgavereferanse={oppgave.oppgavereferanse} />}
                 </Popover>
             </Container>

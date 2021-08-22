@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 import dayjs from 'dayjs';
-import { Dokument, Kildetype, Overstyring, Utbetalingstype, Vedtaksperiode, Vurdering } from 'internal-types';
+import { Dokument, Kildetype, Notat, Overstyring, Utbetalingstype, Vedtaksperiode, Vurdering } from 'internal-types';
 import React from 'react';
+import { useMemo } from 'react';
+
+import Lenke from 'nav-frontend-lenker';
 
 import { Kilde } from '../../../components/Kilde';
 import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
@@ -100,3 +103,24 @@ export const useUtbetalingsendringer = (vedtaksperiode?: Vedtaksperiode): Hendel
             ),
         }))) ||
     [];
+
+export const useNotater = (notater: Notat[], onNotatLenkeClick: () => void): Hendelse[] =>
+    useMemo(
+        () =>
+            notater.map((notat: Notat) => ({
+                id: notat.id,
+                timestamp: dayjs(notat.opprettet),
+                title: (
+                    <Lenke href="#" onClick={() => onNotatLenkeClick()}>
+                        Lagt på vent
+                    </Lenke>
+                ),
+                type: Hendelsetype.Historikk,
+                body: (
+                    <BegrunnelseTekst key={notat.id}>
+                        <p>{notat.saksbehandler.navn}</p>
+                    </BegrunnelseTekst>
+                ),
+            })),
+        [JSON.stringify(notater.map((notat) => notat.id))]
+    );

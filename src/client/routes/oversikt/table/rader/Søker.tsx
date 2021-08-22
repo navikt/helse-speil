@@ -9,7 +9,7 @@ import { capitalizeName } from '../../../../utils/locale';
 import { anonymisertPersoninfo } from '../../../../agurkdata';
 import { CellContent } from './CellContent';
 
-const getFormattedName = (personinfo: Personinfo): string => {
+export const getFormattedName = (personinfo: Personinfo): string => {
     const { fornavn, mellomnavn, etternavn } = personinfo;
     return capitalizeName(`${etternavn}, ${fornavn} ${mellomnavn ? `${mellomnavn} ` : ''}`);
 };
