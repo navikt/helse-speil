@@ -90,72 +90,77 @@ export class ArbeidsgiverBuilder {
             tidslinjeperioder: this.flatten(
                 this.arbeidsgiver.vedtaksperioder?.flatMap((periode): Tidslinjeperiode[] => {
                     return (
-                        periode.beregningIder?.map((beregningId) => {
-                            const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
-                            const tidslinje = mapTidslinjeMedAldersvilkår(
-                                utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
-                                (periode as Vedtaksperiode)?.vilkår?.alder
-                            );
-                            const periodetype = () => {
-                                switch (element.utbetaling.type) {
-                                    case Utbetalingstype.UTBETALING:
-                                        return Periodetype.VEDTAKSPERIODE;
-                                    case Utbetalingstype.REVURDERING:
-                                        return Periodetype.REVURDERING;
-                                    case Utbetalingstype.ANNULLERING:
-                                        return Periodetype.ANNULLERT_PERIODE;
-                                    default:
-                                        return Periodetype.UFULLSTENDIG;
-                                }
-                            };
-                            const harOppgave = !!(periode as Vedtaksperiode)?.oppgavereferanse;
-                            return {
-                                id: periode.id,
-                                beregningId: beregningId,
-                                unique: nanoid(),
-                                fagsystemId: element.utbetaling.arbeidsgiverFagsystemId,
-                                fom: periode.fom,
-                                tom: periode.tom,
-                                type: periodetype(),
-                                tilstand: this.tilstand(
-                                    element.utbetaling.status,
-                                    periodetype(),
-                                    tidslinje,
-                                    harOppgave,
-                                    element.utbetaling.vurdering
-                                ),
-                                utbetalingstidslinje: tidslinje,
-                                sykdomstidslinje: sykdomstidslinje(element.beregnettidslinje, periode.fom, periode.tom),
-                                fullstendig: periode.fullstendig,
-                                organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
-                                opprettet: element.tidsstempel,
-                            };
-                        }) ?? [
-                            {
-                                id: periode.id,
-                                beregningId: nanoid(),
-                                unique: nanoid(),
-                                fom: periode.fom,
-                                tom: periode.tom,
-                                type: Periodetype.UFULLSTENDIG,
-                                tilstand: this.tilstand(
-                                    Utbetalingstatus.UKJENT,
-                                    Periodetype.UFULLSTENDIG,
-                                    periode.utbetalingstidslinje,
-                                    false
-                                ),
-                                utbetalingstidslinje: [],
-                                sykdomstidslinje: [],
-                                fullstendig: periode.fullstendig,
-                                organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
-                                opprettet: dayjs(),
-                            },
-                        ]
+                        periode.beregningIder?.map((beregningId) => this.mapBeregningId(beregningId, periode)) ??
+                        this.mapUfullstendigPeriode(periode)
                     );
                 }) ?? []
             ),
         };
     };
+
+    private mapBeregningId = (beregningId: string, periode: Vedtaksperiode | UfullstendigVedtaksperiode) => {
+        const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
+        const tidslinje = mapTidslinjeMedAldersvilkår(
+            utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
+            (periode as Vedtaksperiode)?.vilkår?.alder
+        );
+        const periodetype = () => {
+            switch (element.utbetaling.type) {
+                case Utbetalingstype.UTBETALING:
+                    return Periodetype.VEDTAKSPERIODE;
+                case Utbetalingstype.REVURDERING:
+                    return Periodetype.REVURDERING;
+                case Utbetalingstype.ANNULLERING:
+                    return Periodetype.ANNULLERT_PERIODE;
+                default:
+                    return Periodetype.UFULLSTENDIG;
+            }
+        };
+        const harOppgave = !!(periode as Vedtaksperiode)?.oppgavereferanse;
+        return {
+            id: periode.id,
+            beregningId: beregningId,
+            unique: nanoid(),
+            fagsystemId: element.utbetaling.arbeidsgiverFagsystemId,
+            fom: periode.fom,
+            tom: periode.tom,
+            type: periodetype(),
+            tilstand: this.tilstand(
+                element.utbetaling.status,
+                periodetype(),
+                tidslinje,
+                harOppgave,
+                element.utbetaling.vurdering
+            ),
+            utbetalingstidslinje: tidslinje,
+            sykdomstidslinje: sykdomstidslinje(element.beregnettidslinje, periode.fom, periode.tom),
+            fullstendig: periode.fullstendig,
+            organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
+            opprettet: element.tidsstempel,
+        };
+    };
+
+    private mapUfullstendigPeriode = (periode: UfullstendigVedtaksperiode) => [
+        {
+            id: periode.id,
+            beregningId: nanoid(),
+            unique: nanoid(),
+            fom: periode.fom,
+            tom: periode.tom,
+            type: Periodetype.UFULLSTENDIG,
+            tilstand: this.tilstand(
+                Utbetalingstatus.UKJENT,
+                Periodetype.UFULLSTENDIG,
+                periode.utbetalingstidslinje,
+                false
+            ),
+            utbetalingstidslinje: [],
+            sykdomstidslinje: [],
+            fullstendig: periode.fullstendig,
+            organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
+            opprettet: dayjs(),
+        },
+    ];
 
     private mapArbeidsforhold = () => {
         this.arbeidsgiver = {
