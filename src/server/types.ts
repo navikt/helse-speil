@@ -24,6 +24,7 @@ export interface OidcConfig {
 export interface ServerConfig {
     port: number;
     sessionSecret?: string;
+    spesialistBaseUrl: string;
 }
 
 export interface RedisConfig {

@@ -38,6 +38,7 @@ Lag en `.env`-fil med følgende innhold i rotkatalogen:
 TENANT_ID=<Azure tenant id>
 REDIRECT_URL=http://localhost:3000/callback
 SESSION_SECRET=whatever
+SPESIALIST_BASE_URL=http://localhost:9001
 ```
 
 Starte backend:

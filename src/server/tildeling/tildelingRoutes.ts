@@ -14,16 +14,17 @@ export default ({ tildelingClient }: SetupOptions) => {
         tildelingClient
             .postTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
             .then(() => res.sendStatus(200))
-            .catch((err) => {
-                if (err.statusCode === 409) {
-                    logger.warning(`Oppgaven er allerede tildelt: ${err}`);
+            .catch((ex) => {
+                const respons = ex.error;
+                if (ex.statusCode === 409) {
+                    logger.warning(`Oppgaven er allerede tildelt. Svar fra spesialist: ${JSON.stringify(respons)}`);
                 } else {
-                    logger.error(`Feil under tildeling: ${err}`);
+                    logger.error(`Feil under tildeling: ${ex}`);
                 }
-                if (err.feilkode) {
-                    res.status(err.feilkode).send(err);
+                if (respons.feilkode) {
+                    res.status(respons.feilkode).send(respons);
                 } else {
-                    res.status(err.statusCode).send('Feil under tildeling');
+                    res.status(ex.statusCode).send('Feil under tildeling');
                 }
             });
     });
@@ -32,11 +33,11 @@ export default ({ tildelingClient }: SetupOptions) => {
         tildelingClient
             .fjernTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
             .then(() => res.sendStatus(200))
-            .catch((err) => {
-                if (err.feilkode) {
-                    res.status(err.feilkode).send(err);
+            .catch((ex) => {
+                if (ex.error.feilkode) {
+                    res.status(ex.error.feilkode).send(ex.error);
                 } else {
-                    res.status(err.statusCode).send('Feil under tildeling');
+                    res.status(ex.statusCode).send('Feil under tildeling');
                 }
             });
     });

@@ -1,12 +1,15 @@
 import express, { Request, Response } from 'express';
 
 import oppgaveFil from '../__mock-data__/oppgaver.json';
+import { sleep } from '../src/server/devHelpers';
 
 const app = express();
 const port = 9001;
 
+const passeLenge = () => Math.random() * 500 + 200;
+
 app.disable('x-powered-by');
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:1234');
     res.header(
         'Access-Control-Allow-Headers',
@@ -34,17 +37,31 @@ const personer: { [aktørId: string]: string } = oppgaveFil
         return ret;
     }, {});
 
+const feilresponsForTildeling = {
+    feilkode: 409,
+    kildesystem: 'mockSpesialist',
+    kontekst: {
+        tildeling: {
+            navn: 'Saksbehandler Frank',
+            epost: 'frank@nav.no',
+            oid: 'en annen oid',
+        },
+    },
+};
+
 app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
     tildelinger[oppgavereferanse] = 'uuid';
-    res.sendStatus(200);
+    sleep(passeLenge()).then(() =>
+        Math.random() < 1 ? res.sendStatus(200) : res.status(409).json(feilresponsForTildeling)
+    );
 });
 
 app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
     const oppgavereferanse = req.params.oppgavereferanse;
     delete tildelinger[oppgavereferanse];
     delete venter[oppgavereferanse];
-    res.sendStatus(200);
+    sleep(passeLenge()).then(() => res.sendStatus(200));
 });
 
 app.post('/api/leggpåvent/:oppgaveReferanse', (req: Request, res: Response) => {
@@ -70,7 +87,7 @@ app.get('/api/mock/personstatus/:aktorId', (req: Request, res: Response) => {
 let pollCounter = 0;
 const pollLimit = 3;
 
-app.get('/api/v1/oppgave', (req: Request, res: Response) => {
+app.get('/api/v1/oppgave', (_req: Request, res: Response) => {
     pollCounter += 1;
     if (pollCounter === pollLimit) {
         pollCounter = 0;

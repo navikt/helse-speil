@@ -1,6 +1,9 @@
 import request from 'request-promise-native';
 
+import config from '../config';
 import { OidcConfig, OnBehalfOf } from '../types';
+
+const spesialistBaseUrl = config.server.spesialistBaseUrl;
 
 export interface TildelingClient {
     postTildeling: (tildeling: Tildeling, speilToken: string) => Promise<Response>;
@@ -15,7 +18,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): TildelingClient
     postTildeling: async (tildeling: Tildeling, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/tildeling/${tildeling.oppgavereferanse}`,
+            uri: `${spesialistBaseUrl}/api/tildeling/${tildeling.oppgavereferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
@@ -28,7 +31,7 @@ export default (oidcConfig: OidcConfig, onBehalfOf: OnBehalfOf): TildelingClient
     fjernTildeling: async (tildeling: Tildeling, speilToken: string): Promise<Response> => {
         const onBehalfOfToken = await onBehalfOf.hentFor(oidcConfig.clientIDSpesialist, speilToken);
         const options = {
-            uri: `http://spesialist.tbd.svc.nais.local/api/tildeling/${tildeling.oppgavereferanse}`,
+            uri: `${spesialistBaseUrl}/api/tildeling/${tildeling.oppgavereferanse}`,
             headers: {
                 Authorization: `Bearer ${onBehalfOfToken}`,
             },
