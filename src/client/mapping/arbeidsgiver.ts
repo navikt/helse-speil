@@ -252,8 +252,8 @@ export class ArbeidsgiverBuilder {
         this.arbeidsgiver.vedtaksperioder?.sort(reversert);
     };
 
-    private flatten = (perioder: Tidslinjeperiode[]) =>
-        [...perioder]
+    private flatten = (perioder: Tidslinjeperiode[]) => {
+        const result = [...perioder]
             .sort((a, b) => (b.opprettet.isBefore(a.opprettet) ? 1 : -1))
             .map((periode) => [periode])
             .filter((generasjon) => this.ufullstendigePerioder(generasjon).length === 0)
@@ -269,6 +269,10 @@ export class ArbeidsgiverBuilder {
             })
             .reverse()
             .map((generasjon, index) => this.leggUfullstendigePerioderPåSisteGenerasjon(generasjon, index, perioder));
+
+        const fikkInputMenProduserteIngenOutput = perioder.length > 0 && result.length === 0;
+        return fikkInputMenProduserteIngenOutput ? [perioder] : result;
+    };
 
     private utbetalingstype = (type: string): Utbetalingstype => {
         switch (type.toUpperCase()) {
@@ -407,7 +411,7 @@ export class ArbeidsgiverBuilder {
                         return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
                 }
             case Periodetype.UFULLSTENDIG:
-                return utbetalingstidslinje.length > 0
+                return utbetalingstidslinje.length > 0 && utbetalingstatus !== Utbetalingstatus.UKJENT
                     ? this.defaultTidslinjeTilstander(Utbetalingstatus.GODKJENT_UTEN_UTBETALING, utbetalingstidslinje)
                     : Tidslinjetilstand.Venter;
         }
