@@ -38,7 +38,7 @@ const personer: { [aktørId: string]: string } = oppgaveFil
     }, {});
 
 const feilresponsForTildeling = {
-    feilkode: 409,
+    feilkode: 'oppgave_er_allerede_tildelt',
     kildesystem: 'mockSpesialist',
     kontekst: {
         tildeling: {
@@ -50,11 +50,15 @@ const feilresponsForTildeling = {
 };
 
 app.post('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {
-    const oppgavereferanse = req.params.oppgavereferanse;
-    tildelinger[oppgavereferanse] = 'uuid';
-    sleep(passeLenge()).then(() =>
-        Math.random() < 1 ? res.sendStatus(200) : res.status(409).json(feilresponsForTildeling)
-    );
+    sleep(passeLenge()).then(() => {
+        if (Math.random() < 1) {
+            const oppgavereferanse = req.params.oppgavereferanse;
+            tildelinger[oppgavereferanse] = 'uuid';
+            res.sendStatus(200);
+        } else {
+            res.status(409).json(feilresponsForTildeling);
+        }
+    });
 });
 
 app.delete('/api/tildeling/:oppgavereferanse', (req: Request, res: Response) => {

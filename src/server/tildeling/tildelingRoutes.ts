@@ -15,17 +15,12 @@ export default ({ tildelingClient }: SetupOptions) => {
             .postTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
             .then(() => res.sendStatus(200))
             .catch((ex) => {
-                const respons = ex.error;
                 if (ex.statusCode === 409) {
-                    logger.warning(`Oppgaven er allerede tildelt. Svar fra spesialist: ${JSON.stringify(respons)}`);
+                    logger.warning(`Oppgaven er allerede tildelt. Svar fra spesialist: ${JSON.stringify(ex.error)}`);
                 } else {
                     logger.error(`Feil under tildeling: ${ex}`);
                 }
-                if (respons.feilkode) {
-                    res.status(respons.feilkode).send(respons);
-                } else {
-                    res.status(ex.statusCode).send('Feil under tildeling');
-                }
+                res.status(ex.statusCode).send(ex.error);
             });
     });
 
@@ -34,11 +29,8 @@ export default ({ tildelingClient }: SetupOptions) => {
             .fjernTildeling({ oppgavereferanse: req.params['oppgavereferanse'] }, req.session.speilToken)
             .then(() => res.sendStatus(200))
             .catch((ex) => {
-                if (ex.error.feilkode) {
-                    res.status(ex.error.feilkode).send(ex.error);
-                } else {
-                    res.status(ex.statusCode).send('Feil under tildeling');
-                }
+                logger.error(`Feil under fjerning av tildeling: ${ex}`);
+                res.status(ex.statusCode).send('Feil under tildeling');
             });
     });
 
