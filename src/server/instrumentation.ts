@@ -11,8 +11,12 @@ const setup = (app: Express): Instrumentation => {
     };
 };
 
+interface Counter {
+    inc: (id: string) => void;
+}
+
 export interface Instrumentation {
-    onBehalfOfCounter: Function;
+    onBehalfOfCounter: () => Counter;
     requestHistogram: Histogram;
 }
 
