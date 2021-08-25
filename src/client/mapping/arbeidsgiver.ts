@@ -420,7 +420,7 @@ export class ArbeidsgiverBuilder {
                         return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
                 }
             case Periodetype.UFULLSTENDIG:
-                return utbetalingstidslinje.length > 0 ||
+                return utbetalingstidslinje.length === 0 ||
                     vedtaksperiodetilstand === Vedtaksperiodetilstand.Venter ||
                     vedtaksperiodetilstand === Vedtaksperiodetilstand.VenterPåKiling
                     ? Tidslinjetilstand.Venter
