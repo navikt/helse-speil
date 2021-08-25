@@ -52,6 +52,9 @@ const finnPerson = async (req: SpeilRequest, res: Response) => {
             });
         })
         .catch((err) => {
+            if (err.status === 404) {
+                return res.sendStatus(404);
+            }
             logger.error(`[${speilUser(req)}] Error during data fetching for finnPerson (se sikkerLogg for detaljer)`);
             logger.sikker.error(
                 `[${speilUser(req)}] Error during data fetching for finnPerson: ${JSON.stringify(err)}`,
@@ -60,7 +63,7 @@ const finnPerson = async (req: SpeilRequest, res: Response) => {
                     request: logger.requestMeta(req),
                 }
             );
-            res.sendStatus(err.status || 503);
+            return res.sendStatus(err.status || 503);
         });
 };
 
