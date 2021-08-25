@@ -14,6 +14,7 @@ import {
     Utbetalingsdag,
     Utbetalingstype,
     Vedtaksperiode,
+    Vedtaksperiodetilstand,
     Vurdering,
 } from 'internal-types';
 import { nanoid } from 'nanoid';
@@ -152,7 +153,9 @@ export class ArbeidsgiverBuilder {
                 Utbetalingstatus.UKJENT,
                 Periodetype.UFULLSTENDIG,
                 periode.utbetalingstidslinje,
-                false
+                false,
+                undefined,
+                periode.tilstand
             ),
             utbetalingstidslinje: [],
             sykdomstidslinje: [],
@@ -363,7 +366,8 @@ export class ArbeidsgiverBuilder {
         periodetype: Periodetype,
         utbetalingstidslinje: Utbetalingsdag[],
         harOppgave: boolean,
-        vurdering?: Vurdering
+        vurdering?: Vurdering,
+        vedtaksperiodetilstand?: Vedtaksperiodetilstand
     ): Tidslinjetilstand => {
         switch (periodetype) {
             case Periodetype.VEDTAKSPERIODE:
@@ -416,9 +420,11 @@ export class ArbeidsgiverBuilder {
                         return this.defaultTidslinjeTilstander(utbetalingstatus, utbetalingstidslinje);
                 }
             case Periodetype.UFULLSTENDIG:
-                return utbetalingstidslinje.length > 0 && utbetalingstatus !== Utbetalingstatus.UKJENT
-                    ? this.defaultTidslinjeTilstander(Utbetalingstatus.GODKJENT_UTEN_UTBETALING, utbetalingstidslinje)
-                    : Tidslinjetilstand.Venter;
+                return utbetalingstidslinje.length > 0 ||
+                    vedtaksperiodetilstand === Vedtaksperiodetilstand.Venter ||
+                    vedtaksperiodetilstand === Vedtaksperiodetilstand.VenterPåKiling
+                    ? Tidslinjetilstand.Venter
+                    : this.defaultTidslinjeTilstander(Utbetalingstatus.GODKJENT_UTEN_UTBETALING, utbetalingstidslinje);
         }
     };
 
