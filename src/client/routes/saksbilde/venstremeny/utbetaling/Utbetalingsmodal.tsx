@@ -33,7 +33,7 @@ export const Utbetalingsmodal = ({ isSending, onApprove, onClose }: Props) => (
         <Container>
             <Normaltekst>Når du trykker ja blir utbetalingen sendt til oppdragsystemet.</Normaltekst>
             <Knapper>
-                <Hovedknapp spinner={isSending} onClick={onApprove}>
+                <Hovedknapp spinner={isSending} onClick={onApprove} autoDisableVedSpinner>
                     Ja
                 </Hovedknapp>
                 <Knapp onClick={onClose}>Avbryt</Knapp>
