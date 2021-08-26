@@ -57,6 +57,7 @@ app.get('/isReady', (_, res) => {
 });
 
 const setUpAuthentication = () => {
+    const authErrorCounter = dependencies.instrumentation.authError();
     app.get('/login', (req: SpeilRequest, res: Response) => {
         const session = req.session;
         session.nonce = generators.nonce();
@@ -97,8 +98,9 @@ const setUpAuthentication = () => {
                 res.redirect(303, '/');
             })
             .catch((err: AuthError) => {
-                logger.error(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
-                logger.sikker.error(`Error caught during login: ${err.message}`, err);
+                logger.warning(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
+                logger.sikker.warning(`Error caught during login: ${err.message}`, err);
+                authErrorCounter.inc();
                 session.destroy(() => {});
                 res.sendStatus(err.statusCode);
             });
