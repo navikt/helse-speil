@@ -42,6 +42,8 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
                   kommentar: req.body.skjema.kommentar,
               };
 
+        logger.info(`Sender vedtak for oppgavereferanse ${oppgavereferanse}`);
+
         vedtakClient
             .postVedtak(params)
             .then(() => res.sendStatus(204))
@@ -54,6 +56,7 @@ export default ({ vedtakClient, annulleringClient }: SetupOptions) => {
     });
 
     router.post('/annullering', (req: SpeilRequest, res: Response) => {
+        logger.info(`Sender annullering for fagsystemId ${req.body.fagsystemId}`);
         annulleringClient
             .annuller({
                 aktørId: req.body.aktørId,
