@@ -84,7 +84,6 @@ const setUpAuthentication = () => {
 
     app.post('/oauth2/callback', (req: SpeilRequest, res: Response) => {
         const session = req.session;
-        const authErrorCounter = dependencies.instrumentation.authError();
         auth.validateOidcCallback(req, azureClient!, config.oidc)
             .then((tokens: string[]) => {
                 const [accessToken, idToken, refreshToken] = tokens;
@@ -98,9 +97,8 @@ const setUpAuthentication = () => {
                 res.redirect(303, '/');
             })
             .catch((err: AuthError) => {
-                logger.warning(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
-                logger.sikker.warning(`Error caught during login: ${err.message}`, err);
-                authErrorCounter.inc();
+                logger.error(`Error caught during login: ${err.message} (se sikkerLog for detaljer)`);
+                logger.sikker.error(`Error caught during login: ${err.message}`, err);
                 session.destroy(() => {});
                 res.sendStatus(err.statusCode);
             });

@@ -46,7 +46,6 @@ const getDevDependencies = (app: Express) => {
         tildeling: { tildelingClient: _tildelingClient },
         opptegnelse: { opptegnelseClient: devOpptegnelseClient },
         leggPåVent: { leggPåVentClient: devLeggPåVentClient },
-        instrumentation,
     };
 };
 
@@ -76,7 +75,6 @@ const getProdDependencies = (app: Express, helsesjekk: Helsesjekk) => {
         tildeling: { tildelingClient: _tildelingClient },
         opptegnelse: { opptegnelseClient: _opptegnelseClient },
         leggPåVent: { leggPåVentClient: _leggPåVentClient },
-        instrumentation,
     };
 };
 

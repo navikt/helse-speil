@@ -7,18 +7,16 @@ const setup = (app: Express): Instrumentation => {
     const _requestHistogram = requestHistogram();
     return {
         onBehalfOfCounter,
-        authError,
         requestHistogram: _requestHistogram,
     };
 };
 
 interface Counter {
-    inc: (id?: string) => void;
+    inc: (id: string) => void;
 }
 
 export interface Instrumentation {
     onBehalfOfCounter: () => Counter;
-    authError: () => Counter;
     requestHistogram: Histogram;
 }
 
@@ -38,19 +36,6 @@ const onBehalfOfCounter = () => {
             counter.inc({
                 targetClientId: clientId,
             });
-        },
-    };
-};
-
-const authError = () => {
-    const counter = new prometheus.Counter({
-        name: 'authError',
-        help: 'feil som oppstår ved autentisering',
-    });
-
-    return {
-        inc: () => {
-            counter.inc();
         },
     };
 };
