@@ -36,6 +36,7 @@ const kanRevurdere = [
     'F131883',
     'V112769',
     'F160529',
+    'I104299',
 ];
 
 export const erLocal = () => location.hostname === 'localhost';
