@@ -23,8 +23,6 @@ const FeilmeldingContainer = styled.div`
     margin-top: 1rem;
 `;
 
-const førsteArbeidsgiversSistePeriode = (person: Person) => person.arbeidsgivere[0].tidslinjeperioder?.[0]?.[0];
-
 const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden = (
     person: Person,
     periode: Tidslinjeperiode
@@ -66,12 +64,13 @@ export const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, to
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
         (erDev() || erLocal() || kunEnArbeidsgiver(person)) &&
-        (periode === førsteArbeidsgiversSistePeriode(person) ||
-            ((erDev() || erLocal()) &&
-                arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode))) &&
-        ([Tidslinjetilstand.Utbetalt, Tidslinjetilstand.UtbetaltAutomatisk].includes(periode.tilstand) ||
-            ([Tidslinjetilstand.Revurdert, Tidslinjetilstand.RevurdertIngenUtbetaling].includes(periode.tilstand) &&
-                toggles.rekursivRevurderingEnabled))
+        arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
+        [
+            Tidslinjetilstand.Utbetalt,
+            Tidslinjetilstand.UtbetaltAutomatisk,
+            Tidslinjetilstand.Revurdert,
+            Tidslinjetilstand.RevurdertIngenUtbetaling,
+        ].includes(periode.tilstand)
     );
 };
 

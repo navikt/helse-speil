@@ -94,17 +94,14 @@ export const flereArbeidsgivere =
     erVegard() ||
     harTilgangTilAlt() ||
     erFaktiskSupportsaksbehandler();
-export const rekursivRevurderingEnabled = overstyreUtbetaltPeriodeEnabled;
 export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev();
 
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
-    rekursivRevurderingEnabled: boolean;
     overstyrbareTabellerEnabled: boolean;
 }
 
 export const defaultUtbetalingToggles: UtbetalingToggles = {
-    rekursivRevurderingEnabled: rekursivRevurderingEnabled,
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
     overstyrbareTabellerEnabled: overstyrbareTabellerEnabled,
 };
