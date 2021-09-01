@@ -66,7 +66,6 @@ const Rader = styled(FlexColumn)`
 `;
 
 const ForeldedeRaderContainer = styled.div`
-    overflow: hidden;
     padding: 6px 3px;
     margin: -3px;
 
