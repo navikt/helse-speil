@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Dayjs } from 'dayjs';
 import { Periodetype, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
@@ -48,6 +49,8 @@ const getTextForPeriodetype = (type: Periodetype): string => {
     }
 };
 
+const formatertDato = (dato: Dayjs): string => dato.format(NORSK_DATOFORMAT_KORT);
+
 interface PeriodeCardProps {
     aktivPeriode: Tidslinjeperiode;
     maksdato: string;
@@ -56,51 +59,48 @@ interface PeriodeCardProps {
     skjæringstidspunkt: string;
 }
 
-export const PeriodeCard = ({
-    aktivPeriode,
-    maksdato,
-    over67år,
-    skjæringstidspunkt,
-    gjenståendeDager,
-}: PeriodeCardProps) => {
-    const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
-    const sykmeldingsperiode = `${aktivPeriode.fom.format(NORSK_DATOFORMAT_KORT)} - ${aktivPeriode.tom.format(
-        NORSK_DATOFORMAT_KORT
-    )}`;
-    const periodetype =
-        aktivPeriode.type === Historikkperiodetype.REVURDERING ? Periodetype.Revurdering : vedtaksperiode.periodetype;
-    const periodetypeLabel = getTextForPeriodetype(periodetype);
+export const PeriodeCard = React.memo(
+    ({ aktivPeriode, maksdato, over67år, skjæringstidspunkt, gjenståendeDager }: PeriodeCardProps) => {
+        const vedtaksperiode = useVedtaksperiode(aktivPeriode.id) as Vedtaksperiode;
+        const periodetype =
+            aktivPeriode.type === Historikkperiodetype.REVURDERING
+                ? Periodetype.Revurdering
+                : vedtaksperiode.periodetype;
+        const periodetypeLabel = getTextForPeriodetype(periodetype);
 
-    return (
-        <Card>
-            <Grid>
-                <IconContainer data-tip={capitalize(periodetypeLabel)}>
-                    <Oppgaveetikett type={periodetype} />
-                </IconContainer>
-                <CardTitle>{periodetypeLabel}</CardTitle>
-                <IconContainer data-tip="Sykmeldingsperiode">
-                    <Sykmeldingsperiodeikon />
-                </IconContainer>
-                <Normaltekst>{sykmeldingsperiode}</Normaltekst>
-                <IconContainer data-tip="Skjæringstidspunkt">
-                    <Skjæringstidspunktikon />
-                </IconContainer>
-                <Normaltekst>{skjæringstidspunkt}</Normaltekst>
-                <IconContainer data-tip="Maksdato">
-                    <Maksdatoikon />
-                </IconContainer>
-                <Flex justifyContent={'space-between'}>
-                    <Normaltekst>{`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}</Normaltekst>
-                    {over67år && (
-                        <Flex alignItems={'center'}>
-                            <Advarselikon height={16} width={16} />
-                            <Undertekst style={{ marginLeft: '.5rem' }}>
-                                <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                            </Undertekst>
-                        </Flex>
-                    )}
-                </Flex>
-            </Grid>
-        </Card>
-    );
-};
+        return (
+            <Card>
+                <Grid>
+                    <IconContainer data-tip={capitalize(periodetypeLabel)}>
+                        <Oppgaveetikett type={periodetype} tilstand={aktivPeriode.tilstand} />
+                    </IconContainer>
+                    <CardTitle>{periodetypeLabel}</CardTitle>
+                    <IconContainer data-tip="Sykmeldingsperiode">
+                        <Sykmeldingsperiodeikon />
+                    </IconContainer>
+                    <Normaltekst>{`${formatertDato(aktivPeriode.fom)} - ${formatertDato(
+                        aktivPeriode.tom
+                    )}`}</Normaltekst>
+                    <IconContainer data-tip="Skjæringstidspunkt">
+                        <Skjæringstidspunktikon />
+                    </IconContainer>
+                    <Normaltekst>{skjæringstidspunkt}</Normaltekst>
+                    <IconContainer data-tip="Maksdato">
+                        <Maksdatoikon />
+                    </IconContainer>
+                    <Flex justifyContent={'space-between'}>
+                        <Normaltekst>{`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}</Normaltekst>
+                        {over67år && (
+                            <Flex alignItems={'center'}>
+                                <Advarselikon height={16} width={16} />
+                                <Undertekst style={{ marginLeft: '.5rem' }}>
+                                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                                </Undertekst>
+                            </Flex>
+                        )}
+                    </Flex>
+                </Grid>
+            </Card>
+        );
+    }
+);

@@ -65,6 +65,14 @@ const ariaLabel = (tilstand: Tidslinjetilstand | Infotrygdperiodetilstand, fom: 
     }
 };
 
+const Tooltip = styled(Popover)`
+    background-color: #ffffff;
+    border: 1px solid var(--navds-color-gray-20);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    padding: 0.5rem 1rem;
+`;
+
 interface TidslinjeperiodeProps extends PeriodProps {
     id: string;
     start: Dayjs;
@@ -76,14 +84,6 @@ interface TidslinjeperiodeProps extends PeriodProps {
     hoverLabel?: ReactNode;
     skalVisePin: boolean;
 }
-
-const Tooltip = styled(Popover)`
-    background-color: #ffffff;
-    border: 1px solid var(--navds-color-gray-20);
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-    padding: 0.5rem 1rem;
-`;
 
 export const Tidslinjeperiode = ({
     start,
