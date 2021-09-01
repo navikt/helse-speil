@@ -98,8 +98,8 @@ export const BentoMeny = () => {
         {
             tekst: 'Gosys',
             href: person
-                ? `https://gosys-nais.nais.adeo.no/gosys/personoversikt/fnr=${person.fødselsnummer}`
-                : 'https://gosys-nais.nais.adeo.no/gosys/',
+                ? `https://gosys.intern.nav.no/gosys/personoversikt/fnr=${person.fødselsnummer}`
+                : 'https://gosys.intern.nav.no/gosys/',
         },
         {
             tekst: 'Modia Personoversikt',
