@@ -70,7 +70,7 @@ export const SearchBar = ({ onSearch }: SearchBarProps) => {
 
     const search = () => {
         if (value.length > 0) {
-            onSearch(value).then(() => setValue(''));
+            onSearch(value.trim()).then(() => setValue(''));
         }
     };
 
