@@ -13,15 +13,14 @@ interface AuthInfo {
     isLoggedIn?: boolean;
 }
 
+const getDecodedAuthenticationCookie = () => {
+    const [name, ident, email, oid] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL, Keys.OID]);
+    return { name, ident, email, oid };
+};
+
 export const authState = atom<AuthInfo>({
     key: 'auth',
-    default: {
-        name: '',
-        ident: undefined,
-        email: undefined,
-        oid: undefined,
-        isLoggedIn: undefined,
-    },
+    default: getDecodedAuthenticationCookie(),
 });
 
 export const useInnloggetSaksbehandler = (): Saksbehandler => {
@@ -37,17 +36,11 @@ export const useInnloggetSaksbehandler = (): Saksbehandler => {
 export const useAuthentication = () => {
     const [authInfo, setAuthInfo] = useRecoilState(authState);
     const resetAuthInfo = useResetRecoilState(authState);
-    const [name, ident, email, oid] = extractValues([Keys.NAME, Keys.IDENT, Keys.EMAIL, Keys.OID]);
+    const { name, ...rest } = getDecodedAuthenticationCookie();
 
     useEffect(() => {
         if (name && name !== authInfo.name) {
-            setAuthInfo({
-                name,
-                ident,
-                email,
-                oid,
-                isLoggedIn: true,
-            });
+            setAuthInfo({ name, ...rest, isLoggedIn: true });
         }
     }, [name, authInfo]);
 
