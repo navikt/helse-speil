@@ -90,18 +90,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  deployDev:
-    name: Deploy to dev
-    needs: [set_version, build]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-fss
-          RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis.yml
-          VAR: "image=${{env.IMAGE}}:${{ needs.set_version.outputs.tag }},team=${{env.TEAM}},app=${{env.APP}}"
+#  deployDev:
+#    name: Deploy to dev
+#    needs: [set_version, build]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v1
+#      - uses: nais/deploy/actions/deploy@v1
+#        env:
+#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+#          CLUSTER: dev-fss
+#          RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml,deploy/redis.yml
+#          VAR: "image=${{env.IMAGE}}:${{ needs.set_version.outputs.tag }},team=${{env.TEAM}},app=${{env.APP}}"
 
   deployProd:
     name: Deploy to prod
