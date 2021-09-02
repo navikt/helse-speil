@@ -22,5 +22,6 @@ export const enTidslinjeperiode = (
         organisasjonsnummer: '987654321',
         fullstendig: true,
         opprettet: dayjs('2020-01-01T:00:00:00'),
+        oppgavereferanse: 'en-oppgavereferanse',
     };
 };

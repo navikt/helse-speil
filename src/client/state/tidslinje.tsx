@@ -47,7 +47,8 @@ export const useOppgavereferanse = (beregningId: string): string | undefined => 
 };
 
 export const harOppgave = (tidslinjeperiode: Tidslinjeperiode) =>
-    [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(tidslinjeperiode.tilstand);
+    [Tidslinjetilstand.Oppgaver, Tidslinjetilstand.Revurderes].includes(tidslinjeperiode.tilstand) &&
+    !!tidslinjeperiode.oppgavereferanse;
 
 const defaultTidslinjeperiode = (person: Person): Tidslinjeperiode | undefined => {
     const valgbarePerioder: Tidslinjeperiode[] = person.arbeidsgivere

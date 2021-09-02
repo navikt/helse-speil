@@ -38,7 +38,7 @@ const enAktivitet = (
 
 describe('personmapper', () => {
     test('mapper person', async () => {
-        const { person } = await mapPerson(umappetPerson());
+        const { person } = mapPerson(umappetPerson());
         expect(person).toEqual(mappetPersonObject());
     });
 
@@ -50,7 +50,7 @@ describe('personmapper', () => {
 
         const vedtaksperiode = umappetVedtaksperiode({ varsler: [melding], aktivitetslogg: [spleisAktivitet] });
         const arbeidsgiver = umappetArbeidsgiver([vedtaksperiode]);
-        const { person } = await mapPerson(umappetPerson([arbeidsgiver]));
+        const { person } = mapPerson(umappetPerson([arbeidsgiver]));
 
         const aktivitetslog = (person.arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode).aktivitetslog;
 
@@ -58,8 +58,8 @@ describe('personmapper', () => {
         expect(aktivitetslog).toContainEqual(melding);
     });
 
-    test('mapper person med flere vedtaksperioder', async () => {
-        let { person } = await mapPerson(
+    test('mapper person med flere vedtaksperioder', () => {
+        const { person } = mapPerson(
             umappetPerson([
                 umappetArbeidsgiver([
                     umappetVedtaksperiode(),
@@ -99,7 +99,7 @@ describe('personmapper', () => {
     });
 
     test('Vedtaksperioder sorteres på fom i synkende rekkefølge', async () => {
-        const { person } = await mapPerson(
+        const { person } = mapPerson(
             umappetPerson([
                 umappetArbeidsgiver([
                     medLedendeSykdomsdager(umappetVedtaksperiode(), [
@@ -143,7 +143,7 @@ describe('personmapper', () => {
                 },
             },
         ];
-        const { person } = await mapPerson(
+        const { person } = mapPerson(
             umappetPerson([
                 umappetArbeidsgiver(
                     [medEkstraSykdomsdager(umappetVedtaksperiode(), ekstraDager)],

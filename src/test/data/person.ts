@@ -749,6 +749,7 @@ export const mappetPersonObject = (): Person => ({
                 [
                     {
                         id: 'fa02d7a5-daf2-488c-9798-2539edd7fe3f',
+                        oppgavereferanse: 'en-oppgavereferanse',
                         beregningId: 'id1',
                         unique: 'nanoid',
                         fom: dayjs('2020-01-01T00:00:00.000Z'),

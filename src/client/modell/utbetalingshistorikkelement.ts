@@ -79,7 +79,6 @@ export interface Tidslinjeperiode {
     id: string;
     unique: string;
     beregningId: string;
-    fagsystemId?: string;
     fom: Dayjs;
     tom: Dayjs;
     type: Periodetype;
@@ -89,6 +88,8 @@ export interface Tidslinjeperiode {
     organisasjonsnummer: string;
     fullstendig: boolean;
     opprettet: Dayjs;
+    fagsystemId?: string;
+    oppgavereferanse?: string;
 }
 
 export enum Utbetalingstatus {

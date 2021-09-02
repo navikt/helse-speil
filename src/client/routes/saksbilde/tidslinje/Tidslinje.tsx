@@ -72,7 +72,7 @@ interface TidslinjeProps {
     person: Person;
 }
 
-export const Tidslinje = ({ person }: TidslinjeProps) => {
+export const Tidslinje = React.memo(({ person }: TidslinjeProps) => {
     const { utsnitt, aktivtUtsnitt, setAktivtUtsnitt } = useTidslinjeutsnitt(person);
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
 
@@ -116,4 +116,4 @@ export const Tidslinje = ({ person }: TidslinjeProps) => {
             <Utsnittsvelger utsnitt={utsnitt} aktivtUtsnitt={aktivtUtsnitt} setAktivtUtsnitt={setAktivtUtsnitt} />
         </Container>
     );
-};
+});

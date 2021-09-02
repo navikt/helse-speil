@@ -86,20 +86,19 @@ export class ArbeidsgiverBuilder {
     }
 
     private mapTidslinjeperioder = () => {
-        this.arbeidsgiver = {
-            ...this.arbeidsgiver,
-            tidslinjeperioder: this.flatten(
-                this.arbeidsgiver.vedtaksperioder?.flatMap((periode): Tidslinjeperiode[] => {
-                    return (
-                        periode.beregningIder?.map((beregningId) => this.mapBeregningId(beregningId, periode)) ??
-                        this.mapUfullstendigPeriode(periode)
-                    );
-                }) ?? []
-            ),
-        };
+        this.arbeidsgiver.tidslinjeperioder = this.flatten(
+            this.arbeidsgiver.vedtaksperioder?.flatMap(
+                (periode): Tidslinjeperiode[] =>
+                    periode.beregningIder?.map((beregningId) => this.mapBeregningId(beregningId, periode)) ??
+                    this.mapUfullstendigPeriode(periode)
+            ) ?? []
+        );
     };
 
-    private mapBeregningId = (beregningId: string, periode: Vedtaksperiode | UfullstendigVedtaksperiode) => {
+    private mapBeregningId = (
+        beregningId: string,
+        periode: Vedtaksperiode | UfullstendigVedtaksperiode
+    ): Tidslinjeperiode => {
         const element = this.arbeidsgiver.utbetalingshistorikk?.find((e) => e.id === beregningId)!;
         const tidslinje = mapTidslinjeMedAldersvilkår(
             utbetalingstidslinje(element.utbetaling, periode.fom, periode.tom),
@@ -117,7 +116,8 @@ export class ArbeidsgiverBuilder {
                     return Periodetype.UFULLSTENDIG;
             }
         };
-        const harOppgave = !!(periode as Vedtaksperiode)?.oppgavereferanse;
+        const oppgavereferanse = (periode as Vedtaksperiode).oppgavereferanse;
+        const harOppgave = !!oppgavereferanse;
         return {
             id: periode.id,
             beregningId: beregningId,
@@ -138,6 +138,7 @@ export class ArbeidsgiverBuilder {
             fullstendig: periode.fullstendig,
             organisasjonsnummer: this.arbeidsgiver.organisasjonsnummer!,
             opprettet: element.tidsstempel,
+            oppgavereferanse: oppgavereferanse,
         };
     };
 
@@ -392,7 +393,7 @@ export class ArbeidsgiverBuilder {
             case Periodetype.REVURDERING:
                 switch (utbetalingstatus) {
                     case Utbetalingstatus.IKKE_UTBETALT:
-                        return harOppgave ? Tidslinjetilstand.Revurderes : Tidslinjetilstand.Venter;
+                        return Tidslinjetilstand.Revurderes;
                     case Utbetalingstatus.IKKE_GODKJENT:
                         return Tidslinjetilstand.Avslag;
                     case Utbetalingstatus.GODKJENT:

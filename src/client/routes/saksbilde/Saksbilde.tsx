@@ -128,6 +128,7 @@ const SaksbildeContent = React.memo(() => {
     const personTilBehandling = usePerson();
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     const aktivPeriode = useAktivPeriode();
+
     useRefreshPersonVedUrlEndring();
     useRefreshPersonVedOpptegnelse();
     usePollEtterOpptegnelser();
