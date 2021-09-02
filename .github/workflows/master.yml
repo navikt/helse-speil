@@ -106,7 +106,7 @@ jobs:
   deployProd:
     name: Deploy to prod
     #needs: [set_version, deployDev]
-    needs: [set_version]
+    needs: [set_version, build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
