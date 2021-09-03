@@ -27,9 +27,8 @@ const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden
     person: Person,
     periode: Tidslinjeperiode
 ) => {
-    const alleTidslinjeperioder = person.arbeidsgivere.map((it) => it.tidslinjeperioder);
+    const alleTidslinjeperioder = person.arbeidsgivere.map((it) => it.tidslinjeperioder).filter((it) => it.length > 0);
     const alleTidslinjeperioderISisteGenerasjon = alleTidslinjeperioder.flatMap((it) => it[0]);
-
     const periodeFinnesISisteGenerasjon = alleTidslinjeperioderISisteGenerasjon.find(
         (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
     );
