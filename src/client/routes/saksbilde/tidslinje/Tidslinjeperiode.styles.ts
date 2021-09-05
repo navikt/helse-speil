@@ -141,17 +141,9 @@ const background = css`
         &.utbetalt,
         &.revurdert,
         &.utbetaltAutomatisk {
-            &.pride {
-                --period-background-color: var(--nav-regnbue-bakgrunn-skew);
-                --period-hover-color: var(--nav-regnbue-bakgrunn-skew);
-                --period-border-color: var(--navds-color-tag-success-border);
-            }
-
-            &:not(.pride) {
-                --period-background-color: var(--navds-color-green-10);
-                --period-hover-color: var(--navds-color-tag-success-background);
-                --period-border-color: var(--navds-color-tag-success-border);
-            }
+            --period-background-color: var(--navds-color-green-10);
+            --period-hover-color: var(--navds-color-tag-success-background);
+            --period-border-color: var(--navds-color-tag-success-border);
         }
 
         &.avslag,

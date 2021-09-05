@@ -3,12 +3,10 @@ import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import { Infotrygdperiodetilstand, Tidslinjetilstand } from 'internal-types';
 import React, { ReactNode, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 import { Popover } from '@navikt/ds-react';
 import { PeriodProps } from '@navikt/helse-frontend-timeline/lib/components/Period';
 
-import { prideifisertState } from '../../../components/ikoner/VimpelMedPalmeIkon';
 import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { Periodeknapp, PeriodePin } from './Tidslinjeperiode.styles';
@@ -97,7 +95,6 @@ export const Tidslinjeperiode = ({
     ...props
 }: TidslinjeperiodeProps) => {
     const [anchor, setAnchor] = useState<HTMLElement | null>(null);
-    const erPrideifisert = useRecoilValue(prideifisertState);
 
     const onClickWrapper = (event: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(event);
@@ -119,7 +116,7 @@ export const Tidslinjeperiode = ({
                 onMouseOut={removeAnchor}
                 onClick={onClickWrapper}
                 active={erAktiv}
-                className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende', erPrideifisert ? 'pride' : '')}
+                className={classNames(tilstand, erForeldet ? 'foreldet' : 'gjeldende')}
                 aria-label={ariaLabel(tilstand, start, end)}
                 {...props}
             >
