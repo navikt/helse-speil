@@ -91,7 +91,7 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
                 </LeftContainer>
                 <Arbeidsgiverikon />
                 <Flex style={{ overflow: 'hidden' }}>
-                    <TekstMedEllipsis data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
+                    <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
                 </Flex>
             </EkspanderbartArbeidsgivernavn>
         ) : (
