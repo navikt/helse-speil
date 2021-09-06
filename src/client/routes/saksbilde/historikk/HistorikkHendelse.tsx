@@ -33,9 +33,6 @@ const ContentContainer = styled.div`
 const EmptyIcon = styled.div`
     width: 20px;
     height: 20px;
-    box-sizing: border-box;
-    border: 2px solid var(--navds-color-text-primary);
-    border-radius: 10px;
 `;
 
 export const HistorikkHendelse = ({ icon, title, body, timestamp }: Hendelse) => {
