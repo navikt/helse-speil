@@ -10,7 +10,18 @@ export const capitalizeName = (value: string) =>
     value
         .toLowerCase()
         .split(' ')
-        .map((value) => value.substring(0, 1).toUpperCase() + value.substring(1))
+        .map((value) => {
+            if (value.includes('-')) {
+                const strekIndeks = value.indexOf('-');
+                return (
+                    value.substring(0, 1).toUpperCase() +
+                    value.substring(1, strekIndeks + 1) +
+                    value.substring(strekIndeks + 1, strekIndeks + 2).toUpperCase() +
+                    value.substring(strekIndeks + 2)
+                );
+            }
+            return value.substring(0, 1).toUpperCase() + value.substring(1);
+        })
         .join(' ');
 
 export const capitalize = (value: string): string =>
