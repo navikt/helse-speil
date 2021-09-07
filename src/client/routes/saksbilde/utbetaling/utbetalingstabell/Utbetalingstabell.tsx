@@ -9,6 +9,7 @@ import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { Header } from '../../table/Header';
 import { Row } from '../../table/Row';
 import { Table } from '../../table/Table';
+import { DagEndrer } from './DagEndrer';
 import { DateCell } from './DateCell';
 import { GjenståendeDagerCell } from './GjenståendeDagerCell';
 import { GradCell } from './GradCell';
@@ -38,11 +39,6 @@ const TabellContainer = styled.div`
     * {
         box-sizing: border-box;
     }
-`;
-
-const ChangeDialog = styled.div`
-    background-color: var(--navds-color-gray-10);
-    padding: 2rem;
 `;
 
 const getOverstyringMatchingDate = (date: Dayjs, overstyringer: Overstyring[]): Overstyring | undefined =>
@@ -78,7 +74,7 @@ export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overst
 
     return (
         <>
-            <ChangeDialog />
+            <DagEndrer />
             <Container>
                 <TabellContainer>
                     <Table aria-label={`Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`}>
