@@ -22,24 +22,34 @@ const Feilmelding = styled(Normaltekst)`
 `;
 
 export const ForklaringTextarea = () => {
-    const [forklaring, setForklaring] = useState('');
     const form = useFormContext();
-    const name = 'forklaring';
+
+    const [forklaring, setForklaring] = useState('');
+
+    const { ref, onChange, ...textareaValidation } = form.register('forklaring', {
+        required: 'Forklaring må fylles ut',
+        minLength: 1,
+    });
 
     return (
         <Label>
             <Normaltekst id="forklaring-label">Forklaring</Normaltekst>
             <Textarea
-                name={name}
-                id={name}
+                id={'forklaring'}
                 value={forklaring}
-                textareaRef={form.register({ required: 'Forklaring må fylles ut', minLength: 1 })}
-                onChange={(event) => setForklaring(event.target.value)}
+                textareaRef={ref}
+                onChange={(event) => {
+                    onChange(event);
+                    setForklaring(event.target.value);
+                }}
                 placeholder="Begrunn hvorfor det er gjort endringer i inntekten som legges til grunn. Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
                 maxLength={500}
                 aria-labelledby="forklaring-label forklaring-feil"
+                {...textareaValidation}
             />
-            {form.errors[name] && <Feilmelding id="forklaring-feil">{form.errors[name].message}</Feilmelding>}
+            {form.formState.errors.forklaring && (
+                <Feilmelding id="forklaring-feil">{form.formState.errors.forklaring.message}</Feilmelding>
+            )}
         </Label>
     );
 };

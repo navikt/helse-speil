@@ -10,7 +10,7 @@ import { Flex, FlexColumn } from '../../../components/Flex';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/arbeidsgiver';
-import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
+import { Tidslinjeperiode, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
@@ -54,7 +54,6 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
     const errorMelding = getErrorMelding(aktivPeriode.tilstand);
 
-    const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const maksdato = useMaksdato(aktivPeriode.beregningId);
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     useSetVedtaksperiodeReferanserForNotater(vedtaksperiode.id ? [vedtaksperiode.id] : []);
@@ -90,14 +89,11 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
                                     oppgavereferanse={oppgavereferanse}
                                     tildeling={personTilBehandling.tildeling}
                                 />
-
                                 <Switch>
                                     <Route path={`${path}/utbetaling`}>
                                         <Utbetaling
                                             periode={aktivPeriode}
-                                            maksdato={maksdato}
-                                            vedtaksperiode={vedtaksperiode}
-                                            gjenståendeDager={gjenståendeDager}
+                                            overstyringer={vedtaksperiode.overstyringer}
                                         />
                                     </Route>
                                     <Route path={`${path}/inngangsvilkår`}>

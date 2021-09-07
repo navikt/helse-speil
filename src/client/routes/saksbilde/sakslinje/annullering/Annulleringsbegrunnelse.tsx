@@ -29,7 +29,7 @@ const StiliLegende = styled.div`
 `;
 
 export const Annulleringsbegrunnelse = () => {
-    const { errors, clearErrors, watch } = useFormContext();
+    const { formState, clearErrors, watch } = useFormContext();
     const begrunnelserWatch = watch(`begrunnelser`);
     const begrunnelser = {
         ferie: 'Ferie',
@@ -48,7 +48,7 @@ export const Annulleringsbegrunnelse = () => {
 
     return (
         <Container>
-            <CheckboxGruppe feil={errors.begrunnelser ? errors.begrunnelser.message : null}>
+            <CheckboxGruppe feil={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}>
                 <StiliLegende>Årsak til annullering</StiliLegende>
                 <AlertStripe type="info" form="inline">
                     Årsakene og begrunnelsen som fylles inn skal brukes til å forbedre løsningen.
@@ -56,27 +56,28 @@ export const Annulleringsbegrunnelse = () => {
                     Du vil ikke finne igjen informasjonen i saksbehandlingssystemet etterpå.
                 </AlertStripe>
                 <br />
-                {Object.entries(begrunnelser).map(([key, value], index) => {
-                    return <BegrunnelseCheckbox key={index} begrunnelse={key} label={<p>{value}</p>} />;
-                })}
+                {Object.entries(begrunnelser).map(([key, value], index) => (
+                    <BegrunnelseCheckbox key={index} begrunnelse={key} label={<p>{value}</p>} />
+                ))}
             </CheckboxGruppe>
             <Controller
                 name="kommentar"
                 defaultValue=""
-                render={({ value, onChange }) => (
+                render={({ field: { value, onChange, ref } }) => (
                     <Textarea
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        feil={errors.kommentar ? errors.kommentar.message : null}
+                        feil={formState.errors.kommentar ? formState.errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        aria-invalid={errors.kommentar?.message}
-                        aria-errormessage={errors.kommentar?.message}
+                        aria-invalid={formState.errors.kommentar?.message}
+                        aria-errormessage={formState.errors.kommentar?.message}
                         placeholder="Gi en kort forklaring på hvorfor du annullerte. &#10;Eksempel: Korrigerte opplysninger om ferie"
                         maxLength={0}
+                        textareaRef={ref}
                     />
                 )}
             />

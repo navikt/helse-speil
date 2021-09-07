@@ -1,16 +1,15 @@
-import { Person, Tidslinjetilstand } from 'internal-types';
+import { InntektskildeType, Tidslinjetilstand } from 'internal-types';
 
 import { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
-import { usePerson } from '../state/person';
 import { useAktivPeriode } from '../state/tidslinje';
 
 import { UtbetalingToggles } from '../featureToggles';
 
-const kunEnArbeidsgiver = (person: Person) => person.arbeidsgivere.length === 1;
+const kunEnArbeidsgiver = (periode: Tidslinjeperiode) => periode.inntektskilde === InntektskildeType.EnArbeidsgiver;
 
-const overstyringEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
+const overstyringEnabled = (periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
     toggles.overstyrbareTabellerEnabled &&
-    kunEnArbeidsgiver(person) &&
+    kunEnArbeidsgiver(periode) &&
     [
         Tidslinjetilstand.Oppgaver,
         Tidslinjetilstand.Avslag,
@@ -20,7 +19,6 @@ const overstyringEnabled = (person: Person, periode: Tidslinjeperiode, toggles: 
 
 export const useOverstyringIsEnabled = (toggles: UtbetalingToggles): boolean => {
     const periode = useAktivPeriode();
-    const person = usePerson();
 
-    return periode !== undefined && person !== undefined && overstyringEnabled(person, periode, toggles);
+    return periode !== undefined && overstyringEnabled(periode, toggles);
 };

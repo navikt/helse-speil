@@ -1,144 +1,38 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
-import { SpleisUtbetalingsdagtype } from 'external-types';
-import { Dagtype, Utbetalingsdag, Vedtaksperiode } from 'internal-types';
+import dayjs, { Dayjs } from 'dayjs';
+import { Dagtype, Kildetype } from 'internal-types';
 import React from 'react';
-import { mappetPerson } from 'test-data';
 
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
+import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
-import { umappetArbeidsgiver } from '../../../../../test/data/arbeidsgiver';
-import {
-    mappetVedtaksperiode,
-    medUtbetalingstidslinje,
-    umappetVedtaksperiode,
-} from '../../../../../test/data/vedtaksperiode';
 import { Utbetalingstabell } from './Utbetalingstabell';
-import { withDagerIgjen } from './Utbetalingstabell.utils';
+import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
-describe('Utbetalingsoversikt', () => {
-    test('withDagerIgjen mapper ut tom liste ved mottatt tom liste', async () => {
-        const utbetalingsdager = withDagerIgjen([], 6).map((it) => it.dagerIgjen);
-        expect(utbetalingsdager).toEqual([]);
-    });
+const enUtbetalingstabelldag = (overrides?: Partial<UtbetalingstabellDag>): UtbetalingstabellDag => ({
+    dato: overrides?.dato ?? dayjs(),
+    type: overrides?.type ?? Dagtype.Syk,
+    gradering: overrides?.gradering ?? 100,
+    totalGradering: overrides?.totalGradering ?? 100,
+    utbetaling: overrides?.utbetaling ?? 1234,
+    dagerIgjen: overrides?.dagerIgjen ?? 100,
+    overstyring: overrides?.overstyring,
+    sykdomsdag: overrides?.sykdomsdag ?? {
+        type: Dagtype.Syk,
+        kilde: Kildetype.Sykmelding,
+    },
+});
 
-    test('withDagerIgjen mapper ut riktig antall i dagerIgjen-propertyen', async () => {
-        const tidslinje = [
-            { type: Dagtype.Syk },
-            { type: Dagtype.Avvist },
-            { type: Dagtype.Syk },
-            { type: Dagtype.Helg },
-            { type: Dagtype.Helg },
-            { type: Dagtype.Syk },
-            { type: Dagtype.Syk },
-            { type: Dagtype.Egenmelding },
-            { type: Dagtype.Syk },
-            { type: Dagtype.Syk },
-            { type: Dagtype.Syk },
-            { type: Dagtype.Syk },
-            { type: Dagtype.Syk },
-        ] as Utbetalingsdag[];
-        const utbetalingsdager = withDagerIgjen(tidslinje, 6).map((it) => it.dagerIgjen);
-        expect(utbetalingsdager).toEqual([5, 5, 4, 4, 4, 3, 2, 2, 1, 0, 0, 0, 0]);
-    });
+const dager: [string, UtbetalingstabellDag][] = new Array(10)
+    .fill(dayjs())
+    .map((it: Dayjs, i: number) => it.add(i, 'days'))
+    .map((it) => [it.format(NORSK_DATOFORMAT), enUtbetalingstabelldag({ dato: it })]);
 
-    it('Alle dager er godkjent', async () => {
-        const vedtaksperiode = mappetVedtaksperiode();
-        const periode = {
-            fom: vedtaksperiode.fom,
-            tom: vedtaksperiode.tom,
-            utbetalingstidslinje: vedtaksperiode.utbetalingstidslinje,
-            sykdomstidslinje: vedtaksperiode.sykdomstidslinje,
-        };
-        const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
-        render(
-            <Utbetalingstabell
-                maksdato={maksdato}
-                gjenståendeDager={gjenståendeDager}
-                periode={periode as Tidslinjeperiode}
-                overstyringer={vedtaksperiode.overstyringer}
-            />
-        );
+describe('Utbetalingstabell', () => {
+    it('rendrer headere, totalrad og dagrader', () => {
+        const dagerMap = new Map<string, UtbetalingstabellDag>(dager);
+        render(<Utbetalingstabell fom={dayjs('2021-01-01')} tom={dayjs('2021-01-10')} dager={dagerMap} />);
 
-        expect(screen.queryAllByText('Ingen utbetaling')).toStrictEqual([]);
-        expect(screen.queryAllByText('100 %').length).toBe(23);
-    });
-
-    it('Alle kolonnene i tabellen er til stede', async () => {
-        const vedtaksperiode = mappetVedtaksperiode();
-        const periode = {
-            fom: vedtaksperiode.fom,
-            tom: vedtaksperiode.tom,
-            utbetalingstidslinje: vedtaksperiode.utbetalingstidslinje,
-            sykdomstidslinje: vedtaksperiode.sykdomstidslinje,
-        };
-        const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
-
-        render(
-            <Utbetalingstabell
-                maksdato={maksdato}
-                gjenståendeDager={gjenståendeDager}
-                periode={periode as Tidslinjeperiode}
-                overstyringer={vedtaksperiode.overstyringer}
-            />
-        );
-        expect(screen.queryByText('Dato')).toBeVisible();
-        expect(screen.queryByText('Utbet. dager')).toBeVisible();
-        expect(screen.queryByText('Grad')).toBeVisible();
-        expect(screen.queryByText('Total grad')).toBeVisible();
-        expect(screen.queryByText('Utbetaling')).toBeVisible();
-        expect(screen.queryByText('Dager igjen')).toBeVisible();
-    });
-
-    it('2 dager er avvist', async () => {
-        const vedtaksperiode = mappetPerson([
-            umappetArbeidsgiver([
-                medUtbetalingstidslinje(umappetVedtaksperiode(), [
-                    {
-                        type: SpleisUtbetalingsdagtype.NAVDAG,
-                        inntekt: 999.5,
-                        dato: '2020-01-01',
-                        utbetaling: 1000.0,
-                        grad: 100,
-                    },
-                    {
-                        type: SpleisUtbetalingsdagtype.AVVISTDAG,
-                        inntekt: 999.5,
-                        dato: '2020-01-02',
-                        utbetaling: 0.0,
-                        begrunnelser: ['MinimumSykdomsgrad'],
-                        grad: 0,
-                    },
-                    {
-                        type: SpleisUtbetalingsdagtype.AVVISTDAG,
-                        inntekt: 999.5,
-                        dato: '2020-01-03',
-                        utbetaling: 0.0,
-                        begrunnelser: ['EtterDødsdato'],
-                        grad: 0,
-                    },
-                ]),
-            ]),
-        ]).arbeidsgivere[0].vedtaksperioder[0] as Vedtaksperiode;
-        const periode = {
-            fom: vedtaksperiode.fom,
-            tom: vedtaksperiode.tom,
-            utbetalingstidslinje: vedtaksperiode.utbetalingstidslinje,
-            sykdomstidslinje: vedtaksperiode.sykdomstidslinje,
-        };
-        const { maksdato, gjenståendeDager } = vedtaksperiode.vilkår!!.dagerIgjen;
-
-        render(
-            <Utbetalingstabell
-                periode={periode as Tidslinjeperiode}
-                maksdato={maksdato}
-                gjenståendeDager={gjenståendeDager}
-                overstyringer={vedtaksperiode.overstyringer}
-            />
-        );
-
-        expect(screen.queryByText('Personen er død')).toBeVisible();
-        expect(screen.queryByText('8-13', { exact: false })).toBeVisible();
-        expect(screen.queryByText('100 %')).toBeVisible();
+        expect(screen.getAllByRole('row')).toHaveLength(12);
     });
 });

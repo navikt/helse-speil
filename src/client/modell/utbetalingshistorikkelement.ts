@@ -75,7 +75,7 @@ export const useMaksdato = (beregningId: string) => useUtbetaling(beregningId)?.
 
 export const useNettobeløp = (beregningId: string) => useUtbetaling(beregningId)?.arbeidsgiverNettobeløp;
 
-export const useGjenståendeDager = (beregningId: string) => useUtbetaling(beregningId)?.gjenståendeDager;
+export const useGjenståendeDager = (beregningId: string): number => useUtbetaling(beregningId)?.gjenståendeDager ?? 0;
 
 export interface Tidslinjeperiode {
     id: string;

@@ -1,4 +1,4 @@
-import { Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
+import { InntektskildeType, Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
 
 import { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
 import { usePerson } from '../state/person';
@@ -39,11 +39,11 @@ const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden
     return arbeidsgiversSisteSkjæringstidspunkt?.isSame(periodensSkjæringstidspunkt, 'day') ?? false;
 };
 
-const kunEnArbeidsgiver = (person: Person) => person.arbeidsgivere.length === 1;
+const kunEnArbeidsgiver = (periode: Tidslinjeperiode) => periode.inntektskilde === InntektskildeType.EnArbeidsgiver;
 
 const revurderingIsEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
     toggles.overstyreUtbetaltPeriodeEnabled &&
-    (erDev() || erLocal() || kunEnArbeidsgiver(person)) &&
+    (erDev() || erLocal() || kunEnArbeidsgiver(periode)) &&
     arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
     [
         Tidslinjetilstand.Utbetalt,

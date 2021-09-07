@@ -1,17 +1,19 @@
 import styled from '@emotion/styled';
-import { Dagtype, Kildetype, Overstyring } from 'internal-types';
+import { Dagtype, Kildetype } from 'internal-types';
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useRef } from 'react';
+
+import { CaseworkerFilled } from '@navikt/ds-icons';
 
 import { Flex } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
 import { Tooltip } from '../../../../components/Tooltip';
-import IconOverstyrt from '../../../../components/ikoner/iconOverstyrt.svg';
 
 import { CellContent } from '../../table/CellContent';
 import { OverstyringsindikatorSaksbehandler } from './OverstyringsindikatorSaksbehandler';
+import { Dagoverstyring } from './Utbetalingstabell.types';
 
-const getKildeTypeIcon = (type?: Kildetype, overstyring?: Overstyring): ReactNode => {
+const getKildeTypeIcon = (type?: Kildetype, overstyring?: Dagoverstyring): ReactNode => {
     switch (type) {
         case Kildetype.Sykmelding:
             return <Kilde type={Kildetype.Sykmelding}>SM</Kilde>;
@@ -23,12 +25,12 @@ const getKildeTypeIcon = (type?: Kildetype, overstyring?: Overstyring): ReactNod
             return overstyring ? (
                 <OverstyringsindikatorSaksbehandler
                     begrunnelse={overstyring.begrunnelse}
-                    saksbehandler={overstyring.saksbehandlerNavn}
+                    saksbehandler={overstyring.navn}
                     dato={overstyring.timestamp}
                 />
             ) : (
                 <Flex>
-                    <IconOverstyrt />
+                    <CaseworkerFilled height={20} width={20} />
                 </Flex>
             );
         default:
@@ -44,7 +46,7 @@ const Container = styled(CellContent)`
 interface KildeCellProps extends React.HTMLAttributes<HTMLTableDataCellElement> {
     type: Dagtype;
     kilde?: Kildetype;
-    overstyring?: Overstyring;
+    overstyring?: Dagoverstyring;
 }
 
 export const KildeCell = ({ type, kilde, overstyring, ...rest }: KildeCellProps) => {

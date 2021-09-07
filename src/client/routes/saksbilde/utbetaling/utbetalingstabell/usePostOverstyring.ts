@@ -85,7 +85,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         };
     }, [calculating]);
 
-    const _postOvestyring = (dager: Dag[], begrunnelse: string, callback?: () => void) => {
+    const _postOverstyring = (dager: Dag[], begrunnelse: string, callback?: () => void) => {
         const overstyring = {
             aktørId: person.aktørId,
             fødselsnummer: person.fødselsnummer,
@@ -109,7 +109,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
     };
 
     return {
-        postOverstyring: _postOvestyring,
+        postOverstyring: _postOverstyring,
         state: state,
         error: error,
     };
