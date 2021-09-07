@@ -10,6 +10,7 @@ import { Flex, FlexColumn } from '../../../components/Flex';
 import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/arbeidsgiver';
 import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
+import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
 
@@ -59,6 +60,7 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
     const over67år = erOver67År(vedtaksperiode);
     const månedsbeløp = getMånedsbeløp(vedtaksperiode, aktivPeriode.organisasjonsnummer);
     const skjæringstidspunkt = getSkjæringstidspunkt(vedtaksperiode);
+    const saksbehandler = useInnloggetSaksbehandler();
 
     return (
         <Container data-testid="saksbilde-fullstendig">
@@ -82,7 +84,9 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
                                 <Saksbildevarsler
                                     aktivPeriode={aktivPeriode}
                                     vedtaksperiode={vedtaksperiode}
+                                    saksbehandler={saksbehandler}
                                     oppgavereferanse={oppgavereferanse}
+                                    tildeling={personTilBehandling.tildeling}
                                 />
 
                                 <Switch>

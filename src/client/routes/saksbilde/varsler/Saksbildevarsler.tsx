@@ -1,4 +1,4 @@
-import { Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
+import { Saksbehandler, Tidslinjetilstand, TildelingType, Vedtaksperiode } from 'internal-types';
 import React from 'react';
 
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -7,6 +7,7 @@ import { Varseltype } from '@navikt/helse-frontend-varsel';
 import '@navikt/helse-frontend-varsel/lib/main.css';
 
 import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
+import { capitalizeName } from '../../../utils/locale';
 
 import { Aktivitetsloggvarsler } from './Aktivetsloggvarsler';
 import { Saksbildevarsel } from './Saksbildevarsel';
@@ -64,19 +65,37 @@ const ukjentTilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null
         ? { grad: Varseltype.Feil, melding: 'Kunne ikke lese informasjon om sakens tilstand.' }
         : null;
 
+const tildelingsvarsel = (saksbehandlerOid: string, tildeling?: TildelingType): VarselObject | null => {
+    return tildeling && tildeling.saksbehandler.oid !== saksbehandlerOid
+        ? {
+              grad: Varseltype.Info,
+              melding: `Saken er allerede tildelt til ${capitalizeName(tildeling?.saksbehandler.navn ?? '')}`,
+          }
+        : null;
+};
+
 interface SaksbildevarslerProps {
     aktivPeriode: Tidslinjeperiode;
     vedtaksperiode: Vedtaksperiode;
+    saksbehandler: Saksbehandler;
     oppgavereferanse?: string;
+    tildeling?: TildelingType;
 }
 
-export const Saksbildevarsler = ({ aktivPeriode, vedtaksperiode, oppgavereferanse }: SaksbildevarslerProps) => {
+export const Saksbildevarsler = ({
+    aktivPeriode,
+    vedtaksperiode,
+    saksbehandler,
+    oppgavereferanse,
+    tildeling,
+}: SaksbildevarslerProps) => {
     const varsler: VarselObject[] = [
         tilstandsvarsel(aktivPeriode.tilstand),
         utbetalingsvarsel(aktivPeriode.tilstand),
         ukjentTilstandsvarsel(aktivPeriode.tilstand),
         manglendeOppgavereferansevarsel(aktivPeriode.tilstand, oppgavereferanse),
         vedtaksperiodeVenterVarsel(aktivPeriode.tilstand),
+        tildelingsvarsel(saksbehandler.oid, tildeling),
     ].filter((it) => it) as VarselObject[];
 
     return (
