@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import { Dagtype, Overstyring, Sykdomsdag } from 'internal-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
@@ -47,6 +47,8 @@ interface UtbetalingstabellProps {
 export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overstyringer }: UtbetalingstabellProps) => {
     const fom = periode.fom.format(NORSK_DATOFORMAT);
     const tom = periode.tom.format(NORSK_DATOFORMAT);
+
+    const [markerteDager, setMarkerteDager] = useState<UtbetalingstabellDag[]>([]);
 
     const antallDagerIgjen = maksdato
         ? periode.utbetalingstidslinje.filter((it) => it.type === Dagtype.Syk && it.dato.isSameOrBefore(maksdato))
@@ -104,7 +106,16 @@ export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overst
                     />
                     {rader.map(([utbetalingsdag, sykdomsdag, maybeOverstyring], i) => (
                         <Row type={utbetalingsdag.type} key={i}>
-                            <VelgRadCell index={i} onChange={() => null} />
+                            <VelgRadCell
+                                index={i}
+                                onChange={(checked: boolean) =>
+                                    checked
+                                        ? setMarkerteDager((prevState) => [...prevState, utbetalingsdag])
+                                        : setMarkerteDager((prevState) =>
+                                              prevState.filter((dag) => !dag.dato.isSame(utbetalingsdag.dato))
+                                          )
+                                }
+                            />
                             <DateCell date={utbetalingsdag.dato} />
                             <UtbetalingsdagCell
                                 typeUtbetalingsdag={utbetalingsdag.type}
