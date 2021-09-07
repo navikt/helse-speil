@@ -86,32 +86,37 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
                                     vedtaksperiode={vedtaksperiode}
                                     oppgavereferanse={oppgavereferanse}
                                 />
-                                <Content>
-                                    <Switch>
-                                        <Route path={`${path}/utbetaling`}>
-                                            <Utbetaling
-                                                periode={aktivPeriode}
-                                                maksdato={maksdato}
-                                                vedtaksperiode={vedtaksperiode}
-                                                gjenståendeDager={gjenståendeDager}
-                                            />
-                                        </Route>
-                                        <Route path={`${path}/inngangsvilkår`}>
+
+                                <Switch>
+                                    <Route path={`${path}/utbetaling`}>
+                                        <Utbetaling
+                                            periode={aktivPeriode}
+                                            maksdato={maksdato}
+                                            vedtaksperiode={vedtaksperiode}
+                                            gjenståendeDager={gjenståendeDager}
+                                        />
+                                    </Route>
+                                    <Route path={`${path}/inngangsvilkår`}>
+                                        <Content>
                                             <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
-                                        </Route>
-                                        <Route path={`${path}/sykepengegrunnlag`}>
+                                        </Content>
+                                    </Route>
+                                    <Route path={`${path}/sykepengegrunnlag`}>
+                                        <Content>
                                             <Sykepengegrunnlag
                                                 vedtaksperiode={vedtaksperiode}
                                                 person={personTilBehandling}
                                             />
-                                        </Route>
-                                        {vedtaksperiode.risikovurdering && (
+                                        </Content>
+                                    </Route>
+                                    {vedtaksperiode.risikovurdering && (
+                                        <Content>
                                             <Route path={`${path}/faresignaler`}>
                                                 <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
                                             </Route>
-                                        )}
-                                    </Switch>
-                                </Content>
+                                        </Content>
+                                    )}
+                                </Switch>
                             </FlexColumn>
                         </Flex>
                     </AmplitudeProvider>

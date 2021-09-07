@@ -125,7 +125,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
                         )}
                     </Flex>
                 )}
-                <Flex style={{ height: '100%', paddingTop: '1rem' }}>
+                <FlexColumn style={{ height: '100%', paddingTop: '1rem' }}>
                     {overstyrer ? (
                         <OverstyrbarUtbetalingstabell
                             periode={periode}
@@ -143,7 +143,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
                             overstyringer={vedtaksperiode.overstyringer}
                         />
                     )}
-                </Flex>
+                </FlexColumn>
                 {state === 'timedOut' && <OverstyringTimeoutModal onRequestClose={() => null} />}
                 {state === 'hasError' && (
                     <FeilmeldingContainer>
