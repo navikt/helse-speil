@@ -8,9 +8,15 @@ import { TotalText } from './TotalText';
 import { UtbetalingCell } from './UtbetalingCell';
 
 const Container = styled(Row)`
-    background-color: var(--navds-layout-background-gray);
+    background: none;
+
+    > td:first-of-type {
+        background: none;
+        border: none;
+    }
 
     > td {
+        background-color: var(--navds-layout-background-gray);
         border-bottom-color: #b7b1a9;
     }
 `;
@@ -37,6 +43,7 @@ export const TotalRow = ({ utbetalingstidslinje, maksdato, gjenståendeDager = 0
 
     return (
         <Container>
+            <td />
             <td>TOTAL</td>
             <td>
                 <TotalText>{utbetalingsdager.length} dager</TotalText>

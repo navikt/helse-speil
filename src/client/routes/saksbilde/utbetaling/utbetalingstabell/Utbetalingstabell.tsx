@@ -20,13 +20,18 @@ import { UtbetalingCell } from './UtbetalingCell';
 import { UtbetalingsdagCell } from './UtbetalingsdagCell';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 import { getMatchingSykdomsdag, withDagerIgjen } from './Utbetalingstabell.utils';
+import { VelgRadCell } from './VelgRadCell';
 
 const Container = styled.section`
     flex: 1;
     overflow-x: scroll;
-    margin: 0;
+    margin: 0 0 0 -2rem;
     height: 100%;
     width: 400px;
+`;
+
+const ChangeDialog = styled.div`
+    background-color: var(--navds-color-gray-10);
 `;
 
 const getOverstyringMatchingDate = (date: Dayjs, overstyringer: Overstyring[]): Overstyring | undefined =>
@@ -60,9 +65,11 @@ export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overst
 
     return (
         <Container>
+            <ChangeDialog />
             <Table aria-label={`Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`}>
                 <thead>
                     <tr>
+                        <th />
                         <Header scope="col" colSpan={1}>
                             Dato
                         </Header>
@@ -97,6 +104,7 @@ export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overst
                     />
                     {rader.map(([utbetalingsdag, sykdomsdag, maybeOverstyring], i) => (
                         <Row type={utbetalingsdag.type} key={i}>
+                            <VelgRadCell index={i} onChange={() => null} />
                             <DateCell date={utbetalingsdag.dato} />
                             <UtbetalingsdagCell
                                 typeUtbetalingsdag={utbetalingsdag.type}

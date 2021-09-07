@@ -35,7 +35,7 @@ const AutoFlexContainer = styled.div`
 `;
 
 const Content = styled.div`
-    padding: 0 2.5rem;
+    padding: 0 2rem;
     height: 100%;
     box-sizing: border-box;
     flex: 1;

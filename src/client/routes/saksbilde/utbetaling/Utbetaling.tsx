@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 
 import { Feilmelding } from 'nav-frontend-typografi';
 
+import { Button } from '@navikt/ds-react';
+
 import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
 import { Flex, FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
@@ -107,7 +109,11 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
         <AgurkErrorBoundary sidenavn="Utbetaling">
             <FlexColumn style={{ paddingBottom: '4rem' }}>
                 {(overstyringIsEnabled || revurderingIsEnabled) && (
-                    <Flex justifyContent="flex-end" style={{ paddingTop: '1rem' }}>
+                    <Flex
+                        justifyContent={overstyrer ? 'space-between' : 'flex-end'}
+                        style={{ paddingTop: '1rem', minHeight: '48px' }}
+                    >
+                        {overstyrer && <Button size="s">Endre flere dager</Button>}
                         {vedtaksperiode.erForkastet ? (
                             <PopoverHjelpetekst ikon={<SortInfoikon />} offset={24}>
                                 <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>

@@ -8,11 +8,11 @@ interface RowProps {
 }
 
 const leftAlignedLine = (color: string) => css`
-    > *:first-of-type {
+    > td:nth-of-type(2) {
         position: relative;
     }
 
-    > *:first-of-type:before {
+    > td:nth-of-type(2):before {
         content: '';
         position: absolute;
         left: 0;
@@ -45,7 +45,9 @@ const avvistStyle = (props: RowProps) =>
 const arbeidsgiverperiodeStyle = (props: RowProps) =>
     props.type === Dagtype.Arbeidsgiverperiode &&
     css`
-        background-color: #f8f8f8;
+        > td:not(:first-of-type) {
+            background-color: #f8f8f8;
+        }
         ${leftAlignedLine('var(--navds-color-text-disabled)')}
     `;
 
@@ -55,17 +57,20 @@ export const Row = styled.tr<RowProps>`
     > td {
         position: relative;
         height: 2rem;
-        border-bottom: 1px solid #c6c2bf;
         padding: 0 1rem;
         vertical-align: middle;
         box-sizing: border-box;
 
         &:first-of-type {
-            padding-left: 2rem;
+            padding: 0 4px;
         }
 
         &:not(:first-of-type):not(:last-of-type) {
             padding-right: 1rem;
+        }
+
+        &:not(:first-of-type) {
+            border-bottom: 1px solid #c6c2bf;
         }
     }
 
