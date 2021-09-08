@@ -15,6 +15,7 @@ import { defaultUtbetalingToggles, overstyrPermisjonsdagerEnabled } from '../../
 import { IconLocked } from './IconLocked';
 import { IconOpen } from './IconOpen';
 import { Overstyringsknapp } from './Overstyringsknapp';
+import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
 const Container = styled.div`
     position: sticky;
@@ -96,6 +97,7 @@ interface DagEndrerProps {
     onEndre: () => void;
     overstyrer: boolean;
     toggleOverstyring: () => void;
+    markerteDager: UtbetalingstabellDag[];
 }
 
 export const DagEndrer: React.FC<DagEndrerProps> = ({
@@ -104,6 +106,7 @@ export const DagEndrer: React.FC<DagEndrerProps> = ({
     onEndre,
     overstyrer,
     toggleOverstyring,
+    markerteDager,
 }) => {
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyringIsEnabled = useOverstyringIsEnabled(defaultUtbetalingToggles);
@@ -123,6 +126,10 @@ export const DagEndrer: React.FC<DagEndrerProps> = ({
     const onBlurGradInput = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChangeGrad(Number(event.target.value));
     };
+    const dagtypeSelectRef = React.useRef<HTMLSelectElement>(null);
+    const kanVelgeGrad = ![Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon].includes(
+        dagtypeSelectRef.current?.value as Dagtype
+    );
 
     if (!overstyrer && (revurderingIsEnabled || overstyringIsEnabled)) {
         return (
@@ -141,11 +148,13 @@ export const DagEndrer: React.FC<DagEndrerProps> = ({
         );
     }
 
+    const harMarkerteDager = markerteDager.length > 0;
+
     return (
         <Container>
-            <Label>Endre markerte dager</Label>
+            <Label>{harMarkerteDager ? 'Endre markerte dager' : 'Marker dager du ønsker å endre'}</Label>
             <InputContainer>
-                <Dagtypevelger size="s" label="Utbet. dager" onChange={onChange}>
+                <Dagtypevelger ref={dagtypeSelectRef} size="s" label="Utbet. dager" onChange={onChange}>
                     {Object.values(Dagtype)
                         .filter(dagtyperManKanEndreTil)
                         .map((dagtype: Dagtype) => (
@@ -154,7 +163,7 @@ export const DagEndrer: React.FC<DagEndrerProps> = ({
                             </option>
                         ))}
                 </Dagtypevelger>
-                <Gradvelger size="s" type="number" label="Grad" onBlur={onBlurGradInput} />
+                <Gradvelger size="s" type="number" label="Grad" onBlur={onBlurGradInput} disabled={!kanVelgeGrad} />
                 <Knapp size="s" onClick={onEndre}>
                     Endre
                 </Knapp>

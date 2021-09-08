@@ -122,6 +122,7 @@ export const Utbetalingstabell = ({
                 onEndre={onEndre}
                 overstyrer={overstyrer}
                 toggleOverstyring={toggleOverstyring}
+                markerteDager={markerteDager}
             />
             <Container>
                 <TabellContainer>
