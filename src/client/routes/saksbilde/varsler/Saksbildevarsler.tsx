@@ -17,21 +17,30 @@ type VarselObject = {
     melding: string;
 };
 
-const tilstandsvarsel = (tilstand: Tidslinjetilstand): VarselObject | null => {
+const tilstandInfoVarsel = (tilstand: Tidslinjetilstand): VarselObject | null => {
     switch (tilstand) {
         case Tidslinjetilstand.KunFerie:
         case Tidslinjetilstand.KunPermisjon:
         case Tidslinjetilstand.RevurdertIngenUtbetaling:
         case Tidslinjetilstand.IngenUtbetaling:
             return { grad: Varseltype.Info, melding: 'Perioden er godkjent, ingen utbetaling.' };
-        case Tidslinjetilstand.Feilet:
-            return { grad: Varseltype.Feil, melding: 'Utbetalingen feilet.' };
+        case Tidslinjetilstand.Revurderes:
+            return { grad: Varseltype.Info, melding: 'Revurdering er igangsatt og må fullføres.' };
         case Tidslinjetilstand.Annullert:
             return { grad: Varseltype.Info, melding: 'Utbetalingen er annullert.' };
         case Tidslinjetilstand.TilAnnullering:
             return { grad: Varseltype.Info, melding: 'Annullering venter.' };
+        default:
+            return null;
+    }
+};
+
+const tilstandFeilVarsel = (tilstand: Tidslinjetilstand): VarselObject | null => {
+    switch (tilstand) {
         case Tidslinjetilstand.AnnulleringFeilet:
             return { grad: Varseltype.Feil, melding: 'Annulleringen feilet. Kontakt utviklerteamet.' };
+        case Tidslinjetilstand.Feilet:
+            return { grad: Varseltype.Feil, melding: 'Utbetalingen feilet.' };
         default:
             return null;
     }
@@ -89,24 +98,28 @@ export const Saksbildevarsler = ({
     oppgavereferanse,
     tildeling,
 }: SaksbildevarslerProps) => {
-    const varsler: VarselObject[] = [
-        tilstandsvarsel(aktivPeriode.tilstand),
+    const infoVarsler: VarselObject[] = [
+        tilstandInfoVarsel(aktivPeriode.tilstand),
         utbetalingsvarsel(aktivPeriode.tilstand),
-        ukjentTilstandsvarsel(aktivPeriode.tilstand),
-        manglendeOppgavereferansevarsel(aktivPeriode.tilstand, oppgavereferanse),
         vedtaksperiodeVenterVarsel(aktivPeriode.tilstand),
         tildelingsvarsel(saksbehandler.oid, tildeling),
     ].filter((it) => it) as VarselObject[];
 
+    const feilVarsler: VarselObject[] = [
+        tilstandFeilVarsel(aktivPeriode.tilstand),
+        ukjentTilstandsvarsel(aktivPeriode.tilstand),
+        manglendeOppgavereferansevarsel(aktivPeriode.tilstand, oppgavereferanse),
+    ].filter((it) => it) as VarselObject[];
+
     return (
         <div className="Saksbildevarsler">
-            {aktivPeriode.tilstand === Tidslinjetilstand.Revurderes && (
-                <Saksbildevarsel type={Varseltype.Info}>
-                    <Normaltekst>Revurdering er igangsatt og må fullføres.</Normaltekst>
+            {infoVarsler.map(({ grad, melding }, index) => (
+                <Saksbildevarsel type={grad} key={index}>
+                    <Normaltekst>{melding}</Normaltekst>
                 </Saksbildevarsel>
-            )}
+            ))}
             <Aktivitetsloggvarsler varsler={vedtaksperiode.aktivitetslog} />
-            {varsler.map(({ grad, melding }, index) => (
+            {feilVarsler.map(({ grad, melding }, index) => (
                 <Saksbildevarsel type={grad} key={index}>
                     <Normaltekst>{melding}</Normaltekst>
                 </Saksbildevarsel>
