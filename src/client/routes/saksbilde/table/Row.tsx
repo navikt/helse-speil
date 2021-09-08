@@ -45,9 +45,7 @@ const avvistStyle = (props: RowProps) =>
 const arbeidsgiverperiodeStyle = (props: RowProps) =>
     props.type === Dagtype.Arbeidsgiverperiode &&
     css`
-        > td:not(:first-of-type) {
-            background-color: #f8f8f8;
-        }
+        background-color: #f8f8f8;
         ${leftAlignedLine('var(--navds-color-text-disabled)')}
     `;
 
@@ -60,10 +58,6 @@ export const Row = styled.tr<RowProps>`
         padding: 0 1rem;
         vertical-align: middle;
         box-sizing: border-box;
-
-        &:first-of-type {
-            padding: 0 4px;
-        }
 
         &:not(:first-of-type):not(:last-of-type) {
             padding-right: 1rem;

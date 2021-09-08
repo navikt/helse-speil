@@ -11,7 +11,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 const Overstyringsskjemagruppe = styled(SkjemaGruppe)`
     color: var(--navds-color-text-primary);
-    margin: 2.5rem 3px 3px 3px;
+    margin: 2rem;
 `;
 
 const FeiloppsummeringContainer = styled.div`
@@ -52,7 +52,7 @@ export const Overstyringsskjema = ({ avbrytOverstyring, overstyrteDager }: Overs
 
     const oppsummeringRef = useRef<HTMLDivElement>(null);
 
-    const harFeil = !formState.isValid;
+    const harFeil = !formState?.isValid;
 
     useEffect(() => {
         harFeil && oppsummeringRef.current?.focus();

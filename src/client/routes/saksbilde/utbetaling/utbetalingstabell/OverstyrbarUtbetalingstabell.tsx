@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Dag, Dagtype, Kildetype, OverstyrtDag, Sykdomsdag } from 'internal-types';
+import { Dag, Dagtype, OverstyrtDag, Sykdomsdag } from 'internal-types';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 

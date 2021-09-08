@@ -15,6 +15,7 @@ import { GjenståendeDagerCell } from './GjenståendeDagerCell';
 import { GradCell } from './GradCell';
 import { KildeCell } from './KildeCell';
 import { MerknaderCell } from './MerknaderCell';
+import { Overstyringsskjema } from './Overstyringsskjema';
 import { TotalGradCell } from './TotalGradCell';
 import { TotalRow } from './TotalRow';
 import { UtbetalingCell } from './UtbetalingCell';
@@ -33,9 +34,11 @@ const TabellContainer = styled.div`
     margin: 2rem 2rem 2rem 0;
     height: 100%;
     overflow-x: scroll;
+
     > table {
         overflow-y: hidden;
     }
+
     * {
         box-sizing: border-box;
     }
@@ -44,19 +47,12 @@ const TabellContainer = styled.div`
 const getOverstyringMatchingDate = (date: Dayjs, overstyringer: Overstyring[]): Overstyring | undefined =>
     overstyringer.find(({ overstyrteDager }) => overstyrteDager.find((it) => it.dato.isSame(date)));
 
-interface UtbetalingstabellProps {
-    periode: Tidslinjeperiode;
-    overstyringer: Overstyring[];
-    gjenståendeDager?: number;
-    maksdato?: Dayjs;
-}
-
-export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overstyringer }: UtbetalingstabellProps) => {
-    const fom = periode.fom.format(NORSK_DATOFORMAT);
-    const tom = periode.tom.format(NORSK_DATOFORMAT);
-
-    const [markerteDager, setMarkerteDager] = useState<UtbetalingstabellDag[]>([]);
-
+const useRader = (
+    gjenståendeDager: number,
+    periode: Tidslinjeperiode,
+    overstyringer: Overstyring[],
+    maksdato?: Dayjs
+): [UtbetalingstabellDag, Sykdomsdag, Overstyring | undefined][] => {
     const antallDagerIgjen = maksdato
         ? periode.utbetalingstidslinje.filter((it) => it.type === Dagtype.Syk && it.dato.isSameOrBefore(maksdato))
               .length + (gjenståendeDager ?? 0)
@@ -66,15 +62,67 @@ export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overst
         ? withDagerIgjen(periode.utbetalingstidslinje, antallDagerIgjen)
         : periode.utbetalingstidslinje;
 
-    const rader: [UtbetalingstabellDag, Sykdomsdag, Overstyring | undefined][] = utbetalingsdager.map((it) => [
+    return utbetalingsdager.map((it) => [
         it,
         getMatchingSykdomsdag(it, periode.sykdomstidslinje),
         getOverstyringMatchingDate(it.dato, overstyringer),
     ]);
+};
+
+interface UtbetalingstabellProps {
+    periode: Tidslinjeperiode;
+    overstyringer: Overstyring[];
+    overstyrer: boolean;
+    toggleOverstyring: () => void;
+    gjenståendeDager?: number;
+    maksdato?: Dayjs;
+}
+
+export const Utbetalingstabell = ({
+    periode,
+    overstyringer,
+    overstyrer,
+    toggleOverstyring,
+    gjenståendeDager,
+    maksdato,
+}: UtbetalingstabellProps) => {
+    const fom = periode.fom.format(NORSK_DATOFORMAT);
+    const tom = periode.tom.format(NORSK_DATOFORMAT);
+
+    const [markerteDager, setMarkerteDager] = useState<UtbetalingstabellDag[]>([]);
+    const [overstyrteDager, setOverstyrteDager] = useState<UtbetalingstabellDag[]>([]);
+
+    const rader = useRader(gjenståendeDager ?? 0, periode, overstyringer, maksdato);
+
+    const onMarkerRad = (checked: boolean, dag: UtbetalingstabellDag) =>
+        checked
+            ? setMarkerteDager((prevState) => [...prevState, dag])
+            : setMarkerteDager((prevState) => prevState.filter(({ dato }) => !dato.isSame(dag.dato)));
+
+    const onChangeDagtype = (dagtype: Dagtype) => {
+        setMarkerteDager((prevState) => prevState.map((it) => ({ ...it, type: dagtype })));
+    };
+
+    const onChangeGrad = (grad: number) => {
+        setMarkerteDager((prevState) => prevState.map((it) => ({ ...it, gradering: grad })));
+    };
+
+    const onEndre = () => {
+        setOverstyrteDager((prevState) => [
+            ...prevState.filter((it) => !markerteDager.find((markertDag) => markertDag.dato.isSame(it.dato))),
+            ...markerteDager,
+        ]);
+    };
 
     return (
         <>
-            <DagEndrer />
+            <DagEndrer
+                onChangeDagtype={onChangeDagtype}
+                onChangeGrad={onChangeGrad}
+                onEndre={onEndre}
+                overstyrer={overstyrer}
+                toggleOverstyring={toggleOverstyring}
+            />
             <Container>
                 <TabellContainer>
                     <Table aria-label={`Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`}>
@@ -117,13 +165,9 @@ export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overst
                                 <Row type={utbetalingsdag.type} key={i}>
                                     <VelgRadCell
                                         index={i}
-                                        onChange={(checked: boolean) =>
-                                            checked
-                                                ? setMarkerteDager((prevState) => [...prevState, utbetalingsdag])
-                                                : setMarkerteDager((prevState) =>
-                                                      prevState.filter((dag) => !dag.dato.isSame(utbetalingsdag.dato))
-                                                  )
-                                        }
+                                        onChange={(checked) => onMarkerRad(checked, utbetalingsdag)}
+                                        dag={utbetalingsdag}
+                                        overstyrer={overstyrer}
                                     />
                                     <DateCell date={utbetalingsdag.dato} />
                                     <UtbetalingsdagCell
@@ -155,6 +199,7 @@ export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overst
                     </Table>
                 </TabellContainer>
             </Container>
+            {overstyrer && <Overstyringsskjema avbrytOverstyring={() => null} overstyrteDager={overstyrteDager} />}
         </>
     );
 };

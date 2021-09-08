@@ -26,8 +26,6 @@ import { Vilkår } from '../vilkår/Vilkår';
 const Container = styled(Flex)`
     flex: 1;
     min-width: var(--speil-total-min-width);
-    overflow: auto;
-    overflow-x: hidden;
 `;
 
 const AutoFlexContainer = styled.div`
