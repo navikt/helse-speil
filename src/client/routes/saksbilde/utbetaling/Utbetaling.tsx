@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Vedtaksperiode } from 'internal-types';
+import { InntektskildeType, Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -52,12 +52,12 @@ const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden
     return arbeidsgiversSisteSkjæringstidspunkt?.isSame(periodensSkjæringstidspunkt, 'day') ?? false;
 };
 
-const kunEnArbeidsgiver = (person: Person) => person.arbeidsgivere.length === 1;
+const kunEnArbeidsgiver = (periode: Tidslinjeperiode) => periode.inntektskilde === InntektskildeType.EnArbeidsgiver;
 
 export const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        (erDev() || erLocal() || kunEnArbeidsgiver(person)) &&
+        (erDev() || erLocal() || kunEnArbeidsgiver(periode)) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
         [
             Tidslinjetilstand.Utbetalt,
@@ -76,15 +76,15 @@ export const overstyrRevurderingEnabled = (
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
         (erDev() || erLocal()) &&
-        kunEnArbeidsgiver(person) &&
+        kunEnArbeidsgiver(periode) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
-        [Tidslinjetilstand.Revurderes].includes(periode.tilstand)
+        periode.tilstand === Tidslinjetilstand.Revurderes
     );
 };
 
 const overstyringEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
     toggles.overstyrbareTabellerEnabled &&
-    kunEnArbeidsgiver(person) &&
+    kunEnArbeidsgiver(periode) &&
     [
         Tidslinjetilstand.Oppgaver,
         Tidslinjetilstand.Avslag,

@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { Tidslinjetilstand } from 'internal-types';
+import { InntektskildeType, Tidslinjetilstand } from 'internal-types';
 
 import { Periodetype, Tidslinjeperiode } from '../../client/modell/utbetalingshistorikkelement';
 
@@ -16,6 +16,7 @@ export const enTidslinjeperiode = (
         fom: fom,
         tom: tom,
         type: periodetype,
+        inntektskilde: InntektskildeType.EnArbeidsgiver,
         tilstand: tilstand,
         utbetalingstidslinje: [],
         sykdomstidslinje: [],

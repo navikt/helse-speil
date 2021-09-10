@@ -433,6 +433,7 @@ interface Boenhet {
 export enum InntektskildeType {
     EnArbeidsgiver = 'EN_ARBEIDSGIVER',
     FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
+    Ukjent = 'UKJENT',
 }
 
 export interface UtbetalingshistorikkUtbetaling2 {
