@@ -73,6 +73,20 @@ export const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, to
     );
 };
 
+export const overstyrRevurderingEnabled = (
+    person: Person,
+    periode: Tidslinjeperiode,
+    toggles: UtbetalingToggles
+): boolean => {
+    return (
+        toggles.overstyreUtbetaltPeriodeEnabled &&
+        (erDev() || erLocal()) &&
+        kunEnArbeidsgiver(person) &&
+        arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
+        [Tidslinjetilstand.Revurderes].includes(periode.tilstand)
+    );
+};
+
 const overstyringEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
     toggles.overstyrbareTabellerEnabled &&
     kunEnArbeidsgiver(person) &&
@@ -101,12 +115,13 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
     };
 
     const revurderingIsEnabled = revurderingEnabled(person, periode, defaultUtbetalingToggles);
+    const overstyrRevurderingIsEnabled = overstyrRevurderingEnabled(person, periode, defaultUtbetalingToggles);
     const overstyringIsEnabled = overstyringEnabled(person, periode, defaultUtbetalingToggles);
 
     return (
         <AgurkErrorBoundary sidenavn="Utbetaling">
             <FlexColumn style={{ paddingBottom: '4rem' }}>
-                {(overstyringIsEnabled || revurderingIsEnabled) && (
+                {(overstyringIsEnabled || revurderingIsEnabled || overstyrRevurderingIsEnabled) && (
                     <Flex justifyContent="flex-end" style={{ paddingTop: '1rem' }}>
                         {vedtaksperiode.erForkastet ? (
                             <PopoverHjelpetekst ikon={<SortInfoikon />} offset={24}>
