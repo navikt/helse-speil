@@ -1,6 +1,8 @@
 import { Dayjs } from 'dayjs';
 import {
     Arbeidsgiver,
+    InntektskildeType,
+    Inntektskildetype,
     Sykdomsdag,
     Tidslinjetilstand,
     Utbetalingsdag,
@@ -83,6 +85,7 @@ export interface Tidslinjeperiode {
     tom: Dayjs;
     type: Periodetype;
     tilstand: Tidslinjetilstand;
+    inntektskilde: InntektskildeType;
     utbetalingstidslinje: Utbetalingsdag[];
     sykdomstidslinje: Sykdomsdag[];
     organisasjonsnummer: string;

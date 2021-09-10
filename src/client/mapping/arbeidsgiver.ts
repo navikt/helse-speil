@@ -9,6 +9,7 @@ import {
 import {
     Arbeidsgiver,
     Dagtype,
+    InntektskildeType,
     Tidslinjetilstand,
     UfullstendigVedtaksperiode,
     Utbetalingsdag,
@@ -126,6 +127,7 @@ export class ArbeidsgiverBuilder {
             fom: periode.fom,
             tom: periode.tom,
             type: periodetype(),
+            inntektskilde: (periode as Vedtaksperiode).inntektskilde,
             tilstand: this.tilstand(
                 element.utbetaling.status,
                 periodetype(),
@@ -142,7 +144,7 @@ export class ArbeidsgiverBuilder {
         };
     };
 
-    private mapUfullstendigPeriode = (periode: UfullstendigVedtaksperiode) => [
+    private mapUfullstendigPeriode = (periode: UfullstendigVedtaksperiode): Tidslinjeperiode[] => [
         {
             id: periode.id,
             beregningId: nanoid(),
@@ -150,6 +152,7 @@ export class ArbeidsgiverBuilder {
             fom: periode.fom,
             tom: periode.tom,
             type: Periodetype.UFULLSTENDIG,
+            inntektskilde: InntektskildeType.Ukjent,
             tilstand: this.tilstand(
                 Utbetalingstatus.UKJENT,
                 Periodetype.UFULLSTENDIG,

@@ -755,6 +755,7 @@ export const mappetPersonObject = (): Person => ({
                         fom: dayjs('2020-01-01T00:00:00.000Z'),
                         tom: dayjs('2020-01-31T00:00:00.000Z'),
                         type: UtbetalingshistorikkPeriodetype.VEDTAKSPERIODE,
+                        inntektskilde: InntektskildeType.EnArbeidsgiver,
                         tilstand: Tidslinjetilstand.UtbetaltAutomatisk,
                         fagsystemId: 'EN_FAGSYSTEMID',
                         opprettet: dayjs('2020-01-01T:00:00:00'),
