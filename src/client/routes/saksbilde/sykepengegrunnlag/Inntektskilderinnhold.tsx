@@ -56,15 +56,21 @@ interface InntektskilderinnholdProps {
     anonymiseringEnabled: boolean;
 }
 
+const IconContainer = styled.div`
+    justify-self: center;
+`;
+
 const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: InntektskilderinnholdProps) => {
     const { arbeidsgivernavn, organisasjonsnummer, arbeidsforhold, bransjer, omregnetÅrsinntekt } = inntektskilde;
 
     return (
         <FlexColumn>
             <Arbeidsgivertittel>
-                <Arbeidsgiverikon />
+                <IconContainer data-tip={'Arbeidsgiver'}>
+                    <Arbeidsgiverikon alt={'Arbeidsgiver'} />
+                </IconContainer>
                 <Tittel>
-                    <TekstMedEllipsis data-tip="Arbeidsgivernavn">
+                    <TekstMedEllipsis>
                         {anonymiseringEnabled
                             ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
                             : arbeidsgivernavn}

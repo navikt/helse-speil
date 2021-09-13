@@ -89,15 +89,15 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
                 <LeftContainer>
                     <NavFrontendChevron type={erEkspandert ? 'ned' : 'høyre'} />
                 </LeftContainer>
-                <Arbeidsgiverikon />
+                <Arbeidsgiverikon data-tip={'Arbeidsgiver'} alt={'Arbeidsgiver'} />
                 <Flex style={{ overflow: 'hidden' }}>
                     <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
                 </Flex>
             </EkspanderbartArbeidsgivernavn>
         ) : (
-            <Arbeidsgivernavn>
+            <Arbeidsgivernavn data-tip={'Arbeidsgiver'}>
                 <LeftContainer />
-                <Arbeidsgiverikon />
+                <Arbeidsgiverikon data-tip={'Arbeidsgiver'} alt={'Arbeidsgiver'} />
                 <Flex style={{ overflow: 'hidden' }}>
                     <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
                 </Flex>

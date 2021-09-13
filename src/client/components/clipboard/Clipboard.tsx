@@ -90,7 +90,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
         <Container as="span" alignItems="center">
             <div ref={contentRef}>{children}</div>
             <Button onClick={copy} data-tip={dataTip}>
-                <ClipboardIcon />
+                <ClipboardIcon alt={dataTip} />
                 <AnimatePresence>
                     {didCopy && (
                         <motion.span

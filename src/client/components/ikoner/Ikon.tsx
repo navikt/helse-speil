@@ -5,6 +5,7 @@ export interface IkonProps extends SVGProps<any> {
     width?: number;
     viewBox?: string;
     className?: string;
+    alt?: string;
 }
 
 export const Ikon: React.FC<IkonProps> = ({
@@ -13,9 +14,11 @@ export const Ikon: React.FC<IkonProps> = ({
     height = 16,
     viewBox = '0 0 24 24',
     className,
+    alt,
     ...rest
 }: IkonProps) => (
-    <svg width={width} height={height} viewBox={viewBox} className={className} {...rest}>
+    <svg aria-labelledby="title" width={width} height={height} viewBox={viewBox} className={className} {...rest}>
+        <title id="title">{alt}</title>
         {children}
     </svg>
 );

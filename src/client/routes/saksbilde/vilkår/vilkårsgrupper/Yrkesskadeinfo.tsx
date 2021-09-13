@@ -5,11 +5,20 @@ import { Normaltekst } from 'nav-frontend-typografi';
 
 import { Flex } from '../../../../components/Flex';
 import { LovdataLenke } from '../../../../components/LovdataLenke';
+import { IkonProps } from '../../../../components/ikoner/Ikon';
 
 import { Paragraf, Tittel } from '../vilkårstitler';
 
-const Infoikon = () => (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+const Infoikon = ({ alt }: IkonProps) => (
+    <svg
+        aria-labelledby="title"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <title id="title">{alt}</title>
         <path
             fillRule="evenodd"
             clipRule="evenodd"
@@ -45,7 +54,7 @@ const TextContainer = styled.div`
 export const Yrkeskadeinfo: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
     <Container data-testid="yrkesskade" {...props}>
         <IconContainer>
-            <Infoikon />
+            <Infoikon alt={'Til informasjon'} />
         </IconContainer>
         <TitleContainer>
             <Tittel>Systemet henter ikke inn yrkesskade</Tittel>

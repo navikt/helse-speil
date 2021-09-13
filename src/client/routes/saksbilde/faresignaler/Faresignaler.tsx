@@ -54,7 +54,7 @@ export const Faresignaler = ({ risikovurdering }: { risikovurdering: Risikovurde
                     ikon={<Advarselikon />}
                     overskrift="Faresignaler oppdaget"
                     faresignaler={risikovurdering.funn}
-                    vurderingIkon={<Utropstegnikon />}
+                    vurderingIkon={<Utropstegnikon alt={'Oppdaget'} />}
                 />
             )}
             {risikovurdering && (risikovurdering.kontrollertOk?.length ?? 0) > 0 && (
@@ -62,7 +62,7 @@ export const Faresignaler = ({ risikovurdering }: { risikovurdering: Risikovurde
                     ikon={<GrøntSjekkikon />}
                     overskrift="Faresignaler kontrollert"
                     faresignaler={risikovurdering.kontrollertOk}
-                    vurderingIkon={<Sjekkikon />}
+                    vurderingIkon={<Sjekkikon alt={'Kontrollert'} />}
                 />
             )}
         </Container>
