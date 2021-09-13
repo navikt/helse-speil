@@ -29,10 +29,11 @@ const Buttons = styled.span`
 interface OverstyringFormProps {
     overstyrteDager: Map<string, UtbetalingstabellDag>;
     toggleOverstyring: () => void;
+    onSubmit: () => void;
 }
 
-export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDager, toggleOverstyring }) => {
-    const { register, formState } = useFormContext();
+export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDager, toggleOverstyring, onSubmit }) => {
+    const { handleSubmit, register, formState } = useFormContext();
 
     const [oppsummering, setOppsummering] = useState('');
     const oppsummeringRef = useRef<HTMLDivElement>(null);
@@ -74,10 +75,10 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                 </FeiloppsummeringContainer>
             )}
             <Buttons>
-                <Button disabled={overstyrteDager.size < 1} size="s">
+                <Button onClick={handleSubmit(onSubmit)} type="button" disabled={overstyrteDager.size < 1} size="s">
                     Oppdater
                 </Button>
-                <Button variant="secondary" size="s" onClick={toggleOverstyring}>
+                <Button type="button" variant="secondary" size="s" onClick={toggleOverstyring}>
                     Avbryt
                 </Button>
             </Buttons>

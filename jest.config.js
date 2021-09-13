@@ -6,7 +6,6 @@ module.exports = {
         '^.+\\.jsx$': 'babel-jest',
         '^.+\\.tsx$': 'ts-jest',
         '^.+\\.ts$': 'ts-jest',
-        '^.+\\.svg$': 'jest-svg-transformer',
     },
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',

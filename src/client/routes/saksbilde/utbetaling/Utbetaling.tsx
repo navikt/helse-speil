@@ -145,10 +145,11 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                             ))}
                         </CheckboxContainer>
                         <FormProvider {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmitOverstyring)}>
+                            <form onSubmit={(event) => event.preventDefault()}>
                                 <OverstyringForm
                                     overstyrteDager={overstyrteDager}
                                     toggleOverstyring={toggleOverstyring}
+                                    onSubmit={onSubmitOverstyring}
                                 />
                             </form>
                         </FormProvider>

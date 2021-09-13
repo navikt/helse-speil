@@ -142,7 +142,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (Object.values(Dagtype).includes(event.target.value as Dagtype)) {
             form.clearErrors('dagtype');
-            setEndring((prevState) => ({ ...prevState, type: event.target.value as Dagtype }));
+            setEndring({ ...endring, type: event.target.value as Dagtype });
         }
     };
 
@@ -172,10 +172,11 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             onChange={oppdaterDagtype}
                             aria-invalid={form.formState.errors.dagtype}
                             error={form.formState.errors.dagtype?.message}
+                            data-testid="dagtypevelger"
                         >
                             {harMarkerteDager &&
                                 lovligeTypeendringer(markerteDagtyper, revurderingIsEnabled).map((dagtype: Dagtype) => (
-                                    <option key={dagtype} data-testid="overstyrbar-dagtype-option">
+                                    <option key={dagtype} value={dagtype} aria-selected={endring.type === dagtype}>
                                         {dagtype}
                                     </option>
                                 ))}
@@ -188,6 +189,7 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                             onBlur={oppdaterGrad}
                             disabled={!kanVelgeGrad || !harMarkerteDager}
                             defaultValue={endring.gradering}
+                            data-testid="gradvelger"
                         />
                         <Knapp size="s" type="submit" disabled={!harMarkerteDager}>
                             Endre
