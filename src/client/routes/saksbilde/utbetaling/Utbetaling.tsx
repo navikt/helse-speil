@@ -80,7 +80,6 @@ export const overstyrRevurderingEnabled = (
 ): boolean => {
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        (erDev() || erLocal()) &&
         kunEnArbeidsgiver(periode) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
         periode.tilstand === Tidslinjetilstand.Revurderes
