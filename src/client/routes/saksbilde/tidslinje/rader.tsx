@@ -99,7 +99,7 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
                 <LeftContainer />
                 <Arbeidsgiverikon />
                 <Flex style={{ overflow: 'hidden' }}>
-                    <TekstMedEllipsis data-tip="Arbeidsgiver">{navn}</TekstMedEllipsis>
+                    <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
                 </Flex>
             </Arbeidsgivernavn>
         )}
@@ -141,7 +141,7 @@ const Infotrygd = ({ rad, navn }: InfotrygdProps) => (
     <Flex alignItems="start">
         <ArbeidsgivernavnInfotrygd>
             <Infotrygdikon />
-            <TekstMedEllipsis data-tip="Arbeidsgiver (Infotrygd)">{navn}</TekstMedEllipsis>
+            <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
         </ArbeidsgivernavnInfotrygd>
         <Rader>
             <Tidslinjerad rad={rad} erKlikkbar={false} />
