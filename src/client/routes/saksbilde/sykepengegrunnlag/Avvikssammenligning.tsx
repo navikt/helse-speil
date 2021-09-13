@@ -12,10 +12,8 @@ interface Props {
 }
 
 const Sammenligning = styled.div`
-    grid-column-end: 3;
     display: grid;
-    grid-template-columns: 13rem max-content;
-    margin-bottom: 2rem;
+    grid-template-columns: var(--fixed-column-width) max-content;
     grid-column-gap: 2rem;
     grid-row-gap: 0.5rem;
 `;
@@ -28,7 +26,7 @@ const Divider = styled.hr`
     margin: 0.25rem 0;
 `;
 
-const Avvikssammenligning = ({ avvik, totalOmregnetÅrsinntekt, totalRapportertÅrsinntekt }: Props) => {
+export const Avvikssammenligning = ({ avvik, totalOmregnetÅrsinntekt, totalRapportertÅrsinntekt }: Props) => {
     return (
         <Sammenligning>
             <Normaltekst>Total omregnet årsinntekt</Normaltekst>
@@ -41,5 +39,3 @@ const Avvikssammenligning = ({ avvik, totalOmregnetÅrsinntekt, totalRapportert�
         </Sammenligning>
     );
 };
-
-export default Avvikssammenligning;

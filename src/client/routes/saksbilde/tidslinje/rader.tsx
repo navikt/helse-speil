@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import React from 'react';
 
-import NavFrontendChevron from 'nav-frontend-chevron';
+import { Expand, Next } from '@navikt/ds-icons';
 
 import { Button } from '../../../components/Button';
 import { Flex, FlexColumn } from '../../../components/Flex';
@@ -86,9 +86,7 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
     <Flex alignItems="start">
         {rader.length > 1 ? (
             <EkspanderbartArbeidsgivernavn erEkspandert={erEkspandert} onClick={() => toggleEkspanderbarRad(id)}>
-                <LeftContainer>
-                    <NavFrontendChevron type={erEkspandert ? 'ned' : 'høyre'} />
-                </LeftContainer>
+                <LeftContainer>{erEkspandert ? <Expand /> : <Next />}</LeftContainer>
                 <Arbeidsgiverikon data-tip={'Arbeidsgiver'} alt={'Arbeidsgiver'} />
                 <Flex style={{ overflow: 'hidden' }}>
                     <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>

@@ -2,40 +2,45 @@ import styled from '@emotion/styled';
 import { Arbeidsgiverinntekt, Kildetype } from 'internal-types';
 import React from 'react';
 
-import { Undertekst, Undertittel } from 'nav-frontend-typografi';
+import { Bag } from '@navikt/ds-icons';
+import { BodyShort } from '@navikt/ds-react';
 
-import { Flex, FlexColumn } from '../../../components/Flex';
+import { FlexColumn } from '../../../components/Flex';
 import { Kilde } from '../../../components/Kilde';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
 import { Tooltip } from '../../../components/Tooltip';
 import { Clipboard } from '../../../components/clipboard';
-import { Arbeidsgiverikon } from '../../../components/ikoner/Arbeidsgiverikon';
 
 import { getAnonymArbeidsgiverForOrgnr } from '../../../agurkdata';
 import { Arbeidsforhold } from '../Arbeidsforhold';
 import { Inntekt } from './inntekt/Inntekt';
 
-const Arbeidsgivertittel = styled.div`
+const Header = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-
-    > *:not(:last-child) {
-        margin-right: 1rem;
-    }
+    gap: 1rem;
 `;
 
-const Bransjer = styled(Undertekst)`
+const Bransjer = styled(BodyShort)`
+    font-size: 14px;
     margin-bottom: 0.5rem;
     color: var(--navds-color-text-disabled);
 `;
 
-const Tittel = styled(Undertittel)`
+const Navn = styled.div`
+    display: flex;
+    white-space: nowrap;
+    max-width: 300px;
+    font-size: 18px;
+    font-weight: 600;
+`;
+
+const Organisasjonsnummer = styled.div`
     display: flex;
     align-items: center;
     font-size: 18px;
-    color: var(--navds-color-text-primary);
-    width: 420px;
+    font-weight: 600;
 `;
 
 const Tabell = styled.div`
@@ -56,50 +61,38 @@ interface InntektskilderinnholdProps {
     anonymiseringEnabled: boolean;
 }
 
-const IconContainer = styled.div`
-    justify-self: center;
-`;
-
-const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: InntektskilderinnholdProps) => {
-    const { arbeidsgivernavn, organisasjonsnummer, arbeidsforhold, bransjer, omregnetÅrsinntekt } = inntektskilde;
-
-    return (
-        <FlexColumn>
-            <Arbeidsgivertittel>
-                <IconContainer data-tip={'Arbeidsgiver'}>
-                    <Arbeidsgiverikon alt={'Arbeidsgiver'} />
-                </IconContainer>
-                <Tittel>
-                    <TekstMedEllipsis>
-                        {anonymiseringEnabled
-                            ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).navn
-                            : arbeidsgivernavn}
-                    </TekstMedEllipsis>
-                    <Flex style={{ margin: '0 4px' }}>
-                        (
-                        <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
-                            {anonymiseringEnabled
-                                ? getAnonymArbeidsgiverForOrgnr(organisasjonsnummer).orgnr
-                                : organisasjonsnummer}
-                        </Clipboard>
-                        )
-                    </Flex>
-                </Tittel>
-                <Kilde type={Kildetype.Ainntekt}>AA</Kilde>
-            </Arbeidsgivertittel>
-            <Bransjer>
-                {`BRANSJE${bransjer.length > 1 ? 'R' : ''}: `}
-                {anonymiseringEnabled ? 'Agurkifisert bransje' : bransjer.join(', ')}
-            </Bransjer>
-            <ArbeidsforholdTabell>
-                {arbeidsforhold?.[0] && (
-                    <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...arbeidsforhold[0]} />
-                )}
-            </ArbeidsforholdTabell>
-            <Inntekt omregnetÅrsinntekt={omregnetÅrsinntekt} />
-            <Tooltip effect="solid" />
-        </FlexColumn>
-    );
-};
-
-export default Inntektskilderinnhold;
+export const Inntektskilderinnhold = ({ inntektskilde, anonymiseringEnabled }: InntektskilderinnholdProps) => (
+    <FlexColumn>
+        <Header>
+            <Bag width={20} height={20} />
+            <Navn data-tip="Arbeidsgivernavn">
+                <TekstMedEllipsis>
+                    {anonymiseringEnabled
+                        ? getAnonymArbeidsgiverForOrgnr(inntektskilde.organisasjonsnummer).navn
+                        : inntektskilde.arbeidsgivernavn}
+                </TekstMedEllipsis>
+            </Navn>
+            <Organisasjonsnummer>
+                (
+                <Clipboard copyMessage="Organisasjonsnummer er kopiert" dataTip="Kopier organisasjonsnummer">
+                    {anonymiseringEnabled
+                        ? getAnonymArbeidsgiverForOrgnr(inntektskilde.organisasjonsnummer).orgnr
+                        : inntektskilde.organisasjonsnummer}
+                </Clipboard>
+                )
+            </Organisasjonsnummer>
+            <Kilde type={Kildetype.Ainntekt}>AA</Kilde>
+        </Header>
+        <Bransjer component="p">
+            {`BRANSJE${inntektskilde.bransjer.length > 1 ? 'R' : ''}: `}
+            {anonymiseringEnabled ? 'Agurkifisert bransje' : inntektskilde.bransjer.join(', ')}
+        </Bransjer>
+        <ArbeidsforholdTabell>
+            {inntektskilde.arbeidsforhold?.[0] && (
+                <Arbeidsforhold anonymiseringEnabled={anonymiseringEnabled} {...inntektskilde.arbeidsforhold[0]} />
+            )}
+        </ArbeidsforholdTabell>
+        <Inntekt omregnetÅrsinntekt={inntektskilde.omregnetÅrsinntekt} />
+        <Tooltip effect="solid" />
+    </FlexColumn>
+);

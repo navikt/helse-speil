@@ -1,7 +1,7 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { Undertekst } from 'nav-frontend-typografi';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Undertekst } from 'nav-frontend-typografi';
 
 export const InntektMedKilde = styled.div`
     display: flex;
@@ -13,23 +13,26 @@ export const InntektMedKilde = styled.div`
     }
 `;
 
-type ArbeidsgiverRadProps = {
-    erGjeldende: boolean;
-};
-
-export const ArbeidsgiverRad = styled.button<ArbeidsgiverRadProps>`
+export const ArbeidsgiverRad = styled.button<{ erGjeldende: boolean }>`
     display: contents;
+    padding: 0.25rem;
 
     > * {
-        ${(props) => (props.erGjeldende ? 'background-color: var(--speil-light-hover)' : '')};
+        ${(props) =>
+            props.erGjeldende &&
+            css`
+                background-color: var(--speil-light-hover);
+            `};
     }
 
     &:hover > * {
-        ${(props) =>
-            props.erGjeldende
-                ? 'background-color: var(--speil-light-hover)'
-                : 'background-color: var(--navds-color-gray-10)'};
+        background-color: var(--navds-color-gray-10);
         cursor: pointer;
+        ${({ erGjeldende }) =>
+            erGjeldende &&
+            css`
+                background-color: var(--speil-light-hover);
+            `}
     }
 
     > *:not(:first-of-type) {
@@ -39,7 +42,7 @@ export const ArbeidsgiverRad = styled.button<ArbeidsgiverRadProps>`
 `;
 
 export const Kategoritittel = styled(Element)`
-    color: var(--navds-color-text-primary);
+    color: var(--navds-color-gray-80);
     margin-bottom: 1rem;
 `;
 

@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
+import { CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
+
+import { Checkbox as NavCheckbox } from '@navikt/ds-react';
 
 import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { useVedtaksperiode } from '../../../../state/tidslinje';
@@ -26,13 +28,18 @@ const Container = styled(SkjemaGruppe)`
 `;
 
 const Checkbox = styled(NavCheckbox)`
-    .skjemaelement__label {
-        margin-bottom: 0.5rem;
+    display: flex;
+    padding: 0;
+    margin: 0 0 20px;
+
+    input {
+        width: 1.5rem;
+        height: 1.5rem;
+        left: 0;
     }
 
-    .skjemaelement__label::before {
-        width: 22px;
-        height: 22px;
+    p {
+        padding-left: 0.5rem;
     }
 `;
 
@@ -41,8 +48,8 @@ export const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: strin
 
     return (
         <Checkbox
-            label={label ? label : begrunnelse}
-            name={`begrunnelser`}
+            description={label ? label : begrunnelse}
+            name="begrunnelser"
             value={begrunnelse}
             // @ts-ignore
             checkboxRef={register}

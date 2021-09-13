@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Dagtype } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { CellContent } from '../../table/CellContent';
 import { UtbetalingsdagIcon } from './UtbetalingsdagIcon';
@@ -48,7 +48,7 @@ export const UtbetalingsdagCell = ({ typeUtbetalingsdag, typeSykdomsdag, ...rest
                         }
                     />
                 </IconContainer>
-                <Normaltekst>{text}</Normaltekst>
+                <BodyShort component="p">{text}</BodyShort>
             </CellContent>
         </Cell>
     );

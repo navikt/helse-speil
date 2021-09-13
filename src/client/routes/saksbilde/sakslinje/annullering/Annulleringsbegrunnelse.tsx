@@ -2,34 +2,51 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import AlertStripe from 'nav-frontend-alertstriper';
-import { CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
+import { Checkbox as NavCheckbox, Fieldset, Textarea } from '@navikt/ds-react';
 
-import { BegrunnelseCheckbox } from '../../venstremeny/utbetaling/Begrunnelsesskjema';
+import { Annulleringsvarsel } from './Annulleringsvarsel';
 
-const Container = styled(SkjemaGruppe)`
-    margin-top: 1.5rem;
+const Container = styled.div``;
 
-    .skjemagruppe .skjemagruppe__legend {
-        margin: 1.5rem 0 2rem;
-    }
+const Undertittel = styled.h3`
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+`;
 
-    .skjemaelement.textarea__container .skjemaelement__label {
-        font-weight: normal;
-    }
+const CheckboxContainer = styled(Fieldset)`
+    margin-bottom: 0.25rem;
 
-    .skjemaelement__input.textarea--medMeta {
-        height: 120px !important;
+    > .navds-fieldset__error {
+        margin-bottom: 1.5rem;
     }
 `;
 
-const StiliLegende = styled.div`
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
+const Checkbox = styled(NavCheckbox)`
+    display: flex;
+    padding: 0;
+    margin: 0 0 20px;
+
+    input {
+        width: 1.5rem;
+        height: 1.5rem;
+        left: 0;
+    }
+
+    p {
+        padding-left: 0.5rem;
+    }
+`;
+
+const Begrunnelse = styled(Textarea)`
+    textarea {
+        padding: 1rem;
+    }
+    margin-bottom: 2.5rem;
 `;
 
 export const Annulleringsbegrunnelse = () => {
-    const { errors, clearErrors, watch } = useFormContext();
+    const { register, errors, clearErrors, watch } = useFormContext();
     const begrunnelserWatch = watch(`begrunnelser`);
     const begrunnelser = {
         ferie: 'Ferie',
@@ -48,27 +65,38 @@ export const Annulleringsbegrunnelse = () => {
 
     return (
         <Container>
-            <CheckboxGruppe feil={errors.begrunnelser ? errors.begrunnelser.message : null}>
-                <StiliLegende>Årsak til annullering</StiliLegende>
-                <AlertStripe type="info" form="inline">
-                    Årsakene og begrunnelsen som fylles inn skal brukes til å forbedre løsningen.
-                    <br />
-                    Du vil ikke finne igjen informasjonen i saksbehandlingssystemet etterpå.
-                </AlertStripe>
+            <Undertittel>Årsak til annullering</Undertittel>
+            <Annulleringsvarsel variant="info">
+                Årsakene og begrunnelsen som fylles inn skal brukes til å forbedre løsningen.
                 <br />
-                {Object.entries(begrunnelser).map(([key, value], index) => {
-                    return <BegrunnelseCheckbox key={index} begrunnelse={key} label={<p>{value}</p>} />;
-                })}
-            </CheckboxGruppe>
+                Du vil ikke finne igjen informasjonen i saksbehandlingssystemet etterpå.
+            </Annulleringsvarsel>
+            <CheckboxContainer
+                legend="Årsak til annullering"
+                hideLegend
+                error={errors.begrunnelser ? errors.begrunnelser.message : null}
+            >
+                {Object.entries(begrunnelser).map(([key, value], index) => (
+                    <Checkbox
+                        key={index}
+                        value={key}
+                        name="begrunnelser"
+                        ref={register}
+                        onChange={() => clearErrors('begrunnelser')}
+                    >
+                        <p>{value}</p>
+                    </Checkbox>
+                ))}
+            </CheckboxContainer>
             <Controller
                 name="kommentar"
                 defaultValue=""
                 render={({ value, onChange }) => (
-                    <Textarea
+                    <Begrunnelse
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        feil={errors.kommentar ? errors.kommentar.message : null}
+                        error={errors.kommentar ? errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);

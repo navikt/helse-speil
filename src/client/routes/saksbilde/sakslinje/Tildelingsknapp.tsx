@@ -1,6 +1,7 @@
 import { TildelingType } from 'internal-types';
 import React, { useContext, useState } from 'react';
 
+import { Loader } from '@navikt/ds-react';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
@@ -26,7 +27,6 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
 
     return erTildeltInnloggetBruker ? (
         <DropdownMenyknapp
-            spinner={isFetching}
             onClick={() => {
                 setIsFetching(true);
                 removeVarsel(tildelingskey);
@@ -42,11 +42,11 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
             }}
         >
             Meld av
+            {isFetching && <Loader size="xs" />}
         </DropdownMenyknapp>
     ) : (
         <DropdownMenyknapp
             disabled={tildeling !== undefined}
-            spinner={isFetching}
             onClick={() => {
                 setIsFetching(true);
                 removeVarsel(tildelingskey);
@@ -70,6 +70,7 @@ export const Tildelingsknapp = ({ oppgavereferanse, tildeling, erTildeltInnlogge
             }}
         >
             Tildel meg
+            {isFetching && <Loader size="xs" />}
         </DropdownMenyknapp>
     );
 };

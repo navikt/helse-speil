@@ -1,7 +1,7 @@
 import { Opptjening, Vilkår } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 import { toKronerOgØre } from '../../../../utils/locale';
@@ -29,9 +29,9 @@ type GrunnbeløpProps = {
 
 const Grunnbeløp = ({ grunnbeløp, alder }: GrunnbeløpProps) =>
     alder >= 67 ? (
-        <Normaltekst>{`2G er ${toKronerOgØre(grunnbeløp * 2)} kr`}</Normaltekst>
+        <BodyShort component="p">{`2G er ${toKronerOgØre(grunnbeløp * 2)} kr`}</BodyShort>
     ) : (
-        <Normaltekst>{`0,5G er ${toKronerOgØre(grunnbeløp / 2)} kr`}</Normaltekst>
+        <BodyShort component="p">{`0,5G er ${toKronerOgØre(grunnbeløp / 2)} kr`}</BodyShort>
     );
 
 export const Sykepengegrunnlag = ({ sykepengegrunnlag, alder }: Vilkår) => (

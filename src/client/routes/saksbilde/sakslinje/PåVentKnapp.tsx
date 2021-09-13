@@ -4,6 +4,8 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 
+import { Loader } from '@navikt/ds-react';
+
 import { DropdownContext, DropdownMenyknapp } from '../../../components/dropdown/Dropdown';
 import { useFjernPåVent, useLeggPåVent } from '../../../state/person';
 import { useOperationErrorHandler } from '../../../state/varsler';
@@ -64,8 +66,9 @@ export const PåVentKnapp = ({ erPåVent, oppgavereferanse, vedtaksperiodeId, pe
     return (
         <Container>
             {erPåVent ? (
-                <DropdownMenyknapp spinner={isFetching} onClick={fjernFraPåVent}>
+                <DropdownMenyknapp onClick={fjernFraPåVent}>
                     Fjern fra på vent
+                    {isFetching && <Loader size="xs" />}
                 </DropdownMenyknapp>
             ) : (
                 <DropdownMenyknapp onClick={() => setVisModal(true)}>Legg på vent</DropdownMenyknapp>

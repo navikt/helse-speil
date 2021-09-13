@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { NORSK_DATOFORMAT } from '../../utils/date';
 
-const Høyrestilt = styled(Normaltekst)`
+const Høyrestilt = styled(BodyShort)`
     text-align: right;
 `;
 
@@ -28,8 +28,8 @@ export const Arbeidsforhold = ({
     const stilling = anonymiseringEnabled ? 'Agurkifisert stillingstittel' : stillingstittel;
     return (
         <>
-            <Normaltekst>{`${stilling}, ${stillingsprosent} %`}</Normaltekst>
-            <Høyrestilt>
+            <BodyShort component="p">{`${stilling}, ${stillingsprosent} %`}</BodyShort>
+            <Høyrestilt component="p">
                 {startdato.format(NORSK_DATOFORMAT)}
                 {' - '}
                 {sluttdato && sluttdato.format(NORSK_DATOFORMAT)}

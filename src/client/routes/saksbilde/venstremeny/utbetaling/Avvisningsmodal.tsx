@@ -2,22 +2,22 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Knapp } from 'nav-frontend-knapper';
-import { Systemtittel } from 'nav-frontend-typografi';
+import { Button, Loader, Title } from '@navikt/ds-react';
 
 import { Modal } from '../../../../components/Modal';
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
+import type { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
-import { Avvisningsskjema, Begrunnelse, Årsak } from './Utbetalingsdialog';
+import { Begrunnelse, Årsak } from './Utbetalingsdialog';
+import type { Avvisningsskjema } from './Utbetalingsdialog';
 
-const OkKnapp = styled(Knapp)`
+const OkKnapp = styled(Button)`
     margin-top: 2rem;
     width: max-content;
     margin-right: 1rem;
 `;
 
-const AvbrytKnapp = styled(Knapp)`
+const AvbrytKnapp = styled(Button)`
     margin-top: 2rem;
     width: max-content;
 `;
@@ -65,7 +65,11 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
     return (
         <StyledModal
             isOpen
-            title={<Systemtittel>Kan ikke behandles her</Systemtittel>}
+            title={
+                <Title component="h2" size="l">
+                    Kan ikke behandles her
+                </Title>
+            }
             contentLabel="Kan ikke behandles her"
             onRequestClose={onClose}
         >
@@ -73,10 +77,11 @@ export const Avvisningsmodal = ({ aktivPeriode, isSending, onApprove, onClose }:
                 <form onSubmit={form.handleSubmit(submit)}>
                     <Begrunnelsesskjema aktivPeriode={aktivPeriode} />
                     <div>
-                        <OkKnapp spinner={isSending} type="standard">
+                        <OkKnapp disabled={isSending}>
                             Avslutt saken
+                            {isSending && <Loader size="xs" />}
                         </OkKnapp>
-                        <AvbrytKnapp htmlType="button" onClick={onClose} type="flat">
+                        <AvbrytKnapp variant="secondary" onClick={onClose}>
                             Avbryt
                         </AvbrytKnapp>
                     </div>

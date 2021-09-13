@@ -5,8 +5,7 @@ import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useSetRecoilState } from 'recoil';
 
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
-import { Feilmelding as NavFeilmelding, Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort, Button, Loader } from '@navikt/ds-react';
 
 import { Modal } from '../../../../components/Modal';
 import { postAbonnerPåAktør, postAnnullering } from '../../../../io/http';
@@ -30,18 +29,25 @@ const Form = styled.form`
     padding: 0.5rem 2.5rem 2.5rem;
 `;
 
-const Tittel = styled.h1`
+const Tittel = styled.h2`
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--navds-color-text-primary);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 `;
 
-const AnnullerKnapp = styled(Knapp)`
+const AnnullerKnapp = styled(Button)`
     margin-right: 1rem;
+
+    > svg {
+        margin-left: 0.5rem;
+    }
 `;
 
-const Feilmelding = styled(NavFeilmelding)`
+const Feilmelding = styled(BodyShort)`
+    color: var(--navds-color-text-error);
+    font-size: 1rem;
+    font-weight: 600;
     margin-top: 0.625rem;
 `;
 
@@ -118,8 +124,6 @@ export const Annulleringsmodal = ({
         }
     };
 
-    const submit = () => sendAnnullering(annullering());
-
     return (
         <FormProvider {...form}>
             <ModalContainer
@@ -128,12 +132,14 @@ export const Annulleringsmodal = ({
                 contentLabel="Feilmelding"
                 onRequestClose={onClose}
             >
-                <Form onSubmit={form.handleSubmit(submit)}>
-                    <Annulleringsvarsel />
+                <Form onSubmit={form.handleSubmit(() => sendAnnullering(annullering()))}>
+                    <Annulleringsvarsel variant="warning">
+                        Hvis du annullerer, vil utbetalinger fjernes fra oppdragssystemet og du må behandle saken i
+                        Infotrygd.
+                    </Annulleringsvarsel>
                     <Tittel>Annullering</Tittel>
-
                     <Utbetalingsgruppe>
-                        <Normaltekst>Følgende utbetalinger annulleres:</Normaltekst>
+                        <BodyShort>Følgende utbetalinger annulleres:</BodyShort>
                         <ul>
                             {linjer.map((linje, index) => (
                                 <li key={index}>
@@ -143,13 +149,15 @@ export const Annulleringsmodal = ({
                             ))}
                         </ul>
                     </Utbetalingsgruppe>
-
                     <Annulleringsbegrunnelse />
-                    <AnnullerKnapp spinner={isSending} autoDisableVedSpinner>
+                    <AnnullerKnapp disabled={isSending}>
                         Annuller
+                        {isSending && <Loader size="xs" />}
                     </AnnullerKnapp>
-                    <Flatknapp onClick={onClose}>Avbryt</Flatknapp>
-                    {postAnnulleringFeil && <Feilmelding>{postAnnulleringFeil}</Feilmelding>}
+                    <Button variant="secondary" onClick={onClose}>
+                        Avbryt
+                    </Button>
+                    {postAnnulleringFeil && <Feilmelding component="p">{postAnnulleringFeil}</Feilmelding>}
                 </Form>
             </ModalContainer>
         </FormProvider>

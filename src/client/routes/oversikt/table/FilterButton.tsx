@@ -2,10 +2,8 @@ import styled from '@emotion/styled';
 import { Oppgave } from 'internal-types';
 import React, { useRef, useState } from 'react';
 
-import NavFrontendChevron from 'nav-frontend-chevron';
-import { Checkbox } from 'nav-frontend-skjema';
-
-import { Popover } from '@navikt/ds-react';
+import { Collapse, Expand } from '@navikt/ds-icons';
+import { Checkbox, Popover } from '@navikt/ds-react';
 
 import { Filter, useSetMultipleFilters, useToggleFilter } from './state/filter';
 
@@ -28,10 +26,10 @@ const Button = styled.button`
         outline: none;
         box-shadow: var(--navds-shadow-focus);
     }
-`;
 
-const Chevron = styled(NavFrontendChevron)`
-    margin-left: 0.5rem;
+    > svg {
+        margin-left: 0.5rem;
+    }
 `;
 
 const FilterList = styled.ul`
@@ -50,6 +48,14 @@ const Separator = styled.hr`
 `;
 
 const CheckboxMini = styled(Checkbox)`
+    padding: 0;
+
+    input[type='checkbox'] {
+        left: 0;
+        width: 20px;
+        height: 20px;
+    }
+
     input[type='checkbox'] + label::before {
         width: 1.25rem;
         height: 1.25rem;
@@ -81,7 +87,7 @@ export const FilterButton = ({ children, filters }: FilterButtonProps) => {
         <>
             <Button onClick={togglePopover} ref={buttonRef}>
                 {children}
-                <Chevron type={active ? 'opp' : 'ned'} />
+                {active ? <Collapse /> : <Expand />}
             </Button>
             <Popover
                 open={active}
@@ -93,16 +99,16 @@ export const FilterButton = ({ children, filters }: FilterButtonProps) => {
             >
                 <FilterList>
                     <FilterListItem>
-                        <CheckboxMini label="Velg alle" checked={allFiltersAreActive} onChange={toggleAllFilters} />
+                        <CheckboxMini checked={allFiltersAreActive} onChange={toggleAllFilters}>
+                            Velg alle
+                        </CheckboxMini>
                     </FilterListItem>
                     <Separator />
                     {filters.map((it) => (
                         <FilterListItem key={it.label}>
-                            <CheckboxMini
-                                label={it.label}
-                                checked={it.active}
-                                onChange={() => toggleFilter(it.label)}
-                            />
+                            <CheckboxMini checked={it.active} onChange={() => toggleFilter(it.label)}>
+                                {it.label}
+                            </CheckboxMini>
                         </FilterListItem>
                     ))}
                 </FilterList>

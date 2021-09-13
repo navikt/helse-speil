@@ -172,7 +172,7 @@ export const Behandlingsstatistikk = () => {
                     <>
                         <Statistikkboks
                             tittel={'TILGJENGELIGE SAKER'}
-                            upperBound={statistikk.antallOppgaverTilGodkjenning.totalt}
+                            tilgjengeligeSaker={statistikk.antallOppgaverTilGodkjenning.totalt}
                             elementer={statistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
                                 ({ periodetype, antall }) => ({
                                     etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
@@ -183,7 +183,7 @@ export const Behandlingsstatistikk = () => {
                         />
                         <Statistikkboks
                             tittel={'TILDELTE SAKER'}
-                            upperBound={statistikk.antallTildelteOppgaver.totalt}
+                            tilgjengeligeSaker={statistikk.antallTildelteOppgaver.totalt}
                             elementer={statistikk.antallTildelteOppgaver.perPeriodetype.map(
                                 ({ periodetype, antall }) => ({
                                     etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
@@ -193,7 +193,7 @@ export const Behandlingsstatistikk = () => {
                         />
                         <Statistikkboks
                             tittel={'FULLFØRTE BEHANDLINGER I DAG'}
-                            upperBound={statistikk.fullførteBehandlinger.totalt}
+                            tilgjengeligeSaker={statistikk.fullførteBehandlinger.totalt}
                             elementer={[
                                 {
                                     etikett: <AutomatiskUtbetaltePerioderIkon />,

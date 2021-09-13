@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import React, { HTMLAttributes, useState } from 'react';
 
-import NavFrontendChevron from 'nav-frontend-chevron';
-import { Knapp } from 'nav-frontend-knapper';
-
+import { Collapse, Expand } from '@navikt/ds-icons';
 import { Popover } from '@navikt/ds-react';
 
 import { Button } from '../Button';
@@ -21,7 +19,7 @@ const Container = styled.div`
     }
 `;
 
-const ToggleMenuButton = styled(Button)`
+const ToggleDropdownButton = styled(Button)`
     display: flex;
     align-items: center;
     color: var(--navds-color-action-default);
@@ -29,7 +27,7 @@ const ToggleMenuButton = styled(Button)`
     font-weight: 600;
     padding: 8px 12px;
 
-    span {
+    > svg {
         margin-left: 0.5rem;
     }
 
@@ -38,7 +36,7 @@ const ToggleMenuButton = styled(Button)`
     }
 `;
 
-export const DropdownMenyknapp = styled(Knapp)`
+export const DropdownMenyknapp = styled(Button)`
     all: unset;
     height: 32px;
     min-width: 180px;
@@ -106,10 +104,10 @@ export const Dropdown: React.FC<DropdownProps> = ({ className, onClick, children
 
     return (
         <Container>
-            <ToggleMenuButton onClick={onClickWrapper} className={className}>
+            <ToggleDropdownButton onClick={onClickWrapper} className={className}>
                 Meny
-                <NavFrontendChevron type={anchor !== null ? 'opp' : 'ned'} />
-            </ToggleMenuButton>
+                {anchor !== null ? <Collapse /> : <Expand />}
+            </ToggleDropdownButton>
             <Popover
                 open={anchor !== null}
                 tabIndex={-1}

@@ -21,7 +21,6 @@ import './App.less';
 import { GlobalFeilside } from './GlobalFeilside';
 import { Routes } from './routes';
 
-const Opptegnelse = React.lazy(() => import('./routes/saksbilde/Opptegnelse'));
 const Saksbilde = React.lazy(() => import('./routes/saksbilde/Saksbilde'));
 const Oversikt = React.lazy(() => import('./routes/oversikt'));
 const Agurk = React.lazy(() => import('./Agurk'));
@@ -48,9 +47,6 @@ const App = () => {
                     </ProtectedRoute>
                     <ProtectedRoute path={Routes.Saksbilde}>
                         <Saksbilde />
-                    </ProtectedRoute>
-                    <ProtectedRoute path={Routes.OpptegnelseTest}>
-                        <Opptegnelse />
                     </ProtectedRoute>
                     <Route path="*">
                         <PageNotFound />

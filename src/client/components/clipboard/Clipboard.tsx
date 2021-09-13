@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { ReactChild, useEffect, useRef, useState } from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Copy } from '@navikt/ds-icons';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../Flex';
-import { ClipboardIcon } from './icons/ClipboardIcon';
 import { copyContentsToClipboard } from './util';
 
 const Button = styled.button`
@@ -27,7 +27,7 @@ const Button = styled.button`
     }
 `;
 
-const Popover = styled(Normaltekst)`
+const Popover = styled(BodyShort)`
     position: absolute;
     padding: 6px 8px;
     border: 1px solid var(--navds-color-border);
@@ -90,7 +90,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
         <Container as="span" alignItems="center">
             <div ref={contentRef}>{children}</div>
             <Button onClick={copy} data-tip={dataTip}>
-                <ClipboardIcon alt={dataTip} />
+                <Copy alt={dataTip} />
                 <AnimatePresence>
                     {didCopy && (
                         <motion.span
@@ -105,7 +105,7 @@ export const Clipboard = ({ children, copySource, preserveWhitespace = true, cop
                                 left: -2,
                             }}
                         >
-                            <Popover>{copyMessage ?? 'Kopiert!'}</Popover>
+                            <Popover component="p">{copyMessage ?? 'Kopiert!'}</Popover>
                         </motion.span>
                     )}
                 </AnimatePresence>
