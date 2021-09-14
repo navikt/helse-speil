@@ -18,6 +18,7 @@ const Etikett = styled.div<EtikettProps>`
     padding: 0.5rem;
     font-weight: 600;
     border-radius: 0.25rem;
+    pointer-events: none;
 
     width: ${(props) => (props.størrelse === 'l' ? '20px' : '16px')};
     height: ${(props) => (props.størrelse === 'l' ? '20px' : '16px')};

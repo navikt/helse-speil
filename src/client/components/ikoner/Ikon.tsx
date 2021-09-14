@@ -17,7 +17,15 @@ export const Ikon: React.FC<IkonProps> = ({
     alt,
     ...rest
 }: IkonProps) => (
-    <svg aria-labelledby="title" width={width} height={height} viewBox={viewBox} className={className} {...rest}>
+    <svg
+        pointerEvents="none"
+        aria-labelledby="title"
+        width={width}
+        height={height}
+        viewBox={viewBox}
+        className={className}
+        {...rest}
+    >
         <title id="title">{alt}</title>
         {children}
     </svg>

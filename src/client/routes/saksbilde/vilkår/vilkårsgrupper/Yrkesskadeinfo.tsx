@@ -6,7 +6,6 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Flex } from '../../../../components/Flex';
 import { LovdataLenke } from '../../../../components/LovdataLenke';
-import { IkonProps } from '../../../../components/ikoner/Ikon';
 
 import { Paragraf, Tittel } from '../vilkårstitler';
 
