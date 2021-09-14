@@ -59,28 +59,65 @@ const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden
 
 const kunEnArbeidsgiver = (periode: Tidslinjeperiode) => periode.inntektskilde === InntektskildeType.EnArbeidsgiver;
 
-export const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
+const godkjentTilstander = [
+    Tidslinjetilstand.Utbetalt,
+    Tidslinjetilstand.UtbetaltAutomatisk,
+    Tidslinjetilstand.Revurdert,
+    Tidslinjetilstand.RevurdertIngenUtbetaling,
+];
+
+const overlappendePerioder = (person: Person, periode: Tidslinjeperiode) =>
+    alleTidslinjeperioder(person).filter((it) => overlapper(it, periode));
+
+const alleOverlappendePerioderErAvsluttet = (person: Person, aktivPeriode: Tidslinjeperiode): boolean => {
+    const overlappende = overlappendePerioder(person, aktivPeriode);
+
+    if (any(overlappende, godkjentTilstander)) {
+        return none(overlappende, Tidslinjetilstand.Revurderes);
+    }
+    return true;
+};
+
+const alleOverlappendePerioderErTilRevurdering = (person: Person, aktivPeriode: Tidslinjeperiode): boolean => {
+    const overlappende = overlappendePerioder(person, aktivPeriode);
+
+    if (any(overlappende, Tidslinjetilstand.Revurderes)) {
+        return all(overlappende, Tidslinjetilstand.Revurderes);
+    }
+    return true;
+};
+
+const any = (perioder: Tidslinjeperiode[], tilstand: Tidslinjetilstand | Tidslinjetilstand[]) =>
+    perioder.filter((periode) => tilstand.includes(periode.tilstand)).length > 0;
+
+const none = (perioder: Tidslinjeperiode[], tilstand: Tidslinjetilstand | Tidslinjetilstand[]) =>
+    perioder.filter((periode) => tilstand.includes(periode.tilstand)).length === 0;
+
+const all = (perioder: Tidslinjeperiode[], tilstand: Tidslinjetilstand | Tidslinjetilstand[]) =>
+    perioder.filter((periode) => tilstand.includes(periode.tilstand)).length === perioder.length;
+
+const overlapper = (periode: Tidslinjeperiode, other: Tidslinjeperiode) =>
+    (periode.fom.isSameOrAfter(other.fom) && periode.fom.isSameOrBefore(other.tom)) ||
+    (periode.tom.isSameOrAfter(other.fom) && periode.tom.isSameOrBefore(other.tom));
+
+const alleTidslinjeperioder = (person: Person) =>
+    person.arbeidsgivere.flatMap((arbeidsgiver) => arbeidsgiver.tidslinjeperioder[0].map((periode) => periode));
+
+const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        (erDev() || erLocal() || kunEnArbeidsgiver(periode)) &&
+        (((erDev() || erLocal()) && alleOverlappendePerioderErAvsluttet(person, periode)) ||
+            kunEnArbeidsgiver(periode)) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
-        [
-            Tidslinjetilstand.Utbetalt,
-            Tidslinjetilstand.UtbetaltAutomatisk,
-            Tidslinjetilstand.Revurdert,
-            Tidslinjetilstand.RevurdertIngenUtbetaling,
-        ].includes(periode.tilstand)
+        godkjentTilstander.includes(periode.tilstand)
     );
 };
 
-export const overstyrRevurderingEnabled = (
-    person: Person,
-    periode: Tidslinjeperiode,
-    toggles: UtbetalingToggles
-): boolean => {
+const overstyrRevurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        kunEnArbeidsgiver(periode) &&
+        (((erDev() || erLocal()) && alleOverlappendePerioderErTilRevurdering(person, periode)) ||
+            kunEnArbeidsgiver(periode)) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
         periode.tilstand === Tidslinjetilstand.Revurderes
     );
@@ -119,7 +156,7 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
 
     return (
         <AgurkErrorBoundary sidenavn="Utbetaling">
-            <FlexColumn style={{ paddingBottom: '4rem' }}>
+            <FlexColumn style={{ paddingBottom: '4rem' }} data-testid="utbetaling-side">
                 {(overstyringIsEnabled || revurderingIsEnabled || overstyrRevurderingIsEnabled) && (
                     <Flex justifyContent="flex-end" style={{ paddingTop: '1rem' }}>
                         {vedtaksperiode.erForkastet ? (
@@ -127,7 +164,11 @@ export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiod
                                 <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
                             </PopoverHjelpetekst>
                         ) : (
-                            <Overstyringsknapp overstyrer={overstyrer} toggleOverstyring={toggleOverstyring}>
+                            <Overstyringsknapp
+                                overstyrer={overstyrer}
+                                toggleOverstyring={toggleOverstyring}
+                                data-testid="overstyringsknapp"
+                            >
                                 {revurderingIsEnabled ? 'Revurder' : 'Endre'}
                             </Overstyringsknapp>
                         )}

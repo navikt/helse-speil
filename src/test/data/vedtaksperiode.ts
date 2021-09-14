@@ -1,5 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 import {
+    EksternSykdomsdag,
     SpesialistInntektsgrunnlag,
     SpesialistInntektskilde,
     SpesialistOverstyring,
@@ -7,7 +8,6 @@ import {
     SpleisAktivitet,
     SpleisForlengelseFraInfotrygd,
     SpleisPeriodetype,
-    EksternSykdomsdag,
     SpleisUtbetalingsdag,
     SpleisVedtaksperiodetilstand,
 } from 'external-types';
@@ -33,6 +33,7 @@ type UmappetVedtaksperiodeOptions = {
     id?: string;
     beregningIder?: string[];
     fagsystemId?: string;
+    inntektskilde?: SpesialistInntektskilde;
 };
 
 export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): SpesialistVedtaksperiode => {
@@ -46,6 +47,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
     const sykdomsdager = sykdomstidslinje(fom, tom);
     const utbetalingsdager = utbetalingstidslinje(sykdomsdager, 1500);
     const utbetalingene = utbetalinger(utbetalingsdager, true, false, options?.fagsystemId);
+    const inntektskilde = options?.inntektskilde ?? SpesialistInntektskilde.EnArbeidsgiver;
     return {
         id: id,
         fom: fom.format('YYYY-MM-DD'),
@@ -72,7 +74,7 @@ export const umappetVedtaksperiode = (options?: UmappetVedtaksperiodeOptions): S
         risikovurdering: { funn: [], kontrollertOk: [] },
         varsler: varslene,
         simuleringsdata: umappetSimuleringsdata,
-        inntektskilde: SpesialistInntektskilde.EnArbeidsgiver,
+        inntektskilde: inntektskilde,
         beregningIder: beregningIder,
     };
 };
