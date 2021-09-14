@@ -76,25 +76,25 @@ export const PeriodeCard = React.memo(
                     </IconContainer>
                     <CardTitle>{periodetypeLabel}</CardTitle>
                     <IconContainer data-tip="Sykmeldingsperiode">
-                        <Sykmeldingsperiodeikon alt={'Sykmeldingsperiode'} />
+                        <Sykmeldingsperiodeikon alt="Sykmeldingsperiode" />
                     </IconContainer>
                     <Normaltekst>{`${formatertDato(aktivPeriode.fom)} - ${formatertDato(
                         aktivPeriode.tom
                     )}`}</Normaltekst>
                     <IconContainer data-tip="Skjæringstidspunkt">
-                        <Skjæringstidspunktikon alt={'Skjæringstidspunkt'} />
+                        <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
                     </IconContainer>
                     <Normaltekst>{skjæringstidspunkt}</Normaltekst>
                     <IconContainer data-tip="Maksdato">
-                        <Maksdatoikon alt={'Maksdato'} />
+                        <Maksdatoikon alt="Maksdato" />
                     </IconContainer>
-                    <Flex justifyContent={'space-between'}>
+                    <Flex justifyContent="space-between">
                         <Normaltekst>{`${maksdato} (${gjenståendeDager ?? 'Ukjent antall'} dager igjen)`}</Normaltekst>
                         {over67år && (
-                            <Flex alignItems={'center'}>
+                            <Flex alignItems="center">
                                 <IconContainer data-tip="Mellom 62 og 70 år - redusert antall sykepengedager">
                                     <Advarselikon
-                                        alt={'Mellom 62 og 70 år - redusert antall sykepengedager'}
+                                        alt="Mellom 62 og 70 år - redusert antall sykepengedager"
                                         height={16}
                                         width={16}
                                     />

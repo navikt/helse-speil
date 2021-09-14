@@ -74,7 +74,7 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
     return (
         <Container>
             <CheckboxGruppe
-                legend={'Årsak til at saken ikke kan behandles'}
+                legend="Årsak til at saken ikke kan behandles"
                 feil={errors.begrunnelser ? errors.begrunnelser.message : null}
             >
                 {warnings?.map((advarsel, index) => {
@@ -112,7 +112,7 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                             return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={advarsel} />;
                     }
                 })}
-                <BegrunnelseCheckbox begrunnelse={'Annet'} />
+                <BegrunnelseCheckbox begrunnelse="Annet" />
             </CheckboxGruppe>
             <Controller
                 name="kommentar"

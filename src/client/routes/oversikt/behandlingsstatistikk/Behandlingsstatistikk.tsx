@@ -171,7 +171,7 @@ export const Behandlingsstatistikk = () => {
                 {statistikk ? (
                     <>
                         <Statistikkboks
-                            tittel={'TILGJENGELIGE SAKER'}
+                            tittel="TILGJENGELIGE SAKER"
                             tilgjengeligeSaker={statistikk.antallOppgaverTilGodkjenning.totalt}
                             elementer={statistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
                                 ({ periodetype, antall }) => ({
@@ -182,7 +182,7 @@ export const Behandlingsstatistikk = () => {
                             visesByDefault
                         />
                         <Statistikkboks
-                            tittel={'TILDELTE SAKER'}
+                            tittel="TILDELTE SAKER"
                             tilgjengeligeSaker={statistikk.antallTildelteOppgaver.totalt}
                             elementer={statistikk.antallTildelteOppgaver.perPeriodetype.map(
                                 ({ periodetype, antall }) => ({
@@ -192,7 +192,7 @@ export const Behandlingsstatistikk = () => {
                             )}
                         />
                         <Statistikkboks
-                            tittel={'FULLFØRTE BEHANDLINGER I DAG'}
+                            tittel="FULLFØRTE BEHANDLINGER I DAG"
                             tilgjengeligeSaker={statistikk.fullførteBehandlinger.totalt}
                             elementer={[
                                 {

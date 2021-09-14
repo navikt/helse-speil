@@ -86,14 +86,14 @@ export const Utbetalingssum = ({
         <Title>{erUtbetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}</Title>
         <Total>{somPenger(arbeidsgiverNettobeløp + personNettobeløp)}</Total>
         <ArbeidsgiverIcon>
-            <Bag data-tip={'Arbeidsgiver'} title="Arbeidsgiver" />
+            <Bag data-tip="Arbeidsgiver" title="Arbeidsgiver" />
         </ArbeidsgiverIcon>
         <ArbeidsgiverName>
             <TekstMedEllipsis>{arbeidsgivernavn}</TekstMedEllipsis>
         </ArbeidsgiverName>
         <ArbeidsgiverSum>{somPenger(arbeidsgiverNettobeløp)}</ArbeidsgiverSum>
         <PersonIcon>
-            <People data-tip={'Arbeidstaker'} title="Arbeidstaker" />
+            <People data-tip="Arbeidstaker" title="Arbeidstaker" />
         </PersonIcon>
         <PersonName>
             <TekstMedEllipsis>{personnavn}</TekstMedEllipsis>

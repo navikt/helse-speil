@@ -56,11 +56,11 @@ export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, classN
     <Header className={classNames('vilkårsgruppetittel', className)}>
         <IkonContainer>
             {oppfylt === undefined ? (
-                <Utropstegnikon alt={'Til vurdering'} />
+                <Utropstegnikon alt="Til vurdering" />
             ) : oppfylt ? (
-                <Sjekkikon alt={'Oppfylt'} />
+                <Sjekkikon alt="Oppfylt" />
             ) : (
-                <Kryssikon alt={'Ikke oppfylt'} />
+                <Kryssikon alt="Ikke oppfylt" />
             )}
         </IkonContainer>
         <TekstContainer>

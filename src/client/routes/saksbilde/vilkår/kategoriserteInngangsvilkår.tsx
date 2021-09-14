@@ -49,7 +49,7 @@ const sykepengegrunnlag = (vilkår: Vilkår): Vilkårdata => {
                 <EndretParagrafContainer alignItems="center">
                     <IconContainer data-tip="Mellom 62 og 70 år - redusert antall sykepengedager">
                         <Advarselikon
-                            alt={'Mellom 62 og 70 år - redusert antall sykepengedager'}
+                            alt="Mellom 62 og 70 år - redusert antall sykepengedager"
                             height={16}
                             width={16}
                         />

@@ -32,8 +32,8 @@ export const NotatKnapp = ({ tildeling, vedtaksperiodeId, personinfo }: NotatKna
         <InteractiveCellContent>
             <NotesContainer>
                 <Notes
-                    height={'20px'}
-                    width={'20px'}
+                    height="20px"
+                    width="20px"
                     color="var(--nav-blaa-darken-20)"
                     onClick={() => setShowNotatListeModal(true)}
                 />

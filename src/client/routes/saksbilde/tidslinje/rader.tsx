@@ -87,15 +87,15 @@ const Arbeidsgiver = ({ rader, navn, id, toggleEkspanderbarRad, erEkspandert }: 
         {rader.length > 1 ? (
             <EkspanderbartArbeidsgivernavn erEkspandert={erEkspandert} onClick={() => toggleEkspanderbarRad(id)}>
                 <LeftContainer>{erEkspandert ? <Expand /> : <Next />}</LeftContainer>
-                <Arbeidsgiverikon data-tip={'Arbeidsgiver'} alt={'Arbeidsgiver'} />
+                <Arbeidsgiverikon data-tip="Arbeidsgiver" alt="Arbeidsgiver" />
                 <Flex style={{ overflow: 'hidden' }}>
                     <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
                 </Flex>
             </EkspanderbartArbeidsgivernavn>
         ) : (
-            <Arbeidsgivernavn data-tip={'Arbeidsgiver'}>
+            <Arbeidsgivernavn data-tip="Arbeidsgiver">
                 <LeftContainer />
-                <Arbeidsgiverikon data-tip={'Arbeidsgiver'} alt={'Arbeidsgiver'} />
+                <Arbeidsgiverikon data-tip="Arbeidsgiver" alt="Arbeidsgiver" />
                 <Flex style={{ overflow: 'hidden' }}>
                     <TekstMedEllipsis data-tip={navn}>{navn}</TekstMedEllipsis>
                 </Flex>

@@ -53,7 +53,7 @@ export const ArbeidsgiverCard = ({
                 </Normaltekst>
             </React.Fragment>
         ))}
-        <Flex flexDirection={'row'} justifyContent={'space-between'}>
+        <Flex flexDirection="row" justifyContent="space-between">
             <Normaltekst>Månedsbeløp:</Normaltekst>
             {somPenger(månedsbeløp)}
         </Flex>

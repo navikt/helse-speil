@@ -108,7 +108,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
                 <>
                     <FørstegangsbehandlingEtikett
                         størrelse={størrelse}
-                        title={'Førstegangsbehandlinger'}
+                        title="Førstegangsbehandlinger"
                         data-for="førstegangsbehandling"
                         data-tip="Førstegangsbehandlinger"
                     />
@@ -120,7 +120,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
                 <>
                     <ForlengelseEtikett
                         størrelse={størrelse}
-                        title={'Forlengelser'}
+                        title="Forlengelser"
                         data-for="forlengelse"
                         data-tip="Forlengelser"
                     />
@@ -132,7 +132,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
                 <>
                     <ForlengelseEtikett
                         størrelse={størrelse}
-                        title={'Forlengelser fra Infotrygd'}
+                        title="Forlengelser fra Infotrygd"
                         data-for="forlengelse-it"
                         data-tip="Forlengelser fra Infotrygd"
                     />
@@ -144,7 +144,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
                 <>
                     <InfotrygdforlengelseEtikett
                         størrelse={størrelse}
-                        title={'Overganger fra Infotrygd'}
+                        title="Overganger fra Infotrygd"
                         data-for="overgang-it"
                         data-tip="Overganger fra Infotrygd"
                     />
@@ -156,7 +156,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
                 <>
                     <StikkprøveEtikett
                         størrelse={størrelse}
-                        title={'Stikkprøver'}
+                        title="Stikkprøver"
                         data-for="stikkprøver"
                         data-tip="Stikkprøver"
                     />
@@ -166,7 +166,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
         case Periodetype.RiskQa:
             return (
                 <>
-                    <RiskQaEtikett størrelse={størrelse} title={'RiskQaer'} data-for="riskqa" data-tip="RiskQaer" />
+                    <RiskQaEtikett størrelse={størrelse} title="RiskQaer" data-for="riskqa" data-tip="RiskQaer" />
                     <Tooltip id="riskqa" />
                 </>
             );
@@ -176,7 +176,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
                     <>
                         <RevurderesEtikett
                             størrelse={størrelse}
-                            title={'Under revurdering'}
+                            title="Under revurdering"
                             data-for="revurderes"
                             data-tip="Under revurdering"
                         />
@@ -188,7 +188,7 @@ export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: Oppgaveetik
                     <>
                         <RevurderingEtikett
                             størrelse={størrelse}
-                            title={'Revurderte saker'}
+                            title="Revurderte saker"
                             data-for="revurdert"
                             data-tip="Revurderte saker"
                         />

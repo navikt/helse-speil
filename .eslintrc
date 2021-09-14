@@ -63,6 +63,7 @@
             "ignoreRefs": true
          }
       ],
+      "react/jsx-curly-brace-presence": ["error", "never"],
       "react/no-did-update-set-state": "error",
       "react/no-unknown-property": "error",
       "react/no-unused-prop-types": "error",

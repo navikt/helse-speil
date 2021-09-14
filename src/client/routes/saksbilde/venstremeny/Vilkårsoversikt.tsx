@@ -33,11 +33,11 @@ const Vilkårikon = styled.span`
 
 const vurderingsikon = (vurdering?: boolean) =>
     vurdering === undefined ? (
-        <Advarselikon alt={'Til vurdering'} />
+        <Advarselikon alt="Til vurdering" />
     ) : vurdering ? (
-        <Sjekkikon alt={'Oppfylt'} />
+        <Sjekkikon alt="Oppfylt" />
     ) : (
-        <Feilikon alt={'Ikke oppfylt'} />
+        <Feilikon alt="Ikke oppfylt" />
     );
 
 interface VurdertVilkårProps {

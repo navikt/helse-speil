@@ -39,7 +39,7 @@ jest.mock('../../featureToggles', () => ({
 
 const wrapper = (personTilBehandling?: Person): React.FC => ({ children }) => (
     <MemoryRouter initialEntries={['/person/:aktorId/utbetaling']}>
-        <Route path={'/person/:aktorId'}>
+        <Route path="/person/:aktorId">
             <RecoilRoot
                 initializeState={({ set }) => {
                     personTilBehandling && set(personState, { person: personTilBehandling });
