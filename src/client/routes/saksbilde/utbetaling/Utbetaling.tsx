@@ -101,7 +101,9 @@ const overlapper = (periode: Tidslinjeperiode, other: Tidslinjeperiode) =>
     (periode.tom.isSameOrAfter(other.fom) && periode.tom.isSameOrBefore(other.tom));
 
 const alleTidslinjeperioder = (person: Person) =>
-    person.arbeidsgivere.flatMap((arbeidsgiver) => arbeidsgiver.tidslinjeperioder[0].map((periode) => periode));
+    person.arbeidsgivere
+        .filter((arbeidsgiver) => arbeidsgiver.tidslinjeperioder.length > 0)
+        .flatMap((arbeidsgiver) => arbeidsgiver.tidslinjeperioder[0].map((periode) => periode));
 
 const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
