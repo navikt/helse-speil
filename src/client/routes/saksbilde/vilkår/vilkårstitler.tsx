@@ -55,7 +55,13 @@ interface VilkårsgruppetittelProps {
 export const Vilkårsgruppetittel = ({ children, oppfylt, paragraf, type, className }: VilkårsgruppetittelProps) => (
     <Header className={classNames('vilkårsgruppetittel', className)}>
         <IkonContainer>
-            {oppfylt === undefined ? <Utropstegnikon /> : oppfylt ? <Sjekkikon /> : <Kryssikon />}
+            {oppfylt === undefined ? (
+                <Utropstegnikon alt="Til vurdering" />
+            ) : oppfylt ? (
+                <Sjekkikon alt="Oppfylt" />
+            ) : (
+                <Kryssikon alt="Ikke oppfylt" />
+            )}
         </IkonContainer>
         <TekstContainer>
             <Tittel tag="h3" data-testid={type}>

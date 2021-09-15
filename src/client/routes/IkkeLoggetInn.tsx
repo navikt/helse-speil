@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import Lenke from 'nav-frontend-lenker';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort, Link } from '@navikt/ds-react';
 
 const Container = styled.div`
     display: flex;
@@ -19,9 +18,9 @@ const Container = styled.div`
 
 export const IkkeLoggetInn = () => (
     <Container>
-        <Normaltekst>Du må logge inn for å få tilgang til systemet</Normaltekst>
-        <Normaltekst>
-            <Lenke href="/">Gå til innloggingssiden</Lenke>
-        </Normaltekst>
+        <BodyShort component="p">Du må logge inn for å få tilgang til systemet</BodyShort>
+        <BodyShort component="p">
+            <Link href="/">Gå til innloggingssiden</Link>
+        </BodyShort>
     </Container>
 );

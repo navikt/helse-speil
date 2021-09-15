@@ -1,13 +1,44 @@
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import { Kildetype, OmregnetÅrsinntekt, Sammenligningsgrunnlag } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { Kilde } from '../../../components/Kilde';
 import { getKildeType, kilde } from '../../../utils/inntektskilde';
 import { somPenger } from '../../../utils/locale';
 
-import { ArbeidsgiverRad, InntektMedKilde } from './InntekttabellKomponenter';
+const ArbeidsgiverRad = styled.tr<{ erGjeldende: boolean }>`
+    padding: 0.25rem;
+
+    > * {
+        ${({ erGjeldende }) =>
+            erGjeldende &&
+            css`
+                background-color: var(--speil-light-hover);
+            `};
+    }
+
+    &:hover > * {
+        background-color: var(--navds-color-gray-10);
+        cursor: pointer;
+        ${({ erGjeldende }) =>
+            erGjeldende &&
+            css`
+                background-color: var(--speil-light-hover);
+            `}
+    }
+`;
+
+const InntektMedKilde = styled.div`
+    display: flex;
+    align-items: center;
+
+    > *:not(:last-child) {
+        margin-right: 0.5rem;
+    }
+`;
 
 interface Props {
     arbeidsgiver: string;
@@ -17,7 +48,7 @@ interface Props {
     onSetAktivInntektskilde: () => void;
 }
 
-const Inntektssammenligning = ({
+export const Inntektssammenligning = ({
     arbeidsgiver,
     omregnetÅrsinntekt,
     sammenligningsgrunnlag,
@@ -25,20 +56,22 @@ const Inntektssammenligning = ({
     onSetAktivInntektskilde,
 }: Props) => (
     <ArbeidsgiverRad erGjeldende={erGjeldende} onClick={onSetAktivInntektskilde}>
-        <div>
-            <Normaltekst style={{ marginLeft: '0.25rem' }}>{arbeidsgiver}</Normaltekst>
-        </div>
-        <InntektMedKilde>
-            <Normaltekst>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</Normaltekst>
-            {omregnetÅrsinntekt && (
-                <Kilde type={getKildeType(omregnetÅrsinntekt.kilde)}>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>
-            )}
-        </InntektMedKilde>
-        <InntektMedKilde>
-            <Normaltekst>{somPenger(sammenligningsgrunnlag?.beløp)}</Normaltekst>
-            <Kilde type={Kildetype.Aordningen}>AO</Kilde>
-        </InntektMedKilde>
+        <td>
+            <BodyShort>{arbeidsgiver}</BodyShort>
+        </td>
+        <td>
+            <InntektMedKilde>
+                <BodyShort>{omregnetÅrsinntekt ? somPenger(omregnetÅrsinntekt.beløp) : 'Ukjent'}</BodyShort>
+                {omregnetÅrsinntekt && (
+                    <Kilde type={getKildeType(omregnetÅrsinntekt.kilde)}>{kilde(omregnetÅrsinntekt.kilde)}</Kilde>
+                )}
+            </InntektMedKilde>
+        </td>
+        <td>
+            <InntektMedKilde>
+                <BodyShort>{somPenger(sammenligningsgrunnlag?.beløp)}</BodyShort>
+                <Kilde type={Kildetype.Aordningen}>AO</Kilde>
+            </InntektMedKilde>
+        </td>
     </ArbeidsgiverRad>
 );
-
-export default Inntektssammenligning;

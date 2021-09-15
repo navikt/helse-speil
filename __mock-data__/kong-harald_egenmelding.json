@@ -475,7 +475,7 @@
                             "oppfylt": true
                         },
                         "alder": {
-                            "alderSisteSykedag": 30,
+                            "alderSisteSykedag": 69,
                             "oppfylt": true
                         },
                         "opptjening": {
@@ -577,8 +577,39 @@
                     "beregningIder": ["ff581b18-612e-4b93-bb12-6bdb3f18c5a3"],
                     "oppgavereferanse": "1",
                     "risikovurdering": {
-                        "funn": [],
-                        "kontrollertOk": [],
+                        "funn": [
+                            {
+                                "kreverSupersaksbehandler": false,
+                                "beskrivelse": "Symptomdiagnose ved 15 uker. Vurder arbeidsuførhet.",
+                                "kategori": ["8-4"]
+                            }
+                        ],
+                        "kontrollertOk": [
+                            {
+                                "beskrivelse": "Det er ikke registrert nye arbeidsforhold på sykmeldt i søknadsperioden",
+                                "kategori": []
+                            },
+                            {
+                                "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                                "kategori": ["8-4"]
+                            },
+                            {
+                                "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                                "kategori": ["8-4"]
+                            },
+                            {
+                                "beskrivelse": "Ikke registrert at enhet er konkurs eller under avvikling",
+                                "kategori": []
+                            },
+                            {
+                                "beskrivelse": "Ingen nye roller i næringslivet registrert på brukeren siste måned",
+                                "kategori": []
+                            },
+                            {
+                                "beskrivelse": "Inntekt andre plasser økte i snitt mindre enn 0 kr etter sykmeldt",
+                                "kategori": []
+                            }
+                        ],
                         "arbeidsuførhetvurdering": [],
                         "ufullstendig": false
                     },

@@ -7,6 +7,7 @@ interface ArbeidsgiverikonProps {
     className?: string;
     width?: number;
     height?: number;
+    alt?: string;
 }
 
 const StyledIkon = styled(Ikon)`
@@ -15,8 +16,8 @@ const StyledIkon = styled(Ikon)`
     margin: 0 0.5rem;
 `;
 
-export const Arbeidsgiverikon = ({ className, width, height }: ArbeidsgiverikonProps) => (
-    <StyledIkon className={className} width={width} height={height} viewBox="0 1 16 20">
+export const Arbeidsgiverikon = ({ className, width, height, alt }: ArbeidsgiverikonProps) => (
+    <StyledIkon className={className} width={width} height={height} viewBox="0 1 16 20" alt={alt}>
         <path
             fillRule="evenodd"
             clipRule="evenodd"

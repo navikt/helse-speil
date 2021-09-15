@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Periodetype, Vedtaksperiode, Vilkår } from 'internal-types';
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
 import { Flex } from '../../../components/Flex';
 import { LovdataLenke } from '../../../components/LovdataLenke';
@@ -32,11 +32,11 @@ const opptjeningstid = (vilkår: Vilkår): Vilkårdata => {
     }
 };
 
-const AlderIkon = styled(Advarselikon)`
-    padding: 0 10px 0 2px;
-`;
-
 const EndretParagrafContainer = Flex.withComponent('span');
+
+const IconContainer = styled.div`
+    justify-self: center;
+`;
 
 const sykepengegrunnlag = (vilkår: Vilkår): Vilkårdata => {
     try {
@@ -47,8 +47,16 @@ const sykepengegrunnlag = (vilkår: Vilkår): Vilkårdata => {
             tittel: 'Krav til minste sykepengegrunnlag',
             paragraf: harEndretParagraf ? (
                 <EndretParagrafContainer alignItems="center">
-                    <AlderIkon width={16} height={16} />
-                    <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                    <IconContainer data-tip="Mellom 62 og 70 år - redusert antall sykepengedager">
+                        <Advarselikon
+                            alt="Mellom 62 og 70 år - redusert antall sykepengedager"
+                            height={16}
+                            width={16}
+                        />
+                    </IconContainer>
+                    <Undertekst style={{ marginLeft: '.5rem' }}>
+                        <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
+                    </Undertekst>
                 </EndretParagrafContainer>
             ) : (
                 <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>

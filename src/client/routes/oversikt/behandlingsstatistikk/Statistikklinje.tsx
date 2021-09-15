@@ -27,7 +27,7 @@ interface StatistikklinjeProps {
 }
 
 export const Statistikklinje = ({ etikett, upperBound, currentValue }: StatistikklinjeProps) => (
-    <Flex alignItems={'center'} style={{ marginBottom: '.5rem' }}>
+    <Flex alignItems="center" style={{ marginBottom: '.5rem' }}>
         <Antall>{currentValue}</Antall>
         <EtikettContainer>{etikett}</EtikettContainer>
         <StyledProgresjonsbar upperBound={upperBound} currentValue={currentValue} />

@@ -71,11 +71,11 @@ const DødsdatoEtikett = styled(Etikett)`
 const Kjønnsikon = ({ kjønn }: { kjønn: 'kvinne' | 'mann' | 'ukjent' }) => {
     switch (kjønn.toLowerCase()) {
         case 'kvinne':
-            return <Kvinneikon />;
+            return <Kvinneikon alt="Kvinne" />;
         case 'mann':
-            return <Manneikon />;
+            return <Manneikon alt="Mann" />;
         default:
-            return <KjønnsnøytraltIkon />;
+            return <KjønnsnøytraltIkon alt="Ukjent" />;
     }
 };
 

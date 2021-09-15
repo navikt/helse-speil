@@ -32,12 +32,14 @@ export const HistorikkHeader = () => {
                     <HistorikkTabButton
                         active={filter === Hendelsetype.Historikk}
                         onClick={() => setFilter(Hendelsetype.Historikk)}
+                        title="Historikk"
                     >
                         <IconHistorikk />
                     </HistorikkTabButton>
                     <HistorikkTabButton
                         active={filter === Hendelsetype.Dokument}
                         onClick={() => setFilter(Hendelsetype.Dokument)}
+                        title="Dokumenter"
                     >
                         <IconDokumenter />
                     </HistorikkTabButton>
@@ -50,6 +52,7 @@ export const HistorikkHeader = () => {
                             setFilter(Hendelsetype.Historikk);
                             setShowHistorikk(true);
                         }}
+                        title="Historikk"
                     >
                         <IconHistorikk />
                     </HistorikkTabButton>
@@ -59,6 +62,7 @@ export const HistorikkHeader = () => {
                             setFilter(Hendelsetype.Dokument);
                             setShowHistorikk(true);
                         }}
+                        title="Dokumenter"
                     >
                         <IconDokumenter />
                     </HistorikkTabButton>

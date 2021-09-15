@@ -2,8 +2,7 @@ import styled from '@emotion/styled';
 import { Simulering } from 'internal-types';
 import React, { useState } from 'react';
 
-import Lenke from 'nav-frontend-lenker';
-import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort, Link } from '@navikt/ds-react';
 
 import { useArbeidsgiver } from '../../../modell/arbeidsgiver';
 import { useUtbetaling } from '../../../modell/utbetalingshistorikkelement';
@@ -16,6 +15,11 @@ import { CardTitle } from './CardTitle';
 import { Utbetalingssum } from './Utbetalingssum';
 import { SimuleringsinfoModal } from './utbetaling/SimuleringsinfoModal';
 
+const Feilmelding = styled(BodyShort)`
+    color: var(--navds-color-text-error);
+    font-weight: 600;
+`;
+
 const Grid = styled.div`
     display: grid;
     grid-template-columns: auto auto;
@@ -24,7 +28,7 @@ const Grid = styled.div`
     justify-items: flex-start;
 `;
 
-const Value = styled(Normaltekst)`
+const Value = styled(BodyShort)`
     justify-self: flex-end;
 `;
 
@@ -66,10 +70,10 @@ export const UtbetalingCard = ({
         <Card>
             <CardTitle>TIL UTBETALING</CardTitle>
             <Grid>
-                <Normaltekst>Sykepengegrunnlag</Normaltekst>
-                <Value>{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Value>
-                <Normaltekst>Utbetalingdager</Normaltekst>
-                <Value>{utbetalingsdagerTotalt}</Value>
+                <BodyShort component="p">Sykepengegrunnlag</BodyShort>
+                <Value component="p">{somPenger(sykepengegrunnlag?.sykepengegrunnlag)}</Value>
+                <BodyShort component="p">Utbetalingdager</BodyShort>
+                <Value component="p">{utbetalingsdagerTotalt}</Value>
             </Grid>
             <Utbetalingssum
                 erUtbetalt={!ikkeUtbetaltEnda}
@@ -80,9 +84,9 @@ export const UtbetalingCard = ({
             />
             {simulering ? (
                 <>
-                    <Lenke href="#" onClick={() => setSimuleringÅpen(true)}>
+                    <Link href="#" onClick={() => setSimuleringÅpen(true)}>
                         Simulering
-                    </Lenke>
+                    </Link>
                     <SimuleringsinfoModal
                         simulering={simulering}
                         åpenModal={simuleringÅpen}
@@ -91,7 +95,7 @@ export const UtbetalingCard = ({
                     />
                 </>
             ) : (
-                <Feilmelding>Mangler simulering</Feilmelding>
+                <Feilmelding component="p">Mangler simulering</Feilmelding>
             )}
         </Card>
     );

@@ -3,9 +3,8 @@ import styled from '@emotion/styled';
 import { OmregnetÅrsinntekt } from 'internal-types';
 import React, { useState } from 'react';
 
-import { Undertittel } from 'nav-frontend-typografi';
-
 import { CaseworkerFilled } from '@navikt/ds-icons';
+import { BodyShort } from '@navikt/ds-react';
 
 import { EditButton } from '../../../../components/EditButton';
 import { Flex, FlexColumn } from '../../../../components/Flex';
@@ -49,13 +48,12 @@ const Header = styled.div<{ isEditing: boolean }>`
         `}
 `;
 
-const Tittel = styled(Undertittel)`
+const Tittel = styled(BodyShort)`
     display: flex;
     align-items: center;
     font-size: 18px;
+    font-weight: 600;
     color: var(--navds-color-text-primary);
-
-    ${({ maxwidth }: { maxwidth?: string }) => maxwidth && `max-width: ${maxwidth};`}
 `;
 
 const useUtbetalingstatus = (): Utbetalingstatus | undefined => {
@@ -78,7 +76,7 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
         <Container editing={editing}>
             <Header isEditing={editing}>
                 <Flex alignItems="center">
-                    <Tittel tag="h3">Inntekt</Tittel>
+                    <Tittel component="h3">Inntekt</Tittel>
                     {endret ? (
                         <CaseworkerFilled height={20} width={20} />
                     ) : (

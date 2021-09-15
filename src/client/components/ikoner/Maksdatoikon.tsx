@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Ikon, IkonProps } from './Ikon';
 
-export const Maksdatoikon = ({ width = 14, height = 14, className }: IkonProps) => (
-    <Ikon width={width} height={height} viewBox="0 0 14 16" className={className}>
+export const Maksdatoikon = ({ width = 14, height = 14, className, alt }: IkonProps) => (
+    <Ikon width={width} height={height} viewBox="0 0 14 16" className={className} alt={alt}>
         <g fill="none">
             <path
                 fillRule="evenodd"

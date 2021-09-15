@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 import React, { ChangeEvent, ReactNode } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Checkbox as NavCheckbox, CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
+import { CheckboxGruppe, SkjemaGruppe, Textarea } from 'nav-frontend-skjema';
+
+import { Checkbox as NavCheckbox } from '@navikt/ds-react';
 
 import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { useVedtaksperiode } from '../../../../state/tidslinje';
@@ -26,32 +28,28 @@ const Container = styled(SkjemaGruppe)`
 `;
 
 const Checkbox = styled(NavCheckbox)`
-    .skjemaelement__label {
-        margin-bottom: 0.5rem;
+    display: flex;
+    padding: 0;
+    margin: 0 0 20px;
+
+    input {
+        width: 1.5rem;
+        height: 1.5rem;
+        left: 0;
     }
 
-    .skjemaelement__label::before {
-        width: 22px;
-        height: 22px;
+    p {
+        padding-left: 0.5rem;
     }
 `;
 
 export const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: string; label?: ReactNode }) => {
     const { register, clearErrors } = useFormContext();
 
-    const { ref, onChange, ...checkboxValidation } = register('begrunnelser');
-
     return (
-        <Checkbox
-            label={label ? label : begrunnelse}
-            value={begrunnelse}
-            checkboxRef={ref}
-            onChange={(event) => {
-                onChange(event);
-                clearErrors('begrunnelser');
-            }}
-            {...checkboxValidation}
-        />
+        <Checkbox name="begrunnelser" value={begrunnelse} ref={register} onChange={() => clearErrors('begrunnelser')}>
+            {label ? label : begrunnelse}
+        </Checkbox>
     );
 };
 
@@ -60,7 +58,7 @@ export interface BegrunnelsesskjemaProps {
 }
 
 export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) => {
-    const { formState, clearErrors, watch } = useFormContext();
+    const { errors, clearErrors, watch } = useFormContext();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const warnings = vedtaksperiode?.aktivitetslog;
     const funnetRisikovurderinger = vedtaksperiode?.risikovurdering?.funn;
@@ -71,8 +69,8 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
     return (
         <Container>
             <CheckboxGruppe
-                legend={'Årsak til at saken ikke kan behandles'}
-                feil={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
+                legend="Årsak til at saken ikke kan behandles"
+                feil={errors.begrunnelser ? errors.begrunnelser.message : null}
             >
                 {warnings?.map((advarsel, index) => {
                     switch (advarsel) {
@@ -109,24 +107,24 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
                             return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={advarsel} />;
                     }
                 })}
-                <BegrunnelseCheckbox begrunnelse={'Annet'} />
+                <BegrunnelseCheckbox begrunnelse="Annet" />
             </CheckboxGruppe>
             <Controller
                 name="kommentar"
                 defaultValue=""
-                render={({ field: { value, onChange } }) => (
+                render={({ value, onChange }) => (
                     <Textarea
                         name="kommentar"
                         value={value}
                         description="Må ikke inneholde personopplysninger"
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        feil={formState.errors.kommentar ? formState.errors.kommentar.message : null}
+                        feil={errors.kommentar ? errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        aria-invalid={formState.errors.kommentar?.message}
-                        aria-errormessage={formState.errors.kommentar?.message}
+                        aria-invalid={errors.kommentar?.message}
+                        aria-errormessage={errors.kommentar?.message}
                         placeholder="Gi en kort forklaring på hvorfor du ikke kan behandle saken. Eksempel: Oppgave om oppfølging"
                         maxLength={0}
                     />

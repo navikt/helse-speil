@@ -2,9 +2,8 @@ import styled from '@emotion/styled';
 import { Inntektskildetype, Kildetype, OmregnetÅrsinntekt } from 'internal-types';
 import React from 'react';
 
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-
 import { InformationFilled } from '@navikt/ds-icons';
+import { BodyShort, Title } from '@navikt/ds-react';
 
 import { getKildeType } from '../../../../utils/inntektskilde';
 import { somPenger } from '../../../../utils/locale';
@@ -16,22 +15,24 @@ const Tabell = styled.div`
     grid-row-gap: 0.25rem;
 `;
 
-const Verdi = styled(Normaltekst)`
+const Verdi = styled(BodyShort)`
     text-align: right;
 `;
 
-const FetVerdi = styled(Element)`
+const Bold = styled(BodyShort)`
+    font-weight: 600;
+`;
+
+const FetVerdi = styled(Bold)`
     text-align: right;
 `;
 
-const Tittel = styled(Undertittel)`
+const Tittel = styled(Title)`
     display: flex;
     align-items: center;
     font-size: 18px;
     color: var(--navds-color-text-primary);
-    margin-bottom: 19px;
-
-    ${({ maxwidth }: { maxwidth?: string }) => maxwidth && `max-width: ${maxwidth};`}
+    margin-bottom: 1.25rem;
 `;
 
 const Divider = styled.hr`
@@ -74,7 +75,7 @@ const getMonthName = (yearMonth: string) => {
 const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: OmregnetÅrsinntekt }) => {
     return (
         <>
-            <Tittel tag="h3">
+            <Tittel component="h3" size="m">
                 Rapportert siste 3 måneder
                 <InformationIcon />
             </Tittel>
@@ -82,18 +83,18 @@ const InntektFraAordningen = ({ omregnetÅrsinntekt }: { omregnetÅrsinntekt: Om
                 {omregnetÅrsinntekt.inntekterFraAOrdningen?.map((inntekt, i) => {
                     return (
                         <React.Fragment key={i}>
-                            <Normaltekst> {getMonthName(inntekt.måned)}</Normaltekst>
-                            <Verdi>{somPenger(inntekt.sum)}</Verdi>
+                            <BodyShort component="p"> {getMonthName(inntekt.måned)}</BodyShort>
+                            <Verdi component="p">{somPenger(inntekt.sum)}</Verdi>
                         </React.Fragment>
                     );
                 })}
             </Tabell>
             <Divider />
             <Tabell>
-                <Normaltekst>Gj.snittlig månedsinntekt</Normaltekst>
-                <Verdi>{somPenger(omregnetÅrsinntekt.månedsbeløp)}</Verdi>
-                <Element>Omregnet rapportert årsinntekt</Element>
-                <FetVerdi>{somPenger(omregnetÅrsinntekt.beløp)}</FetVerdi>
+                <BodyShort component="p">Gj.snittlig månedsinntekt</BodyShort>
+                <Verdi component="p">{somPenger(omregnetÅrsinntekt.månedsbeløp)}</Verdi>
+                <Bold component="p">Omregnet rapportert årsinntekt</Bold>
+                <FetVerdi component="p">{somPenger(omregnetÅrsinntekt.beløp)}</FetVerdi>
             </Tabell>
         </>
     );
@@ -105,14 +106,14 @@ export const ReadOnlyInntekt = ({ omregnetÅrsinntekt }: ReadOnlyInntektProps) =
             <InntektFraAordningen omregnetÅrsinntekt={omregnetÅrsinntekt!} />
         ) : (
             <Tabell>
-                <Normaltekst>Månedsbeløp</Normaltekst>
-                <Verdi>{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Verdi>
-                <Element>
+                <BodyShort component="p">Månedsbeløp</BodyShort>
+                <Verdi component="p">{somPenger(omregnetÅrsinntekt?.månedsbeløp)}</Verdi>
+                <Bold component="p">
                     {omregnetÅrsinntekt?.kilde === Inntektskildetype.Infotrygd
                         ? 'Sykepengegrunnlag før 6G'
                         : 'Omregnet til årsinntekt'}
-                </Element>
-                <FetVerdi>{somPenger(omregnetÅrsinntekt?.beløp)}</FetVerdi>
+                </Bold>
+                <FetVerdi component="p">{somPenger(omregnetÅrsinntekt?.beløp)}</FetVerdi>
             </Tabell>
         )}
     </>

@@ -72,7 +72,7 @@ interface BentoLenkeProps {
 }
 
 const BentoLenke: React.FC<BentoLenkeProps> = ({ href, children }) => (
-    <MenyLenke href={href} target={'_blank'}>
+    <MenyLenke href={href} target="_blank">
         {children}
         <ExternalLink />
     </MenyLenke>

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { PropsWithChildren, useRef, useState } from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from './ErrorBoundary';
 import { Clipboard } from './clipboard';
@@ -12,7 +12,7 @@ const Container = styled.div`
         margin-bottom: 2.5rem;
     }
 `;
-const Agurktekst = styled(Normaltekst)`
+const Agurktekst = styled(BodyShort)`
     display: flex;
     align-items: center;
     &:before {
@@ -47,7 +47,7 @@ const ErrorInnhold: React.FC<ErrorInnholdProps> = ({ sidenavn, errormelding }) =
     const ref = useRef<HTMLParagraphElement>(null);
     return (
         <Container>
-            <Agurktekst>
+            <Agurktekst component="p">
                 Det har dessverre oppstått en feil, og for denne perioden kan ikke {sidenavn ?? 'siden'} vises.
             </Agurktekst>
             <div>

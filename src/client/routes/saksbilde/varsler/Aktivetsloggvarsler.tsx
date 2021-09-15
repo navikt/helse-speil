@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Normaltekst } from 'nav-frontend-typografi';
-
+import { BodyShort } from '@navikt/ds-react';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { EkspanderbartVarsel } from '../../../components/EkspanderbartVarsel';
@@ -32,7 +31,7 @@ export const Aktivitetsloggvarsler = React.memo(({ varsler }: { varsler: string[
                 } else {
                     return (
                         <Saksbildevarsel key={index} type={Varseltype.Advarsel}>
-                            <Normaltekst>{aktivitet}</Normaltekst>
+                            <BodyShort component="p">{aktivitet}</BodyShort>
                         </Saksbildevarsel>
                     );
                 }

@@ -1,51 +1,58 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Element, Undertekst } from 'nav-frontend-typografi';
-
-import { Flex } from '../../../components/Flex';
+import { Accordion, BodyShort } from '@navikt/ds-react';
 
 import { Statistikklinje } from './Statistikklinje';
 
-const StyledEkspanderbartPanel = styled(Ekspanderbartpanel)`
+const Boks = styled(Accordion)`
     margin-bottom: 1.75rem;
-    box-shadow: none !important;
-    min-width: max-content;
+    border: none;
 
-    :hover > button:focus {
-        box-shadow: 0 0 0 3px var(--navds-color-blue-80) !important;
+    &:hover {
+        border: none;
     }
 
-    button {
-        padding: 0.25rem;
+    > button {
+        margin-bottom: 4px;
+    }
 
-        :focus {
-            border-radius: 4px;
-        }
+    > button,
+    .navds-accordion__content {
+        padding: 4px;
+    }
+
+    svg > path {
+        fill: var(--navds-color-text-primary);
     }
 `;
 
-const Tittel = styled(Undertekst)`
-    color: var(--navds-color-gray-80);
-    margin-right: 0.5rem;
-`;
+const HeadingContainer = styled.div`
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
 
-const StyledElement = styled(Element)`
-    flex-grow: 1;
-    color: var(--navds-color-gray-80);
+    > p:first-of-type {
+        font-size: 14px;
+        margin-right: 0.5rem;
+        font-weight: 400;
+    }
+
+    > p {
+        color: var(--navds-color-gray-80);
+    }
 `;
 
 interface HeadingProps {
     tittel: string;
-    upperBound: number;
+    tilgjengeligeSaker: number;
 }
 
-const Heading = ({ tittel, upperBound }: HeadingProps) => (
-    <Flex alignItems={'center'} style={{ marginRight: '1rem' }}>
-        <Tittel>{tittel}</Tittel>
-        <StyledElement>{upperBound}</StyledElement>
-    </Flex>
+const Heading = ({ tittel, tilgjengeligeSaker }: HeadingProps) => (
+    <HeadingContainer>
+        <BodyShort component="p">{tittel}</BodyShort>
+        <BodyShort component="p">{tilgjengeligeSaker}</BodyShort>
+    </HeadingContainer>
 );
 
 interface StatistikkboksProps extends HeadingProps {
@@ -53,19 +60,20 @@ interface StatistikkboksProps extends HeadingProps {
     visesByDefault?: boolean;
 }
 
-export const Statistikkboks = ({ tittel, upperBound, elementer, visesByDefault = false }: StatistikkboksProps) => (
-    <StyledEkspanderbartPanel
-        tittel={<Heading tittel={tittel} upperBound={upperBound} />}
-        border={false}
-        apen={visesByDefault}
-    >
+export const Statistikkboks = ({
+    tittel,
+    tilgjengeligeSaker,
+    elementer,
+    visesByDefault = false,
+}: StatistikkboksProps) => (
+    <Boks heading={<Heading tittel={tittel} tilgjengeligeSaker={tilgjengeligeSaker} />} open={visesByDefault}>
         {elementer.map((element, index) => (
             <Statistikklinje
                 key={index}
                 etikett={element.etikett}
-                upperBound={upperBound}
+                upperBound={tilgjengeligeSaker}
                 currentValue={element.antall}
             />
         ))}
-    </StyledEkspanderbartPanel>
+    </Boks>
 );

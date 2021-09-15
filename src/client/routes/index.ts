@@ -3,5 +3,4 @@ export const Routes = {
     Saksbilde: '/person/:aktorId',
     Utbetalingshistorikk: '/utbetalingshistorikk',
     Uautorisert: '/uautorisert',
-    OpptegnelseTest: '/remoob',
 };
