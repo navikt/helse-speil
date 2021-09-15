@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { EksternBehandlingstatistikk } from 'external-types';
 import { motion } from 'framer-motion';
-import { Behandlingsstatistikk as Statistikk } from 'internal-types';
+import { Behandlingsstatistikk as Statistikk, Periodetype } from 'internal-types';
 import React from 'react';
 import { selector, useRecoilValueLoadable } from 'recoil';
 
@@ -144,6 +144,27 @@ const behandlingsstatistikkState = selector<Statistikk>({
     },
 });
 
+const EtikettContainer = styled.div``;
+
+const getDataTipForPeriodetype = (periodetype: Periodetype) => {
+    switch (periodetype) {
+        case Periodetype.Forlengelse:
+            return 'Forlengelser';
+        case Periodetype.Førstegangsbehandling:
+            return 'Førstegangsbehandlinger';
+        case Periodetype.Infotrygdforlengelse:
+            return 'Forlengelse fra Infotrygd';
+        case Periodetype.OvergangFraInfotrygd:
+            return 'Overgange fra Infotrygd';
+        case Periodetype.Stikkprøve:
+            return 'Stikkprøver';
+        case Periodetype.RiskQa:
+            return 'RiskQaer';
+        default:
+            return '';
+    }
+};
+
 export const Behandlingsstatistikk = () => {
     const loadableStatistikk = useRecoilValueLoadable(behandlingsstatistikkState);
     const statistikk =
@@ -175,7 +196,16 @@ export const Behandlingsstatistikk = () => {
                             tilgjengeligeSaker={statistikk.antallOppgaverTilGodkjenning.totalt}
                             elementer={statistikk.antallOppgaverTilGodkjenning.perPeriodetype.map(
                                 ({ periodetype, antall }) => ({
-                                    etikett: <Oppgaveetikett type={periodetype} størrelse="s" />,
+                                    etikett: (
+                                        <EtikettContainer
+                                            data-for={periodetype}
+                                            data-tip={getDataTipForPeriodetype(periodetype)}
+                                            title={getDataTipForPeriodetype(periodetype)}
+                                        >
+                                            <Tooltip id={periodetype} />
+                                            <Oppgaveetikett type={periodetype} størrelse="s" />
+                                        </EtikettContainer>
+                                    ),
                                     antall: antall,
                                 })
                             )}

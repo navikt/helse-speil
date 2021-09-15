@@ -105,97 +105,22 @@ interface OppgaveetikettProps extends EtikettProps {
 export const Oppgaveetikett = ({ type, tilstand, størrelse = 'l' }: OppgaveetikettProps) => {
     switch (type) {
         case Periodetype.Førstegangsbehandling:
-            return (
-                <>
-                    <FørstegangsbehandlingEtikett
-                        størrelse={størrelse}
-                        title="Førstegangsbehandlinger"
-                        data-for="førstegangsbehandling"
-                        data-tip="Førstegangsbehandlinger"
-                    />
-                    <Tooltip id="førstegangsbehandling" />
-                </>
-            );
+            return <FørstegangsbehandlingEtikett størrelse={størrelse} />;
         case Periodetype.Forlengelse:
-            return (
-                <>
-                    <ForlengelseEtikett
-                        størrelse={størrelse}
-                        title="Forlengelser"
-                        data-for="forlengelse"
-                        data-tip="Forlengelser"
-                    />
-                    <Tooltip id="forlengelse" />
-                </>
-            );
+            return <ForlengelseEtikett størrelse={størrelse} />;
         case Periodetype.Infotrygdforlengelse:
-            return (
-                <>
-                    <ForlengelseEtikett
-                        størrelse={størrelse}
-                        title="Forlengelser fra Infotrygd"
-                        data-for="forlengelse-it"
-                        data-tip="Forlengelser fra Infotrygd"
-                    />
-                    <Tooltip id="forlengelse-it" />
-                </>
-            );
+            return <ForlengelseEtikett størrelse={størrelse} />;
         case Periodetype.OvergangFraInfotrygd:
-            return (
-                <>
-                    <InfotrygdforlengelseEtikett
-                        størrelse={størrelse}
-                        title="Overganger fra Infotrygd"
-                        data-for="overgang-it"
-                        data-tip="Overganger fra Infotrygd"
-                    />
-                    <Tooltip id="overgang-it" />
-                </>
-            );
+            return <InfotrygdforlengelseEtikett størrelse={størrelse} />;
         case Periodetype.Stikkprøve:
-            return (
-                <>
-                    <StikkprøveEtikett
-                        størrelse={størrelse}
-                        title="Stikkprøver"
-                        data-for="stikkprøver"
-                        data-tip="Stikkprøver"
-                    />
-                    <Tooltip id="stikkprver" />
-                </>
-            );
+            return <StikkprøveEtikett størrelse={størrelse} />;
         case Periodetype.RiskQa:
-            return (
-                <>
-                    <RiskQaEtikett størrelse={størrelse} title="RiskQaer" data-for="riskqa" data-tip="RiskQaer" />
-                    <Tooltip id="riskqa" />
-                </>
-            );
+            return <RiskQaEtikett størrelse={størrelse} />;
         case Periodetype.Revurdering: {
             if (tilstand === Tidslinjetilstand.Revurderes) {
-                return (
-                    <>
-                        <RevurderesEtikett
-                            størrelse={størrelse}
-                            title="Under revurdering"
-                            data-for="revurderes"
-                            data-tip="Under revurdering"
-                        />
-                        <Tooltip id="revurderes" />
-                    </>
-                );
+                return <RevurderesEtikett størrelse={størrelse} />;
             } else {
-                return (
-                    <>
-                        <RevurderingEtikett
-                            størrelse={størrelse}
-                            title="Revurderte saker"
-                            data-for="revurdert"
-                            data-tip="Revurderte saker"
-                        />
-                        <Tooltip id="revurdert" />
-                    </>
-                );
+                return <RevurderingEtikett størrelse={størrelse} />;
             }
         }
         default:
