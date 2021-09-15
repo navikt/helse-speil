@@ -7,8 +7,9 @@ import React from 'react';
 import { EndringForm, lovligeTypeendringer, shortestListLength } from './EndringForm';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
 
-jest.mock('../../../../hooks/useRevurderingIsEnabled', () => ({
+jest.mock('../../../../hooks/revurdering', () => ({
     useRevurderingIsEnabled: () => true,
+    useOverstyrRevurderingIsEnabled: () => true,
 }));
 
 jest.mock('../../../../featureToggles', () => ({

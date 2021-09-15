@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 import { Dagtype } from 'internal-types';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Unlocked } from '@navikt/ds-icons';
 import { Button, Select, TextField } from '@navikt/ds-react';
 
-import { useRevurderingIsEnabled } from '../../../../hooks/useRevurderingIsEnabled';
+import { useRevurderingIsEnabled } from '../../../../hooks/revurdering';
 
 import { defaultUtbetalingToggles, overstyrPermisjonsdagerEnabled } from '../../../../featureToggles';
 import { ToggleOverstyringKnapp } from './ToggleOverstyringKnapp';
@@ -85,10 +85,6 @@ export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleO
     const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>(defaultEndring);
 
     const form = useForm();
-
-    useEffect(() => {
-        const meh = endring;
-    }, [endring]);
 
     const { onChange: onChangeGrad, ...gradvelgervalidation } = form.register('gradvelger', {
         required: kanVelgeGrad(endring.type) && 'Velg grad',

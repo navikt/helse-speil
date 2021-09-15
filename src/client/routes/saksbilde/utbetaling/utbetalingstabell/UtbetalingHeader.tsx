@@ -6,7 +6,7 @@ import { Locked } from '@navikt/ds-icons';
 import { Flex } from '../../../../components/Flex';
 import { PopoverHjelpetekst } from '../../../../components/PopoverHjelpetekst';
 import { SortInfoikon } from '../../../../components/ikoner/SortInfoikon';
-import { useRevurderingIsEnabled } from '../../../../hooks/useRevurderingIsEnabled';
+import { useRevurderingIsEnabled } from '../../../../hooks/revurdering';
 
 import { defaultUtbetalingToggles } from '../../../../featureToggles';
 
@@ -53,7 +53,7 @@ export const UtbetalingHeader: React.FC<UtbetalingHeaderProps> = ({ periodeErFor
                     <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
                 </PopoverHjelpetekst>
             ) : (
-                <ToggleOverstyringKnapp onClick={toggleOverstyring}>
+                <ToggleOverstyringKnapp onClick={toggleOverstyring} data-testid="overstyringsknapp">
                     <Locked height={24} width={24} />
                     {revurderingIsEnabled ? 'Revurder' : 'Endre'}
                 </ToggleOverstyringKnapp>

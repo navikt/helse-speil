@@ -8,9 +8,9 @@ import { Feilmelding } from 'nav-frontend-typografi';
 
 import { FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
+import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '../../../hooks/revurdering';
 import { useMap } from '../../../hooks/useMap';
 import { useOverstyringIsEnabled } from '../../../hooks/useOverstyringIsEnabled';
-import { useRevurderingIsEnabled } from '../../../hooks/useRevurderingIsEnabled';
 import type { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
 import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
@@ -69,7 +69,7 @@ interface OverstyrbarUtbetalingProps {
 const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom, dager }) => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
-    const [overstyrer, setOverstyrer] = useState(true);
+    const [overstyrer, setOverstyrer] = useState(false);
     const { postOverstyring, error, state } = usePostOverstyring();
 
     const [markerteDager, setMarkerteDager] = useMap<string, UtbetalingstabellDag>();
@@ -114,7 +114,7 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
     };
 
     return (
-        <Container>
+        <Container data-testid="utbetaling">
             {overstyrer ? (
                 <Sticky>
                     <EndringForm
@@ -177,7 +177,7 @@ interface ReadonlyUtbetalingProps {
 
 const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
     return (
-        <UtbetalingstabellContainer>
+        <UtbetalingstabellContainer data-testid="utbetaling">
             <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
         </UtbetalingstabellContainer>
     );
@@ -191,12 +191,13 @@ interface UtbetalingProps {
 export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, overstyringer }) => {
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
     const overstyringIsEnabled = useOverstyringIsEnabled(defaultUtbetalingToggles);
+    const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
 
     const gjenståendeDager = useGjenståendeDager(periode.beregningId);
     const maksdato = useMaksdato(periode.beregningId);
     const dager = useTabelldagerMap(periode, overstyringer, gjenståendeDager, maksdato);
 
-    return revurderingIsEnabled || overstyringIsEnabled ? (
+    return revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled ? (
         <OverstyrbarUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
     ) : (
         <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />

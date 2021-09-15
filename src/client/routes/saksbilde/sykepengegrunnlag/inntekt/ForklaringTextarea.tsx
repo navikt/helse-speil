@@ -35,7 +35,7 @@ export const ForklaringTextarea = () => {
         <Label>
             <Normaltekst id="forklaring-label">Forklaring</Normaltekst>
             <Textarea
-                id={'forklaring'}
+                id="forklaring"
                 value={forklaring}
                 textareaRef={ref}
                 onChange={(event) => {

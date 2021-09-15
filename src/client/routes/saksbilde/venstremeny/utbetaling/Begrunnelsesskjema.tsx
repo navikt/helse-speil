@@ -46,8 +46,15 @@ const Checkbox = styled(NavCheckbox)`
 export const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: string; label?: ReactNode }) => {
     const { register, clearErrors } = useFormContext();
 
+    const { onChange, ...begrunnelserValidation } = register('begrunnelser');
+
+    const onCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+        onChange(event);
+        clearErrors('begrunnelser');
+    };
+
     return (
-        <Checkbox name="begrunnelser" value={begrunnelse} ref={register} onChange={() => clearErrors('begrunnelser')}>
+        <Checkbox value={begrunnelse} onChange={onCheck} {...begrunnelserValidation}>
             {label ? label : begrunnelse}
         </Checkbox>
     );
@@ -58,7 +65,7 @@ export interface BegrunnelsesskjemaProps {
 }
 
 export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) => {
-    const { errors, clearErrors, watch } = useFormContext();
+    const { formState, clearErrors, watch } = useFormContext();
     const vedtaksperiode = useVedtaksperiode(aktivPeriode.id);
     const warnings = vedtaksperiode?.aktivitetslog;
     const funnetRisikovurderinger = vedtaksperiode?.risikovurdering?.funn;
@@ -70,7 +77,7 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
         <Container>
             <CheckboxGruppe
                 legend="Årsak til at saken ikke kan behandles"
-                feil={errors.begrunnelser ? errors.begrunnelser.message : null}
+                feil={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
             >
                 {warnings?.map((advarsel, index) => {
                     switch (advarsel) {
@@ -112,19 +119,19 @@ export const Begrunnelsesskjema = ({ aktivPeriode }: BegrunnelsesskjemaProps) =>
             <Controller
                 name="kommentar"
                 defaultValue=""
-                render={({ value, onChange }) => (
+                render={({ field: { value, onChange } }) => (
                     <Textarea
                         name="kommentar"
                         value={value}
                         description="Må ikke inneholde personopplysninger"
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        feil={errors.kommentar ? errors.kommentar.message : null}
+                        feil={formState.errors.kommentar ? formState.errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        aria-invalid={errors.kommentar?.message}
-                        aria-errormessage={errors.kommentar?.message}
+                        aria-invalid={formState.errors.kommentar?.message}
+                        aria-errormessage={formState.errors.kommentar?.message}
                         placeholder="Gi en kort forklaring på hvorfor du ikke kan behandle saken. Eksempel: Oppgave om oppfølging"
                         maxLength={0}
                     />

@@ -200,14 +200,14 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG1)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
 
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG2)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
     });
@@ -268,14 +268,14 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG1)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toBeNull();
         });
 
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG2)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toBeNull();
         });
     });
@@ -342,14 +342,14 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG1)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
         });
 
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG2)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
         });
     });
@@ -390,7 +390,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(ORGNR)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
         });
     });
@@ -422,7 +422,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(ORGNR)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
     });
@@ -454,7 +454,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(ORGNR)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
         });
     });

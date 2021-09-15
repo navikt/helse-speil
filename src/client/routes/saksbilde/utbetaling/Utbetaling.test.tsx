@@ -25,8 +25,9 @@ jest.mock('../../../hooks/useOverstyringIsEnabled', () => ({
     useOverstyringIsEnabled: () => true,
 }));
 
-jest.mock('../../../hooks/useRevurderingIsEnabled', () => ({
+jest.mock('../../../hooks/revurdering', () => ({
     useRevurderingIsEnabled: () => false,
+    useOverstyrRevurderingIsEnabled: () => false,
 }));
 
 jest.mock('../../../modell/utbetalingshistorikkelement', () => ({

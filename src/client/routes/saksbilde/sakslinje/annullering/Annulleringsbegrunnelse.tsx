@@ -42,11 +42,12 @@ const Begrunnelse = styled(Textarea)`
     textarea {
         padding: 1rem;
     }
+
     margin-bottom: 2.5rem;
 `;
 
 export const Annulleringsbegrunnelse = () => {
-    const { register, errors, clearErrors, watch } = useFormContext();
+    const { register, formState, clearErrors, watch } = useFormContext();
     const begrunnelserWatch = watch(`begrunnelser`);
     const begrunnelser = {
         ferie: 'Ferie',
@@ -63,6 +64,8 @@ export const Annulleringsbegrunnelse = () => {
     };
     const annet = begrunnelserWatch ? begrunnelserWatch.includes('annet') : false;
 
+    const { onChange: onChangeBegrunnelser, ...begrunnelserValidation } = register('begrunnelser');
+
     return (
         <Container>
             <Undertittel>Årsak til annullering</Undertittel>
@@ -74,15 +77,17 @@ export const Annulleringsbegrunnelse = () => {
             <CheckboxContainer
                 legend="Årsak til annullering"
                 hideLegend
-                error={errors.begrunnelser ? errors.begrunnelser.message : null}
+                error={formState.errors.begrunnelser ? formState.errors.begrunnelser.message : null}
             >
                 {Object.entries(begrunnelser).map(([key, value], index) => (
                     <Checkbox
                         key={index}
                         value={key}
-                        name="begrunnelser"
-                        ref={register}
-                        onChange={() => clearErrors('begrunnelser')}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                            onChangeBegrunnelser(event);
+                            clearErrors('begrunnelser');
+                        }}
+                        {...begrunnelserValidation}
                     >
                         <p>{value}</p>
                     </Checkbox>
@@ -91,18 +96,18 @@ export const Annulleringsbegrunnelse = () => {
             <Controller
                 name="kommentar"
                 defaultValue=""
-                render={({ value, onChange }) => (
+                render={({ field: { value, onChange } }) => (
                     <Begrunnelse
                         name="kommentar"
                         value={value}
                         label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                        error={errors.kommentar ? errors.kommentar.message : null}
+                        error={formState.errors.kommentar ? formState.errors.kommentar.message : null}
                         onChange={(event: ChangeEvent) => {
                             clearErrors('kommentar');
                             onChange(event);
                         }}
-                        aria-invalid={errors.kommentar?.message}
-                        aria-errormessage={errors.kommentar?.message}
+                        aria-invalid={formState.errors.kommentar?.message}
+                        aria-errormessage={formState.errors.kommentar?.message}
                         placeholder="Gi en kort forklaring på hvorfor du annullerte. &#10;Eksempel: Korrigerte opplysninger om ferie"
                         maxLength={0}
                     />
