@@ -10,7 +10,7 @@ import { Flex, FlexColumn } from '../../../components/Flex';
 import { useSetVedtaksperiodeReferanserForNotater } from '../../../hooks/useSetVedtaksperiodeReferanserForNotater';
 import { erOver67År, getMånedsbeløp, getSkjæringstidspunkt } from '../../../mapping/selectors';
 import { useArbeidsforhold, useArbeidsgivernavn } from '../../../modell/arbeidsgiver';
-import { Tidslinjeperiode, useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
+import { Tidslinjeperiode, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
 import { useInnloggetSaksbehandler } from '../../../state/authentication';
 import { usePersondataSkalAnonymiseres } from '../../../state/person';
 import { useOppgavereferanse, useVedtaksperiode } from '../../../state/tidslinje';
@@ -28,8 +28,6 @@ import { Vilkår } from '../vilkår/Vilkår';
 const Container = styled(Flex)`
     flex: 1;
     min-width: var(--speil-total-min-width);
-    overflow: auto;
-    overflow-x: hidden;
 `;
 
 const AutoFlexContainer = styled.div`
@@ -37,7 +35,7 @@ const AutoFlexContainer = styled.div`
 `;
 
 const Content = styled.div`
-    padding: 0 2.5rem;
+    padding: 0 2rem;
     height: 100%;
     box-sizing: border-box;
     flex: 1;
@@ -56,7 +54,6 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
     const arbeidsforhold = useArbeidsforhold(aktivPeriode.organisasjonsnummer) ?? [];
     const errorMelding = getErrorMelding(aktivPeriode.tilstand);
 
-    const gjenståendeDager = useGjenståendeDager(aktivPeriode.beregningId);
     const maksdato = useMaksdato(aktivPeriode.beregningId);
     const anonymiseringEnabled = usePersondataSkalAnonymiseres();
     useSetVedtaksperiodeReferanserForNotater(vedtaksperiode.id ? [vedtaksperiode.id] : []);
@@ -92,32 +89,34 @@ export const SaksbildeFullstendigPeriode = ({ personTilBehandling, aktivPeriode,
                                     oppgavereferanse={oppgavereferanse}
                                     tildeling={personTilBehandling.tildeling}
                                 />
-                                <Content>
-                                    <Switch>
-                                        <Route path={`${path}/utbetaling`}>
-                                            <Utbetaling
-                                                periode={aktivPeriode}
-                                                maksdato={maksdato}
-                                                vedtaksperiode={vedtaksperiode}
-                                                gjenståendeDager={gjenståendeDager}
-                                            />
-                                        </Route>
-                                        <Route path={`${path}/inngangsvilkår`}>
+                                <Switch>
+                                    <Route path={`${path}/utbetaling`}>
+                                        <Utbetaling
+                                            periode={aktivPeriode}
+                                            overstyringer={vedtaksperiode.overstyringer}
+                                        />
+                                    </Route>
+                                    <Route path={`${path}/inngangsvilkår`}>
+                                        <Content>
                                             <Vilkår vedtaksperiode={vedtaksperiode} person={personTilBehandling} />
-                                        </Route>
-                                        <Route path={`${path}/sykepengegrunnlag`}>
+                                        </Content>
+                                    </Route>
+                                    <Route path={`${path}/sykepengegrunnlag`}>
+                                        <Content>
                                             <Sykepengegrunnlag
                                                 vedtaksperiode={vedtaksperiode}
                                                 person={personTilBehandling}
                                             />
-                                        </Route>
-                                        {vedtaksperiode.risikovurdering && (
+                                        </Content>
+                                    </Route>
+                                    {vedtaksperiode.risikovurdering && (
+                                        <Content>
                                             <Route path={`${path}/faresignaler`}>
                                                 <Faresignaler risikovurdering={vedtaksperiode.risikovurdering} />
                                             </Route>
-                                        )}
-                                    </Switch>
-                                </Content>
+                                        </Content>
+                                    )}
+                                </Switch>
                             </FlexColumn>
                         </Flex>
                     </AmplitudeProvider>

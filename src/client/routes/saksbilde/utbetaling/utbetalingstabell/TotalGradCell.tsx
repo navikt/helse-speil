@@ -3,6 +3,8 @@ import React from 'react';
 
 import { Overstyringsindikator } from '../../../../components/Overstyringsindikator';
 
+import { Cell } from './Cell';
+
 const dagtypeIsValid = (type: Dagtype): boolean =>
     [Dagtype.Helg, Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon].every((it) => it !== type);
 
@@ -16,13 +18,9 @@ export const TotalGradCell = ({ type, erOverstyrt, totalGradering }: TotalGradPr
     const showTotalGradering = totalGradering && dagtypeIsValid(type);
 
     return (
-        <td>
-            {showTotalGradering && (
-                <>
-                    {erOverstyrt && <Overstyringsindikator />}
-                    {`${totalGradering} %`}
-                </>
-            )}
-        </td>
+        <Cell erOverstyrt={erOverstyrt}>
+            {erOverstyrt && <Overstyringsindikator />}
+            {showTotalGradering && <>{`${totalGradering} %`}</>}
+        </Cell>
     );
 };

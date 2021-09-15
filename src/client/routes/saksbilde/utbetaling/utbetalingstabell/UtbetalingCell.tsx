@@ -5,6 +5,7 @@ import { Overstyringsindikator } from '../../../../components/Overstyringsindika
 import { somPenger } from '../../../../utils/locale';
 
 import { CellContent } from '../../table/CellContent';
+import { Cell } from './Cell';
 
 const ValueContainer = styled(CellContent)`
     justify-content: flex-end;
@@ -16,12 +17,8 @@ interface UtbetalingCellProps extends React.HTMLAttributes<HTMLTableDataCellElem
 }
 
 export const UtbetalingCell = ({ erOverstyrt, utbetaling, style }: UtbetalingCellProps) => (
-    <td style={style}>
-        {utbetaling && (
-            <>
-                {erOverstyrt && <Overstyringsindikator />}
-                <ValueContainer>{somPenger(utbetaling)}</ValueContainer>
-            </>
-        )}
-    </td>
+    <Cell erOverstyrt={erOverstyrt} style={style}>
+        {erOverstyrt && <Overstyringsindikator />}
+        {utbetaling && <ValueContainer>{somPenger(utbetaling)}</ValueContainer>}
+    </Cell>
 );

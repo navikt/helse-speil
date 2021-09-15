@@ -32,27 +32,33 @@ interface MånedsbeløpInputProps {
 
 export const MånedsbeløpInput = ({ initialMånedsbeløp }: MånedsbeløpInputProps) => {
     const form = useFormContext();
-    const name = 'månedsbeløp';
+
+    const { ref, onBlur, ...inputValidation } = form.register('månedsbeløp', {
+        required: 'Månedsbeløp mangler',
+        min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
+        validate: {
+            måVæreNumerisk: (value) => !isNaN(Number.parseInt(value)) || 'Månedsbeløp må være et beløp',
+            måVæreEnEndring: (value) =>
+                Number.parseInt(value) !== initialMånedsbeløp || 'Kan ikke være likt gammelt beløp',
+        },
+    });
 
     return (
         <>
             <Input
-                name={name}
-                id={name}
-                ref={form.register({
-                    required: 'Månedsbeløp mangler',
-                    min: { value: 0, message: 'Månedsbeløp må være 0 eller større' },
-                    validate: {
-                        måVæreNumerisk: (value) => !isNaN(Number.parseInt(value)) || 'Månedsbeløp må være et beløp',
-                        måVæreEnEndring: (value) =>
-                            Number.parseInt(value) !== initialMånedsbeløp || 'Kan ikke være likt gammelt beløp',
-                    },
-                })}
+                id="månedsbeløp"
+                ref={ref}
                 defaultValue={initialMånedsbeløp}
-                error={form.errors[name]}
-                onBlur={() => form.trigger(name)}
+                error={form.formState.errors.månedsbeløp}
+                onBlur={(event) => {
+                    onBlur(event);
+                    form.trigger('månedsbeløp');
+                }}
+                {...inputValidation}
             />
-            {form.errors[name] && <Feilmelding htmlFor={name}>{form.errors[name].message}</Feilmelding>}
+            {form.formState.errors.månedsbeløp && (
+                <Feilmelding htmlFor="månedsbeløp">{form.formState.errors.månedsbeløp.message}</Feilmelding>
+            )}
         </>
     );
 };

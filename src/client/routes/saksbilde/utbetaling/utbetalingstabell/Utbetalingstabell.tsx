@@ -1,14 +1,13 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { Dagtype, Overstyring, Sykdomsdag } from 'internal-types';
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
 import { Header } from '../../table/Header';
 import { Row } from '../../table/Row';
 import { Table } from '../../table/Table';
+import { DagtypeCell } from './DagtypeCell';
 import { DateCell } from './DateCell';
 import { GjenståendeDagerCell } from './GjenståendeDagerCell';
 import { GradCell } from './GradCell';
@@ -17,105 +16,120 @@ import { MerknaderCell } from './MerknaderCell';
 import { TotalGradCell } from './TotalGradCell';
 import { TotalRow } from './TotalRow';
 import { UtbetalingCell } from './UtbetalingCell';
-import { UtbetalingsdagCell } from './UtbetalingsdagCell';
 import { UtbetalingstabellDag } from './Utbetalingstabell.types';
-import { getMatchingSykdomsdag, withDagerIgjen } from './Utbetalingstabell.utils';
 
 const Container = styled.section`
-    flex: 1;
-    overflow-x: scroll;
-    margin: 0;
-    height: 100%;
-    width: 400px;
+    display: flex;
 `;
 
-const getOverstyringMatchingDate = (date: Dayjs, overstyringer: Overstyring[]): Overstyring | undefined =>
-    overstyringer.find(({ overstyrteDager }) => overstyrteDager.find((it) => it.dato.isSame(date)));
+const TabellContainer = styled.div`
+    flex: 1;
+    width: 400px;
+    margin: 2rem;
+    height: max-content;
+    overflow-x: scroll;
+
+    > table {
+        overflow-y: hidden;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+`;
 
 interface UtbetalingstabellProps {
-    periode: Tidslinjeperiode;
-    overstyringer: Overstyring[];
-    gjenståendeDager?: number;
-    maksdato?: Dayjs;
+    fom: Dayjs;
+    tom: Dayjs;
+    dager: Map<string, UtbetalingstabellDag>;
+    lokaleOverstyringer?: Map<string, UtbetalingstabellDag>;
 }
 
-export const Utbetalingstabell = ({ periode, gjenståendeDager, maksdato, overstyringer }: UtbetalingstabellProps) => {
-    const fom = periode.fom.format(NORSK_DATOFORMAT);
-    const tom = periode.tom.format(NORSK_DATOFORMAT);
+export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: UtbetalingstabellProps) => {
+    const label = `Utbetalinger for sykmeldingsperiode fra ${fom.format(NORSK_DATOFORMAT)} til ${tom.format(
+        NORSK_DATOFORMAT
+    )}`;
 
-    const antallDagerIgjen = maksdato
-        ? periode.utbetalingstidslinje.filter((it) => it.type === Dagtype.Syk && it.dato.isSameOrBefore(maksdato))
-              .length + (gjenståendeDager ?? 0)
-        : gjenståendeDager ?? 0;
-
-    const utbetalingsdager = gjenståendeDager
-        ? withDagerIgjen(periode.utbetalingstidslinje, antallDagerIgjen)
-        : periode.utbetalingstidslinje;
-
-    const rader: [UtbetalingstabellDag, Sykdomsdag, Overstyring | undefined][] = utbetalingsdager.map((it) => [
-        it,
-        getMatchingSykdomsdag(it, periode.sykdomstidslinje),
-        getOverstyringMatchingDate(it.dato, overstyringer),
-    ]);
+    const dagerList: [string, UtbetalingstabellDag][] = useMemo(() => Array.from(dager.entries()), [dager]);
 
     return (
         <Container>
-            <Table aria-label={`Utbetalinger for sykmeldingsperiode fra ${fom} til ${tom}`}>
-                <thead>
-                    <tr>
-                        <Header scope="col" colSpan={1}>
-                            Dato
-                        </Header>
-                        <Header scope="col" colSpan={1}>
-                            Utbet. dager
-                        </Header>
-                        <Header scope="col" colSpan={1}>
-                            Grad
-                        </Header>
-                        <Header scope="col" colSpan={1}>
-                            Kilde
-                        </Header>
-                        <Header scope="col" colSpan={1}>
-                            Total grad
-                        </Header>
-                        <Header scope="col" colSpan={1}>
-                            Utbetaling
-                        </Header>
-                        <Header scope="col" colSpan={1}>
-                            Dager igjen
-                        </Header>
-                        <Header scope="col" colSpan={1}>
-                            Merknader
-                        </Header>
-                    </tr>
-                </thead>
-                <tbody>
-                    <TotalRow
-                        utbetalingstidslinje={periode.utbetalingstidslinje}
-                        maksdato={maksdato}
-                        gjenståendeDager={gjenståendeDager}
-                    />
-                    {rader.map(([utbetalingsdag, sykdomsdag, maybeOverstyring], i) => (
-                        <Row type={utbetalingsdag.type} key={i}>
-                            <DateCell date={utbetalingsdag.dato} />
-                            <UtbetalingsdagCell
-                                typeUtbetalingsdag={utbetalingsdag.type}
-                                typeSykdomsdag={sykdomsdag.type}
-                            />
-                            <GradCell type={utbetalingsdag.type} grad={utbetalingsdag.gradering} />
-                            <KildeCell type={sykdomsdag.type} kilde={sykdomsdag.kilde} overstyring={maybeOverstyring} />
-                            <TotalGradCell type={utbetalingsdag.type} totalGradering={utbetalingsdag.totalGradering} />
-                            <UtbetalingCell utbetaling={utbetalingsdag.utbetaling} />
-                            <GjenståendeDagerCell gjenståendeDager={utbetalingsdag.dagerIgjen} />
-                            <MerknaderCell
-                                style={{ width: '100%' }}
-                                dag={utbetalingsdag}
-                                isMaksdato={maksdato !== undefined && utbetalingsdag.dato.isSame(maksdato, 'day')}
-                            />
-                        </Row>
-                    ))}
-                </tbody>
-            </Table>
+            <TabellContainer>
+                <Table aria-label={label}>
+                    <thead>
+                        <tr>
+                            <Header scope="col" colSpan={1}>
+                                Dato
+                            </Header>
+                            <Header scope="col" colSpan={1}>
+                                Utbet. dager
+                            </Header>
+                            <Header scope="col" colSpan={1}>
+                                Grad
+                            </Header>
+                            <Header scope="col" colSpan={1}>
+                                Kilde
+                            </Header>
+                            <Header scope="col" colSpan={1}>
+                                Total grad
+                            </Header>
+                            <Header scope="col" colSpan={1}>
+                                Utbetaling
+                            </Header>
+                            <Header scope="col" colSpan={1}>
+                                Dager igjen
+                            </Header>
+                            <Header scope="col" colSpan={1}>
+                                Merknader
+                            </Header>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {dagerList.length > 0 && (
+                            <TotalRow dager={dagerList} dagerIgjen={dagerList[0][1].dagerIgjen ?? 0} />
+                        )}
+                        {dagerList.map(([key, dag], i) => (
+                            <Row type={dag.type} key={i}>
+                                <DateCell date={dag.dato} />
+                                <DagtypeCell
+                                    typeUtbetalingsdag={dag.type}
+                                    typeSykdomsdag={dag.sykdomsdag.type}
+                                    overstyrtDag={lokaleOverstyringer?.get(key)}
+                                />
+                                <GradCell
+                                    type={dag.type}
+                                    grad={dag.gradering}
+                                    overstyrtDag={lokaleOverstyringer?.get(key)}
+                                />
+                                <KildeCell
+                                    type={dag.sykdomsdag.type}
+                                    kilde={dag.sykdomsdag.kilde}
+                                    overstyring={dag.overstyring}
+                                />
+                                <TotalGradCell
+                                    type={dag.type}
+                                    totalGradering={dag.totalGradering}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                />
+                                <UtbetalingCell
+                                    utbetaling={dag.utbetaling}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                />
+                                <GjenståendeDagerCell
+                                    gjenståendeDager={dag.dagerIgjen}
+                                    erOverstyrt={!!lokaleOverstyringer?.get(key)}
+                                />
+                                <MerknaderCell
+                                    style={{ width: '100%' }}
+                                    dag={dag}
+                                    isMaksdato={false}
+                                    // isMaksdato={maksdato !== undefined && dag.dato.isSame(maksdato, 'day')}
+                                />
+                            </Row>
+                        ))}
+                    </tbody>
+                </Table>
+            </TabellContainer>
         </Container>
     );
 };

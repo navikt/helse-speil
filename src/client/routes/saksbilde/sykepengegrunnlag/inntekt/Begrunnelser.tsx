@@ -42,34 +42,30 @@ const Error = styled(Normaltekst)`
 
 export const Begrunnelser = () => {
     const form = useFormContext();
+    const { ref, ...begrunnelseValidation } = form.register('begrunnelse', { required: 'Velg en begrunnelse' });
     return (
-        <Fieldset id="begrunnelse" error={form.errors['begrunnelse']}>
+        <Fieldset id="begrunnelse" error={form.formState.errors['begrunnelse']}>
             <legend>Begrunnelse</legend>
             <Radio
-                radioRef={form.register({ required: 'Velg en begrunnelse' })}
+                radioRef={ref}
                 label="Korrigert inntektsmelding"
-                name="begrunnelse"
                 value="Korrigert inntektsmelding"
+                {...begrunnelseValidation}
             />
+            <Radio radioRef={ref} label="Tariffendring" value="Tariffendring" {...begrunnelseValidation} />
             <Radio
-                radioRef={form.register({ required: 'Velg en begrunnelse' })}
-                label="Tariffendring"
-                name="begrunnelse"
-                value="Tariffendring"
-            />
-            <Radio
-                radioRef={form.register({ required: 'Velg en begrunnelse' })}
+                radioRef={ref}
                 label="Arbeidsgiver har oppgitt feil inntekt i inntektsmeldingen"
-                name="begrunnelse"
                 value="Arbeidsgiver har oppgitt feil inntekt i inntektsmeldingen"
+                {...begrunnelseValidation}
             />
             <Radio
-                radioRef={form.register({ required: 'Velg en begrunnelse' })}
+                radioRef={ref}
                 label="Arbeidsgiver har innrapportert feil til A-ordningen"
-                name="begrunnelse"
                 value="Arbeidsgiver har innrapportert feil til A-ordningen"
+                {...begrunnelseValidation}
             />
-            {form.errors['begrunnelse'] && <Error>{form.errors['begrunnelse'].message}</Error>}
+            {form.formState.errors['begrunnelse'] && <Error>{form.formState.errors['begrunnelse'].message}</Error>}
         </Fieldset>
     );
 };

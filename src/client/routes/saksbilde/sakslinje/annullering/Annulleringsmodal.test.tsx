@@ -6,12 +6,12 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { Vedtaksperiode } from 'internal-types';
 import React from 'react';
 import { RecoilRoot } from 'recoil';
+import { mappetPerson } from 'test-data';
 
 import { AnnulleringDTO } from '../../../../io/types';
 import { authState } from '../../../../state/authentication';
 import { personState } from '../../../../state/person';
 
-import { mappetPerson } from '../../../../../test/data/person';
 import { Annulleringsmodal } from './Annulleringsmodal';
 
 dayjs.extend(isSameOrAfter);
@@ -61,35 +61,31 @@ const renderAnnulleringsmodal = async () => {
     );
 };
 
-const annuller = () => Promise.resolve(userEvent.click(screen.getByText('Annuller')));
-
-const velgFørsteBegrunnelse = () => Promise.resolve(userEvent.click(screen.getByText('Ferie')));
-
-const velgBegrunnelseAnnet = () => Promise.resolve(userEvent.click(screen.getByText('Annet')));
-
-const captureAnnullering = () => cachedAnnullering;
-
-const assertFeilmeldingBegrunnelse = () =>
-    waitFor(() => expect(screen.queryByText('Velg minst én begrunnelse')).not.toBeNull());
-
-const assertFeilmeldingKommentar = () =>
-    waitFor(() => expect(screen.queryByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).not.toBeNull());
-
 describe('Annulleringsmodal', () => {
     test('viser feilmelding ved manglende begrunnelse', async () => {
         await renderAnnulleringsmodal();
-        await annuller().then(assertFeilmeldingBegrunnelse);
+        userEvent.click(screen.getByText('Annuller'));
+        await waitFor(() => {
+            expect(screen.queryByText('Velg minst én begrunnelse')).not.toBeNull();
+        });
     });
     test('viser feilmelding ved manglende kommentar', async () => {
         await renderAnnulleringsmodal();
-        await velgBegrunnelseAnnet().then(annuller).then(assertFeilmeldingKommentar);
+        userEvent.click(screen.getByText('Annet'));
+        userEvent.click(screen.getByText('Annuller'));
+        await waitFor(() => {
+            expect(screen.queryByText('Skriv en kommentar hvis du velger begrunnelsen "annet"')).not.toBeNull();
+        });
     });
     test('bygger AnnulleringDTO ved post av annullering', async () => {
         await renderAnnulleringsmodal();
-        const annullering = await velgFørsteBegrunnelse().then(annuller).then(captureAnnullering);
-        expect(annullering.aktørId).toEqual('1211109876233');
-        expect(annullering.fødselsnummer).toEqual('01019000123');
-        expect(annullering.organisasjonsnummer).toEqual('987654321');
-        expect(annullering.fagsystemId).toEqual('EN_FAGSYSTEMID');
+        userEvent.click(screen.getByText('Ferie'));
+        userEvent.click(screen.getByText('Annuller'));
+        await waitFor(() => {
+            expect(cachedAnnullering?.aktørId).toEqual('1211109876233');
+            expect(cachedAnnullering?.fødselsnummer).toEqual('01019000123');
+            expect(cachedAnnullering?.organisasjonsnummer).toEqual('987654321');
+            expect(cachedAnnullering?.fagsystemId).toEqual('EN_FAGSYSTEMID');
+        });
     });
 });

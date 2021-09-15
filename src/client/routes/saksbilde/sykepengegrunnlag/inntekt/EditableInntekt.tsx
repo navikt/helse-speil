@@ -278,7 +278,7 @@ export const EditableInntekt = ({ omregnetÅrsinntekt, close, onEndre }: Editabl
                             <Feiloppsummering
                                 innerRef={feiloppsummeringRef}
                                 tittel="Skjemaet inneholder følgende feil:"
-                                feil={Object.entries(form.errors).map(([id, error]) => ({
+                                feil={Object.entries(form.formState.errors).map(([id, error]) => ({
                                     skjemaelementId: id,
                                     feilmelding: error.message,
                                 }))}

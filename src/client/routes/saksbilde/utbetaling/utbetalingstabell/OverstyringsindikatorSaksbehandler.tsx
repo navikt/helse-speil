@@ -4,10 +4,10 @@ import React, { useRef, useState } from 'react';
 
 import { Element, Normaltekst, Undertekst } from 'nav-frontend-typografi';
 
+import { CaseworkerFilled } from '@navikt/ds-icons';
 import { Tooltip } from '@navikt/helse-frontend-tooltip';
 import '@navikt/helse-frontend-tooltip/lib/main.css';
 
-import IconOverstyrt from '../../../../components/ikoner/iconOverstyrt.svg';
 import { useInteractOutside } from '../../../../hooks/useInteractOutside';
 import { NORSK_DATOFORMAT } from '../../../../utils/date';
 
@@ -62,7 +62,7 @@ export const OverstyringsindikatorSaksbehandler = ({
 
     return (
         <Overstyringknapp type="button" ref={buttonRef} onClick={() => setVisTooltip((value) => !value)}>
-            <IconOverstyrt />
+            <CaseworkerFilled height={20} width={20} />
             {visTooltip && (
                 <StyledTooltip>
                     <Element>Begrunnelse</Element>

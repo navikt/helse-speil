@@ -8,11 +8,11 @@ interface RowProps {
 }
 
 const leftAlignedLine = (color: string) => css`
-    > *:first-of-type {
+    > td:first-of-type {
         position: relative;
     }
 
-    > *:first-of-type:before {
+    > td:first-of-type:before {
         content: '';
         position: absolute;
         left: 0;
@@ -55,14 +55,10 @@ export const Row = styled.tr<RowProps>`
     > td {
         position: relative;
         height: 2rem;
-        border-bottom: 1px solid #c6c2bf;
         padding: 0 1rem;
         vertical-align: middle;
         box-sizing: border-box;
-
-        &:first-of-type {
-            padding-left: 2rem;
-        }
+        border-bottom: 1px solid #c6c2bf;
 
         &:not(:first-of-type):not(:last-of-type) {
             padding-right: 1rem;

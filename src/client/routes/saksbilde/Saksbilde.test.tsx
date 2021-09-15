@@ -106,6 +106,7 @@ describe('Saksbilde', () => {
     });
 
     test('rendrer saksbilde med innhold dersom både person og vedtaksperioder finnes', async () => {
+        //
         const person = mappetPerson();
         render(<Saksbilde />, { wrapper: wrapper(person) });
 
@@ -118,6 +119,7 @@ describe('Saksbilde', () => {
     });
 
     test('rendrer saksbilde for revurdering', async () => {
+        //
         const dato = dayjs('2020-01-01');
         const personMedUtbetalingshistorikk = mappetPerson([
             umappetArbeidsgiver(
@@ -195,14 +197,14 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG1)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
 
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG2)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
     });
@@ -263,14 +265,14 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG1)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toBeNull();
         });
 
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG2)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toBeNull();
         });
     });
@@ -337,14 +339,14 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG1)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
         });
 
         userEvent.click(perioder[1].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(AG2)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
         });
     });
@@ -385,7 +387,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(ORGNR)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
         });
     });
@@ -417,7 +419,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(ORGNR)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Revurder');
         });
     });
@@ -449,7 +451,7 @@ describe('Saksbilde', () => {
         userEvent.click(perioder[0].getElementsByTagName('button')[0]);
         await waitFor(() => {
             expect(screen.queryByText(ORGNR)).toBeVisible();
-            expect(screen.queryByTestId('utbetaling-side')).toBeVisible();
+            expect(screen.queryByTestId('utbetaling')).toBeVisible();
             expect(screen.queryByTestId('overstyringsknapp')).toHaveTextContent('Endre');
         });
     });

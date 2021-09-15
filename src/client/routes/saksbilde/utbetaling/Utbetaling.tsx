@@ -1,204 +1,205 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
-import { InntektskildeType, Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
+import type { Overstyring, Vedtaksperiode } from 'internal-types';
 import React, { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import { Feilmelding } from 'nav-frontend-typografi';
 
-import { AgurkErrorBoundary } from '../../../components/AgurkErrorBoundary';
-import { Flex, FlexColumn } from '../../../components/Flex';
+import { FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
-import { PopoverHjelpetekst } from '../../../components/PopoverHjelpetekst';
-import { SortInfoikon } from '../../../components/ikoner/SortInfoikon';
-import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
-import { usePerson } from '../../../state/person';
+import { useOverstyrRevurderingIsEnabled, useRevurderingIsEnabled } from '../../../hooks/revurdering';
+import { useMap } from '../../../hooks/useMap';
+import { useOverstyringIsEnabled } from '../../../hooks/useOverstyringIsEnabled';
+import type { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
+import { useGjenståendeDager, useMaksdato } from '../../../modell/utbetalingshistorikkelement';
+import { useAktivPeriode, useVedtaksperiode } from '../../../state/tidslinje';
+import { NORSK_DATOFORMAT } from '../../../utils/date';
 
-import { defaultUtbetalingToggles, erDev, erLocal, UtbetalingToggles } from '../../../featureToggles';
-import { OverstyrbarUtbetalingstabell } from './utbetalingstabell/OverstyrbarUtbetalingstabell';
-import { Overstyringsknapp } from './utbetalingstabell/Overstyringsknapp';
+import { defaultUtbetalingToggles } from '../../../featureToggles';
+import { EndringForm } from './utbetalingstabell/EndringForm';
+import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
+import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
+import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
+import { UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
+import type { UtbetalingstabellDag } from './utbetalingstabell/Utbetalingstabell.types';
 import { usePostOverstyring } from './utbetalingstabell/usePostOverstyring';
+import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
+
+const Container = styled(FlexColumn)`
+    position: relative;
+    padding-bottom: 4rem;
+`;
+
+const CheckboxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    top: calc(28.5px + 64px);
+`;
+
+const Sticky = styled.div`
+    position: sticky;
+    top: 0;
+    z-index: 10;
+`;
 
 const FeilmeldingContainer = styled.div`
     margin-top: 1rem;
 `;
 
-const arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden = (
-    person: Person,
-    periode: Tidslinjeperiode
-) => {
-    const alleTidslinjeperioder = person.arbeidsgivere.map((it) => it.tidslinjeperioder).filter((it) => it.length > 0);
-    const alleTidslinjeperioderISisteGenerasjon = alleTidslinjeperioder.flatMap((it) => it[0]);
-    const periodeFinnesISisteGenerasjon = alleTidslinjeperioderISisteGenerasjon.find(
-        (it) => it.id === periode.id && it.beregningId === periode.beregningId && it.unique === periode.unique
-    );
+const UtbetalingstabellContainer = styled(FlexColumn)`
+    position: relative;
+    height: 100%;
+`;
 
-    if (!periodeFinnesISisteGenerasjon) return false;
+const getKey = (dag: UtbetalingstabellDag) => dag.dato.format(NORSK_DATOFORMAT);
 
-    const vedtaksperiode = person.arbeidsgivere
-        .flatMap((it) => it.vedtaksperioder)
-        .filter((it) => it.fullstendig)
-        .map((it) => it as Vedtaksperiode)
-        .find((it) => it.id === periode.id);
+const erReellEndring = (endring: Partial<UtbetalingstabellDag>, dag: UtbetalingstabellDag): boolean =>
+    Object.entries(endring).some(([key, value]: [key: keyof UtbetalingstabellDag, value: any]) => dag[key] !== value);
 
-    const arbeidsgiver = person.arbeidsgivere.find((arb) => arb.organisasjonsnummer === periode.organisasjonsnummer);
-    const periodensSkjæringstidspunkt = vedtaksperiode?.vilkår?.dagerIgjen.skjæringstidspunkt;
-    const arbeidsgiversSisteTidslinjeperiode = arbeidsgiver?.tidslinjeperioder[0].filter((it) => it.fullstendig)[0];
-
-    const sisteVedtaksperiodeForArbeidsgiver = person.arbeidsgivere
-        .flatMap((it) => it.vedtaksperioder)
-        .filter((it) => it.fullstendig)
-        .map((it) => it as Vedtaksperiode)
-        .find((it) => it.id === arbeidsgiversSisteTidslinjeperiode?.id);
-
-    const arbeidsgiversSisteSkjæringstidspunkt =
-        sisteVedtaksperiodeForArbeidsgiver?.vilkår?.dagerIgjen.skjæringstidspunkt;
-    if (!periodensSkjæringstidspunkt) return false;
-    return arbeidsgiversSisteSkjæringstidspunkt?.isSame(periodensSkjæringstidspunkt, 'day') ?? false;
-};
-
-const kunEnArbeidsgiver = (periode: Tidslinjeperiode) => periode.inntektskilde === InntektskildeType.EnArbeidsgiver;
-
-const godkjentTilstander = [
-    Tidslinjetilstand.Utbetalt,
-    Tidslinjetilstand.UtbetaltAutomatisk,
-    Tidslinjetilstand.Revurdert,
-    Tidslinjetilstand.RevurdertIngenUtbetaling,
-];
-
-const overlappendePerioder = (person: Person, periode: Tidslinjeperiode) =>
-    alleTidslinjeperioder(person).filter((it) => overlapper(it, periode));
-
-const alleOverlappendePerioderErAvsluttet = (person: Person, aktivPeriode: Tidslinjeperiode): boolean => {
-    const overlappende = overlappendePerioder(person, aktivPeriode);
-
-    if (any(overlappende, godkjentTilstander)) {
-        return none(overlappende, Tidslinjetilstand.Revurderes);
-    }
-    return true;
-};
-
-const alleOverlappendePerioderErTilRevurdering = (person: Person, aktivPeriode: Tidslinjeperiode): boolean => {
-    const overlappende = overlappendePerioder(person, aktivPeriode);
-
-    if (any(overlappende, Tidslinjetilstand.Revurderes)) {
-        return all(overlappende, Tidslinjetilstand.Revurderes);
-    }
-    return true;
-};
-
-const any = (perioder: Tidslinjeperiode[], tilstand: Tidslinjetilstand | Tidslinjetilstand[]) =>
-    perioder.filter((periode) => tilstand.includes(periode.tilstand)).length > 0;
-
-const none = (perioder: Tidslinjeperiode[], tilstand: Tidslinjetilstand | Tidslinjetilstand[]) =>
-    perioder.filter((periode) => tilstand.includes(periode.tilstand)).length === 0;
-
-const all = (perioder: Tidslinjeperiode[], tilstand: Tidslinjetilstand | Tidslinjetilstand[]) =>
-    perioder.filter((periode) => tilstand.includes(periode.tilstand)).length === perioder.length;
-
-const overlapper = (periode: Tidslinjeperiode, other: Tidslinjeperiode) =>
-    (periode.fom.isSameOrAfter(other.fom) && periode.fom.isSameOrBefore(other.tom)) ||
-    (periode.tom.isSameOrAfter(other.fom) && periode.tom.isSameOrBefore(other.tom));
-
-const alleTidslinjeperioder = (person: Person) =>
-    person.arbeidsgivere
-        .filter((arbeidsgiver) => arbeidsgiver.tidslinjeperioder.length > 0)
-        .flatMap((arbeidsgiver) => arbeidsgiver.tidslinjeperioder[0].map((periode) => periode));
-
-const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
-    return (
-        toggles.overstyreUtbetaltPeriodeEnabled &&
-        alleOverlappendePerioderErAvsluttet(person, periode) &&
-        arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
-        godkjentTilstander.includes(periode.tilstand)
-    );
-};
-
-const overstyrRevurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
-    return (
-        toggles.overstyreUtbetaltPeriodeEnabled &&
-        alleOverlappendePerioderErTilRevurdering(person, periode) &&
-        arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
-        periode.tilstand === Tidslinjetilstand.Revurderes
-    );
-};
-
-const overstyringEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
-    kunEnArbeidsgiver(periode) &&
-    [
-        Tidslinjetilstand.Oppgaver,
-        Tidslinjetilstand.Avslag,
-        Tidslinjetilstand.IngenUtbetaling,
-        Tidslinjetilstand.Feilet,
-    ].includes(periode.tilstand);
-
-export interface UtbetalingProps {
-    periode: Tidslinjeperiode;
-    vedtaksperiode: Vedtaksperiode;
-    maksdato?: Dayjs;
-    gjenståendeDager?: number;
+interface OverstyrbarUtbetalingProps {
+    fom: Dayjs;
+    tom: Dayjs;
+    dager: Map<string, UtbetalingstabellDag>;
 }
 
-export const Utbetaling = ({ gjenståendeDager, maksdato, periode, vedtaksperiode }: UtbetalingProps) => {
-    const person = usePerson() as Person;
+const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom, dager }) => {
+    const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [overstyrer, setOverstyrer] = useState(false);
     const { postOverstyring, error, state } = usePostOverstyring();
 
+    const [markerteDager, setMarkerteDager] = useMap<string, UtbetalingstabellDag>();
+    const [overstyrteDager, setOverstyrteDager] = useMap<string, UtbetalingstabellDag>();
+
+    const vedtaksperiode = useVedtaksperiode(useAktivPeriode()?.id) as Vedtaksperiode;
+
     const toggleOverstyring = () => {
-        setOverstyrer((value) => !value);
+        setMarkerteDager(new Map());
+        setOverstyrteDager(new Map());
+        setOverstyrer(!overstyrer);
     };
 
-    const revurderingIsEnabled = revurderingEnabled(person, periode, defaultUtbetalingToggles);
-    const overstyrRevurderingIsEnabled = overstyrRevurderingEnabled(person, periode, defaultUtbetalingToggles);
-    const overstyringIsEnabled = overstyringEnabled(person, periode, defaultUtbetalingToggles);
+    const onSubmitOverstyring = () => {
+        postOverstyring(Array.from(overstyrteDager.values()), form.getValues('begrunnelse'));
+        setOverstyrer(!overstyrer);
+    };
+
+    const toggleChecked = (dag: UtbetalingstabellDag) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.checked) {
+            setMarkerteDager(markerteDager.set(getKey(dag), dag));
+        } else {
+            markerteDager.delete(getKey(dag));
+            setMarkerteDager(markerteDager);
+        }
+    };
+
+    const onSubmitEndring = (endring: Partial<UtbetalingstabellDag>) => {
+        const newOverstyrteDager = Array.from(markerteDager.values()).reduce(
+            (map: Map<string, UtbetalingstabellDag>, dag: UtbetalingstabellDag) => {
+                if (erReellEndring(endring, dag)) {
+                    map.set(getKey(dag), { ...dag, ...endring });
+                } else {
+                    map.delete(getKey(dag));
+                }
+                return map;
+            },
+            new Map(overstyrteDager)
+        );
+        setOverstyrteDager(newOverstyrteDager);
+        setMarkerteDager(new Map());
+    };
 
     return (
-        <AgurkErrorBoundary sidenavn="Utbetaling">
-            <FlexColumn style={{ paddingBottom: '4rem' }} data-testid="utbetaling-side">
-                {(overstyringIsEnabled || revurderingIsEnabled || overstyrRevurderingIsEnabled) && (
-                    <Flex justifyContent="flex-end" style={{ paddingTop: '1rem' }}>
-                        {vedtaksperiode.erForkastet ? (
-                            <PopoverHjelpetekst ikon={<SortInfoikon />} offset={24}>
-                                <p>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</p>
-                            </PopoverHjelpetekst>
-                        ) : (
-                            <Overstyringsknapp
-                                overstyrer={overstyrer}
-                                toggleOverstyring={toggleOverstyring}
-                                data-testid="overstyringsknapp"
-                            >
-                                {revurderingIsEnabled ? 'Revurder' : 'Endre'}
-                            </Overstyringsknapp>
-                        )}
-                    </Flex>
+        <Container data-testid="utbetaling">
+            {overstyrer ? (
+                <Sticky>
+                    <EndringForm
+                        markerteDager={markerteDager}
+                        toggleOverstyring={toggleOverstyring}
+                        onSubmitEndring={onSubmitEndring}
+                    />
+                </Sticky>
+            ) : (
+                <UtbetalingHeader
+                    periodeErForkastet={vedtaksperiode.erForkastet}
+                    toggleOverstyring={toggleOverstyring}
+                />
+            )}
+            <UtbetalingstabellContainer>
+                <Utbetalingstabell fom={fom} tom={tom} dager={dager} lokaleOverstyringer={overstyrteDager} />
+                {overstyrer && (
+                    <>
+                        <CheckboxContainer>
+                            <MarkerAlleDagerCheckbox
+                                alleDager={dager}
+                                markerteDager={markerteDager}
+                                setMarkerteDager={setMarkerteDager}
+                            />
+                            {Array.from(dager.values()).map((dag, i) => (
+                                <RadmarkeringCheckbox
+                                    key={i}
+                                    index={i}
+                                    dagtype={dag.type}
+                                    onChange={toggleChecked(dag)}
+                                    checked={markerteDager.get(dag.dato.format(NORSK_DATOFORMAT)) !== undefined}
+                                />
+                            ))}
+                        </CheckboxContainer>
+                        <FormProvider {...form}>
+                            <form onSubmit={(event) => event.preventDefault()}>
+                                <OverstyringForm
+                                    overstyrteDager={overstyrteDager}
+                                    toggleOverstyring={toggleOverstyring}
+                                    onSubmit={onSubmitOverstyring}
+                                />
+                            </form>
+                        </FormProvider>
+                    </>
                 )}
-                <Flex style={{ height: '100%', paddingTop: '1rem' }}>
-                    {overstyrer ? (
-                        <OverstyrbarUtbetalingstabell
-                            periode={periode}
-                            onPostOverstyring={postOverstyring}
-                            onCloseOverstyring={() => setOverstyrer(false)}
-                            gjenståendeDager={gjenståendeDager}
-                            maksdato={maksdato}
-                            erRevurdering={revurderingIsEnabled}
-                        />
-                    ) : (
-                        <Utbetalingstabell
-                            maksdato={maksdato}
-                            gjenståendeDager={gjenståendeDager}
-                            periode={periode}
-                            overstyringer={vedtaksperiode.overstyringer}
-                        />
-                    )}
-                </Flex>
-                {state === 'timedOut' && <OverstyringTimeoutModal onRequestClose={() => null} />}
-                {state === 'hasError' && (
-                    <FeilmeldingContainer>
-                        {error && <Feilmelding role="alert">{error}</Feilmelding>}
-                    </FeilmeldingContainer>
-                )}
-            </FlexColumn>
-        </AgurkErrorBoundary>
+            </UtbetalingstabellContainer>
+            {state === 'timedOut' && <OverstyringTimeoutModal onRequestClose={() => null} />}
+            {state === 'hasError' && (
+                <FeilmeldingContainer>{error && <Feilmelding role="alert">{error}</Feilmelding>}</FeilmeldingContainer>
+            )}
+        </Container>
     );
 };
+
+interface ReadonlyUtbetalingProps {
+    fom: Dayjs;
+    tom: Dayjs;
+    dager: Map<string, UtbetalingstabellDag>;
+}
+
+const ReadonlyUtbetaling: React.FC<ReadonlyUtbetalingProps> = ({ fom, tom, dager }) => {
+    return (
+        <UtbetalingstabellContainer data-testid="utbetaling">
+            <Utbetalingstabell fom={fom} tom={tom} dager={dager} />
+        </UtbetalingstabellContainer>
+    );
+};
+
+interface UtbetalingProps {
+    periode: Tidslinjeperiode;
+    overstyringer: Overstyring[];
+}
+
+export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, overstyringer }) => {
+    const overstyringIsEnabled = useOverstyringIsEnabled();
+    const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
+    const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
+
+    const gjenståendeDager = useGjenståendeDager(periode.beregningId);
+    const maksdato = useMaksdato(periode.beregningId);
+    const dager = useTabelldagerMap(periode, overstyringer, gjenståendeDager, maksdato);
+
+    return revurderingIsEnabled || overstyringIsEnabled || overstyrRevurderingIsEnabled ? (
+        <OverstyrbarUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
+    ) : (
+        <ReadonlyUtbetaling fom={periode.fom} tom={periode.tom} dager={dager} />
+    );
+});

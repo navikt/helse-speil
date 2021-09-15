@@ -27,7 +27,7 @@ afterEach(() => {
 });
 
 describe('Header', () => {
-    test('legger til varsel ved ugyldig søk', async () => {
+    test('legger til varsel ved ugyldig søk', () => {
         render(
             <RecoilRoot>
                 <BrowserRouter>
@@ -39,7 +39,7 @@ describe('Header', () => {
         userEvent.click(screen.getAllByRole('button')[0]);
         expect(cachedVarsel).not.toBeNull();
     });
-    test('legger ikke til varsel ved gyldig søk', async () => {
+    test('legger ikke til varsel ved gyldig søk', () => {
         render(
             <RecoilRoot>
                 <BrowserRouter>

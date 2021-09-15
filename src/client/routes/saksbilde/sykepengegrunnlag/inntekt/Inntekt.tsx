@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 import { OmregnetÅrsinntekt } from 'internal-types';
 import React, { useState } from 'react';
 
+import { CaseworkerFilled } from '@navikt/ds-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { EditButton } from '../../../../components/EditButton';
 import { Flex, FlexColumn } from '../../../../components/Flex';
 import { Kilde } from '../../../../components/Kilde';
-import IconOverstyrt from '../../../../components/ikoner/iconOverstyrt.svg';
 import { useUtbetaling, Utbetalingstatus } from '../../../../modell/utbetalingshistorikkelement';
 import { useAktivPeriode } from '../../../../state/tidslinje';
 import { getKildeType, kilde } from '../../../../utils/inntektskilde';
@@ -78,7 +78,7 @@ export const Inntekt = ({ omregnetÅrsinntekt }: InntektProps) => {
                 <Flex alignItems="center">
                     <Tittel component="h3">Inntekt</Tittel>
                     {endret ? (
-                        <IconOverstyrt />
+                        <CaseworkerFilled height={20} width={20} />
                     ) : (
                         <Kilde type={getKildeType(omregnetÅrsinntekt?.kilde)}>{kilde(omregnetÅrsinntekt?.kilde)}</Kilde>
                     )}
