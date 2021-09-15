@@ -108,8 +108,7 @@ const alleTidslinjeperioder = (person: Person) =>
 const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        (((erDev() || erLocal()) && alleOverlappendePerioderErAvsluttet(person, periode)) ||
-            kunEnArbeidsgiver(periode)) &&
+        alleOverlappendePerioderErAvsluttet(person, periode) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
         godkjentTilstander.includes(periode.tilstand)
     );
@@ -118,15 +117,13 @@ const revurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: 
 const overstyrRevurderingEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean => {
     return (
         toggles.overstyreUtbetaltPeriodeEnabled &&
-        (((erDev() || erLocal()) && alleOverlappendePerioderErTilRevurdering(person, periode)) ||
-            kunEnArbeidsgiver(periode)) &&
+        alleOverlappendePerioderErTilRevurdering(person, periode) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode) &&
         periode.tilstand === Tidslinjetilstand.Revurderes
     );
 };
 
 const overstyringEnabled = (person: Person, periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
-    toggles.overstyrbareTabellerEnabled &&
     kunEnArbeidsgiver(periode) &&
     [
         Tidslinjetilstand.Oppgaver,

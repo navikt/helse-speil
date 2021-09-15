@@ -31,10 +31,7 @@ jest.mock('../saksbilde/historikk/icons/IconHistorikk.svg', () => 'null');
 jest.mock('../../featureToggles', () => ({
     defaultUtbetalingToggles: {
         overstyreUtbetaltPeriodeEnabled: true,
-        overstyrbareTabellerEnabled: true,
     },
-    erLocal: () => true,
-    erDev: () => false,
 }));
 
 const wrapper = (personTilBehandling?: Person): React.FC => ({ children }) => (
