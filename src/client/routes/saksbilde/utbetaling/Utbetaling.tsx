@@ -18,6 +18,7 @@ import { NORSK_DATOFORMAT } from '../../../utils/date';
 
 import { defaultUtbetalingToggles } from '../../../featureToggles';
 import { EndringForm } from './utbetalingstabell/EndringForm';
+import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
 import { UtbetalingHeader } from './utbetalingstabell/UtbetalingHeader';
@@ -68,7 +69,7 @@ interface OverstyrbarUtbetalingProps {
 const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom, dager }) => {
     const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
-    const [overstyrer, setOverstyrer] = useState(false);
+    const [overstyrer, setOverstyrer] = useState(true);
     const { postOverstyring, error, state } = usePostOverstyring();
 
     const [markerteDager, setMarkerteDager] = useMap<string, UtbetalingstabellDag>();
@@ -133,6 +134,11 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                 {overstyrer && (
                     <>
                         <CheckboxContainer>
+                            <MarkerAlleDagerCheckbox
+                                alleDager={dager}
+                                markerteDager={markerteDager}
+                                setMarkerteDager={setMarkerteDager}
+                            />
                             {Array.from(dager.values()).map((dag, i) => (
                                 <RadmarkeringCheckbox
                                     key={i}
