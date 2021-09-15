@@ -47,14 +47,9 @@ export const BegrunnelseCheckbox = ({ begrunnelse, label }: { begrunnelse: strin
     const { register, clearErrors } = useFormContext();
 
     return (
-        <Checkbox
-            description={label ? label : begrunnelse}
-            name="begrunnelser"
-            value={begrunnelse}
-            // @ts-ignore
-            checkboxRef={register}
-            onChange={() => clearErrors('begrunnelser')}
-        />
+        <Checkbox name="begrunnelser" value={begrunnelse} ref={register} onChange={() => clearErrors('begrunnelser')}>
+            {label ? label : begrunnelse}
+        </Checkbox>
     );
 };
 
