@@ -3,7 +3,7 @@ import { extractIdent, extractGroups } from './utils/cookie';
 const groupIdForUtviklere = 'f787f900-6697-440d-a086-d5bb56e26a9c';
 const eminem = 'G103083';
 const supersaksbehandlere = [eminem, 'D117949', 'A148751', 'N115007', 'C117102', 'S145454'];
-const fagkoordinatorer = ['J150708', 'S108267', 'S109074'];
+const fagkoordinatorer = ['J150708', 'S108267', 'S109074', 'K104950', 'O107213', 'K105348', 'T143450', 'B137568', 'H126784', 'A151722'];
 const faktiskSupportsaksbehandlere = ['H104215', 'O130292', 'F111930'];
 
 const utvidetTilganger = [
