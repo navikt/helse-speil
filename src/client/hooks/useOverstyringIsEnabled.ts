@@ -3,12 +3,9 @@ import { InntektskildeType, Tidslinjetilstand } from 'internal-types';
 import { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
 import { useAktivPeriode } from '../state/tidslinje';
 
-import { UtbetalingToggles } from '../featureToggles';
-
 const kunEnArbeidsgiver = (periode: Tidslinjeperiode) => periode.inntektskilde === InntektskildeType.EnArbeidsgiver;
 
-const overstyringEnabled = (periode: Tidslinjeperiode, toggles: UtbetalingToggles): boolean =>
-    toggles.overstyrbareTabellerEnabled &&
+const overstyringEnabled = (periode: Tidslinjeperiode): boolean =>
     kunEnArbeidsgiver(periode) &&
     [
         Tidslinjetilstand.Oppgaver,
@@ -17,8 +14,8 @@ const overstyringEnabled = (periode: Tidslinjeperiode, toggles: UtbetalingToggle
         Tidslinjetilstand.Feilet,
     ].includes(periode.tilstand);
 
-export const useOverstyringIsEnabled = (toggles: UtbetalingToggles): boolean => {
+export const useOverstyringIsEnabled = (): boolean => {
     const periode = useAktivPeriode();
 
-    return periode !== undefined && overstyringEnabled(periode, toggles);
+    return periode !== undefined && overstyringEnabled(periode);
 };

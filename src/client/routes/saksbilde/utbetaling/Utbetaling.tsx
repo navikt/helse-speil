@@ -189,8 +189,8 @@ interface UtbetalingProps {
 }
 
 export const Utbetaling: React.FC<UtbetalingProps> = React.memo(({ periode, overstyringer }) => {
+    const overstyringIsEnabled = useOverstyringIsEnabled();
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
-    const overstyringIsEnabled = useOverstyringIsEnabled(defaultUtbetalingToggles);
     const overstyrRevurderingIsEnabled = useOverstyrRevurderingIsEnabled(defaultUtbetalingToggles);
 
     const gjenståendeDager = useGjenståendeDager(periode.beregningId);

@@ -1,10 +1,11 @@
-import { InntektskildeType, Person, Tidslinjetilstand, Vedtaksperiode } from 'internal-types';
+import { Tidslinjetilstand } from 'internal-types';
+import type { Person, Vedtaksperiode } from 'internal-types';
 
-import { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
+import type { Tidslinjeperiode } from '../modell/utbetalingshistorikkelement';
 import { usePerson } from '../state/person';
 import { useAktivPeriode } from '../state/tidslinje';
 
-import { erDev, erLocal, UtbetalingToggles } from '../featureToggles';
+import type { UtbetalingToggles } from '../featureToggles';
 
 const godkjentTilstander = [
     Tidslinjetilstand.Utbetalt,
@@ -75,19 +76,17 @@ const alleOverlappendePerioderErTilRevurdering = (person: Person, aktivPeriode: 
     return true;
 };
 
-const kunEnArbeidsgiver = (periode: Tidslinjeperiode) => periode.inntektskilde === InntektskildeType.EnArbeidsgiver;
-
 export const useRevurderingIsEnabled = (toggles: UtbetalingToggles): boolean => {
     const periode = useAktivPeriode();
     const person = usePerson();
 
-    if (!person || !periode || !toggles.overstyrbareTabellerEnabled || !godkjentTilstander.includes(periode.tilstand)) {
+    if (!person || !periode || !godkjentTilstander.includes(periode.tilstand)) {
         return false;
     }
 
     return (
-        (((erDev() || erLocal()) && alleOverlappendePerioderErAvsluttet(person, periode)) ||
-            kunEnArbeidsgiver(periode)) &&
+        toggles.overstyreUtbetaltPeriodeEnabled &&
+        alleOverlappendePerioderErAvsluttet(person, periode) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode)
     );
 };
@@ -96,18 +95,13 @@ export const useOverstyrRevurderingIsEnabled = (toggles: UtbetalingToggles) => {
     const periode = useAktivPeriode();
     const person = usePerson();
 
-    if (
-        !person ||
-        !periode ||
-        !toggles.overstyrbareTabellerEnabled ||
-        periode.tilstand !== Tidslinjetilstand.Revurderes
-    ) {
+    if (!person || !periode || periode.tilstand !== Tidslinjetilstand.Revurderes) {
         return false;
     }
 
     return (
-        (((erDev() || erLocal()) && alleOverlappendePerioderErTilRevurdering(person, periode)) ||
-            kunEnArbeidsgiver(periode)) &&
+        toggles.overstyreUtbetaltPeriodeEnabled &&
+        alleOverlappendePerioderErTilRevurdering(person, periode) &&
         arbeidsgiversSisteSkjæringstidspunktErLikSkjæringstidspunktetTilPerioden(person, periode)
     );
 };
