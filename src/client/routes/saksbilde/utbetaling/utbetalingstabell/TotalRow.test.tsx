@@ -20,6 +20,5 @@ describe('TotalRow', () => {
 
         expect(screen.getByText('3 dager')).toBeVisible();
         expect(screen.getByText('123')).toBeVisible();
-        expect(screen.getByText('3 000,00 kr')).toBeVisible();
     });
 });
