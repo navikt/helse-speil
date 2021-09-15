@@ -98,12 +98,10 @@ export const kanFrigiAndresOppgaver = harTilgangTilAlt() || erLocal() || erDev()
 
 export interface UtbetalingToggles {
     overstyreUtbetaltPeriodeEnabled: boolean;
-    overstyrbareTabellerEnabled: boolean;
 }
 
 export const defaultUtbetalingToggles: UtbetalingToggles = {
     overstyreUtbetaltPeriodeEnabled: overstyreUtbetaltPeriodeEnabled,
-    overstyrbareTabellerEnabled: overstyrbareTabellerEnabled,
 };
 
 export const overstyrInntektEnabled = false;
