@@ -75,7 +75,7 @@ describe('Utbetaling', () => {
         userEvent.click(screen.getAllByRole('checkbox')[1]);
         userEvent.click(screen.getAllByRole('checkbox')[2]);
 
-        expect(screen.getAllByRole('option')).toHaveLength(5);
+        expect(screen.getAllByRole('option')).toHaveLength(4);
         expect(screen.getByTestId('dagtypevelger')).not.toBeDisabled();
 
         userEvent.selectOptions(screen.getByTestId('dagtypevelger'), screen.getAllByRole('option')[0]);
@@ -84,17 +84,16 @@ describe('Utbetaling', () => {
         expect(screen.getByTestId('gradvelger')).not.toBeDisabled();
         userEvent.clear(screen.getByTestId('gradvelger'));
         userEvent.type(screen.getByTestId('gradvelger'), '80');
-        userEvent.tab();
         expect(screen.getByTestId('gradvelger')).toHaveValue('80');
 
-        userEvent.click(screen.getByText('Endre'));
+        userEvent.click(screen.getByTestId('endre'));
 
         await waitFor(() => {
-            expect(screen.getByText('Oppdater')).not.toBeDisabled();
+            expect(screen.getByTestId('oppdater')).not.toBeDisabled();
         });
 
         userEvent.type(screen.getAllByRole('textbox')[1], 'En begrunnelse');
-        userEvent.click(screen.getByText('Oppdater'));
+        userEvent.click(screen.getByTestId('oppdater'));
 
         await waitFor(() => {
             expect(postOverstyringArguments).toHaveLength(2);

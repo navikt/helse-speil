@@ -118,7 +118,6 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                 <Sticky>
                     <EndringForm
                         markerteDager={markerteDager}
-                        overstyrteDager={overstyrteDager}
                         toggleOverstyring={toggleOverstyring}
                         onSubmitEndring={onSubmitEndring}
                     />

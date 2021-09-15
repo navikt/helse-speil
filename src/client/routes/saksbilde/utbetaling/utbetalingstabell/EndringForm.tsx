@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Dagtype } from 'internal-types';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Unlocked } from '@navikt/ds-icons';
@@ -55,105 +55,71 @@ const InputContainer = styled.div`
 
 const dagtyperUtenGradering = [Dagtype.Arbeidsdag, Dagtype.Ferie, Dagtype.Permisjon];
 
-const lovligeRevurderinger: ReadonlyMap<Dagtype, Array<Dagtype>> = new Map([
-    [Dagtype.Syk, [Dagtype.Syk, Dagtype.Ferie]],
-    [Dagtype.Ferie, [Dagtype.Syk, Dagtype.Ferie]],
-]);
-
-const lovligeOverstyringer: ReadonlyMap<Dagtype, Array<Dagtype>> = new Map([
-    [Dagtype.Syk, [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding, Dagtype.Permisjon]],
-    [Dagtype.Ferie, [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding, Dagtype.Permisjon]],
-    [Dagtype.Egenmelding, [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding, Dagtype.Permisjon]],
-    [
-        Dagtype.Permisjon,
-        overstyrPermisjonsdagerEnabled ? [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding, Dagtype.Permisjon] : [],
-    ],
-]);
-
 export const shortestListLength = <T extends unknown>(lists: T[][]) =>
     lists.reduce((min, list) => (list.length < min ? list.length : min), Number.MAX_SAFE_INTEGER);
 
-export const lovligeTypeendringer = (typer: Dagtype[], revurderingIsEnabled: boolean) => {
-    const lovligeTyperMap = revurderingIsEnabled ? lovligeRevurderinger : lovligeOverstyringer;
-    const muligeTypeendringer = typer.map((it) => lovligeTyperMap.get(it) ?? []) as Dagtype[][];
-    const kortesteListelengde = shortestListLength<Dagtype>(muligeTypeendringer);
-    return muligeTypeendringer[0].slice(0, kortesteListelengde);
+export const lovligeTypeendringer = (revurderingIsEnabled: boolean) => {
+    if (revurderingIsEnabled) {
+        return [Dagtype.Syk, Dagtype.Ferie];
+    } else if (overstyrPermisjonsdagerEnabled) {
+        return [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding, Dagtype.Permisjon];
+    } else {
+        return [Dagtype.Syk, Dagtype.Ferie, Dagtype.Egenmelding];
+    }
 };
-
-const getDistinctValues = <K extends unknown, T extends K[keyof K]>(dager: Map<string, K>, property: keyof K): T[] => {
-    const values = Array.from(dager.values()).map((it) => it[property]);
-    return Array.from(new Set(values)) as T[];
-};
-
-const getDistinctDagtyper = (dager: Map<string, UtbetalingstabellDag>) =>
-    getDistinctValues<UtbetalingstabellDag, Dagtype>(dager, 'type');
-
-const getDistinctGrader = (dager: Map<string, UtbetalingstabellDag>) =>
-    getDistinctValues<UtbetalingstabellDag, number>(dager, 'gradering');
-
-const singularValueOrUndefined = <T extends unknown>(list: T[]): T | undefined =>
-    list.length === 1 ? list[0] : undefined;
 
 const harEndring = (endring: Partial<UtbetalingstabellDag>): boolean =>
     endring.type !== undefined || endring.gradering !== undefined;
 
-const joinMaps = <K, V>(to: Map<K, V>, from: Map<K, V>): Map<K, V> =>
-    Array.from(from.entries())
-        .filter(([key]) => to.get(key) !== undefined)
-        .reduce((map, [key, value]) => map.set(key, value), new Map<K, V>(to));
+const kanVelgeGrad = (type?: Dagtype) => type && dagtyperUtenGradering.every((it) => it !== type);
 
 interface EndringFormProps {
     markerteDager: Map<string, UtbetalingstabellDag>;
-    overstyrteDager: Map<string, UtbetalingstabellDag>;
     toggleOverstyring: () => void;
     onSubmitEndring: (endring: Partial<UtbetalingstabellDag>) => void;
 }
 
-export const EndringForm: React.FC<EndringFormProps> = ({
-    markerteDager,
-    overstyrteDager,
-    toggleOverstyring,
-    onSubmitEndring,
-}) => {
-    const form = useForm({ mode: 'onBlur', shouldFocusError: false });
-
-    const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>({});
-
-    const dager = useMemo(() => joinMaps(markerteDager, overstyrteDager), [markerteDager, overstyrteDager]);
-    const markerteDagtyper = useMemo(() => getDistinctDagtyper(dager), [dager]);
-    const markerteGrader = useMemo(() => getDistinctGrader(dager), [dager]);
-
-    useEffect(() => {
-        setEndring((endring) => ({ ...endring, type: singularValueOrUndefined(markerteDagtyper) }));
-    }, [markerteDagtyper]);
-
-    useEffect(() => {
-        setEndring((endring) => ({ ...endring, gradering: singularValueOrUndefined(markerteGrader) }));
-    }, [markerteGrader]);
-
-    const harMarkerteDager = dager.size > 0;
-
+export const EndringForm: React.FC<EndringFormProps> = ({ markerteDager, toggleOverstyring, onSubmitEndring }) => {
     const revurderingIsEnabled = useRevurderingIsEnabled(defaultUtbetalingToggles);
+    const defaultEndring = { type: lovligeTypeendringer(revurderingIsEnabled)[0] };
+    const [endring, setEndring] = useState<Partial<UtbetalingstabellDag>>(defaultEndring);
 
-    const kanVelgeGrad = endring.type
-        ? dagtyperUtenGradering.every((type) => type !== endring.type)
-        : dagtyperUtenGradering.every((type) => !markerteDagtyper.includes(type));
+    const form = useForm();
+
+    useEffect(() => {
+        const meh = endring;
+    }, [endring]);
+
+    const { onChange: onChangeGrad, ...gradvelgervalidation } = form.register('gradvelger', {
+        required: kanVelgeGrad(endring.type) && 'Velg grad',
+        min: {
+            value: 0,
+            message: 'Grad må være over 0',
+        },
+        max: {
+            value: 100,
+            message: 'Grad må være 100 eller lavere',
+        },
+    });
 
     const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (Object.values(Dagtype).includes(event.target.value as Dagtype)) {
             form.clearErrors('dagtype');
-            setEndring({ ...endring, type: event.target.value as Dagtype });
+            const type = event.target.value as Dagtype;
+            setEndring({ ...endring, type, gradering: kanVelgeGrad(type) ? endring.gradering : undefined });
         }
     };
 
     const oppdaterGrad = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEndring((prevState) => ({ ...prevState, gradering: Number(event.target.value) }));
+        const gradering = Number.parseInt(event.target.value);
+        setEndring({ ...endring, gradering });
+        onChangeGrad(event);
     };
 
     const handleSubmit = () => {
         if (harEndring(endring)) {
             onSubmitEndring(endring);
-            setEndring({});
+            setEndring(defaultEndring);
         } else {
             form.setError('dagtype', { message: 'Velg en dagtype' });
         }
@@ -167,32 +133,30 @@ export const EndringForm: React.FC<EndringFormProps> = ({
                         <Dagtypevelger
                             size="s"
                             label="Utbet. dager"
-                            value={endring.type ?? ''}
-                            disabled={!harMarkerteDager}
                             onChange={oppdaterDagtype}
                             aria-invalid={form.formState.errors.dagtype}
                             error={form.formState.errors.dagtype?.message}
                             data-testid="dagtypevelger"
                         >
-                            {harMarkerteDager &&
-                                lovligeTypeendringer(markerteDagtyper, revurderingIsEnabled).map((dagtype: Dagtype) => (
-                                    <option key={dagtype} value={dagtype} aria-selected={endring.type === dagtype}>
-                                        {dagtype}
-                                    </option>
-                                ))}
-                            <option disabled label="-" />
+                            {lovligeTypeendringer(revurderingIsEnabled).map((dagtype: Dagtype) => (
+                                <option key={dagtype} value={dagtype}>
+                                    {dagtype}
+                                </option>
+                            ))}
                         </Dagtypevelger>
                         <Gradvelger
                             size="s"
                             type="number"
                             label="Grad"
-                            onBlur={oppdaterGrad}
-                            disabled={!kanVelgeGrad || !harMarkerteDager}
-                            defaultValue={endring.gradering}
+                            onChange={oppdaterGrad}
+                            disabled={!kanVelgeGrad(endring.type)}
                             data-testid="gradvelger"
+                            value={endring.gradering ?? ''}
+                            error={form.formState.errors.gradvelger?.message}
+                            {...gradvelgervalidation}
                         />
-                        <Knapp size="s" type="submit" disabled={!harMarkerteDager}>
-                            Endre
+                        <Knapp size="s" type="submit" disabled={markerteDager.size === 0} data-testid="endre">
+                            Endre ({markerteDager.size})
                         </Knapp>
                         <ToggleOverstyringKnapp type="button" onClick={toggleOverstyring}>
                             <Unlocked height={24} width={24} />

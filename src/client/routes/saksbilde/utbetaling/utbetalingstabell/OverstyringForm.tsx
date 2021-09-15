@@ -75,8 +75,14 @@ export const OverstyringForm: React.FC<OverstyringFormProps> = ({ overstyrteDage
                 </FeiloppsummeringContainer>
             )}
             <Buttons>
-                <Button onClick={handleSubmit(onSubmit)} type="button" disabled={overstyrteDager.size < 1} size="s">
-                    Oppdater
+                <Button
+                    onClick={handleSubmit(onSubmit)}
+                    type="button"
+                    disabled={overstyrteDager.size < 1}
+                    size="s"
+                    data-testid="oppdater"
+                >
+                    Ferdig ({overstyrteDager.size})
                 </Button>
                 <Button type="button" variant="secondary" size="s" onClick={toggleOverstyring}>
                     Avbryt
