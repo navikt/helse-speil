@@ -53,6 +53,7 @@ export const useTabelldagerMap = (
                 if (existing) {
                     dagerMap.set(dag.dato.format(NORSK_DATOFORMAT), {
                         ...existing,
+                        isMaksdato: (maksdato && dag.dato.isSame(maksdato)) ?? false,
                         overstyring: {
                             begrunnelse: overstyring.begrunnelse,
                             ident: overstyring.saksbehandlerIdent,

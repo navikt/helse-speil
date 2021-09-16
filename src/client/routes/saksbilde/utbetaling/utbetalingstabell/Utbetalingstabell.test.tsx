@@ -17,6 +17,7 @@ const enUtbetalingstabelldag = (overrides?: Partial<UtbetalingstabellDag>): Utbe
     utbetaling: overrides?.utbetaling ?? 1234,
     dagerIgjen: overrides?.dagerIgjen ?? 100,
     overstyring: overrides?.overstyring,
+    isMaksdato: false,
     sykdomsdag: overrides?.sykdomsdag ?? {
         type: Dagtype.Syk,
         kilde: Kildetype.Sykmelding,

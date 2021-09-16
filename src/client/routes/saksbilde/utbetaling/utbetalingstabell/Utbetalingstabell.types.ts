@@ -9,10 +9,11 @@ export type Dagoverstyring = {
 };
 
 export type UtbetalingstabellDag = Utbetalingsdag & {
-    dagerIgjen?: number;
-    overstyring?: Dagoverstyring;
+    isMaksdato: boolean;
     sykdomsdag: {
         type: Dagtype;
         kilde: Kildetype;
     };
+    dagerIgjen?: number;
+    overstyring?: Dagoverstyring;
 };

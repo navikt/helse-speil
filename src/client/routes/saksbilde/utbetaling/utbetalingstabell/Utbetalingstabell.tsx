@@ -119,12 +119,7 @@ export const Utbetalingstabell = ({ fom, tom, dager, lokaleOverstyringer }: Utbe
                                     gjenståendeDager={dag.dagerIgjen}
                                     erOverstyrt={!!lokaleOverstyringer?.get(key)}
                                 />
-                                <MerknaderCell
-                                    style={{ width: '100%' }}
-                                    dag={dag}
-                                    isMaksdato={false}
-                                    // isMaksdato={maksdato !== undefined && dag.dato.isSame(maksdato, 'day')}
-                                />
+                                <MerknaderCell style={{ width: '100%' }} dag={dag} isMaksdato={dag.isMaksdato} />
                             </Row>
                         ))}
                     </tbody>
