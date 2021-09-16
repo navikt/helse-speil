@@ -12,6 +12,7 @@ declare global {
 }
 
 afterEach(() => {
+    // @ts-ignore
     global.fetch = undefined;
 });
 

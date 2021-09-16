@@ -9,7 +9,6 @@ import { oppgaverState, useFjernTildeling, useTildelOppgave } from './oppgaver';
 
 declare global {
     namespace NodeJS {
-        // noinspection JSUnusedGlobalSymbols
         interface Global {
             fetch: jest.MockedFunction<any>;
         }
@@ -17,6 +16,7 @@ declare global {
 }
 
 afterEach(() => {
+    // @ts-ignore
     global.fetch = undefined;
 });
 
