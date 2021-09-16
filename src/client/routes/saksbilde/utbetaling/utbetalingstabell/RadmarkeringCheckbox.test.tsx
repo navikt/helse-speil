@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom/extend-expect';
 import { render, screen } from '@testing-library/react';
+import dayjs from 'dayjs';
 import { Dagtype } from 'internal-types';
 import React from 'react';
 
@@ -13,10 +14,10 @@ describe('RadmarkeringCheckbox', () => {
     it('rendrer checkbox for overstyrbare dager', () => {
         render(
             <>
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Syk} />
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Ferie} />
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Egenmelding} />
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Permisjon} />;
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Syk} dato={dayjs()} />
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Ferie} dato={dayjs()} />
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Egenmelding} dato={dayjs()} />
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Permisjon} dato={dayjs()} />;
             </>
         );
 
@@ -26,13 +27,13 @@ describe('RadmarkeringCheckbox', () => {
     it('rendrer ikke checkbox for ikke-overstyrbare dager', () => {
         render(
             <>
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Helg} />
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Avvist} />
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Ubestemt} />
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Arbeidsdag} />;
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Arbeidsgiverperiode} />;
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Foreldet} />;
-                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Annullert} />;
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Helg} dato={dayjs()} />
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Avvist} dato={dayjs()} />
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Ubestemt} dato={dayjs()} />
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Arbeidsdag} dato={dayjs()} />;
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Arbeidsgiverperiode} dato={dayjs()} />;
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Foreldet} dato={dayjs()} />;
+                <RadmarkeringCheckbox index={0} dagtype={Dagtype.Annullert} dato={dayjs()} />;
             </>
         );
 
