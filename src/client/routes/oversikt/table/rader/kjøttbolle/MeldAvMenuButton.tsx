@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { KnappBaseProps } from 'nav-frontend-knapper';
-
 import { useFjernTildeling } from '../../../../../state/oppgaver';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
 
-interface MeldAvMenuButtonProps extends KnappBaseProps {
+interface MeldAvMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
 }
 

@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
-import { Arbeidsgiver, Error, Person, Vedtaksperiode, Vedtaksperiodetilstand } from 'internal-types';
+import type { Arbeidsgiver, Error, Person, Vedtaksperiode } from 'internal-types';
+import { Vedtaksperiodetilstand } from 'internal-types';
 import { nanoid } from 'nanoid';
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 
-import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
-
+import { Button } from '@navikt/ds-react';
 import { Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { ErrorMessage } from '../../../../components/ErrorMessage';
 import { postAbonnerPåAktør, postSendTilInfotrygd, postUtbetalingsgodkjenning } from '../../../../io/http';
-import { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
+import type { Tidslinjeperiode } from '../../../../modell/utbetalingshistorikkelement';
 import { opptegnelsePollingTimeState } from '../../../../state/opptegnelser';
 import { usePerson } from '../../../../state/person';
 import { Scopes, useAddEphemeralVarsel } from '../../../../state/varsler';
@@ -169,13 +169,13 @@ export const Utbetalingsdialog = ({
     return (
         <>
             <Knapper>
-                <Hovedknapp mini onClick={åpneGodkjenningsmodal}>
+                <Button variant="action" size="s" onClick={åpneGodkjenningsmodal}>
                     {godkjenningsknappTekst}
-                </Hovedknapp>
+                </Button>
                 {kanAvvises && (
-                    <Knapp mini onClick={åpneAvvisningsmodal}>
+                    <Button size="s" onClick={åpneAvvisningsmodal}>
                         Kan ikke behandles her
-                    </Knapp>
+                    </Button>
                 )}
             </Knapper>
             {error && (

@@ -2,8 +2,7 @@ import styled from '@emotion/styled';
 import { Personinfo } from 'internal-types';
 import React, { useRef, useState } from 'react';
 
-import { Knapp, KnappBaseProps } from 'nav-frontend-knapper';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Button as NavButton, Loader } from '@navikt/ds-react';
 
 import { useLeggPåVent } from '../../../../../state/oppgaver';
 import { useOperationErrorHandler } from '../../../../../state/varsler';
@@ -11,7 +10,7 @@ import { ignorePromise } from '../../../../../utils/promise';
 
 import { NyttNotatModal } from '../notat/NyttNotatModal';
 
-const Button = styled(Knapp)`
+const Button = styled(NavButton)`
     all: unset;
     height: 30px;
     min-width: 180px;
@@ -38,7 +37,7 @@ const Button = styled(Knapp)`
     }
 `;
 
-interface LeggPåVentMenuButtonProps extends KnappBaseProps {
+interface LeggPåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
     vedtaksperiodeId: string;
     personinfo: Personinfo;
@@ -66,7 +65,7 @@ export const LeggPåVentMenuButton = ({ oppgavereferanse, vedtaksperiodeId, pers
         <span ref={containerRef}>
             <Button onClick={(e) => åpneModal(e)}>
                 Legg på vent
-                {isFetching && <NavFrontendSpinner type="XXS" />}
+                {isFetching && <Loader size="xs" />}
             </Button>
             {visModal && (
                 <NyttNotatModal

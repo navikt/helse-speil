@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
-import { Flatknapp, Knapp } from 'nav-frontend-knapper';
+import { Button } from '@navikt/ds-react';
 
 import { Modal } from './Modal';
 
@@ -53,12 +53,12 @@ export const OverstyringTimeoutModal = ({ onRequestClose }: Props) => {
                 <Tekst>Kalkuleringen ser ut til å ta noe tid.</Tekst>
                 <Tekst>Oppgaven vil dukke opp i oversikten når den er klar.</Tekst>
                 <Knappegruppe>
-                    <Flatknapp mini onClick={redirectTilOversikten}>
+                    <Button size="s" onClick={redirectTilOversikten}>
                         Tilbake til oversikten
-                    </Flatknapp>
-                    <Knapp mini onClick={closeModal}>
+                    </Button>
+                    <Button size="s" variant="secondary" onClick={closeModal}>
                         Det er greit
-                    </Knapp>
+                    </Button>
                 </Knappegruppe>
             </Content>
         </Modal>

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 
-import { Knapp, KnappBaseProps } from 'nav-frontend-knapper';
+import { Button as NavButton, Loader } from '@navikt/ds-react';
 
-const Button = styled(Knapp)`
+const Button = styled(NavButton)`
     all: unset;
     height: 30px;
     min-width: 180px;
@@ -13,6 +13,8 @@ const Button = styled(Knapp)`
     padding: 0.25rem 1rem;
     width: 100%;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
 
     &:hover,
     &:focus {
@@ -28,9 +30,13 @@ const Button = styled(Knapp)`
             color: var(--navds-color-text-disabled);
         }
     }
+
+    > svg {
+        margin-left: 0.5rem;
+    }
 `;
 
-interface AsyncMenuButtonProps extends KnappBaseProps {
+interface AsyncMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     asyncOperation: () => Promise<any>;
     onSuccess?: (result?: any) => void;
     onFail?: (error: Error) => void;
@@ -63,8 +69,9 @@ export const AsyncMenuButton = ({
     };
 
     return (
-        <Button spinner={isPerformingAsyncOperation} onClick={onClick} {...rest}>
+        <Button onClick={onClick} {...rest}>
             {children}
+            {isPerformingAsyncOperation && <Loader size="xs" />}
         </Button>
     );
 };

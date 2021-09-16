@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import { nanoid } from 'nanoid';
 import React, { ReactNode, useEffect, useRef } from 'react';
 
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Loader } from '@navikt/ds-react';
 
 import { useAddToast, useRemoveToast } from '../state/toasts';
 
 import { useDebounce } from './useDebounce';
 
-const Spinner = styled(NavFrontendSpinner)`
+const Spinner = styled(Loader)`
     margin-left: 1rem;
 `;
 
@@ -29,7 +29,7 @@ export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions
                 key: toastKey.current,
                 message: (
                     <>
-                        {message} <Spinner type="XS" />
+                        {message} <Spinner size="xs" />
                     </>
                 ),
             });

@@ -1,22 +1,22 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import { Loader } from '@navikt/ds-react';
 
-import { ToastObject } from './toasts';
+import type { ToastObject } from './toasts';
 
 export const kalkulererToastKey = 'kalkulererToast';
 
 export const kalkulererFerdigToastKey = 'kalkulererFerdigToast';
 
-const Spinner = styled(NavFrontendSpinner)`
+const Spinner = styled(Loader)`
     margin-left: 1rem;
 `;
 
 export const kalkulererToast = ({
     message = (
         <>
-            Kalkulerer endringer <Spinner type="XS" />
+            Kalkulerer endringer <Spinner size="xs" />
         </>
     ),
     callback,

@@ -1,13 +1,11 @@
 import { Saksbehandler, TildelingType } from 'internal-types';
 import React from 'react';
 
-import { KnappBaseProps } from 'nav-frontend-knapper';
-
 import { useTildelOppgave } from '../../../../../state/oppgaver';
 
 import { AsyncMenuButton } from './AsyncMenuButton';
 
-interface TildelMenuButtonProps extends KnappBaseProps {
+interface TildelMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
     saksbehandler: Saksbehandler;
     tildeling?: TildelingType;

@@ -3,8 +3,6 @@ import { Oppgave } from 'internal-types';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue, useRecoilValueLoadable, useResetRecoilState } from 'recoil';
 
-import Panel from 'nav-frontend-paneler';
-
 import { Varsel, Varseltype } from '@navikt/helse-frontend-varsel';
 
 import { Flex, FlexColumn } from '../../components/Flex';
@@ -26,7 +24,7 @@ const Container = styled.div`
     overflow-x: hidden;
 `;
 
-const Content = styled(Panel)`
+const Content = styled.div`
     margin: 1.5rem;
     padding: 0;
     color: var(--navds-color-text-primary);

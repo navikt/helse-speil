@@ -3,9 +3,7 @@ import { Notat, Saksbehandler } from 'internal-types';
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import NavFrontendSpinner from 'nav-frontend-spinner';
-
-import { Link } from '@navikt/ds-react';
+import { Link, Loader } from '@navikt/ds-react';
 
 import { putFeilregistrertNotat } from '../../../../../io/http';
 import { notaterStateRefetchKey } from '../../../../../state/notater';
@@ -93,7 +91,7 @@ export const NotatListeRad = ({ notat, vedtaksperiodeId, saksbehandler }: Props)
             <TextCell>
                 {notat.saksbehandler.oid === saksbehandler.oid && (
                     <LenkeCell href="#" onClick={() => prøvFeilregistrerNotat(notat.id)}>
-                        Feilregistrer {isFetching && <NavFrontendSpinner type="XXS" />}
+                        Feilregistrer {isFetching && <Loader size="xs" />}
                     </LenkeCell>
                 )}
             </TextCell>
