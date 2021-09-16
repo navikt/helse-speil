@@ -2,8 +2,9 @@ import styled from '@emotion/styled';
 import { TildelingType } from 'internal-types';
 import React from 'react';
 
-import Lenke from 'nav-frontend-lenker';
 import 'nav-frontend-tabell-style';
+
+import { Link } from '@navikt/ds-react';
 
 import { Modal } from '../../../../../components/Modal';
 import { useInnloggetSaksbehandler } from '../../../../../state/authentication';
@@ -11,7 +12,7 @@ import { useNotaterForVedtaksperiode } from '../../../../../state/notater';
 
 import { NotatListeRad } from './NotatListeRad';
 
-const StyledLenke = styled(Lenke)`
+const StyledLenke = styled(Link)`
     align-self: flex-end;
 `;
 
@@ -24,6 +25,7 @@ const Content = styled.div`
 
 const StyledModal = styled(Modal)`
     width: 680px;
+
     h1 {
         font-size: 24px;
         font-weight: 600;

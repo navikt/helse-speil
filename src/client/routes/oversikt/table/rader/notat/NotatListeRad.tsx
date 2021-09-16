@@ -3,8 +3,9 @@ import { Notat, Saksbehandler } from 'internal-types';
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import Lenke from 'nav-frontend-lenker';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+
+import { Link } from '@navikt/ds-react';
 
 import { putFeilregistrertNotat } from '../../../../../io/http';
 import { notaterStateRefetchKey } from '../../../../../state/notater';
@@ -43,7 +44,7 @@ const TextCell = styled.td`
     word-break: break-word;
 `;
 
-const LenkeCell = styled(Lenke)`
+const LenkeCell = styled(Link)`
     color: var(--navds-color-text-primary);
 `;
 

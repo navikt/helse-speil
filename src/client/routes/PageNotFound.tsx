@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import Lenke from 'nav-frontend-lenker';
-
-import { BodyShort, Title } from '@navikt/ds-react';
+import { BodyShort, Link, Title } from '@navikt/ds-react';
 
 import nissemyra from '../assets/nissemyra.svg';
 import { FlexColumn } from '../components/Flex';
@@ -29,7 +27,7 @@ const Feilkodetekst = styled(BodyShort)`
     margin-bottom: 1rem;
 `;
 
-const Oppgavelenke = styled(Lenke)`
+const Oppgavelenke = styled(Link)`
     color: var(--navds-color-text-primary);
     font-weight: 600;
     line-height: 1.5rem;

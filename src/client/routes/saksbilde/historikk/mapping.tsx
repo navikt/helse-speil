@@ -4,7 +4,7 @@ import { Dokument, Kildetype, Notat, Overstyring, Utbetalingstype, Vedtaksperiod
 import React from 'react';
 import { useMemo } from 'react';
 
-import Lenke from 'nav-frontend-lenker';
+import { Link } from '@navikt/ds-react';
 
 import { Kilde } from '../../../components/Kilde';
 import { Tidslinjeperiode } from '../../../modell/utbetalingshistorikkelement';
@@ -111,9 +111,9 @@ export const useNotater = (notater: Notat[], onNotatLenkeClick: () => void): Hen
                 id: notat.id,
                 timestamp: dayjs(notat.opprettet),
                 title: (
-                    <Lenke href="#" onClick={() => onNotatLenkeClick()}>
+                    <Link href="#" onClick={() => onNotatLenkeClick()}>
                         Lagt på vent
-                    </Lenke>
+                    </Link>
                 ),
                 type: Hendelsetype.Historikk,
                 body: (
