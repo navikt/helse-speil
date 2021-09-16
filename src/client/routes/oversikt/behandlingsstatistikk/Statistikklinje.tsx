@@ -1,15 +1,8 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
-import { Progresjonsbar } from '@navikt/helse-frontend-progresjonsbar';
-
 import { Flex } from '../../../components/Flex';
 import { TekstMedEllipsis } from '../../../components/TekstMedEllipsis';
-
-const StyledProgresjonsbar = styled(Progresjonsbar)`
-    height: 0.5rem;
-    flex: 1;
-`;
 
 const Antall = styled(TekstMedEllipsis)`
     width: 35px;
@@ -18,6 +11,27 @@ const Antall = styled(TekstMedEllipsis)`
 
 const EtikettContainer = styled.span`
     margin-right: 20px;
+`;
+
+const Progress = styled.progress`
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    height: 0.5rem;
+
+    ::-webkit-progress-bar {
+        background-color: var(--navds-color-gray-10);
+        color: #3484d1;
+    }
+
+    ::-moz-progress-bar {
+        background-color: #3484d1;
+    }
+
+    ::-webkit-progress-value {
+        background-color: #3484d1;
+    }
 `;
 
 interface StatistikklinjeProps {
@@ -30,6 +44,6 @@ export const Statistikklinje = ({ etikett, upperBound, currentValue }: Statistik
     <Flex alignItems="center" style={{ marginBottom: '.5rem' }}>
         <Antall>{currentValue}</Antall>
         <EtikettContainer>{etikett}</EtikettContainer>
-        <StyledProgresjonsbar upperBound={upperBound} currentValue={currentValue} />
+        <Progress value={currentValue} max={upperBound} />
     </Flex>
 );
