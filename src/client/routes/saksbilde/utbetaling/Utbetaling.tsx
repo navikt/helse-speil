@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { Dayjs } from 'dayjs';
 import type { Overstyring, Vedtaksperiode } from 'internal-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Feilmelding } from 'nav-frontend-typografi';
+import { BodyShort } from '@navikt/ds-react';
 
 import { FlexColumn } from '../../../components/Flex';
 import { OverstyringTimeoutModal } from '../../../components/OverstyringTimeoutModal';
@@ -46,13 +46,15 @@ const Sticky = styled.div`
     z-index: 10;
 `;
 
-const FeilmeldingContainer = styled.div`
-    margin-top: 1rem;
-`;
-
 const UtbetalingstabellContainer = styled(FlexColumn)`
     position: relative;
     height: 100%;
+`;
+
+const Feilmelding = styled(BodyShort)`
+    margin-left: 2rem;
+    color: var(--navds-color-text-error);
+    font-weight: 600;
 `;
 
 const getKey = (dag: UtbetalingstabellDag) => dag.dato.format(NORSK_DATOFORMAT);
@@ -113,6 +115,12 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
         setMarkerteDager(new Map());
     };
 
+    useEffect(() => {
+        if (state === 'done') {
+            setOverstyrteDager(new Map());
+        }
+    }, [state]);
+
     return (
         <Container data-testid="utbetaling">
             {overstyrer ? (
@@ -162,8 +170,10 @@ const OverstyrbarUtbetaling: React.FC<OverstyrbarUtbetalingProps> = ({ fom, tom,
                 )}
             </UtbetalingstabellContainer>
             {state === 'timedOut' && <OverstyringTimeoutModal onRequestClose={() => null} />}
-            {state === 'hasError' && (
-                <FeilmeldingContainer>{error && <Feilmelding role="alert">{error}</Feilmelding>}</FeilmeldingContainer>
+            {state === 'hasError' && error && (
+                <Feilmelding component="p" role="alert">
+                    {error}
+                </Feilmelding>
             )}
         </Container>
     );

@@ -41,7 +41,7 @@ const tilOverstyrteDager = (dager: Dag[]): OverstyrtDagDTO[] =>
         grad: dag.gradering,
     }));
 
-type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut';
+type UsePostOverstyringState = 'loading' | 'hasValue' | 'hasError' | 'initial' | 'timedOut' | 'done';
 
 type UsePostOverstyringResult = {
     postOverstyring: (dager: Dag[], begrunnelse: string, callback?: () => void) => void;
@@ -64,7 +64,7 @@ export const usePostOverstyring = (): UsePostOverstyringResult => {
         if (opptegnelser && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
-            setState('initial');
+            setState('done');
         }
     }, [opptegnelser]);
 
